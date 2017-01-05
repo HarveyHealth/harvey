@@ -1,0 +1,26 @@
+git:
+  depth: 3
+language: php
+php:
+- 7.0
+cache:
+  directories:
+  - "$HOME/.composer/cache"
+before_script:
+- phpenv config-rm xdebug.ini
+- composer self-update
+- composer install --no-interaction
+script:
+- vendor/bin/phpunit
+branches:
+  only:
+  - master
+notifications:
+  email: false
+  slack:
+    rooms:
+      secure: uYL7F/yLoE1kTW0l/c/oJpJQRgvKgiuL35uo9MJkO8C5ecNOO5+e3iueO2y+Y+H95JKVmIldYMZAxbXs8uaIMPzCWVYARdios0BOkQ2r9mh6nWViblxlLYXotzxhrZsPmxhjlw0aLRgzJOSWBSTqq5U4tdgiUXeex06O3nIcAAIwRTO9jWnPGsVSA7t6bPeovTUgkTnBRY6Yb4M557lIjrIH5Lfv45BoWyP0FsyOQhNCFa1Q8LBbHVCFjgZNckyXz99xs3Q4/jD3S34yz3lPt0Qc1F6avcorTynUKrRlSpV6unG4MvmdxvecGbyaEUJkuilbPtU9qUfsT7muRqfMkWR/Cz/OXRcS3L9zaNxMyNSUjE6nRF7W8N7cj4GArguPNreNBcvs+BLWR8S2lz88S8c8ZS/AGu+x+ywZqHEghOBwAfHmF3SML93i+WYvAk5/+xxmqd1eWF17anCKTuiy9ZnNmrumLC5UApYrRnxGfDI/9cSz0rg4IsEDED72q+dulOTyZV9UwnjvPtcH4aQpZYWjK8bZ5/d7dzyRMoTxs+qZcbYMQc5k/YauuVb5rPZpWOz8HTaGYqUHY/XiIcXktzqBKTyHT8VjmnnSJMPMYvtwUpcdzVw4pWa86uI/YFRqSZLcOYJwmCZqOo4C5d/uAsrIUN+7muf2Im1T0j7Vx0c=
+    template:
+      - "%{commit_message} on `%{branch}` by %{author}: %{message}"
+      - "Elapsed Time: %{elapsed_time}"
+      - "Build details: %{build_url}"
