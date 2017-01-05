@@ -1,5 +1,5 @@
 @extends('_layouts.public')
-@section('page_title','Welcome to ?')
+@section('page_title','Welcome to Harvey')
 
 @push('stylesheets')
 @endpush
@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="container">
-    <h2>Welcome to ???</h2>
+    <h2>Welcome to Harvey</h2>
 </div>
 
 @endsection
