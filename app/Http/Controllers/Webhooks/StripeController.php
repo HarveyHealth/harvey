@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Webhooks;
 use Illuminate\Http\Request;
 use Lib\Slack;
 
-class StripeController extends BaseWebhooksController
+class StripeController extends BaseWebhookController
 {
     public function handle() {
 

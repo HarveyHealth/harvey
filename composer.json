@@ -11,7 +11,8 @@
         "giggsey/libphonenumber-for-php": "^7.7",
         "aws/aws-sdk-php": "^3.20",
         "guzzlehttp/guzzle": "^6.2",
-        "stripe/stripe-php": "^4.3"
+        "stripe/stripe-php": "^4.3",
+        "lob/lob-php": "^1.7"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -22,7 +23,8 @@
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "august"
         ],
         "psr-4": {
             "App\\": "app/"

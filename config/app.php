@@ -168,7 +168,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        August\Pitbull\PitbullServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -186,6 +186,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\SlackServiceProvider::class,
+
     ],
 
     /*

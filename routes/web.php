@@ -13,13 +13,18 @@
 
 // AUTHENTICATION
 Auth::routes();
+
 // Additional routing to not use Laravel's built-in "register" route
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 Route::post('signup', 'Auth\RegisterController@register');
 Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@handle');
 
+
 // basic public pages
-Route::get('/', 'PagesController@homepage');
+Route::get('/', 'PagesController@getHomepage');
+Route::get('about', 'PagesController@getAbout');
+Route::get('contact', 'PagesController@getContact');
+Route::post('contact', 'PagesController@postContact');
 
 
 Route::get('dashboard', 'DashboardController@index');

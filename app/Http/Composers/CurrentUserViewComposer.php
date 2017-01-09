@@ -9,5 +9,6 @@ class CurrentUserViewComposer {
 
     public function compose(View $view) {
         $view->with('current_user', Auth::user());
+        $view->with('signed_in', Auth::check());
     }
 }

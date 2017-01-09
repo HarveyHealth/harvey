@@ -1,0 +1,21 @@
+{
+    "name": "august/pitbull",
+    "license": "MIT",
+    "description": "Robust role-based access control for Laravel",
+    "keywords": [],
+    "authors": [
+        {
+            "name": "August Trometer",
+            "email": "august@foggynoggin.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "5.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "August\\Pitbull\\": "/src"
+        }
+    }
+}

@@ -5,9 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use League\Fractal\Resource\Collection;
-use League\Fractal\Resource\Item;
-use League\Fractal\Manager;
 
 class BaseAPIController extends Controller {
 
@@ -19,9 +16,8 @@ class BaseAPIController extends Controller {
 
     protected $status_code = 200;
 
-    public function __construct(Manager $fractal) {
+    public function __construct() {
         // $this->middleware('auth:api');
-        $this->fractal = $fractal;
     }
 
     protected function statusCode() {
@@ -49,8 +45,6 @@ class BaseAPIController extends Controller {
         }
 
         $resource = new Item($item, $transformer);
-
-        $root_scope = $this->fractal->createData($resource);
 
         return $this->respondWithArray($root_scope->toArray());
     }

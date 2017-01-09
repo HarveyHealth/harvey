@@ -3,13 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Lib\Slack;
 
 class SlackServiceProvider extends ServiceProvider
 {
-
     protected $defer = true;
-
+    
     /**
      * Bootstrap the application services.
      *
@@ -27,8 +25,8 @@ class SlackServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Slack::class, function ($app) {
-            return new Slack;
+        $this->app->singleton('slack', function ($app) {
+            return new \App\Lib\Slack;
         });
     }
 }
