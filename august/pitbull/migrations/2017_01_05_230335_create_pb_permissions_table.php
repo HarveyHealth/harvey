@@ -19,6 +19,7 @@ class CreatePBPermissionsTable extends Migration
             $table->foreign('role_id')->references('id')->on('pb_roles');
             $table->string('domain');
             $table->string('action');
+            $table->boolean('allow')->default(true);
             $table->timestamps();
         });
     }

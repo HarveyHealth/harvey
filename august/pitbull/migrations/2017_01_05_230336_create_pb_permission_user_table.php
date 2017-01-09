@@ -19,6 +19,7 @@ class CreatePBPermissionUserTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('domain');
             $table->string('action');
+            $table->boolean('allow')->default(true);
             $table->timestamps();
         });
     }

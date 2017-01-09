@@ -49,5 +49,4 @@ class PitbullServiceProvider extends ServiceProvider
             return $app->make('\August\Pitbull\Pitbull');
         });
     }
-
 }

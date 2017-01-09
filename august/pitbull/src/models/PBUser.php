@@ -7,7 +7,6 @@ class PBUser
     static $user_model;
 
     static function findOrFail($user_id) {
-
         $model = self::model();
         return $model::findOrFail($user_id);
     }
