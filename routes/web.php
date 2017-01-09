@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Routing\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,9 @@ Route::post('account/{id?}','UsersController@postAccount');
 Route::get('users/list','UsersController@getList');
 Route::get('users/{id}','UsersController@getProfile');
 
-
+// UPLOAD Controller
+Route::get('upload/test/{id}','UploadController@getUploadTest');
+Route::post('upload/test/{id}','UploadController@postUploadTest');
 
 // SITEMAP
 Route::get('sitemap.xml','SitemapController@index');

@@ -1,19 +1,19 @@
-@if (count($recent_tests) > 0)
+@if (count($pending_tests) > 0)
 <h3>Recent Tests</h3>
 <table class="table">
     <tr>
         <th>Test</th>
+        <th>Patient</th>
+        <th>Practitioner</th>
         <th>Results</th>
     </tr>
-    @foreach ($recent_tests as $test)
+    @foreach ($pending_tests as $test)
         <tr>
             <td>{{ $test->name }}</td>
+            <td>{{ $test->patient->fullName() }}</td>
+            <td>{{ $test->practitioner->fullName() }}</td>
             <td>
-                @if($test->results_url)
-                    $test->tempURL()
-                @else
-                    Pending
-                @endif
+                <a href="/upload/test/{{ $test->id }}">Upload Results</a>
             </td>
         </tr>
     @endforeach

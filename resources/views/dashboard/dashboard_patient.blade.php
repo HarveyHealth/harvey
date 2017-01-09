@@ -17,11 +17,13 @@
 <table class="table">
     <tr>
         <th>Test</th>
+        <th>Practitioner</th>
         <th>Results</th>
     </tr>
     @foreach ($recent_tests as $test)
         <tr>
             <td>{{ $test->name }}</td>
+            <td>{{ $test->practitioner->fullName() }}</td>
             <td>
                 @if($test->results_url)
                     $test->tempURL()

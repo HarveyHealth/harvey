@@ -5,12 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Traits\HasPatientAndPractitioner;
 
-class Test extends Model
+class PatientNote extends Model
 {
     use HasPatientAndPractitioner;
-    
-    public function tempURL()
-    {
-
-    }
 }

@@ -17,6 +17,8 @@ class CreateTestsTable extends Migration
             $table->increments('id');
             $table->integer('patient_user_id')->unsigned();
             $table->foreign('patient_user_id')->references('id')->on('users');
+            $table->integer('practitioner_user_id')->unsigned();
+            $table->foreign('practitioner_user_id')->references('id')->on('users');
             $table->integer('sku_id')->unsigned();
             $table->foreign('sku_id')->references('id')->on('skus');
             $table->string('results_url')->nullable();
