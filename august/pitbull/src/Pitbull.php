@@ -2,11 +2,13 @@
 
 namespace August\Pitbull;
 
+use Carbon\Carbon;
+
 class Pitbull
 {
     public function permissionGridForUser($user) {
 
-        $grid = \Cache::remember($this->cacheKeyForUser($user), \Carbon::now()->addYear(1), function () {
+        $grid = \Cache::remember($this->cacheKeyForUser($user), Carbon::now()->addYear(1), function () use ($user) {
 
         });
 
