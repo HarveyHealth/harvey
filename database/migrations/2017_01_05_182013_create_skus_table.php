@@ -17,6 +17,7 @@ class CreateSKUsTable extends Migration
             $table->increments('id');
             $table->string('name')->index();
             $table->enum('item_type',['test','product','service'])->index();
+            $table->decimal('price')->default(0);
             $table->timestamps();
         });
     }

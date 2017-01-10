@@ -16,9 +16,23 @@ class CheckRole
      */
     public function handle($request, Closure $next, $role)
     {
-        $user = \Auth::user();
+        $user = auth()->user();
 
-        if (!$user || $user->user_type != $role)
+        if (!$user)
+            abort(403, 'Not authorized');
+
+        $roles = explode('|', $role);
+
+        $allowed = false;
+
+        foreach ($roles as $role) {
+            if ($user->user_type == $role) {
+                $allowed = true;
+                break;
+            }
+        }
+
+        if (!$allowed)
             abort(403, 'Not authorized');
 
         return $next($request);
