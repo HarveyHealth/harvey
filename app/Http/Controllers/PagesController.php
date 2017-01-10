@@ -23,7 +23,6 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        print_r(app()->pitbull);
         return view('pages.homepage');
     }
 
