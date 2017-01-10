@@ -33,6 +33,7 @@ class CreateUsersTable extends Migration
             $table->decimal('longitude', 10, 6)->nullable();
             $table->string('timezone', 75)->nullable();
             $table->string('stripe_customer_id', 32)->nullable()->unique();
+            $table->datetime('terms_accepted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
