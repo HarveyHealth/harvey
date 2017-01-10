@@ -20,6 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->integer('practitioner_user_id')->unsigned();
             $table->foreign('practitioner_user_id')->references('id')->on('users');
             $table->datetime('appointment_at');
+            $table->text('reason_for_visit');
             $table->timestamps();
         });
     }
