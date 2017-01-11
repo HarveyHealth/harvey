@@ -31,6 +31,6 @@ class CreatePBPermissionUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pb_permissions');
+        Schema::dropIfExists('pb_permission_user');
     }
 }

@@ -30,6 +30,6 @@ class CreatePBRoleUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pb_permissions');
+        Schema::dropIfExists('pb_role_user');
     }
 }
