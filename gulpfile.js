@@ -1,4 +1,10 @@
+/* ==== COMMANDS ==== */
+/* ---- defined in package.json ---- */
+// `npm run dev`
+// `npm run prod`
+
 const elixir = require('laravel-elixir');
+const bootstrap = require('bootstrap-styl');
 
 require('laravel-elixir-vue-2');
 
@@ -14,6 +20,6 @@ require('laravel-elixir-vue-2');
  */
 
 elixir((mix) => {
-    mix.stylus('app.styl')
+    mix.stylus('app.styl', null, { use: [ bootstrap() ] })
        .webpack('app.js');
 });

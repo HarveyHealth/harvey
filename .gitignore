@@ -8,3 +8,6 @@ Homestead.json
 Homestead.yaml
 .env
 .env.testing
+.DS_Store
+*.css.map
+*.js.map
