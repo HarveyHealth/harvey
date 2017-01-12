@@ -13,7 +13,7 @@
 
 
 @section('content')
-
-{!! $html !!}
-
+    <div class="legal">
+        {!! $html !!}
+    </div>
 @endsection
