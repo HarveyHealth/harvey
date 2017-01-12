@@ -169,6 +169,7 @@ return [
          * Package Service Providers...
          */
         August\Pitbull\PitbullServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -237,7 +238,8 @@ return [
 
         // third party
         'Carbon' => Carbon\Carbon::class,
-
+        'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
+        
         // custom
 
 
