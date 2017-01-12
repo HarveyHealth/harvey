@@ -26,7 +26,7 @@ Route::get('/', 'PagesController@getHomepage');
 Route::get('about', 'PagesController@getAbout');
 Route::get('contact', 'PagesController@getContact');
 Route::post('contact', 'PagesController@postContact');
-
+Route::get('test', 'PagesController@getTest');
 
 Route::get('dashboard', 'DashboardController@index');
 

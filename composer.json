@@ -12,7 +12,10 @@
         "aws/aws-sdk-php": "^3.20",
         "guzzlehttp/guzzle": "^6.2",
         "stripe/stripe-php": "^4.3",
-        "lob/lob-php": "^1.7"
+        "lob/lob-php": "^1.7",
+        "michelf/php-smartypants": "^1.8",
+        "league/commonmark": "^0.15.3"
+
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

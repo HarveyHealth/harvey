@@ -45,4 +45,9 @@ class PagesController extends Controller
 
         Mail::to('support@homehero.org')->send(new Contact());
     }
+
+    public function getTest()
+    {
+        return view('pages.test');
+    }
 }
