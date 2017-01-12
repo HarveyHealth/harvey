@@ -40,6 +40,10 @@ Route::get('users/{id}','UsersController@getProfile');
 Route::get('upload/test/{id}','UploadController@getUploadTest');
 Route::post('upload/test/{id}','UploadController@postUploadTest');
 
+// TERMS
+Route::get('terms','LegalController@terms');
+Route::get('privacy','LegalController@privacy');
+
 // SITEMAP
 Route::get('sitemap.xml','SitemapController@index');
 Route::get('sitemap-{map?}.xml','SitemapController@index');
