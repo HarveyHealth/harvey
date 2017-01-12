@@ -2,7 +2,7 @@
 
 @script(https://unpkg.com/vue/dist/vue.js)
 
-<div id="content">
+<div id="content" class="container">
     @yield('content')
 </div>
 

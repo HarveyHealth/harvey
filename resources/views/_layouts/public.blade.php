@@ -1,6 +1,6 @@
 @include('_layouts.includes.header')
 
-<div id="content">
+<div id="content" class="container">
     @yield('content')
 </div>
 
