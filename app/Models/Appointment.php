@@ -20,6 +20,11 @@ class Appointment extends Model
 
     public function scopeRecent($query, $limit = 3)
     {
-        return $query->whereNull('appointment_at', '<', \Carbon::now())->limit($limit);
+        return $query->where('appointment_at', '<', \Carbon::now())->limit($limit);
+    }
+
+    public function scopePending($query, $limit = 3)
+    {
+        return $query->where('appointment_at', '>', \Carbon::now());
     }
 }

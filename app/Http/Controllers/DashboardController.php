@@ -37,24 +37,24 @@ class DashboardController extends Controller
 
         if ($user->user_type == 'admin') {
 
-            $data['pending_tests'] = $this->tests->model->pending();
-            $data['recent_tests'] = $this->tests->model->recent(10);
-            $data['upcoming_appointments'] = $this->appointments->model->pending();
-            $data['recent_appointments'] = $this->appointments->model->recent(10);
+            $data['pending_tests'] = $this->tests->pending()->get();
+            $data['recent_tests'] = $this->tests->recent(10)->get();
+            $data['upcoming_appointments'] = $this->appointments->pending()->get();
+            $data['recent_appointments'] = $this->appointments->recent(10)->get();
 
         } else if ($user->user_type == 'patient') {
 
-            $data['pending_tests'] = $this->tests->model->pending()->forPatient($user_id);
-            $data['recent_tests'] = $this->tests->model->recent()->forPatient($user_id);
-            $data['upcoming_appointments'] = $this->appointments->model->pending()->forPatient($user_id);
-            $data['recent_appointments'] = $this->appointments->model->recent()->forPatient($user_id);
+            $data['pending_tests'] = $this->tests->pending()->forPatient($user_id)->get();
+            $data['recent_tests'] = $this->tests->recent()->forPatient($user_id)->get();
+            $data['upcoming_appointments'] = $this->appointments->pending()->forPatient($user_id)->get();
+            $data['recent_appointments'] = $this->appointments->recent()->forPatient($user_id)->get();
 
         } else if ($user->user_type == 'practitioner') {
 
-            $data['pending_tests'] = $this->tests->model->pending()->forPractitioner($user_id);
-            $data['recent_tests'] = $this->tests->model->recent(10)->forPractitioner($user_id);
-            $data['upcoming_appointments'] = $this->appointments->model->pending()->forPractitioner($user_id);
-            $data['recent_appointments'] = $this->appointments->model->recent(10)->forPractitioner($user_id);
+            $data['pending_tests'] = $this->tests->pending()->forPractitioner($user_id)->get();
+            $data['recent_tests'] = $this->tests->recent(10)->forPractitioner($user_id)->get();
+            $data['upcoming_appointments'] = $this->appointments->pending()->forPractitioner($user_id)->get();
+            $data['recent_appointments'] = $this->appointments->recent(10)->forPractitioner($user_id)->get();
 
         } else {
             abort(403);
