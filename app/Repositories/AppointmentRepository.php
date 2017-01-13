@@ -7,6 +7,10 @@ use App\Models\Appointment;
 
 class AppointmentRepository extends BaseRepository
 {
-    public $model = \App\Models\Appointment::class;
+    public $model;
 
+    public function __construct(Appointment $model)
+    {
+        $this->model = $model;
+    }
 }
