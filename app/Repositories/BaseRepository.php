@@ -108,4 +108,13 @@ class BaseRepository {
 
         return $this->model = $model->newQuery();
     }
+
+    /**
+     * Pass function calls down to the model.
+     * @return mixed
+     */
+    public function __call($method, $args)
+    {
+        return call_user_func_array(array($this->model, $method), $args);
+    }
 }
