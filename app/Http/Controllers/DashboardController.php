@@ -34,11 +34,11 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->user_type == 'admins') {
+        if ($user->user_type == 'admin') {
             $data = $this->adminDashboardData();
-        } else if ($user->user_type == 'patients') {
+        } else if ($user->user_type == 'patient') {
             $data = $this->patientDashboardData();
-        } else if ($user->user_type == 'practitioners') {
+        } else if ($user->user_type == 'practitioner') {
             $data = $this->practitionerDashboardData();
         } else {
             Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
