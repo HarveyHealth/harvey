@@ -13,6 +13,7 @@
 - `cd` into the harvey directory
 - run `composer update`
 - Modify .env to suit your local config
+- run `php artisan migrate`
 
 ###Front End
 - Follow back end steps.
@@ -31,7 +32,6 @@
 
 - run `npm run dev`
 
-
 ###Database Seeding
 To populate your local database with fake data, run:
 
@@ -42,7 +42,6 @@ Database Seeding will provide you with this admin account:
 email: `test@harvey.com`
 
 password: `secret`
-
 
 ###ToDo
 - homestead repo
