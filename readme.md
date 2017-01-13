@@ -37,10 +37,18 @@ To populate your local database with fake data, run:
 
 		php artisan db:seed
 
-Database Seeding will provide you with this admin account:
+Database Seeding will provide you with these accounts:
 
-email: `test@harvey.com`
+#### Admin
+email: `admin@harvey.co`
+password: `secret`
 
+#### Patient
+email: `patient@harvey.co`
+password: `secret`
+
+#### Practitioner
+email: `practitioner@harvey.co`
 password: `secret`
 
 ###ToDo
