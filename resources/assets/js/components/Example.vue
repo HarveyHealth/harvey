@@ -21,3 +21,8 @@
         }
     }
 </script>
+
+<style lang="stylus">
+    .row
+        border 10px solid red
+</style>

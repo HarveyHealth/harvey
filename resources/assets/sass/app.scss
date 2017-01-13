@@ -6,4 +6,22 @@
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import 'node_modules/bulma/bulma.sass';
+
+.test {
+    background-color: red;
+}
+
+.card-footer-item {
+    padding: 1.5rem;
+}
+
+.icon.has-border-circle {
+    border: 2px solid;
+    border-radius: 50%;
+    .fa {
+        font-size: $size-6;
+        margin-top: -2px;
+    }
+}

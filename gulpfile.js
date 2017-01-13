@@ -5,6 +5,7 @@
 
 const elixir = require('laravel-elixir');
 const bootstrap = require('bootstrap-styl');
+const browserSync = require('laravel-elixir-browsersync2');
 
 require('laravel-elixir-vue-2');
 
@@ -20,6 +21,13 @@ require('laravel-elixir-vue-2');
  */
 
 elixir((mix) => {
-    mix.stylus('app.styl', null, { use: [ bootstrap() ] })
-       .webpack('app.js');
+    mix.sass('app.scss')
+       .webpack('app.js', null, null, {
+           resolve: {
+               alias: {
+                   'vue$': 'vue/dist/vue.js'
+               }
+           }
+       })
+       .browserSync({proxy: 'localhost:8000'});
 });

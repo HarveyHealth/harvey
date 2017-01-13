@@ -5,7 +5,7 @@
 @endpush
 
 @push('scripts')
-    @script(/js/example.js)
+    {{-- @script(/js/example.js) --}}
 @endpush
 
 
@@ -14,7 +14,7 @@
 @section('content')
 
 <div class="container">
-    <h2>Welcome to Harvey</h2>
+    <h2>Welcome to {{ config('app.name') }}</h2>
 </div>
 
 @endsection
