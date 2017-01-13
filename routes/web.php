@@ -19,10 +19,11 @@ Auth::routes();
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 Route::post('signup', 'Auth\RegisterController@register');
 Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@handle');
+Route::get('logout', 'LogoutController@index')->name('logout');
 
 
 // basic public pages
-Route::get('/', 'PagesController@getHomepage');
+Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
 Route::get('contact', 'PagesController@getContact');
 Route::post('contact', 'PagesController@postContact');

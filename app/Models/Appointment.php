@@ -9,7 +9,6 @@ class Appointment extends Model
 {
     use HasPatientAndPractitioner;
 
-
     /*
      * SCOPES
      */
