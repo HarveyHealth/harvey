@@ -13,21 +13,21 @@ class UserSeeder extends Seeder
     {
         factory(App\Models\User::class)->states('admin')->create(
         	[
-        		'email' => 'admin@harvey.co',
+        		'email' => 'admin@goharvey.co',
         		'phone' => '3101234567'
         	]
         );
 
         factory(App\Models\User::class)->states('patient')->create(
         	[
-        		'email' => 'patient@harvey.co',
+        		'email' => 'patient@goharvey.co',
         		'phone' => '3101234568'
         	]
         );
 
         factory(App\Models\User::class)->states('practitioner')->create(
         	[
-        		'email' => 'practitioner@harvey.co',
+        		'email' => 'practitioner@goharvey.co',
         		'phone' => '3101234569'
         	]
         );
