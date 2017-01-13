@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class LegalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+    
     public function terms()
     {
         $html = html_from_markdown_file(resource_path() . '/views/legal/markdown/terms.md');
