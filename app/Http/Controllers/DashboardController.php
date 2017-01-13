@@ -44,17 +44,17 @@ class DashboardController extends Controller
 
         } else if ($user->user_type == 'patient') {
 
-            $data['pending_tests'] = $this->tests->pending()->forPatient($user_id)->get();
-            $data['recent_tests'] = $this->tests->recent()->forPatient($user_id)->get();
-            $data['upcoming_appointments'] = $this->appointments->pending()->forPatient($user_id)->get();
-            $data['recent_appointments'] = $this->appointments->recent()->forPatient($user_id)->get();
+            $data['pending_tests'] = $this->tests->pending()->forPatient($user->id)->get();
+            $data['recent_tests'] = $this->tests->recent()->forPatient($user->id)->get();
+            $data['upcoming_appointments'] = $this->appointments->pending()->forPatient($user->id)->get();
+            $data['recent_appointments'] = $this->appointments->recent()->forPatient($user->id)->get();
 
         } else if ($user->user_type == 'practitioner') {
 
-            $data['pending_tests'] = $this->tests->pending()->forPractitioner($user_id)->get();
-            $data['recent_tests'] = $this->tests->recent(10)->forPractitioner($user_id)->get();
-            $data['upcoming_appointments'] = $this->appointments->pending()->forPractitioner($user_id)->get();
-            $data['recent_appointments'] = $this->appointments->recent(10)->forPractitioner($user_id)->get();
+            $data['pending_tests'] = $this->tests->pending()->forPractitioner($user->id)->get();
+            $data['recent_tests'] = $this->tests->recent(10)->forPractitioner($user->id)->get();
+            $data['upcoming_appointments'] = $this->appointments->pending()->forPractitioner($user->id)->get();
+            $data['recent_appointments'] = $this->appointments->recent(10)->forPractitioner($user->id)->get();
 
         } else {
             abort(403);
