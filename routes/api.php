@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'v1'], function() {
+Route::group(['prefix' => 'alpha'], function() {
 
-    Route::resource('/users', 'API\V1\UsersController');
+    Route::resource('/users', 'API\alpha\UsersController');
 
 });

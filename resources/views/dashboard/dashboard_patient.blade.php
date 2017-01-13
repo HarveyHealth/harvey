@@ -1,15 +1,39 @@
 <h3>Upcoming Appointments</h3>
 @if (count($upcoming_appointments) > 0)
     <table class="table">
+        <th>Date</th>
+        <th>Time</th>
+        <th>Patient</th>
         @foreach ($upcoming_appointments as $appointment)
             <tr>
-                <td>{{ $appointment->appointment }}</td>
+                <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
+                <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
+                <td>{{ $appointment->patient->fullName() }}</td>
             </tr>
         @endforeach
     </table>
 @else
-    You have no upcoming appointments. Schedule a consultation now.
+    No upcoming appointments.
 @endif
+
+
+
+@if (count($recent_appointments) > 0)
+    <h3>Recent Appointments</h3>
+    <table class="table">
+        <th>Date</th>
+        <th>Time</th>
+        <th>Patient</th>
+        @foreach ($recent_appointments as $appointment)
+            <tr>
+                <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
+                <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
+                <td>{{ $appointment->patient->fullName() }}</td>
+            </tr>
+        @endforeach
+    </table>
+@endif
+
 
 
 @if (count($recent_tests) > 0)

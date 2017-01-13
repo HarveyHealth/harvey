@@ -7,6 +7,6 @@ use App\Models\Appointment;
 
 class AppointmentRepository extends BaseRepository
 {
-    protected $model = \App\Models\Appointment::class;
-}
+    public $model = \App\Models\Appointment::class;
 
+}

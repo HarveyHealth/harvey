@@ -18,4 +18,17 @@ class Test extends Model
     {
         return $this->results_url;
     }
+
+    /*
+     * SCOPES
+     */
+    public function scopePending($query)
+    {
+     return $query->whereNull('results_url');
+    }
+
+    public function scopeRecent($query, $limit = 3)
+    {
+     return $query->whereNotNull('results_url')->limit($limit);
+    }
 }

@@ -16,7 +16,7 @@ class BaseRepository {
     /**
      * @var
      */
-    protected $model;
+    public $model;
 
     /**
      * @param App $app
