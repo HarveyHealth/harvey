@@ -59,10 +59,12 @@ namespace App\Repositories;
 
 use App\Models\\{$model};
 
-
 class {$classname} extends BaseRepository
 {
-    protected \$model = \App\Models\\{$model}::class;
+    function __construct({$model} \$model)
+    {
+        \$this->model = \$model;
+    }
 }
 
 ";
