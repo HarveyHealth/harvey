@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Illuminate\Http\Request;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\TestRepository;
@@ -31,35 +32,49 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $data = [];
-
         $user = auth()->user();
 
-        if ($user->user_type == 'admin') {
-
-            $data['pending_tests'] = $this->tests->pending()->get();
-            $data['recent_tests'] = $this->tests->recent(10)->get();
-            $data['upcoming_appointments'] = $this->appointments->pending()->get();
-            $data['recent_appointments'] = $this->appointments->recent(10)->get();
-
-        } else if ($user->user_type == 'patient') {
-
-            $data['pending_tests'] = $this->tests->pending()->forPatient($user_id)->get();
-            $data['recent_tests'] = $this->tests->recent()->forPatient($user_id)->get();
-            $data['upcoming_appointments'] = $this->appointments->pending()->forPatient($user_id)->get();
-            $data['recent_appointments'] = $this->appointments->recent()->forPatient($user_id)->get();
-
-        } else if ($user->user_type == 'practitioner') {
-
-            $data['pending_tests'] = $this->tests->pending()->forPractitioner($user_id)->get();
-            $data['recent_tests'] = $this->tests->recent(10)->forPractitioner($user_id)->get();
-            $data['upcoming_appointments'] = $this->appointments->pending()->forPractitioner($user_id)->get();
-            $data['recent_appointments'] = $this->appointments->recent(10)->forPractitioner($user_id)->get();
-
+        if ($user->user_type == 'admins') {
+            $data = $this->adminDashboardData();
+        } else if ($user->user_type == 'patients') {
+            $data = $this->patientDashboardData();
+        } else if ($user->user_type == 'practitioners') {
+            $data = $this->practitionerDashboardData();
         } else {
+            Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
             abort(403);
         }
 
         return view('dashboard.index', $data);
+    }
+
+    protected function adminDashboardData()
+    {
+        return [
+            'pending_tests' => $this->tests->pending()->get(),
+            'recent_tests' => $this->tests->recent(10)->get(),
+            'upcoming_appointments' => $this->appointments->pending()->get(),
+            'recent_appointments' => $this->appointments->recent(10)->get()
+        ];
+    }
+
+    protected function patientDashboardData()
+    {
+        return [
+            'pending_tests' => $this->tests->pending()->forPatient($user->id)->get(),
+            'recent_tests' => $this->tests->recent()->forPatient($user->id)->get(),
+            'upcoming_appointments' => $this->appointments->pending()->forPatient($user->id)->get(),
+            'recent_appointments' => $this->appointments->recent()->forPatient($user->id)->get()
+        ];
+    }
+
+    protected function practitionerDashboardData()
+    {
+        return [
+            'pending_tests' => $this->tests->pending()->forPractitioner($user->id)->get(),
+            'recent_tests' => $this->tests->recent(10)->forPractitioner($user->id)->get(),
+            'upcoming_appointments' => $this->appointments->pending()->forPractitioner($user->id)->get(),
+            'recent_appointments' => $this->appointments->recent(10)->forPractitioner($user->id)->get()
+        ];
     }
 }
