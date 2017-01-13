@@ -29,7 +29,7 @@
 
 		.browserSync({proxy: 'localhost:8000'});
 
-- run `gulp watch`
+- run `npm run dev`
 
 
 ###Database Seeding
