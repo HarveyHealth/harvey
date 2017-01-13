@@ -16,8 +16,6 @@ class EmailVerificationController extends Controller
 
         $user = User::findOrFail($user_id);
 
-        echo 'x';exit;
-
         if ($token != bcrypt($user->id . '|' . $user->email . '|' . $user->created_at))
             abort(404);
 

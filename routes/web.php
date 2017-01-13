@@ -18,7 +18,8 @@ Auth::routes();
 // Additional routing to not use Laravel's built-in "register" route
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 Route::post('signup', 'Auth\RegisterController@register');
-Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@handle');
+Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@getVerify');
+Route::post('verify/{id}/{token}', 'Auth\EmailVerificationController@postVerify');
 Route::get('logout', 'LogoutController@index')->name('logout');
 
 
@@ -36,6 +37,10 @@ Route::get('account/{id?}','UsersController@getAccount');
 Route::post('account/{id?}','UsersController@postAccount');
 Route::get('users/list','UsersController@getList');
 Route::get('users/{id}','UsersController@getProfile');
+
+// INVITE USERS
+Route::get('invite','InviteController@getInvite');
+Route::post('invite','InviteController@postInvite');
 
 // UPLOAD Controller
 Route::get('upload/test/{id}','UploadController@getUploadTest');
