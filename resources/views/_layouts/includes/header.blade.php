@@ -20,6 +20,6 @@
     @stack('stylesheets')
 
 </head>
-<body>
+<body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
 
     @include('_layouts.includes.top_nav')

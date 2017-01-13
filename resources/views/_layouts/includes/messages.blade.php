@@ -1,15 +1,14 @@
 {{-- Show success/error messages --}}
 @if (session('success'))
-    <div class="flash-message">
-    <div class="alert alert-success">
+    <div class="notification animated fadeOut">
         {{ session('success') }}
-    </div>
     </div>
 @endif
 
 @if (isset($errors))
     @if (count($errors) > 0)
-        <div class="alert alert-danger">
+        <div class="notification is-danger animated fadeIn">
+            <button class="delete"></button>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>

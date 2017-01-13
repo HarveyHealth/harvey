@@ -5,23 +5,107 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+// Libraries
 @import 'node_modules/bulma/bulma.sass';
+@import 'node_modules/animate.css/animate';
 
-.test {
-    background-color: red;
+// rewrite bulma styles
+.button {
+    &.is-link {
+        padding-left: 0;
+        padding-right: 0;
+        &:hover {
+            background-color: transparent;
+        }
+    }
 }
 
+// new global styles
 .card-footer-item {
     padding: 1.5rem;
 }
 
-.icon.has-border-circle {
-    border: 2px solid;
-    border-radius: 50%;
-    .fa {
-        font-size: $size-6;
-        margin-top: -2px;
+.icon {
+    &.has-border-circle {
+        border: 2px solid;
+        border-radius: 50%;
+        .fa {
+            font-size: $size-6;
+            margin-top: -2px;
+        }
+    }
+}
+
+.dropdown {
+    position: relative;
+    .dropdown-list {
+        display: none;
+        position: absolute;
+        top: $size-1;
+        &:before,
+        &:after {
+            content: "";
+            display: inline-block;
+            position: absolute;
+        }
+        &.dropdown-list_align-right {
+            right: 0.75rem;
+            &:before {
+                top: -10px;
+                right: 3px;
+                bottom: auto;
+                border: 10px solid transparent;
+                border-top: 0;
+                border-bottom-color: $border;
+            }
+            &:after {
+                top: -9px;
+                right: 4px;
+                bottom: auto;
+                border: 9px solid transparent;
+                border-top: 0;
+                border-bottom-color: #fff;
+            }
+        }
+        a {
+            @extend .nav-item;
+        }
+    }
+    &:hover .dropdown-list {
+        display: block;
+    }
+}
+
+// modify animations
+.animated {
+    &.notification {
+        &.fadeOut {
+            animation-delay: 3s;
+        }
+    }
+}
+
+// page specific styles
+body {
+    &.login,
+    &.signup,
+    &.password-reset {
+        &.hero {
+            justify-content: flex-start;
+        }
+        .page-content {
+            .container {
+                @include from(400px) {
+                    margin: 0 auto;
+                    width: 340px;
+                }
+            }
+        }
+        .section {
+            background-color: transparent;
+        }
+        a.button:not(.is-primary) {
+            color: $grey-darker;
+        }
     }
 }

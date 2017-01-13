@@ -1,70 +1,61 @@
 @extends('_layouts.public')
 
-@section('page_title','Please Login')
+@section('page_title','Log in')
+@section('body_class', ' hero is-fullheight is-primary is-bold')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Login</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
-                        {{ csrf_field() }}
+<section class="section">
+    <div class="container">
+        <header class="content has-text-centered">
+            <h2 class="title is-3">Log in</h2>
+        </header>
+        <div class="card">
+            <div class="card-content">
+                <form role="form" method="POST" action="{{ url('/login') }}">
+                    {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                    <label class="label">Email</label>
+                    <p class="control has-icon{{ $errors->has('email') ? ' has-icon has-icon-right' : '' }}">
+                        <input class="input{{ $errors->has('email') ? ' is-danger' : '' }}" type="email" placeholder="Email" name="email" value="{{ old('email') }}" required{{ !isset($errors) || count($errors) == 0 || $errors->has('email') ? ' autofocus' : '' }}>
+                        <span class="icon is-small"><i class="fa fa-envelope"></i></span>
+                        @if ($errors->has('email'))
+                            <span class="icon is-small"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger">{{ $errors->first('email') }}</span>
+                        @endif
+                    </p>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                    <label class="label">Password</label>
+                    <p class="control has-icon{{ $errors->has('password') ? ' has-icon has-icon-right' : '' }}">
+                        <input class="input{{ $errors->has('password') ? ' is-danger' : '' }}" type="password" placeholder="Password" name="password" required{{ $errors->has('password') ? ' autofocus' : '' }}>
+                        <span class="icon is-small"><i class="fa fa-lock"></i></span>
+                        @if ($errors->has('password'))
+                            <span class="icon is-small"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger">{{ $errors->first('password') }}</span>
+                        @endif
+                    </p>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <div class="checkbox">
-                                    <label>
-                                        <input type="checkbox" name="remember"> Remember Me
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Login
-                                </button>
-
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
-                                    Forgot Your Password?
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    <p class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember">
+                            Remember me
+                        </label>
+                    </p>
+                    
+                    <p class="control is-clearfix">
+                        <button type="submit" class="button is-primary is-pulled-right">Log In</button>
+                        <a class="button is-link" href="{{ url('/password/reset') }}">
+                            Forgot Your Password?
+                        </a>
+                    </p>
+                </form>
             </div>
+            <footer class="card-footer">
+                <div class="card-footer-item level">
+                    <p>Don't have an account?</p>
+                    <a href="/signup" class="level-right button">Sign Up</a>
+                </div>
+            </footer>
         </div>
     </div>
-</div>
+</section>
 @endsection

@@ -10,7 +10,7 @@
 </div>
 
 {{-- following content needs to be rewritten in vue components --}}
-<div id="content" class="container">
+<div id="content">
     @yield('content')
 </div>
 {{-- end --}}

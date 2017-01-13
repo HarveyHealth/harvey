@@ -22,6 +22,7 @@
     "vue-router": "^2.1.1"
   },
   "dependencies": {
+    "animate.css": "^3.5.2",
     "bulma": "^0.3.0"
   }
 }

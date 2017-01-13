@@ -10,25 +10,25 @@
         </span>
         <div class="nav-right nav-menu">
             @if (Auth::guest())
-                <a class="nav-item is-tab">Home</a>
                 <a class="nav-item is-tab">How it works</a>
                 <a class="nav-item is-tab">Pricing</a>
                 <a class="nav-item is-tab">About</a>
                 <span class="nav-item">
-                    <a href="/signup" class="button is-primary">Sign Up</a>
                     <a href="/login" class="button">Log In</a>
+                    <a href="/signup" class="button is-primary">Sign Up</a>
                 </span>
             @else
                 <p class="nav-item">Hi, {{ $current_user->first_name }}</p>
-                <a class="nav-item"><span class="icon has-border-circle"><i class="fa fa-user"></i></span></a>
-                <div class="nav-menu is-active">
-                    <a class="nav-item is-active">Dashboard</a>
-                    <a class="nav-item">Log out</a>
+                <div class="nav-item dropdown">
+                    <a href="/" class="dropdown-button">
+                        <span class="icon is-medium has-border-circle"><i class="fa fa-user"></i></span>
+                    </a>
+                    <div class="dropdown-list dropdown-list_align-right box">
+                        <a href="/">Dashboard</a>
+                        <a href="">Edit Profile</a>
+                        <a href="/logout">Log out</a>
+                    </div>
                 </div>
-                
-{{--                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form> --}}
             @endif
         </div>
     </div>
