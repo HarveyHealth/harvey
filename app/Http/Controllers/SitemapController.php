@@ -61,6 +61,8 @@ class SitemapController extends Controller
         $base_paths = [
             '',
             'login',
+            'terms',
+            'privacy',
             'signup',
         ];
 
