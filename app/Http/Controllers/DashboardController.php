@@ -13,9 +13,9 @@ class DashboardController extends Controller
     protected $appointments;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * DashboardController constructor.
+     * @param TestRepository        $tests
+     * @param AppointmentRepository $appointments
      */
     public function __construct(TestRepository $tests, AppointmentRepository $appointments)
     {
