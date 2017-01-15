@@ -12,7 +12,8 @@ class SitemapController extends Controller
 {
     protected $users;
 
-    function __construct(UserRepository $users) {
+    public function __construct(UserRepository $users)
+    {
         $this->users = $users;
     }
 
@@ -22,15 +23,16 @@ class SitemapController extends Controller
 
         $self = $this;
 
-        $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function() use ($map, $self) {
+        $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function () use ($map, $self) {
 
             // if it's a map, call the
             // method for the particular map
             if ($map) {
 
                 // make sure the method exists
-                if (!method_exists($self, $map))
+                if (!method_exists($self, $map)) {
                     return abort(404);
+                }
 
                 return $self->$map();
             }

@@ -33,13 +33,15 @@ class UsersController extends Controller
 
     public function getAccount($id = null)
     {
-        if (empty($id))
+        if (empty($id)) {
             $id = request()->user();
+        }
     }
 
     public function postAccount($id = null)
     {
-        if (empty($id))
+        if (empty($id)) {
             $id = request()->user();
+        }
     }
 }

@@ -17,8 +17,9 @@ class AuthenticateWebhook
     {
         $key = $request->input('key');
 
-        if (empty($key) || $key != config('webhook.key'))
+        if (empty($key) || $key != config('webhook.key')) {
             abort(403, 'Not authorized');
+        }
 
         return $next($request);
     }

@@ -10,7 +10,6 @@ class PBRole extends Model
 
     public function permissions()
     {
-
     }
 
     public function permissionsForRole(PBRole $role)

@@ -7,8 +7,8 @@ use Lib\Slack;
 
 class StripeController extends BaseWebhookController
 {
-    public function handle() {
-
+    public function handle()
+    {
         $payload = request()->all();
 
         \Log::info($payload);
@@ -16,11 +16,8 @@ class StripeController extends BaseWebhookController
         $method_name = $this->methodForEventName($payload['type']);
 
         if (method_exists($this, $method_name)) {
-
             $this->$method_name();
-
         } else {
-
             $message = 'Stripe webhook method not handled: ' . $payload['type'];
 
             // log it
@@ -33,15 +30,15 @@ class StripeController extends BaseWebhookController
         return 'A-OK!';
     }
 
-    public function handleChargeSucceeded() {
-
+    public function handleChargeSucceeded()
+    {
         $payload = request()->all();
 
         \Log::info('Stripe charge succeeded: ' . $payload['data']['object']['id']);
     }
 
-    public function handleChargeFailed() {
-
+    public function handleChargeFailed()
+    {
         $payload = request()->all();
 
         \Log::info('Stripe charge failed: ' . $payload['data']['object']['id']);
@@ -51,7 +48,8 @@ class StripeController extends BaseWebhookController
         ];
     }
 
-    public function methodForEventName($event_name) {
-        return 'handle' . studly_case(str_replace('.','_',$event_name));
+    public function methodForEventName($event_name)
+    {
+        return 'handle' . studly_case(str_replace('.', '_', $event_name));
     }
 }

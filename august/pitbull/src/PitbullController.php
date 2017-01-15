@@ -2,12 +2,11 @@
 
 namespace August\Pitbull;
 
-
 use August\Pitbull\Models\PBUser;
 
 class PitbullController extends \App\Http\Controllers\Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware(config('pitbull.middleware'));
     }
@@ -15,34 +14,31 @@ class PitbullController extends \App\Http\Controllers\Controller
     public function getUsers()
     {
         $users = PBUser::all();
-        return view('pitbull::user_list')->with('users',$users)->with('fields', config('pitbull.user_fields'));
+        return view('pitbull::user_list')->with('users', $users)->with('fields', config('pitbull.user_fields'));
     }
 
     public function getUser($user_id)
     {
         $user = PBUser::findOrFail($user_id);
-        return view('pitbull::user_details')->with('user', $user)->with('fields', config('pitbull.user_fields'));;
+        return view('pitbull::user_details')->with('user', $user)->with('fields', config('pitbull.user_fields'));
+        ;
     }
 
 
     public function getRoles()
     {
-
     }
 
     public function postRoles()
     {
-
     }
 
     public function getPermissions()
     {
-
     }
 
     public function postPermissions()
     {
-
     }
 
     public function getRolesForUser($user_id)
@@ -63,6 +59,5 @@ class PitbullController extends \App\Http\Controllers\Controller
     public function getSearchPermissions()
     {
         $query = request('query');
-
     }
 }

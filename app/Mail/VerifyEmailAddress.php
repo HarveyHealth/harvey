@@ -8,7 +8,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Interfaces\Mailable as MailableInterface;
 
-
 class VerifyEmailAddress extends Mailable
 {
     use Queueable, SerializesModels;

@@ -34,8 +34,8 @@ class PaymentFailed extends Notification
         return ['slack'];
     }
 
-    public function toSlack($notifiable) {
-
+    public function toSlack($notifiable)
+    {
         $data = $notifiable->data;
 
         return (new SlackMessage)

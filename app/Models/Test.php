@@ -24,11 +24,11 @@ class Test extends Model
      */
     public function scopePending($query)
     {
-     return $query->whereNull('results_url');
+        return $query->whereNull('results_url');
     }
 
     public function scopeRecent($query, $limit = 3)
     {
-     return $query->whereNotNull('results_url')->limit($limit);
+        return $query->whereNotNull('results_url')->limit($limit);
     }
 }

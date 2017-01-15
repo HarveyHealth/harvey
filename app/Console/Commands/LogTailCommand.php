@@ -36,11 +36,11 @@ class LogTailCommand extends Command
      * @return mixed
      */
      public function handle()
-    {
-        $logFile = $this->getSingleLogFile();
+     {
+         $logFile = $this->getSingleLogFile();
 
-        passthru("tail -f $logFile");
-    }
+         passthru("tail -f $logFile");
+     }
 
     protected function logDirectory()
     {

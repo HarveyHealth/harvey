@@ -6,20 +6,21 @@ use Carbon\Carbon;
 
 class Pitbull
 {
-    public function permissionGridForUser($user) {
-
+    public function permissionGridForUser($user)
+    {
         $grid = \Cache::remember($this->cacheKeyForUser($user), Carbon::now()->addYear(1), function () use ($user) {
-
         });
 
         return $grid;
     }
 
-    protected function flushCacheForUser($user) {
+    protected function flushCacheForUser($user)
+    {
         \Cache::forget($this->cacheKeyForUser($user));
     }
 
-    protected function cacheKeyForUser($user) {
+    protected function cacheKeyForUser($user)
+    {
         return 'Pitbull:permission_grid:' . $user->id;
     }
 

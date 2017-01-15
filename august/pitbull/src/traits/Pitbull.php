@@ -6,22 +6,18 @@ trait Pitbull
 {
     public function addRole($role)
     {
-
     }
 
     public function removeRole($role)
     {
-
     }
 
     public function addAbility($domain, $action)
     {
-
     }
 
     public function removeAbility($domain, $action)
     {
-
     }
 
     public function hasRole($role)
@@ -36,11 +32,9 @@ trait Pitbull
 
     public function roles()
     {
-        
     }
 
     public function permissions()
     {
-
     }
 }

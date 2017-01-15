@@ -25,10 +25,10 @@ class CreateUsersTable extends Migration
             $table->string('phone', 15)->nullable()->unique();
             $table->dateTime('phone_verified_at')->nullable();
             $table->string('address_1', 100)->nullable();
-			$table->string('address_2', 100)->nullable();
-			$table->string('city', 100)->nullable();
-			$table->string('state', 2)->nullable();
-			$table->string('zip', 10)->nullable();
+            $table->string('address_2', 100)->nullable();
+            $table->string('city', 100)->nullable();
+            $table->string('state', 2)->nullable();
+            $table->string('zip', 10)->nullable();
             $table->decimal('latitude', 10, 6)->nullable();
             $table->decimal('longitude', 10, 6)->nullable();
             $table->string('timezone', 75)->nullable();

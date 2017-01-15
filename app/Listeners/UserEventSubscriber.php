@@ -31,21 +31,24 @@ class UserEventSubscriber
     /**
      * Handle user login events.
      */
-    public function onUserLogin($event) {
+    public function onUserLogin($event)
+    {
         \Log::info('User ' . $event->user->id . ' has logged in.');
     }
 
     /**
      * Handle user logout events.
      */
-    public function onUserLogout($event) {
+    public function onUserLogout($event)
+    {
         \Log::info('User ' . $event->user->id . ' has logged out.');
     }
 
     /**
      * Handle user logout events.
      */
-    public function onRegister($event) {
+    public function onRegister($event)
+    {
         \Log::info('User ' . $event->user->id . ' has registered.');
     }
 }

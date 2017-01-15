@@ -22,6 +22,4 @@ class DatabaseSeeder extends Seeder
         $this->command->getOutput()->writeln("<info>Practitioner Email: </info> practitioner@goharvey.co");
         $this->command->getOutput()->writeln("<info>All user passwords: </info> secret");
     }
-
-
 }

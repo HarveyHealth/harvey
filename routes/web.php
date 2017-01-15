@@ -33,23 +33,23 @@ Route::get('test', 'PagesController@getTest');
 Route::get('dashboard', 'DashboardController@index');
 
 // USERS
-Route::get('account/{id?}','UsersController@getAccount');
-Route::post('account/{id?}','UsersController@postAccount');
-Route::get('users/list','UsersController@getList');
-Route::get('users/{id}','UsersController@getProfile');
+Route::get('account/{id?}', 'UsersController@getAccount');
+Route::post('account/{id?}', 'UsersController@postAccount');
+Route::get('users/list', 'UsersController@getList');
+Route::get('users/{id}', 'UsersController@getProfile');
 
 // INVITE USERS
-Route::get('invite','InviteController@getInvite');
-Route::post('invite','InviteController@postInvite');
+Route::get('invite', 'InviteController@getInvite');
+Route::post('invite', 'InviteController@postInvite');
 
 // UPLOAD Controller
-Route::get('upload/test/{id}','UploadController@getUploadTest');
-Route::post('upload/test/{id}','UploadController@postUploadTest');
+Route::get('upload/test/{id}', 'UploadController@getUploadTest');
+Route::post('upload/test/{id}', 'UploadController@postUploadTest');
 
 // TERMS
-Route::get('terms','LegalController@terms');
-Route::get('privacy','LegalController@privacy');
+Route::get('terms', 'LegalController@terms');
+Route::get('privacy', 'LegalController@privacy');
 
 // SITEMAP
-Route::get('sitemap.xml','SitemapController@index');
-Route::get('sitemap-{map?}.xml','SitemapController@index');
+Route::get('sitemap.xml', 'SitemapController@index');
+Route::get('sitemap-{map?}.xml', 'SitemapController@index');

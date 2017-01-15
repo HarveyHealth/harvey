@@ -13,8 +13,7 @@ class AddUserTypeToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table)
-        {
+        Schema::table('users', function ($table) {
             $table->enum('user_type', ['admin','patient','practitioner'])->default('admin')->after('enabled');
         });
     }

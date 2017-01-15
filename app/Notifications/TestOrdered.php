@@ -34,13 +34,14 @@ class TestOrdered extends Notification
         return ['slack'];
     }
 
-    public function toSlack($notifiable) {
-
+    public function toSlack($notifiable)
+    {
         $patient = $this->test->patient;
 
         $address_array = [$patient->address_1];
-        if (!empty($patient->address_2))
+        if (!empty($patient->address_2)) {
             $address_array[] = $patent->address_2;
+        }
         $address_array[] = $patent->city . ', ' . $patient->state . ' ' . $patent->zip;
 
         $address = implode("\n", $address_array);
