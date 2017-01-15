@@ -15,7 +15,8 @@
         "lob/lob-php": "^1.7",
         "michelf/php-smartypants": "^1.8",
         "league/commonmark": "^0.15.3",
-        "bugsnag/bugsnag-laravel": "^2.0"
+        "bugsnag/bugsnag-laravel": "^2.0",
+        "barryvdh/laravel-debugbar": "^2.3"
 
     },
     "require-dev": {
