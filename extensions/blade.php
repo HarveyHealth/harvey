@@ -8,7 +8,7 @@
 });
 
 \Blade::directive('script', function ($url) {
-    $string = "<script src=\"{$url}\" type=\"javascript\"></script>";
+    $string = "<script src=\"{$url}\" type=\"text/javascript\"></script>";
     return $string;
 });
 
