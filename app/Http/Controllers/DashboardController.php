@@ -37,9 +37,9 @@ class DashboardController extends Controller
         if ($user->user_type == 'admin') {
             $data = $this->adminDashboardData();
         } elseif ($user->user_type == 'patient') {
-            $data = $this->patientDashboardData();
+            $data = $this->patientDashboardData($user);
         } elseif ($user->user_type == 'practitioner') {
-            $data = $this->practitionerDashboardData();
+            $data = $this->practitionerDashboardData($user);
         } else {
             Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
             abort(403);
@@ -58,7 +58,7 @@ class DashboardController extends Controller
         ];
     }
 
-    protected function patientDashboardData()
+    protected function patientDashboardData($user)
     {
         return [
             'pending_tests' => $this->tests->pending()->forPatient($user->id)->get(),
@@ -68,7 +68,7 @@ class DashboardController extends Controller
         ];
     }
 
-    protected function practitionerDashboardData()
+    protected function practitionerDashboardData($user)
     {
         return [
             'pending_tests' => $this->tests->pending()->forPractitioner($user->id)->get(),
