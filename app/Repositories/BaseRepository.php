@@ -5,8 +5,8 @@ namespace App\Repositories;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Container\Container as App;
 
-
-class BaseRepository {
+class BaseRepository
+{
 
     /**
      * @var App
@@ -21,7 +21,8 @@ class BaseRepository {
     /**
      * @param App $app
      */
-    public function __construct(App $app) {
+    public function __construct(App $app)
+    {
         $this->app = $app;
         $this->makeModel();
     }
@@ -29,11 +30,13 @@ class BaseRepository {
     /**
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function makeModel() {
+    public function makeModel()
+    {
         $model = $this->app->make($this->model);
 
-        if (!$model instanceof Model)
+        if (!$model instanceof Model) {
             throw new \Exception("Class {$this->model} must be an instance of Illuminate\\Database\\Eloquent\\Model");
+        }
 
         return $this->model = $model->newQuery();
     }

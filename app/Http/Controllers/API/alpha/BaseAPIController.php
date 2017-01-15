@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class BaseAPIController extends Controller {
-
+class BaseAPIController extends Controller
+{
     const CODE_INVALID_ARGS = 'INVALID ARGUMENTS';
     const CODE_NOT_FOUND = 'NOT FOUND';
     const CODE_INTERNAL_ERROR = 'INTERNAL ERROR';
@@ -16,15 +16,18 @@ class BaseAPIController extends Controller {
 
     protected $status_code = 200;
 
-    public function __construct() {
+    public function __construct()
+    {
         // $this->middleware('auth:api');
     }
 
-    protected function statusCode() {
+    protected function statusCode()
+    {
         return $this->status_code;
     }
 
-    protected function setStatusCode($code) {
+    protected function setStatusCode($code)
+    {
         $this->status_code = $code;
         return $this;
     }
@@ -57,8 +60,9 @@ class BaseAPIController extends Controller {
             $class = class_basename($item[0]);
 
             // see if a transformer exists
-            if (class_exists($class))
+            if (class_exists($class)) {
                 $transformer = new $class;
+            }
         }
 
         $resource = new Collection($item, $transformer);
@@ -75,7 +79,6 @@ class BaseAPIController extends Controller {
 
     protected function respondWithError($message, $error_code)
     {
-
         if ($this->status_code === 200) {
             trigger_error(
                 "You better have a really good reason for erroring on a 200...",
@@ -121,6 +124,4 @@ class BaseAPIController extends Controller {
         return $this->setStatusCode(400)
                     ->respondWithError($message, self::CODE_INVALID_ARGS);
     }
-
-
 }

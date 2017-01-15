@@ -96,11 +96,12 @@ class SitemapGenerator
     protected function orderURLs($urls)
     {
         usort($urls, function ($a, $b) {
-                if ($a['url'] == $b['url'])
-                    return 0;
+            if ($a['url'] == $b['url']) {
+                return 0;
+            }
 
-                return ($a['url'] < $b['url']) ? -1 : 1;
-            });
+            return ($a['url'] < $b['url']) ? -1 : 1;
+        });
 
         return $urls;
     }

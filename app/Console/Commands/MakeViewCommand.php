@@ -42,8 +42,9 @@ class MakeViewCommand extends Command
         $filename = $this->argument('filename');
         $layout = $this->option('layout');
 
-        if (empty($layout))
+        if (empty($layout)) {
             $layout = 'logged_in';
+        }
 
         $template = "@extends('_layouts.{$layout}')
 @section('page_title','')
@@ -68,7 +69,7 @@ class MakeViewCommand extends Command
 ";
 
         // make sure we have .blade.php on the end
-        str_replace('.blade.php','',$filename);
+        str_replace('.blade.php', '', $filename);
         $filename .= '.blade.php';
 
         $full_path = resource_path() . '/views/' . $filename;

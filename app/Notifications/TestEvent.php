@@ -34,8 +34,8 @@ class TestEvent extends Notification
         return ['slack'];
     }
 
-    public function toSlack($notifiable) {
-
+    public function toSlack($notifiable)
+    {
         return (new SlackMessage)
                     ->content('This is a test message.');
     }

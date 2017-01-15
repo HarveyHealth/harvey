@@ -10,9 +10,8 @@ class UsersController extends Controller
     private $users;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * UsersController constructor.
+     * @param UserRepository $users
      */
     public function __construct(UserRepository $users)
     {
@@ -34,13 +33,15 @@ class UsersController extends Controller
 
     public function getAccount($id = null)
     {
-        if (empty($id))
+        if (empty($id)) {
             $id = request()->user();
+        }
     }
 
     public function postAccount($id = null)
     {
-        if (empty($id))
+        if (empty($id)) {
             $id = request()->user();
+        }
     }
 }

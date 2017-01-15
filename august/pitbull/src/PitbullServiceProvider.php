@@ -45,7 +45,7 @@ class PitbullServiceProvider extends ServiceProvider
         // merge in the default config
         $this->mergeConfigFrom(__DIR__ . '/../config/pitbull.php', 'pitbull');
 
-        $this->app->singleton('pitbull', function($app) {
+        $this->app->singleton('pitbull', function ($app) {
             return $app->make('\August\Pitbull\Pitbull');
         });
     }

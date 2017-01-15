@@ -6,8 +6,10 @@
 /.idea
 Homestead.json
 Homestead.yaml
+Vagrantfile
 .env
 .env.testing
 .DS_Store
 *.css.map
 *.js.map
+.vagrant

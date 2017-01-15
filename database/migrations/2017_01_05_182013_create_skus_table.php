@@ -16,7 +16,7 @@ class CreateSKUsTable extends Migration
         Schema::create('skus', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->index();
-            $table->enum('item_type',['test','product','service'])->index();
+            $table->enum('item_type', ['test','product','service'])->index();
             $table->decimal('price')->default(0);
             $table->timestamps();
         });

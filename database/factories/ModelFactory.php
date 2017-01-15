@@ -14,7 +14,6 @@ use Carbon\Carbon;
 */
 
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
-
     static $password;
 
     return [
@@ -26,7 +25,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
-        'phone' => $faker->randomElement(array('626','323','818')) . $faker->numberBetween(1111111,9999999),
+        'phone' => $faker->randomElement(array('626','323','818')) . $faker->numberBetween(1111111, 9999999),
         'phone_verified_at' => Carbon::now(),
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,

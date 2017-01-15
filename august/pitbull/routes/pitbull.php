@@ -2,7 +2,6 @@
 
 // Configure the routes for Pitbull
 Route::group(['prefix' => 'pitbull', 'middleware' => ['web']], function () {
-
     Route::get('', '\August\Pitbull\PitbullController@getUsers');
     Route::get('/user/{id}', '\August\Pitbull\PitbullController@getUser');
 

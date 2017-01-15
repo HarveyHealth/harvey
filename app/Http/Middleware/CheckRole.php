@@ -18,8 +18,9 @@ class CheckRole
     {
         $user = auth()->user();
 
-        if (!$user)
+        if (!$user) {
             abort(403, 'Not authorized');
+        }
 
         $roles = explode('|', $role);
 
@@ -32,8 +33,9 @@ class CheckRole
             }
         }
 
-        if (!$allowed)
+        if (!$allowed) {
             abort(403, 'Not authorized');
+        }
 
         return $next($request);
     }

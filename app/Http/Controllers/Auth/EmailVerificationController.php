@@ -12,12 +12,13 @@ class EmailVerificationController extends Controller
         $this->middleware('guest');
     }
 
-    public function handle($user_id, $token) {
-
+    public function handle($user_id, $token)
+    {
         $user = User::findOrFail($user_id);
 
-        if ($token != bcrypt($user->id . '|' . $user->email . '|' . $user->created_at))
+        if ($token != bcrypt($user->id . '|' . $user->email . '|' . $user->created_at)) {
             abort(404);
+        }
 
         auth()->login($user);
 

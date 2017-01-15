@@ -73,6 +73,5 @@ class {$classname} extends BaseRepository
         $this->files->put($full_path, $content);
 
         $this->info('Repository created successfully.');
-
     }
 }

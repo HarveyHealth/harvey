@@ -20,5 +20,4 @@ class Slack
     {
         return config('services.slack.webhook_url');
     }
-
 }

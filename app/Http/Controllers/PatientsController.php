@@ -9,7 +9,7 @@ class PatientsController extends Controller
 {
     protected $users;
 
-    function __construct(UserRepository $users)
+    public function __construct(UserRepository $users)
     {
         $this->middleware('auth');
         $this->middleware('role:practitioner|admin');
@@ -21,7 +21,7 @@ class PatientsController extends Controller
     public function getIndex()
     {
         $users = $this->users->where('user_type', 'patient')->orderBy('last_name')->get();
-        return view('patients.index')->with('users',$users);
+        return view('patients.index')->with('users', $users);
     }
 
     public function getDetails($user_id)

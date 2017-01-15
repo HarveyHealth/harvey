@@ -13,11 +13,11 @@
 });
 
 \Blade::directive('markdown', function ($view_path) {
-
     $file = resource_path('views' . dots_to_path($view_path)) . '.md';
 
-    if (!file_exists($file))
+    if (!file_exists($file)) {
         abort(404);
+    }
 
     return html_from_markdown_file($file);
 });

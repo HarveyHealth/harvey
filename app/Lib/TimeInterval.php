@@ -5,7 +5,6 @@
  */
 class TimeInterval
 {
-
     private $_seconds;
 
     const SECONDS_PER_MINUTE = 60;

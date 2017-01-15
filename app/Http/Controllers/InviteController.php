@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class InviteController extends Controller
 {
-    function __construct()
+    public function __construct()
     {
         $this->middleware('role:admin');
     }

@@ -7,7 +7,6 @@ namespace App\Lib;
 */
 class CSV implements Iterator
 {
-
     private $lines = [];
     private $index = 0;
     private $filepath;

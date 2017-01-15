@@ -41,7 +41,8 @@ class User extends Authenticatable implements Mailable
     /*
      * Returns the concatenated full name
      */
-    function fullName() {
+    public function fullName()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 
@@ -49,10 +50,11 @@ class User extends Authenticatable implements Mailable
      * Returns the image URL for this user
      * If they don't have one, it returns a default
      */
-    function imageURL() {
-
-        if (!empty($this->image_url))
+    public function imageURL()
+    {
+        if (!empty($this->image_url)) {
             return $this->image_url;
+        }
 
         return config('app.default_image_url');
     }
