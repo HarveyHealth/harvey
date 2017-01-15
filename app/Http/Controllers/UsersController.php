@@ -10,9 +10,8 @@ class UsersController extends Controller
     private $users;
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * UsersController constructor.
+     * @param UserRepository $users
      */
     public function __construct(UserRepository $users)
     {
