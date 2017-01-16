@@ -1,19 +1,12 @@
 @include('_layouts.includes.header')
 
 <div id="app">
-    <ul>
-        <router-link tag="li" to="/home">
-            <a>go to home</a>
+{{--     <ul>
+        <router-link tag="li" to="/dashboard">
+            <a>Dashboard</a>
         </router-link>
-    </ul>
+    </ul> --}}
     <router-view></router-view>
 </div>
 
-{{-- following content needs to be rewritten in vue components --}}
-<div id="content">
-    @yield('content')
-</div>
-{{-- end --}}
-
-<script src="/js/app.js"></script>
 @include('_layouts.includes.footer')

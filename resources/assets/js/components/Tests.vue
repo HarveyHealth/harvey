@@ -1,0 +1,49 @@
+<template>
+    <div class="panel">
+        <h2 class="panel-heading">Laboratory Tests</h2>
+
+        <template v-if="recent_tests || pending_tests">
+            <div v-for="test in pending_tests" class="panel-block">
+                <test
+                    :test="test"
+                >
+                    <button class="button is-disabled">Pending</button>
+                </test>
+            </div>
+            
+            <div v-for="test in recent_tests" class="panel-block">
+                <test
+                    :test="test"
+                >
+                    <button class="button is-info">View Results</button>
+                </test>
+            </div>
+        </template>
+
+        <div v-else class="panel-block">
+            <p>There are no tests.</p>
+        </div>
+    </div>
+</template>
+
+<script>
+    import test from './Test.vue';
+
+    export default {
+        data() {
+            return {
+                pending_tests: [],
+                recent_tests: []
+            }
+        },
+        components: {
+            test
+        },
+        mounted() {
+            this.$http.get('/api/dashboard').then(response => {
+                this.pending_tests = response.data.pending_tests;
+                this.recent_tests = response.data.recent_tests;
+            });
+        }
+    }
+</script>

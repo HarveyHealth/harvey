@@ -581,7 +581,7 @@ table th {
   user-select: none;
 }
 
-.box {
+.box, .dropdown .dropdown-list {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -589,15 +589,15 @@ table th {
   padding: 1.25rem;
 }
 
-.box:not(:last-child) {
+.box:not(:last-child), .dropdown .dropdown-list:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
-a.box:hover, a.box:focus {
+a.box:hover, .dropdown a.dropdown-list:hover, a.box:focus, .dropdown a.dropdown-list:focus {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #00d1b2;
 }
 
-a.box:active {
+a.box:active, .dropdown a.dropdown-list:active {
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #00d1b2;
 }
 
@@ -9514,8 +9514,12 @@ label.panel-block:hover {
   background-color: transparent;
 }
 
-.card-footer-item {
-  padding: 1.5rem;
+.icon {
+  vertical-align: middle;
+}
+
+.has-border-top {
+  border-top: 1px solid #dbdbdb;
 }
 
 .icon.has-border-circle {
@@ -9528,11 +9532,16 @@ label.panel-block:hover {
   margin-top: -2px;
 }
 
+.card-footer-item {
+  padding: 1.5rem;
+}
+
 .dropdown {
   position: relative;
 }
 
 .dropdown .dropdown-list {
+  padding: 0;
   display: none;
   position: absolute;
   top: 3.5rem;
@@ -9566,8 +9575,21 @@ label.panel-block:hover {
   border-bottom-color: #fff;
 }
 
+.dropdown .dropdown-list a {
+  white-space: nowrap;
+}
+
 .dropdown:hover .dropdown-list {
   display: block;
+}
+
+.panel-block > .media {
+  -webkit-box-flex: 1;
+  flex: 1;
+}
+
+.box.is-circle, .dropdown .is-circle.dropdown-list {
+  border-radius: 50%;
 }
 
 .animated.notification.fadeOut {

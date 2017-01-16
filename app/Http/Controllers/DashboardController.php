@@ -48,6 +48,24 @@ class DashboardController extends Controller
         return view('dashboard.index', $data);
     }
 
+    public function getData()
+    {
+        $user = auth()->user();
+
+        if ($user->user_type == 'admin') {
+            $data = $this->adminDashboardData();
+        } else if ($user->user_type == 'patient') {
+            $data = $this->patientDashboardData();
+        } else if ($user->user_type == 'practitioner') {
+            $data = $this->practitionerDashboardData();
+        } else {
+            Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
+            abort(403);
+        }
+
+        return \Response::json($data);
+    }
+
     protected function adminDashboardData()
     {
         return [

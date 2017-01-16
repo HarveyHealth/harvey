@@ -16,13 +16,15 @@
     "laravel-elixir-vue-2": "^0.2.0",
     "laravel-elixir-webpack-official": "^1.0.2",
     "lodash": "^4.16.2",
-    "stylus-loader": "^2.4.0",
+    "node-sass": "^4.3.0",
+    "sass-loader": "^4.1.1",
     "vue": "^2.0.1",
-    "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
-    "bulma": "^0.3.0"
+    "axios": "^0.15.3",
+    "bulma": "^0.3.0",
+    "moment": "^2.17.1"
   }
 }

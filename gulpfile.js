@@ -27,7 +27,8 @@ elixir((mix) => {
                alias: {
                    'vue$': 'vue/dist/vue.js'
                }
-           }
+           },
+           devtool: '#source-map'
        })
        .browserSync({proxy: 'localhost:8000'});
 });

@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import './bootstrap';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -13,7 +13,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import router from './routes'
+import router from './routes';
+
+import filter_datetime from './filters/datetime';
+
+Vue.filter('datetime', filter_datetime);
 
 const app = new Vue({
     router,
