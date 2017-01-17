@@ -3,11 +3,11 @@
         <h2 class="panel-heading">Upcoming Appointments</h2>
         <template v-if="upcoming_appointments.length">
             <div v-for="appointment in upcoming_appointments" class="panel-block">
-                <appointment
+                <Appointment
                     :appointment="appointment"
                 >
                     <button class="button">Reschedule</button>
-                </appointment>
+                </Appointment>
             </div>
         </template>
         <div v-else class="panel-block">
@@ -17,11 +17,11 @@
         <h2 class="panel-heading">Recent Appointments</h2>
         <template v-if="recent_appointments.length">
             <div v-for="appointment in recent_appointments" class="panel-block">
-                <appointment
+                <Appointment
                     :appointment="appointment"
                 >
                     <button class="button">Read Notes</button>
-                </appointment>
+                </Appointment>
             </div>
         </template>
         <div v-else class="panel-block">
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import appointment from './Appointment.vue';
+    import Appointment from './Appointment.vue';
 
     export default {
         data() {
@@ -41,7 +41,7 @@
             }
         },
         components: {
-            appointment
+            Appointment
         },
         mounted() {
             this.$http.get('/api/dashboard').then(response => {

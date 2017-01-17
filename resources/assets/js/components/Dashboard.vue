@@ -18,18 +18,18 @@
         </nav>
         <div class="section columns">
             <div class="column is-8">
-                <appointments></appointments>
+                <Appointments></Appointments>
             </div>
             <div class="column is-4">
-                <tests></tests>
+                <Tests></Tests>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import appointments from './Appointments.vue';
-    import tests from './Tests.vue';
+    import Appointments from './Appointments.vue';
+    import Tests from './Tests.vue';
 
     export default {
         data() {
@@ -37,8 +37,8 @@
             }
         },
         components: {
-            appointments,
-            tests
+            Appointments,
+            Tests
         },
         mounted() {
             console.log('launch dashboard')

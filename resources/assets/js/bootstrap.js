@@ -5,12 +5,11 @@
  */
 
 import Vue from 'vue';
-import VueRouter from 'vue-router';
 import Axios from 'axios';
 
 window.Vue = Vue;
+window.axios = Axios;
 
-Vue.use(VueRouter);
 Vue.prototype.$http = Axios;
 
 /**

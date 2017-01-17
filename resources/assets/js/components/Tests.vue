@@ -4,19 +4,19 @@
 
         <template v-if="recent_tests || pending_tests">
             <div v-for="test in pending_tests" class="panel-block">
-                <test
+                <Test
                     :test="test"
                 >
                     <button class="button is-disabled">Pending</button>
-                </test>
+                </Test>
             </div>
             
             <div v-for="test in recent_tests" class="panel-block">
-                <test
+                <Test
                     :test="test"
                 >
                     <button class="button is-info">View Results</button>
-                </test>
+                </Test>
             </div>
         </template>
 
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-    import test from './Test.vue';
+    import Test from './Test.vue';
 
     export default {
         data() {
@@ -37,7 +37,7 @@
             }
         },
         components: {
-            test
+            Test
         },
         mounted() {
             this.$http.get('/api/dashboard').then(response => {

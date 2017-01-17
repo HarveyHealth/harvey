@@ -1,6 +1,6 @@
 @include('_layouts.includes.header')
 
-<div id="content" class="page-content">
+<div id="app" class="page-content">
     @yield('content')
 </div>
 

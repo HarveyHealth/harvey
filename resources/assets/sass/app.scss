@@ -20,16 +20,13 @@
     }
 }
 
-.icon {
-    vertical-align: middle;
-}
-
 // new global styles
 .has-border-top {
     border-top: 1px solid $border;
 }
 
 .icon {
+    vertical-align: middle; // rewrite bulma
     &.has-border-circle {
         border: 2px solid;
         border-radius: 50%;
@@ -37,6 +34,14 @@
             font-size: $size-6;
             margin-top: -2px;
         }
+    }
+    .control.has-icon:not(.has-icon-right)  &.align-right {
+        left: initial;
+        right: ($size-normal * 2.5) / 2;
+        transform: translateX(50%) translateY(-50%);
+    }
+    .control.has-icon &.is-danger {
+        color: $danger;
     }
 }
 
