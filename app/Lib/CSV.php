@@ -11,6 +11,7 @@ class CSV implements Iterator
     private $index = 0;
     private $filepath;
     private $ignore_first_line = false;
+    // something 
 
     public function __construct($filepath_data_array = [])
     {
