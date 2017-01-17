@@ -20,8 +20,6 @@ Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('sign
 Route::post('signup', 'Auth\RegisterController@register');
 Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@getVerify');
 Route::post('verify/{id}/{token}', 'Auth\EmailVerificationController@postVerify');
-Route::get('logout', 'LogoutController@index')->name('logout');
-
 
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');
