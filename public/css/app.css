@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-/*! bulma.io v0.3.0 | MIT License | github.com/jgthms/bulma */
+/*! bulma.io v0.3.1 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
     -webkit-transform: rotate(0deg);
@@ -581,7 +581,7 @@ table th {
   user-select: none;
 }
 
-.box, .dropdown .dropdown-list {
+.box {
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
@@ -589,15 +589,15 @@ table th {
   padding: 1.25rem;
 }
 
-.box:not(:last-child), .dropdown .dropdown-list:not(:last-child) {
+.box:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
-a.box:hover, .dropdown a.dropdown-list:hover, a.box:focus, .dropdown a.dropdown-list:focus {
+a.box:hover, a.box:focus {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px #00d1b2;
 }
 
-a.box:active, .dropdown a.dropdown-list:active {
+a.box:active {
   box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2), 0 0 0 1px #00d1b2;
 }
 
@@ -612,7 +612,7 @@ a.box:active, .dropdown a.dropdown-list:active {
   display: -webkit-inline-box;
   display: inline-flex;
   font-size: 1rem;
-  height: 2.5em;
+  height: 2.285em;
   -webkit-box-pack: start;
   justify-content: flex-start;
   line-height: 1.5;
@@ -1655,7 +1655,7 @@ a.box:active, .dropdown a.dropdown-list:active {
   display: -webkit-inline-box;
   display: inline-flex;
   font-size: 1rem;
-  height: 2.5em;
+  height: 2.285em;
   -webkit-box-pack: start;
   justify-content: flex-start;
   line-height: 1.5;
@@ -1897,7 +1897,7 @@ a.box:active, .dropdown a.dropdown-list:active {
   display: -webkit-inline-box;
   display: inline-flex;
   font-size: 1rem;
-  height: 2.5em;
+  height: 2.285em;
   -webkit-box-pack: start;
   justify-content: flex-start;
   line-height: 1.5;
@@ -3776,7 +3776,7 @@ a.box:active, .dropdown a.dropdown-list:active {
   }
 }
 
-.nav-item, .dropdown .dropdown-list a {
+.nav-item {
   -webkit-box-align: center;
   align-items: center;
   display: -webkit-box;
@@ -3790,56 +3790,52 @@ a.box:active, .dropdown a.dropdown-list:active {
   padding: 0.5rem 0.75rem;
 }
 
-.nav-item a, .dropdown .dropdown-list a a {
+.nav-item a {
   -webkit-box-flex: 1;
   flex-grow: 1;
   flex-shrink: 0;
 }
 
-.nav-item img, .dropdown .dropdown-list a img {
+.nav-item img {
   max-height: 1.75rem;
 }
 
-.nav-item .button + .button, .dropdown .dropdown-list a .button + .button {
+.nav-item .button + .button {
   margin-left: 0.75rem;
 }
 
-.nav-item .tag:first-child:not(:last-child), .dropdown .dropdown-list a .tag:first-child:not(:last-child) {
+.nav-item .tag:first-child:not(:last-child) {
   margin-right: 0.5rem;
 }
 
-.nav-item .tag:last-child:not(:first-child), .dropdown .dropdown-list a .tag:last-child:not(:first-child) {
+.nav-item .tag:last-child:not(:first-child) {
   margin-left: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {
-  .nav-item, .dropdown .dropdown-list a {
+  .nav-item {
     -webkit-box-pack: start;
     justify-content: flex-start;
   }
 }
 
-.nav-item a, .dropdown .dropdown-list a a,
-a.nav-item,
-.dropdown .dropdown-list a {
+.nav-item a,
+a.nav-item {
   color: #7a7a7a;
 }
 
-.nav-item a:hover, .dropdown .dropdown-list a a:hover,
-a.nav-item:hover,
-.dropdown .dropdown-list a:hover {
+.nav-item a:hover,
+a.nav-item:hover {
   color: #363636;
 }
 
-.nav-item a.is-active, .dropdown .dropdown-list a a.is-active,
-a.nav-item.is-active,
-.dropdown .dropdown-list a.is-active {
+.nav-item a.is-active,
+a.nav-item.is-active {
   color: #363636;
 }
 
-.nav-item a.is-tab, .dropdown .dropdown-list a a.is-tab,
-a.nav-item.is-tab,
-.dropdown .dropdown-list a.is-tab {
+.nav-item a.is-tab,
+a.nav-item.is-tab {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
   padding-bottom: calc(0.5rem - 1px);
@@ -3848,25 +3844,22 @@ a.nav-item.is-tab,
   padding-top: calc(0.5rem - 1px);
 }
 
-.nav-item a.is-tab:hover, .dropdown .dropdown-list a a.is-tab:hover,
-a.nav-item.is-tab:hover,
-.dropdown .dropdown-list a.is-tab:hover {
+.nav-item a.is-tab:hover,
+a.nav-item.is-tab:hover {
   border-bottom-color: #00d1b2;
   border-top-color: transparent;
 }
 
-.nav-item a.is-tab.is-active, .dropdown .dropdown-list a a.is-tab.is-active,
-a.nav-item.is-tab.is-active,
-.dropdown .dropdown-list a.is-tab.is-active {
+.nav-item a.is-tab.is-active,
+a.nav-item.is-tab.is-active {
   border-bottom: 3px solid #00d1b2;
   color: #00d1b2;
   padding-bottom: calc(0.5rem - 3px);
 }
 
 @media screen and (min-width: 1000px) {
-  .nav-item a.is-brand, .dropdown .dropdown-list a a.is-brand,
-  a.nav-item.is-brand,
-  .dropdown .dropdown-list a.is-brand {
+  .nav-item a.is-brand,
+  a.nav-item.is-brand {
     padding-left: 0;
   }
 }
@@ -3881,7 +3874,7 @@ a.nav-item.is-tab.is-active,
     top: 100%;
     position: absolute;
   }
-  .nav-menu .nav-item, .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .nav-menu a {
+  .nav-menu .nav-item {
     border-top: 1px solid rgba(219, 219, 219, 0.5);
     padding: 0.75rem;
   }
@@ -3992,7 +3985,7 @@ a.nav-item.is-tab.is-active,
   display: -webkit-inline-box;
   display: inline-flex;
   font-size: 1rem;
-  height: 2.5em;
+  height: 2.285em;
   -webkit-box-pack: start;
   justify-content: flex-start;
   line-height: 1.5;
@@ -5573,20 +5566,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-white a.nav-item, .hero.is-white .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-white a,
-.hero.is-white .nav-item a:not(.button),
-.hero.is-white .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-white a a:not(.button) {
+.hero.is-white a.nav-item,
+.hero.is-white .nav-item a:not(.button) {
   color: rgba(10, 10, 10, 0.7);
 }
 
-.hero.is-white a.nav-item:hover, .hero.is-white .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-white a:hover, .hero.is-white a.nav-item.is-active, .hero.is-white .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-white a.is-active,
+.hero.is-white a.nav-item:hover, .hero.is-white a.nav-item.is-active,
 .hero.is-white .nav-item a:not(.button):hover,
-.hero.is-white .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-white a a:not(.button):hover,
-.hero.is-white .nav-item a:not(.button).is-active,
-.hero.is-white .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-white a a:not(.button).is-active {
+.hero.is-white .nav-item a:not(.button).is-active {
   color: #0a0a0a;
 }
 
@@ -5632,7 +5619,7 @@ label.panel-block:hover {
   .hero.is-white .nav-toggle.is-active span {
     background-color: #0a0a0a;
   }
-  .hero.is-white .nav-menu .nav-item, .hero.is-white .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-white .nav-menu a {
+  .hero.is-white .nav-menu .nav-item {
     border-top-color: rgba(10, 10, 10, 0.2);
   }
 }
@@ -5670,20 +5657,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-black a.nav-item, .hero.is-black .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-black a,
-.hero.is-black .nav-item a:not(.button),
-.hero.is-black .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-black a a:not(.button) {
+.hero.is-black a.nav-item,
+.hero.is-black .nav-item a:not(.button) {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.hero.is-black a.nav-item:hover, .hero.is-black .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-black a:hover, .hero.is-black a.nav-item.is-active, .hero.is-black .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-black a.is-active,
+.hero.is-black a.nav-item:hover, .hero.is-black a.nav-item.is-active,
 .hero.is-black .nav-item a:not(.button):hover,
-.hero.is-black .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-black a a:not(.button):hover,
-.hero.is-black .nav-item a:not(.button).is-active,
-.hero.is-black .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-black a a:not(.button).is-active {
+.hero.is-black .nav-item a:not(.button).is-active {
   color: white;
 }
 
@@ -5729,7 +5710,7 @@ label.panel-block:hover {
   .hero.is-black .nav-toggle.is-active span {
     background-color: white;
   }
-  .hero.is-black .nav-menu .nav-item, .hero.is-black .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-black .nav-menu a {
+  .hero.is-black .nav-menu .nav-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -5767,20 +5748,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-light a.nav-item, .hero.is-light .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-light a,
-.hero.is-light .nav-item a:not(.button),
-.hero.is-light .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-light a a:not(.button) {
+.hero.is-light a.nav-item,
+.hero.is-light .nav-item a:not(.button) {
   color: rgba(54, 54, 54, 0.7);
 }
 
-.hero.is-light a.nav-item:hover, .hero.is-light .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-light a:hover, .hero.is-light a.nav-item.is-active, .hero.is-light .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-light a.is-active,
+.hero.is-light a.nav-item:hover, .hero.is-light a.nav-item.is-active,
 .hero.is-light .nav-item a:not(.button):hover,
-.hero.is-light .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-light a a:not(.button):hover,
-.hero.is-light .nav-item a:not(.button).is-active,
-.hero.is-light .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-light a a:not(.button).is-active {
+.hero.is-light .nav-item a:not(.button).is-active {
   color: #363636;
 }
 
@@ -5826,7 +5801,7 @@ label.panel-block:hover {
   .hero.is-light .nav-toggle.is-active span {
     background-color: #363636;
   }
-  .hero.is-light .nav-menu .nav-item, .hero.is-light .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-light .nav-menu a {
+  .hero.is-light .nav-menu .nav-item {
     border-top-color: rgba(54, 54, 54, 0.2);
   }
 }
@@ -5864,20 +5839,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-dark a.nav-item, .hero.is-dark .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-dark a,
-.hero.is-dark .nav-item a:not(.button),
-.hero.is-dark .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-dark a a:not(.button) {
+.hero.is-dark a.nav-item,
+.hero.is-dark .nav-item a:not(.button) {
   color: rgba(245, 245, 245, 0.7);
 }
 
-.hero.is-dark a.nav-item:hover, .hero.is-dark .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-dark a:hover, .hero.is-dark a.nav-item.is-active, .hero.is-dark .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-dark a.is-active,
+.hero.is-dark a.nav-item:hover, .hero.is-dark a.nav-item.is-active,
 .hero.is-dark .nav-item a:not(.button):hover,
-.hero.is-dark .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-dark a a:not(.button):hover,
-.hero.is-dark .nav-item a:not(.button).is-active,
-.hero.is-dark .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-dark a a:not(.button).is-active {
+.hero.is-dark .nav-item a:not(.button).is-active {
   color: whitesmoke;
 }
 
@@ -5923,7 +5892,7 @@ label.panel-block:hover {
   .hero.is-dark .nav-toggle.is-active span {
     background-color: whitesmoke;
   }
-  .hero.is-dark .nav-menu .nav-item, .hero.is-dark .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-dark .nav-menu a {
+  .hero.is-dark .nav-menu .nav-item {
     border-top-color: rgba(245, 245, 245, 0.2);
   }
 }
@@ -5961,20 +5930,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-primary a.nav-item, .hero.is-primary .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-primary a,
-.hero.is-primary .nav-item a:not(.button),
-.hero.is-primary .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-primary a a:not(.button) {
+.hero.is-primary a.nav-item,
+.hero.is-primary .nav-item a:not(.button) {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.hero.is-primary a.nav-item:hover, .hero.is-primary .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-primary a:hover, .hero.is-primary a.nav-item.is-active, .hero.is-primary .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-primary a.is-active,
+.hero.is-primary a.nav-item:hover, .hero.is-primary a.nav-item.is-active,
 .hero.is-primary .nav-item a:not(.button):hover,
-.hero.is-primary .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-primary a a:not(.button):hover,
-.hero.is-primary .nav-item a:not(.button).is-active,
-.hero.is-primary .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-primary a a:not(.button).is-active {
+.hero.is-primary .nav-item a:not(.button).is-active {
   color: #fff;
 }
 
@@ -6020,7 +5983,7 @@ label.panel-block:hover {
   .hero.is-primary .nav-toggle.is-active span {
     background-color: #fff;
   }
-  .hero.is-primary .nav-menu .nav-item, .hero.is-primary .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-primary .nav-menu a {
+  .hero.is-primary .nav-menu .nav-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6058,20 +6021,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-info a.nav-item, .hero.is-info .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-info a,
-.hero.is-info .nav-item a:not(.button),
-.hero.is-info .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-info a a:not(.button) {
+.hero.is-info a.nav-item,
+.hero.is-info .nav-item a:not(.button) {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.hero.is-info a.nav-item:hover, .hero.is-info .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-info a:hover, .hero.is-info a.nav-item.is-active, .hero.is-info .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-info a.is-active,
+.hero.is-info a.nav-item:hover, .hero.is-info a.nav-item.is-active,
 .hero.is-info .nav-item a:not(.button):hover,
-.hero.is-info .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-info a a:not(.button):hover,
-.hero.is-info .nav-item a:not(.button).is-active,
-.hero.is-info .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-info a a:not(.button).is-active {
+.hero.is-info .nav-item a:not(.button).is-active {
   color: #fff;
 }
 
@@ -6117,7 +6074,7 @@ label.panel-block:hover {
   .hero.is-info .nav-toggle.is-active span {
     background-color: #fff;
   }
-  .hero.is-info .nav-menu .nav-item, .hero.is-info .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-info .nav-menu a {
+  .hero.is-info .nav-menu .nav-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6155,20 +6112,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-success a.nav-item, .hero.is-success .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-success a,
-.hero.is-success .nav-item a:not(.button),
-.hero.is-success .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-success a a:not(.button) {
+.hero.is-success a.nav-item,
+.hero.is-success .nav-item a:not(.button) {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.hero.is-success a.nav-item:hover, .hero.is-success .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-success a:hover, .hero.is-success a.nav-item.is-active, .hero.is-success .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-success a.is-active,
+.hero.is-success a.nav-item:hover, .hero.is-success a.nav-item.is-active,
 .hero.is-success .nav-item a:not(.button):hover,
-.hero.is-success .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-success a a:not(.button):hover,
-.hero.is-success .nav-item a:not(.button).is-active,
-.hero.is-success .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-success a a:not(.button).is-active {
+.hero.is-success .nav-item a:not(.button).is-active {
   color: #fff;
 }
 
@@ -6214,7 +6165,7 @@ label.panel-block:hover {
   .hero.is-success .nav-toggle.is-active span {
     background-color: #fff;
   }
-  .hero.is-success .nav-menu .nav-item, .hero.is-success .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-success .nav-menu a {
+  .hero.is-success .nav-menu .nav-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -6252,20 +6203,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-warning a.nav-item, .hero.is-warning .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-warning a,
-.hero.is-warning .nav-item a:not(.button),
-.hero.is-warning .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-warning a a:not(.button) {
+.hero.is-warning a.nav-item,
+.hero.is-warning .nav-item a:not(.button) {
   color: rgba(0, 0, 0, 0.7);
 }
 
-.hero.is-warning a.nav-item:hover, .hero.is-warning .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-warning a:hover, .hero.is-warning a.nav-item.is-active, .hero.is-warning .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-warning a.is-active,
+.hero.is-warning a.nav-item:hover, .hero.is-warning a.nav-item.is-active,
 .hero.is-warning .nav-item a:not(.button):hover,
-.hero.is-warning .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-warning a a:not(.button):hover,
-.hero.is-warning .nav-item a:not(.button).is-active,
-.hero.is-warning .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-warning a a:not(.button).is-active {
+.hero.is-warning .nav-item a:not(.button).is-active {
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -6311,7 +6256,7 @@ label.panel-block:hover {
   .hero.is-warning .nav-toggle.is-active span {
     background-color: rgba(0, 0, 0, 0.7);
   }
-  .hero.is-warning .nav-menu .nav-item, .hero.is-warning .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-warning .nav-menu a {
+  .hero.is-warning .nav-menu .nav-item {
     border-top-color: rgba(0, 0, 0, 0.2);
   }
 }
@@ -6349,20 +6294,14 @@ label.panel-block:hover {
   }
 }
 
-.hero.is-danger a.nav-item, .hero.is-danger .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-danger a,
-.hero.is-danger .nav-item a:not(.button),
-.hero.is-danger .dropdown .dropdown-list a a:not(.button), .dropdown .dropdown-list
-.hero.is-danger a a:not(.button) {
+.hero.is-danger a.nav-item,
+.hero.is-danger .nav-item a:not(.button) {
   color: rgba(255, 255, 255, 0.7);
 }
 
-.hero.is-danger a.nav-item:hover, .hero.is-danger .dropdown .dropdown-list a:hover, .dropdown .dropdown-list .hero.is-danger a:hover, .hero.is-danger a.nav-item.is-active, .hero.is-danger .dropdown .dropdown-list a.is-active, .dropdown .dropdown-list .hero.is-danger a.is-active,
+.hero.is-danger a.nav-item:hover, .hero.is-danger a.nav-item.is-active,
 .hero.is-danger .nav-item a:not(.button):hover,
-.hero.is-danger .dropdown .dropdown-list a a:not(.button):hover, .dropdown .dropdown-list
-.hero.is-danger a a:not(.button):hover,
-.hero.is-danger .nav-item a:not(.button).is-active,
-.hero.is-danger .dropdown .dropdown-list a a:not(.button).is-active, .dropdown .dropdown-list
-.hero.is-danger a a:not(.button).is-active {
+.hero.is-danger .nav-item a:not(.button).is-active {
   color: #fff;
 }
 
@@ -6408,7 +6347,7 @@ label.panel-block:hover {
   .hero.is-danger .nav-toggle.is-active span {
     background-color: #fff;
   }
-  .hero.is-danger .nav-menu .nav-item, .hero.is-danger .nav-menu .dropdown .dropdown-list a, .dropdown .dropdown-list .hero.is-danger .nav-menu a {
+  .hero.is-danger .nav-menu .nav-item {
     border-top-color: rgba(255, 255, 255, 0.2);
   }
 }
@@ -9551,47 +9490,51 @@ label.panel-block:hover {
   position: relative;
 }
 
-.dropdown .dropdown-list {
-  padding: 0;
-  display: none;
-  position: absolute;
-  top: 3.5rem;
+.dropdown .dropdown-button {
+  cursor: pointer;
 }
 
-.dropdown .dropdown-list:before, .dropdown .dropdown-list:after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-}
-
-.dropdown .dropdown-list.dropdown-list_align-right {
-  right: 0.75rem;
-}
-
-.dropdown .dropdown-list.dropdown-list_align-right:before {
-  top: -10px;
-  right: 3px;
-  bottom: auto;
-  border: 10px solid transparent;
-  border-top: 0;
-  border-bottom-color: #dbdbdb;
-}
-
-.dropdown .dropdown-list.dropdown-list_align-right:after {
-  top: -9px;
-  right: 4px;
-  bottom: auto;
-  border: 9px solid transparent;
-  border-top: 0;
-  border-bottom-color: #fff;
-}
-
-.dropdown .dropdown-list a {
-  white-space: nowrap;
-}
-
-.dropdown:hover .dropdown-list {
+.dropdown .dropdown-button.nav-toggle {
   display: block;
+}
+
+@media screen and (min-width: 1000px) {
+  .dropdown .dropdown-list {
+    padding: 0;
+    display: none;
+    position: absolute;
+    top: 3.5rem;
+  }
+  .dropdown .dropdown-list:before, .dropdown .dropdown-list:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+  }
+  .dropdown .dropdown-list.dropdown-list_align-right {
+    right: 0.75rem;
+  }
+  .dropdown .dropdown-list.dropdown-list_align-right:before {
+    top: -10px;
+    right: 3px;
+    bottom: auto;
+    border: 10px solid transparent;
+    border-top: 0;
+    border-bottom-color: #dbdbdb;
+  }
+  .dropdown .dropdown-list.dropdown-list_align-right:after {
+    top: -9px;
+    right: 4px;
+    bottom: auto;
+    border: 9px solid transparent;
+    border-top: 0;
+    border-bottom-color: #fff;
+  }
+  .dropdown .dropdown-list a {
+    white-space: nowrap;
+  }
+  .dropdown:hover .dropdown-list {
+    display: block;
+  }
 }
 
 .panel-block > .media {
@@ -9599,8 +9542,12 @@ label.panel-block:hover {
   flex: 1;
 }
 
-.box.is-circle, .dropdown .is-circle.dropdown-list {
+.box.is-circle {
   border-radius: 50%;
+}
+
+.page-content .nav {
+  z-index: 1;
 }
 
 .animated.notification.fadeOut {

@@ -8,8 +8,6 @@
         form-url="{{ url('/login') }}"
         :old="{{ json_encode(Session::getOldInput()) }}"
     >
-        <slot name="csrf_field">
-            {{ csrf_field() }}
-        </slot>
+        {{ csrf_field() }}
     </login-view>
 @endsection

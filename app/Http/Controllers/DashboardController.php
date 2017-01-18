@@ -66,6 +66,11 @@ class DashboardController extends Controller
         return \Response::json($data);
     }
 
+    public function getUser()
+    {
+        return \Response::json(auth()->user());
+    }
+
     protected function adminDashboardData()
     {
         return [

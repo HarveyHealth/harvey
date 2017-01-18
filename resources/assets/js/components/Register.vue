@@ -13,7 +13,7 @@
                         @submit.prevent="onSubmit"
                         @keydown="form.errors.clear($event.target.name)"
                     >
-                        <slot name="csrf_field"></slot>
+                        <slot></slot>
 
                         <label class="label">First Name</label>
                         <p class="control has-icon">

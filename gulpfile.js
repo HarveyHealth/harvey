@@ -22,14 +22,7 @@ require('laravel-elixir-vue-2');
 
 elixir((mix) => {
     mix.sass('app.scss')
-       .webpack('app_public.js', null, null, {
-           resolve: {
-               alias: {
-                   'vue$': 'vue/dist/vue.js'
-               }
-           },
-           devtool: '#source-map'
-       })
+       .webpack('app_public.js')
        .webpack('app_logged_in.js', null, null, {
            resolve: {
                alias: {

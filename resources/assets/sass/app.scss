@@ -51,44 +51,52 @@
 
 .dropdown {
     position: relative;
-    .dropdown-list {
-        @extend .box;
-        padding: 0;
-        display: none;
-        position: absolute;
-        top: $size-1;
-        &:before,
-        &:after {
-            content: "";
-            display: inline-block;
-            position: absolute;
-        }
-        &.dropdown-list_align-right {
-            right: 0.75rem;
-            &:before {
-                top: -10px;
-                right: 3px;
-                bottom: auto;
-                border: 10px solid transparent;
-                border-top: 0;
-                border-bottom-color: $border;
-            }
-            &:after {
-                top: -9px;
-                right: 4px;
-                bottom: auto;
-                border: 9px solid transparent;
-                border-top: 0;
-                border-bottom-color: #fff;
-            }
-        }
-        a {
-            @extend .nav-item;
-            white-space: nowrap;
+    .dropdown-button {
+        cursor: pointer;
+        &.nav-toggle {
+            display: block;
         }
     }
-    &:hover .dropdown-list {
-        display: block;
+    @include from($desktop) {
+        .dropdown-list {
+            // @extend .box;
+            padding: 0;
+            display: none;
+            position: absolute;
+            top: $size-1;
+            &:before,
+            &:after {
+                content: "";
+                display: inline-block;
+                position: absolute;
+            }
+            &.dropdown-list_align-right {
+                right: 0.75rem;
+                &:before {
+                    top: -10px;
+                    right: 3px;
+                    bottom: auto;
+                    border: 10px solid transparent;
+                    border-top: 0;
+                    border-bottom-color: $border;
+                }
+                &:after {
+                    top: -9px;
+                    right: 4px;
+                    bottom: auto;
+                    border: 9px solid transparent;
+                    border-top: 0;
+                    border-bottom-color: #fff;
+                }
+            }
+            a {
+                // @extend .nav-item;
+                white-space: nowrap;
+            }
+        }
+        &:hover .dropdown-list {
+            display: block;
+        }
     }
 }
 
@@ -101,6 +109,12 @@
 .box {
     &.is-circle {
         border-radius: 50%;
+    }
+}
+
+.page-content {
+    .nav {
+        z-index: 1;
     }
 }
 

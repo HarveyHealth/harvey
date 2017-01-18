@@ -8,8 +8,6 @@
         form-url="{{ url('/register') }}"
         :old="{{ json_encode(Session::getOldInput()) }}"
     >
-        <slot name="csrf_field">
-            {{ csrf_field() }}
-        </slot>
+        {{ csrf_field() }}
     </register-view>
 @endsection
