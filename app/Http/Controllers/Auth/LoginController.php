@@ -48,7 +48,7 @@ class LoginController extends Controller
     {
         if ($request->ajax()) {
             return response()->json([
-                'error' => trans('auth.failed')
+                'email' => [trans('auth.failed')]
                 ], 401);
         }
 
