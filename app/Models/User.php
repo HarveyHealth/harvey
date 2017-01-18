@@ -38,6 +38,16 @@ class User extends Authenticatable implements Mailable
         });
     }
 
+    public function patientNotes()
+    {
+        return $this->hasMany(\App\Models\PatientNote::class, 'patient_user_id', 'id');
+    }
+
+    public function practitionerNotes()
+    {
+        return $this->hasMany(\App\Models\PatientNote::class, 'practitioner_user_id', 'id');
+    }
+
     /*
      * Returns the concatenated full name
      */

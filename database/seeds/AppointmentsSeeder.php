@@ -15,8 +15,19 @@ class AppointmentsSeeder extends Seeder
         $patient = User::where('user_type', 'patient')->first();
         $practitioner = User::where('user_type', 'practitioner')->first();
 
-        // create some records with specific users
-        factory(App\Models\Appointment::class, 10)->create([
+        // Create 5 past appointments for our test patient and practitioner
+        factory(App\Models\Appointment::class, 5)->states('past')->create([
+            'patient_user_id' => $patient->id,
+            'practitioner_user_id' => $practitioner->id
+        ])->each(function ($appointment) use ($patient, $practitioner) {
+            $appointment->notes()->save(factory(App\Models\PatientNote::class)->make([
+                'patient_user_id' => $patient->id,
+                'practitioner_user_id' => $practitioner->id
+            ]));
+        });
+
+        // Create 2 upcoming appointments for our test patient and practitioner
+        factory(App\Models\Appointment::class, 2)->create([
             'patient_user_id' => $patient->id,
             'practitioner_user_id' => $practitioner->id
         ]);
