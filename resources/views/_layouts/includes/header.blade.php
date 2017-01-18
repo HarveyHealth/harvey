@@ -22,4 +22,4 @@
 </head>
 <body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
 
-    {{-- @include('_layouts.includes.top_nav') --}}
+    @include('_layouts.includes.messages')

@@ -9555,23 +9555,23 @@ label.panel-block:hover {
   animation-delay: 3s;
 }
 
-body.login.hero, body.signup.hero, body.password-reset.hero {
+body.login.hero, body.signup.hero, body[class^="password-reset"].hero {
   -webkit-box-pack: start;
   justify-content: flex-start;
 }
 
 @media screen and (min-width: 400px) {
-  body.login .page-content .container, body.signup .page-content .container, body.password-reset .page-content .container {
+  body.login .page-content .container, body.signup .page-content .container, body[class^="password-reset"] .page-content .container {
     margin: 0 auto;
     width: 340px;
   }
 }
 
-body.login .section, body.signup .section, body.password-reset .section {
+body.login .section, body.signup .section, body[class^="password-reset"] .section {
   background-color: transparent;
 }
 
-body.login a.button:not(.is-primary), body.signup a.button:not(.is-primary), body.password-reset a.button:not(.is-primary) {
+body.login a.button:not(.is-primary), body.signup a.button:not(.is-primary), body[class^="password-reset"] a.button:not(.is-primary) {
   color: #363636;
 }
 

@@ -7,9 +7,9 @@
             <a href="/" class="nav-item">New Appointment</a>
             <router-link tag="a" to="/profile" class="nav-item">Edit Profile</router-link>
         </template>
-        <div slot="content" class="page-content">
+        <template slot="content">
             <router-view></router-view>
-        </div>
+        </template>
     </app>
 </div>
 

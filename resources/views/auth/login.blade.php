@@ -1,4 +1,4 @@
-@extends('_layouts.public', ['view' => 'login-view'])
+@extends('_layouts.public')
 
 @section('page_title','Log in')
 @section('body_class', ' hero is-fullheight is-primary is-bold')

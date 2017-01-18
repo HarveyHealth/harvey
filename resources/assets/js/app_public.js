@@ -10,11 +10,5 @@ const app = new Vue({
         LoginView,
         RegisterView,
         App
-    },
-    methods: {
-        
-    },
-    mounted() {
-        console.log('Public ready.')
     }
 }).$mount('#app');

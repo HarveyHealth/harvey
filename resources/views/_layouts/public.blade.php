@@ -2,7 +2,9 @@
 
 <div id="app">
     <app :guest={{Auth::guest()}}>
-        <div slot="content" class="page-content">@yield('content')</div>
+        <template slot="content">
+            @yield('content')
+        </template>
     </app>
 </div>
 
