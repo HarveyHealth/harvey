@@ -7,6 +7,11 @@ let routes = [
         component: require('./components/Dashboard.vue')
     },
     {
+        path: '/new-appointment',
+        name: 'new-appointment',
+        component: require('./components/NewAppointment.vue')
+    },
+    {
         path: '*',
         redirect:  '/'
     }

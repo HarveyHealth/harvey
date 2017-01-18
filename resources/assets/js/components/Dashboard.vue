@@ -3,10 +3,10 @@
         <nav class="nav">
             <div class="nav-right">
                 <span class="nav-item">
-                    <a href="" class="button is-primary">
+                    <router-link tag="a" to="/new-appointment" class="button is-primary">
                         <span class="icon"><i class="fa fa-user-plus"></i></span>
                         <span>New Appointment</span>
-                    </a>
+                    </router-link>
                 </span>
                 <span class="nav-item">
                     <a href="" class="button">
@@ -39,13 +39,6 @@
         components: {
             Appointments,
             Tests
-        },
-        mounted() {
-            this.$http.get('/api/user')
-                .then( response => {
-                    this.user = response.data;
-                } )
-                .catch( error => this.user = {} )
         }
     }
 </script>
