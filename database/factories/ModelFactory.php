@@ -78,3 +78,12 @@ $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
         'sku_id' => factory(App\Models\SKU::class)->create()->id
     ];
 });
+
+$factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker) {
+    return [
+        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
+        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
+        'note' => $faker->paragraph
+    ];
+});

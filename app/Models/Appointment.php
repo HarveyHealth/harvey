@@ -9,6 +9,11 @@ class Appointment extends Model
 {
     use HasPatientAndPractitioner;
 
+    public function notes()
+    {
+        return $this->hasMany(PatientNote::class);
+    }
+
     /*
      * SCOPES
      */
