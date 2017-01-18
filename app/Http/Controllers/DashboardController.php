@@ -45,26 +45,11 @@ class DashboardController extends Controller
             abort(403);
         }
 
-        if(request()->ajax()) {
+        if (request()->ajax()) {
             return response()->json($data);
         }
 
         return view('dashboard.index', $data);
-    }
-
-    public function adminAppointmentData()
-    {
-
-    }
-
-    public function patientAppointmentData()
-    {
-
-    }
-
-    public function practitionerAppointmentData()
-    {
-
     }
 
     public function getUser()
