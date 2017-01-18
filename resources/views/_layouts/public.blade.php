@@ -1,10 +1,8 @@
 @include('_layouts.includes.header')
 
 <div id="app">
-    <app :guest={{Auth::guest()}}>
-        <template slot="content">
-            @yield('content')
-        </template>
+    <app :guest="guest" :user="user">
+        @yield('content')
     </app>
 </div>
 

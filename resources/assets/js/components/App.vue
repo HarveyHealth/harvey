@@ -1,10 +1,8 @@
 <template>
     <div>
-        <top-nav :guest="guest" :user="user">
-            <slot name="nav"></slot>
-        </top-nav>
+        <top-nav :guest="guest" :user="user"></top-nav>
         <div class="page-content">
-            <slot name="content"></slot>
+            <slot></slot>
         </div>
     </div>
 </template>
@@ -15,12 +13,8 @@
     
     export default {
         props: {
-            guest: true
-        },
-        data() {
-            return {
-                user: {}
-            }
+            guest: true,
+            user: {}
         },
         components: {
             TopNav
