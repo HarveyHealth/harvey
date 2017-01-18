@@ -2,7 +2,7 @@
 
 @section('page_title','Reset Password')
 @section('body_class', ' hero is-fullheight is-primary is-bold')
-    
+
 @section('content')
 <section class="section">
     <div class="container">
@@ -25,7 +25,7 @@
                             <span class="help is-danger">{{ $errors->first('email') }}</span>
                         @endif
                     </p>
-                    
+
                     <label class="label">Password</label>
                     <p class="control has-icon{{ $errors->has('password') ? ' has-icon has-icon-right' : '' }}">
                         <input class="input{{ $errors->has('password') ? ' is-danger' : '' }}" type="password" placeholder="Password" name="password" required{{ $errors->has('password') ? ' autofocus' : '' }}>
@@ -50,18 +50,4 @@
         </div>
     </div>
 </section>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
