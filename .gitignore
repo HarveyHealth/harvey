@@ -6,7 +6,6 @@
 /vendor
 /.idea
 Homestead.json
-Homestead.yaml
 Vagrantfile
 .env
 .env.testing
