@@ -45,30 +45,39 @@ class DashboardController extends Controller
             abort(403);
         }
 
+        if(request()->ajax()) {
+            return response()->json($data);
+        }
+
         return view('dashboard.index', $data);
     }
 
-    public function getData()
+    public function adminAppointmentData()
     {
-        $user = auth()->user();
 
-        if ($user->user_type == 'admin') {
-            $data = $this->adminDashboardData();
-        } elseif ($user->user_type == 'patient') {
-            $data = $this->patientDashboardData($user);
-        } elseif ($user->user_type == 'practitioner') {
-            $data = $this->practitionerDashboardData($user);
-        } else {
-            Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
-            abort(403);
-        }
-        
-        return \Response::json($data);
+    }
+
+    public function patientAppointmentData()
+    {
+
+    }
+
+    public function practitionerAppointmentData()
+    {
+
     }
 
     public function getUser()
     {
-        return \Response::json(auth()->user());
+        $user = auth()->user();
+        $userJson = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'user_type' => $user->user_type,
+            'email' => $user->email,
+            'phone' => $user->phone
+        ];
+        return response()->json($userJson);
     }
 
     protected function adminDashboardData()

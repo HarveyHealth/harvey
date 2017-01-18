@@ -29,7 +29,7 @@ Route::post('contact', 'PagesController@postContact');
 Route::get('test', 'PagesController@getTest');
 
 Route::get('dashboard', 'DashboardController@index');
-Route::get('api/dashboard', 'DashboardController@getData');
+Route::get('api/dashboard', 'DashboardController@index');
 Route::get('api/user', 'DashboardController@getUser');
 
 // USERS
