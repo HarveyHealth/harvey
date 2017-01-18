@@ -41,7 +41,11 @@
             Tests
         },
         mounted() {
-            console.log('launch dashboard')
+            this.$http.get('/api/user')
+                .then( response => {
+                    this.user = response.data;
+                } )
+                .catch( error => this.user = {} )
         }
     }
 </script>
