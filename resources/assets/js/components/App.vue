@@ -3,7 +3,9 @@
         <top-nav :guest="guest" :user="user">
             <slot name="nav"></slot>
         </top-nav>
-        <slot name="content"></slot>
+        <div class="page-content">
+            <slot name="content"></slot>
+        </div>
     </div>
 </template>
 

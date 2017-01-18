@@ -131,7 +131,7 @@
 body {
     &.login,
     &.signup,
-    &.password-reset {
+    &[class^="password-reset"] {
         &.hero {
             justify-content: flex-start;
         }
