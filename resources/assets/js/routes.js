@@ -2,13 +2,13 @@ import VueRouter from 'vue-router';
 
 let routes = [
     {
-        path: '/dashboard',
+        path: '/',
         name: 'dashboard',
         component: require('./components/Dashboard.vue')
     },
     {
         path: '*',
-        redirect:  '/dashboard'
+        redirect:  '/'
     }
 ];
 

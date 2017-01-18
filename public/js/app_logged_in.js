@@ -17715,13 +17715,13 @@ __WEBPACK_IMPORTED_MODULE_1_axios___default.a.interceptors.request.use(function(
 
 var routes = [
     {
-        path: '/dashboard',
+        path: '/',
         name: 'dashboard',
         component: __webpack_require__(152)
     },
     {
         path: '*',
-        redirect:  '/dashboard'
+        redirect:  '/'
     }
 ];
 
