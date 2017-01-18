@@ -37,4 +37,25 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json([
+                'error' => trans('auth.failed')
+                ], 401);
+        }
+
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'))
+            ->withErrors([
+                $this->username() => trans('auth.failed')
+            ]);
+    }
 }
