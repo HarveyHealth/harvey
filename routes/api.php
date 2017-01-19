@@ -14,5 +14,5 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'alpha'], function () {
-    Route::resource('/users', 'API\alpha\UsersController');
+    Route::resource('users', 'API\alpha\UsersController');
 });

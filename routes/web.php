@@ -38,6 +38,9 @@ Route::post('account/{id?}', 'UsersController@postAccount');
 Route::get('users/list', 'UsersController@getList');
 Route::get('users/{id}', 'UsersController@getProfile');
 
+// APPOINTMENTS
+Route::post('api/appointments', 'AppointmentsController@store');
+
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');
 Route::post('invite', 'InviteController@postInvite');
