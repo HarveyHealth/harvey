@@ -6,7 +6,6 @@
 /vendor
 /.idea
 Homestead.json
-Vagrantfile
 .env
 .env.testing
 .DS_Store
