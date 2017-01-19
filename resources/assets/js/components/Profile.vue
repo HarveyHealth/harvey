@@ -1,86 +1,221 @@
 <template>
-    <section class="section">
-        <div class="container">
-            <header class="content has-text-centered">
-                <h2 class="title is-3">Profile Page</h2>
-            </header>
-            <div class="card">
-                <div class="card-content">
-                    <!-- <form
-                        role="form"
-                        method="POST"
-                        :action="formUrl"
-                        @submit.prevent="onSubmit"
-                        @keydown="form.errors.clear($event.target.name)"
-                    >
-                        <slot></slot>
-
-                        <label class="label">Email</label>
-                        <p class="control has-icon">
-                            <input
-                                v-model="form.email"
-                                :class="['input', form.errors.has('email') ? 'is-danger' : '']"
-                                type="email"
-                                placeholder="Email"
-                                name="email"
-                                :value="old.email"
-                                required
-                                :autofocus="!form.errors.length|| form.errors.has('email')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-envelope"></i></span>
-                            <template v-if="form.errors.has('email')">
-                                <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                                <span class="help is-danger" v-text="form.errors.get('email')"></span>
-                            </template>
-                        </p>
-
-                        <label class="label">Password</label>
-                        <p class="control has-icon">
-                            <input
-                                v-model="form.password"
-                                :class="['input', form.errors.has('password') ? 'is-danger' : '']"
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                :value="old.password"
-                                required
-                                :autofocus="form.errors.has('password')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-lock"></i></span>
-                            <template v-if="form.errors.has('password')">
-                                <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                                <span class="help is-danger" v-text="form.errors.get('password')"></span>
-                            </template>
-                        </p>
-
-                        <p class="control">
-                            <label class="checkbox">
-                                <input
-                                    v-model="form.remember"
-                                    type="checkbox"
-                                    name="remember"
-                                >
-                                Remember me
-                            </label>
-                        </p>
-                        
-                        <p class="control is-clearfix">
-                            <button
-                                type="submit"
-                                class="button is-primary is-pulled-right"
-                                :disabled="form.errors.any()"
-                            >Log In</button>
-                            <a class="button is-link" href="/password/reset">
-                                Forgot Your Password?
-                            </a>
-                        </p>
-                    </form> -->
-                </div>
-                <footer class="card-footer">
-                </footer>
+    <div class="container">
+        <div class="hero has-text-centered">
+            <div class="hero-body">
+                <h1 class="title">Your doctor will need additional info</h1>
             </div>
         </div>
-    </section>
+        <form
+            role="form"
+            method="POST"
+            action=""
+            @submit.prevent="onSubmit"
+            @keydown="form.errors.clear($event.target.name)"
+        >
+            <div class="section">
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">First Name</label>
+                    </div>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.first_name"
+                            :class="['input', form.errors.has('first_name') ? 'is-danger' : '']"
+                            type="text"
+                            placeholder="First Name"
+                            name="first_name"
+                            :value.literal="user.first_name"
+                            required
+                            :autofocus="!form.errors.length|| form.errors.has('first_name')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-user-o"></i></span>
+                        <template v-if="form.errors.has('first_name')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('first_name')"></span>
+                        </template>
+                    </p>
+                </div>
+
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Last Name</label>
+                    </div>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.last_name"
+                            :class="['input', form.errors.has('last_name') ? 'is-danger' : '']"
+                            type="text"
+                            placeholder="Last Name"
+                            name="last_name"
+                            required
+                            :autofocus="form.errors.has('last_name')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-user-o"></i></span>
+                        <template v-if="form.errors.has('last_name')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('last_name')"></span>
+                        </template>
+                    </p>
+                </div>
+                
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Email</label>
+                    </div>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.email"
+                            :class="['input', form.errors.has('email') ? 'is-danger' : '']"
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            required
+                            :autofocus="form.errors.has('email')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-envelope"></i></span>
+                        <template v-if="form.errors.has('email')">
+                            <span class="icon is-small align-right is-danger align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('email')"></span>
+                        </template>
+                    </p>
+                </div>
+                
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Phone</label>
+                    </div>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.phone"
+                            :class="['input', form.errors.has('phone') ? 'is-danger' : '']"
+                            type="tel"
+                            placeholder="Phone"
+                            name="phone"
+                            :autofocus="form.errors.has('phone')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-phone"></i></span>
+                        <template v-if="form.errors.has('phone')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('phone')"></span>
+                        </template>
+                    </p>
+                </div>
+
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Gender</label>
+                    </div>
+                    <div class="control is-grouped">
+                        <p class="control has-icon is-expanded">
+                            <label class="radio">
+                            <input
+                                v-model="form.gender"
+                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                type="radio"
+                                name="gender"
+                                value="male"
+                                :autofocus="form.errors.has('gender')"
+                            >
+                            <span class="icon is-small"><i class="fa fa-male"></i></span>
+                            </label>
+                        </p>
+                        <p class="control has-icon is-expanded">
+                        <label class="radio">
+                            <input
+                                v-model="form.gender"
+                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                type="radio"
+                                name="gender"
+                                value="female"
+                                :autofocus="form.errors.has('gender')"
+                            >
+                            <span class="icon is-small"><i class="fa fa-female"></i></span></label>
+                        </p>
+                        <template v-if="form.errors.has('gender')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('gender')"></span>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Birthday</label>
+                    </div>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.birthday"
+                            :class="['input', form.errors.has('birthday') ? 'is-danger' : '']"
+                            type="date"
+                            placeholder="mm/dd/yyyy"
+                            name="birthday"
+                            :autofocus="form.errors.has('birthday')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-calendar"></i></span>
+                        <template v-if="form.errors.has('birthday')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('birthday')"></span>
+                        </template>
+                    </p>
+                </div>
+
+                <div class="control is-horizontal">
+                    <div class="control-label">
+                        <label class="label">Height &amp; Weight</label>
+                    </div>
+                    <div class="control is-grouped">
+                        <p class="control is-expanded has-addons">
+                            <input
+                                v-model="form.height"
+                                :class="['input', form.errors.has('height') ? 'is-danger' : '']"
+                                type="text"
+                                name="height"
+                                :autofocus="form.errors.has('height')"
+                            >
+                            <span class="button">feet</span>
+                        </p>
+                        <p class="control is-expanded has-addons">
+                            <input
+                                v-model="form.height"
+                                :class="['input', form.errors.has('height') ? 'is-danger' : '']"
+                                type="text"
+                                name="height"
+                                :autofocus="form.errors.has('height')"
+                            >
+                            <span class="button">inch</span>
+                        </p>
+                        <p class="control is-expanded has-addons">
+                            <input
+                                v-model="form.weight"
+                                :class="['input', form.errors.has('weight') ? 'is-danger' : '']"
+                                type="text"
+                                name="weight"
+                                :autofocus="form.errors.has('weight')"
+                            >
+                            <span class="button">lbs</span>
+                            <template v-if="form.errors.has('weight')">
+                                <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                                <span class="help is-danger" v-text="form.errors.get('weight')"></span>
+                            </template>
+                        </p>
+                        <template v-if="form.errors.has('height') || form.errors.has('weight')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('height')"></span>
+                            <span class="help is-danger" v-text="form.errors.get('weight')"></span>
+                        </template>
+                    </div>
+                </div>
+            </div>
+                
+            <p class="control is-clearfix hero-buttons">
+                <button
+                    type="submit"
+                    class="button is-medium is-primary"
+                    :disabled="form.errors.any()"
+                >Save Profile</button>
+            </p>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -88,6 +223,36 @@
 
     export default {
         name: 'profile',
-        props: ['user']
+        props: ['user'],
+        data() {
+            return {
+                form: new Form({
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    phone: '',
+                    gender: '',
+                    birthday: '',
+                    height: '',
+                    weight: ''
+                })
+            }
+        },
+        watch: {
+            user() {
+                Object.assign(this.form, this.user);
+            }
+        }
     }
 </script>
+
+<style lang="sass" scoped>
+    .section > .control {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .control.has-addons .input {
+        width: 100%;
+    }
+</style>

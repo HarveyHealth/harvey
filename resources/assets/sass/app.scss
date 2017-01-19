@@ -20,6 +20,13 @@
     }
 }
 
+.hero-buttons {
+    margin-top: 3rem;
+    @include from($tablet) {
+        justify-content: flex-end;
+    }
+}
+
 // new global styles
 @mixin has-border($border_direction) {
     border-#{$border_direction}: 1px solid $border;
@@ -123,6 +130,13 @@
 .page-content {
     .nav {
         z-index: 1;
+    }
+}
+
+.dashboard {
+    .hero,
+    .nav {
+        background-color: transparent;
     }
 }
 

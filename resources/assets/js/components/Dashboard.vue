@@ -16,12 +16,15 @@
                 </span>
             </div>
         </nav>
-        <div class="section columns">
-            <div class="column is-8">
-                <Appointments></Appointments>
-            </div>
-            <div class="column is-4">
-                <Tests></Tests>
+        <div class="section">
+            <h1 class="title">Dashboard</h1>
+            <div class="columns">
+                <div class="column is-8">
+                    <Appointments></Appointments>
+                </div>
+                <div class="column is-4">
+                    <Tests></Tests>
+                </div>
             </div>
         </div>
     </div>
@@ -32,6 +35,7 @@
     import Tests from './Tests.vue';
 
     export default {
+        name: 'dashboard',
         data() {
             return {
             }

@@ -1,5 +1,5 @@
 <template>
-    <section class="section">
+    <div class="section">
         <h2 class="title">Pick a time</h2>
         <ul class="columns">
             <li v-for="time in times" class="column" @click="onTimeChange(time)">
@@ -11,7 +11,7 @@
                 </a>
             </li>
         </ul>
-    </section>
+    </div>
 </template>
 
 <script>
@@ -67,8 +67,8 @@
 <style lang="sass" scoped>
     .datetime-selector {
         color: inherit;
-        padding-left: 0.3rem;
-        padding-right: 0.3rem;
+        font-size: 0.9rem;
+        font-weight: 400;
         &[disabled] {
             opacity: 0.5;
             cursor: default;
