@@ -2,11 +2,11 @@
     <section class="section">
         <div class="container">
             <header class="content has-text-centered">
-                <h2 class="title is-3">Log in</h2>
+                <h2 class="title is-3">Profile Page</h2>
             </header>
             <div class="card">
                 <div class="card-content">
-                    <form
+                    <!-- <form
                         role="form"
                         method="POST"
                         :action="formUrl"
@@ -74,13 +74,9 @@
                                 Forgot Your Password?
                             </a>
                         </p>
-                    </form>
+                    </form> -->
                 </div>
                 <footer class="card-footer">
-                    <div class="card-footer-item level">
-                        <p>Don't have an account?</p>
-                        <a href="/signup" class="level-right button">Sign Up</a>
-                    </div>
                 </footer>
             </div>
         </div>
@@ -91,27 +87,7 @@
     import Form from '../helpers.js';
 
     export default {
-        name: 'login',
-        props: {
-            formUrl: '',
-            old: {}
-        },
-        data() {
-            return {
-                form: new Form({
-                    email: '',
-                    password: '',
-                    remember: false,
-                })
-            }
-        },
-        methods: {
-            onSubmit() {
-                this.form.submit('post', this.formUrl, this.onSuccess);
-            },
-            onSuccess() {
-                location.href = '/dashboard';
-            }
-        }
+        name: 'profile',
+        props: ['user']
     }
 </script>

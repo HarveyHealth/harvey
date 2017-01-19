@@ -9,12 +9,15 @@
 
 <script>
     // components
-    import TopNav from './top_nav.vue';
+    import TopNav from './TopNav.vue';
     
     export default {
         props: {
-            guest: true,
-            user: {}
+            guest: { default: true },
+            user: {
+                type: Object,
+                default: () => {}
+            }
         },
         components: {
             TopNav

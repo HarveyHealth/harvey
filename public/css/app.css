@@ -9457,6 +9457,10 @@ label.panel-block:hover {
   border-top: 1px solid #dbdbdb;
 }
 
+.has-border-bottom {
+  border-bottom: 1px solid #dbdbdb;
+}
+
 .icon {
   vertical-align: middle;
 }

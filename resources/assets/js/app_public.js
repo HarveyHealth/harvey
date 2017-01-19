@@ -7,7 +7,8 @@ import App from './components/App.vue';
 
 const app = new Vue({
     data: {
-        guest: true
+        guest: true,
+        user: {}
     },
     components: {
         LoginView,

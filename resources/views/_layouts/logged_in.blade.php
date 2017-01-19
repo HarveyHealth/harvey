@@ -2,7 +2,7 @@
 
 <div id="app">
     <app :guest="guest" :user="user">
-        <router-view></router-view>
+        <router-view :user="user"></router-view>
     </app>
 </div>
 

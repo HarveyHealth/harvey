@@ -21,8 +21,16 @@
 }
 
 // new global styles
+@mixin has-border($border_direction) {
+    border-#{$border_direction}: 1px solid $border;
+}
+
 .has-border-top {
-    border-top: 1px solid $border;
+    @include has-border(top);
+}
+
+.has-border-bottom {
+    @include has-border(bottom);
 }
 
 .icon {
