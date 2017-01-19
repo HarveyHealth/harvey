@@ -8,7 +8,7 @@
         <form
             role="form"
             method="POST"
-            action=""
+            action="/api/appointments"
             @submit.prevent="onSubmit"
             @keydown="form.errors.clear($event.target.name)"
         >
@@ -117,8 +117,8 @@
                 }
             },
             onSubmit() {
-                // this.form.submit('post', '', this.onSuccess);
-                this.onSuccess();
+                this.form.submit('post', 'api/appointments', this.onSuccess);
+                //this.onSuccess();
             },
             onSuccess() {
                 // if no detailed profile, redirect to profile
