@@ -103,31 +103,34 @@
                     <div class="control-label">
                         <label class="label">Gender</label>
                     </div>
-                    <div class="control is-grouped">
+                    <div class="control is-grouped is-gapless">
                         <p class="control has-icon is-expanded">
-                            <label class="radio">
-                            <input
-                                v-model="form.gender"
-                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
-                                type="radio"
-                                name="gender"
-                                value="male"
-                                :autofocus="form.errors.has('gender')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-male"></i></span>
+                            <label :class="['button', 'label-button', {'is-primary': form.gender == 'male'}]">
+                                <input
+                                    v-model="form.gender"
+                                    :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                    type="radio"
+                                    name="gender"
+                                    value="male"
+                                    :autofocus="form.errors.has('gender')"
+                                >
+                                <span class="icon"><i class="fa fa-male"></i></span>
+                                <span>Male</span>
                             </label>
                         </p>
                         <p class="control has-icon is-expanded">
-                        <label class="radio">
-                            <input
-                                v-model="form.gender"
-                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
-                                type="radio"
-                                name="gender"
-                                value="female"
-                                :autofocus="form.errors.has('gender')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-female"></i></span></label>
+                            <label :class="['button', 'label-button', {'is-primary': form.gender == 'female'}]">
+                                <input
+                                    v-model="form.gender"
+                                    :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                    type="radio"
+                                    name="gender"
+                                    value="female"
+                                    :autofocus="form.errors.has('gender')"
+                                >
+                                <span class="icon"><i class="fa fa-female"></i></span>
+                                <span>Female</span>
+                            </label>
                         </p>
                         <template v-if="form.errors.has('gender')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
@@ -262,7 +265,18 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .control.has-addons .input {
+    .control.has-addons {
+        .input {
+            width: 100%;
+        }
+        .button {
+            cursor: default;
+        }
+    }
+    .label-button {
         width: 100%;
+        input[type="radio"] {
+            display: none;
+        }
     }
 </style>

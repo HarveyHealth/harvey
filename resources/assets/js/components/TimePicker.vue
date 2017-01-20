@@ -1,6 +1,6 @@
 <template>
     <div class="section">
-        <h2 class="title">Pick a time</h2>
+        <h2 class="title is-4">Pick a time</h2>
         <ul class="columns">
             <li v-for="time in times" class="column" @click="onTimeChange(time)">
                 <a

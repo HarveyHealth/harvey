@@ -70,6 +70,7 @@ export default class Form {
     }
 
     onFail(error) {
+        console.log(error)
         this.errors.record(error.response.data);
     }
 }

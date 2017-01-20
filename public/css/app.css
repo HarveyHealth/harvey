@@ -108,7 +108,7 @@ th {
 
 html {
   background-color: #f5f8fa;
-  font-size: 1rem;
+  font-size: 15px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   min-width: 300px;
@@ -9464,6 +9464,10 @@ label.panel-block:hover {
   }
 }
 
+.control.has-icon .button.is-primary > .icon {
+  color: #fff;
+}
+
 .has-border-top {
   border-top: 1px solid #dbdbdb;
 }
@@ -9568,6 +9572,14 @@ label.panel-block:hover {
 .dashboard .hero,
 .dashboard .nav {
   background-color: transparent;
+}
+
+.dashboard .hero-body {
+  padding: 2rem 1.5rem;
+}
+
+.control.is-grouped.is-gapless > .control:not(:last-child) {
+  margin-right: -1px;
 }
 
 .animated.notification.fadeOut {

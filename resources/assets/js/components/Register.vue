@@ -118,6 +118,7 @@
                                 placeholder="Confirm Password"
                                 name="password_confirmation"
                                 required
+                                @keydown="form.errors.clear('password')"
                             >
                             <span class="icon is-small"><i class="fa fa-lock"></i></span>
                         </p>
@@ -176,7 +177,7 @@
             },
 
             onSuccess() {
-                location.href = '/dashboard';
+                location.href="/dashboard#/new-appointment";
                 mixpanel.track("New Signup");
             }
         }
