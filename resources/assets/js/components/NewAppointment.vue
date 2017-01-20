@@ -7,8 +7,6 @@
         </div>
         <form
             role="form"
-            method="POST"
-            action="/api/appointments"
             @submit.prevent="onSubmit"
             @keydown="form.errors.clear($event.target.name)"
         >

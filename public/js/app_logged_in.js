@@ -19359,8 +19359,6 @@ module.exports = function spread(callback) {
 //
 //
 //
-//
-//
 
 
 
@@ -19569,17 +19567,6 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_js__ = __webpack_require__(5);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -21284,9 +21271,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "container"
   }, [_vm._m(0), _vm._v(" "), _c('form', {
     attrs: {
-      "role": "form",
-      "method": "POST",
-      "action": "/api/appointments"
+      "role": "form"
     },
     on: {
       "submit": function($event) {
@@ -21421,12 +21406,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "placeholder": "First Name",
-      "name": "first_name",
       "required": "",
       "autofocus": !_vm.form.errors.length || _vm.form.errors.has('first_name')
     },
     domProps: {
-      "value": _vm.user.first_name,
       "value": _vm._s(_vm.form.first_name)
     },
     on: {
@@ -21455,7 +21438,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "text",
       "placeholder": "Last Name",
-      "name": "last_name",
       "required": "",
       "autofocus": _vm.form.errors.has('last_name')
     },
@@ -21488,7 +21470,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "email",
       "placeholder": "Email",
-      "name": "email",
       "required": "",
       "autofocus": _vm.form.errors.has('email')
     },
@@ -21521,7 +21502,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "tel",
       "placeholder": "Phone",
-      "name": "phone",
       "autofocus": _vm.form.errors.has('phone')
     },
     domProps: {
@@ -21558,7 +21538,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [_vm.form.errors.has('gender') ? 'is-danger' : ''],
     attrs: {
       "type": "radio",
-      "name": "gender",
       "value": "male",
       "autofocus": _vm.form.errors.has('gender')
     },
@@ -21586,7 +21565,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [_vm.form.errors.has('gender') ? 'is-danger' : ''],
     attrs: {
       "type": "radio",
-      "name": "gender",
       "value": "female",
       "autofocus": _vm.form.errors.has('gender')
     },
@@ -21618,7 +21596,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "date",
       "placeholder": "mm/dd/yyyy",
-      "name": "birthdate",
       "autofocus": _vm.form.errors.has('birthdate')
     },
     domProps: {
@@ -21651,7 +21628,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['input', _vm.form.errors.has('height') ? 'is-danger' : ''],
     attrs: {
       "type": "text",
-      "name": "height",
       "autofocus": _vm.form.errors.has('height')
     },
     domProps: {
@@ -21677,7 +21653,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['input', _vm.form.errors.has('height') ? 'is-danger' : ''],
     attrs: {
       "type": "text",
-      "name": "height",
       "autofocus": _vm.form.errors.has('height')
     },
     domProps: {
@@ -21703,7 +21678,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['input', _vm.form.errors.has('weight') ? 'is-danger' : ''],
     attrs: {
       "type": "text",
-      "name": "weight",
       "autofocus": _vm.form.errors.has('weight')
     },
     domProps: {

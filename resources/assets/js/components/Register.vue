@@ -8,8 +8,6 @@
                 <div class="card-content">
                     <form
                         role="form"
-                        method="POST"
-                        :action="formUrl"
                         @submit.prevent="onSubmit"
                         @keydown="form.errors.clear($event.target.name)"
                     >
@@ -22,8 +20,6 @@
                                 :class="['input', form.errors.has('first_name') ? 'is-danger' : '']"
                                 type="text"
                                 placeholder="First Name"
-                                name="first_name"
-                                :value="old.first_name"
                                 required
                                 :autofocus="!form.errors.length|| form.errors.has('first_name')"
                             >
@@ -41,8 +37,6 @@
                                 :class="['input', form.errors.has('last_name') ? 'is-danger' : '']"
                                 type="text"
                                 placeholder="Last Name"
-                                name="last_name"
-                                :value="old.last_name"
                                 required
                                 :autofocus="form.errors.has('last_name')"
                             >
@@ -60,8 +54,6 @@
                                 :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                                 type="email"
                                 placeholder="Email"
-                                name="email"
-                                :value="old.email"
                                 required
                                 :autofocus="form.errors.has('email')"
                             >
@@ -79,8 +71,6 @@
                                 :class="['input', form.errors.has('phone') ? 'is-danger' : '']"
                                 type="tel"
                                 placeholder="Phone"
-                                name="phone"
-                                :value="old.phone"
                                 :autofocus="form.errors.has('phone')"
                             >
                             <span class="icon is-small"><i class="fa fa-phone"></i></span>
@@ -97,8 +87,6 @@
                                 :class="['input', form.errors.has('password') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Password"
-                                name="password"
-                                :value="old.password"
                                 required
                                 :autofocus="form.errors.has('password')"
                             >
@@ -116,7 +104,6 @@
                                 :class="['input', form.errors.has('password_confirmation') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Confirm Password"
-                                name="password_confirmation"
                                 required
                                 @keydown="form.errors.clear('password')"
                             >
@@ -156,7 +143,7 @@
     export default {
         props: {
             formUrl: '',
-            old: {}
+            redirectUrl: ''
         },
         data() {
             return {
@@ -177,7 +164,7 @@
             },
 
             onSuccess() {
-                location.href="/dashboard#/new-appointment";
+                location.href = this.redirectUrl;
                 mixpanel.track("New Signup");
             }
         }

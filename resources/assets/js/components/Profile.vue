@@ -21,8 +21,6 @@
                             :class="['input', form.errors.has('first_name') ? 'is-danger' : '']"
                             type="text"
                             placeholder="First Name"
-                            name="first_name"
-                            :value.literal="user.first_name"
                             required
                             :autofocus="!form.errors.length|| form.errors.has('first_name')"
                         >
@@ -44,7 +42,6 @@
                             :class="['input', form.errors.has('last_name') ? 'is-danger' : '']"
                             type="text"
                             placeholder="Last Name"
-                            name="last_name"
                             required
                             :autofocus="form.errors.has('last_name')"
                         >
@@ -66,7 +63,6 @@
                             :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                             type="email"
                             placeholder="Email"
-                            name="email"
                             required
                             :autofocus="form.errors.has('email')"
                         >
@@ -88,7 +84,6 @@
                             :class="['input', form.errors.has('phone') ? 'is-danger' : '']"
                             type="tel"
                             placeholder="Phone"
-                            name="phone"
                             :autofocus="form.errors.has('phone')"
                         >
                         <span class="icon is-small"><i class="fa fa-phone"></i></span>
@@ -110,7 +105,6 @@
                                     v-model="form.gender"
                                     :class="[form.errors.has('gender') ? 'is-danger' : '']"
                                     type="radio"
-                                    name="gender"
                                     value="male"
                                     :autofocus="form.errors.has('gender')"
                                 >
@@ -124,7 +118,6 @@
                                     v-model="form.gender"
                                     :class="[form.errors.has('gender') ? 'is-danger' : '']"
                                     type="radio"
-                                    name="gender"
                                     value="female"
                                     :autofocus="form.errors.has('gender')"
                                 >
@@ -149,7 +142,6 @@
                             :class="['input', form.errors.has('birthdate') ? 'is-danger' : '']"
                             type="date"
                             placeholder="mm/dd/yyyy"
-                            name="birthdate"
                             :autofocus="form.errors.has('birthdate')"
                         >
                         <span class="icon is-small"><i class="fa fa-calendar"></i></span>
@@ -170,7 +162,6 @@
                                 v-model="form.height"
                                 :class="['input', form.errors.has('height') ? 'is-danger' : '']"
                                 type="text"
-                                name="height"
                                 :autofocus="form.errors.has('height')"
                             >
                             <span class="button">feet</span>
@@ -180,7 +171,6 @@
                                 v-model="form.height"
                                 :class="['input', form.errors.has('height') ? 'is-danger' : '']"
                                 type="text"
-                                name="height"
                                 :autofocus="form.errors.has('height')"
                             >
                             <span class="button">inch</span>
@@ -190,7 +180,6 @@
                                 v-model="form.weight"
                                 :class="['input', form.errors.has('weight') ? 'is-danger' : '']"
                                 type="text"
-                                name="weight"
                                 :autofocus="form.errors.has('weight')"
                             >
                             <span class="button">lbs</span>

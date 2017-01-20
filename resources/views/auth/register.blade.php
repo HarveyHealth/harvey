@@ -6,7 +6,7 @@
 @section('content')
     <register-view
         form-url="{{ url('/register') }}"
-        :old="{{ json_encode(Session::getOldInput()) }}"
+        redirect-url="/dashboard#/new-appointment"
     >
         {{ csrf_field() }}
     </register-view>
