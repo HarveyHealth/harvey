@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\LogTailCommand::class,
         Commands\MakeViewCommand::class,
+        Commands\MakeComponentCommand::class,
         Commands\MakeRepositoryCommand::class,
     ];
 
