@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 
@@ -43,5 +44,43 @@ class UsersController extends Controller
         if (empty($id)) {
             $id = request()->user();
         }
+    }
+    
+    public function update(Request $request)
+    {
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|max:10',
+            'gender' => 'required',
+            'birthdate' => 'required',
+            'height' => 'required',
+            'weight' => 'required'
+        ]);
+    
+        $user = auth()->user();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->gender = $request->gender;
+        $user->birthdate = Carbon::parse($request->birthdate);
+        $user->height = $request->height;
+        $user->weight = $request->weight;
+        $user->save();
+        
+        $response = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'gender' => $user->gender,
+            'birthdate' => $user->birthdate,
+            'height' => $user->height,
+            'weight' => $user->weight
+        ];
+    
+        return response()->json($response);
     }
 }

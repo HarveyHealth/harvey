@@ -138,21 +138,21 @@
 
                 <div class="control is-horizontal">
                     <div class="control-label">
-                        <label class="label">Birthday</label>
+                        <label class="label">Birthdate</label>
                     </div>
                     <p class="control has-icon">
                         <input
-                            v-model="form.birthday"
-                            :class="['input', form.errors.has('birthday') ? 'is-danger' : '']"
+                            v-model="form.birthdate"
+                            :class="['input', form.errors.has('birthdate') ? 'is-danger' : '']"
                             type="date"
                             placeholder="mm/dd/yyyy"
-                            name="birthday"
-                            :autofocus="form.errors.has('birthday')"
+                            name="birthdate"
+                            :autofocus="form.errors.has('birthdate')"
                         >
                         <span class="icon is-small"><i class="fa fa-calendar"></i></span>
-                        <template v-if="form.errors.has('birthday')">
+                        <template v-if="form.errors.has('birthdate')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                            <span class="help is-danger" v-text="form.errors.get('birthday')"></span>
+                            <span class="help is-danger" v-text="form.errors.get('birthdate')"></span>
                         </template>
                     </p>
                 </div>
@@ -230,7 +230,7 @@
                     email: '',
                     phone: '',
                     gender: '',
-                    birthday: '',
+                    birthdate: '',
                     height: '',
                     weight: ''
                 })

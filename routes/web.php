@@ -37,6 +37,7 @@ Route::get('account/{id?}', 'UsersController@getAccount');
 Route::post('account/{id?}', 'UsersController@postAccount');
 Route::get('users/list', 'UsersController@getList');
 Route::get('users/{id}', 'UsersController@getProfile');
+Route::put('api/users', 'UsersController@update');
 
 // APPOINTMENTS
 Route::post('api/appointments', 'AppointmentsController@store');
