@@ -52,19 +52,6 @@ class DashboardController extends Controller
         return view('dashboard.index', $data);
     }
 
-    public function getUser()
-    {
-        $user = auth()->user();
-        $userJson = [
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'user_type' => $user->user_type,
-            'email' => $user->email,
-            'phone' => $user->phone
-        ];
-        return response()->json($userJson);
-    }
-
     protected function adminDashboardData()
     {
         return [
@@ -93,5 +80,18 @@ class DashboardController extends Controller
             'upcoming_appointments' => $this->appointments->pending()->forPractitioner($user->id)->get(),
             'recent_appointments' => $this->appointments->recent(10)->forPractitioner($user->id)->get()
         ];
+    }
+
+    public function getUser()
+    {
+        $user = auth()->user();
+        $userJson = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'user_type' => $user->user_type,
+            'email' => $user->email,
+            'phone' => $user->phone
+        ];
+        return response()->json($userJson);
     }
 }
