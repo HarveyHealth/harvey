@@ -5,7 +5,7 @@
                 <span class="nav-item">
                     <router-link tag="a" to="/new-appointment" class="button is-primary">
                         <span class="icon"><i class="fa fa-user-plus"></i></span>
-                        <span>New Appointment</span>
+                        <span @click="viewAppointmentPage">New Appointment</span>
                     </router-link>
                 </span>
                 <span class="nav-item">
@@ -43,6 +43,11 @@
         components: {
             Appointments,
             Tests
+        },
+        methods: {
+            viewAppointmentPage() {
+                mixpanel.track("View New Appointment Page");
+            }
         }
     }
 </script>

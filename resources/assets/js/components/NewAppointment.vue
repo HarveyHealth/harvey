@@ -120,6 +120,8 @@
                 this.form.submit('post', 'api/appointments', this.onSuccess);
             },
             onSuccess() {
+                mixpanel.track("New Appointment Created");
+
                 // if no detailed profile, redirect to profile
                 if (!this.user.gender) {
                     this.$router.push('/profile');

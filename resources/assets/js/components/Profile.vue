@@ -241,6 +241,7 @@
                 this.form.submit('put', 'api/users', this.onSuccess);
             },
             onSuccess() {
+                mixpanel.track("Profile Updated");
                 this.$router.push('/payment');
             }
         },
@@ -248,6 +249,9 @@
             user() {
                 Object.assign(this.form, this.user);
             }
+        },
+        mounted() {
+            mixpanel.track("View Profile Page");
         }
     }
 </script>

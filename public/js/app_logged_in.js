@@ -19180,6 +19180,11 @@ module.exports = function spread(callback) {
     components: {
         Appointments: __WEBPACK_IMPORTED_MODULE_0__Appointments_vue___default.a,
         Tests: __WEBPACK_IMPORTED_MODULE_1__Tests_vue___default.a
+    },
+    methods: {
+        viewAppointmentPage: function viewAppointmentPage() {
+            mixpanel.track("View New Appointment Page");
+        }
     }
 };
 
@@ -19374,6 +19379,8 @@ module.exports = function spread(callback) {
             this.form.submit('post', 'api/appointments', this.onSuccess);
         },
         onSuccess: function onSuccess() {
+            mixpanel.track("New Appointment Created");
+
             // if no detailed profile, redirect to profile
             if (!this.user.gender) {
                 this.$router.push('/profile');
@@ -19497,7 +19504,10 @@ module.exports = function spread(callback) {
 
 /* harmony default export */ exports["default"] = {
     name: 'payment',
-    props: ['user']
+    props: ['user'],
+    mounted: function mounted() {
+        mixpanel.track("View Payments Page");
+    }
 };
 
 
@@ -19750,6 +19760,7 @@ module.exports = function spread(callback) {
             this.form.submit('put', 'api/users', this.onSuccess);
         },
         onSuccess: function onSuccess() {
+            mixpanel.track("Profile Updated");
             this.$router.push('/payment');
         }
     },
@@ -19757,6 +19768,9 @@ module.exports = function spread(callback) {
         user: function user() {
             Object.assign(this.form, this.user);
         }
+    },
+    mounted: function mounted() {
+        mixpanel.track("View Profile Page");
     }
 };
 
@@ -21804,7 +21818,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "icon"
   }, [_c('i', {
     staticClass: "fa fa-user-plus"
-  })]), _vm._v(" "), _c('span', [_vm._v("New Appointment")])])], 1), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
+  })]), _vm._v(" "), _c('span', {
+    on: {
+      "click": _vm.viewAppointmentPage
+    }
+  }, [_vm._v("New Appointment")])])], 1), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('div', {
     staticClass: "section"
   }, [_c('h1', {
     staticClass: "title"

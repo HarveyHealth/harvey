@@ -88,6 +88,9 @@
 
     export default {
         name: 'payment',
-        props: ['user']
+        props: ['user'],
+        mounted() {
+            mixpanel.track("View Payments Page");
+        }
     }
 </script>
