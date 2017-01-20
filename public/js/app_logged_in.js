@@ -30797,6 +30797,9 @@ var app = new Vue({
     mounted: function mounted() {
         var this$1 = this;
 
+        // stripe
+        Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
+
         this.$http.get('/api/user')
             .then( function (response) {
                 this$1.user = response.data;
