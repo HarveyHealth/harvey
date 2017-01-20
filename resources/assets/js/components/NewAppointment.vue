@@ -51,7 +51,7 @@
             <p class="control is-clearfix hero-buttons">
                 <button
                     type="submit"
-                    class="button is-primary"
+                    class="button is-medium is-primary"
                     :disabled="form.errors.any()"
                 >Schedule</button>
             </p>
@@ -159,7 +159,7 @@
 </script>
 
 <style lang="sass">
-    $color-comp: #00d1b2;
+    $color-comp: #ada397;
 
     .datetime-selector {
         padding-left: 0.2rem;

@@ -20080,7 +20080,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.datetime-selector[data-v-022ab319] {\n  color: inherit;\n  font-size: 0.9rem;\n  font-weight: 400;\n}\n.datetime-selector[disabled][data-v-022ab319] {\n    opacity: 0.5;\n    cursor: default;\n    box-shadow: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/TimePicker.vue"],"names":[],"mappings":";AAAA;EACE,eAAe;EACf,kBAAkB;EAClB,iBAAiB;CAAE;AACnB;IACE,aAAa;IACb,gBAAgB;IAChB,iBAAiB;CAAE","file":"TimePicker.vue","sourcesContent":[".datetime-selector {\n  color: inherit;\n  font-size: 0.9rem;\n  font-weight: 400; }\n  .datetime-selector[disabled] {\n    opacity: 0.5;\n    cursor: default;\n    box-shadow: none; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.datetime-selector[data-v-022ab319] {\n  color: #363636;\n}\n.datetime-selector[disabled][data-v-022ab319] {\n    opacity: 0.5;\n    cursor: default;\n    box-shadow: none;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/TimePicker.vue"],"names":[],"mappings":";AAAA;EACE,eAAe;CAAE;AACjB;IACE,aAAa;IACb,gBAAgB;IAChB,iBAAiB;CAAE","file":"TimePicker.vue","sourcesContent":[".datetime-selector {\n  color: #363636; }\n  .datetime-selector[disabled] {\n    opacity: 0.5;\n    cursor: default;\n    box-shadow: none; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -20108,7 +20108,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.datetime-selector {\n  padding-left: 0.2rem;\n  padding-right: 0.2rem;\n}\n.datetime-selector:not([disabled]).is-selected {\n    background-color: #00d1b2;\n}\n.datetime-selector:not([disabled]).is-selected p,\n    .datetime-selector:not([disabled]).is-selected .title,\n    .datetime-selector:not([disabled]).is-selected .subtitle {\n      color: white;\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    text-align: left;\n}\n.control.is-horizontal > .control {\n    flex-grow: 2;\n    flex-wrap: wrap;\n}\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/NewAppointment.vue"],"names":[],"mappings":";AAAA;EACE,qBAAqB;EACrB,sBAAsB;CAAE;AACxB;IACE,0BAA0B;CAAE;AAC5B;;;MAGE,aAAa;CAAE;AAErB;AACE;IACE,iBAAiB;CAAE;AACrB;IACE,aAAa;IACb,gBAAgB;CAAE;CAAE","file":"NewAppointment.vue","sourcesContent":[".datetime-selector {\n  padding-left: 0.2rem;\n  padding-right: 0.2rem; }\n  .datetime-selector:not([disabled]).is-selected {\n    background-color: #00d1b2; }\n    .datetime-selector:not([disabled]).is-selected p,\n    .datetime-selector:not([disabled]).is-selected .title,\n    .datetime-selector:not([disabled]).is-selected .subtitle {\n      color: white; }\n\n@media screen and (min-width: 769px) {\n  .control-label {\n    text-align: left; }\n  .control.is-horizontal > .control {\n    flex-grow: 2;\n    flex-wrap: wrap; } }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.datetime-selector {\n  padding-left: 0.2rem;\n  padding-right: 0.2rem;\n}\n.datetime-selector:not([disabled]).is-selected {\n    background-color: #ada397;\n}\n.datetime-selector:not([disabled]).is-selected p,\n    .datetime-selector:not([disabled]).is-selected .title,\n    .datetime-selector:not([disabled]).is-selected .subtitle {\n      color: white;\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    text-align: left;\n}\n.control.is-horizontal > .control {\n    flex-grow: 2;\n    flex-wrap: wrap;\n}\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/NewAppointment.vue"],"names":[],"mappings":";AAAA;EACE,qBAAqB;EACrB,sBAAsB;CAAE;AACxB;IACE,0BAA0B;CAAE;AAC5B;;;MAGE,aAAa;CAAE;AAErB;AACE;IACE,iBAAiB;CAAE;AACrB;IACE,aAAa;IACb,gBAAgB;CAAE;CAAE","file":"NewAppointment.vue","sourcesContent":[".datetime-selector {\n  padding-left: 0.2rem;\n  padding-right: 0.2rem; }\n  .datetime-selector:not([disabled]).is-selected {\n    background-color: #ada397; }\n    .datetime-selector:not([disabled]).is-selected p,\n    .datetime-selector:not([disabled]).is-selected .title,\n    .datetime-selector:not([disabled]).is-selected .subtitle {\n      color: white; }\n\n@media screen and (min-width: 769px) {\n  .control-label {\n    text-align: left; }\n  .control.is-horizontal > .control {\n    flex-grow: 2;\n    flex-wrap: wrap; } }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -21335,7 +21335,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })] : _vm._e()], 2)]), _vm._v(" "), _c('p', {
     staticClass: "control is-clearfix hero-buttons"
   }, [_c('button', {
-    staticClass: "button is-primary",
+    staticClass: "button is-medium is-primary",
     attrs: {
       "type": "submit",
       "disabled": _vm.form.errors.any()

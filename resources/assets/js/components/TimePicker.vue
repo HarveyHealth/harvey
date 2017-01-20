@@ -66,9 +66,7 @@
 
 <style lang="sass" scoped>
     .datetime-selector {
-        color: inherit;
-        font-size: 0.9rem;
-        font-weight: 400;
+        color: #363636;
         &[disabled] {
             opacity: 0.5;
             cursor: default;

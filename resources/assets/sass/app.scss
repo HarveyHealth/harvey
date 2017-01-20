@@ -10,6 +10,13 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
+// h1,
+// h2 {
+//     &.title {
+//         font-family: $family-secondary;
+//     }
+// }
+
 .button {
     &.is-link {
         padding-left: 0;
@@ -21,7 +28,6 @@
 }
 
 .hero-buttons {
-    margin-top: 3rem;
     @include from($tablet) {
         justify-content: flex-end;
     }
