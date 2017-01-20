@@ -55,8 +55,9 @@ class UsersController extends Controller
             'phone' => 'required|max:10',
             'gender' => 'required',
             'birthdate' => 'required',
-            'height' => 'required',
-            'weight' => 'required'
+            'height_feet' => 'required|integer|between:1,10',
+            'height_inches' => 'required|integer|between:1,11',
+            'weight' => 'required|integer'
         ]);
     
         $user = auth()->user();
@@ -66,7 +67,8 @@ class UsersController extends Controller
         $user->phone = $request->phone;
         $user->gender = $request->gender;
         $user->birthdate = Carbon::parse($request->birthdate);
-        $user->height = $request->height;
+        $user->height_feet = $request->height_feet;
+        $user->height_inches = $request->height_inches;
         $user->weight = $request->weight;
         $user->save();
         
@@ -77,7 +79,8 @@ class UsersController extends Controller
             'phone' => $user->phone,
             'gender' => $user->gender,
             'birthdate' => $user->birthdate,
-            'height' => $user->height,
+            'height_feet' => $user->height_inches,
+            'height_inches' => $user->height_inches,
             'weight' => $user->weight
         ];
     

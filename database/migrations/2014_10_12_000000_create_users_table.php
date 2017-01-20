@@ -34,7 +34,8 @@ class CreateUsersTable extends Migration
             $table->string('timezone', 75)->nullable();
             $table->date('birthdate')->nullable();
             $table->string('gender')->nullable();
-            $table->smallInteger('height')->unsigned()->nullable();
+            $table->smallInteger('height_feet')->unsigned()->nullable();
+            $table->smallInteger('height_inches')->unsigned()->nullable();
             $table->smallInteger('weight')->unsigned()->nullable();
             $table->string('stripe_customer_id', 32)->nullable()->unique();
             $table->datetime('terms_accepted_at')->nullable();
