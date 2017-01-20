@@ -10,6 +10,13 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
+// h1,
+// h2 {
+//     &.title {
+//         font-family: $family-secondary;
+//     }
+// }
+
 .button {
     &.is-link {
         padding-left: 0;
@@ -21,10 +28,13 @@
 }
 
 .hero-buttons {
-    margin-top: 3rem;
     @include from($tablet) {
         justify-content: flex-end;
     }
+}
+
+.control.has-icon .button.is-primary > .icon {
+    color: #fff;
 }
 
 // new global styles
@@ -138,6 +148,13 @@
     .nav {
         background-color: transparent;
     }
+    .hero-body {
+        padding: 2rem 1.5rem;
+    }
+}
+
+.control.is-grouped.is-gapless > .control:not(:last-child) {
+    margin-right: -1px;
 }
 
 // modify animations

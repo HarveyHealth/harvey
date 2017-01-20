@@ -8,8 +8,6 @@
                 <div class="card-content">
                     <form
                         role="form"
-                        method="POST"
-                        :action="formUrl"
                         @submit.prevent="onSubmit"
                         @keydown="form.errors.clear($event.target.name)"
                     >
@@ -22,8 +20,6 @@
                                 :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                                 type="email"
                                 placeholder="Email"
-                                name="email"
-                                :value="old.email"
                                 required
                                 :autofocus="!form.errors.length|| form.errors.has('email')"
                             >
@@ -41,8 +37,6 @@
                                 :class="['input', form.errors.has('password') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Password"
-                                name="password"
-                                :value="old.password"
                                 required
                                 :autofocus="form.errors.has('password')"
                             >
@@ -58,7 +52,6 @@
                                 <input
                                     v-model="form.remember"
                                     type="checkbox"
-                                    name="remember"
                                 >
                                 Remember me
                             </label>
@@ -94,7 +87,7 @@
         name: 'login',
         props: {
             formUrl: '',
-            old: {}
+            redirectUrl: ''
         },
         data() {
             return {
@@ -110,7 +103,7 @@
                 this.form.submit('post', this.formUrl, this.onSuccess);
             },
             onSuccess() {
-                location.href = '/dashboard';
+                location.href = this.redirectUrl;
             }
         }
     }

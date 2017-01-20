@@ -7,8 +7,6 @@
         </div>
         <form
             role="form"
-            method="POST"
-            action="/api/appointments"
             @submit.prevent="onSubmit"
             @keydown="form.errors.clear($event.target.name)"
         >
@@ -32,10 +30,21 @@
 
             <div class="section control is-horizontal">
                 <div class="control-label">
-                    <h2 class="title">Details</h2>
+                    <h2 class="title is-4">Details</h2>
                 </div>
-                <div class="control">
-                    <textarea class="textarea" placeholder="Explain how we can help you" v-model="form.details"></textarea>
+                <div class="control has-icon">
+                    <textarea
+                        v-model="form.details"
+                        :class="['textarea', {'is-danger' : form.errors.has('details')}]"
+                        placeholder="Explain how we can help you"
+                        :autofocus="form.errors.has('details')"
+                        required
+                    >
+                    </textarea>
+                    <template v-if="form.errors.has('details')">
+                        <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                        <span class="help is-danger" v-text="form.errors.get('details')"></span>
+                    </template>
                 </div>
             </div>
             
@@ -150,15 +159,19 @@
 </script>
 
 <style lang="sass">
+    $color-comp: #ada397;
+
     .datetime-selector {
         padding-left: 0.2rem;
         padding-right: 0.2rem;
-        &.is-selected:not([disabled]) {
-            background-color: #00d1b2;
-            p,
-            .title,
-            .subtitle {
-                color: white;
+        &:not([disabled]) {
+            &.is-selected {
+                background-color: $color-comp;
+                p,
+                .title,
+                .subtitle {
+                    color: white;
+                }
             }
         }
     }
@@ -169,6 +182,7 @@
         }
         .control.is-horizontal > .control {
             flex-grow: 2;
+            flex-wrap: wrap;
         }
     }
 </style>

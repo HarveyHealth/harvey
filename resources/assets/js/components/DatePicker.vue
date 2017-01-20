@@ -1,6 +1,6 @@
 <template>
     <div class="section">
-        <h2 class="title">Pick a date</h2>
+        <h2 class="title is-4">Pick a date</h2>
         <ul class="columns">
             <li v-for="date in dates" class="column" @click="onDateChange(date)">
                 <a :class="['box', 'has-text-centered', 'datetime-selector', {'is-selected' : isSameDate(selectedDate, date)}]">

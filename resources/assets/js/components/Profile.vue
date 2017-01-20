@@ -21,8 +21,6 @@
                             :class="['input', form.errors.has('first_name') ? 'is-danger' : '']"
                             type="text"
                             placeholder="First Name"
-                            name="first_name"
-                            :value.literal="user.first_name"
                             required
                             :autofocus="!form.errors.length|| form.errors.has('first_name')"
                         >
@@ -44,7 +42,6 @@
                             :class="['input', form.errors.has('last_name') ? 'is-danger' : '']"
                             type="text"
                             placeholder="Last Name"
-                            name="last_name"
                             required
                             :autofocus="form.errors.has('last_name')"
                         >
@@ -66,7 +63,6 @@
                             :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                             type="email"
                             placeholder="Email"
-                            name="email"
                             required
                             :autofocus="form.errors.has('email')"
                         >
@@ -88,7 +84,6 @@
                             :class="['input', form.errors.has('phone') ? 'is-danger' : '']"
                             type="tel"
                             placeholder="Phone"
-                            name="phone"
                             :autofocus="form.errors.has('phone')"
                         >
                         <span class="icon is-small"><i class="fa fa-phone"></i></span>
@@ -103,31 +98,32 @@
                     <div class="control-label">
                         <label class="label">Gender</label>
                     </div>
-                    <div class="control is-grouped">
+                    <div class="control is-grouped is-gapless">
                         <p class="control has-icon is-expanded">
-                            <label class="radio">
-                            <input
-                                v-model="form.gender"
-                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
-                                type="radio"
-                                name="gender"
-                                value="male"
-                                :autofocus="form.errors.has('gender')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-male"></i></span>
+                            <label :class="['button', 'label-button', {'is-primary': form.gender == 'male'}]">
+                                <input
+                                    v-model="form.gender"
+                                    :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                    type="radio"
+                                    value="male"
+                                    :autofocus="form.errors.has('gender')"
+                                >
+                                <span class="icon"><i class="fa fa-male"></i></span>
+                                <span>Male</span>
                             </label>
                         </p>
                         <p class="control has-icon is-expanded">
-                        <label class="radio">
-                            <input
-                                v-model="form.gender"
-                                :class="[form.errors.has('gender') ? 'is-danger' : '']"
-                                type="radio"
-                                name="gender"
-                                value="female"
-                                :autofocus="form.errors.has('gender')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-female"></i></span></label>
+                            <label :class="['button', 'label-button', {'is-primary': form.gender == 'female'}]">
+                                <input
+                                    v-model="form.gender"
+                                    :class="[form.errors.has('gender') ? 'is-danger' : '']"
+                                    type="radio"
+                                    value="female"
+                                    :autofocus="form.errors.has('gender')"
+                                >
+                                <span class="icon"><i class="fa fa-female"></i></span>
+                                <span>Female</span>
+                            </label>
                         </p>
                         <template v-if="form.errors.has('gender')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
@@ -146,7 +142,6 @@
                             :class="['input', form.errors.has('birthdate') ? 'is-danger' : '']"
                             type="date"
                             placeholder="mm/dd/yyyy"
-                            name="birthdate"
                             :autofocus="form.errors.has('birthdate')"
                         >
                         <span class="icon is-small"><i class="fa fa-calendar"></i></span>
@@ -167,7 +162,6 @@
                                 v-model="form.height"
                                 :class="['input', form.errors.has('height') ? 'is-danger' : '']"
                                 type="text"
-                                name="height"
                                 :autofocus="form.errors.has('height')"
                             >
                             <span class="button">feet</span>
@@ -177,7 +171,6 @@
                                 v-model="form.height"
                                 :class="['input', form.errors.has('height') ? 'is-danger' : '']"
                                 type="text"
-                                name="height"
                                 :autofocus="form.errors.has('height')"
                             >
                             <span class="button">inch</span>
@@ -187,7 +180,6 @@
                                 v-model="form.weight"
                                 :class="['input', form.errors.has('weight') ? 'is-danger' : '']"
                                 type="text"
-                                name="weight"
                                 :autofocus="form.errors.has('weight')"
                             >
                             <span class="button">lbs</span>
@@ -262,7 +254,18 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .control.has-addons .input {
+    .control.has-addons {
+        .input {
+            width: 100%;
+        }
+        .button {
+            cursor: default;
+        }
+    }
+    .label-button {
         width: 100%;
+        input[type="radio"] {
+            display: none;
+        }
     }
 </style>

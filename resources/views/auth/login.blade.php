@@ -6,7 +6,7 @@
 @section('content')
     <login-view
         form-url="{{ url('/login') }}"
-        :old="{{ json_encode(Session::getOldInput()) }}"
+        redirect-url="{{ url('/dashboard') }}"
     >
         {{ csrf_field() }}
     </login-view>

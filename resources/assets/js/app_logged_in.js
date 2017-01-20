@@ -24,6 +24,9 @@ const app = new Vue({
         App
     },
     mounted() {
+        // stripe
+        Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
+
         this.$http.get('/api/user')
             .then( response => {
                 this.user = response.data;
