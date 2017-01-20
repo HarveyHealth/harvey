@@ -1,10 +1,10 @@
 <template>
     <div class="container">
-        <section class="hero has-text-centered has-border-bottom">
+        <div class="hero has-text-centered">
             <div class="hero-body">
                 <h1 class="title">Choose appointment time</h1>
             </div>
-        </section>
+        </div>
         <form
             role="form"
             method="POST"
@@ -32,17 +32,17 @@
 
             <div class="section control is-horizontal">
                 <div class="control-label">
-                    <h2 class="title">Explain how we can help you</h2>
+                    <h2 class="title">Details</h2>
                 </div>
                 <div class="control">
                     <textarea class="textarea" placeholder="Explain how we can help you" v-model="form.details"></textarea>
                 </div>
             </div>
             
-            <p class="control is-clearfix">
+            <p class="control is-clearfix hero-buttons">
                 <button
                     type="submit"
-                    class="button is-medium is-primary is-pulled-right"
+                    class="button is-medium is-primary"
                     :disabled="form.errors.any()"
                 >Schedule</button>
             </p>
@@ -150,6 +150,8 @@
 
 <style lang="sass">
     .datetime-selector {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
         &.is-selected:not([disabled]) {
             background-color: #00d1b2;
             p,

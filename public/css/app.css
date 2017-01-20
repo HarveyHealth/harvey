@@ -107,8 +107,8 @@ th {
 }
 
 html {
-  background-color: white;
-  font-size: 14px;
+  background-color: #f5f8fa;
+  font-size: 1rem;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   min-width: 300px;
@@ -9453,6 +9453,17 @@ label.panel-block:hover {
   background-color: transparent;
 }
 
+.hero-buttons {
+  margin-top: 3rem;
+}
+
+@media screen and (min-width: 769px) {
+  .hero-buttons {
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+  }
+}
+
 .has-border-top {
   border-top: 1px solid #dbdbdb;
 }
@@ -9552,6 +9563,11 @@ label.panel-block:hover {
 
 .page-content .nav {
   z-index: 1;
+}
+
+.dashboard .hero,
+.dashboard .nav {
+  background-color: transparent;
 }
 
 .animated.notification.fadeOut {

@@ -1,5 +1,5 @@
 <template>
-    <section class="section">
+    <div class="section">
         <h2 class="title">Pick a date</h2>
         <ul class="columns">
             <li v-for="date in dates" class="column" @click="onDateChange(date)">
@@ -10,7 +10,7 @@
                 </a>
             </li>
         </ul>
-    </section>
+    </div>
 </template>
 
 <script>
