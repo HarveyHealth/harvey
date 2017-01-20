@@ -21,7 +21,7 @@
                     <a class="nav-item is-tab">About</a>
                     <span class="nav-item">
                         <a href="/login" class="button">Log In</a>
-                        <a href="/signup" class="button is-primary">Sign Up</a>
+                        <a href="/signup" class="button is-primary" @click="viewSignupPage">Sign Up</a>
                     </span>
                 </div>
             </template>
@@ -73,6 +73,9 @@
                 this.$http.post('/logout').then(response => {
                     location.href = '/';
                 });
+            },
+            viewSignupPage() {
+                mixpanel.track("View Sign Up Page");
             }
         }
     }

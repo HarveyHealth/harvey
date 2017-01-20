@@ -19844,6 +19844,9 @@ module.exports = function spread(callback) {
             this.$http.post('/logout').then(function (response) {
                 location.href = '/';
             });
+        },
+        viewSignupPage: function viewSignupPage() {
+            mixpanel.track("View Sign Up Page");
         }
     }
 };
@@ -20778,7 +20781,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "nav-item is-tab"
   }, [_vm._v("Pricing")]), _vm._v(" "), _c('a', {
     staticClass: "nav-item is-tab"
-  }, [_vm._v("About")]), _vm._v(" "), _vm._m(1)])] : [_c('p', {
+  }, [_vm._v("About")]), _vm._v(" "), _c('span', {
+    staticClass: "nav-item"
+  }, [_c('a', {
+    staticClass: "button",
+    attrs: {
+      "href": "/login"
+    }
+  }, [_vm._v("Log In")]), _vm._v(" "), _c('a', {
+    staticClass: "button is-primary",
+    attrs: {
+      "href": "/signup"
+    },
+    on: {
+      "click": _vm.viewSignupPage
+    }
+  }, [_vm._v("Sign Up")])])])] : [_c('p', {
     staticClass: "nav-item"
   }, [_vm._v("Hi, " + _vm._s(_vm.user.first_name))]), _vm._v(" "), _c('span', {
     staticClass: "nav-item",
@@ -20832,20 +20850,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": "/"
     }
   }, [_vm._v("Logo")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "nav-item"
-  }, [_c('a', {
-    staticClass: "button",
-    attrs: {
-      "href": "/login"
-    }
-  }, [_vm._v("Log In")]), _vm._v(" "), _c('a', {
-    staticClass: "button is-primary",
-    attrs: {
-      "href": "/signup"
-    }
-  }, [_vm._v("Sign Up")])])
 }]}
 if (false) {
   module.hot.accept()

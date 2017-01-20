@@ -177,6 +177,7 @@
 
             onSuccess() {
                 location.href = '/dashboard';
+                mixpanel.track("New Signup");
             }
         }
     }
