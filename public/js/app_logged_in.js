@@ -19523,38 +19523,33 @@ module.exports = function spread(callback) {
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 /* harmony default export */ exports["default"] = {
     name: 'payment',
     props: ['user'],
+    data: function data() {
+        return {
+            form: new __WEBPACK_IMPORTED_MODULE_0__helpers_js__["a" /* default */]({
+                number: '',
+                exp_month: '',
+                exp_year: '',
+                cvc: '',
+                address_zip: ''
+            })
+        }
+    },
+    methods: {
+        onSubmit: function onSubmit() {
+            // Request a token from Stripe:
+            Stripe.card.createToken(this.form.data(), this.stripeResponseHandler);
+        },
+        stripeResponseHandler: function stripeResponseHandler(status, response) {
+            console.log(status)
+            console.log(response)
+        }
+    },
     mounted: function mounted() {
         mixpanel.track("View Payments Page");
     }
@@ -20934,23 +20929,152 @@ if (false) {
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "section"
   }, [_c('div', {
     staticClass: "container"
-  }, [_c('header', {
-    staticClass: "content has-text-centered"
-  }, [_c('h2', {
-    staticClass: "title is-3"
-  }, [_vm._v("Payment Page")])]), _vm._v(" "), _c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "card"
   }, [_c('div', {
     staticClass: "card-content"
-  }), _vm._v(" "), _c('footer', {
+  }, [_c('form', {
+    attrs: {
+      "role": "form"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.onSubmit($event)
+      },
+      "keydown": function($event) {
+        _vm.form.errors.clear($event.target.name)
+      }
+    }
+  }, [_c('span', {
+    staticClass: "payment-errors"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "form-row"
+  }, [_c('label', [_c('span', [_vm._v("Card Number")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.number),
+      expression: "form.number"
+    }],
+    attrs: {
+      "type": "text",
+      "size": "20"
+    },
+    domProps: {
+      "value": _vm._s(_vm.form.number)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.number = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-row"
+  }, [_c('label', [_c('span', [_vm._v("Expiration (MM/YY)")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.exp_month),
+      expression: "form.exp_month"
+    }],
+    attrs: {
+      "type": "text",
+      "size": "2"
+    },
+    domProps: {
+      "value": _vm._s(_vm.form.exp_month)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.exp_month = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', [_vm._v(" / ")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.exp_year),
+      expression: "form.exp_year"
+    }],
+    attrs: {
+      "type": "text",
+      "size": "2"
+    },
+    domProps: {
+      "value": _vm._s(_vm.form.exp_year)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.exp_year = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-row"
+  }, [_c('label', [_c('span', [_vm._v("CVC")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.cvc),
+      expression: "form.cvc"
+    }],
+    attrs: {
+      "type": "text",
+      "size": "4"
+    },
+    domProps: {
+      "value": _vm._s(_vm.form.cvc)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.cvc = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "form-row"
+  }, [_c('label', [_c('span', [_vm._v("Billing ZIP Code")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.address_zip),
+      expression: "form.address_zip"
+    }],
+    attrs: {
+      "type": "text",
+      "size": "6"
+    },
+    domProps: {
+      "value": _vm._s(_vm.form.address_zip)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.form.address_zip = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('button', {
+    staticClass: "button is-primary",
+    attrs: {
+      "type": "submit",
+      "disabled": _vm.form.errors.any()
+    }
+  }, [_vm._v("Save Card")])])]), _vm._v(" "), _c('footer', {
     staticClass: "card-footer"
   })])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('header', {
+    staticClass: "content has-text-centered"
+  }, [_c('h2', {
+    staticClass: "title is-3"
+  }, [_vm._v("Payment Page")])])
 }]}
 if (false) {
   module.hot.accept()

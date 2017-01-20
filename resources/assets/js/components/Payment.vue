@@ -6,75 +6,49 @@
             </header>
             <div class="card">
                 <div class="card-content">
-                    <!-- <form
+                    <form
                         role="form"
-                        method="POST"
-                        :action="formUrl"
                         @submit.prevent="onSubmit"
                         @keydown="form.errors.clear($event.target.name)"
                     >
-                        <slot></slot>
+  <span class="payment-errors"></span>
 
-                        <label class="label">Email</label>
-                        <p class="control has-icon">
-                            <input
-                                v-model="form.email"
-                                :class="['input', form.errors.has('email') ? 'is-danger' : '']"
-                                type="email"
-                                placeholder="Email"
-                                name="email"
-                                :value="old.email"
-                                required
-                                :autofocus="!form.errors.length|| form.errors.has('email')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-envelope"></i></span>
-                            <template v-if="form.errors.has('email')">
-                                <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                                <span class="help is-danger" v-text="form.errors.get('email')"></span>
-                            </template>
-                        </p>
+  <div class="form-row">
+    <label>
+      <span>Card Number</span>
+      <input type="text" size="20" v-model="form.number">
+    </label>
+  </div>
 
-                        <label class="label">Password</label>
-                        <p class="control has-icon">
-                            <input
-                                v-model="form.password"
-                                :class="['input', form.errors.has('password') ? 'is-danger' : '']"
-                                type="password"
-                                placeholder="Password"
-                                name="password"
-                                :value="old.password"
-                                required
-                                :autofocus="form.errors.has('password')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-lock"></i></span>
-                            <template v-if="form.errors.has('password')">
-                                <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                                <span class="help is-danger" v-text="form.errors.get('password')"></span>
-                            </template>
-                        </p>
+  <div class="form-row">
+    <label>
+      <span>Expiration (MM/YY)</span>
+      <input type="text" size="2" v-model="form.exp_month">
+    </label>
+    <span> / </span>
+    <input type="text" size="2" v-model="form.exp_year">
+  </div>
 
-                        <p class="control">
-                            <label class="checkbox">
-                                <input
-                                    v-model="form.remember"
-                                    type="checkbox"
-                                    name="remember"
-                                >
-                                Remember me
-                            </label>
-                        </p>
-                        
-                        <p class="control is-clearfix">
-                            <button
-                                type="submit"
-                                class="button is-primary is-pulled-right"
-                                :disabled="form.errors.any()"
-                            >Log In</button>
-                            <a class="button is-link" href="/password/reset">
-                                Forgot Your Password?
-                            </a>
-                        </p>
-                    </form> -->
+  <div class="form-row">
+    <label>
+      <span>CVC</span>
+      <input type="text" size="4" v-model="form.cvc">
+    </label>
+  </div>
+
+  <div class="form-row">
+    <label>
+      <span>Billing ZIP Code</span>
+      <input type="text" size="6" v-model="form.address_zip">
+    </label>
+  </div>
+
+  <button
+    type="submit"
+    class="button is-primary"
+    :disabled="form.errors.any()"
+    >Save Card</button>
+</form>
                 </div>
                 <footer class="card-footer">
                 </footer>
@@ -89,6 +63,27 @@
     export default {
         name: 'payment',
         props: ['user'],
+        data() {
+            return {
+                form: new Form({
+                    number: '',
+                    exp_month: '',
+                    exp_year: '',
+                    cvc: '',
+                    address_zip: ''
+                })
+            }
+        },
+        methods: {
+            onSubmit() {
+                // Request a token from Stripe:
+                Stripe.card.createToken(this.form.data(), this.stripeResponseHandler);
+            },
+            stripeResponseHandler(status, response) {
+                console.log(status)
+                console.log(response)
+            }
+        },
         mounted() {
             mixpanel.track("View Payments Page");
         }
