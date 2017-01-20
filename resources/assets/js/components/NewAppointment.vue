@@ -118,7 +118,6 @@
             },
             onSubmit() {
                 this.form.submit('post', 'api/appointments', this.onSuccess);
-                //this.onSuccess();
             },
             onSuccess() {
                 // if no detailed profile, redirect to profile

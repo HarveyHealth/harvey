@@ -7,8 +7,6 @@
         </div>
         <form
             role="form"
-            method="POST"
-            action=""
             @submit.prevent="onSubmit"
             @keydown="form.errors.clear($event.target.name)"
         >
@@ -238,6 +236,14 @@
                 })
             }
         },
+        methods: {
+            onSubmit() {
+                this.form.submit('put', 'api/users', this.onSuccess);
+            },
+            onSuccess() {
+                this.$router.push('/payment');
+            }
+        },
         watch: {
             user() {
                 Object.assign(this.form, this.user);
@@ -248,7 +254,7 @@
 
 <style lang="sass" scoped>
     .section > .control {
-        max-width: 600px;
+        max-width: 500px;
         margin-left: auto;
         margin-right: auto;
     }
