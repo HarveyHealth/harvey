@@ -87,6 +87,6 @@ class MakeComponentCommand extends Command
         // write the file
         $this->files->put($full_path, $template);
 
-        $this->info('View created successfully.');
+        $this->info('Component created successfully.');
     }
 }
