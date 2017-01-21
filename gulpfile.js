@@ -4,8 +4,6 @@
 // `npm run prod`
 
 const elixir = require('laravel-elixir');
-const bootstrap = require('bootstrap-styl');
-const browserSync = require('laravel-elixir-browsersync2');
 
 require('laravel-elixir-vue-2');
 
