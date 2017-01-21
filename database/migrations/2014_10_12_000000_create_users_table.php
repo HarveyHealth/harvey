@@ -40,6 +40,7 @@ class CreateUsersTable extends Migration
             $table->string('stripe_customer_id', 32)->nullable()->unique();
             $table->datetime('terms_accepted_at')->nullable();
             $table->rememberToken();
+            $table->char('api_token', 60)->nullable()->unique();
             $table->timestamps();
         });
     }
