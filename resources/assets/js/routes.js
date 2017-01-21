@@ -9,14 +9,14 @@ let routes = [
         path: '/new-appointment',
         component: require('./components/NewAppointmentWrapper.vue')
     },
-    {
-        path: '/profile',
-        component: require('./components/Profile.vue')
-    },
-    {
-        path: '/payment',
-        component: require('./components/Payment.vue')
-    },
+    // {
+    //     path: '/profile',
+    //     component: require('./components/Profile.vue')
+    // },
+    // {
+    //     path: '/payment',
+    //     component: require('./components/Payment.vue')
+    // },
     {
         path: '*',
         redirect:  '/'

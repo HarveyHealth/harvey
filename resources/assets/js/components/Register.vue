@@ -17,6 +17,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.first_name"
+                                name="first_name"
                                 :class="['input', form.errors.has('first_name') ? 'is-danger' : '']"
                                 type="text"
                                 placeholder="First Name"
@@ -34,6 +35,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.last_name"
+                                name="last_name"
                                 :class="['input', form.errors.has('last_name') ? 'is-danger' : '']"
                                 type="text"
                                 placeholder="Last Name"
@@ -51,6 +53,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.email"
+                                name="email"
                                 :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                                 type="email"
                                 placeholder="Email"
@@ -68,6 +71,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.phone"
+                                name="phone"
                                 :class="['input', form.errors.has('phone') ? 'is-danger' : '']"
                                 type="tel"
                                 placeholder="Phone"
@@ -84,6 +88,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.password"
+                                name="password"
                                 :class="['input', form.errors.has('password') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Password"
@@ -101,6 +106,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.password_confirmation"
+                                name="password_confirmation"
                                 :class="['input', form.errors.has('password_confirmation') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Confirm Password"

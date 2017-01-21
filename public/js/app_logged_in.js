@@ -18276,14 +18276,14 @@ var routes = [
         path: '/new-appointment',
         component: __webpack_require__(173)
     },
-    {
-        path: '/profile',
-        component: __webpack_require__(122)
-    },
-    {
-        path: '/payment',
-        component: __webpack_require__(121)
-    },
+    // {
+    //     path: '/profile',
+    //     component: require('./components/Profile.vue')
+    // },
+    // {
+    //     path: '/payment',
+    //     component: require('./components/Payment.vue')
+    // },
     {
         path: '*',
         redirect:  '/'
@@ -19599,15 +19599,15 @@ module.exports = function spread(callback) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_js__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewAppointment_vue__ = __webpack_require__(172);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewAppointment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewAppointment_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Profile_vue__ = __webpack_require__(122);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Profile_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Payment_vue__ = __webpack_require__(121);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Payment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Payment_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash__ = __webpack_require__(166);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_js__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NewAppointment_vue__ = __webpack_require__(172);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NewAppointment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__NewAppointment_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Profile_vue__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Profile_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Profile_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Payment_vue__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Payment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Payment_vue__);
 //
 //
 //
@@ -19678,17 +19678,16 @@ module.exports = function spread(callback) {
                     number: 'The card number field is required.',
                     exp_month: 'The expiration month field is required.',
                     exp_year: 'The expiration year field is required.',
-                    cvc: 'The cvc field is required.',
-                    // address_zip: 'The billing zip code field is required.'
+                    cvc: 'The cvc field is required.'
                 }
             },
             forms: {
-                'new-appointment': new __WEBPACK_IMPORTED_MODULE_0__helpers_js__["a" /* default */]({
+                'new-appointment': new __WEBPACK_IMPORTED_MODULE_1__helpers_js__["a" /* default */]({
                     selectedDate: '',
                     selectedTime: '',
                     details: ''
                 }),
-                'profile': new __WEBPACK_IMPORTED_MODULE_0__helpers_js__["a" /* default */]({
+                'profile': new __WEBPACK_IMPORTED_MODULE_1__helpers_js__["a" /* default */]({
                     first_name: '',
                     last_name: '',
                     email: '',
@@ -19699,48 +19698,50 @@ module.exports = function spread(callback) {
                     height_inches: '',
                     weight: ''
                 }),
-                'payment': new __WEBPACK_IMPORTED_MODULE_0__helpers_js__["a" /* default */]({
+                'payment': new __WEBPACK_IMPORTED_MODULE_1__helpers_js__["a" /* default */]({
                     number: '',
                     exp_month: '',
                     exp_year: '',
-                    cvc: '',
-                    // address_zip: ''
+                    cvc: ''
                 })
             }
         }
     },
     components: {
-        NewAppointment: __WEBPACK_IMPORTED_MODULE_1__NewAppointment_vue___default.a,
-        Profile: __WEBPACK_IMPORTED_MODULE_2__Profile_vue___default.a,
-        Payment: __WEBPACK_IMPORTED_MODULE_3__Payment_vue___default.a
+        NewAppointment: __WEBPACK_IMPORTED_MODULE_2__NewAppointment_vue___default.a,
+        Profile: __WEBPACK_IMPORTED_MODULE_3__Profile_vue___default.a,
+        Payment: __WEBPACK_IMPORTED_MODULE_4__Payment_vue___default.a
     },
     methods: {
         formOnError: function formOnError(error) {
-            this.forms[this.currentStepName].onFail(error);
+            this.forms[this.currentStepName].onFail({
+                response: {
+                    data: error
+                }
+            });
+
         },
         hasFieldData: function hasFieldData(field) {
-            return Boolean(this.forms[this.currentStepName] && this.forms[this.currentStepName][field]);
+            return this.forms[this.currentStepName] && this.forms[this.currentStepName][field];
         },
         checkError: function checkError() {
             var this$1 = this;
 
-            var error = true;
+            var error = false;
             var errorData = {};
+            var currentStepValidator = this.validationRules[this.currentStepName];
 
-            Object.keys(this.validationRules[this.currentStepName]).forEach(function (field) {
+            Object.keys(currentStepValidator).forEach(function (field) {
                 if (!this$1.hasFieldData(field)) {
-                    errorData[field] = [this$1.validationRules[this$1.currentStepName][field]];
+                    // error object in Laravel error format
+                    errorData[field] = [currentStepValidator[field]];
                 }
             })
 
             if (!_.isEmpty(errorData)) {
-                this.formOnError({
-                    response: {
-                        data: errorData
-                    }
-                });
-            } else {
-                error = false;
+                this.formOnError(errorData);
+
+                error = true;
             }
 
             return error;
@@ -19762,50 +19763,51 @@ module.exports = function spread(callback) {
                 }
             }
         },
-        paymentFormOnError: function paymentFormOnError(response) {
-            var obj;
-            this.formOnError({
-                response: {
-                    data: ( obj = {}, obj[response.param] = [response.message], obj )
-                }
-            });
-        },
         stripeResponseHandler: function stripeResponseHandler(status, response) {
             var this$1 = this;
 
-            console.log(status, response)
             if (status == 200) {
-                // if success, send request for new appointment, user profile and payment
-                // payment: response.id
+                // if success, send requests for new appointment, user profile and payment
                 axios.all([
-                    axios.post('api/appointments', this.forms['new-appointment'].data()),
-                    axios.put('api/users', this.forms['profile'].data())
+                    // need to submit payment token: response.id
+                    axios.put('api/users', this.forms['profile'].data()),
+                    axios.post('api/appointments', this.forms['new-appointment'].data())
                 ])
-                .then( axios.spread(function () {
+                .then(function () {
                     this$1.$router.push('/');
-                }) )
+                })
                 .catch( function (error) {
-                    this$1.buttonIsDisabled = false;
-                    console.log(error.response)
-                    this$1.goBackToErrorComponent(error.response);
+                    // if error on requests, go back to the component and display error
+                    this$1.goBackToErrorComponent(error);
                 } );
             } else {
-                // if error, display error and enable button
-                this.buttonIsDisabled = false;
-                this.paymentFormOnError(response.error);
+                // if payment error
+                this.goBackToErrorComponent(response.error, true);
             }
         },
-        goBackToErrorComponent: function goBackToErrorComponent(error) {
-            if (error.config.url == 'api/users') {
-                this.currentStep = 1;
+        goBackToErrorComponent: function goBackToErrorComponent(error, paymentError) {
+            if ( paymentError === void 0 ) paymentError = false;
+
+            // first enable button
+            this.buttonIsDisabled = false;
+
+            // identify which component has error
+            if (paymentError) {
+                var obj;
+                this.formOnError(( obj = {}, obj[error.param] = [error.message], obj ));
             } else {
-                this.currentStep = 0;
+                // [WIP] hard coded steps, change to something smarter later
+                if (error.response.config.url == 'api/users') {
+                    this.currentStep = 1;
+                } else {
+                    this.currentStep = 0;
+                }
+                this.formOnError(error.response.data);
             }
-            this.formOnError(error.data);
         },
         mergeUserProfile: function mergeUserProfile() {
             if (!_.isEmpty(this.user)) {
-                this.forms.profile = Object.assign(this.forms.profile, this.user);
+                this.forms.profile = Object.assign(new __WEBPACK_IMPORTED_MODULE_1__helpers_js__["a" /* default */](), this.forms.profile, this.user);
             }
         }
     },
@@ -19834,17 +19836,6 @@ module.exports = function spread(callback) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_js__ = __webpack_require__(4);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -20522,20 +20513,7 @@ exports.push([module.i, "\n.test-marker[data-v-2ac4b220] {\n  color: #fff;\n}\n.
 
 
 /***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)();
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", "", {"version":3,"sources":[],"names":[],"mappings":"","file":"NewAppointmentWrapper.vue","sourceRoot":"webpack://"}]);
-
-// exports
-
-
-/***/ },
+/* 162 */,
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -20544,7 +20522,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "\n.is-expanded[data-v-4d8a2b18]:first-child {\n  margin-right: 1.5rem;\n}\n.delimiter[data-v-4d8a2b18] {\n  line-height: 2.285rem;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/Payment.vue"],"names":[],"mappings":";AAAA;EACE,qBAAqB;CAAE;AAEzB;EACE,sBAAsB;CAAE","file":"Payment.vue","sourcesContent":[".is-expanded:first-child {\n  margin-right: 1.5rem; }\n\n.delimiter {\n  line-height: 2.285rem; }\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "\n.is-expanded[data-v-4d8a2b18]:first-child {\n  margin-right: 1.5rem;\n}\n.delimiter[data-v-4d8a2b18] {\n  line-height: 2.285rem;\n  margin-right: 0.75rem;\n}\n", "", {"version":3,"sources":["/./resources/assets/js/components/Payment.vue"],"names":[],"mappings":";AAAA;EACE,qBAAqB;CAAE;AAEzB;EACE,sBAAsB;EACtB,sBAAsB;CAAE","file":"Payment.vue","sourcesContent":[".is-expanded:first-child {\n  margin-right: 1.5rem; }\n\n.delimiter {\n  line-height: 2.285rem;\n  margin-right: 0.75rem; }\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 
@@ -38137,9 +38115,6 @@ module.exports = __vue_exports__
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
-/* styles */
-__webpack_require__(193)
-
 /* script */
 __vue_exports__ = __webpack_require__(153)
 
@@ -38537,9 +38512,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "is-expanded"
   }, [_c('label', {
     staticClass: "label"
-  }, [_vm._v("Expiration (MM/YY)")]), _vm._v(" "), _c('p', {
-    class: ['control', 'is-grouped', 'is-gapless', {
-      'has-icon has-icon-right': _vm.form.errors.has('exp_month') || _vm.form.errors.has('exp_year')
+  }, [_vm._v("Expiration (MM/YY)")]), _vm._v(" "), _c('div', {
+    staticClass: "control is-grouped"
+  }, [_c('p', {
+    class: ['control', 'is-expanded', {
+      'has-icon has-icon-right': _vm.form.errors.has('exp_month')
     }]
   }, [_c('input', {
     directives: [{
@@ -38566,9 +38543,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.exp_month = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), (_vm.form.errors.has('exp_month')) ? [_vm._m(2)] : _vm._e()], 2), _vm._v(" "), _c('span', {
     staticClass: "delimiter"
-  }, [_vm._v(" / ")]), _vm._v(" "), _c('input', {
+  }, [_vm._v(" / ")]), _vm._v(" "), _c('p', {
+    class: ['control', 'is-expanded', {
+      'has-icon has-icon-right': _vm.form.errors.has('exp_year')
+    }]
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -38593,7 +38574,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.exp_year = $event.target.value
       }
     }
-  }), _vm._v(" "), (_vm.form.errors.has('exp_month') || _vm.form.errors.has('exp_year')) ? [_vm._m(2)] : _vm._e()], 2), _vm._v(" "), (_vm.form.errors.has('exp_month')) ? [_c('span', {
+  }), _vm._v(" "), (_vm.form.errors.has('exp_year')) ? [_vm._m(3)] : _vm._e()], 2)]), _vm._v(" "), (_vm.form.errors.has('exp_month')) ? [_c('span', {
     staticClass: "help is-danger",
     domProps: {
       "textContent": _vm._s(_vm.form.errors.get('exp_month'))
@@ -38634,7 +38615,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.form.cvc = $event.target.value
       }
     }
-  }), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.form.errors.has('cvc')) ? [_vm._m(4), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._m(4), _vm._v(" "), (_vm.form.errors.has('cvc')) ? [_vm._m(5), _vm._v(" "), _c('span', {
     staticClass: "help is-danger",
     domProps: {
       "textContent": _vm._s(_vm.form.errors.get('cvc'))
@@ -38649,6 +38630,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('span', {
     staticClass: "icon is-small align-right is-danger"
+  }, [_c('i', {
+    staticClass: "fa fa-warning"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "icon is-small is-danger"
   }, [_c('i', {
     staticClass: "fa fa-warning"
   })])
@@ -38902,19 +38889,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "tag": "a",
       "to": "/new-appointment"
     }
-  }, [_vm._v("New Appointment")]), _vm._v(" "), _c('router-link', {
-    staticClass: "nav-item",
-    attrs: {
-      "tag": "a",
-      "to": "/profile"
-    }
-  }, [_vm._v("Profile")]), _vm._v(" "), _c('router-link', {
-    staticClass: "nav-item",
-    attrs: {
-      "tag": "a",
-      "to": "/payment"
-    }
-  }, [_vm._v("Payment")]), _vm._v(" "), _c('a', {
+  }, [_vm._v("New Appointment")]), _vm._v(" "), _c('a', {
     staticClass: "nav-item has-border-top",
     on: {
       "click": _vm.logout
@@ -39662,32 +39637,7 @@ if(false) {
 }
 
 /***/ },
-/* 193 */
-/***/ function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(162);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(3)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4a72d246!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NewAppointmentWrapper.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js?sourceMap!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4a72d246!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NewAppointmentWrapper.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ },
+/* 193 */,
 /* 194 */
 /***/ function(module, exports, __webpack_require__) {
 

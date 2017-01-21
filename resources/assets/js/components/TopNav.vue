@@ -38,8 +38,8 @@
                 >
                     <router-link tag="a" to="/" class="nav-item">Dashboard</router-link>
                     <router-link tag="a" to="/new-appointment" class="nav-item">New Appointment</router-link>
-                    <router-link tag="a" to="/profile" class="nav-item">Profile</router-link>
-                    <router-link tag="a" to="/payment" class="nav-item">Payment</router-link>
+                    <!-- <router-link tag="a" to="/profile" class="nav-item">Profile</router-link>
+                    <router-link tag="a" to="/payment" class="nav-item">Payment</router-link> -->
                     <a class="nav-item has-border-top" @click="logout">Log out</a>
                 </div>
                 <!-- <div class="nav-item dropdown">

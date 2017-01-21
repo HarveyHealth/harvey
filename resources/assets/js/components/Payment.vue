@@ -28,32 +28,39 @@
             <div class="control is-horizontal">
                 <div class="is-expanded">
                     <label class="label">Expiration (MM/YY)</label>
-                    <p :class="['control', 'is-grouped', 'is-gapless', {'has-icon has-icon-right': form.errors.has('exp_month') || form.errors.has('exp_year')}]">
-                        <input
-                            v-model="form.exp_month"
-                            name="exp_month"
-                            :class="['input', form.errors.has('exp_month') ? 'is-danger' : '']"
-                            type="text"
-                            size="2"
-                            placeholder="MM"
-                            required
-                            :autofocus="form.errors.has('exp_month')"
-                        >
+                    <div class="control is-grouped">
+                        <p :class="['control', 'is-expanded', {'has-icon has-icon-right': form.errors.has('exp_month')}]">
+                            <input
+                                v-model="form.exp_month"
+                                name="exp_month"
+                                :class="['input', form.errors.has('exp_month') ? 'is-danger' : '']"
+                                type="text"
+                                size="2"
+                                placeholder="MM"
+                                required
+                                :autofocus="form.errors.has('exp_month')"
+                            >
+                            <template v-if="form.errors.has('exp_month')">
+                                <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
+                            </template>
+                        </p>
                         <span class="delimiter"> / </span>
-                        <input
-                            v-model="form.exp_year"
-                            name="exp_year"
-                            :class="['input', form.errors.has('exp_year') ? 'is-danger' : '']"
-                            type="text"
-                            size="2"
-                            placeholder="YY"
-                            required
-                            :autofocus="form.errors.has('exp_year')"
-                        >
-                        <template v-if="form.errors.has('exp_month') || form.errors.has('exp_year')">
-                            <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
-                        </template>
-                    </p>
+                        <p :class="['control', 'is-expanded', {'has-icon has-icon-right': form.errors.has('exp_year')}]">
+                            <input
+                                v-model="form.exp_year"
+                                name="exp_year"
+                                :class="['input', form.errors.has('exp_year') ? 'is-danger' : '']"
+                                type="text"
+                                size="2"
+                                placeholder="YY"
+                                required
+                                :autofocus="form.errors.has('exp_year')"
+                            >
+                            <template v-if="form.errors.has('exp_year')">
+                                <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
+                            </template>
+                        </p>
+                    </div>
                     <template v-if="form.errors.has('exp_month')">
                         <span class="help is-danger" v-text="form.errors.get('exp_month')"></span>
                     </template>
@@ -82,24 +89,6 @@
                     </p>
                 </div>
             </div>
-
-            <!-- <label class="label">Billing Zip Code</label>
-            <p :class="['control', {'has-icon has-icon-right': form.errors.has('address_zip')}]">
-                <input
-                    v-model="form.address_zip"
-                    name="address_zip"
-                    :class="['input', form.errors.has('address_zip') ? 'is-danger' : '']"
-                    type="text"
-                    size="6"
-                    placeholder="Billing Zip Code"
-                    required
-                    :autofocus="!form.errors.length|| form.errors.has('address_zip')"
-                >
-                <template v-if="form.errors.has('address_zip')">
-                    <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
-                    <span class="help is-danger" v-text="form.errors.get('address_zip')"></span>
-                </template>
-            </p> -->
 
             <p>Your card will not be charged right now.</p>
         </div>
@@ -146,5 +135,6 @@
 
     .delimiter {
         line-height: 2.285rem;
+        margin-right: 0.75rem;
     }
 </style>

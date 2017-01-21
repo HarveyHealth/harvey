@@ -29,11 +29,11 @@
 </template>
 
 <script>
+    import {isEmpty} from 'lodash';
     import Form from '../helpers.js';
     import NewAppointment from './NewAppointment.vue';
     import Profile from './Profile.vue';
     import Payment from './Payment.vue';
-    import {isEmpty} from 'lodash';
 
     export default {
         name: 'new-appointment-wrapper',
@@ -68,8 +68,7 @@
                         number: 'The card number field is required.',
                         exp_month: 'The expiration month field is required.',
                         exp_year: 'The expiration year field is required.',
-                        cvc: 'The cvc field is required.',
-                        // address_zip: 'The billing zip code field is required.'
+                        cvc: 'The cvc field is required.'
                     }
                 },
                 forms: {
@@ -93,8 +92,7 @@
                         number: '',
                         exp_month: '',
                         exp_year: '',
-                        cvc: '',
-                        // address_zip: ''
+                        cvc: ''
                     })
                 }
             }
@@ -106,29 +104,32 @@
         },
         methods: {
             formOnError(error) {
-                this.forms[this.currentStepName].onFail(error);
+                this.forms[this.currentStepName].onFail({
+                    response: {
+                        data: error
+                    }
+                });
+
             },
             hasFieldData(field) {
-                return Boolean(this.forms[this.currentStepName] && this.forms[this.currentStepName][field]);
+                return this.forms[this.currentStepName] && this.forms[this.currentStepName][field];
             },
             checkError() {
-                let error = true;
+                let error = false;
                 let errorData = {};
+                let currentStepValidator = this.validationRules[this.currentStepName];
 
-                Object.keys(this.validationRules[this.currentStepName]).forEach(field => {
+                Object.keys(currentStepValidator).forEach(field => {
                     if (!this.hasFieldData(field)) {
-                        errorData[field] = [this.validationRules[this.currentStepName][field]];
+                        // error object in Laravel error format
+                        errorData[field] = [currentStepValidator[field]];
                     }
                 })
 
                 if (!_.isEmpty(errorData)) {
-                    this.formOnError({
-                        response: {
-                            data: errorData
-                        }
-                    });
-                } else {
-                    error = false;
+                    this.formOnError(errorData);
+
+                    error = true;
                 }
 
                 return error;
@@ -150,49 +151,48 @@
                     }
                 }
             },
-            paymentFormOnError(response) {
-                this.formOnError({
-                    response: {
-                        data: {
-                            [response.param]: [response.message]
-                        }
-                    }
-                });
-            },
             stripeResponseHandler(status, response) {
-                console.log(status, response)
                 if (status == 200) {
-                    // if success, send request for new appointment, user profile and payment
-                    // payment: response.id
+                    // if success, send requests for new appointment, user profile and payment
                     axios.all([
-                        axios.post('api/appointments', this.forms['new-appointment'].data()),
-                        axios.put('api/users', this.forms['profile'].data())
+                        // need to submit payment token: response.id
+                        axios.put('api/users', this.forms['profile'].data()),
+                        axios.post('api/appointments', this.forms['new-appointment'].data())
                     ])
-                    .then( axios.spread(() => {
+                    .then(() => {
                         this.$router.push('/');
-                    }) )
+                    })
                     .catch( (error) => {
-                        this.buttonIsDisabled = false;
-                        console.log(error.response)
-                        this.goBackToErrorComponent(error.response);
+                        // if error on requests, go back to the component and display error
+                        this.goBackToErrorComponent(error);
                     } );
                 } else {
-                    // if error, display error and enable button
-                    this.buttonIsDisabled = false;
-                    this.paymentFormOnError(response.error);
+                    // if payment error
+                    this.goBackToErrorComponent(response.error, true);
                 }
             },
-            goBackToErrorComponent(error) {
-                if (error.config.url == 'api/users') {
-                    this.currentStep = 1;
+            goBackToErrorComponent(error, paymentError = false) {
+                // first enable button
+                this.buttonIsDisabled = false;
+
+                // identify which component has error
+                if (paymentError) {
+                    this.formOnError({
+                        [error.param]: [error.message]
+                    });
                 } else {
-                    this.currentStep = 0;
+                    // [WIP] hard coded steps, change to something smarter later
+                    if (error.response.config.url == 'api/users') {
+                        this.currentStep = 1;
+                    } else {
+                        this.currentStep = 0;
+                    }
+                    this.formOnError(error.response.data);
                 }
-                this.formOnError(error.data);
             },
             mergeUserProfile() {
                 if (!_.isEmpty(this.user)) {
-                    this.forms.profile = Object.assign(this.forms.profile, this.user);
+                    this.forms.profile = Object.assign(new Form(), this.forms.profile, this.user);
                 }
             }
         },
@@ -214,7 +214,3 @@
         }
     }
 </script>
-
-<style lang="sass">
-
-</style>
