@@ -15,9 +15,11 @@ class BaseAPIController extends Controller
         return $this;
     }
     
-    protected function respond($data)
+    protected function respond($data, $meta = null)
     {
-        return response()->json(['data' => $data], ResponseCode::HTTP_OK);
+        $output = ['data' => $data, 'meta' => $meta];
+        
+        return response()->json($output, ResponseCode::HTTP_OK);
     }
     
     protected function respondWithError($message)
