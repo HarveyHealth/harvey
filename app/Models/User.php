@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\PatientNote;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,10 +17,9 @@ class User extends Authenticatable implements Mailable
      *
      * @var array
      */
-    protected $fillable = [
-        'first_name', 'last_name', 'email', 'password',
-    ];
-
+    protected $guarded = ['id', 'enabled', 'user_type', 'api_token',
+                            'stripe_customer_id', 'terms_accepted_at',
+                            'phone_verified_at', 'email_verified_at'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -40,12 +40,12 @@ class User extends Authenticatable implements Mailable
 
     public function patientNotes()
     {
-        return $this->hasMany(\App\Models\PatientNote::class, 'patient_user_id', 'id');
+        return $this->hasMany(PatientNote::class, 'patient_user_id', 'id');
     }
 
     public function practitionerNotes()
     {
-        return $this->hasMany(\App\Models\PatientNote::class, 'practitioner_user_id', 'id');
+        return $this->hasMany(PatientNote::class, 'practitioner_user_id', 'id');
     }
 
     /*
@@ -79,6 +79,6 @@ class User extends Authenticatable implements Mailable
 
     public function emailVerificationURL()
     {
-        return url('/verify/' . $this->id . '/' . $this->emailVerificationToken());
+        return url("/verify/{$this->id}/" . $this->emailVerificationToken());
     }
 }

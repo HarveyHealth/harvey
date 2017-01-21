@@ -35,6 +35,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'longitude' => $faker->longitude,
         'timezone' => $faker->timezone,
         'remember_token' => str_random(10),
+        'api_token' => str_random(60),
     ];
 });
 
@@ -84,6 +85,6 @@ $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker
         'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
         'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
         'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
-        'note' => $faker->paragraph
+        'note' => $faker->sentence
     ];
 });
