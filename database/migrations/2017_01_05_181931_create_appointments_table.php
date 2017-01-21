@@ -22,6 +22,7 @@ class CreateAppointmentsTable extends Migration
             $table->datetime('appointment_at');
             $table->text('reason_for_visit');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
