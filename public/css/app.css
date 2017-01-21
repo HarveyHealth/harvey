@@ -143,7 +143,7 @@ pre {
 }
 
 body {
-  color: #85af4a;
+  color: #4a4a4a;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -202,7 +202,7 @@ strong {
 
 pre {
   background-color: whitesmoke;
-  color: #85af4a;
+  color: #4a4a4a;
   font-size: 0.8em;
   white-space: pre;
   word-wrap: normal;
@@ -583,7 +583,7 @@ table th {
 
 .box {
   background-color: white;
-  border-radius: 5px;
+  border-radius: 0;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   display: block;
   padding: 1.25rem;
@@ -607,7 +607,7 @@ a.box:active {
   -webkit-box-align: center;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: none;
   display: -webkit-inline-box;
   display: inline-flex;
@@ -723,7 +723,7 @@ a.box:active {
 .button.is-link {
   background-color: transparent;
   border-color: transparent;
-  color: #85af4a;
+  color: #4a4a4a;
   text-decoration: underline;
 }
 
@@ -1492,7 +1492,7 @@ a.box:active {
 }
 
 .content {
-  color: #85af4a;
+  color: #4a4a4a;
 }
 
 .content:not(:last-child) {
@@ -1650,7 +1650,7 @@ a.box:active {
   -webkit-box-align: center;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: none;
   display: -webkit-inline-box;
   display: inline-flex;
@@ -1892,7 +1892,7 @@ a.box:active {
   -webkit-box-align: center;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: none;
   display: -webkit-inline-box;
   display: inline-flex;
@@ -2098,25 +2098,25 @@ a.box:active {
 .control.has-addons .button:first-child,
 .control.has-addons .input:first-child,
 .control.has-addons .select:first-child {
-  border-radius: 3px 0 0 3px;
+  border-radius: 0 0 0 0;
 }
 
 .control.has-addons .button:first-child select,
 .control.has-addons .input:first-child select,
 .control.has-addons .select:first-child select {
-  border-radius: 3px 0 0 3px;
+  border-radius: 0 0 0 0;
 }
 
 .control.has-addons .button:last-child,
 .control.has-addons .input:last-child,
 .control.has-addons .select:last-child {
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 0 0 0;
 }
 
 .control.has-addons .button:last-child select,
 .control.has-addons .input:last-child select,
 .control.has-addons .select:last-child select {
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 0 0 0;
 }
 
 .control.has-addons .button.is-expanded,
@@ -2409,7 +2409,7 @@ a.box:active {
 
 .notification {
   background-color: whitesmoke;
-  border-radius: 3px;
+  border-radius: 0;
   padding: 1.25rem 2.5rem 1.25rem 1.5rem;
   position: relative;
 }
@@ -2505,11 +2505,11 @@ a.box:active {
 }
 
 .progress::-webkit-progress-value {
-  background-color: #85af4a;
+  background-color: #4a4a4a;
 }
 
 .progress::-moz-progress-bar {
-  background-color: #85af4a;
+  background-color: #4a4a4a;
 }
 
 .progress.is-white::-webkit-progress-value {
@@ -2671,7 +2671,7 @@ a.box:active {
   align-items: center;
   background-color: whitesmoke;
   border-radius: 290486px;
-  color: #85af4a;
+  color: #4a4a4a;
   display: -webkit-inline-box;
   display: inline-flex;
   font-size: 0.75rem;
@@ -3081,7 +3081,7 @@ a.box:active {
 .card {
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  color: #85af4a;
+  color: #4a4a4a;
   max-width: 100%;
   position: relative;
 }
@@ -3179,7 +3179,7 @@ a.box:active {
 }
 
 .level code {
-  border-radius: 3px;
+  border-radius: 0;
 }
 
 .level img {
@@ -3289,7 +3289,7 @@ a.box:active {
 
 .menu-list a {
   border-radius: 2px;
-  color: #85af4a;
+  color: #4a4a4a;
   display: block;
   padding: 0.5em 0.75em;
 }
@@ -3327,7 +3327,7 @@ a.box:active {
 
 .message {
   background-color: whitesmoke;
-  border-radius: 3px;
+  border-radius: 0;
   font-size: 1rem;
 }
 
@@ -3464,8 +3464,8 @@ a.box:active {
 .message-header {
   -webkit-box-align: center;
   align-items: center;
-  background-color: #85af4a;
-  border-radius: 3px 3px 0 0;
+  background-color: #4a4a4a;
+  border-radius: 0 0 0 0;
   color: #fff;
   display: -webkit-box;
   display: flex;
@@ -3500,8 +3500,8 @@ a.box:active {
 
 .message-body {
   border: 1px solid #dbdbdb;
-  border-radius: 3px;
-  color: #85af4a;
+  border-radius: 0;
+  color: #4a4a4a;
   padding: 1em 1.25em;
 }
 
@@ -3651,8 +3651,8 @@ a.box:active {
 
 .modal-card-head {
   border-bottom: 1px solid #dbdbdb;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .modal-card-title {
@@ -3665,8 +3665,8 @@ a.box:active {
 }
 
 .modal-card-foot {
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   border-top: 1px solid #dbdbdb;
 }
 
@@ -3714,7 +3714,7 @@ a.box:active {
 }
 
 .nav-toggle span {
-  background-color: #85af4a;
+  background-color: #4a4a4a;
   display: block;
   height: 1px;
   left: 50%;
@@ -3980,7 +3980,7 @@ a.nav-item.is-tab.is-active {
   -webkit-box-align: center;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 0;
   box-shadow: none;
   display: -webkit-inline-box;
   display: inline-flex;
@@ -4197,7 +4197,7 @@ a.nav-item.is-tab.is-active {
 
 .panel-heading {
   background-color: whitesmoke;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0 0 0 0;
   color: #363636;
   font-size: 1.25em;
   font-weight: 300;
@@ -4227,7 +4227,7 @@ a.nav-item.is-tab.is-active {
 }
 
 .panel-list a {
-  color: #85af4a;
+  color: #4a4a4a;
 }
 
 .panel-list a:hover {
@@ -4318,7 +4318,7 @@ label.panel-block:hover {
   -webkit-box-align: center;
   align-items: center;
   border-bottom: 1px solid #dbdbdb;
-  color: #85af4a;
+  color: #4a4a4a;
   display: -webkit-box;
   display: flex;
   -webkit-box-pack: center;
@@ -4394,7 +4394,7 @@ label.panel-block:hover {
 
 .tabs.is-boxed a {
   border: 1px solid transparent;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0 0 0 0;
 }
 
 .tabs.is-boxed a:hover {
@@ -4431,11 +4431,11 @@ label.panel-block:hover {
 }
 
 .tabs.is-toggle li:first-child a {
-  border-radius: 3px 0 0 3px;
+  border-radius: 0 0 0 0;
 }
 
 .tabs.is-toggle li:last-child a {
-  border-radius: 0 3px 3px 0;
+  border-radius: 0 0 0 0;
 }
 
 .tabs.is-toggle li.is-active a {
@@ -9578,9 +9578,20 @@ label.panel-block:hover {
   margin-right: -1px;
 }
 
+.section .has-max-width {
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .animated.notification.fadeOut {
   -webkit-animation-delay: 3s;
   animation-delay: 3s;
+}
+
+.animated.animated-fast {
+  -webkit-animation-duration: 86ms;
+  animation-duration: 86ms;
 }
 
 body.login.hero, body.signup.hero, body[class^="password-reset"].hero {

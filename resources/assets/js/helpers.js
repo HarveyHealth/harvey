@@ -66,11 +66,14 @@ export default class Form {
     onSuccess(successCallback) {
         this.errors.clear();
         
-        successCallback();
+        if (successCallback) {
+            successCallback();
+        }
     }
 
     onFail(error) {
-        console.log(error)
-        this.errors.record(error.response.data);
+        if (error.response.data) {
+            this.errors.record(error.response.data);
+        }
     }
 }

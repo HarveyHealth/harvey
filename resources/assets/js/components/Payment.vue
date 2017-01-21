@@ -1,60 +1,109 @@
 <template>
-    <section class="section">
-        <div class="container">
-            <header class="content has-text-centered">
-                <h2 class="title is-3">Payment Page</h2>
-            </header>
-            <div class="card">
-                <div class="card-content">
-                    <form
-                        role="form"
-                        @submit.prevent="onSubmit"
-                        @keydown="form.errors.clear($event.target.name)"
-                    >
-  <span class="payment-errors"></span>
+    <form
+        role="form"
+        @submit.prevent="onSubmit"
+        @keydown="form.errors.clear($event.target.name)"
+        class="section"
+    >
+        <div class="has-max-width">
+            <label class="label">Card Number</label>
+            <p class="control has-icon">
+                <input
+                    v-model="form.number"
+                    name="number"
+                    :class="['input', form.errors.has('number') ? 'is-danger' : '']"
+                    type="text"
+                    size="20"
+                    placeholder="Card Number"
+                    required
+                    :autofocus="!form.errors.length|| form.errors.has('number')"
+                >
+                <span class="icon is-small"><i class="fa fa-credit-card"></i></span>
+                <template v-if="form.errors.has('number')">
+                    <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                    <span class="help is-danger" v-text="form.errors.get('number')"></span>
+                </template>
+            </p>
 
-  <div class="form-row">
-    <label>
-      <span>Card Number</span>
-      <input type="text" size="20" v-model="form.number">
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>Expiration (MM/YY)</span>
-      <input type="text" size="2" v-model="form.exp_month">
-    </label>
-    <span> / </span>
-    <input type="text" size="2" v-model="form.exp_year">
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>CVC</span>
-      <input type="text" size="4" v-model="form.cvc">
-    </label>
-  </div>
-
-  <div class="form-row">
-    <label>
-      <span>Billing ZIP Code</span>
-      <input type="text" size="6" v-model="form.address_zip">
-    </label>
-  </div>
-
-  <button
-    type="submit"
-    class="button is-primary"
-    :disabled="form.errors.any()"
-    >Save Card</button>
-</form>
+            <div class="control is-horizontal">
+                <div class="is-expanded">
+                    <label class="label">Expiration (MM/YY)</label>
+                    <p :class="['control', 'is-grouped', 'is-gapless', {'has-icon has-icon-right': form.errors.has('exp_month') || form.errors.has('exp_year')}]">
+                        <input
+                            v-model="form.exp_month"
+                            name="exp_month"
+                            :class="['input', form.errors.has('exp_month') ? 'is-danger' : '']"
+                            type="text"
+                            size="2"
+                            placeholder="MM"
+                            required
+                            :autofocus="form.errors.has('exp_month')"
+                        >
+                        <span class="delimiter"> / </span>
+                        <input
+                            v-model="form.exp_year"
+                            name="exp_year"
+                            :class="['input', form.errors.has('exp_year') ? 'is-danger' : '']"
+                            type="text"
+                            size="2"
+                            placeholder="YY"
+                            required
+                            :autofocus="form.errors.has('exp_year')"
+                        >
+                        <template v-if="form.errors.has('exp_month') || form.errors.has('exp_year')">
+                            <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
+                        </template>
+                    </p>
+                    <template v-if="form.errors.has('exp_month')">
+                        <span class="help is-danger" v-text="form.errors.get('exp_month')"></span>
+                    </template>
+                    <template v-if="form.errors.has('exp_year')">
+                        <span class="help is-danger" v-text="form.errors.get('exp_year')"></span>
+                    </template>
                 </div>
-                <footer class="card-footer">
-                </footer>
+                <div class="is-expanded">
+                    <label class="label">CVC</label>
+                    <p class="control has-icon">
+                        <input
+                            v-model="form.cvc"
+                            name="cvc"
+                            :class="['input', form.errors.has('cvc') ? 'is-danger' : '']"
+                            type="text"
+                            size="4"
+                            placeholder="CVC"
+                            required
+                            :autofocus="form.errors.has('cvc')"
+                        >
+                        <span class="icon is-small"><i class="fa fa-lock"></i></span>
+                        <template v-if="form.errors.has('cvc')">
+                            <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                            <span class="help is-danger" v-text="form.errors.get('cvc')"></span>
+                        </template>
+                    </p>
+                </div>
             </div>
+
+            <!-- <label class="label">Billing Zip Code</label>
+            <p :class="['control', {'has-icon has-icon-right': form.errors.has('address_zip')}]">
+                <input
+                    v-model="form.address_zip"
+                    name="address_zip"
+                    :class="['input', form.errors.has('address_zip') ? 'is-danger' : '']"
+                    type="text"
+                    size="6"
+                    placeholder="Billing Zip Code"
+                    required
+                    :autofocus="!form.errors.length|| form.errors.has('address_zip')"
+                >
+                <template v-if="form.errors.has('address_zip')">
+                    <span class="icon is-small is-danger"><i class="fa fa-warning"></i></span>
+                    <span class="help is-danger" v-text="form.errors.get('address_zip')"></span>
+                </template>
+            </p> -->
+
+            <p>Your card will not be charged right now.</p>
         </div>
-    </section>
+    </form>
 </template>
 
 <script>
@@ -62,18 +111,18 @@
 
     export default {
         name: 'payment',
-        props: ['user'],
-        data() {
-            return {
-                form: new Form({
-                    number: '',
-                    exp_month: '',
-                    exp_year: '',
-                    cvc: '',
-                    address_zip: ''
-                })
-            }
-        },
+        props: ['user', 'form'],
+        // data() {
+        //     return {
+        //         form: new Form({
+        //             number: '',
+        //             exp_month: '',
+        //             exp_year: '',
+        //             cvc: '',
+        //             address_zip: ''
+        //         })
+        //     }
+        // },
         methods: {
             onSubmit() {
                 // Request a token from Stripe:
@@ -89,3 +138,13 @@
         }
     }
 </script>
+
+<style lang="sass" scoped>
+    .is-expanded:first-child {
+        margin-right: 1.5rem;
+    }
+
+    .delimiter {
+        line-height: 2.285rem;
+    }
+</style>

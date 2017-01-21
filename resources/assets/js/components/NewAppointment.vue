@@ -1,62 +1,56 @@
 <template>
-    <div class="container">
-        <div class="hero has-text-centered">
-            <div class="hero-body">
-                <h1 class="title">Choose appointment time</h1>
+    <form
+        role="form"
+        @submit.prevent="onSubmit"
+        @keydown="form.errors.clear($event.target.name)"
+    >
+        <date-picker
+            :selected-date="form.selectedDate"
+            :maximum-days="maximumDays"
+            :start-date-time="startDateTime"
+        >
+        </date-picker>
+        <time-picker
+            :selected-date="form.selectedDate"
+            :selected-time="form.selectedTime"
+            :now="now"
+            :start-of-day-hour="startOfDayHour"
+            :end-of-day-hour="endOfDayHour"
+            :minimum-notice="minimumNotice"
+            :duration="duration"
+            :start-date-time="startDateTime"
+        >
+        </time-picker>
+
+        <div class="section control is-horizontal">
+            <div class="control-label">
+                <h2 class="title is-4">Details</h2>
+            </div>
+            <div class="control has-icon">
+                <textarea
+                    v-model="form.details"
+                    name="details"
+                    :class="['textarea', {'is-danger' : form.errors.has('details')}]"
+                    placeholder="Explain how we can help you"
+                    :autofocus="form.errors.has('details')"
+                    required
+                >
+                </textarea>
+                <template v-if="form.errors.has('details')">
+                    <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
+                    <span class="help is-danger" v-text="form.errors.get('details')"></span>
+                </template>
             </div>
         </div>
-        <form
-            role="form"
-            @submit.prevent="onSubmit"
-            @keydown="form.errors.clear($event.target.name)"
-        >
-            <date-picker
-                :selected-date="form.selectedDate"
-                :maximum-days="maximumDays"
-                :start-date-time="startDateTime"
-            >
-            </date-picker>
-            <time-picker
-                :selected-date="form.selectedDate"
-                :selected-time="form.selectedTime"
-                :now="now"
-                :start-of-day-hour="startOfDayHour"
-                :end-of-day-hour="endOfDayHour"
-                :minimum-notice="minimumNotice"
-                :duration="duration"
-                :start-date-time="startDateTime"
-            >
-            </time-picker>
-
-            <div class="section control is-horizontal">
-                <div class="control-label">
-                    <h2 class="title is-4">Details</h2>
-                </div>
-                <div class="control has-icon">
-                    <textarea
-                        v-model="form.details"
-                        :class="['textarea', {'is-danger' : form.errors.has('details')}]"
-                        placeholder="Explain how we can help you"
-                        :autofocus="form.errors.has('details')"
-                        required
-                    >
-                    </textarea>
-                    <template v-if="form.errors.has('details')">
-                        <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                        <span class="help is-danger" v-text="form.errors.get('details')"></span>
-                    </template>
-                </div>
-            </div>
-            
-            <p class="control is-clearfix hero-buttons">
-                <button
-                    type="submit"
-                    class="button is-medium is-primary"
-                    :disabled="form.errors.any()"
-                >Schedule</button>
-            </p>
-        </form>
-    </div>
+        
+        <p v-if="includeCta" class="control is-clearfix hero-buttons">
+            <button
+                type="submit"
+                class="button is-medium is-primary"
+                :disabled="form.errors.any()"
+            >Schedule</button>
+        </p>
+    </form>
 </template>
 
 <script>
@@ -67,19 +61,19 @@
 
     export default {
         name: 'new-appointment',
-        props: ['user'],
+        props: ['user', 'includeCta', 'form'],
         data() {
             return {
-                form: new Form({
-                    selectedDate: '',
-                    selectedTime: '',
-                    details: '',
-                }),
+                // form: new Form({
+                //     selectedDate: '',
+                //     selectedTime: '',
+                //     details: '',
+                // }),
                 now: moment(),
                 startOfDayHour: 9,
                 endOfDayHour: 18,
                 maximumDays: 7,
-                minimumNotice: 2, // hours
+                minimumNotice: 0, // hours
                 duration: 1 // hours
             }
         },
@@ -130,14 +124,6 @@
             },
             onSuccess() {
                 mixpanel.track("New Appointment Created");
-
-                // if no detailed profile, redirect to profile
-                if (!this.user.gender) {
-                    this.$router.push('/profile');
-                } else {
-                // else redirect to dashboard
-                    this.$router.push('/');
-                }
             }
         },
         computed: {
@@ -180,9 +166,15 @@
         .control-label {
             text-align: left;
         }
-        .control.is-horizontal > .control {
-            flex-grow: 2;
-            flex-wrap: wrap;
+        .control.is-horizontal > {
+            .control,
+            .is-expanded {
+                flex-grow: 2;
+                flex-wrap: wrap;
+            }
+            .is-expanded {
+                flex-basis: 0;
+            }
         }
     }
 </style>

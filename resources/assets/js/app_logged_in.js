@@ -11,6 +11,7 @@ Vue.filter('datetime', filter_datetime);
 // components
 import App from './components/App.vue';
 
+// event handler
 const eventHub = new Vue();
 Vue.prototype.$eventHub = eventHub;
 
