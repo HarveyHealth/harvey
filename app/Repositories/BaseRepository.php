@@ -26,9 +26,10 @@ class BaseRepository
         $this->app = $app;
         $this->makeModel();
     }
-
+    
     /**
      * @return \Illuminate\Database\Eloquent\Builder
+     * @throws \Exception
      */
     public function makeModel()
     {
@@ -40,9 +41,10 @@ class BaseRepository
 
         return $this->model = $model->newQuery();
     }
-
+    
     /**
-     * Pass function calls down to the model.
+     * @param $method
+     * @param $args
      * @return mixed
      */
     public function __call($method, $args)
