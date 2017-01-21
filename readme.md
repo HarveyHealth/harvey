@@ -41,16 +41,21 @@ Database Seeding will provide you with these accounts:
 
 #### Admin
 email: `admin@goharvey.co`
+
 password: `secret`
 
 #### Patient
 email: `patient@goharvey.co`
+
 password: `secret`
 
 #### Practitioner
 email: `practitioner@goharvey.co`
+
 password: `secret`
 
+### Standardization Notes:
+- Use response codes found in `Symfony\Component\HttpFoundation\Response`
+
 ###ToDo
-- homestead repo
 - list 3rd party services
