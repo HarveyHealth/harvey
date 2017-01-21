@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Traits\HasPatientAndPractitioner;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
-    use HasPatientAndPractitioner;
+    use HasPatientAndPractitioner, SoftDeletes;
 
     public function notes()
     {

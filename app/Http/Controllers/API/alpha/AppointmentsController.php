@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers\API\alpha;
 
+use App\Http\Controllers\API\alpha\Transformers\AppointmentTransformer;
+use App\Models\Appointment;
 use Illuminate\Http\Request;
 
 class AppointmentsController extends BaseAPIController
 {
+    protected $transformer;
+    
+    public function __construct(AppointmentTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -35,27 +44,15 @@ class AppointmentsController extends BaseAPIController
     {
         //
     }
-
+    
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Appointment $appointment
+     * @return array
      */
-    public function show($id)
+    public function show(Appointment $appointment)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $transformedAppointment = $this->transformer->transform($appointment);
+        return $this->respond($transformedAppointment);
     }
 
     /**
@@ -69,15 +66,15 @@ class AppointmentsController extends BaseAPIController
     {
         //
     }
-
+    
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Appointment $appointment
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Appointment $appointment)
     {
-        //
+        $transformedAppointment = $this->transformer->transform($appointment);
+        $appointment->delete(); // soft delete
+        return $this->respond($transformedAppointment, ['deleted' => true]);
     }
 }
