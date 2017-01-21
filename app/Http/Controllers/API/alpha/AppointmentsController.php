@@ -13,7 +13,6 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-
     }
 
     /**

@@ -20,29 +20,33 @@ class BaseAPIController extends Controller
         return response()->json(['data' => $data], ResponseCode::HTTP_OK);
     }
     
-    protected function respondWithError($message) {
+    protected function respondWithError($message)
+    {
         return response()->json([
             'error' => [
                 'message' => $message,
                 'status_code' => $this->getStatusCode()
             ]
         ]);
-        
     }
     
-    public function respondBadRequest($message = 'Bad Request') {
+    public function respondBadRequest($message = 'Bad Request')
+    {
         return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)->respondWithError($message);
     }
     
-    public function respondNotAuthorized($message = 'Unauthorized Access') {
+    public function respondNotAuthorized($message = 'Unauthorized Access')
+    {
         return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)->respondWithError($message);
     }
     
-    public function respondNotFound($message = 'Not Found') {
+    public function respondNotFound($message = 'Not Found')
+    {
         return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)->respondWithError($message);
     }
     
-    public function respondUnprocessable($message = 'Unprocessable Entity') {
+    public function respondUnprocessable($message = 'Unprocessable Entity')
+    {
         return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);
     }
 }

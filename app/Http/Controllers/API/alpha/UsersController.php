@@ -44,6 +44,5 @@ class UsersController extends BaseAPIController
         $transformedUser = $this->transformer->transform($user);
     
         return $this->respond($transformedUser);
-        
     }
 }

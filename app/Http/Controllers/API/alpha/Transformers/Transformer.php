@@ -12,7 +12,6 @@ namespace App\Http\Controllers\API\alpha\Transformers;
  */
 abstract class Transformer
 {
-
     public function transformCollection($items)
     {
         $result = [];
