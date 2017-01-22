@@ -1,5 +1,6 @@
 <template>
     <div>
+        <alert v-if="!guest"></alert>
         <top-nav :guest="guest" :user="user"></top-nav>
         <div class="page-content">
             <slot></slot>
@@ -9,6 +10,7 @@
 
 <script>
     // components
+    import Alert from './Alert.vue';
     import TopNav from './TopNav.vue';
     
     export default {
@@ -20,9 +22,8 @@
             }
         },
         components: {
+            Alert,
             TopNav
-        },
-        mounted() {
         }
     }
 </script>

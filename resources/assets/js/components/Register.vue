@@ -48,7 +48,7 @@
                                 <span class="help is-danger" v-text="form.errors.get('last_name')"></span>
                             </template>
                         </p>
-                        
+
                         <label class="label">Email</label>
                         <p class="control has-icon">
                             <input
@@ -66,7 +66,7 @@
                                 <span class="help is-danger" v-text="form.errors.get('email')"></span>
                             </template>
                         </p>
-                        
+
                         <label class="label">Phone</label>
                         <p class="control has-icon">
                             <input
@@ -83,7 +83,7 @@
                                 <span class="help is-danger" v-text="form.errors.get('phone')"></span>
                             </template>
                         </p>
-                        
+
                         <label class="label">Password</label>
                         <p class="control has-icon">
                             <input
@@ -101,7 +101,7 @@
                                 <span class="help is-danger" v-text="form.errors.get('password')"></span>
                             </template>
                         </p>
-                        
+
                         <label class="label">Confirm Password</label>
                         <p class="control has-icon">
                             <input
@@ -115,11 +115,11 @@
                             >
                             <span class="icon is-small"><i class="fa fa-lock"></i></span>
                         </p>
-                        
+
                         <p class="control">
                             <label>
                                 <input type="checkbox" v-model="agree">
-                                <small>By clicking Sign Up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</small>
+                                <small>I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.</small>
                             </label>
                         </p>
 
@@ -139,7 +139,7 @@
                     </div>
                 </footer>
             </div>
-        </div>    
+        </div>
     </section>
 </template>
 
