@@ -13,7 +13,10 @@
 
 
 @section('content')
-    <div class="legal">
-        {!! $html !!}
-    </div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">{{$page_title}}</h1>
+            {!! $html !!}
+        </div>
+    </section>
 @endsection
