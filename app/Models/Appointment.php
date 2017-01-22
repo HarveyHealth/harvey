@@ -10,6 +10,13 @@ class Appointment extends Model
 {
     use HasPatientAndPractitioner, SoftDeletes;
 
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'appointment_at'
+    ];
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
