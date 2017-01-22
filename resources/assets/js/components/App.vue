@@ -1,6 +1,6 @@
 <template>
     <div>
-        <alert></alert>
+        <alert v-if="!guest"></alert>
         <top-nav :guest="guest" :user="user"></top-nav>
         <div class="page-content">
             <slot></slot>
