@@ -22,5 +22,10 @@
     "axios": "^0.15.3",
     "bulma": "^0.3.0",
     "moment": "^2.17.1"
+  },
+  "apidoc": {
+    "title": "Harvey API Documentation",
+    "url" : "http://harvey.app/api/alpha",
+    "version": "0.0.1"
   }
 }

@@ -64,13 +64,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        User::unguard();
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'user_type' => 'patient',
+            'api_token' => str_random(60),
             'password' => bcrypt($data['password']),
         ]);
+        User::guard();
     }
 }
