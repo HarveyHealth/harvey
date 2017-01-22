@@ -2,7 +2,7 @@
     <div class="panel">
         <h2 class="panel-heading">Laboratory Tests</h2>
 
-        <template v-if="recent_tests || pending_tests">
+        <template v-if="recent_tests.length || pending_tests.length">
             <div v-for="test in pending_tests" class="panel-block">
                 <Test
                     :test="test"
