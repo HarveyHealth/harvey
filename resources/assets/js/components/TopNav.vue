@@ -16,17 +16,14 @@
                 <div
                     :class="['nav-right', 'nav-menu', {'is-active': nav_is_open} ]"
                 >
-                    <a class="nav-item is-tab">How it works</a>
-                    <a class="nav-item is-tab">Pricing</a>
-                    <a class="nav-item is-tab">About</a>
                     <span class="nav-item">
                         <a href="/login" class="button">Log In</a>
-                        <a href="/signup" class="button is-primary" @click="viewSignupPage">Sign Up</a>
+                        <a href="/signup" class="button is-primary" @click="viewSignupPage">Get Started</a>
                     </span>
                 </div>
             </template>
             <template v-else>
-                <p class="nav-item">Hi, {{ user.first_name }}</p>
+                <p class="nav-item">Hi, {{ capitalize(user.first_name) }}</p>
                 <span
                     class="nav-item"
                     @click="toggleNav"
@@ -58,6 +55,8 @@
 </template>
 
 <script>
+    import {capitalize} from '../filters/textformat.js';
+
     export default {
         name: 'TopNav',
         props: ['guest', 'user'],
@@ -67,6 +66,7 @@
             }
         },
         methods: {
+            capitalize,
             toggleNav() {
                 this.nav_is_open = !this.nav_is_open;
             },

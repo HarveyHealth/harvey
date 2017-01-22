@@ -21,12 +21,6 @@
 
 <script>
     export default {
-        props: ['appointment'],
-        data() {
-            return {
-            }
-        },
-        mounted() {
-        }
+        props: ['appointment']
     }
 </script>

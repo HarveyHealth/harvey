@@ -9,7 +9,7 @@
                     </router-link>
                 </span>
                 <span class="nav-item">
-                    <a href="" class="button">
+                    <a class="button" @click="toggleContact">
                         <span class="icon"><i class="fa fa-phone"></i></span>
                         <span>Contact Us</span>
                     </a>
@@ -27,19 +27,18 @@
                 </div>
             </div>
         </div>
+        <contact></contact>
     </div>
 </template>
 
 <script>
     import Appointments from './Appointments.vue';
     import Tests from './Tests.vue';
+    import Contact from '../mixins/Contact';
 
     export default {
         name: 'dashboard',
-        data() {
-            return {
-            }
-        },
+        mixins: [Contact],
         components: {
             Appointments,
             Tests
