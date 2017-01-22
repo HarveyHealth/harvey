@@ -59,6 +59,7 @@
 
 <script>
     export default {
+        name: 'TopNav',
         props: ['guest', 'user'],
         data() {
             return {
