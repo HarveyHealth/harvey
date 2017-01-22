@@ -1,8 +1,8 @@
 <template>
     <transition
         mode="out-in"
-        enter-active-class="animated animated-fast fadeIn"
-        leave-active-class="animated animated-fast fadeOut"
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
     >
         <div
             v-show="show"

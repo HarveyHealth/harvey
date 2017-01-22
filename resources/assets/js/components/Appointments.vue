@@ -6,7 +6,7 @@
                 <Appointment
                     :appointment="appointment"
                 >
-                    <button class="button">Reschedule</button>
+                    <button class="button" @click="toggleContact">Reschedule</button>
                 </Appointment>
             </div>
         </template>
@@ -14,26 +14,25 @@
             <p>There are no upcoming appointments.</p>
         </div>
 
-        <h2 class="panel-heading">Recent Appointments</h2>
         <template v-if="recent_appointments.length">
+            <h2 class="panel-heading">Recent Appointments</h2>
             <div v-for="appointment in recent_appointments" class="panel-block">
                 <Appointment
                     :appointment="appointment"
                 >
-                    <button class="button">Read Notes</button>
+                    <!-- <button class="button is-disabled">Pending</button> -->
                 </Appointment>
             </div>
         </template>
-        <div v-else class="panel-block">
-            <p>There are no recent appointments.</p>
-        </div>
     </div>
 </template>
 
 <script>
     import Appointment from './Appointment.vue';
+    import Contact from '../mixins/Contact';
 
     export default {
+        mixins: [Contact],
         data() {
             return {
                 upcoming_appointments: [],

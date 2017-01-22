@@ -176,3 +176,9 @@
         }
     }
 </script>
+
+<style lang="sass" scoped>
+    .hero.is-primary a {
+        color: #85af4a;
+    }
+</style>
