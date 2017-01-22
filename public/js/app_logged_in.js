@@ -19231,13 +19231,7 @@ module.exports = function spread(callback) {
 //
 
 /* harmony default export */ exports["default"] = {
-    props: ['appointment'],
-    data: function data() {
-        return {
-        }
-    },
-    mounted: function mounted() {
-    }
+    props: ['appointment']
 };
 
 
@@ -19309,6 +19303,7 @@ module.exports = function spread(callback) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__filters_textformat_js__ = __webpack_require__(206);
 //
 //
 //
@@ -19329,6 +19324,8 @@ module.exports = function spread(callback) {
 //
 //
 
+
+
 /* harmony default export */ exports["default"] = {
     data: function data() {
         return {
@@ -19340,6 +19337,7 @@ module.exports = function spread(callback) {
         }
     },
     methods: {
+        capitalize: __WEBPACK_IMPORTED_MODULE_0__filters_textformat_js__["a" /* capitalize */],
         hyperlink: function hyperlink(type, value) {
             var ret = '';
 
@@ -20462,9 +20460,7 @@ module.exports = function spread(callback) {
 /***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__filters_textformat_js__ = __webpack_require__(206);
 //
 //
 //
@@ -20522,6 +20518,8 @@ module.exports = function spread(callback) {
 //
 //
 
+
+
 /* harmony default export */ exports["default"] = {
     name: 'TopNav',
     props: ['guest', 'user'],
@@ -20531,6 +20529,7 @@ module.exports = function spread(callback) {
         }
     },
     methods: {
+        capitalize: __WEBPACK_IMPORTED_MODULE_0__filters_textformat_js__["a" /* capitalize */],
         toggleNav: function toggleNav() {
             this.nav_is_open = !this.nav_is_open;
         },
@@ -39145,13 +39144,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: ['nav-right', 'nav-menu', {
       'is-active': _vm.nav_is_open
     }]
-  }, [_c('a', {
-    staticClass: "nav-item is-tab"
-  }, [_vm._v("How it works")]), _vm._v(" "), _c('a', {
-    staticClass: "nav-item is-tab"
-  }, [_vm._v("Pricing")]), _vm._v(" "), _c('a', {
-    staticClass: "nav-item is-tab"
-  }, [_vm._v("About")]), _vm._v(" "), _c('span', {
+  }, [_c('span', {
     staticClass: "nav-item"
   }, [_c('a', {
     staticClass: "button",
@@ -39166,9 +39159,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.viewSignupPage
     }
-  }, [_vm._v("Sign Up")])])])] : [_c('p', {
+  }, [_vm._v("Get Started")])])])] : [_c('p', {
     staticClass: "nav-item"
-  }, [_vm._v("Hi, " + _vm._s(_vm.user.first_name))]), _vm._v(" "), _c('span', {
+  }, [_vm._v("Hi, " + _vm._s(_vm.capitalize(_vm.user.first_name)))]), _vm._v(" "), _c('span', {
     staticClass: "nav-item",
     on: {
       "click": _vm.toggleNav
@@ -39869,7 +39862,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(0), _vm._v(" "), _c('ul', _vm._l((_vm.types), function(value, type) {
     return _c('li', [_c('h3', {
       staticClass: "title is-4"
-    }, [_vm._v(_vm._s(type))]), _vm._v(" "), _c('p', {
+    }, [_vm._v(_vm._s(_vm.capitalize(type)))]), _vm._v(" "), _c('p', {
       staticClass: "subtitle is-3"
     }, [_c('a', {
       attrs: {
@@ -48718,6 +48711,22 @@ var app = new Vue({
             .catch( function (error) { return this$1.user = {}; } )
     }
 }).$mount('#app');
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return capitalize; });
+function capitalize(value) {
+    if (value) {
+        return value[0].toUpperCase() + value.slice(1);
+    }
+
+    return value;
+}
+
+
 
 /***/ }
 /******/ ]);

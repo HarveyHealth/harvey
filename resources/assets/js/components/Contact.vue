@@ -6,7 +6,7 @@
 
             <ul>
                 <li v-for="(value, type) in types">
-                    <h3 class="title is-4">{{type}}</h3>
+                    <h3 class="title is-4">{{ capitalize(type) }}</h3>
                     <p class="subtitle is-3">
                         <a :href="hyperlink(type, value)">{{value}}</a>
                     </p>
@@ -18,6 +18,8 @@
 </template>
 
 <script>
+    import {capitalize} from '../filters/textformat.js';
+
     export default {
         data() {
             return {
@@ -29,6 +31,7 @@
             }
         },
         methods: {
+            capitalize,
             hyperlink(type, value) {
                 let ret = '';
 
