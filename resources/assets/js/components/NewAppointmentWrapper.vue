@@ -153,42 +153,39 @@
             },
             stripeResponseHandler(status, response) {
                 if (status == 200) {
-                    // if success, send requests for new appointment, user profile and payment
-                    axios.all([
-                        // need to submit payment token: response.id
-                        axios.put('api/users', this.forms['profile'].data()),
-                        axios.post('api/appointments', this.forms['new-appointment'].data())
-                    ])
-                    .then(() => {
-                        this.$router.push('/');
-                    })
-                    .catch( (error) => {
-                        // if error on requests, go back to the component and display error
-                        this.goBackToErrorComponent(error);
-                    } );
+                    // if success, send requests for payment, user profile and new appointment in sequence
+                    // need to submit payment token: response.id
+                    axios.put('api/users', this.forms['profile'].data())
+                        .then(() => {
+                            axios.post('api/appointments', this.forms['new-appointment'].data())
+                                .then(() => {
+                                    this.$router.push('/');
+                                })
+                                .catch((error) => {
+                                    this.goBackToErrorComponent(error.response.data, 0);
+                                })
+                        })
+                        .catch((error) => {
+                            this.goBackToErrorComponent(error.response.data, 1);
+                        });
                 } else {
                     // if payment error
-                    this.goBackToErrorComponent(response.error, true);
+                    this.goBackToErrorComponent({
+                        [response.error.param]: [response.error.message]
+                    }, 2);
                 }
             },
-            goBackToErrorComponent(error, paymentError = false) {
+            goBackToErrorComponent(error, step) {
                 // first enable button
                 this.buttonIsDisabled = false;
 
-                // identify which component has error
-                if (paymentError) {
-                    this.formOnError({
-                        [error.param]: [error.message]
-                    });
-                } else {
-                    // [WIP] hard coded steps, change to something smarter later
-                    if (error.response.config.url == 'api/users') {
-                        this.currentStep = 1;
-                    } else {
-                        this.currentStep = 0;
-                    }
-                    this.formOnError(error.response.data);
+                // go to component
+                if (this.currentStep != step) {
+                    this.currentStep = step;
                 }
+
+                // record error
+                this.formOnError(error);
             },
             mergeUserProfile() {
                 if (!_.isEmpty(this.user)) {

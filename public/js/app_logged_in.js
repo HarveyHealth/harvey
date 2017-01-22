@@ -19673,43 +19673,38 @@ module.exports = function spread(callback) {
             var this$1 = this;
 
             if (status == 200) {
-                // if success, send requests for new appointment, user profile and payment
-                axios.all([
-                    // need to submit payment token: response.id
-                    axios.put('api/users', this.forms['profile'].data()),
-                    axios.post('api/appointments', this.forms['new-appointment'].data())
-                ])
-                .then(function () {
-                    this$1.$router.push('/');
-                })
-                .catch( function (error) {
-                    // if error on requests, go back to the component and display error
-                    this$1.goBackToErrorComponent(error);
-                } );
+                // if success, send requests for payment, user profile and new appointment in sequence
+                // need to submit payment token: response.id
+                axios.put('api/users', this.forms['profile'].data())
+                    .then(function () {
+                        axios.post('api/appointments', this$1.forms['new-appointment'].data())
+                            .then(function () {
+                                this$1.$router.push('/');
+                            })
+                            .catch(function (error) {
+                                this$1.goBackToErrorComponent(error.response.data, 0);
+                            })
+                    })
+                    .catch(function (error) {
+                        this$1.goBackToErrorComponent(error.response.data, 1);
+                    });
             } else {
                 // if payment error
-                this.goBackToErrorComponent(response.error, true);
+                var obj;
+                this.goBackToErrorComponent(( obj = {}, obj[response.error.param] = [response.error.message], obj ), 2);
             }
         },
-        goBackToErrorComponent: function goBackToErrorComponent(error, paymentError) {
-            if ( paymentError === void 0 ) paymentError = false;
-
+        goBackToErrorComponent: function goBackToErrorComponent(error, step) {
             // first enable button
             this.buttonIsDisabled = false;
 
-            // identify which component has error
-            if (paymentError) {
-                var obj;
-                this.formOnError(( obj = {}, obj[error.param] = [error.message], obj ));
-            } else {
-                // [WIP] hard coded steps, change to something smarter later
-                if (error.response.config.url == 'api/users') {
-                    this.currentStep = 1;
-                } else {
-                    this.currentStep = 0;
-                }
-                this.formOnError(error.response.data);
+            // go to component
+            if (this.currentStep != step) {
+                this.currentStep = step;
             }
+
+            // record error
+            this.formOnError(error);
         },
         mergeUserProfile: function mergeUserProfile() {
             if (!_.isEmpty(this.user)) {
@@ -38791,7 +38786,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "panel"
   }, [_c('h2', {
     staticClass: "panel-heading"
-  }, [_vm._v("Laboratory Tests")]), _vm._v(" "), (_vm.recent_tests || _vm.pending_tests) ? [_vm._l((_vm.pending_tests), function(test) {
+  }, [_vm._v("Laboratory Tests")]), _vm._v(" "), (_vm.recent_tests.length || _vm.pending_tests.length) ? [_vm._l((_vm.pending_tests), function(test) {
     return _c('div', {
       staticClass: "panel-block"
     }, [_c('Test', {
