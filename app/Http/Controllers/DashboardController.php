@@ -92,7 +92,8 @@ class DashboardController extends Controller
             'user_type' => $user->user_type,
             'email' => $user->email,
             'phone' => $user->phone,
-            'payment_info'=> (bool) $user->stripe_customer_id ? true : false
+            'payment_info'=> (bool) $user->stripe_customer_id ? true : false,
+            'api_token' => $user->api_token
         ];
         return response()->json($userJson);
     }

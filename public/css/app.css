@@ -9464,7 +9464,7 @@ label.panel-block:hover {
   color: #fff;
 }
 
-.wf-loading h1, .wf-loading h2, .wf-loading h3, .wf-loading h4, .wf-loading h5, .wf-loading h6, .wf-loading a, .wf-loading p, .wf-loading label, .wf-loading span {
+.wf-loading h1, .wf-loading h2, .wf-loading h3, .wf-loading h4, .wf-loading h5, .wf-loading h6, .wf-loading a, .wf-loading p, .wf-loading label, .wf-loading span, .wf-loading div {
   visibility: hidden;
 }
 

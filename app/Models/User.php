@@ -17,7 +17,8 @@ class User extends Authenticatable implements Mailable
      *
      * @var array
      */
-    protected $guarded = ['id', 'enabled', 'user_type', 'api_token', 'terms_accepted_at',
+    protected $guarded = ['id', 'enabled', 'user_type', 'password', 'api_token',
+                            'remember_token', 'terms_accepted_at',
                             'phone_verified_at', 'email_verified_at'];
     /**
      * The attributes that should be hidden for arrays.

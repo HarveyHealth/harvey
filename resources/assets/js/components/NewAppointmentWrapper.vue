@@ -30,6 +30,7 @@
 
 <script>
     import {isEmpty} from 'lodash';
+
     import Form from '../helpers.js';
     import NewAppointment from './NewAppointment.vue';
     import Profile from './Profile.vue';
@@ -143,37 +144,54 @@
                     if (this.currentStep < this.steps.length - 1) {
                         this.currentStep++;
                     } else {
-                        // end of the flow, disable button first
-                        this.buttonIsDisabled = true;
-                        
-                        // submit to stripe
-                        Stripe.card.createToken(this.forms.payment.data(), this.stripeResponseHandler);
+                        // end of the flow
+                        this.submitToStripe();
                     }
                 }
             },
+            submitToStripe() {
+                // disable button first
+                this.buttonIsDisabled = true;
+
+                // submit to stripe
+                Stripe.card.createToken(this.forms.payment.data(), this.stripeResponseHandler);
+            },
             stripeResponseHandler(status, response) {
                 if (status == 200) {
-                    // if success, send requests for payment, user profile and new appointment in sequence
-                    // need to submit payment token: response.id
-                    axios.put('api/users', this.forms['profile'].data())
-                        .then(() => {
-                            axios.post('api/appointments', this.forms['new-appointment'].data())
-                                .then(() => {
-                                    this.$router.push('/');
-                                })
-                                .catch((error) => {
-                                    this.goBackToErrorComponent(error.response.data, 0);
-                                })
-                        })
-                        .catch((error) => {
-                            this.goBackToErrorComponent(error.response.data, 1);
-                        });
+                    // if success
+                    this.submitForms();
                 } else {
-                    // if payment error
                     this.goBackToErrorComponent({
                         [response.error.param]: [response.error.message]
                     }, 2);
                 }
+            },
+            submitForms() {
+                // send requests for payment, user profile and new appointment in sequence
+                // need to submit payment token: response.id
+                axios.put('api/users', this.forms['profile'].data())
+                    .then(() => {
+                        axios.post('api/appointments', this.forms['new-appointment'].data())
+                            .then(() => {
+                                this.$eventHub.$emit('alert', {
+                                    type: 'success',
+                                    important: false,
+                                    text: 'Your appointment is created successfully.'
+                                });
+                                this.$router.push('/',  {
+                                    alert: {
+                                        type: 'success',
+                                        message: 'appointment booked'
+                                    }
+                                });
+                            })
+                            .catch((error) => {
+                                this.goBackToErrorComponent(error.response.data, 0);
+                            })
+                    })
+                    .catch((error) => {
+                        this.goBackToErrorComponent(error.response.data, 1);
+                    });
             },
             goBackToErrorComponent(error, step) {
                 // first enable button
