@@ -57,7 +57,7 @@ class DashboardController extends Controller
         return [
             'pending_tests' => $this->tests->pending()->get(),
             'recent_tests' => $this->tests->recent(10)->get(),
-            'upcoming_appointments' => $this->appointments->pending()->get(),
+            'upcoming_appointments' => $this->appointments->upcoming()->get(),
             'recent_appointments' => $this->appointments->recent(10)->get()
         ];
     }
@@ -67,7 +67,7 @@ class DashboardController extends Controller
         return [
             'pending_tests' => $this->tests->pending()->forPatient($user->id)->get(),
             'recent_tests' => $this->tests->recent()->forPatient($user->id)->get(),
-            'upcoming_appointments' => $this->appointments->pending()->forPatient($user->id)->get(),
+            'upcoming_appointments' => $this->appointments->upcoming()->forPatient($user->id)->get(),
             'recent_appointments' => $this->appointments->recent()->forPatient($user->id)->get()
         ];
     }
@@ -77,7 +77,7 @@ class DashboardController extends Controller
         return [
             'pending_tests' => $this->tests->pending()->forPractitioner($user->id)->get(),
             'recent_tests' => $this->tests->recent(10)->forPractitioner($user->id)->get(),
-            'upcoming_appointments' => $this->appointments->pending()->forPractitioner($user->id)->get(),
+            'upcoming_appointments' => $this->appointments->upcoming()->forPractitioner($user->id)->get(),
             'recent_appointments' => $this->appointments->recent(10)->forPractitioner($user->id)->get()
         ];
     }
