@@ -46,13 +46,13 @@ class UsersController extends BaseAPIController
      * @apiParam {Number} id Users unique ID.
      *
      * @apiSuccess {Object} data Wrapper for data content
-     * @apiSuccess {String} id
+     * @apiSuccess {String} data.id
      * @apiSuccess {String} data.first_name First name of the user.
      * @apiSuccess {String} data.last_name Last name of the user.
-     * @apiSuccess {String} user_type Type of user ['admin', 'patient', 'practitioner']
-     * @apiSuccess {String} phone
-     * @apiSuccess {Boolean} payment_info Indicates if billing information has been entered for the user
-     * @apiSuccess {String} api_token Used to make authentication/authorization calls to the API
+     * @apiSuccess {String} data.user_type Type of user ['admin', 'patient', 'practitioner']
+     * @apiSuccess {String} data.phone
+     * @apiSuccess {Boolean} data.payment_info Indicates if billing information has been entered for the user
+     * @apiSuccess {String} data.api_token Used to make authentication/authorization calls to the API
      * @apiSuccess {Object} meta Wrapper for meta content
      * @apiSuccessExample {json} Success-Response:
      * {
@@ -106,13 +106,13 @@ class UsersController extends BaseAPIController
      *
      *
      * @apiSuccess {Object} data Wrapper for data content
-     * @apiSuccess {String} id
+     * @apiSuccess {String} data.id
      * @apiSuccess {String} data.first_name First name of the user.
      * @apiSuccess {String} data.last_name Last name of the user.
-     * @apiSuccess {String} user_type Type of user ['admin', 'patient', 'practitioner']
-     * @apiSuccess {String} phone
-     * @apiSuccess {Boolean} payment_info Indicates if billing information has been entered for the user
-     * @apiSuccess {String} api_token Used to make authentication/authorization calls to the API
+     * @apiSuccess {String} data.user_type Type of user ['admin', 'patient', 'practitioner']
+     * @apiSuccess {String} data.phone
+     * @apiSuccess {Boolean} data.payment_info Indicates if billing information has been entered for the user
+     * @apiSuccess {String} data.api_token Used to make authentication/authorization calls to the API
      * @apiSuccess {Object} meta Wrapper for meta content
      * @apiSuccessExample {json} Success-Response:
      * {
