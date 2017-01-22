@@ -15,6 +15,11 @@ class BaseAPIController extends Controller
         return $this;
     }
     
+    protected function getStatusCode()
+    {
+        return $this->status_code;
+    }
+    
     protected function respond($data, $meta = null)
     {
         $output = ['data' => $data, 'meta' => $meta];
@@ -26,10 +31,9 @@ class BaseAPIController extends Controller
     {
         return response()->json([
             'error' => [
-                'message' => $message,
-                'status_code' => $this->getStatusCode()
+                'message' => $message
             ]
-        ]);
+        ], $this->getStatusCode());
     }
     
     public function respondBadRequest($message = 'Bad Request')

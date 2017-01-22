@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'alpha'], function () {
+Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
     Route::get('users/{user}/appointments', 'API\alpha\UsersController@appointments');
     Route::resource('users', 'API\alpha\UsersController');
     Route::resource('appointments', 'API\alpha\AppointmentsController');

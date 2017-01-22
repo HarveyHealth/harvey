@@ -17,8 +17,7 @@ class User extends Authenticatable implements Mailable
      *
      * @var array
      */
-    protected $guarded = ['id', 'enabled', 'user_type', 'api_token',
-                            'stripe_customer_id', 'terms_accepted_at',
+    protected $guarded = ['id', 'enabled', 'user_type', 'api_token', 'terms_accepted_at',
                             'phone_verified_at', 'email_verified_at'];
     /**
      * The attributes that should be hidden for arrays.
@@ -67,6 +66,11 @@ class User extends Authenticatable implements Mailable
         }
 
         return config('app.default_image_url');
+    }
+    
+    public function superUser()
+    {
+        return $this->user_type == 'admin';
     }
 
 

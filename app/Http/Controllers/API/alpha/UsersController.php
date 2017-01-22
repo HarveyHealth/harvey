@@ -40,22 +40,27 @@ class UsersController extends BaseAPIController
 
     public function show(User $user)
     {
-        $transformedUser = $this->transformer->transform($user);
-        
-        return $this->respond($transformedUser);
+        if (auth()->user()->can('view', $user)) {
+            $transformedUser = $this->transformer->transform($user);
+            return $this->respond($transformedUser);
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to view this resource');
+        }
     }
 
     public function update(Request $request, User $user)
     {
         $user->update($request->except('api_token'));
-    
         $transformedUser = $this->transformer->transform($user);
-    
         return $this->respond($transformedUser);
     }
     
     public function appointments(User $user)
     {
+        if (auth()->user()->cant('view', $user)) {
+            return $this->respondNotAuthorized('Unauthorized to view this resource');
+        }
+        
         if ($user->user_type == 'patient') {
             $appointments = $this->appointments->forPatient($user->id)->get();
         } elseif ($user->user_type == 'practitioner') {
