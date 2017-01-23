@@ -6,6 +6,15 @@
             <component :is="section"></component>
         </section>
         <footer-view></footer-view>
+        <nav class="nav-sections">
+            <ul>
+                <li v-for="(section, index) in sections"
+                    :class="{'current': currentSection == index}"
+                >
+                    <a @click="slide(index)"></a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </template>
 
@@ -76,7 +85,7 @@
             return {
                 currentSection: 0,
                 showFooter: false,
-                wait: 100,
+                wait: 1200,
                 transitioning: false,
                 whichTransitionEvent: this.whichTransitionEvent(),
                 sections: ['intro', 'comparison', 'steps', 'number', 'symptoms']
@@ -105,10 +114,11 @@
                 if (this.currentSection != 0) {
                     console.log('prev')
                     this.transitioning = true;
-                    this.currentSection -= 1;
 
                     if (this.showFooter) {
                         this.showFooter = false;
+                    } else {
+                        this.currentSection -= 1;
                     }
                 }
             },
@@ -118,6 +128,7 @@
                     this.transitioning = true;
                     this.currentSection += 1;
                 } else {
+                    console.log('show footer')
                     this.showFooter = true;
                 }
             },
@@ -149,9 +160,9 @@
             }
         },
         mounted() {
-            window.addEventListener('wheel', _.debounce(this.onScroll, this.wait, {leading: true, trailing: false}), false);
+            window.addEventListener('wheel', _.throttle(this.onScroll, this.wait, { 'trailing': false }), false);
             document.querySelector('.sections').addEventListener(this.whichTransitionEvent, function(e) {
-                if (e.target && e.target.matches('.current')) {
+                if (e.target && ( e.target.matches('.current') || e.target.matches('.sections') )) {
                     this.transitioning = false;
                 }
             }.bind(this));
@@ -194,6 +205,28 @@
             ~ .section {
                 transform: translateY(100%);
             }
+        }
+    }
+    .nav-sections {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        li {
+            &:not(:last-child) {
+                margin-bottom: 5px;
+            }
+        }
+        a {
+            display: block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #666;
+            border-radius: 50%;
+            transition: all .3s;
+        }
+        .current a {
+            background-color: #666;
         }
     }
 </style>
