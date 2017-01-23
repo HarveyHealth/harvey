@@ -21,7 +21,7 @@
 <script>
     import {throttle, debounce} from 'lodash';
     import Symptoms from './Symptoms.vue';
-    import FooterView from './FooterView.vue';
+    import FooterView from './Footer.vue';
 
     export default {
         name: 'home',

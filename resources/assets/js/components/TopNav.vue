@@ -3,7 +3,7 @@
         <div class="container">
             <div class="nav-left"></div>
             <div class="nav-center">
-                <a href="/" class="nav-item"><img src="images/logos/main-logo.png" alt="Harvey Logo"></a>
+                <a href="/" class="nav-item"><img src="/images/logos/main-logo.png" alt="Harvey Logo"></a>
             </div>
             <template v-if="guest">
                 <span

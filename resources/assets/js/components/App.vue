@@ -5,6 +5,7 @@
         <div class="page-content">
             <slot></slot>
         </div>
+        <footer-view :is-simple="!guest"></footer-view>
     </div>
 </template>
 
@@ -12,6 +13,7 @@
     // components
     import Alert from './Alert.vue';
     import TopNav from './TopNav.vue';
+    import FooterView from './Footer.vue';
     
     export default {
         props: {
@@ -23,7 +25,8 @@
         },
         components: {
             Alert,
-            TopNav
+            TopNav,
+            FooterView
         }
     }
 </script>
