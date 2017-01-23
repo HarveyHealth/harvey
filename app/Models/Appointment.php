@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Http\Traits\HasPatientAndPractitioner;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Traits\HasPatientAndPractitioner;
 
 class Appointment extends Model
 {
