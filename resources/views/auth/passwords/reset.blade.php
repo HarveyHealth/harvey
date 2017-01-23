@@ -1,7 +1,6 @@
 @extends('_layouts.public')
 
 @section('page_title','Reset Password')
-@section('body_class', ' hero is-fullheight is-primary is-bold')
 
 @section('content')
 <section class="section">

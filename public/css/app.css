@@ -9464,12 +9464,16 @@ label.panel-block:hover {
 }
 
 .footer {
+  padding-bottom: 4rem;
+}
+
+.footer:not(.is-simple) {
   background-image: -webkit-linear-gradient(309deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
   background-image: linear-gradient(141deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
 }
 
-.footer .content,
-.footer a.nav-item {
+.footer:not(.is-simple) .content,
+.footer:not(.is-simple) a.nav-item {
   color: white;
 }
 
@@ -9613,6 +9617,10 @@ label.panel-block:hover {
 
 body {
   overflow-x: hidden;
+}
+
+body.home .page-content + .footer, body.login .page-content + .footer, body.signup .page-content + .footer {
+  display: none;
 }
 
 body.login.hero, body.signup.hero, body[class^="password-reset"].hero {
