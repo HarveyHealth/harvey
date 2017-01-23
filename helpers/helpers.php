@@ -51,3 +51,15 @@ if (! function_exists('api_token')) {
         return auth()->user()->api_token;
     }
 }
+
+if (! function_exists('user_id')) {
+    
+    function user_id()
+    {
+        if(!auth()->check()){
+            return null;
+        }
+        
+        return auth()->user()->id;
+    }
+}

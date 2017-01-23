@@ -1,5 +1,5 @@
     {{-- SCRIPTS --}}
-    <script>window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token(),]); ?></script>
+    <script>window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token(),'apiToken' => api_token(), 'userId' => user_id()]); ?></script>
     
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)

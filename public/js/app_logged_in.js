@@ -18166,6 +18166,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.prototype.$http = __WEBPACK_IMPORTED
 __WEBPACK_IMPORTED_MODULE_1_axios___default.a.interceptors.request.use(function(config){
     // Attach the csrf token to every request in the header
     config.headers['X-CSRF-TOKEN'] = Laravel.csrfToken;
+    config.headers['Authorization'] = 'Bearer ' + Laravel.apiToken;
 
     // Notifies the back-end that this is an ajax request
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -48866,7 +48867,9 @@ var app = new Vue({
     router: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* default */],
     data: {
         guest: false,
-        user: {}
+        user: {},
+        userId: '',
+        apiUrl: '/api/alpha'
     },
     components: {
         App: __WEBPACK_IMPORTED_MODULE_4__components_App_vue___default.a
@@ -48877,11 +48880,14 @@ var app = new Vue({
         // stripe
         Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
 
-        this.$http.get('/api/user')
+        this.userId = Laravel.userId;
+
+        this.$http.get(this.apiUrl + '/users/' + this.userId)
             .then( function (response) {
-                this$1.user = response.data;
+                this$1.user = response.data.data;
             } )
             .catch( function (error) { return this$1.user = {}; } )
+
     }
 }).$mount('#app');
 

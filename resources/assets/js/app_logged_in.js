@@ -19,7 +19,9 @@ const app = new Vue({
     router,
     data: {
         guest: false,
-        user: {}
+        user: {},
+        userId: '',
+        apiUrl: '/api/alpha'
     },
     components: {
         App
@@ -28,10 +30,13 @@ const app = new Vue({
         // stripe
         Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
 
-        this.$http.get('/api/user')
+        this.userId = Laravel.userId;
+
+        this.$http.get(this.apiUrl + '/users/' + this.userId)
             .then( response => {
-                this.user = response.data;
+                this.user = response.data.data;
             } )
             .catch( error => this.user = {} )
+
     }
 }).$mount('#app');
