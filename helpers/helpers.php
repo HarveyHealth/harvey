@@ -39,3 +39,15 @@ function html_from_markdown_file($file)
 
     return html_from_markdown($contents);
 }
+
+if (! function_exists('api_token')) {
+    
+    function api_token()
+    {
+        if(!auth()->check()){
+            return null;
+        }
+        
+        return auth()->user()->api_token;
+    }
+}

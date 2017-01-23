@@ -21,6 +21,9 @@
     {{-- CSRF TOKEN --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    {{-- API TOKEN --}}
+    <meta name="api-token" content="{{ api_token() }}">
+
     {{-- FONTS --}}
     <script>
       (function(d) {
