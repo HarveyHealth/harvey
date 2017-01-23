@@ -1,8 +1,9 @@
 <template>
-    <nav class="nav">
+    <nav class="header nav">
         <div class="container">
-            <div class="nav-left">
-                <a href="/" class="nav-item">Logo</a>
+            <div class="nav-left"></div>
+            <div class="nav-center">
+                <a href="/" class="nav-item"><img src="images/logos/main-logo.png" alt="Harvey Logo"></a>
             </div>
             <template v-if="guest">
                 <span
@@ -17,7 +18,7 @@
                     :class="['nav-right', 'nav-menu', {'is-active': nav_is_open} ]"
                 >
                     <span class="nav-item">
-                        <a href="/login" class="button">Log In</a>
+                        <a href="/login" class="button is-primary is-outlined">Log In</a>
                         <a href="/signup" class="button is-primary" @click="viewSignupPage">Get Started</a>
                     </span>
                 </div>

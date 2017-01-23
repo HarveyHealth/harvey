@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
 /*! bulma.io v0.3.1 | MIT License | github.com/jgthms/bulma */
 @-webkit-keyframes spinAround {
   from {
@@ -9464,6 +9463,20 @@ label.panel-block:hover {
   color: #fff;
 }
 
+.footer {
+  background-image: -webkit-linear-gradient(309deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
+  background-image: linear-gradient(141deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
+}
+
+.footer .content,
+.footer a.nav-item {
+  color: white;
+}
+
+.vue-slider-piecewise li + li {
+  margin-top: 0;
+}
+
 .wf-loading h1, .wf-loading h2, .wf-loading h3, .wf-loading h4, .wf-loading h5, .wf-loading h6, .wf-loading a, .wf-loading p, .wf-loading label, .wf-loading span, .wf-loading div {
   visibility: hidden;
 }
@@ -9598,6 +9611,10 @@ label.panel-block:hover {
   animation-duration: 86ms;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 body.login.hero, body.signup.hero, body[class^="password-reset"].hero {
   -webkit-box-pack: start;
   justify-content: flex-start;
@@ -9616,6 +9633,27 @@ body.login .section, body.signup .section, body[class^="password-reset"] .sectio
 
 body.login a.button:not(.is-primary), body.signup a.button:not(.is-primary), body[class^="password-reset"] a.button:not(.is-primary) {
   color: #363636;
+}
+
+body.home #app {
+  height: auto;
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+body.home .page-content {
+  position: relative;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+body.home .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
 }
 
 /*# sourceMappingURL=app.css.map */

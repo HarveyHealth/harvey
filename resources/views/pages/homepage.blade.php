@@ -1,5 +1,6 @@
 @extends('_layouts.public')
 @section('page_title','Welcome to Harvey')
+@section('body_class','home')
 
 @push('stylesheets')
 @endpush
@@ -9,12 +10,6 @@
 @endpush
 
 
-
-
 @section('content')
-
-<div class="container">
-    <h2>Welcome to {{ config('app.name') }}</h2>
-</div>
-
+    <home-view></home-view>
 @endsection

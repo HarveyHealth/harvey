@@ -6,6 +6,7 @@
 const elixir = require('laravel-elixir');
 
 require('laravel-elixir-vue-2');
+require('laravel-elixir-imagemin');
 
 /*
  |--------------------------------------------------------------------------
@@ -28,6 +29,11 @@ elixir((mix) => {
                }
            },
            devtool: '#source-map'
+       })
+       .imagemin({
+        optimizationLevel: 3,
+        progressive: true,
+        interlaced: true
        })
        .browserSync({proxy: 'localhost:8000'});
 });
