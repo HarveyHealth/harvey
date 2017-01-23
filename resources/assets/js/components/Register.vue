@@ -2,7 +2,7 @@
     <section class="section">
         <div class="container">
             <header class="content has-text-centered">
-                <h2 class="title is-3">Create an account</h2>
+                <h2 class="title is-3">Create your account</h2>
             </header>
             <div class="card">
                 <div class="card-content">
@@ -119,7 +119,7 @@
                         <p class="control">
                             <label>
                                 <input type="checkbox" v-model="agree">
-                                <small>I agree to the <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.</small>
+                                <small>I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.</small>
                             </label>
                         </p>
 
