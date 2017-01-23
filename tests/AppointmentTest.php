@@ -10,12 +10,16 @@ use App\Models\Appointment;
 class AppointmentTest extends TestCase
 {
     use DatabaseTransactions;
+    use DatabaseMigrations;
 
     protected $patient;
     protected $practitioner;
 
-    function setUp()
+    function setUpDB()
     {
+        if ($this->patient)
+            return;
+
         $this->patient = factory(User::class)->make();
         $this->practitioner = factory(User::class)->make();
 
@@ -45,7 +49,9 @@ class AppointmentTest extends TestCase
      */
     public function test_it_scopes_upcoming_correctly()
     {
-        $upcoming = Apppointment::upcoming();
+        $this->setUpDB();
+
+        $upcoming = Appointment::upcoming();
 
         $this->assertEquals($upcoming->count(), 6);
     }
