@@ -1,7 +1,7 @@
 @include('_layouts.includes.header')
 
 <div id="app">
-    <app :guest="guest" :user="user">
+    <app>
         <transition
             mode="out-in"
             enter-active-class="animated animated-fast fadeIn"

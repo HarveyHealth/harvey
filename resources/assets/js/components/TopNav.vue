@@ -60,11 +60,19 @@
 
     export default {
         name: 'TopNav',
-        props: ['guest', 'user'],
+        // props: ['guest', 'user'],
         data() {
             return {
                 nav_is_open: false
             }
+        },
+        computed: {
+            guest() {
+                return this.$root.guest
+            },
+            user() {
+                return this.$root.user
+            },
         },
         methods: {
             capitalize,

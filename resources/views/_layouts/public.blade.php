@@ -1,7 +1,7 @@
 @include('_layouts.includes.header')
 
 <div id="app">
-    <app :guest="guest" :user="user">
+    <app>
         @yield('content')
     </app>
 </div>

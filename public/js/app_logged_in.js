@@ -19210,17 +19210,15 @@ module.exports = function spread(callback) {
 
 
 /* harmony default export */ exports["default"] = {
-    props: {
-        guest: { default: true },
-        user: {
-            type: Object,
-            default: function () {}
-        }
-    },
     components: {
         Alert: __WEBPACK_IMPORTED_MODULE_0__Alert_vue___default.a,
         TopNav: __WEBPACK_IMPORTED_MODULE_1__TopNav_vue___default.a,
         FooterView: __WEBPACK_IMPORTED_MODULE_2__Footer_vue___default.a
+    },
+    computed: {
+        guest: function guest() {
+            return this.$root.guest;
+        }
     }
 };
 
@@ -20587,11 +20585,19 @@ module.exports = function spread(callback) {
 
 /* harmony default export */ exports["default"] = {
     name: 'TopNav',
-    props: ['guest', 'user'],
+    // props: ['guest', 'user'],
     data: function data() {
         return {
             nav_is_open: false
         }
+    },
+    computed: {
+        guest: function guest() {
+            return this.$root.guest
+        },
+        user: function user() {
+            return this.$root.user
+        },
     },
     methods: {
         capitalize: __WEBPACK_IMPORTED_MODULE_0__filters_textformat_js__["a" /* capitalize */],
@@ -39231,12 +39237,7 @@ if (false) {
 /***/ function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [(!_vm.guest) ? _c('alert') : _vm._e(), _vm._v(" "), _c('top-nav', {
-    attrs: {
-      "guest": _vm.guest,
-      "user": _vm.user
-    }
-  }), _vm._v(" "), _c('div', {
+  return _c('div', [(!_vm.guest) ? _c('alert') : _vm._e(), _vm._v(" "), _c('top-nav'), _vm._v(" "), _c('div', {
     staticClass: "page-content"
   }, [_vm._t("default")], 2), _vm._v(" "), _c('footer-view', {
     attrs: {
@@ -48877,7 +48878,6 @@ var app = new Vue({
     mounted: function mounted() {
         var this$1 = this;
 
-        // stripe
         Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
 
         this.userId = Laravel.userId;
@@ -48886,8 +48886,7 @@ var app = new Vue({
             .then( function (response) {
                 this$1.user = response.data.data;
             } )
-            .catch( function (error) { return this$1.user = {}; } )
-
+            .catch( function (error) { return this$1.user = {}; } );
     }
 }).$mount('#app');
 
