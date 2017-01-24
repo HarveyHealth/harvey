@@ -181,7 +181,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-
         /*
          * Custom service providers
          */
@@ -240,7 +239,7 @@ return [
         // third party
         'Carbon' => Carbon\Carbon::class,
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
-        
+
         // custom
 
 
