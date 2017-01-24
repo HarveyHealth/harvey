@@ -19933,6 +19933,11 @@ module.exports = function spread(callback) {
 
             // record error
             this.formOnError(error);
+        },
+        assignUserData: function assignUserData() {
+            if (!_.isEmpty(this.user)) {
+                this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
+            }
         }
     },
     computed: {
@@ -19943,11 +19948,12 @@ module.exports = function spread(callback) {
             return this.steps[this.currentStep];
         }
     },
+    mounted: function mounted() {
+        this.assignUserData();
+    },
     watch: {
         user: function user() {
-            if (!_.isEmpty(this.user)) {
-                this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
-            }
+            this.assignUserData();
         }
     }
 };

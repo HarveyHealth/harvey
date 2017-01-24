@@ -200,6 +200,11 @@
 
                 // record error
                 this.formOnError(error);
+            },
+            assignUserData() {
+                if (!_.isEmpty(this.user)) {
+                    this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
+                }
             }
         },
         computed: {
@@ -210,11 +215,12 @@
                 return this.steps[this.currentStep];
             }
         },
+        mounted() {
+            this.assignUserData();
+        },
         watch: {
             user() {
-                if (!_.isEmpty(this.user)) {
-                    this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
-                }
+                this.assignUserData();
             }
         }
     }
