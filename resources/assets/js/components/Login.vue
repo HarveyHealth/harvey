@@ -105,7 +105,7 @@
                 this.form.submit('post', this.formUrl, this.onSuccess);
             },
             onSuccess() {
-                location.href = this.redirectUrl;
+                window.location.reload();
             }
         }
     }
