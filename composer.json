@@ -16,8 +16,8 @@
         "michelf/php-smartypants": "^1.8",
         "league/commonmark": "^0.15.3",
         "bugsnag/bugsnag-laravel": "^2.0",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "fzaninotto/faker": "~1.4"
+        "fzaninotto/faker": "~1.4",
+        "barryvdh/laravel-debugbar": "^2.3"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
