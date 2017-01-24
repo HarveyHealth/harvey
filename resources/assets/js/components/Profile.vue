@@ -241,7 +241,7 @@
                 this.form.submit('put', 'api/users', this.onSuccess);
             },
             onSuccess() {
-                mixpanel.track("Profile Updated");
+                this.$eventHub.$emit('mixpanel', "Profile Updated");
                 this.$router.push('/payment');
             }
         },
@@ -251,7 +251,7 @@
             }
         },
         mounted() {
-            mixpanel.track("View Profile Page");
+            this.$eventHub.$emit('mixpanel', "View Profile Page");
         }
     }
 </script>

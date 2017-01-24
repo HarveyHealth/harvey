@@ -36,5 +36,10 @@ const app = new Vue({
                 this.user = response.data.data;
             } )
             .catch( error => this.user = {} );
+
+        this.$eventHub.$on('mixpanel', (event) => {
+            console.log('mixpanel', event)
+            if (mixpanel) mixpanel.track(event);
+        });
     }
 }).$mount('#app');

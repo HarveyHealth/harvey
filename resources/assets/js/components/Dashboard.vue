@@ -45,7 +45,7 @@
         },
         methods: {
             viewAppointmentPage() {
-                mixpanel.track("View New Appointment Page");
+                this.$eventHub.$emit('mixpanel', "View New Appointment Page");
             }
         }
     }

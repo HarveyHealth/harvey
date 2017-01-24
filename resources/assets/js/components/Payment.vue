@@ -123,7 +123,7 @@
             }
         },
         mounted() {
-            mixpanel.track("View Payments Page");
+            this.$eventHub.$emit('mixpanel', "View Payments Page");
         }
     }
 </script>

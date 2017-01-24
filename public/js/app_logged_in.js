@@ -19452,7 +19452,7 @@ module.exports = function spread(callback) {
     },
     methods: {
         viewAppointmentPage: function viewAppointmentPage() {
-            mixpanel.track("View New Appointment Page");
+            this.$eventHub.$emit('mixpanel', "View New Appointment Page");
         }
     }
 };
@@ -19693,7 +19693,7 @@ module.exports = function spread(callback) {
             this.form.submit('post', 'api/appointments', this.onSuccess);
         },
         onSuccess: function onSuccess() {
-            mixpanel.track("New Appointment Created");
+            this.$eventHub.$emit('mixpanel', "New Appointment Created");
         }
     },
     computed: {
@@ -20090,7 +20090,7 @@ module.exports = function spread(callback) {
         }
     },
     mounted: function mounted() {
-        mixpanel.track("View Payments Page");
+        this.$eventHub.$emit('mixpanel', "View Payments Page");
     }
 };
 
@@ -20344,7 +20344,7 @@ module.exports = function spread(callback) {
             this.form.submit('put', 'api/users', this.onSuccess);
         },
         onSuccess: function onSuccess() {
-            mixpanel.track("Profile Updated");
+            this.$eventHub.$emit('mixpanel', "Profile Updated");
             this.$router.push('/payment');
         }
     },
@@ -20354,7 +20354,7 @@ module.exports = function spread(callback) {
         }
     },
     mounted: function mounted() {
-        mixpanel.track("View Profile Page");
+        this.$eventHub.$emit('mixpanel', "View Profile Page");
     }
 };
 
@@ -20617,7 +20617,7 @@ module.exports = function spread(callback) {
             });
         },
         viewSignupPage: function viewSignupPage() {
-            mixpanel.track("View Sign Up Page");
+            if (mixpanel) mixpanel.track("View Sign Up Page");
         }
     }
 };
@@ -48939,6 +48939,11 @@ var app = new Vue({
                 this$1.user = response.data.data;
             } )
             .catch( function (error) { return this$1.user = {}; } );
+
+        this.$eventHub.$on('mixpanel', function (event) {
+            console.log('mixpanel', event)
+            if (mixpanel) mixpanel.track(event);
+        });
     }
 }).$mount('#app');
 
