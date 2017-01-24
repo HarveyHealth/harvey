@@ -88,3 +88,17 @@ $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker
         'note' => $faker->sentence
     ];
 });
+
+$factory->define(App\Models\Symptom::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->unique()->word
+    ];
+});
+
+$factory->define(App\Models\PatientSymptom::class, function (Faker\Generator $faker) {
+    return [
+        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
+        'symptom_id' => factory(App\Models\Symptom::class)->create()->id,
+        'severity' => 1
+    ];
+});

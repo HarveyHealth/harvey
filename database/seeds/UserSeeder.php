@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
                 'api_token' => 'baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
             ]
         );
-
+        
         factory(App\Models\User::class)->states('practitioner')->create(
             [
                 'email' => 'practitioner@goharvey.co',

@@ -15,7 +15,7 @@ class AppointmentTest extends TestCase
     protected $patient;
     protected $practitioner;
 
-    function setUp()
+    public function setUp()
     {
         parent::setUp();
         Artisan::call('migrate');

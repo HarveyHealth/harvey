@@ -41,10 +41,9 @@ function html_from_markdown_file($file)
 }
 
 if (! function_exists('api_token')) {
-    
     function api_token()
     {
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return null;
         }
         
@@ -53,10 +52,9 @@ if (! function_exists('api_token')) {
 }
 
 if (! function_exists('user_id')) {
-    
     function user_id()
     {
-        if(!auth()->check()){
+        if (!auth()->check()) {
             return null;
         }
         
