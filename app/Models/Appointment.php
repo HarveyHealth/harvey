@@ -16,6 +16,8 @@ class Appointment extends Model
         'deleted_at',
         'appointment_at'
     ];
+    
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     public function notes()
     {

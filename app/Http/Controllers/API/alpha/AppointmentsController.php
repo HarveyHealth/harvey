@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API\alpha;
 
 use App\Http\Controllers\API\alpha\Transformers\AppointmentTransformer;
 use App\Models\Appointment;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use \Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -25,16 +28,6 @@ class AppointmentsController extends BaseAPIController
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -42,7 +35,30 @@ class AppointmentsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'selectedDate' => 'required',
+            'selectedTime' => 'required',
+            'details' => 'required'
+        ]);
+    
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator);
+        }
+    
+        $date_selected = $request->selectedDate;
+        $carbon_date = Carbon::parse($date_selected);
+        $carbon_date->hour = $request->selectedTime;
+        
+        $appointment = Appointment::create([
+            'appointment_at' => $carbon_date,
+            'reason_for_visit' => $request->details,
+            'patient_user_id' => auth()->user()->id,
+            'practitioner_user_id' => User::whereUserType('practitioner')->first()->id
+        ]);
+
+        
+        $transformedAppointment = $this->transformer->transform($appointment);
+        return $this->respond($transformedAppointment);
     }
     
     /**
