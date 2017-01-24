@@ -48941,8 +48941,7 @@ var app = new Vue({
             .catch( function (error) { return this$1.user = {}; } );
 
         this.$eventHub.$on('mixpanel', function (event) {
-            console.log('mixpanel', event)
-            if (mixpanel) mixpanel.track(event);
+            if (typeof mixpanel !== 'undefined') mixpanel.track(event);
         });
     }
 }).$mount('#app');
