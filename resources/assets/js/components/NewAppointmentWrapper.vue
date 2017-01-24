@@ -172,7 +172,7 @@
 
                 this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, profileFormData)
                     .then(() => {
-                        this.$http.post('api/appointments', this.forms['new-appointment'].data())
+                        this.$http.post(this.$root.apiUrl + '/appointments', this.forms['new-appointment'].data())
                             .then(() => {
                                 this.$eventHub.$emit('alert', {
                                     type: 'success',
