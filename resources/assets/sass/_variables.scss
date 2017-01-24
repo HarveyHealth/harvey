@@ -10,14 +10,21 @@ $size-6: 15px;
 
 // Brands
 $primary: #85af4a;
-$secondary: #ada397;
+$secondary: #5f7278;
+$tertiary: #ada397;
+
+$light-tan: #f8f3e6;
+
+$text-secondary: $secondary;
 
 // General colors
 
 // Miscellaneous
 $radius: 0;
 $radius-large: 0;
-
+$opacity-dark: 0.75;
+$space-large: 60px;
+$space-xsmall: 5px;
 // Borders
 // $laravel-border-color: darken($body-background, 10%);
 // $list-group-border: $laravel-border-color;

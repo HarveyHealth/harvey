@@ -7,13 +7,6 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
-// h1,
-// h2 {
-//     &.title {
-//         font-family: $family-secondary;
-//     }
-// }
-
 .button {
     &.is-link {
         padding-left: 0;
@@ -41,9 +34,9 @@
         opacity: 0.75;
     }
     &:not(.is-simple) {
-        $gradient-top-left: darken(saturate(adjust-hue($secondary, -10deg), 10%), 10%);
-        $gradient-bottom-right: lighten(saturate(adjust-hue($secondary, 10deg), 5%), 5%);
-        background-image: linear-gradient(141deg, $gradient-top-left 0%, $secondary 71%, $gradient-bottom-right 100%);
+        $gradient-top-left: darken(saturate(adjust-hue($tertiary, -10deg), 10%), 10%);
+        $gradient-bottom-right: lighten(saturate(adjust-hue($tertiary, 10deg), 5%), 5%);
+        background-image: linear-gradient(141deg, $gradient-top-left 0%, $tertiary 71%, $gradient-bottom-right 100%);
         .content,
         a.nav-item {
             color: white;
@@ -55,16 +48,16 @@
     margin-top: 0;
 }
 
-// new global styles
-@mixin has-border($border_direction) {
-    border-#{$border_direction}: 1px solid $border;
-}
-
 //hide before font loads
 .wf-loading {
     h1, h2, h3, h4, h5, h6, a, p, label, span, div {
         visibility: hidden;
     }
+}
+
+// new global styles
+@mixin has-border($border_direction) {
+    border-#{$border_direction}: 1px solid $border;
 }
 
 .has-border-top {
@@ -73,6 +66,10 @@
 
 .has-border-bottom {
     @include has-border(bottom);
+}
+
+.font-secondary-family {
+    font-family: $family-secondary;
 }
 
 .icon {
@@ -176,16 +173,6 @@
     }
 }
 
-.dashboard {
-    .hero,
-    .nav {
-        background-color: transparent;
-    }
-    .hero-body {
-        padding: 2rem 1.5rem;
-    }
-}
-
 .control.is-grouped.is-gapless > .control:not(:last-child) {
     margin-right: -1px;
 }
@@ -198,6 +185,16 @@
     }
 }
 
+@include from($widescreen) {
+    [class^="width-"] {
+        margin: 0 auto;
+        &.width-half {
+            width: 50%;
+        }
+    }
+}
+
+
 // modify animations
 .animated {
     &.notification {
@@ -209,8 +206,6 @@
         animation-duration: $speed;
     }
 }
-
-// transitions
 
 // page specific styles
 body {
@@ -246,6 +241,12 @@ body {
         }
     }
     &.home {
+        color: $text-secondary;
+        .content {
+            &, h1, h2, h3, h4, h5, h6 {
+                color: $text-secondary;
+            }
+        }
         #app {
             height: auto;
             min-height: 100%;
@@ -264,5 +265,27 @@ body {
             width: 100%;
             z-index: 101;
         }
+        .section {
+            .container {
+                padding-top: $space-large;
+                padding-bottom: $space-large;
+                background: rgba($light-tan, $opacity-dark);
+                background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
+            }
+        }
+        .tagline {
+            margin-top: $space-xsmall;
+            margin-bottom: $size-1;
+        }
+    }
+}
+
+.dashboard {
+    .hero,
+    .nav {
+        background-color: transparent;
+    }
+    .hero-body {
+        padding: 2rem 1.5rem;
     }
 }
