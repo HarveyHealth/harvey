@@ -19,8 +19,7 @@ class UserTransformer extends Transformer
             'weight' => $user->weight,
             'user_type' => $user->user_type,
             'payment_info'=> (bool) $user->stripe_customer_id ? true : false,
-            'api_token' => $user->api_token,
-            'symptoms' => json_decode($user->symptoms)
+            'api_token' => $user->api_token
       ];
     }
 }
