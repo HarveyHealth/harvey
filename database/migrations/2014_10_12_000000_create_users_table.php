@@ -37,6 +37,7 @@ class CreateUsersTable extends Migration
             $table->smallInteger('height_feet')->unsigned()->nullable();
             $table->smallInteger('height_inches')->unsigned()->nullable();
             $table->smallInteger('weight')->unsigned()->nullable();
+            $table->json('symptoms')->nullable();
             $table->string('stripe_customer_id', 32)->nullable()->unique();
             $table->datetime('terms_accepted_at')->nullable();
             $table->rememberToken();

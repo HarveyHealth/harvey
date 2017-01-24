@@ -44,7 +44,14 @@ $factory->state(App\Models\User::class, 'admin', function ($faker) {
 });
 
 $factory->state(App\Models\User::class, 'patient', function ($faker) {
-    return ['user_type' => 'patient'];
+    return [
+        'user_type' => 'patient',
+        'symptoms' => json_encode([
+            $faker->word => $faker->numberBetween(1,10),
+            $faker->word => $faker->numberBetween(1,10),
+            $faker->word => $faker->numberBetween(1,10)
+        ])
+    ];
 });
 
 $factory->state(App\Models\User::class, 'practitioner', function ($faker) {
@@ -86,19 +93,5 @@ $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker
         'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
         'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
         'note' => $faker->sentence
-    ];
-});
-
-$factory->define(App\Models\Symptom::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->unique()->word
-    ];
-});
-
-$factory->define(App\Models\PatientSymptom::class, function (Faker\Generator $faker) {
-    return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'symptom_id' => factory(App\Models\Symptom::class)->create()->id,
-        'severity' => 1
     ];
 });
