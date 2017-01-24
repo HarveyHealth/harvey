@@ -17,6 +17,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.email"
+                                name="email"
                                 :class="['input', form.errors.has('email') ? 'is-danger' : '']"
                                 type="email"
                                 placeholder="Email"
@@ -34,6 +35,7 @@
                         <p class="control has-icon">
                             <input
                                 v-model="form.password"
+                                name="password"
                                 :class="['input', form.errors.has('password') ? 'is-danger' : '']"
                                 type="password"
                                 placeholder="Password"
