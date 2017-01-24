@@ -47,6 +47,11 @@ class User extends Authenticatable implements Mailable
     {
         return $this->hasMany(PatientNote::class, 'practitioner_user_id', 'id');
     }
+    
+    public function symptoms()
+    {
+        return $this->hasManyThrough(PatientSymptom::class, Symptom::class, 'id', 'patient_user_id');
+    }
 
     /*
      * Returns the concatenated full name
