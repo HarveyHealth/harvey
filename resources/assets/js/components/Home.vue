@@ -1,6 +1,7 @@
 <template>
     <div class="sections" :style="showFooterStyle">
         <section v-for="(section, index) in sections"
+            :id="section"
             :class="['section', {'current': currentSection == index}]"
         >
             <component :is="section"></component>
@@ -29,21 +30,28 @@
             FooterView,
             intro: {
                 template:
-                `<div class="hero-body">
-                    <div class="container content has-text-centered">
-                        <img src="images/logos/main-logo-lg.png" alt="Harvey Logo"></img>
-                        <h2 class="title">Medically trained. Naturally focused.</h2>
-                        <p>Harvey is an online telehealth provider of naturopathic medicine.  Consult face-to-face with state-licensed naturopathic doctors without leaving the comfort of your home.</p>
-                        <p>Harvey is powering the renaissance of complementary and alternative medicine by providing online access to naturopathic doctors and facilitating in-home blood draws for fast and convenient lab testing. We emphasize prevention, wellness and self-healing to combat acute and chronic conditions using evidence-based natural therapies.</p>
+                `<div class="hero is-fullheight">
+                    <div class="hero-body">
+                        <div class="container content has-text-centered is-medium">
+                            <img
+                                src="images/logos/main-logo-lg.png"
+                                srcset="images/logos/main-logo-lg@2x.png 2x"
+                                alt="Harvey Logo">
+                            <h2 class="title is-4 font-secondary-family color-secondary tagline">Medically trained. Naturally focused.</h2>
+                            <p class="width-half">Harvey is an online telehealth provider of naturopathic medicine.  Consult face-to-face with state-licensed naturopathic doctors without leaving the comfort of your home.</p>
+                            <p class="width-half">Harvey is powering the renaissance of complementary and alternative medicine by providing online access to naturopathic doctors and facilitating in-home blood draws for fast and convenient lab testing. We emphasize prevention, wellness and self-healing to combat acute and chronic conditions using evidence-based natural therapies.</p>
+                        </div>
                     </div>
                 </div>`
             },
             comparison: {
                 template:
-                `<div class="hero-body">
-                    <div class="container content has-text-centered">
-                        <h2 class="title">What is naturopathic medicine?</h2>
-                        <p>Naturopathic medicine is a form of primary health care that emphasizes prevention and self-healing through the use of evidence-based natural therapies.</p>
+                `<div class="hero is-fullheight">
+                    <div class="hero-body">
+                        <div class="container content has-text-centered">
+                            <h2 class="title is-4 font-secondary-family color-secondary tagline>What is naturopathic medicine?</h2>
+                            <p>Naturopathic medicine is a form of primary health care that emphasizes prevention and self-healing through the use of evidence-based natural therapies.</p>
+                        </div>
                     </div>
                 </div>`
             },
@@ -112,31 +120,31 @@
         methods: {
             pre() {
                 if (this.currentSection != 0) {
-                    console.log('prev')
                     this.transitioning = true;
 
                     if (this.showFooter) {
                         this.showFooter = false;
                     } else {
                         this.currentSection -= 1;
+                        this.setUrlHash();
                     }
                 }
             },
             next() {
                 if (this.currentSection != this.sectionNums - 1) {
-                    console.log('next')
                     this.transitioning = true;
                     this.currentSection += 1;
+                    this.setUrlHash();
                 } else {
-                    console.log('show footer')
                     this.showFooter = true;
                 }
             },
             slide(sectionNum) {
                 if (sectionNum||sectionNum == 0) {
-                    console.log('go to ', sectionNum);
+                    this.showFooter = false;
                     this.transitioning = true;
                     this.currentSection = sectionNum;
+                    this.setUrlHash();
                 }
             },
             onScroll(e) {
@@ -157,24 +165,51 @@
                 }
 
                 return transitions[ Modernizr.prefixed('transition') ];
+            },
+            getUrlHash() {
+                return window.location.hash.slice(1);
+            },
+            setUrlHash(name) {
+                window.location.hash = "#" + this.sections[this.currentSection];
+            },
+            setCurrentSection() {
+                let hash = this.getUrlHash();
+
+                if (hash) this.currentSection = this.sections.indexOf(hash);
+            },
+            onPageScroll() {
+                window.addEventListener('wheel', _.throttle(this.onScroll, this.wait, { 'trailing': false }), false);
+                document.querySelector('.sections').addEventListener(this.whichTransitionEvent, function(e) {
+                    if (e.target && ( e.target.matches('.current') || e.target.matches('.sections') )) {
+                        this.transitioning = false;
+                    }
+                }.bind(this));
+            },
+            offPageScroll() {
+                window.removeEventListener('wheel');
+                document.querySelector('.sections').removeEventListener(this.whichTransitionEvent);                
             }
         },
         mounted() {
-            window.addEventListener('wheel', _.throttle(this.onScroll, this.wait, { 'trailing': false }), false);
-            document.querySelector('.sections').addEventListener(this.whichTransitionEvent, function(e) {
-                if (e.target && ( e.target.matches('.current') || e.target.matches('.sections') )) {
-                    this.transitioning = false;
-                }
-            }.bind(this));
+            this.setCurrentSection();
+
+            this.onPageScroll();
         },
         destroyed() {
-            window.removeEventListener('wheel');
-            document.querySelector('.sections').removeEventListener(this.whichTransitionEvent);
+            this.offPageScroll();
         }
     }
 </script>
 
 <style lang="sass" scoped>
+    $secondary: #5f7278;
+
+    .hero {
+        background-color: transparent;
+        &.is-fullheight {
+            min-height: 100%;
+        }
+    }
     .sections,
     .section,
     .footer {
@@ -206,6 +241,14 @@
                 transform: translateY(100%);
             }
         }
+        &:nth-child(1) {
+            background: url('/images/home/background_1.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        &:nth-child(2) {
+            background: url('/images/home/background_2.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
     }
     .nav-sections {
         position: fixed;
@@ -221,12 +264,12 @@
             display: block;
             width: 14px;
             height: 14px;
-            border: 2px solid #666;
+            border: 2px solid $secondary;
             border-radius: 50%;
             transition: all .3s;
         }
         .current a {
-            background-color: #666;
+            background-color: $secondary;
         }
     }
 </style>
