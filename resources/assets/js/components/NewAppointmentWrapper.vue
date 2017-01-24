@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import {isEmpty} from 'lodash';
+    import {isEmpty, assign, pick, keys} from 'lodash';
 
     import Form from '../helpers.js';
     import NewAppointment from './NewAppointment.vue';
@@ -110,7 +110,6 @@
                         data: error
                     }
                 });
-
             },
             hasFieldData(field) {
                 return this.forms[this.currentStepName] && this.forms[this.currentStepName][field];
@@ -159,31 +158,28 @@
             stripeResponseHandler(status, response) {
                 if (status == 200) {
                     // if success
-                    this.submitForms();
+                    this.submitForms(response.id);
                 } else {
                     this.goBackToErrorComponent({
                         [response.error.param]: [response.error.message]
                     }, 2);
                 }
             },
-            submitForms() {
+            submitForms(stripe_id) {
                 // send requests for payment, user profile and new appointment in sequence
                 // need to submit payment token: response.id
-                axios.put('api/users', this.forms['profile'].data())
+                let profileFormData = Object.assign({}, this.forms['profile'].data(), {'stripe_customer_id': stripe_id});
+
+                this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, profileFormData)
                     .then(() => {
-                        axios.post('api/appointments', this.forms['new-appointment'].data())
+                        this.$http.post('api/appointments', this.forms['new-appointment'].data())
                             .then(() => {
                                 this.$eventHub.$emit('alert', {
                                     type: 'success',
                                     important: false,
                                     text: 'Your appointment is created successfully.'
                                 });
-                                this.$router.push('/',  {
-                                    alert: {
-                                        type: 'success',
-                                        message: 'appointment booked'
-                                    }
-                                });
+                                this.$router.push('/');
                             })
                             .catch((error) => {
                                 this.goBackToErrorComponent(error.response.data, 0);
@@ -204,11 +200,6 @@
 
                 // record error
                 this.formOnError(error);
-            },
-            mergeUserProfile() {
-                if (!_.isEmpty(this.user)) {
-                    this.forms.profile = Object.assign(new Form(), this.forms.profile, this.user);
-                }
             }
         },
         computed: {
@@ -219,12 +210,11 @@
                 return this.steps[this.currentStep];
             }
         },
-        mounted() {
-            this.mergeUserProfile();
-        },
         watch: {
             user() {
-                this.mergeUserProfile();
+                if (!_.isEmpty(this.user)) {
+                    this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
+                }
             }
         }
     }

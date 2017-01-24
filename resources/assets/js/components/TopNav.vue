@@ -60,7 +60,6 @@
 
     export default {
         name: 'TopNav',
-        // props: ['guest', 'user'],
         data() {
             return {
                 nav_is_open: false
