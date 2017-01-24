@@ -9467,6 +9467,11 @@ label.panel-block:hover {
   padding-bottom: 4rem;
 }
 
+.footer.is-simple {
+  background-color: transparent;
+  opacity: 0.75;
+}
+
 .footer:not(.is-simple) {
   background-image: -webkit-linear-gradient(309deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
   background-image: linear-gradient(141deg, #a2826f 0%, #ada397 71%, #bcb4a1 100%);
@@ -9516,6 +9521,15 @@ label.panel-block:hover {
 
 .control.has-icon .icon.is-danger {
   color: #ff3860;
+}
+
+.icon + span {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.link-inherit-color {
+  color: inherit;
 }
 
 .card-footer-item {

@@ -123,7 +123,7 @@
                 this.form.submit('post', 'api/appointments', this.onSuccess);
             },
             onSuccess() {
-                mixpanel.track("New Appointment Created");
+                this.$eventHub.$emit('mixpanel', "New Appointment Created");
             }
         },
         computed: {

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import {throttle, debounce} from 'lodash';
+    import {throttle} from 'lodash';
     import Symptoms from './Symptoms.vue';
     import FooterView from './Footer.vue';
 

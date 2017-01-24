@@ -27,11 +27,11 @@ class Appointment extends Model
      */
     public function scopeUpcoming($query)
     {
-        return $query->where('appointment_at', '>', \Carbon::now())->orderBy('appointment_at','ASC');
+        return $query->where('appointment_at', '>', \Carbon::now())->orderBy('appointment_at', 'ASC');
     }
 
     public function scopeRecent($query, $limit = 3)
     {
-        return $query->where('appointment_at', '<', \Carbon::now())->limit($limit)->orderBy('appointment_at','DESC');
+        return $query->where('appointment_at', '<', \Carbon::now())->limit($limit)->orderBy('appointment_at', 'DESC');
     }
 }

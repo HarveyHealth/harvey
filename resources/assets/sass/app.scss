@@ -36,6 +36,10 @@
 
 .footer {
     padding-bottom: 4rem;
+    &.is-simple {
+        background-color: transparent;
+        opacity: 0.75;
+    }
     &:not(.is-simple) {
         $gradient-top-left: darken(saturate(adjust-hue($secondary, -10deg), 10%), 10%);
         $gradient-bottom-right: lighten(saturate(adjust-hue($secondary, 10deg), 5%), 5%);
@@ -89,6 +93,14 @@
     .control.has-icon &.is-danger {
         color: $danger;
     }
+    & + span {
+        vertical-align: middle;
+        margin-left: 5px
+    }
+}
+
+.link-inherit-color {
+    color: inherit;
 }
 
 .card-footer-item {

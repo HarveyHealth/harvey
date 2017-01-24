@@ -20,7 +20,7 @@
             <h1 class="title">Dashboard</h1>
             <div class="columns">
                 <div class="column is-8">
-                    <Appointments></Appointments>
+                    <Appointments :user-type="userType"></Appointments>
                 </div>
                 <div class="column is-4">
                     <Tests></Tests>
@@ -39,13 +39,19 @@
     export default {
         name: 'dashboard',
         mixins: [Contact],
+        props: ['user'],
         components: {
             Appointments,
             Tests
         },
         methods: {
             viewAppointmentPage() {
-                mixpanel.track("View New Appointment Page");
+                this.$eventHub.$emit('mixpanel', "View New Appointment Page");
+            }
+        },
+        computed: {
+            userType() {
+                return this.user.user_type;
             }
         }
     }

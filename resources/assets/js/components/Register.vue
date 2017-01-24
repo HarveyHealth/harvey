@@ -168,10 +168,9 @@
             onSubmit() {
                 this.form.submit('post', this.formUrl, this.onSuccess);
             },
-
             onSuccess() {
                 location.href = this.redirectUrl;
-                mixpanel.track("New Signup");
+                this.$eventHub.$emit('mixpanel', "New Signup");
             }
         }
     }

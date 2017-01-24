@@ -60,11 +60,18 @@
 
     export default {
         name: 'TopNav',
-        props: ['guest', 'user'],
         data() {
             return {
                 nav_is_open: false
             }
+        },
+        computed: {
+            guest() {
+                return this.$root.guest
+            },
+            user() {
+                return this.$root.user
+            },
         },
         methods: {
             capitalize,
@@ -77,7 +84,7 @@
                 });
             },
             viewSignupPage() {
-                mixpanel.track("View Sign Up Page");
+                if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
             }
         }
     }

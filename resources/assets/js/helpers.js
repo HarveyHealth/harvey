@@ -72,7 +72,7 @@ export default class Form {
     }
 
     onFail(error) {
-        if (error.response.data) {
+        if (error.response && error.response.data) {
             this.errors.record(error.response.data);
         }
     }
