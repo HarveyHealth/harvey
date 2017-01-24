@@ -5,7 +5,7 @@
                 <p class="heading">{{ appointment.appointment_at | datetime('dddd') }}</p>
                 <p class="title">{{ appointment.appointment_at | datetime('MMM Do') }}</p>
             </div>
-            <p><small>Created at {{ appointment.created_at | datetime('h:mm A - D MMM YYYY') }}</small></p>
+            <p v-if="userType != 'patient'"><small>Created at {{ appointment.created_at | datetime('h:mm A - D MMM YYYY') }}</small></p>
         </div>
         <div class="media-content">
             <p class="title">
@@ -18,12 +18,12 @@
                 </p>
             </template>
             <template v-else>
-                <p class="title is-5"><span class="icon"><i class="fa fa-user-md"></i></span><span>Dr Amanda Frick, ND.</span></p>
+                <p class="title is-5"><span class="icon"><i class="fa fa-user-md"></i></span><span>With Dr Amanda Frick, ND.</span></p>
             </template>
         </div>
         <div class="media-right">
             <div class="title"><slot></slot></div>
-            <p class="title is-5">
+            <p v-if="userType != 'patient'" class="title is-5">
                 <a :href="phoneUrl" class="link-inherit-color"><span class="icon"><i class="fa fa-phone"></i></span>{{ patient.phone | phone }}</a>
             </p>
         </div>
