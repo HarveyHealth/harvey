@@ -4,7 +4,7 @@
 
 @section('content')
     <register-view
-        form-url="{{ url('/register') }}"
+        form-url="{{ secure_url('/register') }}"
         redirect-url="/dashboard#/new-appointment"
     >
         {{ csrf_field() }}
