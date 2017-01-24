@@ -45,45 +45,4 @@ class UsersController extends Controller
             $id = request()->user();
         }
     }
-    
-    public function update(Request $request)
-    {
-        $this->validate($request, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required|max:10',
-            'gender' => 'required',
-            'birthdate' => 'required',
-            'height_feet' => 'required|integer|between:1,10',
-            'height_inches' => 'required|integer|between:1,11',
-            'weight' => 'required|integer'
-        ]);
-    
-        $user = auth()->user();
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->gender = $request->gender;
-        $user->birthdate = Carbon::parse($request->birthdate);
-        $user->height_feet = $request->height_feet;
-        $user->height_inches = $request->height_inches;
-        $user->weight = $request->weight;
-        $user->save();
-        
-        $response = [
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'email' => $user->email,
-            'phone' => $user->phone,
-            'gender' => $user->gender,
-            'birthdate' => $user->birthdate,
-            'height_feet' => $user->height_inches,
-            'height_inches' => $user->height_inches,
-            'weight' => $user->weight
-        ];
-    
-        return response()->json($response);
-    }
 }
