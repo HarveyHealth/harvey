@@ -5,6 +5,7 @@
             <div v-for="appointment in upcoming_appointments" class="panel-block">
                 <Appointment
                     :appointment="appointment"
+                    :user-type="userType"
                 >
                     <button class="button" @click="toggleContact">Reschedule</button>
                 </Appointment>
@@ -19,6 +20,7 @@
             <div v-for="appointment in recent_appointments" class="panel-block">
                 <Appointment
                     :appointment="appointment"
+                    :user-type="userType"
                 >
                     <!-- <button class="button is-disabled">Pending</button> -->
                 </Appointment>
@@ -33,6 +35,7 @@
 
     export default {
         mixins: [Contact],
+        props: ['userType'],
         data() {
             return {
                 upcoming_appointments: [],

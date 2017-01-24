@@ -9523,6 +9523,15 @@ label.panel-block:hover {
   color: #ff3860;
 }
 
+.icon + span {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.link-inherit-color {
+  color: inherit;
+}
+
 .card-footer-item {
   padding: 1.5rem;
 }
