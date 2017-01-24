@@ -5038,7 +5038,7 @@ Form.prototype.onSuccess = function onSuccess (successCallback) {
 };
 
 Form.prototype.onFail = function onFail (error) {
-    if (error.response.data) {
+    if (error.response && error.response.data) {
         this.errors.record(error.response.data);
     }
 };
@@ -20617,7 +20617,7 @@ module.exports = function spread(callback) {
             });
         },
         viewSignupPage: function viewSignupPage() {
-            if (mixpanel) mixpanel.track("View Sign Up Page");
+            if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
         }
     }
 };

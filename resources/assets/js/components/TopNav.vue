@@ -84,7 +84,7 @@
                 });
             },
             viewSignupPage() {
-                if (mixpanel) mixpanel.track("View Sign Up Page");
+                if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
             }
         }
     }
