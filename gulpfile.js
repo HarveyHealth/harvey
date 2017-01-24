@@ -35,5 +35,5 @@ elixir((mix) => {
         progressive: true,
         interlaced: true
        })
-       .browserSync({proxy: 'localhost:8000'});
+       .browserSync({proxy: 'harvey.app'});
 });
