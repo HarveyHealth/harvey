@@ -1,7 +1,7 @@
 <template>
     <div>
         <alert v-if="!guest"></alert>
-        <top-nav :guest="guest" :user="user"></top-nav>
+        <top-nav></top-nav>
         <div class="page-content">
             <slot></slot>
         </div>
@@ -16,17 +16,15 @@
     import FooterView from './Footer.vue';
     
     export default {
-        props: {
-            guest: { default: true },
-            user: {
-                type: Object,
-                default: () => {}
-            }
-        },
         components: {
             Alert,
             TopNav,
             FooterView
+        },
+        computed: {
+            guest() {
+                return this.$root.guest;
+            }
         }
     }
 </script>

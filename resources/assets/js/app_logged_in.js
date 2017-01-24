@@ -27,7 +27,6 @@ const app = new Vue({
         App
     },
     mounted() {
-        // stripe
         Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
 
         this.userId = Laravel.userId;
@@ -36,7 +35,6 @@ const app = new Vue({
             .then( response => {
                 this.user = response.data.data;
             } )
-            .catch( error => this.user = {} )
-
+            .catch( error => this.user = {} );
     }
 }).$mount('#app');
