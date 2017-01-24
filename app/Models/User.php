@@ -13,13 +13,14 @@ class User extends Authenticatable implements Mailable
     use Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are not mass assignable.
      *
      * @var array
      */
     protected $guarded = ['id', 'enabled', 'user_type', 'password', 'api_token',
-                            'remember_token', 'terms_accepted_at',
-                            'phone_verified_at', 'email_verified_at'];
+                            'remember_token', 'terms_accepted_at', 'phone_verified_at',
+                            'email_verified_at','created_at', 'updated_at'];
+    
     /**
      * The attributes that should be hidden for arrays.
      *
