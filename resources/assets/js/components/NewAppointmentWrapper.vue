@@ -62,7 +62,7 @@
                         gender: 'Please tell us your gender.',
                         birthdate: 'Please tell us your birthdate.',
                         height_feet: 'The height(feet) field is required.',
-                        height_inches: 'The height(inches) field is required.',
+                        // height_inches: 'The height(inches) field is required.',
                         weight: 'The weight field is required.',
                     },
                     'payment': {
