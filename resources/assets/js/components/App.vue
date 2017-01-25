@@ -23,7 +23,7 @@
         },
         data() {
             return {
-                paddingBottom: ''
+                paddingBottom: 0
             }
         },
         computed: {
@@ -32,7 +32,9 @@
             }
         },
         mounted() {
-            this.paddingBottom = document.querySelector('footer').offsetHeight + 50;
+            if (!this.guest) {
+                this.paddingBottom = document.querySelector('footer').offsetHeight + 50;
+            }
         }
     }
 </script>
