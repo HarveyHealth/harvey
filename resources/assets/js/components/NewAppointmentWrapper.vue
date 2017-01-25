@@ -30,7 +30,7 @@
 
 <script>
     import {isEmpty, assign, pick, keys} from 'lodash';
-
+    import moment from 'moment';
     import Form from '../helpers.js';
     import NewAppointment from './NewAppointment.vue';
     import Profile from './Profile.vue';
@@ -119,6 +119,7 @@
                 let errorData = {};
                 let currentStepValidator = this.validationRules[this.currentStepName];
 
+                // check if all required fields are filled
                 Object.keys(currentStepValidator).forEach(field => {
                     if (!this.hasFieldData(field)) {
                         // error object in Laravel error format
@@ -130,6 +131,18 @@
                     this.formOnError(errorData);
 
                     error = true;
+                } else {
+                    // extra validation
+                    if (this.currentStepName == 'profile') {
+                        // check if birthdate is validate
+                        if ( !this.validateDate(this.forms.profile.birthdate) ) {
+                             this.formOnError({
+                                birthdate: ['Please input a valid birthdate.']
+                             });
+
+                            error = true;
+                        }
+                    }
                 }
 
                 return error;
@@ -148,6 +161,9 @@
                     }
                 }
             },
+            validateDate(date) {
+                return moment(date, ['MM/DD/YYYY', 'YYYY-MM-DD']).isValid();
+            },
             submitToStripe() {
                 // disable button first
                 this.buttonIsDisabled = true;
@@ -165,10 +181,27 @@
                     }, 2);
                 }
             },
+            formatBirthdate(birthdate) {
+                // if birthdate does not match 'yyyy-mm-dd'
+                if (!birthdate.match(/\d{4}-\d{1,2}-\d{1,2}/g)) {
+                    // format it to 'yyyy-mm-dd'
+                    return moment(birthdate).format('YYYY-MM-DD');
+                }
+                return birthdate;
+            },
+            transformProfileFormData(stripe_id) {
+                let profileFormData = this.forms['profile'].data();
+
+                let formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
+
+                return Object.assign({}, profileFormData, {
+                    'birthdate': formattedBirthdate,
+                    'stripe_customer_id': stripe_id
+                });
+            },
             submitForms(stripe_id) {
                 // send requests for payment, user profile and new appointment in sequence
-                // need to submit payment token: response.id
-                let profileFormData = Object.assign({}, this.forms['profile'].data(), {'stripe_customer_id': stripe_id});
+                let profileFormData = this.transformProfileFormData(stripe_id);
 
                 this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, profileFormData)
                     .then(() => {
