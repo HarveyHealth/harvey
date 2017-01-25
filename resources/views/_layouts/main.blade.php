@@ -23,7 +23,7 @@
     @stylesheet(/css/app.css)
     @stack('stylesheets')
 
-    @if (App::environment('local'))
+    @if (App::environment('production'))
         @script(/js/vendors.js)
     @endif
 
