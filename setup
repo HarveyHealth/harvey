@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+vagrant up
+sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "./vagrant_files/harvey.app.crt"

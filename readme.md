@@ -36,6 +36,22 @@
 
 - run `npm run dev`
 
+### Homestead
+
+- run `./setup`
+
+SSL Certificates were created using the following commands from the project root:
+
+```
+mkdir vagrant_files
+cd vagrant_files
+openssl genrsa -des3 -passout pass:x -out harvey.app.pass.key 2048
+openssl rsa -passin pass:x -in harvey.app.pass.key -out harvey.app.key
+rm harvey.app.pass.key
+openssl req -new -key harvey.app.key -out harvey.app.csr
+openssl x509 -req -sha256 -days 365 -in harvey.app.csr -signkey harvey.app.key -out harvey.app.crt
+```
+
 ### Database Seeding
 To populate your local database with fake data, run:
 	`php artisan db:seed`

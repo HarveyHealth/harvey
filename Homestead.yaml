@@ -22,10 +22,6 @@ sites:
 databases:
     - harvey
 
-ports:
-    - send: 9000
-      to: 9000
-
 # blackfire:
 #     - id: foo
 #       token: bar
