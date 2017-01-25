@@ -28,7 +28,7 @@ Route::get('contact', 'PagesController@getContact');
 Route::post('contact', 'PagesController@postContact');
 Route::get('test', 'PagesController@getTest');
 
-Route::get('dashboard', 'DashboardController@index');
+Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 Route::get('api/user', 'DashboardController@getUser');
 

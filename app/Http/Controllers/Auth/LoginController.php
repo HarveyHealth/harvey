@@ -37,6 +37,22 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+    
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+        
+        $this->clearLoginAttempts($request);
+        
+        return $this->authenticated($request, $this->guard()->user())
+            ?: redirect()->secure($this->redirectPath());
+    }
 
     /**
      * Get the failed login response instance.
@@ -57,5 +73,22 @@ class LoginController extends Controller
             ->withErrors([
                 $this->username() => trans('auth.failed')
             ]);
+    }
+    
+    /**
+     * Log the user out of the application.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        
+        $request->session()->flush();
+        
+        $request->session()->regenerate();
+        
+        return redirect('/', 302, [], true);
     }
 }

@@ -4,8 +4,8 @@
 
 @section('content')
     <login-view
-        form-url="{{ url('/login') }}"
-        redirect-url="{{ url('/dashboard') }}"
+        form-url="{{ secure_url('/login') }}"
+        redirect-url="{{ secure_url('/dashboard') }}"
     >
         {{ csrf_field() }}
     </login-view>
