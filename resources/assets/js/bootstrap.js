@@ -3,6 +3,7 @@
  * using reactive data binding and reusable components. Vue's API is clean
  * and simple, leaving you to focus on building your next great project.
  */
+require('es6-promise').polyfill();
 
 import Vue from 'vue';
 import Axios from 'axios';

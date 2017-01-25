@@ -194,7 +194,7 @@
 
                 let formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
 
-                return Object.assign({}, profileFormData, {
+                return _.assign({}, profileFormData, {
                     'birthdate': formattedBirthdate,
                     'stripe_customer_id': stripe_id
                 });
