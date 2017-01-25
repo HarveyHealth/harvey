@@ -92,6 +92,6 @@ class RegisterController extends Controller
         $this->guard()->login($user);
         
         return $this->registered($request, $user)
-            ?: redirect($this->redirectPath(), 302, [], true);
+            ?: redirect()->secure($this->redirectPath());
     }
 }
