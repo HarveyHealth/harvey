@@ -63,9 +63,9 @@ class SitemapController extends Controller
         $base_paths = [
             '',
             'login',
+            'signup',
             'terms',
             'privacy',
-            'signup',
         ];
 
         asort($base_paths);
