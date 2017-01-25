@@ -1,5 +1,6 @@
-@include('_layouts.includes.header')
+@extends('_layouts.main')
 
+@section('main_content')
 <div id="app">
     <app>
         <transition
@@ -11,5 +12,4 @@
         </transition>
     </app>
 </div>
-
-@include('_layouts.includes.footer')
+@endsection

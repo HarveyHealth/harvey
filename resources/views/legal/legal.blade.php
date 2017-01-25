@@ -9,9 +9,6 @@
     {{-- use @script(path/to/script.js) here --}}
 @endpush
 
-
-
-
 @section('content')
     <section class="section">
         <div class="container">
