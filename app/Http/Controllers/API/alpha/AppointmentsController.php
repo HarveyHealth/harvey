@@ -26,13 +26,43 @@ class AppointmentsController extends BaseAPIController
     public function index()
     {
     }
-
+    
     /**
-     * Store a newly created resource in storage.
+     * @api {post} /appointments Create a new appointment
+     * @apiName CreateAppointment
+     * @apiGroup Appointment
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+     * @apiParam {Date} selectedDate
+     * @apiParam {Number} selectedTime
+     * @apiParam {String} details
+     *
+     * @apiSuccess {Object} data Wrapper for data content
+     * @apiSuccess {Number} data.id appointment id
+     * @apiSuccess {Datetime} data.appointment_at appointment start datetime
+     * @apiSuccess {String} data.reason_for_visit
+     * @apiSuccess {Datetime} data.created_at Wrapper for data content
+     * @apiSuccess {Object} meta Wrapper for data content
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *      "data": {
+     *         "id": 24,
+     *         "appointment_at": {
+     *             "date": "2017-02-02 15:00:00.000000",
+     *             "timezone_type": 3,
+     *             "timezone": "UTC"
+     *          },
+     *          "reason_for_visit": "This is the reason for the appointment",
+     *          "created_at": {
+     *              "date": "2017-01-24 19:37:24.000000",
+     *              "timezone_type": 3,
+     *              "timezone": "UTC"
+     *          }
+     *      },
+     *     "meta": {
+     *         "status": "created"
+     *     }
+     *}
+     * */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -40,11 +70,11 @@ class AppointmentsController extends BaseAPIController
             'selectedTime' => 'required',
             'details' => 'required'
         ]);
-    
+        
         if ($validator->fails()) {
             return $this->respondBadRequest($validator);
         }
-    
+        
         $date_selected = $request->selectedDate;
         $carbon_date = Carbon::parse($date_selected);
         $carbon_date->hour = $request->selectedTime;
@@ -55,10 +85,10 @@ class AppointmentsController extends BaseAPIController
             'patient_user_id' => auth()->user()->id,
             'practitioner_user_id' => User::whereUserType('practitioner')->first()->id
         ]);
-
+        
         
         $transformedAppointment = $this->transformer->transform($appointment);
-        return $this->respond($transformedAppointment);
+        return $this->respond($transformedAppointment, ['status' => 'created']);
     }
     
     /**
