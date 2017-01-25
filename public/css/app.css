@@ -9502,6 +9502,10 @@ label.panel-block:hover {
   font-family: "futura-pt", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
+.image-wrapper {
+  margin-bottom: 30px;
+}
+
 .icon {
   vertical-align: middle;
 }

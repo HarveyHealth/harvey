@@ -72,6 +72,10 @@
     font-family: $family-secondary;
 }
 
+.image-wrapper {
+    margin-bottom: $space-medium;
+}
+
 .icon {
     vertical-align: middle; // rewrite bulma
     &.has-border-circle {

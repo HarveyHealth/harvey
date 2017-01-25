@@ -50,6 +50,7 @@ export default {
                 <div class="hero-body">
                     <div class="container content has-text-centered is-medium">
                         <h2 class="title is-2 font-secondary-family">What is naturopathic medicine?</h2>
+                        <div class="image-wrapper"><img src="/images/home/naturopathic-medicine-graph.png" alt="Harvey"></div>
                         <p class="width-half">Naturopathic medicine is a form of primary health care that emphasizes prevention and self-healing through the use of evidence-based natural therapies.</p>
                         <div class="columns is-multiline is-mobile">
                             <div class="column is-half">
