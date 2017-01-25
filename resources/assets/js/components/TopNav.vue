@@ -1,5 +1,5 @@
 <template>
-    <nav class="header nav">
+    <nav class="header nav has-shadow">
         <div class="container">
             <div class="nav-left"></div>
             <div class="nav-center">

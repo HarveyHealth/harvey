@@ -6,7 +6,7 @@ $body-background: #f5f8fa;
 $family-sans-serif: "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 $family-secondary: "futura-pt", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
-$size-6: 15px;
+$size-6: 16px;
 
 // Brands
 $primary: #85af4a;
@@ -25,8 +25,12 @@ $radius-large: 0;
 $opacity-dark: 0.8;
 $space-large: 60px;
 $space-medium: 30px;
-$space-small: 10px;
+$space-small: 15px;
 $space-xsmall: 5px;
+
+// Device
+$mobile: 414px;
+
 // Borders
 // $laravel-border-color: darken($body-background, 10%);
 // $list-group-border: $laravel-border-color;
