@@ -139,7 +139,7 @@ class UsersController extends BaseAPIController
             'email' => 'email',
             'phone' => 'max:10',
             'gender' => 'string',
-            'birthdate' => 'date_format:yyyy-mm-dd',
+            'birthdate' => 'date',
             'height_feet' => 'numeric|between:1,10',
             'height_inches' => 'numeric|between:1,11',
             'weight' => 'integer'
