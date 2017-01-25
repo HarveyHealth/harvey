@@ -22,6 +22,7 @@
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bulma": "^0.3.0",
+    "es6-promise": "^4.0.5",
     "moment": "^2.17.1",
     "vue-slider-component": "^2.1.2"
   },

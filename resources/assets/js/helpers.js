@@ -1,3 +1,5 @@
+import {assign} from 'lodash';
+
 export default class Errors {
     constructor() {
         this.errors = {};
@@ -43,7 +45,7 @@ export default class Form {
     }
 
     data() {
-        let data = Object.assign({}, this);
+        let data = _.assign({}, this);
 
         delete data.originalData;
         delete data.errors;

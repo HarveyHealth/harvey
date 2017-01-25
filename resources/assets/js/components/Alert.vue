@@ -18,6 +18,8 @@
 </template>
 
 <script>
+    import {assign} from 'lodash';
+
     export default {
         name: 'alert',
         props: [],
@@ -34,7 +36,7 @@
         created() {
             this.$eventHub.$on('alert', (data) => {
                 this.show = true;
-                this.alertData = Object.assign({}, this.alertData, data);
+                this.alertData = _.assign({}, this.alertData, data);
 
                 if (!this.alertData.important) {
                    setTimeout(

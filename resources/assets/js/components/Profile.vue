@@ -216,6 +216,7 @@
 </template>
 
 <script>
+    import {assign} from 'lodash';
     import Form from '../helpers.js';
 
     export default {
@@ -247,7 +248,7 @@
         },
         watch: {
             user() {
-                Object.assign(this.form, this.user);
+                _.assign(this.form, this.user);
             }
         },
         mounted() {
