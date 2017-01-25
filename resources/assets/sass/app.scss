@@ -7,6 +7,10 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
+.section {
+    padding: 2rem 1.5rem;
+}
+
 .button {
     &.is-link {
         padding-left: 0;
@@ -42,6 +46,10 @@
             color: white;
         }
     }
+}
+
+figure {
+    margin-right: 0;
 }
 
 .vue-slider-piecewise li + li {
@@ -189,12 +197,10 @@
     }
 }
 
-@include from($widescreen) {
-    [class^="width-"] {
+@include from($tablet) {
+    .copy-has-max-width {
+        max-width: 640px;
         margin: 0 auto;
-        &.width-half {
-            width: 50%;
-        }
     }
 }
 
@@ -208,6 +214,17 @@
     }
     &.animated-fast {
         animation-duration: $speed;
+    }
+}
+
+// global styles
+// navigation
+@include until($tablet) {
+    .nav-left {
+        display: none;
+    }
+    .nav-center {
+        margin-left: 0;
     }
 }
 
@@ -247,9 +264,21 @@ body {
     &.home {
         color: $text-secondary;
         .content {
-            &, h1, h2, h3, h4, h5, h6, .title, .subtitle {
+            &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong {
                 color: $text-secondary;
             }
+            @include from($tablet) {
+                text-align: center;
+            }
+        }
+        .title,
+        .subtitle {
+            strong {
+                font-weight: 700;
+            }
+        }
+        .image img {
+            height: 100%;
         }
         #app {
             height: auto;
@@ -269,39 +298,144 @@ body {
             width: 100%;
             z-index: 101;
         }
-        .section {
-            @include from($widescreen) {
-                .hero {
-                    justify-content: center;
-                }
-                .hero-body {
-                    width: 80%;
-                    margin: 0 auto;
-                    flex-grow: 0;
-                    background: rgba($light-tan, $opacity-dark);
-                    background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
-                }                
-            }
-            .container {
-                padding-top: $space-large;
-                padding-bottom: $space-large;
-            }
+        .sections {
+            margin-top: 52px; // nav height
         }
         .tagline {
             margin-top: $space-xsmall;
-            margin-bottom: $size-1;
+            margin-bottom: $size-2;
         }
         .homepage-icon {
-            margin: 0 auto $space-small;
+            position: relative;
+            padding: 0;
+        }
+        .copy-has-max-width + .columns {
+            margin-top: $size-2;
+        }
+        .disclaimer {
+            display: inline-block;
+            margin-bottom: $space-small;
+        }
+        #comparison,
+        #number {
+            .homepage-icon {
+                margin: 0 auto $space-small;
+                & + p {
+                    margin: 0 auto $space-small;
+                }
+            }
+        }
+        #comparison {
+            .homepage-icon + p {
+                width: 180px;
+            }
+        }
+        #steps {
+            .title.is-5 {
+                margin-bottom: 0.5rem;
+            }
+            .columns {
+                @include tablet-only {
+                    text-align: left;
+                }
+            }
+            @include from($desktop) {
+                .step-column-wrapper {
+                    flex-direction: column;
+                    .column {
+                        width: 75%;
+                        margin: 0 auto;
+                    }
+                    .image {
+                        margin: 0 auto;
+                    }
+                }
+            }
         }
         .step-number {
+            @extend .font-secondary-family;
             display: inline-block;
             width: $size-3;
             height: $size-3;
+            line-height: $size-3;
             text-align: center;
-            border: 2px solid $secondary;
+            background: #fff;
             border-radius: 50%;
-            margin-bottom: $space-small;
+            position: absolute;
+            top: 0;
+            font-size: $size-4;
+            @include from($desktop) {
+                transform: translateX(70%);
+            }
+        }
+        #number { // icon assets are not the same sizes, have to adjust them now
+            .image {
+                &.is-64x64 {
+                    width: auto;
+                    max-width: 80px;
+                }
+                img {
+                    width: auto;
+                    height: auto;
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin: 0 auto;
+                }
+            }
+        }
+        .symptoms-selector-wrapper {
+            // max-width: 800px;
+            margin-bottom: $space-medium;
+        }
+        .vue-slider-tooltip.vue-slider-tooltip-top {
+            top: -3px;
+        }
+        @include until($widescreen) {
+            #symptoms {
+                .columns {
+                    display: block;
+                }
+            }
+        }
+        @include from($widescreen) {
+            .section {
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+                &:nth-child(1) {
+                    background-image: url('/images/home/background_1.jpg');
+                }
+                &:nth-child(2) {
+                    background-image: url('/images/home/background_2.jpg');
+                }
+                &:nth-child(3) {
+                    background-image: url('/images/home/background_3.jpg');
+                }
+                &:nth-child(4) {
+                    background-image: url('/images/home/background_4.png');
+                    background-size: contain;
+                    background-position: top center;
+                }
+                &:nth-child(5) {
+                    background-image: url('/images/home/background_5.jpg');
+                }
+                .section-wrapper {
+                    width: 94%;
+                    margin: 0 auto;
+                    padding: $space-medium $space-small;
+                    background: rgba($light-tan, $opacity-dark);
+                    background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
+                }
+            }
+        }
+        @include from($desktop) {
+            #number,
+            #symptoms {
+                .columns {
+                    text-align: left;
+                }
+            }
         }
     }
 }

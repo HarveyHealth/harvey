@@ -8,11 +8,13 @@
                 <a v-else href="/">
                     <img src="/images/logos/main-logo.png" alt="Harvey Logo">
                 </a>
-                <p class="nav-menu nav-center">
+                <p class="nav-center">
                     <a href="/terms" class="nav-item">Terms of Service</a>
                     <a href="/privacy" class="nav-item">Privacy Policy</a>
                 </p>
-                <small>&copy; {{year}}, Harvey.  All rights reserved.All site information and services provided as information and education only. Harvey does not provide medical advice, diagnosis or treatment.</small>
+                <p>
+                    <small>&copy; {{year}}, Harvey.  All rights reserved.All site information and services provided as information and education only. Harvey does not provide medical advice, diagnosis or treatment.</small>
+                </p>
             </div>
         </div>
     </footer>
