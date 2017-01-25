@@ -50,6 +50,7 @@
                 ],
                 currentStep: 0,
                 buttonIsDisabled: false,
+                minimumAge: 1,
                 validationRules: {
                     'new-appointment': {
                         details: 'Please explain how we can help you in details.'
@@ -112,7 +113,7 @@
                 });
             },
             hasFieldData(field) {
-                return this.forms[this.currentStepName] && this.forms[this.currentStepName][field];
+                return this.forms[this.currentStepName] && this.forms[this.currentStepName][field] !== '';
             },
             checkError() {
                 let error = false;
@@ -127,22 +128,43 @@
                     }
                 })
 
-                if (!_.isEmpty(errorData)) {
-                    this.formOnError(errorData);
-
-                    error = true;
-                } else {
+                if (_.isEmpty(errorData)) {
                     // extra validation
-                    if (this.currentStepName == 'profile') {
-                        // check if birthdate is validate
-                        if ( !this.validateDate(this.forms.profile.birthdate) ) {
-                             this.formOnError({
-                                birthdate: ['Please input a valid birthdate.']
-                             });
+                    let currentForm = this.forms[this.currentStepName];
 
-                            error = true;
+                    if (this.currentStepName == 'profile') {
+                        // check if phone is validate
+                        let phone = currentForm.phone.replace(/\D/g, '').replace(/^1/g, '');
+
+                        if ( phone.length !== 10 ) {
+                            errorData['phone'] = ['Please input a valid phone number.'];
+                        }
+
+                        // check if birthdate is validate
+                        if ( !this.validateBirthdate(currentForm.birthdate) ) {
+                            errorData['birthdate'] = ['Please input a valid birthdate.'];
+                        }
+                        // check if height is valid
+                        if ( currentForm.height_feet < 1 || currentForm.height_feet > 10 ) {
+                            errorData['height_feet'] = ['Please input a valid height(feet).'];
+                        }
+
+                        if ( currentForm.height_inches == '' ) {
+                            currentForm.height_inches = 0;
+                        } else if ( currentForm.height_inches > 11 || currentForm.height_inches < 0 ) {
+                            errorData['height_inches'] = ['Please input a valid height(inches).'];
+                        }
+
+                        // check if weight is valid
+                        if ( currentForm.weight <= 0 ) {
+                            errorData['weight'] = ['Please input a valid weight.'];
                         }
                     }
+                }
+
+                if (!_.isEmpty(errorData)) {
+                    error = true;
+                    this.formOnError(errorData);
                 }
 
                 return error;
@@ -161,8 +183,11 @@
                     }
                 }
             },
-            validateDate(date) {
-                return moment(date, ['MM/DD/YYYY', 'YYYY-MM-DD']).isValid();
+            validateBirthdate(date) {
+                let inputDate = moment(date, ['MM/DD/YYYY', 'YYYY-MM-DD']),
+                    age = moment().diff(inputDate, 'years');
+
+                return inputDate.isValid() && age >= this.minimumAge;
             },
             submitToStripe() {
                 // disable button first
@@ -215,11 +240,11 @@
                                 this.$router.push('/');
                             })
                             .catch((error) => {
-                                this.goBackToErrorComponent(error.response.data, 0);
+                                this.goBackToErrorComponent(error.response.data.error.message, 0);
                             })
                     })
                     .catch((error) => {
-                        this.goBackToErrorComponent(error.response.data, 1);
+                        this.goBackToErrorComponent(error.response.data.error.message, 1);
                     });
             },
             goBackToErrorComponent(error, step) {
