@@ -130,8 +130,28 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
+        // Remove null and empty values from the request
+        $filtered_array = array_filter($request->all());
+        
+        $validator = \Validator::make($filtered_array, [
+            'first_name' => 'string',
+            'last_name' => 'string',
+            'email' => 'email',
+            'phone' => 'max:10',
+            'gender' => 'string',
+            'birthdate' => 'date_format:yyyy-mm-dd',
+            'height_feet' => 'numeric|between:1,10',
+            'height_inches' => 'numeric|between:1,11',
+            'weight' => 'integer'
+        ]);
+    
+        if ($validator->fails()) {
+            return $this->respondUnprocessable($validator->messages());
+        }
+    
+    
         if (auth()->user()->can('update', $user)) {
-            $user->update($request->except('api_token'));
+            $user->update($filtered_array);
             $transformedUser = $this->transformer->transform($user);
             return $this->respond($transformedUser, ['updated' => true]);
         } else {
