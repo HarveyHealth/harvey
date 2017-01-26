@@ -6,4 +6,4 @@
         @yield('content')
     </app>
 </div>
-
+@endsection
