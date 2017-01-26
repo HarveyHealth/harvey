@@ -142,7 +142,8 @@ class UsersController extends BaseAPIController
             'birthdate' => 'date',
             'height_feet' => 'numeric|between:1,10',
             'height_inches' => 'numeric|between:1,11',
-            'weight' => 'integer'
+            'weight' => 'integer',
+            'symptoms' => 'json'
         ]);
     
         if ($validator->fails()) {
