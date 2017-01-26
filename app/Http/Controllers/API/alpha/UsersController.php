@@ -13,7 +13,7 @@ class UsersController extends BaseAPIController
     protected $transformer;
     protected $appointmentTransformer;
     protected $appointments;
-    
+
     public function __construct(UserTransformer $transformer,
                                 AppointmentTransformer $appointmentTransformer,
                                 AppointmentRepository $appointments)
@@ -22,7 +22,7 @@ class UsersController extends BaseAPIController
         $this->appointmentTransformer = $appointmentTransformer;
         $this->appointments = $appointments;
     }
-    
+
     public function index(Request $request)
     {
         // List multiple users
@@ -37,7 +37,7 @@ class UsersController extends BaseAPIController
     {
         // This logic is in the RegisterController
     }
-    
+
     /**
      * @api {get} /users/:id Request User information
      * @apiName GetUser
@@ -77,7 +77,7 @@ class UsersController extends BaseAPIController
             return $this->respondNotAuthorized('Unauthorized to view this resource');
         }
     }
-    
+
     /**
      * @api {patch} /users/:id Update User information
      * @apiName UpdateUser
@@ -102,7 +102,7 @@ class UsersController extends BaseAPIController
      * @apiParam {Integer} height_feet
      * @apiParam {Integer} height_inches
      * @apiParam {Integer} weight
-     * @apiParam {String} stripe_customer_id
+     * @apiParam {String} stripe_token
      *
      *
      * @apiSuccess {Object} data Wrapper for data content
@@ -132,7 +132,7 @@ class UsersController extends BaseAPIController
     {
         // Remove null and empty values from the request
         $filtered_array = array_filter($request->all());
-        
+
         $validator = \Validator::make($filtered_array, [
             'first_name' => 'string',
             'last_name' => 'string',
@@ -145,12 +145,12 @@ class UsersController extends BaseAPIController
             'weight' => 'integer',
             'symptoms' => 'json'
         ]);
-    
+
         if ($validator->fails()) {
             return $this->respondUnprocessable($validator->messages());
         }
-    
-    
+
+
         if (auth()->user()->can('update', $user)) {
             $user->update($filtered_array);
             $transformedUser = $this->transformer->transform($user);
@@ -159,13 +159,13 @@ class UsersController extends BaseAPIController
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }
     }
-    
+
     public function appointments(User $user)
     {
         if (auth()->user()->cant('view', $user)) {
             return $this->respondNotAuthorized('Unauthorized to view this resource');
         }
-        
+
         if ($user->user_type == 'patient') {
             $appointments = $this->appointments->forPatient($user->id)->get();
         } elseif ($user->user_type == 'practitioner') {
@@ -173,10 +173,10 @@ class UsersController extends BaseAPIController
         } else {
             $appointments = $this->appointments->limit(10)->get();
         }
-    
+
         $transformedAppointments = $this->appointmentTransformer
             ->transformCollection($appointments);
-        
+
         return $this->respond($transformedAppointments);
     }
 }
