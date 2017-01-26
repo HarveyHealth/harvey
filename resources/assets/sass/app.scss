@@ -390,13 +390,6 @@ body {
         .vue-slider-tooltip.vue-slider-tooltip-top {
             top: -3px;
         }
-        @include until($widescreen) {
-            #symptoms {
-                .columns {
-                    display: block;
-                }
-            }
-        }
         @include from($widescreen) {
             .section {
                 background-size: cover;
@@ -421,9 +414,9 @@ body {
                     background-image: url('/images/home/background_5.jpg');
                 }
                 .section-wrapper {
-                    width: 94%;
+                    width: 95%;
                     margin: 0 auto;
-                    padding: $space-medium $space-small;
+                    padding: $space-medium;
                     background: rgba($light-tan, $opacity-dark);
                     background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
                 }
