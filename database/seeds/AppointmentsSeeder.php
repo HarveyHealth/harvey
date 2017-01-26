@@ -12,6 +12,8 @@ class AppointmentsSeeder extends Seeder
      */
     public function run()
     {
+        \App\Models\Appointment::flushEventListeners();
+
         $patient = User::where('user_type', 'patient')->first();
         $practitioner = User::where('user_type', 'practitioner')->first();
 

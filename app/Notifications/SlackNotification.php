@@ -44,6 +44,7 @@ class SlackNotification extends Notification
     {
         $message = new SlackMessage;
         $message = ($this->error) ? $message->error() : $message->success();
+        $message = $message->to($this->channel);
         return $message->content($this->message);
     }
 }

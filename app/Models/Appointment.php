@@ -32,8 +32,9 @@ class Appointment extends Model
             $time = new \Carbon($appointment->appointment_at);
             $time->timezone = 'America/Los_Angeles';
 
-            $message = '*[New Appointment]* ' . $patient->fullName() . ' with ' . $practitioner->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:i a');
-            (new Slack)->notify(new SlackNotification($message, '#business'));
+            $message = '*[New Appointment]* ' . $patient->fullName() . ' with ' . $practitioner->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');
+
+            (new Slack)->notify(new SlackNotification($message, 'business'));
         });
     }
 

@@ -27,7 +27,7 @@ class StripeController extends BaseWebhookController
             \Log::info($message);
 
             // slack it
-            (new Slack)->notify(new SlackNotification($message, '#engineering'));
+            (new Slack)->notify(new SlackNotification($message, 'engineering'));
         }
 
         return 'A-OK!';
