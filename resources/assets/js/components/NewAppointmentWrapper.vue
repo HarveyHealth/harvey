@@ -214,18 +214,18 @@
                 }
                 return birthdate;
             },
-            transformProfileFormData(stripe_id) {
+            transformProfileFormData(stripe_token) {
                 let profileFormData = this.forms['profile'].data(),
                     formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
 
                 return _.assign({}, profileFormData, {
                     'birthdate': formattedBirthdate,
-                    'stripe_customer_id': stripe_id
+                    'stripe_token': stripe_token
                 });
             },
-            submitForms(stripe_id) {
+            submitForms(stripe_token) {
                 // send requests for payment, user profile and new appointment in sequence
-                let profileFormData = this.transformProfileFormData(stripe_id);
+                let profileFormData = this.transformProfileFormData(stripe_token);
 
                 this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, profileFormData)
                     .then(() => {
