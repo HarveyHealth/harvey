@@ -118,7 +118,7 @@
 
                         <p class="control">
                             <label>
-                                <input type="checkbox" v-model="agree">
+                                <input type="checkbox" v-model="form.terms">
                                 <small>I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.</small>
                             </label>
                         </p>
@@ -127,7 +127,7 @@
                             <button
                                 type="submit"
                                 class="button is-primary is-pulled-right"
-                                :disabled="form.errors.any() || !agree"
+                                :disabled="form.errors.any() || !form.terms"
                             >Sign Up</button>
                         </p>
                     </form>
@@ -159,9 +159,9 @@
                     email: '',
                     phone: '',
                     password: '',
-                    password_confirmation: ''
-                }),
-                agree: true
+                    password_confirmation: '',
+                    terms: false
+                })
             }
         },
         methods: {

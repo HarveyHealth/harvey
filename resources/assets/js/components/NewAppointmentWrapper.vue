@@ -261,6 +261,7 @@
             assignUserData() {
                 if (!_.isEmpty(this.user)) {
                     this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
+                    this.saveSymptomsData();
                 }
             },
             saveSymptomsData() {
@@ -288,7 +289,6 @@
         },
         mounted() {
             this.assignUserData();
-            this.saveSymptomsData();
         },
         watch: {
             user() {
