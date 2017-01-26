@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Webhooks;
 
 use Illuminate\Http\Request;
-use Lib\Slack;
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
 
 class StripeController extends BaseWebhookController
 {
@@ -11,6 +12,8 @@ class StripeController extends BaseWebhookController
     {
         $payload = request()->all();
 
+        \Log::info("\n\n\n");
+        \Log::info($payload['type']);
         \Log::info($payload);
 
         $method_name = $this->methodForEventName($payload['type']);
@@ -24,7 +27,7 @@ class StripeController extends BaseWebhookController
             \Log::info($message);
 
             // slack it
-            (new Slack)->notify(new SlackNotication($message));
+            (new Slack)->notify(new SlackNotification($message, '#engineering'));
         }
 
         return 'A-OK!';

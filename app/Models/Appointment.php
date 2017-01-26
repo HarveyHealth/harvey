@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\HasPatientAndPractitioner;
 
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
+
 class Appointment extends Model
 {
     use HasPatientAndPractitioner, SoftDeletes;
@@ -16,8 +19,23 @@ class Appointment extends Model
         'deleted_at',
         'appointment_at'
     ];
-    
+
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    static public function boot()
+    {
+        parent::boot();
+
+        self::created(function ($appointment) {
+            $patient = $appointment->patient;
+            $practitioner = $appointment->practitioner;
+            $time = new \Carbon($appointment->appointment_at);
+            $time->timezone = 'America/Los_Angeles';
+
+            $message = '*[New Appointment]* ' . $patient->fullName() . ' with ' . $practitioner->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:i a');
+            (new Slack)->notify(new SlackNotification($message, '#business'));
+        });
+    }
 
     public function notes()
     {

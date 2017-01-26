@@ -152,9 +152,42 @@ class UsersController extends BaseAPIController
 
 
         if (auth()->user()->can('update', $user)) {
+
+            \Log::info($request->all());
+
+            // if there's a stripe_token
+            // add th
+            $token = $request->input('stripe_token');
+            if (!empty($token)) {
+
+                if (!empty($user->stripe_customer_id)) {
+                    // TODO - update the stripe account with the new pay source
+                } else {
+                    // create the stripe customer
+                    $customer = \Stripe\Customer::create(array(
+                      'email' => $user->email,
+                      'source' => $token,
+                      'description' => $user->fullName() . ' [' . $user->id . ']',
+                      'metadata' => [
+                          'harvey_user_id' => $user->id,
+                          ]
+                    ));
+
+                    $filtered_array['stripe_customer_id'] = $customer->id;
+                    $filtered_array['stripe_expiry_month'] = $customer->sources->data[0]->exp_month;
+                    $filtered_array['stripe_expiry_year'] = $customer->sources->data[0]->exp_year;
+                    $filtered_array['stripe_last_four'] = $customer->sources->data[0]->last4;
+                }
+            }
+
+            // remove the token from the data
+            unset($filtered_array['stripe_token']);
+
             $user->update($filtered_array);
             $transformedUser = $this->transformer->transform($user);
+
             return $this->respond($transformedUser, ['updated' => true]);
+
         } else {
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }

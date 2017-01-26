@@ -21,7 +21,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-    
+
     protected function redirectTo()
     {
         return secure_url('dashboard');
@@ -51,6 +51,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:150|unique:users',
             'phone' => 'required|max:10|unique:users',
             'password' => 'required|min:6|confirmed',
+            'terms' => 'required|accepted',
         ]);
     }
 
@@ -71,6 +72,7 @@ class RegisterController extends Controller
             'user_type' => 'patient',
             'api_token' => str_random(60),
             'password' => bcrypt($data['password']),
+            'terms_accepted_at' => \Carbon::now(),
         ]);
         User::guard();
     }

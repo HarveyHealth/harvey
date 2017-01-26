@@ -20,7 +20,9 @@ class User extends Authenticatable implements Mailable
     protected $guarded = ['id', 'enabled', 'user_type', 'password', 'api_token',
                             'remember_token', 'terms_accepted_at', 'phone_verified_at',
                             'email_verified_at','created_at', 'updated_at'];
-    
+
+    protected $dates = ['created_at','updated_at','terms_accepted_at','phone_verified_at','email_verified_at'];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -69,7 +71,7 @@ class User extends Authenticatable implements Mailable
 
         return config('app.default_image_url');
     }
-    
+
     public function superUser()
     {
         return $this->user_type == 'admin';

@@ -187,6 +187,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\SlackServiceProvider::class,
+        App\Providers\StripeServiceProvider::class,
 
     ],
 
