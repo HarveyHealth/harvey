@@ -12,8 +12,9 @@
                     :min="min"
                     :max="max"
                     :speed="speed"
-                    :piecewise="piecewise">
-                </vue-slider>
+                    :piecewise="piecewise"
+                    @callback="onChange"
+                ></vue-slider>
             </div>
         </div>
     </div>
@@ -23,62 +24,33 @@
     import vueSlider from 'vue-slider-component';
 
     export default {
+        props: ['stats'],
         data() {
             return {
                 min: 0,
                 max: 5,
                 speed: .2,
                 piecewise: true,
-                stats: [
-                    {
-                        label: 'Fatigue',
-                        value: 5
-                    },
-                    {
-                        label: 'Aches / pains',
-                        value: 5
-                    },
-                    {
-                        label: 'Allergies',
-                        value: 5
-                    },
-                    {
-                        label: 'Depression',
-                        value: 5
-                    },
-                    {
-                        label: 'Digestion / stomach',
-                        value: 5
-                    },
-                    {
-                        label: 'Irritability / mood',
-                        value: 5
-                    },
-                    {
-                        label: 'Libido',
-                        value: 5
-                    },
-                    {
-                        label: 'Stress',
-                        value: 5
-                    },
-                    {
-                        label: 'Weight',
-                        value: 5
-                    },
-                    {
-                        label: 'Hair and skin',
-                        value: 5
-                    },
-                    {
-                        label: 'Other',
-                        value: 5
-                    }
-                ]
+                dataReady: false
             }
         },
         components: {
             vueSlider
+        },
+        methods: {
+            onChange(e) {
+                if (this.dataReady) {
+                    this.$emit('changed');
+                    this.$children.forEach( (child) => {
+                        child.$off('callback');
+                    });
+                }
+            }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                this.dataReady =  true;
+            })
         }
     }
 </script>

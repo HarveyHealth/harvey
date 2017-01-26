@@ -182,16 +182,81 @@ export default {
                     <h2 class="title font-secondary-family">Tell us your symptoms</h2>
                     <div class="columns">
                         <p class="column is-one-quarter-widescreen copy-has-max-width">The majority of symptoms can be linked to imbalances in your biomarkers, such as vitamins, minerals, hormones, allergies and toxic heavy metals. Whatever it is, we will help get to the bottom of it. Simply tell us the severity of each of your sumptoms using the sliders below, then click “Save &amp; Get Started”.</p>
-                        <symptoms class="column is-three-quarters-widescreen"></symptoms>
+                        <symptoms class="column is-three-quarters-widescreen" :stats="stats" @changed="onChanged"></symptoms>
                     </div>
                     <p class="is-clearfix">
                         <small class="disclaimer">Your selection above will only be saved if you create an account on the next page.</small>
-                        <button class="button is-primary is-medium is-pulled-right">Get Started</button>
+                        <button class="button is-primary is-medium is-pulled-right" @click="getStarted">Get Started</button>
                     </p>
                 </div>
             </div>`,
             components: {
                 Symptoms
+            },
+            data() {
+                return {
+                    changed: false,
+                    stats: {
+                        fatigue: {
+                            label: 'Fatigue',
+                            value: 3
+                        },
+                        aches: {
+                            label: 'Aches / pains',
+                            value: 3
+                        },
+                        allergies: {
+                            label: 'Allergies',
+                            value: 3
+                        },
+                        depression: {
+                            label: 'Depression',
+                            value: 3
+                        },
+                        digestion: {
+                            label: 'Digestion / stomach',
+                            value: 3
+                        },
+                        irritability: {
+                            label: 'Irritability / mood',
+                            value: 3
+                        },
+                        libido: {
+                            label: 'Libido',
+                            value: 3
+                        },
+                        stress: {
+                            label: 'Stress',
+                            value: 3
+                        },
+                        weight: {
+                            label: 'Weight',
+                            value: 3
+                        },
+                        hair: {
+                            label: 'Hair and skin',
+                            value: 3
+                        }
+                    }
+                }
+            },
+            methods: {
+                onChanged() {
+                    this.changed = true;
+                },
+                getStarted() {
+                    if (this.changed) {
+                        // user interacted with symptoms, save it to session storage
+                        let formattedStats = Object.keys(this.stats)
+                            .reduce( (ret, key) => {
+                                ret[key] = this.stats[key].value;
+                                return ret;
+                            }, {} );
+
+                        sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
+                    }
+                    location.href = '/signup';
+                }
             }
         },
     },

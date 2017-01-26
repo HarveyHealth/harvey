@@ -215,9 +215,8 @@
                 return birthdate;
             },
             transformProfileFormData(stripe_id) {
-                let profileFormData = this.forms['profile'].data();
-
-                let formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
+                let profileFormData = this.forms['profile'].data(),
+                    formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
 
                 return _.assign({}, profileFormData, {
                     'birthdate': formattedBirthdate,
@@ -263,6 +262,20 @@
                 if (!_.isEmpty(this.user)) {
                     this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
                 }
+            },
+            saveSymptomsData() {
+                let sessionKey = 'symptoms',
+                    symptomsData = sessionStorage.getItem(sessionKey);
+
+                if (symptomsData) {
+                    this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, {
+                        'symptoms': symptomsData
+                    })
+                        .then(() => {
+                            sessionStorage.removeItem(sessionKey);
+                        })
+                        .catch((error) => {});
+                }
             }
         },
         computed: {
@@ -275,6 +288,7 @@
         },
         mounted() {
             this.assignUserData();
+            this.saveSymptomsData();
         },
         watch: {
             user() {
