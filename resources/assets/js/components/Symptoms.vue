@@ -1,6 +1,6 @@
 <template>
-    <div class="symptoms-selector-wrapper">
-        <div class="control is-horizontal"
+    <div class="symptoms-selector-wrapper columns is-desktop is-multiline">
+        <div class="control is-horizontal column is-half-desktop"
              v-for="stat in stats"
         >
             <div class="control-label">
@@ -68,8 +68,17 @@
     @media screen and (min-width: 769px) {
         .control.is-horizontal > .control {
             display: block;
-            flex-grow: 4;
+            flex-grow: 2;
             padding-top: 0.5em;
+        }
+        .control-label {
+            margin-right: 0;
+            margin-left: 1em;
+        }
+    }
+    @media screen and (min-width: 1192px) {
+        .control.is-horizontal > .control {
+            flex-grow: 2.2;
         }
     }
 </style>

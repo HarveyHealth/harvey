@@ -157,41 +157,43 @@
                     <div class="control-label">
                         <label class="label">Height &amp; Weight</label>
                     </div>
-                    <div class="control is-grouped">
-                        <p class="control is-expanded has-addons">
-                            <input
-                                v-model="form.height_feet"
-                                name="height_feet"
-                                :class="['input', form.errors.has('height_feet') ? 'is-danger' : '']"
-                                type="number"
-                                min="1"
-                                max="10"
-                                :autofocus="form.errors.has('height_feet')"
-                            >
-                            <span class="button">feet</span>
-                        </p>
-                        <p class="control is-expanded has-addons">
-                            <input
-                                v-model="form.height_inches"
-                                name="height_inches"
-                                :class="['input', form.errors.has('height_inches') ? 'is-danger' : '']"
-                                type="number"
-                                min="0"
-                                max="11"
-                                :autofocus="form.errors.has('height_inches')"
-                            >
-                            <span class="button">inch</span>
-                        </p>
-                        <p class="control is-expanded has-addons">
-                            <input
-                                v-model="form.weight"
-                                name="weight"
-                                :class="['input', form.errors.has('weight') ? 'is-danger' : '']"
-                                type="number"
-                                :autofocus="form.errors.has('weight')"
-                            >
-                            <span class="button">lbs</span>
-                        </p>
+                    <div class="control">
+                        <div class="control is-grouped is-marginless">
+                            <p class="control is-expanded has-addons">
+                                <input
+                                    v-model="form.height_feet"
+                                    name="height_feet"
+                                    :class="['input', form.errors.has('height_feet') ? 'is-danger' : '']"
+                                    type="number"
+                                    min="1"
+                                    max="10"
+                                    :autofocus="form.errors.has('height_feet')"
+                                >
+                                <span class="button">feet</span>
+                            </p>
+                            <p class="control is-expanded has-addons">
+                                <input
+                                    v-model="form.height_inches"
+                                    name="height_inches"
+                                    :class="['input', form.errors.has('height_inches') ? 'is-danger' : '']"
+                                    type="number"
+                                    min="0"
+                                    max="11"
+                                    :autofocus="form.errors.has('height_inches')"
+                                >
+                                <span class="button">inch</span>
+                            </p>
+                            <p class="control is-expanded has-addons">
+                                <input
+                                    v-model="form.weight"
+                                    name="weight"
+                                    :class="['input', form.errors.has('weight') ? 'is-danger' : '']"
+                                    type="number"
+                                    :autofocus="form.errors.has('weight')"
+                                >
+                                <span class="button">lbs</span>
+                            </p>
+                        </div>
                         <template v-if="form.errors.has('height_feet')">
                             <span class="help is-danger" v-text="form.errors.get('height_feet')"></span>
                         </template>
