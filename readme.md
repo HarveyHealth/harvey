@@ -59,15 +59,15 @@ To populate your local database with fake data, run:
 Database Seeding will provide you with these accounts:
 
 #### Admin
-- email: `admin@goharvey.co`
+- email: `admin@goharvey.com`
 - password: `secret`
 
 #### Patient
-- email: `patient@goharvey.co`
+- email: `patient@goharvey.com`
 - password: `secret`
 
 #### Practitioner
-- email: `practitioner@goharvey.co`
+- email: `practitioner@goharvey.com`
 - password: `secret`
 
 ### Standardization Notes:
