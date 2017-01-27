@@ -44,11 +44,27 @@ class StripeController extends BaseWebhookController
     {
         $payload = request()->all();
 
-        \Log::info('Stripe charge failed: ' . $payload['data']['object']['id']);
+        $message = 'Stripe charge failed: ' . $payload['data']['object']['id'];
+
+        // log it
+        \Log::info($message);
+
+        // slack it
+        (new Slack)->notify(new SlackNotification($message, 'business'));
 
         $data = [
             'user' => User::userForStripeID($payload['customer'])
         ];
+    }
+
+    public function handleCustomerCreated()
+    {
+        \Log::info('Stripe customer created.');
+    }
+
+    public function handleCustomerSourceCreated()
+    {
+        \Log::info('Stripe customer payment source created.');
     }
 
     public function methodForEventName($event_name)
