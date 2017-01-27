@@ -184,7 +184,14 @@ export default {
                     <symptoms :stats="stats" @changed="onChanged"></symptoms>
                     <p class="is-clearfix">
                         <small class="disclaimer">Your selection above will only be saved if you create an account on the next page.</small>
-                        <button class="button is-primary is-medium is-pulled-right" @click="getStarted">Get Started</button>
+                        <button class="button is-primary is-medium is-pulled-right" @click="getStarted" :disabled="loading">
+                            <span class="icon"
+                                v-if="loading"
+                            >
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </span>
+                            <span>Get Started</span>
+                        </button>
                     </p>
                 </div>
             </div>`,
@@ -194,6 +201,7 @@ export default {
             data() {
                 return {
                     changed: false,
+                    loading: false,
                     stats: {
                         fatigue: {
                             label: 'Fatigue',
@@ -253,7 +261,12 @@ export default {
 
                         sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
                     }
-                    location.href = '/signup';
+
+                    this.loading = true;
+
+                    setTimeout(()=> {
+                        location.href = '/signup';
+                    }, 400);
                 }
             }
         },
