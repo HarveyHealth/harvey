@@ -92,9 +92,13 @@ class AppointmentsController extends BaseAPIController
     }
     
     /**
-     * @param Appointment $appointment
-     * @return array
-     */
+     * @api {get} /appointments/:id View a specific appointment
+     * @apiName CreateAppointment
+     * @apiGroup Appointment
+     *
+     * @apiParam {Number} Appointment id
+     *
+     * */
     public function show(Appointment $appointment)
     {
         $transformedAppointment = $this->transformer->transform($appointment);
