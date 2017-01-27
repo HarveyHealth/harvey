@@ -190,6 +190,48 @@ class UsersController extends BaseAPIController
         }
     }
 
+    /**
+     * @api {get} /users/:id/appointments View appointments for a specific user
+     * @apiName ViewUserAppointments
+     * @apiGroup Appointment
+     *
+     * @apiParam {Number} id User's id
+     * @apiSuccessExample {json} Success-Response:
+     *{
+     *  "data": [
+     *    {
+     *      "id": 1,
+     *      "appointment_at": {
+     *        "date": "2017-01-23 01:57:20.000000",
+     *        "timezone_type": 3,
+     *        "timezone": "UTC"
+     *      },
+     *      "reason_for_visit": "Omnis occaecati sit eius.",
+     *      "created_at": {
+     *        "date": "2017-01-24 20:22:52.000000",
+     *        "timezone_type": 3,
+     *        "timezone": "UTC"
+     *      }
+     *    },
+     *    {
+     *      "id": 2,
+     *      "appointment_at": {
+     *        "date": "2017-01-22 12:47:57.000000",
+     *        "timezone_type": 3,
+     *        "timezone": "UTC"
+     *      },
+     *      "reason_for_visit": "Quia quo et dolorem distinctio ut enim doloribus.",
+     *      "created_at": {
+     *        "date": "2017-01-24 20:22:52.000000",
+     *        "timezone_type": 3,
+     *        "timezone": "UTC"
+     *      }
+     *    }
+     *  ],
+     *  "meta": null
+     *}
+     *
+     * */
     public function appointments(User $user)
     {
         if (auth()->user()->cant('view', $user)) {
