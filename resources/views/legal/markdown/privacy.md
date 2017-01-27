@@ -231,13 +231,13 @@ To file a complaint with us or receive more information contact:
 
 Phone: (310) 907-5302
 
-Email: [support@goharvey.co](mailto:support@goharvey.co)
+Email: [support@goharvey.com](mailto:support@goharvey.com)
 
 To file a complaint with the Secretary of Health and Human Services write to 200 Independence Ave., S.E., Washington, D.C. 20201 or call
 1-877-696-6775.
 
 ### How to Contact Us
 
-Harvey welcomes your comments or questions regarding this Privacy Policy. Please email us at [support@goharvey.co](mailto:support@goharvey.co).
+Harvey welcomes your comments or questions regarding this Privacy Policy. Please email us at [support@goharvey.com](mailto:support@goharvey.com).
 
 Last Update 01/10/2017
