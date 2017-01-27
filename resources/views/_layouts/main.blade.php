@@ -44,7 +44,8 @@
         window.Laravel = {
             "csrfToken" : "{{ csrf_token() }}",
             "apiToken" : "{{ api_token() }}",
-            'userId' : "{{ user_id() }}"
+            "userId" : "{{ user_id() }}",
+            "stripeKey" : "{{ \Config::get('services.stripe.key') }}"
         }
     </script>
 

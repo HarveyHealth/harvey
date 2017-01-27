@@ -27,7 +27,7 @@ const app = new Vue({
         App
     },
     mounted() {
-        Stripe.setPublishableKey('pk_test_V6rezd1WTJiBPZaN5qbNyM6U');
+        Stripe.setPublishableKey(Laravel.stripeKey);
 
         this.userId = Laravel.userId;
 
