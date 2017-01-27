@@ -76,9 +76,13 @@ class User extends Authenticatable implements Mailable
     {
         return $this->user_type == 'admin';
     }
+    
+    public function consultsWithUser(User $user)
+    {
+        return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
+    }
 
-
-
+    
     /* Mailable Interface Methods */
     public function emailVerificationToken()
     {

@@ -30,6 +30,10 @@ class UserPolicy
      */
     public function view(User $user, User $target_user)
     {
+        if($user->consultsWithUser($target_user)){
+            return true;
+        }
+        
         return $user->id === $target_user->id;
     }
 
