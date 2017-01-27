@@ -341,9 +341,8 @@ body {
             }
             @include from($desktop) {
                 .step-column-wrapper {
-                    flex-direction: column;
+                    display: block;
                     .column {
-                        width: 75%;
                         margin: 0 auto;
                     }
                     .image {

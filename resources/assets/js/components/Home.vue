@@ -190,7 +190,7 @@ export default {
                             >
                                 <i class="fa fa-spinner fa-spin"></i>
                             </span>
-                            <span>Get Started</span>
+                            <span>Save & Get Started</span>
                         </button>
                     </p>
                 </div>
