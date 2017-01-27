@@ -25,12 +25,14 @@
     @stylesheet(/css/app.css)
     @stack('stylesheets')
 
+    {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
     @if (App::environment('production'))
         @script(/js/vendors.js)
+        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
     @endif
 
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
 </head>
+
 <body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
@@ -38,7 +40,13 @@
 
     @yield('main_content')
 
-    <script>window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token(),'apiToken' => api_token(), 'userId' => user_id()]); ?></script>
+    <script>
+        window.Laravel = {
+            "csrfToken" : "{{ csrf_token() }}",
+            "apiToken" : "{{ api_token() }}",
+            'userId' : "{{ user_id() }}"
+        }
+    </script>
 
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
