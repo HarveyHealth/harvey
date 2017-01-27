@@ -22,7 +22,7 @@ class Appointment extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    static public function boot()
+    public static function boot()
     {
         parent::boot();
 

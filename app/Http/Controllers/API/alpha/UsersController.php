@@ -152,14 +152,12 @@ class UsersController extends BaseAPIController
 
 
         if (auth()->user()->can('update', $user)) {
-
             \Log::info($request->all());
 
             // if there's a stripe_token
             // add th
             $token = $request->input('stripe_token');
             if (!empty($token)) {
-
                 if (!empty($user->stripe_customer_id)) {
                     // TODO - update the stripe account with the new pay source
                 } else {
@@ -187,7 +185,6 @@ class UsersController extends BaseAPIController
             $transformedUser = $this->transformer->transform($user);
 
             return $this->respond($transformedUser, ['updated' => true]);
-
         } else {
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }

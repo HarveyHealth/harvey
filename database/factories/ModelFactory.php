@@ -47,9 +47,9 @@ $factory->state(App\Models\User::class, 'patient', function ($faker) {
     return [
         'user_type' => 'patient',
         'symptoms' => json_encode([
-            $faker->word => $faker->numberBetween(1,10),
-            $faker->word => $faker->numberBetween(1,10),
-            $faker->word => $faker->numberBetween(1,10)
+            $faker->word => $faker->numberBetween(1, 10),
+            $faker->word => $faker->numberBetween(1, 10),
+            $faker->word => $faker->numberBetween(1, 10)
         ])
     ];
 });
