@@ -9,8 +9,12 @@ import Vue from 'vue';
 import Axios from 'axios';
 
 window.Vue = Vue;
-window.axios = Axios;
 
+Vue.config.devtools = process.env.NODE_ENV !== 'production';
+Vue.config.debug = process.env.NODE_ENV !== 'production';
+Vue.config.silent = process.env.NODE_ENV === 'production';
+
+window.axios = Axios;
 Vue.prototype.$http = Axios;
 
 /**
