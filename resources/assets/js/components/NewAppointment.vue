@@ -132,9 +132,10 @@
 
                 if (canBookToday) {
                     let hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
-                    return moment.utc(this.now).set({hour: hour, minute: 0, second:0, millisecond:0});
+
+                    return this.now.set({hour: hour, minute: 0, second:0, millisecond:0}).utc();
                 } else {
-                    return moment.utc(this.now).add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0});
+                    return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0}).utc();
                 }
             }
         },

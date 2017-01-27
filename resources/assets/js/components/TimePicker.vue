@@ -54,7 +54,7 @@
                 if (this.selectedDate > this.startDateTime) {
                     return this.startOfDayHour;
                 } else {
-                    return this.startDateTime.hour();
+                    return moment(this.startDateTime).local().hour();
                 }
             }
         },
