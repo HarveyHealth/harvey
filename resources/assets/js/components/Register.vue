@@ -102,20 +102,6 @@
                             </template>
                         </p>
 
-                        <label class="label">Confirm Password</label>
-                        <p class="control has-icon">
-                            <input
-                                v-model="form.password_confirmation"
-                                name="password_confirmation"
-                                :class="['input', form.errors.has('password_confirmation') ? 'is-danger' : '']"
-                                type="password"
-                                placeholder="Confirm Password"
-                                required
-                                @keydown="form.errors.clear('password')"
-                            >
-                            <span class="icon is-small"><i class="fa fa-lock"></i></span>
-                        </p>
-
                         <p class="control">
                             <label>
                                 <input type="checkbox" v-model="form.terms">
@@ -159,7 +145,6 @@
                     email: '',
                     phone: '',
                     password: '',
-                    password_confirmation: '',
                     terms: false
                 })
             }
