@@ -8,6 +8,8 @@
 Homestead.json
 .env
 .env.testing
+.env.dev
+.env.staging
 .DS_Store
 *.css.map
 *.js.map
