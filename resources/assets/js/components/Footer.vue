@@ -13,7 +13,7 @@
                     <a href="/privacy" class="nav-item">Privacy Policy</a>
                 </p>
                 <p>
-                    <small>&copy; {{year}}, Harvey.  All rights reserved.All site information and services provided as information and education only. Harvey does not provide medical advice, diagnosis or treatment.</small>
+                    <small>&copy; {{year}}, Harvey. All rights reserved. All site information and services provided as information and education only. Harvey does not provide medical advice, diagnosis or treatment.</small>
                 </p>
             </div>
         </div>

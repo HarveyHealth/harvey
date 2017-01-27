@@ -434,6 +434,16 @@ body {
 }
 
 .dashboard {
+    .app-wrapper {
+        position: relative;
+        min-height: 100vh;
+    }
+    .footer {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
     .hero,
     .nav {
         background-color: transparent;

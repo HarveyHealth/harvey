@@ -26,7 +26,7 @@
                 show: false,
                 types: {
                     phone: '(310) 907-5302',
-                    email: 'support@goharvey.co'
+                    email: 'support@goharvey.com'
                 }
             }
         },

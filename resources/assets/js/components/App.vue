@@ -38,16 +38,3 @@
         }
     }
 </script>
-
-<style lang="sass" scoped>
-    .app-wrapper {
-        position: relative;
-        min-height: 100vh;
-    }
-    .footer {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-</style>
