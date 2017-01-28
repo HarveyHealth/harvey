@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
     /**
      * Bootstrap any application services.
      *
@@ -18,6 +19,8 @@ class AppServiceProvider extends ServiceProvider
         // load any blade extensions
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
+
+        $this->app->version_id = \File::lastModified(public_path() . '/css/app.css');
     }
 
     /**

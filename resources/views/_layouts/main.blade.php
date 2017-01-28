@@ -16,7 +16,7 @@
 
     {{-- CSRF TOKEN --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     {{-- TYPEKIT async load --}}
     @script(/js/libs/typekit.js)
 

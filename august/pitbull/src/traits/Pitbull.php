@@ -22,19 +22,26 @@ trait Pitbull
 
     public function hasRole($role)
     {
-        return (in_array($role, array_keys($this->roles())));
+        return app()['pitbull']->userHasRole($this, $role);
     }
 
     public function hasPermission($domain, $action)
     {
-        return (in_array($role, array_keys($this->permissions())));
+        return app()['pitbull']->userHasPermission($this, $domain, $action);
     }
 
     public function roles()
     {
+        return app()['pitbull']->rolesForUser($this);
     }
 
     public function permissions()
     {
+        return app()['pitbull']->permissionsForUser($this);
+    }
+
+    public function flushPermissions()
+    {
+        app()['pitbull']->flushPermissionsForUser($this);
     }
 }
