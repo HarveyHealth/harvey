@@ -19,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
 
-        $this->app->version_id = \File::lastModified(resource_path());
+        $this->app->version_id = \File::lastModified(public_path() . '/css/app.css');
     }
 
     /**
