@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+namespace Tests\Integration;
+
+use Tests\TestCase;
 
 class ShowHomepageTest extends TestCase
 {
