@@ -16,8 +16,8 @@ class VueHelperViewComposer
     {
         $data = [
             'app' => $this->appData(),
-            'user' => $this->userData(),
             'services' => $this->servicesData(),
+            'user' => $this->userData(),
         ];
 
         $view->with('vue_data', json_encode($data));
