@@ -29,7 +29,7 @@ const app = new Vue({
     mounted() {
         Stripe.setPublishableKey(Laravel.stripeKey);
 
-        this.userId = Laravel.userId;
+        this.userId = Laravel.user.id;
 
         this.$http.get(this.apiUrl + '/users/' + this.userId)
             .then( response => {
