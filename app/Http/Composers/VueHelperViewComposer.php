@@ -22,7 +22,10 @@ class VueHelperViewComposer
             $user_data['lastName'] = $user->lastName;
             $user_data['fullName'] = $user->fullName();
             $user_data['apiToken'] = $user->api_token;
+            $user_data['userType'] = $user->user_type;
         }
+
+        ksort($user_data);
 
         /*
          * This data will be passed to *all* views so that
