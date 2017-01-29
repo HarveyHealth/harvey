@@ -5,7 +5,13 @@
     "dev": "export NODE_ENV=development && gulp watch",
     "postinstall" :"gulp --production"
   },
-  "devDependencies": {
+  "dependencies": {
+    "animate.css": "^3.5.2",
+    "axios": "^0.15.3",
+    "bulma": "^0.3.0",
+    "es6-promise": "^4.0.5",
+    "moment": "^2.17.1",
+    "vue-slider-component": "^2.1.2",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-14",
     "laravel-elixir-browsersync-official": "^1.0.0",
@@ -18,14 +24,6 @@
     "style-loader": "^0.13.1",
     "vue": "^2.0.1",
     "vue-router": "^2.1.1"
-  },
-  "dependencies": {
-    "animate.css": "^3.5.2",
-    "axios": "^0.15.3",
-    "bulma": "^0.3.0",
-    "es6-promise": "^4.0.5",
-    "moment": "^2.17.1",
-    "vue-slider-component": "^2.1.2"
   },
   "apidoc": {
     "title": "Harvey API Documentation",
