@@ -19,6 +19,8 @@ class VueHelperViewComposer
             'stripeKey' => \Config::get('services.stripe.key'),
         ];
 
+        ksort($vue_data);
+
         $view->with('vue_data', $vue_data);
     }
 }
