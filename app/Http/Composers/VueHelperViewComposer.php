@@ -32,7 +32,7 @@ class VueHelperViewComposer
             'csrfToken' => csrf_token(),
             'appVersionId' => app()->version_id,
             'stripeKey' => \Config::get('services.stripe.key'),
-            'user' => $user,
+            'user' => $user_data,
         ];
 
         ksort($vue_data);
