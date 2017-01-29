@@ -42,12 +42,7 @@
 
     {{-- To add data here, see the VueHelperViewComposer --}}
     <script>
-        window.Laravel = {
-        @foreach ($vue_data as $key => $value)
-        "{!! $key !!}" : "{!! $value !!}"@if (!$loop->last),@endif
-
-        @endforeach
-        }
+        window.Laravel = {!! $vue_data !!}
     </script>
 
     @if (Auth::guest())
