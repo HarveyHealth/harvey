@@ -44,7 +44,7 @@
     <script>
         window.Laravel = {
         @foreach ($vue_data as $key => $value)
-        "{{ $key }}" : "{{ $value }}"@if (!$loop->last),@endif
+        "{!! $key !!}" : "{!! $value !!}"@if (!$loop->last),@endif
 
         @endforeach
         }
