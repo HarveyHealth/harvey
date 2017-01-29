@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class VueHelperViewComposer
 {
+    /*
+     * This passes data to *all* views so that
+     * it can be used by Vue
+     */
+
     public function compose(View $view)
     {
         $user = Auth::user();
@@ -26,10 +31,7 @@ class VueHelperViewComposer
         }
         ksort($user_data);
 
-        /*
-         * This data will be passed to *all* views so that
-         * it can be used by Vue
-         */
+
         $vue_data = [
             'csrfToken' => csrf_token(),
             'appVersionId' => app()->version_id,
