@@ -20,7 +20,25 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
 
-        $this->app->version_id = \File::lastModified(public_path() . '/js/app_logged_in.js');
+        $this->setVersionNumber();
+    }
+
+    protected function setVersionNumber()
+    {
+        $numbers = [];
+        $filepaths =  [
+            public_path() . '/js/app_logged_in.js',
+            public_path() . '/js/app_public.js',
+            public_path() . '/css/app.css'
+        ];
+
+        foreach ($filepaths as $path) {
+            if (file_exists($path)) {
+                $numbers[] = \File::lastModified($path);
+            }
+        }
+
+        $this->app->version_id = max($numbers);
     }
 
     /**
