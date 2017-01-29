@@ -14,3 +14,7 @@ Homestead.json
 *.css.map
 *.js.map
 .vagrant
+/public/css/app.css
+/public/js/app_public.js
+/public/js/app_logged_in.js
+/public/js/vendors.js

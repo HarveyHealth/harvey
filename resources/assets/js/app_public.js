@@ -16,4 +16,4 @@ const app = new Vue({
         LoginView,
         RegisterView
     }
-}).$mount('#app');
+}).$mount('#appz');
