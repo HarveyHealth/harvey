@@ -16,7 +16,7 @@ class VueHelperViewComposer
         ];
 
         if ($user) {
-            $user_data['userId'] = $user->id;
+            $user_data['id'] = $user->id;
             $user_data['signedIn'] = true;
             $user_data['firstName'] = $user->first_name;
             $user_data['lastName'] = $user->lastName;
@@ -24,7 +24,6 @@ class VueHelperViewComposer
             $user_data['apiToken'] = $user->api_token;
             $user_data['userType'] = $user->user_type;
         }
-
         ksort($user_data);
 
         /*
@@ -37,7 +36,6 @@ class VueHelperViewComposer
             'stripeKey' => \Config::get('services.stripe.key'),
             'user' => $user_data,
         ];
-
         ksort($vue_data);
 
         $view->with('vue_data', json_encode($vue_data));
