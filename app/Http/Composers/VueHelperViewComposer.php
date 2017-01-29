@@ -14,32 +14,57 @@ class VueHelperViewComposer
 
     public function compose(View $view)
     {
+        $data = [
+            'app' => $this->appData(),
+            'user' => $this->userData(),
+            'services' => $this->servicesData(),
+        ];
+
+        $view->with('vue_data', json_encode($data));
+    }
+
+    protected function appData()
+    {
+        $data = [
+            'csrfToken' => csrf_token(),
+            'versionId' => app()->version_id,
+        ];
+        ksort($data);
+
+        return $data;
+    }
+
+    protected function userData()
+    {
         $user = Auth::user();
 
-        $user_data = [
+        $data = [
             'signedIn' => false,
         ];
 
         if ($user) {
-            $user_data['id'] = $user->id;
-            $user_data['signedIn'] = true;
-            $user_data['firstName'] = $user->first_name;
-            $user_data['lastName'] = $user->lastName;
-            $user_data['fullName'] = $user->fullName();
-            $user_data['apiToken'] = $user->api_token;
-            $user_data['userType'] = $user->user_type;
+            $data['id'] = $user->id;
+            $data['signedIn'] = true;
+            $data['firstName'] = $user->first_name;
+            $data['lastName'] = $user->lastName;
+            $data['fullName'] = $user->fullName();
+            $data['apiToken'] = $user->api_token;
+            $data['userType'] = $user->user_type;
         }
-        ksort($user_data);
+        ksort($data);
 
+        return $data;
+    }
 
-        $vue_data = [
-            'csrfToken' => csrf_token(),
-            'appVersionId' => app()->version_id,
-            'stripeKey' => \Config::get('services.stripe.key'),
-            'user' => $user_data,
+    protected function servicesData()
+    {
+        $data = [
+            'stripe' => [
+                'key' => \Config::get('services.stripe.key'),
+            ]
         ];
-        ksort($vue_data);
+        ksort($data);
 
-        $view->with('vue_data', json_encode($vue_data));
+        return $data;
     }
 }
