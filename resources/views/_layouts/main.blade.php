@@ -42,11 +42,10 @@
 
     <script>
         window.Laravel = {
-            "csrfToken" : "{{ csrf_token() }}",
-            "apiToken" : "{{ api_token() }}",
-            "userId" : "{{ user_id() }}",
-            "stripeKey" : "{{ \Config::get('services.stripe.key') }}"
-        }
+@foreach ($vue_data as $key => $value)
+"{{ $key }}" : "{{ $value }}" @if (!$loop->last),@endif
+@endforeach
+}
     </script>
 
     @if (Auth::guest())
