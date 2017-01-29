@@ -7,7 +7,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class SitemapTest extends DuskTestCase
 {
-
     public function test_it_displays_the_main_sitemap_index()
     {
         $this->browse(function ($browser) {
