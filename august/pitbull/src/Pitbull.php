@@ -18,7 +18,6 @@ class Pitbull
         $domain_permissions = $permissions[$domain];
 
         if (!empty($domain_permissions)) {
-
             if ($action == '*') {
                 return true;
             }
@@ -51,13 +50,12 @@ class Pitbull
     {
         $pitbull = $this;
         $grid = \Cache::remember($this->cacheKeyForUser($user), Carbon::now()->addYear(1), function () use ($user, $pitbull) {
-
             $grid = [];
 
             // get any role-based permissions
-            $user_roles = PBRoleUser::join('pb_roles','pb_roles.id','=','rb_role_user.role_id')
-                                    ->join('pb_permissions','pb_permissions.role_id','=','pb_roles.id')
-                                    ->where('pb_role_user.user_id',$user->id);
+            $user_roles = PBRoleUser::join('pb_roles', 'pb_roles.id', '=', 'rb_role_user.role_id')
+                                    ->join('pb_permissions', 'pb_permissions.role_id', '=', 'pb_roles.id')
+                                    ->where('pb_role_user.user_id', $user->id);
 
             foreach ($user_roles as $role) {
                 $grid = $this->addRoleToGrid($grid, $role);
@@ -71,7 +69,6 @@ class Pitbull
 
     protected function addRoleToGrid($grid, $role)
     {
-
     }
 
     public function flushPermissoinsForUser($user)
