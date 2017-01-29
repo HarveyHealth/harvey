@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "prod": "gulp --production",
-    "dev": "NODE_ENV='development' && gulp watch"
+    "dev": "NODE_ENV='development' && gulp watch",
+    "postinstall": "gulp --production"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
