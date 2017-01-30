@@ -58,7 +58,8 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
-            "php artisan migrate --force"
+            "php artisan migrate --force",
+            "php artisan view:clear"
         ]
     },
     "config": {
