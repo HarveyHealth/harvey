@@ -17,16 +17,16 @@
         "league/commonmark": "^0.15.3",
         "bugsnag/bugsnag-laravel": "^2.0",
         "fzaninotto/faker": "~1.4",
-        "barryvdh/laravel-debugbar": "^2.3",
-        "laravel/tinker": "^1.0",
-        "laravel/dusk": "^1.0"
+        "laravel/tinker": "^1.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^4.0"
+        "laravel/homestead": "^4.0",
+        "barryvdh/laravel-debugbar": "^2.3",
+        "laravel/dusk": "^1.0"
     },
     "autoload": {
         "classmap": [
