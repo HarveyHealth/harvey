@@ -40,8 +40,11 @@ class SetNginxConfigCommand extends Command
     public function handle()
     {
         if($this->inDevEnvironment() && $this->hasDevConfig()) {
+            $this->files->move(base_path('nginx.conf'), base_path('nginx.conf.backup'));
             $this->files->move(base_path('nginx.conf.dev'), base_path('nginx.conf'));
         }
+    
+        $this->info('Nginx configuration file set for ' . \App::environment() . ' environment.');
     }
     
     public function hasDevConfig() {
@@ -49,6 +52,6 @@ class SetNginxConfigCommand extends Command
     }
     
     public function inDevEnvironment() {
-        return \App::environment('dev', 'staging', 'local');
+        return \App::environment('dev', 'staging');
     }
 }
