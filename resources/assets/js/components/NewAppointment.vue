@@ -22,6 +22,7 @@
         >
         </time-picker>
 
+
         <div class="section control is-horizontal">
             <div class="control-label">
                 <h2 class="title is-4">Details</h2>
@@ -42,7 +43,7 @@
                 </template>
             </div>
         </div>
-        
+
         <p v-if="includeCta" class="control is-clearfix hero-buttons">
             <button
                 type="submit"
@@ -161,6 +162,13 @@
                 }
             }
         }
+    }
+
+    .details {
+        background:clear;
+        text-align:center;
+        margin-bottom:1em;
+        color:#777;
     }
 
     @media screen and (min-width: 769px) {

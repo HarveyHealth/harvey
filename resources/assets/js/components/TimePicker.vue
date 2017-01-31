@@ -11,6 +11,9 @@
                 </a>
             </li>
         </ul>
+        <p class="details">
+            Appointments with your naturopath generally last one hour
+        </p>
     </div>
 </template>
 

@@ -44,7 +44,7 @@
                 steps: ['new-appointment', 'profile', 'payment'],
                 buttonTexts: ['Schedule', 'Save', 'Save card'],
                 titles: [
-                    'Choose appointment time',
+                    'Schedule an appointment with a naturopath',
                     'Your doctor will need additional info',
                     'Payment details'
                 ],
@@ -173,7 +173,7 @@
                 // check error on current step
                 let error = this.checkError();
 
-                if (!error) {                    
+                if (!error) {
                     // if no error, go to next step
                     if (this.currentStep < this.steps.length - 1) {
                         this.currentStep++;
