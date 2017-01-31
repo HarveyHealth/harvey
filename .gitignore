@@ -20,4 +20,4 @@ Homestead.json
 /public/js/app_public.js
 /public/js/app_logged_in.js
 /public/js/vendors.js
-/version.txt
+/public/build/*

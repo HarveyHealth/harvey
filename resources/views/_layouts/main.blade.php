@@ -26,7 +26,7 @@
 
     {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
     @if (App::environment('production'))
-        @script(/js/vendors.js)
+        @script({{ elixir('/js/vendors.js') }})
         <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
     @endif
 
@@ -52,10 +52,10 @@
 
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
-        @script(/js/app_public.js)
+        @script({{  elixir('/js/app_public.js') }})
     @else
-        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-        @script(/js/app_logged_in.js)
+        @script(https://js.stripe.com/v2/)
+        @script({{  elixir('/js/app_logged_in.js') }})
     @endif
 
     @stack('scripts')

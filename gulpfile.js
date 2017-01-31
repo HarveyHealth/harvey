@@ -25,6 +25,14 @@ elixir((mix) => {
             progressive: true,
             interlaced: true
         })
-        .scriptsIn('resources/assets/js/scripts', 'public/js/vendors.js')
+        .scriptsIn(
+            'resources/assets/js/scripts',
+            'public/js/vendors.js')
+        .version([
+            'public/js/vendors.js',
+            'public/js/app_public.js',
+            'public/js/app_logged_in.js',
+            'public/css/app_public.css',
+            'public/css/app_logged_in.css'])
         .browserSync({proxy: 'https://harvey.app'});
 });

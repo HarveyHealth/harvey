@@ -1,7 +1,7 @@
 @extends('_layouts.main')
 
 @push('stylesheets')
-    @stylesheet(css/app_logged_in.css)
+    @stylesheet({{ elixir('css/app_logged_in.css') }})
 @endpush
 
 @section('main_content')
