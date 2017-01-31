@@ -50,7 +50,7 @@
         mounted() {
             this.$nextTick(() => {
                 this.dataReady =  true;
-            })
+            });
         }
     }
 </script>

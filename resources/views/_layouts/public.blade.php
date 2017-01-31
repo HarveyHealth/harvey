@@ -1,9 +1,9 @@
 @extends('_layouts.main')
 
+@push('stylesheets')
+    @stylesheet(css/app_public.css)
+@endpush
+
 @section('main_content')
-<div id="app">
-    <app>
-        @yield('content')
-    </app>
-</div>
+    @yield('content')
 @endsection

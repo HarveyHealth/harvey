@@ -19,7 +19,6 @@
 
     {{-- STYLES --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> {{-- switch to custom build icons later --}}
-    @stylesheet(/css/app.css)
     @stack('stylesheets')
 
     {{-- TYPEKIT async load --}}
@@ -35,10 +34,16 @@
 
 <body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
+    
+    <div id="app">
+        @include('_layouts.includes.top_nav')
+        
+        <div class="page-content">
+            @yield('main_content')
+        </div>
 
-    @include('_layouts.includes.messages')
-
-    @yield('main_content')
+        @include('_layouts.includes.footer')
+    </div>
 
     {{-- To add data here, see the VueHelperViewComposer --}}
     <script>

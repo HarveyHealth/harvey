@@ -1,0 +1,20 @@
+@import "all.scss";
+
+#app {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 300px;
+}
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.hero,
+.nav {
+    background-color: transparent;
+}
+.hero-body {
+    padding: 2rem 1.5rem;
+}

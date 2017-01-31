@@ -9,7 +9,8 @@ require('laravel-elixir-vue-2');
 require('laravel-elixir-imagemin');
 
 elixir((mix) => {
-    mix.sass('app.scss')
+    mix.sass('app_public.scss')
+        .sass('app_logged_in.scss')
         .webpack('app_public.js')
         .webpack('app_logged_in.js', null, null, {
             resolve: {

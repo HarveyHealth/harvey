@@ -67,8 +67,8 @@ export default class Form {
 
     onSuccess(successCallback) {
         this.errors.clear();
-        
-        if (successCallback) {
+
+        if (successCallback && typeof successCallback === 'function') {
             successCallback();
         }
     }

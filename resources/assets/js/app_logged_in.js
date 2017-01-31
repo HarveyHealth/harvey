@@ -8,8 +8,11 @@ import router from './routes';
 import filter_datetime from './filters/datetime';
 Vue.filter('datetime', filter_datetime);
 
+// mixins
+import TopNav from './mixins/TopNav';
+
 // components
-import App from './components/App.vue';
+import Alert from './components/Alert.vue';
 
 // event handler
 const eventHub = new Vue();
@@ -17,17 +20,18 @@ Vue.prototype.$eventHub = eventHub;
 
 const app = new Vue({
     router,
+    mixins: [TopNav],
+    components: {
+        Alert
+    },
     data: {
         guest: false,
         user: {},
         userId: '',
         apiUrl: '/api/alpha'
     },
-    components: {
-        App
-    },
     mounted() {
-        Stripe.setPublishableKey(Laravel.stripeKey);
+        Stripe.setPublishableKey(Laravel.services.stripe.key);
 
         this.userId = Laravel.user.id;
 
