@@ -25,20 +25,23 @@ class AppServiceProvider extends ServiceProvider
 
     protected function setVersionNumber()
     {
-        $numbers = [];
-        $filepaths =  [
-            public_path() . '/js/app_logged_in.js',
-            public_path() . '/js/app_public.js',
-            public_path() . '/css/app.css'
-        ];
+        if ($this->app->environment('local')) {
+            $version_id = time();
+        } else {
+            $version_id = \Cache::remember('app:version_id', 60*24*364, function () {
+                $path = base_path('version.txt');
 
-        foreach ($filepaths as $path) {
-            if (file_exists($path)) {
-                $numbers[] = \File::lastModified($path);
-            }
+                if (file_exists($path)) {
+                    $version_id = \File::lastModified($path);
+                } else {
+                    $version_id = time();
+                }
+
+                return $version_id;
+            });
         }
 
-        $this->app->version_id = max($numbers);
+        $this->app->version_id = $version_id;
     }
 
     /**
@@ -51,6 +54,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing')) {
             $this->app->register(DuskServiceProvider::class);
         }
+
         // bugsnag
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);

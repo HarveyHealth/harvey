@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\MakeComponentCommand::class,
         Commands\MakeRepositoryCommand::class,
         Commands\SetNginxConfigCommand::class,
+        Commands\VersionSetCommand::class,
     ];
 
     /**

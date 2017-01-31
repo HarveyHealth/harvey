@@ -53,7 +53,8 @@
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize",
             "php artisan migrate --force",
-            "php artisan nginx:set"
+            "php artisan nginx:set",
+            "php artisan version:set"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
