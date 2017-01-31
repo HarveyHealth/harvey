@@ -3,14 +3,12 @@
 // blade extensions go here
 
 \Blade::directive('stylesheet', function ($url) {
-    $id = app()->version_id;
-    $string = "<link href=\"{$url}?{$id}\" rel=\"stylesheet\">";
+    $string = "<link href=\"{$url}\" rel=\"stylesheet\">";
     return $string;
 });
 
 \Blade::directive('script', function ($url) {
-    $id = app()->version_id;
-    $string = "<script src=\"{$url}?{$id}\" type=\"text/javascript\"></script>";
+    $string = "<script src=\"{$url}\" type=\"text/javascript\"></script>";
     return $string;
 });
 

@@ -26,8 +26,7 @@ class VueHelperViewComposer
     protected function appData()
     {
         $data = [
-            'csrfToken' => csrf_token(),
-            'versionId' => app()->version_id,
+            'csrfToken' => csrf_token()
         ];
         ksort($data);
 
