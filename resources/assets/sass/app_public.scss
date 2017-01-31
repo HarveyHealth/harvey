@@ -177,8 +177,16 @@ body {
         .vue-slider-tooltip.vue-slider-tooltip-top {
             top: -3px;
         }
-        @include from($widescreen) {
-            .section {
+        @include from($desktop) {
+            #number,
+            #symptoms {
+                .columns {
+                    text-align: left;
+                }
+            }
+        }
+        .section {
+            @include from($widescreen) {
                 background-size: cover;
                 background-repeat: no-repeat;
                 background-position: center center;
@@ -208,12 +216,21 @@ body {
                     background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
                 }
             }
-        }
-        @include from($desktop) {
-            #number,
-            #symptoms {
-                .columns {
-                    text-align: left;
+            @include from($megascreen) {
+                &:nth-child(1) {
+                    background-image: url('/images/home/background_1_lg.jpg');
+                }
+                &:nth-child(2) {
+                    background-image: url('/images/home/background_2_lg.jpg');
+                }
+                &:nth-child(3) {
+                    background-image: url('/images/home/background_3_lg.jpg');
+                }
+                &:nth-child(4) {
+                    background-image: url('/images/home/background_4_lg.png');
+                }
+                &:nth-child(5) {
+                    background-image: url('/images/home/background_5_lg.jpg');
                 }
             }
         }
