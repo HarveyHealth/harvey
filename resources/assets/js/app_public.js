@@ -17,6 +17,7 @@ const app = new Vue({
     },
     data: {
         guest: true,
+        homepageLayoutResetEnds: false,
         login: {
             form: new Form({
                 email: '',
@@ -219,6 +220,7 @@ const app = new Vue({
         },
         checkScrollBehavior() {
             this.triggerScrollBehavior = Modernizr.mq('(min-width: 1192px)');
+            this.homepageLayoutResetEnds = true;
         },
         onPageScroll() {
             window.addEventListener('wheel', _.throttle(this.onScroll, this.wait, { 'trailing': false }), false);
