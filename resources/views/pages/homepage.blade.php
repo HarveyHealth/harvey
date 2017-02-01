@@ -170,12 +170,12 @@
             <div class="container content">
                 <h2 class="title is-2 font-secondary-family">Tell us your symptoms</h2>
                 <p class="copy-has-max-width">The majority of symptoms can be linked to imbalances in your biomarkers. Tell us the severity of each of your sumptoms using the sliders below, then click “Save &amp; Get Started”.</p>
-                <symptoms :stats="stats" @changed="onChanged"></symptoms>
+                <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
                 <p class="is-clearfix">
                     <small class="disclaimer">Your selection above will only be saved if you create an account on the next page.</small>
-                    <button class="button is-primary is-medium is-pulled-right" @click="getStarted" :disabled="loading">
+                    <button class="button is-primary is-medium is-pulled-right" @click="getStarted" :disabled="symptomsSaving">
                         <span class="icon"
-                            v-if="loading"
+                            v-if="symptomsSaving"
                         >
                             <i class="fa fa-spinner fa-spin"></i>
                         </span>

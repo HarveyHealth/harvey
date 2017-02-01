@@ -34,18 +34,9 @@ const app = new Vue({
                 terms: false
             })
         },
-        // below are for homepage scroll
-        isHomePage: false,
-        changed: false,
-        loading: false,
-        triggerScrollBehavior: false,
-        currentSection: 0,
-        showFooter: false,
-        wait: 1300,
-        transitioning: false,
-        whichTransitionEvent: '',
-        sections: [],
-        stats: {
+        symptomsChanged: false,
+        symptomsSaving: false,
+        symptomsStats: {
             fatigue: {
                 label: 'Fatigue',
                 value: 3
@@ -86,7 +77,16 @@ const app = new Vue({
                 label: 'Hair and skin',
                 value: 3
             }
-        }
+        },
+        // below are for homepage scroll
+        isHomePage: false,
+        triggerScrollBehavior: false,
+        currentSection: 0,
+        showFooter: false,
+        wait: 1300,
+        transitioning: false,
+        whichTransitionEvent: '',
+        sections: []
     },
     computed: {
         // below are for homepage scroll
@@ -108,6 +108,7 @@ const app = new Vue({
         }
     },
     methods: {
+        // log in and register forms
         onSubmit(e) {
             let target = e.target,
                 formId = target.id,
@@ -124,6 +125,28 @@ const app = new Vue({
                 if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },
+        // symptoms
+        onChanged() {
+            this.symptomsChanged = true;
+        },
+        getStarted() {
+            if (this.symptomsChanged) {
+                // user interacted with symptoms, save it to session storage
+                let formattedStats = Object.keys(this.symptomsStats)
+                    .reduce( (ret, key) => {
+                        ret[key] = this.symptomsStats[key].value;
+                        return ret;
+                    }, {} );
+
+                sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
+            }
+
+            this.symptomsSaving = true;
+
+            setTimeout(()=> {
+                location.href = '/signup';
+            }, 400);
+        },
         // below are for homepage scroll
         checkIsHomePage() {
             this.isHomePage = document.getElementsByTagName('body')[0].classList.contains('home');
@@ -134,27 +157,6 @@ const app = new Vue({
                 .map( (index) => {
                     return nodes[index].id;
                 } );
-        },
-        onChanged() {
-            this.changed = true;
-        },
-        getStarted() {
-            if (this.changed) {
-                // user interacted with symptoms, save it to session storage
-                let formattedStats = Object.keys(this.stats)
-                    .reduce( (ret, key) => {
-                        ret[key] = this.stats[key].value;
-                        return ret;
-                    }, {} );
-
-                sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
-            }
-
-            this.loading = true;
-
-            setTimeout(()=> {
-                location.href = '/signup';
-            }, 400);
         },
         pre() {
             if (this.currentSection != 0) {
