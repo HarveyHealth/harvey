@@ -40,10 +40,12 @@ elixir((mix) => {
         'public/js/vendors.js')
     .browserSync({proxy: 'https://harvey.app'});
 
-    mix.version([
-        'public/js/vendors.js',
-        'public/js/app_public.js',
-        'public/js/app_logged_in.js',
-        'public/css/app_public.css',
-        'public/css/app_logged_in.css']);
+    if (elixir.config.production) {
+        mix.version([
+            'public/js/vendors.js',
+            'public/js/app_public.js',
+            'public/js/app_logged_in.js',
+            'public/css/app_public.css',
+            'public/css/app_logged_in.css']);
+    }
 });

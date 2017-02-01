@@ -1,7 +1,11 @@
 @extends('_layouts.main')
 
 @push('stylesheets')
-    @stylesheet({{ elixir('css/app_logged_in.css') }})
+    @if (!App::environment('local'))
+        @stylesheet({{ elixir('css/app_logged_in.css') }})
+    @else
+        @stylesheet(css/app_logged_in.css)
+    @endif
 @endpush
 
 @section('main_content')

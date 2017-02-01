@@ -52,10 +52,18 @@
 
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
-        @script({{  elixir('/js/app_public.js') }})
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_public.js') }})
+        @else
+            @script(/js/app_public.js)
+        @endif
     @else
         @script(https://js.stripe.com/v2/)
-        @script({{  elixir('/js/app_logged_in.js') }})
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_logged_in.js') }})
+        @else
+            @script(/js/app_logged_in.js)
+        @endif
     @endif
 
     @stack('scripts')
