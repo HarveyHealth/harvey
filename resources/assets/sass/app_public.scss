@@ -1,4 +1,9 @@
+@import "mixins";
+@import "sprite";
 @import "all.scss";
+
+@include sprites($spritesheet-sprites);
+@include retina-sprites($retina-groups);
 
 figure {
     margin-right: 0;
@@ -93,9 +98,40 @@ body {
             margin-top: $space-xsmall;
             margin-bottom: $size-2;
         }
-        .homepage-icon {
-            position: relative;
-            padding: 0;
+        .icon-wrapper {
+            text-align: center;
+            &.icon-wrapper-has-background {
+                width: 68px;
+                height: 68px;
+                padding-top: 10px;
+                border-radius: 50%;
+                @include from($desktop) {
+                    width: 80px;
+                    height: 80px;
+                    padding-top: 16px;
+                }
+                &.is-lime {
+                    @include background-gradient($harvey-lime);
+                }
+                &.is-pink {
+                    @include background-gradient($harvey-pink);
+                }
+                &.is-brown {
+                    @include background-gradient($harvey-brown);
+                }
+                &.is-purple {
+                    @include background-gradient($harvey-purple);
+                }
+                &.is-turquoise {
+                    @include background-gradient($harvey-turquoise);
+                }
+                &.is-slategrey {
+                    @include background-gradient($harvey-slategrey);
+                }
+                &.is-green {
+                    @include background-gradient($harvey-green);
+                }
+            }
         }
         .copy-has-max-width + .columns {
             margin-top: $size-2;
@@ -106,7 +142,7 @@ body {
         }
         #comparison,
         #number {
-            .homepage-icon {
+            .icon-wrapper {
                 margin: 0 auto $space-small;
                 & + p {
                     margin: 0 auto $space-small;
@@ -114,7 +150,7 @@ body {
             }
         }
         #comparison {
-            .homepage-icon + p {
+            .icon-wrapper + p {
                 width: 180px;
             }
         }
@@ -127,8 +163,14 @@ body {
                     text-align: left;
                 }
             }
-            @include from($desktop) {
-                .step-column-wrapper {
+            .step-column-wrapper {
+                .column {
+                    position: relative;
+                    @include mobile {
+                        padding-left: 0;
+                    }
+                }
+                @include from($desktop) {
                     display: block;
                     .column {
                         margin: 0 auto;
@@ -152,22 +194,7 @@ body {
             top: 0;
             font-size: $size-4;
             @include from($desktop) {
-                transform: translateX(70%);
-            }
-        }
-        #number { // icon assets are not the same sizes, have to adjust them now
-            .image {
-                &.is-64x64 {
-                    width: auto;
-                    max-width: 80px;
-                }
-                img {
-                    width: auto;
-                    height: auto;
-                    max-width: 100%;
-                    max-height: 100%;
-                    margin: 0 auto;
-                }
+                transform: translateX(50%);
             }
         }
         .symptoms-selector-wrapper {
@@ -212,8 +239,8 @@ body {
                     width: 95%;
                     margin: 0 auto;
                     padding: $space-medium;
-                    background: rgba($light-tan, $opacity-dark);
-                    background-image: linear-gradient(rgba($light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
+                    background: rgba($harvey-light-tan, $opacity-dark);
+                    background-image: linear-gradient(rgba($harvey-light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
                 }
             }
             @include from($megascreen) {

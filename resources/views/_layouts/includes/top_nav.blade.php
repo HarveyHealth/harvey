@@ -2,9 +2,14 @@
     <div class="container">
         <div class="nav-left"></div>
         <div class="nav-center">
-            <a href="/" class="nav-item"><img src="/images/logos/main-logo.png" alt="Harvey Logo"></a>
+            <a href="/" class="nav-item">
+                <img
+                    src="/images/logos/main-logo.png"
+                    srcset="/images/logos/main-logo@2x.png 2x"
+                    alt="Harvey Logo">
+            </a>
         </div>
-        <template v-if="guest">
+        @if (Auth::guest())
             <span class="nav-toggle"
                 :class="{'is-active': nav_is_open}"
                 @click="toggleNav"
@@ -21,8 +26,7 @@
                     <a href="/signup" class="button is-primary" @click="viewSignupPage">Get Started</a>
                 </span>
             </div>
-        </template>
-        <template v-else>
+        @else
             <p class="nav-item">Hi, @{{ capitalize(user.first_name) }}</p>
             <span
                 class="nav-item"
@@ -37,7 +41,7 @@
                 <router-link tag="a" to="/new-appointment" class="nav-item">New Appointment</router-link>
                 <a class="nav-item has-border-top" @click="logout">Log out</a>
             </div>
-        </template>
+        @endif
     </div>
 </nav>
 
