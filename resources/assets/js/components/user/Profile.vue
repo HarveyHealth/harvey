@@ -219,7 +219,7 @@
 
 <script>
     import {assign} from 'lodash';
-    import Form from '../helpers.js';
+    import Form from '../../helpers.js';
 
     export default {
         name: 'profile',

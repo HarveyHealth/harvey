@@ -31,10 +31,10 @@
 <script>
     import {isEmpty, assign, pick, keys} from 'lodash';
     import moment from 'moment';
-    import Form from '../helpers.js';
+    import Form from '../../helpers.js';
     import NewAppointment from './NewAppointment.vue';
-    import Profile from './Profile.vue';
-    import Payment from './Payment.vue';
+    import Profile from '../user/Profile.vue';
+    import Payment from '../user/Payment.vue';
 
     export default {
         name: 'new-appointment-wrapper',

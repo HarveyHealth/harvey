@@ -32,9 +32,9 @@
 </template>
 
 <script>
-    import Appointments from './Appointments.vue';
-    import Tests from './Tests.vue';
-    import Contact from '../mixins/Contact';
+    import Appointments from '../appointments/Appointments.vue';
+    import Tests from '../tests/Tests.vue';
+    import Contact from '../../mixins/Contact';
 
     export default {
         name: 'dashboard',

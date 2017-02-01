@@ -8,7 +8,7 @@ import {throttle, debounce} from 'lodash';
 import TopNav from './mixins/TopNav';
 
 // components
-import Symptoms from './components/Symptoms.vue';
+import Symptoms from './components/pages/Symptoms.vue';
 
 const app = new Vue({
     mixins: [TopNav],

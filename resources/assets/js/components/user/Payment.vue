@@ -96,7 +96,7 @@
 </template>
 
 <script>
-    import Form from '../helpers.js';
+    import Form from '../../helpers.js';
 
     export default {
         name: 'payment',

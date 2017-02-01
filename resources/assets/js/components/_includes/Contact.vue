@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {capitalize} from '../filters/textformat.js';
+    import {capitalize} from '../../filters/textformat.js';
 
     export default {
         data() {
