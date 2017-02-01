@@ -1,0 +1,294 @@
+body.home {
+    // general
+    color: $text-secondary;
+    .content {
+        &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong {
+            color: $text-secondary;
+        }
+        @include from($tablet) {
+            text-align: center;
+        }
+    }
+    .title,
+    .subtitle {
+        strong {
+            font-weight: 700;
+        }
+    }
+    figure {
+        margin-right: 0;
+    }
+    .image img {
+        height: 100%;
+    }
+    // layout
+    #app {
+        height: auto;
+        min-height: 100%;
+        width: 100%;
+        position: relative;
+    }
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 101;
+    }
+    .page-content {
+        position: relative;
+        min-height: 100%;
+        overflow: hidden;
+    }
+    .sections {
+        margin-top: 52px; // nav height
+    }
+    // elements
+    .tagline {
+        margin-top: $space-xsmall;
+        margin-bottom: $size-2;
+    }
+    .icon-wrapper {
+        text-align: center;
+        &.icon-wrapper-has-background {
+            width: 68px;
+            height: 68px;
+            padding-top: 10px;
+            border-radius: 50%;
+            @include from($desktop) {
+                width: 80px;
+                height: 80px;
+                padding-top: 16px;
+            }
+            &.is-lime {
+                @include background-gradient($harvey-lime);
+            }
+            &.is-pink {
+                @include background-gradient($harvey-pink);
+            }
+            &.is-brown {
+                @include background-gradient($harvey-brown);
+            }
+            &.is-purple {
+                @include background-gradient($harvey-purple);
+            }
+            &.is-turquoise {
+                @include background-gradient($harvey-turquoise);
+            }
+            &.is-slategrey {
+                @include background-gradient($harvey-slategrey);
+            }
+            &.is-green {
+                @include background-gradient($harvey-green);
+            }
+        }
+    }
+    .copy-has-max-width + .columns {
+        margin-top: $size-2;
+    }
+    .disclaimer {
+        display: inline-block;
+        margin-bottom: $space-small;
+    }
+    .step-number {
+        @extend .font-secondary-family;
+        display: inline-block;
+        width: $size-3;
+        height: $size-3;
+        line-height: $size-3;
+        text-align: center;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        font-size: $size-4;
+        @include from($desktop) {
+            transform: translateX(50%);
+        }
+    }
+    .symptoms-selector-wrapper {
+        // max-width: 800px;
+        margin-bottom: $space-medium;
+        li + li {
+            margin-top: 0;
+        }
+    }
+    // page specific content
+    #comparison,
+    #number {
+        .icon-wrapper {
+            margin: 0 auto $space-small;
+            & + p {
+                margin: 0 auto $space-small;
+            }
+        }
+    }
+    #comparison {
+        .icon-wrapper + p {
+            width: 180px;
+        }
+    }
+    #steps {
+        .title.is-5 {
+            margin-bottom: 0.5rem;
+        }
+        .columns {
+            @include tablet-only {
+                text-align: left;
+            }
+        }
+        .step-column-wrapper {
+            .column {
+                position: relative;
+                @include mobile {
+                    padding-left: 0;
+                }
+            }
+            @include from($desktop) {
+                display: block;
+                .column {
+                    margin: 0 auto;
+                }
+                .image {
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+    // misc
+    .vue-slider-tooltip.vue-slider-tooltip-top {
+        top: -3px;
+    }
+    // media queries
+    @include from($tablet) {
+        .copy-has-max-width {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+    }
+    @include from($desktop) {
+        #number,
+        #symptoms {
+            .columns {
+                text-align: left;
+            }
+        }
+    }
+    .section {
+        @include from($widescreen) {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            &:nth-child(1) {
+                background-image: url('/images/home/background_1.jpg');
+            }
+            &:nth-child(2) {
+                background-image: url('/images/home/background_2.jpg');
+            }
+            &:nth-child(3) {
+                background-image: url('/images/home/background_3.jpg');
+            }
+            &:nth-child(4) {
+                background-image: url('/images/home/background_4.png');
+                background-size: contain;
+                background-position: top center;
+            }
+            &:nth-child(5) {
+                background-image: url('/images/home/background_5.jpg');
+            }
+            .section-wrapper {
+                width: 95%;
+                margin: 0 auto;
+                padding: $space-medium;
+                background: rgba($harvey-light-tan, $opacity-dark);
+                background-image: linear-gradient(rgba($harvey-light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
+            }
+        }
+        @include from($megascreen) {
+            &:nth-child(1) {
+                background-image: url('/images/home/background_1_lg.jpg');
+            }
+            &:nth-child(2) {
+                background-image: url('/images/home/background_2_lg.jpg');
+            }
+            &:nth-child(3) {
+                background-image: url('/images/home/background_3_lg.jpg');
+            }
+            &:nth-child(4) {
+                background-image: url('/images/home/background_4_lg.png');
+            }
+            &:nth-child(5) {
+                background-image: url('/images/home/background_5_lg.jpg');
+            }
+        }
+    }
+    // scroll behavior starts from widescreen
+    @include from($widescreen) {
+        .sections,
+        .section,
+        .footer {
+            transition: cubic-bezier(1,.03,.42,.88) .6s;
+        }
+        .sections {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+        .section {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+        }
+        .is-loaded {
+            .section {
+                transform: translateY(-100%);
+                &.current {
+                    opacity: 1;
+                    transform: translateY(0);
+                    z-index: 1;
+                    ~ .section {
+                        transform: translateY(100%);
+                    }
+                }
+            }
+        }
+        .footer {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+        }
+        .nav-sections {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            li {
+                &:not(:last-child) {
+                    margin-bottom: 5px;
+                }
+            }
+            a {
+                display: block;
+                width: 14px;
+                height: 14px;
+                border: 2px solid $secondary;
+                border-radius: 50%;
+                transition: all .3s;
+            }
+            .current a {
+                background-color: $secondary;
+            }
+        }
+    }
+}

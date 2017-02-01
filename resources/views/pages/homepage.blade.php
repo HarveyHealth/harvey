@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="sections"
-    :class="{'has-scroll-behavior': triggerScrollBehavior}"
+    :class="{'has-scroll-behavior': triggerScrollBehavior, 'is-loaded': homepageLayoutResetEnds}"
     :style="showFooterStyle"
 >
     <section class="section"
