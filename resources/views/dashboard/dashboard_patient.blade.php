@@ -49,8 +49,8 @@
             <td>{{ $test->name }}</td>
             <td>{{ $test->practitioner->fullName() }}</td>
             <td>
-                @if($test->results_url)
-                    $test->tempURL()
+                @if($test->results_key)
+                    $test->tempResultsURL()
                 @else
                     Pending
                 @endif
