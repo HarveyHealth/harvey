@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "606879aa29dbd2f06a290d69f701d329",
+    "content-hash": "635a40c0a3e4996cf35e283bfaa6afed",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -845,38 +845,6 @@
             "time": "2016-06-24T23:00:38+00:00"
         },
         {
-            "name": "iamcal/lib_autolink",
-            "version": "v1.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/iamcal/lib_autolink.git",
-                "reference": "b3a86d8437e5d635fb85b155a86288d94f6a924d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/iamcal/lib_autolink/zipball/b3a86d8437e5d635fb85b155a86288d94f6a924d",
-                "reference": "b3a86d8437e5d635fb85b155a86288d94f6a924d",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib_autolink.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Adds anchors to urls in a text",
-            "keywords": [
-                "anchor",
-                "autolink",
-                "link"
-            ],
-            "time": "2015-05-22T17:10:41+00:00"
-        },
-        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -965,16 +933,16 @@
         },
         {
             "name": "jsvrcek/ics",
-            "version": "0.5",
+            "version": "0.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jasvrcek/ICS.git",
-                "reference": "303888b98fa85b7dbb2e7827810e7c0254137f9d"
+                "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jasvrcek/ICS/zipball/303888b98fa85b7dbb2e7827810e7c0254137f9d",
-                "reference": "303888b98fa85b7dbb2e7827810e7c0254137f9d",
+                "url": "https://api.github.com/repos/jasvrcek/ICS/zipball/c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
+                "reference": "c93b8dba37b35dd0b65d7b76c7d5b8bc38ecc74c",
                 "shasum": ""
             },
             "require": {
@@ -1009,20 +977,20 @@
                 "ical",
                 "multi-byte safe"
             ],
-            "time": "2017-01-27T23:05:51+00:00"
+            "time": "2017-02-01T20:10:20+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.6",
+            "version": "v5.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5913b960656d7f978605ff9c1513ffbfd190c173"
+                "reference": "3e226e3481aabe835626739a1507c8af17b76082"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5913b960656d7f978605ff9c1513ffbfd190c173",
-                "reference": "5913b960656d7f978605ff9c1513ffbfd190c173",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3e226e3481aabe835626739a1507c8af17b76082",
+                "reference": "3e226e3481aabe835626739a1507c8af17b76082",
                 "shasum": ""
             },
             "require": {
@@ -1138,7 +1106,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-01-27T19:27:15+00:00"
+            "time": "2017-02-01T14:45:01+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -3235,16 +3203,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "fca7b86168beaf500935f0f9667d7071336cb855"
+                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/fca7b86168beaf500935f0f9667d7071336cb855",
-                "reference": "fca7b86168beaf500935f0f9667d7071336cb855",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/54353b68369dc7f2f07b9809a0d24bab5ccc6886",
+                "reference": "54353b68369dc7f2f07b9809a0d24bab5ccc6886",
                 "shasum": ""
             },
             "require": {
@@ -3286,7 +3254,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-01-29T22:05:02+00:00"
+            "time": "2017-02-01T16:55:39+00:00"
         },
         {
             "name": "laravel/homestead",
