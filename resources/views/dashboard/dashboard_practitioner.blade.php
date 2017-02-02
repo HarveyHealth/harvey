@@ -48,8 +48,8 @@
             <td>{{ $test->name }}</td>
             <td>{{ $test->patient->fullName() }}</td>
             <td>
-                @if($test->results_url)
-                    $test->tempURL()
+                @if($test->results_key)
+                    $test->tempResultsURL()
                 @else
                     Pending
                 @endif
