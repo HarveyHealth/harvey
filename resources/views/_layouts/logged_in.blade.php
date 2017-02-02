@@ -4,7 +4,7 @@
     @if (!App::environment('local'))
         @stylesheet({{ elixir('css/app_logged_in.css') }})
     @else
-        @stylesheet(css/app_logged_in.css)
+        @stylesheet(/css/app_logged_in.css)
     @endif
 @endpush
 

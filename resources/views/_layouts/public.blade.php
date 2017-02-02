@@ -4,7 +4,7 @@
     @if (!App::environment('local'))
         @stylesheet({{ elixir('css/app_public.css') }})
     @else
-        @stylesheet(css/app_public.css)
+        @stylesheet(/css/app_public.css)
     @endif
 @endpush
 
