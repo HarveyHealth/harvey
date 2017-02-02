@@ -33,8 +33,6 @@ class CreateChartNotesTable extends Migration
      */
     public function down()
     {
-        Schema::table('chart_notes', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('chart_notes');
     }
 }
