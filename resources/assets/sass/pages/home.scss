@@ -181,21 +181,21 @@ body.home {
             background-position: center center;
             background-attachment: fixed;
             &:nth-child(1) {
-                background-image: url('/images/home/background_1.jpg');
+                background-image:secure_url('/images/home/background_1.jpg');
             }
             &:nth-child(2) {
-                background-image: url('/images/home/background_2.jpg');
+                background-image:secure_url('/images/home/background_2.jpg');
             }
             &:nth-child(3) {
-                background-image: url('/images/home/background_3.jpg');
+                background-image:secure_url('/images/home/background_3.jpg');
             }
             &:nth-child(4) {
-                background-image: url('/images/home/background_4.png');
+                background-image:secure_url('/images/home/background_4.png');
                 background-size: contain;
                 background-position: top center;
             }
             &:nth-child(5) {
-                background-image: url('/images/home/background_5.jpg');
+                background-image:secure_url('/images/home/background_5.jpg');
             }
             .section-wrapper {
                 width: 95%;
@@ -207,19 +207,19 @@ body.home {
         }
         @include from($megascreen) {
             &:nth-child(1) {
-                background-image: url('/images/home/background_1_lg.jpg');
+                background-image:secure_url('/images/home/background_1_lg.jpg');
             }
             &:nth-child(2) {
-                background-image: url('/images/home/background_2_lg.jpg');
+                background-image:secure_url('/images/home/background_2_lg.jpg');
             }
             &:nth-child(3) {
-                background-image: url('/images/home/background_3_lg.jpg');
+                background-image:secure_url('/images/home/background_3_lg.jpg');
             }
             &:nth-child(4) {
-                background-image: url('/images/home/background_4_lg.png');
+                background-image:secure_url('/images/home/background_4_lg.png');
             }
             &:nth-child(5) {
-                background-image: url('/images/home/background_5_lg.jpg');
+                background-image:secure_url('/images/home/background_5_lg.jpg');
             }
         }
     }
