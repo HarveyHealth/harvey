@@ -4,12 +4,12 @@ let routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: require('./components/Dashboard.vue')
+        component: require('./components/dashboard/Dashboard.vue')
     },
     {
         path: '/new-appointment',
         name: 'new-appointment',
-        component: require('./components/NewAppointmentWrapper.vue')
+        component: require('./components/new_appointment/NewAppointmentWrapper.vue')
     },
     // {
     //     path: '/profile',
@@ -25,7 +25,15 @@ let routes = [
     }
 ];
 
-export default new VueRouter({
+let router = new VueRouter({
     routes,
     linkActiveClass: 'is-active'
 });
+
+router.afterEach(() => {
+    if (router.app.nav_is_open) {
+        router.app.nav_is_open = false;
+    }
+});
+
+export default router

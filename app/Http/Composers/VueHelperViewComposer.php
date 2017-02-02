@@ -28,7 +28,6 @@ class VueHelperViewComposer
         $data = [
             'csrfToken' => csrf_token()
         ];
-        ksort($data);
 
         return $data;
     }
@@ -50,7 +49,6 @@ class VueHelperViewComposer
             $data['apiToken'] = $user->api_token;
             $data['userType'] = $user->user_type;
         }
-        ksort($data);
 
         return $data;
     }
@@ -62,7 +60,6 @@ class VueHelperViewComposer
                 'key' => \Config::get('services.stripe.key'),
             ]
         ];
-        ksort($data);
 
         return $data;
     }

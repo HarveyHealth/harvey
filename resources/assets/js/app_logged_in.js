@@ -12,7 +12,7 @@ Vue.filter('datetime', filter_datetime);
 import TopNav from './mixins/TopNav';
 
 // components
-import Alert from './components/Alert.vue';
+import Alert from './components/_includes/Alert.vue';
 
 // event handler
 const eventHub = new Vue();

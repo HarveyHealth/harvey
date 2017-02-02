@@ -31,7 +31,7 @@
 
 <script>
     import Appointment from './Appointment.vue';
-    import Contact from '../mixins/Contact';
+    import Contact from '../../mixins/Contact';
 
     export default {
         mixins: [Contact],

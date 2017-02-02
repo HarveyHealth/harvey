@@ -56,6 +56,10 @@
 }
 
 // new global styles
+[tabindex="-1"] {
+    outline: 0px solid transparent;
+}
+
 @mixin has-border($border_direction) {
     border-#{$border_direction}: 1px solid $border;
 }
@@ -108,57 +112,6 @@
     padding: 1.5rem;
 }
 
-.dropdown {
-    position: relative;
-    .dropdown-button {
-        cursor: pointer;
-        &.nav-toggle {
-            display: block;
-        }
-    }
-    @include from($desktop) {
-        .dropdown-list {
-            // @extend .box;
-            padding: 0;
-            display: none;
-            position: absolute;
-            top: $size-1;
-            &:before,
-            &:after {
-                content: "";
-                display: inline-block;
-                position: absolute;
-            }
-            &.dropdown-list_align-right {
-                right: 0.75rem;
-                &:before {
-                    top: -10px;
-                    right: 3px;
-                    bottom: auto;
-                    border: 10px solid transparent;
-                    border-top: 0;
-                    border-bottom-color: $border;
-                }
-                &:after {
-                    top: -9px;
-                    right: 4px;
-                    bottom: auto;
-                    border: 9px solid transparent;
-                    border-top: 0;
-                    border-bottom-color: #fff;
-                }
-            }
-            a {
-                // @extend .nav-item;
-                white-space: nowrap;
-            }
-        }
-        &:hover .dropdown-list {
-            display: block;
-        }
-    }
-}
-
 .panel-block {
     > .media {
         flex: 1;
@@ -198,16 +151,5 @@
     }
     &.animated-fast {
         animation-duration: $speed;
-    }
-}
-
-// global styles
-// navigation
-@include until($tablet) {
-    .nav-left {
-        display: none;
-    }
-    .nav-center {
-        margin-left: 0;
     }
 }

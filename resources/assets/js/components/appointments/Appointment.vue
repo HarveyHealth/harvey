@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import {capitalize, phone} from '../filters/textformat.js';
+    import {capitalize, phone} from '../../filters/textformat.js';
 
     export default {
         props: ['appointment', 'userType'],

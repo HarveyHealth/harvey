@@ -16,6 +16,21 @@ export default {
                 location.href = '/';
             });
         },
+        isDescendant(parent, child) {
+            let node = child.parentNode;
+            while (node != null) {
+                if (node == parent) {
+                    return true;
+                }
+                node = node.parentNode;
+            }
+            return false;
+        },
+        onBlur(e) {
+            if (e.relatedTarget === null || !this.isDescendant(e.target, e.relatedTarget)) {
+                this.toggleNav();
+            }
+        },
         viewSignupPage() {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
         }
