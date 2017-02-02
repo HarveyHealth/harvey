@@ -100,22 +100,21 @@ class TestsController extends BaseAPIController
      */
     public function results(Test $test, Request $request)
     {
-        
         $this->validate($request, [
-            'file' =>  'required|file|mimetypes:application/pdf'
+           'file' => 'required|file|mimetypes:application/pdf'
         ]);
         
-        $file = $request->file('file');
+        $relative_path = "$test->patient_user_id/$test->id";
         
         try {
             Storage::disk('s3')->putFileAs(
-                "$test->patient_user_id/$test->id", // Directory path relative to bucket
-                $file,  // Uploaded file from request
+                $relative_path, // Directory path relative to bucket
+                $request->file('file'),  // Uploaded file from request
                 'results.pdf', // filename,
-                ['ContentType' => $file->getMimeType()]
+                ['ContentType' => $request->file('file')->getMimeType()]
             );
             
-            $test->results_key = "$test->patient_user_id/$test->id/results.pdf";
+            $test->results_key = "$relative_path/results.pdf";
             $test->save();
         } catch (\Exception $e) {
             return $this->respondWithError($e->getMessage());
