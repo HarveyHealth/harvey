@@ -138,8 +138,9 @@ const app = new Vue({
                         ret[key] = this.symptomsStats[key].value;
                         return ret;
                     }, {} );
-
-                sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
+                try {
+                    sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
+                } catch(e) {}
             }
 
             this.symptomsSaving = true;
