@@ -19,7 +19,8 @@
         "fzaninotto/faker": "~1.4",
         "barryvdh/laravel-debugbar": "^2.3",
         "laravel/tinker": "^1.0",
-        "jsvrcek/ics": "^0.5.0"
+        "jsvrcek/ics": "^0.5.0",
+        "fideloper/proxy": "^3.2"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
