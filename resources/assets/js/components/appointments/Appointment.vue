@@ -45,8 +45,10 @@
 
 <script>
     import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
+    import Contact from '../../mixins/Contact';
 
     export default {
+        mixins: [Contact],
         props: ['appointment', 'userType'],
         data() {
             return {

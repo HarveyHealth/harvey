@@ -29,10 +29,8 @@
 
 <script>
     import Appointment from './Appointment.vue';
-    import Contact from '../../mixins/Contact';
 
     export default {
-        mixins: [Contact],
         props: ['userType'],
         data() {
             return {
