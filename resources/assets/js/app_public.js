@@ -1,7 +1,7 @@
 import './bootstrap';
 
 // helpers
-import Form from './helpers.js';
+import Form from './objects/Form.js';
 import {throttle, debounce} from 'lodash';
 
 // mixins
