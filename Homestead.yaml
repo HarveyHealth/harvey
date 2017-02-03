@@ -21,6 +21,7 @@ sites:
 
 databases:
     - harvey
+    - harvey_dusk
 
 # blackfire:
 #     - id: foo
