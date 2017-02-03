@@ -81,7 +81,7 @@
 }
 
 .icon {
-    vertical-align: middle; // rewrite bulma
+    vertical-align: middle !important; // rewrite bulma
     &.has-border-circle {
         border: 2px solid;
         border-radius: 50%;
