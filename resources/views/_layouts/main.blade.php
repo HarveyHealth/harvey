@@ -16,18 +16,17 @@
 
     {{-- CSRF TOKEN --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    {{-- TYPEKIT async load --}}
-    @script(/js/libs/typekit.js)
 
     {{-- STYLES --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> {{-- switch to custom build icons later --}}
-    @stylesheet(/css/app.css)
     @stack('stylesheets')
+
+    {{-- TYPEKIT async load --}}
+    @script(/js/libs/typekit.js)
 
     {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
     @if (App::environment('production'))
-        @script(/js/vendors.js)
+        @script({{ elixir('/js/vendors.js') }})
         <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
     @endif
 
@@ -35,26 +34,36 @@
 
 <body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
+    
+    <div id="app">
+        @include('_layouts.includes.top_nav')
+        
+        <div class="page-content">
+            @yield('main_content')
+        </div>
 
-    @include('_layouts.includes.messages')
+        @include('_layouts.includes.footer')
+    </div>
 
-    @yield('main_content')
-
+    {{-- To add data here, see the VueHelperViewComposer --}}
     <script>
-        window.Laravel = {
-            "csrfToken" : "{{ csrf_token() }}",
-            "apiToken" : "{{ api_token() }}",
-            "userId" : "{{ user_id() }}",
-            "stripeKey" : "{{ \Config::get('services.stripe.key') }}"
-        }
+        window.Laravel = {!! $vue_data !!}
     </script>
 
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
-        @script(/js/app_public.js)
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_public.js') }})
+        @else
+            @script(/js/app_public.js)
+        @endif
     @else
-        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
-        @script(/js/app_logged_in.js)
+        @script(https://js.stripe.com/v2/)
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_logged_in.js') }})
+        @else
+            @script(/js/app_logged_in.js)
+        @endif
     @endif
 
     @stack('scripts')

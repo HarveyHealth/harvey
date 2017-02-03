@@ -6,7 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*",
+        "laravel/framework": "5.4.*",
         "predis/predis": "^1.1",
         "giggsey/libphonenumber-for-php": "^7.7",
         "aws/aws-sdk-php": "^3.20",
@@ -17,14 +17,18 @@
         "league/commonmark": "^0.15.3",
         "bugsnag/bugsnag-laravel": "^2.0",
         "fzaninotto/faker": "~1.4",
-        "barryvdh/laravel-debugbar": "^2.3"
+        "barryvdh/laravel-debugbar": "^2.3",
+        "laravel/tinker": "^1.0",
+        "jsvrcek/ics": "^0.5.0",
+        "fideloper/proxy": "^3.2"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^4.0"
+        "laravel/homestead": "^4.0",
+        "laravel/dusk": "^1.0"
     },
     "autoload": {
         "classmap": [
@@ -36,9 +40,9 @@
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/TestCase.php"
-        ]
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     },
     "scripts": {
         "post-root-package-install": [
@@ -55,7 +59,9 @@
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
-            "php artisan migrate --force"
+            "php artisan migrate --force",
+            "php artisan view:clear",
+            "gulp"
         ]
     },
     "config": {

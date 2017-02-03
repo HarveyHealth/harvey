@@ -2,11 +2,20 @@ git:
   depth: 3
 language: php
 php:
-- 7.0
+- '7.1'
 cache:
+  yarn: true
   directories:
   - "$HOME/.composer/cache"
+before_install:
+- nvm install 6.9.1
+- nvm use 6.9.1
+- curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+- echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+- sudo apt-get update -qq
+- sudo apt-get install -y -qq yarn
 before_script:
+- yarn
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
@@ -15,11 +24,12 @@ script:
 branches:
   only:
   - master
+  - develop
 notifications:
   email: false
   slack:
     rooms:
-      secure: uYL7F/yLoE1kTW0l/c/oJpJQRgvKgiuL35uo9MJkO8C5ecNOO5+e3iueO2y+Y+H95JKVmIldYMZAxbXs8uaIMPzCWVYARdios0BOkQ2r9mh6nWViblxlLYXotzxhrZsPmxhjlw0aLRgzJOSWBSTqq5U4tdgiUXeex06O3nIcAAIwRTO9jWnPGsVSA7t6bPeovTUgkTnBRY6Yb4M557lIjrIH5Lfv45BoWyP0FsyOQhNCFa1Q8LBbHVCFjgZNckyXz99xs3Q4/jD3S34yz3lPt0Qc1F6avcorTynUKrRlSpV6unG4MvmdxvecGbyaEUJkuilbPtU9qUfsT7muRqfMkWR/Cz/OXRcS3L9zaNxMyNSUjE6nRF7W8N7cj4GArguPNreNBcvs+BLWR8S2lz88S8c8ZS/AGu+x+ywZqHEghOBwAfHmF3SML93i+WYvAk5/+xxmqd1eWF17anCKTuiy9ZnNmrumLC5UApYrRnxGfDI/9cSz0rg4IsEDED72q+dulOTyZV9UwnjvPtcH4aQpZYWjK8bZ5/d7dzyRMoTxs+qZcbYMQc5k/YauuVb5rPZpWOz8HTaGYqUHY/XiIcXktzqBKTyHT8VjmnnSJMPMYvtwUpcdzVw4pWa86uI/YFRqSZLcOYJwmCZqOo4C5d/uAsrIUN+7muf2Im1T0j7Vx0c=
+      secure: IPwRGtt3SVK8MvcVLulMdVOmrCfMly5GZt0YU5L6fmX8AXKRHLj99RwDwJ+pHuFPmrDrxphxaxeBhhf6kzYI4em0MYBaqfsAk0XsdOLY+7WoF/Bu5T1xGKsjgmHQpEzHhwTrghboGoSw3Op2o2x5FgvhMi6Bg03Lmp73As1yB4mIPb6z9x9PxYeS9UNsTBiyyFpV9r7pVLzSMrwKZXfaaaHkKScto0RKcg7aovtKphWlsuxGLOXejcZU9DFV7QBX8oFZmsTc1Qlga/3SD0VjlNU7wlHLTxZR9qWj7pOyssU2XEjCCET77MypifMA/vNysdG/VWturDSSJZ3yeeFpJTbgMwpXK+SYj+2yHc59z9RZFLoQ3nDmopFjsnz04ypcuDWLt6L0pQcOtiVbqcTLJpCTAAvoClMIVIVy9O1xSqj8S3ZIj6rXxVsGxVnlbhNJXKv+aQUrglbSmdlsQmtEz6W1e8x+sqj8WLXUN6WWuxqgOhEDXKvJ6VjWblo2YjKGJMcmSbadsdRO6Px8yMgSUj9d/jz8QcGjo+yb05Omz2YRBpUWnBTCn+p3E7wJFAAi0qtdhdHHqmiBs1+rWRMFrY/r7GTps3bLuI5p5QXOyqdvuTiZtparlGgdWjo8sZRJeJaBVg8rhAxqM9bpuR+NiR+SzqC8RMg8i8n56pVO1dI=
     template:
       - "%{commit_message} on `%{branch}` by %{author}: %{message}"
       - "Elapsed Time: %{elapsed_time}"

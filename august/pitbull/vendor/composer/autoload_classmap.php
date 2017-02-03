@@ -6,7 +6,4 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'August\\Pitbull\\Pitbull' => $baseDir . '/src/Pitbull.php',
-    'August\\Pitbull\\PitbullServiceProvider' => $baseDir . '/src/PitbullServiceProvider.php',
-    'August\\Pitbull\\Traits\\Pitbull' => $baseDir . '/src/traits/Pitbull.php',
 );

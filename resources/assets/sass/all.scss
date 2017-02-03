@@ -1,0 +1,155 @@
+// Variables
+@import "node_modules/bulma/sass/utilities/functions.sass";
+@import "variables";
+
+// Libraries
+@import 'node_modules/bulma/bulma.sass';
+@import 'node_modules/animate.css/animate';
+
+// rewrite bulma styles
+.section {
+    padding: 2rem 1.5rem;
+}
+
+.button {
+    &.is-link {
+        padding-left: 0;
+        padding-right: 0;
+        &:hover {
+            background-color: transparent;
+        }
+    }
+}
+
+.hero-buttons {
+    @include from($tablet) {
+        justify-content: flex-end;
+    }
+}
+
+.control.has-icon .button.is-primary > .icon {
+    color: #fff;
+}
+
+.footer {
+    padding-bottom: 4rem;
+    &.is-simple {
+        background-color: transparent;
+        opacity: 0.75;
+    }
+    &:not(.is-simple) {
+        $gradient-top-left: darken(saturate(adjust-hue($tertiary, -10deg), 10%), 10%);
+        $gradient-bottom-right: lighten(saturate(adjust-hue($tertiary, 10deg), 5%), 5%);
+        background-image: linear-gradient(141deg, $gradient-top-left 0%, $tertiary 71%, $gradient-bottom-right 100%);
+        .content,
+        a.nav-item {
+            color: white;
+        }
+    }
+}
+
+//hide before font loads
+.wf-loading {
+    h1, h2, h3, h4, h5, h6, a, p, label, span, div {
+        visibility: hidden;
+    }
+}
+
+// new global styles
+[tabindex="-1"] {
+    outline: 0px solid transparent;
+}
+
+@mixin has-border($border_direction) {
+    border-#{$border_direction}: 1px solid $border;
+}
+
+.has-border-top {
+    @include has-border(top);
+}
+
+.has-border-bottom {
+    @include has-border(bottom);
+}
+
+.font-secondary-family {
+    font-family: $family-secondary;
+}
+
+.image-wrapper {
+    margin-bottom: $space-medium;
+}
+
+.icon {
+    vertical-align: middle; // rewrite bulma
+    &.has-border-circle {
+        border: 2px solid;
+        border-radius: 50%;
+        .fa {
+            font-size: $size-6;
+            margin-top: -2px;
+        }
+    }
+    .control.has-icon:not(.has-icon-right)  &.align-right {
+        left: initial;
+        right: ($size-normal * 2.5) / 2;
+        transform: translateX(50%) translateY(-50%);
+    }
+    .control.has-icon &.is-danger {
+        color: $danger;
+    }
+    & + span {
+        vertical-align: middle;
+        margin-left: 5px
+    }
+}
+
+.link-inherit-color {
+    color: inherit;
+}
+
+.card-footer-item {
+    padding: 1.5rem;
+}
+
+.panel-block {
+    > .media {
+        flex: 1;
+    }
+}
+
+.box {
+    &.is-circle {
+        border-radius: 50%;
+    }
+}
+
+.page-content {
+    .nav {
+        z-index: 1;
+    }
+}
+
+.control.is-grouped.is-gapless > .control:not(:last-child) {
+    margin-right: -1px;
+}
+
+.section {
+    .has-max-width {
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+// modify animations
+.animated {
+    &.notification {
+        &.fadeOut {
+            animation-delay: 3s;
+        }
+    }
+    &.animated-fast {
+        animation-duration: $speed;
+    }
+}

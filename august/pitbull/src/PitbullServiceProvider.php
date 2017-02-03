@@ -33,6 +33,9 @@ class PitbullServiceProvider extends ServiceProvider
 
         // load our views
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'pitbull');
+
+        // blad extensions
+        $this->registerBladeExtensions();
     }
 
     /**
@@ -49,4 +52,36 @@ class PitbullServiceProvider extends ServiceProvider
             return $app->make('\August\Pitbull\Pitbull');
         });
     }
+
+    /**
+     * Register Blade extensions
+     */
+     protected function registerBladeExtensions()
+     {
+         $blade = $this->app['view']->getEngineResolver()->resolve('blade')->getCompiler();
+
+         // @role('role')
+         $blade->directive('role', function ($expression) {
+             return "<?php if (Auth::check() && Auth::user()->roleIs({$expression})): ?>";
+         });
+         $blade->directive('endrole', function () {
+             return "<?php endif; ?>";
+         });
+
+         // @permission('permission')
+         $blade->directive('permission', function ($expression) {
+             return "<?php if (Auth::check() && Auth::user()->may({$expression})): ?>";
+         });
+         $blade->directive('endpermission', function () {
+             return "<?php endif; ?>";
+         });
+
+         // @allowed('allowed', $post)
+         $blade->directive('allowed', function ($expression) {
+             return "<?php if (Auth::check() && Auth::user()->allowed({$expression})): ?>";
+         });
+         $blade->directive('endallowed', function () {
+             return "<?php endif; ?>";
+         });
+     }
 }

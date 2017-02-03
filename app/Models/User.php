@@ -91,6 +91,6 @@ class User extends Authenticatable implements Mailable
 
     public function emailVerificationURL()
     {
-        return url("/verify/{$this->id}/" . $this->emailVerificationToken());
+        return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
     }
 }
