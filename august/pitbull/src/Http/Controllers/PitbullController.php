@@ -1,6 +1,6 @@
 <?php
 
-namespace August\Pitbull;
+namespace August\Pitbull\Http\Controllers;
 
 use August\Pitbull\Models\PBUser;
 

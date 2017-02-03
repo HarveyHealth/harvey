@@ -12,11 +12,11 @@ trait Pitbull
     {
     }
 
-    public function addAbility($domain, $action)
+    public function addAbility($domain_action)
     {
     }
 
-    public function removeAbility($domain, $action)
+    public function removeAbility($domain_action)
     {
     }
 
@@ -25,9 +25,9 @@ trait Pitbull
         return app()['pitbull']->userHasRole($this, $role);
     }
 
-    public function hasPermission($domain, $action)
+    public function hasPermission($domain_action)
     {
-        return app()['pitbull']->userHasPermission($this, $domain, $action);
+        return app()['pitbull']->userHasPermission($this, $domain_action);
     }
 
     public function roles()
