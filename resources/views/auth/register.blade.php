@@ -117,7 +117,7 @@
 
                     <p class="control">
                         <label>
-                            <input type="checkbox" v-model="register.form.terms">
+                            <input type="checkbox" name="terms" v-model="register.form.terms">
                             <small>I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.</small>
                         </label>
                     </p>
