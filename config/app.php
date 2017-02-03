@@ -172,6 +172,7 @@ return [
         August\Pitbull\PitbullServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -20,7 +20,8 @@
 body {
     &.home,
     &.login,
-    &.signup {
+    &.signup,
+    &[class^="password-reset"] {
         .page-content + .footer {
             display: none;
         }
