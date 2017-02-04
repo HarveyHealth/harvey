@@ -9,7 +9,6 @@ use App\Http\Controllers\API\alpha\Transformers\TestTransformer;
 
 class TestsController extends BaseAPIController
 {
-    
     protected $transformer;
     
     public function __construct(TestTransformer $transformer)

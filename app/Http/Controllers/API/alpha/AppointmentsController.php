@@ -2,20 +2,28 @@
 
 namespace App\Http\Controllers\API\alpha;
 
-use App\Http\Controllers\API\alpha\Transformers\AppointmentTransformer;
-use App\Models\Appointment;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use \Validator;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Appointment;
+use Illuminate\Http\Request;
+use App\Repositories\UserRepository;
+use App\Repositories\AppointmentRepository;
+use App\Http\Controllers\API\alpha\Transformers\AppointmentTransformer;
 
 class AppointmentsController extends BaseAPIController
 {
+    protected $users;
     protected $transformer;
+    protected $appointments;
     
-    public function __construct(AppointmentTransformer $transformer)
+    public function __construct(AppointmentTransformer $transformer,
+                                UserRepository $users,
+                                AppointmentRepository $appointments)
     {
+        $this->users = $users;
         $this->transformer = $transformer;
+        $this->appointments = $appointments;
     }
     
     /**
@@ -25,6 +33,15 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
+        $user = $this->users->getByApiToken(request('api_token'));
+        if ($user->isPatient()) {
+            $appointment_list = $this->appointments->forPatient($user->id)->get();
+        } elseif ($user->isPractitioner()) {
+            $appointment_list = $this->appointments->forPractitioner($user->id)->get();
+        } else {
+            $appointment_list = $this->appointments->all();
+        }
+        return $this->transformer->transformCollection($appointment_list);
     }
     
     /**

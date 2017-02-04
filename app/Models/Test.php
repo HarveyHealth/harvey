@@ -16,8 +16,7 @@ class Test extends Model
 
     public function tempResultsURL()
     {
-        if(empty($this->results_key))
-        {
+        if (empty($this->results_key)) {
             return null;
         }
         

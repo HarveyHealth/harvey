@@ -26,7 +26,7 @@ class UpdateTestsTableRenameResultsUrlToKey extends Migration
     public function down()
     {
         Schema::table('tests', function (Blueprint $table) {
-        $table->renameColumn('results_key', 'results_url');
+            $table->renameColumn('results_key', 'results_url');
         });
     }
 }
