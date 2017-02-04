@@ -33,13 +33,23 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-        $user = $this->users->getByApiToken(request('api_token'));
-        if ($user->isPatient()) {
-            $appointment_list = $this->appointments->forPatient($user->id)->get();
-        } elseif ($user->isPractitioner()) {
-            $appointment_list = $this->appointments->forPractitioner($user->id)->get();
+        
+        if(request('filter') && request('filter') == 'upcoming'){
+            $query = $this->appointments->upcoming();
+        } elseif (request('filter') && request('filter') == 'recent'){
+            $query = $this->appointments->recent();
         } else {
-            $appointment_list = $this->appointments->all();
+            $query = $this->appointments;
+        }
+        
+        $user = $this->users->getByApiToken(request('api_token'));
+        
+        if ($user->isPatient()) {
+            $appointment_list = $query->forPatient($user->id)->get();
+        } elseif ($user->isPractitioner()) {
+            $appointment_list = $query->forPractitioner($user->id)->get();
+        } else {
+            $appointment_list = $query->all();
         }
         return $this->transformer->transformCollection($appointment_list);
     }

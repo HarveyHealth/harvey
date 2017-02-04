@@ -60,4 +60,27 @@ class AppointmentTest extends TestCase
         // THEN we should see 5 of them
         $this->assertEquals(count($json), $appointment_count);
     }
+    
+    public function test_it_only_displays_past_appointments_when_using_filter_recent()
+    {
+        // GIVEN our user has 5 past appointments
+        $appointment_count = 5;
+        $user = factory(User::class)->states('patient')->create();
+        factory(Appointment::class, $appointment_count)
+            ->states('past')
+            ->create(['patient_user_id' => $user->id]);
+        
+        // WHEN the user requests to list out the appointments
+        // AND uses the 'recent' filter
+        $results = $this->call(
+            'GET',
+            'api/alpha/appointments',
+            ['api_token' => $user->api_token, 'filter' => 'recent']
+        );
+        
+        $json = json_decode($results->content());
+        
+        // THEN we should see 3 of them since recentScope defaults to 3 results.
+    $this->assertEquals(count($json), 3);
+    }
 }
