@@ -46,16 +46,30 @@ class TestsController extends BaseAPIController
     {
         //
     }
-
+    
     /**
-     * Display the specified resource.
+     * @api {get} /tests/:id View a Test by id
+     * @apiName GetTest
+     * @apiGroup Tests
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+     * @apiSuccess {Object} data Wrapper for data content
+     * @apiSuccess {Number} data.id Test id
+     * @apiSuccess {String} data.results_key Presigned URL that will expire in 1 hour
+     * @apiSuccess {Number} data.sku_id Test SKU
+     * @apiSuccessExample {json} Success-Response:
+     *    {
+     *      "data": {
+     *          "id": 1,
+     *          "results_key": "https://s3.amazonaws.com/harvey-develop/2/1/results.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJ4LAGPVZAUCRPKYQ%2F20170206%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20170206T185028Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=8be51ebefc3265cc58d3fa711b2c63ddf48e5e709ef8fa72f046a9667489f9c6",
+     *          "sku_id": 1
+     *      },
+     *      "meta": null
+     *
+     * */
     public function show(Test $test)
     {
-        return $this->transformer->transform($test);
+        $transformed_test = $this->transformer->transform($test);
+        return $this->respond($transformed_test);
     }
 
     /**
@@ -93,10 +107,30 @@ class TestsController extends BaseAPIController
     }
     
     /**
-     * @param Test    $test
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+     * @api {post} /tests/:id/results Upload the results of a test
+     * @apiName UploadTestResults
+     * @apiGroup Tests
+     *
+     * @apiParam {File} file PDF test result file
+     *
+     * @apiSuccess {Object} data Wrapper for data content
+     * @apiSuccess {Number} data.id Test id
+     * @apiSuccess {String} data.results_key Presigned URL that will expire in 1 hour
+     * @apiSuccess {Number} data.sku_id Test SKU
+     * @apiSuccess {Object} meta Wrapper for data content
+     * @apiSuccess {Boolean} uploaded
+     * @apiSuccessExample {json} Success-Response:
+     *    {
+     *      "data": {
+     *          "id": 1,
+     *          "results_key": "https://s3.amazonaws.com/harvey-develop/2/1/results.pdf?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJ4LAGPVZAUCRPKYQ%2F20170206%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20170206T185028Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Signature=8be51ebefc3265cc58d3fa711b2c63ddf48e5e709ef8fa72f046a9667489f9c6",
+     *          "sku_id": 1
+     *      },
+     *      "meta": {
+     *          "uploaded": true
+     *      }
+     *
+     * */
     public function results(Test $test, Request $request)
     {
         $this->validate($request, [

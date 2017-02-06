@@ -27,10 +27,57 @@ class AppointmentsController extends BaseAPIController
     }
     
     /**
-     * Display a listing of the resource.
+     * @api {get} /appointments View appointments
+     * @apiName GetAppointments
+     * @apiGroup Appointment
      *
-     * @return \Illuminate\Http\Response
-     */
+     * @apiParam {String} filter Options: ['upcoming', 'recent']
+     *
+     * @apiSuccess {Object[]} data Array of appointment objects
+     * @apiSuccess {Number} data.id appointment id
+     * @apiSuccess {Datetime} data.appointment_at appointment start datetime
+     * @apiSuccess {String} data.reason_for_visit
+     * @apiSuccess {Datetime} data.created_at Wrapper for data content
+     * @apiSuccess {Object} meta Wrapper for data content
+     * @apiSuccess {String} meta.filter Feedback of the filter used
+     *
+     * @apiSuccessExample {json} Success-Response:
+     * {
+     *      "data": [
+     *          {
+     *              "id": 24,
+     *              "appointment_at": {
+     *                  "date": "2017-02-02 15:00:00.000000",
+     *                  "timezone_type": 3,
+     *                  "timezone": "UTC"
+     *               },
+     *               "reason_for_visit": "This is the reason for the appointment",
+     *               "created_at": {
+     *                  "date": "2017-01-24 19:37:24.000000",
+     *                  "timezone_type": 3,
+     *                  "timezone": "UTC"
+     *                }
+     *            },
+     *            {
+     *              "id": 25,
+     *              "appointment_at": {
+     *                  "date": "2017-02-03 15:00:00.000000",
+     *                  "timezone_type": 3,
+     *                  "timezone": "UTC"
+     *               },
+     *               "reason_for_visit": "This is the reason for the appointment",
+     *               "created_at": {
+     *                  "date": "2017-01-25 19:37:24.000000",
+     *                  "timezone_type": 3,
+     *                  "timezone": "UTC"
+     *                }
+     *            }
+     *          ],
+     *     "meta": {
+     *         "filter": "upcoming"
+     *     }
+     *}
+     * */
     public function index()
     {
         
@@ -51,7 +98,11 @@ class AppointmentsController extends BaseAPIController
         } else {
             $appointment_list = $query->all();
         }
-        return $this->transformer->transformCollection($appointment_list);
+        
+        $transformed_appointments = $this->transformer
+                                        ->transformCollection($appointment_list);
+        
+        return $this->respond($transformed_appointments, ['filtered' => request('filter') ?: 'none']);
     }
     
     /**
