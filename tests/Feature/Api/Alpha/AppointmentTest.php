@@ -27,16 +27,15 @@ class AppointmentTest extends TestCase
         factory(Appointment::class, 10)->create();
         
         // WHEN the user requests to list out the appointments
-        $results = $this->call(
+        $response = $this->call(
                 'GET',
                 'api/alpha/appointments',
                 ['api_token' => $user->api_token]
         );
-
-        $json = json_decode($results->content());
+        $content = json_decode($response->content());
         
         // THEN we should see 5 of them
-        $this->assertEquals(count($json), $appointment_count);
+        $this->assertEquals(count($content->data), $appointment_count);
     }
     
     public function test_it_shows_an_admin_all_appointments()
@@ -49,16 +48,16 @@ class AppointmentTest extends TestCase
         $user = factory(User::class)->states('admin')->create();
     
         // WHEN the admin requests to list out the appointments
-        $results = $this->call(
+        $response = $this->call(
             'GET',
             'api/alpha/appointments',
             ['api_token' => $user->api_token]
         );
-
-        $json = json_decode($results->content());
+    
+        $content = json_decode($response->content());
     
         // THEN we should see 5 of them
-        $this->assertEquals(count($json), $appointment_count);
+        $this->assertEquals(count($content->data), $appointment_count);
     }
     
     public function test_it_only_displays_past_appointments_when_using_filter_recent()
@@ -72,15 +71,14 @@ class AppointmentTest extends TestCase
         
         // WHEN the user requests to list out the appointments
         // AND uses the 'recent' filter
-        $results = $this->call(
+        $response = $this->call(
             'GET',
             'api/alpha/appointments',
             ['api_token' => $user->api_token, 'filter' => 'recent']
         );
-        
-        $json = json_decode($results->content());
-        
+        $content = json_decode($response->content());
+    
         // THEN we should see 3 of them since recentScope defaults to 3 results.
-    $this->assertEquals(count($json), 3);
+        $this->assertEquals(count($content->data), 3);
     }
 }
