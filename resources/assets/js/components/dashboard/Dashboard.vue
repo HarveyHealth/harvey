@@ -17,11 +17,11 @@
         <div class="section">
             <h1 class="title">Dashboard</h1>
             <div class="columns">
-                <div class="column is-8">
+                <div class="column is-7">
                     <Appointments :user-type="userType"></Appointments>
                 </div>
-                <div class="column is-4">
-                    <Tests></Tests>
+                <div class="column is-5">
+                    <Tests :user-type="userType"></Tests>
                 </div>
             </div>
         </div>

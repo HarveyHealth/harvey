@@ -33,12 +33,6 @@
             <div v-if="userType == 'patient'" class="title">
                 <button class="button" @click="toggleContact">Reschedule</button>
             </div>
-            <p v-else class="title is-5">
-                <button class="button">
-                    <span class="icon"><span class="fa fa-cloud-upload"></span></span>
-                    <span>Upload Notes</span>
-                </button>
-            </p>
         </div>
     </div>
 </template>
