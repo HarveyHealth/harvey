@@ -34,7 +34,7 @@ class PitbullServiceProvider extends ServiceProvider
         // load our views
         $this->loadViewsFrom(__DIR__ . '/resources/views', 'pitbull');
 
-        // blad extensions
+        // blade extensions
         $this->registerBladeExtensions();
     }
 
