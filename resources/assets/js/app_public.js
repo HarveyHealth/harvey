@@ -87,25 +87,6 @@ const app = new Vue({
         wait: 400,
         nav_scroll_threshold: 56
     },
-    computed: {
-        // below are for homepage scroll
-        sectionNums() {
-            return this.sections.length;
-        },
-        showFooterStyle() {
-            if (this.triggerScrollBehavior && this.showFooter) {
-                let footerHeight = document.querySelector('footer').clientHeight;
-
-                return {
-                    transform: 'translateY(-' + footerHeight + 'px)'
-                }
-            } else {
-                return {
-                    transform: 'translateY(0)'
-                }
-            }
-        }
-    },
     methods: {
         // log in and register forms
         onSubmit(e) {
@@ -147,57 +128,9 @@ const app = new Vue({
                 location.href = '/signup';
             }, 400);
         },
-        // below are for homepage scroll
         checkIsHomePage() {
             this.isHomePage = document.getElementsByTagName('body')[0].classList.contains('home');
         },
-        // getSectionsArr() {
-        //     let nodes = document.querySelectorAll('.section');
-        //     this.sections = Object.keys(nodes)
-        //         .map( (index) => {
-        //             return nodes[index].id;
-        //         } );
-        // },
-        // pre() {
-        //     if (this.currentSection != 0) {
-        //         this.transitioning = true;
-
-        //         if (this.showFooter) {
-        //             this.showFooter = false;
-        //         } else {
-        //             this.currentSection -= 1;
-        //             this.setUrlHash();
-        //         }
-        //     }
-        // },
-        // next() {
-        //     if (this.currentSection != this.sectionNums - 1) {
-        //         this.transitioning = true;
-        //         this.currentSection += 1;
-        //         this.setUrlHash();
-        //     } else {
-        //         this.showFooter = true;
-        //     }
-        // },
-        // slide(sectionNum) {
-        //     if (sectionNum||sectionNum == 0) {
-        //         this.showFooter = false;
-        //         this.transitioning = true;
-        //         this.currentSection = sectionNum;
-        //         this.setUrlHash();
-        //     }
-        // },
-        // getUrlHash() {
-        //     return window.location.hash.slice(1);
-        // },
-        // setUrlHash(name) {
-        //     window.location.hash = "#" + this.sections[this.currentSection];
-        // },
-        // setCurrentSection() {
-        //     let hash = this.getUrlHash();
-
-        //     if (hash) this.currentSection = this.sections.indexOf(hash);
-        // },
         onScroll(e) {
             if (window.pageYOffset > this.nav_scroll_threshold) {
                 if (this.nav_is_inverted) this.nav_is_inverted = false;
@@ -205,50 +138,18 @@ const app = new Vue({
                 if (!this.nav_is_inverted) this.nav_is_inverted = true;
             }
         },
-        // setWhichTransitionEvent() {
-        //     let transitions = {
-        //         'transition':'transitionend',
-        //         'OTransition':'oTransitionEnd',
-        //         'MozTransition':'transitionend',
-        //         'WebkitTransition':'webkitTransitionEnd'
-        //     }
-
-        //     this.whichTransitionEvent = transitions[ Modernizr.prefixed('transition') ];
-        // },
-        // checkScrollBehavior() {
-        //     this.triggerScrollBehavior = Modernizr.mq('(min-width: 1192px)');
-        //     this.homepageLayoutResetEnds = true;
-        // },
         onPageScroll() {
             window.addEventListener('scroll', _.throttle(this.onScroll, this.wait), false);
-            // document.querySelector('.sections').addEventListener(this.whichTransitionEvent, function(e) {
-            //     if (e.target && ( e.target.matches('.current') || e.target.matches('.sections') )) {
-            //         this.transitioning = false;
-            //     }
-            // }.bind(this));
         },
         offEvents() {
-        //     window.removeEventListener('resize');
             window.removeEventListener('scroll');
-        //     document.querySelector('.sections').removeEventListener(this.whichTransitionEvent);                
-        },
-        // onWindowResize() {
-        //     window.addEventListener('resize', _.debounce(this.checkScrollBehavior, 300), false);
-        // }
+        }
     },
     mounted() {
         this.checkIsHomePage();
 
         if (this.isHomePage) {
-    //         this.checkScrollBehavior();
-    //         this.onWindowResize();
-
-    //         if (this.triggerScrollBehavior) {
-    //             this.setWhichTransitionEvent();
-    //             this.getSectionsArr();
-    //             this.setCurrentSection();
-                this.onPageScroll();
-    //         }
+            this.onPageScroll();
         }
     },
     destroyed() {
