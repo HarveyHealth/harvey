@@ -6,19 +6,28 @@
 @include sprites($spritesheet-sprites);
 @include retina-sprites($retina-groups);
 
-// navigation
-@include until($tablet) {
-    .nav-left {
-        display: none;
+// elements
+blockquote {
+    font-family: $family-secondary;
+    font-style: italic;
+    font-size: $size-5;
+}
+
+.is-paddingless-mobile {
+    @include until($tablet) {
+        padding: 0 !important;
     }
-    .nav-center {
-        margin-left: 0;
+}
+
+.column.is-auto-desktop {
+    @include from($desktop) {
+        width: auto;
+        flex: 1;
     }
 }
 
 // page specific styles
 body {
-    &.home,
     &.login,
     &.signup,
     &[class^="password-reset"] {

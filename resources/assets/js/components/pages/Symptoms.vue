@@ -65,7 +65,7 @@
             margin-bottom: 1rem;
         }
     }
-    @media screen and (min-width: 769px) {
+    @media screen and (min-width: 768px) {
         .control.is-horizontal > .control {
             display: block;
             flex-grow: 2;

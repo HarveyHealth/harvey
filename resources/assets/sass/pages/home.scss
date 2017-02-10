@@ -1,18 +1,19 @@
 body.home {
     // general
-    color: $text-secondary;
-    .content {
-        &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong {
-            color: $text-secondary;
-        }
-        @include from($tablet) {
-            text-align: center;
-        }
+    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong {
+        color: $text-secondary;
     }
-    .title,
     .subtitle {
-        strong {
-            font-weight: 700;
+        line-height: 1.5;
+    }
+    .title + .subtitle {
+        margin-top: 0.75rem;
+    }
+    .page-content {
+        p {
+            &:not(.title) {
+                font-family: $family-secondary;
+            }
         }
     }
     figure {
@@ -20,6 +21,9 @@ body.home {
     }
     .image img {
         height: 100%;
+    }
+    .button.is-medium {
+        margin-top: 0.5rem;
     }
     // layout
     #app {
@@ -34,16 +38,159 @@ body.home {
         left: 0;
         width: 100%;
         z-index: 101;
+        background-color: rgba(#fff, $opacity-dark);
+        .button {
+            transition: all 0.2s ease;
+            &:not(.is-outlined) {
+                background-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    background-color: darken($tertiary, 2.5%);
+                }
+            }
+            &.is-outlined {
+                color: $tertiary;
+                border-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    color: darken($tertiary, 5%);
+                    border-color: darken($tertiary, 5%);
+                    background-color: transparent;
+                }
+            }
+        }
+        &.is-inverted {
+            background-color: transparent;
+            .button {
+                &:not(.is-outlined) {
+                    color: $tertiary;
+                    background-color: #fff;
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        color: #fff;
+                        background-color: $tertiary;
+                    }
+                }
+                &.is-outlined {
+                    color: #fff;
+                    border-color: #fff;
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        color: darken($tertiary, 5%);
+                        border-color: darken($tertiary, 5%);
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
     }
-    .page-content {
+    .section:not(:last-of-type) {
+        padding-bottom: 1rem;
+    }
+    // hero
+    .hero {
         position: relative;
-        min-height: 100%;
-        overflow: hidden;
+        @include until($desktop) {
+            min-height: initial;
+            padding-top: 3.5rem;
+        }
+        .hero-background {
+            width: 100%;
+            // background-image: gradient;
+            background: lighten($tertiary, 20%) url('/images/home/background_1_sm.jpg') no-repeat center top;
+            background-size: cover;
+            &, &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+            &:after {
+                content: ' ';
+                display: block;
+                background-color: rgba(darken($tertiary, 20%), $opacity-light);
+                @include from($desktop) {
+                    display: none;
+                }
+            }
+            @include from($tablet) {
+                background-image: url('/images/home/background_1_md.jpg');
+            }
+            @include from($megascreen) {
+                background-image: url('/images/home/background_1_lg.jpg');
+            }
+        }
+        .title + .subtitle {
+            margin-top: 0;
+        }
+        @include from($megascreen) {
+            min-height: initial;
+            .hero-body {
+                padding-top: 9rem;
+                padding-bottom: 9rem;
+            }
+        }
     }
-    .sections {
-        margin-top: 52px; // nav height
+    .has-content-vertical-aligned {
+        @include from($tablet) {
+            position: relative;
+            .content,
+            .has-content-vertical-aligned-content {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
     }
     // elements
+    .is-inverted {
+        .harvey-logo-icon {
+            fill: #fff;
+            @include from($mobile) {
+                fill: $primary;
+            }
+        }
+        @at-root .no-svg & .logo-wrapper {
+            background-image: url('/images/logos/mobile-logo-inverted.png');
+        }
+    }
+    .section-header {
+        text-align: center;
+        span {
+            font-weight: 500;
+        }
+        @include from($tablet) {
+            display: table;
+            white-space: nowrap;
+            overflow: hidden;
+            span {
+                margin: 0 $space-medium;
+                vertical-align: middle
+            }
+            &:before,
+            &:after {
+                display: table-cell;
+                content: ' ';
+                width: 50%;
+                border-top: 1px solid $border;
+                position: relative;
+                top: 0.7em;
+            }
+        }
+        & + .columns {
+            margin-top: 3rem;
+        }
+    }
+    .button-wrapper {
+        @include until($tablet) {
+            text-align: center;
+        }
+    }
     .tagline {
         margin-top: $space-xsmall;
         margin-bottom: $size-2;
@@ -87,69 +234,41 @@ body.home {
         margin-top: $size-2;
     }
     .disclaimer {
-        display: inline-block;
-        margin-bottom: $space-small;
+        font-family: $family-sans-serif !important;
     }
-    .step-number {
-        @extend .font-secondary-family;
-        display: inline-block;
-        width: $size-3;
-        height: $size-3;
-        line-height: $size-3;
-        text-align: center;
-        background: #fff;
-        border-radius: 50%;
-        position: absolute;
-        top: 0;
-        font-size: $size-4;
-        @include from($desktop) {
-            transform: translateX(50%);
+    .menu-list a {
+        &:not(.is-active):hover {
+            color: $tertiary;
+        }
+        &.is-active {
+            background-color: $tertiary;
         }
     }
     .symptoms-selector-wrapper {
-        // max-width: 800px;
         margin-bottom: $space-medium;
         li + li {
             margin-top: 0;
         }
     }
     // page specific content
-    #comparison,
-    #number {
-        .icon-wrapper {
-            margin: 0 auto $space-small;
-            & + p {
-                margin: 0 auto $space-small;
-            }
-        }
-    }
-    #comparison {
-        .icon-wrapper + p {
-            width: 180px;
-        }
-    }
-    #steps {
-        .title.is-5 {
-            margin-bottom: 0.5rem;
-        }
+    #pricing {
+        background-color: $white-ter;
+        padding-bottom: 3rem;
         .columns {
-            @include tablet-only {
-                text-align: left;
-            }
+            background-color: #fff;
         }
-        .step-column-wrapper {
-            .column {
-                position: relative;
-                @include mobile {
-                    padding-left: 0;
-                }
-            }
-            @include from($desktop) {
-                display: block;
-                .column {
-                    margin: 0 auto;
-                }
-                .image {
+    }
+    #tests {
+        .columns {
+            margin-top: 0;
+        }
+    }
+    #how-it-works {
+        @include from($desktop) {
+            text-align: center;
+            .column.columns {
+                flex-direction: column;
+                .icon-wrapper {
                     margin: 0 auto;
                 }
             }
@@ -160,6 +279,14 @@ body.home {
         top: -3px;
     }
     // media queries
+    @include until($tablet) {
+        .title {
+            &.is-1,
+            &.is-2 {
+                font-size: 2rem;
+            }
+        }
+    }
     @include from($tablet) {
         .copy-has-max-width {
             max-width: 640px;
@@ -167,127 +294,9 @@ body.home {
         }
     }
     @include from($desktop) {
-        #number,
         #symptoms {
             .columns {
                 text-align: left;
-            }
-        }
-    }
-    .section {
-        @include from($widescreen) {
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-attachment: fixed;
-            &:nth-child(1) {
-                background-image: url('/images/home/background_1.jpg');
-            }
-            &:nth-child(2) {
-                background-image: url('/images/home/background_2.jpg');
-            }
-            &:nth-child(3) {
-                background-image: url('/images/home/background_3.jpg');
-            }
-            &:nth-child(4) {
-                background-image: url('/images/home/background_4.png');
-                background-size: contain;
-                background-position: top center;
-            }
-            &:nth-child(5) {
-                background-image: url('/images/home/background_5.jpg');
-            }
-            .section-wrapper {
-                width: 95%;
-                margin: 0 auto;
-                padding: $space-medium;
-                background: rgba($harvey-light-tan, $opacity-dark);
-                background-image: linear-gradient(rgba($harvey-light-tan, $opacity-dark), rgba(#fff, $opacity-dark));
-            }
-        }
-        @include from($megascreen) {
-            &:nth-child(1) {
-                background-image: url('/images/home/background_1_lg.jpg');
-            }
-            &:nth-child(2) {
-                background-image: url('/images/home/background_2_lg.jpg');
-            }
-            &:nth-child(3) {
-                background-image: url('/images/home/background_3_lg.jpg');
-            }
-            &:nth-child(4) {
-                background-image: url('/images/home/background_4_lg.png');
-            }
-            &:nth-child(5) {
-                background-image: url('/images/home/background_5_lg.jpg');
-            }
-        }
-    }
-    // scroll behavior starts from widescreen
-    @include from($widescreen) {
-        .sections,
-        .section,
-        .footer {
-            transition: cubic-bezier(1,.03,.42,.88) .6s;
-        }
-        .sections {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        .section {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            opacity: 0;
-        }
-        .is-loaded {
-            .section {
-                transform: translateY(-100%);
-                &.current {
-                    opacity: 1;
-                    transform: translateY(0);
-                    z-index: 1;
-                    ~ .section {
-                        transform: translateY(100%);
-                    }
-                }
-            }
-        }
-        .footer {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-        }
-        .nav-sections {
-            position: fixed;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 2;
-            li {
-                &:not(:last-child) {
-                    margin-bottom: 5px;
-                }
-            }
-            a {
-                display: block;
-                width: 14px;
-                height: 14px;
-                border: 2px solid $secondary;
-                border-radius: 50%;
-                transition: all .3s;
-            }
-            .current a {
-                background-color: $secondary;
             }
         }
     }

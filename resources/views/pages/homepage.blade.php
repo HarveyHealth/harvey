@@ -3,197 +3,298 @@
 @section('body_class','home')
 
 @section('content')
-<div class="sections"
-    :class="{'has-scroll-behavior': triggerScrollBehavior, 'is-loaded': homepageLayoutResetEnds}"
-    :style="showFooterStyle"
->
-    <section class="section"
-        id="intro"
-        :class="{'current': sections[currentSection] == 'intro'}"
-    >
-        <div class="section-wrapper">
-            <div class="container content is-medium">
-                <div class="has-text-centered">
-                    <img
-                        src="images/logos/main-logo-lg.png"
-                        srcset="images/logos/main-logo-lg@2x.png 2x"
-                        alt="Harvey Logo">
-                    <h2 class="title is-4 font-secondary-family tagline">Medically trained. Naturally focused.</h2>
-                </div>
-                <p class="copy-has-max-width">Harvey is an online telehealth provider of naturopathic medicine.  Consult face-to-face with state-licensed naturopathic doctors without leaving the comfort of your home.</p>
-                <p class="copy-has-max-width">Harvey is powering the renaissance of complementary and alternative medicine by providing online access to naturopathic doctors and facilitating in-home blood draws for fast and convenient lab testing. We emphasize prevention, wellness and self-healing to combat acute and chronic conditions using evidence-based natural therapies.</p>
-            </div>
-        </div>
-    </section>
-    <section class="section"
-        id="comparison"
-        :class="{'current': sections[currentSection] == 'comparison'}"
-    >
-        <div class="section-wrapper">
-            <div class="container content">
-                <h2 class="title is-2 font-secondary-family">What is naturopathic medicine?</h2>
-                <div class="image-wrapper"><img src="/images/home/naturopathic-medicine-graph.png" alt="Harvey"></div>
-                <p class="copy-has-max-width">Naturopathic medicine is a form of primary health care that emphasizes prevention and self-healing through the use of evidence-based natural therapies.</p>
-                <div class="columns has-text-centered">
-                    <div class="column">
-                        <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
-                            <span class="icon icon_comparison_1"></span>
-                        </figure>
-                        <p>An emphasis on disease prevention</p>
-                    </div>
-                    <div class="column">
-                        <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
-                            <span class="icon icon_comparison_2"></span>
-                        </figure>
-                        <p>An individual approach to medicine</p>
-                    </div>
-                    <div class="column">
-                        <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
-                            <span class="icon icon_comparison_3"></span>
-                        </figure>
-                        <p>Nutritional and holistic treatments</p>
-                    </div>
-                    <div class="column">
-                        <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
-                            <span class="icon icon_comparison_4"></span>
-                        </figure>
-                        <p>Identifying the root cause of medical conditions</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="section"
-        id="steps"
-        :class="{'current': sections[currentSection] == 'steps'}"
-    >
-        <div class="section-wrapper">
-            <div class="container content">
-                <h2 class="title is-2 font-secondary-family">How does Harvey work?</h2>
-                <p class="copy-has-max-width">Imagine finally being able to conquer your worse chronic symptoms and flourishing. We can help you in four specific ways.</p>
-                <div class="columns is-multiline">
-                    <div class="column is-half columns is-mobile step-column-wrapper">
-                        <div class="column">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
-                                <span class="icon icon_steps_1"></span>
-                            </figure>
-                            <span class="step-number">1</span>
-                        </div>
-                        <div class="column is-three-quarters">
-                            <p class="title is-5"><strong>Consultation with a naturopath</strong></p>
-                            <p>Consult with a licensed naturopathic doctor without leaving your home.</p>
-                        </div>
-                    </div>
-                    <div class="column is-half columns is-mobile step-column-wrapper">
-                        <div class="column">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-turquoise image">
-                                <span class="icon icon_steps_2"></span>
-                            </figure>
-                            <span class="step-number">2</span>
-                        </div>
-                        <div class="column is-three-quarters">
-                            <p class="title is-5"><strong>In-home blood draw</strong></p>
-                            <p>In most cases, your doctor will recommend an in-home blood draw by a trained phlebotomist, saving you a trip to the clinic.</p>
-                        </div>
-                    </div>
-                    <div class="column is-half columns is-mobile step-column-wrapper">
-                        <div class="column">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
-                                <span class="icon icon_steps_3"></span>
-                            </figure>
-                            <span class="step-number">3</span>
-                        </div>
-                        <div class="column is-three-quarters">
-                            <p class="title is-5"><strong>Health dashboards and analytics</strong></p>
-                            <p>Within 7-14 days, we will send you a report  with highly accurate diagnostics of all the nutritional imbalances in your body.</p>
-                        </div>
-                    </div>
-                    <div class="column is-half columns is-mobile step-column-wrapper">
-                        <div class="column">
-                            <figure class="icon-wrapper icon-wrapper-has-background is-green image">
-                                <span class="icon icon_steps_4"></span>
-                            </figure>
-                            <span class="step-number">4</span>
-                        </div>
-                        <div class="column is-three-quarters">
-                            <p class="title is-5"><strong>Customized vitamin and nutrition plans</strong></p>
-                            <p>Your doctor will recommend a regimen to perfectly optimize  your biomarkers and attack the root cause of your symptoms, naturally.</p>
+<div class="sections">
+    <section class="hero is-fullheight is-primary">
+        <div class="hero-background"></div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-7-tablet is-6-desktop">
+                        <h1 class="title is-1">It’s time to think differently about your medicine.</h1>
+                        <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean condimentum velit sit amet lacinia ornare.</p>
+                        <div class="button-wrapper">
+                            <a href="/signup" class="button is-primary is-medium">Get Started</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="section"
-        id="number"
-        :class="{'current': sections[currentSection] == 'number'}"
-    >
-        <div class="section-wrapper">
-            <div class="container content">
-                <h2 class="title is-1 font-secondary-family">1,200,100</h2>
-                <p class="copy-has-max-width">The # of adults in United States and Canada who chose to receive treatment from a naturopathic doctor instead of a primary care physician in 2016. Maybe it’s time you talked to one about your health.</p>
-                <div class="columns is-multiline">
-                    <div class="column is-half is-one-quarter-desktop">
-                        <figure class="icon-wrapper image is-64x64">
-                            <span class="icon icon_number_1"></span>
-                        </figure>
-                        <p>Naturopathic doctors take a highly personalized approach to medicine and treat all forms of health concerns — ranging from pediatric to geriatric, irritating symptoms to chronic illness, and physical to psychological.</p>
-                    </div>
-                    <div class="column is-half is-one-quarter-desktop">
-                        <figure class="icon-wrapper image is-64x64">
-                            <span class="icon icon_number_2"></span>
-                        </figure>
-                        <p>Naturopathic doctors are experts in diet, nutrition, vitamins, supplements, homeopathic and botanical medicine, and many other forms of complementary and alternative therapies.</p>
-                    </div>
-                    <div class="column is-half is-one-quarter-desktop">
-                        <figure class="icon-wrapper image is-64x64">
-                            <span class="icon icon_number_3"></span>
-                        </figure>
-                        <p>Naturopathic doctors graduate from an accredited four-year residential naturopathic medical school and passed an extensive board examination.</p>
-                    </div>
-                    <div class="column is-half is-one-quarter-desktop">
-                        <figure class="icon-wrapper image is-64x64">
-                            <span class="icon icon_number_4"></span>
-                        </figure>
-                        <p>Naturopathic doctors must receive a license from their practicing state and complete 60 hours of continuing education every 2 years to maintain their license.</p>
+
+    <section class="section">
+        <div class="container has-text-centered">
+            <h2 class="title is-2">Some really big headline.</h2>
+            <p class="copy-has-max-width subtitle is-5">Harvey is an online telehealth provider of integrative medicine. Consult face-to-face with state-licensed naturopathic doctors and conduct lab tests right in the comfort of your home.</p>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 class="title is-3 section-header"><span>Naturopathic Medicine</span></h2>
+            <div class="columns is-multiline">
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
+                        <span class="icon icon_comparison_1"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">An emphasis on disease prevention</p>
                     </div>
                 </div>
-                <p class="copy-has-max-width"><strong>Harvey is making it possible to reduce the number of pharmaceutical drugs we put into our bodies and instead stimulate your body’s own natural healing abilities to combat the underlying root causes of preventable diseases, symptoms and conditions.</strong></p>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
+                        <span class="icon icon_comparison_2"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">An individual approach to medicine</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
+                        <span class="icon icon_comparison_3"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">Nutritional and holistic treatments</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
+                        <span class="icon icon_comparison_4"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">Identifying the root cause of medical conditions</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
+                        <span class="icon icon_comparison_4"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">Identifying the root cause of medical conditions</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
+                        <span class="icon icon_comparison_4"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>This is a small header</strong></p>
+                        <p class="subtitle is-6">Identifying the root cause of medical conditions</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <section class="section"
-        id="symptoms"
-        :class="{'current': sections[currentSection] == 'symptoms'}"
-    >
+
+    <section class="section is-paddingless-mobile">
+        <div class="container">
+            <div class="columns">
+                <div class="column">
+                    <figure>
+                        <picture>
+                            <source media="(max-width: 767px)" srcset="/images/home/background_2_sm.jpg">
+                            <source media="(min-width: 768px)" srcset="/images/home/background_2_md.jpg">
+                            <img class="hero-thumbnail" src="/images/home/background_2_md.jpg" alt="Harvey">
+                        </picture>
+                    </figure>
+                </div>
+                <div class="column has-content-vertical-aligned">
+                    <div class="content has-padding-left has-padding-right">
+                        <h2 class="title is-3"><strong>This is a medium header</strong></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis est sit amet lorem pulvinar tincidunt. Nullam imperdiet felis ac velit venenatis aliquet. In ut justo eros. Ut venenatis nisl at tincidunt maximus. Nulla nisi nibh, condimentum quis sodales sed.</p>
+                        <p>Phasellus porttitor venenatis urna, vel volutpat risus volutpat at. Duis ullamcorper nibh sit amet mauris sagittis, in venenatis urna lacinia. Suspendisse elit mi, tempor vel tellus et, convallis porttitor magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia imsum.</p>
+                        <div class="button-wrapper">
+                            <a href="/signup" class="button is-primary is-medium">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="tests">
+        <div class="container">
+            <h2 class="title is-3 section-header"><span>Type of Tests</span></h2>
+            <div class="columns has-border-bottom">
+                <div class="column has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-4"><strong>This is a medium header</strong></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis est sit amet lorem pulvinar tincidunt. Nullam imperdiet felis ac velit venenatis aliquet. In ut justo eros. Ut venenatis nisl at tincidunt maximus. Nulla nisi nibh, condimentum quis sodales sed.</p>
+                    </div>
+                </div>
+                <div class="column has-text-right">
+                    <figure>
+                        <img src="/images/home/test_1.png" alt="">
+                    </figure>
+                </div>
+            </div>
+            <div class="columns has-border-bottom">
+                <div class="column">
+                    <figure>
+                        <img src="/images/home/test_2.png" alt="">
+                    </figure>
+                </div>
+                <div class="column has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-4"><strong>This is a medium header</strong></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis est sit amet lorem pulvinar tincidunt. Nullam imperdiet felis ac velit venenatis aliquet. In ut justo eros. Ut venenatis nisl at tincidunt maximus. Nulla nisi nibh, condimentum quis sodales sed.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-4"><strong>This is a medium header</strong></h2>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sagittis est sit amet lorem pulvinar tincidunt. Nullam imperdiet felis ac velit venenatis aliquet. In ut justo eros. Ut venenatis nisl at tincidunt maximus. Nulla nisi nibh, condimentum quis sodales sed.</p>
+                    </div>
+                </div>
+                <div class="column has-text-right">
+                    <figure>
+                        <img src="/images/home/test_3.jpg" alt="">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="columns">
+                <figure>
+                    <img src="/images/home/pricing.jpg" alt="">
+                </figure>
+                <div class="column is-6-tablet is-5 is-offset-1-desktop has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-3"><strong>Pricing that makes sense</strong></h2>
+                        <p class="subtitle is-5">We charge <strong>$149</strong> for each 1-hour consultation with our doctors. Our speciality lab tests range in price from $29 to $299 depending on complexity.</p>
+                        <div class="button-wrapper">
+                            <a href="" class="button is-primary is-medium">Review Lab Tests</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column has-content-vertical-aligned">
+                    <blockquote class="has-content-vertical-aligned-content">"If we do not improve at least one of your top three medical symptoms or conditions, we will offer a 100% refund."</blockquote>
+                </div>
+                <figure class="column has-text-right">
+                    <img src="/images/home/blockquote.jpg" alt="">
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+        <div class="container">
+            <h2 class="title is-3 section-header"><span>How it Works</span></h2>
+            <div class="columns is-multiline">
+                <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
+                        <span class="icon icon_steps_1"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>1. Consultation</strong></p>
+                        <p>Consult over the phone with a state-licensed naturopathic doctor.</p>
+                    </div>
+                </div>
+                <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise image">
+                        <span class="icon icon_steps_2"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>2. Blood test</strong></p>
+                        <p>Perform one or more of our highly specialized lab tests in the comfort of your home.</p>
+                    </div>
+                </div>
+                <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
+                        <span class="icon icon_steps_3"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>3. Analysis</strong></p>
+                        <p>Identify the root causes of your symptoms with your doctor by reviewing each biomarker.</p>
+                    </div>
+                </div>
+                <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
+                        <span class="icon icon_steps_4"></span>
+                    </figure>
+                    <div class="column">
+                        <p class="title is-5"><strong>4. Prescriptions</strong></p>
+                        <p>Receive prescriptions for all-natural vitamins, supplements, and diet and lifestyle changes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="button-wrapper has-text-centered">
+                <a href="/signup" class="button is-primary is-medium">Get Started</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section">
+        <div class="container">
+            <h2 class="title is-3 section-header"><span>Learn the Facts</span></h2>
+            <vertical-tabs>
+                <vertical-tab label="Doctors & nutrition">
+                    <h3 class="title is-4"><strong>Doctors &amp; nutrition</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+                </vertical-tab>
+                <vertical-tab label="Leading causes of death">
+                    <h3 class="title is-4"><strong>Leading causes of death</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
+                </vertical-tab>
+                <vertical-tab label="Specialized lab testing">
+                    <h3 class="title is-4"><strong>Specialized lab testing</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+                </vertical-tab>
+                <vertical-tab label="Clinical evidence">
+                    <h3 class="title is-4"><strong>Clinical evidence</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+                </vertical-tab>
+                <vertical-tab label="Naturopathic doctors">
+                    <h3 class="title is-4"><strong>Naturopathic doctors</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+                </vertical-tab>
+                <vertical-tab label="Naturopathic treatments">
+                    <h3 class="title is-4"><strong>Naturopathic treatments</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+                </vertical-tab>
+                <vertical-tab label="Identifying quackery">
+                    <h3 class="title is-4"><strong>Identifying quackery</strong></h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
+                </vertical-tab>
+            </vertical-tabs>
+        </div>
+    </section>
+
+    <section class="section" id="symptoms">
         <div class="section-wrapper">
             <div class="container content">
-                <h2 class="title is-2 font-secondary-family">Tell us your symptoms</h2>
-                <p class="copy-has-max-width">The majority of symptoms can be linked to imbalances in your biomarkers. Tell us the severity of each of your sumptoms using the sliders below, then click “Save &amp; Get Started”.</p>
+                <h2 class="title is-3 section-header"><span>Your symptoms</span></h2>
                 <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
-                <p class="is-clearfix">
-                    <small class="disclaimer">Your selection above will only be saved if you create an account on the next page.</small>
-                    <button class="button is-primary is-medium is-pulled-right" @click="getStarted" :disabled="symptomsSaving">
+                <div class="has-text-centered">
+                    <p class="disclaimer">Your selections above will be saved and shared with your doctor before your first consultation.</p>
+                    <button class="button is-primary is-medium" @click="getStarted" :disabled="symptomsSaving">
                         <span class="icon"
                             v-if="symptomsSaving"
                         >
                             <i class="fa fa-spinner fa-spin"></i>
                         </span>
-                        <span>Save &amp; Get Started</span>
+                        <span>Get Started</span>
                     </button>
-                </p>
+                </div>
             </div>
         </div>
     </section>
-    <nav class="nav-sections">
-        <ul>
-            <li v-for="(section, index) in sections"
-                :class="{'current': currentSection == index}"
-            >
-                <a @click="slide(index)"></a>
-            </li>
-        </ul>
-    </nav>
-    @include('_layouts.includes.footer')
 </div>
 @endsection
