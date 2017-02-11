@@ -65,15 +65,14 @@
     $border: 1px solid hsl(0, 0%, 86%);
 
     .tabs-navigation {
-        border: $border;
-        @media screen and (max-width: 767px) {
-            border-bottom: none;
-        }
-        @media screen and (min-width: 768px) {
-            border-right: none;
-        }
-        li:not(:last-child) {
+        border-top: $border;
+        li {
+            border-left: $border;
+            border-right: $border;
             border-bottom: $border;
+            @media screen and (min-width: 768px) {
+                border-right: none;
+            }
         }
     }
 
