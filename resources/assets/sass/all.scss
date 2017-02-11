@@ -7,6 +7,10 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
+.nav-left {
+    overflow-x: hidden;
+}
+
 .title {
     font-weight: 400;
 }
