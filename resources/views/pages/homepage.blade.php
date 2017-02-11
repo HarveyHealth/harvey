@@ -183,12 +183,12 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column has-content-vertical-aligned">
-                    <blockquote class="has-content-vertical-aligned-content">"If we do not improve at least one of your top three medical symptoms or conditions, we will offer a 100% refund."</blockquote>
+                <div class="column is-8-desktop is-offset-2-desktop columns">
+                    <blockquote class="column">"If we do not improve at least one of your top three medical symptoms or conditions, we will offer a 100% refund."</blockquote>
+                    <figure class="is-hidden-mobile">
+                        <img src="/images/home/blockquote.jpg" alt="">
+                    </figure>
                 </div>
-                <figure class="column has-text-right">
-                    <img src="/images/home/blockquote.jpg" alt="">
-                </figure>
             </div>
         </div>
     </section>
