@@ -86,7 +86,7 @@
         .columns.is-gapless > &.column {
             padding: 1.5rem 0.75rem;
             @media screen and (min-width: 768px) {
-                padding: 3rem 1.5rem;
+                padding: 2rem;
             }
         }
     }

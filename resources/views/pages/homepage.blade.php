@@ -185,9 +185,7 @@
             <div class="columns">
                 <div class="column is-8-desktop is-offset-2-desktop columns">
                     <blockquote class="column">"If we do not improve at least one of your top three medical symptoms or conditions, we will offer a 100% refund."</blockquote>
-                    <figure class="is-hidden-mobile">
-                        <img src="/images/home/blockquote.jpg" alt="">
-                    </figure>
+                    <img class="is-hidden-mobile" src="/images/home/blockquote.jpg" alt="">
                 </div>
             </div>
         </div>
@@ -245,31 +243,38 @@
             <h2 class="title is-3 section-header"><span>Learn the Facts</span></h2>
             <vertical-tabs>
                 <vertical-tab label="Doctors & nutrition">
+                    <img class="is-pulled-right" src="/images/facts/doctors_nutrition.jpg" alt="">
                     <h3 class="title is-4"><strong>Doctors &amp; nutrition</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
                 </vertical-tab>
                 <vertical-tab label="Leading causes of death">
+                    <img class="is-pulled-right" src="/images/facts/leading_cause_of_death.jpg" alt="">
                     <h3 class="title is-4"><strong>Leading causes of death</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas amet cum vitae, omnis! Illum quas voluptatem, expedita iste, dicta ipsum ea veniam dolore in, quod saepe reiciendis nihil.</p>
                 </vertical-tab>
                 <vertical-tab label="Specialized lab testing">
+                    <img class="is-pulled-right" src="/images/facts/specialized_lab_testing.jpg" alt="">
                     <h3 class="title is-4"><strong>Specialized lab testing</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
                 </vertical-tab>
                 <vertical-tab label="Clinical evidence">
+                    <img class="is-pulled-right" src="/images/facts/clinical_evidence.jpg" alt="">
                     <h3 class="title is-4"><strong>Clinical evidence</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
                 </vertical-tab>
                 <vertical-tab label="Naturopathic doctors">
+                    <img class="is-pulled-right" src="/images/facts/naturopathic_doctors.jpg" alt="">
                     <h3 class="title is-4"><strong>Naturopathic doctors</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
                 </vertical-tab>
                 <vertical-tab label="Naturopathic treatments">
+                    <img class="is-pulled-right" src="/images/facts/naturopathic_treatments.jpg" alt="">
                     <h3 class="title is-4"><strong>Naturopathic treatments</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
                 </vertical-tab>
                 <vertical-tab label="Identifying quackery">
+                    <img class="is-pulled-right" src="/images/facts/identifying_quackery.jpg" alt="">
                     <h3 class="title is-4"><strong>Identifying quackery</strong></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deserunt dolorum quas.</p>
                 </vertical-tab>
