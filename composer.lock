@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e04a1a4cd6bfdc4253c61445ead98cc6",
+    "content-hash": "87ce02cd72dfcf745f56709f8a76a5df",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1297,52 +1297,6 @@
                 "uri"
             ],
             "time": "2016-06-24T23:00:38+00:00"
-        },
-        {
-            "name": "heroku/heroku-buildpack-php",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/HomeHero/heroku-buildpack-php.git",
-                "reference": "7137f50724d0eae246dec5faa371cade933bc1e1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/HomeHero/heroku-buildpack-php/zipball/7137f50724d0eae246dec5faa371cade933bc1e1",
-                "reference": "7137f50724d0eae246dec5faa371cade933bc1e1",
-                "shasum": ""
-            },
-            "bin": [
-                "bin/heroku-hhvm-apache2",
-                "bin/heroku-hhvm-nginx",
-                "bin/heroku-php-apache2",
-                "bin/heroku-php-nginx"
-            ],
-            "type": "library",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "David Zuelke",
-                    "email": "dz@heroku.com"
-                }
-            ],
-            "description": "Toolkit for starting a PHP application locally, with or without foreman, using the same config for PHP/HHVM and Apache2/Nginx as on Heroku",
-            "homepage": "https://github.com/heroku/heroku-buildpack-php",
-            "keywords": [
-                "apache",
-                "apache2",
-                "foreman",
-                "heroku",
-                "hhvm",
-                "nginx",
-                "php"
-            ],
-            "support": {
-                "source": "https://github.com/HomeHero/heroku-buildpack-php/tree/master"
-            },
-            "time": "2017-02-11T21:46:58+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -5227,9 +5181,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "heroku/heroku-buildpack-php": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
