@@ -3,7 +3,7 @@
         mode="out-in"
         enter-active-class="animated animated-medium fadeInUp"
     >
-        <div class="tab"
+        <div class="tab copy-has-max-width"
             v-show="tabId === $parent.activeTab"
             :id="tabId"
         >

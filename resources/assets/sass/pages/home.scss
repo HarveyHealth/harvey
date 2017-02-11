@@ -9,13 +9,6 @@ body.home {
     .title + .subtitle {
         margin-top: 0.75rem;
     }
-    .page-content {
-        p {
-            &:not(.title) {
-                font-family: $family-secondary;
-            }
-        }
-    }
     figure {
         margin-right: 0;
     }
@@ -58,32 +51,6 @@ body.home {
                     color: darken($tertiary, 5%);
                     border-color: darken($tertiary, 5%);
                     background-color: transparent;
-                }
-            }
-        }
-        &.is-inverted {
-            background-color: transparent;
-            .button {
-                &:not(.is-outlined) {
-                    color: $tertiary;
-                    background-color: #fff;
-                    &:hover,
-                    &:active,
-                    &:focus {
-                        color: #fff;
-                        background-color: $tertiary;
-                    }
-                }
-                &.is-outlined {
-                    color: #fff;
-                    border-color: #fff;
-                    &:hover,
-                    &:active,
-                    &:focus {
-                        color: darken($tertiary, 5%);
-                        border-color: darken($tertiary, 5%);
-                        background-color: transparent;
-                    }
                 }
             }
         }
@@ -148,17 +115,6 @@ body.home {
         }
     }
     // elements
-    .is-inverted {
-        .harvey-logo-icon {
-            fill: #fff;
-            @include from($mobile) {
-                fill: $primary;
-            }
-        }
-        @at-root .no-svg & .logo-wrapper {
-            background-image: url('/images/logos/mobile-logo-inverted.png');
-        }
-    }
     .section-header {
         text-align: center;
         span {
@@ -236,14 +192,6 @@ body.home {
     .disclaimer {
         font-family: $family-sans-serif !important;
     }
-    .menu-list a {
-        &:not(.is-active):hover {
-            color: $tertiary;
-        }
-        &.is-active {
-            background-color: $tertiary;
-        }
-    }
     .symptoms-selector-wrapper {
         margin-bottom: $space-medium;
         li + li {
@@ -285,12 +233,6 @@ body.home {
             &.is-2 {
                 font-size: 2rem;
             }
-        }
-    }
-    @include from($tablet) {
-        .copy-has-max-width {
-            max-width: 640px;
-            margin: 0 auto;
         }
     }
     @include from($desktop) {

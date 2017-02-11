@@ -172,7 +172,7 @@
                         <h2 class="title is-3"><strong>Pricing that makes sense</strong></h2>
                         <p class="subtitle is-5">We charge <strong>$149</strong> for each 1-hour consultation with our doctors. Our speciality lab tests range in price from $29 to $299 depending on complexity.</p>
                         <div class="button-wrapper">
-                            <a href="" class="button is-primary is-medium">Review Lab Tests</a>
+                            <a href="/lab-tests-pricing" class="button is-primary is-medium">Review Lab Tests</a>
                         </div>
                     </div>
                 </div>

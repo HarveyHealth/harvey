@@ -1,5 +1,5 @@
 <template>
-    <div class="columns is-gapless">
+    <div class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
                 <ul class="menu-list">
@@ -64,6 +64,10 @@
 <style lang="sass" scoped>
     $border: 1px solid hsl(0, 0%, 86%);
 
+    .vertical-tabs {
+        background-color: #fff;
+    }
+
     .tabs-navigation {
         border-top: $border;
         li {
@@ -85,7 +89,8 @@
         .columns.is-gapless > &.column {
             padding: 1.5rem 0.75rem;
             @media screen and (min-width: 768px) {
-                padding: 2rem;
+                padding-top: 3rem;
+                padding-bottom: 3rem;
             }
         }
     }
