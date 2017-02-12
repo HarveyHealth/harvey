@@ -22,7 +22,7 @@
             </span> --}}
             <div class="nav-right">
                 <span class="nav-item">
-                    @if (!App::environment('production'))
+                    @if (!App::environment('production', 'staging'))
                         <a href="/login" class="button is-primary is-outlined">Log In</a>
                     @endif
                     <a href="/signup" class="button is-primary" @click="viewSignupPage">Get Started</a>
