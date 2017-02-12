@@ -80,10 +80,9 @@ class AppointmentsController extends BaseAPIController
      * */
     public function index()
     {
-        
-        if(request('filter') && request('filter') == 'upcoming'){
+        if (request('filter') && request('filter') == 'upcoming') {
             $query = $this->appointments->upcoming();
-        } elseif (request('filter') && request('filter') == 'recent'){
+        } elseif (request('filter') && request('filter') == 'recent') {
             $query = $this->appointments->recent();
         } else {
             $query = $this->appointments;

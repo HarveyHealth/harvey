@@ -34,15 +34,11 @@
 
 <body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
-    
+
     <div id="app">
-        @include('_layouts.includes.top_nav')
-        
         <div class="page-content">
             @yield('main_content')
         </div>
-
-        @include('_layouts.includes.footer')
     </div>
 
     {{-- To add data here, see the VueHelperViewComposer --}}
