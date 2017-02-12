@@ -36,6 +36,11 @@ class PagesController extends Controller
         return view('pages.contact');
     }
 
+    public function getLabTestsPricing()
+    {
+        return view('pages.lab_tests_pricing');
+    }
+
     public function postContact(Request $request)
     {
         $this->validate($request, [

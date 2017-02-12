@@ -1,17 +1,17 @@
 
-// Body
-$body-background: #f5f8fa;
+// // Body
+// $body-background: #f5f8fa;
 
 // Typography
 $family-sans-serif: "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-$family-secondary: "futura-pt", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-secondary: "museo-slab", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 
 $size-6: 16px;
 
 // Brands
 $primary: #85af4a;
 $secondary: #5f7278;
-$tertiary: #ada397;
+$tertiary: #95a5c0;
 
 $harvey-light-tan: #f8f3e6;
 $harvey-lime: #e3eaa7;
@@ -28,6 +28,7 @@ $text-secondary: $secondary;
 // Miscellaneous
 $radius: 0;
 $radius-large: 0;
+$opacity-light: 0.3;
 $opacity-dark: 0.8;
 $space-large: 60px;
 $space-medium: 30px;
@@ -35,6 +36,7 @@ $space-small: 15px;
 $space-xsmall: 5px;
 
 // Device
+$tablet: 768px;
 $mobile: 414px;
 $megascreen: 1440px;
 
