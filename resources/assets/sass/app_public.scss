@@ -112,6 +112,7 @@ body {
     &.lab-tests {
         .header.is-inverted {
             background-color: transparent;
+            box-shadow: none;
             .harvey-logo-icon {
                 fill: #fff;
                 @include from($mobile) {
