@@ -7,7 +7,7 @@
         <div class="nav-left">
             <a href="/" class="nav-item">
                 <div class="logo-wrapper">
-                    <?php include("images/logos/main-logo.svg"); ?>
+                    {!! $svgImages['logo'] !!}
                 </div>
             </a>
         </div>
