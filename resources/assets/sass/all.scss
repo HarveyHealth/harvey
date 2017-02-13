@@ -35,6 +35,10 @@
     color: #fff;
 }
 
+.header:not(.is-inverted) {
+    box-shadow: 0 1px $white-ter;
+}
+
 .footer {
     padding-bottom: 4rem;
     &.is-simple {
@@ -153,6 +157,10 @@
     }
 }
 
+em {
+    font-size: 0.85em;
+}
+
 // modify animations
 .animated {
     &.notification {
@@ -179,7 +187,6 @@
     bottom: 0;
     width: 100%;
 }
-
 .logo-wrapper {
     width: 30px;
     height: 40px;
@@ -204,5 +211,11 @@
         @include from($mobile) {
             background-image: url('/images/logos/main-logo.png');
         }
+    }
+}
+.page-title {
+    &,
+    &.title {
+        font-weight: 500;
     }
 }

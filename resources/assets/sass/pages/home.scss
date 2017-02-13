@@ -1,13 +1,10 @@
 body.home {
     // general
-    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong {
+    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active) {
         color: $text-secondary;
     }
     .subtitle {
         line-height: 1.5;
-    }
-    .title + .subtitle {
-        margin-top: 0.75rem;
     }
     figure {
         margin-right: 0;
@@ -16,7 +13,20 @@ body.home {
         height: 100%;
     }
     .button.is-medium {
+        height: auto;
+        padding: 1rem 3rem;
         margin-top: 0.5rem;
+    }
+    .is-paddingless-top {
+        padding-top: 0;
+    }
+    .columns.is-narrow {
+        max-width: 1052px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .has-small-lineheight {
+        line-height: 1;
     }
     // layout
     #app {
@@ -32,8 +42,11 @@ body.home {
         width: 100%;
         z-index: 101;
         background-color: rgba(#fff, $opacity-dark);
+        &,
         .button {
             transition: all 0.2s ease;
+        }
+        .button {
             &:not(.is-outlined) {
                 background-color: $tertiary;
                 &:hover,
@@ -92,6 +105,9 @@ body.home {
                 background-image: url('/images/home/background_1_lg.jpg');
             }
         }
+        .title {
+            font-weight: 300;
+        }
         .title + .subtitle {
             margin-top: 0;
         }
@@ -104,18 +120,30 @@ body.home {
         }
     }
     .has-content-vertical-aligned {
-        @include from($tablet) {
+        @include from($desktop) {
             position: relative;
             .content,
             .has-content-vertical-aligned-content {
                 position: absolute;
                 top: 50%;
+                left: 0;
                 transform: translateY(-50%);
+                margin-left: 0.75rem;
+                margin-right: 0.75rem;
             }
         }
     }
+
+    .image-has-max-height {
+        @include until($desktop) {
+            max-height: 400px;
+            overflow: hidden;
+        }
+    }
+
     // elements
     .section-header {
+        text-transform: uppercase;
         text-align: center;
         span {
             font-weight: 500;
@@ -137,9 +165,6 @@ body.home {
                 position: relative;
                 top: 0.7em;
             }
-        }
-        & + .columns {
-            margin-top: 3rem;
         }
     }
     .button-wrapper {
@@ -198,7 +223,22 @@ body.home {
             margin-top: 0;
         }
     }
+    .is-3-widescreen {
+        @include from($widescreen) {
+            font-size: $size-3;
+        }
+    }
     // page specific content
+    #naturopathic-medicine {
+        figure.has-margin {
+            margin-top: 3rem;
+            margin-bottom: 3.5rem;
+        }
+        .is-narrow {
+            max-width: 960px;
+            transform: translateX(1.5rem);
+        }
+    }
     #pricing {
         background-color: $white-ter;
         padding-bottom: 3rem;

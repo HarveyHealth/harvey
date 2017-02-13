@@ -18,7 +18,7 @@
                 <a href="/privacy" class="nav-item">Privacy</a>
                 <a href="/contact" class="nav-item">Contact</a>
             </p>
-            <p>
+            <p class="has-small-lineheight">
                 <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>
                 Harvey does not provide medical advice, diagnosis or treatment.</small>
             </p>

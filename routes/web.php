@@ -25,7 +25,7 @@ Route::post('verify/{id}/{token}', 'Auth\EmailVerificationController@postVerify'
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
 Route::get('contact', 'PagesController@getContact');
-Route::get('lab-tests-pricing', 'PagesController@getLabTestsPricing');
+Route::get('lab-tests', 'PagesController@getLabTests');
 Route::post('contact', 'PagesController@postContact');
 Route::get('test', 'PagesController@getTest');
 

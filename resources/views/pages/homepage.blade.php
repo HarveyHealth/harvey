@@ -13,7 +13,7 @@
                         <h1 class="title is-1">It’s time to think differently about your medicine.</h1>
                         <p class="subtitle">Harvey is the #1 online platform for integrative and naturopathic medicine. We emphasize prevention, self-healing and natural therapies for women fighting acute and chronic conditions.</p>
                         <div class="button-wrapper">
-                            <a href="/signup" class="button is-primary is-medium">Get Started</a>
+                            <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -28,61 +28,64 @@
         </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="naturopathic-medicine">
         <div class="container">
-            <h2 class="title is-3 section-header"><span>Naturopathic Medicine</span></h2>
-            <div class="columns is-multiline">
+            <h2 class="title is-4 section-header"><span>Naturopathic Medicine</span></h2>
+            <figure class="has-text-centered has-margin">
+                <img src="/images/home/naturopathic-medicine-graph.png" alt="">
+            </figure>
+            <div class="columns is-multiline is-narrow">
                 <div class="column is-half columns is-mobile">
                     <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
-                        <span class="icon icon_comparison_1"></span>
+                        <span class="icon icon_medicine_1"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>Holistic approach</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Holistic approach</strong></p>
                         <p class="subtitle is-6">Naturopathic medicine emphasizes prevention and self-healing through evidence-based natural therapies.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
-                        <span class="icon icon_comparison_2"></span>
+                        <span class="icon icon_medicine_2"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>Real medical school</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Real medical school</strong></p>
                         <p class="subtitle is-6">100% of our Naturopathic Doctors (NDs) graduated from an accredited four-year residential naturopathic medical school.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
                     <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
-                        <span class="icon icon_comparison_3"></span>
+                        <span class="icon icon_medicine_3"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>State medical license</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
                         <p class="subtitle is-6">100% of our NDs must pass an extensive board examination and received a medical license from their practicing state.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
                     <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
-                        <span class="icon icon_comparison_4"></span>
+                        <span class="icon icon_medicine_4"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>Backed by science</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Backed by science</strong></p>
                         <p class="subtitle is-6">We will examine your biomarkers to help you explore the root causes of your chronic issues, instead of just treating the symptoms.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
-                        <span class="icon icon_comparison_4"></span>
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
+                        <span class="icon icon_medicine_5"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>All-natural remedies</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>All-natural remedies</strong></p>
                         <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, vitamins, supplements or lifestyle changes.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
-                        <span class="icon icon_comparison_4"></span>
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
+                        <span class="icon icon_medicine_6"></span>
                     </figure>
-                    <div class="column">
-                        <p class="title is-5"><strong>New primary care</strong></p>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>New primary care</strong></p>
                         <p class="subtitle is-6">Our goal is to provide you with alternative forms of therapy to complement, but not replace, traditional medical practice.</p>
                     </div>
                 </div>
@@ -92,24 +95,24 @@
 
     <section class="section is-paddingless-mobile">
         <div class="container">
-            <div class="columns">
+            <div class="columns is-desktop">
                 <div class="column">
-                    <figure>
+                    <figure class="image image-has-max-height">
                         <picture>
-                            <source media="(max-width: 767px)" srcset="/images/home/background_2_sm.jpg">
-                            <source media="(min-width: 768px)" srcset="/images/home/background_2_md.jpg">
+                            <source media="(max-width: 999px)" srcset="/images/home/background_2_sm.jpg">
+                            <source media="(min-width: 1000px)" srcset="/images/home/background_2_md.jpg">
                             <img class="hero-thumbnail" src="/images/home/background_2_md.jpg" alt="Harvey">
                         </picture>
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
                     <div class="content has-padding-left has-padding-right">
-                        <h2 class="title is-3"><strong>Stimulate your body’s natural healing abilities to combat the underlying causes of chronic symptoms.</strong></h2>
+                        <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the underlying causes of chronic symptoms.</strong></h2>
                         <p>Far too often, people (especially women) struggling to suppress chronic symptoms with prescription drugs or over-the-counter medications have been misdiagnosed by medical doctors.</p>
                         <p>Naturopathic Doctors are far more experienced in performing and interpreting specialized, non-traditional laboratory tests that can help identify nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones), or test for high levels of toxic metals and chemicals.</p>
                         <p>Ultimately, many chronic symptoms and diseases can be suppressed (or eliminated entirely) through very basic natural treatments — like getting more sunshine or eating more iron.</p>
                         <div class="button-wrapper">
-                            <a href="/signup" class="button is-primary is-medium">Get Started</a>
+                            <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -119,8 +122,8 @@
 
     <section class="section" id="tests">
         <div class="container">
-            <h2 class="title is-3 section-header"><span>Types of Lab Tests</span></h2>
-            <div class="columns has-border-bottom">
+            <h2 class="title is-4 section-header"><span>Types of Lab Tests</span></h2>
+            <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Micronutrient Test</strong></h2>
@@ -133,7 +136,8 @@
                     </figure>
                 </div>
             </div>
-            <div class="columns has-border-bottom">
+            <hr>
+            <div class="columns is-narrow">
                 <div class="column">
                     <figure>
                         <img src="/images/home/test_2.png" alt="">
@@ -146,7 +150,8 @@
                     </div>
                 </div>
             </div>
-            <div class="columns has-border-bottom">
+            <hr>
+            <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Metals Test</strong></h2>
@@ -159,7 +164,8 @@
                     </figure>
                 </div>
             </div>
-            <div class="columns">
+            <hr>
+            <div class="columns is-narrow">
                 <div class="column">
                     <figure>
                         <img src="/images/home/test_3.jpg" alt="">
@@ -177,17 +183,17 @@
 
     <section class="section" id="pricing">
         <div class="container">
-            <div class="columns">
-                <figure>
+            <div class="columns is-desktop">
+                <figure class="image">
                     <img src="/images/home/pricing.jpg" alt="">
                 </figure>
-                <div class="column is-6-tablet is-5 is-offset-1-desktop has-content-vertical-aligned">
+                <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-3"><strong>Pricing that makes sense</strong></h2>
-                        <p class="subtitle is-5">We charge <strong>$149</strong> for a 1-hour consultation with a doctor, and our specialized lab tests range from $29 to $299 depending on complexity. We cover all costs for mailing lab kits and performing in-home blood draws.</p>
+                        <p class="subtitle is-6">We charge <strong>$149</strong> for a 1-hour consultation with a doctor, and our specialized lab tests range from $29 to $299 depending on complexity. We cover all costs for mailing lab kits and performing in-home blood draws.</p>
                         <p><em>Insurance typically does not cover preventative blood tests.</em></p>
                         <div class="button-wrapper">
-                            <a href="/lab-tests-pricing" class="button is-primary is-medium">Explore Other Tests</a>
+                            <a href="/lab-tests" class="button is-primary is-medium has-arrow">Explore Other Tests</a>
                         </div>
                     </div>
                 </div>
@@ -199,7 +205,7 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-desktop is-offset-2-desktop columns">
-                    <blockquote class="column">We are so confident in our doctors, if we do not suppress or improve the condition of at least one of your top four medical symptoms, we will offer a 100% refund on your first consultation.</blockquote>
+                    <blockquote class="column">"We are so confident in our doctors, if we do not suppress or improve the condition of at least one of your top four medical symptoms, we will offer a 100% refund on your first consultation."</blockquote>
                     <img class="is-hidden-mobile" src="/images/home/blockquote.jpg" alt="">
                 </div>
             </div>
@@ -208,7 +214,7 @@
 
     <section class="section" id="how-it-works">
         <div class="container">
-            <h2 class="title is-3 section-header"><span>How it Works</span></h2>
+            <h2 class="title is-4 section-header"><span>How it Works</span></h2>
             <div class="columns is-multiline">
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
@@ -248,14 +254,14 @@
                 </div>
             </div>
             <div class="button-wrapper has-text-centered">
-                <a href="/signup" class="button is-primary is-medium">Get Started</a>
+                <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
             </div>
         </div>
     </section>
 
     <section class="section">
         <div class="container">
-            <h2 class="title is-3 section-header"><span>Learn the Facts</span></h2>
+            <h2 class="title is-4 section-header"><span>Learn the Facts</span></h2>
             <vertical-tabs>
                 <vertical-tab class="content" label="Doctors and nutrition">
                     <img class="is-pulled-right" src="/images/facts/doctors_nutrition.jpg" alt="">
@@ -332,11 +338,11 @@
     <section class="section" id="symptoms">
         <div class="section-wrapper">
             <div class="container content">
-                <h2 class="title is-3 section-header"><span>Your symptoms</span></h2>
+                <h2 class="title is-4 section-header"><span>Your symptoms</span></h2>
                 <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
                 <div class="has-text-centered">
                     <p class="disclaimer">Your selections above will be saved and shared with your doctor before your first consultation.</p>
-                    <button class="button is-primary is-medium" @click="getStarted" :disabled="symptomsSaving">
+                    <button class="button is-primary is-medium has-arrow" @click="getStarted" :disabled="symptomsSaving">
                         <span class="icon"
                             v-if="symptomsSaving"
                         >
