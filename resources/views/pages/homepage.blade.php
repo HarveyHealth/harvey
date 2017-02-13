@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
-                        <h1 class="title is-1">It’s time to think differently about your medicine.</h1>
+                        <h1 class="title is-1">It’s time to think differently about your mechanic.</h1>
                         <p class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean condimentum velit sit amet lacinia ornare.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium">Get Started</a>
