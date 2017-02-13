@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use Illuminate\Support\ServiceProvider;
 
 class ViewComposerServiceProvider extends ServiceProvider
@@ -15,6 +16,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         view()->composer('*', 'App\Http\Composers\CurrentUserViewComposer');
         view()->composer('*', 'App\Http\Composers\VueHelperViewComposer');
+        view()->composer('*', 'App\Http\Composers\SVGImagesComposer');
     }
 
     /**
