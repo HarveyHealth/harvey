@@ -112,7 +112,7 @@
                         <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the underlying causes of chronic symptoms.</strong></h2>
                         <p>Far too often, people struggling to suppress chronic symptoms with prescription drugs or over-the-counter medications have been misdiagnosed by medical doctors.</p>
                         <p>Naturopathic Doctors are far more experienced in performing and interpreting specialized, non-traditional laboratory tests that can help identify nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones), or test for high levels of toxic metals and chemicals.</p>
-                        <p>Ultimately, many chronic symptoms and diseases can be suppressed (or eliminated entirely) through very basic natural treatments — like increasing Vitamin D intake or eating omega 3 fish oil.</p>
+                        <p>Ultimately, many chronic symptoms and diseases can be suppressed or eliminated entirely through very basic natural treatments — like increasing intake of Vitamin D or eating more iron and omega 3 fish oil.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -160,7 +160,7 @@
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Metals Test</strong></h2>
                         <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through the foods you eat.</p>
-                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time may result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and prevention plan.</p>
+                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time may result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and treatment plan to prevent future exposure.</p>
                     </div>
                 </div>
                 <div class="column has-text-right">
@@ -180,7 +180,7 @@
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Chemicals Test</strong></h2>
                         <p>Every day, you and your family are at risk of exposure to toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in our air and water. Exposure to environmental pollutants has accelerated the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
-                        <p>With this test, we can test the presence of 172 different toxic chemicals (such as benzene, xylene, vinyl chloride, pyrethroid insecticides or diphenyl phosphate) in your body and develop a treatment plan.</p>
+                        <p>With this test, we can test the presence of 172 different toxic chemicals in your body such as benzene, xylene, vinyl chloride and diphenyl phosphate.</p>
                     </div>
                 </div>
             </div>
@@ -196,8 +196,7 @@
                 <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-3"><strong>Pricing that makes sense</strong></h2>
-                        <p class="subtitle is-6">We charge <strong>$149</strong> for a 1-hour consultation with a doctor, and our specialized lab tests range from $29 to $299 depending on complexity. We cover all costs for mailing lab kits and performing in-home blood draws.</p>
-                        <p><em>Insurance typically does not cover preventative blood tests.</em></p>
+                        <p class="subtitle is-6">We charge <strong>$149</strong> for a 1-hour consultation with a doctor and our specialized lab tests range from $29 to $299 depending on complexity. We cover all the costs of mailing lab kits and perform in-home blood draws free of charge.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-primary is-medium has-arrow">Explore Other Tests</a>
                         </div>
