@@ -27,7 +27,7 @@
                     </div>
                 </header>
                 <div class="content">
-                    <blockquote>"91% of Americans are considered malnourished with significant deficiencies in vitamins, minerals or amino acids that can weaken the immune system and lead to chronic disease."</blockquote>
+                    <blockquote>"Did you know that 9 out of 10 Americans are potassium deficient, 8 out of 10 are vitamin E deficient, 7 out of 10 are calcium deficient, 50% are deficient in vitamin A, vitamin C and magnesium, and 90% of people of color in America are deficient in vitamin D."</blockquote>
                     <p>Our micronutrient test is the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
                     <p>Nutritional balance plays a key role in optimal wellness, chronic disease prevention and managing the aging process. If your chronic symptoms include fatigue, stress, depression or irritability, this test can help your doctor quantifiably measure the levels of 35 critical nutritional biomarkers.</p>
                     <div class="button-wrapper">
@@ -94,7 +94,7 @@
                 </header>
                 <div class="content">
                     <blockquote>"50% of people who have a heart attack have normal cholesterol levels. It's often the lipoproteins, not the cholesterol, that leads to artery clogging."</blockquote>
-                    <p>Cardiovascular disease are the leading cause of death in the United States. Standard cholesterol tests are not sufficient in indicating your risk level (in fact, 50% of people who suffer from heart attacks had normal cholesterol levels).</p>
+                    <p>Cardiovascular disease is the leading cause of death in the United States. Standard cholesterol tests are not sufficient in indicating your risk level (in fact, 50% of people who suffer from heart attacks had normal cholesterol levels).</p>
                     <p>Our cardiometabolic test offers a full clinical evaluation to help define your risk for atherosclerotic cardiovascular disease (ASCVD), inflammation and progression toward Type 2 Diabetes. Results of testing allow doctors to know when guidance, educational referral, or treatment is necessary.</p>
                     <p>This test is recommended for any patient who:</p>
                     <ul>
@@ -171,7 +171,7 @@
                     </div>
                 </header>
                 <div class="content">
-                    <blockquote>"There are many environmental pollutants linked to serious chronic illnesses that can be found in the air, water and products right in your home."</blockquote>
+                    <blockquote>"There are many environmental pollutants linked to serious chronic illnesses that can be found in the air, water and products in your home."</blockquote>
                     <p>Every day, we are exposed to hundreds of toxic chemicals through products like pharmaceuticals, pesticides, packaged foods, household products, and environmental pollution. As we have become more exposed to chemical-laden products and to toxic chemicals in food, air, and water, we have been confronted with an accelerating rate of chronic illnesses.</p>
                     <p>The toxic organics chemicals test is one of the most highly-recommended tests for discovering and eliminating household toxins that are known to cancer, heart disease, chronic fatigue syndrome, chemical sensitivity, autism, ADD/ADHD, autoimmune disorders, Parkinson’s disease and Alzheimer’s disease.</p>
                     <div class="button-wrapper">
@@ -193,7 +193,7 @@
                     </div>
                 </header>
                 <div class="content">
-                    <blockquote>"90% of food allergies are caused by just eight different types of foods. We test those foods plus 85 others to find the ones your doctor might have missed."</blockquote>
+                    <blockquote>"There are eight types of food that account for majority of food allergies. We test those foods plus 85 others to find the ones you probably missed."</blockquote>
                     <p>Individuals with neurological, gastrointestinal and movement disorders often suffer from food allergies. Many people continue to eat offending foods every day for years, unaware of their potential effects. Our food allergy test helps identify even the most hypersensitive of allergies caused by over 93 different foods across multiple food groups, including dairy, fruit, fish, meat, nuts, seeds, grains, beans and vegetables.</p>
                     <p>According to numerous clinical studies, elimination of allergenic food groups can vastly improve symptoms of irritable bowel syndrome, autism, ADD/ADHD, cystic fibrosis, rheumatoid arthritis,and epilepsy. Food rotation and elimination diets can help reduce stress on the immune system, lower gut inflammation, resolve food cravings, and reduce the propensity for eating disorders.</p>
                     <div class="button-wrapper">
@@ -215,9 +215,9 @@
                     </div>
                 </header>
                 <div class="content">
-                    <blockquote>"Your gut is your largest organ and contains 70% of your immune system."</blockquote>
-                    <p>Our gut is almost as important to us as our brain. It is the largest endocrine organ in our bodies. Our microbiome test identifies specific pathogens and other microorganisms in your gut such as yeast, parasites and bacteria that may be affecting your health. The test can measure your bacterial diversity and other useful metrics about your microbiome. It evaluates intestinal immune function, overall intestinal health, inflammation markers and levels of good bacteria in your body which may be missed by micronutrient and other tests.</p>
-                    <p>Many chronic disorders, especially neurological dysfunction, come from digestive problems and inadequate nutrient absorption. Nutrients require a specific internal environment to be properly digested and transported throughout the body. This test will help your doctor explore that environment with you.</p>
+                    <blockquote>"The gut is your largest endocrine organ that contains 70% of your immune system and is almost as important as your heart and brain."</blockquote>
+                    <p>Our microbiome test identifies specific pathogens and other microorganisms in your gut such as yeast, parasites and bacteria that may be affecting your health. The test can measure your bacterial diversity and other useful metrics about your microbiome. It evaluates intestinal immune function, overall intestinal health, inflammation markers and levels of good bacteria in your body which may be missed by micronutrient and other tests.</p>
+                    <p>Many chronic disorders, especially neurological dysfunction, come from digestive problems and inadequate nutrient absorption. Nutrients require a specific internal environment to be properly digested and transported throughout the body.</p>
                     <div class="button-wrapper">
                         <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
                     </div>
@@ -230,14 +230,14 @@
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Organic Acids Test</strong></h3>
-                        <p class="subtitle is-6">Urine</p>
+                        <p class="subtitle is-6">Sample: Urine</p>
                     </div>
                     <div class="media-right">
                         <p class="title is-3">$299</p>
                     </div>
                 </header>
                 <div class="content">
-                    <blockquote>"90% of major food allergies are caused by just 8 different foods. We test 93 different types of foods to detect even the slightest of allergies your doctor has probably missed."</blockquote>
+                    <blockquote>"Malabsorption is a condition that prevents vitamans, proteins, sugars, fats and other food to be absorbed into the small intestine, leading to chronic digestive problems, nutritional deficiencies, yeast infections, cognitive impairment and other degenerative conditions."</blockquote>
                     <p>Our organic acids test offers a comprehensive metabolic snapshot of a your overall health with over 70 biomarkers. Specifically, it provides an accurate evaluation of intestinal yeast and bacteria. Abnormally high levels of these microorganisms can cause or worsen behavior disorders, hyperactivity, movement disorders, fatigue and immune dysfunction.</p>
                     <p>Many people with chronic illnesses and neurological disorders often excrete abnormal organic acids in their urine, which can be easily detected here.</p>
                     <div class="button-wrapper">

@@ -110,9 +110,9 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content has-padding-left has-padding-right">
                         <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the underlying causes of chronic symptoms.</strong></h2>
-                        <p>Far too often, people (especially women) struggling to suppress chronic symptoms with prescription drugs or over-the-counter medications have been misdiagnosed by medical doctors.</p>
+                        <p>Far too often, people struggling to suppress chronic symptoms with prescription drugs or over-the-counter medications have been misdiagnosed by medical doctors.</p>
                         <p>Naturopathic Doctors are far more experienced in performing and interpreting specialized, non-traditional laboratory tests that can help identify nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones), or test for high levels of toxic metals and chemicals.</p>
-                        <p>Ultimately, many chronic symptoms and diseases can be suppressed (or eliminated entirely) through very basic natural treatments — like getting more sunshine or eating more iron.</p>
+                        <p>Ultimately, many chronic symptoms and diseases can be suppressed (or eliminated entirely) through very basic natural treatments — like increasing Vitamin D intake or eating omega 3 fish oil.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -129,7 +129,7 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Micronutrient Test</strong></h2>
-                        <p>Micronutrient blood tests can measure your body's ability to absorb into your white blood cells 35 different nutritional components — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients.</p>
+                        <p>Micronutrient blood tests measure your body's ability to absorb into your white blood cells 35 different nutritional components — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients.</p>
                         <p>Scientific evidence shows us that analyzing the white blood cells gives us the most accurate analysis of a body's deficiencies that are often related to functional disorders.</p>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Metals Test</strong></h2>
                         <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through the foods you eat.</p>
-                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time can result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and prevention plan.</p>
+                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time may result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and prevention plan.</p>
                     </div>
                 </div>
                 <div class="column has-text-right">
@@ -179,8 +179,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Chemicals Test</strong></h2>
-                        <p>Every day, you and your family are exposed to hundreds of toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in our air and water. Exposure to environmental pollutants has accelerated the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
-                        <p>With this test, we can test the presence of 172 different toxic chemicals (such as enzene, xylene, vinyl chloride and diphenyl phosphate) in your body and develop a treatment plan.</p>
+                        <p>Every day, you and your family are at risk of exposure to toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in our air and water. Exposure to environmental pollutants has accelerated the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
+                        <p>With this test, we can test the presence of 172 different toxic chemicals (such as benzene, xylene, vinyl chloride, pyrethroid insecticides or diphenyl phosphate) in your body and develop a treatment plan.</p>
                     </div>
                 </div>
             </div>
@@ -210,10 +210,10 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-6-desktop is-offset-1-desktop columns">
-                    <blockquote class="column">"We have so much confidence in our naturopathic doctors, if they don't improve the condition of at least one of your top four symptoms, we will issue a refund for 100% of your first consultation."</blockquote>
+                <div class="column is-6-desktop is-offset-1-desktop">
+                    <blockquote class="column">"We have so much confidence in our naturopathic doctors, if you are unhappy in any way, we will issue a refund for 100% of your first consultation."</blockquote>
                 </div>
-                <div class="column is-3-desktop is-offset-1-desktop columns is-hidden-mobile">
+                <div class="column is-2-desktop is-offset-1-desktop is-hidden-mobile">
                     <img class="" src="/images/home/blockquote.jpg" alt="">
                 </div>
             </div>
@@ -271,18 +271,18 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Learn the Facts</span></h2>
             <vertical-tabs>
+                <vertical-tab class="content" label="Preventable deaths">
+                    <!-- <img class="is-pulled-right" src="/images/facts/leading_cause_of_death.jpg" alt=""> -->
+                    <h3 class="title is-4"><strong>Preventable deaths</strong></h3>
+                    <p>At least a third of deaths each year in the U.S. <a href="https://www.cdc.gov/media/releases/2014/p0501-preventable-deaths.html" alt="Center for Disease Control">could have been prevented</a> with better nutrition and lifestyle changes. An estimated 9 out of every 10 Americans are considered malnourished — with significant vitamin or mineral deficiencies or toxic metals and chemicals in their blood. It’s no surprise that 50% of people who suffer from heart attacks had normal cholesterol numbers, and the root cause was some other nutritional imbalance that was overlooked.</p>
+                    <p>Naturopathic and integrative medicine play a critical role in properly identifying nutritional deficiencies and other root causes of symptoms that can eventually lead to more serious conditions such as heart disease, cancer, stroke, respiratory disease (COPD) and diabetes (responsible for over 50% of deaths in the U.S. each year).</p>
+                </vertical-tab>
                 <vertical-tab class="content" label="Doctors and nutrition">
                     <!-- <img class="is-pulled-right" src="/images/facts/doctors_nutrition.jpg" alt=""> -->
                     <h3 class="title is-4"><strong>Doctors and nutrition</strong></h3>
                     <p>When was the last time you talked to your doctor for longer than 5 minutes about your diet and nutrition? It's probably been awhile. The reason is that medical doctors get less than 24 hours of coursework related to nutrition in medical school, and they <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2779722/" alt="US National Library of Medicine National Institutes of Health">will admit themselves</a> that they are not properly trained to talk to their patients about nutrition.</p>
                     <p>Lab tests play an important role in your health journey. These tests give doctors valuable insights into what’s happening in your body. Unfortunately, it’s rare for medical doctors to recommend anything other than a handful of basic lab tests, mainly because they lack the specialized training necessary to interpret the lab results and they lack knowledge about diet nutrition to help you troubleshoot health issues through a naturopathic lens.</p>
                     <p>Additionally, medical doctors will typically use a population of sick people as the benchmark when determining if their patients are healthy and properly nourished, instead of optimizing for perfect health.</p>
-                </vertical-tab>
-                <vertical-tab class="content" label="Preventable deaths">
-                    <!-- <img class="is-pulled-right" src="/images/facts/leading_cause_of_death.jpg" alt=""> -->
-                    <h3 class="title is-4"><strong>Preventable deaths</strong></h3>
-                    <p>At least a third of deaths each year in the U.S. <a href="https://www.cdc.gov/media/releases/2014/p0501-preventable-deaths.html" alt="Center for Disease Control">could have been prevented</a> with better nutrition and lifestyle changes. An estimated 9 out of every 10 Americans are considered malnourished — with significant vitamin or mineral deficiencies or toxic metals and chemicals in their blood. It’s no surprise that 50% of people who suffer from heart attacks had normal cholesterol numbers, and the root cause was some other nutritional imbalance that was overlooked.</p>
-                    <p>Naturopathic and integrative medicine play a critical role in properly identifying nutritional deficiencies and other root causes of symptoms that can eventually lead to more serious conditions such as heart disease, cancer, stroke, respiratory disease (COPD) and diabetes (responsible for over 50% of deaths in the U.S. each year).</p>
                 </vertical-tab>
                 <vertical-tab class="content" label="Specialized lab tests">
                     <!-- <img class="is-pulled-right" src="/images/facts/specialized_lab_testing.jpg" alt=""> -->
@@ -334,7 +334,7 @@
                 <vertical-tab class="content" label="Tainted vitamins">
                     <!-- <img class="is-pulled-right" src="/images/facts/identifying_quackery.jpg" alt=""> -->
                     <h3 class="title is-4"><strong>Tainted vitamins and supplements</strong></h3>
-                    <p>People like making their own decisions about treatments. That's totally understandable. The problem is, most people aren’t very good at being their own doctor.</p>
+                    <p>People like making their own decisions about treatments. The problem is, most people aren’t very good at being their own doctor.</p>
                     <p>There are thousands of vitamin and supplement products on the market. Virtually <a href="http://www.health.harvard.edu/blog/fda-needs-stronger-rules-to-ensure-the-safety-of-dietary-supplements-201202024182" alt="Harvard article">unregulated by the FDA</a>, most dietary supplements are tainted with GMOs, steroids, synthetic fillers, colorants, contaminants and other toxic ingredients. But that doesn’t stop people. Over 50% of Americans takes at least one vitamin or supplement every day, spending $35 billion a year. And 80% of them are taken without any recommendation from a medical professional.</p>
                     <p>Vitamins can be very dangerous if taken inappropriately. As high as 60% of people in the United States are deficient in Vitamin D (one of the most important vitamins), but eating too much Vitamin D has been proven to cause dehydration, irritability, muscle weakness, fatigue and in some cases, death.</p>
                     <p>Maybe it's time we stop letting celebrities give us health and nutrition advice, and start listening to the real experts who use diagnostic lab tests to make highly-personalized and evidence-based recommendations.</p>
@@ -353,9 +353,7 @@
                 <div class="has-text-centered">
                     <p class="disclaimer">Your selections above will be saved and shared with your doctor before your first consultation.</p>
                     <button class="button is-primary is-medium has-arrow" @click="getStarted" :disabled="symptomsSaving">
-                        <span class="icon"
-                            v-if="symptomsSaving"
-                        >
+                        <span class="icon" v-if="symptomsSaving">
                             <i class="fa fa-spinner fa-spin"></i>
                         </span>
                         <span>Get Started</span>
