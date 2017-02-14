@@ -17,7 +17,7 @@ body.lab-tests {
     @include from($desktop) {
         #app {
             background: url('/images/lab_tests/background.jpg') no-repeat center top;
-            background-size: contain;
+            background-size: 100% auto;
         }
     }
 }

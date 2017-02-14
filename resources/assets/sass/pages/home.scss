@@ -1,6 +1,6 @@
 body.home {
     // general
-    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active) {
+    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
     .subtitle {
@@ -216,6 +216,9 @@ body.home {
     }
     .disclaimer {
         font-family: $family-sans-serif !important;
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
     }
     .symptoms-selector-wrapper {
         margin-bottom: $space-medium;
