@@ -1,7 +1,5 @@
 <template>
     <div class="symptoms-selector-wrapper columns is-desktop is-multiline">
-        <sliderLegend></sliderLegend>
-        <sliderLegend></sliderLegend>
         <div class="control is-horizontal column is-half-desktop"
              v-for="stat in stats"
         >
@@ -80,6 +78,9 @@
                 display: none;
             }
         }
+    }
+    .symptoms-selector-wrapper {
+        margin-top: 0.75rem;
     }
     .label {
         font-weight: 400;

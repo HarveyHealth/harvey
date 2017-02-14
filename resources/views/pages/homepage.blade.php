@@ -347,6 +347,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Your symptoms</span></h2>
+                <p class="copy-has-max-width subtitle is-5">The majority of chronic symptoms can be linked to imbalances in your biomarkers. To get started, tell us the severity of each of your symptoms using the sliders below (5 being the most severe).</p>
                 <div class="symptoms-container">
                     <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
                 </div>
