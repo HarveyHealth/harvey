@@ -19,7 +19,7 @@ class ForceHttps
             return redirect()->secure($request->getRequestUri());
         }
 
-        if(starts_with($request->root(), "https://goharvey.com")){
+        if (starts_with($request->root(), "https://goharvey.com")) {
             return redirect()
                 ->to('https://www.goharvey.com' . $request->getRequestUri(), 301);
         }

@@ -8,7 +8,7 @@
                 <li v-for="(value, type) in types">
                     <h3 class="title is-4">{{ capitalize(type) }}</h3>
                     <p class="subtitle is-3">
-                        <a :href="hyperlink(type, value)">{{value}}</a>
+                        <a :href="hyperlink(value, type)">{{value}}</a>
                     </p>
                 </li>
             </ul>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {capitalize} from '../../filters/textformat.js';
+    import {capitalize, hyperlink} from '../../filters/textformat.js';
 
     export default {
         data() {
@@ -32,20 +32,7 @@
         },
         methods: {
             capitalize,
-            hyperlink(type, value) {
-                let ret = '';
-
-                switch(type) {
-                    case 'phone':
-                        ret = 'tel:' + value;
-                        break;
-                    case 'email':
-                        ret = 'mailto:' + value;
-                        break;
-                }
-
-                return ret;
-            }
+            hyperlink
         },
         created() {
             this.$eventHub.$on('toggle-contact', () => {

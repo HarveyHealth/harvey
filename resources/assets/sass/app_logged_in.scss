@@ -1,21 +1,48 @@
 @import "all.scss";
 @import "components/dropdown.scss";
 
-#app {
-    position: relative;
-    min-height: 100vh;
-    padding-bottom: 300px;
+// overwrite bulma
+.level.is-fullwidth {
+    flex: 1;
 }
-.footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+
+.animated {
+    &.is-fast {
+        animation-duration: 0.25s;
+    }
 }
+
 .hero,
 .nav {
     background-color: transparent;
 }
 .hero-body {
     padding: 2rem 1.5rem;
+}
+
+.color-greylight {
+    color: $grey-light;
+}
+.is-circle {
+    display: inline-block;
+    width: $size-3;
+    height: $size-3;
+    line-height: $size-3;
+    border-radius: 50%;
+    text-align: center;
+}
+.delete {
+    &.is-inverted {
+        background-color: transparent;
+        &:before,
+        &:after {
+            background-color: $grey-lighter;
+        }
+        &:hover {
+            &:before,
+            &:after {
+                background-color: $grey-light;
+            }
+        }
+    }
 }

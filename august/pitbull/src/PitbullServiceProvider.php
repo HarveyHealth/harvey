@@ -22,19 +22,19 @@ class PitbullServiceProvider extends ServiceProvider
     {
         // Set up any publishable files
         $this->publishes([
-            __DIR__ . '/../config/pitbull.php' => config_path('pitbull.php'),
+            __DIR__ . '/config/pitbull.php' => config_path('pitbull.php'),
         ]);
 
         // load migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
 
         // Load routes
-        $this->loadRoutesFrom(__DIR__ . '/../routes/pitbull.php');
+        $this->loadRoutesFrom(__DIR__ . '/routes/pitbull.php');
 
         // load our views
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'pitbull');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'pitbull');
 
-        // blad extensions
+        // blade extensions
         $this->registerBladeExtensions();
     }
 
@@ -46,7 +46,7 @@ class PitbullServiceProvider extends ServiceProvider
     public function register()
     {
         // merge in the default config
-        $this->mergeConfigFrom(__DIR__ . '/../config/pitbull.php', 'pitbull');
+        $this->mergeConfigFrom(__DIR__ . '/config/pitbull.php', 'pitbull');
 
         $this->app->singleton('pitbull', function ($app) {
             return $app->make('\August\Pitbull\Pitbull');

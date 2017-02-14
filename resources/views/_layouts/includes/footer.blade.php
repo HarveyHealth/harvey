@@ -11,11 +11,16 @@
                 @endif
             </a>
             <p class="nav-center">
-                <a href="/terms" class="nav-item">Terms of Service</a>
-                <a href="/privacy" class="nav-item">Privacy Policy</a>
+                <a href="/" class="nav-item">Home</a>
+                <a href="/signup" class="nav-item">Book</a>
+                <a href="/lab-tests" class="nav-item">Labs</a>
+                <a href="/terms" class="nav-item">Terms</a>
+                <a href="/privacy" class="nav-item">Privacy</a>
+                <!-- <a href="/contact" class="nav-item">Contact</a> -->
             </p>
-            <p>
-                <small>&copy; {{date("Y")}}, Harvey. All rights reserved. All site information and services provided as information and education only. Harvey does not provide medical advice, diagnosis or treatment.</small>
+            <p class="has-small-lineheight">
+                <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>
+                Harvey does not provide medical advice, diagnosis or treatment.</small>
             </p>
         </div>
     </div>

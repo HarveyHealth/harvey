@@ -1,0 +1,8 @@
+body.signup {
+    height: 100vh;
+    padding-bottom: 30px;
+    overflow-y: hidden;
+    a[href*="/signup"] {
+        display: none;
+    }
+}

@@ -13,4 +13,19 @@ function phone(value) {
     return value;
 }
 
-export {capitalize, phone}
+function hyperlink(value, type) {
+    let ret = '';
+
+    switch(type) {
+        case 'phone':
+            ret = 'tel:' + value;
+            break;
+        case 'email':
+            ret = 'mailto:' + value;
+            break;
+    }
+
+    return ret;
+}
+
+export {capitalize, phone, hyperlink}

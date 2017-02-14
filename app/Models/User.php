@@ -77,6 +77,16 @@ class User extends Authenticatable implements Mailable
         return $this->user_type == 'admin';
     }
     
+    public function isPatient()
+    {
+        return $this->user_type == 'patient';
+    }
+    
+    public function isPractitioner()
+    {
+        return $this->user_type == 'practitioner';
+    }
+    
     public function consultsWithUser(User $user)
     {
         return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;

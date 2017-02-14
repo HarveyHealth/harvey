@@ -17,4 +17,6 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
     Route::get('users/{user}/appointments', 'API\alpha\UsersController@appointments');
     Route::resource('users', 'API\alpha\UsersController');
     Route::resource('appointments', 'API\alpha\AppointmentsController');
+    Route::post('tests/{test}/results', 'API\alpha\TestsController@results');
+    Route::resource('tests', 'API\alpha\TestsController');
 });

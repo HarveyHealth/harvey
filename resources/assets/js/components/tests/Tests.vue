@@ -6,16 +6,16 @@
             <div v-for="test in pending_tests" class="panel-block">
                 <Test
                     :test="test"
+                    :user-type="userType"
                 >
-                    <button class="button is-disabled">Pending</button>
                 </Test>
             </div>
             
             <div v-for="test in recent_tests" class="panel-block">
                 <Test
                     :test="test"
+                    :user-type="userType"
                 >
-                    <button class="button is-info">View Results</button>
                 </Test>
             </div>
         </template>
@@ -30,6 +30,7 @@
     import Test from './Test.vue';
 
     export default {
+        props: ['userType'],
         data() {
             return {
                 pending_tests: [],

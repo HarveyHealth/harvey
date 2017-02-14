@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\alpha\Transformers;
 
+use Illuminate\Database\Eloquent\Collection;
+
 /**
  * An abstract class used to transform results of
  * single entities or collections into API output.
@@ -12,15 +14,11 @@ namespace App\Http\Controllers\API\alpha\Transformers;
  */
 abstract class Transformer
 {
-    public function transformCollection($items)
+    public function transformCollection(Collection $items)
     {
-        $result = [];
-
-        foreach ($items as $item) {
-            $result[] = $this->transform($item);
-        }
-
-        return $result;
+        return $items->map(function ($item) {
+            return $this->transform($item);
+        });
     }
 
     abstract public function transform($item);

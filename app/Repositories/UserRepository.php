@@ -12,4 +12,9 @@ class UserRepository extends BaseRepository
     {
         $this->model = $model;
     }
+    
+    public function getByApiToken($token)
+    {
+        return $this->model->whereApiToken($token)->first();
+    }
 }

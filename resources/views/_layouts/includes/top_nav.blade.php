@@ -1,32 +1,30 @@
-<nav class="header nav has-shadow">
+<nav class="header nav"
+    @if (Auth::guest())
+        :class="{'is-inverted': nav_is_inverted}"
+    @endif
+>
     <div class="container">
-        @if (Auth::guest())
-            <div class="nav-left"></div>
-            <div class="nav-center">
-        @else
-            <div class="nav-left">
-        @endif
+        <div class="nav-left">
             <a href="/" class="nav-item">
-                <img
-                    src="/images/logos/main-logo.png"
-                    srcset="/images/logos/main-logo@2x.png 2x"
-                    alt="Harvey Logo">
+                <div class="logo-wrapper">
+                    {!! $svgImages['logo'] !!}
+                </div>
             </a>
         </div>
         @if (Auth::guest())
-            <span class="nav-toggle"
+{{--             <span class="nav-toggle"
                 :class="{'is-active': nav_is_open}"
                 @click="toggleNav"
             >
                 <span></span>
                 <span></span>
                 <span></span>
-            </span>
-            <div class="nav-right nav-menu"
-                :class="{'is-active': nav_is_open}"
-            >
+            </span> --}}
+            <div class="nav-right">
                 <span class="nav-item">
-                    <a href="/login" class="button is-primary is-outlined">Log In</a>
+                    @if (!App::environment('production', 'staging'))
+                        <a href="/login" class="button is-primary is-outlined">Log In</a>
+                    @endif
                     <a href="/signup" class="button is-primary" @click="viewSignupPage">Get Started</a>
                 </span>
             </div>

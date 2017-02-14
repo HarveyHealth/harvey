@@ -7,8 +7,12 @@
 @import 'node_modules/animate.css/animate';
 
 // rewrite bulma styles
-.section {
-    padding: 2rem 1.5rem;
+.nav-left {
+    overflow-x: hidden;
+}
+
+.title {
+    font-weight: 400;
 }
 
 .button {
@@ -31,6 +35,10 @@
     color: #fff;
 }
 
+.header {
+    box-shadow: 0 1px $grey-lighter;
+}
+
 .footer {
     padding-bottom: 4rem;
     &.is-simple {
@@ -38,9 +46,9 @@
         opacity: 0.75;
     }
     &:not(.is-simple) {
-        $gradient-top-left: darken(saturate(adjust-hue($tertiary, -10deg), 10%), 10%);
-        $gradient-bottom-right: lighten(saturate(adjust-hue($tertiary, 10deg), 5%), 5%);
-        background-image: linear-gradient(141deg, $gradient-top-left 0%, $tertiary 71%, $gradient-bottom-right 100%);
+        $gradient-top-left: darken(desaturate($tertiary, 10%), 5%);
+        $gradient-bottom-right: lighten(desaturate($tertiary, 15%), 15%);
+        background-image: linear-gradient(141deg, $gradient-top-left 0%, $tertiary 55%, $gradient-bottom-right 100%);
         .content,
         a.nav-item {
             color: white;
@@ -64,12 +72,24 @@
     border-#{$border_direction}: 1px solid $border;
 }
 
+@mixin has-padding($padding_direction) {
+    padding-#{$padding_direction}: 1.5rem;
+}
+
 .has-border-top {
     @include has-border(top);
 }
 
 .has-border-bottom {
     @include has-border(bottom);
+}
+
+.has-padding-left {
+    @include has-padding(left);
+}
+
+.has-padding-right {
+    @include has-padding(right);
 }
 
 .font-secondary-family {
@@ -81,7 +101,7 @@
 }
 
 .icon {
-    vertical-align: middle; // rewrite bulma
+    vertical-align: middle !important; // rewrite bulma
     &.has-border-circle {
         border: 2px solid;
         border-radius: 50%;
@@ -118,13 +138,8 @@
     }
 }
 
-.box {
-    &.is-circle {
-        border-radius: 50%;
-    }
-}
-
 .page-content {
+    overflow: hidden;
     .nav {
         z-index: 1;
     }
@@ -142,6 +157,10 @@
     }
 }
 
+em {
+    font-size: 0.85em;
+}
+
 // modify animations
 .animated {
     &.notification {
@@ -151,5 +170,52 @@
     }
     &.animated-fast {
         animation-duration: $speed;
+    }
+    &.animated-medium {
+        animation-duration: $speed * 5;
+    }
+}
+
+#app {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 300px;
+}
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.logo-wrapper {
+    width: 30px;
+    height: 40px;
+    .harvey-logo {
+        height: 100%;
+    }
+    .harvey-logo-icon {
+        fill: $primary;
+    }
+    .harvey-logo-type {
+        display: none;
+    }
+    @include from($mobile) {
+        width: 150px;
+        .harvey-logo-type {
+            display: block;
+            fill: $secondary;
+        }
+    }
+    .no-svg & {
+        background: url('/images/logos/mobile-logo.png') no-repeat center center;
+        @include from($mobile) {
+            background-image: url('/images/logos/main-logo.png');
+        }
+    }
+}
+.page-title {
+    &,
+    &.title {
+        font-weight: 500;
     }
 }

@@ -7,7 +7,6 @@
                     :appointment="appointment"
                     :user-type="userType"
                 >
-                    <button class="button" @click="toggleContact">Reschedule</button>
                 </Appointment>
             </div>
         </template>
@@ -22,7 +21,6 @@
                     :appointment="appointment"
                     :user-type="userType"
                 >
-                    <!-- <button class="button is-disabled">Pending</button> -->
                 </Appointment>
             </div>
         </template>
@@ -31,10 +29,8 @@
 
 <script>
     import Appointment from './Appointment.vue';
-    import Contact from '../../mixins/Contact';
 
     export default {
-        mixins: [Contact],
         props: ['userType'],
         data() {
             return {

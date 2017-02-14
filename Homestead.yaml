@@ -21,6 +21,13 @@ sites:
 
 databases:
     - harvey
+    - harvey_dusk
+
+ports:
+    - send: 3000
+      to: 3000
+    - send: 3001
+      to: 3001
 
 # blackfire:
 #     - id: foo

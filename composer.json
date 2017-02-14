@@ -20,16 +20,24 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "laravel/tinker": "^1.0",
         "jsvrcek/ics": "^0.5.0",
-        "fideloper/proxy": "^3.2"
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "fideloper/proxy": "^3.2",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^4.0",
+        "laravel/homestead": "^4",
         "laravel/dusk": "^1.0"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:HomeHero/heroku-buildpack-php.git"
+        }
+    ],
     "autoload": {
         "classmap": [
             "database",
