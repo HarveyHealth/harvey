@@ -16,7 +16,7 @@
             <vertical-tab label="Micronutrients">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/micronutrients.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Micronutrient Test</strong></h3>
@@ -38,7 +38,7 @@
             <vertical-tab label="Hormones">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/hormones.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Hormone Test</strong></h3>
@@ -60,7 +60,7 @@
             <vertical-tab label="Thyroid/Cortisol">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/thyroid.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Thyroid/Cortisol Test</strong></h3>
@@ -82,7 +82,7 @@
             <vertical-tab label="CardioMetabolic">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/cardiometabolic.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>CardioMetabolic Test</strong></h3>
@@ -115,7 +115,7 @@
             <vertical-tab label="CBC/CMP">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/cbc-cmp.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>CBC/CMP Test</strong></h3>
@@ -138,7 +138,7 @@
             <vertical-tab label="Toxic Metals">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/toxic-metals.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Toxic Metals Test</strong></h3>
@@ -157,13 +157,13 @@
                     </div>
                 </div>
             </vertical-tab>
-            <vertical-tab label="Toxic Organic Chemicals">
+            <vertical-tab label="Toxic Chemicals">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/toxic-chemicals.png" alt="">
                     </div>
                     <div class="media-content">
-                        <h3 class="title is-4"><strong>Toxic Organic Chemicals Test</strong></h3>
+                        <h3 class="title is-4"><strong>Toxic Chemicals Test</strong></h3>
                         <p class="subtitle is-6">Sample: Urine</p>
                     </div>
                     <div class="media-right">
@@ -182,7 +182,7 @@
             <vertical-tab label="Food Allergies">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/food-allergies.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Food Allergy Test</strong></h3>
@@ -204,7 +204,7 @@
             <vertical-tab label="Microbiome (Gut)">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/microbiome.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Microbiome (Gut) Test</strong></h3>
@@ -226,7 +226,7 @@
             <vertical-tab label="Organic Acids">
                 <header class="level">
                     <div class="media-left is-pulled-left">
-                        <img src="/images/facts/doctors_nutrition.jpg" alt="">
+                        <img src="/images/lab_tests/organic-acids.png" alt="">
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Organic Acids Test</strong></h3>
