@@ -2,6 +2,7 @@
     <transition
         mode="out-in"
         enter-active-class="animated animated-medium fadeInUp"
+        leave-active-class="is-hidden"
     >
         <div class="tab copy-has-max-width"
             v-show="tabId === $parent.activeTab"

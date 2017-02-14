@@ -2,7 +2,8 @@
     <div class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
-                <ul class="menu-list">
+                <ul class="menu-list">  
+                    <li class="menu-label">Choose a Topic</li>
                     <li v-for="tabData in tabList">
                         <a
                             :class="{'is-active': tabData.id === activeTab}"
@@ -62,7 +63,7 @@
 </script>
 
 <style lang="sass" scoped>
-    $border: 1px solid hsl(0, 0%, 86%);
+    $border: 1px solid #e3eaee;
 
     .vertical-tabs {
         background-color: #fff;
@@ -70,14 +71,31 @@
 
     .tabs-navigation {
         border-top: $border;
+        border-left: $border;
         li {
-            border-left: $border;
             border-right: $border;
             border-bottom: $border;
             @media screen and (min-width: 768px) {
                 border-right: none;
             }
+            a:not(.is-active):hover {
+                background-color: transparent;
+            }
         }
+        @media screen and (min-width: 768px) {
+            border-bottom: $border;
+            li {
+                border-right: none;
+            }
+        }
+    }
+
+    .menu-label {
+        font-size: 1em;
+        margin-bottom: 0;
+        padding: 0.5em 0.75em;
+        background-color: #f5f8fa;
+        text-transform: initial;
     }
 
     .tabs-content {

@@ -36,9 +36,9 @@ class PagesController extends Controller
         return view('pages.contact');
     }
 
-    public function getLabTestsPricing()
+    public function getLabTests()
     {
-        return view('pages.lab_tests_pricing');
+        return view('pages.lab_tests');
     }
 
     public function postContact(Request $request)

@@ -35,7 +35,20 @@
             }
         },
         components: {
-            vueSlider
+            vueSlider,
+            sliderLegend: {
+                template: `
+                    <div class="control-legend control is-horizontal column is-half-desktop">
+                        <div class="control-label"></div>
+                        <div class="control">
+                            <div class="is-clearfix">
+                                <label class="label is-pulled-left">Less severe</label>
+                                <label class="label is-pulled-right">More severe</label>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
         },
         methods: {
             onChange(e) {
@@ -55,7 +68,23 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
+    .control-legend {
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        &:nth-of-type(2) {
+            @media screen and (max-width: 999px) {
+                display: none;
+            }
+        }
+    }
+    .symptoms-selector-wrapper {
+        margin-top: 0.75rem;
+    }
+    .label {
+        font-weight: 400;
+    }
     .control-label {
         text-align: left;
     }

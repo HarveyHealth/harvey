@@ -3,18 +3,54 @@
 @import "all.scss";
 @import "pages/home.scss";
 @import "pages/signup.scss";
-@import "pages/lab_tests_pricing.scss";
+@import "pages/lab_tests.scss";
 
 @include sprites($spritesheet-sprites);
 @include retina-sprites($retina-groups);
 
 // elements
-.page-content {
-    p {
-        &:not(.title) {
-            font-family: $family-secondary;
+.button {
+    &.is-primary {
+        &.has-arrow {
+            &:after {
+                content: "\f105";
+                font-family: FontAwesome;
+                color: #fff;
+                transition: margin 0.2s ease;
+                margin-left: .25em;
+                margin-right: .25em;
+                position: relative;
+                right: -.5em;
+            }
+            @at-root &:hover:after {
+                margin-left: .5em;
+                margin-right: 0;
+            }
+        }
+        &.is-outlined {
+            &.has-arrow {
+                &:after {
+                    color: $primary;
+                }
+            }
+            &:focus,
+            &:hover {
+                color: $primary;
+                background-color: transparent;
+            }
         }
     }
+}
+
+.page-content {
+    p:not(.title),
+    .content ul {
+        font-family: $family-secondary;
+    }
+}
+
+.title + .subtitle {
+    margin-top: 0.25rem;
 }
 
 blockquote {
@@ -45,6 +81,18 @@ blockquote {
             background-color: $tertiary;
         }
     }
+}
+
+.check-load {
+    opacity: 0;
+    transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
+    &.is-loaded {
+        opacity: 1;
+    }
+}
+
+.has-small-lineheight {
+    line-height: 1;
 }
 
 @include from($tablet) {
@@ -85,9 +133,10 @@ body {
         }
     }
     &.home,
-    &.lab-tests-pricing {
+    &.lab-tests {
         .header.is-inverted {
             background-color: transparent;
+            box-shadow: none;
             .harvey-logo-icon {
                 fill: #fff;
                 @include from($mobile) {
@@ -122,7 +171,7 @@ body {
             }
         }
     }
-    &.lab-tests-pricing {
+    &.lab-tests {
         .header.is-inverted {
             position: absolute;
             width: 100%;

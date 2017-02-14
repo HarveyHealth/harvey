@@ -9,15 +9,10 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
+    public function test_it_displays_the_homepage()
     {
-        $response = $this->get('/');
-        
+        $response = $this->get(route('home'));
+
         $response->assertStatus(200);
     }
 }
