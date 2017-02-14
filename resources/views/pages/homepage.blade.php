@@ -3,7 +3,9 @@
 @section('body_class','home')
 
 @section('content')
-<div class="sections">
+<div class="sections"
+    :class="{'is-loaded': homepageLoaded}"
+>
     <section class="hero is-fullheight is-primary">
         <div class="hero-background"></div>
         <div class="hero-body">
@@ -345,7 +347,9 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Your symptoms</span></h2>
-                <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
+                <div class="symptoms-container">
+                    <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
+                </div>
                 <div class="has-text-centered">
                     <p class="disclaimer">Your selections above will be saved and shared with your doctor before your first consultation.</p>
                     <button class="button is-primary is-medium has-arrow" @click="getStarted" :disabled="symptomsSaving">

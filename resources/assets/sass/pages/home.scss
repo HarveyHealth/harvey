@@ -68,6 +68,13 @@ body.home {
             }
         }
     }
+    .sections {
+        opacity: 0;
+        transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
+        &.is-loaded {
+            opacity: 1;
+        }
+    }
     .section:not(:last-of-type) {
         padding-bottom: 1rem;
     }
@@ -94,9 +101,6 @@ body.home {
                 content: ' ';
                 display: block;
                 background-color: rgba(darken($tertiary, 20%), $opacity-light);
-                @include from($desktop) {
-                    display: none;
-                }
             }
             @include from($tablet) {
                 background-image: url('/images/home/background_1_md.jpg');
@@ -215,13 +219,18 @@ body.home {
         margin-top: $size-2;
     }
     .disclaimer {
+        font-size: 1.125em;
         font-family: $family-sans-serif !important;
         max-width: 380px;
         margin-left: auto;
         margin-right: auto;
     }
-    .symptoms-selector-wrapper {
+    .symptoms-container {
+        border: 1px solid $border;
+        padding: 1.5rem;
         margin-bottom: $space-medium;
+    }
+    .symptoms-selector-wrapper {
         li + li {
             margin-top: 0;
         }

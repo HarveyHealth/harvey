@@ -200,7 +200,7 @@ em {
         display: none;
     }
     @include from($mobile) {
-        width: 174px;
+        width: 150px;
         .harvey-logo-type {
             display: block;
             fill: $secondary;

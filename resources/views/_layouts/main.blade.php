@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="{{ collect(\Request::segments())->implode('-') }}@yield('body_class')">
+<body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
     <div id="app">
