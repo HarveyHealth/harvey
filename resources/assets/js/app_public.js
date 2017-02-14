@@ -47,7 +47,7 @@ const app = new Vue({
                 value: 3
             },
             aches: {
-                label: 'Aches / pains',
+                label: 'Aches/pains',
                 value: 3
             },
             allergies: {
@@ -59,11 +59,11 @@ const app = new Vue({
                 value: 3
             },
             digestion: {
-                label: 'Digestion / stomach',
+                label: 'Digestion',
                 value: 3
             },
             irritability: {
-                label: 'Irritability / mood',
+                label: 'Irritability',
                 value: 3
             },
             libido: {
@@ -79,7 +79,7 @@ const app = new Vue({
                 value: 3
             },
             hair: {
-                label: 'Hair and skin',
+                label: 'Hair, skin & nails',
                 value: 3
             }
         },
