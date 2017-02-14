@@ -11,7 +11,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">It’s time to think differently about your medicine.</h1>
-                        <p class="subtitle">Harvey is the #1 online platform for integrative and naturopathic medicine. We emphasize prevention, self-healing and natural therapies for women fighting acute and chronic conditions.</p>
+                        <p class="subtitle">Harvey is the #1 online platform for integrative and naturopathic medicine. We emphasize prevention, self-healing and natural therapies for patients struggling with acute and chronic conditions.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -127,7 +127,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Micronutrient Test</strong></h2>
-                        <p>Micronutrient blood tests can measure your body's ability to absorb into your white blood cells 35 different nutritional components — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients. Scientific evidence shows us that analyzing the white blood cells gives us the most accurate analysis of a body's deficiencies that are often related to functional disorders.</p>
+                        <p>Micronutrient blood tests can measure your body's ability to absorb into your white blood cells 35 different nutritional components — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients.</p>
+                        <p>Scientific evidence shows us that analyzing the white blood cells gives us the most accurate analysis of a body's deficiencies that are often related to functional disorders.</p>
                     </div>
                 </div>
                 <div class="column has-text-right">
@@ -146,7 +147,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Food Allergy Test</strong></h2>
-                        <p>Individuals with neurological, gastrointestinal and movement disorders often suffer from food allergies, and a wide range of disorders have been linked to compounding allergies. Many people continue to eat offending foods every day for years, unaware of their potential effects. Our food allergy test helps identify even the most hypersensitive of allergies caused by over 93 different foods across multiple food groups, including dairy, fruit, fish, meat, nuts, seeds, grains, beans and vegetables.</p>
+                        <p>Individuals with neurological, gastrointestinal and movement disorders often suffer from food allergies. Many people continue to eat these offending foods unknowingly for years, unaware of their potential effects.</p>
+                        <p>Our food allergy test helps identify even the most hypersensitive of allergies caused by over 93 different foods across multiple food groups, including dairy, fruit, fish, meat, nuts, seeds, grains, beans and vegetables.</p>
                     </div>
                 </div>
             </div>
@@ -155,7 +157,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Metals Test</strong></h2>
-                        <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through the foods you eat. Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time can result in significant adverse health effects and chronic disease. Your doctor will help you build a detailed detoxification and prevention plan.</p>
+                        <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through the foods you eat.</p>
+                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time can result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and prevention plan.</p>
                     </div>
                 </div>
                 <div class="column has-text-right">
@@ -174,7 +177,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Chemicals Test</strong></h2>
-                        <p>Every day, you and your family are exposed to hundreds of toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in our air and water. Exposure to environmental pollutants has accelerated the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease. We can test the presence of 172 different toxic chemicals (such as enzene, xylene, vinyl chloride and diphenyl phosphate) in your body.</p>
+                        <p>Every day, you and your family are exposed to hundreds of toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in our air and water. Exposure to environmental pollutants has accelerated the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
+                        <p>With this test, we can test the presence of 172 different toxic chemicals (such as enzene, xylene, vinyl chloride and diphenyl phosphate) in your body and develop a treatment plan.</p>
                     </div>
                 </div>
             </div>
@@ -204,9 +208,11 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-desktop is-offset-2-desktop columns">
-                    <blockquote class="column">"We are so confident in our doctors, if we do not suppress or improve the condition of at least one of your top four medical symptoms, we will offer a 100% refund on your first consultation."</blockquote>
-                    <img class="is-hidden-mobile" src="/images/home/blockquote.jpg" alt="">
+                <div class="column is-6-desktop is-offset-1-desktop columns">
+                    <blockquote class="column">"We have so much confidence in our naturopathic doctors, if they don't improve the condition of at least one of your top four symptoms, we will issue a refund for 100% of your first consultation."</blockquote>
+                </div>
+                <div class="column is-3-desktop is-offset-1-desktop columns is-hidden-mobile">
+                    <img class="" src="/images/home/blockquote.jpg" alt="">
                 </div>
             </div>
         </div>

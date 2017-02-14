@@ -16,7 +16,7 @@
                 <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="/terms" class="nav-item">Terms</a>
                 <a href="/privacy" class="nav-item">Privacy</a>
-                <a href="/contact" class="nav-item">Contact</a>
+                <!-- <a href="/contact" class="nav-item">Contact</a> -->
             </p>
             <p class="has-small-lineheight">
                 <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>
