@@ -27,6 +27,18 @@
                 margin-right: 0;
             }
         }
+        &.is-outlined {
+            &.has-arrow {
+                &:after {
+                    color: $primary;
+                }
+            }
+            &:focus,
+            &:hover {
+                color: $primary;
+                background-color: transparent;
+            }
+        }
     }
 }
 
@@ -69,6 +81,18 @@ blockquote {
             background-color: $tertiary;
         }
     }
+}
+
+.check-load {
+    opacity: 0;
+    transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
+    &.is-loaded {
+        opacity: 1;
+    }
+}
+
+.has-small-lineheight {
+    line-height: 1;
 }
 
 @include from($tablet) {

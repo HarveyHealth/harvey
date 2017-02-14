@@ -25,9 +25,7 @@ body.home {
         margin-left: auto;
         margin-right: auto;
     }
-    .has-small-lineheight {
-        line-height: 1;
-    }
+    
     // layout
     #app {
         height: auto;
@@ -66,13 +64,6 @@ body.home {
                     background-color: transparent;
                 }
             }
-        }
-    }
-    .sections {
-        opacity: 0;
-        transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
-        &.is-loaded {
-            opacity: 1;
         }
     }
     .section:not(:last-of-type) {
@@ -292,6 +283,10 @@ body.home {
         #symptoms {
             .columns {
                 text-align: left;
+            }
+            .subtitle {
+                margin-top: 3rem;
+                margin-bottom: 3rem;
             }
         }
     }

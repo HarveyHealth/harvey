@@ -3,8 +3,8 @@
 @section('body_class','home')
 
 @section('content')
-<div class="sections"
-    :class="{'is-loaded': homepageLoaded}"
+<div class="sections check-load"
+    :class="{'is-loaded': appLoaded}"
 >
     <section class="hero is-fullheight is-primary">
         <div class="hero-background"></div>
@@ -199,7 +199,7 @@
                         <p class="subtitle is-6">We charge <strong>$149</strong> for a 1-hour consultation with a doctor, and our specialized lab tests range from $29 to $299 depending on complexity. We cover all costs for mailing lab kits and performing in-home blood draws.</p>
                         <p><em>Insurance typically does not cover preventative blood tests.</em></p>
                         <div class="button-wrapper">
-                            <a href="/lab-tests" class="button is-primary is-medium has-arrow">Explore Other Tests</a>
+                            <a href="/lab-tests" class="button is-primary is-outlined is-medium has-arrow">Explore Other Tests</a>
                         </div>
                     </div>
                 </div>
@@ -347,7 +347,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Your symptoms</span></h2>
-                <p class="copy-has-max-width subtitle is-5">The majority of chronic symptoms can be linked to imbalances in your biomarkers. To get started, tell us the severity of each of your symptoms using the sliders below (5 being the most severe).</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">The majority of chronic symptoms can be linked to imbalances in your biomarkers. To get started, tell us the severity of each of your symptoms using the sliders below (5 being the most severe).</p>
                 <div class="symptoms-container">
                     <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
                 </div>

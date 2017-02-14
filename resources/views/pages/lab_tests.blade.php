@@ -10,7 +10,9 @@
         </header>
     </div>
 </section>
-<section class="section">
+<section class="section check-load"
+    :class="{'is-loaded': appLoaded}"
+>
     <div class="container">
         <vertical-tabs>
             <vertical-tab label="Micronutrients">

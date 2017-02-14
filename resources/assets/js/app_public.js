@@ -21,7 +21,7 @@ const app = new Vue({
     },
     data: {
         guest: true,
-        homepageLoaded: false,
+        appLoaded: false,
         login: {
             form: new Form({
                 email: '',
@@ -147,12 +147,13 @@ const app = new Vue({
         }
     },
     mounted() {
+         this.$nextTick(() => {
+            this.appLoaded = true;
+        });
+         
         this.checkIsHomePage();
 
         if (this.isHomePage) {
-             this.$nextTick(() => {
-                this.homepageLoaded = true;
-            });
             this.onPageScroll();
         }
     },
