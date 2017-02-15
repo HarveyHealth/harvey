@@ -3,9 +3,9 @@
 @section('page_title', 'Sign Up')
 
 @if (App::environment('production', 'staging'))
-    @push('square')
-        <script src='https://squareup.com/appointments/buyer/widget/c64ea9cf-ffea-45c8-a153-d0dd72234c4c.js'></script>
-    @endpush
+    @section('content')
+        @script(https://squareup.com/appointments/buyer/widget/c64ea9cf-ffea-45c8-a153-d0dd72234c4c.js)
+    @endsection
 @else
     @section('content')
     <section class="section">
