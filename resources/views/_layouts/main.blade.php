@@ -43,8 +43,9 @@
         </div>
 
         @include('_layouts.includes.footer')
-        @stack('square')
     </div>
+    
+    @stack('square')
 
     {{-- To add data here, see the VueHelperViewComposer --}}
     <script>
