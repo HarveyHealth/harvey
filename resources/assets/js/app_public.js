@@ -150,10 +150,11 @@ const app = new Vue({
          this.$nextTick(() => {
             this.appLoaded = true;
         });
-         
+
         this.checkIsHomePage();
 
         if (this.isHomePage) {
+            if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
         }
     },
