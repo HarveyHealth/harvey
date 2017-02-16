@@ -30,9 +30,6 @@ export default {
             if (e.relatedTarget === null || !this.isDescendant(e.target, e.relatedTarget)) {
                 this.toggleNav();
             }
-        },
-        viewSignupPage() {
-            if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
         }
     }
 }

@@ -88,6 +88,11 @@ const app = new Vue({
         wait: 400,
         nav_scroll_threshold: 56
     },
+    computed: {
+        bodyClassNames() {
+            return document.getElementsByTagName('body')[0].classList;
+        }
+    },
     methods: {
         // log in and register forms
         onSubmit(e) {
@@ -129,8 +134,12 @@ const app = new Vue({
                 location.href = '/signup';
             }, 400);
         },
-        checkIsHomePage() {
-            this.isHomePage = document.getElementsByTagName('body')[0].classList.contains('home');
+        checkWhichPage(...args) {
+            let result = false;
+            result = [...args].some(arg => {
+                return this.bodyClassNames.contains(arg);
+            });
+            return result;
         },
         onScroll(e) {
             if (window.pageYOffset > this.nav_scroll_threshold) {
@@ -151,11 +160,15 @@ const app = new Vue({
             this.appLoaded = true;
         });
 
-        this.checkIsHomePage();
+        this.isHomePage = this.checkWhichPage('home');
 
         if (this.isHomePage) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
+        }
+
+        if (this.checkWhichPage('signup', 'register')) {
+            if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
         }
     },
     destroyed() {
