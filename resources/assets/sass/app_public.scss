@@ -104,6 +104,12 @@ blockquote {
 
 // page specific styles
 body {
+    &.signup,
+    &.register {
+        #app {
+            padding-bottom: 0;
+        }
+    }
     &.login,
     &.signup,
     &[class^="password-reset"] {
