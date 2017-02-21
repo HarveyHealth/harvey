@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Mail;
 use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -22,6 +23,9 @@ class RegisteredUserEmailVerificationTest extends TestCase
             'password' => 'secret',
             'terms' => true
         ];
+
+        Mail::shouldReceive('to')->once()->andReturnSelf()
+        ->shouldReceive('send')->once();
 
         $response = $this->call('POST', 'register', $params);
 
