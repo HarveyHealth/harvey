@@ -1,7 +1,20 @@
-Hello, {{ $mailable->first_name }}!
+@component('mail::message')
 
-Please veryify your email address by clicking the link below. If clicking it does not work, you may need to copy and paste it into your browser's URL bar.
+# Hello, {{ $mailable->first_name }}!
 
-{{ $mailable->emailVerificationURL() }}
+Welcome to Harvey. Please verify your email address by clicking the link below.
 
-Thank you!
+@component('mail::button', ['url' => $mailable->emailVerificationURL()])
+Verify Email
+@endcomponent
+
+Thank you,<br>
+{{ config('app.name') }}
+
+
+<!-- Subcopy -->
+@component('mail::subcopy')
+If you’re having trouble clicking the "Verify Email" button, copy and paste the URL below into your web browser: [{{ $mailable->emailVerificationURL() }}]({{ $mailable->emailVerificationURL() }})
+@endcomponent
+
+@endcomponent

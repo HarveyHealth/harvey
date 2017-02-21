@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Interfaces\Mailable as MailableInterface;
 
-class VerifyEmailAddress extends Mailable
+class VerifyEmailAddress extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -21,7 +21,7 @@ class VerifyEmailAddress extends Mailable
      */
     public function __construct(MailableInterface $mailable)
     {
-        //
+        $this->mailable = $mailable;
     }
 
     /**
@@ -31,6 +31,6 @@ class VerifyEmailAddress extends Mailable
      */
     public function build()
     {
-        $this->view('mail.verify_email');
+        $this->markdown('mail.verify_email');
     }
 }

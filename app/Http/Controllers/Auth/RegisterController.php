@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -75,5 +76,12 @@ class RegisterController extends Controller
             'terms_accepted_at' => \Carbon::now(),
         ]);
         User::guard();
+    }
+
+    protected function registered(Request $request, $user)
+    {
+        $user->sendVerificationEmail();
+
+        return redirect($this->redirectPath());
     }
 }

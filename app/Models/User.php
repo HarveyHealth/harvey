@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Mail;
 use App\Models\PatientNote;
+use App\Mail\VerifyEmailAddress;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
@@ -76,23 +78,28 @@ class User extends Authenticatable implements Mailable
     {
         return $this->user_type == 'admin';
     }
-    
+
     public function isPatient()
     {
         return $this->user_type == 'patient';
     }
-    
+
     public function isPractitioner()
     {
         return $this->user_type == 'practitioner';
     }
-    
+
     public function consultsWithUser(User $user)
     {
         return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
     }
 
-    
+    public function sendVerificationEmail()
+    {
+        Mail::to($this)->send(new VerifyEmailAddress($this));
+    }
+
+
     /* Mailable Interface Methods */
     public function emailVerificationToken()
     {

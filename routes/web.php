@@ -18,7 +18,7 @@ Auth::routes();
 // Additional routing to not use Laravel's built-in "register" route
 Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 Route::post('signup', 'Auth\RegisterController@register');
-Route::get('verify/{id}/{token}', 'Auth\EmailVerificationController@getVerify');
+Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@handle');
 Route::post('verify/{id}/{token}', 'Auth\EmailVerificationController@postVerify');
 
 // basic public pages
