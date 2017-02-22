@@ -5,4 +5,50 @@ body.signup {
     a[href*="/signup"] {
         display: none;
     }
+    .signup-options {
+        text-align: left;
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        @include from($tablet) {
+            width: auto;
+            margin-top: 2rem;
+            text-align: center;
+        }
+    }
+    .signup-option-item {
+        span {
+            display: inline-block;
+            text-align: left;
+        }
+        @include from($tablet) {
+            &:not(:last-child) {
+                position: relative;
+                &:after {
+                    content: ' ';
+                    display: block;
+                    width: 1px;
+                    height: 100%;
+                    background-color: #fff;
+                    opacity: 0.5;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+    .disclaimer {
+        margin-top: -1rem;
+    }
+    .merchant-header {
+        display: none;
+    }
+    .hero {
+        max-height: 100vh;
+        transition: max-height $speed $speed * 0.25;
+        &.animated {
+            max-height: 0px;
+        }
+    }
 }

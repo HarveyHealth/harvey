@@ -3,9 +3,37 @@
 @section('page_title', 'Sign Up')
 
 @if (App::environment('production', 'staging'))
+    @section('body_class','widget')
     @push('square')
         @script(https://squareup.com/appointments/buyer/widget/c64ea9cf-ffea-45c8-a153-d0dd72234c4c.js)
     @endpush
+    @section('content')
+    <section class="hero is-bold is-primary"
+        :class="{'animated animated-medium fadeOutUp': !showSignupContent}"
+    >
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h2 class="title is-3">Create your account</h2>
+                <p class="title is-5">You have three options to get started.</p>
+                <p class="disclaimer subtitle is-6">* Please note, all three options are phone calls.</p>
+                <ul class="signup-options columns">
+                    <li class="signup-option-item column">
+                        <span class="icon"><i class="fa fa-user-o"></i></span>
+                        <span>Past Harvey client<br><strong>Free</strong></span>
+                    </li>
+                    <li class="signup-option-item column">
+                        <span class="icon"><i class="fa fa-smile-o"></i></span>
+                        <span>Harvey agent<br><strong>Free</strong></span>
+                    </li>
+                    <li class="signup-option-item column">
+                        <span class="icon"><i class="fa fa-user-md"></i></span>
+                        <span>Naturopathic doctor<br><strong>$150</strong></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    @endsection
 @else
     @section('content')
     <section class="section">

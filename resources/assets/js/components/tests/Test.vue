@@ -12,8 +12,8 @@
         <div class="level-item">
             <transition
                 mode="out-in"
-                enter-active-class="animated is-fast fadeIn"
-                leave-active-class="animated is-fast fadeOut"
+                enter-active-class="animated animated-fast fadeIn"
+                leave-active-class="animated animated-fast fadeOut"
             >   
                 <template v-if="test.results_key">
                     <div>

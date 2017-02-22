@@ -83,10 +83,11 @@ const app = new Vue({
                 value: 3
             }
         },
-        nav_is_inverted: true,
+        navIsInverted: true,
         isHomePage: false,
         wait: 400,
-        nav_scroll_threshold: 56
+        navScrollThreshold: 56,
+        showSignupContent: true
     },
     computed: {
         bodyClassNames() {
@@ -142,17 +143,20 @@ const app = new Vue({
             return result;
         },
         onScroll(e) {
-            if (window.pageYOffset > this.nav_scroll_threshold) {
-                if (this.nav_is_inverted) this.nav_is_inverted = false;
+            if (window.pageYOffset > this.navScrollThreshold) {
+                if (this.navIsInverted) this.navIsInverted = false;
             } else {
-                if (!this.nav_is_inverted) this.nav_is_inverted = true;
+                if (!this.navIsInverted) this.navIsInverted = true;
             }
         },
         onPageScroll() {
             window.addEventListener('scroll', _.throttle(this.onScroll, this.wait), false);
         },
-        offEvents() {
-            window.removeEventListener('scroll');
+        onIframeClick() {
+            if(document.activeElement === document.querySelector('iframe')) {
+                this.showSignupContent = false;
+                window.removeEventListener('blur', this.onIframeClick);
+            }
         }
     },
     mounted() {
@@ -169,11 +173,15 @@ const app = new Vue({
 
         if (this.checkWhichPage('signup', 'register')) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
+            window.focus();
+            window.addEventListener('blur', this.onIframeClick);
         }
     },
     destroyed() {
         if (this.isHomePage) {
-            this.offEvents();
+            window.removeEventListener('scroll');
+        } else if (this.checkWhichPage('signup', 'register')) {
+            window.removeEventListener('blur', this.onIframeClick);
         }
     }
 }).$mount('#app');
