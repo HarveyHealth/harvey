@@ -13,7 +13,7 @@
     >
         <div class="hero-body">
             <div class="container has-text-centered">
-                <h2 class="title is-3">Create your account</h2>
+                <h2 class="title is-3">Get Started</h2>
                 <p class="title is-5">You have three options to get started.</p>
                 <p class="disclaimer subtitle is-6">* Please note, all three options are phone calls.</p>
                 <ul class="signup-options columns">
