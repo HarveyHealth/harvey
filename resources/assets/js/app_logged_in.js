@@ -1,7 +1,4 @@
 import './bootstrap';
-
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 import router from './routes';
 
 // filters

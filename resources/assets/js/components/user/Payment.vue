@@ -128,7 +128,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .is-expanded:first-child {
         margin-right: 1.5rem;
     }

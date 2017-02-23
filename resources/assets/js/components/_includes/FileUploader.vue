@@ -101,11 +101,9 @@
     }
 </script>
 
-<style lang="sass" scoped>
-    $grey-lighter: hsl(0, 0%, 86%);
+<style lang="scss" scoped>
+    @import "../../../sass/variables";
     $white-ter: hsl(0, 0%, 96%);
-    $primary: #85af4a;
-    $space-small: 10px;
 
     form {
         flex: 1;

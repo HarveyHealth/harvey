@@ -52,20 +52,15 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
+    @script({{  mix('/js/manifest.js') }})
+    @script({{  mix('/js/vendor.js') }})
+
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_public.js') }})
-        @else
-            @script(/js/app_public.js)
-        @endif
+        @script({{  mix('/js/app_public.js') }})
     @else
         @script(https://js.stripe.com/v2/)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_logged_in.js') }})
-        @else
-            @script(/js/app_logged_in.js)
-        @endif
+        @script({{  mix('/js/app_logged_in.js') }})
     @endif
 
     @stack('scripts')

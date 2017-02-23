@@ -65,7 +65,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .box:not(:last-child) {
         margin-bottom: 0;
     }
