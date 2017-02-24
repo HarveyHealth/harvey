@@ -2,7 +2,7 @@
 
 @section('page_title', 'Sign Up')
 
-@if (App::environment('production', 'staging'))
+@if (App::environment('production', 'staging', 'local'))
     @section('body_class','widget')
     @push('square')
         @script(https://squareup.com/appointments/buyer/widget/c64ea9cf-ffea-45c8-a153-d0dd72234c4c.js)
@@ -15,19 +15,31 @@
             <div class="container has-text-centered">
                 <h2 class="title is-3">Get Started</h2>
                 <p class="title is-5">You have three options to get started.</p>
-                <p class="disclaimer subtitle is-6">* Please note, all three options are phone calls.</p>
+                <p class="disclaimer subtitle is-6 column is-offset-3">Please note, Harvey is a <strong>telehealth</strong> provider of integrative medicine and we do not have physical office locations. All three options are phone calls.</p>
                 <ul class="signup-options columns">
                     <li class="signup-option-item column columns is-mobile">
                         <span class="icon column is-2 is-offset-1"><i class="fa fa-user-o"></i></span>
-                        <span class="column is-8 signup-option-item-description">Talk to a past Harvey client about their experience<br><strong>Free</strong></span>
+                        <span class="column is-8 signup-option-item-description">
+                            <strong>Past Customer</strong><br>
+                            Talk via phone to a past Harvey client about their experience using Harvey.<br>
+                            <strong>Free • 15 min</strong>
+                        </span>
                     </li>
                     <li class="signup-option-item column columns is-mobile">
                         <span class="icon column is-2 is-offset-1"><i class="fa fa-smile-o"></i></span>
-                        <span class="column is-8 signup-option-item-description">Talk to a Harvey agent about our products and services<br><strong>Free</strong></span>
+                        <span class="column is-8 signup-option-item-description">
+                            <strong>Harvey Advisor</strong><br>
+                            Talk via phone with a Harvey advisor to learn about our products and services.<br>
+                            <strong>Free • 30 min</strong>
+                        </span>
                     </li>
                     <li class="signup-option-item column columns is-mobile">
                         <span class="icon column is-2 is-offset-1"><i class="fa fa-user-md"></i></span>
-                        <span class="column is-8 signup-option-item-description">Consultation with one of our naturopathic doctors<br><strong>$150</strong></span>
+                        <span class="column is-8 signup-option-item-description">
+                            <strong>Naturopathic Doctor</strong><br>
+                            Consult via video with a licensed naturopathic doctor about your conditions.<br>
+                            <strong>$150 • 1 hour</strong>
+                        </span>
                     </li>
                 </ul>
             </div>
