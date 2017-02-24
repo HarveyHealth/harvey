@@ -2,12 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\UserAccountCreated;
-use App\Mail\Welcome;
+use App\Events\SomeEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SendNewUserEmail
+class EventListener
 {
     /**
      * Create the event listener.
@@ -22,12 +21,11 @@ class SendNewUserEmail
     /**
      * Handle the event.
      *
-     * @param  UserAccountCreated  $event
+     * @param  SomeEvent  $event
      * @return void
      */
-    public function handle(UserAccountCreated $event)
+    public function handle(SomeEvent $event)
     {
-        $user = $event->user;
-        Mail::to($user)->send(new Welcome($user));
+        //
     }
 }
