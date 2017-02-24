@@ -17,17 +17,17 @@
                 <p class="title is-5">You have three options to get started.</p>
                 <p class="disclaimer subtitle is-6">* Please note, all three options are phone calls.</p>
                 <ul class="signup-options columns">
-                    <li class="signup-option-item column">
-                        <span class="icon"><i class="fa fa-user-o"></i></span>
-                        <span>Past Harvey client<br><strong>Free</strong></span>
+                    <li class="signup-option-item column columns is-mobile">
+                        <span class="icon column is-2 is-offset-1"><i class="fa fa-user-o"></i></span>
+                        <span class="column is-8 signup-option-item-description">Talk to a past Harvey client about their experience<br><strong>Free</strong></span>
                     </li>
-                    <li class="signup-option-item column">
-                        <span class="icon"><i class="fa fa-smile-o"></i></span>
-                        <span>Harvey agent<br><strong>Free</strong></span>
+                    <li class="signup-option-item column columns is-mobile">
+                        <span class="icon column is-2 is-offset-1"><i class="fa fa-smile-o"></i></span>
+                        <span class="column is-8 signup-option-item-description">Talk to a Harvey agent about our products and services<br><strong>Free</strong></span>
                     </li>
-                    <li class="signup-option-item column">
-                        <span class="icon"><i class="fa fa-user-md"></i></span>
-                        <span>Naturopathic doctor<br><strong>$150</strong></span>
+                    <li class="signup-option-item column columns is-mobile">
+                        <span class="icon column is-2 is-offset-1"><i class="fa fa-user-md"></i></span>
+                        <span class="column is-8 signup-option-item-description">Consultation with one of our naturopathic doctors<br><strong>$150</strong></span>
                     </li>
                 </ul>
             </div>

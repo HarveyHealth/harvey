@@ -7,11 +7,11 @@ body.signup {
     }
     .signup-options {
         text-align: left;
-        width: 200px;
+        max-width: 320px;
         margin-left: auto;
         margin-right: auto;
         @include from($tablet) {
-            width: auto;
+            max-width: none;
             margin-top: 2rem;
             text-align: center;
         }
@@ -21,7 +21,13 @@ body.signup {
             display: inline-block;
             text-align: left;
         }
+        .icon {
+            font-size: 2rem;
+            margin-top: 0.75em;
+        }
         @include from($tablet) {
+            margin-left: 0;
+            margin-right: 0;
             &:not(:last-child) {
                 position: relative;
                 &:after {
