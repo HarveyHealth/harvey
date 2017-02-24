@@ -100,11 +100,6 @@ class User extends Authenticatable implements Mailable
         return !$this->passwordSet();
     }
 
-    public function needsVerification()
-    {
-        return $this->passwordNotSet();
-    }
-
     public function emailVerificationTokenMismatch($token)
     {
         return $token != $this->emailVerificationToken();

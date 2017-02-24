@@ -14,8 +14,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        if($user->needsVerification()) {
-            $user->sendVerificationEmail();
-        }
+        $user->sendVerificationEmail();
     }
 }
