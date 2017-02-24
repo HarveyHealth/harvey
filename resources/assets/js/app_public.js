@@ -154,7 +154,13 @@ const app = new Vue({
         },
         onIframeClick() {
             if(document.activeElement === document.querySelector('iframe')) {
-                this.showSignupContent = false;
+                setTimeout(() => {
+                    this.showSignupContent = false;
+                }, 200);
+                setTimeout(() => {
+                    const bodyEl = document.getElementsByTagName('body')[0];
+                    bodyEl.className += ' widget-on-focus';                    
+                }, 500);
                 window.removeEventListener('blur', this.onIframeClick);
             }
         }

@@ -1,9 +1,13 @@
 body.signup {
-    min-height: 100vh;
     padding-bottom: 30px;
     overflow-y: hidden;
     a[href*="/signup"] {
         display: none;
+    }
+    &.widget {
+        &.widget-on-focus {
+            height: 100vh;
+        }
     }
     .signup-options {
         text-align: left;
