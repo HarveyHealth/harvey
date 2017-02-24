@@ -55,7 +55,6 @@ body.signup {
         display: none;
     }
     .hero {
-        max-height: 100vh;
         transition: max-height $speed $speed * 0.25;
         &.animated {
             max-height: 0px;
