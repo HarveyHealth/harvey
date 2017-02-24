@@ -50,7 +50,7 @@ class RegisterController extends Controller
             'first_name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'email' => 'required|email|max:150|unique:users',
-            'phone' => 'required|max:10|unique:users',
+            'phone' => 'required|phone:AUTO,US|max:10|unique:users',
             'password' => 'required|min:6',
             'terms' => 'required|accepted',
         ]);
@@ -65,6 +65,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         User::unguard();
+
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],

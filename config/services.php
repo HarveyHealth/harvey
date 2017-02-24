@@ -37,6 +37,10 @@ return [
 
     'slack' => [
         'webhook_url' => env('SLACK_WEBHOOK_URL')
-    ]
+    ],
+
+    'intakeq' => [
+        'api_key' => env('INTAKEQ_API_KEY')
+    ],
 
 ];

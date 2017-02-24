@@ -173,6 +173,7 @@ return [
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
 
         /*
          * Application Service Providers...
