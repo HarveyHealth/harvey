@@ -94,11 +94,25 @@ class User extends Authenticatable implements Mailable
         return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
     }
 
+    public function noPasswordSet()
+    {
+        return is_null($this->password);
+    }
+
+    public function needsVerification()
+    {
+        return $this->noPasswordSet();
+    }
+
+    public function emailVerificationTokenMismatch($token)
+    {
+        return $token != $this->emailVerificationToken();
+    }
+
     public function sendVerificationEmail()
     {
         Mail::to($this)->send(new VerifyEmailAddress($this));
     }
-
 
     /* Mailable Interface Methods */
     public function emailVerificationToken()

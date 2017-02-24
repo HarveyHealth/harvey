@@ -77,11 +77,4 @@ class RegisterController extends Controller
         ]);
         User::guard();
     }
-
-    protected function registered(Request $request, $user)
-    {
-        $user->sendVerificationEmail();
-
-        return redirect($this->redirectPath());
-    }
 }
