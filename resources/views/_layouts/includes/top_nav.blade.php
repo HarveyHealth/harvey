@@ -1,6 +1,6 @@
 <nav class="header nav"
     @if (Auth::guest())
-        :class="{'is-inverted': nav_is_inverted}"
+        :class="{'is-inverted': navIsInverted}"
     @endif
 >
     <div class="container">

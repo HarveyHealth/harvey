@@ -12,8 +12,8 @@
         <div class="upload-action-box" :class="{'upload-action-box--has-file': hasFile}">
             <transition
                 mode="out-in"
-                enter-active-class="animated is-fast fadeIn"
-                leave-active-class="animated is-fast fadeOut"
+                enter-active-class="animated animated-fast fadeIn"
+                leave-active-class="animated animated-fast fadeOut"
             >
                 <label v-if="!hasFile" for="fileInput" class="is-block has-text-centered"
                     :class="{'is-ready': hasFile}"

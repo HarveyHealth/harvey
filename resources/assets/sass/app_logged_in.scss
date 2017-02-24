@@ -6,12 +6,6 @@
     flex: 1;
 }
 
-.animated {
-    &.is-fast {
-        animation-duration: 0.25s;
-    }
-}
-
 .hero,
 .nav {
     background-color: transparent;
