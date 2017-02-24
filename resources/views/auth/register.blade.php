@@ -15,10 +15,12 @@
             <div class="container has-text-centered">
                 <h2 class="title is-3">Get Started</h2>
                 <p class="title is-5">You have three options to get started.</p>
-                <p class="disclaimer subtitle is-6 column is-offset-3">Please note, Harvey is a <strong>telehealth</strong> provider of integrative medicine and we do not have physical office locations. All three options are phone calls.</p>
+                <p class="disclaimer subtitle is-6 column is-offset-3">Please note, Harvey is a <strong>telehealth</strong> provider of integrative medicine; we do not have physical office locations. We allow you to consult with trusted naturopathic doctors and perform lab tests right in the comfort of your home.</p>
                 <ul class="signup-options columns">
                     <li class="signup-option-item column columns is-mobile">
-                        <span class="icon column is-2 is-offset-1"><i class="fa fa-user-o"></i></span>
+                        <span class="icon column is-3 is-offset-1">
+                            <img src="/images/register/mother.png" alt="Harvey Customer">
+                        </span>
                         <span class="column is-8 signup-option-item-description">
                             <strong>Past Customer</strong><br>
                             Talk via phone to a past Harvey client about their experience using Harvey.<br>
@@ -26,7 +28,9 @@
                         </span>
                     </li>
                     <li class="signup-option-item column columns is-mobile">
-                        <span class="icon column is-2 is-offset-1"><i class="fa fa-smile-o"></i></span>
+                        <span class="icon column is-3 is-offset-1">
+                            <img src="/images/register/advisor.png" alt="Harvey Advisor">
+                        </span>
                         <span class="column is-8 signup-option-item-description">
                             <strong>Harvey Advisor</strong><br>
                             Talk via phone with a Harvey advisor to learn about our products and services.<br>
@@ -34,10 +38,12 @@
                         </span>
                     </li>
                     <li class="signup-option-item column columns is-mobile">
-                        <span class="icon column is-2 is-offset-1"><i class="fa fa-user-md"></i></span>
+                        <span class="icon column is-3 is-offset-1">
+                            <img src="/images/register/doctor.png" alt="Harvey Doctor">
+                        </span>
                         <span class="column is-8 signup-option-item-description">
                             <strong>Naturopathic Doctor</strong><br>
-                            Consult via video with a licensed naturopathic doctor about your conditions.<br>
+                            Consult via phone with a licensed naturopathic doctor about your conditions.<br>
                             <strong>$150 • 1 hour</strong>
                         </span>
                     </li>
