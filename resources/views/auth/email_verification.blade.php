@@ -3,15 +3,21 @@
 @section('page_title','Email Verified')
 
 @section('content')
+<section class="section">
+        <div class="container">
+            <div class="content">
+                <h2>Thank you for verifying your email.</h2>
 
-<div class="container">
-	<h2>
-		{{ $verified_already ?
-			'You have already verified your email.' :
-			'Thank you for verifying your email.' }}
-	</h2>
-    <p>Visit your <a href="/dashboard">dashboard here</a>.</p>
-</div>
-
-
+                @if ($password_not_set)
+                <h3>Please set your password.</h3>
+					<form action="/verify/{{ $user_id }}/{{ $token }}" method="POST">
+                        {{ csrf_field() }}
+						<label for="password">Password:</label>
+						<input type="password" name="password">
+						<input type="submit">
+					</form>
+				@endif
+            </div>
+        </div>
+    </section>
 @endsection

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Validator;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
         // load any blade extensions
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
+        User::observe(UserObserver::class);
     }
 
     /**
