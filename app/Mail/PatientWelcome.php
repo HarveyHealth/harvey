@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Welcome extends Mailable
+class PatientWelcome extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,6 @@ class Welcome extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mails.patients.welcome');
+        return $this->markdown('mail.patient.welcome');
     }
 }
