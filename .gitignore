@@ -10,6 +10,7 @@ Homestead.json
 .env.testing
 .env.dev
 .env.staging
+.env.dusk.local
 .DS_Store
 *.css.map
 *.js.map
