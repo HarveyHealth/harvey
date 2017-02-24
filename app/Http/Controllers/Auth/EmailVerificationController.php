@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class EmailVerificationController extends Controller
 {
-    public function handle($user_id, $token)
+    public function verify($user_id, $token)
     {
         $user = User::findOrFail($user_id);
 
@@ -22,9 +23,25 @@ class EmailVerificationController extends Controller
             $user->save();
         }
 
-        $password_set = isset($user->password);
+        $password_not_set = $user->passwordNotSet();
         $user_type = $user->user_type;
 
-        return view('auth.email_verification')->with(compact('password_set', 'user_type'));
+        return view('auth.email_verification')
+            ->with(compact('password_not_set', 'user_type', 'user_id', 'token'));
+    }
+
+    public function setPassword(Request $request, $user_id, $token)
+    {
+        $user = User::findOrFail($user_id);
+
+        if($user->emailVerificationTokenMismatch($token)) {
+            abort(404);
+        }
+
+        $user->password = bcrypt($request->get('password'));
+        $user->save();
+        auth()->login($user);
+
+        return redirect()->route('dashboard');
     }
 }

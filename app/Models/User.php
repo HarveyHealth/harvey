@@ -67,11 +67,7 @@ class User extends Authenticatable implements Mailable
      */
     public function imageURL()
     {
-        if (!empty($this->image_url)) {
-            return $this->image_url;
-        }
-
-        return config('app.default_image_url');
+        return $this->image_url ?: config('app.default_image_url');
     }
 
     public function superUser()
@@ -94,14 +90,19 @@ class User extends Authenticatable implements Mailable
         return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
     }
 
-    public function noPasswordSet()
+    public function passwordSet()
     {
-        return is_null($this->password);
+        return isset($this->password);
+    }
+
+    public function passwordNotSet()
+    {
+        return !$this->passwordSet();
     }
 
     public function needsVerification()
     {
-        return $this->noPasswordSet();
+        return $this->passwordNotSet();
     }
 
     public function emailVerificationTokenMismatch($token)
