@@ -13,19 +13,18 @@ class EmailVerificationController extends Controller
     {
         $user = User::findOrFail($user_id);
 
-        if ($token != $user->emailVerificationToken()) {
+        if($user->emailVerificationTokenMismatch($token)) {
             abort(404);
         }
 
-        if($user->email_verified_at) {
-            $verified_already = true;
-        } else {
+        if (!$user->email_verified_at) {
             $user->email_verified_at = Carbon::now();
-            $verified_already = false;
+            $user->save();
         }
 
-        $user->save();
+        $password_set = isset($user->password);
+        $user_type = $user->user_type;
 
-        return view('auth.email_verification')->with(['verified_already' => $verified_already]);
+        return view('auth.email_verification')->with(compact('password_set', 'user_type'));
     }
 }
