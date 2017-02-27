@@ -5,6 +5,7 @@
         >
             <div class="control-label">
                 <label class="label">{{stat.label}}</label>
+                <small class="symptoms-selector-description">{{stat.description}}</small>
             </div>
             <div class="control">
                 <vue-slider
@@ -83,10 +84,14 @@
         margin-top: 0.75rem;
     }
     .label {
-        font-weight: 400;
+        font-weight: 500;
+        &:not(:last-child) {
+            margin-bottom: 0.25em;
+        }
     }
     .control-label {
         text-align: left;
+        margin-bottom: 2em;
     }
     .control:not(:last-child) {
         margin-bottom: 1.5rem;
@@ -94,10 +99,14 @@
             margin-bottom: 1rem;
         }
     }
+    .symptoms-selector-description {
+        display: block;
+        line-height: 1.5;
+    }
     @media screen and (min-width: 768px) {
         .control.is-horizontal > .control {
             display: block;
-            flex-grow: 2;
+            flex-grow: 1.5;
             padding-top: 0.5em;
         }
         .control-label {
@@ -107,7 +116,7 @@
     }
     @media screen and (min-width: 1192px) {
         .control.is-horizontal > .control {
-            flex-grow: 2.2;
+            flex-grow: 1.25;
         }
     }
 </style>
