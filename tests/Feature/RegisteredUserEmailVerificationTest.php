@@ -24,12 +24,9 @@ class RegisteredUserEmailVerificationTest extends TestCase
             'terms' => true
         ];
 
-        Mail::shouldReceive('to')->once()->andReturnSelf()
-        ->shouldReceive('send')->once();
-
         $response = $this->call('POST', 'register', $params);
 
-        $response->assertRedirect(secure_url('dashboard'));
+        $response->assertRedirect(route('home'));
     }
 }
 
