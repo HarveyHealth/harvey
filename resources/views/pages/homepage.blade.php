@@ -346,7 +346,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Your symptoms</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our doctors have had success treating a variety of different body system conditions. To get started, tell us the severity of each of your conditions using the sliders below (5 is the most severe).</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our doctors have had success treating a variety of symptoms and conditions. To get started, please tell us the severity of each of your conditions using the sliders below (5 being the most severe).</p>
                 <div class="symptoms-container">
                     <symptoms :stats="symptomsStats" @changed="onChanged"></symptoms>
                 </div>

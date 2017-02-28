@@ -44,12 +44,12 @@ const app = new Vue({
         symptomsStats: {
             cardiovascular: {
                 label: 'Cardiovascular',
-                description: 'Chest pain, dizziness, fainting, fever, irregular heartbeat, shortness of breath, swelling, etc.',
+                description: 'Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.',
                 value: 3
             },
             digestive: {
                 label: 'Digestive',
-                description: 'Acid reflux, constipation, diarrhea, heartburn, indigestion, etc.',
+                description: 'Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.',
                 value: 3
             },
             endocrine_hormonal: {
@@ -59,17 +59,17 @@ const app = new Vue({
             },
             dermatological: {
                 label: 'Dermatological',
-                description: 'Hair, skin and nails deterioration, sweat and other exocrine gland issues.',
+                description: 'Hair, skin and nails weakness, and other exocrine gland issues.',
                 value: 3
             },
             immune: {
                 label: 'Immune',
-                description: 'Trouble fighting disease-causing agents and other known autoimmune diseases.',
+                description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or trouble fighting known autoimmune diseases.',
                 value: 3
             },
             musculo_skeletal: {
                 label: 'Musculo-skeletal',
-                description: 'Aches, body fatigue, loss of muscle control, muscle pain, etc.',
+                description: 'Aches, muscle pain, body fatigue, loss of muscle control, etc.',
                 value: 3
             },
             nervous: {
@@ -79,17 +79,17 @@ const app = new Vue({
             },
             renal_urinary: {
                 label: 'Renal/Urinary',
-                description: 'Bladder control, constant urinary tract infections, liver/kidney issues, etc.',
+                description: 'Loss of bladder control, urinary tract infection, liver/kidney issues, etc.',
                 value: 3
             },
             reproductive: {
                 label: 'Reproductive',
-                description: 'Impotence, loss of libido, pre/post-menopause, and other reproductive issues.',
+                description: 'Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.',
                 value: 3
             },
             respiratory: {
                 label: 'Respiratory',
-                description: 'Allergies, breathing problems, consistent cough/cold issues, bronchial inflammation, etc.',
+                description: 'Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.',
                 value: 3
             }
         },
