@@ -1,11 +1,11 @@
 <template>
     <div class="symptoms-selector-wrapper columns is-desktop is-multiline">
-        <div class="control is-horizontal column is-half-desktop"
+        <div class="control column is-half-desktop"
              v-for="stat in stats"
         >
             <div class="control-label">
                 <label class="label">{{stat.label}}</label>
-                <small class="symptoms-selector-description">{{stat.description}}</small>
+                <label class="symptoms-selector-description">{{stat.description}}</label>
             </div>
             <div class="control">
                 <vue-slider
@@ -70,6 +70,9 @@
 </script>
 
 <style lang="sass">
+    .column {
+        padding: 0.75rem 1.5rem;
+    }
     .control-legend {
         margin-bottom: 0;
         padding-top: 0;
@@ -85,13 +88,14 @@
     }
     .label {
         font-weight: 500;
+        font-size: 1.125em;
         &:not(:last-child) {
             margin-bottom: 0.25em;
         }
     }
     .control-label {
         text-align: left;
-        margin-bottom: 2em;
+        margin-bottom: 2.5em;
     }
     .control:not(:last-child) {
         margin-bottom: 1.5rem;
@@ -102,6 +106,9 @@
     .symptoms-selector-description {
         display: block;
         line-height: 1.5;
+        @media screen and (min-width: 1000px) {
+            min-height: 3em;
+        }
     }
     @media screen and (min-width: 768px) {
         .control.is-horizontal > .control {
