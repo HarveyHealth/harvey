@@ -44,52 +44,52 @@ const app = new Vue({
         symptomsStats: {
             cardiovascular: {
                 label: 'Cardiovascular',
-                description: 'Chest pain, shortness of breath, dizziness, irregular heartbeat, fainting, swelling, fever, stroke, heart disease, etc.',
+                description: 'Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.',
                 value: 3
             },
             digestive: {
                 label: 'Digestive',
-                description: 'Heartburn, acid reflux, indigestion, diarrhea, gallstones, constipation, IBS, Crohn\'s disease, Celiac disease, etc.',
+                description: 'Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.',
                 value: 3
             },
             endocrine_hormonal: {
                 label: 'Endocrine/Hormonal',
-                description: 'Hot flashes, night sweats, weight gain/loss, insomnia, fatigue, mood swings, fibrosis, fatigue, depression, vaginal dryness, etc.',
+                description: 'Depression, fatigue, hot flashes, insomnia, mood swings, night sweats, stress, vaginal dryness, weight gain/loss, etc.',
                 value: 3
             },
             dermatological: {
                 label: 'Dermatological',
-                description: 'Hair, skin, nails, sweat and other exocrine gland issues.',
+                description: 'Hair, skin and nails weakness, and other exocrine gland issues.',
                 value: 3
             },
             immune: {
                 label: 'Immune',
-                description: 'Trouble fighting disease-causing agents.',
+                description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or trouble fighting known autoimmune diseases.',
                 value: 3
             },
             musculo_skeletal: {
                 label: 'Musculo-skeletal',
-                description: 'Aches, muscle pain, body fatigue, loss of muscle control, Fibromyalgia, etc.',
+                description: 'Aches, muscle pain, body fatigue, loss of muscle control, etc.',
                 value: 3
             },
             nervous: {
                 label: 'Nervous',
-                description: 'Headaches, migraines, numbness, tremors, etc.',
+                description: 'Headaches, migraines, numbness, tingling, tremors, etc.',
                 value: 3
             },
             renal_urinary: {
                 label: 'Renal/Urinary',
-                description: 'Bladder control issues, urinary tract infection and impaired kidney functions.',
+                description: 'Loss of bladder control, urinary tract infection, liver/kidney issues, etc.',
                 value: 3
             },
             reproductive: {
                 label: 'Reproductive',
-                description: 'Impotence, loss of libido, menopause, cancers, and other reproductive problems.',
+                description: 'Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.',
                 value: 3
             },
             respiratory: {
                 label: 'Respiratory',
-                description: 'Respiratory infections, Asthma, COPD, Bronchitis, Cystic fibrosis, Tracheitis,  etc.',
+                description: 'Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.',
                 value: 3
             }
         },
