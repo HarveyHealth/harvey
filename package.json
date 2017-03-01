@@ -20,12 +20,14 @@
     "bulma": "^0.3.0",
     "cross-env": "^3.1.4",
     "es6-promise": "^4.0.5",
+    "image-webpack-loader": "^3.2.0",
     "laravel-mix": "^0.8.1",
     "lodash": "^4.16.2",
     "moment": "^2.17.1",
     "vue": "^2.0.1",
     "vue-router": "^2.1.1",
-    "vue-slider-component": "^2.1.2"
+    "vue-slider-component": "^2.1.2",
+    "webpack-spritesmith": "^0.3.1"
   },
   "apidoc": {
     "title": "Harvey API Documentation",

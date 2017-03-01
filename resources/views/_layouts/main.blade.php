@@ -53,7 +53,7 @@
     </script>
 
     @script({{  mix('/js/manifest.js') }})
-    @script({{  mix('/js/vendor.js') }})
+    @script({{  mix('/js/module_extract.js') }})
 
     @if (Auth::guest())
         @script(/js/libs/modernizr-custom.js)
