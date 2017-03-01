@@ -2,6 +2,7 @@ let path = require('path');
 let webpack = require('webpack');
 let Mix = require('laravel-mix').config;
 let plugins = require('laravel-mix').plugins;
+const SpritesmithPlugin = require('webpack-spritesmith');
 
 
 /*
@@ -237,7 +238,9 @@ module.exports.resolve = {
 
     alias: {
         'vue$': 'vue/dist/vue.common.js'
-    }
+    },
+
+    modulesDirectories: ["sprite"]
 };
 
 
@@ -334,6 +337,21 @@ module.exports.plugins = (module.exports.plugins || []).concat([
             ],
             context: __dirname,
             output: { path: './' }
+        }
+    }),
+
+    new SpritesmithPlugin({
+        src: {
+            cwd: path.resolve(__dirname, 'resources/assets/sprite'),
+            glob: '*.png'
+        },
+        target: {
+            image: path.resolve(__dirname, 'public/images/sprite/sprite.png'),
+            css: path.resolve(__dirname, 'resources/assets/sass/_sprite.scss')
+        },
+        retina: '@2x',
+        apiOptions: {
+            cssImageRef: "~sprite.png"
         }
     })
 ]);
