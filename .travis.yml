@@ -3,6 +3,8 @@ git:
 language: php
 php:
 - '7.1'
+services:
+  - mysql
 cache:
   yarn: true
   directories:
@@ -10,6 +12,7 @@ cache:
 before_install:
 - nvm install 6.9.1
 - nvm use 6.9.1
+- mysql -e 'CREATE DATABASE harvey;'
 - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 - sudo apt-get update -qq
