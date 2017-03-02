@@ -14,8 +14,8 @@
                     id="login"
                     role="form"
                     method="post"
-                    action="{{ secure_url('/login') }}"
-                    redirect-url="{{ secure_url('/dashboard') }}"
+                    action="/login"
+                    redirect-url="/dashboard"
                     @submit.prevent.self="onSubmit"
                     @keydown="login.form.errors.clear($event.target.name)"
                 >
@@ -68,7 +68,7 @@
                             Remember me
                         </label>
                     </p>
-                    
+
                     <p class="control is-clearfix">
                         <button
                             type="submit"

@@ -65,8 +65,8 @@
                         id="register"
                         role="form"
                         method="post"
-                        action="{{ secure_url('/register') }}"
-                        redirect-url="{{ secure_url('/dashboard#/new-appointment') }}"
+                        action="/register"
+                        redirect-url="/dashboard#/new-appointment"
                         @submit.prevent="onSubmit"
                         @keydown="register.form.errors.clear($event.target.name)"
                     >

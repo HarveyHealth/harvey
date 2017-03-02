@@ -25,7 +25,7 @@ class RegisterController extends Controller
 
     protected function redirectTo()
     {
-        return secure_url('dashboard');
+        return url('dashboard');
     }
 
     /**
