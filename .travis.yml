@@ -20,6 +20,7 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -y -qq yarn
 before_script:
+- bash .travis.install-mysql-5.7.sh
 - yarn
 - phpenv config-rm xdebug.ini
 - composer self-update
