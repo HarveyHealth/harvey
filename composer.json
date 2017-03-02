@@ -22,15 +22,15 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "fideloper/proxy": "^3.2",
         "doctrine/dbal": "^2.5",
-        "propaganistas/laravel-phone": "^2.8"
+        "propaganistas/laravel-phone": "^2.8",
+        "laravel/dusk": "^1.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^4",
-        "laravel/dusk": "^1.0"
+        "laravel/homestead": "^4"
     },
     "repositories": [
         {
