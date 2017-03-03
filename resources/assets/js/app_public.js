@@ -1,13 +1,27 @@
+// This file defines interaction that happens on public pages.
+// Specifically, it covers:
+//     - top navbar
+//     - home page
+//         * symptoms selector
+//         * tabs selector
+//     - log in page
+//     - register page
+
 import './bootstrap';
 
-// helpers
-import Form from './objects/Form.js';
+// HELPERS
 import {throttle, debounce} from 'lodash';
 
-// mixins
+// Forms handling, such as error handling, submit request, response handling, is extracted to a class
+// it is used for log in, register form on the public pages
+import Form from './objects/Form.js';
+
+// MIXINS
+// TopNav includes top navbar behaviors and is shared between public and logged in pages
 import TopNav from './mixins/TopNav';
 
-// components
+// COMPONENTS
+// Below are componnents used on `resources/views/pages/homepage.blade.php`
 import Symptoms from './components/pages/Symptoms.vue';
 import VerticalTab from './components/_includes/VerticalTab.vue';
 import VerticalTabs from './components/_includes/VerticalTabs.vue';
@@ -105,7 +119,8 @@ const app = new Vue({
         }
     },
     methods: {
-        // log in and register forms
+        // Passed as props to log in and register forms
+        // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
         onSubmit(e) {
             let target = e.target,
                 formId = target.id,
@@ -122,7 +137,7 @@ const app = new Vue({
                 if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },
-        // symptoms
+        // Symptoms selector
         onChanged() {
             this.symptomsChanged = true;
         },
@@ -152,7 +167,7 @@ const app = new Vue({
             });
             return result;
         },
-        onScroll(e) {
+        invertNavOnScroll(e) {
             if (window.pageYOffset > this.navScrollThreshold) {
                 if (this.navIsInverted) this.navIsInverted = false;
             } else {
@@ -160,7 +175,7 @@ const app = new Vue({
             }
         },
         onPageScroll() {
-            window.addEventListener('scroll', _.throttle(this.onScroll, this.wait), false);
+            window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
         },
         onIframeClick() {
             if(document.activeElement === document.querySelector('iframe')) {
