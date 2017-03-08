@@ -11,14 +11,6 @@ let routes = [
         name: 'new-appointment',
         component: require('./components/new_appointment/NewAppointmentWrapper.vue')
     },
-    // {
-    //     path: '/profile',
-    //     component: require('./components/Profile.vue')
-    // },
-    // {
-    //     path: '/payment',
-    //     component: require('./components/Payment.vue')
-    // },
     {
         path: '*',
         redirect:  '/'

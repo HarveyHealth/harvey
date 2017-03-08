@@ -9,7 +9,10 @@
 @endpush
 
 @section('main_content')
+{{-- Alert component for handling success/error messages --}}
 <alert></alert>
+
+{{-- Transition effect is added when view changes --}}
 <transition
     mode="out-in"
     enter-active-class="animated animated-fast fadeIn"
