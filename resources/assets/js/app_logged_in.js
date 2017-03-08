@@ -4,17 +4,17 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 import router from './routes';
 
-// filters
+// FILTERS
 import filter_datetime from './filters/datetime';
 Vue.filter('datetime', filter_datetime);
 
-// mixins
+// MIXINS
 import TopNav from './mixins/TopNav';
 
-// components
+// COMPONENETS
 import Alert from './components/_includes/Alert.vue';
 
-// event handler
+// Centralized event handler to easily share among components
 const eventHub = new Vue();
 Vue.prototype.$eventHub = eventHub;
 
