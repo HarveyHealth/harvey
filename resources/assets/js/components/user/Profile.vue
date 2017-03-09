@@ -259,7 +259,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .control.has-addons {
         .input {
             width: 100%;

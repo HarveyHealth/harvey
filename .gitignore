@@ -1,5 +1,6 @@
 /node_modules
 /public/storage
+/public/hot
 /storage/logs/
 /storage/debugbar/
 /storage/*.key
@@ -15,12 +16,9 @@ Homestead.json
 *.css.map
 *.js.map
 .vagrant
-/public/css/app.css
-/public/css/app_public.css
-/public/css/app_logged_in.css
-/public/js/app_public.js
-/public/js/app_logged_in.js
-/public/js/vendors.js
+/public/css/**/*.css
+/public/js/**/*.js
+/public/mix-manifest.json
 /public/build/*
 /ngrok
 /.env.dusk.local

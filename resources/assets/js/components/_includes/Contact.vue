@@ -42,7 +42,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .modal-content {
         overflow-y: hidden;
     }

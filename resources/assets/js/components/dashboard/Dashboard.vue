@@ -55,7 +55,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .nav {
         justify-content: flex-end;
     }

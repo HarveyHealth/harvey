@@ -2,11 +2,7 @@
 @section('page_title',$page_title)
 
 @push('stylesheets')
-    @stylesheet(/css/legal.css)
-@endpush
-
-@push('scripts')
-    {{-- use @script(path/to/script.js) here --}}
+    @stylesheet({{ mix('css/legal.css')}})
 @endpush
 
 @section('content')

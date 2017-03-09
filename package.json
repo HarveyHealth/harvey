@@ -4,30 +4,31 @@
   },
   "private": true,
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "export NODE_ENV=development && gulp watch",
-    "postinstall": "gulp --production"
+    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
+    "watch": "npm run dev -- -w",
+    "watch-poll": "npm run dev -- -w --watch-poll",
+    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "postinstall": "npm run production"
+  },
+  "config": {
+    "webpack": "node_modules/laravel-mix/setup/webpack.config.js"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bulma": "^0.3.0",
+    "cross-env": "^3.1.4",
     "es6-promise": "^4.0.5",
-    "gulp": "^3.9.1",
-    "laravel-elixir": "^6.0.0-14",
-    "laravel-elixir-browsersync-official": "^1.0.0",
-    "laravel-elixir-imagemin": "^0.2.3",
-    "laravel-elixir-spritesmith": "^0.4.0",
-    "laravel-elixir-vue-2": "^0.2.0",
-    "laravel-elixir-webpack-official": "^1.0.2",
+    "image-webpack-loader": "^3.2.0",
+    "imagemin-webpack-plugin": "^1.4.4",
+    "laravel-mix": "^0.8.8",
     "lodash": "^4.16.2",
     "moment": "^2.17.1",
-    "node-sass": "^4.3.0",
-    "sass-loader": "^4.1.1",
-    "style-loader": "^0.13.1",
     "vue": "^2.0.1",
     "vue-router": "^2.1.1",
-    "vue-slider-component": "^2.1.2"
+    "vue-slider-component": "^2.1.2",
+    "webpack-spritesmith": "^0.3.1"
   },
   "apidoc": {
     "title": "Harvey API Documentation",

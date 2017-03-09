@@ -67,7 +67,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .datetime-selector {
         color: #363636;
         &[disabled] {

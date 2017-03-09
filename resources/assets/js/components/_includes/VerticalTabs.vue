@@ -62,7 +62,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     $border: 1px solid #e3eaee;
 
     .vertical-tabs {

@@ -63,7 +63,7 @@
     }
 </script>
 
-<style lang="sass" scoped>
+<style lang="scss" scoped>
     .test-marker {
         color: #fff;
     }

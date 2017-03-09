@@ -22,11 +22,11 @@
     @stack('stylesheets')
 
     {{-- TYPEKIT async load --}}
-    @script(/js/libs/typekit.js)
+    @script(/js/vendors/typekit.js)
 
     {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
     @if (App::environment('production'))
-        @script({{ elixir('/js/vendors.js') }})
+        @script({{ elixir('/js/vendors/vendors_production_only.js') }})
         <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
     @endif
 
@@ -52,20 +52,15 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
+    @script({{  mix('/js/manifest.js') }})
+    @script({{  mix('/js/vendors/vendors_module_extract.js') }})
+
     @if (Auth::guest())
-        @script(/js/libs/modernizr-custom.js)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_public.js') }})
-        @else
-            @script(/js/app_public.js)
-        @endif
+        @script(/js/vendors/modernizr-custom.js)
+        @script({{  mix('/js/app_public.js') }})
     @else
         @script(https://js.stripe.com/v2/)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_logged_in.js') }})
-        @else
-            @script(/js/app_logged_in.js)
-        @endif
+        @script({{  mix('/js/app_logged_in.js') }})
     @endif
 
     @stack('scripts')

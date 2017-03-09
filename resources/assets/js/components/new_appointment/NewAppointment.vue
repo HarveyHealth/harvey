@@ -146,7 +146,7 @@
     }
 </script>
 
-<style lang="sass">
+<style lang="scss">
     $color-comp: #ada397;
 
     .datetime-selector {

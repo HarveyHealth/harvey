@@ -69,7 +69,7 @@
     }
 </script>
 
-<style lang="sass">
+<style lang="scss">
     .column {
         padding: 0.75rem 1.5rem;
     }
