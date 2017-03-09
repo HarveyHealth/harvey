@@ -4,11 +4,11 @@
   },
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules --config=$npm_package_config_webpack",
+    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules",
     "watch": "npm run dev -- -w",
     "watch-poll": "npm run dev -- -w --watch-poll",
-    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --config=$npm_package_config_webpack",
-    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules --config=$npm_package_config_webpack",
+    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "postinstall": "npm run production"
   },
   "config": {
@@ -21,7 +21,8 @@
     "cross-env": "^3.1.4",
     "es6-promise": "^4.0.5",
     "image-webpack-loader": "^3.2.0",
-    "laravel-mix": "^0.8.1",
+    "imagemin-webpack-plugin": "^1.4.4",
+    "laravel-mix": "^0.8.8",
     "lodash": "^4.16.2",
     "moment": "^2.17.1",
     "vue": "^2.0.1",

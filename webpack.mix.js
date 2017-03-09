@@ -16,6 +16,7 @@ mix.js('resources/assets/js/app_public.js', 'public/js')
     .sass('resources/assets/sass/app_public.scss', 'public/css')
     .sass('resources/assets/sass/app_logged_in.scss', 'public/css')
     .sass('resources/assets/sass/pages/legal.scss', 'public/css')
+    .copy('resources/assets/images', 'public/images', false)
     .browserSync('https://harvey.app');
 
 if (mix.config.inProduction) {
