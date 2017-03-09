@@ -22,3 +22,4 @@ Homestead.json
 /public/build/*
 /ngrok
 /.env.dusk.local
+.vscode/*
