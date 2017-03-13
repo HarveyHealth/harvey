@@ -62,14 +62,15 @@
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize",
-            "php artisan migrate --force"
+            "php artisan migrate --force",
+            "npm run postinstall"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
             "php artisan migrate --force",
             "php artisan view:clear",
-            "gulp"
+            "npm run dev"
         ]
     },
     "config": {
