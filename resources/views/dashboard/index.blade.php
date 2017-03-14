@@ -2,6 +2,6 @@
 
 @section('content')
 <div class="container">
-    @include('dashboard.dashboard_' . $current_user->user_type)
+    @include('dashboard.dashboard_' . $current_user->userType())
 </div>
 @endsection

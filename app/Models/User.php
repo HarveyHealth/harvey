@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Mail;
-use App\Models\PatientNote;
 use App\Mail\VerifyEmailAddress;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,26 +12,16 @@ use App\Http\Interfaces\Mailable;
 class User extends Authenticatable implements Mailable
 {
     use Notifiable;
-
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = ['id', 'enabled', 'user_type', 'password', 'api_token',
-                            'remember_token', 'terms_accepted_at', 'phone_verified_at',
-                            'email_verified_at','created_at', 'updated_at'];
-
-    protected $dates = ['created_at','updated_at','terms_accepted_at','phone_verified_at','email_verified_at'];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    
+    protected $guarded = ['id', 'enabled', 'password', 'api_token',
+                            'remember_token', 'terms_accepted_at',
+                            'phone_verified_at', 'email_verified_at',
+                            'created_at', 'updated_at'];
+    
+    protected $dates = ['created_at','updated_at','terms_accepted_at',
+                        'phone_verified_at','email_verified_at'];
+    
+    protected $hidden = ['password', 'remember_token'];
 
     protected static function boot()
     {
@@ -42,52 +31,76 @@ class User extends Authenticatable implements Mailable
             $builder->where('enabled', true);
         });
     }
-
-    public function patientNotes()
+    
+    public function patient()
     {
-        return $this->hasMany(PatientNote::class, 'patient_user_id', 'id');
+        return $this->hasOne(Patient::class);
     }
-
-    public function practitionerNotes()
+    
+    public function practitioner()
     {
-        return $this->hasMany(PatientNote::class, 'practitioner_user_id', 'id');
+        return $this->hasOne(Practitioner::class);
     }
-
-    /*
-     * Returns the concatenated full name
-     */
+    
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+    
+    public function appointments()
+    {
+        if ($this->isPatient()) {
+            return $this->hasManyThrough(Appointment::class, Patient::class);
+        } else {
+            return $this->hasManyThrough(Appointment::class, Practitioner::class);
+        }
+    }
+    
+    public function tests()
+    {
+        if ($this->isPatient()) {
+            return $this->hasManyThrough(Test::class, Patient::class);
+        } else {
+            return $this->hasManyThrough(Test::class, Practitioner::class);
+        }
+    }
+    
+    public function userType()
+    {
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        } else {
+            throwException("Unable to determine user's type.");
+        }
+    }
+    
+    public function isPatient()
+    {
+        return $this->patient != null;
+    }
+    
+    public function isPractitioner()
+    {
+        return $this->practitioner != null;
+    }
+    
+    public function isAdmin()
+    {
+        return $this->admin != null;
+    }
+    
     public function fullName()
     {
         return $this->first_name . ' ' . $this->last_name;
     }
-
-    /*
-     * Returns the image URL for this user
-     * If they don't have one, it returns a default
-     */
+    
     public function imageURL()
     {
         return $this->image_url ?: config('app.default_image_url');
-    }
-
-    public function superUser()
-    {
-        return $this->user_type == 'admin';
-    }
-
-    public function isPatient()
-    {
-        return $this->user_type == 'patient';
-    }
-
-    public function isPractitioner()
-    {
-        return $this->user_type == 'practitioner';
-    }
-
-    public function consultsWithUser(User $user)
-    {
-        return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
     }
 
     public function passwordSet()

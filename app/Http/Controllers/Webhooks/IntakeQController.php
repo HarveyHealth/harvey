@@ -13,7 +13,7 @@ class IntakeQController extends BaseWebhookController
     protected $intakeq;
     protected $geocoder;
 
-    function __construct(\App\Lib\Clients\IntakeQ $intakeq, \App\Lib\Clients\Geocoder $geocoder)
+    public function __construct(\App\Lib\Clients\IntakeQ $intakeq, \App\Lib\Clients\Geocoder $geocoder)
     {
         $this->intakeq = $intakeq;
         $this->geocoder = $geocoder;
@@ -29,11 +29,8 @@ class IntakeQController extends BaseWebhookController
         $intake_id = $payload['IntakeId'];
 
         if ($type == 'Intake Submitted') {
-
             $this->createUserForIntakeID($intake_id);
-
         } else {
-
             $message = '*[Notice]* Unhandled IntakeQ Type: ' . $type;
 
             // log it
@@ -51,7 +48,6 @@ class IntakeQController extends BaseWebhookController
         $details = $this->getUserDetailsUsingIntakeID($intake_id);
 
         if (!$details) {
-
             $message = 'Could not create user for IntakeQ ID:  ' . $intake_id;
 
             // log it
@@ -64,8 +60,8 @@ class IntakeQController extends BaseWebhookController
         }
 
         if (isset($details['Date of Birth'])) {
-            $birth_date = new Carbon($details['Date of Birth']);
-            $birth_date = $birth_date->toDateString();
+            $birthdate = new Carbon($details['Date of Birth']);
+            $birthdate = $birthdate->toDateString();
         }
 
 
@@ -78,7 +74,7 @@ class IntakeQController extends BaseWebhookController
             'city' => $details['City'] ?? null,
             'state' => $details['State'] ?? null,
             'zip' => $details['Zip'] ?? null,
-            'birth_date' => $birth_date ?? null,
+            'birthdate' => $birthdate ?? null,
             'user_type' => 'patient',
             'api_token' => str_random(60),
         ];
@@ -96,15 +92,14 @@ class IntakeQController extends BaseWebhookController
             $query = ($details['Street Address'] ?? '') . ', ' . $details['Zip'];
             $query = trim($query, ','); // get rid of extra commas
             $geodata = $this->geocoder->geocode($query);
-
         } catch (Exception $e) {
             // log it
             \Log::warning($e->getMessage());
         }
 
         // add geo data
-        $data['longitude'] = $geodata['longitude'] ?? NULL;
-        $data['latitude'] = $geodata['latitude'] ?? NULL;
+        $data['longitude'] = $geodata['longitude'] ?? null;
+        $data['latitude'] = $geodata['latitude'] ?? null;
 
         User::unguard();
         return User::create($data);

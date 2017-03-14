@@ -6,17 +6,16 @@ class Geocoder extends BaseClient
 {
     protected $base_endpoint = 'https://hhlocation.obcl.io/Service/geocode:';
 
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
 
-    function geocode($query)
+    public function geocode($query)
     {
-        $response = $this->get('',['query' => $query]);
+        $response = $this->get('', ['query' => $query]);
 
         if ($response->getStatusCode() != 200) {
-
             $message = 'Could not process geocoding: ' . $query;
 
             // log it
@@ -32,16 +31,16 @@ class Geocoder extends BaseClient
 
         $geo_data = [
             'address' => [
-                'street_address' => $geo->address->Street ?? NULL,
-                'city' => $geo->address->City ?? NULL,
-                'state' => $geo->address->State ?? NULL,
-                'zip' => $geo->address->ZIP ?? NULL,
-                'country' => $geo->address->CountryCode ?? NULL,
+                'street_address' => $geo->address->Street ?? null,
+                'city' => $geo->address->City ?? null,
+                'state' => $geo->address->State ?? null,
+                'zip' => $geo->address->ZIP ?? null,
+                'country' => $geo->address->CountryCode ?? null,
             ],
 
             'location' => [
-                'longitude' => $geo->location->longitude ?? NULL,
-                'latitude' => $geo->location->latitude ?? NULL,
+                'longitude' => $geo->location->longitude ?? null,
+                'latitude' => $geo->location->latitude ?? null,
             ]
         ];
 

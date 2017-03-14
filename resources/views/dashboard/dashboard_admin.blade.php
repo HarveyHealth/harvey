@@ -9,8 +9,8 @@
             <tr>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
-                <td>{{ $appointment->patient->fullName() }}</td>
-                <td>{{ $appointment->practitioner->fullName() }}</td>
+                <td>{{ $appointment->patient->user->fullName() }}</td>
+                <td>{{ $appointment->practitioner->user->fullName() }}</td>
             </tr>
         @endforeach
     </table>
@@ -31,8 +31,8 @@
             <tr>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
-                <td>{{ $appointment->patient->fullName() }}</td>
-                <td>{{ $appointment->practitioner->fullName() }}</td>
+                <td>{{ $appointment->patient->user->fullName() }}</td>
+                <td>{{ $appointment->practitioner->user->fullName() }}</td>
             </tr>
         @endforeach
     </table>
@@ -54,8 +54,8 @@
     @foreach ($pending_tests as $test)
         <tr>
             <td>{{ $test->name }}</td>
-            <td>{{ $test->patient->fullName() }}</td>
-            <td>{{ $test->practitioner->fullName() }}</td>
+            <td>{{ $test->patient->user->fullName() }}</td>
+            <td>{{ $test->practitioner->user->fullName() }}</td>
             <td>
                 <a href="/upload/test/{{ $test->id }}">Upload Results</a>
             </td>

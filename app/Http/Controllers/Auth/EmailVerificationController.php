@@ -14,7 +14,7 @@ class EmailVerificationController extends Controller
     {
         $user = User::findOrFail($user_id);
 
-        if($user->emailVerificationTokenMismatch($token)) {
+        if ($user->emailVerificationTokenMismatch($token)) {
             abort(404);
         }
 
@@ -34,7 +34,7 @@ class EmailVerificationController extends Controller
     {
         $user = User::findOrFail($user_id);
 
-        if($user->emailVerificationTokenMismatch($token)) {
+        if ($user->emailVerificationTokenMismatch($token)) {
             abort(404);
         }
 

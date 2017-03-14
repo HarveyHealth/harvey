@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RegisteredUserEmailVerificationTest extends TestCase
 {
-	use DatabaseMigrations;
+    use DatabaseMigrations;
 
     public function test_it_sends_an_email_to_the_user_after_creation()
     {
@@ -29,4 +29,3 @@ class RegisteredUserEmailVerificationTest extends TestCase
         $response->assertRedirect(route('home'));
     }
 }
-

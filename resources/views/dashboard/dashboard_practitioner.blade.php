@@ -8,7 +8,7 @@
             <tr>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
-                <td>{{ $appointment->patient->fullName() }}</td>
+                <td>{{ $appointment->patient->user->fullName() }}</td>
             </tr>
         @endforeach
     </table>
@@ -27,7 +27,7 @@
             <tr>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('F, j') }}</td>
                 <td>{{ Carbon\Carbon::parse($appointment->created_at)->format('H:i a') }}</td>
-                <td>{{ $appointment->patient->fullName() }}</td>
+                <td>{{ $appointment->patient->user->fullName() }}</td>
             </tr>
         @endforeach
     </table>
@@ -46,7 +46,7 @@
     @foreach ($recent_tests as $test)
         <tr>
             <td>{{ $test->name }}</td>
-            <td>{{ $test->patient->fullName() }}</td>
+            <td>{{ $test->patient->user->fullName() }}</td>
             <td>
                 @if($test->results_key)
                     $test->tempResultsURL()

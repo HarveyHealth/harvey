@@ -27,12 +27,12 @@ class LogSentMessage
      */
     public function handle(MessageSending $event)
     {
-    	$recipientCollection = collect(array_keys($event->message->getTo()));
-    	$recipientCollection->each(function($recipient) use ($event) {
-    		$subject = $event->message->getSubject();
-    		$message = $event->message->toString();
-    		Log::info($this->logString($recipient, $subject, $message));
-    	});
+        $recipientCollection = collect(array_keys($event->message->getTo()));
+        $recipientCollection->each(function ($recipient) use ($event) {
+            $subject = $event->message->getSubject();
+            $message = $event->message->toString();
+            Log::info($this->logString($recipient, $subject, $message));
+        });
     }
 
     /**
@@ -42,7 +42,8 @@ class LogSentMessage
      * @param  String $message
      * @return String
      */
-    public function logString($recipient, $subject, $message) {
-    	return "Email sent to {$recipient} with subject \"{$subject}\" \n\"{$message}\"";
+    public function logString($recipient, $subject, $message)
+    {
+        return "Email sent to {$recipient} with subject \"{$subject}\" \n\"{$message}\"";
     }
 }

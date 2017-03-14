@@ -4,7 +4,6 @@ namespace App\Lib\Clients;
 
 class BaseClient
 {
-
     protected $base_endpoint;
     protected $client;
     protected $headers = [];

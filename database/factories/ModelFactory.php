@@ -18,10 +18,8 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
     return [
         'enabled' => true,
-        'user_type' => $faker->randomElement(['admin', 'patient', 'practitioner']),
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'enabled' => true,
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
@@ -39,24 +37,36 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->state(App\Models\User::class, 'admin', function ($faker) {
-    return ['user_type' => 'admin'];
-});
-
-$factory->state(App\Models\User::class, 'patient', function ($faker) {
+$factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     return [
-        'user_type' => 'patient',
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+        'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
+        'height_feet' => $faker->numberBetween(4, 6),
+        'height_inches' => $faker->numberBetween(0, 12),
+        'weight' => $faker->numberBetween(100, 300),
         'symptoms' => json_encode([
-            $faker->word => $faker->numberBetween(1, 10),
-            $faker->word => $faker->numberBetween(1, 10),
-            $faker->word => $faker->numberBetween(1, 10)
-        ])
+                $faker->word => $faker->numberBetween(1, 10),
+                $faker->word => $faker->numberBetween(1, 10),
+                $faker->word => $faker->numberBetween(1, 10)
+            ])
     ];
 });
 
-$factory->state(App\Models\User::class, 'practitioner', function ($faker) {
-    return ['user_type' => 'practitioner'];
+$factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+    ];
 });
+
+$factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+    ];
+});
+
 
 $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     return [
@@ -68,8 +78,8 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'appointment_at' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days'),
         'reason_for_visit' => $faker->sentence
     ];
@@ -81,16 +91,16 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
 
 $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'sku_id' => factory(App\Models\SKU::class)->create()->id
     ];
 });
 
 $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
         'note' => $faker->sentence
     ];

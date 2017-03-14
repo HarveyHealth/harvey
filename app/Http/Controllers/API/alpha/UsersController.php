@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\alpha;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Repositories\AppointmentRepository;
 use App\Http\Controllers\API\alpha\Transformers\UserTransformer;
 use App\Http\Controllers\API\alpha\Transformers\AppointmentTransformer;
+use App\Models\User;
+use App\Repositories\AppointmentRepository;
+use Illuminate\Http\Request;
 
 class UsersController extends BaseAPIController
 {
@@ -58,7 +58,7 @@ class UsersController extends BaseAPIController
      * {
      *      "data": {
      *          "id": 5,
-     *          "first_name": "Sedrick",
+     *          "first_name": "Cedrick",
      *          "last_name": "Crooks",
      *          "user_type": "practitioner",
      *          "phone": "6261492166",
@@ -188,67 +188,5 @@ class UsersController extends BaseAPIController
         } else {
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }
-    }
-
-    /**
-     * @api {get} /users/:id/appointments View appointments for a specific user
-     * @apiName ViewUserAppointments
-     * @apiGroup Appointment
-     *
-     * @apiParam {Number} id User's id
-     * @apiSuccessExample {json} Success-Response:
-     *{
-     *  "data": [
-     *    {
-     *      "id": 1,
-     *      "appointment_at": {
-     *        "date": "2017-01-23 01:57:20.000000",
-     *        "timezone_type": 3,
-     *        "timezone": "UTC"
-     *      },
-     *      "reason_for_visit": "Omnis occaecati sit eius.",
-     *      "created_at": {
-     *        "date": "2017-01-24 20:22:52.000000",
-     *        "timezone_type": 3,
-     *        "timezone": "UTC"
-     *      }
-     *    },
-     *    {
-     *      "id": 2,
-     *      "appointment_at": {
-     *        "date": "2017-01-22 12:47:57.000000",
-     *        "timezone_type": 3,
-     *        "timezone": "UTC"
-     *      },
-     *      "reason_for_visit": "Quia quo et dolorem distinctio ut enim doloribus.",
-     *      "created_at": {
-     *        "date": "2017-01-24 20:22:52.000000",
-     *        "timezone_type": 3,
-     *        "timezone": "UTC"
-     *      }
-     *    }
-     *  ],
-     *  "meta": null
-     *}
-     *
-     * */
-    public function appointments(User $user)
-    {
-        if (auth()->user()->cant('view', $user)) {
-            return $this->respondNotAuthorized('Unauthorized to view this resource');
-        }
-
-        if ($user->user_type == 'patient') {
-            $appointments = $this->appointments->forPatient($user->id)->get();
-        } elseif ($user->user_type == 'practitioner') {
-            $appointments = $this->appointments->forPractitioner($user->id)->get();
-        } else {
-            $appointments = $this->appointments->limit(10)->get();
-        }
-
-        $transformedAppointments = $this->appointmentTransformer
-            ->transformCollection($appointments);
-
-        return $this->respond($transformedAppointments);
     }
 }

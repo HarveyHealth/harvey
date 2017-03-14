@@ -33,17 +33,22 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-
-        if ($user->user_type == 'admin') {
-            $data = $this->adminDashboardData();
-        } elseif ($user->user_type == 'patient') {
-            $data = $this->patientDashboardData($user);
-        } elseif ($user->user_type == 'practitioner') {
-            $data = $this->practitionerDashboardData($user);
-        } else {
-            Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
-            abort(403);
-        }
+        $data = [
+            'pending_tests' => $user->tests()->pending()->get(),
+            'recent_tests' => $user->tests()->recent(10)->get(),
+            'upcoming_appointments' => $user->appointments()->upcoming()->get(),
+            'recent_appointments' => $user->appointments()->recent(10)->get()
+        ];
+//        if ($user->user_type == 'admin') {
+//            $data = $this->adminDashboardData();
+//        } elseif ($user->user_type == 'patient') {
+//            $data = $this->patientDashboardData($user);
+//        } elseif ($user->user_type == 'practitioner') {
+//            $data = $this->practitionerDashboardData($user);
+//        } else {
+//            Log::error('Unable to gather dashboard data for user id: ' . auth()->id());
+//            abort(403);
+//        }
 
         if (request()->ajax()) {
             return response()->json($data);
@@ -52,35 +57,35 @@ class DashboardController extends Controller
         return view('dashboard.index', $data);
     }
 
-    protected function adminDashboardData()
-    {
-        return [
-            'pending_tests' => $this->tests->pending()->get(),
-            'recent_tests' => $this->tests->recent(10)->get(),
-            'upcoming_appointments' => $this->appointments->upcoming()->get(),
-            'recent_appointments' => $this->appointments->recent(10)->get()
-        ];
-    }
-
-    protected function patientDashboardData($user)
-    {
-        return [
-            'pending_tests' => $this->tests->pending()->forPatient($user->id)->get(),
-            'recent_tests' => $this->tests->recent()->forPatient($user->id)->get(),
-            'upcoming_appointments' => $this->appointments->upcoming()->forPatient($user->id)->get(),
-            'recent_appointments' => $this->appointments->recent()->forPatient($user->id)->get()
-        ];
-    }
-
-    protected function practitionerDashboardData($user)
-    {
-        return [
-            'pending_tests' => $this->tests->pending()->forPractitioner($user->id)->get(),
-            'recent_tests' => $this->tests->recent(10)->forPractitioner($user->id)->get(),
-            'upcoming_appointments' => $this->appointments->upcoming()->forPractitioner($user->id)->get(),
-            'recent_appointments' => $this->appointments->recent(10)->forPractitioner($user->id)->get()
-        ];
-    }
+//    protected function adminDashboardData()
+//    {
+//        return [
+//            'pending_tests' => $this->tests->pending()->get(),
+//            'recent_tests' => $this->tests->recent(10)->get(),
+//            'upcoming_appointments' => $this->appointments->upcoming()->get(),
+//            'recent_appointments' => $this->appointments->recent(10)->get()
+//        ];
+//    }
+//
+//    protected function patientDashboardData($user)
+//    {
+//        return [
+//            'pending_tests' => $this->tests->pending()->forPatient($user->id)->get(),
+//            'recent_tests' => $this->tests->recent()->forPatient($user->id)->get(),
+//            'upcoming_appointments' => $this->appointments->upcoming()->forPatient($user->id)->get(),
+//            'recent_appointments' => $this->appointments->recent()->forPatient($user->id)->get()
+//        ];
+//    }
+//
+//    protected function practitionerDashboardData($user)
+//    {
+//        return [
+//            'pending_tests' => $this->tests->pending()->forPractitioner($user->id)->get(),
+//            'recent_tests' => $this->tests->recent(10)->forPractitioner($user->id)->get(),
+//            'upcoming_appointments' => $this->appointments->upcoming()->forPractitioner($user->id)->get(),
+//            'recent_appointments' => $this->appointments->recent(10)->forPractitioner($user->id)->get()
+//        ];
+//    }
 
     public function getUser()
     {
@@ -92,7 +97,7 @@ class DashboardController extends Controller
             'user_type' => $user->user_type,
             'email' => $user->email,
             'phone' => $user->phone,
-            'payment_info'=> (bool) $user->stripe_customer_id ? true : false,
+            'payment_info'=> (bool) $user->patient->stripe_customer_id ? true : false,
             'api_token' => $user->api_token
         ];
         return response()->json($userJson);
