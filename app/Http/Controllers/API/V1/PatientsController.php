@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Transformers\V1\PatientTransformer;
-use App\Transformers\V1\AppointmentTransformer;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
