@@ -26,4 +26,5 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::resource('users', 'API\V1\UsersController');
     Route::get('patients/{patient}/appointments', 'API\V1\PatientsController@appointments');
     Route::resource('patients', 'API\V1\PatientsController');
+    Route::resource('appointments', 'API\v1\AppointmentsController');
 });

@@ -12,8 +12,7 @@ class AppointmentTransformer extends TransformerAbstract
     ];
     
     /**
-     * A Fractal transformer.
-     *
+     * @param Appointment $appointment
      * @return array
      */
     public function transform(Appointment $appointment)
@@ -27,12 +26,20 @@ class AppointmentTransformer extends TransformerAbstract
         ];
     }
     
+    /**
+     * @param Appointment $appointment
+     * @return mixed
+     */
     public function includePatient(Appointment $appointment)
     {
         $patient = $appointment->patient;
         return $this->item($patient, new PatientTransformer());
     }
     
+    /**
+     * @param Appointment $appointment
+     * @return mixed
+     */
     public function includePractitioner(Appointment $appointment)
     {
         $practitioner = $appointment->practitioner;

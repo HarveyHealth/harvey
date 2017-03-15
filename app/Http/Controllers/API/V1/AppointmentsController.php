@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Transformers\V1\PatientTransformer;
 use App\Transformers\V1\AppointmentTransformer;
-use App\Models\Patient;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class PatientsController extends BaseAPIController
+class AppointmentsController extends Controller
 {
-    protected $transformer;
+    private $transformer;
     
-    public function __construct(PatientTransformer $transformer)
+    public function __construct(AppointmentTransformer $transformer)
     {
         $this->transformer = $transformer;
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $appointments = auth()->user()->appointments;
+        return fractal()->collection($appointments)
+            ->transformWith($this->transformer)
+            ->toArray();
     }
 
     /**
@@ -45,18 +56,19 @@ class PatientsController extends BaseAPIController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(Request $request, $id)
     {
-        $validator = \Validator::make($filtered_array, [
-            'birthdate' => 'date',
-            'height_feet' => 'numeric|between:1,10',
-            'height_inches' => 'numeric|between:1,11',
-            'weight' => 'integer',
-            'symptoms' => 'json'
-        ]);
-    
-        if ($validator->fails()) {
-            return $this->respondUnprocessable($validator->messages());
-        }
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

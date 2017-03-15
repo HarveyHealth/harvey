@@ -12,7 +12,12 @@ class ResultsUploadTest extends TestCase
 {
     use DatabaseMigrations;
     
-    public function test_the_api_will_store_a_new_test_result()
+    public function setUp()
+    {
+        $this->markTestSkipped('must be revisited.');
+    }
+    
+    public function test_an_admin_can_upload_test_results()
     {
         // GIVEN
         // A TEST
