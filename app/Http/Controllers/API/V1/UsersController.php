@@ -72,8 +72,8 @@ class UsersController extends BaseAPIController
     /**
      * @param Request $request
      * @param User    $user
-     * @return array|\Illuminate\Http\JsonResponse
-     */
+     * @return \Illuminate\Http\JsonResponse
+     */s
     public function update(Request $request, User $user)
     {
         // Remove null and empty values from the request
@@ -120,7 +120,7 @@ class UsersController extends BaseAPIController
             
             return fractal()->item($user)
                 ->transformWith($this->transformer)
-                ->toArray();
+                ->respond();
         } else {
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }

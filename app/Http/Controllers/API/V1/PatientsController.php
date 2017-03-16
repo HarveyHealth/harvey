@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Transformers\V1\PatientTransformer;
 use App\Models\Patient;
+use App\Transformers\V1\PatientTransformer;
 use Illuminate\Http\Request;
 
 class PatientsController extends BaseAPIController
@@ -25,24 +25,26 @@ class PatientsController extends BaseAPIController
     {
         //
     }
-
+    
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Patient $patient
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show(Patient $patient)
     {
-        //
+        if (auth()->user()->can('view', $patient)) {
+            return fractal()->item($patient)
+                ->transformWith($this->transformer)
+                ->respond();
+        }  else {
+            return $this->respondNotAuthorized('Unauthorized to view this resource');
+        }
     }
-
+    
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Patient $patient
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, Patient $patient)
     {

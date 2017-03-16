@@ -24,7 +24,7 @@ class AppointmentsController extends Controller
         $appointments = auth()->user()->appointments;
         return fractal()->collection($appointments)
             ->transformWith($this->transformer)
-            ->toArray();
+            ->respond();
     }
 
     /**
