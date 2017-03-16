@@ -24,7 +24,7 @@ class AppointmentTest extends TestCase
         // WHEN the user requests to list out the appointments
         Passport::actingAs($patient->user);
         $response = $this->json('GET', 'api/v1/appointments');
-    
+        
         // THEN we should only see 5 appointments
         $this->assertEquals(count($response->original['data']), 5);
         // AND each appointment belongs to the patient
