@@ -29,7 +29,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $user->id === $patient->user_id;
+        return $user->id == $patient->user_id;
     }
 
     /**
@@ -42,17 +42,15 @@ class PatientPolicy
     {
         //
     }
-
+    
     /**
-     * Determine whether the user can update the patient.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Patient  $patient
-     * @return mixed
+     * @param User    $user
+     * @param Patient $patient
+     * @return bool
      */
     public function update(User $user, Patient $patient)
     {
-        //
+        return $user->id == $patient->user_id;
     }
 
     /**

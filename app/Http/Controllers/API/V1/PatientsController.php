@@ -51,16 +51,16 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
-        $validator = \Validator::make($filtered_array, [
-            'birthdate' => 'date',
-            'height_feet' => 'numeric|between:1,10',
-            'height_inches' => 'numeric|between:1,11',
-            'weight' => 'integer',
-            'symptoms' => 'json'
-        ]);
-    
-        if ($validator->fails()) {
-            return $this->respondUnprocessable($validator->messages());
+        if (auth()->user()->can('update', $patient)) {
+            $patient->update($request->all());
+        
+            return fractal()->item($patient)
+                ->withResourceName('patients')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }
     }
 }

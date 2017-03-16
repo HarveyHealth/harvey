@@ -6,6 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
+    protected $guarded = ['id', 'enabled', 'user_id', 'stripe_customer_id',
+                            'stripe_expiry_month', 'stripe_expiry_year',
+                            'stripe_brand', 'stripe_last_four',
+                            'created_at', 'updated_at'];
+    
     protected $dates = ['created_at','updated_at'];
     
     public function user()

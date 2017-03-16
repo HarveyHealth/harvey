@@ -27,7 +27,7 @@ class UserPolicy
      */
     public function view(User $user, User $target_user)
     {
-        return $user->id === $target_user->id;
+        return $user->id == $target_user->id;
     }
 
     /**
@@ -48,6 +48,6 @@ class UserPolicy
      */
     public function update(User $user, User $target_user)
     {
-        return $user->id === $target_user->id;
+        return $user->id == $target_user->id;
     }
 }
