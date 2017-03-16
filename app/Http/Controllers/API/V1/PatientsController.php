@@ -12,6 +12,7 @@ class PatientsController extends BaseAPIController
     
     public function __construct(PatientTransformer $transformer)
     {
+        parent::__construct();
         $this->transformer = $transformer;
     }
 
@@ -34,8 +35,10 @@ class PatientsController extends BaseAPIController
     {
         if (auth()->user()->can('view', $patient)) {
             return fractal()->item($patient)
+                ->withResourceName('patients')
                 ->transformWith($this->transformer)
-                ->respond();
+                ->serializeWith($this->serializer)
+                ->toArray();
         }  else {
             return $this->respondNotAuthorized('Unauthorized to view this resource');
         }

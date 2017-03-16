@@ -175,7 +175,8 @@ return [
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
-
+        Laravel\Passport\PassportServiceProvider::class,
+    
         /*
          * Application Service Providers...
          */

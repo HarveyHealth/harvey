@@ -23,6 +23,12 @@ class PatientTransformer extends TransformerAbstract
             'birthdate' => $patient->birthdate,
             'height_feet' => $patient->height_feet,
             'height_inches' => $patient->height_inches,
+            'links' => [
+                [
+                    'rel' => 'patient.user',
+                    'uri' => 'api/v1/users/' . $patient->user_id
+                ]
+            ]
         ];
     }
     

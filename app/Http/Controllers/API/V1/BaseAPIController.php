@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use League\Fractal\Serializer\JsonApiSerializer;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 class BaseAPIController extends Controller
 {
     protected $status_code = ResponseCode::HTTP_OK;
-
+    protected $serializer;
+    
+    public function __construct()
+    {
+        $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
+    }
+    
     public function setStatusCode($code)
     {
         $this->status_code = $code;

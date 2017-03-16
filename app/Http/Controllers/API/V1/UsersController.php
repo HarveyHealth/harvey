@@ -13,6 +13,7 @@ class UsersController extends BaseAPIController
     
     public function __construct(UserTransformer $transformer)
     {
+        parent::__construct();
         $this->transformer = $transformer;
     }
     
@@ -35,7 +36,21 @@ class UsersController extends BaseAPIController
     {
         //
     }
-
+    
+    
+    public function show(User $user)
+    {
+        if (auth()->user()->can('view', $user)){
+            return fractal()->item($user)
+                ->withResourceName('users')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to modify this resource');
+        }
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -43,17 +58,6 @@ class UsersController extends BaseAPIController
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }
@@ -73,7 +77,7 @@ class UsersController extends BaseAPIController
      * @param Request $request
      * @param User    $user
      * @return \Illuminate\Http\JsonResponse
-     */s
+     */
     public function update(Request $request, User $user)
     {
         // Remove null and empty values from the request
