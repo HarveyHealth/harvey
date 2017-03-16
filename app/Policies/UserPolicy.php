@@ -9,6 +9,11 @@ class UserPolicy
 {
     use HandlesAuthorization;
     
+    /**
+     * @param User $user
+     * @param      $ability
+     * @return bool
+     */
     public function before(User $user, $ability)
     {
         if ($user->isAdmin()) {
