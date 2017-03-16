@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Appointment;
 use App\Models\Patient;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 
 class AppointmentTest extends TestCase
@@ -16,15 +17,16 @@ class AppointmentTest extends TestCase
         //GIVEN a user with 5 appointments
         $patient = factory(Patient::class)->create();
         $patient->appointments()->saveMany(factory(Appointment::class, 5)->make());
-        
+    
+    
         // AND there are other appointments in the database
         factory(Appointment::class, 10)->create();
-        
+    
         // WHEN the user requests to list out the appointments
+        Passport::actingAs($patient->user, ['*']);
         $response = $this->call(
             'GET',
-            "api/v1/appointments",
-            ['api_token' => $patient->user->api_token]
+            "api/v1/appointments"
         );
         $content = json_decode($response->content());
 
