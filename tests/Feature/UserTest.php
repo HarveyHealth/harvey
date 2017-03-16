@@ -46,7 +46,8 @@ class UserTest extends TestCase
         $response->assertJsonFragment(['first_name' => 'ZZXXYY']);
     }
     
-    public function test_a_user_cannot_modify_guarded_properties_of_their_account(){
+    public function test_a_user_cannot_modify_guarded_properties_of_their_account()
+    {
         // GIVEN a user
         $user = factory(User::class)->create();
         

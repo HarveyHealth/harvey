@@ -40,7 +40,7 @@ class UsersController extends BaseAPIController
     
     public function show(User $user)
     {
-        if (auth()->user()->can('view', $user)){
+        if (auth()->user()->can('view', $user)) {
             return fractal()->item($user)
                 ->withResourceName('users')
                 ->transformWith($this->transformer)

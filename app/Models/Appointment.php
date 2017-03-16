@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\HasPatientAndPractitioner;
-
 use App\Lib\Slack;
 use App\Notifications\SlackNotification;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Appointment extends Model
 {
@@ -29,7 +29,7 @@ class Appointment extends Model
         self::created(function ($appointment) {
             $patient = $appointment->patient;
             $practitioner = $appointment->practitioner;
-            $time = new \Carbon($appointment->appointment_at);
+            $time = new Carbon($appointment->appointment_at);
             $time->timezone = 'America/Los_Angeles';
 
             $message = '*[New Appointment]* ' . $patient->user->fullName() . ' with ' . $practitioner->user->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');

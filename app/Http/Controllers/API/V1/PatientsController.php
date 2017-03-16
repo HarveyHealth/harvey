@@ -39,7 +39,7 @@ class PatientsController extends BaseAPIController
                 ->transformWith($this->transformer)
                 ->serializeWith($this->serializer)
                 ->toArray();
-        }  else {
+        } else {
             return $this->respondNotAuthorized('Unauthorized to view this resource');
         }
     }
