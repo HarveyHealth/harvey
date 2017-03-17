@@ -90,7 +90,7 @@ class DashboardController extends Controller
     public function getUser()
     {
         $user = auth()->user();
-        $userJson = [
+        $user_json = [
             'id' => $user->id,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
@@ -100,6 +100,6 @@ class DashboardController extends Controller
             'payment_info'=> (bool) $user->patient->stripe_customer_id ? true : false,
             'api_token' => $user->api_token
         ];
-        return response()->json($userJson);
+        return response()->json($user_json);
     }
 }

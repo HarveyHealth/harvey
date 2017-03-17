@@ -22,47 +22,62 @@
     @stack('stylesheets')
 
     {{-- TYPEKIT async load --}}
-    @script(/js/vendors/typekit.js)
+    @script(/js/libs/typekit.js)
 
     {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
     @if (App::environment('production'))
-        @script({{ elixir('/js/vendors/vendors_production_only.js') }})
+        @script({{ elixir('/js/vendors.js') }})
         <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
     @endif
 
 </head>
 
 <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
+
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
-    <div id="app">
-        @include('_layouts.includes.top_nav')
-
-        <div class="page-content">
-            @yield('main_content')
+    @if (App::environment('production'))
+        <div style="width:600px; margin:20% auto;">
+            <script async id="_ck_182209" src="https://forms.convertkit.com/182209?v=6"></script>
         </div>
 
-        @include('_layouts.includes.footer')
-    </div>
-    
-    @stack('square')
-
-    {{-- To add data here, see the VueHelperViewComposer --}}
-    <script>
-        window.Laravel = {!! $vue_data !!}
-    </script>
-
-    @script({{  mix('/js/manifest.js') }})
-    @script({{  mix('/js/vendors/vendors_module_extract.js') }})
-
-    @if (Auth::guest())
-        @script(/js/vendors/modernizr-custom.js)
-        @script({{  mix('/js/app_public.js') }})
     @else
-        @script(https://js.stripe.com/v2/)
-        @script({{  mix('/js/app_logged_in.js') }})
-    @endif
 
-    @stack('scripts')
+        <div id="app">
+            @include('_layouts.includes.top_nav')
+
+            <div class="page-content">
+                @yield('main_content')
+            </div>
+
+            @include('_layouts.includes.footer')
+        </div>
+
+        @stack('square')
+
+        {{-- To add data here, see the VueHelperViewComposer --}}
+        <script>
+            window.Laravel = {!! $vue_data !!}
+        </script>
+
+        @if (Auth::guest())
+            @script(/js/libs/modernizr-custom.js)
+            @if (!App::environment('local'))
+                @script({{  elixir('/js/app_public.js') }})
+            @else
+                @script(/js/app_public.js)
+            @endif
+        @else
+            @script(https://js.stripe.com/v2/)
+            @if (!App::environment('local'))
+                @script({{  elixir('/js/app_logged_in.js') }})
+            @else
+                @script(/js/app_logged_in.js)
+            @endif
+        @endif
+
+        @stack('scripts')
+
+    @endif
 </body>
 </html>
