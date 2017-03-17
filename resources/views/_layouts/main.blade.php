@@ -33,41 +33,51 @@
 </head>
 
 <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
+
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
-    <div id="app">
-        @include('_layouts.includes.top_nav')
-
-        <div class="page-content">
-            @yield('main_content')
+    @if (App::environment('local'))
+        <div style="width:600px; margin:20% auto;">
+            <script async id="_ck_182209" src="https://forms.convertkit.com/182209?v=6"></script>
         </div>
 
-        @include('_layouts.includes.footer')
-    </div>
-    
-    @stack('square')
-
-    {{-- To add data here, see the VueHelperViewComposer --}}
-    <script>
-        window.Laravel = {!! $vue_data !!}
-    </script>
-
-    @if (Auth::guest())
-        @script(/js/libs/modernizr-custom.js)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_public.js') }})
-        @else
-            @script(/js/app_public.js)
-        @endif
     @else
-        @script(https://js.stripe.com/v2/)
-        @if (!App::environment('local'))
-            @script({{  elixir('/js/app_logged_in.js') }})
-        @else
-            @script(/js/app_logged_in.js)
-        @endif
-    @endif
 
-    @stack('scripts')
+        <div id="app">
+            @include('_layouts.includes.top_nav')
+
+            <div class="page-content">
+                @yield('main_content')
+            </div>
+
+            @include('_layouts.includes.footer')
+        </div>
+
+        @stack('square')
+
+        {{-- To add data here, see the VueHelperViewComposer --}}
+        <script>
+            window.Laravel = {!! $vue_data !!}
+        </script>
+
+        @if (Auth::guest())
+            @script(/js/libs/modernizr-custom.js)
+            @if (!App::environment('local'))
+                @script({{  elixir('/js/app_public.js') }})
+            @else
+                @script(/js/app_public.js)
+            @endif
+        @else
+            @script(https://js.stripe.com/v2/)
+            @if (!App::environment('local'))
+                @script({{  elixir('/js/app_logged_in.js') }})
+            @else
+                @script(/js/app_logged_in.js)
+            @endif
+        @endif
+
+        @stack('scripts')
+
+    @endif
 </body>
 </html>
