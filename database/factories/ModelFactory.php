@@ -32,8 +32,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
         'timezone' => $faker->timezone,
-        'remember_token' => str_random(10),
-        'api_token' => str_random(60),
+        'remember_token' => str_random(10)
     ];
 });
 

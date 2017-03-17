@@ -13,6 +13,7 @@ class UsersController extends BaseAPIController
     
     public function __construct(UserTransformer $transformer)
     {
+        parent::__construct();
         $this->transformer = $transformer;
     }
     
@@ -35,7 +36,21 @@ class UsersController extends BaseAPIController
     {
         //
     }
-
+    
+    
+    public function show(User $user)
+    {
+        if (auth()->user()->can('view', $user)) {
+            return fractal()->item($user)
+                ->withResourceName('users')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to view this resource');
+        }
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -43,17 +58,6 @@ class UsersController extends BaseAPIController
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
     {
         //
     }
@@ -72,55 +76,18 @@ class UsersController extends BaseAPIController
     /**
      * @param Request $request
      * @param User    $user
-     * @return array|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, User $user)
     {
-        // Remove null and empty values from the request
-        $filtered_array = array_filter($request->all());
-    
-        $validator = \Validator::make($filtered_array, [
-            'first_name' => 'string',
-            'last_name' => 'string',
-            'email' => 'email',
-            'phone' => 'max:10',
-            'gender' => 'string',
-        ]);
-    
-        if ($validator->fails()) {
-            return $this->respondUnprocessable($validator->messages());
-        }
-        
         if (auth()->user()->can('update', $user)) {
-            $token = $request->input('stripe_token');
-            if (!empty($token)) {
-                if (!empty($user->stripe_customer_id)) {
-                    // TODO - update the stripe account with the new pay source
-                } else {
-                    $customer = Customer::create(array(
-                        'email' => $user->email,
-                        'source' => $token,
-                        'description' => "{$user->fullname()} [{$user->id}]",
-                        'metadata' => [
-                            'harvey_user_id' => $user->id,
-                        ]
-                    ));
-                
-                    $filtered_array['stripe_customer_id'] = $customer->id;
-                    $filtered_array['stripe_expiry_month'] = $customer->sources->data[0]->exp_month;
-                    $filtered_array['stripe_expiry_year'] = $customer->sources->data[0]->exp_year;
-                    $filtered_array['stripe_last_four'] = $customer->sources->data[0]->last4;
-                }
-            }
-        
-            // remove the token from the data
-            unset($filtered_array['stripe_token']);
-        
-            $user->update($filtered_array);
+            $user->update($request->all());
             
             return fractal()->item($user)
+                ->withResourceName('users')
                 ->transformWith($this->transformer)
-                ->toArray();
+                ->serializeWith($this->serializer)
+                ->respond();
         } else {
             return $this->respondNotAuthorized('Unauthorized to modify this resource');
         }

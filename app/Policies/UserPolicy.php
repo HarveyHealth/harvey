@@ -9,6 +9,11 @@ class UserPolicy
 {
     use HandlesAuthorization;
     
+    /**
+     * @param User $user
+     * @param      $ability
+     * @return bool
+     */
     public function before(User $user, $ability)
     {
         if ($user->isAdmin()) {
@@ -22,7 +27,7 @@ class UserPolicy
      */
     public function view(User $user, User $target_user)
     {
-        //
+        return $user->id == $target_user->id;
     }
 
     /**
@@ -43,6 +48,6 @@ class UserPolicy
      */
     public function update(User $user, User $target_user)
     {
-        return $user->id === $target_user->id;
+        return $user->id == $target_user->id;
     }
 }

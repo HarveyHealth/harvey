@@ -2,21 +2,21 @@
 
 namespace App\Models;
 
-use Mail;
+use App\Http\Interfaces\Mailable;
 use App\Mail\VerifyEmailAddress;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Interfaces\Mailable;
+use Laravel\Passport\HasApiTokens;
+use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
     
-    protected $guarded = ['id', 'enabled', 'password', 'api_token',
-                            'remember_token', 'terms_accepted_at',
-                            'phone_verified_at', 'email_verified_at',
-                            'created_at', 'updated_at'];
+    protected $guarded = ['id', 'enabled', 'password', 'remember_token',
+                            'terms_accepted_at', 'phone_verified_at',
+                            'email_verified_at', 'created_at', 'updated_at'];
     
     protected $dates = ['created_at','updated_at','terms_accepted_at',
                         'phone_verified_at','email_verified_at'];

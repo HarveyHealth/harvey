@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Transformers\V1\PatientTransformer;
-use App\Transformers\V1\AppointmentTransformer;
 use App\Models\Patient;
+use App\Transformers\V1\PatientTransformer;
 use Illuminate\Http\Request;
 
 class PatientsController extends BaseAPIController
 {
     protected $transformer;
-    protected $appointmentTransformer;
     
-    public function __construct(PatientTransformer $transformer,
-                                AppointmentTransformer $appointmentTransformer)
+    public function __construct(PatientTransformer $transformer)
     {
+        parent::__construct();
         $this->transformer = $transformer;
-        $this->appointmentTransformer = $appointmentTransformer;
     }
 
     /**
@@ -29,53 +26,41 @@ class PatientsController extends BaseAPIController
     {
         //
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Patient $patient)
-    {
-        $validator = \Validator::make($filtered_array, [
-            'birthdate' => 'date',
-            'height_feet' => 'numeric|between:1,10',
-            'height_inches' => 'numeric|between:1,11',
-            'weight' => 'integer',
-            'symptoms' => 'json'
-        ]);
     
-        if ($validator->fails()) {
-            return $this->respondUnprocessable($validator->messages());
+    /**
+     * @param Patient $patient
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Patient $patient)
+    {
+        if (auth()->user()->can('view', $patient)) {
+            return fractal()->item($patient)
+                ->withResourceName('patients')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->toArray();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to view this resource');
         }
     }
     
     /**
-     * @api {get} /patient/:patient_id/appointments View appointments for a specific patient
-     * @apiName ViewPatientAppointments
-     * @apiGroup Appointment
-     *
-     * @apiParam {Number} id Patient id
-     * */
-    public function appointments(Patient $patient)
+     * @param Request $request
+     * @param Patient $patient
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(Request $request, Patient $patient)
     {
-        $appointments = $patient->appointments;
-     
-        return fractal()->collection($appointments)
-                    ->transformWith($this->appointmentTransformer)
-                    ->toArray();
+        if (auth()->user()->can('update', $patient)) {
+            $patient->update($request->all());
+        
+            return fractal()->item($patient)
+                ->withResourceName('patients')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to modify this resource');
+        }
     }
 }
