@@ -30,7 +30,7 @@ class ResultsUploadTest extends TestCase
             null, // The file size
             null, // The error constant of the upload
             true); // Test mode
-        
+
         // MOCK CALLS TO S3
         // Mocks for the API Controller saving to S3
         Storage::shouldReceive('disk')->with('s3')->andReturnSelf();
@@ -46,14 +46,14 @@ class ResultsUploadTest extends TestCase
     
         // WHEN WE POST TO THIS ROUTE
         Passport::actingAs($admin->user);
-        $response = $this->json(
+        $response = $this->call(
             "POST", // Method
             "/api/v1/tests/$test->id/results", // URI
             [], // Parameters
             [], // Cookies
             ["file" => $file] // Files
         );
-        dd($response);
+
         // THEN WE SHOULD SEE
         $response->assertStatus(200);
     }

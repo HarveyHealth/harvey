@@ -57,7 +57,7 @@ class TestsController extends BaseAPIController
     public function results(Test $test, Request $request)
     {
         $this->validate($request, [
-            'file' => ''
+            'file' => 'required'
         ]);
         
         $relative_path = "$test->patient_id/$test->id";
