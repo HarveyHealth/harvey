@@ -1068,16 +1068,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.3.3",
+            "version": "8.3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "fa1629e56c81d0b72e39298a62aba241656f1834"
+                "reference": "4336e5c695ed8574f402304634bdda943dfaa27c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/fa1629e56c81d0b72e39298a62aba241656f1834",
-                "reference": "fa1629e56c81d0b72e39298a62aba241656f1834",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/4336e5c695ed8574f402304634bdda943dfaa27c",
+                "reference": "4336e5c695ed8574f402304634bdda943dfaa27c",
                 "shasum": ""
             },
             "require": {
@@ -1132,7 +1132,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-03-14T11:28:30+00:00"
+            "time": "2017-03-15T09:50:58+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -4649,16 +4649,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.15",
+            "version": "5.7.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b99112aecc01f62acf3d81a3f59646700a1849e5"
+                "reference": "dafc78e2a7d12139b0e97078d1082326bd09363d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b99112aecc01f62acf3d81a3f59646700a1849e5",
-                "reference": "b99112aecc01f62acf3d81a3f59646700a1849e5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/dafc78e2a7d12139b0e97078d1082326bd09363d",
+                "reference": "dafc78e2a7d12139b0e97078d1082326bd09363d",
                 "shasum": ""
             },
             "require": {
@@ -4727,7 +4727,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-03-02T15:22:43+00:00"
+            "time": "2017-03-15T13:02:34+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
