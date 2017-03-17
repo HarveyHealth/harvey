@@ -14,13 +14,6 @@ class AppointmentTest extends TestCase
 {
     use DatabaseMigrations;
     
-    public function setUp()
-    {
-        parent::setUp();
-        Artisan::call('migrate');
-        factory(Practitioner::class)->create();
-    }
-    
     public function test_it_allows_a_patient_to_view_their_own_appointments()
     {
         //GIVEN a patient with 5 appointments
@@ -48,11 +41,14 @@ class AppointmentTest extends TestCase
         // GIVEN a patient
         $patient = factory(Patient::class)->create();
         
+        // AND a practitioner exists
+        $practitioner = factory(Practitioner::class)->create();
+        
         // AND valid appointment parameters
         $parameters = [
             'appointment_at' => '2017-12-12 00:00:00',
             'reason_for_visit' => 'Some reason.',
-            'practitioner_id' => 1
+            'practitioner_id' => $practitioner->id
         ];
         
         // WHEN they schedule a new appointment

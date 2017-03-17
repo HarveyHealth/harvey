@@ -21,6 +21,8 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
+    Route::post('tests/{test}/results', 'API\V1\TestsController@results');
+    Route::resource('tests', 'API\V1\TestsController');
     Route::resource('users', 'API\V1\UsersController');
     Route::resource('patients', 'API\V1\PatientsController');
     Route::resource('appointments', 'API\V1\AppointmentsController');

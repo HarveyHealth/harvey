@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Admin;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use App\Models\Test;
 use Illuminate\Http\UploadedFile;
@@ -12,17 +14,15 @@ class ResultsUploadTest extends TestCase
 {
     use DatabaseMigrations;
     
-    public function setUp()
-    {
-        $this->markTestSkipped('must be revisited.');
-    }
-    
     public function test_an_admin_can_upload_test_results()
     {
-        // GIVEN
-        // A TEST
+        // GIVEN an Admin
+        $admin = factory(Admin::class)->create();
+        
+        // AND a test exists
         $test = factory(Test::class)->create();
-        // AND A RESULTS FILE
+        
+        // AND a results file exists
         $file = new UploadedFile(
             storage_path('testing/testfile.pdf'), // Path to local test file
             'testfile.pdf', // The file name
@@ -45,20 +45,16 @@ class ResultsUploadTest extends TestCase
         Storage::shouldReceive('getUri')->andReturn('https://somevalue.com/foobar')->once();
     
         // WHEN WE POST TO THIS ROUTE
-        $response = $this->call(
+        Passport::actingAs($admin->user);
+        $response = $this->json(
             "POST", // Method
-            "/api/alpha/tests/$test->id/results", // URI
-            ['api_token' => $test->patient->api_token], // Parameters
+            "/api/v1/tests/$test->id/results", // URI
+            [], // Parameters
             [], // Cookies
             ["file" => $file] // Files
         );
-        
+        dd($response);
         // THEN WE SHOULD SEE
         $response->assertStatus(200);
-        $response->assertJson(
-            ['meta' =>
-                ['uploaded' => true]
-            ]
-        );
     }
 }
