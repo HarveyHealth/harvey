@@ -36,7 +36,7 @@
 
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
-    @if (App::environment('local'))
+    @if (App::environment('production'))
         <div style="width:600px; margin:20% auto;">
             <script async id="_ck_182209" src="https://forms.convertkit.com/182209?v=6"></script>
         </div>
