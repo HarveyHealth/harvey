@@ -42,44 +42,54 @@ const app = new Vue({
         symptomsChanged: false,
         symptomsSaving: false,
         symptomsStats: {
-            fatigue: {
-                label: 'Fatigue',
+            cardiovascular: {
+                label: 'Cardiovascular',
+                description: 'Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.',
                 value: 3
             },
-            aches: {
-                label: 'Aches/pains',
+            digestive: {
+                label: 'Digestive',
+                description: 'Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.',
                 value: 3
             },
-            allergies: {
-                label: 'Allergies',
+            endocrine_hormonal: {
+                label: 'Endocrine/Hormonal',
+                description: 'Depression, fatigue, hot flashes, insomnia, mood swings, night sweats, stress, vaginal dryness, weight gain/loss, etc.',
                 value: 3
             },
-            depression: {
-                label: 'Depression',
+            dermatological: {
+                label: 'Dermatological',
+                description: 'Hair, skin and nails weakness, and other exocrine gland issues.',
                 value: 3
             },
-            digestion: {
-                label: 'Digestion',
+            immune: {
+                label: 'Immune',
+                description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or trouble fighting known autoimmune diseases.',
                 value: 3
             },
-            irritability: {
-                label: 'Irritability',
+            musculo_skeletal: {
+                label: 'Musculo-skeletal',
+                description: 'Aches, muscle pain, body fatigue, loss of muscle control, etc.',
                 value: 3
             },
-            libido: {
-                label: 'Libido',
+            nervous: {
+                label: 'Nervous',
+                description: 'Headaches, migraines, numbness, tingling, tremors, etc.',
                 value: 3
             },
-            stress: {
-                label: 'Stress',
+            renal_urinary: {
+                label: 'Renal/Urinary',
+                description: 'Loss of bladder control, urinary tract infection, liver/kidney issues, etc.',
                 value: 3
             },
-            weight: {
-                label: 'Weight',
+            reproductive: {
+                label: 'Reproductive',
+                description: 'Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.',
                 value: 3
             },
-            hair: {
-                label: 'Hair, skin & nails',
+            respiratory: {
+                label: 'Respiratory',
+                description: 'Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.',
                 value: 3
             }
         },
