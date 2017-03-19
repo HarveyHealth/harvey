@@ -9,8 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class TestsController extends BaseAPIController
 {
+    /**
+     * @var TestTransformer
+     */
     protected $transformer;
     
+    /**
+     * TestsController constructor.
+     * @param TestTransformer $transformer
+     */
     public function __construct(TestTransformer $transformer)
     {
         parent::__construct();
@@ -18,42 +25,27 @@ class TestsController extends BaseAPIController
     }
     
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Test $test
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function show(Test $test)
     {
-        //
+        if (auth()->user()->can('view', $test)) {
+            return fractal()->item($test)
+                ->withResourceName('tests')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return $this->respondNotAuthorized('Unauthorized to view this resource.');
+        }
     }
     
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Test    $test
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
-    {
-        //
-    }
-    
-    
-    public function show(Test $test)
-    {
-        return fractal()->item($test)
-            ->withResourceName('tests')
-            ->transformWith($this->transformer)
-            ->serializeWith($this->serializer)
-            ->respond();
-    }
-    
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-    
     public function results(Test $test, Request $request)
     {
         $this->validate($request, [

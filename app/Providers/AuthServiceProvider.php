@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Models\Test;
 use App\Models\User;
 use App\Policies\AppointmentPolicy;
 use App\Policies\PatientPolicy;
+use App\Policies\TestPolicy;
 use App\Policies\UserPolicy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -23,7 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         User::class => UserPolicy::class,
         Patient::class => PatientPolicy::class,
-        Appointment::class => AppointmentPolicy::class
+        Appointment::class => AppointmentPolicy::class,
+        Test::class => TestPolicy::class
     ];
 
     /**

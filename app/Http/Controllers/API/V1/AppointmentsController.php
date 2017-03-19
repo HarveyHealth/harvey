@@ -9,17 +9,23 @@ use \Validator;
 
 class AppointmentsController extends BaseAPIController
 {
+    /**
+     * @var AppointmentTransformer
+     */
     private $transformer;
     
+    /**
+     * AppointmentsController constructor.
+     * @param AppointmentTransformer $transformer
+     */
     public function __construct(AppointmentTransformer $transformer)
     {
         parent::__construct();
         $this->transformer = $transformer;
     }
+    
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -31,12 +37,11 @@ class AppointmentsController extends BaseAPIController
             ->serializeWith($this->serializer)
             ->respond();
     }
-
+    
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request     $request
+     * @param Appointment $appointment
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, Appointment $appointment)
     {
@@ -62,41 +67,7 @@ class AppointmentsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to create this resource');
+            return $this->respondNotAuthorized('Unauthorized to create this resource.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

@@ -8,23 +8,19 @@ use Illuminate\Http\Request;
 
 class PatientsController extends BaseAPIController
 {
+    /**
+     * @var PatientTransformer
+     */
     protected $transformer;
     
+    /**
+     * PatientsController constructor.
+     * @param PatientTransformer $transformer
+     */
     public function __construct(PatientTransformer $transformer)
     {
         parent::__construct();
         $this->transformer = $transformer;
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
     
     /**

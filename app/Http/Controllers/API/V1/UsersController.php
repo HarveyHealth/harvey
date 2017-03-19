@@ -9,8 +9,15 @@ use Stripe\Customer;
 
 class UsersController extends BaseAPIController
 {
+    /**
+     * @var UserTransformer
+     */
     protected $transformer;
     
+    /**
+     * UsersController constructor.
+     * @param UserTransformer $transformer
+     */
     public function __construct(UserTransformer $transformer)
     {
         parent::__construct();
@@ -18,26 +25,9 @@ class UsersController extends BaseAPIController
     }
     
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-    
-    
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
@@ -49,28 +39,6 @@ class UsersController extends BaseAPIController
         } else {
             return $this->respondNotAuthorized('Unauthorized to view this resource');
         }
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
     
     /**
