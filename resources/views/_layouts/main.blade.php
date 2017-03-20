@@ -36,48 +36,40 @@
 
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
-    @if (App::environment('production'))
-        <div style="width:600px; margin:20% auto;">
-            <script async id="_ck_182209" src="https://forms.convertkit.com/182209?v=6"></script>
+    <div id="app">
+        @include('_layouts.includes.top_nav')
+
+        <div class="page-content">
+            @yield('main_content')
         </div>
 
-    @else
+        @include('_layouts.includes.footer')
+    </div>
 
-        <div id="app">
-            @include('_layouts.includes.top_nav')
+    @stack('square')
 
-            <div class="page-content">
-                @yield('main_content')
-            </div>
+    {{-- To add data here, see the VueHelperViewComposer --}}
+    <script>
+        window.Laravel = {!! $vue_data !!}
+    </script>
 
-            @include('_layouts.includes.footer')
-        </div>
-
-        @stack('square')
-
-        {{-- To add data here, see the VueHelperViewComposer --}}
-        <script>
-            window.Laravel = {!! $vue_data !!}
-        </script>
-
-        @if (Auth::guest())
-            @script(/js/libs/modernizr-custom.js)
-            @if (!App::environment('local'))
-                @script({{  elixir('/js/app_public.js') }})
-            @else
-                @script(/js/app_public.js)
-            @endif
+    @if (Auth::guest())
+        @script(/js/libs/modernizr-custom.js)
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_public.js') }})
         @else
-            @script(https://js.stripe.com/v2/)
-            @if (!App::environment('local'))
-                @script({{  elixir('/js/app_logged_in.js') }})
-            @else
-                @script(/js/app_logged_in.js)
-            @endif
+            @script(/js/app_public.js)
         @endif
-
-        @stack('scripts')
-
+    @else
+        @script(https://js.stripe.com/v2/)
+        @if (!App::environment('local'))
+            @script({{  elixir('/js/app_logged_in.js') }})
+        @else
+            @script(/js/app_logged_in.js)
+        @endif
     @endif
+
+    @stack('scripts')
+    
 </body>
 </html>
