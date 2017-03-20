@@ -34,12 +34,6 @@
         "symfony/dom-crawler": "3.1.*",
         "laravel/homestead": "^4"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:HomeHero/heroku-buildpack-php.git"
-        }
-    ],
     "autoload": {
         "classmap": [
             "database",
