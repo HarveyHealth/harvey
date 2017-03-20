@@ -2,7 +2,6 @@ const { mix } = require('laravel-mix');
 
 mix.js('resources/assets/js/app_public.js', 'public/js')
     .js('resources/assets/js/app_logged_in.js', 'public/js')
-    .extract(['vue', 'axios', 'vue-router'], 'public/js/vendors/vendors_module_extract.js')
     .combine([
                 'resources/assets/js/vendors/facebook.js',
                 'resources/assets/js/vendors/googleanalytics.js',
