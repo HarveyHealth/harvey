@@ -16,13 +16,13 @@ class ResultsUploadTest extends TestCase
     
     public function test_an_admin_can_upload_test_results()
     {
-        // GIVEN an Admin
+        // Given an Admin
         $admin = factory(Admin::class)->create();
         
-        // AND a test exists
+        // And a test exists
         $test = factory(Test::class)->create();
         
-        // AND a results file exists
+        // And a results file exists
         $file = new UploadedFile(
             storage_path('testing/testfile.pdf'), // Path to local test file
             'testfile.pdf', // The file name
@@ -30,8 +30,7 @@ class ResultsUploadTest extends TestCase
             null, // The file size
             null, // The error constant of the upload
             true); // Test mode
-
-        // MOCK CALLS TO S3
+        
         // Mocks for the API Controller saving to S3
         Storage::shouldReceive('disk')->with('s3')->andReturnSelf();
         Storage::shouldReceive('putFileAs')->once();
@@ -44,7 +43,7 @@ class ResultsUploadTest extends TestCase
         Storage::shouldReceive('createPresignedRequest')->andReturnSelf()->once();
         Storage::shouldReceive('getUri')->andReturn('https://somevalue.com/foobar')->once();
     
-        // WHEN WE POST TO THIS ROUTE
+        // When we attempt to submit the test results
         Passport::actingAs($admin->user);
         $response = $this->call(
             "POST", // Method
@@ -54,7 +53,7 @@ class ResultsUploadTest extends TestCase
             ["file" => $file] // Files
         );
 
-        // THEN WE SHOULD SEE
+        // Then it should succeed
         $response->assertStatus(200);
     }
 }
