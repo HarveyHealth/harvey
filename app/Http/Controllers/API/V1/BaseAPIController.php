@@ -3,56 +3,79 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use Crell\ApiProblem\ApiProblem;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
 class BaseAPIController extends Controller
 {
+    /**
+     * @var int
+     */
     protected $status_code = ResponseCode::HTTP_OK;
+    
+    /**
+     * @var JsonApiSerializer
+     */
     protected $serializer;
     
+    /**
+     * BaseAPIController constructor.
+     */
     public function __construct()
     {
         $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
     }
     
+    /**
+     * @param $code
+     * @return $this
+     */
     public function setStatusCode($code)
     {
         $this->status_code = $code;
         return $this;
     }
     
+    /**
+     * @return int
+     */
     protected function getStatusCode()
     {
         return $this->status_code;
     }
     
-    protected function respondWithError($message)
+    
+    protected function respondWithError(ApiProblem $apiproblem)
     {
-        return response()->json([
-            'error' => [
-                'message' => $message
-            ]
-        ], $this->getStatusCode());
+        return response()->apiproblem($apiproblem->asArray(), $this->getStatusCode());
     }
     
-    public function respondBadRequest($message = 'Bad Request')
+    public function respondBadRequest(ApiProblem $problem)
     {
-        return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)->respondWithError($message);
+        $problem->setTitle("Bad Request.");
+        return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)
+            ->respondWithError($problem);
+    }
+
+    public function respondNotAuthorized(ApiProblem $problem)
+    {
+        $problem->setTitle("Unauthorized Access.");
+        return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)
+                ->respondWithError($problem);
+    }
+
+    public function respondNotFound(ApiProblem $problem)
+    {
+        $problem->setTitle("Not Found.");
+        return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)
+            ->respondWithError($problem);
     }
     
-    public function respondNotAuthorized($message = 'Unauthorized Access')
+    public function respondUnprocessable(ApiProblem $problem)
     {
-        return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)->respondWithError($message);
-    }
-    
-    public function respondNotFound($message = 'Not Found')
-    {
-        return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)->respondWithError($message);
-    }
-    
-    public function respondUnprocessable($message = 'Unprocessable Entity')
-    {
-        return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($message);
+        $problem->setTitle("Unprocessable Entity.");
+        return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
+            ->respondWithError($problem);
     }
 }

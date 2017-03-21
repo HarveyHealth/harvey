@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \Validator;
 
@@ -39,11 +40,29 @@ class AppointmentsController extends BaseAPIController
     }
     
     /**
-     * @param Request     $request
      * @param Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Appointment $appointment)
+    public function show(Appointment $appointment)
+    {
+        if (auth()->user()->can('view', $appointment)) {
+            return fractal()->item($appointment)
+                ->withResourceName('appointments')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->respondNotAuthorized($problem);
+        }
+    }
+    
+    /**
+     * @param Request     $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'appointment_at' => 'required',
@@ -52,7 +71,9 @@ class AppointmentsController extends BaseAPIController
         ]);
     
         if ($validator->fails()) {
-            return $this->respondBadRequest($validator);
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
         }
         
         $appointment = new Appointment($request->all());
@@ -67,7 +88,9 @@ class AppointmentsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to create this resource.');
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to schedule a new appointment.");
+            return $this->respondNotAuthorized($problem);
         }
     }
 }

@@ -1,6 +1,6 @@
 # Harvey
 
-#### Back End: [Laravel 5.3](https://laravel.com/docs/5.3)
+#### Back End: [Laravel 5.4](https://laravel.com/docs/5.4)
 #### Front End: [Vue 2.0](https://vuejs.org/v2/guide)
 
 ## For Local Development
