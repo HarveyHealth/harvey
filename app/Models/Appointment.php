@@ -26,6 +26,13 @@ class Appointment extends Model
     {
         parent::boot();
 
+        self::creating(function ($appointment) {
+            if (empty($this->appointment_block_ends_at)) {
+                $start = new Carbon($this->created_at);
+                $this->appointment_block_ends_at = $start->addMinutes(90)->toDateTimeString();
+            }
+        });
+
         self::created(function ($appointment) {
             $patient = $appointment->patient;
             $practitioner = $appointment->practitioner;
@@ -42,12 +49,12 @@ class Appointment extends Model
     {
         return $this->hasMany(PatientNote::class);
     }
-    
+
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
-    
+
     public function practitioner()
     {
         return $this->belongsTo(Practitioner::class);
