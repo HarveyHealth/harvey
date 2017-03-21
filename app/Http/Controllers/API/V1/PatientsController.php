@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 
 class PatientsController extends BaseAPIController
@@ -37,8 +38,9 @@ class PatientsController extends BaseAPIController
                ->parseIncludes(['users', 'appointments'])
                 ->toArray();
         } else {
-            $this->problem->setDetail('You do not have access to view this patient.');
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to view the patient with id {$patient->id}.");
+            return $this->respondNotAuthorized($problem);
         }
     }
     

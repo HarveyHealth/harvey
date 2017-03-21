@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \Validator;
 
@@ -51,8 +52,9 @@ class AppointmentsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->respondNotAuthorized($problem);
         }
     }
     
@@ -69,8 +71,9 @@ class AppointmentsController extends BaseAPIController
         ]);
     
         if ($validator->fails()) {
-            $this->problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($validator);
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
         }
         
         $appointment = new Appointment($request->all());
@@ -85,8 +88,9 @@ class AppointmentsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail("You do not have access to schedule a new appointment.");
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to schedule a new appointment.");
+            return $this->respondNotAuthorized($problem);
         }
     }
 }

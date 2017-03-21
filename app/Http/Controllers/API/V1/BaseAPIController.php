@@ -20,17 +20,11 @@ class BaseAPIController extends Controller
     protected $serializer;
     
     /**
-     * @var ApiProblem
-     */
-    protected $problem;
-    
-    /**
      * BaseAPIController constructor.
      */
     public function __construct()
     {
         $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
-        $this->problem = new ApiProblem(null, null);
     }
     
     /**
@@ -51,76 +45,37 @@ class BaseAPIController extends Controller
         return $this->status_code;
     }
     
-    /**
-     * @param $problem
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithError($problem)
+    
+    protected function respondWithError(ApiProblem $apiproblem)
     {
-        return response()->json([
-            'errors' => [
-                $problem
-            ]
-        ], $this->getStatusCode());
+        return response()->apiproblem($apiproblem->asArray(), $this->getStatusCode());
     }
     
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function respondBadRequest()
+    public function respondBadRequest(ApiProblem $problem)
     {
-        $this->setProblemTitleIfMissing('Bad Request');
+        $problem->setTitle("Bad Request.");
         return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)
-                ->respondWithError($this->problem->asArray());
+            ->respondWithError($problem);
     }
-    
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function respondNotAuthorized()
+
+    public function respondNotAuthorized(ApiProblem $problem)
     {
-        $this->setProblemTitleIfMissing('Unauthorized Access');
+        $problem->setTitle("Unauthorized Access.");
         return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)
-                ->respondWithError($this->problem->asArray());
+                ->respondWithError($problem);
     }
-    
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function respondNotFound()
+
+    public function respondNotFound(ApiProblem $problem)
     {
-        $this->setProblemTitleIfMissing('Not Found');
+        $problem->setTitle("Not Found.");
         return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)
-                ->respondWithError($this->problem->asArray());
+            ->respondWithError($problem);
     }
     
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function respondUnprocessable()
+    public function respondUnprocessable(ApiProblem $problem)
     {
-        $this->setProblemTitleIfMissing('Unprocessable Entity');
+        $problem->setTitle("Unprocessable Entity.");
         return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
-                ->respondWithError($this->problem->asArray());
-    }
-    
-    /**
-     * @return bool
-     */
-    protected function problemTitleMissing()
-    {
-        return !$this->problem->getTitle();
-    }
-    
-    /**
-     * @param $title
-     * @return $this
-     */
-    protected function setProblemTitleIfMissing($title)
-    {
-        if ($this->problemTitleMissing()) {
-            $this->problem->setTitle($title);
-        }
-        return $this;
+            ->respondWithError($problem);
     }
 }

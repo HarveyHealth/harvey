@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 
 class UsersController extends BaseAPIController
@@ -36,8 +37,9 @@ class UsersController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail("You do not have access to view the user with id {$user->id}.");
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to view the user with id {$user->id}.");
+            return $this->respondNotAuthorized($problem);
         }
     }
     
@@ -57,8 +59,9 @@ class UsersController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail("You do not have access to modify the user with id {$user->id}.");
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
+            return $this->respondNotAuthorized($problem);
         }
     }
 }

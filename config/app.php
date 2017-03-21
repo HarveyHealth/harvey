@@ -193,6 +193,7 @@ return [
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\SlackServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
+        App\Providers\ResponseMacroServiceProvider::class,
 
     ],
 

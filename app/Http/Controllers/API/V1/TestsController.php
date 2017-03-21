@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Test;
 use App\Transformers\V1\TestTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use \Validator;
@@ -38,8 +39,9 @@ class TestsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail('You do not have access to view this test.');
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail('You do not have access to view this test.');
+            return $this->respondNotAuthorized($problem);
         }
     }
     
@@ -55,8 +57,9 @@ class TestsController extends BaseAPIController
         ]);
     
         if ($validator->fails()) {
-            $this->problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($validator);
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
         }
 
         $relative_path = "$test->patient_id/$test->id";
@@ -78,8 +81,9 @@ class TestsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } catch (\Exception $e) {
-            $this->problem->setDetail($e->getMessage());
-            return $this->respondUnprocessable();
+            $problem = new ApiProblem();
+            $problem->setDetail($e->getMessage());
+            return $this->respondUnprocessable($problem);
         }
     }
 }
