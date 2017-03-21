@@ -20,11 +20,6 @@ class CreatePractitionerTypesTable extends Migration
             $table->decimal('rate');
             $table->timestamps();
         });
-
-        \App\Models\PractitionerType::create([
-            'name' => 'Naturopathic Doctor',
-            'rate' => 300
-        ]);
     }
 
     /**

@@ -56,6 +56,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
     return [
         'enabled' => true,
         'user_id' => factory(App\Models\User::class)->create()->id,
+        'practitioner_type' => 1,
     ];
 });
 
@@ -76,16 +77,21 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
+
+    $start_time = Carbon::instance($faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC'));
+
     return [
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'appointment_at' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days'),
+        'appointment_at' => $start_time->toDateTimeString(),
+        'appointment_block_ends_at' => $start_time->addMinutes(90)->toDateTimeString(),
         'reason_for_visit' => $faker->sentence
     ];
 });
 
 $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
-    return ['appointment_at' => $faker->dateTimeBetween($startDate = '-3 days', $endDate = '-1 days'),];
+    $start_time = Carbon::instance($faker->dateTimeBetween($startDate = '-3 days', $endDate = '-1 days', 'UTC'));
+    return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
 });
 
 $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
