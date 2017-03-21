@@ -12,7 +12,7 @@ class PractitionerTypesSeeder extends Seeder
      */
     public function run()
     {
-        PractitionerType::create([
+        factory(PractitionerType::class)->create([
             'name' => 'Naturopathic Doctor',
             'rate' => 300
         ]);

@@ -60,6 +60,14 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
     ];
 });
 
+$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'name' => $faker->name,
+        'rate' => $faker->numberBetween(100, 300)
+    ];
+});
+
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,

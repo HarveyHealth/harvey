@@ -27,9 +27,9 @@ class Appointment extends Model
         parent::boot();
 
         self::creating(function ($appointment) {
-            if (empty($this->appointment_block_ends_at)) {
-                $start = new Carbon($this->created_at);
-                $this->appointment_block_ends_at = $start->addMinutes(90)->toDateTimeString();
+            if (empty($appointment->appointment_block_ends_at)) {
+                $start = new Carbon($appointment->created_at);
+                $appointment->appointment_block_ends_at = $start->addMinutes(90)->toDateTimeString();
             }
         });
 

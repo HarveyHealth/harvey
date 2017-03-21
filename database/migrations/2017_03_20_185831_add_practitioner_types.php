@@ -28,7 +28,7 @@ class AddPractitionerTypes extends Migration
     {
         Schema::table('practitioners', function (Blueprint $table) {
             $table->dropForeign(['practitioner_type']);
-//            $table->dropColumn('practitioner_type');
+            $table->dropColumn('practitioner_type');
         });
     }
 }

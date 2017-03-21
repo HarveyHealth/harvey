@@ -14,7 +14,10 @@ class AddStopTimeToAppointments extends Migration
     public function up()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            $table->dateTime('appointment_block_ends_at');
+            // This field should not really be nullable, but we need to set
+            // this to appease the sqlite gods, which is used in testing.
+            // Appointment model has an observer to ensure field is not null.
+            $table->dateTime('appointment_block_ends_at')->nullable();
         });
     }
 
