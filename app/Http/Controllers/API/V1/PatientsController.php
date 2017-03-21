@@ -60,8 +60,9 @@ class PatientsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            $this->problem->setDetail('You do not have access to modify this patient.');
-            return $this->respondNotAuthorized();
+            $problem = new ApiProblem();
+            $problem->setDetail('You do not have access to modify this patient.');
+            return $this->respondNotAuthorized($problem);
         }
     }
 }
