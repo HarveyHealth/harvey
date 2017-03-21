@@ -35,7 +35,6 @@ class PatientsController extends BaseAPIController
                 ->withResourceName('patients')
                 ->transformWith($this->transformer)
                 ->serializeWith($this->serializer)
-               ->parseIncludes(['users', 'appointments'])
                 ->toArray();
         } else {
             $problem = new ApiProblem();
