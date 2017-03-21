@@ -32,12 +32,6 @@
         "laravel/homestead": "^4",
         "laravel/dusk": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:HomeHero/heroku-buildpack-php.git"
-        }
-    ],
     "autoload": {
         "classmap": [
             "database",
