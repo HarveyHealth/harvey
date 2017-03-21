@@ -41,4 +41,14 @@ class PatientTransformer extends TransformerAbstract
         $user = $patient->user;
         return $this->item($user, new UserTransformer());
     }
+    
+    /**
+     * @param Patient $patient
+     * @return mixed
+     */
+    public function includeAppointments(Patient $patient)
+    {
+        $appointments = $patient->appointments;
+        return $this->collection($appointments, new AppointmentTransformer());
+    }
 }

@@ -30,13 +30,15 @@ class PatientsController extends BaseAPIController
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return fractal()->item($patient)
+            return $response = fractal()->item($patient)
                 ->withResourceName('patients')
                 ->transformWith($this->transformer)
                 ->serializeWith($this->serializer)
+               ->parseIncludes(['users', 'appointments'])
                 ->toArray();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to view this resource');
+            $this->problem->setDetail('You do not have access to view this patient.');
+            return $this->respondNotAuthorized();
         }
     }
     
@@ -56,7 +58,8 @@ class PatientsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to modify this resource');
+            $this->problem->setDetail('You do not have access to modify this patient.');
+            return $this->respondNotAuthorized();
         }
     }
 }

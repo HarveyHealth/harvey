@@ -80,6 +80,6 @@ class UserTest extends TestCase
         
         // Then it is not successful
         $response->assertStatus(401);
-        $response->assertSee('Unauthorized to view this resource');
+        $response->assertSee('Unauthorized Access');
     }
 }

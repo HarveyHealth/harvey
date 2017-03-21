@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
-use Stripe\Customer;
 
 class UsersController extends BaseAPIController
 {
@@ -37,7 +36,8 @@ class UsersController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to view this resource');
+            $this->problem->setDetail("You do not have access to view the user with id {$user->id}.");
+            return $this->respondNotAuthorized();
         }
     }
     
@@ -57,7 +57,8 @@ class UsersController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to modify this resource');
+            $this->problem->setDetail("You do not have access to modify the user with id {$user->id}.");
+            return $this->respondNotAuthorized();
         }
     }
 }

@@ -64,7 +64,7 @@ class TestTest extends TestCase
         $response->assertStatus(401);
         
         // And an appropriate error message is shown
-        $response->assertSee('Unauthorized to view this resource.');
+        $response->assertSee('Unauthorized Access');
     }
     
     public function test_a_patient_can_view_their_own_tests()
@@ -100,6 +100,6 @@ class TestTest extends TestCase
         $response->assertStatus(401);
     
         // And an appropriate error message is shown
-        $response->assertSee('Unauthorized to view this resource.');
+        $response->assertSee('Unauthorized Access');
     }
 }

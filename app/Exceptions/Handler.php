@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Crell\ApiProblem\ApiProblem;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -46,7 +47,14 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($exception instanceof ModelNotFoundException && request()->expectsJson()) {
-            return response()->json(['error' => ['message' => 'No resource was found.']], 404);
+            $problem = new ApiProblem('Not Found');
+            $problem->setDetail($exception->getMessage());
+            
+            return response()->json([
+                'errors' => [
+                    $problem->asArray()
+                ]
+            ], 404);
         }
         return parent::render($request, $exception);
     }

@@ -39,11 +39,28 @@ class AppointmentsController extends BaseAPIController
     }
     
     /**
-     * @param Request     $request
      * @param Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, Appointment $appointment)
+    public function show(Appointment $appointment)
+    {
+        if (auth()->user()->can('view', $appointment)) {
+            return fractal()->item($appointment)
+                ->withResourceName('appointments')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            $this->problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->respondNotAuthorized();
+        }
+    }
+    
+    /**
+     * @param Request     $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'appointment_at' => 'required',
@@ -52,6 +69,7 @@ class AppointmentsController extends BaseAPIController
         ]);
     
         if ($validator->fails()) {
+            $this->problem->setDetail($validator->errors()->first());
             return $this->respondBadRequest($validator);
         }
         
@@ -67,7 +85,8 @@ class AppointmentsController extends BaseAPIController
                 ->serializeWith($this->serializer)
                 ->respond();
         } else {
-            return $this->respondNotAuthorized('Unauthorized to create this resource.');
+            $this->problem->setDetail("You do not have access to schedule a new appointment.");
+            return $this->respondNotAuthorized();
         }
     }
 }
