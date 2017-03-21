@@ -29,6 +29,11 @@ class CreatePractitionersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('practitioners');
+        Schema::table('practitioners', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->drop();
+        });
+        
+//        Schema::dropIfExists('practitioners');
     }
 }

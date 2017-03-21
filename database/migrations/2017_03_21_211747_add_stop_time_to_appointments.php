@@ -26,7 +26,7 @@ class AddStopTimeToAppointments extends Migration
     public function down()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            //
+            $table->dropColumn('appointment_block_ends_at');
         });
     }
 }

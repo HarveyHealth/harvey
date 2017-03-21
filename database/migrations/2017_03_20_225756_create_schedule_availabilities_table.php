@@ -31,6 +31,9 @@ class CreateScheduleAvailabilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_availabilities');
+        Schema::table('practitioner_availabilities', function (Blueprint $table) {
+            $table->dropForeign(['practitioner_id']);
+            $table->drop();
+        });
     }
 }
