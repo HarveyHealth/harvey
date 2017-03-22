@@ -5,34 +5,23 @@
 
 ## For Local Development
 
+###Requirements
+ - MySQL 5.7
+ - Node 7
+ - PHP 7
+
 ### Back End
-1. Clone the Harvey repository:
+- Clone the Harvey repository:
 
 	`git clone git@github.com:HomeHero/harvey.git`
 
 - `cd` into the harvey directory
 - run `composer update`
 - Modify the .env file to suit your local config
-- run `php artisan migrate`
+- run `php artisan migrate --seed`
 
 ### Front End
-1. Follow back end steps.
-
-- run `yarn`
-
-	If you do not have yarn installed, run:
-
-	`npm install -g yarn`
-
-	Or
-
-	`brew install yarn`
-
-- point the gulpfile to your locally hosted site
-
-	If your locally hosted site is at `localhost:8000`, modify gulpfile.js to read:
-
-	`.browserSync({proxy: 'localhost:8000'});`
+- run `npm install`
 
 - run `npm run dev`
 
