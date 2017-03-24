@@ -22,4 +22,5 @@ const { mix } = require('laravel-mix');
 //         mix.version();
 // }
 
-mix.sass('resources/assets/scss/application.scss', 'public/static/css/main.css');
+mix.sass('resources/assets/scss/application.scss', 'public/static/css/main.css')
+   .copy('resources/assets/images', 'public/images', false);

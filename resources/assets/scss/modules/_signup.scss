@@ -1,0 +1,21 @@
+// Global signup styles
+.signup-content {
+  padding-top: 25px;
+  text-align: center;
+}
+
+.signup-form-container {
+  background: $white;
+  border-bottom: 1px solid $light-gray;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+  margin: 35px auto 0;
+  max-width: 508px;
+  padding: 50px 90px;
+}
+
+// Registration specific styles
+.registration-tree {
+  margin-bottom: 30px;
+  max-width: 508px;
+  width: 100%;
+}
