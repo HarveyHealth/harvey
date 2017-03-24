@@ -50,4 +50,10 @@ class PagesController extends Controller
 
         Mail::to('support@homehero.org')->send(new Contact());
     }
+
+    // Showing the static signup pages
+    public function getSignup()
+    {
+        return view('static.signup');
+    }
 }

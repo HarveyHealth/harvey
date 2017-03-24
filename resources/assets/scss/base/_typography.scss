@@ -1,0 +1,44 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.5;
+  margin: 0 0 15px;
+  font-weight: normal;
+}
+
+.header-giant {
+  font-size: 48px;
+}
+.header-xxlarge {
+  font-size: 30px;
+}
+.header-xlarge {
+  font-size: 24px;
+}
+.header-large {
+  font-size: 20px;
+}
+.header-medium {
+  font-size: 18px;
+}
+.header-small {
+  font-size: 16px;
+}
+.header-xsmall {
+  font-size: 12px;
+}
+
+p {
+  font-size: 14px;
+  margin: 0 0 10px;
+
+  &.small {
+    font-size: 12px;
+  }
+  &.large {
+    font-size: 18px;
+  }
+}

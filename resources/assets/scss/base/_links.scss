@@ -1,0 +1,12 @@
+a {
+  color: red;
+  font-size: 1.4em;
+  text-decoration: none;
+  transition: color .25s ease-in-out;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: shade(red, 25%);
+  }
+}

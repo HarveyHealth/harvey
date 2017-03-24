@@ -58,3 +58,6 @@ Route::get('privacy', 'LegalController@privacy');
 // SITEMAP
 Route::get('sitemap.xml', 'SitemapController@index');
 Route::get('sitemap-{map?}.xml', 'SitemapController@index');
+
+// STATIC SIGNUP PAGES
+Route::get('static/signup', 'PagesController@getSignup');

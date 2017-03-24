@@ -1,0 +1,19 @@
+$sans: 'Source Sans', Helvetica, sans-serif;
+
+%sans--medium {
+  font-family: $sans;
+  font-style: normal;
+  font-weight: 500;
+}
+
+%sans--bold {
+  font-family: $sans;
+  font-style: normal;
+  font-weight: 700;
+}
+
+//helpers
+
+.source-sans-medium {
+    @extend %sans--medium;
+}
