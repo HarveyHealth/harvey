@@ -13,12 +13,14 @@ class BaseAPIController extends Controller
      * @var int
      */
     protected $status_code = ResponseCode::HTTP_OK;
-    
+    protected $resource_name;
+
     /**
      * @var JsonApiSerializer
      */
     protected $serializer;
-    
+    protected $transformer;
+
     /**
      * BaseAPIController constructor.
      */
@@ -26,7 +28,7 @@ class BaseAPIController extends Controller
     {
         $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
     }
-    
+
     /**
      * @param $code
      * @return $this
@@ -36,7 +38,7 @@ class BaseAPIController extends Controller
         $this->status_code = $code;
         return $this;
     }
-    
+
     /**
      * @return int
      */
@@ -44,13 +46,13 @@ class BaseAPIController extends Controller
     {
         return $this->status_code;
     }
-    
-    
+
+
     protected function respondWithError(ApiProblem $apiproblem)
     {
         return response()->apiproblem($apiproblem->asArray(), $this->getStatusCode());
     }
-    
+
     public function respondBadRequest(ApiProblem $problem)
     {
         $problem->setTitle("Bad Request.");
@@ -71,11 +73,28 @@ class BaseAPIController extends Controller
         return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)
             ->respondWithError($problem);
     }
-    
+
     public function respondUnprocessable(ApiProblem $problem)
     {
         $problem->setTitle("Unprocessable Entity.");
         return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
             ->respondWithError($problem);
+    }
+
+    public function transformedResponse($item, $transformer = null) {
+
+        if (is_a($item, Illuminate\Database\Eloquent\Collection::class)) {
+            return fractal()->collection($item)
+                ->withResourceName($this->resource_name)
+                ->transformWith($transformer ?? $this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        } else {
+            return fractal()->item($item)
+                ->withResourceName($this->resource_name)
+                ->transformWith($transformer ?? $this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond();
+        }
     }
 }

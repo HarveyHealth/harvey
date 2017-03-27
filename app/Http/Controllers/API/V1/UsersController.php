@@ -9,11 +9,8 @@ use Illuminate\Http\Request;
 
 class UsersController extends BaseAPIController
 {
-    /**
-     * @var UserTransformer
-     */
-    protected $transformer;
-    
+    protected $resource_name = 'users';
+
     /**
      * UsersController constructor.
      * @param UserTransformer $transformer
@@ -23,7 +20,7 @@ class UsersController extends BaseAPIController
         parent::__construct();
         $this->transformer = $transformer;
     }
-    
+
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
@@ -31,18 +28,14 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return fractal()->item($user)
-                ->withResourceName('users')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
+            return $this->transformedResponse($user);
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the user with id {$user->id}.");
             return $this->respondNotAuthorized($problem);
         }
     }
-    
+
     /**
      * @param Request $request
      * @param User    $user
@@ -52,12 +45,9 @@ class UsersController extends BaseAPIController
     {
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
-            
-            return fractal()->item($user)
-                ->withResourceName('users')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
+
+            return $this->transformedResponse($user);
+
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
