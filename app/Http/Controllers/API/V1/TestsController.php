@@ -69,7 +69,6 @@ class TestsController extends BaseAPIController
             $test->save();
 
             return $this->transformedResponse($test);
-
         } catch (\Exception $e) {
             $problem = new ApiProblem();
             $problem->setDetail($e->getMessage());

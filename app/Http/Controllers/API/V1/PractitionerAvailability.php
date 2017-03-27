@@ -15,7 +15,6 @@ class PractitionerAvailability extends BaseAPIController
     public function show(Practitioner $practitioner)
     {
         if (auth()->user()->can('view', $practitioner)) {
-
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the practitioner with id {$practitioner->id}.");
@@ -44,7 +43,6 @@ class PractitionerAvailability extends BaseAPIController
         }
 
         if (auth()->user()->can('update', $practitioner)) {
-            
         } else {
             $problem = new ApiProblem();
             $problem->setDetail('You do not have access to modify this patient.');

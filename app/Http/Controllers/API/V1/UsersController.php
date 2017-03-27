@@ -47,7 +47,6 @@ class UsersController extends BaseAPIController
             $user->update($request->all());
 
             return $this->transformedResponse($user);
-
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
