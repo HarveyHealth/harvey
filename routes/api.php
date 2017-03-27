@@ -23,14 +23,17 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('tests/{test}', 'API\V1\TestsController@show')->name('tests.show');
     Route::post('tests/{test}/results', 'API\V1\TestsController@results')->name('test.results');
-    
+
     Route::get('users/{user}', 'API\V1\UsersController@show')->name('users.show');
     Route::patch('users/{user}', 'API\V1\UsersController@update')->name('users.update');
-    
+
     Route::get('patients/{patient}', 'API\V1\PatientsController@show')->name('patients.show');
     Route::patch('patients/{patient}', 'API\V1\PatientsController@update')->name('patients.update');
-    
+
     Route::get('appointments', 'API\V1\AppointmentsController@index')->name('appointments.index');
     Route::get('appointments/{appointment}', 'API\V1\AppointmentsController@show')->name('appointments.show');
     Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
+
+    Route::get('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailability@show')->name('practitioner-availability.show');
+    Route::patch('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailability@update')->name('practitioner-availability.update');
 });
