@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
+use Illuminate\Database\Eloquent\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Symfony\Component\HttpFoundation\Response as ResponseCode;
 
@@ -81,9 +82,9 @@ class BaseAPIController extends Controller
             ->respondWithError($problem);
     }
 
-    public function transformedResponse($item, $transformer = null) {
-
-        if (is_a($item, Illuminate\Database\Eloquent\Collection::class)) {
+    public function transformedResponse($item, $transformer = null)
+    {
+        if (is_a($item, Collection::class)) {
             return fractal()->collection($item)
                 ->withResourceName($this->resource_name)
                 ->transformWith($transformer ?? $this->transformer)

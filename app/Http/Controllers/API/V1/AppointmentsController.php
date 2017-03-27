@@ -70,7 +70,6 @@ class AppointmentsController extends BaseAPIController
             $patient->appointments()->save($appointment);
 
             return $this->transformedResponse($appointment);
-
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to schedule a new appointment.");

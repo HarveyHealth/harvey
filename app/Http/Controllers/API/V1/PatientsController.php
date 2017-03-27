@@ -61,7 +61,6 @@ class PatientsController extends BaseAPIController
             $patient->update($request->all());
 
             return $this->transformedResponse($patient);
-
         } else {
             $problem = new ApiProblem();
             $problem->setDetail('You do not have access to modify this patient.');
