@@ -6,6 +6,7 @@ use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
+use \Validator;
 
 class PatientsController extends BaseAPIController
 {
@@ -50,9 +51,22 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
+        $validator = Validator::make($request->all(), [
+            'birthdate' => 'date',
+            'height_inches' => 'integer',
+            'height_feet' => 'integer',
+            'weight' => 'integer'
+        ]);
+    
+        if ($validator->fails()) {
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
+        }
+        
         if (auth()->user()->can('update', $patient)) {
             $patient->update($request->all());
-        
+            
             return fractal()->item($patient)
                 ->withResourceName('patients')
                 ->transformWith($this->transformer)
