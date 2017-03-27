@@ -17,7 +17,7 @@ class CreateScheduleAvailabilitiesTable extends Migration
             $table->increments('id');
             $table->integer('practitioner_id')->unsigned();
             $table->foreign('practitioner_id')->references('id')->on('practitioners');
-            $table->string('day_of_week',12);
+            $table->string('day_of_week', 12);
             $table->time('start_time');
             $table->time('stop_time');
             $table->timestamps();
