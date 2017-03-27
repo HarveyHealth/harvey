@@ -1,12 +1,11 @@
 a {
-  color: red;
-  font-size: 1.4em;
+  color: $green-bright;
   text-decoration: none;
   transition: color .25s ease-in-out;
 
   &:active,
   &:focus,
   &:hover {
-    color: shade(red, 25%);
+    color: darken($green-bright, 10);
   }
 }

@@ -47,10 +47,18 @@
       <div class="signup-form-container">
         <form>
           <div class="input-wrap">
-            <span class="input-holder">
-              <label class="form-label" for="first_name">First Name</label>
-              <input class="form-input" name="first_name" type="text">
-            </span>
+            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" required>
+          </div>
+          <div class="input-wrap">
+            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" required>
+          </div>
+          <div class="input-wrap text-centered">
+            <input class="form-input form-input_checkbox" name="terms" type="checkbox" required>
+            <label class="form-label form-label_checkbox" for="terms">I agree to <a href="#">terms</a> and <a href="#">privacy policy</a>.</label>
+          </div>
+
+          <div class="input-wrap text-centered">
+            <input class="form-submit button" type="submit" value="Continue">
           </div>
         </form>
       </div>
