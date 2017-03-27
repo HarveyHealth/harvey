@@ -35,6 +35,7 @@
 
   <header class="site-header">
     <svg class="harvey-logo"><use xlink:href="#harvey-logo" /></svg>
+    <span class="header_phone-number">(800) 690-9989</span>
   </header>
 
   <main class="signup-content">
