@@ -33,5 +33,4 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('appointments', 'API\V1\AppointmentsController@index')->name('appointments.index');
     Route::get('appointments/{appointment}', 'API\V1\AppointmentsController@show')->name('appointments.show');
     Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
-    
 });

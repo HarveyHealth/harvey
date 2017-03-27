@@ -85,7 +85,6 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
-
     $start_time = Carbon::instance($faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC'));
 
     return [

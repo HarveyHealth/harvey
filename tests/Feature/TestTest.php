@@ -22,7 +22,7 @@ class TestTest extends TestCase
         
         // When the admin tries to access the test information
         Passport::actingAs($admin->user);
-        $response = $this->json('GET',"api/v1/tests/{$test->id}");
+        $response = $this->json('GET', "api/v1/tests/{$test->id}");
         
         // It is successful
         $response->assertStatus(200);
@@ -41,7 +41,7 @@ class TestTest extends TestCase
     
         // When the admin tries to access the test information
         Passport::actingAs($practitioner->user);
-        $response = $this->json('GET',"api/v1/tests/{$test->id}");
+        $response = $this->json('GET', "api/v1/tests/{$test->id}");
     
         // It is successful
         $response->assertStatus(200);
@@ -58,7 +58,7 @@ class TestTest extends TestCase
         
         // When the practitioner tries to access the test information
         Passport::actingAs($practitioner->user);
-        $response = $this->json('GET',"api/v1/tests/{$test->id}");
+        $response = $this->json('GET', "api/v1/tests/{$test->id}");
         
         // It is not successful
         $response->assertStatus(401);
@@ -77,7 +77,7 @@ class TestTest extends TestCase
     
         // When the admin tries to access the test information
         Passport::actingAs($patient->user);
-        $response = $this->json('GET',"api/v1/tests/{$test->id}");
+        $response = $this->json('GET', "api/v1/tests/{$test->id}");
     
         // It is successful
         $response->assertStatus(200);
@@ -94,7 +94,7 @@ class TestTest extends TestCase
         
         // When the admin tries to access the test information
         Passport::actingAs($patient->user);
-        $response = $this->json('GET',"api/v1/tests/{$test->id}");
+        $response = $this->json('GET', "api/v1/tests/{$test->id}");
     
         // It is not successful
         $response->assertStatus(401);

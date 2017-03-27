@@ -42,8 +42,9 @@ class PatientTest extends TestCase
         // Then it is successful
         $response->assertStatus(200);
     
-        // And they see their birthdate
+        // And they see their birthdate in the response as well as the database
         $response->assertJsonFragment(['birthdate' => '1999-01-01']);
+        $this->assertDatabaseHas('patients', ['birthdate' => '1999-01-01']);
     }
     
     public function test_a_patient_cannot_view_another_patients_data()
