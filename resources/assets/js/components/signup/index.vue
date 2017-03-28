@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import Registration from './Registration.vue';
-import Phone from './Phone.vue';
-import Practitioner from './Practitioner.vue';
+import Registration from './_components/Registration.vue';
+import Phone from './_components/Phone.vue';
+import Practitioner from './_components/Practitioner.vue';
 
 export default {
   name: 'Signup',
