@@ -8,7 +8,7 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form>
+        <form @submit.prevent="nextStep('phone')">
           <div class="input-wrap">
             <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name">
           </div>
@@ -19,9 +19,9 @@
             <input class="form-input form-input_checkbox" type="checkbox" id="checkbox">
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="#">terms</a> and <a href="#">privacy policy</a>.</label>
           </div>
-          <form @submit.prevent="nextStep('phone')">
+          <div class="text-centered">
             <input type="submit" class="btn btn-default" value="Continue">
-          </form>
+          </div>
         </form>
       </div>
     </div>

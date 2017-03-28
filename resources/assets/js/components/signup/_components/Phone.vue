@@ -14,20 +14,19 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form>
+        <form @submit.prevent="nextStep('practioner')">
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" required>
+            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name">
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" required>
+            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name">
           </div>
           <div class="input-wrap text-centered">
-            <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" required>
+            <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number">
           </div>
-
-          <form @submit.prevent="nextStep('practioner')">
+          <div class="text-centered">
             <input type="submit" class="btn btn-default" value="Continue">
-          </form>
+          </div>
         </form>
       </div>
     </div>
