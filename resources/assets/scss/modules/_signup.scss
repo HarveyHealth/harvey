@@ -15,6 +15,7 @@
 
   &.large {
     max-width: 775px;
+    padding: 60px 75px;
   }
 }
 
@@ -48,6 +49,33 @@
     }
   }
 
+
+// Checked Radio
+.radio-block {
+  margin-bottom: 55px;
+
+  &:not(:last-child) {
+    margin-bottom: 55px;
+    margin-right: 50px;
+  }
+}
+.radio-block_container {
+  background-color: $light-gray;
+  border: 1px solid #EFEFEF;
+  border-radius: 5px;
+  height: 100%;
+  padding: 25px 35px;
+}
+  .practitioner-main-content  {
+    border-bottom: 1px solid $gray;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+  }
+
+.radio_block:checked + label .radio-block_container  {
+  border: 1px solid $green;
+  box-shadow: inset 0px 0px 0px 6px $green;
+}
 
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.25s ease-out;

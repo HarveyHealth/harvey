@@ -1,3 +1,16 @@
 .text-centered {
   text-align: center;
 }
+
+em.bold {
+  @extend %sans--bold;
+  font-style: normal;
+}
+
+.flex-wrapper {
+  @media (min-width: 768px) { display: flex; }
+}
+
+.block {
+  display: block;
+}

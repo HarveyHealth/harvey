@@ -4,6 +4,11 @@
   }
 }
 
+.input-hidden {
+  position: absolute;
+  left: -9999px;
+}
+
 .form-input {
   @extend %sans--medium;
   line-height: 1.3;
