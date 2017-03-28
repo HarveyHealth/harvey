@@ -16,12 +16,8 @@
 
     <div class="container">
       <div class="signup-form-container large">
-        <form>
-
-
-          <form @submit.prevent="nextStep('registration')">
-            <input type="submit" class="btn btn-default" value="Continue">
-          </form>
+        <form @submit.prevent="nextStep('registration')">
+          <input type="submit" class="btn btn-default" value="Continue">
         </form>
       </div>
     </div>
