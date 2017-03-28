@@ -23,4 +23,5 @@ const { mix } = require('laravel-mix');
 // }
 
 mix.sass('resources/assets/scss/application.scss', 'public/static/css/main.css')
-   .copy('resources/assets/images', 'public/images', false);
+   .copy('resources/assets/images', 'public/images', false)
+   .js('resources/assets/js/components/signup/index.js', 'public/js/signup/index.js');

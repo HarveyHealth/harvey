@@ -9,9 +9,13 @@
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   margin: 35px auto 0;
-  max-width: 508px;
+  max-width: 510px;
   padding: 50px 90px;
   text-align: left;
+
+  &.large {
+    max-width: 775px;
+  }
 }
 
 // Registration specific styles
@@ -43,3 +47,12 @@
       background: $gray;
     }
   }
+
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s ease-out;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}

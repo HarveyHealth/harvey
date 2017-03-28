@@ -56,8 +56,4 @@ class PagesController extends Controller
     {
         return view('static.signup');
     }
-    public function getSignup2()
-    {
-        return view('static.signup2');
-    }
 }

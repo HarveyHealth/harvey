@@ -184,7 +184,7 @@ const app = new Vue({
                 }, 200);
                 setTimeout(() => {
                     const bodyEl = document.getElementsByTagName('body')[0];
-                    bodyEl.className += ' widget-on-focus';                    
+                    bodyEl.className += ' widget-on-focus';
                 }, 500);
                 window.removeEventListener('blur', this.onIframeClick);
             }

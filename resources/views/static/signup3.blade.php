@@ -33,22 +33,38 @@
 
   </svg>
 
-  <div id="signup">
+  <header class="site-header">
+    <svg class="harvey-logo"><use xlink:href="#harvey-logo" /></svg>
+    <span class="header_phone-number">(800) 690-9989</span>
+  </header>
+
+  <main class="signup-content">
+    <div class="container small">
+
+      <!-- progress indicator -->
+      <ul class="signup_progress-indicator">
+        <li class="signup_progress-step"></li>
+        <li class="signup_progress-step current"></li>
+        <li class="signup_progress-step"></li>
+        <li class="signup_progress-step"></li>
+      </ul>
+
+      <h1 class="header-xlarge">Choose your practioner</h1>
+      <p class="large">Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.</p>
+    </div>
     
-  </div>
-
-  @stack('square')
-
-  {{-- To add data here, see the VueHelperViewComposer --}}
-  <script>
-      window.Laravel = {!! $vue_data !!}
-  </script>
+    <div class="container">
+      <div class="signup-form-container large">
+        <form>
 
 
-  @script(/js/vendors/modernizr-custom.js)
-  @script({{  mix('/js/signup/index.js') }})
-
-  @stack('scripts')
+          <div class="input-wrap text-centered">
+            <input class="form-submit button" type="submit" value="Continue">
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
 
 </body>
 </html>

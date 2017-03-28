@@ -61,4 +61,3 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
 // STATIC SIGNUP PAGES
 Route::get('static/signup', 'PagesController@getSignup');
-Route::get('static/signup2', 'PagesController@getSignup2');
