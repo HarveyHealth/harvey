@@ -34,7 +34,9 @@
   </svg>
 
   <div id="signup">
+
     
+
   </div>
 
   @stack('square')

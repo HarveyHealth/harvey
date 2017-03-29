@@ -47,7 +47,5 @@ export default {
 </script>
 
 <style>
-.example {
-  color: red;
-}
+
 </style>

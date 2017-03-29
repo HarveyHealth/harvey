@@ -6,7 +6,7 @@
     </header>
 
     <transition name="fade" mode="out-in">
-      <component :is="currentStep" :next-step.sync="nextStep"></component>
+      <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
     </transition>
 
   </div>
