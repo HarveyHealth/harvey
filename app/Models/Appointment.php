@@ -12,6 +12,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Appointment extends Model
 {
     use HasPatientAndPractitioner, SoftDeletes;
+    
+    /**
+     * An appointment will lock when less than 2 hours away.
+     */
+    const CANCEL_LOCK = 2;
 
     protected $dates = [
         'created_at',
@@ -61,6 +66,20 @@ class Appointment extends Model
     public function practitioner()
     {
         return $this->belongsTo(Practitioner::class);
+    }
+    
+    public function isLocked()
+    {
+        $appointment_time = Carbon::parse($this->appointment_at);
+        return Carbon::now()->diffInHours(
+            $appointment_time,
+            true
+        ) <= self::CANCEL_LOCK;
+    }
+    
+    public function isNotLocked()
+    {
+        return !$this->isLocked();
     }
 
     /*

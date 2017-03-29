@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
 use Crell\ApiProblem\ApiProblem;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use \Validator;
 
@@ -73,6 +74,24 @@ class AppointmentsController extends BaseAPIController
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to schedule a new appointment.");
+            return $this->respondNotAuthorized($problem);
+        }
+    }
+    
+    public function delete(Appointment $appointment)
+    {
+        if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
+            $appointment->delete();
+            
+            return fractal()->item($appointment)
+                ->addMeta(['deleted' => true])
+                ->withResourceName('appointments')
+                ->transformWith($this->transformer)
+                ->serializeWith($this->serializer)
+                ->respond(410);
+        } else {
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to cancel this appointment.");
             return $this->respondNotAuthorized($problem);
         }
     }
