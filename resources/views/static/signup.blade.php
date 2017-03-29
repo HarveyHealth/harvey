@@ -20,7 +20,6 @@
 
 <body>
 
-
   <!-- Defining svgs for the document -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 
@@ -43,7 +42,6 @@
   <script>
       window.Laravel = {!! $vue_data !!}
   </script>
-
 
   @script(/js/vendors/modernizr-custom.js)
   @script({{  mix('/js/signup/index.js') }})
