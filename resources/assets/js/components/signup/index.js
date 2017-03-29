@@ -16,10 +16,5 @@ import Signup from './index.vue'
 
 new Vue({
   el: '#signup',
-  data: {
-    firstname: '',
-    lastname: '',
-    phonenumber: ''
-  },
   render: h => h(Signup)
 });

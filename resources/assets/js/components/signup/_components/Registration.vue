@@ -29,17 +29,17 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      title: 'Your journey starts here',
-      subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-      agree: ''
-    }
-  },
-  name: 'Registration',
-  props: ['nextStep']
-}
+  export default {
+    data() {
+      return {
+        title: 'Your journey starts here',
+        subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
+        agree: ''
+      }
+    },
+    name: 'Registration',
+    props: ['nextStep']
+  }
 </script>
 
 <style>

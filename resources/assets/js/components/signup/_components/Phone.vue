@@ -34,16 +34,16 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      title: 'We need a few more details…',
-      subtitle: 'Please enter your full name and phone number where you would like the doctor to call you at the time of your phone consultation.'
-    }
-  },
-  name: 'Phone',
-  props: ['nextStep']
-}
+  export default {
+    data() {
+      return {
+        title: 'We need a few more details…',
+        subtitle: 'Please enter your full name and phone number where you would like the doctor to call you at the time of your phone consultation.'
+      }
+    },
+    name: 'Phone',
+    props: ['nextStep']
+  }
 </script>
 
 <style>

@@ -66,16 +66,16 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      title: 'Choose your practioner',
-      subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.'
-    }
-  },
-  name: 'Practitioner',
-  props: ['nextStep']
-}
+  export default {
+    data() {
+      return {
+        title: 'Choose your practioner',
+        subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.'
+      }
+    },
+    name: 'Practitioner',
+    props: ['nextStep']
+  }
 </script>
 
 <style>
