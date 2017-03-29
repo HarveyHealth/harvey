@@ -16,6 +16,7 @@
   import Registration from './_components/Registration.vue';
   import Phone from './_components/Phone.vue';
   import Practitioner from './_components/Practitioner.vue';
+  import Location from './_components/Location.vue';
 
   export default {
     name: 'Signup',
@@ -23,13 +24,14 @@
       return {
         steps: ['registration', 'phone', 'practioner'],
         completedSteps:[],
-        currentStep: 'registration'
+        currentStep: 'location'
       }
     },
     components: {
       'registration': Registration,
       'phone': Phone,
-      'practioner': Practitioner
+      'practioner': Practitioner,
+      'location': Location
     },
     methods: {
       nextStep: function (step) {

@@ -5,8 +5,8 @@
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step"></li>
-        <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
+        <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
       </ul>
 
@@ -14,15 +14,12 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form @submit.prevent="nextStep('location')">
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name">
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name">
+        <form @submit.prevent="nextStep('practioner')">
+          <div class="text-centered">
+            <img class="map" src="/images/signup/location.png" alt="">
           </div>
           <div class="input-wrap text-centered">
-            <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number">
+            <input class="form-input form-input_text" name="zipcode" type="number" placeholder="Zip Code">
           </div>
           <div class="text-centered">
             <input type="submit" class="btn btn-default" value="Continue">
@@ -37,15 +34,18 @@
   export default {
     data() {
       return {
-        title: 'We need a few more details…',
-        subtitle: 'Please enter your full name and phone number where you would like the doctor to call you at the time of your phone consultation.'
+        title: 'Where are you located?',
+        subtitle: 'All consultations with doctors are virtual. However, we do not have licensed doctors in all 50 states. Please enter your zip code so we can veritfy that we are permitted to work with you. '
       }
     },
-    name: 'Phone',
+    name: 'Location',
     props: ['nextStep']
   }
 </script>
 
 <style>
-
+  .map {
+    margin-bottom: 40px;
+    max-width: 142px;
+  }
 </style>
