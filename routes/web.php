@@ -27,7 +27,6 @@ Route::get('about', 'PagesController@getAbout');
 Route::get('contact', 'PagesController@getContact');
 Route::get('lab-tests', 'PagesController@getLabTests');
 Route::post('contact', 'PagesController@postContact');
-Route::get('test', 'PagesController@getTest');
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
@@ -58,3 +57,7 @@ Route::get('privacy', 'LegalController@privacy');
 // SITEMAP
 Route::get('sitemap.xml', 'SitemapController@index');
 Route::get('sitemap-{map?}.xml', 'SitemapController@index');
+
+if (App::environment('local')) {
+    Route::get('test', 'TestController@index');
+}

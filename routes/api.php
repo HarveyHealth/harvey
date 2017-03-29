@@ -34,6 +34,8 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('appointments/{appointment}', 'API\V1\AppointmentsController@show')->name('appointments.show');
     Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
 
+    Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerSchedule@show')->name('practitioner-schedule.show');
+    Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerSchedule@update')->name('practitioner-schedule.update');
+
     Route::get('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailability@show')->name('practitioner-availability.show');
-    Route::patch('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailability@update')->name('practitioner-availability.update');
 });
