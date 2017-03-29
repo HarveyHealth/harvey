@@ -2,14 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Models\Appointment;
 use App\Models\Practitioner;
 
-class AppointmentRepository extends BaseRepository
+class PractitionerRepository extends BaseRepository
 {
     public $model;
 
-    public function __construct(Appointment $model)
+    public function __construct(Practitioner $model)
     {
         $this->model = $model;
     }

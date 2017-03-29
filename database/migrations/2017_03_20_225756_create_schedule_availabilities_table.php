@@ -13,7 +13,7 @@ class CreateScheduleAvailabilitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('practitioner_availabilities', function (Blueprint $table) {
+        Schema::create('practitioner_schedules', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('practitioner_id')->unsigned();
             $table->foreign('practitioner_id')->references('id')->on('practitioners');
@@ -31,7 +31,7 @@ class CreateScheduleAvailabilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('practitioner_availabilities', function (Blueprint $table) {
+        Schema::table('practitioner_schedules', function (Blueprint $table) {
             $table->dropForeign(['practitioner_id']);
             $table->drop();
         });
