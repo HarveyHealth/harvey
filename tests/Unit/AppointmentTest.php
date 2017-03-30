@@ -23,11 +23,7 @@ class AppointmentTest extends TestCase
     
     public function test_an_appointment_is_locked_when_it_is_in_the_past()
     {
-        $hours_away = Carbon::now()->subHour();
-        $appointment = factory(Appointment::class)->make([
-            'appointment_at' => $hours_away
-        ]);
-        
+        $appointment = factory(Appointment::class)->states('past')->make();
         $this->assertTrue($appointment->isLocked());
     }
     
