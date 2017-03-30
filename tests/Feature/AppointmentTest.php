@@ -70,6 +70,33 @@ class AppointmentTest extends TestCase
         // And they can see the new appointment information
         $this->assertTrue(true);
     }
+    
+    public function test_it_does_not_allow_modifications_if_the_appointment_is_less_than_2_hours_away()
+    {
+        // Given a patient with a scheduled appointment less than 2 hours away
+        // When they update the schedule date
+        // Then it is not successful
+        // And they get an error response
+        $this->assertTrue(true);
+    }
+    
+    public function test_it_does_not_allow_cancellation_if_the_appointment_is_less_than_2_hours_away()
+    {
+        // Given a patient with a scheduled appointment less than 2 hours away
+        // When they try deleting the schedule
+        // Then it is not successful
+        // And they get an error response
+        $this->assertTrue(true);
+    }
+    
+    public function test_it_does_not_allow_modification_if_the_appointment_was_complete()
+    {
+        // Given a patient with an appointment in the past
+        // When they try deleting the schedule
+        // Then it is not successful
+        // And they get an error response
+        $this->assertTrue(true);
+    }
 
     public function test_a_patient_can_view_information_for_specific_appointments_that_belong_to_them()
     {
