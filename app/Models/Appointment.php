@@ -70,16 +70,18 @@ class Appointment extends Model
     
     public function isLocked()
     {
-        $appointment_time = Carbon::parse($this->appointment_at);
-        return Carbon::now()->diffInHours(
-            $appointment_time,
-            true
-        ) <= self::CANCEL_LOCK;
+        return $this->hoursToStart() <= self::CANCEL_LOCK;
     }
     
     public function isNotLocked()
     {
         return !$this->isLocked();
+    }
+    
+    public function hoursToStart()
+    {
+        $appointment_time = Carbon::parse($this->appointment_at);
+        return Carbon::now()->diffInHours($appointment_time, false);
     }
 
     /*
