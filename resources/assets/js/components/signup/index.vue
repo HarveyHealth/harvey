@@ -26,7 +26,7 @@
     name: 'Signup',
     data() {
       return {
-        currentStep: 'practitioner'
+        currentStep: 'registration'
       }
     },
     components: {
