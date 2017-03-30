@@ -19,7 +19,7 @@
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="#">terms</a> and <a href="#">privacy policy</a>.</label>
           </div>
           <div class="text-centered">
-            <button @click="nextStep('phone')">Continue</button>
+            <button class="button" @click="nextStep('phone')">Continue</button>
           </div>
 
       </div>

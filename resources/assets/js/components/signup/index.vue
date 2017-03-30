@@ -25,7 +25,7 @@
     name: 'Signup',
     data() {
       return {
-        currentStep: 'registration'
+        currentStep: 'datetime'
       }
     },
     components: {

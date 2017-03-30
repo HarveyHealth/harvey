@@ -20,7 +20,7 @@
             <input class="form-input form-input_text" name="zipcode" type="number" placeholder="Zip Code">
           </div>
           <div class="text-centered">
-            <button @click="nextStep('practitioner')">Continue</button>
+            <button class="button" @click="nextStep('practitioner')">Continue</button>
           </div>
       </div>
   </div>

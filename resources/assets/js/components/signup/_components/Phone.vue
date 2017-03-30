@@ -23,7 +23,7 @@
             <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number">
           </div>
           <div class="text-centered">
-            <button @click="nextStep('location')">Continue</button>
+            <button class="button" @click="nextStep('location')">Continue</button>
           </div>
       </div>
   </div>

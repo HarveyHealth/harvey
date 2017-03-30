@@ -55,7 +55,7 @@
           </div>
 
           <div class="text-centered">
-            <button @click="nextStep('datetime')">Continue</button>
+            <button class="button" @click="nextStep('datetime')">Continue</button>
           </div>
       </div>
     </div>

@@ -14,17 +14,65 @@
       <p class="large">{{ subtitle }}</p>
     </div>
     <div class="container large">
-      <div class="signup-form-container">
+      <div class="signup-form-container large">
         <div class="flex-wrapper">
-          <div class="input-wrap radio-block">
-            one
+          <div class="input-wrap calendar-block">
+            <div class="calendar-block_container">
+              <h2 class="header-large text-centered">Choose Date</h2>
+              <div class="calendar-week-container">
+                <div class="calendar-week-container_title-wrapper">
+                  <h3 class="calendar-week-container_title">This week</h3>
+                  <span class="calendar-week-container_date">March 27 - April 2nd</span>
+                </div>
+                <ul class="calendar-week-container_days-wrapper">
+                  <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Wed</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Thu</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Fri</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Sat</button></li>
+                  <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li>
+                </ul>
+              </div>
+              <div class="calendar-week-container">
+                <div class="calendar-week-container_title-wrapper">
+                  <h3 class="calendar-week-container_title">Next week</h3>
+                  <span class="calendar-week-container_date">March 27 - April 2nd</span>
+                </div>
+                <ul class="calendar-week-container_days-wrapper">
+                  <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Wed</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Thu</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Fri</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">Sat</button></li>
+                  <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div class="input-wrap radio-block">
-            two
+          <div class="input-wrap calendar-block">
+            <div class="calendar-block_container">
+              <h2 class="header-large text-centered">Choose Time</h2>
+              <div class="calendar-week-container">
+                <ul class="calendar-week-container_days-wrapper">
+                  <li class="calendar-item"><button class="calendar-item_link">9a</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">10a</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">11a</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">12p</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">1p</button></li>
+                  <li class="calendar-item"><button class="calendar-item_link">2p</button></li>
+                  <li class="calendar-item selected"><button class="calendar-item_link">3p</button></li>
+                </ul>
+              </div>
+              <p class="text-centered small">Time Zone: PST</p>
+            </div>
           </div>
         </div>
-        <button @click="nextStep('registration')">Submit</button>
+        <div class="text-centered">
+          <button class="button" @click="nextStep('registration')">Book Now</button>
+        </div>
       </div>
     </div>
   </div>
