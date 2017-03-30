@@ -16,11 +16,14 @@ class PractitionerAvailability
         $this->practitioner = $practitioner;
     }
 
+    /**
+     * @return array
+     */
     public function availability()
     {
         $practitioner_timezone = $this->practitioner->user->timezone;
 
-        $current_week = \Carbon::now();
+        $current_week = Carbon::now();
 
         // a place to store the data
         $weeks = [];
@@ -96,12 +99,15 @@ class PractitionerAvailability
                 $available_slots[] = $date->format('l H:i');
             }
 
-            $weeks[$w] = $available_slots;
+            $weeks['week ' . ($w + 1)] = $available_slots;
         }
 
         return $weeks;
     }
 
+    /**
+     * @return array
+     */
     private function timeslotsForSchedule()
     {
         $schedules = $this->practitioner->schedule;
