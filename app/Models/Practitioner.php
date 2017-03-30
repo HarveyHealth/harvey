@@ -11,6 +11,8 @@ class Practitioner extends Model
 
     public function availability()
     {
+        $availability = new PractitionerAvailability($self);
+        return $availability->availability();
     }
 
 
