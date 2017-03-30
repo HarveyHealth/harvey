@@ -81,7 +81,7 @@ class BaseAPIController extends Controller
         return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
             ->respondWithError($problem);
     }
-    
+
     /**
      * @param      $item
      * @param null $transformer
@@ -94,7 +94,7 @@ class BaseAPIController extends Controller
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }
-    
+
     /**
      * @param      $collection
      * @param null $transformer

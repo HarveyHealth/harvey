@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -34,5 +34,16 @@ class TimeslotsManagerTest extends TestCase
         // at the :15
         $id = $manager->timeslotForDayAndTime('Saturday', '11:15');
         $this->assertEquals($id, 311);
+    }
+
+    public function test_it_gets_timeslot_info_for_id()
+    {
+        $manager = new TimeslotManager;
+
+        $info = $manager->dayAndTimeForTimeslot(71);
+        $this->assertEquals($info['day'], 'Monday');
+
+        $info = $manager->dayAndTimeForTimeslot(71);
+        $this->assertEquals($info['time'], '11:00:00');
     }
 }
