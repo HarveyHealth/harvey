@@ -56,10 +56,20 @@
 
     @if (Auth::guest())
         @script(/js/vendors/modernizr-custom.js)
-        @script({{  mix('/js/app_public.js') }})
+        @if(App::environment() == "local")
+            @script('/js/app_public.js')
+        @else
+            @script({{  mix('/js/app_public.js') }})
+        @endif
+
     @else
         @script(https://js.stripe.com/v2/)
-        @script({{  mix('/js/app_logged_in.js') }})
+        @if(App::environment() == "local")
+            @script('/js/app_logged_in.js')
+        @else
+            @script({{  mix('/js/app_logged_in.js') }})
+        @endif
+
     @endif
 
     @stack('scripts')
