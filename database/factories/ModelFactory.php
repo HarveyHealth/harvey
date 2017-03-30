@@ -101,6 +101,10 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
     return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
 });
 
+$factory->state(App\Models\Appointment::class, 'soon', function ($faker) {
+    return ['appointment_at' => Carbon::now()->addMinutes(30)];
+});
+
 $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
