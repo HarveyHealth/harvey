@@ -1,6 +1,5 @@
 <template>
-  <main class="signup-content">
-    <div class="container small">
+  <div>
 
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
@@ -14,7 +13,6 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form @submit.prevent="nextStep('practioner')">
           <div class="text-centered">
             <img class="map" src="/images/signup/location.png" alt="">
           </div>
@@ -24,10 +22,8 @@
           <div class="text-centered">
             <input type="submit" class="btn btn-default" value="Continue">
           </div>
-        </form>
       </div>
-    </div>
-  </main>
+  </div>
 </template>
 
 <script>

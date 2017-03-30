@@ -1,7 +1,6 @@
 <template>
-  <main class="signup-content">
-    <div class="container small">
-
+  <div>
+    <div>
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step"></li>
@@ -16,7 +15,6 @@
 
     <div class="container">
       <div class="signup-form-container large">
-        <form @submit.prevent="nextStep('registration')">
 
           <div class="flex-wrapper">
             <div class="input-wrap radio-block">
@@ -59,10 +57,9 @@
           <div class="text-centered">
             <input type="submit" class="btn btn-default" value="Continue">
           </div>
-        </form>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script>
