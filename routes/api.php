@@ -33,6 +33,7 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function () {
     Route::get('appointments', 'API\V1\AppointmentsController@index')->name('appointments.index');
     Route::get('appointments/{appointment}', 'API\V1\AppointmentsController@show')->name('appointments.show');
     Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
+    Route::patch('appointments/{appointment}', 'API\V1\AppointmentsController@update')->name('appointments.update');
     Route::delete('appointments/{appointment}', 'API\V1\AppointmentsController@delete')->name('appointments.delete');
 
     Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerSchedule@show')->name('practitioner-schedule.show');
