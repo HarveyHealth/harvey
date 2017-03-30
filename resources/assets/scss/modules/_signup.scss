@@ -10,12 +10,14 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   margin: 35px auto 0;
   max-width: 510px;
-  padding: 50px 90px;
+  padding: 30px;
+  @media (min-width: 850px) { padding: 50px 90px; }
   text-align: left;
 
   &.large {
     max-width: 775px;
-    padding: 60px 75px;
+    padding: 30px;
+    @media (min-width: 850px) { padding: 60px 75px; }
   }
 }
 
@@ -53,6 +55,8 @@
 // Checked Radio
 .radio-block {
   margin-bottom: 55px;
+  width: 100%;
+  @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
     margin-bottom: 55px;
@@ -63,8 +67,14 @@
   background-color: $light-gray;
   border: 1px solid #EFEFEF;
   border-radius: 5px;
+  cursor: pointer;
   height: 100%;
   padding: 25px 35px;
+
+  &:hover {
+    border: 1px solid $green;
+    box-shadow: inset 0px 0px 0px 6px $green;
+  }
 }
   .practitioner-main-content  {
     border-bottom: 1px solid $gray;
@@ -77,19 +87,12 @@
   box-shadow: inset 0px 0px 0px 6px $green;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.25s ease-out;
-}
-
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-
 
 // Calendar
 .calendar-block {
   margin-bottom: 55px;
-  width: 50%;
+  width: 100%;
+  @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
     margin-bottom: 55px;
@@ -146,7 +149,7 @@
             width: 35px;
 
             &:nth-child(5n) {
-              margin-right: 0;
+              @media (min-width: 850px) { margin-right: 0; }
             }
 
             &.selected {

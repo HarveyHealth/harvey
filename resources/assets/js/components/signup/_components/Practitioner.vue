@@ -9,7 +9,7 @@
         <li class="signup_progress-step"></li>
       </ul>
 
-      <h1 class="header-xlarge">Choose your practioner</h1>
+      <h1 class="header-xlarge">Choose your practitioner</h1>
       <p class="large">Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.</p>
     </div>
 
@@ -66,7 +66,7 @@
   export default {
     data() {
       return {
-        title: 'Choose your practioner',
+        title: 'Choose your practitioner',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.'
       }
     },

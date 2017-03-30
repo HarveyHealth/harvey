@@ -26,7 +26,7 @@
     name: 'Signup',
     data() {
       return {
-        currentStep: 'modal'
+        currentStep: 'practitioner'
       }
     },
     components: {
