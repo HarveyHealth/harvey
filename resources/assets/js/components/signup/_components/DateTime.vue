@@ -70,6 +70,9 @@
             </div>
           </div>
         </div>
+        <div class="calendar-notice text-centered">
+          <p class="large">This will replace existing appointment on: Thursday, March 30th at 5:00pm</p>
+        </div>
         <div class="text-centered">
           <button class="button" @click="nextStep('modal')">Book Now</button>
         </div>
