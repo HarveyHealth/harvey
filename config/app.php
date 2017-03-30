@@ -250,7 +250,7 @@ return [
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
         // custom
-
+        'ResponseCode' => Symfony\Component\HttpFoundation\Response::class,
 
     ],
 
