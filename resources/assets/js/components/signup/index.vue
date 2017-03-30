@@ -20,12 +20,13 @@
   import Practitioner from './_components/Practitioner.vue';
   import Location from './_components/Location.vue';
   import DateTime from './_components/DateTime.vue';
+  import Modal from './_components/Modal.vue';
 
   export default {
     name: 'Signup',
     data() {
       return {
-        currentStep: 'location'
+        currentStep: 'modal'
       }
     },
     components: {
@@ -33,7 +34,8 @@
       'phone': Phone,
       'practitioner': Practitioner,
       'location': Location,
-      'datetime': DateTime
+      'datetime': DateTime,
+      'modal': Modal
     },
     methods: {
       nextStep: function (step) {
