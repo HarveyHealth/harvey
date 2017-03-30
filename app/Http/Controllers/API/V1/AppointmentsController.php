@@ -81,7 +81,7 @@ class AppointmentsController extends BaseAPIController
     public function delete(Appointment $appointment)
     {
         if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
-//            $appointment->delete();
+            $appointment->delete();
     
             return $this->baseTransformItem($appointment)
                 ->addMeta(['deleted' => true])
