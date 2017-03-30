@@ -29,7 +29,7 @@ class PatientsController extends BaseAPIController
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return $this->transformedResponse($patient);
+            return $this->baseTransformItem($patient)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the patient with id {$patient->id}.");
@@ -59,8 +59,8 @@ class PatientsController extends BaseAPIController
 
         if (auth()->user()->can('update', $patient)) {
             $patient->update($request->all());
-
-            return $this->transformedResponse($patient);
+    
+            return $this->baseTransformItem($patient)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail('You do not have access to modify this patient.');

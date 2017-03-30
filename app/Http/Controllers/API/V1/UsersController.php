@@ -28,7 +28,7 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return $this->transformedResponse($user);
+            return $this->baseTransformItem($user)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the user with id {$user->id}.");
@@ -45,8 +45,8 @@ class UsersController extends BaseAPIController
     {
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
-
-            return $this->transformedResponse($user);
+    
+            return $this->baseTransformItem($user)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to modify the user with id {$user->id}.");

@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
-use Illuminate\Database\Eloquent\Collection;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Symfony\Component\HttpFoundation\Response as ResponseCode;
+use Spatie\Fractal\Fractal;
+use \ResponseCode;
 
 class BaseAPIController extends Controller
 {
@@ -81,21 +81,30 @@ class BaseAPIController extends Controller
         return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
             ->respondWithError($problem);
     }
-
-    public function transformedResponse($item, $transformer = null)
+    
+    /**
+     * @param      $item
+     * @param null $transformer
+     * @return Fractal
+     */
+    public function baseTransformItem($item, $transformer = null)
     {
-        if (is_a($item, Collection::class)) {
-            return fractal()->collection($item)
-                ->withResourceName($this->resource_name)
-                ->transformWith($transformer ?? $this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
-        } else {
-            return fractal()->item($item)
-                ->withResourceName($this->resource_name)
-                ->transformWith($transformer ?? $this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
-        }
+        return fractal()->item($item)
+            ->withResourceName($this->resource_name)
+            ->transformWith($transformer ?? $this->transformer)
+            ->serializeWith($this->serializer);
+    }
+    
+    /**
+     * @param      $collection
+     * @param null $transformer
+     * @return Fractal
+     */
+    public function baseTransformCollection($collection, $transformer = null)
+    {
+        return fractal()->collection($collection)
+            ->withResourceName($this->resource_name)
+            ->transformWith($transformer ?? $this->transformer)
+            ->serializeWith($this->serializer);
     }
 }
