@@ -16,8 +16,9 @@
           <div class="text-centered">
             <img class="map" src="/images/signup/location.png" alt="">
           </div>
-          <div class="input-wrap text-centered">
-            <input class="form-input form-input_text" name="zipcode" type="number" placeholder="Zip Code">
+          <div class="input-wrap">
+            <input class="form-input form-input_text error" name="zipcode" type="number" placeholder="Zip Code">
+            <span class="error-text">Please enter a valid zipcode</span>
           </div>
           <div class="text-centered">
             <button class="button" @click="nextStep('practitioner')">Continue</button>
