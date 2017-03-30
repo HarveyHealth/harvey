@@ -87,6 +87,14 @@
   box-shadow: inset 0px 0px 0px 6px $green;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s ease-out;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 
 // Calendar
 .calendar-block {
