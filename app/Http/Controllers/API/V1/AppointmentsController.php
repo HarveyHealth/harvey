@@ -78,6 +78,24 @@ class AppointmentsController extends BaseAPIController
         }
     }
     
+    public function update(Request $request, Appointment $appointment)
+    {
+        if (auth()->user()->can('update', $appointment)) {
+            $appointment->update($request->all());
+            
+            return $this->baseTransformItem($appointment)->respond();
+        } else {
+            $message = $appointment->isLocked() ?
+                "You are unable to modify an appointment with less than "
+                    . Appointment::CANCEL_LOCK . " hours of notice."
+                : "You do not have access to update this appointment.";
+            
+            $problem = new ApiProblem();
+            $problem->setDetail($message);
+            return $this->respondNotAuthorized($problem);
+        }
+    }
+    
     public function delete(Appointment $appointment)
     {
         if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
@@ -87,8 +105,13 @@ class AppointmentsController extends BaseAPIController
                 ->addMeta(['deleted' => true])
                 ->respond(ResponseCode::HTTP_GONE);
         } else {
+            $message = $appointment->isLocked() ?
+                "You are unable to cancel an appointment with less than "
+                    . Appointment::CANCEL_LOCK . " hours of notice."
+                : "You do not have access to cancel this appointment.";
+    
             $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to cancel this appointment.");
+            $problem->setDetail($message);
             return $this->respondNotAuthorized($problem);
         }
     }
