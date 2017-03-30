@@ -30,7 +30,7 @@ class TestsController extends BaseAPIController
     public function show(Test $test)
     {
         if (auth()->user()->can('view', $test)) {
-            return $this->transformedResponse($test);
+            return $this->baseTransformItem($test)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail('You do not have access to view this test.');
@@ -67,8 +67,8 @@ class TestsController extends BaseAPIController
 
             $test->results_key = "$relative_path/results.pdf";
             $test->save();
-
-            return $this->transformedResponse($test);
+    
+            return $this->baseTransformItem($test)->respond();
         } catch (\Exception $e) {
             $problem = new ApiProblem();
             $problem->setDetail($e->getMessage());
