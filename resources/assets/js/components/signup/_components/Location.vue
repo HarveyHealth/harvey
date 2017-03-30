@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container small">
 
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
@@ -20,7 +20,7 @@
             <input class="form-input form-input_text" name="zipcode" type="number" placeholder="Zip Code">
           </div>
           <div class="text-centered">
-            <input type="submit" class="btn btn-default" value="Continue">
+            <button @click="nextStep('practitioner')">Continue</button>
           </div>
       </div>
   </div>

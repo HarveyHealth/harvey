@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container small">
 
       <img class="registration-tree" src="/images/signup/tree.png" alt="">
 
@@ -19,7 +19,7 @@
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="#">terms</a> and <a href="#">privacy policy</a>.</label>
           </div>
           <div class="text-centered">
-            <input type="submit" class="btn btn-default" value="Continue">
+            <button @click="nextStep('phone')">Continue</button>
           </div>
 
       </div>

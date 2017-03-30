@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container small">
 
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
@@ -23,7 +23,7 @@
             <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number">
           </div>
           <div class="text-centered">
-            <input type="submit" class="btn btn-default" value="Continue">
+            <button @click="nextStep('location')">Continue</button>
           </div>
       </div>
   </div>

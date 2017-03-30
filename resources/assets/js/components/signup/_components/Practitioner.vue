@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="container small">
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step"></li>
@@ -13,7 +13,7 @@
       <p class="large">Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.</p>
     </div>
 
-    <div class="container">
+    <div class="container large">
       <div class="signup-form-container large">
 
           <div class="flex-wrapper">
@@ -55,7 +55,7 @@
           </div>
 
           <div class="text-centered">
-            <input type="submit" class="btn btn-default" value="Continue">
+            <button @click="nextStep('datetime')">Continue</button>
           </div>
       </div>
     </div>
