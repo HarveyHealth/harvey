@@ -3,12 +3,12 @@
         "level": "SEVERE",
         "message": "http:\/\/harvey.app\/'css\/app_public.css' - Failed to load resource: the server responded with a status of 404 (Not Found)",
         "source": "network",
-        "timestamp": 1490997738684
+        "timestamp": 1490998300859
     },
     {
         "level": "SEVERE",
         "message": "http:\/\/harvey.app\/'\/js\/app_public.js' - Failed to load resource: the server responded with a status of 404 (Not Found)",
         "source": "network",
-        "timestamp": 1490997738924
+        "timestamp": 1490998301030
     }
 ]
