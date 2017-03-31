@@ -191,3 +191,39 @@
     max-width: 355px;
     font-style: italic;
   }
+
+// Confirmation
+.confirmation {
+
+}
+  .confirmation_calendar {
+    margin: 50px auto;
+    max-width: 132px;
+  }
+    .confirmation_date {
+      color: $green-bright;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+      .confirmation_day {
+        @extend %sans--bold;
+      }
+      .confirmation_time {
+        @extend %sans--bold;
+      }
+      .confirmation_calendar-add {
+        background: none;
+        border: none;
+
+        img {
+          max-width: 29px;
+          vertical-align: bottom;
+        }
+      }
+    .confirmation_reschedule {
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .confirmation_text {
+      margin-bottom: 30px;
+    }

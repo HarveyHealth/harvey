@@ -5,11 +5,9 @@
       <span class="header_phone-number">(800) 690-9989</span>
     </header>
     <main class="signup-content">
-      <!-- <form> -->
-        <transition name="fade" mode="out-in">
-          <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
-        </transition>
-      <!-- </form> -->
+      <transition name="fade" mode="out-in">
+        <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
+      </transition>
     </main>
   </div>
 </template>
@@ -21,12 +19,13 @@
   import Location from './_components/Location.vue';
   import DateTime from './_components/DateTime.vue';
   import Modal from './_components/Modal.vue';
+  import Confirmation from './_components/Confirmation.vue';
 
   export default {
     name: 'Signup',
     data() {
       return {
-        currentStep: 'registration'
+        currentStep: 'confirmation'
       }
     },
     components: {
@@ -35,7 +34,8 @@
       'practitioner': Practitioner,
       'location': Location,
       'datetime': DateTime,
-      'modal': Modal
+      'modal': Modal,
+      'confirmation': Confirmation
     },
     methods: {
       nextStep: function (step) {
