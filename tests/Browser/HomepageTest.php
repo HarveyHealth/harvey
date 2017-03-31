@@ -1,22 +1,65 @@
 <?php
-
 namespace Tests\Browser;
-
 use Tests\DuskTestCase;
+use Tests\Browser\Pages\HomePage;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-
 class HomepageTest extends DuskTestCase
 {
-    /**
-     * A basic browser test example.
-     *
-     * @return void
-     */
-    public function test_it_displays_the_homepage()
+    public function test_if_homepage_is_up()
     {
         $this->browse(function ($browser) {
             $browser->visit('/')
-                    ->assertSee('Harvey');
+                    ->assertSee('It’s time to think differently about your medicine.');
         });
     }
-}
+    // public function test_if_footer_links_work()
+    // {
+    //     $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->assertSee('It’s time to think differently about your medicine.');
+    //               // ->mouseover('.footer')
+    //               // ->clickLink('Terms')
+    //               // ->assertSee('Welcome to Harvey (“Harvey” or “Company”).')
+    //               // ->visit('/')
+    //               // ->mouseover('.footer')
+    //               // ->clickLink('Privacy')
+    //               // ->assertSee('This Privacy Policy describes the information Harvey (“Harvey”) collects about you,')
+    //               // ->visit('/')
+    //               // ->mouseOver('.footer')
+    //               // ->clickLink('Book')
+    //               // ->assertSee('Create your account')
+    //               // ->visit('/')
+    //               // ->mouseOver('.footer')
+    //               // ->clickLink('Labs')
+    //               // ->assertSee('Lab Tests & Pricing');
+    //     });
+    // }
+    // public function test_all_get_started_button()
+    // {
+    //       $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->click('@getStartedCover')
+    //                 ->assertSee('Create your account')
+    //                 ->visit('/')
+    //                 ->mouseOver('@mouseOverTypeofLabTests')
+    //                 ->click('@getStartedOne')
+    //                 ->assertSee('Create your account')
+    //                 ->visit('/')
+    //                 ->mouseOver('@mouseOverLearnTheFacts')
+    //                 ->click('@getStartedTwo')
+    //                 ->assertSee('Create your account');
+    //
+    //     });
+    // }
+    //
+    // public function test_explore_other_tests_button()
+    // {
+    //       $this->browse(function ($browser){
+    //         $browser->visit(new HomePage)
+    //                 ->mouseOver('@mouseOverHowitWorks')
+    //                 ->click('@exploreOtherTests')
+    //                 ->assertSee('Lab Tests & Pricing');
+        //   });
+        //
+        // }
+    }
