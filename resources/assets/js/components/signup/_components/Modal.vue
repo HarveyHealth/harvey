@@ -7,7 +7,7 @@
         <p>Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called “IntakeQ”.</p>
         <p>When prompted, enter your full name and the same email you used to sign up for Harvey. You can always close the form and come back to it later.</p>
         <div class="modal-button-container">
-          <button class="button" @click="nextStep('registration')">Start Intake</button>
+          <button class="button" @click="nextStep('confirmation')">Start Intake</button>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="text-centered">
-          <button class="button" @click="nextStep('registration')">Book Now</button>
+          <button class="button" @click="nextStep('phone')">Book Now</button>
         </div>
       </div>
     </div>
