@@ -24,7 +24,7 @@ before_script:
 #- cp .env.testing .env
 - php artisan serve &
 script:
-#- vendor/bin/phpunit
+- vendor/bin/phpunit
 - php artisan dusk
 branches:
   only:
