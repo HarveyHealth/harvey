@@ -1,0 +1,20 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/127.0.0.1:8000\/'css\/app_public.css' - Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "source": "network",
+        "timestamp": 1491002000668
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/127.0.0.1:8000\/'\/js\/app_public.js' - Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "source": "network",
+        "timestamp": 1491002000932
+    },
+    {
+        "level": "SEVERE",
+        "message": "https:\/\/use.typekit.net\/fwq7ouu.js 35:109 \"Typekit: the domain \\\"127.0.0.1\\\" isn't in the list of published domains for kit \\\"fwq7ouu\\\".\"",
+        "source": "console-api",
+        "timestamp": 1491002000989
+    }
+]
