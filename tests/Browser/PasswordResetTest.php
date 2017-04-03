@@ -18,8 +18,8 @@ class PasswordResetTest extends DuskTestCase
             $browser->visit('/password/reset')
                 ->type('email', $user->email)
                 ->press('Send Password Reset Link')
-                ->waitForText('We have e-mailed your password reset link!')
-                ->assertSee('We have e-mailed your password reset link!');
+                ->waitForText("We can't find a user with that e-mail address.")
+                ->assertSee("We can't find a user with that e-mail address.");
         });
     }
 }
