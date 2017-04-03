@@ -1,51 +1,89 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# Harvey
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+#### Back End: [Laravel 5.4](https://laravel.com/docs/5.4)
+#### Front End: [Vue 2.0](https://vuejs.org/v2/guide)
 
-## About Laravel
+## For Local Development
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+###Requirements
+ - MySQL 5.7
+ - Node 7
+ - PHP 7
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Back End
+- Clone the Harvey repository:
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+	`git clone git@github.com:HomeHero/harvey.git`
 
-## Learning Laravel
+- `cd` into the harvey directory
+- run `composer update`
+- Modify the .env file to suit your local config
+- run `php artisan migrate --seed`
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+### Front End
+- run `npm install`
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+- run `npm run dev`
 
-## Laravel Sponsors
+### Front End File Structure
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+- Public and logged in pages are separate apps, but
+    - they both extend `./resources/views/_layouts/main.blade.php`
+    - they both include `./resources/assets/js/bootstrap.js` for dependency injection and setup
+    - they both include `./resources/assets/sass/all.scss` for shared css
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- **[Codecourse](https://www.codecourse.com)**
-- [Fragrantica](https://www.fragrantica.com)
+- Entry points (Public)
+    `./resources/views/_layouts/public.blade.php`
+    `./resources/assets/js/app_public.js`
+    `./resources/assets/sass/app_public.scss`
 
-## Contributing
+- Entry points (Logged in)
+    `./resources/views/_layouts/logged_in.blade.php`
+    `./resources/assets/js/app_logged_in.js`
+    `./resources/assets/sass/app_logged_in.scss`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+- `./resources` should always be the working folder, while `./public` are generated or bundled files.
 
-## Security Vulnerabilities
+- We are using Laravel Mix as a wrapper of Webpack for module bundles and other front end build steps.  Config at `./webpack.mix.js`.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+- For use cases Laravel Mix doesn't cover, we'll need to config directly from `./webpack.config.js`.
 
-## License
+### Homestead
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- run `./setup`
+
+SSL Certificates were created using the following commands from the project root:
+
+```
+mkdir vagrant_files
+cd vagrant_files
+openssl genrsa -des3 -passout pass:x -out harvey.app.pass.key 2048
+openssl rsa -passin pass:x -in harvey.app.pass.key -out harvey.app.key
+rm harvey.app.pass.key
+openssl req -new -key harvey.app.key -out harvey.app.csr
+openssl x509 -req -sha256 -days 365 -in harvey.app.csr -signkey harvey.app.key -out harvey.app.crt
+```
+
+### Database Seeding
+To populate your local database with fake data, run:
+	`php artisan db:seed`
+
+Database Seeding will provide you with these accounts:
+
+#### Admin
+- email: `admin@goharvey.com`
+- password: `secret`
+
+#### Patient
+- email: `patient@goharvey.com`
+- password: `secret`
+
+#### Practitioner
+- email: `practitioner@goharvey.com`
+- password: `secret`
+
+### Standardization Notes:
+- Use response codes found in `Symfony\Component\HttpFoundation\Response`
+
+### ToDo
+- list 3rd party services
