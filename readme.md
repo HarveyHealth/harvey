@@ -23,7 +23,7 @@
 ### Front End
 - run `npm install`
 
-- run `npm run dev`
+- run `php artisan serve`
 
 ### Front End File Structure
 
