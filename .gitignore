@@ -23,3 +23,4 @@ Homestead.json
 /ngrok
 /.env.dusk.local
 .vscode/*
+/tests/Browser/console/*.*
