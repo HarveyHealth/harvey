@@ -27,11 +27,9 @@ class RegisterController extends Controller
     {
         return url('dashboard');
     }
-
+    
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * RegisterController constructor.
      */
     public function __construct()
     {
