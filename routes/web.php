@@ -23,32 +23,15 @@ Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPas
 
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');
-Route::get('about', 'PagesController@getAbout');
-Route::get('contact', 'PagesController@getContact');
 Route::get('lab-tests', 'PagesController@getLabTests');
-Route::post('contact', 'PagesController@postContact');
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 Route::get('api/user', 'DashboardController@getUser');
 
-// USERS
-Route::get('account/{id?}', 'UsersController@getAccount');
-Route::post('account/{id?}', 'UsersController@postAccount');
-Route::get('users/list', 'UsersController@getList');
-Route::get('users/{id}', 'UsersController@getProfile');
-Route::put('api/users', 'UsersController@update');
-
-// APPOINTMENTS
-Route::post('api/appointments', 'AppointmentsController@store');
-
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');
 Route::post('invite', 'InviteController@postInvite');
-
-// UPLOAD Controller
-Route::get('upload/test/{id}', 'UploadController@getUploadTest');
-Route::post('upload/test/{id}', 'UploadController@postUploadTest');
 
 // TERMS
 Route::get('terms', 'LegalController@terms');
