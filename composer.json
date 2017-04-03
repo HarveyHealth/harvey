@@ -7,16 +7,38 @@
     "require": {
         "php": ">=5.6.4",
         "laravel/framework": "5.4.*",
-        "laravel/tinker": "~1.0"
+        "predis/predis": "^1.1",
+        "aws/aws-sdk-php": "^3.20",
+        "guzzlehttp/guzzle": "^6.2",
+        "stripe/stripe-php": "^4.3",
+        "lob/lob-php": "^1.7",
+        "michelf/php-smartypants": "^1.8",
+        "league/commonmark": "^0.15.3",
+        "bugsnag/bugsnag-laravel": "^2.0",
+        "fzaninotto/faker": "~1.4",
+        "barryvdh/laravel-debugbar": "^2.3",
+        "laravel/tinker": "^1.0",
+        "jsvrcek/ics": "^0.5.0",
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "fideloper/proxy": "^3.2",
+        "doctrine/dbal": "^2.5",
+        "propaganistas/laravel-phone": "^2.8",
+        "laravel/dusk": "^1.0",
+        "spatie/laravel-fractal": "^3.5",
+        "laravel/passport": "^2.0",
+        "crell/api-problem": "^2.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~5.0",
+        "symfony/css-selector": "3.1.*",
+        "symfony/dom-crawler": "3.1.*",
+        "laravel/homestead": "^4"
     },
     "autoload": {
         "classmap": [
-            "database"
+            "database",
+            "august"
         ],
         "psr-4": {
             "App\\": "app/"
@@ -36,16 +58,18 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan migrate --force"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan optimize",
+            "php artisan migrate --force",
+            "php artisan view:clear",
+            "npm run dev"
         ]
     },
     "config": {
-        "preferred-install": "dist",
-        "sort-packages": true,
-        "optimize-autoloader": true
+        "preferred-install": "dist"
     }
 }
