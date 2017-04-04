@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
+use \Validator;
 
 class UsersController extends BaseAPIController
 {
-    /**
-     * @var UserTransformer
-     */
-    protected $transformer;
-    
+    protected $resource_name = 'users';
+
     /**
      * UsersController constructor.
      * @param UserTransformer $transformer
@@ -24,6 +23,38 @@ class UsersController extends BaseAPIController
         $this->transformer = $transformer;
     }
     
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'email' => 'required|email|max:150|unique:users',
+            'password' => 'required|min:6',
+            'terms' => 'required|accepted',
+        ]);
+    
+        if ($validator->fails()) {
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
+        }
+        
+        try {
+            $user = new User(
+                $request->only(['first_name', 'last_name', 'email'])
+            );
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $user->patient()->save(new Patient());
+            
+            return $this->baseTransformItem($user)->respond();
+        } catch (\Exception $exception) {
+            $problem = new ApiProblem();
+            $problem->setDetail($exception->getMessage());
+            return $this->respondBadRequest($problem);
+        }
+    }
+    
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
@@ -31,18 +62,14 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return fractal()->item($user)
-                ->withResourceName('users')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
+            return $this->baseTransformItem($user)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the user with id {$user->id}.");
             return $this->respondNotAuthorized($problem);
         }
     }
-    
+
     /**
      * @param Request $request
      * @param User    $user
@@ -52,12 +79,8 @@ class UsersController extends BaseAPIController
     {
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
-            
-            return fractal()->item($user)
-                ->withResourceName('users')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
+    
+            return $this->baseTransformItem($user)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to modify the user with id {$user->id}.");

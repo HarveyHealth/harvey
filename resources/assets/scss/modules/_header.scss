@@ -1,0 +1,11 @@
+.site-header {
+  background: $white;
+  padding: 15px 25px;
+}
+
+.header_phone-number {
+  @extend %sans--bold;
+  float: right;
+  font-size: 28px;
+  line-height: 55px;
+}

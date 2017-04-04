@@ -6,14 +6,12 @@ use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
+use \Validator;
 
 class PatientsController extends BaseAPIController
 {
-    /**
-     * @var PatientTransformer
-     */
-    protected $transformer;
-    
+    protected $resource_name = 'patients';
+
     /**
      * PatientsController constructor.
      * @param PatientTransformer $transformer
@@ -23,7 +21,7 @@ class PatientsController extends BaseAPIController
         parent::__construct();
         $this->transformer = $transformer;
     }
-    
+
     /**
      * @param Patient $patient
      * @return \Illuminate\Http\JsonResponse
@@ -31,18 +29,14 @@ class PatientsController extends BaseAPIController
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return $response = fractal()->item($patient)
-                ->withResourceName('patients')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->toArray();
+            return $this->baseTransformItem($patient)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the patient with id {$patient->id}.");
             return $this->respondNotAuthorized($problem);
         }
     }
-    
+
     /**
      * @param Request $request
      * @param Patient $patient
@@ -50,14 +44,23 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
+        $validator = Validator::make($request->all(), [
+            'birthdate' => 'date',
+            'height_inches' => 'integer',
+            'height_feet' => 'integer',
+            'weight' => 'integer'
+        ]);
+
+        if ($validator->fails()) {
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
+        }
+
         if (auth()->user()->can('update', $patient)) {
             $patient->update($request->all());
-        
-            return fractal()->item($patient)
-                ->withResourceName('patients')
-                ->transformWith($this->transformer)
-                ->serializeWith($this->serializer)
-                ->respond();
+    
+            return $this->baseTransformItem($patient)->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail('You do not have access to modify this patient.');

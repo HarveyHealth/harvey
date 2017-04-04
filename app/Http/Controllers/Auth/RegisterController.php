@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -22,13 +23,11 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
+    protected function redirectTo()
+    {
+        return url('dashboard');
+    }
+    
     /**
      * RegisterController constructor.
      */
@@ -46,9 +45,12 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'first_name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'email' => 'required|email|max:150|unique:users',
+            'phone' => 'required|phone:AUTO,US|max:10|unique:users',
+            'password' => 'required|min:6',
+            'terms' => 'required|accepted',
         ]);
     }
 
@@ -60,10 +62,16 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        User::unguard();
+
         return User::create([
-            'name' => $data['name'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
             'password' => bcrypt($data['password']),
+            'terms_accepted_at' => \Carbon::now(),
         ]);
+        User::guard();
     }
 }

@@ -49,16 +49,19 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment)
     {
-        return $user->id == $appointment->patient->user->id;
+        return $user->id == $appointment->patient->user->id &&
+                $appointment->isNotLocked();
     }
     
     /**
+     * Only the patient or an admin can cancel an appointment.
      * @param User        $user
      * @param Appointment $appointment
      * @return bool
      */
     public function delete(User $user, Appointment $appointment)
     {
-        return $user->id == $appointment->patient->user->id;
+        return $user->id == $appointment->patient->user->id &&
+                $appointment->isNotLocked();
     }
 }
