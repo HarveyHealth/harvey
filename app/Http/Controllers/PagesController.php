@@ -35,4 +35,10 @@ class PagesController extends Controller
     {
         return view('pages.lab_tests');
     }
+    
+    // Showing the static signup pages
+    public function getSignup()
+    {
+        return view('static.signup');
+    }
 }
