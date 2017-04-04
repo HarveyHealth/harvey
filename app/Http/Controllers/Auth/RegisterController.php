@@ -30,9 +30,7 @@ class RegisterController extends Controller
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * RegisterController constructor.
      */
     public function __construct()
     {
