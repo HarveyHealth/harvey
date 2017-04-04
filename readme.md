@@ -28,17 +28,17 @@
 ### Front End File Structure
 
 - Public and logged in pages are separate apps, but
-    - they both extend `./resources/views/_layouts/main.blade.php`
+    - they both extend `./resources/views/legacy._layouts/main.blade.php`
     - they both include `./resources/assets/js/bootstrap.js` for dependency injection and setup
     - they both include `./resources/assets/sass/all.scss` for shared css
 
 - Entry points (Public)
-    `./resources/views/_layouts/public.blade.php`
+    `./resources/views/legacy._layouts/public.blade.php`
     `./resources/assets/js/app_public.js`
     `./resources/assets/sass/app_public.scss`
 
 - Entry points (Logged in)
-    `./resources/views/_layouts/logged_in.blade.php`
+    `./resources/views/legacy._layouts/logged_in.blade.php`
     `./resources/assets/js/app_logged_in.js`
     `./resources/assets/sass/app_logged_in.scss`
 

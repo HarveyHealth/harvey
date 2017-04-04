@@ -47,7 +47,7 @@ if (App::environment('local')) {
 
 
 Route::get('/', function () {
-    return view('home');
+    return view('legacy.pages.homepage');
 });
 
 Route::get('/signup', function () {
