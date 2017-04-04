@@ -22,7 +22,7 @@ Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify'
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
 
 // basic public pages
-Route::get('/', 'PagesController@getHomepage')->name('home');
+// Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
@@ -44,3 +44,8 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
 }
+
+
+Route::get('/', function () {
+    return view('welcome');
+});
