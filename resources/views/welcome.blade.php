@@ -11,12 +11,11 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
 
-
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-        {{-- TYPEKIT async load --}}
-        @script(/js/vendors/typekit.js)
+        <!-- TYPEKIT -->
+        <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
 
     </head>
     <body>

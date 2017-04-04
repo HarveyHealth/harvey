@@ -11,6 +11,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(PractitionerTypesSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(TestsTableSeeder::class);
+        $this->call(AppointmentsSeeder::class);
+
+        $this->command->getOutput()->writeln("Seeding Successful!");
+        $this->command->getOutput()->writeln("");
+        $this->command->getOutput()->writeln("<info>Admin Email: </info>admin@goharvey.com");
+        $this->command->getOutput()->writeln("<info>Patient Email: </info> patient@goharvey.com");
+        $this->command->getOutput()->writeln("<info>Practitioner Email: </info> practitioner@goharvey.com");
+        $this->command->getOutput()->writeln("<info>All user passwords: </info> secret");
     }
 }
