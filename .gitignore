@@ -27,3 +27,4 @@ Homestead.yaml
 /.env.dusk.local
 .vscode/*
 /tests/Browser/console/*.*
+/.DS_Store

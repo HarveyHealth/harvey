@@ -21,7 +21,7 @@ class RegistrationTest extends TestCase
         ];
         
         // When a request is made to create a new user
-        $response = $this->post(route('users.create'),  $parameters);
+        $response = $this->post(route('users.create'), $parameters);
         
         // It is successful
         $response->assertStatus(200);

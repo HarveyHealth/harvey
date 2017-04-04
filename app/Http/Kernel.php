@@ -14,6 +14,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
+        \Fideloper\Proxy\TrustProxies::class,
+        \App\Http\Middleware\ForceHttps::class,
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
@@ -41,6 +43,10 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
         ],
+        
+        'webhook' => [
+            \App\Http\Middleware\AuthenticateWebhook::class,
+        ],
     ];
 
     /**
@@ -57,5 +63,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
     ];
 }

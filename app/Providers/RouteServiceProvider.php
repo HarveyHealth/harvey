@@ -15,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     protected $namespace = 'App\Http\Controllers';
-
+    
     /**
      * Define your route model bindings, pattern filters, etc.
      *
@@ -23,11 +23,11 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
+        Route::pattern('id', '[0-9]+');
+        
         parent::boot();
     }
-
+    
     /**
      * Define the routes for the application.
      *
@@ -36,12 +36,14 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
+        
         $this->mapWebRoutes();
-
+        
+        $this->mapWebhookRoutes();
+        
         //
     }
-
+    
     /**
      * Define the "web" routes for the application.
      *
@@ -52,10 +54,10 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
-
+    
     /**
      * Define the "api" routes for the application.
      *
@@ -66,8 +68,26 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
+    }
+    
+    /**
+     * Define the "webhook" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapWebhookRoutes()
+    {
+        Route::group([
+            'middleware' => 'webhook',
+            'namespace' => $this->namespace,
+            'prefix' => 'webhook',
+        ], function ($router) {
+            require base_path('routes/webhook.php');
+        });
     }
 }

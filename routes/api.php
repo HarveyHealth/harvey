@@ -21,10 +21,9 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    
     Route::post('users', 'API\V1\UsersController@create')->name('users.create');
     
-    Route::group(['middleware' => 'auth:api'], function() {
+    Route::group(['middleware' => 'auth:api'], function () {
         Route::get('tests/{test}', 'API\V1\TestsController@show')->name('tests.show');
         Route::post('tests/{test}/results', 'API\V1\TestsController@results')->name('test.results');
         

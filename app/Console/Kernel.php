@@ -13,7 +13,11 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\LogTailCommand::class,
+        Commands\MakeViewCommand::class,
+        Commands\MakeComponentCommand::class,
+        Commands\MakeRepositoryCommand::class,
+        Commands\SetNginxConfigCommand::class
     ];
 
     /**
