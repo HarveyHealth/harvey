@@ -1,6 +1,6 @@
 import './bootstrap';
 
-import Signup from './index.vue'
+import Signup from './App.vue'
 
 new Vue({
   el: '#signup',

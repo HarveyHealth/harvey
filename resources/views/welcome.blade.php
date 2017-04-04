@@ -27,6 +27,6 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
+      <script type="text/javascript" src="{{ URL::asset('js/main.js') }}"></script>
     </body>
 </html>
