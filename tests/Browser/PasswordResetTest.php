@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PasswordResetTest extends DuskTestCase
 {
-    //use DatabaseMigrations;
+    use DatabaseMigrations;
 
     public function test_a_user_can_request_a_password_reset_link()
     {
