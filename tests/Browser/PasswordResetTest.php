@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PasswordResetTest extends DuskTestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
 
     public function test_a_user_can_request_a_password_reset_link()
     {
@@ -16,10 +16,11 @@ class PasswordResetTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($user) {
             $browser->visit('/password/reset')
-                ->type('email', $user->email)
+                //->type('email', $user->email)
+                ->type('email', 'admin@goharvey.com')
                 ->press('Send Password Reset Link')
-                ->waitForText("We can't find a user with that e-mail address.")
-                ->assertSee("We can't find a user with that e-mail address.");
+                ->waitForText("We have e-mailed your password reset link!")
+                ->assertSee("We have e-mailed your password reset link!");
         });
     }
 }
