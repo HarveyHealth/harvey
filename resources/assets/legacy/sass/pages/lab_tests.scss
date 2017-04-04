@@ -1,0 +1,49 @@
+body.lab-tests {
+    .logo-wrapper {
+        @include from($mobile) {
+            .harvey-logo-type {
+                fill: #fff;
+            }
+        }
+    }
+    .hero {
+        background-color: transparent;
+        .title,
+        .subtitle {
+            color: #fff;
+        }
+    }
+    .section {
+        padding-top: 0;
+        background-color: transparent;
+    }
+    .tab {
+        .title {
+            margin-bottom: 0;
+        }
+    }
+    blockquote {
+        font-size: $size-6;
+        color: $grey-dark;
+    }
+    #app {
+        background: url('/images/lab_tests/background_sm.jpg') no-repeat center top;
+        background-size: 100% auto;
+        &:before {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            content: ' ';
+            display: block;
+            background-image: linear-gradient(rgba(darken($tertiary, 20%), $opacity-light), #fff);
+            @include from($desktop) {
+                display: none;
+            }
+        }
+        @include from($desktop) {
+            background-image: url('/images/lab_tests/background.jpg');
+        }
+    }
+}

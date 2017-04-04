@@ -12,8 +12,12 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/main.js', 'public/js')
+   .js('resources/assets/legacy/js/app_public.js', 'public/legacy/js')
+   .js('resources/assets/legacy/js/app_logged_in.js', 'public/legacy/js')
    .copy([
         'resources/assets/js/vendors/modernizr-custom.js',
         'resources/assets/js/vendors/typekit.js'
     ], 'public/js/vendors')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .copy('resources/assets/legacy/images', 'public/images', false)
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');

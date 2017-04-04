@@ -13,8 +13,10 @@
     "webpack": "2.2.1"
   },
   "devDependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bootstrap-sass": "^3.3.7",
+    "bulma": "^0.4.0",
     "cross-env": "^3.2.3",
     "es6-promise": "^4.1.0",
     "jquery": "^3.1.1",
@@ -24,6 +26,7 @@
     "moment": "^2.18.1",
     "vue": "^2.0.1",
     "vue-resource": "^1.2.1",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "vue-slider-component": "^2.2.5"
   }
 }

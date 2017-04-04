@@ -1,4 +1,7 @@
 {
+  "/legacy/js/app_logged_in.js": "/legacy/js/app_logged_in.js",
   "/js/main.js": "/js/main.js",
-  "/css/app.css": "/css/app.css"
+  "/css/app.css": "/css/app.css",
+  "/legacy/css/app_public.css": "/legacy/css/app_public.css",
+  "/legacy/js/app_public.js": "/legacy/js/app_public.js"
 }
