@@ -42,7 +42,7 @@
                         <span class="icon icon_medicine_1"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>Holistic approach</strong></p>
+                        <p class="title is-5 is-marginless"><strong>Holistic approach</strong></p>
                         <p class="subtitle is-6">Naturopathic medicine emphasizes prevention and self-healing through evidence-based natural therapies.</p>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <span class="icon icon_medicine_2"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>Real medical school</strong></p>
+                        <p class="title is-5 is-marginless"><strong>Real medical school</strong></p>
                         <p class="subtitle is-6">100% of our Naturopathic Doctors (NDs) graduated from an accredited four-year residential naturopathic medical school.</p>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                         <span class="icon icon_medicine_3"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>State medical license</strong></p>
+                        <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
                         <p class="subtitle is-6">100% of our NDs must pass an extensive board examination and received a medical license from their practicing state.</p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <span class="icon icon_medicine_4"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>Backed by science</strong></p>
+                        <p class="title is-5 is-marginless"><strong>Backed by science</strong></p>
                         <p class="subtitle is-6">We will examine your biomarkers to help you explore the root causes of your chronic issues, instead of just treating the symptoms.</p>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                         <span class="icon icon_medicine_5"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>All-natural remedies</strong></p>
+                        <p class="title is-5 is-marginless"><strong>All-natural remedies</strong></p>
                         <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, vitamins, supplements or lifestyle changes.</p>
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                         <span class="icon icon_medicine_6"></span>
                     </figure>
                     <div class="column is-paddingless-top">
-                        <p class="title is-5 is-spaced"><strong>New primary care</strong></p>
+                        <p class="title is-5 is-marginless"><strong>New primary care</strong></p>
                         <p class="subtitle is-6">Our goal is to provide you with alternative forms of therapy to complement, but not replace, traditional medical practice.</p>
                     </div>
                 </div>

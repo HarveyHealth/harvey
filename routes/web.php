@@ -21,9 +21,6 @@ Route::post('signup', 'Auth\RegisterController@register');
 Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify')->middleware('guest');
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
 
-// basic public pages
-// Route::get('/', 'PagesController@getHomepage')->name('home');
-Route::get('lab-tests', 'PagesController@getLabTests');
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
@@ -46,10 +43,13 @@ if (App::environment('local')) {
 }
 
 
-Route::get('/', function () {
-    return view('legacy.pages.homepage');
-});
 
+
+// basic public pages
+Route::get('/', 'PagesController@getHomepage')->name('home');
+Route::get('lab-tests', 'PagesController@getLabTests');
+
+// signup page
 Route::get('/signup', function () {
     return view('signup');
 });

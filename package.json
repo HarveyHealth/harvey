@@ -16,7 +16,7 @@
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bootstrap-sass": "^3.3.7",
-    "bulma": "^0.4.0",
+    "bulma": "^0.3.0",
     "cross-env": "^3.2.3",
     "es6-promise": "^4.1.0",
     "jquery": "^3.1.1",
