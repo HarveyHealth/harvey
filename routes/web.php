@@ -51,5 +51,5 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
 Route::get('/signup', function () {
-    return view('signup');
+    return view('pages.signup');
 });
