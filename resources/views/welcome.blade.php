@@ -7,9 +7,11 @@
 
         <title>Laravel</title>
 
+
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
@@ -19,6 +21,12 @@
 
     </head>
     <body>
-      hello world
+      <div id="signup">
+
+      </div>
+      <script>
+        window.Laravel = {!! $vue_data !!}
+      </script>
+      <script type="text/javascript" src="{{ URL::asset('js/app.js') }}"></script>
     </body>
 </html>

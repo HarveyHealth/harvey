@@ -12,4 +12,8 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
+   .copy([
+        'resources/assets/js/vendors/modernizr-custom.js',
+        'resources/assets/js/vendors/typekit.js'
+    ], 'public/js/vendors')
    .sass('resources/assets/sass/app.scss', 'public/css');

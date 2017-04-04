@@ -18,9 +18,11 @@
     "cross-env": "^3.2.3",
     "es6-promise": "^4.1.0",
     "jquery": "^3.1.1",
+    "laravel-elixir-vue-2": "^0.3.0",
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
-    "vue": "^2.1.10",
+    "moment": "^2.18.1",
+    "vue": "^2.0.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.3.1"
   }
