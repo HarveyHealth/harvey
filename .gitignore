@@ -1,7 +1,7 @@
 /node_modules
 /public/storage
 /public/hot
-/storage/logs/
+storage/logs/*.*
 /storage/debugbar/
 /storage/*.key
 /storage/database.sqlite
