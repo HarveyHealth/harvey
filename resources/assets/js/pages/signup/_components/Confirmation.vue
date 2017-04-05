@@ -11,7 +11,7 @@
 
       <p class="confirmation_text large">{{ subtitle }}</p>
 
-      <button class="button" @click="nextStep('registration')">Start Intake</button>
+      <router-link to="/dashboard" tag="button" class="button">Dashboard</router-link>
 
     </div>
   </div>
@@ -25,8 +25,7 @@
         subtitle: 'We just sent you a text message and email — make sure you receive them both. You must complete the following patient intake form before talking with your doctor.'
       }
     },
-    name: 'Confirmation',
-    props: ['nextStep']
+    name: 'Confirmation'
   }
 </script>
 

@@ -1,14 +1,6 @@
 <template>
   <div>
-    <header class="site-header">
-      <svg class="harvey-logo"><use xlink:href="#harvey-logo" /></svg>
-      <span class="header_phone-number">(800) 690-9989</span>
-    </header>
-    <main class="signup-content">
-      <transition name="fade" mode="out-in">
-        <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
-      </transition>
-    </main>
+    <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
   </div>
 </template>
 
@@ -23,11 +15,6 @@
 
   export default {
     name: 'Signup',
-    data() {
-      return {
-        currentStep: 'registration'
-      }
-    },
     components: {
       'registration': Registration,
       'phone': Phone,
@@ -36,11 +23,6 @@
       'datetime': DateTime,
       'modal': Modal,
       'confirmation': Confirmation
-    },
-    methods: {
-      nextStep: function (step) {
-        this.currentStep = step;
-      }
     }
   }
 </script>

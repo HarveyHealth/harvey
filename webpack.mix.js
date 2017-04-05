@@ -11,7 +11,7 @@ const { mix } = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/main.js', 'public/js')
+mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
    .js('resources/assets/legacy/js/app_public.js', 'public/legacy/js')
    .js('resources/assets/legacy/js/app_logged_in.js', 'public/legacy/js')
    .copy([

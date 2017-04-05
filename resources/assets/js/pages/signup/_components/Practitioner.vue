@@ -15,12 +15,12 @@
 
     <div class="container large">
       <div class="signup-form-container large">
-
+        <form method="post" action="/phone" @submit.prevent="onSubmit">
           <div class="flex-wrapper">
             <div class="input-wrap radio-block">
               <input
                 type="radio" name="practitioner"
-                id="naturopathic" class="radio_block input-hidden" />
+                id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner"/>
               <label class="block" for="naturopathic">
                 <div class="radio-block_container">
                   <h2 class="header-large text-centered">Naturopathic Doctor</h2>
@@ -38,7 +38,7 @@
             <div class="input-wrap radio-block">
               <input
                 type="radio" name="practitioner"
-                id="osteopathy" class="radio_block input-hidden" />
+                id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
               <label class="block" for="osteopathy">
                 <div class="radio-block_container">
                   <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
@@ -55,8 +55,9 @@
           </div>
 
           <div class="text-centered">
-            <button class="button" @click="nextStep('datetime')">Continue</button>
+            <input type="submit" class="button" value="Continue">
           </div>
+        </form>
       </div>
     </div>
   </div>
@@ -67,11 +68,17 @@
     data() {
       return {
         title: 'Choose your practitioner',
-        subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.'
+        subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
+        practitioner: ''
       }
     },
     name: 'Practitioner',
-    props: ['nextStep']
+    methods: {
+      onSubmit() {
+        // For now, just go to the next page. We'll worry about validating the form later
+        this.$router.push('/phone');
+      }
+    }
   }
 </script>
 
