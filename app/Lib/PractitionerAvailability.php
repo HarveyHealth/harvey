@@ -169,8 +169,8 @@ class PractitionerAvailability
                 $start->addMinutes(30);
                 $slots[$timeslot] = $appointment->id;
             }
-
-            return array_keys($slots);
         }
+
+        return array_keys($slots);
     }
 }
