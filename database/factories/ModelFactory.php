@@ -85,7 +85,13 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
-    $start_time = Carbon::instance($faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC'));
+    // Create an appointment start time that begins at the top of the hour
+    // or 30 minutes into the hour
+    $start_time = Carbon::instance(
+        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+    );
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
 
     return [
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
@@ -97,7 +103,12 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
 });
 
 $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
-    $start_time = Carbon::instance($faker->dateTimeBetween($startDate = '-3 days', $endDate = '-1 days', 'UTC'));
+    $start_time = Carbon::instance($faker->dateTimeBetween(
+        $startDate = '-3 days', $endDate = '-1 days', 'UTC')
+    );
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
+    
     return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
 });
 

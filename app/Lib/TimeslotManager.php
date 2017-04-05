@@ -28,7 +28,7 @@ class TimeslotManager
 
     public function timeslotForDayAndTime($day, $time)
     {
-        // get the time on either the 00 oe 30 mark
+        // get the time on either the 00 or 30 mark
         $minute = date('i', strtotime($time));
 
         if ($minute >= 30) {

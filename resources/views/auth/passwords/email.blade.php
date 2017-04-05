@@ -17,7 +17,7 @@
                     </div>
                 @endif
 
-                <form role="form" method="POST" action="{{ secure_url('/password/email') }}">
+                <form role="form" method="POST" action="{{ url('/password/email') }}">
                     {{ csrf_field() }}
 
                     <label class="label">Email</label>
