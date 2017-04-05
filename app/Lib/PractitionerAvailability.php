@@ -148,6 +148,8 @@ class PractitionerAvailability
         $end_date = clone $start_date;
         $end_date->addDays(7)->subSeconds(1);
 
+        $slots = [];
+
         $appointments = Appointment::forPractitioner($this->practitioner)
                             ->withinDateRange($start_date, $end_date)
                             ->get();
