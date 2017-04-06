@@ -11,6 +11,8 @@ use \Validator;
 
 class AppointmentsController extends BaseAPIController
 {
+    protected $resource_name = 'appointments';
+    
     /**
      * AppointmentsController constructor.
      * @param AppointmentTransformer $transformer
@@ -102,8 +104,8 @@ class AppointmentsController extends BaseAPIController
             $appointment->delete();
     
             return $this->baseTransformItem($appointment)
-                ->addMeta(['deleted' => true])
-                ->respond(ResponseCode::HTTP_GONE);
+                        ->addMeta(['deleted' => true])
+                        ->respond(ResponseCode::HTTP_GONE);
         } else {
             $message = $appointment->isLocked() ?
                 "You are unable to cancel an appointment with less than "

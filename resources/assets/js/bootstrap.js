@@ -17,7 +17,7 @@ Vue.prototype.$http = Axios;
  * the outgoing requests issued by this application. The CSRF middleware
  * included with Laravel will automatically verify the header's value.
  */
- 
+
 Axios.interceptors.request.use(function(config){
     // Attach the csrf token to every request in the header
     config.headers['X-CSRF-TOKEN'] = Laravel.app.csrfToken;

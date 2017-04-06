@@ -1,23 +1,23 @@
 const { mix } = require('laravel-mix');
 
-mix.js('resources/assets/js/app_public.js', 'public/js')
-    .js('resources/assets/js/app_logged_in.js', 'public/js')
-    .combine([
-                'resources/assets/js/vendors/facebook.js',
-                'resources/assets/js/vendors/googleanalytics.js',
-                'resources/assets/js/vendors/intercom.js',
-                'resources/assets/js/vendors/mixpanel.js'
-        ], 'public/js/vendors/vendors_production_only.js')
-    .copy([
-            'resources/assets/js/vendors/modernizr-custom.js',
-            'resources/assets/js/vendors/typekit.js'
-        ], 'public/js/vendors')
-    .sass('resources/assets/sass/app_public.scss', 'public/css')
-    .sass('resources/assets/sass/app_logged_in.scss', 'public/css')
-    .sass('resources/assets/sass/pages/legal.scss', 'public/css')
-    .copy('resources/assets/images', 'public/images', false)
-    .browserSync('https://harvey.app');
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel application. By default, we are compiling the Sass
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
 
-if (mix.config.inProduction) {
-        mix.version();
-}
+mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
+   .js('resources/assets/legacy/js/app_public.js', 'public/legacy/js')
+   .js('resources/assets/legacy/js/app_logged_in.js', 'public/legacy/js')
+   .copy([
+        'resources/assets/js/vendors/modernizr-custom.js',
+        'resources/assets/js/vendors/typekit.js'
+    ], 'public/js/vendors')
+   .copy('resources/assets/legacy/images', 'public/images', false)
+   .sass('resources/assets/sass/app.scss', 'public/css')
+   .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');

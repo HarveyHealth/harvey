@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
+use \Validator;
 
 class UsersController extends BaseAPIController
 {
@@ -20,7 +22,39 @@ class UsersController extends BaseAPIController
         parent::__construct();
         $this->transformer = $transformer;
     }
-
+    
+    public function create(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|max:100',
+            'last_name' => 'required|max:100',
+            'email' => 'required|email|max:150|unique:users',
+            'password' => 'required|min:6',
+            'terms' => 'required|accepted',
+        ]);
+    
+        if ($validator->fails()) {
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
+        }
+        
+        try {
+            $user = new User(
+                $request->only(['first_name', 'last_name', 'email'])
+            );
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $user->patient()->save(new Patient());
+            
+            return $this->baseTransformItem($user)->respond();
+        } catch (\Exception $exception) {
+            $problem = new ApiProblem();
+            $problem->setDetail($exception->getMessage());
+            return $this->respondBadRequest($problem);
+        }
+    }
+    
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse

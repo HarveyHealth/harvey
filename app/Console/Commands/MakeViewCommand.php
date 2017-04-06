@@ -46,7 +46,7 @@ class MakeViewCommand extends Command
             $layout = 'logged_in';
         }
 
-        $template = "@extends('_layouts.{$layout}')
+        $template = "@extends('legacy._layouts.{$layout}')
 @section('page_title','')
 
 @push('stylesheets')

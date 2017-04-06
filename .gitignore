@@ -1,12 +1,16 @@
 /node_modules
 /public/storage
 /public/hot
-/storage/logs/
+storage/logs/*.*
 /storage/debugbar/
 /storage/*.key
+/storage/database.sqlite
+/storage
 /vendor
 /.idea
+/.vagrant
 Homestead.json
+Homestead.yaml
 .env
 .env.testing
 .env.dev
@@ -24,3 +28,6 @@ Homestead.json
 /.env.dusk.local
 .vscode/*
 /tests/Browser/console/*.*
+/.DS_Store
+/public/css/app.css
+/public/legacy/*
