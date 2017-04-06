@@ -12,11 +12,10 @@
             </a>
             <p class="nav-center">
                 <a href="/" class="nav-item">Home</a>
-                <a href="/signup" class="nav-item">Book</a>
+                <a href="https://blog.goharvey.com" class="nav-item">Blog</a>
                 <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="/terms" class="nav-item">Terms</a>
                 <a href="/privacy" class="nav-item">Privacy</a>
-                <!-- <a href="/contact" class="nav-item">Contact</a> -->
             </p>
             <p class="has-small-lineheight">
                 <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>
