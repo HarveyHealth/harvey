@@ -1,12 +1,12 @@
 <template>
   <div>
     <form method="post" action="/practitioner" @submit.prevent="onSubmit">
-      <registration v-show="true" />
-      <practitioner />
-      <phone />
-      <location />
-      <datetime />
-      <div class="text-centered">
+      <registration v-show="step === 1" />
+      <practitioner v-show="step === 2" />
+      <phone v-show="step === 3" />
+      <location v-show="step === 4" />
+      <datetime v-show="step === 5" />
+      <div v-show="step === 5" class="text-centered">
         <input type="submit" class="button" value="Submit">
       </div>
     </form>
@@ -24,7 +24,11 @@
 
   export default {
     name: 'Signup',
-    step: 1,
+    data() {
+      return {
+        step: 1
+      }
+    },
     components: {
       'registration': Registration,
       'phone': Phone,
