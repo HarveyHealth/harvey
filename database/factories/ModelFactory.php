@@ -68,6 +68,23 @@ $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $
     ];
 });
 
+$factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generator $faker) {
+    $start_time = Carbon::instance(
+        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+    );
+    
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
+    
+    return [
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'day_of_week' => $faker->dayOfWeek,
+        'start_time' => $start_time->toTimeString(),
+        'stop_time' => $start_time->addHour(rand(1, 8))->toTimeString(),
+    ];
+});
+
+
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
