@@ -13,16 +13,18 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
+        <form method="post" action="/datetime" @submit.prevent="onSubmit">
           <div class="text-centered">
             <img class="map" src="/images/signup/location.png" alt="">
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="number" placeholder="Zip Code">
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
             <span class="error-text">Please enter a valid zipcode</span>
           </div>
           <div class="text-centered">
-            <button class="button" @click="nextStep('practitioner')">Continue</button>
+            <input type="submit" class="button" value="Continue">
           </div>
+        </form>
       </div>
   </div>
 </template>
@@ -32,11 +34,17 @@
     data() {
       return {
         title: 'Where are you located?',
-        subtitle: 'All consultations with doctors are virtual. However, we do not have licensed doctors in all 50 states. Please enter your zip code so we can veritfy that we are permitted to work with you. '
+        subtitle: 'All consultations with doctors are virtual. However, we do not have licensed doctors in all 50 states. Please enter your zip code so we can veritfy that we are permitted to work with you. ',
+        zip: ''
       }
     },
     name: 'Location',
-    props: ['nextStep']
+    methods: {
+      onSubmit() {
+        // For now, just go to the next page. We'll worry about validating the form later
+        this.$router.push('/datetime');
+      }
+    }
   }
 </script>
 

@@ -27,7 +27,7 @@ class RegisterController extends Controller
     {
         return url('dashboard');
     }
-    
+
     /**
      * RegisterController constructor.
      */
