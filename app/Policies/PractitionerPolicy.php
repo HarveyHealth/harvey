@@ -31,6 +31,4 @@ class PractitionerPolicy
     {
         return $practitioner->enabled;
     }
-    
-    
 }

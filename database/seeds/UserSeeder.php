@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
                 'email' => 'practitioner@goharvey.com',
                 'phone' => '3101234569',
             ])->id
-        ])->each(function($practitioner){
+        ])->each(function ($practitioner) {
             $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make());
         });
     }
