@@ -264,7 +264,7 @@
                     <div class="columns is-multiline">
                         <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                             <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-16.png" alt="">
+                                <img src="/images/home/square-11.png" alt="">
                             </figure>
                             <div class="column">
                                 <label class="label">Cardiovascular</label>
@@ -390,7 +390,9 @@
                         <script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
                         <link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css" />
                         <ul class="juicer-feed" data-feed-id="goharveyapp"></ul>
-                        <a id="blog-link">Visit blog for full articles</a>
+                        <div class="column has-text-centered">
+                            <a id="blog-link" alt="Harvey Blog">Visit blog for full articles</a>
+                        </div>
                     </div>
                 </div>
             </div>
