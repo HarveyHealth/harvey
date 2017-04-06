@@ -1,10 +1,10 @@
 import '../../bootstrap';
-import router from './routes';
+// import router from './routes';
 
 import Signup from './Signup.vue'
 
 const app = new Vue({
-  router,
+  // router,
   components: {
     Signup
   },

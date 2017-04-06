@@ -13,7 +13,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
         <!-- Typekit -->
         <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
@@ -28,9 +28,7 @@
 
       <main class="signup-content">
         <div id="signup">
-          <transition name="fade" mode="out-in">
-            <router-view></router-view>
-          </transition>
+          <signup></signup>
         </div>
       </main>
 

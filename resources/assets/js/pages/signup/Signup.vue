@@ -1,6 +1,10 @@
 <template>
   <div>
-    <signup-step :is="currentStep" :next-step="nextStep"></signup-step>
+    <registration></registration>
+    <practitioner></practitioner>
+    <phone></phone>
+    <location></location>
+    <datetime></datetime>
   </div>
 </template>
 
