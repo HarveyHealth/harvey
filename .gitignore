@@ -5,6 +5,7 @@ storage/logs/*.*
 /storage/debugbar/
 /storage/*.key
 /storage/database.sqlite
+/storage
 /vendor
 /.idea
 /.vagrant

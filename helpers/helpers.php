@@ -44,3 +44,22 @@ function phone_for_db($number)
 {
     return phone($number, 'US', 'NATIONAL');
 }
+
+function ip_address()
+{
+    // cloudflare
+    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
+        $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+
+    //check ip from share internet
+    } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+
+    //to check ip is pass from proxy
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip=$_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
