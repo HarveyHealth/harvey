@@ -35,6 +35,12 @@
         terms: ''
       }
     },
+    created() {
+      console.log(this.$parent.step);
+    },
+    methods: {
+
+    },
     name: 'Registration'
   }
 </script>

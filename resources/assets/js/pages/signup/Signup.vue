@@ -22,6 +22,8 @@
   import Modal from './_components/Modal.vue';
   import Confirmation from './_components/Confirmation.vue';
 
+  const signupSteps = 5;
+
   export default {
     name: 'Signup',
     data() {
@@ -41,8 +43,13 @@
     methods: {
       onSubmit() {
         console.log("form submitted");
+        this.incrementStep();
+      },
+
+      incrementStep() {
+        if (this.step != signupSteps) this.step++;
       }
-    }
+    },
   }
 </script>
 
