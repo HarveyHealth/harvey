@@ -11,6 +11,8 @@ use \Validator;
 
 class AppointmentsController extends BaseAPIController
 {
+    protected $resource_name = 'appointments';
+    
     /**
      * AppointmentsController constructor.
      * @param AppointmentTransformer $transformer
