@@ -15,21 +15,21 @@ use Illuminate\Support\Facades\Auth;
  */
 class SVGImagesComposer
 {
-	public function compose(View $view)
-	{
-		$svgImages = [
-			'logo' => $this->logo()
-		];
+    public function compose(View $view)
+    {
+        $svgImages = [
+            'logo' => $this->logo()
+        ];
 
-		$view->with('svgImages', $svgImages);
-	}
+        $view->with('svgImages', $svgImages);
+    }
 
-	public function logo()
-	{
-		$image_location = public_path('images/logos/main-logo.svg');
-		$svg = new DOMDocument();
-		$svg->load($image_location);
-		$svg->documentElement->setAttribute("class", "logo");
-		return $svg->saveXML($svg->documentElement);
-	}
+    public function logo()
+    {
+        $image_location = public_path('images/logos/main-logo.svg');
+        $svg = new DOMDocument();
+        $svg->load($image_location);
+        $svg->documentElement->setAttribute("class", "logo");
+        return $svg->saveXML($svg->documentElement);
+    }
 }

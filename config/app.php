@@ -173,6 +173,9 @@ return [
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
+        Spatie\Fractal\FractalServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -190,6 +193,7 @@ return [
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\SlackServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
+        App\Providers\ResponseMacroServiceProvider::class,
 
     ],
 
@@ -220,6 +224,7 @@ return [
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
+        'Fractal' => Spatie\Fractal\FractalFacade::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
         'Lang' => Illuminate\Support\Facades\Lang::class,
@@ -245,7 +250,7 @@ return [
         'Bugsnag' => Bugsnag\BugsnagLaravel\Facades\Bugsnag::class,
 
         // custom
-
+        'ResponseCode' => Symfony\Component\HttpFoundation\Response::class,
 
     ],
 

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Appointment;
+use App\Models\Practitioner;
 
 class AppointmentRepository extends BaseRepository
 {

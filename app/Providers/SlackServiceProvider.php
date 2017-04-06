@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Lib\Slack;
 use Illuminate\Support\ServiceProvider;
 
 class SlackServiceProvider extends ServiceProvider
@@ -26,7 +27,7 @@ class SlackServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('slack', function ($app) {
-            return new \App\Lib\Slack;
+            return new Slack;
         });
     }
 }

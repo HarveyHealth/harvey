@@ -11,9 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(PractitionerTypesSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(TestsTableSeeder::class);
         $this->call(AppointmentsSeeder::class);
+        $this->call(OauthClientSeeder::class);
 
         $this->command->getOutput()->writeln("Seeding Successful!");
         $this->command->getOutput()->writeln("");
@@ -21,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->command->getOutput()->writeln("<info>Patient Email: </info> patient@goharvey.com");
         $this->command->getOutput()->writeln("<info>Practitioner Email: </info> practitioner@goharvey.com");
         $this->command->getOutput()->writeln("<info>All user passwords: </info> secret");
+        $this->command->getOutput()->writeln("<info>Oauth Password Client Name: </info> Postman");
+        $this->command->getOutput()->writeln("<info>Oauth Password Client ID: </info> 1");
+        $this->command->getOutput()->writeln("<info>Oauth Password Client Secret: </info> bHdnJqfTV7QtKC8JTifFenxBcCW4TlUVXQPk63In");
     }
 }

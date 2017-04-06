@@ -16,12 +16,15 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\SomeEvent' => [
             'App\Listeners\EventListener',
         ],
+        'Illuminate\Mail\Events\MessageSending' => [
+            'App\Listeners\LogSentMessage',
+        ],
     ];
-
+    
     protected $subscribe = [
         'App\Listeners\UserEventSubscriber',
     ];
-
+    
     /**
      * Register any events for your application.
      *
@@ -30,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
+        
         //
     }
 }

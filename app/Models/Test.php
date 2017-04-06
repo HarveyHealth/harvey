@@ -5,14 +5,20 @@ namespace App\Models;
 use Aws\S3\Exception\S3Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Traits\HasPatientAndPractitioner;
 
 class Test extends Model
 {
-    use HasPatientAndPractitioner;
-
     protected $guarded = ['id'];
 
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+    
+    public function practitioner()
+    {
+        return $this->belongsTo(Practitioner::class);
+    }
 
     public function tempResultsURL()
     {

@@ -1,40 +1,52 @@
 # Harvey
 
-#### Back End: [Laravel 5.3](https://laravel.com/docs/5.3)
+#### Back End: [Laravel 5.4](https://laravel.com/docs/5.4)
 #### Front End: [Vue 2.0](https://vuejs.org/v2/guide)
 
 ## For Local Development
 
+###Requirements
+ - MySQL 5.7
+ - Node 7
+ - PHP 7
+
 ### Back End
-1. Clone the Harvey repository:
+- Clone the Harvey repository:
 
 	`git clone git@github.com:HomeHero/harvey.git`
 
 - `cd` into the harvey directory
 - run `composer update`
 - Modify the .env file to suit your local config
-- run `php artisan migrate`
+- run `php artisan migrate --seed`
 
 ### Front End
-1. Follow back end steps.
+- run `npm install`
 
-- run `yarn`
+- run `php artisan serve`
 
-	If you do not have yarn installed, run:
+### Front End File Structure
 
-	`npm install -g yarn`
+- Public and logged in pages are separate apps, but
+    - they both extend `./resources/views/legacy._layouts/main.blade.php`
+    - they both include `./resources/assets/js/bootstrap.js` for dependency injection and setup
+    - they both include `./resources/assets/sass/all.scss` for shared css
 
-	Or
+- Entry points (Public)
+    `./resources/views/legacy._layouts/public.blade.php`
+    `./resources/assets/js/app_public.js`
+    `./resources/assets/sass/app_public.scss`
 
-	`brew install yarn`
+- Entry points (Logged in)
+    `./resources/views/legacy._layouts/logged_in.blade.php`
+    `./resources/assets/js/app_logged_in.js`
+    `./resources/assets/sass/app_logged_in.scss`
 
-- point the gulpfile to your locally hosted site
+- `./resources` should always be the working folder, while `./public` are generated or bundled files.
 
-	If your locally hosted site is at `localhost:8000`, modify gulpfile.js to read:
+- We are using Laravel Mix as a wrapper of Webpack for module bundles and other front end build steps.  Config at `./webpack.mix.js`.
 
-	`.browserSync({proxy: 'localhost:8000'});`
-
-- run `npm run dev`
+- For use cases Laravel Mix doesn't cover, we'll need to config directly from `./webpack.config.js`.
 
 ### Homestead
 
@@ -75,4 +87,3 @@ Database Seeding will provide you with these accounts:
 
 ### ToDo
 - list 3rd party services
-

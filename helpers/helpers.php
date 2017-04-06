@@ -39,3 +39,8 @@ function html_from_markdown_file($file)
 
     return html_from_markdown($contents);
 }
+
+function phone_for_db($number)
+{
+    return phone($number, 'US', 'NATIONAL');
+}

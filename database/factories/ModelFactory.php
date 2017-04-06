@@ -18,10 +18,8 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 
     return [
         'enabled' => true,
-        'user_type' => $faker->randomElement(['admin', 'patient', 'practitioner']),
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
-        'enabled' => true,
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
@@ -34,29 +32,66 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
         'timezone' => $faker->timezone,
-        'remember_token' => str_random(10),
-        'api_token' => str_random(60),
+        'remember_token' => str_random(10)
     ];
 });
 
-$factory->state(App\Models\User::class, 'admin', function ($faker) {
-    return ['user_type' => 'admin'];
-});
-
-$factory->state(App\Models\User::class, 'patient', function ($faker) {
+$factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     return [
-        'user_type' => 'patient',
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+        'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
+        'height_feet' => $faker->numberBetween(4, 6),
+        'height_inches' => $faker->numberBetween(0, 12),
+        'weight' => $faker->numberBetween(100, 300),
         'symptoms' => json_encode([
-            $faker->word => $faker->numberBetween(1, 10),
-            $faker->word => $faker->numberBetween(1, 10),
-            $faker->word => $faker->numberBetween(1, 10)
-        ])
+                $faker->word => $faker->numberBetween(1, 10),
+                $faker->word => $faker->numberBetween(1, 10),
+                $faker->word => $faker->numberBetween(1, 10)
+            ])
     ];
 });
 
-$factory->state(App\Models\User::class, 'practitioner', function ($faker) {
-    return ['user_type' => 'practitioner'];
+$factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+        'practitioner_type' => 1,
+    ];
 });
+
+$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'name' => $faker->name,
+        'rate' => $faker->numberBetween(100, 300)
+    ];
+});
+
+$factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generator $faker) {
+    $start_time = Carbon::instance(
+        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+    );
+    
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
+    
+    return [
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'day_of_week' => $faker->dayOfWeek,
+        'start_time' => $start_time->toTimeString(),
+        'stop_time' => $start_time->addHour(rand(1, 8))->toTimeString(),
+    ];
+});
+
+
+$factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'user_id' => factory(App\Models\User::class)->create()->id,
+    ];
+});
+
 
 $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     return [
@@ -67,31 +102,61 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
+    // Create an appointment start time that begins at the top of the hour
+    // or 30 minutes into the hour
+    $start_time = Carbon::instance(
+        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+    );
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
+
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
-        'appointment_at' => $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days'),
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'appointment_at' => $start_time->toDateTimeString(),
+        'appointment_block_ends_at' => $start_time->addMinutes(90)->toDateTimeString(),
         'reason_for_visit' => $faker->sentence
     ];
 });
 
 $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
-    return ['appointment_at' => $faker->dateTimeBetween($startDate = '-3 days', $endDate = '-1 days'),];
+    $start_time = Carbon::instance($faker->dateTimeBetween(
+        $startDate = '-3 days', $endDate = '-1 days', 'UTC')
+    );
+    $start_time->minute = $faker->randomElement([0, 30]);
+    $start_time->second = 0;
+    
+    return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
+});
+
+$factory->state(App\Models\Appointment::class, 'soon', function ($faker) {
+    return ['appointment_at' => Carbon::now()->addMinutes(30)];
 });
 
 $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'sku_id' => factory(App\Models\SKU::class)->create()->id
     ];
 });
 
 $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_user_id' => factory(App\Models\User::class)->states('patient')->create()->id,
-        'practitioner_user_id' => factory(App\Models\User::class)->states('practitioner')->create()->id,
+        'patient_id' => factory(App\Models\Patient::class)->create()->id,
+        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
         'note' => $faker->sentence
+    ];
+});
+
+$factory->define(Laravel\Passport\Client::class, function (Faker\Generator $faker) {
+    return [
+        'secret' => str_random(40),
+        'redirect' => 'http://localhost',
+        'name' => $faker->word,
+        'personal_access_client' => 0,
+        'password_client' => 1,
+        'revoked' => 0
     ];
 });

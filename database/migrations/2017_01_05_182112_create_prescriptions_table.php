@@ -15,10 +15,10 @@ class CreatePrescriptionsTable extends Migration
     {
         Schema::create('prescriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('patient_user_id')->unsigned();
-            $table->foreign('patient_user_id')->references('id')->on('users');
-            $table->integer('practitioner_user_id')->unsigned();
-            $table->foreign('practitioner_user_id')->references('id')->on('users');
+            $table->integer('patient_id')->unsigned();
+            $table->foreign('patient_id')->references('id')->on('patients');
+            $table->integer('practitioner_id')->unsigned();
+            $table->foreign('practitioner_id')->references('id')->on('practitioners');
             $table->integer('sku_id')->unsigned();
             $table->foreign('sku_id')->references('id')->on('skus');
             $table->datetime('accepted_at')->nullable();

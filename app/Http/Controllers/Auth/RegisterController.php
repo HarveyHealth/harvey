@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -24,13 +25,11 @@ class RegisterController extends Controller
 
     protected function redirectTo()
     {
-        return secure_url('dashboard');
+        return url('dashboard');
     }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * RegisterController constructor.
      */
     public function __construct()
     {
@@ -49,7 +48,7 @@ class RegisterController extends Controller
             'first_name' => 'required|max:100',
             'last_name' => 'required|max:100',
             'email' => 'required|email|max:150|unique:users',
-            'phone' => 'required|max:10|unique:users',
+            'phone' => 'required|phone:AUTO,US|max:10|unique:users',
             'password' => 'required|min:6',
             'terms' => 'required|accepted',
         ]);
@@ -64,13 +63,12 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         User::unguard();
+
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'user_type' => 'patient',
-            'api_token' => str_random(60),
             'password' => bcrypt($data['password']),
             'terms_accepted_at' => \Carbon::now(),
         ]);

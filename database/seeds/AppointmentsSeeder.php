@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Patient;
+use App\Models\Practitioner;
+use App\Models\Appointment;
+use App\Models\PatientNote;
 
 class AppointmentsSeeder extends Seeder
 {
@@ -12,29 +16,29 @@ class AppointmentsSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Appointment::flushEventListeners();
+        Appointment::flushEventListeners();
 
-        $patient = User::where('user_type', 'patient')->first();
-        $practitioner = User::where('user_type', 'practitioner')->first();
+        $patient = Patient::first();
+        $practitioner = Practitioner::first();
 
         // Create 5 past appointments for our test patient and practitioner
-        factory(App\Models\Appointment::class, 5)->states('past')->create([
-            'patient_user_id' => $patient->id,
-            'practitioner_user_id' => $practitioner->id
+        factory(Appointment::class, 5)->states('past')->create([
+            'patient_id' => $patient->id,
+            'practitioner_id' => $practitioner->id
         ])->each(function ($appointment) use ($patient, $practitioner) {
-            $appointment->notes()->save(factory(App\Models\PatientNote::class)->make([
-                'patient_user_id' => $patient->id,
-                'practitioner_user_id' => $practitioner->id
+            $appointment->notes()->save(factory(PatientNote::class)->make([
+                'patient_id' => $patient->id,
+                'practitioner_id' => $practitioner->id
             ]));
         });
 
         // Create 2 upcoming appointments for our test patient and practitioner
-        factory(App\Models\Appointment::class, 2)->create([
-            'patient_user_id' => $patient->id,
-            'practitioner_user_id' => $practitioner->id
+        factory(Appointment::class, 2)->create([
+            'patient_id' => $patient->id,
+            'practitioner_id' => $practitioner->id
         ]);
 
         // then create some random ones
-        factory(App\Models\Appointment::class, 10)->create();
+        factory(Appointment::class, 10)->create();
     }
 }

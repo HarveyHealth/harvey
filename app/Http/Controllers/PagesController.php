@@ -23,31 +23,16 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        return view('pages.homepage');
+        return view('legacy.pages.homepage');
     }
 
     public function getAbout()
     {
-        return view('pages.about');
-    }
-
-    public function getContact()
-    {
-        return view('pages.contact');
+        return view('legacy.pages.about');
     }
 
     public function getLabTests()
     {
-        return view('pages.lab_tests');
-    }
-
-    public function postContact(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'email|required',
-            'message' => 'required'
-        ]);
-
-        Mail::to('support@homehero.org')->send(new Contact());
+        return view('legacy.pages.lab_tests');
     }
 }
