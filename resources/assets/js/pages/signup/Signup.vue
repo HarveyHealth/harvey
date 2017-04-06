@@ -1,12 +1,11 @@
 <template>
   <div>
     <form method="post" action="/practitioner" @submit.prevent="onSubmit">
-      <registration></registration>
-      <practitioner></practitioner>
-      <phone></phone>
-      <location></location>
-      <datetime></datetime>
-
+      <registration v-show="true" />
+      <practitioner />
+      <phone />
+      <location />
+      <datetime />
       <div class="text-centered">
         <input type="submit" class="button" value="Submit">
       </div>
@@ -25,6 +24,7 @@
 
   export default {
     name: 'Signup',
+    step: 1,
     components: {
       'registration': Registration,
       'phone': Phone,
