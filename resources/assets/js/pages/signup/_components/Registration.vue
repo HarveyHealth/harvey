@@ -21,9 +21,9 @@
           <input class="form-input form-input_checkbox" type="checkbox" id="checkbox" v-model="terms" @change="validate">
           <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
         </div>
-        <div class="text-centered">
+        <!-- <div class="text-centered">
           <button class="button" :disabled="!validated" @click.prevent="createAccount">Continue</button>
-        </div>
+        </div> -->
       </div>
   </div>
 </template>
@@ -38,7 +38,7 @@
         password: '',
         zip: '',
         terms: false,
-        validated: false,
+        validated: true,
       }
     },
     created() {
