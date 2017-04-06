@@ -13,6 +13,10 @@
         <div class="input-wrap">
           <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" @blur="validate">
         </div>
+        <div class="input-wrap">
+          <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
+          <!-- <span class="error-text">Please enter a valid zipcode</span> -->
+        </div>
         <div class="input-wrap text-centered">
           <input class="form-input form-input_checkbox" type="checkbox" id="checkbox" v-model="terms" @change="validate">
           <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
@@ -32,6 +36,7 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         email: '',
         password: '',
+        zip: '',
         terms: false,
         validated: false,
       }

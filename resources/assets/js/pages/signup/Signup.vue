@@ -1,7 +1,9 @@
 <template>
   <div>
-    <form method="post" action="/practitioner" @submit.prevent="onSubmit">
+    <form method="post" action="/" @submit.prevent="onSubmit">
       <registration v-show="step === 1" />
+    </form>
+    <form>
       <practitioner v-show="step === 2" />
       <phone v-show="step === 3" />
       <location v-show="step === 4" />
