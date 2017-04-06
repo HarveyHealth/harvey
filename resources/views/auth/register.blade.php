@@ -1,4 +1,4 @@
-@extends('_layouts.public', ['view' => 'register-view'])
+@extends('legacy._layouts.public', ['view' => 'register-view'])
 
 @section('page_title', 'Sign Up')
 

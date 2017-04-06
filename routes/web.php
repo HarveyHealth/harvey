@@ -16,14 +16,11 @@ use Illuminate\Routing\Controller;
 Auth::routes();
 
 // Additional routing to not use Laravel's built-in "register" route
-Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
-Route::post('signup', 'Auth\RegisterController@register');
+// Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
+// Route::post('signup', 'Auth\RegisterController@register');
 Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify')->middleware('guest');
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
 
-// basic public pages
-Route::get('/', 'PagesController@getHomepage')->name('home');
-Route::get('lab-tests', 'PagesController@getLabTests');
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
@@ -44,3 +41,15 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
 }
+
+
+
+
+// basic public pages
+Route::get('/', 'PagesController@getHomepage')->name('home');
+Route::get('lab-tests', 'PagesController@getLabTests');
+
+// signup page
+Route::get('/signup', function () {
+    return view('pages.signup');
+});

@@ -23,16 +23,16 @@ class PagesController extends Controller
      */
     public function getHomepage()
     {
-        return view('pages.homepage');
+        return view('legacy.pages.homepage');
     }
 
     public function getAbout()
     {
-        return view('pages.about');
+        return view('legacy.pages.about');
     }
 
     public function getLabTests()
     {
-        return view('pages.lab_tests');
+        return view('legacy.pages.lab_tests');
     }
 }

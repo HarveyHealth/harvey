@@ -132,3 +132,14 @@ $factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker
         'note' => $faker->sentence
     ];
 });
+
+$factory->define(Laravel\Passport\Client::class, function (Faker\Generator $faker) {
+    return [
+        'secret' => str_random(40),
+        'redirect' => 'http://localhost',
+        'name' => $faker->word,
+        'personal_access_client' => 0,
+        'password_client' => 1,
+        'revoked' => 0
+    ];
+});

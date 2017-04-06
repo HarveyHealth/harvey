@@ -27,7 +27,7 @@ class RegisterController extends Controller
     {
         return url('dashboard');
     }
-    
+
     /**
      * RegisterController constructor.
      */
@@ -69,8 +69,6 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
-            'user_type' => 'patient',
-            'api_token' => str_random(60),
             'password' => bcrypt($data['password']),
             'terms_accepted_at' => \Carbon::now(),
         ]);
