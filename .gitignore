@@ -4,6 +4,7 @@
 /storage/logs/
 /storage/debugbar/
 /storage/*.key
+/storage
 /vendor
 /.idea
 Homestead.json
