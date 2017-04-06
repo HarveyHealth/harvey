@@ -79,7 +79,7 @@ body.home {
         .hero-background {
             width: 100%;
             // background-image: gradient;
-            background: lighten($tertiary, 20%) url('/images/home/background_1_sm.jpg') no-repeat center top;
+            background: lighten($tertiary, 20%) url('/images/home/hero_sm.jpg') no-repeat center top;
             background-size: cover;
             &, &:after {
                 position: absolute;
@@ -94,10 +94,10 @@ body.home {
                 background-color: rgba(darken($tertiary, 20%), $opacity-light);
             }
             @include from($tablet) {
-                background-image: url('/images/home/background_1_md.jpg');
+                background-image: url('/images/home/hero_md.jpg');
             }
             @include from($megascreen) {
-                background-image: url('/images/home/background_1_lg.jpg');
+                background-image: url('/images/home/hero_lg.jpg');
             }
         }
         .title + .subtitle {
@@ -216,7 +216,6 @@ body.home {
         margin-right: auto;
     }
     .symptoms-container {
-        border: 1px solid $border;
         padding: 1.5rem;
         margin-top: $space-medium;
         margin-bottom: $space-medium;
@@ -256,6 +255,7 @@ body.home {
     }
     #how-it-works {
         @include from($desktop) {
+            margin-bottom: 30px;
             text-align: center;
             .column.columns {
                 flex-direction: column;
@@ -264,6 +264,9 @@ body.home {
                 }
             }
         }
+    }
+    .circle img{
+        border-radius: 100px;
     }
     // misc
     .vue-slider-tooltip.vue-slider-tooltip-top {

@@ -78,7 +78,7 @@ const app = new Vue({
             },
             immune: {
                 label: 'Immune',
-                description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or trouble fighting known autoimmune diseases.',
+                description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or fighting known autoimmune diseases.',
                 value: 3
             },
             musculo_skeletal: {
