@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     /*
     |--------------------------------------------------------------------------
     | Mail Driver
@@ -15,9 +15,9 @@ return [
     |            "sparkpost", "log", "array"
     |
     */
-    
+
     'driver' => env('MAIL_DRIVER', 'smtp'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -28,9 +28,9 @@ return [
     | the Mailgun mail service which will provide reliable deliveries.
     |
     */
-    
+
     'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -41,9 +41,9 @@ return [
     | stay compatible with the Mailgun e-mail application by default.
     |
     */
-    
+
     'port' => env('MAIL_PORT', 587),
-    
+
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -59,7 +59,7 @@ return [
         'address' => env('MAIL_FROM_ADDRESS', 'hello@goharvey.com'),
         'name' => env('MAIL_FROM_NAME', config('app.name')),
     ],
-    
+
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
@@ -70,9 +70,9 @@ return [
     | transport layer security protocol should provide great security.
     |
     */
-    
+
     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-    
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username
@@ -83,11 +83,24 @@ return [
     | connection. You may also set the "password" value below this one.
     |
     */
-    
+
     'username' => env('MAIL_USERNAME'),
-    
+
     'password' => env('MAIL_PASSWORD'),
-    
+
+    /*
+    |--------------------------------------------------------------------------
+    | Sendmail System Path
+    |--------------------------------------------------------------------------
+    |
+    | When using the "sendmail" driver to send e-mails, we will need to know
+    | the path to where Sendmail lives on this server. A default path has
+    | been provided here, which will work well on most of your systems.
+    |
+    */
+
+    'sendmail' => '/usr/sbin/sendmail -bs',
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
@@ -98,24 +111,13 @@ return [
     | of the emails. Or, you may simply stick with the Laravel defaults!
     |
     */
-    
+
     'markdown' => [
         'theme' => 'default',
-        
+
         'paths' => [
             resource_path('views/vendor/mail'),
         ],
     ],
-    
-    /*
-    |--------------------------------------------------------------------------
-    | Harvey Sendmail
-    |--------------------------------------------------------------------------
-    |
-    | This is required to configure Laravel to use sendmail
-    |
-    */
-    
-    'sendmail' => '/usr/sbin/sendmail -bs'
-    
+
 ];

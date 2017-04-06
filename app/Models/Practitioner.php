@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Lib\PractitionerAvailability;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
@@ -11,7 +12,7 @@ class Practitioner extends Model
 
     public function availability()
     {
-        $availability = new PractitionerAvailability($self);
+        $availability = new PractitionerAvailability($this);
         return $availability->availability();
     }
 

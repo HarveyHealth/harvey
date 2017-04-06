@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-
+    
     /**
      * Bootstrap any application services.
      *
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/validator.php');
         User::observe(UserObserver::class);
     }
-
+    
     /**
      * Register any application services.
      *
@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local', 'testing', 'dev')) {
             $this->app->register(DuskServiceProvider::class);
         }
-
+        
         // bugsnag
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);

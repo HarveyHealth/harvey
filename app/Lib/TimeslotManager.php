@@ -2,9 +2,8 @@
 
 namespace App\Lib;
 
-use App\Lib\TimeInterval;
-use App\Lib\CSV;
-use Carbon\Carbon;
+use \Cache;
+use \Storage;
 
 class TimeslotManager
 {
@@ -12,38 +11,48 @@ class TimeslotManager
 
     public function __construct()
     {
-        $time_interval = TimeInterval::years(1);
-
-        $timeslots = \Cache::remember('compiled timeslots', $time_interval->toMinutes(), function () {
-            $filepath = resource_path('assets/other/timeslots.txt');
-            $data = file_get_contents($filepath);
-
-            $array = unserialize($data);
-
-            return $array;
+        // Store timeslots cache for one year
+        $time_interval = TimeInterval::years(1)->toMinutes();
+    
+        $this->timeslots = Cache::remember('compiled timeslots', $time_interval, function () {
+            return $this->getTimeslotsArray();
         });
-
-        $this->timeslots = $timeslots;
     }
-
+    
+    public function getTimeslotsArray()
+    {
+        $data = Storage::disk('resources')->get('assets/other/timeslots.txt');
+        return unserialize($data);
+    }
+    
+    public function getMinutesFromTimeString($timestring)
+    {
+        return date('i', strtotime($timestring));
+    }
+    
+    public function getNearestThirtyMinIntervalTimeFor($timestring)
+    {
+        return $this->getMinutesFromTimeString($timestring) >= 30 ? "30" : "00";
+    }
+    
+    /**
+     * Returns the slot id for the specified day and time
+     * @param $day Sunday
+     * @param $time "11:00"
+     * @return integer slot id
+     */
     public function timeslotForDayAndTime($day, $time)
     {
-        // get the time on either the 00 or 30 mark
-        $minute = date('i', strtotime($time));
-
-        if ($minute >= 30) {
-            $time = date('H:30:00', strtotime($time));
-        } else {
-            $time = date('H:00:00', strtotime($time));
-        }
+        $minute = $this->getNearestThirtyMinIntervalTimeFor($time);
+        $time = date("H:{$minute}:00", strtotime($time));
 
         // cache for better performance
         // no need to walk the array every time
-        $time_interval = TimeInterval::years(1);
+        $time_interval = TimeInterval::years(1)->toMinutes();
 
         $key = 'timeslot-for-day-time: ' . $day . ':' . $time;
 
-        $slot = \Cache::remember($key, $time_interval->toMinutes(), function () use ($day, $time) {
+        $slot = Cache::remember($key, $time_interval, function () use ($day, $time) {
 
             // return the first match to the day and time
             $slot = array_first($this->timeslots, function ($slot) use ($day, $time) {
@@ -60,11 +69,11 @@ class TimeslotManager
     {
         // cache for better performance
         // no need to walk the array every time
-        $time_interval = TimeInterval::years(1);
+        $time_interval = TimeInterval::years(1)->toMinutes();
 
         $key = 'timeslot-id: ' . $timeslot;
 
-        $slot = \Cache::remember($key, $time_interval->toMinutes(), function () use ($timeslot) {
+        $slot = Cache::remember($key, $time_interval, function () use ($timeslot) {
 
             // return the first match to the timeslot id
             $slot = array_first($this->timeslots, function ($slot) use ($timeslot) {

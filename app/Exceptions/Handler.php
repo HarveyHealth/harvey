@@ -23,7 +23,7 @@ class Handler extends ExceptionHandler
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
     ];
-
+    
     /**
      * Report or log an exception.
      *
@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
-
+    
     /**
      * Render an exception into an HTTP response.
      *
@@ -54,7 +54,7 @@ class Handler extends ExceptionHandler
         
         return parent::render($request, $exception);
     }
-
+    
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
@@ -69,7 +69,7 @@ class Handler extends ExceptionHandler
             $problem->setDetail($exception->getMessage());
             return response()->apiproblem($problem->asArray(), 401);
         }
-
+        
         return redirect()->guest('login');
     }
 }

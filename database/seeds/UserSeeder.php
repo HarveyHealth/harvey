@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\PractitionerSchedule;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -30,6 +31,8 @@ class UserSeeder extends Seeder
                 'email' => 'practitioner@goharvey.com',
                 'phone' => '3101234569',
             ])->id
-        ]);
+        ])->each(function ($practitioner) {
+            $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make());
+        });
     }
 }
