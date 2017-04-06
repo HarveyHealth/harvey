@@ -13,20 +13,19 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form method="post" action="/practitioner" @submit.prevent="onSubmit">
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname">
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname">
-          </div>
-          <div class="input-wrap text-centered">
-            <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" v-model="phone">
-          </div>
-          <div class="text-centered">
-            <input type="submit" class="button" value="Continue">
-          </div>
-        </form>
+        <div class="input-wrap">
+          <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname">
+        </div>
+        <div class="input-wrap">
+          <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname">
+        </div>
+        <div class="input-wrap text-centered">
+          <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" v-model="phone">
+        </div>
+        <div class="text-centered">
+          <button class="button">Continue</button>
+          <!-- <input type="submit" class="button" value="Continue"> -->
+        </div>
       </div>
   </div>
 </template>
@@ -42,13 +41,7 @@
         phone: ''
       }
     },
-    name: 'Phone',
-    methods: {
-      onSubmit() {
-        // For now, just go to the next page. We'll worry about validating the form later
-        this.$router.push('/location');
-      }
-    }
+    name: 'Phone'
   }
 </script>
 

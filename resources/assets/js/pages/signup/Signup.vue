@@ -1,10 +1,16 @@
 <template>
   <div>
-    <registration></registration>
-    <practitioner></practitioner>
-    <phone></phone>
-    <location></location>
-    <datetime></datetime>
+    <form method="post" action="/practitioner" @submit.prevent="onSubmit">
+      <registration></registration>
+      <practitioner></practitioner>
+      <phone></phone>
+      <location></location>
+      <datetime></datetime>
+
+      <div class="text-centered">
+        <input type="submit" class="button" value="Submit">
+      </div>
+    </form>
   </div>
 </template>
 
@@ -27,6 +33,11 @@
       'datetime': DateTime,
       'modal': Modal,
       'confirmation': Confirmation
+    },
+    methods: {
+      onSubmit() {
+        console.log("form submitted");
+      }
     }
   }
 </script>

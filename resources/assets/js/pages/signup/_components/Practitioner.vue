@@ -15,49 +15,48 @@
 
     <div class="container large">
       <div class="signup-form-container large">
-        <form method="post" action="/phone" @submit.prevent="onSubmit">
-          <div class="flex-wrapper">
-            <div class="input-wrap radio-block">
-              <input
-                type="radio" name="practitioner"
-                id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner"/>
-              <label class="block" for="naturopathic">
-                <div class="radio-block_container">
-                  <h2 class="header-large text-centered">Naturopathic Doctor</h2>
-                  <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
-                  <ul class="practitioner-features">
-                    <li>One</li>
-                    <li>Two</li>
-                    <li>Three</li>
-                  </ul>
-                  <p class="text-centered"><em class="bold">$150</em> per hour</p>
-                </div>
-              </label>
-            </div>
-
-            <div class="input-wrap radio-block">
-              <input
-                type="radio" name="practitioner"
-                id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
-              <label class="block" for="osteopathy">
-                <div class="radio-block_container">
-                  <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
-                  <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
-                  <ul class="practitioner-features">
-                    <li>One</li>
-                    <li>Two</li>
-                    <li>Three</li>
-                  </ul>
-                  <p class="text-centered"><em class="bold">$150</em> per hour</p>
-                </div>
-              </label>
-            </div>
+        <div class="flex-wrapper">
+          <div class="input-wrap radio-block">
+            <input
+              type="radio" name="practitioner"
+              id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner"/>
+            <label class="block" for="naturopathic">
+              <div class="radio-block_container">
+                <h2 class="header-large text-centered">Naturopathic Doctor</h2>
+                <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
+                <ul class="practitioner-features">
+                  <li>One</li>
+                  <li>Two</li>
+                  <li>Three</li>
+                </ul>
+                <p class="text-centered"><em class="bold">$150</em> per hour</p>
+              </div>
+            </label>
           </div>
 
-          <div class="text-centered">
-            <input type="submit" class="button" value="Continue">
+          <div class="input-wrap radio-block">
+            <input
+              type="radio" name="practitioner"
+              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
+            <label class="block" for="osteopathy">
+              <div class="radio-block_container">
+                <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
+                <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
+                <ul class="practitioner-features">
+                  <li>One</li>
+                  <li>Two</li>
+                  <li>Three</li>
+                </ul>
+                <p class="text-centered"><em class="bold">$150</em> per hour</p>
+              </div>
+            </label>
           </div>
-        </form>
+        </div>
+
+        <div class="text-centered">
+          <button class="button">Continue</button>
+          <!-- <input type="submit" class="button" value="Continue"> -->
+        </div>
       </div>
     </div>
   </div>
@@ -72,13 +71,7 @@
         practitioner: ''
       }
     },
-    name: 'Practitioner',
-    methods: {
-      onSubmit() {
-        // For now, just go to the next page. We'll worry about validating the form later
-        this.$router.push('/phone');
-      }
-    }
+    name: 'Practitioner'
   }
 </script>
 

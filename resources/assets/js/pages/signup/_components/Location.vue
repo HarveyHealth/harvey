@@ -13,18 +13,17 @@
       <p class="large">{{ subtitle }}</p>
 
       <div class="signup-form-container">
-        <form method="post" action="/datetime" @submit.prevent="onSubmit">
-          <div class="text-centered">
-            <img class="map" src="/images/signup/location.png" alt="">
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
-            <span class="error-text">Please enter a valid zipcode</span>
-          </div>
-          <div class="text-centered">
-            <input type="submit" class="button" value="Continue">
-          </div>
-        </form>
+        <div class="text-centered">
+          <img class="map" src="/images/signup/location.png" alt="">
+        </div>
+        <div class="input-wrap">
+          <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
+          <span class="error-text">Please enter a valid zipcode</span>
+        </div>
+        <div class="text-centered">
+          <button class="button">Continue</button>
+          <!-- <input type="submit" class="button" value="Continue"> -->
+        </div>
       </div>
   </div>
 </template>
@@ -38,13 +37,7 @@
         zip: ''
       }
     },
-    name: 'Location',
-    methods: {
-      onSubmit() {
-        // For now, just go to the next page. We'll worry about validating the form later
-        this.$router.push('/datetime');
-      }
-    }
+    name: 'Location'
   }
 </script>
 
