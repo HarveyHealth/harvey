@@ -28,7 +28,7 @@
     name: 'Signup',
     data() {
       return {
-        step: 1
+        step: 1,
       }
     },
     components: {
@@ -43,11 +43,16 @@
     methods: {
       onSubmit() {
         console.log("form submitted");
-        this.incrementStep();
+        // should be used to send rest of data to back-end
       },
 
       incrementStep() {
         if (this.step != signupSteps) this.step++;
+      },
+
+      submitAccountInformation(accountData) {
+        console.log('submitting account information...', accountData);
+        this.incrementStep();
       }
     },
   }
