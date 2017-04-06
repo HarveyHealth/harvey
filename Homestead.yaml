@@ -1,0 +1,43 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 1
+hostname: harvey
+name: harvey
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: "./"
+      to: "/home/vagrant/harvey"
+
+sites:
+    - map: harvey.app
+      to: "/home/vagrant/harvey/public"
+
+databases:
+    - harvey
+    - harvey_dusk
+
+ports:
+    - send: 3000
+      to: 3000
+    - send: 3001
+      to: 3001
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+ # ports:
+ #     - send: 9000
+ #       to: 9000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
