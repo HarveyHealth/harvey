@@ -39,9 +39,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('appointments/{appointment}', 'API\V1\AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'API\V1\AppointmentsController@delete')->name('appointments.delete');
         
-        Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerSchedule@show')->name('practitioner-schedule.show');
-        Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerSchedule@update')->name('practitioner-schedule.update');
+        Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@show')->name('practitioner-schedule.show');
+        Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@update')->name('practitioner-schedule.update');
         
-        Route::get('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailability@show')->name('practitioner-availability.show');
+        Route::get('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailabilityController@show')->name('practitioner-availability.show');
     });
 });

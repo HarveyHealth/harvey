@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Practitioner;
 use App\Lib\PractitionerAvailability as Availability;
 
-class PractitionerAvailability extends BaseAPIController
+class PractitionerAvailabilityController extends BaseAPIController
 {
     public function show(Practitioner $practitioner)
     {

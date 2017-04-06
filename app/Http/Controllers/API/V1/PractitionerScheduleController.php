@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use Illuminate\Http\Request;
 
-class PractitionerSchedule extends BaseAPIController
+class PractitionerScheduleController extends BaseAPIController
 {
     protected $resource_name = 'practitioner_schedules';
 
