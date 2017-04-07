@@ -4,6 +4,13 @@
     <p class="large">{{ subtitle }}</p>
     <!-- <a class="button" @click.prevent="getStarted">Continue</a> -->
   </div>
+
+  <!-- <form>
+    <practitioner v-show="step === 1" />
+    <phone v-show="step === 2" />
+    <location v-show="step === 3" />
+    <datetime v-show="step === 4" />
+  </form> -->
 </template>
 
 <script>
