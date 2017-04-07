@@ -36,14 +36,14 @@
     </form>
 
     <!-- Intertitial -->
-    <confirmation :zipInRange="true" v-if="isComplete" />
+    <interstitial :zipInRange="true" v-if="isComplete" />
 
   </div>
 </template>
 
 <script>
 
-  import Confirmation from './Confirmation.vue';
+  import Interstitial from './Interstitial.vue';
 
   export default {
     name: 'Signup',
@@ -60,13 +60,13 @@
       }
     },
     components: {
-      confirmation: Confirmation,
+      interstitial: Interstitial,
     },
     methods: {
       onSubmit() {
         console.log("form submitted");
 
-        this.isComplete = true; 
+        this.isComplete = true;
 
         /*
         axios.post('api/v1/users', {

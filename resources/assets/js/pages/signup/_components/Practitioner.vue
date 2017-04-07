@@ -72,7 +72,7 @@
     },
     methods: {
       nextStep() {
-        //this.$parent.next();
+        this.$parent.next();
       }
     },
     name: 'Practitioner'

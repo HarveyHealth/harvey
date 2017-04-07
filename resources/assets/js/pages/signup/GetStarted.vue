@@ -14,14 +14,14 @@
 
   <form>
     <practitioner v-show="step === 1" />
+    <phone v-show="step === 2" />
   </form>
 
 </template>
 
 <script>
-// import Registration from './_components/Registration.vue';
-// import Phone from './_components/Phone.vue';
   import Practitioner from './_components/Practitioner.vue';
+  import Phone from './_components/Phone.vue';
 // import Location from './_components/Location.vue';
 // import DateTime from './_components/DateTime.vue';
 // import Modal from './_components/Modal.vue';
@@ -36,12 +36,12 @@
       }
     },
     components: {
-      // 'phone': Phone,
       'practitioner': Practitioner,
+      'phone': Phone,
     },
     methods: {
-      getStarted() {
-        this.$router.push('/get-started');
+      next() {
+        this.step ++;
       }
     }
   }
