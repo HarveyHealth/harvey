@@ -23,15 +23,13 @@
     "laravel-mix": "0.*",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
     "vue": "^2.0.1",
     "vue-resource": "^1.2.1",
     "vue-router": "^2.3.1",
     "vue-slider-component": "^2.2.5",
-    "webpack": "2.2.1"
-  },
-  "devDependencies": {
-    "sass-loader": "^6.0.3",
-    "style-loader": "^0.16.1",
+    "webpack": "2.2.1",
     "webpack-spritesmith": "^0.3.3"
   }
 }
