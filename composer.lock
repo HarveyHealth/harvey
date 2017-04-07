@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.25.4",
+            "version": "3.25.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f5181b893c8822c5dc3986e4e52eddff66bbd04f"
+                "reference": "6874b16a262b4e368a25a6991461fce11cff4415"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f5181b893c8822c5dc3986e4e52eddff66bbd04f",
-                "reference": "f5181b893c8822c5dc3986e4e52eddff66bbd04f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/6874b16a262b4e368a25a6991461fce11cff4415",
+                "reference": "6874b16a262b4e368a25a6991461fce11cff4415",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-04-05T23:01:19+00:00"
+            "time": "2017-04-06T20:54:52+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -142,16 +142,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.4.0",
+            "version": "v3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "c3b05a18f9116ac7cb4984fd7ee0614fe4490176"
+                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/c3b05a18f9116ac7cb4984fd7ee0614fe4490176",
-                "reference": "c3b05a18f9116ac7cb4984fd7ee0614fe4490176",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
+                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
                 "shasum": ""
             },
             "require": {
@@ -195,24 +195,24 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2016-09-05T15:23:22+00:00"
+            "time": "2017-04-06T17:03:50+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "b067bef4e2d87b92d4d554d511b7b262af17586d"
+                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/b067bef4e2d87b92d4d554d511b7b262af17586d",
-                "reference": "b067bef4e2d87b92d4d554d511b7b262af17586d",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/e8aee99936694bae40d0d7713afeeb882b11383a",
+                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a",
                 "shasum": ""
             },
             "require": {
-                "bugsnag/bugsnag": "^3.4",
+                "bugsnag/bugsnag": "^3.5",
                 "bugsnag/bugsnag-psr-logger": "^1.1",
                 "illuminate/contracts": "^5.0",
                 "illuminate/support": "^5.0",
@@ -254,7 +254,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2016-09-08T08:33:45+00:00"
+            "time": "2017-04-06T17:24:56+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
@@ -3441,16 +3441,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v4.5.1",
+            "version": "v4.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "420d34ae71059700ea2a2e466670f66ddd97777d"
+                "reference": "603aaf76008206d9889d32c49fee30977aae1cd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/420d34ae71059700ea2a2e466670f66ddd97777d",
-                "reference": "420d34ae71059700ea2a2e466670f66ddd97777d",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/603aaf76008206d9889d32c49fee30977aae1cd4",
+                "reference": "603aaf76008206d9889d32c49fee30977aae1cd4",
                 "shasum": ""
             },
             "require": {
@@ -3492,7 +3492,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-03-22T17:51:32+00:00"
+            "time": "2017-04-06T21:28:25+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4437,16 +4437,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.3.10",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "83e8d98b9915de76c659ce27d683c02a0f99fa90"
+                "reference": "b03f285a333f51e58c95cce54109a4a9ed691436"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/83e8d98b9915de76c659ce27d683c02a0f99fa90",
-                "reference": "83e8d98b9915de76c659ce27d683c02a0f99fa90",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/b03f285a333f51e58c95cce54109a4a9ed691436",
+                "reference": "b03f285a333f51e58c95cce54109a4a9ed691436",
                 "shasum": ""
             },
             "require": {
@@ -4454,17 +4454,19 @@
                 "psr/http-message": "~1.0"
             },
             "provide": {
-                "psr/http-message-implementation": "~1.0.0"
+                "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
                 "phpunit/phpunit": "^4.6 || ^5.5",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev",
-                    "dev-develop": "1.4-dev"
+                    "dev-master": "1.4-dev",
+                    "dev-develop": "1.5-dev"
                 }
             },
             "autoload": {
@@ -4483,7 +4485,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2017-01-23T04:53:24+00:00"
+            "time": "2017-04-06T16:18:34+00:00"
         }
     ],
     "packages-dev": [
