@@ -1,5 +1,5 @@
 import '../../bootstrap';
-import router from './routes';
+import router from '../routes';
 
 import Signup from './Signup.vue'
 
