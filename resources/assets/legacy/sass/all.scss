@@ -46,9 +46,7 @@
         opacity: 0.75;
     }
     &:not(.is-simple) {
-        $gradient-top-left: darken(desaturate($tertiary, 10%), 5%);
-        $gradient-bottom-right: lighten(desaturate($tertiary, 15%), 15%);
-        background-image: linear-gradient(141deg, $gradient-top-left 0%, $tertiary 55%, $gradient-bottom-right 100%);
+        background-image: linear-gradient(140deg, $harvey-pink 0%, $harvey-turquoise 40%, $harvey-green 80%);
         .content,
         a.nav-item {
             color: white;
