@@ -17,7 +17,8 @@ class RegistrationTest extends TestCase
             'last_name' => 'Smith',
             'email' => 'jsmith@yahoo.com',
             'password' => 'password',
-            'terms' => true
+            'terms' => true,
+            'zip' => 91106
         ];
         
         // When a request is made to create a new user
