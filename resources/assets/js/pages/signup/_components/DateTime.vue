@@ -6,7 +6,6 @@
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step"></li>
         <li class="signup_progress-step"></li>
-        <li class="signup_progress-step"></li>
         <li class="signup_progress-step current"></li>
       </ul>
 
@@ -74,7 +73,7 @@
           <p class="large">This will replace existing appointment on:  Thursday, March 30th at 5:00pm</p>
         </div>
         <div class="text-centered">
-          <!-- <button class="button">Continue</button> -->
+          <a class="button">Continue</a>
           <!-- <input type="submit" class="button" value="Book Now"> -->
         </div>
       </div>

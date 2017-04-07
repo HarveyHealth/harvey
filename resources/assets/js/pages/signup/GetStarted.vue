@@ -1,29 +1,16 @@
 <template>
-  <!-- <div class="container small">
-    <h1 class="header-xlarge">{{ title }}</h1>
-    <p class="large">{{ subtitle }}</p>
-    <a class="button" @click.prevent="getStarted">Continue</a>
-  </div> -->
-
-  <!-- <form>
-    <practitioner v-show="step === 1" />
-    <phone v-show="step === 2" />
-    <location v-show="step === 3" />
-    <datetime v-show="step === 4" />
-  </form> -->
-
   <form>
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
+    <datetime v-show="step === 3" />
   </form>
-
 </template>
 
 <script>
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
+  import DateTime from './_components/DateTime.vue';
 // import Location from './_components/Location.vue';
-// import DateTime from './_components/DateTime.vue';
 // import Modal from './_components/Modal.vue';
 // import Confirmation from './_components/Confirmation.vue';
   export default {
@@ -38,6 +25,7 @@
     components: {
       'practitioner': Practitioner,
       'phone': Phone,
+      'datetime': DateTime,
     },
     methods: {
       next() {

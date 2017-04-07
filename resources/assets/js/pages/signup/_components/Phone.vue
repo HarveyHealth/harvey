@@ -6,7 +6,6 @@
         <li class="signup_progress-step"></li>
         <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
-        <li class="signup_progress-step"></li>
       </ul>
 
       <h1 class="header-xlarge">{{ title }}</h1>
@@ -23,7 +22,7 @@
           <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" v-model="phone">
         </div>
         <div class="text-centered">
-          <button class="button">Continue</button>
+          <a class="button" @click.prevent="nextStep">Continue</a>
           <!-- <input type="submit" class="button" value="Continue"> -->
         </div>
       </div>
@@ -39,6 +38,11 @@
         firstname: '',
         lastname: '',
         phone: ''
+      }
+    },
+    methods: {
+      nextStep() {
+        this.$parent.next();
       }
     },
     name: 'Phone'

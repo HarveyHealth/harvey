@@ -6,7 +6,6 @@
         <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
         <li class="signup_progress-step"></li>
-        <li class="signup_progress-step"></li>
       </ul>
 
       <h1 class="header-xlarge">Choose your practitioner</h1>
