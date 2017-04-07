@@ -42,16 +42,6 @@
 </template>
 
 <script>
-  // import Registration from './_components/Registration.vue';
-  // import Phone from './_components/Phone.vue';
-  // import Practitioner from './_components/Practitioner.vue';
-  // import Location from './_components/Location.vue';
-  // import DateTime from './_components/DateTime.vue';
-  // import Modal from './_components/Modal.vue';
-  // import Confirmation from './_components/Confirmation.vue';
-
-  const signupSteps = 4;
-
   export default {
     name: 'Signup',
     data() {
@@ -70,7 +60,7 @@
       onSubmit() {
         console.log("form submitted");
 
-        //this.$router.push('/phone');
+        this.$router.push('/confirmation');
 
         // navigate to the interstitial
 

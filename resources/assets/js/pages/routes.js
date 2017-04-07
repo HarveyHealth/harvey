@@ -2,10 +2,10 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
-      path: '/signup',
+      path: '/',
       component: require('./signup/Signup.vue')
     },
     {
