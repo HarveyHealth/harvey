@@ -1,9 +1,9 @@
 <template>
-  <div class="container small">
+  <!-- <div class="container small">
     <h1 class="header-xlarge">{{ title }}</h1>
     <p class="large">{{ subtitle }}</p>
-    <!-- <a class="button" @click.prevent="getStarted">Continue</a> -->
-  </div>
+    <a class="button" @click.prevent="getStarted">Continue</a>
+  </div> -->
 
   <!-- <form>
     <practitioner v-show="step === 1" />
@@ -11,6 +11,11 @@
     <location v-show="step === 3" />
     <datetime v-show="step === 4" />
   </form> -->
+
+  <form>
+    <practitioner v-show="step === 1" />
+  </form>
+
 </template>
 
 <script>
@@ -27,6 +32,7 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
+        step: 1,
       }
     },
     components: {

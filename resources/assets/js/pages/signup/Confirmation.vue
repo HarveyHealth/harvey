@@ -1,8 +1,13 @@
 <template>
-  <div class="container small">
-    <h1 class="header-xlarge">{{ title }}</h1>
-    <p class="large">{{ subtitle }}</p>
-    <a class="button" @click.prevent="getStarted">Continue</a>
+  <div>
+    <div class="container small">
+      <h1 class="header-xlarge">{{ title }}</h1>
+      <p class="large">{{ subtitle }}</p>
+    </div>
+
+    <div class="text-centered">
+      <a class="button" @click.prevent="getStarted">Continue</a>
+    </div>
   </div>
 </template>
 
@@ -20,6 +25,9 @@
         type: Boolean,
         required: true,
       },
+    },
+    mounted() {
+      console.log(Laravel);
     },
     methods: {
       getStarted() {

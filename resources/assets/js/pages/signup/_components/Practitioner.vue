@@ -3,8 +3,8 @@
     <div class="container small">
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
-        <li class="signup_progress-step"></li>
         <li class="signup_progress-step current"></li>
+        <li class="signup_progress-step"></li>
         <li class="signup_progress-step"></li>
         <li class="signup_progress-step"></li>
       </ul>
@@ -54,8 +54,7 @@
         </div>
 
         <div class="text-centered">
-          <button class="button">Continue</button>
-          <!-- <input type="submit" class="button" value="Continue"> -->
+          <a class="button" @click.prevent="nextStep">Continue</a>
         </div>
       </div>
     </div>
@@ -69,6 +68,11 @@
         title: 'Choose your practitioner',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
         practitioner: ''
+      }
+    },
+    methods: {
+      nextStep() {
+        //this.$parent.next();
       }
     },
     name: 'Practitioner'

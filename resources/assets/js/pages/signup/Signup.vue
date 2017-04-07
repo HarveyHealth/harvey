@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form method="post" action="/" @submit.prevent="onSubmit">
+    <form method="post" action="/" @submit.prevent="onSubmit" v-show="!isComplete">
 
       <div class="container small">
         <img class="registration-tree" src="/images/signup/tree.png" alt="">
@@ -34,10 +34,17 @@
         <input type="submit" class="button" value="Sign Up">
       </div>
     </form>
+
+    <!-- Intertitial -->
+    <confirmation :zipInRange="true" v-if="isComplete" />
+
   </div>
 </template>
 
 <script>
+
+  import Confirmation from './Confirmation.vue';
+
   export default {
     name: 'Signup',
     data() {
@@ -49,22 +56,32 @@
         zip: '',
         terms: false,
         errors: {},
+        isComplete: false,
       }
+    },
+    components: {
+      confirmation: Confirmation,
     },
     methods: {
       onSubmit() {
         console.log("form submitted");
 
+        this.isComplete = true; 
+
+        /*
         axios.post('api/v1/users', {
-          email: 'test@test.com',
-          terms: false,
+          // email: this.email,
+          // password: this.password,
+          // zip: this.zip,
+          // terms: this.terms,
         })
         .then(response => {
           // TODO: is zip code out of range? tag it
           // continue to next step
-          //this.$router.push('/confirmation', {});
+          this.$router.push('/confirmation');
         })
         .catch(error => this.errors = error.response.data.errors);
+        */
       },
     },
   }
