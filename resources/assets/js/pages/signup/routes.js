@@ -5,7 +5,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: require('./_components/Registration.vue')
+      component: require('./Signup.vue')
     },
     {
       path: '/phone',

@@ -28,7 +28,7 @@
 
       <main class="signup-content">
         <div id="signup">
-          <signup></signup>
+          <router-view />
         </div>
       </main>
 
