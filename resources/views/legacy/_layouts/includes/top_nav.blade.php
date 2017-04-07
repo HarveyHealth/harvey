@@ -7,7 +7,7 @@
         <div class="nav-left">
             <a href="/" class="nav-item">
                 <div class="logo-wrapper">
-                    
+                    {!! $svgImages['logo'] !!}
                 </div>
             </a>
         </div>
