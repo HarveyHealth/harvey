@@ -27,8 +27,7 @@ body.lab-tests {
         color: $grey-dark;
     }
     #app {
-        background: url('/images/lab_tests/background_sm.jpg') no-repeat center top;
-        background-size: 100% auto;
+        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 40%);
         &:before {
             position: absolute;
             top: 0;
@@ -37,13 +36,9 @@ body.lab-tests {
             left: 0;
             content: ' ';
             display: block;
-            background-image: linear-gradient(rgba(darken($tertiary, 20%), $opacity-light), #fff);
             @include from($desktop) {
                 display: none;
             }
-        }
-        @include from($desktop) {
-            background-image: url('/images/lab_tests/background.jpg');
         }
     }
 }

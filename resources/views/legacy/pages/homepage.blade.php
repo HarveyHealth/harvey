@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">Personalized and integrative medicine, unique as you are.</h1>
-                        <p class="subtitle">Harvey physicians emphasize prevention, self-healing and evidence-based natural therapies to help people struggling with acute and chronic health conditions.</p>
+                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to serve patients suffering from chronic health conditions.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -254,105 +254,103 @@
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
                 <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of health conditions — including menopause, fatigue, auto-immune diseases, fibromyalgia, autism, hypertension, migraines, diabetes, and even toxic metal exposure.</p>
-                <div class="symptoms-container">
-                    <div class="columns is-multiline">
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-11.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Cardiovascular</label>
-                                <label class="symptoms-selector-description">Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.</label>
-                            </div>
-                        </div>
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-48.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Digestive</label>
-                                <label class="symptoms-selector-description">Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.</label>
-                            </div>
+                <div class="columns is-multiline">
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-11.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Cardiovascular</label>
+                            <label class="symptoms-selector-description">Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.</label>
                         </div>
                     </div>
-                    <div class="columns is-multiline">
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-2.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Endocrine/Hormonal</label>
-                                <label class="symptoms-selector-description">Depression, fatigue, hot flashes, insomnia, mood swings, night sweats, stress, vaginal dryness, weight gain/loss, etc.</label>
-                            </div>
-                        </div>
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-28.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Dermatological</label>
-                                <label class="symptoms-selector-description">Hair, skin and nails weakness, and other exocrine gland issues.</label>
-                            </div>
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-48.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Digestive</label>
+                            <label class="symptoms-selector-description">Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.</label>
                         </div>
                     </div>
-                    <div class="columns is-multiline">
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-26.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Immune</label>
-                                <label class="symptoms-selector-description">Frequent colds, flus, cold sores, swollen lymph glands, and/or fighting a known autoimmune diseases.</label>
-                            </div>
-                        </div>
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-20.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Musculo-skeletal</label>
-                                <label class="symptoms-selector-description">Aches, muscle pain, body fatigue, loss of muscle control, etc.</label>
-                            </div>
+                </div>
+                <div class="columns is-multiline">
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-2.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Endocrine/Hormonal</label>
+                            <label class="symptoms-selector-description">Depression, fatigue, hot flashes, insomnia, mood swings, night sweats, stress, vaginal dryness, weight gain/loss, etc.</label>
                         </div>
                     </div>
-                    <div class="columns is-multiline">
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-14.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Nervous</label>
-                                <label class="symptoms-selector-description">Headaches, migraines, numbness, tingling, tremors, etc.</label>
-                            </div>
-                        </div>
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-51.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Renal/Urinary</label>
-                                <label class="symptoms-selector-description">Loss of bladder control, urinary tract infection, liver/kidney issues, etc.</label>
-                            </div>
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-28.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Dermatological</label>
+                            <label class="symptoms-selector-description">Hair, skin and nails weakness, and other exocrine gland issues.</label>
                         </div>
                     </div>
-                    <div class="columns is-multiline">
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-4.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Reproductive</label>
-                                <label class="symptoms-selector-description">Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.</label>
-                            </div>
+                </div>
+                <div class="columns is-multiline">
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-26.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Immune</label>
+                            <label class="symptoms-selector-description">Frequent colds, flus, cold sores, swollen lymph glands, and/or fighting a known autoimmune diseases.</label>
                         </div>
-                        <div class="column columns is-mobile is-half-tablet is-auto-desktop">
-                            <figure class="has-text-centered has-margin circle">
-                                <img src="/images/home/square-32.png" alt="">
-                            </figure>
-                            <div class="column">
-                                <label class="label">Respiratory</label>
-                                <label class="symptoms-selector-description">Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.</label>
-                            </div>
+                    </div>
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-20.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Musculo-skeletal</label>
+                            <label class="symptoms-selector-description">Aches, muscle pain, body fatigue, loss of muscle control, etc.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-multiline">
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-14.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Nervous</label>
+                            <label class="symptoms-selector-description">Headaches, migraines, numbness, tingling, tremors, etc.</label>
+                        </div>
+                    </div>
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-51.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Renal/Urinary</label>
+                            <label class="symptoms-selector-description">Loss of bladder control, urinary tract infection, liver/kidney issues, etc.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-multiline">
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-4.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Reproductive</label>
+                            <label class="symptoms-selector-description">Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.</label>
+                        </div>
+                    </div>
+                    <div class="column columns is-mobile is-half-tablet is-auto-desktop">
+                        <figure class="has-text-centered has-margin circle">
+                            <img src="/images/home/square-32.png" alt="">
+                        </figure>
+                        <div class="column">
+                            <label class="label">Respiratory</label>
+                            <label class="symptoms-selector-description">Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.</label>
                         </div>
                     </div>
                 </div>

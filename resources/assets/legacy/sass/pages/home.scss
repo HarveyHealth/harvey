@@ -69,6 +69,15 @@ body.home {
     .section:not(:last-of-type) {
         padding-bottom: 1rem;
     }
+    // Logo
+    .is-inverted .logo-wrapper {
+        @include from($mobile) {
+            .harvey-logo-type {
+                fill: #fff;
+            }
+        }
+    }
+
     // hero
     .hero {
         position: relative;
@@ -215,11 +224,6 @@ body.home {
         max-width: 380px;
         margin-left: auto;
         margin-right: auto;
-    }
-    .symptoms-container {
-        padding: 1.5rem;
-        margin-top: $space-medium;
-        margin-bottom: $space-medium;
     }
     .symptoms-selector-wrapper {
         li + li {

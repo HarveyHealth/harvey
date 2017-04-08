@@ -3,7 +3,7 @@
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
                 <ul class="menu-list">  
-                    <li class="menu-label">Choose a Topic</li>
+                    <li class="menu-label">Choose Topic</li>
                     <li v-for="tabData in tabList">
                         <a
                             :class="{'is-active': tabData.id === activeTab}"
