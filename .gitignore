@@ -31,3 +31,4 @@ Homestead.yaml
 /.DS_Store
 /public/css/app.css
 /public/legacy/*
+yarn.lock

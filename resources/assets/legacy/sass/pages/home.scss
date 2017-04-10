@@ -69,6 +69,15 @@ body.home {
     .section:not(:last-of-type) {
         padding-bottom: 1rem;
     }
+    // Logo
+    .is-inverted .logo-wrapper {
+        @include from($mobile) {
+            .harvey-logo-type {
+                fill: #fff;
+            }
+        }
+    }
+
     // hero
     .hero {
         position: relative;
@@ -137,6 +146,7 @@ body.home {
     .section-header {
         text-transform: uppercase;
         text-align: center;
+        margin-bottom: 2em;
         span {
             font-weight: 500;
         }
@@ -215,11 +225,6 @@ body.home {
         margin-left: auto;
         margin-right: auto;
     }
-    .symptoms-container {
-        padding: 1.5rem;
-        margin-top: $space-medium;
-        margin-bottom: $space-medium;
-    }
     .symptoms-selector-wrapper {
         li + li {
             margin-top: 0;
@@ -231,7 +236,8 @@ body.home {
         }
     }
     // page specific content
-    #naturopathic-medicine {
+    #integrative-medicine {
+        margin-bottom: 3em;
         figure.has-margin {
             margin-top: 3rem;
             margin-bottom: 3.5rem;
@@ -241,12 +247,17 @@ body.home {
             transform: translateX(1.5rem);
         }
     }
-    #pricing {
-        background-color: $white-ter;
-        padding-bottom: 3rem;
+    #western-medicine, #pricing {
+        padding-bottom: 5rem;
         .columns {
             background-color: #fff;
         }
+    }
+    #western-medicine{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
+    }
+    #pricing{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
     }
     #tests {
         .columns {
@@ -266,11 +277,23 @@ body.home {
         }
     }
     .circle img{
-        border-radius: 100px;
+        border-radius: 100%;
     }
     // misc
     .vue-slider-tooltip.vue-slider-tooltip-top {
         top: -3px;
+    }
+    // Mailchimp
+    #mc_embed_signup input {
+        font-family: "museo-slab", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        font-size: 15px;
+        height: 38px;
+    }
+    #mc_embed_signup .button {
+        background: $primary;
+    }
+    #mc_embed_signup #mce-EMAIL{
+        padding-left: 12px;
     }
     // media queries
     @include until($tablet) {
