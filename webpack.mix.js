@@ -12,6 +12,7 @@ const { mix } = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
+   .js('resources/assets/js/pages/dashboard/main.js', 'public/js/dashboard')
    .js('resources/assets/legacy/js/app_public.js', 'public/legacy/js')
    .js('resources/assets/legacy/js/app_logged_in.js', 'public/legacy/js')
    .copy([
@@ -19,6 +20,4 @@ mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
         'resources/assets/js/vendors/typekit.js'
     ], 'public/js/vendors')
    .copy('resources/assets/legacy/images', 'public/images', false)
-   .sass('resources/assets/sass/app.scss', 'public/css')
-   .sass('resources/assets/legacy/sass/app_logged_in.scss', 'public/legacy/css')
-   .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');
+   .sass('resources/assets/sass/app.scss', 'public/css');
