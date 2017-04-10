@@ -9,7 +9,6 @@ storage/logs/*.*
 /.idea
 /.vagrant
 Homestead.json
-Homestead.yaml
 .env
 .env.testing
 .env.dev

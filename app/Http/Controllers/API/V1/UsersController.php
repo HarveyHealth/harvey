@@ -31,7 +31,9 @@ class UsersController extends BaseAPIController
             'email' => 'required|email|max:150|unique:users',
             'password' => 'required|min:6',
             'terms' => 'required|accepted',
-            'zip' => 'required|digits:5'
+            'zip' => 'required|digits:5|serviceable'
+        ], [
+            'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
     
         if ($validator->fails()) {
