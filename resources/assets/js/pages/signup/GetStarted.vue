@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="onSubmit">
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
     <datetime v-show="step === 3" />
@@ -30,7 +30,12 @@
       'practitioner': Practitioner,
     },
     methods: {
+      onSubmit() {
+        console.log('submitting...', this.getStartedForm.fields);
+      },
+
       next() {
+        console.log(this);
         this.step ++;
       }
     }
