@@ -67,7 +67,6 @@
         // Validate the form
         this.$validator.validateAll().then(() => {
             this.isComplete = true;
-
             // create the account
 
         }).catch(() => {
