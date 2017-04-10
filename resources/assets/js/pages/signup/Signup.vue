@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form method="post" action="/" @submit.prevent="onSubmit" v-show="!isComplete">
+    <form @submit.prevent="onSubmit" v-show="!isComplete">
 
       <div class="container small">
         <img class="registration-tree" src="/images/signup/tree.png" alt="">
@@ -10,21 +10,21 @@
 
         <div class="signup-form-container">
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email">
-            <!-- <span class="error-text" v-text="errors"></span> -->
+            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" />
+            <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password">
-            <!-- <span class="error-text" v-text="errors"></span> -->
+            <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="'required'" />
+            <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
-            <!-- <span class="error-text" v-text="errors"></span> -->
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="'required'" />
+            <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
           <div class="input-wrap text-centered">
-            <input class="form-input form-input_checkbox" type="checkbox" id="checkbox" v-model="terms">
+            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'" />
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
-            <!-- <span class="error-text" v-text="errors"></span> -->
+            <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>
         </div>
 
@@ -55,7 +55,6 @@
         password: '',
         zip: '',
         terms: false,
-        errors: {},
         isComplete: false,
       }
     },
@@ -64,9 +63,18 @@
     },
     methods: {
       onSubmit() {
-        console.log("form submitted");
 
-        this.isComplete = true;
+        // Validate the form
+        this.$validator.validateAll().then(() => {
+            this.isComplete = true;
+
+            // create the account
+
+        }).catch(() => {
+            //alert('Correct them errors!');
+        });
+
+
 
         /*
         axios.post('api/v1/users', {
