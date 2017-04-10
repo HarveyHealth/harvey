@@ -53,3 +53,8 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 Route::get('/signup', function () {
     return view('pages.signup');
 });
+
+// get started
+Route::get('/get-started', function () {
+    return view('pages.signup');
+});

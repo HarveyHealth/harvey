@@ -5,15 +5,15 @@ Vue.use(VueRouter);
 Vue.use(VeeValidate);
 
 const router = new VueRouter({
-  // mode: 'history',
+  mode: 'history',
   routes: [
     {
-      path: '/',
-      component: require('./signup/Signup.vue')
+      path: '/signup',
+      component: require('./signup/Signup.vue'),
     },
     {
       path: '/get-started',
-      component: require('./signup/GetStarted.vue')
+      component: require('./signup/GetStarted.vue'),
     }
   ]
 })
