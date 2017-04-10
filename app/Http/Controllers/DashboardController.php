@@ -54,7 +54,7 @@ class DashboardController extends Controller
             return response()->json($data);
         }
 
-        return view('dashboard.index', $data);
+        return view('legacy.dashboard.index', $data);
     }
 
 //    protected function adminDashboardData()

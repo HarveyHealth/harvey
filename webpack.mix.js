@@ -20,4 +20,5 @@ mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
     ], 'public/js/vendors')
    .copy('resources/assets/legacy/images', 'public/images', false)
    .sass('resources/assets/sass/app.scss', 'public/css')
+   .sass('resources/assets/legacy/sass/app_logged_in.scss', 'public/legacy/css')
    .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');
