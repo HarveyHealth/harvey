@@ -32,3 +32,4 @@ Homestead.yaml
 /public/css/app.css
 /public/legacy/*
 /public/images/*
+yarn.lock
