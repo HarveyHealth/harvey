@@ -13,7 +13,7 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
         <!-- Typekit -->
         <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
@@ -33,21 +33,22 @@
 
       </svg>
 
+      <div class="dashboard-content">
+        <div id="app">
+          {{-- Alert component for handling success/error messages --}}
+          <alert></alert>
 
-      <div id="app">
-        {{-- Alert component for handling success/error messages --}}
-        <alert></alert>
+          <transition
+              mode="out-in"
+              enter-active-class="animated animated-fast fadeIn"
+              leave-active-class="animated animated-fast fadeOut"
+          >
+              <router-view :user="user"></router-view>
+          </transition>
 
-        <transition
-            mode="out-in"
-            enter-active-class="animated animated-fast fadeIn"
-            leave-active-class="animated animated-fast fadeOut"
-        >
-            <router-view :user="user"></router-view>
-        </transition>
-
-        <div class="container">
-            @include('pages/dashboard/dashboard_' . $current_user->userType())
+          <!-- <div class="card">
+              @include('pages/dashboard/dashboard_' . $current_user->userType())
+          </div> -->
         </div>
       </div>
 

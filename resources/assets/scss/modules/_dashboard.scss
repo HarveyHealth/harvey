@@ -1,0 +1,43 @@
+.dashboard-content,
+.dashboard-content #app {
+  height: 100%;
+}
+
+.main-container {
+  height: 100%;
+}
+
+  // Left Nav Bar
+  .nav-bar {
+    background: $white;
+    border-right: 1px solid $color--grey;
+    flex-basis: 60px;
+  }
+
+  // Main Content Area
+  .main-content {
+    flex-grow: 1;
+  }
+    .main-header {
+      background: $white;
+      border-bottom: 1px solid $color--grey;
+      padding: 60px 50px 30px 50px;
+    }
+
+    .card-wrapper {
+      display: flex;
+      max-width: 1150px;
+      padding: 40px 50px;
+    }
+      .card {
+        background: $white;
+        border: 1px solid $color--grey;
+        flex-grow: 1;
+        margin: 0 15px 15px;
+        padding: 20px;
+        width: 50%;
+
+        &.smaller {
+          flex-basis: 360px;
+        }
+      }

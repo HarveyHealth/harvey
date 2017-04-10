@@ -20,4 +20,5 @@ mix.js('resources/assets/js/pages/signup/main.js', 'public/js/signup')
         'resources/assets/js/vendors/typekit.js'
     ], 'public/js/vendors')
    .copy('resources/assets/legacy/images', 'public/images', false)
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .sass('resources/assets/scss/application.scss', 'public/css')
+   .sass('resources/assets/sass/app.scss', 'public/legacy/css');

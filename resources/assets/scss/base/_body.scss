@@ -2,4 +2,6 @@ body {
   @extend %sans--medium;
   background-color: $lightest-gray;
   color: $dark-gray;
+  height: 100%;
+  min-height: 100%;
 }
