@@ -81,7 +81,6 @@
     methods: {
       checkPractitioner(e) {
         this.practitioner = e.currentTarget.value;
-        this.validated = true;
       },
 
       nextStep() {
