@@ -3,6 +3,7 @@
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
     <datetime v-show="step === 3" />
+    <confirmation v-show="step === 4" />
   </form>
 </template>
 
@@ -10,9 +11,9 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
+  import Confirmation from './_components/Confirmation.vue';
 // import Location from './_components/Location.vue';
 // import Modal from './_components/Modal.vue';
-// import Confirmation from './_components/Confirmation.vue';
   export default {
     name: 'GetStarted',
     data() {
@@ -23,9 +24,10 @@
       }
     },
     components: {
-      'practitioner': Practitioner,
-      'phone': Phone,
+      'confirmation': Confirmation,
       'datetime': DateTime,
+      'phone': Phone,
+      'practitioner': Practitioner,
     },
     methods: {
       next() {

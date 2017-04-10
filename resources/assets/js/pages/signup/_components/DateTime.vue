@@ -73,7 +73,7 @@
           <p class="large">This will replace existing appointment on:  Thursday, March 30th at 5:00pm</p>
         </div>
         <div class="text-centered">
-          <a class="button">Continue</a>
+          <a class="button" @click.prevent="nextStep">Continue</a>
           <!-- <input type="submit" class="button" value="Book Now"> -->
         </div>
       </div>
@@ -87,6 +87,11 @@
       return {
         title: 'Choose date and time',
         subtitle: 'Tell us the best date and time you would like to schedule a phone consultation with a doctor. Remember, this is not in-person.'
+      }
+    },
+    methods: {
+      nextStep() {
+        this.$parent.next();
       }
     },
     name: 'DateTime'

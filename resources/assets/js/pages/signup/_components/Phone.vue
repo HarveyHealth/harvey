@@ -22,8 +22,7 @@
           <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" v-model="phone">
         </div>
         <div class="text-centered">
-          <a class="button" @click.prevent="nextStep">Continue</a>
-          <!-- <input type="submit" class="button" value="Continue"> -->
+          <button class="button" :disabled="!validated" @click.prevent="nextStep">Continue</button>
         </div>
       </div>
   </div>
@@ -37,7 +36,8 @@
         subtitle: 'Please enter your full name and phone number where you would like the doctor to call you at the time of your phone consultation.',
         firstname: '',
         lastname: '',
-        phone: ''
+        phone: '',
+        validated: false,
       }
     },
     methods: {

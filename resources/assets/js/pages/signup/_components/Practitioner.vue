@@ -18,7 +18,7 @@
           <div class="input-wrap radio-block">
             <input
               type="radio" name="practitioner"
-              id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner"/>
+              id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner" @change="checkPractitioner" />
             <label class="block" for="naturopathic">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Naturopathic Doctor</h2>
@@ -36,7 +36,7 @@
           <div class="input-wrap radio-block">
             <input
               type="radio" name="practitioner"
-              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
+              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" @change="checkPractitioner" />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
@@ -53,7 +53,7 @@
         </div>
 
         <div class="text-centered">
-          <a class="button" @click.prevent="nextStep">Continue</a>
+          <button class="button" :disabled="!validated" @click.prevent="nextStep">Continue</button>
         </div>
       </div>
     </div>
@@ -66,12 +66,20 @@
       return {
         title: 'Choose your practitioner',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
-        practitioner: ''
+        practitioner: '',
+        validated: false,
       }
     },
     methods: {
+      checkPractitioner(e) {
+        this.practitioner = e.currentTarget.value;
+        this.validated = true;
+      },
+
       nextStep() {
-        this.$parent.next();
+        if ((this.practitioner != null || this.practitioner != '') && this.validated) {
+          this.$parent.next();
+        }
       }
     },
     name: 'Practitioner'
