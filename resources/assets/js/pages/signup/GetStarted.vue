@@ -31,7 +31,7 @@
     },
     methods: {
       onSubmit() {
-        console.log('submitting...', this.getStartedForm.fields);
+        // push to API
       },
 
       next() {
