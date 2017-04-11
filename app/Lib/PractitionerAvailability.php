@@ -23,12 +23,15 @@ class PractitionerAvailability
     {
         $practitioner_timezone = $this->practitioner->user->timezone;
 
-        $current_week = Carbon::now();
+        $now = Carbon::now($practitioner_timezone);
+        $current_week = clone $now;
 
         // a place to store the data
         $weeks = [];
 
         for ($w = 0; $w <= 1; $w++) {
+
+            $current_week->startOfWeek();
             $current_week->addWeeks($w);
 
             $schedule_slots = $this->timeslotsForSchedule();
@@ -50,7 +53,7 @@ class PractitionerAvailability
                 // we have a new run
                 if (count($current_run) > 0 && $last + 1 != $slot) {
 
-                    // if the current run fewer than 3 elements
+                    // if the current run is fewer than 3 elements
                     // we need to remove them
                     if (count($current_run) < 3) {
 
@@ -87,14 +90,24 @@ class PractitionerAvailability
                 $day = $time_data['day'];
                 $time = $time_data['time'];
 
-                $date = new Carbon($day . ' ' . $time, $practitioner_timezone);
-                $date->tz = 'UTC';
+                $days_to_add = date('N', strtotime($day) - 1);
+                if ($days_to_add >= 7)
+                    $days_to_add = 0;
 
+                $date = clone $current_week;
+                $date->startOfWeek();
+                $date->addDays($days_to_add);
+                $date->hour = date('H', strtotime($time));
+                $date->minute = date('i', strtotime($time));
+                
                 // if the date is defined outside the current week
                 // ignore it
-                if ($date->weekOfYear != $current_week->weekOfYear) {
+                if ($now->gte($date)) {
                     continue;
                 }
+
+                // convert to UTC
+                $date->tz = 'UTC';
 
                 $available_slots[] = $date->format('l H:i');
             }
@@ -130,6 +143,7 @@ class PractitionerAvailability
             }
         }
 
+        ksort($slots);
         return array_keys($slots);
     }
 
@@ -173,6 +187,7 @@ class PractitionerAvailability
             }
         }
 
+        ksort($slots);
         return array_keys($slots);
     }
 }
