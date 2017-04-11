@@ -1,43 +1,27 @@
-.dashboard-content,
-.dashboard-content #app {
-  height: 100%;
+.card-wrapper {
+  display: flex;
+  max-width: 1150px;
+  padding: 40px 50px;
 }
-
-.main-container {
-  height: 100%;
-}
-
-  // Left Nav Bar
-  .nav-bar {
+  .card {
     background: $white;
-    border-right: 1px solid $color--grey;
-    flex-basis: 60px;
-  }
-
-  // Main Content Area
-  .main-content {
+    border: 1px solid $color--grey;
     flex-grow: 1;
+    margin: 0 15px 15px;
+    width: 50%;
+
+    &.smaller {
+      flex-basis: 360px;
+    }
   }
-    .main-header {
-      background: $white;
+    .card-heading-container {
       border-bottom: 1px solid $color--grey;
-      padding: 60px 50px 30px 50px;
+      padding: 20px;
     }
-
-    .card-wrapper {
-      display: flex;
-      max-width: 1150px;
-      padding: 40px 50px;
-    }
-      .card {
-        background: $white;
-        border: 1px solid $color--grey;
-        flex-grow: 1;
-        margin: 0 15px 15px;
-        padding: 20px;
-        width: 50%;
-
-        &.smaller {
-          flex-basis: 360px;
-        }
+      .card-header {
+        font-size: 14px;
+        margin: 0;
       }
+    .card-content-container {
+      padding: 20px;
+    }

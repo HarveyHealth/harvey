@@ -1,8 +1,11 @@
 <template>
-    <div class="panel">
-        <h2 class="panel-heading">Upcoming Appointments</h2>
+    <div>
+      <div class="card-heading-container">
+        <h2 class="card-header">Upcoming Appointments</h2>
+      </div>
+      <div class="card-content-container">
         <template v-if="upcoming_appointments.length">
-            <div v-for="appointment in upcoming_appointments" class="panel-block">
+            <div v-for="appointment in upcoming_appointments">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -10,13 +13,13 @@
                 </Appointment>
             </div>
         </template>
-        <div v-else class="panel-block">
+
+        <div v-else>
             <p>There are no upcoming appointments.</p>
         </div>
 
         <template v-if="recent_appointments.length">
-            <h2 class="panel-heading">Recent Appointments</h2>
-            <div v-for="appointment in recent_appointments" class="panel-block">
+            <div v-for="appointment in recent_appointments">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -24,6 +27,7 @@
                 </Appointment>
             </div>
         </template>
+      </div>
     </div>
 </template>
 
