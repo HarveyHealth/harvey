@@ -28,6 +28,7 @@
             placeholder="Phone Number"
             mask="\+\1 (111) 111-1111"
             v-model="phone"
+            required
             @input="phoneRawValue = arguments[1]"
           />
           <span v-show="phoneError" class="error-text">Please supply a valid U.S. phone number</span>
@@ -61,17 +62,23 @@
       nextStep() {
 
         // we need to custom check for a phone number
+        // is it empty? is it long enough? does it have pre-mask values?
         if (this.phoneRawValue === '' ||
-            this.phoneRawValue.length < 10 ||
-            this.phoneRawValue.length > 10) {
-
+            this.phoneRawValue.length !== 10 ||
+            this.phoneRawValue.indexOf('_') !== -1) {
           this.phoneError = true;
         } else {
           this.phoneError = false;
         }
 
+        console.log(this.phoneRawValue.length, 'length');
+        console.log(this.phoneRawValue.indexOf('_'));
+
         this.$validator.validateAll().then(() => {
-          this.$parent.next();
+          if (!this.phoneError) {
+            //this.$parent.next();
+          }
+
           //console.log(Laravel.user);
 
         }).catch(() => {});
