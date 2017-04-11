@@ -31,7 +31,8 @@ class UsersController extends BaseAPIController
             'email' => 'required|email|max:150|unique:users',
             'password' => 'required|min:6',
             'terms' => 'required|accepted',
-            'zip' => 'required|digits:5|serviceable'
+            'zip' => 'required|digits:5|serviceable',
+            'login' => 'boolean'
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
@@ -50,7 +51,7 @@ class UsersController extends BaseAPIController
             $user->save();
             $user->patient()->save(new Patient());
             
-            if ($request->get('login', true) != false) {
+            if ($request->get('login', true)) {
                 auth()->loginUsingId($user->id);
             }
             
