@@ -13,16 +13,24 @@
 
       <div class="signup-form-container">
         <div class="input-wrap">
-          <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'">
-          <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name') }}</span>
+          <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
+          <span v-show="errors.has('first_name')" class="error-text">First name is required</span>
         </div>
         <div class="input-wrap">
-          <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'">
-          <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
+          <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'" />
+          <span v-show="errors.has('last_name')" class="error-text">Last name is required</span>
         </div>
-        <div class="input-wrap text-centered">
-          <input class="form-input form-input_text" name="phone_number" type="phone" placeholder="Phone Number" v-model="phone" v-validate="'required'">
-          <span v-show="errors.has('phone_number')" class="error-text">{{ errors.first('phone_number') }}</span>
+        <div class="input-wrap">
+          <masked-input
+            class="form-input form-input_text"
+            name="phone_number"
+            type="phone"
+            placeholder="Phone Number"
+            mask="\+\1 (111) 111-1111"
+            v-model="phone"
+            @input="phoneRawValue = arguments[1]"
+          />
+          <span v-show="phoneError" class="error-text">Please supply a valid U.S. phone number</span>
         </div>
         <div class="text-centered">
           <a class="button" @click.prevent="nextStep">Continue</a>
@@ -32,6 +40,8 @@
 </template>
 
 <script>
+  import MaskedInput from 'vue-masked-input';
+
   export default {
     data() {
       return {
@@ -40,15 +50,31 @@
         firstname: '',
         lastname: '',
         phone: '',
+        phoneError: false,
+        phoneRawValue: '',
       }
+    },
+    components: {
+      MaskedInput,
     },
     methods: {
       nextStep() {
-        this.$validator.validateAll().then(() => {
-          this.$parent.next();
-        }).catch(() => {
 
-        });
+        // we need to custom check for a phone number
+        if (this.phoneRawValue === '' ||
+            this.phoneRawValue.length < 10 ||
+            this.phoneRawValue.length > 10) {
+
+          this.phoneError = true;
+        } else {
+          this.phoneError = false;
+        }
+
+        this.$validator.validateAll().then(() => {
+          // this.$parent.next();
+          console.log(Laravel.user);
+
+        }).catch(() => {});
       }
     },
     name: 'Phone'
