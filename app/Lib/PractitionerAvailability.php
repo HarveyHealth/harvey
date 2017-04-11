@@ -30,7 +30,6 @@ class PractitionerAvailability
         $weeks = [];
 
         for ($w = 0; $w <= 1; $w++) {
-
             $current_week->startOfWeek();
             $current_week->addWeeks($w);
 
@@ -91,8 +90,9 @@ class PractitionerAvailability
                 $time = $time_data['time'];
 
                 $days_to_add = date('N', strtotime($day) - 1);
-                if ($days_to_add >= 7)
+                if ($days_to_add >= 7) {
                     $days_to_add = 0;
+                }
 
                 $date = clone $current_week;
                 $date->startOfWeek();

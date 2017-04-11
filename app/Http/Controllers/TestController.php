@@ -11,30 +11,18 @@ class TestController extends Controller
     public function index()
     {
         $practitioner = \App\Models\Practitioner::findOrFail(1);
-
-        $practitioner->availability();
+        //
+        // print_r($practitioner->schedule);
 
         $availability = new \App\Lib\PractitionerAvailability($practitioner);
-        print_r($availability->availability());
+        dd($availability->availability());
 
-        // $start = new \Carbon('2017-04-03 17:00:00', 'UTC');
-        // echo $start->toTimeString() . PHP_EOL;
-        // $start->tz = 'America/Los_Angeles';
-        // echo $start->toTimeString();
-        //
-        // $date = \Carbon::now();
-        // $week_of_year = $date->weekOfYear;
-        // $year = $date->year;
-        //
-        // $start_date = \Carbon::createFromTimestamp(strtotime("{$year}W{$week_of_year}"));
-        // $end_date = clone $start_date;
-        // $end_date->addDays(7)->subSeconds(1);
-        //
-        // $week = \Carbon::now()->weekOfYear;
-        // echo $week;
-        //
-        // echo $start_date->toDateTimeString() . '<br />';
-        // echo $end_date->toDateTimeString();
-        //
+        $year = 2017;
+        $week_of_year = \Carbon::now()->weekOfYear;
+
+        $start_date = \Carbon::createFromTimestamp(strtotime("{$year}W{$week_of_year}"));
+        $start_date->addDays(date('N', strtotime('Tuesday') - 1));
+
+        echo $start_date->toDateTimeString();
     }
 }

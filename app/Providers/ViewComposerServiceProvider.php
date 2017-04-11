@@ -15,7 +15,7 @@ class ViewComposerServiceProvider extends ServiceProvider
     {
         view()->composer('*', 'App\Http\Composers\CurrentUserViewComposer');
         view()->composer('*', 'App\Http\Composers\VueHelperViewComposer');
-         view()->composer('*', 'App\Http\Composers\SVGImagesComposer');
+        view()->composer('*', 'App\Http\Composers\SVGImagesComposer');
     }
 
     /**
