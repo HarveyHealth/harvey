@@ -22,6 +22,7 @@ Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify'
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
 
 
+
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 Route::get('api/user', 'DashboardController@getUser');
@@ -41,6 +42,9 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
 }
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/schedule', 'SchedulerController@index')->name('scheduler');
+});
 
 
 
@@ -51,10 +55,5 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
 Route::get('/signup', function () {
-    return view('pages.signup');
-});
-
-// get started
-Route::get('/get-started', function () {
     return view('pages.signup');
 });
