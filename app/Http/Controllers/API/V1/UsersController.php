@@ -50,6 +50,10 @@ class UsersController extends BaseAPIController
             $user->save();
             $user->patient()->save(new Patient());
             
+            if ($request->get('login', true) != false) {
+                auth()->loginUsingId($user->id);
+            }
+            
             return $this->baseTransformItem($user)->respond();
         } catch (\Exception $exception) {
             $problem = new ApiProblem();
