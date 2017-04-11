@@ -1,29 +1,32 @@
 # Harvey
 
-#### Back End: [Laravel 5.4](https://laravel.com/docs/5.4)
-#### Front End: [Vue 2.0](https://vuejs.org/v2/guide)
+[![Build Status](https://travis-ci.com/HomeHero/harvey.svg?token=t5RVCNcUwCMu8zG3CPHE&branch=master)](https://travis-ci.com/HomeHero/harvey)
 
-## For Local Development
+A web application to provide virtual consultations with state-licensed integrative physicians, in-home lab testing, diagnostics and progressive therapies to help patients address the root cause of their health conditions instead of just treating the symptoms.
 
-###Requirements
- - MySQL 5.7
+## Requirements
+ - PHP >= 7
+ - PHP [mcrypt extension](http://php.net/manual/en/book.mcrypt.php)
  - Node 7
- - PHP 7
+ - MySQL 5.7
+ - [Composer](https://getcomposer.org/download/)
 
-### Back End
-- Clone the Harvey repository:
+## Local Installation
+ - Clone the repository locally
+ - Install front-end dependencies with `npm install`
+ - Generate front-end assets with `npm run dev`
+ - Install back-end dependencies with `composer install`
+ - Copy [.env.example](https://github.com/HomeHero/harvey/blob/master/.env.example) to `.env` and modify the contents to reflect your local environment
+ - Run the database migrations and seed the database
 
-	`git clone git@github.com:HomeHero/harvey.git`
+```bash
+php artisan migrate --seed
+```
 
-- `cd` into the harvey directory
-- run `composer update`
-- Modify the .env file to suit your local config
-- run `php artisan migrate --seed`
-
-### Front End
-- run `npm install`
-
-- run `php artisan serve`
+ - Run Laravel's built-in web server
+```bash
+php artisan serve
+```
 
 ### Front End File Structure
 
@@ -66,7 +69,7 @@ openssl x509 -req -sha256 -days 365 -in harvey.app.csr -signkey harvey.app.key -
 
 ### Database Seeding
 To populate your local database with fake data, run:
-	`php artisan db:seed`
+    `php artisan db:seed`
 
 Database Seeding will provide you with these accounts:
 
@@ -85,5 +88,7 @@ Database Seeding will provide you with these accounts:
 ### Standardization Notes:
 - Use response codes found in `Symfony\Component\HttpFoundation\Response`
 
-### ToDo
-- list 3rd party services
+
+# Nginx
+- Procfile calls the nginx.conf file in the project root.
+- 
