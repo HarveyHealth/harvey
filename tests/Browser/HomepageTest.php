@@ -8,8 +8,8 @@ class HomepageTest extends DuskTestCase
     public function test_if_homepage_is_up()
     {
         $this->browse(function ($browser) {
-            $browser->visit('/')
-                    ->assertSee('It’s time to think differently about your medicine.');
+            $browser->visit(new HomePage)
+                    ->assertSee('Mind. Body. Spirit.');
         });
     }
     // public function test_if_footer_links_work()
@@ -34,23 +34,20 @@ class HomepageTest extends DuskTestCase
     //               // ->assertSee('Lab Tests & Pricing');
     //     });
     // }
-    // public function test_all_get_started_button()
-    // {
-    //       $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->click('@getStartedCover')
-    //                 ->assertSee('Create your account')
-    //                 ->visit('/')
-    //                 ->mouseOver('@mouseOverTypeofLabTests')
-    //                 ->click('@getStartedOne')
-    //                 ->assertSee('Create your account')
-    //                 ->visit('/')
-    //                 ->mouseOver('@mouseOverLearnTheFacts')
-    //                 ->click('@getStartedTwo')
-    //                 ->assertSee('Create your account');
-    //
-    //     });
-    // }
+    public function test_all_get_started_buttons()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->getStartedHeader()
+                    ->visit('/')
+                    ->getStartedCover()
+                    ->visit('/')
+                    ->getStartedOne()
+                    ->visit('/')
+                    ->getStartedTwo()
+                    ->visit('/');
+              });
+    }
     //
     // public function test_explore_other_tests_button()
     // {
