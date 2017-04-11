@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form>
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
     <datetime v-show="step === 3" />
@@ -36,7 +36,7 @@
 
       next() {
         console.log(this);
-        this.step ++;
+        this.step ++; // simply increment the steps to move through the form states
       }
     }
   }

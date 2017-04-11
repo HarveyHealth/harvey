@@ -73,8 +73,6 @@
             //alert('Correct them errors!');
         });
 
-
-
         /*
         axios.post('api/v1/users', {
           // email: this.email,
