@@ -71,8 +71,8 @@
         }
 
         this.$validator.validateAll().then(() => {
-          // this.$parent.next();
-          console.log(Laravel.user);
+          this.$parent.next();
+          //console.log(Laravel.user);
 
         }).catch(() => {});
       }
