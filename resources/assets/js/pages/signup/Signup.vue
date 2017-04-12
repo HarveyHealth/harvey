@@ -1,16 +1,15 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit" v-show="!isComplete">
-
-      <div class="error-container" v-show="responseErrors">
-        <span>{{ responseErrors }}</span>
-      </div>
-
       <div class="container small">
         <img class="registration-tree" src="/images/signup/tree.png" alt="">
 
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>
+
+        <div class="error-container" v-show="responseErrors">
+          <span>{{ responseErrors }}</span>
+        </div>
 
         <div class="signup-form-container">
           <div class="input-wrap">
