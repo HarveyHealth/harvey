@@ -30,4 +30,6 @@ Homestead.json
 /.DS_Store
 /public/css/app.css
 /public/legacy/*
+/public/images/sprite.png
+/public/images/sprite@2x.png
 yarn.lock
