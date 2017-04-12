@@ -5,6 +5,7 @@ storage/logs/*.*
 /storage/debugbar/
 /storage/*.key
 /storage/database.sqlite
+/storage
 /vendor
 /.idea
 /.vagrant
@@ -29,3 +30,4 @@ Homestead.json
 /.DS_Store
 /public/css/app.css
 /public/legacy/*
+yarn.lock

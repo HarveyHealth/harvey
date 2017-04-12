@@ -6,13 +6,11 @@
     <div class="hero-body container">
         <header class="content has-text-centered">
             <h1 class="title is-3 page-title">Lab Tests &amp; Pricing</h1>
-            <p class="copy-has-max-width subtitle is-5 ">Our Naturopathic Doctors rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatments.</p>
+            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatments.</p>
         </header>
     </div>
 </section>
-<section class="section check-load"
-    :class="{'is-loaded': appLoaded}"
->
+<section class="section check-load" :class="{'is-loaded': appLoaded}">
     <div class="container">
         <vertical-tabs>
             <vertical-tab label="Micronutrients">
@@ -54,6 +52,28 @@
                     <blockquote>"As women enter menopausal years, their bodies' production of estrogen and other hormones needed to maintain youthful vitality rapidly declines. Continual assessment of hormone levels is necessary for women seeking to maintain a healthy hormonal balance."</blockquote>
                     <p>Our hormone panel is an important test for anyone concerned with changing hormone levels in their body as a result of age. Common symptoms of hormone imbalances include fatigue, insomnia, stress, low libido, immunity or weight imbalances.</p>
                     <p>Like nutrients, hormones influence all aspects of health and disease, including mood, sleep, metabolism, heart health and physical appearance. An imbalance of even one hormone can initiate a cascade of events that can alter additional hormones, so a comprehensive look at your hormone status is vital.</p>
+                    <div class="button-wrapper">
+                        <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    </div>
+                </div>
+            </vertical-tab>
+            <vertical-tab label="Adrenals">
+                <header class="level">
+                    <div class="media-left is-pulled-left">
+                        <img src="/images/lab_tests/adrenals.png" alt="">
+                    </div>
+                    <div class="media-content">
+                        <h3 class="title is-4"><strong>Adrenals</strong></h3>
+                        <p class="subtitle is-6">Sample: Saliva</p>
+                    </div>
+                    <div class="media-right">
+                        <p class="title is-3">$125</p>
+                    </div>
+                </header>
+                <div class="content">
+                    <blockquote>"Are you always tired, anxious, irritable, have body aches, or need caffeine to achieve a basic functioning level in the morning? It may be a result of a hormone imbalance."</blockquote>
+                    <p>As we age and our production of sex hormones changes, your adrenals will maintain a central role in sustaining optimal health and function.</p>
+                    <p>This panel provides a comprehensive view of adrenal function and includes four cortisol levels timed throughout the day. The morning cortisol level represents the maximum output of cortisol for the entire 24 hour period and initiates and maintains waking day activity and function. Cortisol level at noon, late afternoon, and night indicates the pattern of cortisol production over the 24 hour period and can highlight adrenal exhaustion.</p>
                     <div class="button-wrapper">
                         <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
                     </div>
@@ -188,7 +208,7 @@
                     </div>
                     <div class="media-content">
                         <h3 class="title is-4"><strong>Food Allergy Test</strong></h3>
-                        <p class="subtitle is-6">Sample: Finger blot (blood)</p>
+                        <p class="subtitle is-6">Sample: Blood draw</p>
                     </div>
                     <div class="media-right">
                         <p class="title is-3">$239</p>
@@ -247,6 +267,7 @@
                     </div>
                 </div>
             </vertical-tab>
+
         </vertical-tabs>
     </div>
 </section>
