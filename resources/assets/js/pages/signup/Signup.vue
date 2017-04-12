@@ -7,8 +7,8 @@
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>
 
-        <div class="error-container" v-show="responseErrors">
-          <span>{{ responseErrors }}</span>
+        <div class="error-container" v-show="responseError">
+          <span class="error-text">{{ responseError }}</span>
         </div>
 
         <div class="signup-form-container">
@@ -60,7 +60,7 @@
         zipInRange: false,
         terms: false,
         isComplete: false,
-        responseErrors: null,
+        responseError: null,
       }
     },
     components: {
@@ -80,23 +80,24 @@
               terms: this.terms,
             })
             .then(response => {
-
               // the form is complete
-              this.zipInRange = true;
               this.isComplete = true;
+              this.zipInRange = true;
             })
             .catch(error => {
-              this.responseErrors = error.response.data.errors;
+              // we're currently getting one error response at a time
+              this.responseError = error.response.data.errors[0].detail;
 
               // TODO: get error codes to test against
-              const zipError = 'Sorry, we do not service this zip.';
+              // const zipError = 'Sorry, we do not service this zip.';
+              //
+              // if (this.responseErrors[0].detail === zipError) {
+              //   this.zipInRange = false;
+              // } else {
+              //   console.log('zip is not in range');
+              // }
 
-              if (this.responseErrors[0].detail != zipError) {
-                this.zipInRange = true;
-              } else {
-                console.log('zip is not in range');
-                this.isComplete = true;
-              }
+              console.log(error.response.data.errors);
             });
 
         }).catch(() => {

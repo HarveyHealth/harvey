@@ -1,17 +1,11 @@
-import VueRouter from 'vue-router';
-import VeeValidate from 'vee-validate';
+import '../../bootstrap';
+import router from './routes';
 
-Vue.use(VueRouter);
-Vue.use(VeeValidate);
+import Schedule from './Schedule.vue';
 
-const router = new VueRouter({
-  mode: 'history',
-  routes: [
-    {
-      path: '/schedule',
-      component: require('./Schedule.vue'),
-    },
-  ]
-})
-
-export default router;
+const app = new Vue({
+  router,
+  components: {
+    Schedule
+  },
+}).$mount('#schedule');
