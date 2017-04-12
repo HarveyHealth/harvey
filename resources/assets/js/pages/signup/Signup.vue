@@ -36,7 +36,7 @@
     </form>
 
     <!-- Intertitial -->
-    <interstitial :zipInRange="true" v-if="isComplete" />
+    <interstitial :zipInRange="zipInRange" v-if="isComplete" />
 
   </div>
 </template>
@@ -54,6 +54,7 @@
         email: '',
         password: '',
         zip: '',
+        zipInRange: false,
         terms: false,
         isComplete: false,
       }
@@ -67,26 +68,25 @@
         // Validate the form
         this.$validator.validateAll().then(() => {
             this.isComplete = true;
+
             // create the account
+            axios.post('api/v1/users', {
+              email: this.email,
+              password: this.password,
+              zip: this.zip,
+              terms: this.terms,
+            })
+            .then(response => {
+              // TODO: is zip code out of range? tag it
+              // continue to next step
+              // this.$router.push('/confirmation');
+              console.log(response);
+            })
+            .catch(error => this.errors = error.response.data.errors);
 
         }).catch(() => {
             //alert('Correct them errors!');
         });
-
-        /*
-        axios.post('api/v1/users', {
-          // email: this.email,
-          // password: this.password,
-          // zip: this.zip,
-          // terms: this.terms,
-        })
-        .then(response => {
-          // TODO: is zip code out of range? tag it
-          // continue to next step
-          this.$router.push('/confirmation');
-        })
-        .catch(error => this.errors = error.response.data.errors);
-        */
       },
     },
   }
