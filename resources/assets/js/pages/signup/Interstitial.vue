@@ -30,7 +30,7 @@
         if (this.zipInRange) {
           this.$router.push('/schedule');
         } else {
-          this.$router.push('/'); // go home for now
+          window.location.href = '/'; // home for now
         }
       }
     }
