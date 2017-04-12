@@ -2,6 +2,10 @@
   <div>
     <form @submit.prevent="onSubmit" v-show="!isComplete">
 
+      <div class="error-container" v-show="responseErrors">
+        <span>{{ responseErrors }}</span>
+      </div>
+
       <div class="container small">
         <img class="registration-tree" src="/images/signup/tree.png" alt="">
 
@@ -18,7 +22,7 @@
             <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, max: 5, min: 5 }" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" />
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
           <div class="input-wrap text-centered">
@@ -57,6 +61,7 @@
         zipInRange: false,
         terms: false,
         isComplete: false,
+        responseErrors: null,
       }
     },
     components: {
@@ -67,7 +72,6 @@
 
         // Validate the form
         this.$validator.validateAll().then(() => {
-            this.isComplete = true;
 
             // create the account
             axios.post('api/v1/users', {
@@ -77,12 +81,24 @@
               terms: this.terms,
             })
             .then(response => {
-              // TODO: is zip code out of range? tag it
-              // continue to next step
-              // this.$router.push('/confirmation');
-              console.log(response);
+
+              // the form is complete
+              this.zipInRange = true;
+              this.isComplete = true;
             })
-            .catch(error => this.errors = error.response.data.errors);
+            .catch(error => {
+              this.responseErrors = error.response.data.errors;
+
+              // TODO: get error codes to test against
+              const zipError = 'Sorry, we do not service this zip.';
+
+              if (this.responseErrors[0].detail != zipError) {
+                this.zipInRange = true;
+              } else {
+                console.log('zip is not in range');
+                this.isComplete = true;
+              }
+            });
 
         }).catch(() => {
             //alert('Correct them errors!');
@@ -91,7 +107,3 @@
     },
   }
 </script>
-
-<style>
-
-</style>

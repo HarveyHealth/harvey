@@ -31,7 +31,7 @@
     methods: {
       nextStep() {
         if (this.zipInRange) {
-          this.$router.push('/schedule');
+          window.location.href = '/schedule';
         } else {
           window.location.href = '/'; // home for now
         }
