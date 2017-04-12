@@ -9,12 +9,8 @@ const router = new VueRouter({
   routes: [
     {
       path: '/signup',
-      component: require('./signup/Signup.vue'),
+      component: require('./Signup.vue'),
     },
-    {
-      path: '/get-started',
-      component: require('./signup/GetStarted.vue'),
-    }
   ]
 })
 
