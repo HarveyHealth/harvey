@@ -27,7 +27,7 @@
       </header>
 
       <main class="signup-content">
-        <div id="signup">
+        <div id="schedule">
           <router-view />
         </div>
       </main>
@@ -36,7 +36,7 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      <script type="text/javascript" src="{{ URL::asset('js/signup/main.js') }}"></script>
+      <script type="text/javascript" src="{{ URL::asset('js/schedule/main.js') }}"></script>
 
     </body>
 </html>
