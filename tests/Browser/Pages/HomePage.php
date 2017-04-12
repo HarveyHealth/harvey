@@ -44,6 +44,7 @@ class HomePage extends Page
 
     public function getStartedTwo(Browser $browser){
         $browser->mouseover('@footer')
+                ->pause(2000)
                 ->click('@getStaredTwo')
                 ->assertSee('Your journey starts here');
     }
@@ -57,7 +58,7 @@ class HomePage extends Page
             '@getStartedCover' => '#app > div > div > section.hero.is-fullheight.is-primary > div.hero-body > div > div > div > div > a',
             '@getStartedOne' => '#how-it-works > div > div.button-wrapper.has-text-centered > a',
             '@getStaredTwo' => '#get-started > div:nth-child(2) > div > div > button > span',
-            '@footer' => '#app > footer > div > div > a > img'
+            '@footer' => '#app > footer > div'
 
           ];
     }
