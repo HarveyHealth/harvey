@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="text-centered">
-          <button class="button" @click="nextStep('phone')">Book Now</button>
+          <button class="button">Continue</button>
         </div>
       </div>
     </div>
@@ -98,8 +98,7 @@
         subtitle: 'Tell us the best date and time you would like to schedule a phone consultation with a doctor. Remember, this is not in-person.'
       }
     },
-    name: 'Modal',
-    props: ['nextStep']
+    name: 'Modal'
   }
 </script>
 

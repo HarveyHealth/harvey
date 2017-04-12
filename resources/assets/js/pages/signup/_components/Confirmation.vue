@@ -11,8 +11,6 @@
 
       <p class="confirmation_text large">{{ subtitle }}</p>
 
-      <router-link to="/dashboard" tag="button" class="button">Dashboard</router-link>
-
     </div>
   </div>
 </template>
