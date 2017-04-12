@@ -15,7 +15,7 @@
 // import Location from './_components/Location.vue';
 // import Modal from './_components/Modal.vue';
   export default {
-    name: 'GetStarted',
+    name: 'Schedule',
     data() {
       return {
         title: "We're starting the process",

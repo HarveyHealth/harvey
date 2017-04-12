@@ -8,8 +8,8 @@ const router = new VueRouter({
   mode: 'history',
   routes: [
     {
-      path: '/signup',
-      component: require('./Signup.vue'),
+      path: '/schedule',
+      component: require('./Schedule.vue'),
     },
   ]
 })
