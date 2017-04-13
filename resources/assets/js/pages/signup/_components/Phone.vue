@@ -33,7 +33,7 @@
     data() {
       return {
         title: 'We need a few more details…',
-        subtitle: 'Please enter your full name and phone number where you would like the doctor to call you at the time of your phone consultation.',
+        subtitle: 'Please enter your full name and the phone number you would like your doctor to call at the time of your phone consultation.',
         firstname: '',
         lastname: '',
         phone: '',

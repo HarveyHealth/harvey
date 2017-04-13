@@ -4,13 +4,14 @@ input[type="submit"] {
   appearance: none;
   background-color: $green;
   border: 0;
+  border-radius: 3px;
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-size: 18px;
+  font-size: 19px;
   -webkit-font-smoothing: antialiased;
   line-height: 1;
-  padding: 10px 30px;
+  padding: 10px 30px 12px;
   text-align: center;
   text-decoration: none;
   transition: background-color .25s ease-in-out;

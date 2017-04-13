@@ -10,16 +10,16 @@
 
         <div class="signup-form-container">
           <div class="input-wrap">
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="'required'" />
+            <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
+          </div>
+          <div class="input-wrap">
             <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" />
             <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
           <div class="input-wrap">
             <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="'required'" />
             <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="'required'" />
-            <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
           <div class="input-wrap text-centered">
             <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'" />
@@ -50,7 +50,7 @@
     data() {
       return {
         title: 'Your journey starts here',
-        subtitle: 'Create an account', //TODO: get some real copy here
+        subtitle: '',
         email: '',
         password: '',
         zip: '',
