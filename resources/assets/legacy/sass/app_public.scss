@@ -40,6 +40,22 @@
             }
         }
     }
+    &.is-secondary {
+        color: $harvey-purple;
+        border-color: $harvey-purple;
+        &.has-arrow {
+            &:after {
+                content: "\f105";
+                font-family: FontAwesome;
+                color: $harvey-purple;
+                transition: margin 0.2s ease;
+                margin-left: .25em;
+                margin-right: .25em;
+                position: relative;
+                right: -.5em;
+            }
+        }
+    }
 }
 
 .page-content {
