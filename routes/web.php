@@ -41,13 +41,12 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
+    Route::get('logout', 'Auth\LoginController@logout');
 }
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/schedule', 'SchedulerController@index')->name('scheduler');
 });
-
-
-
 
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');
