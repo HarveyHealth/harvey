@@ -81,6 +81,19 @@
         });
       }
     },
+    mounted() {
+
+      console.log(this.$root);
+      let userId = Laravel.user.id;
+
+      axios.get(`api/v1/users/${userId}`)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.log(error.response);
+      });
+    },
     name: 'Practitioner'
   }
 </script>
