@@ -43,7 +43,6 @@ class header extends BasePage
 
      public function getStartedHeader(Browser $browser){
          $browser->click('@getStartedHeader')
-                 ->pause(10000)
                  ->assertSee($this->signupText);
      }
 
