@@ -1,9 +1,8 @@
 <template>
-  <form>
+  <form @submit.prevent="onSubmit">
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
     <datetime v-show="step === 3" />
-    <confirmation v-show="step === 4" />
   </form>
 </template>
 
@@ -11,9 +10,6 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
-  import Confirmation from './_components/Confirmation.vue';
-// import Location from './_components/Location.vue';
-// import Modal from './_components/Modal.vue';
   export default {
     name: 'Schedule',
     data() {
@@ -25,15 +21,17 @@
       }
     },
     components: {
-      'confirmation': Confirmation,
       'datetime': DateTime,
       'phone': Phone,
       'practitioner': Practitioner,
     },
     methods: {
       next() {
-        console.log(this);
         this.step ++; // simply increment the steps to move through the form states
+      },
+      onSubmit() {
+        console.log('submitting');
+        this.$router.push('/confirmation');
       }
     }
   }
