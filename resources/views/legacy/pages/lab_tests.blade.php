@@ -28,7 +28,7 @@
                 </header>
                 <div class="content">
                     <blockquote>"Did you know that 9 out of 10 Americans are potassium deficient, 8 out of 10 are vitamin E deficient, 7 out of 10 are calcium deficient, 50% are deficient in vitamin A, vitamin C and magnesium, and 90% of people of color in America are deficient in vitamin D."</blockquote>
-                    <p>Our micronutrient test is the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
+                    <p>Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
                     <p>Nutritional balance plays a key role in optimal wellness, chronic disease prevention and managing the aging process. If your chronic symptoms include fatigue, stress, depression or irritability, this test can help your doctor quantifiably measure the levels of 35 critical nutritional biomarkers.</p>
                     <div class="button-wrapper">
                         <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>

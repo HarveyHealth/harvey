@@ -17,6 +17,7 @@
 
 <script>
   export default {
+    props: ['appointmentDate'],
     data() {
       return {
         title: 'Your appointment is confirmed!',

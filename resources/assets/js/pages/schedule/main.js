@@ -1,11 +1,11 @@
 import '../../bootstrap';
 import router from './routes';
 
-import Signup from './Signup.vue';
+import Schedule from './Schedule.vue';
 
 const app = new Vue({
   router,
   components: {
-    Signup
+    Schedule
   },
-}).$mount('#signup');
+}).$mount('#schedule');

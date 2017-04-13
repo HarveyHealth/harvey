@@ -1,8 +1,17 @@
 <?php
+
 namespace Tests\Browser;
+
+
+
 use Tests\DuskTestCase;
 use Tests\Browser\Pages\HomePage;
+use Tests\Browser\Pages\Header;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+
+
+
+
 class HomepageTest extends DuskTestCase
 {
     public function test_if_homepage_is_up()
@@ -12,6 +21,38 @@ class HomepageTest extends DuskTestCase
                     ->assertSee('Mind. Body. Spirit.');
         });
     }
+//Tests Header
+    public function test_get_started_button_in_header()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit('/')
+                    ->getStartedHeader(new Header);
+              });
+    }
+
+    public function test_get_started_button_in_cover()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->getStartedCover();
+              });
+    }
+    public function test_first_get_started_button_on_page()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->getStartedOne();
+              });
+    }
+
+    public function test_second_get_started_button_on_page()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->getStartedTwo();
+              });
+    }
+
     // public function test_if_footer_links_work()
     // {
     //     $this->browse(function ($browser) {
@@ -34,20 +75,7 @@ class HomepageTest extends DuskTestCase
     //               // ->assertSee('Lab Tests & Pricing');
     //     });
     // }
-    public function test_all_get_started_buttons()
-    {
-          $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->getStartedHeader()
-                    ->visit('/')
-                    ->getStartedCover()
-                    ->visit('/')
-                    ->getStartedOne()
-                    ->visit('/')
-                    ->getStartedTwo()
-                    ->visit('/');
-              });
-    }
+
     //
     // public function test_explore_other_tests_button()
     // {

@@ -6,6 +6,8 @@ use Laravel\Dusk\Browser;
 
 class HomePage extends Page
 {
+    public $signupText = 'Create an account';
+
     public function url()
     {
         return '/';
@@ -27,26 +29,23 @@ class HomePage extends Page
             ->clickLink('Logout');
     }
 
-    public function getStartedHeader(Browser $browser){
-        $browser->click('@getStardedHeader')
-                ->assertSee('Your journey starts here');
-    }
+
 
     public function getStartedCover(Browser $browser){
         $browser->click('@getStartedCover')
-                ->assertSee('Your journey starts here');
+                ->assertSee($this->signupText);
     }
 
     public function getStartedOne(Browser $browser){
         $browser->click('@getStartedOne')
-                ->assertSee('Your journey starts here');
+                ->assertSee($this->signupText);
     }
 
     public function getStartedTwo(Browser $browser){
         $browser->mouseover('@footer')
                 ->pause(2000)
                 ->click('@getStaredTwo')
-                ->assertSee('Your journey starts here');
+                ->assertSee($this->signupText);
     }
 
 
@@ -54,7 +53,6 @@ class HomePage extends Page
     {
         return [
             '@element' => '#selector',
-            '@getStardedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
             '@getStartedCover' => '#app > div > div > section.hero.is-fullheight.is-primary > div.hero-body > div > div > div > div > a',
             '@getStartedOne' => '#how-it-works > div > div.button-wrapper.has-text-centered > a',
             '@getStaredTwo' => '#get-started > div:nth-child(2) > div > div > button > span',
