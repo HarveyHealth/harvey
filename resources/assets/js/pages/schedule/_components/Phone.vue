@@ -76,10 +76,25 @@
 
         this.$validator.validateAll().then(() => {
           if (!this.phoneError) {
-            //this.$parent.next();
-          }
 
-          //console.log(Laravel.user);
+            // update the User
+            const userId = Laravel.user.id;
+
+            axios.patch(`api/v1/users/${userId}`, {
+              first_name: this.firstname,
+              last_name: this.lastname,
+              phone: this.phoneRawValue,
+            })
+            .then(response => {
+              this.$parent.next();
+            })
+            .catch(error => {
+              console.log(error.response);
+            });
+
+
+
+          }
 
         }).catch(() => {});
       }

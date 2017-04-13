@@ -21,6 +21,7 @@
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         step: 1,
+        practitioner: null,
       }
     },
     components: {
@@ -30,10 +31,6 @@
       'practitioner': Practitioner,
     },
     methods: {
-      onSubmit() {
-        // push to API
-      },
-
       next() {
         console.log(this);
         this.step ++; // simply increment the steps to move through the form states
