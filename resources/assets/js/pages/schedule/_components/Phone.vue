@@ -21,17 +21,15 @@
           <span v-show="errors.has('last_name')" class="error-text">Last name is required</span>
         </div>
         <div class="input-wrap">
-          <masked-input
-            class="form-input form-input_text"
+          <input class="form-input form-input_text"
             name="phone_number"
             type="phone"
             placeholder="Phone Number"
-            mask="\+\1 (111) 111-1111"
             v-model="phone"
-            required
-            @input="phoneRawValue = arguments[1]"
+            v-validate="{ required: true, digits: 10 }"
+            data-vv-validate-on="blur"
           />
-          <span v-show="phoneError" class="error-text">Please supply a valid U.S. phone number</span>
+          <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
         </div>
         <div class="text-centered">
           <a class="button" @click.prevent="nextStep">Continue</a>
@@ -41,8 +39,6 @@
 </template>
 
 <script>
-  import MaskedInput from 'vue-masked-input';
-
   export default {
     data() {
       return {
@@ -51,44 +47,28 @@
         firstname: '',
         lastname: '',
         phone: '',
-        phoneError: false,
-        phoneRawValue: '',
       }
-    },
-    components: {
-      MaskedInput,
     },
     methods: {
       nextStep() {
 
-        // we need to custom check for a phone number
-        // is it empty? is it long enough? does it have pre-mask values?
-        if (this.phoneRawValue === '' ||
-            this.phoneRawValue.length !== 10 ||
-            this.phoneRawValue.indexOf('_') !== -1) {
-          this.phoneError = true;
-        } else {
-          this.phoneError = false;
-        }
-
         this.$validator.validateAll().then(() => {
-          if (!this.phoneError) {
 
-            // update the User
-            const userId = Laravel.user.id;
+          // update the User
+          const userId = Laravel.user.id;
 
-            axios.patch(`api/v1/users/${userId}`, {
-              first_name: this.firstname,
-              last_name: this.lastname,
-              phone: this.phoneRawValue,
-            })
-            .then(response => {
-              this.$parent.next();
-            })
-            .catch(error => {
-              console.log(error.response);
-            });
-          }
+          axios.patch(`api/v1/users/${userId}`, {
+            first_name: this.firstname,
+            last_name: this.lastname,
+            phone: this.phone,
+          })
+          .then(response => {
+            this.$parent.next();
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
+
 
         }).catch(() => {});
       }
