@@ -66,7 +66,43 @@ class HomepageTest extends DuskTestCase
               });
     }
 
-    // public function test_if_footer_links_work()
+    //Tests labs button
+    public function test_if_labs_button_works()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->labsButton();
+        });
+    }
+
+
+   //Test footer
+
+   public function test_if_labs_button_work_in_footer()
+   {
+       $this->browse(function ($browser) {
+           $browser->visit(new HomePage)
+                   ->labsFooter();
+       });
+    }
+
+    public function test_if_terms_button_work_in_footer()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->termsFooter();
+        });
+     }
+
+     public function test_if_privacy_button_work_in_footer()
+     {
+         $this->browse(function ($browser) {
+             $browser->visit(new HomePage)
+                     ->privacyFooter();
+         });
+      }
+
+  // public function test_if_footer_links_work()
     // {
     //     $this->browse(function ($browser) {
     //         $browser->visit(new HomePage)
@@ -100,4 +136,4 @@ class HomepageTest extends DuskTestCase
         //   });
         //
         // }
-    }
+}
