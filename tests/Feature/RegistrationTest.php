@@ -59,4 +59,48 @@ class RegistrationTest extends TestCase
         // And no new user is created
         $this->assertDatabaseMissing('users', ['first_name' => 'Albus']);
     }
+    
+    public function test_it_logs_the_newly_created_user_in_automatically()
+    {
+        // Given valid user data
+        $parameters = [
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'email' => 'jsmith@yahoo.com',
+            'password' => 'password',
+            'terms' => true,
+            'zip' => 91106
+        ];
+    
+        // When a request is made to create a new user
+        $response = $this->post(route('users.create'), $parameters);
+        $response_user_id = $response->decodeResponseJson()['data']['id'];
+        
+        // The newly created user will be logged in
+        $this->assertEquals($response_user_id, auth()->user()->id);
+    }
+    
+    public function test_it_does_not_log_the_newly_created_user_in_if_requested()
+    {
+        // Given valid user data with login value of false
+        $parameters = [
+            'first_name' => 'John',
+            'last_name' => 'Smith',
+            'email' => 'jsmith@yahoo.com',
+            'password' => 'password',
+            'terms' => true,
+            'zip' => 91106,
+            'login' => false
+        ];
+        
+        // When a request is made to create a new user
+        $response = $this->post(route('users.create'), $parameters);
+        $response_user_id = $response->decodeResponseJson()['data']['id'];
+    
+        // Then a new user is created
+        $this->assertNotNull($response_user_id);
+        
+        // But they will not be logged in
+        $this->assertNull(auth()->user());
+    }
 }

@@ -17,8 +17,14 @@
         <div class="flex-wrapper">
           <div class="input-wrap radio-block">
             <input
-              type="radio" name="practitioner"
-              id="naturopathic" class="radio_block input-hidden" value="naturopathic" v-model="practitioner" @change="checkPractitioner" />
+              type="radio"
+              name="practitioner"
+              id="naturopathic"
+              class="radio_block input-hidden"
+              value="naturopathic"
+              v-model="practitioner"
+              v-validate="'required'"
+            />
             <label class="block" for="naturopathic">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Naturopathic Doctor (ND)</h2>
@@ -32,7 +38,7 @@
           <div class="input-wrap radio-block">
             <input
               type="radio" name="practitioner"
-              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" @change="checkPractitioner" />
+              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Doctor of Osteopathy (DO)</h2>
@@ -43,12 +49,14 @@
           </div>
         </div>
 
+        <span v-show="errors.has('practitioner')" class="error-text">{{ errors.first('practitioner') }}</span>
+
         <div class="input-wrap text-centered">
             <p class="container medium">If this is your first time seeking advice for a specific ailment, we recommend the Naturopathic Doctor (ND). If you still need help deciding, <a href="https://blog.goharvey.com/comparing-naturopathic-doctors-and-medical-doctors-65300ba437c4" target="_blank">click here</a>.</p>
         </div>
 
         <div class="text-centered">
-          <button class="button" :disabled="!validated" @click.prevent="nextStep">Continue</button>
+          <button class="button" @click.prevent="nextStep">Continue</button>
         </div>
       </div>
     </div>
@@ -62,19 +70,16 @@
         title: 'Choose your practitioner',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
         practitioner: '',
-        validated: false,
       }
     },
     methods: {
-      checkPractitioner(e) {
-        this.practitioner = e.currentTarget.value;
-        this.validated = true;
-      },
-
       nextStep() {
-        if ((this.practitioner != null || this.practitioner != '') && this.validated) {
+        this.$validator.validateAll().then(() => {
+          this.$parent.practitioner = this.practitioner;
           this.$parent.next();
-        }
+        }).catch(() => {
+
+        });
       }
     },
     name: 'Practitioner'

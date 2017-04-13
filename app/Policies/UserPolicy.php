@@ -24,21 +24,20 @@ class UserPolicy
     /**
      * @param User $user
      * @param User $target_user
+     * @return bool
      */
     public function view(User $user, User $target_user)
     {
         return $user->id == $target_user->id;
     }
-
+    
     /**
-     * Determine whether the user can create users.
-     *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
     
     /**
