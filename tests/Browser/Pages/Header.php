@@ -7,7 +7,12 @@ use Laravel\Dusk\Page as BasePage;
 
 class header extends BasePage
 {
+
+
     public $signupText = 'Create an account';
+
+
+
     /**
      * Get the URL for the page.
      *
@@ -21,6 +26,7 @@ class header extends BasePage
     /**
      * Assert that the browser is on the page.
      *
+     * @param Browser $browser
      * @return void
      */
     public function assert(Browser $browser)
@@ -31,11 +37,13 @@ class header extends BasePage
     /**
      * Get the element shortcuts for the page.
      *
+     * @param Browser $browser
      * @return array
      */
 
      public function getStartedHeader(Browser $browser){
-         $browser->click('@getStardedHeader')
+         $browser->click('@getStartedHeader')
+                 ->pause(10000)
                  ->assertSee($this->signupText);
      }
 
@@ -45,7 +53,7 @@ class header extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@getStardedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)'
+            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)'
         ];
     }
 }

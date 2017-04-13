@@ -9,8 +9,6 @@ use Tests\Browser\Pages\Header;
 
 class test extends DuskTestCase
 {
-
-    public $header = new Header();
     /**
      * A Dusk test example.
      *
@@ -19,8 +17,8 @@ class test extends DuskTestCase
      public function test_get_started_button_in_header()
      {
            $this->browse(function ($browser) {
-             $browser->visit('/');
-              $this->header->getStartedHeader();
+             $browser->visit(new Header)
+                     ->getStartedHeader();
                     });
      }
 }
