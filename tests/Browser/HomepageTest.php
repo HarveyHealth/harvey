@@ -25,18 +25,31 @@ class HomepageTest extends DuskTestCase
     public function test_get_started_button_in_header()
     {
           $this->browse(function ($browser) {
-            $browser->visit('/')
-                    ->getStartedHeader(new Header);
+            $browser->visit(new HomePage)
+                    ->getStartedHeader(new HomePage);
               });
     }
 
-    public function test_get_started_button_in_cover()
+    public function test_login_button()
     {
-          $this->browse(function ($browser) {
+        $this->browse(function ($browser){
             $browser->visit(new HomePage)
-                    ->getStartedCover();
-              });
+                    ->loginHeader();
+        });
+
     }
+
+    public function test_logo_in_header()
+    {
+        $this->browse(function ($browser){
+            $browser->visit(new HomePage)
+                ->logoHeader();
+        });
+
+    }
+
+
+
     public function test_first_get_started_button_on_page()
     {
           $this->browse(function ($browser) {
