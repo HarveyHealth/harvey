@@ -71,9 +71,6 @@
           this.phoneError = false;
         }
 
-        console.log(this.phoneRawValue.length, 'length');
-        console.log(this.phoneRawValue.indexOf('_'));
-
         this.$validator.validateAll().then(() => {
           if (!this.phoneError) {
 
@@ -91,9 +88,6 @@
             .catch(error => {
               console.log(error.response);
             });
-
-
-
           }
 
         }).catch(() => {});

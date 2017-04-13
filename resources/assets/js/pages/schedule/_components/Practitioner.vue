@@ -82,9 +82,6 @@
         });
       }
     },
-    mounted() {
-
-    },
     name: 'Practitioner'
   }
 </script>
