@@ -19,7 +19,7 @@
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" />
+            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
             <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
 
