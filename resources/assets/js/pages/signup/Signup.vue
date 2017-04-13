@@ -84,6 +84,7 @@
               terms: this.terms,
             })
             .then(response => {
+                this.login(this.email, this.password);
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
@@ -108,6 +109,15 @@
             //alert('Correct them errors!');
         });
       },
+        login(email, password) {
+          axios.post('login', {
+            email: email,
+            password: password,
+          })
+          .catch(error => {
+            // TODO: catch error
+          });
+        }
     },
   }
 </script>
