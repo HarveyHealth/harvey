@@ -9,7 +9,7 @@
       </ul>
 
       <h1 class="header-xlarge">Choose your practitioner</h1>
-      <p class="large">Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.</p>
+      <p class="large">Tell us which type of integrative doctor you would like to partner with. We currently offer <strong>two</strong> types of doctors in your state.</p>
     </div>
 
     <div class="container large">
@@ -27,14 +27,10 @@
             />
             <label class="block" for="naturopathic">
               <div class="radio-block_container">
-                <h2 class="header-large text-centered">Naturopathic Doctor</h2>
-                <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
-                <ul class="practitioner-features">
-                  <li>One</li>
-                  <li>Two</li>
-                  <li>Three</li>
+                <h2 class="header-large text-centered">Naturopathic Doctor (ND)</h2>
+                <p class="practitioner-main-content text-centered">Naturopathic physicians combine natural healing philosophies with the rigors of modern science. NDs focus on prevention, root cause analysis and comprehensive diagnosis and treatment. During medical school, they receive heavier training in clinical nutrition and supplementation than MDs and are generally more equipped to provide nutrition coaching, lifestyle counseling and homeopathic treatments and remedies.</li>
                 </ul>
-                <p class="text-centered"><em class="bold">$150</em> per hour</p>
+                <h3 class="text-centered"><em class="bold">$150</em> per hour</h3>
               </div>
             </label>
           </div>
@@ -45,20 +41,19 @@
               id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
-                <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
-                <p class="practitioner-main-content text-centered">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet.</p>
-                <ul class="practitioner-features">
-                  <li>One</li>
-                  <li>Two</li>
-                  <li>Three</li>
-                </ul>
-                <p class="text-centered"><em class="bold">$150</em> per hour</p>
+                <h2 class="header-large text-centered">Doctor of Osteopathy (DO)</h2>
+                <p class="practitioner-main-content text-centered">Osteopathic physicians are licensed to practice full scope of medicine in all 50 states. However, they are typically more focused on holistic health and integrative medicine than their MD counterparts. DOs receive up to 500 additional hours of training than MDs in musculoskeletal systems — your body's interconnected system of nerves, muscles and bones. DOs utilize the latest advances in medical lab testing and technology.</p>
+                <h3 class="text-centered"><em class="bold">$300</em> per hour</h3>
               </div>
             </label>
           </div>
         </div>
 
         <span v-show="errors.has('practitioner')" class="error-text">{{ errors.first('practitioner') }}</span>
+
+        <div class="input-wrap text-centered">
+            <p class="container medium">If this is your first time seeking advice for a specific ailment, we recommend the Naturopathic Doctor (ND). If you still need help deciding, <a href="https://blog.goharvey.com/comparing-naturopathic-doctors-and-medical-doctors-65300ba437c4" target="_blank">click here</a>.</p>
+        </div>
 
         <div class="text-centered">
           <button class="button" @click.prevent="nextStep">Continue</button>

@@ -8,7 +8,7 @@
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  margin: 35px auto 50px;
+  margin: 30px auto;
   max-width: 510px;
   padding: 30px;
   @media (min-width: 850px) { padding: 50px 90px; }
@@ -23,24 +23,24 @@
 
 // Registration specific styles
 .registration-tree {
-  margin-bottom: 30px;
-  max-width: 508px;
+  margin-bottom: 25px;
+  max-width: 470px;
   width: 100%;
 }
 
 
 // Progress Indicator
 .signup_progress-indicator {
-  margin-bottom: 35px;
+  margin-bottom: 25px;
   text-align: center;
 }
   .signup_progress-step {
     background: #F1F1F2;
     border-radius: 50%;
     display: inline-block;
-    height: 22px;
+    height: 18px;
     margin-right: 10px;
-    width: 22px;
+    width: 18px;
 
     &:last-child {
       margin-right: 0;
@@ -54,13 +54,13 @@
 
 // Checked Radio
 .radio-block {
-  margin-bottom: 55px;
+  margin-bottom: 40px;
   width: 100%;
   @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
-    margin-bottom: 55px;
-    margin-right: 50px;
+    margin-bottom: 40px;
+    margin-right: 40px;
   }
 }
 .radio-block_container {
@@ -69,7 +69,7 @@
   border-radius: 5px;
   cursor: pointer;
   height: 100%;
-  padding: 25px 35px;
+  padding: 25px;
 
   &:hover {
     border: 1px solid $green;
@@ -93,6 +93,15 @@
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+// Input fields
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 
