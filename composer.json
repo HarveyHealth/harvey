@@ -60,6 +60,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize",
             "php artisan migrate --force",
+            "php artisan passport:keys",
             "npm run production"
         ],
         "post-update-cmd": [
