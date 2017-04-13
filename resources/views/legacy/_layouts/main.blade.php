@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @if (View::hasSection('page_title'))
-        <title>@yield('page_title') :: {{ config('app.name') }}</title>
+        <title>@yield('page_title') :: Harvey - Personalized telehealth and integrative medicine</title>
     @else
-        <title>{{ config('app.name') }}</title>
+        <title>Harvey - Personalized telehealth and integrative medicine</title>
     @endif
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
