@@ -1,26 +1,33 @@
 <template>
   <div>
     <form @submit.prevent="onSubmit" v-show="!isComplete">
-
       <div class="container small">
         <img class="registration-tree" src="/images/signup/tree.png" alt="">
 
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>
 
+        <div class="error-container" v-show="responseError">
+          <span class="error-text">{{ responseError }}</span>
+        </div>
+
         <div class="signup-form-container">
+
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" />
-            <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="'required'" />
-            <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="'required'" />
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" />
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
+
+          <div class="input-wrap">
+            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
+            <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
+          </div>
+
+          <div class="input-wrap">
+            <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+            <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
+          </div>
+
           <div class="input-wrap text-centered">
             <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'" />
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
@@ -36,7 +43,7 @@
     </form>
 
     <!-- Intertitial -->
-    <interstitial :zipInRange="true" v-if="isComplete" />
+    <interstitial :zipInRange="zipInRange" v-if="isComplete" />
 
   </div>
 </template>
@@ -50,12 +57,14 @@
     data() {
       return {
         title: 'Your journey starts here',
-        subtitle: 'Create an account', //TODO: get some real copy here
+        subtitle: '',
         email: '',
         password: '',
         zip: '',
+        zipInRange: false,
         terms: false,
         isComplete: false,
+        responseError: null,
       }
     },
     components: {
@@ -66,35 +75,39 @@
 
         // Validate the form
         this.$validator.validateAll().then(() => {
-            this.isComplete = true;
 
             // create the account
+            axios.post('api/v1/users', {
+              email: this.email,
+              password: this.password,
+              zip: this.zip,
+              terms: this.terms,
+            })
+            .then(response => {
+              // the form is complete
+              this.isComplete = true;
+              this.zipInRange = true;
+            })
+            .catch(error => {
+              // we're currently getting one error response at a time
+              this.responseError = error.response.data.errors[0].detail;
+
+              // TODO: get error codes to test against
+              // const zipError = 'Sorry, we do not service this zip.';
+              //
+              // if (this.responseErrors[0].detail === zipError) {
+              //   this.zipInRange = false;
+              // } else {
+              //   console.log('zip is not in range');
+              // }
+
+              console.log(error.response.data.errors);
+            });
 
         }).catch(() => {
             //alert('Correct them errors!');
         });
-
-
-
-        /*
-        axios.post('api/v1/users', {
-          // email: this.email,
-          // password: this.password,
-          // zip: this.zip,
-          // terms: this.terms,
-        })
-        .then(response => {
-          // TODO: is zip code out of range? tag it
-          // continue to next step
-          this.$router.push('/confirmation');
-        })
-        .catch(error => this.errors = error.response.data.errors);
-        */
       },
     },
   }
 </script>
-
-<style>
-
-</style>
