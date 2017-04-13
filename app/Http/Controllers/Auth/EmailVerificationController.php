@@ -22,12 +22,14 @@ class EmailVerificationController extends Controller
             $user->email_verified_at = Carbon::now();
             $user->save();
         }
-
-        $password_not_set = $user->passwordNotSet();
-        $user_type = $user->user_type;
-
-        return view('auth.email_verification')
-            ->with(compact('password_not_set', 'user_type', 'user_id', 'token'));
+    
+        if ($user->passwordNotSet()){
+            return view('auth.email_verification')->with(compact('user_id', 'token'));
+        } elseif (!$user->hasUpcomingAppointment()) {
+            return redirect(route('scheduler'));
+        } else {
+            return redirect(route('dashboard'));
+        }
     }
 
     public function setPassword(Request $request, $user_id, $token)

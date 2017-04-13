@@ -16,7 +16,7 @@ class SendWelcomeEmail implements ShouldQueue
         try{
             $template_model = [
                 'name' => $event->user->fullName(),
-                'action_url' => url(route('scheduler'))
+                'action_url' => $event->user->emailVerificationURL()
             ];
             
             $client = new PostmarkClient(config('services.postmark.token'));
