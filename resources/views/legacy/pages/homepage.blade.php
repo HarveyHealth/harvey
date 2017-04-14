@@ -364,8 +364,6 @@
                 <h2 class="title is-4 section-header"><span>Get Started</span></h2>
                 <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll keep in touch.</p>
 
-                <!-- Begin MailChimp -->
-                <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
@@ -375,7 +373,6 @@
                         </div>
                     </form>
                 </div>
-                <!-- End MailChimp -->
 
                 <div class="section" id="blog">
                     <div class="container">
