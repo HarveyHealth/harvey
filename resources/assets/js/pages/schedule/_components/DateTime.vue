@@ -51,7 +51,16 @@
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Time</h2>
 
-              <time-picker />
+              <time-picker
+                :selected-date="selectedDate"
+                :selected-time="selectedTime"
+                :now="now"
+                :start-of-day-hour="startOfDayHour"
+                :end-of-day-hour="endOfDayHour"
+                :minimum-notice="minimumNotice"
+                :duration="duration"
+                :start-date-time="startDateTime"
+              />
 
               <p class="text-centered small">Time Zone: PST</p>
             </div>
