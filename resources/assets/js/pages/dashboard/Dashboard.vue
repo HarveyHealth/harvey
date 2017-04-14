@@ -20,10 +20,28 @@
           </div>
           <div class="card smaller">
             <div class="card-heading-container">
-              <h2 class="card-header">Contact Info goes here</h2>
+              <h2 class="card-header">Contact Information</h2>
             </div>
             <div class="card-content-container">
-              info goes here
+              <div class="card-content-wrap">
+                <h3 class="card-contact-name">
+                  <svg class="icon-person"><use xlink:href="#small-person" /></svg>
+                  First Name</h3>
+              </div>
+              <div class="card-content-wrap">
+                <h4 class="card-contact-sublabel">Doctor</h4>
+                <p class="card-contact-info">Doctor Name</p>
+              </div>
+              <div class="card-content-wrap">
+                <h4 class="card-contact-sublabel">Email</h4>
+                <p class="card-contact-info">email@address.com</p>
+                <h4 class="card-contact-sublabel">Zip</h4>
+                <p class="card-contact-info">111111</p>
+                <h4 class="card-contact-sublabel">Phone</h4>
+                <p class="card-contact-info">(111) 111-1111</p>
+                <h4 class="card-contact-sublabel">ID</h4>
+                <p class="card-contact-info">#123456</p>
+              </div>
             </div>
           </div>
         </div>
@@ -33,6 +51,8 @@
 
 <script>
     import Appointments from '../../appointments/Appointments.vue';
+    import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
+    import Contact from '../../mixins/Contact';
 
     export default {
         name: 'dashboard',
@@ -54,5 +74,10 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .icon-person {
+    height: 30px;
+    margin-right: 7px;
+    width: 30px;
+    vertical-align: top;
+  }
 </style>

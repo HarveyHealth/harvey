@@ -19,7 +19,7 @@
         </div>
 
         <template v-if="recent_appointments.length">
-            <div v-for="appointment in recent_appointments">
+            <div class="appointment-wrapper" v-for="appointment in recent_appointments">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"

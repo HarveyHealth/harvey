@@ -16,12 +16,39 @@
   }
     .card-heading-container {
       border-bottom: 1px solid $color--grey;
-      padding: 20px;
+      padding: 20px 30px;
     }
       .card-header {
         font-size: 14px;
         margin: 0;
+        letter-spacing: .5px;
       }
-    .card-content-container {
-      
+    .card-content-wrap {
+      border-bottom: 1px solid $color--grey;
+      padding: 20px 30px;
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+    }
+    .card-contact-name {
+      font-weight: 200;
+      font-size: 24px;
+      margin-bottom: 0;
+    }
+    .card-contact-sublabel {
+      color: #9ba2a5;
+      font-weight: 700;
+      font-size: 12px;
+      margin: 0 0 5px;
+      text-transform: uppercase;
+    }
+    .card-contact-info {
+      font-weight: 200;
+      font-size: 18px;
+      margin-bottom: 20px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
     }

@@ -9,7 +9,7 @@
         <div class="appointment_right">
             <template v-if="userType == 'admin' || userType == 'practitioner'">
                 <p class="color-greylight">Patient</p>
-                <p class="title is-4">{{ capitalize(patient.first_name) }} {{ capitalize(patient.last_name) }}</p>
+                <p>{{ capitalize(patient.first_name) }} {{ capitalize(patient.last_name) }}</p>
                 <p>
                     <a :href="hyperlink(patient.phone, 'phone')">
                         <span class="icon is-small"><span class="fa fa-phone"></span></span>
@@ -24,7 +24,7 @@
                 </p>
             </template>
             <template v-else>
-                <p class="appointment_title"><span class="icon"><i class="fa fa-user-md"></i></span><span>With Dr Amanda Frick, ND.</span></p>
+                <p class="appointment_doctor">With Dr Amanda Frick, ND.</p>
             </template>
         </div>
         <div class="appointment_left">
@@ -64,10 +64,13 @@
 </script>
 
 <style lang="scss" scoped>
+  .appointment-wrapper:last-of-type .appointment {
+    border-bottom: none;
+  }
     .appointment {
       border-bottom: 1px solid #E4EAEC;
       overflow: hidden;
-      padding: 20px;
+      padding: 20px 30px;
     }
     .appointment_left {
       float: left;
@@ -82,5 +85,15 @@
       p {
         margin-bottom: 0;
       }
+    }
+    .appointment_date {
+      opacity: .7;
+      font-size: 16px;
+    }
+    .appointment_doctor {
+      font-size: 12px;
+      font-weight: 700;
+      opacity: .5;
+      text-transform: uppercase;
     }
 </style>
