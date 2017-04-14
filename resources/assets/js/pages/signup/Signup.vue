@@ -2,7 +2,7 @@
   <div>
     <form @submit.prevent="onSubmit" v-show="!isComplete">
       <div class="container small">
-        <img class="registration-tree" src="/images/signup/tree.png" alt="">
+        <img src="/images/signup/tree.png" class="registration-tree" alt="">
 
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>

@@ -3,6 +3,9 @@ body.home {
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
+    .title.is-1{ // Override
+    font-size: 3rem;
+    }
     .subtitle {
         line-height: 1.5;
     }

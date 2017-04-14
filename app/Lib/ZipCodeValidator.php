@@ -59,5 +59,4 @@ class ZipCodeValidator
         // If the state is in the unserviceable list or if no state is returned
         return in_array($state, $this->unserviceable_states) || is_null($state);
     }
-    
 }

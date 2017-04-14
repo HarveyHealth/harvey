@@ -1,19 +1,23 @@
 <template>
   <div>
     <div class="container small message-container">
+
       <div v-if="zipInRange" class="container small">
-        <h1 class="header-xlarge">You did it!</h1>
-        <p class="large">Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.</p>
+        <img src="/images/signup/interstitial.png" class="interstitial" alt="">
+        <h1 class="header-xlarge">Success! Let's get started.</h1>
+        <p class="large">Before booking a physician, we need some basic contact info, your choice of practitioner and a date and time you are available for a phone consultation. This should take about 5 minutes.</p>
       </div>
 
       <div v-if="!zipInRange" class="container small">
-        <h1 class="header-xlarge">Nope</h1>
-        <p class="large">You don't live in a servicable location.</p>
+        <img src="/images/signup/tree.png" class="registration-tree" alt="">
+        <h1 class="header-xlarge">Oops! We are not in your state yet.</h1>
+        <p class="large">Unfortunately, we do not have any licensed physicians in your state yet. We will email you once we launch in your area.</p>
       </div>
+
     </div>
 
     <div class="text-centered">
-      <a class="button" @click.prevent="nextStep">Continue</a>
+      <a class="button" @click.prevent="nextStep">Let's Go!</a>
     </div>
 
   </div>

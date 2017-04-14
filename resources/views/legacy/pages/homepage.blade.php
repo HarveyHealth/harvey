@@ -392,7 +392,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <div class="has-text-centered">
-                    <h2 class="title is-3">Your journey starts here.</h2>
+                    <h2 class="title is-3">No credit card required.</h2>
                     <button class="button is-primary is-medium has-arrow">
                         <span class="icon" v-if="symptomsSaving">
                             <i class="fa fa-spinner fa-spin"></i>

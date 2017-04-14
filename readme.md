@@ -91,4 +91,3 @@ Database Seeding will provide you with these accounts:
 
 # Nginx
 - Procfile calls the nginx.conf file in the project root.
-- 

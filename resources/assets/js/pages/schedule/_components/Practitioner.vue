@@ -30,7 +30,7 @@
                 <h2 class="header-large text-centered">Naturopathic Doctor (ND)</h2>
                 <p class="practitioner-main-content text-centered">Naturopathic physicians combine natural healing philosophies with the rigors of modern science. NDs focus on prevention, root cause analysis and comprehensive diagnosis and treatment. During medical school, they receive heavier training in clinical nutrition and supplementation than MDs and are generally more equipped to provide nutrition coaching, lifestyle counseling and homeopathic treatments and remedies.</li>
                 </ul>
-                <h3 class="text-centered"><em class="bold">$150</em> per hour</h3>
+                <h3 class="text-centered"><em class="bold">$150</em> per hour<em class="tip text-centered">(Recommended)</em></h3>
               </div>
             </label>
           </div>
