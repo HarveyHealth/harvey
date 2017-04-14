@@ -1,15 +1,12 @@
 <template>
   <ul class="calendar-week-container_days-wrapper">
     <li v-for="date in dates" class="calendar-item">
-      <button class="calendar-item_link">{{ date | datetime('dd') }}</button>
+      <button class="calendar-item_link" @click.prevent="onDateChange(date)">
+        <span>{{ date | datetime('dd') }}</span>
+        <span>{{ date | datetime('DD') }}</span>
+      </button>
     </li>
-    <!-- <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
-    <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
-    <li class="calendar-item"><button class="calendar-item_link">Wed</button></li>
-    <li class="calendar-item"><button class="calendar-item_link">Thu</button></li>
-    <li class="calendar-item"><button class="calendar-item_link">Fri</button></li>
-    <li class="calendar-item"><button class="calendar-item_link">Sat</button></li>
-    <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li> -->
+    <!-- <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li> -->
   </ul>
 </template>
 
@@ -20,7 +17,12 @@
     props: ['selectedDate', 'maximumDays', 'startDateTime'],
     name: 'DatePicker',
     methods: {
-
+      onDateChange(date) {
+          this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});
+      },
+      isSameDate(a, b) {
+          return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
+      }
     },
     computed: {
       dates() {
@@ -34,6 +36,9 @@
 
         return dates;
       }
+    },
+    mounted() {
+      this.onDateChange(this.dates[0]);
     }
   }
 </script>
