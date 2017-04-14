@@ -7,6 +7,10 @@ use Laravel\Dusk\Page as BasePage;
 
 class LoginPage extends BasePage
 {
+
+  public $signupPage = "Your journey starts here";
+  public $forgotPasswordPage = "Reset Password";
+
     /**
      * Get the URL for the page.
      *
@@ -27,6 +31,34 @@ class LoginPage extends BasePage
         $browser->assertPathIs($this->url());
     }
 
+
+    public function getStartedHeader(Browser $browser)
+    {
+        $browser->click('@getStartedHeader')
+                ->assertSee($this->signupPage);
+    }
+
+    public function forgotPassword(Browser $browser)
+    {
+
+        $browser->click('@forgotPassword')
+                ->assertSee($this->forgotPasswordPage);
+    }
+
+
+
+    public function signUpButton(Browser $browser)
+    {
+       $browser->click('@signUpButton')
+               ->assertSee($this->signupPage);
+    }
+
+
+
+
+
+
+
     /**
      * Get the element shortcuts for the page.
      *
@@ -36,6 +68,9 @@ class LoginPage extends BasePage
     {
         return [
             '@login' => '#login > p.control.is-clearfix > button',
+            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
+            '@forgotPassword' => '#login > p.control.is-clearfix > a',
+            '@signUpButton' => '#app > div > section > div > div > footer > div > a'
         ];
     }
 }
