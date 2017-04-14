@@ -36,15 +36,13 @@
                   <h3 class="calendar-week-container_title">Next week</h3>
                   <span class="calendar-week-container_date">March 27 - April 2nd</span>
                 </div>
-                <ul class="calendar-week-container_days-wrapper">
-                  <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Wed</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Thu</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Fri</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Sat</button></li>
-                  <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li>
-                </ul>
+
+                <date-picker
+                  :selected-date="selectedDate"
+                  :maximum-days="maximumDays"
+                  :start-date-time="startDateTime.add(7, 'days')"
+                />
+
               </div>
             </div>
           </div>
@@ -141,7 +139,9 @@
       onDateTimeChange(_obj) {
         console.log(_obj.value);
 
-        this.selectedDate = _obj.value;
+
+
+        // this.selectedDate = _obj.value;
         /*
         let field = 'selected' + obj.type.charAt(0).toUpperCase() + obj.type.slice(1);
 
