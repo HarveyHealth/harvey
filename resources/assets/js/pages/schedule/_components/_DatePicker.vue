@@ -15,7 +15,7 @@
   import moment from 'moment';
 
   export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime'],
+    props: ['selectedDate', 'maximumDays', 'startDateTime', 'availability'],
     name: 'DatePicker',
     methods: {
       onDateChange(date) {
@@ -31,8 +31,12 @@
           dates.push(currentDate);
           currentDate = moment(this.startDateTime).local().add(i, 'days');
         }
-
         return dates;
+      },
+      formattedDates() {
+        return this.availability.map((item) => {
+          return item; // Todo: transform into moment object
+        });
       }
     },
     mounted() {

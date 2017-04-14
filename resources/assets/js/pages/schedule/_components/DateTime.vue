@@ -28,6 +28,7 @@
                   :selected-date="selectedDate"
                   :maximum-days="maximumDays"
                   :start-date-time="startDateTime"
+                  :availability="availability"
                 />
 
               </div>
@@ -80,6 +81,7 @@
 
   export default {
     name: 'DateTime',
+    props: ['availability'],
     data() {
       return {
         title: 'Choose date and time',

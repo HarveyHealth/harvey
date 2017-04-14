@@ -2,7 +2,7 @@
   <form @submit.prevent="onSubmit">
     <practitioner v-show="step === 1" />
     <phone v-show="step === 2" />
-    <datetime v-show="step === 3" />
+    <datetime v-show="step === 3" :availability="practitioner_availability"/>
   </form>
 </template>
 
@@ -18,6 +18,7 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         step: 1,
         practitioner: null,
+        practitioner_availability: []
       }
     },
     components: {
