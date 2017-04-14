@@ -52,11 +52,19 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
+    return [
+        'enabled' => true,
+        'name' => $faker->word,
+        'rate' => $faker->randomElement(['150', '300']),
+    ];
+});
+
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
         'user_id' => factory(App\Models\User::class)->create()->id,
-        'practitioner_type' => 1,
+        'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
     ];
 });
 
