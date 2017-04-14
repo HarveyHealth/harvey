@@ -38,6 +38,7 @@ class GetPassportKeysCommand extends Command
             $this->info('Passport keys downloaded successfully!');
         } catch (\Exception $e) {
             $this->error("Unable to download passport keys. {$e->getMessage()}");
+            throw new \Exception($e);
         }
     }
 }
