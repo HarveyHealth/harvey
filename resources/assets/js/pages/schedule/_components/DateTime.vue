@@ -86,6 +86,7 @@
   import DatePicker from './_DatePicker.vue';
 
   export default {
+    name: 'DateTime',
     data() {
       return {
         title: 'Choose date and time',
@@ -139,7 +140,7 @@
       },
 
       onDateTimeChange(_obj) {
-        console.log(_obj);
+        console.log(_obj.value);
       },
     },
     computed: {
@@ -156,8 +157,7 @@
     },
     created() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-    },
-    name: 'DateTime'
+    }
   }
 </script>
 
