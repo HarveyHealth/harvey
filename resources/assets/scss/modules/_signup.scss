@@ -23,10 +23,14 @@
 }
 
 // Registration specific styles
-.registration-tree {
+.registration-tree, .interstitial {
   margin-bottom: 25px;
   max-width: 470px;
   width: 100%;
+}
+
+.interstitial {
+  margin-top: 20px;
 }
 
 // Progress Indicator
@@ -70,17 +74,24 @@
   cursor: pointer;
   height: 100%;
   padding: 25px;
-
   &:hover {
     border: 1px solid $green;
     box-shadow: inset 0px 0px 0px 6px $green;
   }
 }
-  .practitioner-main-content  {
-    border-bottom: 1px solid $gray;
-    margin-bottom: 25px;
-    padding-bottom: 25px;
-  }
+
+.practitioner-main-content {
+  border-bottom: 1px solid #DDD;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+}
+
+.tip{
+  color:$gray;
+  display:block;
+  font-size:17px;
+  clear:both;
+}
 
 .radio_block:checked + label .radio-block_container  {
   border: 1px solid $green;
