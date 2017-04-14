@@ -24,7 +24,11 @@
                   <span class="calendar-week-container_date">March 27 - April 2nd</span>
                 </div>
 
-                <date-picker />
+                <date-picker
+                  :selected-date="selectedDate"
+                  :maximum-days="maximumDays"
+                  :start-date-time="startDateTime"
+                />
 
               </div>
               <div class="calendar-week-container">
@@ -103,8 +107,60 @@
     components: {
       DatePicker,
     },
+    methods: {
+      canBookToday() {
+        const acceptableTime = moment(this.now).add(this.minimumNotice, 'hours');
+        const endOfDayTime = moment(this.now).set({hour: this.endOfDayHour, minute: 0, second: 0, millisecond: 0}).subtract(this.duration, 'hours');
+
+        return acceptableTime <= endOfDayTime;
+      },
+
+      getNearestTime(_time, _interval) {
+        let minutes = Math.ceil(Math.max(1, _time.minutes()) / _interval) * _interval,
+            hours = _time.hours();
+
+        if (minutes == 60) {
+          hours ++;
+          minutes = 0;
+
+          if (hours >= 24) {
+            hours = hours - 24;
+          }
+        }
+
+        return hours;
+      },
+
+      updateSelectedTime() {
+        console.log('updating...');
+        // if ( this.form.selectedTime < this.startDateTime.hour() ) {
+        //   this.form.selectedTime = this.startDateTime.hour();
+        // }
+      },
+
+      onDateTimeChange(_obj) {
+        console.log(_obj);
+      },
+    },
+    computed: {
+      startDateTime() {
+        const canBookToday = this.canBookToday();
+
+        if (canBookToday) {
+          const hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
+          return this.now.set({hour: hour, minute: 0, second: 0, millisecond: 0}).utc();
+        } else {
+          return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second: 0, millisecond: 0}).utc();
+        }
+      },
+    },
+    created() {
+      this.$eventHub.$on('datetime-change', this.onDateTimeChange);
+    },
     name: 'DateTime'
   }
 </script>
 
-<style></style>
+<style>
+
+</style>
