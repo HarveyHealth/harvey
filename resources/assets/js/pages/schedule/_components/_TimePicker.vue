@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-week-container">
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="time in times" class="calendar-item" :class="[{'selected' : selectedTime.hour() === time.hour()}]">
+      <li v-for="time in times" class="calendar-item" :class="[{'selected' : hasBeenTouched && selectedTime.hour() === time.hour()}]">
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
@@ -20,12 +20,18 @@
   export default {
     name: 'TimePicker',
     props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
+    data() {
+      return {
+        hasBeenTouched: false,
+      }
+    },
     methods: {
       setsTimeObject(hour, hourOffset = 0) {
         return moment({hour: hour + hourOffset, minute: 0});
       },
 
       onTimeChange(time) {
+        this.hasBeenTouched = true;
         if (time >= this.startTime) {
           this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
         }
@@ -47,8 +53,5 @@
         }
       }
     },
-    mounted() {
-      this.onTimeChange(this.startTime);
-    }
   }
 </script>
