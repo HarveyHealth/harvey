@@ -15,7 +15,8 @@ class PractitionerTransformer extends TransformerAbstract
     public function transform(Practitioner $practitioner)
     {
         return [
-            'id' => $practitioner->id
+            'id' => $practitioner->id,
+            'name' => $practitioner->user->fullName()
         ];
     }
 }
