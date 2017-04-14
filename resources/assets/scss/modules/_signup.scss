@@ -22,6 +22,12 @@
   }
 }
 
+a:active,
+a:focus,
+a:hover {
+  color: #FFF;
+}
+
 // Registration specific styles
 .registration-tree, .interstitial {
   margin-bottom: 25px;
@@ -196,6 +202,7 @@ button:focus {
             }
 
             .calendar-item_link {
+              color: $gray;
               border: none;
               background: none;
               cursor: pointer;
@@ -217,12 +224,11 @@ button:focus {
 
 }
   .confirmation_calendar {
-    margin: 50px auto;
+    margin: 30px auto;
     max-width: 132px;
   }
     .confirmation_date {
-      color: $green-bright;
-      font-size: 28px;
+      font-size: 23px;
       margin-bottom: 20px;
     }
       .confirmation_day {
