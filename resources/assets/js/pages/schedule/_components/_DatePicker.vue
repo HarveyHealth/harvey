@@ -1,7 +1,7 @@
 <template>
   <ul class="calendar-week-container_days-wrapper">
     <li v-for="date in dates" class="calendar-item">
-      <button class="calendar-item_link"></button>
+      <button class="calendar-item_link">{{ date | datetime('dd') }}</button>
     </li>
     <!-- <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
     <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
