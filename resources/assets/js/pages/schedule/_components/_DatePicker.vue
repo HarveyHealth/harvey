@@ -24,7 +24,7 @@
       },
 
       isSameDate(a, b) {
-          return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
+        return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
       }
     },
     computed: {
@@ -32,7 +32,7 @@
         const dates = new Array();
         let currentDate = moment(this.startDateTime).local();
 
-        console.log("current date", currentDate);
+        // console.log("current date", currentDate);
 
         for (var i = 1; i <= this.maximumDays; i++) {
           dates.push(currentDate);

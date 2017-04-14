@@ -132,16 +132,12 @@
         return hours;
       },
 
-      updateSelectedTime() {
-        console.log('updating...');
-        // if ( this.form.selectedTime < this.startDateTime.hour() ) {
-        //   this.form.selectedTime = this.startDateTime.hour();
-        // }
-      },
-
       onDateTimeChange(_obj) {
-        console.log(_obj.value);
-
+        if (_obj.type === 'date') {
+          this.selectedDate = _obj.value;
+        } else if(_obj.type === 'time') {
+          this.selectedTime = _obj.value;
+        }
 
 
         // this.selectedDate = _obj.value;

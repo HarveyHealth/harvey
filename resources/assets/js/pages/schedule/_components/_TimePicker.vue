@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-week-container">
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="time in times" class="calendar-item">
+      <li v-for="time in times" class="calendar-item" :class="[{'selected' : selectedTime === time}]">
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
@@ -27,6 +27,7 @@
 
       onTimeChange(time) {
         if (time >= this.startTime) {
+          console.log('time changed', time, this.selectedTime);
           this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
         }
       }
