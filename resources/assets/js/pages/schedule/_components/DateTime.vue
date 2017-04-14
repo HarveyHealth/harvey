@@ -23,15 +23,9 @@
                   <h3 class="calendar-week-container_title">This week</h3>
                   <span class="calendar-week-container_date">March 27 - April 2nd</span>
                 </div>
-                <ul class="calendar-week-container_days-wrapper">
-                  <li class="calendar-item"><button class="calendar-item_link">Mon</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Tue</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Wed</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Thu</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Fri</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">Sat</button></li>
-                  <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li>
-                </ul>
+
+                <date-picker />
+
               </div>
               <div class="calendar-week-container">
                 <div class="calendar-week-container_title-wrapper">
@@ -69,7 +63,7 @@
             </div>
           </div>
         </div>
-<!--    
+<!--
         <div class="calendar-notice text-centered">
           <p class="large">This will replace existing appointment on:  Thursday, March 30th at 5:00pm</p>
         </div>
@@ -84,12 +78,30 @@
 </template>
 
 <script>
+  import moment from 'moment';
+  import DatePicker from './_DatePicker.vue';
+
   export default {
     data() {
       return {
         title: 'Choose date and time',
-        subtitle: 'Lastly, tell us the best date and time you would like to schedule a 45-60 minute phone consultation with your chosen physician.'
+        subtitle: 'Lastly, tell us the best date and time you would like to schedule a 45-60 minute phone consultation with your chosen physician.',
+
+        // Date/Time Data
+        now: moment(),
+        startOfDayHour: 9,
+        endOfDayHour: 18,
+        maximumDays: 7,
+        minimumNotice: 0,
+        duration: 1,
+
+        // Temporary
+        selectedTime: 0,
+        selectedDate: 0,
       }
+    },
+    components: {
+      DatePicker,
     },
     name: 'DateTime'
   }
