@@ -5,7 +5,7 @@
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
-          :disabled="time < startTime"
+          :disabled="time.hour() < startTime"
         >
           {{time | datetime('ha')}}
         </button>
@@ -52,7 +52,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>
