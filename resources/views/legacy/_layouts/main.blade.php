@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     @if (View::hasSection('page_title'))
-        <title>@yield('page_title') :: Harvey - Personalized telehealth and integrative medicine</title>
+        <title>@yield('page_title') | Harvey</title>
     @else
-        <title>Harvey - Personalized telehealth and integrative medicine</title>
+        <title>Harvey | Personalized integrative medicine</title>
     @endif
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -19,6 +19,7 @@
 
     {{-- STYLES --}}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> {{-- switch to custom build icons later --}}
+    <link rel="stylesheet" href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css">
     @stack('stylesheets')
 
     {{-- TYPEKIT async load --}}
