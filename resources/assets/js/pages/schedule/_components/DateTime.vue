@@ -50,17 +50,9 @@
           <div class="input-wrap calendar-block">
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Time</h2>
-              <div class="calendar-week-container">
-                <ul class="calendar-week-container_days-wrapper">
-                  <li class="calendar-item"><button class="calendar-item_link">9a</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">10a</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">11a</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">12p</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">1p</button></li>
-                  <li class="calendar-item"><button class="calendar-item_link">2p</button></li>
-                  <li class="calendar-item selected"><button class="calendar-item_link">3p</button></li>
-                </ul>
-              </div>
+
+              <time-picker />
+
               <p class="text-centered small">Time Zone: PST</p>
             </div>
           </div>
@@ -82,6 +74,7 @@
 <script>
   import moment from 'moment';
   import DatePicker from './_DatePicker.vue';
+  import TimePicker from './_TimePicker.vue';
 
   export default {
     name: 'DateTime',
@@ -104,6 +97,7 @@
     },
     components: {
       DatePicker,
+      TimePicker,
     },
     methods: {
       canBookToday() {
