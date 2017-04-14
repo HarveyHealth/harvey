@@ -1,14 +1,12 @@
 <template>
-    <div class="media">
-        <div class="media-left">
+    <div class="appointment">
+        <div class="appointment_left">
             <div class="box">
-                <p class="heading">{{ appointment.appointment_at | datetime('dddd') }}</p>
-                <p class="title is-4">{{ appointment.appointment_at | datetime('MMM D') }}</p>
-                <p class="subtitle">at {{ appointment.appointment_at | datetime('h:mm a') }}</p>
+                <p class="appointment_date">{{ appointment.appointment_at | datetime('MMM D') }} at {{ appointment.appointment_at | datetime('h:mm a') }}</p>
             </div>
-            <p v-if="userType != 'patient'" class="color-greylight"><small>created at {{ appointment.created_at | datetime('h:mm A, D MMM YYYY') }}</small></p>
+
         </div>
-        <div class="media-content">
+        <div class="appointment_right">
             <template v-if="userType == 'admin' || userType == 'practitioner'">
                 <p class="color-greylight">Patient</p>
                 <p class="title is-4">{{ capitalize(patient.first_name) }} {{ capitalize(patient.last_name) }}</p>
@@ -26,12 +24,12 @@
                 </p>
             </template>
             <template v-else>
-                <p class="title is-5"><span class="icon"><i class="fa fa-user-md"></i></span><span>With Dr Amanda Frick, ND.</span></p>
+                <p class="appointment_title"><span class="icon"><i class="fa fa-user-md"></i></span><span>With Dr Amanda Frick, ND.</span></p>
             </template>
         </div>
-        <div class="media-right">
+        <div class="appointment_left">
             <div v-if="userType == 'patient'" class="title">
-                <button class="button" @click="toggleContact">Reschedule</button>
+                <button class="appointment_button" @click="toggleContact">Reschedule</button>
             </div>
         </div>
     </div>
@@ -66,10 +64,23 @@
 </script>
 
 <style lang="scss" scoped>
-    .box:not(:last-child) {
-        margin-bottom: 0;
+    .appointment {
+      border-bottom: 1px solid #E4EAEC;
+      overflow: hidden;
+      padding: 20px;
     }
-    .media-right {
-        text-align: right;
+    .appointment_left {
+      float: left;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+    .appointment_right {
+      float: right;
+
+      p {
+        margin-bottom: 0;
+      }
     }
 </style>
