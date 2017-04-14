@@ -192,6 +192,7 @@ button:focus {
               .calendar-item_link {
                 color: $white;
               }
+
               &:hover {
                 box-shadow: none;
               }
@@ -211,6 +212,10 @@ button:focus {
               line-height: 35px;
               text-align: center;
               width: 100%;
+
+              &[disabled] {
+                opacity: 0.5;
+              }
             }
           }
   .calendar-notice p {

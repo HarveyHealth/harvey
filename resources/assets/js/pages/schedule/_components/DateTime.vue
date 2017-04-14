@@ -40,7 +40,8 @@
                 <date-picker
                   :selected-date="selectedDate"
                   :maximum-days="maximumDays"
-                  :start-date-time="startDateTime.add(7, 'days')"
+                  :start-date-time="startDateTime"
+                  :dayOffset="7"
                 />
 
               </div>
@@ -138,22 +139,6 @@
         } else if(_obj.type === 'time') {
           this.selectedTime = _obj.value;
         }
-
-
-        // this.selectedDate = _obj.value;
-        /*
-        let field = 'selected' + obj.type.charAt(0).toUpperCase() + obj.type.slice(1);
-
-        if (this.form[field] != obj.value) {
-            this.form[field] = obj.value;
-        }
-
-        // if date is changed to start day date
-        if ( obj.type == 'date' && obj.value.day() == this.startDateTime.day() ) {
-            // need to make sure selected time doesn't go over the minimum time
-            this.updateSelectedTime();
-        }
-        */
       },
     },
     computed: {

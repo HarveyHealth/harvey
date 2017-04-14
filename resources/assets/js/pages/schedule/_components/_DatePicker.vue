@@ -1,6 +1,6 @@
 <template>
   <ul class="calendar-week-container_days-wrapper">
-    <li v-for="date in dates" class="calendar-item" :class="[{'selected' : isSameDate(selectedDate, date)}]">
+    <li v-for="date in dates" class="calendar-item" :class="[{'selected' : selectedDate.day() === date.day()}]">
       <button class="calendar-item_link" @click.prevent="onDateChange(date)">
         <span>{{ date | datetime('dd') }}</span>
         <!-- {{isSameDate(selectedDate, date)}} -->
@@ -15,25 +15,18 @@
   import moment from 'moment';
 
   export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime'],
+    props: ['selectedDate', 'maximumDays', 'startDateTime', 'dayOffset'],
     name: 'DatePicker',
     methods: {
       onDateChange(date) {
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
-      },
-
-      isSameDate(a, b) {
-        return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
       }
     },
     computed: {
       dates() {
-        const dates = new Array();
+        const dates = [];
         let currentDate = moment(this.startDateTime).local();
-
-        // console.log("current date", currentDate);
-
         for (var i = 1; i <= this.maximumDays; i++) {
           dates.push(currentDate);
           currentDate = moment(this.startDateTime).local().add(i, 'days');
@@ -43,6 +36,10 @@
       }
     },
     mounted() {
+      //console.log(this.startDateTime.date());
+      let localOffset = this.dayOffset || 0;
+      console.log('local offset', localOffset);
+      console.log(this.startDateTime.add(localOffset, 'days'))
       this.onDateChange(this.dates[0]);
     }
   }
