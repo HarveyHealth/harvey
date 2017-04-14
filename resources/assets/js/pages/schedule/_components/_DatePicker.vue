@@ -19,7 +19,7 @@
     name: 'DatePicker',
     methods: {
       onDateChange(date) {
-        const dateValue = moment(date).utc().format("YYYY-MM-DD HH:mm:ss");
+        const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
       },
 

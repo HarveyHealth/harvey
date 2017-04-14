@@ -100,7 +100,6 @@
         minimumNotice: 0,
         duration: 1,
 
-        // Temporary
         selectedTime: 0,
         selectedDate: 0,
       }
@@ -141,6 +140,21 @@
 
       onDateTimeChange(_obj) {
         console.log(_obj.value);
+
+        this.selectedDate = _obj.value;
+        /*
+        let field = 'selected' + obj.type.charAt(0).toUpperCase() + obj.type.slice(1);
+
+        if (this.form[field] != obj.value) {
+            this.form[field] = obj.value;
+        }
+
+        // if date is changed to start day date
+        if ( obj.type == 'date' && obj.value.day() == this.startDateTime.day() ) {
+            // need to make sure selected time doesn't go over the minimum time
+            this.updateSelectedTime();
+        }
+        */
       },
     },
     computed: {
