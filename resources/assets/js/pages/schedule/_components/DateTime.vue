@@ -94,7 +94,7 @@
         duration: 1,
 
         selectedDate: moment(),
-        selectedTime: moment(),
+        selectedTime: moment().add(1, 'hour'), // making sure we can't select the current hour
       }
     },
     components: {
