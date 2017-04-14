@@ -15,7 +15,7 @@
   import moment from 'moment';
 
   export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime', 'dayOffset'],
+    props: ['selectedDate', 'maximumDays', 'startDateTime'],
     name: 'DatePicker',
     methods: {
       onDateChange(date) {
@@ -36,10 +36,6 @@
       }
     },
     mounted() {
-      //console.log(this.startDateTime.date());
-      let localOffset = this.dayOffset || 0;
-      console.log('local offset', localOffset);
-      console.log(this.startDateTime.add(localOffset, 'days'))
       this.onDateChange(this.dates[0]);
     }
   }

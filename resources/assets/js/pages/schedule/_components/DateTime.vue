@@ -31,20 +31,12 @@
                 />
 
               </div>
-              <div class="calendar-week-container">
+              <!-- <div class="calendar-week-container">
                 <div class="calendar-week-container_title-wrapper">
                   <h3 class="calendar-week-container_title">Next week</h3>
                   <span class="calendar-week-container_date">March 27 - April 2nd</span>
                 </div>
-
-                <date-picker
-                  :selected-date="selectedDate"
-                  :maximum-days="maximumDays"
-                  :start-date-time="startDateTime"
-                  :dayOffset="7"
-                />
-
-              </div>
+              </div> -->
             </div>
           </div>
 
@@ -101,8 +93,8 @@
         minimumNotice: 0,
         duration: 1,
 
-        selectedTime: 0,
-        selectedDate: 0,
+        selectedDate: moment(),
+        selectedTime: moment(),
       }
     },
     components: {
@@ -153,7 +145,7 @@
         }
       },
     },
-    created() {
+    mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
     }
   }
