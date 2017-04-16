@@ -77,24 +77,22 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
-
           this.$parent.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
-
-          this.$parent.next();
         }).catch(() => {
 
         });
       },
+
       getAvailability(practitioner) {
-
-        console.log("_running");
-
         const practitioner_id = practitioner === 'osteopathy' ? 2 : 1; // Todo: Dynamically return best available practitioner id
         axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
         .then(response => {
-          console.log(reponse.data);
           this.$parent.practitioner_availability = response.data.meta.availability;
+
+          // since the availability is required for this process, let's block
+          // next steps until we get a 200
+          this.$parent.next();
         })
         .catch(error => {
           // Todo: Catch error
