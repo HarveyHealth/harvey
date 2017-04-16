@@ -49,7 +49,9 @@
           </div>
         </div>
 
-        <span v-show="errors.has('practitioner')" class="error-text">{{ errors.first('practitioner') }}</span>
+        <div v-show="errors.has('practitioner')" class="text-centered">
+          <span class="error-text">{{ errors.first('practitioner') }}</span>
+        </div>
 
         <div class="input-wrap text-centered">
             <p class="container medium">If this is your first time seeking advice for a specific ailment, we recommend the Naturopathic Doctor (ND). If you still need help deciding, <a href="https://blog.goharvey.com/comparing-naturopathic-doctors-and-medical-doctors-65300ba437c4" target="_blank">click here</a>.</p>
@@ -75,23 +77,29 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
+
           this.$parent.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
+
           this.$parent.next();
         }).catch(() => {
 
         });
       },
-        getAvailability(practitioner) {
-          const practitioner_id = practitioner === 'osteopathy' ? 2 : 1; // Todo: Dynamically return best available practitioner id
-          axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
-          .then(response => {
-            this.$parent.practitioner_availability = response.data.meta.availability;
-          })
-          .catch(error => {
-            // Todo: Catch error
-          });
-        }
+      getAvailability(practitioner) {
+
+        console.log("_running");
+
+        const practitioner_id = practitioner === 'osteopathy' ? 2 : 1; // Todo: Dynamically return best available practitioner id
+        axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
+        .then(response => {
+          console.log(reponse.data);
+          this.$parent.practitioner_availability = response.data.meta.availability;
+        })
+        .catch(error => {
+          // Todo: Catch error
+        });
+      }
     },
     name: 'Practitioner'
   }
