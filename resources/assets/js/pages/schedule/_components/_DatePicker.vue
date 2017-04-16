@@ -30,13 +30,13 @@
         testDate.available = false;
         let availableDay = '';
 
-        for (var i = 0; i < this.formattedDates.length; i++) {
-          availableDay = this.formattedDates[i].day;
-
-          if(availableDay.includes(testDayString)) {
+        // compare day-of-the-week strings and test
+        this.formattedDates.map(dateObject => {
+          availableDay = dateObject.day;
+          if (availableDay.includes(testDayString)) {
             testDate.available = true;
           }
-        }
+        });
 
         return testDate;
       }
@@ -53,6 +53,8 @@
           dates.push(currentDate);
           currentDate = moment(this.startDateTime).local().add(i, 'days');
         }
+
+        console.log('final dates', dates);
 
         return dates;
       },
