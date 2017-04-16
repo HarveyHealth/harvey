@@ -148,8 +148,9 @@
       },
     },
     mounted() {
+      console.log('checking...', this.availability);
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-    }
+    },
   }
 </script>
 

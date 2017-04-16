@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <practitioner v-show="step === 1" />
-    <phone v-show="step === 2" />
-    <datetime v-show="step === 3" :availability="practitioner_availability"/>
+    <practitioner v-if="step === 1" />
+    <phone v-if="step === 2" />
+    <datetime v-if="step === 3" :availability="practitioner_availability" />
   </form>
 </template>
 
