@@ -21,6 +21,24 @@
       onDateChange(date) {
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
+      },
+      isDateAvailable(_date) {
+        const testDate = _date;
+        const testDayString = testDate.format('dddd');
+
+        // let's assume it's not available from the start
+        testDate.available = false;
+        let availableDay = '';
+
+        for (var i = 0; i < this.formattedDates.length; i++) {
+          availableDay = this.formattedDates[i].day;
+
+          if(availableDay.includes(testDayString)) {
+            testDate.available = true;
+          }
+        }
+
+        return testDate;
       }
     },
     computed: {
@@ -28,9 +46,14 @@
         const dates = [];
         let currentDate = moment(this.startDateTime).local();
         for (var i = 1; i <= this.maximumDays; i++) {
+
+          // test availability
+          this.isDateAvailable(currentDate);
+
           dates.push(currentDate);
           currentDate = moment(this.startDateTime).local().add(i, 'days');
         }
+
         return dates;
       },
       formattedDates() {
@@ -44,7 +67,6 @@
       }
     },
     mounted() {
-      console.log(this.formattedDates);
       this.onDateChange(this.dates[0]);
     }
   }
