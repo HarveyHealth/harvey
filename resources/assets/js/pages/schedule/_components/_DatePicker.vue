@@ -34,12 +34,17 @@
         return dates;
       },
       formattedDates() {
-        return this.availability.map((item) => {
-          return item; // Todo: transform into moment object
+        // right now, this is getting two arrays, so we need to hard-code the index
+        return this.availability[1].map((item) => {
+          // this now a simple object of day:/time: keys
+          // we can compare this with the generated moment object above
+          // item.day === date.day("Tuesday")
+          return item;
         });
       }
     },
     mounted() {
+      console.log(this.formattedDates);
       this.onDateChange(this.dates[0]);
     }
   }
