@@ -3,7 +3,6 @@
     <practitioner v-if="step === 1" />
     <phone v-if="step === 2" />
     <datetime v-if="step === 3" :availability="practitioner_availability" />
-    <confirmation v-if="step === 4" :appointmentDate="appointmentDate" />
   </form>
 </template>
 
@@ -11,8 +10,6 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
-
-  import Confirmation from './Confirmation';
 
   import moment from 'moment';
 
@@ -32,7 +29,6 @@
       'datetime': DateTime,
       'phone': Phone,
       'practitioner': Practitioner,
-      'confirmation': Confirmation,
     },
     methods: {
       next() {
@@ -49,7 +45,7 @@
 
         axios.post(`api/v1/appointments`, appointmentData)
         .then(response => {
-          this.next();
+          this.$router.push('/confirmation');
         })
         .catch(error => {
           console.log(error.response);

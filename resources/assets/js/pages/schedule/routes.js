@@ -11,6 +11,10 @@ const router = new VueRouter({
       path: '/schedule',
       component: require('./Schedule.vue'),
     },
+    {
+      path: '/confirmation',
+      component: require('./Confirmation.vue'),
+    },
   ]
 })
 
