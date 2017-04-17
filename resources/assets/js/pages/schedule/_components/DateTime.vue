@@ -153,7 +153,3 @@
     },
   }
 </script>
-
-<style>
-
-</style>
