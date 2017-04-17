@@ -56,6 +56,16 @@ class User extends Authenticatable implements Mailable
         }
     }
     
+    public function nextUpcomingAppointment()
+    {
+        return $this->appointments()->upcoming()->first();
+    }
+    
+    public function hasUpcomingAppointment()
+    {
+        return count($this->nextUpcomingAppointment()) == 1;
+    }
+    
     public function tests()
     {
         if ($this->isPatient()) {

@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Events\UserRegistered;
 use App\Models\User;
 
 class UserObserver
@@ -14,6 +15,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->sendVerificationEmail();
+        event(new UserRegistered($user));
     }
 }

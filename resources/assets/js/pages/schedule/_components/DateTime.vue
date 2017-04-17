@@ -28,6 +28,7 @@
                   :selected-date="selectedDate"
                   :maximum-days="maximumDays"
                   :start-date-time="startDateTime"
+                  :availability="availability"
                 />
 
               </div>
@@ -80,6 +81,7 @@
 
   export default {
     name: 'DateTime',
+    props: ['availability'],
     data() {
       return {
         title: 'Choose date and time',
@@ -146,8 +148,9 @@
       },
     },
     mounted() {
+      console.log('checking...', this.availability);
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-    }
+    },
   }
 </script>
 

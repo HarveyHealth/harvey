@@ -27,10 +27,18 @@
             />
             <label class="block" for="naturopathic">
               <div class="radio-block_container">
-                <h2 class="header-large text-centered">Naturopathic Doctor (ND)</h2>
-                <p class="practitioner-main-content text-centered">Naturopathic physicians combine natural healing philosophies with the rigors of modern science. NDs focus on prevention, root cause analysis and comprehensive diagnosis and treatment. During medical school, they receive heavier training in clinical nutrition and supplementation than MDs and are generally more equipped to provide nutrition coaching, lifestyle counseling and homeopathic treatments and remedies.</li>
-                </ul>
-                <h3 class="text-centered"><em class="bold">$150</em> per hour<em class="tip text-centered">(recommended)</em></h3>
+                <h2 class="header-large text-centered">Naturopathic Doctor</h2>
+                <em class="tip text-centered">Here's an example...</em>
+                <img src="/images/doctors/amanda.png">
+                <div class="practitioner-main-content">
+                  <p><strong>Dr. Amanda Frick, N.D.</strong> is licensed to practice medicine in 32 states; she went to four-medical school and received a state medical license.</p>
+                  <ul>
+                    <li>Combines natural healing philosophies with the rigors of modern science.</li>
+                    <li>Specializes in prevention, root cause analysis and holistic treatments.</li>
+                    <li>Heavy training in nutrition, lab testing and supplementation.</li>
+                  </ul>
+                </div>
+                <h3 class="text-centered price"><em class="bold">$150</em> per hour<em class="tip text-centered blue">(First time? Pick me!)</em></h3>
               </div>
             </label>
           </div>
@@ -41,15 +49,26 @@
               id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
-                <h2 class="header-large text-centered">Doctor of Osteopathy (DO)</h2>
-                <p class="practitioner-main-content text-centered">Osteopathic physicians are licensed to practice full scope of medicine in all 50 states. However, they are typically more focused on holistic health and integrative medicine than their MD counterparts. DOs receive up to 500 additional hours of training than MDs in musculoskeletal systems — your body's interconnected system of nerves, muscles and bones. DOs utilize the latest advances in medical lab testing and technology.</p>
-                <h3 class="text-centered"><em class="bold">$300</em> per hour</h3>
+                <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
+                <em class="tip text-centered">Here's an example...</em>
+                <img src="/images/doctors/rachel.png">
+                <div class="practitioner-main-content">
+                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice full scope of medicine in all 50 states, equivilent to a traditional medical doctor (MD).</p>
+                  <ul>
+                    <li>Receives more training than NDs or MDs in musculoskeletal systems (nerves, muscles and bones).</li>
+                    <li>Also heavily trained in prevention, clinical nutrition, medical lab testing and neutraceuticals.</li>
+                    <li>Utilizes a wide variety of therapies to treat unusual health conditions.</li>
+                  </ul>
+                </div>
+                <h3 class="text-centered price"><em class="bold">$300</em> per hour</h3></li>
               </div>
             </label>
           </div>
         </div>
 
-        <span v-show="errors.has('practitioner')" class="error-text">{{ errors.first('practitioner') }}</span>
+        <div v-show="errors.has('practitioner')" class="text-centered">
+          <span class="error-text">{{ errors.first('practitioner') }}</span>
+        </div>
 
         <div class="input-wrap text-centered">
             <p class="container medium">If this is your first time seeking advice for a specific ailment, we recommend the Naturopathic Doctor (ND). If you still need help deciding, <a href="https://blog.goharvey.com/comparing-naturopathic-doctors-and-medical-doctors-65300ba437c4" target="_blank">click here</a>.</p>
@@ -76,9 +95,24 @@
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
-          this.$parent.next();
+          this.getAvailability(this.practitioner);
         }).catch(() => {
 
+        });
+      },
+
+      getAvailability(practitioner) {
+        const practitioner_id = practitioner === 'osteopathy' ? 2 : 1; // Todo: Dynamically return best available practitioner id
+        axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
+        .then(response => {
+          this.$parent.practitioner_availability = response.data.meta.availability;
+
+          // since the availability is required for this process, let's block
+          // next steps until we get a 200
+          this.$parent.next();
+        })
+        .catch(error => {
+          // Todo: Catch error
         });
       }
     },
