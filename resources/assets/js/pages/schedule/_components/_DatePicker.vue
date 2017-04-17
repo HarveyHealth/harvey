@@ -52,7 +52,6 @@
           this.isDateAvailable(currentDate);
 
           dates.push(currentDate);
-          console.log('+++', currentDate);
         }
 
         return dates;
