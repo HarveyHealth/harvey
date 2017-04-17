@@ -25,7 +25,7 @@
                 :start-date-time="startDateTime"
                 :availability="availability"
               />
-              
+
             </div>
           </div>
 
@@ -79,7 +79,7 @@
         now: moment(),
         startOfDayHour: 9,
         endOfDayHour: 18,
-        maximumDays: 7,
+        maximumDays: 5,
         minimumNotice: 0,
         duration: 1,
 
