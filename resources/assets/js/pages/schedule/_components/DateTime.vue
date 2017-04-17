@@ -43,6 +43,7 @@
               <h2 class="header-large text-centered">Choose Time</h2>
 
               <time-picker
+                :availability="availability"
                 :selected-date="selectedDate"
                 :selected-time="selectedTime"
                 :now="now"
@@ -148,7 +149,7 @@
       },
     },
     mounted() {
-      console.log('checking...', this.availability);
+      console.log('checking...', this.availability[1]);
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
     },
   }
