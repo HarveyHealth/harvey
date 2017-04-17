@@ -39,7 +39,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::patch('appointments/{appointment}', 'API\V1\AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'API\V1\AppointmentsController@delete')->name('appointments.delete');
     
-        Route::get('practitioner/{practitioner}', 'API\V1\PractitionerController@show')->name('practitioner.show');
+        Route::get('practitioners/{practitioner}', 'API\V1\PractitionerController@show')->name('practitioner.show');
         
         Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@update')->name('practitioner-schedule.update');

@@ -15,12 +15,30 @@
   import moment from 'moment';
 
   export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime'],
+    props: ['selectedDate', 'maximumDays', 'startDateTime', 'availability'],
     name: 'DatePicker',
     methods: {
       onDateChange(date) {
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
+      },
+      isDateAvailable(_date) {
+        const testDate = _date;
+        const testDayString = testDate.format('dddd');
+
+        // let's assume it's not available from the start
+        testDate.available = false;
+        let availableDay = '';
+
+        // compare day-of-the-week strings and test
+        this.formattedDates.map(dateObject => {
+          availableDay = dateObject.day;
+          if (availableDay.includes(testDayString)) {
+            testDate.available = true;
+          }
+        });
+
+        return testDate;
       }
     },
     computed: {
@@ -28,11 +46,26 @@
         const dates = [];
         let currentDate = moment(this.startDateTime).local();
         for (var i = 1; i <= this.maximumDays; i++) {
+
+          // test availability
+          this.isDateAvailable(currentDate);
+
           dates.push(currentDate);
           currentDate = moment(this.startDateTime).local().add(i, 'days');
         }
 
+        console.log('final dates', dates);
+
         return dates;
+      },
+      formattedDates() {
+        // right now, this is getting two arrays, so we need to hard-code the index
+        return this.availability[1].map((item) => {
+          // this now a simple object of day:/time: keys
+          // we can compare this with the generated moment object above
+          // item.day === date.day("Tuesday")
+          return item;
+        });
       }
     },
     mounted() {
