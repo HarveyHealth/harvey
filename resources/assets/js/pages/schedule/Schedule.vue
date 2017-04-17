@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
     <practitioner v-if="step === 1" />
-    <phone v-if="step === 2" />
-    <datetime v-if="step === 3" :availability="practitioner_availability" />
+    <!-- <phone v-if="step === 2" /> -->
+    <datetime v-if="step === 2" :availability="practitioner_availability" />
   </form>
 </template>
 
@@ -25,6 +25,9 @@
         appointmentDate: '',
       }
     },
+    created() {
+      console.log();
+    },
     components: {
       'datetime': DateTime,
       'phone': Phone,
@@ -35,6 +38,9 @@
         this.step ++; // simply increment the steps to move through the form states
       },
       onSubmit() {
+
+        // send the appointmentDate up so other components can get to it
+        this.$root.$data.sharedState.appointmentDate = this.appointmentDate;
 
         // build the data for the submission
         const appointmentData = {
