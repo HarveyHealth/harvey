@@ -11,11 +11,8 @@
       <li v-for="date in dates" class="calendar-item" :class="[{'selected' : selectedDate.day() === date.day()}]">
         <button class="calendar-item_link" @click.prevent="onDateChange(date)">
           <span>{{ date | datetime('dd') }}</span>
-          <!-- {{isSameDate(selectedDate, date)}} -->
-          <!-- <span>{{ date | datetime('DD') }}</span> -->
         </button>
       </li>
-      <!-- <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li> -->
     </ul>
   </div>
 </template>
@@ -37,7 +34,7 @@
           start: moment().add(_offset, 'days').startOf('isoweek').format('MMMM D'),
           end: moment().add(_offset, 'days').endOf('isoweek').format('MMMM D'),
         };
-        
+
         return weekObject;
       },
 
