@@ -58,14 +58,15 @@
             </div>
           </div>
         </div>
-<!--
-        <div class="calendar-notice text-centered">
-          <p class="large">This will replace existing appointment on:  Thursday, March 30th at 5:00pm</p>
-        </div>
--->
+
         <div class="text-centered">
-          <!-- <a class="button" @click.prevent="nextStep">Continue</a> -->
-          <input type="submit" class="button" value="Book Now">
+
+          <input
+            type="submit"
+            class="button"
+            value="Book Now"
+            :disabled="dateSelected && timeSelected ? false : true"
+          >
         </div>
       </div>
     </div>
@@ -84,6 +85,7 @@
       return {
         title: 'Choose date and time',
         subtitle: 'Lastly, tell us the best date and time you would like to schedule a 45-60 minute phone consultation with your chosen physician.',
+        appointmentDate: moment(),
 
         // Date/Time Data
         now: moment(),
@@ -95,6 +97,10 @@
 
         selectedDate: moment(),
         selectedTime: moment().add(1, 'hour'), // making sure we can't select the current hour
+
+        // validation
+        dateSelected: false,
+        timeSelected: false,
       }
     },
     components: {
@@ -127,12 +133,30 @@
 
       onDateTimeChange(_obj) {
         if (_obj.type === 'date') {
+
           this.selectedDate = _obj.value;
+          this.dateSelected = true;
+
         } else if(_obj.type === 'time') {
+
           this.selectedTime = _obj.value;
+          this.timeSelected = true;
+
         }
 
-        console.log('selected', this.selectedTime);
+        // construct a moment object from the selected parts
+        this.appointmentDate = moment(
+          {
+            month: this.selectedDate.month(),
+            day: this.selectedDate.date(),
+            hour: this.selectedTime.hour(),
+            minute: this.selectedTime.minute(),
+          },
+        );
+
+        const convertedDate = this.appointmentDate.format('YYYY-MM-DD hh:mm:ss')
+
+        console.log('appointment set for', convertedDate);
       },
     },
     computed: {

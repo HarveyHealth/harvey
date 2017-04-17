@@ -8,7 +8,7 @@
     </div>
 
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="date in localDates" class="calendar-item" :class="[{'selected' : selectedDate.date() === date.date()}]">
+      <li v-for="date in localDates" class="calendar-item" :class="[{'selected' : hasBeenTouched && selectedDate.date() === date.date()}]">
         <button
           class="calendar-item_link"
           @click.prevent="onDateChange(date)"
@@ -30,11 +30,14 @@
     name: 'DatePicker',
     data() {
       return {
+        hasBeenTouched: false,
         localDates: [],
       }
     },
     methods: {
       onDateChange(date) {
+        this.hasBeenTouched = true;
+        
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
       },
