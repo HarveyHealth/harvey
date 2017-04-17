@@ -28,7 +28,13 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-        $appointments = auth()->user()->appointments;
+        if(request('filter') == 'recent') {
+            $appointments = auth()->user()->appointments()->recent()->get();
+        } elseif (request('filter') == 'upcoming') {
+            $appointments = auth()->user()->appointments()->upcoming()->get();
+        } else {
+            $appointments = auth()->user()->appointments;
+        }
 
         return $this->baseTransformCollection($appointments)->respond();
     }
