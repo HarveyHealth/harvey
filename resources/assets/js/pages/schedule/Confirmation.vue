@@ -6,8 +6,12 @@
 
       <h1 class="header-xlarge">{{ title }}</h1>
 
-      <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span> <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button></p>
+      <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
+        <!-- <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button> -->
+      </p>
+
       <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
+
       <p class="confirmation_text large">{{ subtitle }}</p>
       <div class="text-centered">
         <a :href="intakeUrl" class="button">Start Intake Form</a>
