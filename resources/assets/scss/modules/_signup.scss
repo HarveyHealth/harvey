@@ -2,13 +2,14 @@
 .signup-content {
   padding-top: 25px;
   text-align: center;
+  margin-bottom: 60px;
 }
 
 .signup-form-container {
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  margin: 35px auto 0;
+  margin: 30px auto;
   max-width: 510px;
   padding: 30px;
   @media (min-width: 850px) { padding: 50px 90px; }
@@ -21,26 +22,35 @@
   }
 }
 
+a:active,
+a:focus,
+a:hover {
+  color: #FFF;
+}
+
 // Registration specific styles
-.registration-tree {
-  margin-bottom: 30px;
-  max-width: 508px;
+.registration-tree, .interstitial {
+  margin-bottom: 25px;
+  max-width: 470px;
   width: 100%;
 }
 
+.interstitial {
+  margin-top: 20px;
+}
 
 // Progress Indicator
 .signup_progress-indicator {
-  margin-bottom: 35px;
+  margin-bottom: 25px;
   text-align: center;
 }
   .signup_progress-step {
     background: #F1F1F2;
     border-radius: 50%;
     display: inline-block;
-    height: 22px;
+    height: 18px;
     margin-right: 10px;
-    width: 22px;
+    width: 18px;
 
     &:last-child {
       margin-right: 0;
@@ -54,13 +64,13 @@
 
 // Checked Radio
 .radio-block {
-  margin-bottom: 55px;
+  margin-bottom: 40px;
   width: 100%;
   @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
-    margin-bottom: 55px;
-    margin-right: 50px;
+    margin-bottom: 40px;
+    margin-right: 40px;
   }
 }
 .radio-block_container {
@@ -69,18 +79,58 @@
   border-radius: 5px;
   cursor: pointer;
   height: 100%;
-  padding: 25px 35px;
-
+  padding: 20px;
+  h2{
+    margin-bottom: 7px;
+  }
+  .tip{
+  margin-bottom: 15px;
+  }
+  img {
+    max-width: 65px;
+    border-radius: 3px;
+    display: block;
+    float: left;
+    margin: 3px 12px 10px 0;
+  }
   &:hover {
     border: 1px solid $green;
     box-shadow: inset 0px 0px 0px 6px $green;
   }
 }
-  .practitioner-main-content  {
-    border-bottom: 1px solid $gray;
-    margin-bottom: 25px;
-    padding-bottom: 25px;
+
+.practitioner-main-content {
+    margin-bottom: 10px;
+  p{
+    font-size: 14px;
+    line-height: 1.25em;
+    margin-bottom: 4px;
   }
+  ul {
+    margin: 7px 0 20px;
+    font-size: 14px;
+  } li {
+    margin-bottom: 5px;
+  }
+}
+
+.price{
+  border-top: 1px solid #DDD;
+  padding-top: 20px;
+}
+
+.tip{
+  color:$gray;
+  display:block;
+  font-size:17px;
+  clear:both;
+  &.blue{
+    color: hsl(271, 100%, 71%);
+    font-size: 14px;
+    opacity: .7;
+    margin-top: 3px;
+  }
+}
 
 .radio_block:checked + label .radio-block_container  {
   border: 1px solid $green;
@@ -93,6 +143,15 @@
 
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+// Input fields
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
 }
 
 
@@ -156,6 +215,12 @@
             transition: box-shadow .25s ease-in-out;
             width: 35px;
 
+            &.bar {
+              border-radius: 0;
+              height: auto;
+              width: 100%;
+            }
+
             &:nth-child(5n) {
               @media (min-width: 850px) { margin-right: 0; }
             }
@@ -166,6 +231,7 @@
               .calendar-item_link {
                 color: $white;
               }
+
               &:hover {
                 box-shadow: none;
               }
@@ -176,6 +242,7 @@
             }
 
             .calendar-item_link {
+              color: $gray;
               border: none;
               background: none;
               cursor: pointer;
@@ -184,6 +251,10 @@
               line-height: 35px;
               text-align: center;
               width: 100%;
+
+              &[disabled] {
+                opacity: 0.5;
+              }
             }
           }
   .calendar-notice p {
@@ -197,12 +268,11 @@
 
 }
   .confirmation_calendar {
-    margin: 50px auto;
+    margin: 30px auto;
     max-width: 132px;
   }
     .confirmation_date {
-      color: $green-bright;
-      font-size: 28px;
+      font-size: 23px;
       margin-bottom: 20px;
     }
       .confirmation_day {

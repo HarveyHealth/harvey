@@ -38,10 +38,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
         Route::patch('appointments/{appointment}', 'API\V1\AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'API\V1\AppointmentsController@delete')->name('appointments.delete');
+    
+        Route::get('practitioners/{practitioner}', 'API\V1\PractitionerController@show')->name('practitioner.show');
         
         Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@update')->name('practitioner-schedule.update');
-        
-        Route::get('practitioner/{practitioner}/availability', 'API\V1\PractitionerAvailabilityController@show')->name('practitioner-availability.show');
     });
 });

@@ -22,6 +22,7 @@ Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify'
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
 
 
+
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 Route::get('api/user', 'DashboardController@getUser');
@@ -40,10 +41,12 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
+    Route::get('logout', 'Auth\LoginController@logout');
 }
 
-
-
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/schedule', 'SchedulerController@index')->name('scheduler');
+});
 
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');

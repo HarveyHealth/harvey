@@ -10,7 +10,6 @@ storage/logs/*.*
 /.idea
 /.vagrant
 Homestead.json
-Homestead.yaml
 .env
 .env.testing
 .env.dev
@@ -31,5 +30,6 @@ Homestead.yaml
 /.DS_Store
 /public/css/app.css
 /public/legacy/*
-/public/images/*
+/public/images/sprite.png
+/public/images/sprite@2x.png
 yarn.lock

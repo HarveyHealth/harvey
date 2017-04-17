@@ -61,7 +61,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Medical license</strong></p>
-                        <p class="subtitle is-6">100% of our NDs must pass an extensive board examination and received a medical license from their practicing state.</p>
+                        <p class="subtitle is-6">100% of our doctrs must pass an extensive board examination and receive a medical license from their practicing state.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -79,7 +79,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Natural remedies</strong></p>
-                        <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, vitamins, supplements or lifestyle changes.</p>
+                        <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, supplements or lifestyle changes.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -107,9 +107,9 @@
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
-                        <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying causes of acute and chronic conditions.</strong></h2>
-                        <p>Far too often, people struggling to suppress chronic symptoms with prescription drugs or over-the-counter medications have been misdiagnosed by medical doctors.</p>
-                        <p>Naturopathic Doctors are far more experienced in performing and interpreting specialized, non-traditional laboratory tests that can help identify nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones), or test for high levels of toxic metals and chemicals.</p>
+                        <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying cause chronic conditions.</strong></h2>
+                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medican doctor.</p>
+                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testting for high levels of toxic metals and chemicals.</p>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Micronutrient Test</strong></h2>
-                        <p>Micronutrient blood tests measure your body's ability to absorb into your white blood cells 35 different nutritional components — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients.</p>
+                        <p>Micronutrient blood tests measure your body's level of absorption of 35 different nutritional components into your white blood cells — including vitamins, minerals, antioxidants, amino acids, fatty acids and other essential nutrients.</p>
                         <p>Scientific evidence shows us that analyzing the white blood cells gives us the most accurate analysis of a body's deficiencies that are often related to functional disorders.</p>
                     </div>
                 </div>
@@ -154,8 +154,8 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Metals Test</strong></h2>
-                        <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through the foods you eat.</p>
-                        <p>Although death from metal poisoning is rare, low-level exposure to toxic metals over long periods of time may result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and treatment plan to prevent future exposure.</p>
+                        <p>Our toxic metals test is the best way to identify the presence and levels of 16 toxic heavy metals (such as mercury, lead, uranium and beryllium) that have been deposited into our body tissues through food and environmental factors.</p>
+                        <p>Low-level exposure to toxic metals over long periods of time may result in significant adverse health effects and chronic disease. After taking the test, your doctor will help you build a detailed detoxification and treatment plan to prevent future exposure.</p>
                     </div>
                 </div>
                 <div class="column has-text-right">
@@ -174,8 +174,27 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4"><strong>Toxic Chemicals Test</strong></h2>
-                        <p>Every day, you and your family are at risk of exposure to toxic chemicals through pharmaceutical drugs, pesticides, packaged foods, household cleaners and environmental pollution in your air and water. Exposure to environmental pollutants have been known to accelerate the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
+                        <p>Every day, you and your family are at risk of exposure to toxic chemicals through pesticides, packaged foods, household cleaners and environmental pollution in your air and water. Exposure to environmental pollutants have been known to accelerate the rate of chronic illnesses like cancer, heart disease, chronic fatigue, autism, Parkinson's and Alzheimer's disease.</p>
                         <p>With this test, we can test the presence of 172 different toxic chemicals in your body such as benzene, xylene, vinyl chloride and diphenyl phosphate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="pricing">
+        <div class="container">
+            <div class="columns is-desktop">
+                <figure class="image">
+                    <img src="/images/home/pricing.jpg" alt="">
+                </figure>
+                <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-3"><strong>Explore our lab tests</strong></h2>
+                        <p class="subtitle is-6">We charge $149 for each consultation with a doctor and lab testing ranges from $99 to $299 depending on complexity. We cover all the costs of mailing lab kits and performing in-home blood draws. <strong>Harvey services are not typically covered by medical insurance</strong>.</p>
+                        <div class="button-wrapper">
+                            <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">Lab Tests & Pricing</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,7 +221,7 @@
                     </figure>
                     <div class="column">
                         <p class="title is-5"><strong>2. Lab Testing</strong></p>
-                        <p>We will send a phlebotomist to your home to take a blood, urine or stool sample for one of our highly specialized lab tests.</p>
+                        <p>We will mail lab kits to your home in a discrete package, and if necessary send a phlebotomist to your home for a blood draw.</p>
                     </div>
                 </div>
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
@@ -230,30 +249,11 @@
         </div>
     </section>
 
-    <section class="section" id="pricing">
-        <div class="container">
-            <div class="columns is-desktop">
-                <figure class="image">
-                    <img src="/images/home/pricing.jpg" alt="">
-                </figure>
-                <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
-                    <div class="content">
-                        <h2 class="title is-3"><strong>Pricing that makes sense</strong></h2>
-                        <p class="subtitle is-6">We charge $149 for each consultation with a doctor and lab testing ranges from $99 to $299 depending on complexity. We cover all the costs of mailing lab kits and performing in-home blood draws. <strong>Harvey services are not typically covered by medical insurance</strong>.</p>
-                        <div class="button-wrapper">
-                            <a href="/lab-tests" class="button is-primary is-outlined is-medium has-arrow">Explore Other Tests</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="section" id="symptoms">
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of health conditions — including menopause, fatigue, auto-immune diseases, fibromyalgia, autism, hypertension, migraines, diabetes, and even toxic metal exposure.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of health conditions — including menopause, fatigue, eczema, auto-immune diseases, fibromyalgia, autism, diabetes, hypertension, migraines and toxic chemical exposure.</p>
                 <div class="columns is-multiline">
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
@@ -364,8 +364,6 @@
                 <h2 class="title is-4 section-header"><span>Get Started</span></h2>
                 <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll keep in touch.</p>
 
-                <!-- Begin MailChimp -->
-                <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
@@ -375,7 +373,6 @@
                         </div>
                     </form>
                 </div>
-                <!-- End MailChimp -->
 
                 <div class="section" id="blog">
                     <div class="container">
@@ -392,7 +389,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <div class="has-text-centered">
-                    <h2 class="title is-3">Your journey starts here.</h2>
+                    <h2 class="title is-3">No credit card required.</h2>
                     <button class="button is-primary is-medium has-arrow">
                         <span class="icon" v-if="symptomsSaving">
                             <i class="fa fa-spinner fa-spin"></i>

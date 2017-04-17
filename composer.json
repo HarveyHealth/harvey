@@ -26,7 +26,8 @@
         "laravel/dusk": "^1.0",
         "spatie/laravel-fractal": "^3.5",
         "laravel/passport": "^2.0",
-        "crell/api-problem": "^2.0"
+        "crell/api-problem": "^2.0",
+        "wildbit/postmark-php": "^2.3"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
@@ -60,6 +61,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize",
             "php artisan migrate --force",
+            "php artisan passport:getkeys",
             "npm run production"
         ],
         "post-update-cmd": [
