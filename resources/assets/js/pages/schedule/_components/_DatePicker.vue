@@ -1,14 +1,20 @@
 <template>
-  <ul class="calendar-week-container_days-wrapper">
-    <li v-for="date in dates" class="calendar-item" :class="[{'selected' : selectedDate.day() === date.day()}]">
-      <button class="calendar-item_link" @click.prevent="onDateChange(date)">
-        <span>{{ date | datetime('dd') }}</span>
-        <!-- {{isSameDate(selectedDate, date)}} -->
-        <!-- <span>{{ date | datetime('DD') }}</span> -->
-      </button>
-    </li>
-    <!-- <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li> -->
-  </ul>
+  <div class="calendar-week-container">
+    <div class="calendar-week-container_title-wrapper">
+      <h3 class="calendar-week-container_title">This week</h3>
+      <span class="calendar-week-container_date">March 27 - April 2nd</span>
+    </div>
+    <ul class="calendar-week-container_days-wrapper">
+      <li v-for="date in dates" class="calendar-item" :class="[{'selected' : selectedDate.day() === date.day()}]">
+        <button class="calendar-item_link" @click.prevent="onDateChange(date)">
+          <span>{{ date | datetime('dd') }}</span>
+          <!-- {{isSameDate(selectedDate, date)}} -->
+          <!-- <span>{{ date | datetime('DD') }}</span> -->
+        </button>
+      </li>
+      <!-- <li class="calendar-item selected"><button class="calendar-item_link">Sun</button></li> -->
+    </ul>
+  </div>
 </template>
 
 <script>

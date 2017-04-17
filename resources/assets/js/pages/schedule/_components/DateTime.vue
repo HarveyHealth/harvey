@@ -18,26 +18,14 @@
           <div class="input-wrap calendar-block">
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Date</h2>
-              <div class="calendar-week-container">
-                <div class="calendar-week-container_title-wrapper">
-                  <h3 class="calendar-week-container_title">This week</h3>
-                  <span class="calendar-week-container_date">March 27 - April 2nd</span>
-                </div>
 
-                <date-picker
-                  :selected-date="selectedDate"
-                  :maximum-days="maximumDays"
-                  :start-date-time="startDateTime"
-                  :availability="availability"
-                />
-
-              </div>
-              <!-- <div class="calendar-week-container">
-                <div class="calendar-week-container_title-wrapper">
-                  <h3 class="calendar-week-container_title">Next week</h3>
-                  <span class="calendar-week-container_date">March 27 - April 2nd</span>
-                </div>
-              </div> -->
+              <date-picker
+                :selected-date="selectedDate"
+                :maximum-days="maximumDays"
+                :start-date-time="startDateTime"
+                :availability="availability"
+              />
+              
             </div>
           </div>
 
