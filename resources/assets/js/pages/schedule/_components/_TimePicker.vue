@@ -1,7 +1,9 @@
 <template>
   <div class="calendar-week-container">
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="time in times" class="calendar-item bar" :class="[{'selected' : hasBeenTouched && selectedTime.hour() === time.hour()}]">
+      <li v-for="time in times" class="calendar-item bar"
+        :class="[{'selected' : hasBeenTouched && (selectedTime.hour() === time.hour()) && (selectedTime.minute() === time.minute())}]"
+      >
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
@@ -50,9 +52,6 @@
       times() {
         const times = [];
         let availableTime = {};
-        let tzOffset = 0;
-
-        // :disabled="time.hour() < startTime"
 
         this.availability[1].map(datetime => {
           availableTime = moment(datetime.time, 'HH:mm').utc();
@@ -61,6 +60,7 @@
 
         return times;
       },
+
       startTime() {
         if (this.selectedDate > this.startDateTime) {
           return this.startOfDayHour;
