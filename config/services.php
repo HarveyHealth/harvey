@@ -42,5 +42,10 @@ return [
     'intakeq' => [
         'api_key' => env('INTAKEQ_API_KEY')
     ],
+    
+    'postmark' => [
+        'token' => env('POSTMARK_TOKEN'),
+        'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com')
+    ],
 
 ];

@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
+use App\Events\UserRegistered;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
@@ -23,7 +25,7 @@ class RegistrationTest extends TestCase
         
         // When a request is made to create a new user
         $response = $this->post(route('users.create'), $parameters);
-        
+
         // It is successful
         $response->assertStatus(200);
         
