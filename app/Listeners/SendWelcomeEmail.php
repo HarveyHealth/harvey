@@ -13,6 +13,10 @@ class SendWelcomeEmail implements ShouldQueue
      */
     public function handle(UserRegistered $event)
     {
+        if (app()->environment(['local', 'testing'])) {
+            return;
+        }
+        
         try{
             $template_model = [
                 'name' => $event->user->fullName(),
