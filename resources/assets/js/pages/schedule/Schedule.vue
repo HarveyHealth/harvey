@@ -25,9 +25,6 @@
         appointmentDate: '',
       }
     },
-    created() {
-      console.log();
-    },
     components: {
       'datetime': DateTime,
       'phone': Phone,
