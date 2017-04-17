@@ -41,10 +41,12 @@
 
       getDates() {
         const dates = [];
-        let currentDate = moment(this.startDateTime).local();
+        // let currentDate = moment(this.startDateTime).local();
+        let currentDate = {};
+
         for (var i = 0; i < this.maximumDays; i++) {
 
-          currentDate = moment(this.startDateTime).local().add(i + this.weekOffset, 'days');
+          currentDate = moment(this.startDateTime).local().startOf('isoweek').add(i + this.weekOffset, 'days');
 
           // test availability
           this.isDateAvailable(currentDate);
@@ -57,9 +59,11 @@
       },
 
       getWeekWithOffset(_offset = 0) {
+        let weekStart = moment().add(_offset, 'days').startOf('isoweek');
+
         const weekObject = {
-          start: moment().add(_offset, 'days').startOf('isoweek').format('MMMM D'),
-          end: moment().add(_offset, 'days').endOf('isoweek').format('MMMM D'),
+          start: weekStart.format('MMMM D'),
+          end: weekStart.add(4, 'days').format('MMMM D'),
         };
 
         return weekObject;
