@@ -22,6 +22,7 @@ class UserTransformer extends TransformerAbstract
             'email' => $user->email,
             'phone' => $user->phone,
             'gender' => $user->gender,
+            'zip' => $user->zip
         ];
     }
 }
