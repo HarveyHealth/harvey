@@ -1,8 +1,9 @@
 <template>
   <form @submit.prevent="onSubmit">
     <practitioner v-if="step === 1" />
-    <phone v-if="step === 2" />
-    <datetime v-if="step === 3" :availability="practitioner_availability" />
+    <!-- <phone v-if="step === 2" /> -->
+    <datetime v-if="step === 2" :availability="practitioner_availability" />
+    <confirmation v-if="step === 3" :appointmentDate="appointmentDate" />
   </form>
 </template>
 
@@ -10,6 +11,9 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
+
+  import Confirmation from './Confirmation';
+
   export default {
     name: 'Schedule',
     data() {
@@ -26,23 +30,28 @@
       'datetime': DateTime,
       'phone': Phone,
       'practitioner': Practitioner,
+      'confirmation': Confirmation,
     },
     methods: {
       next() {
         this.step ++; // simply increment the steps to move through the form states
       },
       onSubmit() {
+
+        // build the data for the submission
         const appointmentData = {
           appointment_at: this.appointmentDate,
           reason_for_visit: 'blank',
           practitioner_id: this.practitioner,
         }
 
-        console.log('submitting', appointmentData);
-
-
-
-        this.$router.push('/confirmation');
+        axios.post(`api/v1/appointments`, appointmentData)
+        .then(response => {
+          this.next();
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
       }
     }
   }
