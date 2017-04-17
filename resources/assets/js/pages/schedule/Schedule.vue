@@ -14,6 +14,8 @@
 
   import Confirmation from './Confirmation';
 
+  import moment from 'moment';
+
   export default {
     name: 'Schedule',
     data() {
