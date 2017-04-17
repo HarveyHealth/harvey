@@ -4,12 +4,17 @@
     <div class="calendar-week-container_title-wrapper">
       <h3 class="calendar-week-container_title">This week</h3>
       <span class="calendar-week-container_date">
-        {{getWeekWithOffset().start}} - {{getWeekWithOffset().end}}</span>
+        {{getWeekWithOffset(weekOffset).start}} - {{getWeekWithOffset(weekOffset).end}}</span>
     </div>
 
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="date in dates" class="calendar-item" :class="[{'selected' : selectedDate.day() === date.day()}]">
-        <button class="calendar-item_link" @click.prevent="onDateChange(date)">
+      <li v-for="date in localDates" class="calendar-item" :class="[{'selected' : selectedDate.date() === date.date()}]">
+        <button
+          class="calendar-item_link"
+          @click.prevent="onDateChange(date)"
+          :value="date"
+          :disabled="!date.available"
+        >
           <span>{{ date | datetime('dd') }}</span>
         </button>
       </li>
@@ -21,12 +26,34 @@
   import moment from 'moment';
 
   export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime', 'availability'],
+    props: ['selectedDate', 'maximumDays', 'startDateTime', 'availability', 'weekOffset'],
     name: 'DatePicker',
+    data() {
+      return {
+        localDates: [],
+      }
+    },
     methods: {
       onDateChange(date) {
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
+      },
+
+      getDates() {
+        const dates = [];
+        let currentDate = moment(this.startDateTime).local();
+        for (var i = 0; i < this.maximumDays; i++) {
+
+          currentDate = moment(this.startDateTime).local().add(i + this.weekOffset, 'days');
+
+          // test availability
+          this.isDateAvailable(currentDate);
+
+          dates.push(currentDate);
+          console.log('+++', currentDate);
+        }
+
+        return dates;
       },
 
       getWeekWithOffset(_offset = 0) {
@@ -58,23 +85,6 @@
       }
     },
     computed: {
-      dates() {
-        const dates = [];
-        let currentDate = moment(this.startDateTime).local();
-        for (var i = 1; i <= this.maximumDays; i++) {
-
-          // test availability
-          this.isDateAvailable(currentDate);
-
-          dates.push(currentDate);
-          currentDate = moment(this.startDateTime).local().add(i, 'days');
-        }
-
-        console.log('final dates', dates);
-
-        return dates;
-      },
-
       formattedDates() {
         // right now, this is getting two arrays, so we need to hard-code the index
         return this.availability[1].map((item) => {
@@ -85,8 +95,8 @@
         });
       }
     },
-    mounted() {
-      this.onDateChange(this.dates[0]);
+    created() {
+      this.localDates = this.getDates();
     }
   }
 </script>

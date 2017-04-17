@@ -24,6 +24,15 @@
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
                 :availability="availability"
+                :weekOffset="0"
+              />
+
+              <date-picker
+                :selected-date="selectedDate"
+                :maximum-days="maximumDays"
+                :start-date-time="startDateTime"
+                :availability="availability"
+                :weekOffset="7"
               />
 
             </div>
@@ -126,13 +135,16 @@
     computed: {
       startDateTime() {
         const canBookToday = this.canBookToday();
+        let startDate = {};
 
         if (canBookToday) {
           const hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
-          return this.now.set({hour: hour, minute: 0, second: 0, millisecond: 0}).utc();
+          startDate = this.now.set({hour: hour, minute: 0, second: 0, millisecond: 0}).utc();
         } else {
-          return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second: 0, millisecond: 0}).utc();
+          startDate = this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second: 0, millisecond: 0}).utc();
         }
+
+        return startDate;
       },
     },
     mounted() {
