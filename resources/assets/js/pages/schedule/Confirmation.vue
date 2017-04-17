@@ -10,22 +10,31 @@
       <a class="confirmation_reschedule" href="#">Reschedule</a>
       <p class="confirmation_text large">{{ subtitle }}</p>
       <div class="text-centered">
-        <a href="https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=" class="button">Start Intake Form</a>
+        <a :href="intakeUrl" class="button">Start Intake Form</a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import moment from 'moment';
+
   export default {
     name: 'Confirmation',
     props: ['appointmentDate'],
     data() {
       return {
         title: 'Your appointment is confirmed!',
-        subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).'
+        subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).',
+        intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.userId}`,
       }
     },
+    computed: {
+      formattedDate() {
+        // console.log(moment('2017-04-17 07:00:00').format('MMMM'));
+        return moment(this.appointmentDate);
+      }
+    }
   }
 </script>
 
