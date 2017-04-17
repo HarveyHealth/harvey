@@ -215,6 +215,12 @@ button:focus {
             transition: box-shadow .25s ease-in-out;
             width: 35px;
 
+            &.bar {
+              border-radius: 0;
+              height: auto;
+              width: 100%;
+            }
+
             &:nth-child(5n) {
               @media (min-width: 850px) { margin-right: 0; }
             }

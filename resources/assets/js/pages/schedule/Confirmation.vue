@@ -18,6 +18,7 @@
 
 <script>
   export default {
+    name: 'Confirmation',
     props: ['appointmentDate'],
     data() {
       return {
@@ -25,7 +26,6 @@
         subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).'
       }
     },
-    name: 'Confirmation'
   }
 </script>
 

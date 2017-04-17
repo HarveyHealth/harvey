@@ -3,6 +3,7 @@
     <practitioner v-if="step === 1" />
     <phone v-if="step === 2" />
     <datetime v-if="step === 3" :availability="practitioner_availability" />
+    <confirmation v-if="step === 4" :appointmentDate="appointmentDate" />
   </form>
 </template>
 
@@ -10,6 +11,9 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
+
+  import Confirmation from './Confirmation';
+
   export default {
     name: 'Schedule',
     data() {
@@ -18,21 +22,36 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         step: 1,
         practitioner: null,
-        practitioner_availability: []
+        practitioner_availability: [],
+        appointmentDate: '',
       }
     },
     components: {
       'datetime': DateTime,
       'phone': Phone,
       'practitioner': Practitioner,
+      'confirmation': Confirmation,
     },
     methods: {
       next() {
         this.step ++; // simply increment the steps to move through the form states
       },
       onSubmit() {
-        console.log('submitting');
-        this.$router.push('/confirmation');
+
+        // build the data for the submission
+        const appointmentData = {
+          appointment_at: this.appointmentDate,
+          reason_for_visit: 'blank',
+          practitioner_id: this.practitioner,
+        }
+
+        axios.post(`api/v1/appointments`, appointmentData)
+        .then(response => {
+          this.next();
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
       }
     }
   }

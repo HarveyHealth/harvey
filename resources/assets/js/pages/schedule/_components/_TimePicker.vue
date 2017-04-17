@@ -1,13 +1,14 @@
 <template>
   <div class="calendar-week-container">
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="time in times" class="calendar-item" :class="[{'selected' : hasBeenTouched && selectedTime.hour() === time.hour()}]">
+      <li v-for="time in times" class="calendar-item bar"
+        :class="[{'selected' : hasBeenTouched && (selectedTime.hour() === time.hour()) && (selectedTime.minute() === time.minute())}]"
+      >
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
-          :disabled="time.hour() < startTime"
         >
-          {{time | datetime('ha')}}
+          {{time | datetime('h:mm a')}}
         </button>
       </li>
     </ul>
@@ -19,7 +20,17 @@
 
   export default {
     name: 'TimePicker',
-    props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
+    props: [
+      'availability',
+      'duration',
+      'endOfDayHour',
+      'minimumNotice',
+      'now',
+      'selectedDate',
+      'selectedTime',
+      'startDateTime',
+      'startOfDayHour',
+    ],
     data() {
       return {
         hasBeenTouched: false,
@@ -35,16 +46,21 @@
         if (time >= this.startTime) {
           this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
         }
-      }
+      },
     },
     computed: {
       times() {
         const times = [];
-        for (let i = this.startOfDayHour; i <= this.endOfDayHour; i++) {
-          times.push(moment({hour: i, minute: 0}));
-        }
+        let availableTime = {};
+
+        this.availability[1].map(datetime => {
+          availableTime = moment(datetime.time, 'HH:mm').utc();
+          times.push(availableTime);
+        });
+
         return times;
       },
+
       startTime() {
         if (this.selectedDate > this.startDateTime) {
           return this.startOfDayHour;
