@@ -61,7 +61,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctrs must pass an extensive board examination and receive a medical license from their practicing state.</p>
+                        <p class="subtitle is-6">100% of our doctors must pass an extensive board examination and receive a medical license from their practicing state.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
