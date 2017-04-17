@@ -62,11 +62,11 @@
         <div class="text-centered">
 
           <input
-            type="submit"
             class="button"
+            type="submit"
             value="Book Now"
             :disabled="dateSelected && timeSelected ? false : true"
-          >
+          />
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@
       return {
         title: 'Choose date and time',
         subtitle: 'Lastly, tell us the best date and time you would like to schedule a 45-60 minute phone consultation with your chosen physician.',
-        appointmentDate: moment(),
+        selectedAppointmentDate: moment(),
 
         // Date/Time Data
         now: moment(),
@@ -145,7 +145,7 @@
         }
 
         // construct a moment object from the selected parts
-        this.appointmentDate = moment(
+        this.selectedAppointmentDate = moment(
           {
             month: this.selectedDate.month(),
             day: this.selectedDate.date(),
@@ -154,9 +154,7 @@
           },
         );
 
-        const convertedDate = this.appointmentDate.format('YYYY-MM-DD hh:mm:ss')
-
-        console.log('appointment set for', convertedDate);
+        this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss');
       },
     },
     computed: {
