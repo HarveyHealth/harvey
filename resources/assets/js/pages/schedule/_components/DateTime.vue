@@ -131,6 +131,8 @@
         } else if(_obj.type === 'time') {
           this.selectedTime = _obj.value;
         }
+
+        console.log('selected', this.selectedTime);
       },
     },
     computed: {
