@@ -30,7 +30,7 @@
         title: 'Your appointment is confirmed!',
         subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).',
         intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
-        appointmentDate: '',
+        appointmentDate: null,
         validDate: false,
       }
     },

@@ -13,7 +13,7 @@ Vue.prototype.$eventHub = eventHub;
 // use store pattern to manage HOC model
 var store = {
   state: {
-    appointmentDate: '',
+    appointmentDate: null,
   },
 }
 
