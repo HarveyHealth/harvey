@@ -154,6 +154,8 @@
           },
         );
 
+        // this should be UTC
+
         this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss');
       },
     },
