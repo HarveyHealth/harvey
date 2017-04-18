@@ -8,7 +8,7 @@
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
         >
-          {{time | datetime('h:mm a')}}
+          {{ time.format('h:mm a') }}
         </button>
       </li>
     </ul>
@@ -60,7 +60,7 @@
         let availableTime = {};
 
         this.availability[1].map(datetime => {
-          availableTime = moment(datetime.time, 'HH:mm').utc();
+          availableTime = moment.utc(datetime.time, 'HH:mm').local();
           const selectedISOWeekday = moment(datetime.day, 'dddd').isoWeekday();
 
           if (selectedISOWeekday === _forDay) {
