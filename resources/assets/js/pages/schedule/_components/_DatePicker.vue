@@ -2,7 +2,7 @@
   <div class="calendar-week-container">
 
     <div class="calendar-week-container_title-wrapper">
-      <h3 class="calendar-week-container_title">This week</h3>
+      <h3 class="calendar-week-container_title">{{ weekString }}</h3>
       <span class="calendar-week-container_date">
         {{getWeekWithOffset(weekOffset).start}} - {{getWeekWithOffset(weekOffset).end}}</span>
     </div>
@@ -99,6 +99,9 @@
           // item.day === date.day("Tuesday")
           return item;
         });
+      },
+      weekString() {
+          return this.weekOffset === 0 ? "This Week" : "Next Week";
       }
     },
     created() {
