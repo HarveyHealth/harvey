@@ -22,12 +22,11 @@ class PractitionerController extends BaseAPIController
     {
         $data = $this->baseTransformItem($practitioner);
         
-        if(request()->get('include') == 'availability') {
+        if (request()->get('include') == 'availability') {
             $data = $data->addMeta([
                 'availability' => (new PractitionerAvailabilityTransformer())->transform($practitioner)
             ]);
         }
         return $data->respond();
-        
     }
 }

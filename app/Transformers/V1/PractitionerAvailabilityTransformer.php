@@ -15,8 +15,8 @@ class PractitionerAvailabilityTransformer extends TransformerAbstract
     {
         $availability_collection = collect(array_values($practitioner->availability()));
 
-        $availability = $availability_collection->map(function($week) {
-            return collect($week)->map(function($timeslot){
+        $availability = $availability_collection->map(function ($week) {
+            return collect($week)->map(function ($timeslot) {
                 return [
                     'day' => explode(" ", $timeslot)[0],
                     'time' => explode(" ", $timeslot)[1]

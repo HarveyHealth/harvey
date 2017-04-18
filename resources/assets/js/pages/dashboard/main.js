@@ -28,7 +28,7 @@ const app = new Vue({
         guest: false,
         user: {},
         userId: '',
-        apiUrl: '/api/alpha'
+        apiUrl: '/api/v1'
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);

@@ -17,7 +17,7 @@ class SendWelcomeEmail implements ShouldQueue
             return;
         }
         
-        try{
+        try {
             $template_model = [
                 'name' => $event->user->fullName(),
                 'action_url' => $event->user->emailVerificationURL()
@@ -31,9 +31,8 @@ class SendWelcomeEmail implements ShouldQueue
                 1450461, // Postmark Template ID for welcome email
                 $template_model
             );
-        } catch(\Exception $exception){
+        } catch (\Exception $exception) {
             \Log::error("Unable to send email to {$event->user->email}.", [$exception->getMessage()]);
         }
-        
     }
 }
