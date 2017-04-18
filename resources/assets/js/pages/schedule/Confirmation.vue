@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="validDate">
     <div class="container small confirmation">
 
       <img class="confirmation_calendar" src="/images/signup/calendar.png" alt="">
@@ -25,23 +25,34 @@
 
   export default {
     name: 'Confirmation',
-    props: ['appointmentDate'],
     data() {
       return {
         title: 'Your appointment is confirmed!',
         subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).',
         intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
+        appointmentDate: null,
+        validDate: false,
+      }
+    },
+    created() {
+      this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
+    },
+    mounted() {
+      // if state is lost, move into the dashboard
+      if (!this.appointmentDate.isValid()) {
+        window.location.href = '/dashboard';
+      } else {
+        this.validDate = true;
       }
     },
     computed: {
       time() {
-        const timeObject = moment(this.appointmentDate).format('HH:mm a');
+        const timeObject = this.appointmentDate.format('HH:mm a');
         return timeObject;
       },
 
       date() {
-        // console.log(moment('2017-04-17 07:00:00').format('MMMM'));
-        const dateObject = moment(this.appointmentDate);
+        const dateObject = this.appointmentDate;
         return dateObject;
       }
     }

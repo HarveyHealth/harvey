@@ -5,11 +5,14 @@ Vue.use(VueRouter);
 Vue.use(VeeValidate);
 
 const router = new VueRouter({
-  mode: 'history',
   routes: [
     {
-      path: '/schedule',
+      path: '/',
       component: require('./Schedule.vue'),
+    },
+    {
+      path: '/confirmation',
+      component: require('./Confirmation.vue'),
     },
   ]
 })
