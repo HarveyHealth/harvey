@@ -394,7 +394,7 @@
                         <span class="icon" v-if="symptomsSaving">
                             <i class="fa fa-spinner fa-spin"></i>
                         </span>
-                        <span>Get Started</span>
+                        <a href="/signup" class="button is-primary">Get Started</a>
                     </button>
                 </div>
             </div>
