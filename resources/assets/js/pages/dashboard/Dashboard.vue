@@ -16,7 +16,9 @@
         </div>
         <div class="card-wrapper">
           <div class="card">
-              <Appointments :user-type="userType"></Appointments>
+              <Appointments :user-type="userType"
+                            :recent-appointments="recent_appointments"
+                            :upcoming-appointments="upcoming_appointments"></Appointments>
           </div>
           <div class="card smaller">
             <div class="card-heading-container">
@@ -26,21 +28,21 @@
               <div class="card-content-wrap">
                 <h3 class="card-contact-name">
                   <svg class="icon-person"><use xlink:href="#small-person" /></svg>
-                  First Name</h3>
+                  {{ user.attributes.first_name }}</h3>
               </div>
               <div class="card-content-wrap">
                 <h4 class="card-contact-sublabel">Doctor</h4>
-                <p class="card-contact-info">Doctor Name</p>
+                <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
               </div>
               <div class="card-content-wrap">
                 <h4 class="card-contact-sublabel">Email</h4>
-                <p class="card-contact-info">email@address.com</p>
+                <p class="card-contact-info">{{ user.attributes.email }}</p>
                 <h4 class="card-contact-sublabel">Zip</h4>
-                <p class="card-contact-info">111111</p>
+                <p class="card-contact-info">{{ user.attributes.zip }}</p>
                 <h4 class="card-contact-sublabel">Phone</h4>
-                <p class="card-contact-info">(111) 111-1111</p>
+                <p class="card-contact-info">{{ user.attributes.phone }}</p>
                 <h4 class="card-contact-sublabel">ID</h4>
-                <p class="card-contact-info">#123456</p>
+                <p class="card-contact-info">{{ user.id }}</p>
               </div>
             </div>
           </div>
@@ -53,9 +55,16 @@
     import Appointments from '../../appointments/Appointments.vue';
     import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
     import Contact from '../../mixins/Contact';
+    import momentTimezone from 'moment-timezone';
 
     export default {
         name: 'dashboard',
+        data() {
+          return {
+            'upcoming_appointments': [],
+            'recent_appointments': []
+          };
+        },
         props: ['user', 'patient'],
         components: {
             Appointments
@@ -69,6 +78,17 @@
             userType() {
                 return this.user.user_type;
             }
+        },
+        mounted() {
+            this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
+                .then((response) => {
+                  this.upcoming_appointments = response.data.data;
+                });
+
+            this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
+                .then((response) => {
+                    this.recent_appointments = response.data.data;
+                });
         }
     }
 </script>

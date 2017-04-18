@@ -2,9 +2,8 @@
     <div class="appointment">
         <div class="appointment_left">
             <div class="box">
-                <p class="appointment_date">{{ appointment.appointment_at | datetime('MMM D') }} at {{ appointment.appointment_at | datetime('h:mm a') }}</p>
+                <p class="appointment_date">{{ localAppointmentTime.format('MMM D [at] h:mm a') }}</p>
             </div>
-
         </div>
         <div class="appointment_right">
             <template v-if="userType == 'admin' || userType == 'practitioner'">
@@ -24,7 +23,7 @@
                 </p>
             </template>
             <template v-else>
-                <p class="appointment_doctor">With Dr Amanda Frick, ND.</p>
+                <p class="appointment_doctor">With Dr {{ appointment.attributes.practitioner_name }}</p>
             </template>
         </div>
         <div class="appointment_left">
@@ -36,6 +35,7 @@
 </template>
 
 <script>
+    import moment from 'moment-timezone';
     import {capitalize, phone, hyperlink} from '../filters/textformat.js';
     import Contact from '../mixins/Contact';
 
@@ -44,7 +44,8 @@
         props: ['appointment', 'userType'],
         data() {
             return {
-                patient: {}
+                patient: {},
+                local_timezone: 'America/Los_Angeles'
             }
         },
         methods: {
@@ -52,7 +53,15 @@
             phone,
             hyperlink
         },
+        computed: {
+            localAppointmentTime() {
+                let m = moment.utc(this.appointment.attributes.appointment_at.date, "YYYY-MM-DD h:i:s");
+                return moment(m).tz(this.local_timezone);
+            }
+        },
         mounted() {
+            this.local_timezone = momentTimezone.tz.guess();
+
             if (this.userType !== 'patient') {
                 this.$http.get(this.$root.apiUrl + '/users/' + this.appointment.patient_user_id)
                     .then((response) => {

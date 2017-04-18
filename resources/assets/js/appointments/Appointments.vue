@@ -4,8 +4,8 @@
         <h2 class="card-header">Upcoming Appointments</h2>
       </div>
       <div class="card-content-container">
-        <template v-if="upcoming_appointments.length">
-            <div v-for="appointment in upcoming_appointments">
+        <template v-if="upcomingAppointments.length">
+            <div v-for="appointment in upcomingAppointments">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -18,8 +18,8 @@
             <p>There are no upcoming appointments.</p>
         </div>
 
-        <template v-if="recent_appointments.length">
-            <div class="appointment-wrapper" v-for="appointment in recent_appointments">
+        <template v-if="recentAppointments.length">
+            <div class="appointment-wrapper" v-for="appointment in recentAppointments">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -35,21 +35,9 @@
     import Appointment from './Appointment.vue';
 
     export default {
-        props: ['userType'],
-        data() {
-            return {
-                upcoming_appointments: [],
-                recent_appointments: []
-            }
-        },
+        props: ['userType', 'recentAppointments', 'upcomingAppointments'],
         components: {
             Appointment
         },
-        mounted() {
-            this.$http.get('/api/dashboard').then(response => {
-                this.upcoming_appointments = response.data.upcoming_appointments;
-                this.recent_appointments = response.data.recent_appointments;
-            });
-        }
     }
 </script>
