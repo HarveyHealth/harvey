@@ -18,10 +18,12 @@
         <!-- Typekit -->
         <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
 
-        {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
-        @if (App::environment('production'))
-            @script({{ mix('/js/vendors.js') }})
-            <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
+        {{-- TRACKING SCRIPTS (mixpanel, facebook, google analytics...) --}}
+        @if (App::environment('local'))
+          <script type="text/javascript" src="{{ URL::asset('js/vendors/googleanalytics.js') }}"></script>
+          <script type="text/javascript" src="{{ URL::asset('js/vendors/facebook.js') }}"></script>
+          <script type="text/javascript" src="{{ URL::asset('js/vendors/intercom.js') }}"></script>
+          <script type="text/javascript" src="{{ URL::asset('js/vendors/mixpanel.js') }}"></script>
         @endif
 
     </head>
