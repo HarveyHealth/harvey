@@ -37,7 +37,7 @@
     methods: {
       onDateChange(date) {
         this.hasBeenTouched = true;
-        
+
         const dateValue = moment(date).utc();
         this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
       },
