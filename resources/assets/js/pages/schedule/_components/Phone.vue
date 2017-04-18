@@ -75,7 +75,7 @@
     },
     name: 'Phone',
     mounted() {
-      this.$ma.trackEvent({value: 'PageView'})
+      this.$ma.trackEvent({action: 'View Personal Contact Form', category: 'clicks', properties: {laravel_object: Laravel.user}})
     }
   }
 </script>

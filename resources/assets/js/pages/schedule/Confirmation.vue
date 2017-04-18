@@ -14,7 +14,7 @@
 
       <p class="confirmation_text large">{{ subtitle }}</p>
       <div class="text-centered">
-        <a :href="intakeUrl" class="button">Start Intake Form</a>
+        <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
       </div>
     </div>
   </div>
@@ -37,13 +37,18 @@
     created() {
       this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
     },
+    methods: {
+        dispatchEvent() {
+            this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
+        }
+    },
     mounted() {
       // if state is lost, move into the dashboard
       if (!this.appointmentDate.isValid()) {
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
-        this.$ma.trackEvent({value: 'Purchase'})
+          this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
       }
     },
     computed: {
