@@ -176,6 +176,7 @@
     },
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
+      this.$ma.trackEvent({value: 'PageView'})
     },
   }
 </script>

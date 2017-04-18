@@ -120,7 +120,10 @@
         });
       }
     },
-    name: 'Practitioner'
+    name: 'Practitioner',
+    mounted() {
+      this.$ma.trackEvent({value: 'PageView'})
+    }
   }
 </script>
 

@@ -73,7 +73,10 @@
         }).catch(() => {});
       }
     },
-    name: 'Phone'
+    name: 'Phone',
+    mounted() {
+      this.$ma.trackEvent({value: 'PageView'})
+    }
   }
 </script>
 

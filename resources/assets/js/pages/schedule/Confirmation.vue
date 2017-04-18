@@ -43,6 +43,7 @@
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
+        this.$ma.trackEvent({value: 'Purchase'})
       }
     },
     computed: {

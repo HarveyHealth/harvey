@@ -18,14 +18,6 @@
         <!-- Typekit -->
         <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
 
-        {{-- TRACKING SCRIPTS (mixpanel, facebook, google analytics...) --}}
-        @if (App::environment('local'))
-          <script type="text/javascript" src="{{ URL::asset('js/vendors/googleanalytics.js') }}"></script>
-          <script type="text/javascript" src="{{ URL::asset('js/vendors/facebook.js') }}"></script>
-          <script type="text/javascript" src="{{ URL::asset('js/vendors/intercom.js') }}"></script>
-          <script type="text/javascript" src="{{ URL::asset('js/vendors/mixpanel.js') }}"></script>
-        @endif
-
     </head>
     <body>
 

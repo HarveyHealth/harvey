@@ -119,5 +119,8 @@
           });
         }
     },
+    mounted () {
+      this.$ma.trackEvent({value: 'PageView'})
+    }
   }
 </script>
