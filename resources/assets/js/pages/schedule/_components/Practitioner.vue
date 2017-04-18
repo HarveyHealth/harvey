@@ -120,7 +120,10 @@
         });
       }
     },
-    name: 'Practitioner'
+    name: 'Practitioner',
+    mounted() {
+        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}})
+    }
   }
 </script>
 

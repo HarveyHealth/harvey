@@ -117,7 +117,10 @@
           .catch(error => {
             // TODO: catch error
           });
-        }
+        },
     },
+    mounted () {
+        this.$ma.trackEvent({action: 'View Signup Page', category: 'clicks', properties: {laravel_object: Laravel.user}})
+    }
   }
 </script>

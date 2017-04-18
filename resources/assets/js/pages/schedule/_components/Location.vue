@@ -37,7 +37,10 @@
         zip: ''
       }
     },
-    name: 'Location'
+    name: 'Location',
+    mounted() {
+      this.$ma.trackEvent({value: 'PageView'})
+    }
   }
 </script>
 

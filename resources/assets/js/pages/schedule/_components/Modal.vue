@@ -98,7 +98,10 @@
         subtitle: 'Tell us the best date and time you would like to schedule a phone consultation with a doctor. Remember, this is not in-person.'
       }
     },
-    name: 'Modal'
+    name: 'Modal',
+    mounted() {
+      this.$ma.trackEvent({value: 'PageView'})
+    }
   }
 </script>
 
