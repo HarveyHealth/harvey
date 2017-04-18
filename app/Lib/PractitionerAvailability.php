@@ -96,6 +96,10 @@ class PractitionerAvailability
         $consecutive_slots = [];
         $availability_slots = [];
         foreach ($timeslots as $index => $slot) {
+            if(count($timeslots) < 3){
+                continue;
+            }
+            
             if (array_last($timeslots) == $slot) {
                 if ($slot - 1 == $timeslots[$index - 1]) {
                     $consecutive_slots[] = $slot;

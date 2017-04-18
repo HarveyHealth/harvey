@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Appointment;
 use App\Models\Practitioner;
 use App\Models\PractitionerSchedule;
 use Carbon\Carbon;
@@ -47,6 +48,44 @@ class PractitionerTest extends TestCase
                 'Wednesday 15:30',
                 'Wednesday 16:00'
             ]
+        ];
+        
+        $this->assertEquals($expected_result, $practitioner->availability());
+        
+    }
+    
+    public function test_it_will_not_show_availability_if_appointment_overlaps()
+    {
+        $practitioner = factory(Practitioner::class)->create();
+        
+        $practitioner->schedule()->save(
+            factory(PractitionerSchedule::class)->make([
+                'day_of_week' => 'Wednesday',
+                'start_time' => '08:00:00',
+                'stop_time' => '10:00:00'
+            ])
+        );
+        
+        $overlap = Carbon::parse('next week wednesday');
+        $overlap->setTime(15, 0, 0);
+        $practitioner->appointments()->save(
+            factory(Appointment::class)->make([
+                'appointment_at' => $overlap
+            ])
+        );
+        
+        $user = $practitioner->user;
+        $user->timezone = 'America/Los_Angeles';
+        $user->save();
+        $practitioner->save();
+        
+        $expected_result = [
+            'week 1' => [
+                'Wednesday 15:00',
+                'Wednesday 15:30',
+                'Wednesday 16:00'
+            ],
+            'week 2' => []
         ];
         
         $this->assertEquals($expected_result, $practitioner->availability());
