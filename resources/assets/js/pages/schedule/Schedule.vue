@@ -41,7 +41,7 @@
 
         // build the data for the submission
         const appointmentData = {
-          appointment_at: this.appointmentDate,
+          appointment_at: this.appointmentDateUTC,
           reason_for_visit: 'blank',
           practitioner_id: this.practitioner,
         }
@@ -53,6 +53,11 @@
         .catch(error => {
           console.log(error.response);
         });
+      }
+    },
+    computed: {
+      appointmentDateUTC() {
+        return moment(this.appointmentDate).utc().format('YYYY-MM-DD HH:mm:ss');
       }
     }
   }
