@@ -28,7 +28,7 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-        if(request('filter') == 'recent') {
+        if (request('filter') == 'recent') {
             $appointments = auth()->user()->appointments()->recent()->get();
         } elseif (request('filter') == 'upcoming') {
             $appointments = auth()->user()->appointments()->upcoming()->get();
