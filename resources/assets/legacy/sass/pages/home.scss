@@ -91,7 +91,7 @@ body.home {
         .hero-background {
             width: 100%;
             // background-image: gradient;
-            background: lighten($tertiary, 20%) url('/images/home/hero_sm.jpg') no-repeat center top;
+            background: lighten($gray, 90%) url('/images/home/hero_sm.jpg') no-repeat center top;
             background-size: cover;
             &, &:after {
                 position: absolute;
@@ -103,7 +103,7 @@ body.home {
             &:after {
                 content: ' ';
                 display: block;
-                background-color: rgba(darken($tertiary, 20%), $opacity-light);
+                background-color: rgba(darken($gray, 90%), $opacity-light);
             }
             @include from($tablet) {
                 background-image: url('/images/home/hero_md.jpg');

@@ -31,7 +31,7 @@
                 <em class="tip text-centered">Here's an example...</em>
                 <img src="/images/doctors/amanda.png">
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Amanda Frick, N.D.</strong> is licensed to practice medicine in 32 states; she went to four-medical school and received a state medical license.</p>
+                  <p><strong>Dr. Amanda Frick, N.D.</strong> is licensed to practice medicine in 32 states; she went to four-year medical school and received a state medical license.</p>
                   <ul>
                     <li>Combines natural healing philosophies with the rigors of modern science.</li>
                     <li>Specializes in prevention, root cause analysis and holistic treatments.</li>
@@ -53,7 +53,7 @@
                 <em class="tip text-centered">Here's an example...</em>
                 <img src="/images/doctors/rachel.png">
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice full scope of medicine in all 50 states, equivilent to a traditional medical doctor (MD).</p>
+                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice full scope of medicine in all 50 states, equivalent to a traditional medical doctor (MD).</p>
                   <ul>
                     <li>Receives more training than NDs or MDs in musculoskeletal systems (nerves, muscles and bones).</li>
                     <li>Also heavily trained in prevention, clinical nutrition, medical lab testing and neutraceuticals.</li>

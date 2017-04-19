@@ -108,8 +108,8 @@
                 <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying cause chronic conditions.</strong></h2>
-                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medican doctor.</p>
-                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testting for high levels of toxic metals and chemicals.</p>
+                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medical doctor.</p>
+                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testing for high levels of toxic metals and chemicals.</p>
                     </div>
                 </div>
             </div>
@@ -309,7 +309,7 @@
                             <img src="/images/home/square-20.png" alt="">
                         </figure>
                         <div class="column">
-                            <label class="label">Musculo-skeletal</label>
+                            <label class="label">Musculoskeletal</label>
                             <label class="symptoms-selector-description">Aches, muscle pain, body fatigue, loss of muscle control, etc.</label>
                         </div>
                     </div>
@@ -346,7 +346,7 @@
                     </div>
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-32.png" alt="">
+                            <img src="/images/home/square-52.png" alt="">
                         </figure>
                         <div class="column">
                             <label class="label">Respiratory</label>
@@ -389,13 +389,11 @@
         <div class="section-wrapper">
             <div class="container content">
                 <div class="has-text-centered">
-                    <h2 class="title is-3">No credit card required.</h2>
-                    <button class="button is-primary is-medium has-arrow">
-                        <span class="icon" v-if="symptomsSaving">
-                            <i class="fa fa-spinner fa-spin"></i>
-                        </span>
-                        <a href="/signup" class="button is-primary">Get Started</a>
-                    </button>
+                    <h2 class="title is-3">You deserve to feel your best.</h2>
+                    <div class="button-wrapper">
+                        <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
+                    </div>
+
                 </div>
             </div>
         </div>
