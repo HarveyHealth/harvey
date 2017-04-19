@@ -53,6 +53,4 @@ Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
-Route::get('/signup', function () {
-    return view('pages.signup');
-});
+Route::get('/signup', 'SignupController@index')->name('signup');
