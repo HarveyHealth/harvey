@@ -46,7 +46,7 @@ class Appointment extends Model
 
             $message = '*[New Appointment]* ' . $patient->user->fullName() . ' with ' . $practitioner->user->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');
 
-            (new Slack)->notify(new SlackNotification($message, 'business'));
+            (new Slack)->notify(new SlackNotification($message, 'operations'));
         });
     }
 

@@ -50,7 +50,7 @@ class StripeController extends BaseWebhookController
         \Log::info($message);
 
         // slack it
-        (new Slack)->notify(new SlackNotification($message, 'business'));
+        (new Slack)->notify(new SlackNotification($message, 'operations'));
 
         $data = [
             'user' => User::userForStripeID($payload['customer'])
