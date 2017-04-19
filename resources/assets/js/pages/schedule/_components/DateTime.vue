@@ -176,7 +176,10 @@
     },
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-      this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}})
+
+      if (this.$parent.env === 'prod') {
+        this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      }
     },
   }
 </script>

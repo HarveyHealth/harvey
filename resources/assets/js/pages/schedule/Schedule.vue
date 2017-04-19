@@ -23,6 +23,7 @@
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
+        env: this.$root.$data.environment,
       }
     },
     components: {
