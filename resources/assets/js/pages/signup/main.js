@@ -1,11 +1,11 @@
 import '../../bootstrap';
 import router from './routes';
+import VueMultianalytics from 'vue-multianalytics'
 
 import Signup from './Signup.vue';
 
-
-
-import VueMultianalytics from 'vue-multianalytics'
+// for environment conditionals
+const env = require('get-env')();
 
 let gaConfig = {
   appName: 'Harvey', // Mandatory
@@ -33,6 +33,9 @@ Vue.use(VueMultianalytics, {
 
 const app = new Vue({
   router,
+  data: {
+    environment: env,
+  },
   components: {
     Signup
   },
