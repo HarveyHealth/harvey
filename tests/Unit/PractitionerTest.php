@@ -22,6 +22,9 @@ class PractitionerTest extends TestCase
     
     public function test_it_shows_the_correct_availability_if_schedules_are_set()
     {
+        $knownDate = Carbon::create(2017, 4, 17, 12); // create testing date
+        Carbon::setTestNow($knownDate);
+        
         $practitioner = factory(Practitioner::class)->create();
         
         $practitioner->schedule()->save(
@@ -51,11 +54,14 @@ class PractitionerTest extends TestCase
         ];
         
         $this->assertEquals($expected_result, $practitioner->availability());
-        
+        Carbon::setTestNow(Carbon::now());
     }
     
     public function test_it_will_not_show_availability_if_appointment_overlaps()
     {
+        $knownDate = Carbon::create(2017, 4, 17, 12); // create testing date
+        Carbon::setTestNow($knownDate);
+        
         $practitioner = factory(Practitioner::class)->create();
         
         $practitioner->schedule()->save(
@@ -89,6 +95,6 @@ class PractitionerTest extends TestCase
         ];
         
         $this->assertEquals($expected_result, $practitioner->availability());
-        
+        Carbon::setTestNow(Carbon::now());
     }
 }
