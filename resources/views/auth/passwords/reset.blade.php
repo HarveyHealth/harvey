@@ -1,4 +1,4 @@
-@extends('_layouts.public')
+@extends('legacy._layouts.public')
 
 @section('page_title','Reset Password')
 
@@ -10,7 +10,7 @@
         </header>
         <div class="card">
             <div class="card-content">
-                <form role="form" method="POST" action="{{ secure_url('/password/reset') }}">
+                <form role="form" method="POST" action="/password/reset">
                     {{ csrf_field() }}
 
                     <input type="hidden" name="token" value="{{ $token }}">

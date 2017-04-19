@@ -1,0 +1,321 @@
+body.home {
+    // general
+    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
+        color: $text-secondary;
+    }
+    .title.is-1{ // Override
+    font-size: 3rem;
+    }
+    .subtitle {
+        line-height: 1.5;
+    }
+    figure {
+        margin-right: 0;
+    }
+    .image img {
+        height: 100%;
+    }
+    .button.is-medium {
+        height: auto;
+        padding: 1rem 3rem;
+        margin-top: 0.5rem;
+    }
+    .is-paddingless-top {
+        padding-top: 0;
+    }
+    .columns.is-narrow {
+        max-width: 1052px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    // layout
+    #app {
+        height: auto;
+        min-height: 100%;
+        width: 100%;
+        position: relative;
+    }
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 101;
+        background-color: rgba(#fff, $opacity-dark);
+        &,
+        .button {
+            transition: all 0.2s ease;
+        }
+        .button {
+            &:not(.is-outlined) {
+                background-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    background-color: darken($tertiary, 2.5%);
+                }
+            }
+            &.is-outlined {
+                color: $tertiary;
+                border-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    color: darken($tertiary, 5%);
+                    border-color: darken($tertiary, 5%);
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    .section:not(:last-of-type) {
+        padding-bottom: 1rem;
+    }
+    // Logo
+    .is-inverted .logo-wrapper {
+        @include from($mobile) {
+            .harvey-logo-type {
+                fill: #fff;
+            }
+        }
+    }
+
+    // hero
+    .hero {
+        position: relative;
+        @include until($desktop) {
+            min-height: initial;
+            padding-top: 3.5rem;
+        }
+        .hero-background {
+            width: 100%;
+            // background-image: gradient;
+            background: lighten($tertiary, 20%) url('/images/home/hero_sm.jpg') no-repeat center top;
+            background-size: cover;
+            &, &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+            &:after {
+                content: ' ';
+                display: block;
+                background-color: rgba(darken($tertiary, 20%), $opacity-light);
+            }
+            @include from($tablet) {
+                background-image: url('/images/home/hero_md.jpg');
+            }
+            @include from($megascreen) {
+                background-image: url('/images/home/hero_lg.jpg');
+            }
+        }
+        .title + .subtitle {
+            margin-top: 0;
+        }
+        @include from($megascreen) {
+            min-height: initial;
+            .hero-body {
+                padding-top: 9rem;
+                padding-bottom: 9rem;
+            }
+        }
+    }
+    .has-content-vertical-aligned {
+        @include from($desktop) {
+            position: relative;
+            .content,
+            .has-content-vertical-aligned-content {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                margin-left: 0.75rem;
+                margin-right: 0.75rem;
+            }
+        }
+    }
+
+    .image-has-max-height {
+        @include until($desktop) {
+            max-height: 400px;
+            overflow: hidden;
+        }
+    }
+
+    // elements
+    .section-header {
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 2em;
+        span {
+            font-weight: 500;
+        }
+        @include from($tablet) {
+            display: table;
+            white-space: nowrap;
+            overflow: hidden;
+            span {
+                margin: 0 $space-medium;
+                vertical-align: middle
+            }
+            &:before,
+            &:after {
+                display: table-cell;
+                content: ' ';
+                width: 50%;
+                border-top: 1px solid $border;
+                position: relative;
+                top: 0.7em;
+            }
+        }
+        & + .columns {
+            margin-top: 3rem;
+        }
+    }
+    .button-wrapper {
+        @include until($tablet) {
+            text-align: center;
+        }
+    }
+    .tagline {
+        margin-top: $space-xsmall;
+        margin-bottom: $size-2;
+    }
+    .icon-wrapper {
+        text-align: center;
+        &.icon-wrapper-has-background {
+            width: 68px;
+            height: 68px;
+            padding-top: 10px;
+            border-radius: 50%;
+            @include from($desktop) {
+                width: 80px;
+                height: 80px;
+                padding-top: 16px;
+            }
+            &.is-lime {
+                @include background-gradient($harvey-lime);
+            }
+            &.is-pink {
+                @include background-gradient($harvey-pink);
+            }
+            &.is-brown {
+                @include background-gradient($harvey-brown);
+            }
+            &.is-purple {
+                @include background-gradient($harvey-purple);
+            }
+            &.is-turquoise {
+                @include background-gradient($harvey-turquoise);
+            }
+            &.is-slategrey {
+                @include background-gradient($harvey-slategrey);
+            }
+            &.is-green {
+                @include background-gradient($harvey-green);
+            }
+        }
+    }
+    .copy-has-max-width + .columns {
+        margin-top: $size-2;
+    }
+    .disclaimer {
+        font-size: 1.125em;
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .symptoms-selector-wrapper {
+        li + li {
+            margin-top: 0;
+        }
+    }
+    .is-3-widescreen {
+        @include from($widescreen) {
+            font-size: $size-3;
+        }
+    }
+    // page specific content
+    #integrative-medicine {
+        margin-bottom: 3em;
+        figure.has-margin {
+            margin-top: 3rem;
+            margin-bottom: 3.5rem;
+        }
+        .is-narrow {
+            max-width: 960px;
+            transform: translateX(1.5rem);
+        }
+    }
+    #western-medicine, #pricing {
+        padding-bottom: 5rem;
+        .columns {
+            background-color: #fff;
+        }
+    }
+    #western-medicine{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
+    }
+    #pricing{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
+    }
+    #tests {
+        .columns {
+            margin-top: 0;
+        }
+    }
+    #how-it-works {
+        @include from($desktop) {
+            margin-bottom: 30px;
+            text-align: center;
+            .column.columns {
+                flex-direction: column;
+                .icon-wrapper {
+                    margin: 0 auto;
+                }
+            }
+        }
+    }
+    .circle img{
+        border-radius: 100%;
+    }
+    // misc
+    .vue-slider-tooltip.vue-slider-tooltip-top {
+        top: -3px;
+    }
+    // Mailchimp
+    #mc_embed_signup input {
+        font-family: "museo-slab", "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+        font-size: 15px;
+        height: 38px;
+    }
+    #mc_embed_signup .button {
+        background: $primary;
+    }
+    #mc_embed_signup #mce-EMAIL{
+        padding-left: 12px;
+    }
+    // media queries
+    @include until($tablet) {
+        .title {
+            &.is-1,
+            &.is-2 {
+                font-size: 2rem;
+            }
+        }
+    }
+    @include from($desktop) {
+        #symptoms {
+            .columns {
+                text-align: left;
+            }
+            .subtitle {
+                margin-top: 3rem;
+                margin-bottom: 3rem;
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import Contact from '../components/_includes/Contact.vue';
+import Contact from '../_includes/Contact.vue';
 
 export default {
     components: {

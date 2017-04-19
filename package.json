@@ -4,34 +4,35 @@
   },
   "private": true,
   "scripts": {
-    "prod": "gulp --production",
-    "dev": "export NODE_ENV=development && gulp watch",
-    "postinstall": "gulp --production"
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=./webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=./webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=./webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
+    "bootstrap-sass": "^3.3.7",
     "bulma": "^0.3.0",
-    "es6-promise": "^4.0.5",
-    "gulp": "^3.9.1",
-    "laravel-elixir": "^6.0.0-14",
-    "laravel-elixir-browsersync-official": "^1.0.0",
-    "laravel-elixir-imagemin": "^0.2.3",
-    "laravel-elixir-spritesmith": "^0.4.0",
-    "laravel-elixir-vue-2": "^0.2.0",
-    "laravel-elixir-webpack-official": "^1.0.2",
-    "lodash": "^4.16.2",
-    "moment": "^2.17.1",
-    "node-sass": "^4.3.0",
-    "sass-loader": "^4.1.1",
-    "style-loader": "^0.13.1",
+    "cross-env": "^3.2.3",
+    "es6-promise": "^4.1.0",
+    "jquery": "^3.1.1",
+    "laravel-mix": "0.*",
+    "lodash": "^4.17.4",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
+    "vee-validate": "^2.0.0-beta.25",
     "vue": "^2.0.1",
-    "vue-router": "^2.1.1",
-    "vue-slider-component": "^2.1.2"
-  },
-  "apidoc": {
-    "title": "Harvey API Documentation",
-    "url": "http://harvey.app/api/alpha",
-    "version": "0.0.1"
+    "vue-multianalytics": "^1.3.6",
+    "vue-resource": "^1.2.1",
+    "vue-router": "^2.3.1",
+    "vue-slider-component": "^2.2.5",
+    "webpack": "2.2.1",
+    "webpack-spritesmith": "^0.3.3"
   }
 }

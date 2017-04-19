@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,59 +35,5 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'logout']);
-    }
-    
-    /**
-     * Send the response after the user was authenticated.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendLoginResponse(Request $request)
-    {
-        $request->session()->regenerate();
-        
-        $this->clearLoginAttempts($request);
-        
-        return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->secure($this->redirectPath());
-    }
-
-    /**
-     * Get the failed login response instance.
-     *
-     * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendFailedLoginResponse(Request $request)
-    {
-        if ($request->ajax()) {
-            return response()->json([
-                'email' => [trans('auth.failed')]
-                ], 401);
-        }
-
-        return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors([
-                $this->username() => trans('auth.failed')
-            ]);
-    }
-    
-    /**
-     * Log the user out of the application.
-     *
-     * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        
-        $request->session()->flush();
-        
-        $request->session()->regenerate();
-        
-        return redirect('/', 302, [], true);
     }
 }

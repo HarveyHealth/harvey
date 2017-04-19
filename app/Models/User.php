@@ -2,35 +2,26 @@
 
 namespace App\Models;
 
-use App\Models\PatientNote;
+use App\Http\Interfaces\Mailable;
+use App\Mail\VerifyEmailAddress;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
-use App\Http\Interfaces\Mailable;
+use Laravel\Passport\HasApiTokens;
+use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use Notifiable;
-
-    /**
-     * The attributes that are not mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = ['id', 'enabled', 'user_type', 'password', 'api_token',
-                            'remember_token', 'terms_accepted_at', 'phone_verified_at',
-                            'email_verified_at','created_at', 'updated_at'];
-
-    protected $dates = ['created_at','updated_at','terms_accepted_at','phone_verified_at','email_verified_at'];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    use HasApiTokens, Notifiable;
+    
+    protected $guarded = ['id', 'enabled', 'password', 'remember_token',
+                            'terms_accepted_at', 'phone_verified_at',
+                            'email_verified_at', 'created_at', 'updated_at'];
+    
+    protected $dates = ['created_at','updated_at','terms_accepted_at',
+                        'phone_verified_at','email_verified_at'];
+    
+    protected $hidden = ['password', 'remember_token'];
 
     protected static function boot()
     {
@@ -40,59 +31,108 @@ class User extends Authenticatable implements Mailable
             $builder->where('enabled', true);
         });
     }
-
-    public function patientNotes()
+    
+    public function patient()
     {
-        return $this->hasMany(PatientNote::class, 'patient_user_id', 'id');
+        return $this->hasOne(Patient::class);
     }
-
-    public function practitionerNotes()
+    
+    public function practitioner()
     {
-        return $this->hasMany(PatientNote::class, 'practitioner_user_id', 'id');
+        return $this->hasOne(Practitioner::class);
     }
-
-    /*
-     * Returns the concatenated full name
-     */
-    public function fullName()
+    
+    public function admin()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->hasOne(Admin::class);
     }
-
-    /*
-     * Returns the image URL for this user
-     * If they don't have one, it returns a default
-     */
-    public function imageURL()
+    
+    public function appointments()
     {
-        if (!empty($this->image_url)) {
-            return $this->image_url;
+        if ($this->isPatient()) {
+            return $this->hasManyThrough(Appointment::class, Patient::class);
+        } else {
+            return $this->hasManyThrough(Appointment::class, Practitioner::class);
         }
-
-        return config('app.default_image_url');
     }
-
-    public function superUser()
+    
+    public function nextUpcomingAppointment()
     {
-        return $this->user_type == 'admin';
+        return $this->appointments()->upcoming()->first();
+    }
+    
+    public function hasUpcomingAppointment()
+    {
+        return count($this->nextUpcomingAppointment()) == 1;
+    }
+    
+    public function tests()
+    {
+        if ($this->isPatient()) {
+            return $this->hasManyThrough(Test::class, Patient::class);
+        } else {
+            return $this->hasManyThrough(Test::class, Practitioner::class);
+        }
+    }
+    
+    public function userType()
+    {
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        } else {
+            throwException("Unable to determine user's type.");
+        }
     }
     
     public function isPatient()
     {
-        return $this->user_type == 'patient';
+        return $this->patient != null;
     }
     
     public function isPractitioner()
     {
-        return $this->user_type == 'practitioner';
+        return $this->practitioner != null;
     }
     
-    public function consultsWithUser(User $user)
+    public function isAdmin()
     {
-        return Appointment::wherePatientUserId($user->id)->wherePractitionerUserId($this->id)->count() > 0;
+        return $this->admin != null;
+    }
+    
+    public function fullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+    
+    public function imageURL()
+    {
+        return $this->image_url ?: config('app.default_image_url');
     }
 
-    
+    public function passwordSet()
+    {
+        return isset($this->password);
+    }
+
+    public function passwordNotSet()
+    {
+        return !$this->passwordSet();
+    }
+
+    public function emailVerificationTokenMismatch($token)
+    {
+        return $token != $this->emailVerificationToken();
+    }
+
+    public function sendVerificationEmail()
+    {
+        Mail::to($this)->send(new VerifyEmailAddress($this));
+    }
+
     /* Mailable Interface Methods */
     public function emailVerificationToken()
     {

@@ -30,13 +30,22 @@ return [
     ],
 
     'stripe' => [
-        'model' => App\User::class,
+        'model' => App\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    
     'slack' => [
         'webhook_url' => env('SLACK_WEBHOOK_URL')
-    ]
+    ],
+    
+    'intakeq' => [
+        'api_key' => env('INTAKEQ_API_KEY')
+    ],
+    
+    'postmark' => [
+        'token' => env('POSTMARK_TOKEN'),
+        'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com')
+    ],
 
 ];

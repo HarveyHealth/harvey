@@ -1,4 +1,4 @@
-@extends('_layouts.public')
+@extends('legacy._layouts.public')
 @section('page_title','')
 
 @push('stylesheets')

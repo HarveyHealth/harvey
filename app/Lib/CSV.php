@@ -5,7 +5,7 @@ namespace App\Lib;
 /*
     A class that makes handling CSVs easier
 */
-class CSV implements Iterator
+class CSV implements \Iterator
 {
     private $lines = [];
     private $index = 0;

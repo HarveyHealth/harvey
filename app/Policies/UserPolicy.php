@@ -11,52 +11,42 @@ class UserPolicy
     
     /**
      * @param User $user
-     * @param $ability
+     * @param      $ability
      * @return bool
      */
     public function before(User $user, $ability)
     {
-        if ($user->superUser()) {
+        if ($user->isAdmin()) {
             return true;
         }
     }
-
+    
     /**
-     * Determine whether the user can view the user.
-     *
-     * @param  User  $user
-     * @param  User  $target_user
+     * @param User $user
+     * @param User $target_user
      * @return bool
      */
     public function view(User $user, User $target_user)
     {
-        if ($user->consultsWithUser($target_user)) {
-            return true;
-        }
-        
-        return $user->id === $target_user->id;
+        return $user->id == $target_user->id;
     }
-
+    
     /**
-     * Determine whether the user can create users.
-     *
-     * @param  User  $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
-
+    
     /**
-     * Determine whether the user can update the user.
-     *
-     * @param  User  $user
-     * @param  User  $target_user
-     * @return mixed
+     * @param User $user
+     * @param User $target_user
+     * @return bool
      */
     public function update(User $user, User $target_user)
     {
-        return $user->id === $target_user->id;
+        return $user->id == $target_user->id;
     }
 }

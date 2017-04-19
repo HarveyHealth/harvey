@@ -42,7 +42,7 @@ return [
      * preference here.
      */
     'templates' => [
-        'layout' => '_layouts.logged_in',
+        'layout' => 'legacy._layouts.logged_in',
         'content' => 'content'
     ],
 

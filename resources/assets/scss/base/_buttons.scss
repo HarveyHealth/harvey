@@ -1,0 +1,35 @@
+.button,
+input[type="submit"] {
+  @extend %sans--medium;
+  appearance: none;
+  background-color: $green;
+  border: 0;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 19px;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1;
+  padding: 10px 30px 12px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .25s ease-in-out;
+  user-select: none;
+  vertical-align: middle;
+  width: auto;
+
+  &:hover,
+  &:focus {
+    background-color: darken($green, 10);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+
+    &:hover {
+      background-color: $green;
+    }
+  }
+}
