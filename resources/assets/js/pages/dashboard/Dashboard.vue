@@ -55,7 +55,6 @@
     import Appointments from '../../appointments/Appointments.vue';
     import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
     import Contact from '../../mixins/Contact';
-    import momentTimezone from 'moment-timezone';
 
     export default {
         name: 'dashboard',
@@ -79,7 +78,11 @@
                 return this.user.user_type;
             },
             displayName() {
-                return this.user.attributes.first_name ? user.attributes.first_name : 'Harvey Client';
+                if(this.user.attributes === undefined) {
+                    return 'Harvey Client';
+                } else {
+                    return this.user.attributes.first_name;
+                }
             }
         },
         mounted() {

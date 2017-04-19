@@ -60,14 +60,14 @@
             }
         },
         mounted() {
-            this.local_timezone = momentTimezone.tz.guess();
+            this.local_timezone = moment.tz.guess();
 
-            if (this.userType !== 'patient') {
-                this.$http.get(this.$root.apiUrl + '/users/' + this.appointment.patient_user_id)
-                    .then((response) => {
-                        this.patient = response.data.data;
-                    })
-            }
+//            if (this.userType !== 'patient') {
+//                this.$http.get(this.$root.apiUrl + '/users/' + this.appointment.patient_user_id)
+//                    .then((response) => {
+//                        this.patient = response.data.data;
+//                    })
+//            }
         }
     }
 </script>
