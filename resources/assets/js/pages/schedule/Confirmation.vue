@@ -1,23 +1,25 @@
 <template>
-  <div v-show="validDate">
-    <div class="container small confirmation">
+  <transition name="fade">
+    <div v-show="validDate" v-if="isMounted">
+      <div class="container small confirmation">
 
-      <img class="confirmation_calendar" src="/images/signup/calendar.png" alt="">
+        <img class="confirmation_calendar" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="header-xlarge">{{ title }}</h1>
+        <h1 class="header-xlarge">{{ title }}</h1>
 
-      <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
-        <!-- <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button> -->
-      </p>
+        <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
+          <!-- <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button> -->
+        </p>
 
-      <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
+        <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
 
-      <p class="confirmation_text large">{{ subtitle }}</p>
-      <div class="text-centered">
-        <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+        <p class="confirmation_text large">{{ subtitle }}</p>
+        <div class="text-centered">
+          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -33,6 +35,7 @@
         appointmentDate: null,
         validDate: false,
         env: this.$root.$data.environment,
+        isMounted: false,
       }
     },
     created() {
@@ -40,7 +43,7 @@
     },
     methods: {
       dispatchEvent() {
-        
+
         if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }
@@ -52,7 +55,7 @@
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
-
+        this.isMounted = true;
         if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }

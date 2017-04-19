@@ -1,1 +1,8 @@
+// For Vue transitions: https://vuejs.org/v2/guide/transitions.html
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.65;
+}
 
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+}
