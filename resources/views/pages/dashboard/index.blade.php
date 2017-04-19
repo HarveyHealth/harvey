@@ -60,9 +60,6 @@
               <router-view :user="user"></router-view>
           </transition>
 
-          <!-- <div class="card">
-              @include('pages/dashboard/dashboard_' . $current_user->userType())
-          </div> -->
         </div>
       </div>
 

@@ -28,9 +28,9 @@
               <div class="card-content-wrap">
                 <h3 class="card-contact-name">
                   <svg class="icon-person"><use xlink:href="#small-person" /></svg>
-                  {{ user.attributes.first_name }}</h3>
+                  {{ displayName }}</h3>
               </div>
-              <div class="card-content-wrap">
+              <div v-if="upcoming_appointments.length > 0" class="card-content-wrap">
                 <h4 class="card-contact-sublabel">Doctor</h4>
                 <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
               </div>
@@ -77,6 +77,9 @@
         computed: {
             userType() {
                 return this.user.user_type;
+            },
+            displayName() {
+                return this.user.attributes.first_name ? user.attributes.first_name : 'Harvey Client';
             }
         },
         mounted() {
