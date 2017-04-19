@@ -18,6 +18,9 @@
             <p>There are no upcoming appointments.</p>
         </div>
 
+        <div class="card-heading-container">
+            <h2 class="card-header">Recent Appointments</h2>
+        </div>
         <template v-if="recentAppointments.length">
             <div class="appointment-wrapper" v-for="appointment in recentAppointments">
                 <Appointment
@@ -27,6 +30,10 @@
                 </Appointment>
             </div>
         </template>
+
+          <div v-else>
+              <p>There are no recent appointments.</p>
+          </div>
       </div>
     </div>
 </template>
