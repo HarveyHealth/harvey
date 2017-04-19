@@ -42,7 +42,9 @@
       }
     },
     mounted() {
+      if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({action: 'User Registered/Get Started', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      }
     }
   }
 </script>

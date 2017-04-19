@@ -65,6 +65,7 @@
         terms: false,
         isComplete: false,
         responseError: null,
+        env: this.$parent.environment,
       }
     },
     components: {
@@ -120,7 +121,9 @@
         },
     },
     mounted () {
+      if (this.env === 'prod') {
         this.$ma.trackEvent({action: 'View Signup Page', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      }
     }
   }
 </script>
