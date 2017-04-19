@@ -24,11 +24,9 @@
 
     {{-- TYPEKIT async load --}}
     <script type="text/javascript" src="{{ URL::asset('/js/vendors/typekit.js') }}"></script>
-
-    {{-- VENDOR SCRIPTS (mixpanel, facebook, google analytics...) --}}
+    
     @if (App::environment('production'))
-        @script({{ mix('/js/vendors.js') }})
-        <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=232862573840472&ev=PageView&noscript=1"/></noscript>
+        @script(js/vendors/intercom.js)
     @endif
 
 </head>
