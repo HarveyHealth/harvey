@@ -75,7 +75,9 @@
     },
     name: 'Phone',
     mounted() {
-      this.$ma.trackEvent({action: 'View Personal Contact Form', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      if (this.$parent.env === 'prod') {
+        this.$ma.trackEvent({action: 'View Personal Contact Form', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      }
     }
   }
 </script>

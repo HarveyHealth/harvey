@@ -1,10 +1,14 @@
 import '../../bootstrap';
 import router from './routes';
+import VueMultianalytics from 'vue-multianalytics'
 
 import Schedule from './Schedule.vue';
 import Confirmation from './Confirmation.vue';
-
 import filter_datetime from '../../filters/datetime';
+
+// for environment conditionals
+const env = require('get-env')();
+
 Vue.filter('datetime', filter_datetime);
 
 const eventHub = new Vue();
@@ -16,9 +20,6 @@ var store = {
     appointmentDate: null,
   },
 }
-
-
-import VueMultianalytics from 'vue-multianalytics'
 
 let gaConfig = {
   appName: 'Harvey', // Mandatory
@@ -43,11 +44,11 @@ Vue.use(VueMultianalytics, {
   }
 })
 
-
 const app = new Vue({
   router,
   data: {
     sharedState: store.state,
+    environment: env,
   },
   components: {
     Schedule,

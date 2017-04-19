@@ -32,15 +32,19 @@
         intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
         appointmentDate: null,
         validDate: false,
+        env: this.$root.$data.environment,
       }
     },
     created() {
       this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
     },
     methods: {
-        dispatchEvent() {
-            this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
+      dispatchEvent() {
+        
+        if (this.env === 'prod') {
+          this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }
+      }
     },
     mounted() {
       // if state is lost, move into the dashboard
@@ -48,7 +52,10 @@
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
+
+        if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
+        }
       }
     },
     computed: {
