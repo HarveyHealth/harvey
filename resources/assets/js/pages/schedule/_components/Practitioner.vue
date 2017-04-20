@@ -9,7 +9,7 @@
       </ul>
 
       <h1 class="header-xlarge">Choose your physician</h1>
-      <p class="large">Tell us which type of integrative doctor you would like to partner with. We currently offer <strong>two</strong> types of doctors in your state.</p>
+      <p class="large">Tell us which type of integrative doctor you would like to partner with. We currently offer <strong>two types</strong> of doctors in your state.</p>
     </div>
 
     <div class="container large">
@@ -31,7 +31,7 @@
                 <em class="tip text-centered">Here's an example...</em>
                 <img src="/images/doctors/amanda.png">
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Amanda Frick, N.D.</strong> is licensed to practice medicine in 32 states; she went to four-year medical school and received a state medical license.</p>
+                  <p><strong>Dr. Amanda Frick, N.D.</strong> went to an accredited four-year naturopathic medical school and she's licensed by the state of California.</p>
                   <ul>
                     <li>Combines natural healing philosophies with the rigors of modern science.</li>
                     <li>Specializes in prevention, root cause analysis and holistic treatments.</li>
@@ -53,7 +53,7 @@
                 <em class="tip text-centered">Here's an example...</em>
                 <img src="/images/doctors/rachel.png">
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice full scope of medicine in all 50 states, equivalent to a traditional medical doctor (MD).</p>
+                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice a full scope of medicine in all 50 states, equivalent to a medical doctor (MD).</p>
                   <ul>
                     <li>Receives more training than NDs or MDs in musculoskeletal systems (nerves, muscles and bones).</li>
                     <li>Also heavily trained in prevention, clinical nutrition, medical lab testing and neutraceuticals.</li>
@@ -123,7 +123,7 @@
     name: 'Practitioner',
     mounted() {
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}});
+        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'});
       }
     }
   }
