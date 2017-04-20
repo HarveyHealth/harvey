@@ -62,7 +62,9 @@
       }
     },
     mounted() {
-      this.step = this.step === 0 ? 1 : this.step;
+      Vue.nextTick(() => {
+        this.step = this.step === 0 ? 1 : this.step;
+      })
     }
   }
 </script>

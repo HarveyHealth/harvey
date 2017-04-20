@@ -1,5 +1,5 @@
 <template>
-  <div :class="fadeClasses">
+  <div :class="animClasses">
     <div class="container small">
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
@@ -89,8 +89,10 @@
         title: 'Choose your physician',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
         practitioner: '',
-        // fade animation
-        fadeClasses: { 'anim-fade': true, 'anim-fade-in': false },
+        animClasses: {
+          'anim-fade-slideup': true,
+          'anim-fade-slideup-in': false,
+        },
       }
     },
     methods: {
@@ -127,10 +129,10 @@
       if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}});
       }
-      this.$eventHub.$emit('fade-in', this.fadeClasses)
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
     },
     beforeDestroy() {
-      this.$eventHub.$emit('fade-out', this.fadeClasses)
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false)
     }
   }
 </script>

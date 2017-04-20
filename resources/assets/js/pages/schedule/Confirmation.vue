@@ -1,20 +1,22 @@
 <template>
   <div v-show="validDate">
-    <div class="container small confirmation">
+    <div :class="animClasses">
+      <div class="container small confirmation">
 
-      <img class="confirmation_calendar" src="/images/signup/calendar.png" alt="">
+        <img class="confirmation_calendar" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="header-xlarge">{{ title }}</h1>
+        <h1 class="header-xlarge">{{ title }}</h1>
 
-      <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
-        <!-- <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button> -->
-      </p>
+        <p class="confirmation_date"><span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
+          <!-- <button class="confirmation_calendar-add"><img src="/images/signup/calendar-add.png" alt=""></button> -->
+        </p>
 
-      <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
+        <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
 
-      <p class="confirmation_text large">{{ subtitle }}</p>
-      <div class="text-centered">
-        <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+        <p class="confirmation_text large">{{ subtitle }}</p>
+        <div class="text-centered">
+          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+        </div>
       </div>
     </div>
   </div>
@@ -33,6 +35,10 @@
         appointmentDate: null,
         validDate: false,
         env: this.$root.$data.environment,
+        animClasses: {
+          'anim-fade': true,
+          'anim-fade-in': false,
+        },
       }
     },
     created() {
@@ -52,6 +58,7 @@
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
+        this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300)
         if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }

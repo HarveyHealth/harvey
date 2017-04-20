@@ -1,11 +1,41 @@
-// Fade animation
+// Animation duration
+$anim-duration: 300ms;
+
+// Transitions
+$trans-fade: opacity $anim-duration ease-in-out;
+$trans-slideup: top $anim-duration ease-in-out;
+$trans-fade-slideup: $trans-fade, $trans-slideup;
+
+// Initial states
 .anim-fade {
+  opacity: 0;
+  transition: $trans-fade;
+}
+
+.anim-slideup {
+  position: relative;
+  top: 1em;
+  transition: $trans-slideup;
+}
+
+.anim-fade-slideup {
   opacity: 0;
   position: relative;
   top: 1em;
-  transition: opacity 300ms ease-in-out, top 300ms ease-in-out;
+  transition: $trans-fade-slideup;
 }
+
+// Active states
 .anim-fade-in {
+  opacity: 1;
+}
+
+.anim-slideup-in {
+  top: 0;
+  opacity: 1;
+}
+
+.anim-fade-slideup-in {
   opacity: 1;
   top: 0;
 }
