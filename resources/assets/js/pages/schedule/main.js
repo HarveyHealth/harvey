@@ -14,11 +14,17 @@ Vue.filter('datetime', filter_datetime);
 const eventHub = new Vue();
 Vue.prototype.$eventHub = eventHub;
 
-// custom fade animation uses eventHub for extensibility
-eventHub.$on('fade-in', (classes) => {
-  setTimeout(() => classes['anim-fade-in'] = true, 300)
+// custom animations uses eventHub for extensibility
+eventHub.$on('animate', (classes, classname, state, delay) => {
+  if (delay) {
+    setTimeout(() => {
+      classes[classname] = state
+    }, delay)
+  } else {
+    classes[classname] = state
+  }
 })
-eventHub.$on('fade-out', (classes) => classes['anim-fade-in'] = false)
+
 
 // use store pattern to manage HOC model
 var store = {
