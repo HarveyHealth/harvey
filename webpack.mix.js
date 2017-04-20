@@ -25,6 +25,6 @@ mix.options({processCssUrls: false})
         'resources/assets/js/vendors/intercom.js',
         'resources/assets/js/vendors/mixpanel.js'
     ], 'public/js/vendors')
-   .copy('resources/assets/legacy/images', 'public/images', false)
+   .copy('resources/assets/images', 'public/images', false)
    .sass('resources/assets/scss/application.scss', 'public/css')
    .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');
