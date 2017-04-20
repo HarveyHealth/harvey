@@ -61,4 +61,17 @@
       background: $white;
       border-bottom: 1px solid $color--grey;
       padding: 50px 50px 30px;
+      .container{
+        max-width: 1090px;
+        padding: 0 55px 0 15px;
+        margin: 0;
+        .main-action{
+          float: right;
+          &.disabled {
+            opacity:.5;
+            pointer-events: none;
+            cursor: default;
+          }
+        }
+      }
     }

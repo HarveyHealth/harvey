@@ -12,7 +12,10 @@
       </div>
       <div class="main-content">
         <div class="main-header">
-          <h1 class="title header-xlarge">Your Dashboard</h1>
+          <div class="container">
+            <h1 class="title header-xlarge">Your Dashboard
+            <a href="#" class="button main-action disabled">New Appointment</a></h1>
+          </div>
         </div>
         <div class="card-wrapper">
           <div class="card">
@@ -22,13 +25,11 @@
           </div>
           <div class="card smaller">
             <div class="card-heading-container">
-              <h2 class="card-header">Contact Information</h2>
+               <h2 class="card-header">Your Contact</h2>
             </div>
             <div class="card-content-container">
               <div class="card-content-wrap">
-                <h3 class="card-contact-name">
-                  <svg class="icon-person"><use xlink:href="#small-person" /></svg>
-                  {{ displayName }}</h3>
+                <h3 class="card-contact-name"><svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}</h3>
               </div>
               <div v-if="upcoming_appointments.length > 0" class="card-content-wrap">
                 <h4 class="card-contact-sublabel">Doctor</h4>
