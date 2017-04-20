@@ -60,7 +60,7 @@
     },
     computed: {
       time() {
-        const timeObject = this.appointmentDate.format('H:mm a');
+        const timeObject = this.appointmentDate.format('h:mm a');
         return timeObject;
       },
 
