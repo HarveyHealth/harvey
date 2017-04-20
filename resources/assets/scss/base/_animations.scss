@@ -1,8 +1,11 @@
-// For Vue transitions: https://vuejs.org/v2/guide/transitions.html
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 0.65;
-}
-
-.fade-enter, .fade-leave-active {
+// Fade animation
+.anim-fade {
   opacity: 0;
+  position: relative;
+  top: 1em;
+  transition: opacity 300ms ease-in-out, top 300ms ease-in-out;
+}
+.anim-fade-in {
+  opacity: 1;
+  top: 0;
 }

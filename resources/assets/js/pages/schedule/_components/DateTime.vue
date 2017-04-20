@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="fadeClasses">
     <div class="container small">
 
       <!-- progress indicator -->
@@ -101,6 +101,10 @@
         // validation
         dateSelected: false,
         timeSelected: false,
+
+        // fade animation
+        fadeClasses: { 'anim-fade': true, 'anim-fade-in': false },
+
       }
     },
     components: {
@@ -176,7 +180,7 @@
     },
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-
+      this.$eventHub.$emit('fade-in', this.fadeClasses)
       if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}})
       }

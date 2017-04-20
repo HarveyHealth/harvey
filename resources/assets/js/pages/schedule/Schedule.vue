@@ -1,14 +1,8 @@
 <template>
   <form @submit.prevent="onSubmit">
-    <transition name="fade">
-      <practitioner v-if="step === 1" />
-    </transition>
-    <transition name="fade">
-      <phone v-if="step === 2" />
-    </transition>
-    <transition name="fade">
-      <datetime v-if="step === 3" :availability="practitioner_availability" />
-    </transition>
+    <practitioner v-if="step === 1" />
+    <phone v-if="step === 2" />
+    <datetime v-if="step === 3" :availability="practitioner_availability" />
   </form>
 </template>
 
@@ -25,7 +19,7 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-        step: 1,
+        step: 0,
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
@@ -66,6 +60,9 @@
       appointmentDateUTC() {
         return moment(this.appointmentDate).utc().format('YYYY-MM-DD HH:mm:ss');
       }
+    },
+    mounted() {
+      this.step = this.step === 0 ? 1 : this.step;
     }
   }
 </script>
