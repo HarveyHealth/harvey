@@ -59,7 +59,7 @@ class AppointmentTest extends TestCase
             'patient_id' => $patient->id,
             'appointment_at' => '2017-01-01 00:00:00'
         ]);
-        dd($appointment->patientAppointmentAtDate()->format('Z'));
+        
         // We can get the appointment at based in the patient timezone
         $this->assertEquals('2016-12-31 16:00:00', $appointment->patientAppointmentAtDate()->format('Y-m-d H:i:s'));
         
