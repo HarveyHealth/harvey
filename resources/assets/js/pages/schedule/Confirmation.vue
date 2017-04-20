@@ -40,7 +40,7 @@
     },
     methods: {
       dispatchEvent() {
-        
+
         if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }
@@ -60,7 +60,7 @@
     },
     computed: {
       time() {
-        const timeObject = this.appointmentDate.format('HH:mm a');
+        const timeObject = this.appointmentDate.format('h:mm a');
         return timeObject;
       },
 
