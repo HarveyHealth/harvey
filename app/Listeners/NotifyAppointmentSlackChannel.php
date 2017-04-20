@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Events\AppointmentScheduled;
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
+use Carbon\Carbon;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class NotifyAppointmentSlackChannel
+{
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  AppointmentScheduled  $event
+     * @return void
+     */
+    public function handle(AppointmentScheduled $event)
+    {
+        $patient = $event->appointment->patient;
+        $practitioner = $event->appointment->practitioner;
+        $time = new Carbon($event->appointment->appointment_at);
+        $time->timezone = 'America/Los_Angeles';
+
+        $message = '*[New Appointment]* ' . $patient->user->fullName() . ' with ' . $practitioner->user->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');
+
+        (new Slack())->notify(new SlackNotification($message, 'operations'));
+    }
+}
