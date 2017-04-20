@@ -14,14 +14,29 @@
       flex-basis: 360px;
     }
   }
+    .card-empty-container{
+      padding: 20px 30px;
+      p {
+        font-weight: 300;
+        letter-spacing: 1px;
+        font-size: 18px;
+        font-style: italic;
+        opacity: .5;
+      }
+    }
     .card-heading-container {
       border-bottom: 1px solid $color--grey;
       padding: 20px 30px;
+      background: $lightest-gray;
+      
+      .card-heading-container{
+        margin-top: 20px;
+      }
     }
       .card-header {
-        font-size: 14px;
+        font-size: 16px;
         margin: 0;
-        letter-spacing: .5px;
+        letter-spacing: 1px;
       }
     .card-content-wrap {
       border-bottom: 1px solid $color--grey;
@@ -44,7 +59,8 @@
       text-transform: uppercase;
     }
     .card-contact-info {
-      font-weight: 200;
+      font-weight: 300;
+      letter-spacing: 1px;
       font-size: 18px;
       margin-bottom: 20px;
 
