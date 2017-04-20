@@ -1,11 +1,6 @@
 <template>
     <div class="appointment">
         <div class="appointment_left">
-            <div class="box">
-                <p class="appointment_date">{{ localAppointmentTime.format('MMM D [at] h:mm a') }}</p>
-            </div>
-        </div>
-        <div class="appointment_right">
             <template v-if="userType == 'admin' || userType == 'practitioner'">
                 <p class="color-greylight">Patient</p>
                 <p>{{ capitalize(patient.first_name) }} {{ capitalize(patient.last_name) }}</p>
@@ -23,10 +18,15 @@
                 </p>
             </template>
             <template v-else>
-                <p class="appointment_doctor">With Dr {{ appointment.attributes.practitioner_name }}</p>
+                <p class="appointment_doctor">Dr. {{ appointment.attributes.practitioner_name }}</p>
             </template>
         </div>
-        <div class="appointment_left">
+        <div class="appointment_right">
+            <div class="box">
+                <p class="appointment_date">{{ localAppointmentTime.format('MMM Do [at] h:mma') }}</p>
+            </div>
+        </div>
+        <div class="appointment_right">
             <div v-if="userType == 'patient'" class="title">
                 <button class="appointment_button" @click="toggleContact">Reschedule</button>
             </div>
@@ -90,19 +90,13 @@
     }
     .appointment_right {
       float: right;
-
       p {
         margin-bottom: 0;
       }
     }
-    .appointment_date {
-      opacity: .7;
-      font-size: 16px;
-    }
-    .appointment_doctor {
-      font-size: 12px;
-      font-weight: 700;
-      opacity: .5;
-      text-transform: uppercase;
+    .appointment_date, .appointment_doctor {
+      font-weight: 300;
+      letter-spacing: 1px;
+      font-size: 18px;
     }
 </style>

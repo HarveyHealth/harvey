@@ -42,7 +42,7 @@
                 <h4 class="card-contact-sublabel">Phone</h4>
                 <p class="card-contact-info">{{ user.attributes.phone }}</p>
                 <h4 class="card-contact-sublabel">ID</h4>
-                <p class="card-contact-info">{{ user.id }}</p>
+                <p class="card-contact-info">#100{{ user.id }}</p>
               </div>
             </div>
           </div>

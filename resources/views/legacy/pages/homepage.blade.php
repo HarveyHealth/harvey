@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">Personalized and integrative medicine, unique as you are.</h1>
-                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to serve patients suffering from chronic health conditions.</p>
+                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to help patients suffering from acute and chronic health conditions.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -26,7 +26,7 @@
     <section class="section">
         <div class="container has-text-centered">
             <h2 class="title is-2">Mind. Body. Spirit.</h2>
-            <p class="copy-has-max-width subtitle is-5">We provide virtual consultations with state-licensed integrative physicians, in-home lab testing, diagnostics and progressive therapies to help patients address the root cause of their health conditions instead of just treating the symptoms.</p>
+            <p class="copy-has-max-width subtitle is-5">We provide virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root causes of their health conditions instead of just treating the symptoms. This means we spend a lot of time with you!</p>
         </div>
     </section>
 
@@ -239,7 +239,7 @@
                     </figure>
                     <div class="column">
                         <p class="title is-5"><strong>4. Treatment</strong></p>
-                        <p>Your doctor will create for you a treatment plan and may prescribe vitamins, supplements, and/or diet and lifestyle changes.</p>
+                        <p>Your doctor will create for you a treatment plan and may prescribe supplements, and/or diet and lifestyle changes.</p>
                     </div>
                 </div>
             </div>
@@ -253,7 +253,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of health conditions — including menopause, fatigue, eczema, auto-immune diseases, fibromyalgia, autism, diabetes, hypertension, migraines and toxic chemical exposure.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, autism, migraines and much more.</p>
                 <div class="columns is-multiline">
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
@@ -362,7 +362,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Get Started</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll keep in touch.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll send you some hand-picked patient stories once a month.</p>
 
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>

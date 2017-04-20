@@ -31,8 +31,8 @@
             </div>
         </template>
 
-          <div v-else>
-              <p>There are no recent appointments.</p>
+          <div v-else class="card-empty-container">
+              <p>You have no recent appointments.</p>
           </div>
       </div>
     </div>

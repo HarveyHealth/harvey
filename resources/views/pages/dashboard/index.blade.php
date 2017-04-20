@@ -40,7 +40,7 @@
         </symbol>
 
         <symbol id="small-person" viewBox="0 0 30 30">
-          <g fill="none" fill-rule="evenodd"><circle fill="#645FFF" cx="15" cy="15" r="15"/>
+          <g fill="none" fill-rule="evenodd"><circle fill="#BAA7B5" cx="15" cy="15" r="15"/>
             <path d="M15 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm-6 4.257c0-1.11.844-2.316 1.9-2.64 0 0 1.1-.617 4.1-.617 3 0 4.1.618 4.1.618 1.05.35 1.9 1.52 1.9 2.64v-.265c0 1.11-.902 2.007-2.01 2.007h-7.98C9.9 21 9 20.11 9 18.993v.264z" fill="#FFF"/>
           </g>
         </symbol>
