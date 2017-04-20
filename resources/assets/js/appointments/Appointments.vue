@@ -14,8 +14,8 @@
             </div>
         </template>
 
-        <div v-else>
-            <p>There are no upcoming appointments.</p>
+        <div v-else class="card-empty-container">
+            <p>You have nothing upcoming.</p>
         </div>
 
         <div class="card-heading-container">
@@ -32,7 +32,7 @@
         </template>
 
           <div v-else class="card-empty-container">
-              <p>You have no recent appointments.</p>
+              <p>You have no history.</p>
           </div>
       </div>
     </div>

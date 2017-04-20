@@ -31,7 +31,7 @@
                 <em class="tip text-centered">Here's an example...</em>
                 <img src="/images/doctors/amanda.png">
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Amanda Frick, N.D.</strong> went to an accredited four-year naturopathic medical school and is licensed in the state of California.</p>
+                  <p><strong>Dr. Amanda Frick, N.D.</strong> went to an accredited four-year naturopathic medical school and she's licensed by the state of California.</p>
                   <ul>
                     <li>Combines natural healing philosophies with the rigors of modern science.</li>
                     <li>Specializes in prevention, root cause analysis and holistic treatments.</li>

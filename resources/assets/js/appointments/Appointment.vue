@@ -23,7 +23,7 @@
         </div>
         <div class="appointment_right">
             <div class="box">
-                <p class="appointment_date">{{ localAppointmentTime.format('MMM Do [at] h:mma') }}</p>
+                <p class="appointment_date">{{ localAppointmentTime.format('ddd, MMM Do [at] h:mma') }}</p>
             </div>
         </div>
         <div class="appointment_right">
