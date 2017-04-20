@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
 use Crell\ApiProblem\ApiProblem;
@@ -83,6 +84,8 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('create', $appointment)) {
             $patient = auth()->user()->patient;
             $patient->appointments()->save($appointment);
+            
+            event(new AppointmentScheduled($appointment));
     
             return $this->baseTransformItem($appointment)->respond();
         } else {
