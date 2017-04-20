@@ -122,7 +122,7 @@
     },
     mounted () {
       if (this.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Signup Page', category: 'clicks', properties: {laravel_object: Laravel.user}})
+        this.$ma.trackEvent({action: 'View Signup Page', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'})
       }
     }
   }

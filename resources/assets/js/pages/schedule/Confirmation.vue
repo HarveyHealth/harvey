@@ -40,7 +40,7 @@
     },
     methods: {
       dispatchEvent() {
-        
+
         if (this.env === 'prod') {
           this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
         }
@@ -54,7 +54,7 @@
         this.validDate = true;
 
         if (this.env === 'prod') {
-          this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
+          this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'Purchase'})
         }
       }
     },
