@@ -25,7 +25,7 @@
 a:active,
 a:focus,
 a:hover {
-  color: #FFF;
+  color: $harvey-secondary;
 }
 
 // Registration specific styles
@@ -45,7 +45,7 @@ a:hover {
   text-align: center;
 }
   .signup_progress-step {
-    background: #F1F1F2;
+    background: #DDD;
     border-radius: 50%;
     display: inline-block;
     height: 18px;
@@ -94,8 +94,8 @@ a:hover {
     margin: 3px 12px 10px 0;
   }
   &:hover {
-    border: 1px solid $green;
-    box-shadow: inset 0px 0px 0px 6px $green;
+    border: 1px solid $harvey-primary;
+    box-shadow: inset 0px 0px 0px 6px $harvey-primary;
   }
 }
 
@@ -125,7 +125,7 @@ a:hover {
   font-size:17px;
   clear:both;
   &.blue{
-    color: hsl(271, 100%, 71%);
+    color: $harvey-tertiary;
     font-size: 14px;
     opacity: .7;
     margin-top: 3px;
@@ -133,8 +133,8 @@ a:hover {
 }
 
 .radio_block:checked + label .radio-block_container  {
-  border: 1px solid $green;
-  box-shadow: inset 0px 0px 0px 6px $green;
+  border: 1px solid $harvey-primary;
+  box-shadow: inset 0px 0px 0px 6px $harvey-primary;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -226,7 +226,7 @@ button:focus {
             }
 
             &.selected {
-              background-color: $green;
+              background-color: $harvey-primary;
 
               .calendar-item_link {
                 color: $white;
