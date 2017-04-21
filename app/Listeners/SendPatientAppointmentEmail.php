@@ -11,9 +11,9 @@ class SendPatientAppointmentEmail implements ShouldQueue
 {
     public function handle(AppointmentScheduled $event)
     {
-//        if (app()->environment(['local', 'testing'])) {
-//            return;
-//        }
+        if (app()->environment(['local', 'testing'])) {
+            return;
+        }
     
         try {
             $template_model = [
