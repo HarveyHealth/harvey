@@ -28,3 +28,7 @@ mix.options({processCssUrls: false})
    .copy('resources/assets/images', 'public/images', false)
    .sass('resources/assets/scss/application.scss', 'public/css')
    .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');
+
+if (mix.config.inProduction) {
+    mix.version();
+}
