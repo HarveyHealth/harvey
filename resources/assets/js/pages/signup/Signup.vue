@@ -14,7 +14,7 @@
         <div class="signup-form-container">
 
           <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
 
