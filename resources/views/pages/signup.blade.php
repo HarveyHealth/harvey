@@ -50,7 +50,11 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      <script type="text/javascript" src="{{ URL::asset('js/signup/main.js') }}"></script>
+      @if(App::environment() == "local")
+          <script type="text/javascript" src="{{ URL::asset('js/signup/main.js') }}"></script>
+      @else
+          <script type="text/javascript" src="{{ mix('js/signup/main.js') }}"></script>
+      @endif
 
     </body>
 </html>

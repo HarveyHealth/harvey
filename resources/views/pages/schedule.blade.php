@@ -58,7 +58,12 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      <script type="text/javascript" src="{{ URL::asset('js/schedule/main.js') }}"></script>
+      @if(App::environment() == "local")
+        <script type="text/javascript" src="{{ URL::asset('js/schedule/main.js') }}"></script>
+      @else
+        <script type="text/javascript" src="{{ mix('js/schedule/main.js') }}"></script>
+      @endif
+
 
     </body>
 </html>

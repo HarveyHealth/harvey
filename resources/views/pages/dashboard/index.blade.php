@@ -72,7 +72,11 @@
       </script>
 
       @script(https://js.stripe.com/v2/)
-      <script type="text/javascript" src="{{ URL::asset('js/dashboard/main.js') }}"></script>
+      @if(App::environment() == "local")
+          <script type="text/javascript" src="{{ URL::asset('js/dashboard/main.js') }}"></script>
+      @else
+          <script type="text/javascript" src="{{ mix('js/dashboard/main.js') }}"></script>
+      @endif
 
       @stack('scripts')
 
