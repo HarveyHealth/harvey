@@ -23,3 +23,4 @@ Homestead.json
 /public/legacy/*
 /public/images/*
 yarn.lock
+!./storage/testing
