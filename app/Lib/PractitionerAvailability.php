@@ -96,7 +96,7 @@ class PractitionerAvailability
         $consecutive_slots = [];
         $availability_slots = [];
         foreach ($timeslots as $index => $slot) {
-            if(count($timeslots) < 3){
+            if (count($timeslots) < 3) {
                 continue;
             }
             

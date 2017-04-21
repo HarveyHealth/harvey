@@ -35,11 +35,11 @@ class AppointmentsController extends BaseAPIController
             $appointments = auth()->user()->appointments();
         }
         
-        if(request('filter') == 'recent') {
+        if (request('filter') == 'recent') {
             $appointments = $appointments->recent();
         }
     
-        if(request('filter') == 'upcoming') {
+        if (request('filter') == 'upcoming') {
             $appointments = $appointments->upcoming();
         }
 
