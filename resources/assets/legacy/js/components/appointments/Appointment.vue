@@ -55,12 +55,12 @@
             hyperlink
         },
         mounted() {
-            if (this.userType !== 'patient') {
-                this.$http.get(this.$root.apiUrl + '/users/' + this.appointment.patient_user_id)
-                    .then((response) => {
-                        this.patient = response.data.data;
-                    })
-            }
+//            if (this.userType !== 'patient') {
+//                this.$http.get(this.$root.apiUrl + '/users/' + this.appointment.patient_user_id)
+//                    .then((response) => {
+//                        this.patient = response.data.data;
+//                    })
+//            }
         }
     }
 </script>

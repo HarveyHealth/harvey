@@ -73,7 +73,12 @@
         }).catch(() => {});
       }
     },
-    name: 'Phone'
+    name: 'Phone',
+    mounted() {
+      if (this.$parent.env === 'prod') {
+        this.$ma.trackEvent({action: 'View Personal Contact Form', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'})
+      }
+    }
   }
 </script>
 

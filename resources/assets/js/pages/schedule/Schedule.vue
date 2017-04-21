@@ -10,6 +10,9 @@
   import Practitioner from './_components/Practitioner.vue';
   import Phone from './_components/Phone.vue';
   import DateTime from './_components/DateTime.vue';
+
+  import moment from 'moment';
+
   export default {
     name: 'Schedule',
     data() {
@@ -18,7 +21,9 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         step: 1,
         practitioner: null,
-        practitioner_availability: []
+        practitioner_availability: [],
+        appointmentDate: '',
+        env: this.$root.$data.environment,
       }
     },
     components: {
@@ -31,8 +36,29 @@
         this.step ++; // simply increment the steps to move through the form states
       },
       onSubmit() {
-        console.log('submitting');
-        this.$router.push('/confirmation');
+
+        // send the appointmentDate up so other components can get to it
+        this.$root.$data.sharedState.appointmentDate = this.appointmentDate;
+
+        // build the data for the submission
+        const appointmentData = {
+          appointment_at: this.appointmentDateUTC,
+          reason_for_visit: 'blank',
+          practitioner_id: this.practitioner,
+        }
+
+        axios.post(`api/v1/appointments`, appointmentData)
+        .then(response => {
+          this.$router.push('/confirmation');
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+      }
+    },
+    computed: {
+      appointmentDateUTC() {
+        return moment(this.appointmentDate).utc().format('YYYY-MM-DD HH:mm:ss');
       }
     }
   }

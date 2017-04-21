@@ -1,16 +1,20 @@
 <template>
   <div class="calendar-week-container">
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="time in times" class="calendar-item" :class="[{'selected' : hasBeenTouched && selectedTime.hour() === time.hour()}]">
+      <li v-for="time in timesList" class="calendar-item bar"
+        :class="[{'selected' : hasBeenTouched && (selectedTime.hour() === time.hour()) && (selectedTime.minute() === time.minute())}]"
+      >
         <button
           class="calendar-item_link"
           @click.prevent="onTimeChange(time)"
-          :disabled="time.hour() < startTime"
         >
-          {{time | datetime('ha')}}
+          {{ time.format('h:mm a') }}
         </button>
       </li>
     </ul>
+
+    <p class="text-centered" v-if="!dateSelected">Please select a day.</p>
+    <p class="text-centered" v-else-if="timesList.length < 1">There are no available times for this day.</p>
   </div>
 </template>
 
@@ -19,10 +23,23 @@
 
   export default {
     name: 'TimePicker',
-    props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
+    props: [
+      'availability',
+      'duration',
+      'endOfDayHour',
+      'minimumNotice',
+      'now',
+      'selectedDate',
+      'selectedTime',
+      'startDateTime',
+      'startOfDayHour',
+    ],
     data() {
       return {
         hasBeenTouched: false,
+        dateSelected: false,
+        startOfWeek: 1, // iso Monday
+        timesList: [],
       }
     },
     methods: {
@@ -30,21 +47,49 @@
         return moment({hour: hour + hourOffset, minute: 0});
       },
 
-      onTimeChange(time) {
+      onTimeChange(_time) {
         this.hasBeenTouched = true;
-        if (time >= this.startTime) {
-          this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
+        if (_time >= this.startTime) {
+          this.$eventHub.$emit('datetime-change', {type: 'time', value: _time});
+        }
+      },
+
+      getTimes(_forDay = this.startOfWeek) {
+
+        const times = [];
+        let availableTime = {};
+
+        this.availability[1].map(datetime => {
+          availableTime = moment.utc(datetime.time, 'HH:mm').local();
+          const selectedISOWeekday = moment(datetime.day, 'dddd').isoWeekday();
+
+          if (selectedISOWeekday === _forDay) {
+            times.push(availableTime);
+          }
+        });
+
+        // update the local state
+        this.timesList = times;
+
+        return times;
+      },
+
+      // event handler for parent date change
+      onDateChange(_obj) {
+
+        // a date has been selected
+        this.dateSelected = true;
+
+        if (_obj.type === 'date') {
+          // regenerate times
+          this.getTimes(_obj.value.isoWeekday());
         }
       }
     },
+    mounted() {
+      this.$eventHub.$on('datetime-change', this.onDateChange);
+    },
     computed: {
-      times() {
-        const times = [];
-        for (let i = this.startOfDayHour; i <= this.endOfDayHour; i++) {
-          times.push(moment({hour: i, minute: 0}));
-        }
-        return times;
-      },
       startTime() {
         if (this.selectedDate > this.startDateTime) {
           return this.startOfDayHour;

@@ -1,0 +1,77 @@
+.admin-content,
+.admin-content #app {
+  height: 100%;
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
+
+.main-container {
+  height: 100%;
+}
+
+  // Left Nav Bar
+  .nav-bar {
+    background: $white;
+    border-right: 1px solid $color--grey;
+    flex-basis: 60px;
+    position: relative;
+  }
+    .admin-nav-link {
+      display: inline-block;
+      height: 60px;
+      position: relative;
+      width: 60px;
+
+      &.dashboard {
+        background-color: $purple;
+      }
+        .icon {
+          left: 50%;
+          position: absolute;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+    }
+    .nav-bar-account {
+      border: 1px solid $white; // matches the color of the navbar background
+      border-radius: 5px;
+      bottom: 5px;
+      height: 50px;
+      left: 5px;
+      position: absolute;
+      transition: border-color .25s ease-in-out;
+      width: 50px;
+
+      &:hover {
+        border-color: none;
+      }
+
+      .harvey-mark {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+  // Main Content Area
+  .main-content {
+    flex-grow: 1;
+  }
+    .main-header {
+      background: $white;
+      border-bottom: 1px solid $color--grey;
+      padding: 50px 50px 30px;
+      .container{
+        max-width: 1090px;
+        padding: 0 55px 0 15px;
+        margin: 0;
+        .main-action{
+          float: right;
+          &.disabled {
+            opacity:.5;
+            pointer-events: none;
+            cursor: default;
+          }
+        }
+      }
+    }

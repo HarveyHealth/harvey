@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
 use Crell\ApiProblem\ApiProblem;
@@ -28,9 +29,21 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-        $appointments = auth()->user()->appointments;
+        if (auth()->user()->isAdmin()) {
+            $appointments = Appointment::limit(10)->orderBy('appointment_at', 'asc');
+        } else {
+            $appointments = auth()->user()->appointments();
+        }
+        
+        if(request('filter') == 'recent') {
+            $appointments = $appointments->recent();
+        }
+    
+        if(request('filter') == 'upcoming') {
+            $appointments = $appointments->upcoming();
+        }
 
-        return $this->baseTransformCollection($appointments)->respond();
+        return $this->baseTransformCollection($appointments->get())->respond();
     }
 
     /**
@@ -71,6 +84,8 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('create', $appointment)) {
             $patient = auth()->user()->patient;
             $patient->appointments()->save($appointment);
+            
+            event(new AppointmentScheduled($appointment));
     
             return $this->baseTransformItem($appointment)->respond();
         } else {

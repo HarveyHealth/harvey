@@ -31,5 +31,5 @@ Homestead.json
 /public/css/app.css
 /public/legacy/*
 /public/images/sprite.png
-/public/images/sprite@2x.png
+/public/images/*
 yarn.lock

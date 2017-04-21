@@ -18,8 +18,8 @@ Auth::routes();
 // Additional routing to not use Laravel's built-in "register" route
 // Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 // Route::post('signup', 'Auth\RegisterController@register');
-Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify')->middleware('guest');
-Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword')->middleware('guest');
+Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify');
+Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword');
 
 
 
@@ -53,6 +53,4 @@ Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
-Route::get('/signup', function () {
-    return view('pages.signup');
-});
+Route::get('/signup', 'SignupController@index')->name('signup');

@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">Personalized and integrative medicine, unique as you are.</h1>
-                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to serve patients suffering from chronic health conditions.</p>
+                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to help patients suffering from acute and chronic health conditions.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -26,7 +26,7 @@
     <section class="section">
         <div class="container has-text-centered">
             <h2 class="title is-2">Mind. Body. Spirit.</h2>
-            <p class="copy-has-max-width subtitle is-5">We provide virtual consultations with state-licensed integrative physicians, in-home lab testing, diagnostics and progressive therapies to help patients address the root cause of their health conditions instead of just treating the symptoms.</p>
+            <p class="copy-has-max-width subtitle is-5">We provide virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root causes of their health conditions instead of just treating the symptoms. This means we spend a lot of time with you!</p>
         </div>
     </section>
 
@@ -61,7 +61,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctrs must pass an extensive board examination and receive a medical license from their practicing state.</p>
+                        <p class="subtitle is-6">100% of our doctors must pass an extensive board examination and receive a medical license from their practicing state.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -108,8 +108,8 @@
                 <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying cause chronic conditions.</strong></h2>
-                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medican doctor.</p>
-                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testting for high levels of toxic metals and chemicals.</p>
+                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medical doctor.</p>
+                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testing for high levels of toxic metals and chemicals.</p>
                     </div>
                 </div>
             </div>
@@ -239,7 +239,7 @@
                     </figure>
                     <div class="column">
                         <p class="title is-5"><strong>4. Treatment</strong></p>
-                        <p>Your doctor will create for you a treatment plan and may prescribe vitamins, supplements, and/or diet and lifestyle changes.</p>
+                        <p>Your doctor will create for you a treatment plan and may prescribe supplements, and/or diet and lifestyle changes.</p>
                     </div>
                 </div>
             </div>
@@ -253,7 +253,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of health conditions — including menopause, fatigue, eczema, auto-immune diseases, fibromyalgia, autism, diabetes, hypertension, migraines and toxic chemical exposure.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, autism, migraines and much more.</p>
                 <div class="columns is-multiline">
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
@@ -309,7 +309,7 @@
                             <img src="/images/home/square-20.png" alt="">
                         </figure>
                         <div class="column">
-                            <label class="label">Musculo-skeletal</label>
+                            <label class="label">Musculoskeletal</label>
                             <label class="symptoms-selector-description">Aches, muscle pain, body fatigue, loss of muscle control, etc.</label>
                         </div>
                     </div>
@@ -346,7 +346,7 @@
                     </div>
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-32.png" alt="">
+                            <img src="/images/home/square-52.png" alt="">
                         </figure>
                         <div class="column">
                             <label class="label">Respiratory</label>
@@ -362,7 +362,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Get Started</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll keep in touch.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">The first step to better health is to <a href="/book" alt="">book a consultation</a> with a doctor. If you're not quite ready yet, you can join our monthly newsletter and we'll send you some hand-picked patient stories once a month.</p>
 
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
@@ -389,13 +389,11 @@
         <div class="section-wrapper">
             <div class="container content">
                 <div class="has-text-centered">
-                    <h2 class="title is-3">No credit card required.</h2>
-                    <button class="button is-primary is-medium has-arrow">
-                        <span class="icon" v-if="symptomsSaving">
-                            <i class="fa fa-spinner fa-spin"></i>
-                        </span>
-                        <span>Get Started</span>
-                    </button>
+                    <h2 class="title is-3">You deserve to feel your best.</h2>
+                    <div class="button-wrapper">
+                        <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
+                    </div>
+
                 </div>
             </div>
         </div>

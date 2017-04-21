@@ -81,6 +81,22 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'max:100',
+            'last_name' => 'max:100',
+            'email' => 'email|max:150|unique:users',
+            'zip' => 'digits:5|serviceable',
+            'phone' => 'unique:users'
+        ], [
+            'serviceable' => 'Sorry, we do not service this :attribute.'
+        ]);
+    
+        if ($validator->fails()) {
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
+        }
+        
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
     

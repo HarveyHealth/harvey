@@ -4,8 +4,6 @@ namespace App\Lib;
 
 use Carbon\Carbon;
 use App\Models\Practitioner;
-use App\Models\Appointment;
-use App\Lib\TimeslotManager;
 
 class PractitionerAvailability
 {
@@ -15,7 +13,7 @@ class PractitionerAvailability
     {
         $this->practitioner = $practitioner;
     }
-
+    
     /**
      * @return array
      */
@@ -33,51 +31,7 @@ class PractitionerAvailability
             $current_week->startOfWeek();
             $current_week->addWeeks($w);
 
-            $schedule_slots = $this->timeslotsForSchedule();
-            $appointment_slots = $this->timeslotsForAppointmentForWeek($current_week);
-
-            // remove any appointment slots from the schedule
-            $availability = array_diff($schedule_slots, $appointment_slots);
-
-            // now walk the array and remove any half or one hour block
-            // as they can't take an appointment in less than 1 1/2 hours
-            $slots = $availability;
-            $current_run = [];
-
-            foreach ($slots as $slot) {
-
-                // see if this slot is more than one greater than the current run
-                $last = last($current_run);
-
-                // we have a new run
-                if (count($current_run) > 0 && $last + 1 != $slot) {
-
-                    // if the current run is fewer than 3 elements
-                    // we need to remove them
-                    if (count($current_run) < 3) {
-
-                        // remove these slots from the availability
-                        foreach ($current_run as $run_slot) {
-                            $key = array_search($run_slot, $availability);
-                            unset($availability[$key]);
-                        }
-
-                    // otherwise, we just need to remove the last slot (for the half hour buffer)
-                    } else {
-                        $key = array_search($last, $availability);
-                        unset($availability[$key]);
-                    }
-
-                    // reset the current run
-                    $current_run = [];
-                }
-
-                // otherwise, this is part of the current run
-                $current_run[] = $slot;
-            }
-
-            // remove the last slot for the half hour buffer
-            array_pop($availability);
+            $availability = $this->validAvailabilitySlotsForWeek($current_week);
 
             // convert all the timeslots into day/times
             $tsm = new TimeslotManager();
@@ -117,7 +71,70 @@ class PractitionerAvailability
 
         return $weeks;
     }
-
+    
+    /**
+     * @param Carbon $date
+     * @return array
+     */
+    public function openAvailabilitySlotsForWeekBeginning(Carbon $date)
+    {
+        $schedule_slots = $this->timeslotsForSchedule();
+        $appointment_slots = $this->timeslotsForAppointmentForWeek($date);
+        
+        return array_diff($schedule_slots, $appointment_slots);
+    }
+    
+    /**
+     * @param Carbon $date
+     * @return array
+     */
+    public function validAvailabilitySlotsForWeek(Carbon $date)
+    {
+        $timeslots = $this->openAvailabilitySlotsForWeekBeginning($date);
+        sort($timeslots);
+        
+        $consecutive_slots = [];
+        $availability_slots = [];
+        foreach ($timeslots as $index => $slot) {
+            if(count($timeslots) < 3){
+                continue;
+            }
+            
+            if (array_last($timeslots) == $slot) {
+                if ($slot - 1 == $timeslots[$index - 1]) {
+                    $consecutive_slots[] = $slot;
+                    $availability_slots[] = $consecutive_slots;
+                }
+            } elseif ($slot + 1 == $timeslots[$index + 1]) {
+                $consecutive_slots[] = $slot;
+                $consecutive_slots[] = $timeslots[$index + 1];
+            } else {
+                $availability_slots[] = $consecutive_slots;
+                $consecutive_slots = [];
+            }
+        }
+        
+        $coll = collect($availability_slots);
+        
+        // Remove duplicate slot ids
+        $coll->transform(function ($group) {
+            return array_unique($group);
+        });
+        
+        // Remove any groups with less than 3 slots
+        $valid_slots = $coll->filter(function ($group) {
+            return count($group) >= 3;
+        });
+        
+        // Remove the last 30 min slot from the group
+        $valid_slots->transform(function ($group) {
+            return array_slice($group, 0, -1);
+        });
+        
+        // Flatten the array and return
+        return array_flatten($valid_slots->toArray());
+    }
+    
     /**
      * @return array
      */
@@ -163,8 +180,8 @@ class PractitionerAvailability
         $end_date->addDays(7)->subSeconds(1);
 
         $slots = [];
-
-        $appointments = Appointment::forPractitioner($this->practitioner)
+        
+        $appointments = $this->practitioner->appointments()
                             ->withinDateRange($start_date, $end_date)
                             ->get();
 

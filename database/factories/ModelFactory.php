@@ -31,7 +31,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'zip' => $faker->postcode,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
-        'timezone' => $faker->timezone,
+        'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York']),
         'remember_token' => str_random(10)
     ];
 });
