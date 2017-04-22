@@ -129,7 +129,7 @@ class HomePage extends Page
             '@harveyLogoHeader' => '#app > nav > div > div.nav-left > a > div > svg',
             '@getStartedCover' => '#app > div > div > section.hero.is-fullheight.is-primary > div.hero-body > div > div > div > div > a',
             '@getStartedOne' => '#how-it-works > div > div.button-wrapper.has-text-centered > a',
-            '@getStaredTwo' => '#get-started > div:nth-child(2) > div > div > button > span',
+            '@getStaredTwo' => '#get-started > div:nth-child(2) > div > div > div > a',
             '@labsTestDiv' => '#pricing > div > div > div',
             '@labsTestButton' => '#pricing > div > div > div > div > div > a',
             '@footer' => '#app > footer > div > div',
