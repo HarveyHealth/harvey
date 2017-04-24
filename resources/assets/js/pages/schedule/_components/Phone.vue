@@ -11,11 +11,11 @@
       <h1 class="header-xlarge">{{ title }}</h1>
       <p class="large">{{ subtitle }}</p>
 
-      <div class="signup-form-container">
+      <div class="error-container" v-show="responseErrors.length > 0">
+        <p v-for="error in responseErrors" v-text="error.detail" class="error-text"></p>
+      </div>
 
-        <ul v-show="responseErrors.length > 0" class="form-error-list">
-          <li v-for="error in responseErrors" class="form-error-list--item error-text">{{error.detail}}</li>
-        </ul>
+      <div class="signup-form-container">
 
         <div class="input-wrap">
           <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
@@ -74,7 +74,6 @@
           .catch(error => {
             this.responseErrors = error.response.data.errors;
           });
-
 
         }).catch(() => {});
       }
