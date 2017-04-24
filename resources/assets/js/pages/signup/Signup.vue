@@ -7,8 +7,8 @@
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>
 
-        <div class="error-container" v-show="responseError">
-          <span class="error-text">{{ responseError }}</span>
+        <div class="error-container" v-show="responseErrors.length > 0">
+          <p v-for="error in responseErrors" v-text="error.detail" class="error-text"></p>
         </div>
 
         <div class="signup-form-container">
@@ -64,7 +64,7 @@
         zipInRange: false,
         terms: false,
         isComplete: false,
-        responseError: null,
+        responseErrors: [],
         env: this.$parent.environment,
       }
     },
@@ -91,24 +91,10 @@
               this.zipInRange = true;
             })
             .catch(error => {
-              // we're currently getting one error response at a time
-              this.responseError = error.response.data.errors[0].detail;
-
-              // TODO: get error codes to test against
-              // const zipError = 'Sorry, we do not service this zip.';
-              //
-              // if (this.responseErrors[0].detail === zipError) {
-              //   this.zipInRange = false;
-              // } else {
-              //   console.log('zip is not in range');
-              // }
-
-              console.log(error.response.data.errors);
+              this.responseErrors = error.response.data.errors;
             });
 
-        }).catch(() => {
-            //alert('Correct them errors!');
-        });
+        }).catch(() => {});
       },
         login(email, password) {
           axios.post('login', {
