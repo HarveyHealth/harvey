@@ -7,8 +7,8 @@
         <h1 class="header-xlarge">{{ title }}</h1>
         <p class="large">{{ subtitle }}</p>
 
-        <div class="error-container" v-show="responseError">
-          <span class="error-text">{{ responseError }}</span>
+        <div class="error-container" v-show="responseErrors.length > 0">
+          <p v-for="error in responseErrors" v-text="error.detail" class="error-text"></p>
         </div>
 
         <div class="signup-form-container">
