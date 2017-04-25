@@ -34,15 +34,16 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-    
+
     'slack' => [
-        'webhook_url' => env('SLACK_WEBHOOK_URL')
+        'webhook_url' => env('SLACK_WEBHOOK_URL'),
+        'testing_channel' => env('SLACK_TESTING_CHANNEL', 'testing'),
     ],
-    
+
     'intakeq' => [
         'api_key' => env('INTAKEQ_API_KEY')
     ],
-    
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com')
