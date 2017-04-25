@@ -1168,16 +1168,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.4.1",
+            "version": "8.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f"
+                "reference": "01c72a52c38a0a55e4aebb972d65124f618d570a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f",
-                "reference": "eeb3835c8afc6ab35427bc9771ffc7851ce4ed8f",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/01c72a52c38a0a55e4aebb972d65124f618d570a",
+                "reference": "01c72a52c38a0a55e4aebb972d65124f618d570a",
                 "shasum": ""
             },
             "require": {
@@ -1232,7 +1232,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-04-11T20:52:21+00:00"
+            "time": "2017-04-25T12:16:41+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1631,16 +1631,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.0.13",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "c92a592b193846a9ee6a324dfc088533449ae2c3"
+                "reference": "6b81e97ae1ce384e3d8dbd020b2b9751c1449889"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/c92a592b193846a9ee6a324dfc088533449ae2c3",
-                "reference": "c92a592b193846a9ee6a324dfc088533449ae2c3",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/6b81e97ae1ce384e3d8dbd020b2b9751c1449889",
+                "reference": "6b81e97ae1ce384e3d8dbd020b2b9751c1449889",
                 "shasum": ""
             },
             "require": {
@@ -1683,7 +1683,7 @@
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-04-20T21:45:48+00:00"
+            "time": "2017-04-23T17:13:04+00:00"
         },
         {
             "name": "laravel/framework",
@@ -1816,16 +1816,16 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v5.2.1",
+            "version": "5.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "705778909c49491b659089b4ae40f30da33e1372"
+                "reference": "b121cb4a9a364817164b4bc96da31f1d21d22018"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/705778909c49491b659089b4ae40f30da33e1372",
-                "reference": "705778909c49491b659089b4ae40f30da33e1372",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/b121cb4a9a364817164b4bc96da31f1d21d22018",
+                "reference": "b121cb4a9a364817164b4bc96da31f1d21d22018",
                 "shasum": ""
             },
             "require": {
@@ -1862,7 +1862,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2017-04-10T23:12:13+00:00"
+            "time": "2017-04-22T16:40:49+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2165,16 +2165,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.37",
+            "version": "1.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "78b5cc4feb61a882302df4fbaf63b7662e5e4ccd"
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/78b5cc4feb61a882302df4fbaf63b7662e5e4ccd",
-                "reference": "78b5cc4feb61a882302df4fbaf63b7662e5e4ccd",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/2474325ee924134bb05848663b12531f6f2e9fbe",
+                "reference": "2474325ee924134bb05848663b12531f6f2e9fbe",
                 "shasum": ""
             },
             "require": {
@@ -2196,12 +2196,12 @@
                 "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
                 "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
                 "league/flysystem-copy": "Allows you to use Copy.com storage",
-                "league/flysystem-dropbox": "Allows you to use Dropbox storage",
                 "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
                 "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
                 "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
                 "league/flysystem-webdav": "Allows you to use WebDAV storage",
-                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
+                "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter",
+                "spatie/flysystem-dropbox": "Allows you to use Dropbox storage"
             },
             "type": "library",
             "extra": {
@@ -2244,7 +2244,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-03-22T15:43:14+00:00"
+            "time": "2017-04-25T15:24:43+00:00"
         },
         {
             "name": "league/flysystem-aws-s3-v3",
@@ -3492,16 +3492,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v4.8.0",
+            "version": "v4.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "708b0428fb1d3f4901277844713a6eb1a3b3084f"
+                "reference": "63eb7e71524ef0aa0d86ff9baef4efb0e5892427"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/708b0428fb1d3f4901277844713a6eb1a3b3084f",
-                "reference": "708b0428fb1d3f4901277844713a6eb1a3b3084f",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/63eb7e71524ef0aa0d86ff9baef4efb0e5892427",
+                "reference": "63eb7e71524ef0aa0d86ff9baef4efb0e5892427",
                 "shasum": ""
             },
             "require": {
@@ -3543,7 +3543,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-04-20T18:23:52+00:00"
+            "time": "2017-04-24T23:38:06+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4733,12 +4733,12 @@
             "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mockery/mockery.git",
+                "url": "https://github.com/padraic/mockery.git",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/6fdb61243844dc924071d3404bb23994ea0b6856",
                 "reference": "6fdb61243844dc924071d3404bb23994ea0b6856",
                 "shasum": ""
             },
