@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \Validator;
 
@@ -22,7 +21,7 @@ class UsersController extends BaseAPIController
         parent::__construct();
         $this->transformer = $transformer;
     }
-    
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -35,30 +34,26 @@ class UsersController extends BaseAPIController
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
-    
+
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
-        
+
         try {
             $user = new User(
                 $request->only(['first_name', 'last_name', 'email', 'zip'])
             );
-            
+
             $user->password = bcrypt($request->password);
             $user->save();
             $user->patient()->save(new Patient());
-            
+
             return $this->baseTransformItem($user)->respond();
         } catch (\Exception $exception) {
-            $problem = new ApiProblem();
-            $problem->setDetail($exception->getMessage());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($exception->getMessage());
         }
     }
-    
+
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
@@ -68,9 +63,7 @@ class UsersController extends BaseAPIController
         if (auth()->user()->can('view', $user)) {
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }
     }
 
@@ -90,21 +83,17 @@ class UsersController extends BaseAPIController
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
-    
+
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
-        
+
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
-    
+
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
     }
 }

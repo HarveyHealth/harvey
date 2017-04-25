@@ -49,37 +49,35 @@ class BaseAPIController extends Controller
     }
 
 
-    protected function respondWithError(ApiProblem $apiproblem)
+    protected function respondWithError($message, $title = 'Internal Server Error', $code = ResponseCode::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return response()->apiproblem($apiproblem->asArray(), $this->getStatusCode());
+        $this->setStatusCode($code);
+
+        $problem = new ApiProblem();
+        $problem->setTitle($title);
+        $problem->setDetail($message);
+
+        return response()->apiproblem($problem->asArray(), $this->getStatusCode());
     }
 
-    public function respondBadRequest(ApiProblem $problem)
+    public function respondBadRequest($message)
     {
-        $problem->setTitle("Bad Request.");
-        return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Bad Request.', ResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function respondNotAuthorized(ApiProblem $problem)
+    public function respondNotAuthorized($message)
     {
-        $problem->setTitle("Unauthorized Access.");
-        return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)
-                ->respondWithError($problem);
+        return $this->respondWithError($message, 'Unauthorized Access.', ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function respondNotFound(ApiProblem $problem)
+    public function respondNotFound($message)
     {
-        $problem->setTitle("Not Found.");
-        return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Not Found.', ResponseCode::HTTP_NOT_FOUND);
     }
 
-    public function respondUnprocessable(ApiProblem $problem)
+    public function respondUnprocessable($message)
     {
-        $problem->setTitle("Unprocessable Entity.");
-        return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Unprocessable Entity.', ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**

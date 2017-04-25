@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \ResponseCode;
 use \Validator;
@@ -12,7 +11,7 @@ use \Validator;
 class AppointmentsController extends BaseAPIController
 {
     protected $resource_name = 'appointments';
-    
+
     /**
      * AppointmentsController constructor.
      * @param AppointmentTransformer $transformer
@@ -33,11 +32,11 @@ class AppointmentsController extends BaseAPIController
         } else {
             $appointments = auth()->user()->appointments();
         }
-        
+
         if(request('filter') == 'recent') {
             $appointments = $appointments->recent();
         }
-    
+
         if(request('filter') == 'upcoming') {
             $appointments = $appointments->upcoming();
         }
@@ -54,9 +53,7 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('view', $appointment)) {
             return $this->baseTransformItem($appointment)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
         }
     }
 
@@ -73,9 +70,7 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         $appointment = new Appointment($request->all());
@@ -83,38 +78,34 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('create', $appointment)) {
             $patient = auth()->user()->patient;
             $patient->appointments()->save($appointment);
-    
+
             return $this->baseTransformItem($appointment)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to schedule a new appointment.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to schedule a new appointment.");
         }
     }
-    
+
     public function update(Request $request, Appointment $appointment)
     {
         if (auth()->user()->can('update', $appointment)) {
             $appointment->update($request->all());
-            
+
             return $this->baseTransformItem($appointment)->respond();
         } else {
             $message = $appointment->isLocked() ?
                 "You are unable to modify an appointment with less than "
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to update this appointment.";
-            
-            $problem = new ApiProblem();
-            $problem->setDetail($message);
-            return $this->respondNotAuthorized($problem);
+
+            return $this->respondNotAuthorized($message);
         }
     }
-    
+
     public function delete(Appointment $appointment)
     {
         if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
             $appointment->delete();
-    
+
             return $this->baseTransformItem($appointment)
                         ->addMeta(['deleted' => true])
                         ->respond(ResponseCode::HTTP_GONE);
@@ -123,10 +114,8 @@ class AppointmentsController extends BaseAPIController
                 "You are unable to cancel an appointment with less than "
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to cancel this appointment.";
-    
-            $problem = new ApiProblem();
-            $problem->setDetail($message);
-            return $this->respondNotAuthorized($problem);
+
+            return $this->respondNotAuthorized($message);
         }
     }
 }
