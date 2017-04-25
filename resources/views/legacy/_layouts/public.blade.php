@@ -4,7 +4,7 @@
     @if(App::environment() == "local")
         <link rel="stylesheet" href="{{ URL::asset('legacy/css/app_public.css') }}">
     @else
-        <link rel="stylesheet" href="{{ URL::asset('legacy/css/app_public.css') }}">
+        <link rel="stylesheet" href="{{ mix('legacy/css/app_public.css') }}">
     @endif
 @endpush
 

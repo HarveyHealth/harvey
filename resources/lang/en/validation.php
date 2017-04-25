@@ -98,8 +98,11 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'phone' => [
+            'unique' => 'The phone number has already been taken.',
+        ],
+        'email' => [
+            'unique' => 'This email address is already in use.',
         ],
     ],
 

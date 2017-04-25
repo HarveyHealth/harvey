@@ -4,7 +4,6 @@ use Illuminate\Database\Seeder;
 
 class InitialDatabaseSeeder extends Seeder
 {
-
     public function run()
     {
         // In order for the production database to function properly, We need to

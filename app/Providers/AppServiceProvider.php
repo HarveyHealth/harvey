@@ -23,8 +23,6 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
         
-        User::observe(UserObserver::class);
-        
         Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
             return $validator = app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
         });

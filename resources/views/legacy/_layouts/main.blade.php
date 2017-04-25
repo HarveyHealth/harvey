@@ -58,7 +58,7 @@
         @if(App::environment() == "local")
             <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_public.js') }}"></script>
         @else
-            <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_public.js') }}"></script>
+            <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
         @endif
 
     @else
@@ -66,7 +66,7 @@
         @if(App::environment() == "local")
             <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_logged_in.js') }}"></script>
         @else
-            <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_logged_in.jss') }}"></script>
+            <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
         @endif
 
     @endif

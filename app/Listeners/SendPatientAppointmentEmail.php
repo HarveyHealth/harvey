@@ -17,11 +17,13 @@ class SendPatientAppointmentEmail implements ShouldQueue
     
         try {
             $template_model = [
-                'doctor_name' => $event->appointment->practitioner->user->fullName(),
-                'appointment_date' => $event->appointment->patientAppointmentAtDate()->format('l F j'),
-                'appointment_time' => $event->appointment->patientAppointmentAtDate()->format('h:i A'),
-                'harvey_id' => $event->appointment->patient->user->id,
-                'phone_number' => $event->appointment->patient->user->phone,
+                "practitioner_name" => $event->appointment->practitioner->user->fullName(),
+                "appointment_date" => $event->appointment->patientAppointmentAtDate()->format('l F j'),
+                "appointment_time" => $event->appointment->patientAppointmentAtDate()->format('h:i A'),
+                "harvey_id" => $event->appointment->patient->user->id,
+                "phone_number" => $event->appointment->patient->user->phone,
+                "patient_name" => $event->appointment->patient->user->first_name,
+                "patient_phone" => $event->appointment->patient->user->phone
             ];
         
             $client = new PostmarkClient(config('services.postmark.token'));
