@@ -95,12 +95,12 @@
           category: 'clicks',
           properties: { laravel_object: Laravel.user },
           value: 'PageView'
-        })
+        });
       }
-      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     },
     beforeDestroy() {
-      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false)
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
     }
   }
 </script>

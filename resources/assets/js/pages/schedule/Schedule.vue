@@ -48,12 +48,12 @@
         }
 
         axios.post(`api/v1/appointments`, appointmentData)
-        .then(response => {
-          this.$router.push('/confirmation');
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+          .then(response => {
+            this.$router.push('/confirmation');
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
       }
     },
     computed: {
@@ -62,6 +62,8 @@
       }
     },
     mounted() {
+      // Incrementing the step on the tick after mount resolves the DOM
+      // race condition and enables the initial fade-in
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })

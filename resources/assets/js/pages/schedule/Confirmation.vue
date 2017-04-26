@@ -48,7 +48,11 @@
       dispatchEvent() {
 
         if (this.env === 'prod') {
-          this.$ma.trackEvent({action: 'IntakeQ Form Initiated', category: 'clicks', properties: {laravel_object: Laravel.user}})
+          this.$ma.trackEvent({
+            action: 'IntakeQ Form Initiated',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+          });
         }
       }
     },
@@ -58,7 +62,7 @@
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;
-        this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300)
+        this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300);
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
@@ -71,7 +75,7 @@
             value: 50.00,
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
-          })
+          });
         }
       }
     },
