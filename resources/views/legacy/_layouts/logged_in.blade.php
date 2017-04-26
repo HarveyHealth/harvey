@@ -1,11 +1,7 @@
 @extends('legacy._layouts.main')
 
 @push('stylesheets')
-    @if(App::environment() == "local")
-        <link rel="stylesheet" href="{{ URL::asset('legacy/css/app_logged_in.css') }}">
-    @else
-        <link rel="stylesheet" href="{{ mix('legacy/css/app_logged_in.css') }}">
-    @endif
+    <link rel="stylesheet" href="{{ mix('legacy/css/app_logged_in.css') }}">
 @endpush
 
 @section('main_content')
