@@ -9,6 +9,10 @@
 
 import './bootstrap';
 
+// TRACKING
+import VueMultianalytics from 'vue-multianalytics';
+import initTracking from '../../js/pages/tracking';
+
 // HELPERS
 import {throttle, debounce} from 'lodash';
 
@@ -25,6 +29,9 @@ import TopNav from './mixins/TopNav';
 import Symptoms from './components/pages/Symptoms.vue';
 import VerticalTab from './components/_includes/VerticalTab.vue';
 import VerticalTabs from './components/_includes/VerticalTabs.vue';
+
+// for environment conditionals
+const env = require('get-env')();
 
 const app = new Vue({
     mixins: [TopNav],
@@ -200,6 +207,15 @@ const app = new Vue({
         if (this.isHomePage) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
+
+            initTracking();
+            if (env === 'prod') {
+              this.$ma.trackEvent({
+                fb_event: 'viewContent',
+                type: 'product',
+                properties: { laravel_object: Laravel.user },
+              });
+            }
         }
 
         if (this.checkWhichPage('signup', 'register')) {
