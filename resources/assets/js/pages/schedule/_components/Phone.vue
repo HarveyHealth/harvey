@@ -2,40 +2,48 @@
   <div :class="animClasses">
     <div class="container small">
 
-        <!-- progress indicator -->
-        <ul class="signup_progress-indicator">
-          <li class="signup_progress-step"></li>
-          <li class="signup_progress-step current"></li>
-          <li class="signup_progress-step"></li>
-        </ul>
+      <!-- progress indicator -->
+      <ul class="signup_progress-indicator">
+        <li class="signup_progress-step"></li>
+        <li class="signup_progress-step current"></li>
+        <li class="signup_progress-step"></li>
+      </ul>
 
-        <h1 class="header-xlarge">{{ title }}</h1>
-        <p class="large">{{ subtitle }}</p>
+      <h1 class="header-xlarge">{{ title }}</h1>
+      <p class="large">{{ subtitle }}</p>
 
-        <div class="signup-form-container">
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
-            <span v-show="errors.has('first_name')" class="error-text">First name is required</span>
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'" />
-            <span v-show="errors.has('last_name')" class="error-text">Last name is required</span>
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text"
-              name="phone_number"
-              type="phone"
-              placeholder="Phone Number"
-              v-model="phone"
-              v-validate="{ required: true, digits: 10 }"
-              data-vv-validate-on="blur"
-            />
-            <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
-          </div>
-          <div class="text-centered">
-            <button class="button" @click.prevent="nextStep">Continue</button>
-          </div>
+      <div class="error-container" v-show="responseErrors.length > 0">
+        <p v-for="error in responseErrors" v-text="error.detail" class="error-text"></p>
+      </div>
+
+      <div class="signup-form-container">
+
+        <div class="input-wrap">
+          <input class="form-input form-input_text" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
+          <span v-show="errors.has('first_name')" class="error-text">First name is required</span>
         </div>
+
+        <div class="input-wrap">
+          <input class="form-input form-input_text" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'" />
+          <span v-show="errors.has('last_name')" class="error-text">Last name is required</span>
+        </div>
+
+        <div class="input-wrap">
+          <input class="form-input form-input_text"
+            name="phone_number"
+            type="phone"
+            placeholder="Phone Number"
+            v-model="phone"
+            v-validate="{ required: true, digits: 10 }"
+            data-vv-validate-on="blur"
+          />
+
+          <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
+        </div>
+        <div class="text-centered">
+          <a class="button" @click.prevent="nextStep">Continue</a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -53,6 +61,7 @@
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,
         },
+        responseErrors: [],
       }
     },
     methods: {
@@ -72,9 +81,8 @@
             this.$parent.next();
           })
           .catch(error => {
-            console.log(error.response);
+            this.responseErrors = error.response.data.errors;
           });
-
 
         }).catch(() => {});
       }
@@ -82,7 +90,12 @@
     name: 'Phone',
     mounted() {
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Personal Contact Form', category: 'clicks', properties: {laravel_object: Laravel.user}})
+        this.$ma.trackEvent({
+          action: 'View Personal Contact Form',
+          category: 'clicks',
+          properties: { laravel_object: Laravel.user },
+          value: 'PageView'
+        })
       }
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
     },

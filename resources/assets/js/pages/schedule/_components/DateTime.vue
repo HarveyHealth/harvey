@@ -162,7 +162,7 @@
 
         // this should be UTC
 
-        this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss');
+        this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss a');
       },
     },
     computed: {
@@ -184,7 +184,7 @@
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}})
+        this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'})
       }
     },
   }

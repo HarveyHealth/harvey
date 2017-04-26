@@ -59,14 +59,25 @@
       } else {
         this.validDate = true;
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300)
+
+        // A purchase event is typically associated with a specified product or product_group.
+        // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
         if (this.env === 'prod') {
-          this.$ma.trackEvent({action: 'Appointment Scheduled', category: 'clicks', properties: {laravel_object: Laravel.user}})
+          this.$ma.trackEvent({
+            fb_event: 'Purchase',
+            type: 'product',
+            action: 'Appointment Scheduled',
+            category: 'clicks',
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+          })
         }
       }
     },
     computed: {
       time() {
-        const timeObject = this.appointmentDate.format('HH:mm a');
+        const timeObject = this.appointmentDate.format('h:mm a');
         return timeObject;
       },
 

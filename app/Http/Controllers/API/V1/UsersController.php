@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\UserRegistered;
 use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
@@ -49,6 +50,7 @@ class UsersController extends BaseAPIController
             
             $user->password = bcrypt($request->password);
             $user->save();
+            event(new UserRegistered($user));
             $user->patient()->save(new Patient());
             
             return $this->baseTransformItem($user)->respond();

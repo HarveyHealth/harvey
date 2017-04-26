@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
 use Crell\ApiProblem\ApiProblem;
@@ -12,7 +13,7 @@ use \Validator;
 class AppointmentsController extends BaseAPIController
 {
     protected $resource_name = 'appointments';
-    
+
     /**
      * AppointmentsController constructor.
      * @param AppointmentTransformer $transformer
@@ -29,16 +30,16 @@ class AppointmentsController extends BaseAPIController
     public function index()
     {
         if (auth()->user()->isAdmin()) {
-            $appointments = Appointment::limit(10)->orderBy('appointment_at', 'asc');
+            $appointments = Appointment::orderBy('appointment_at', 'asc');
         } else {
             $appointments = auth()->user()->appointments();
         }
-        
-        if(request('filter') == 'recent') {
+
+        if (request('filter') == 'recent') {
             $appointments = $appointments->recent();
         }
-    
-        if(request('filter') == 'upcoming') {
+
+        if (request('filter') == 'upcoming') {
             $appointments = $appointments->upcoming();
         }
 
@@ -83,7 +84,9 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('create', $appointment)) {
             $patient = auth()->user()->patient;
             $patient->appointments()->save($appointment);
-    
+
+            event(new AppointmentScheduled($appointment));
+
             return $this->baseTransformItem($appointment)->respond();
         } else {
             $problem = new ApiProblem();
@@ -91,30 +94,30 @@ class AppointmentsController extends BaseAPIController
             return $this->respondNotAuthorized($problem);
         }
     }
-    
+
     public function update(Request $request, Appointment $appointment)
     {
         if (auth()->user()->can('update', $appointment)) {
             $appointment->update($request->all());
-            
+
             return $this->baseTransformItem($appointment)->respond();
         } else {
             $message = $appointment->isLocked() ?
                 "You are unable to modify an appointment with less than "
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to update this appointment.";
-            
+
             $problem = new ApiProblem();
             $problem->setDetail($message);
             return $this->respondNotAuthorized($problem);
         }
     }
-    
+
     public function delete(Appointment $appointment)
     {
         if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
             $appointment->delete();
-    
+
             return $this->baseTransformItem($appointment)
                         ->addMeta(['deleted' => true])
                         ->respond(ResponseCode::HTTP_GONE);
@@ -123,7 +126,7 @@ class AppointmentsController extends BaseAPIController
                 "You are unable to cancel an appointment with less than "
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to cancel this appointment.";
-    
+
             $problem = new ApiProblem();
             $problem->setDetail($message);
             return $this->respondNotAuthorized($problem);

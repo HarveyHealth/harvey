@@ -127,7 +127,7 @@
     name: 'Practitioner',
     mounted() {
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}});
+        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'});
       }
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
     },
