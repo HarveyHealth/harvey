@@ -16,11 +16,11 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
         <!-- Typekit -->
-        <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
         {{-- Tracking scripts (GA, Pixel, mixpanel) load with vue-multianalytics --}}
         @if (App::environment('local'))
-          <script type="text/javascript" src="{{ URL::asset('js/vendors/intercom.js') }}"></script>
+          <script type="text/javascript" src="{{ mix('js/vendors/intercom.js') }}"></script>
         @endif
 
     </head>
@@ -55,12 +55,6 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      @if(App::environment() == "local")
-        <script type="text/javascript" src="{{ URL::asset('js/schedule/main.js') }}"></script>
-      @else
-        <script type="text/javascript" src="{{ mix('js/schedule/main.js') }}"></script>
-      @endif
-
-
+      <script type="text/javascript" src="{{ mix('js/schedule/main.js') }}"></script>
     </body>
 </html>

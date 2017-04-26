@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
         <!-- Typekit -->
-        <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
     </head>
     <body>
@@ -72,11 +72,7 @@
       </script>
 
       @script(https://js.stripe.com/v2/)
-      @if(App::environment() == "local")
-          <script type="text/javascript" src="{{ URL::asset('js/dashboard/main.js') }}"></script>
-      @else
-          <script type="text/javascript" src="{{ mix('js/dashboard/main.js') }}"></script>
-      @endif
+      <script type="text/javascript" src="{{ mix('js/dashboard/main.js') }}"></script>
 
       @stack('scripts')
 
