@@ -19,7 +19,7 @@
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Date</h2>
 
-              <date-picker
+              <day-picker
                 :selected-date="selectedDate"
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
@@ -27,7 +27,7 @@
                 :weekOffset="0"
               />
 
-              <date-picker
+              <day-picker
                 :selected-date="selectedDate"
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
@@ -75,7 +75,7 @@
 
 <script>
   import moment from 'moment';
-  import DatePicker from './_DatePicker.vue';
+  import DayPicker from './_DayPicker.vue';
   import TimePicker from './_TimePicker.vue';
 
   export default {
@@ -110,7 +110,7 @@
       }
     },
     components: {
-      DatePicker,
+      DayPicker,
       TimePicker,
     },
     methods: {

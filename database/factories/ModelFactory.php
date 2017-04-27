@@ -113,7 +113,7 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     // Create an appointment start time that begins at the top of the hour
     // or 30 minutes into the hour
     $start_time = Carbon::instance(
-        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+        $faker->dateTimeBetween($startDate = '+1 days', $endDate = '+5 days')
     );
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
