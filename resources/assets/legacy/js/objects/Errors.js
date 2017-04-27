@@ -13,7 +13,7 @@ export default class Errors {
 
     get(field) {
         if (this.errors[field]) {
-            return this.errors[field][0];
+            return this.errors[field];
         }
     }
 
