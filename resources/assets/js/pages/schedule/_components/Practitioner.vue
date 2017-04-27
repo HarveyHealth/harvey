@@ -24,6 +24,7 @@
               value="naturopathic"
               v-model="practitioner"
               v-validate="'required'"
+              @change.prevent="onChange"
             />
             <label class="block" for="naturopathic">
               <div class="radio-block_container">
@@ -45,8 +46,14 @@
 
           <div class="input-wrap radio-block">
             <input
-              type="radio" name="practitioner"
-              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
+              type="radio"
+              name="practitioner"
+              id="osteopathy"
+              class="radio_block input-hidden"
+              value="osteopathy"
+              v-model="practitioner"
+              @change.prevent="onChange"
+            />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
@@ -96,6 +103,11 @@
       }
     },
     methods: {
+      // used to prevent scrolling to top of page on selection
+      onChange(_e) {
+        this.practitioner = _e.currentTarget.value;
+      },
+
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
