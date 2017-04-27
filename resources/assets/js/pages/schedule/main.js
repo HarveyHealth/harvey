@@ -14,6 +14,19 @@ Vue.filter('datetime', filter_datetime);
 const eventHub = new Vue();
 Vue.prototype.$eventHub = eventHub;
 
+// custom animations uses eventHub for extensibility
+// classes = the class object
+// classname = the specific class to toggle
+// state = whether the class is on or off
+// delay = time in milliseconds before the toggle
+eventHub.$on('animate', (classes, classname, state, delay) => {
+  if (delay) {
+    setTimeout(() => classes[classname] = state, delay)
+  } else {
+    classes[classname] = state
+  }
+});
+
 // use store pattern to manage HOC model
 var store = {
   state: {
