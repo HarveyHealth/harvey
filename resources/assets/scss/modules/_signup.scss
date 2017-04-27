@@ -253,8 +253,8 @@ button:focus {
               width: 100%;
 
               &[disabled] {
-                opacity: 0.5;
                 cursor: default;
+                opacity: 0.5;
               }
             }
           }
