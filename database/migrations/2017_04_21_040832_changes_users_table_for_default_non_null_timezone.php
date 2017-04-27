@@ -9,10 +9,10 @@ class ChangesUsersTableForDefaultNonNullTimezone extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('timezone')->nullable(false)->default('America/Los_Angeles')->change();
+            $table->string('timezone')->default('America/Los_Angeles')->change();
         });
     }
-    
+
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {

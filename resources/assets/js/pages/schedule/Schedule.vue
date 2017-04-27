@@ -19,7 +19,7 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-        step: 1,
+        step: 0,
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
@@ -48,18 +48,25 @@
         }
 
         axios.post(`api/v1/appointments`, appointmentData)
-        .then(response => {
-          this.$router.push('/confirmation');
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+          .then(response => {
+            this.$router.push('/confirmation');
+          })
+          .catch(error => {
+            console.log(error.response);
+          });
       }
     },
     computed: {
       appointmentDateUTC() {
         return moment(this.appointmentDate).utc().format('YYYY-MM-DD HH:mm:ss');
       }
+    },
+    mounted() {
+      // Incrementing the step on the tick after mount resolves the DOM
+      // race condition and enables the initial fade-in
+      Vue.nextTick(() => {
+        this.step = this.step === 0 ? 1 : this.step;
+      })
     }
   }
 </script>

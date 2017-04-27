@@ -23,10 +23,10 @@
     @stack('stylesheets')
 
     {{-- TYPEKIT async load --}}
-    <script type="text/javascript" src="{{ URL::asset('/js/vendors/typekit.js') }}"></script>
-    
-    @if (App::environment('production'))
-        @script(js/vendors/intercom.js)
+    <script type="text/javascript" src="{{ mix('/js/vendors/typekit.js') }}"></script>
+
+    @if (App::environment(['production', 'staging']))
+        <script type="text/javascript" src="{{ mix('js/vendors/intercom.js') }}"></script>
     @endif
 
 </head>
@@ -55,20 +55,10 @@
 
     @if (Auth::guest())
         @script(/js/vendors/modernizr-custom.js)
-        @if(App::environment() == "local")
-            <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_public.js') }}"></script>
-        @else
-            <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
-        @endif
-
+        <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
     @else
         @script(https://js.stripe.com/v2/)
-        @if(App::environment() == "local")
-            <script type="text/javascript" src="{{ URL::asset('/legacy/js/app_logged_in.js') }}"></script>
-        @else
-            <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
-        @endif
-
+        <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
     @endif
 
     @stack('scripts')

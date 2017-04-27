@@ -2,7 +2,7 @@
 @section('page_title',$page_title)
 
 @push('stylesheets')
-    <link rel="stylesheet" href="{{ URL::asset('legacy/css/legal.css') }}">
+    <link rel="stylesheet" href="{{ mix('legacy/css/legal.css') }}">
 @endpush
 
 @section('content')

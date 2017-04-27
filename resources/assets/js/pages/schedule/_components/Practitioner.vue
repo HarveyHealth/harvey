@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="animClasses">
     <div class="container small">
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
@@ -89,6 +89,10 @@
         title: 'Choose your physician',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
         practitioner: '',
+        animClasses: {
+          'anim-fade-slideup': true,
+          'anim-fade-slideup-in': false,
+        },
       }
     },
     methods: {
@@ -108,23 +112,32 @@
         this.$parent.practitioner = practitioner_id;
 
         axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
-        .then(response => {
-          this.$parent.practitioner_availability = response.data.meta.availability;
+          .then(response => {
+            this.$parent.practitioner_availability = response.data.meta.availability;
 
-          // since the availability is required for this process, let's block
-          // next steps until we get a 200
-          this.$parent.next();
-        })
-        .catch(error => {
-          // Todo: Catch error
-        });
+            // since the availability is required for this process, let's block
+            // next steps until we get a 200
+            this.$parent.next();
+          })
+          .catch(error => {
+            // Todo: Catch error
+          });
       }
     },
     name: 'Practitioner',
     mounted() {
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Select Practitioner', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'});
+        this.$ma.trackEvent({
+          action: 'View Select Practitioner',
+          category: 'clicks',
+          properties: { laravel_object: Laravel.user },
+          value: 'PageView',
+        });
       }
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
+    },
+    beforeDestroy() {
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
     }
   }
 </script>

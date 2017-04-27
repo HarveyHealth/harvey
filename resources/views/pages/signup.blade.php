@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
         <!-- Typekit -->
-        <script type="text/javascript" src="{{ URL::asset('js/vendors/typekit.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
     </head>
     <body>
@@ -50,11 +50,6 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      @if(App::environment() == "local")
-          <script type="text/javascript" src="{{ URL::asset('js/signup/main.js') }}"></script>
-      @else
-          <script type="text/javascript" src="{{ mix('js/signup/main.js') }}"></script>
-      @endif
-
+      <script type="text/javascript" src="{{ mix('js/signup/main.js') }}"></script>
     </body>
 </html>
