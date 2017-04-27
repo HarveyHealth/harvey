@@ -8,7 +8,11 @@
     </div>
 
     <ul class="calendar-week-container_days-wrapper">
-      <li v-for="date in localDates" class="calendar-item" :class="[{'selected' : hasBeenTouched && selectedDate.date() === date.date()}]">
+      <li
+        v-for="date in localDates"
+        class="calendar-item"
+        :class="[{'selected' : hasBeenTouched && selectedDate.date() === date.date(), 'not-available' : !date.available}]"
+      >
         <button
           class="calendar-item_link"
           @click.prevent="onDateChange(date)"
