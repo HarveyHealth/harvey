@@ -26,6 +26,7 @@
   import moment from 'moment';
 
   export default {
+    name: 'DayPicker',
     props: ['selectedDate', 'maximumDays', 'startDateTime', 'availability', 'weekOffset'],
     name: 'DatePicker',
     data() {
