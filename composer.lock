@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.26.2",
+            "version": "3.26.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "05df1887d7b8cea9fba9ad59e1513c3815e883ae"
+                "reference": "a843acca973557ca4fefb7e4d407e6312ff0b9ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/05df1887d7b8cea9fba9ad59e1513c3815e883ae",
-                "reference": "05df1887d7b8cea9fba9ad59e1513c3815e883ae",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a843acca973557ca4fefb7e4d407e6312ff0b9ed",
+                "reference": "a843acca973557ca4fefb7e4d407e6312ff0b9ed",
                 "shasum": ""
             },
             "require": {
@@ -40,7 +40,7 @@
                 "ext-simplexml": "*",
                 "ext-spl": "*",
                 "nette/neon": "^2.3",
-                "phpunit/phpunit": "~4.0|~5.0",
+                "phpunit/phpunit": "^4.8.35|^5.4.0",
                 "psr/cache": "^1.0"
             },
             "suggest": {
@@ -85,7 +85,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-04-21 20:25:16"
+            "time": "2017-04-26 17:47:01"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1688,16 +1688,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.19",
+            "version": "v5.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "02444b7450350db17a7607c8a52f7268ebdb0dad"
+                "reference": "851aad458bcc904178ded02954d55d36c2c35f8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/02444b7450350db17a7607c8a52f7268ebdb0dad",
-                "reference": "02444b7450350db17a7607c8a52f7268ebdb0dad",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/851aad458bcc904178ded02954d55d36c2c35f8b",
+                "reference": "851aad458bcc904178ded02954d55d36c2c35f8b",
                 "shasum": ""
             },
             "require": {
@@ -1813,20 +1813,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-04-16 13:33:34"
+            "time": "2017-04-27 13:04:35"
         },
         {
             "name": "laravel/homestead",
-            "version": "5.2.3",
+            "version": "v5.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "b121cb4a9a364817164b4bc96da31f1d21d22018"
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/b121cb4a9a364817164b4bc96da31f1d21d22018",
-                "reference": "b121cb4a9a364817164b4bc96da31f1d21d22018",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
+                "reference": "77f1f01f6ec504c7f3adcb220d73c831a8dcc2bb",
                 "shasum": ""
             },
             "require": {
@@ -1863,7 +1863,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2017-04-22 16:40:49"
+            "time": "2017-04-26 15:43:12"
         },
         {
             "name": "laravel/passport",
