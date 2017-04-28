@@ -39,7 +39,10 @@
     },
     name: 'Location',
     mounted() {
-      this.$ma.trackEvent({value: 'PageView'})
+      this.$ma.trackEvent({
+          value: 'PageView',
+          fb_event: 'ViewContent',
+      })
     }
   }
 </script>
