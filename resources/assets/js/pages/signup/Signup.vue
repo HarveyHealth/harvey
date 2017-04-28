@@ -108,7 +108,15 @@
     },
     mounted () {
       if (this.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Signup Page', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'})
+        this.$ma.trackEvent({
+            action: 'View Signup Page',
+            fb_event: 'ViewContent',
+            category: 'clicks',
+            properties: {
+                laravel_object: Laravel.user
+            },
+            value: 'PageView'
+        })
       }
     }
   }
