@@ -6,7 +6,8 @@ use App\Http\Traits\HasPatientAndPractitioner;
 use App\Lib\Slack;
 use App\Notifications\SlackNotification;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model, SoftDeletes;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
 
 class Appointment extends Model
@@ -36,12 +37,12 @@ class Appointment extends Model
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     const STATUSES = [
-        PENDING_STATUS_ID => 'pending',
-        NO_SHOW_PATIENT_STATUS_ID => 'no_show_patient',
-        NO_SHOW_DOCTOR_STATUS_ID => 'no_show_doctor',
-        GENERAL_CONFLICT_STATUS_ID => 'general_conflict',
-        CANCELED_STATUS_ID => 'canceled',
-        COMPLETE_STATUS_ID => 'complete',
+        self::PENDING_STATUS_ID => 'pending',
+        self::NO_SHOW_PATIENT_STATUS_ID => 'no_show_patient',
+        self::NO_SHOW_DOCTOR_STATUS_ID => 'no_show_doctor',
+        self::GENERAL_CONFLICT_STATUS_ID => 'general_conflict',
+        self::CANCELED_STATUS_ID => 'canceled',
+        self::COMPLETE_STATUS_ID => 'complete',
     ];
 
     public static function boot()

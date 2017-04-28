@@ -28,6 +28,9 @@ class AddStatusIdToAppointmentsTable extends Migration
     {
         Schema::table('appointments', function (Blueprint $table) {
             $table->dropIndex(['status_id']);
+        });
+
+        Schema::table('appointments', function (Blueprint $table) {
             $table->dropColumn('status_id');
         });
     }
