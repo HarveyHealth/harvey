@@ -58,8 +58,8 @@
         calendarSummary: '',
         calendarStart: '',
         calendarEnd: '',
-        calendarZone: 'America/Los_Angeles',
-        calendarLocation: 'The doctor will call you.',
+        calendarZone: '',
+        calendarLocation: '',
         calendarDescription: '',
         animClasses: {
           'anim-fade': true,
@@ -71,7 +71,7 @@
       this.appointmentData = this.$root.$data.sharedState.appointmentData.data;
       this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
       this.calendarSummary = `Home Appointment with ${this.appointmentData.attributes.practitioner_name}`;
-      this.calendarDescription = `Phone consultation with Dr ${this.appointmentData.attributes.practitioner_name}\nYour appointment will last approximately 60 minutes.`;
+      // this.calendarDescription = `Phone consultation with Dr ${this.appointmentData.attributes.practitioner_name}\nYour appointment will last approximately 60 minutes.`;
       this.calendarStart = moment(this.appointmentDate).format('MM/DD/YYYY hh:mm A');
       this.calendarEnd = moment(this.appointmentDate).add(60, 'm').format('MM/DD/YYYY hh:mm A');
     },
