@@ -211,7 +211,7 @@ const app = new Vue({
             initTracking();
             if (env === 'prod') {
               this.$ma.trackEvent({
-                fb_event: 'viewContent',
+                fb_event: 'ViewContent',
                 type: 'product',
                 properties: { laravel_object: Laravel.user },
               });
