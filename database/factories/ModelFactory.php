@@ -77,18 +77,24 @@ $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $
 });
 
 $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generator $faker) {
-    $start_time = Carbon::instance(
-        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
-    );
-    
-    $start_time->minute = $faker->randomElement([0, 30]);
-    $start_time->second = 0;
-    
+    $workableDays = collect();
+
+    for ($i = 0; $i < 5; $i++) {
+        $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
+    }
+
+    $start_hour = rand(0, 23);
+    $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
+
+    $stop_hour = rand($start_hour + 1, 24);
+    $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
+    $stop_time = "{$stop_hour}:{$stop_minutes}:00";
+
     return [
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'day_of_week' => $faker->dayOfWeek,
-        'start_time' => $start_time->toTimeString(),
-        'stop_time' => $start_time->addHour(rand(1, 8))->toTimeString(),
+        'day_of_week' => $workableDays->random(),
+        'start_time' => $start_time,
+        'stop_time' => $stop_time,
     ];
 });
 
@@ -133,7 +139,7 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
     );
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
-    
+
     return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
 });
 
