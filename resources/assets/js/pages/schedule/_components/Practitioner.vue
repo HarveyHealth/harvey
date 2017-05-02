@@ -141,6 +141,7 @@
       if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({
           action: 'View Select Practitioner',
+          fb_event: 'ViewContent',
           category: 'clicks',
           properties: { laravel_object: Laravel.user },
           value: 'PageView',
