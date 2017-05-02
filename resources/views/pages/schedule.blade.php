@@ -19,10 +19,6 @@
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
         {{-- Tracking scripts (GA, Pixel, mixpanel) load with vue-multianalytics --}}
-        @if (App::environment('local'))
-          <script type="text/javascript" src="{{ mix('js/vendors/intercom.js') }}"></script>
-        @endif
-
     </head>
     <body>
 

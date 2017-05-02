@@ -44,10 +44,9 @@ class VueHelperViewComposer
             $data['id'] = $user->id;
             $data['signedIn'] = true;
             $data['firstName'] = $user->first_name;
-            $data['lastName'] = $user->lastName;
+            $data['lastName'] = $user->last_name;
             $data['fullName'] = $user->fullName();
-            $data['apiToken'] = $user->api_token;
-            $data['userType'] = $user->user_type;
+            $data['userType'] = $user->userType();
         }
 
         return $data;
