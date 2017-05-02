@@ -51,7 +51,7 @@
         subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).',
         intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
         appointmentDate: null,
-        appointmentData: null,
+        appointmentInformation: null,
         validDate: false,
         env: this.$root.$data.environment,
         calendarVisible: false,
@@ -68,10 +68,9 @@
       }
     },
     created() {
-      this.appointmentData = this.$root.$data.sharedState.appointmentData.data;
+      this.appointmentInformation = this.$root.$data.sharedState.appointmentData.data;
       this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
-      this.calendarSummary = `Home Appointment with ${this.appointmentData.attributes.practitioner_name}`;
-      // this.calendarDescription = `Phone consultation with Dr ${this.appointmentData.attributes.practitioner_name}\nYour appointment will last approximately 60 minutes.`;
+      this.calendarSummary = `Appointment with ${this.appointmentInformation.attributes.practitioner_name}`;
       this.calendarStart = moment(this.appointmentDate).format('MM/DD/YYYY hh:mm A');
       this.calendarEnd = moment(this.appointmentDate).add(60, 'm').format('MM/DD/YYYY hh:mm A');
     },
