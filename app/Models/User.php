@@ -84,7 +84,7 @@ class User extends Authenticatable implements Mailable
         } elseif ($this->isAdmin()) {
             return 'admin';
         } else {
-            throwException("Unable to determine user's type.");
+            throw new \Exception("Unable to determine user's type.");
         }
     }
 
