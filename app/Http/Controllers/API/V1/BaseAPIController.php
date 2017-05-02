@@ -103,7 +103,7 @@ class BaseAPIController extends Controller
      * @param null $transformer
      * @return Fractal
      */
-    public function baseTransformCollection($collection, $include, $transformer = null)
+    public function baseTransformCollection($collection, $include = null, $transformer = null)
     {
         return fractal()->collection($collection)
             ->parseIncludes($include)
