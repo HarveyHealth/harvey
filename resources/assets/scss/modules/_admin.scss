@@ -12,10 +12,10 @@
   .nav-bar {
     background: $white;
     border-right: 1px solid $color--grey;
+    bottom: 0;
     flex-basis: 60px;
     position: fixed;
     top: 0;
-    bottom: 0;
   }
     .admin-nav-link {
       display: inline-block;
@@ -59,9 +59,10 @@
       display: block;
       left: calc(50% - 24px);
       position: absolute;
+
       &, & svg {
-        width: 48px;
         height: 48px;
+        width: 48px;
       }
     }
 
