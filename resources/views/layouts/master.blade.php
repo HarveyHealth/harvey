@@ -6,7 +6,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-        <title>Signup | Harvey</title>
+        @if (View::hasSection('page_title'))
+            <title>Harvey | @yield('page_title')</title>
+        @else
+            <title>Harvey | Personalized integrative medicine</title>
+        @endif
 
         <!-- OG -->
         <meta property="og:type" content="website">
@@ -17,8 +21,10 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="msapplication-config" content="none"/>
-        <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="robots" content="">
+
+        <!-- CSRF TOKEN -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- icons -->
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="/img/icon.jpg">
@@ -38,9 +44,19 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css">
+        @stack('stylesheets')
 
         <!-- Typekit -->
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
+        @if (App::environment(['production', 'staging']))
+            <script type="text/javascript" src="{{ mix('js/vendors/intercom.js') }}"></script>
+        @endif
+
     </head>
+    <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
+        @yield('content')
+    </body>
+</html>
