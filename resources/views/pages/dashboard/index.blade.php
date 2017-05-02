@@ -45,6 +45,17 @@
           </g>
         </symbol>
 
+
+        <symbol id="logout" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" fill-rule="evenodd">
+            <g stroke="#607379" stroke-linecap="round">
+              <path d="M18.51 21.07v7.637"/>
+              <path d="M22.364 24.818h6.725M27.455 22.273L30 24.818l-2.545 2.546" stroke-linejoin="round"/>
+            </g>
+            <rect stroke="#E4EAEC" x=".5" y=".5" width="47" height="47" rx="5"/>
+          </g>
+        </symbol>
+
       </svg>
 
       <div class="admin-content">
