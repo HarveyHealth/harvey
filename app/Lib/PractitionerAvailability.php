@@ -13,7 +13,7 @@ class PractitionerAvailability
     {
         $this->practitioner = $practitioner;
     }
-    
+
     /**
      * @return array
      */
@@ -53,7 +53,7 @@ class PractitionerAvailability
                 $date->addDays($days_to_add);
                 $date->hour = date('H', strtotime($time));
                 $date->minute = date('i', strtotime($time));
-                
+
                 // if the date is defined outside the current week
                 // ignore it
                 if ($now->gte($date)) {
@@ -71,7 +71,7 @@ class PractitionerAvailability
 
         return $weeks;
     }
-    
+
     /**
      * @param Carbon $date
      * @return array
@@ -80,10 +80,10 @@ class PractitionerAvailability
     {
         $schedule_slots = $this->timeslotsForSchedule();
         $appointment_slots = $this->timeslotsForAppointmentForWeek($date);
-        
+
         return array_diff($schedule_slots, $appointment_slots);
     }
-    
+
     /**
      * @param Carbon $date
      * @return array
@@ -92,14 +92,14 @@ class PractitionerAvailability
     {
         $timeslots = $this->openAvailabilitySlotsForWeekBeginning($date);
         sort($timeslots);
-        
+
         $consecutive_slots = [];
         $availability_slots = [];
         foreach ($timeslots as $index => $slot) {
             if (count($timeslots) < 3) {
                 continue;
             }
-            
+
             if (array_last($timeslots) == $slot) {
                 if ($slot - 1 == $timeslots[$index - 1]) {
                     $consecutive_slots[] = $slot;
@@ -113,28 +113,28 @@ class PractitionerAvailability
                 $consecutive_slots = [];
             }
         }
-        
+
         $coll = collect($availability_slots);
-        
+
         // Remove duplicate slot ids
         $coll->transform(function ($group) {
             return array_unique($group);
         });
-        
+
         // Remove any groups with less than 3 slots
         $valid_slots = $coll->filter(function ($group) {
             return count($group) >= 3;
         });
-        
+
         // Remove the last 30 min slot from the group
         $valid_slots->transform(function ($group) {
             return array_slice($group, 0, -1);
         });
-        
+
         // Flatten the array and return
         return array_flatten($valid_slots->toArray());
     }
-    
+
     /**
      * @return array
      */
@@ -150,8 +150,7 @@ class PractitionerAvailability
             $start = new Carbon($schedule->start_time);
             $end = new Carbon($schedule->stop_time);
 
-            $number_of_hours = $start->diffInHours($end);
-            $number_of_half_hours = ceil($number_of_hours * 2);
+            $number_of_half_hours = ceil($start->diffInSeconds($end) / 1800);
 
             for ($i = 0; $i < $number_of_half_hours; $i++) {
                 $timeslot = $tsm->timeslotForDayAndTime($schedule->day_of_week, $start);
@@ -180,7 +179,7 @@ class PractitionerAvailability
         $end_date->addDays(7)->subSeconds(1);
 
         $slots = [];
-        
+
         $appointments = $this->practitioner->appointments()
                             ->withinDateRange($start_date, $end_date)
                             ->get();
