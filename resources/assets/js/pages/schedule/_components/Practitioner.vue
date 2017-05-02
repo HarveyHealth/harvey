@@ -112,9 +112,7 @@
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
-        }).catch(() => {
-
-        });
+        }).catch(() => {});
       },
 
       getAvailability(practitioner) {
