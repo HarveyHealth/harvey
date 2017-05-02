@@ -79,8 +79,10 @@
       dispatchEvent() {
 
         if (this.env === 'prod') {
-          this.$ma.trackEvent({
+
+            this.$ma.trackEvent({
             action: 'IntakeQ Form Initiated',
+            fb_event: 'ViewContent',
             category: 'clicks',
             properties: { laravel_object: Laravel.user }
           });
