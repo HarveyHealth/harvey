@@ -197,7 +197,7 @@ class PractitionerAvailability
             $number_of_half_hours = 3;
 
             for ($i = 0; $i < $number_of_half_hours; $i++) {
-                $timeslot = $tsm->timeslotForDayAndTime(date('l', $start->timestamp), $start);
+                $timeslot = $tsm->timeslotForDayAndTime($start->format('l'), $start);
                 $start->addMinutes(30);
                 $slots[$timeslot] = $appointment->id;
             }
