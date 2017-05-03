@@ -34,7 +34,10 @@ class AppointmentTransformer extends TransformerAbstract
     public function includePatient(Appointment $appointment)
     {
         $patient = $appointment->patient;
-        return $this->item($patient, new PatientTransformer());
+        return $this->item(
+            $patient,
+            new PatientTransformer()
+        )->setResourceKey('patients');
     }
     
     /**
@@ -44,6 +47,9 @@ class AppointmentTransformer extends TransformerAbstract
     public function includePractitioner(Appointment $appointment)
     {
         $practitioner = $appointment->practitioner;
-        return $this->item($practitioner, new PractitionerTransformer());
+        return $this->item(
+            $practitioner,
+            new PractitionerTransformer()
+        )->setResourceKey('practitioners');
     }
 }
