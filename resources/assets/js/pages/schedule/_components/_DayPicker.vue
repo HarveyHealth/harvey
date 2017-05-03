@@ -44,7 +44,7 @@
         this.hasBeenTouched = true;
 
         const dateValue = moment(date).utc();
-        this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue});
+        this.$eventHub.$emit('datetime-change', {type: 'date', value: dateValue, weekNumber: (this.weekOffset === 0) ? 0 : 1});
       },
 
       getDates() {
@@ -97,8 +97,7 @@
     },
     computed: {
       formattedDates() {
-        // right now, this is getting two arrays, so we need to hard-code the index
-        return this.availability[1].map((item) => {
+        return this.availability[(this.weekOffset === 0) ? 0 : 1].map((item) => {
           // this now a simple object of day:/time: keys
           // we can compare this with the generated moment object above
           // item.day === date.day("Tuesday")
