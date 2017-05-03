@@ -45,8 +45,13 @@
 
           <div class="input-wrap radio-block">
             <input
-              type="radio" name="practitioner"
-              id="osteopathy" class="radio_block input-hidden" value="osteopathy" v-model="practitioner" />
+              type="radio"
+              name="practitioner"
+              id="osteopathy"
+              class="radio_block input-hidden"
+              value="osteopathy"
+              v-model="practitioner"
+            />
             <label class="block" for="osteopathy">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
@@ -100,9 +105,7 @@
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
-        }).catch(() => {
-
-        });
+        }).catch(() => {});
       },
 
       getAvailability(practitioner) {
