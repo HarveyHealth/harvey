@@ -113,13 +113,11 @@ class Appointment extends Model
     public function setStatusAttribute($value)
     {
         $this->status_id = array_search($value, self::STATUSES) ?: self::DEFAULT_STATUS_ID;
-
         return $value;
     }
 
     public function getStatusFriendlyName()
     {
-
         return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
     }
 
