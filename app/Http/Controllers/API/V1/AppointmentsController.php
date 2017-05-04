@@ -93,7 +93,7 @@ class AppointmentsController extends BaseAPIController
 
             event(new AppointmentScheduled($appointment));
 
-            return $this->baseTransformItem($appointment)->respond();
+            return $this->baseTransformItem($appointment->fresh())->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to schedule a new appointment.");
