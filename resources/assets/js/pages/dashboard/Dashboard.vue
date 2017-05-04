@@ -49,11 +49,13 @@
           </div>
         </div>
       </div>
+      <Flyout></Flyout>
     </div>
 </template>
 
 <script>
     import Appointments from '../../appointments/Appointments.vue';
+    import Flyout from './_components/Flyout.vue';
     import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
     import Contact from '../../mixins/Contact';
 
@@ -67,7 +69,8 @@
         },
         props: ['user', 'patient'],
         components: {
-            Appointments
+            Appointments,
+            Flyout
         },
         methods: {
             viewAppointmentPage() {

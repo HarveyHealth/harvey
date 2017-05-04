@@ -1,0 +1,44 @@
+.flyout {
+  background: $white;
+  border-left: 1px solid $color--grey;
+  bottom: 0;
+  font-size: 16px;
+  font-weight: 300;
+  padding: 3em 1.6em 2em;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 24em;
+
+  &__ctas {
+    text-align: center;
+  }
+
+  &__heading {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+
+  &__item {
+    display: inline-block;
+    margin-top: 0.8em;
+  }
+
+  &__section {
+    padding: 1.8em 0;
+
+    &:not(:first-child) {
+      border-top: 1px solid $color--grey;
+    }
+  }
+
+  &__patientname {
+    display: block;
+    font-size: 1.4em;
+    font-weight: 500;
+    margin-bottom: 0.6em;
+  }
+
+}
