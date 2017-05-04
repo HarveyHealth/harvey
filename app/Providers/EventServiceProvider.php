@@ -14,19 +14,23 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\UserRegistered' => [
-            'App\Listeners\SendWelcomeEmail'
+            'App\Listeners\SendWelcomeEmail',
         ],
         'App\Events\AppointmentScheduled' => [
             'App\Listeners\SendPatientAppointmentEmail',
             'App\Listeners\SendPractitionerAppointmentEmail',
-            'App\Listeners\NotifyAppointmentSlackChannel'
-        ]
+            'App\Listeners\NotifyAppointmentSlackChannel',
+        ],
+        'App\Events\AppointmentCancelled' => [
+            'App\Listeners\SendPatientAppointmentCancelledEmail',
+            'App\Listeners\SendPractitionerAppointmentCancelledEmail',
+        ],
     ];
-    
+
     protected $subscribe = [
         'App\Listeners\UserEventSubscriber',
     ];
-    
+
     /**
      * Register any events for your application.
      *
@@ -35,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-        
+
         //
     }
 }

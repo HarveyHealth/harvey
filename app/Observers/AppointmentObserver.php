@@ -9,13 +9,13 @@ class AppointmentObserver
     /**
      * Listen to the Appointment updating event.
      *
-     * @param  Appointment  $appointment
+     * @param  Appointment $appointment
      * @return void
      */
     public function updating(Appointment $appointment)
     {
-
-        //WIP
-
+        if ($appointment->isDirty('status_id') && Appointment::CANCELED_STATUS_ID == $appointment->status_id) {
+            event(new AppointmentCancelled($appointment));
+        }
     }
 }
