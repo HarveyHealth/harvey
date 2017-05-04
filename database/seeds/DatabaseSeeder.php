@@ -1,6 +1,5 @@
 <?php
-
-use Illuminate\Database\Seeder;
+  
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,7 +18,7 @@ class DatabaseSeeder extends Seeder
             $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
-    
+
             $this->command->getOutput()->writeln("Seeding Successful!");
             $this->command->getOutput()->writeln("");
             $this->command->getOutput()->writeln("<info>Admin Email: </info>admin@goharvey.com");
