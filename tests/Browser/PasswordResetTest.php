@@ -18,9 +18,11 @@ class PasswordResetTest extends DuskTestCase
     {
         $user = factory(User::class)->create();
 
+
+
         $this->browse(function ($browser) use ($user) {
             $browser->visit(new ForgotPasswordPage)
-                ->type('email', 'admin@goharvey.com')
+                ->type('email', $user['email'])
                 ->press('Send Password Reset Link')
                 ->waitForText('We have e-mailed your password reset link!')
                 ->assertSee("We have e-mailed your password reset link!");

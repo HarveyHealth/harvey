@@ -4,9 +4,11 @@ namespace Tests\Browser\Pages;
 
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ForgotPasswordPage extends BasePage
 {
+    use DatabaseMigrations;
     /**
      * Get the URL for the page.
      *
@@ -26,6 +28,11 @@ class ForgotPasswordPage extends BasePage
     public function assert(Browser $browser)
     {
         $browser->assertPathIs($this->url());
+    }
+
+    public function createUser(Browser $browser)
+    {
+          $user = factory(User::class)->create();
     }
 
     /**
