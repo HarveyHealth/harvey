@@ -2,7 +2,7 @@
 
 @section('page_title','Log in')
 
-@section('content')
+@section('main_content')
 <section class="section">
     <div class="container">
         <header class="content has-text-centered">
