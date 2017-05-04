@@ -12,32 +12,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Appointment extends Model
 {
     use HasPatientAndPractitioner, SoftDeletes;
-    
+
     /**
      * An appointment will lock when less than 2 hours away.
      */
     const CANCEL_LOCK = 2;
 
     protected $dates = [
+        'appointment_at',
         'created_at',
-        'updated_at',
         'deleted_at',
-        'appointment_at'
+        'updated_at',
     ];
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        self::creating(function ($appointment) {
-            if (empty($appointment->appointment_block_ends_at)) {
-                $start = new Carbon($appointment->created_at);
-                $appointment->appointment_block_ends_at = $start->addMinutes(89)->toDateTimeString();
-            }
-        });
-    }
 
     /*
      * Relationships
@@ -56,36 +44,36 @@ class Appointment extends Model
     {
         return $this->belongsTo(Practitioner::class);
     }
-    
+
     public function isLocked()
     {
         return $this->hoursToStart() <= self::CANCEL_LOCK;
     }
-    
+
     public function isNotLocked()
     {
         return !$this->isLocked();
     }
-    
+
     public function hoursToStart()
     {
         $appointment_time = Carbon::parse($this->appointment_at);
         return Carbon::now()->diffInHours($appointment_time, false);
     }
-    
+
     public function patientAppointmentAtDate()
     {
         $carbonDate = new Carbon($this->appointment_at);
         return $carbonDate->timezone($this->patient->user->timezone);
     }
-    
+
     public function practitionerAppointmentAtDate()
     {
         $carbonDate = new Carbon($this->appointment_at);
         return $carbonDate->timezone($this->practitioner->user->timezone);
     }
-    
-    
+
+
 
     /*
      * SCOPES
