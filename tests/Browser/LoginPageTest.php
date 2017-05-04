@@ -39,6 +39,13 @@ class LoginPageTest extends DuskTestCase
       });
     }
 
+    public function test_if_logo_redirects_to_homepage()
+    {
+      $this->browse(function (Browser $browser) {
+        $browser->visit(new LoginPage)
+                ->logoHeader();
+      });
+    }
 
 
 }

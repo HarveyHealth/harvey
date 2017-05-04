@@ -10,6 +10,7 @@ class LoginPage extends BasePage
 
   public $signupPage = "Your journey starts here";
   public $forgotPasswordPage = "Reset Password";
+  public $homepage = 'Personalized and integrative medicine, unique as you are.';
 
     /**
      * Get the URL for the page.
@@ -53,6 +54,12 @@ class LoginPage extends BasePage
                ->assertSee($this->signupPage);
     }
 
+    public function logoHeader(Browser $browser)
+    {
+       $browser->click('@header')
+               ->assertSee($this->homepage);
+    }
+
 
 
 
@@ -70,7 +77,8 @@ class LoginPage extends BasePage
             '@login' => '#login > p.control.is-clearfix > button',
             '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
             '@forgotPassword' => '#login > p.control.is-clearfix > a',
-            '@signUpButton' => '#app > div > section > div > div > footer > div > a'
+            '@signUpButton' => '#app > div > section > div > div > footer > div > a',
+            '@header' => '#app > nav > div > div.nav-left > a > div > svg > path.harvey-logo-icon'
         ];
     }
 }
