@@ -34,7 +34,7 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'status_id'];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -44,6 +44,8 @@ class Appointment extends Model
         self::CANCELED_STATUS_ID => 'canceled',
         self::COMPLETE_STATUS_ID => 'complete',
     ];
+
+    const DEFAULT_STATUS_ID = self::PENDING_STATUS_ID;
 
     public static function boot()
     {
@@ -103,17 +105,22 @@ class Appointment extends Model
         return $carbonDate->timezone($this->practitioner->user->timezone);
     }
 
-    public function getStatusName()
+    public function getStatusAttribute()
     {
+        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
+    }
 
-        return empty(self::STATUSES[$this->status_id]) ? false : self::STATUSES[$this->status_id];
+    public function setStatusAttribute($value)
+    {
+        $this->status_id = array_search($value, self::STATUSES) ?: self::DEFAULT_STATUS_ID;
+
+        return $value;
     }
 
     public function getStatusFriendlyName()
     {
-        $statusName = $this->getStatusName();
 
-        return $statusName ? Lang::get("appointments.status.{$statusName}") : false;
+        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
     }
 
     /*
