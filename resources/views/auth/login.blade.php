@@ -2,7 +2,7 @@
 
 @section('page_title','Log in')
 
-@section('content')
+@section('main_content')
 <section class="section">
     <div class="container">
         <header class="content has-text-centered">
@@ -32,6 +32,7 @@
                             placeholder="Email"
                             required
                             :autofocus="!login.form.errors.length || login.form.errors.has('email')"
+                            @change="login.form.errors.clear()"
                         >
                         <span class="icon is-small"><i class="fa fa-envelope"></i></span>
                         <template v-if="login.form.errors.has('email')">
@@ -51,6 +52,7 @@
                             placeholder="Password"
                             required
                             :autofocus="login.form.errors.has('password')"
+                            @change="login.form.errors.clear()"
                         >
                         <span class="icon is-small"><i class="fa fa-lock"></i></span>
                         <template v-if="login.form.errors.has('password')">
@@ -73,7 +75,6 @@
                         <button
                             type="submit"
                             class="button is-primary is-pulled-right"
-                            :disabled="login.form.errors.any()"
                         >Log In</button>
                         <a class="button is-link" href="/password/reset">
                             Forgot Your Password?

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="animClasses">
     <div class="container small">
 
       <!-- progress indicator -->
@@ -19,7 +19,7 @@
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Date</h2>
 
-              <date-picker
+              <day-picker
                 :selected-date="selectedDate"
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
@@ -27,7 +27,7 @@
                 :weekOffset="0"
               />
 
-              <date-picker
+              <day-picker
                 :selected-date="selectedDate"
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
@@ -75,7 +75,7 @@
 
 <script>
   import moment from 'moment';
-  import DatePicker from './_DatePicker.vue';
+  import DayPicker from './_DayPicker.vue';
   import TimePicker from './_TimePicker.vue';
 
   export default {
@@ -101,10 +101,16 @@
         // validation
         dateSelected: false,
         timeSelected: false,
+
+        animClasses: {
+          'anim-fade-slideup': true,
+          'anim-fade-slideup-in': false,
+        },
+
       }
     },
     components: {
-      DatePicker,
+      DayPicker,
       TimePicker,
     },
     methods: {
@@ -176,9 +182,17 @@
     },
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-
+      this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
       if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({action: 'View Date and Time Selector', category: 'clicks', properties: {laravel_object: Laravel.user}, value: 'PageView'})
+        this.$ma.trackEvent({
+            action: 'View Date and Time Selector',
+            fb_event: 'ViewContent',
+            category: 'clicks',
+            properties: {
+                laravel_object: Laravel.user
+            },
+            value: 'PageView'
+        })
       }
     },
   }

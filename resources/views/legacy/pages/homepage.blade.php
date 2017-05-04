@@ -2,7 +2,7 @@
 @section('page_title','Welcome to Harvey')
 @section('body_class','home')
 
-@section('content')
+@section('main_content')
 <div class="sections check-load"
     :class="{'is-loaded': appLoaded}"
 >
