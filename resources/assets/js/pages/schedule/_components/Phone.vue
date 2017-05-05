@@ -33,8 +33,8 @@
             name="phone_number"
             type="phone"
             placeholder="Phone Number"
-            v-model="phone"
-            v-validate="{ required: true, digits: 10 }"
+            v-phonemask="phone"
+            v-validate="{ required: true, regex: /\(\d{3}\) \d{3}-\d{4}/ }"
             data-vv-validate-on="blur"
           />
 
@@ -85,7 +85,7 @@
           });
 
         }).catch(() => {});
-      }
+      },
     },
     name: 'Phone',
     mounted() {
