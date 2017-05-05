@@ -58,7 +58,7 @@
     },
     computed: {
       appointmentDateUTC() {
-        return moment(this.appointmentDate).utc().format('YYYY-MM-DD HH:mm:ss');
+        return moment(this.appointmentDate, 'YYYY-MM-DD HH:mm:ss a').utc().format('YYYY-MM-DD HH:mm:ss');
       }
     },
     mounted() {
