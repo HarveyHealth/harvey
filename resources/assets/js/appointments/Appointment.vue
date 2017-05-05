@@ -28,7 +28,7 @@
 
   export default {
     mixins: [Contact],
-    props: ['appointment', 'userType'],
+    props: ['appointment', 'patientData', 'userType'],
     data() {
       return {
         isActive: false,
@@ -59,7 +59,10 @@
         }
         this.$eventHub.$emit('appointmentSelected', details);
         this.isActive = true;
-      }
+      },
+      getPatientInfo() {
+        console.log('patient', this.patientData);
+      },
     },
     computed: {
       localAppointmentTime() {
@@ -92,7 +95,9 @@
       this.local_timezone = moment.tz.guess();
       this.$eventHub.$on('appointmentSelected', () => {
         this.isActive = false;
-      })
+      });
+
+      this.getPatientInfo();
     }
   }
 </script>
