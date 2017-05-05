@@ -307,3 +307,24 @@ button:focus {
 .error-container {
   margin: 0 0 15px 0;
 }
+
+// Add event button overrides
+.addeventatc {
+  font-family: $sans;
+  color: $gray;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+
+  &.isVisible {
+    opacity: 1;
+  }
+}
+.addeventatc_icon {
+  background-image: url(/images/signup/calendar-add.png) !important;
+}
+.addeventatc_dropdown .copyx {
+  height: 8px !important;
+}
+.addeventatc_dropdown .copyx em {
+  display: none !important;
+}
