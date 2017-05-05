@@ -17,7 +17,7 @@ class Appointment extends Model
     /**
      * An appointment will lock when less than 2 hours away.
      */
-    const CANCEL_LOCK = 2;
+    const CANCEL_LOCK = 4;
 
     const PENDING_STATUS_ID = 0;
     const NO_SHOW_PATIENT_STATUS_ID = 1;
