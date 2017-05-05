@@ -74,19 +74,19 @@
       }
     },
     created() {
-      axios.get(`/api/v1/patients/${this.appointment.attributes.patient_id}`).then(response => {
-        if (response) {
-          axios.get(`/api/v1/users/${response.data.data.attributes.user_id}`).then(response => {
-            console.log(response.data.data);
-            this.patient.first_name = response.data.data.attributes.first_name;
-            this.patient.last_name = response.data.data.attributes.last_name;
-            this.patient.phone = response.data.data.attributes.phone;
-            this.patient.email = response.data.data.attributes.email;
-          })
-        }
-      }).catch(error => {
-
-      })
+      // axios.get(`/api/v1/patients/${this.appointment.attributes.patient_id}`).then(response => {
+      //   if (response) {
+      //     axios.get(`/api/v1/users/${response.data.data.attributes.user_id}`).then(response => {
+      //       console.log(response.data.data);
+      //       this.patient.first_name = response.data.data.attributes.first_name;
+      //       this.patient.last_name = response.data.data.attributes.last_name;
+      //       this.patient.phone = response.data.data.attributes.phone;
+      //       this.patient.email = response.data.data.attributes.email;
+      //     })
+      //   }
+      // }).catch(error => {
+      //
+      // })
     },
     mounted() {
       this.local_timezone = moment.tz.guess();

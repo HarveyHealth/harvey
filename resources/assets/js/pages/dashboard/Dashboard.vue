@@ -117,13 +117,13 @@
       }
     },
     created() {
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming&include=patient.user')
         .then((response) => {
-          this.upcoming_appointments = response.data.data;
+          this.upcoming_appointments = response.data;
         });
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent&include=patient.user')
         .then((response) => {
-          this.recent_appointments = response.data.data;
+          this.recent_appointments = response.data;
         });
     },
     mounted() {

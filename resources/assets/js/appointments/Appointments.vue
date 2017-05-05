@@ -4,8 +4,8 @@
         <h2 class="card-header">Upcoming Appointments</h2>
       </div>
       <div class="card-content-container">
-        <template v-if="upcomingAppointments.length">
-            <div v-for="appointment in upcomingAppointments">
+        <template v-if="upcomingAppointmentsData && upcomingAppointmentsData.length">
+            <div class="appointment-wrapper" v-for="appointment in upcomingAppointmentsData">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -21,8 +21,8 @@
         <div class="card-heading-container">
             <h2 class="card-header">Recent Appointments</h2>
         </div>
-        <template v-if="recentAppointments.length">
-            <div class="appointment-wrapper" v-for="appointment in recentAppointments">
+        <template v-if="recentAppointmentsData && recentAppointmentsData.length">
+            <div class="appointment-wrapper" v-for="appointment in recentAppointmentsData">
                 <Appointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -44,7 +44,15 @@
     export default {
         props: ['userType', 'recentAppointments', 'upcomingAppointments'],
         components: {
-            Appointment
+            Appointment,
         },
+        computed: {
+            upcomingAppointmentsData() {
+              return this.upcomingAppointments.data;
+            },
+            recentAppointmentsData() {
+              return this.recentAppointments.data;
+            }
+        }
     }
 </script>
