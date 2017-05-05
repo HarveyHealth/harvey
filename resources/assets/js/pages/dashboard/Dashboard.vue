@@ -1,9 +1,16 @@
 <template>
-  <div class="main-container">
-    <div class="nav-bar">
-      <nav class="admin-nav">
-        <a class="admin-nav-link dashboard" href="#">
-          <svg class="icon icon-person"><use xlink:href="#person" /></svg>
+    <div class="main-container">
+      <div class="nav-bar">
+        <nav class="admin-nav">
+          <a class="admin-nav-link dashboard" href="#">
+            <svg class="icon icon-person"><use xlink:href="#person" /></svg>
+          </a>
+        </nav>
+        <a href="/logout" class="nav-bar-logout" title="Logout">
+          <svg><use xlink:href="#logout" /></svg>
+        </a>
+        <a href="#" class="nav-bar-account">
+          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
         </a>
       </nav>
       <a href="#" class="nav-bar-account">
