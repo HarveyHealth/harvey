@@ -1,3 +1,4 @@
+
 dist: trusty
 sudo: required
 git:
@@ -12,6 +13,7 @@ cache:
 before_install:
 - nvm install 7.4.0
 - nvm use 7.4.0
+- bash .travis.install-mysql-5.7.sh
 - npm cache clean
 - npm install
 - mysql -e 'CREATE DATABASE harvey;'
