@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ForgotPasswordPage extends BasePage
 {
-    use DatabaseMigrations;
     /**
      * Get the URL for the page.
      *
