@@ -32,13 +32,6 @@
     data() {
       return {
         isActive: false,
-        patient: {
-          first_name: '',
-          last_name: '',
-          phone: '',
-          email: '',
-        },
-        user_data: {},
         local_timezone: 'America/Los_Angeles'
       }
     },
@@ -52,16 +45,16 @@
           appointment_purpose: this.appointment.attributes.reason_for_visit,
           doctor_name: this.appointment.attributes.practitioner_name,
         }
+
+        // Admin users see Patient information
         if (this.userType === 'admin') {
           details.patient_name = this.fullName;
-          details.patient_email = this.patient.email;
-          details.patient_phone = this.patient.phone;
+          details.patient_email = this.patientData.email;
+          details.patient_phone = this.patientData.phone;
         }
+
         this.$eventHub.$emit('appointmentSelected', details);
         this.isActive = true;
-      },
-      getPatientInfo() {
-        console.log('patient', this.patientData);
       },
     },
     computed: {
@@ -70,34 +63,17 @@
         return moment(m).tz(this.local_timezone);
       },
       fullName() {
-        if (this.patient.first_name) {
-          return `${capitalize(this.patient.first_name)} ${capitalize(this.patient.last_name)}`;
+        if (this.patientData.first_name) {
+          return `${capitalize(this.patientData.first_name)} ${capitalize(this.patientData.last_name)}`;
         }
         return 'Patient';
       }
-    },
-    created() {
-      // axios.get(`/api/v1/patients/${this.appointment.attributes.patient_id}`).then(response => {
-      //   if (response) {
-      //     axios.get(`/api/v1/users/${response.data.data.attributes.user_id}`).then(response => {
-      //       console.log(response.data.data);
-      //       this.patient.first_name = response.data.data.attributes.first_name;
-      //       this.patient.last_name = response.data.data.attributes.last_name;
-      //       this.patient.phone = response.data.data.attributes.phone;
-      //       this.patient.email = response.data.data.attributes.email;
-      //     })
-      //   }
-      // }).catch(error => {
-      //
-      // })
     },
     mounted() {
       this.local_timezone = moment.tz.guess();
       this.$eventHub.$on('appointmentSelected', () => {
         this.isActive = false;
       });
-
-      this.getPatientInfo();
     }
   }
 </script>
