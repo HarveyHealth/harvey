@@ -76,20 +76,17 @@ class Appointment extends Model
 
     public function hoursToStart()
     {
-        $appointment_time = Carbon::parse($this->appointment_at);
-        return Carbon::now()->diffInHours($appointment_time, false);
+        return Carbon::now()->diffInHours($this->appointment_at, false);
     }
 
     public function patientAppointmentAtDate()
     {
-        $carbonDate = new Carbon($this->appointment_at);
-        return $carbonDate->timezone($this->patient->user->timezone);
+        return $this->appointment_at->timezone($this->patient->user->timezone);
     }
 
     public function practitionerAppointmentAtDate()
     {
-        $carbonDate = new Carbon($this->appointment_at);
-        return $carbonDate->timezone($this->practitioner->user->timezone);
+        return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
     public function getStatusAttribute()
@@ -113,7 +110,7 @@ class Appointment extends Model
      */
     public function scopeUpcoming($query, $weeks = 2)
     {
-        $end_date = (new Carbon())->addWeeks($weeks);
+        $end_date = Carbon::now()->addWeeks($weeks);
 
         return $query->where('appointment_at', '>', Carbon::now())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
