@@ -16,7 +16,7 @@ before_install:
 - nvm use 7.4.0
 - npm cache clean
 - npm install
-- mysql -e 'CREATE DATABASE harvey;'
+- mysql -e 'CREATE DATABASE homestead_test;'
 before_script:
 - phpenv config-rm xdebug.ini
 - composer self-update
