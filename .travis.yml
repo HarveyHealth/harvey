@@ -1,7 +1,5 @@
 dist: trusty
 sudo: required
-services:
-  - mysql
 git:
   depth: 3
 language: php
@@ -26,6 +24,8 @@ before_script:
 - ./vendor/laravel/dusk/bin/chromedriver-linux &
 - cp .env.test .env
 - php artisan serve &
+services:
+  - mysql
 script:
 - vendor/bin/phpunit
 - php artisan dusk
