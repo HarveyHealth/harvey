@@ -28,7 +28,6 @@ services:
   - mysql
 script:
 - vendor/bin/phpunit
-- php artisan migrate --seed
 - php artisan dusk
 branches:
   only:
