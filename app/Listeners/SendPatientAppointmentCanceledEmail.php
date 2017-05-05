@@ -2,16 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Events\AppointmentCancelled;
+use App\Events\AppointmentCanceled;
 use App\Http\Traits\PostmarkExceptionHandler;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Postmark\Models\PostmarkException;
 use Postmark\PostmarkClient;
 
-class SendPatientAppointmentCancelledEmail implements ShouldQueue
+class SendPatientAppointmentCanceledEmail implements ShouldQueue
 {
-    public function handle(AppointmentCancelled $event)
+    public function handle(AppointmentCanceled $event)
     {
         $appointment = $event->appointment;
         $patient = $appointment->patient;
@@ -31,7 +31,7 @@ class SendPatientAppointmentCancelledEmail implements ShouldQueue
             $client->sendEmailWithTemplate(
                 config('services.postmark.signature'),
                 $patient->user->email,
-                config('services.postmark.templates.practitioner.appointment.cancelled'),
+                config('services.postmark.templates.practitioner.appointment.canceled'),
                 $templateData
             );
         } catch (PostmarkException $exception) {

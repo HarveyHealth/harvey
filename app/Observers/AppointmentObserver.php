@@ -15,7 +15,7 @@ class AppointmentObserver
     public function updating(Appointment $appointment)
     {
         if ($appointment->isDirty('status_id') && Appointment::CANCELED_STATUS_ID == $appointment->status_id) {
-            event(new AppointmentCancelled($appointment));
+            event(new AppointmentCanceled($appointment));
         }
     }
 }

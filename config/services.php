@@ -50,13 +50,13 @@ return [
         'templates' => [
             'practitioner' => [
                 'appointment' => [
-                    'cancelled' => 1692581,
+                    'canceled' => 1692581,
                     'new' => 1529541,
                 ],
             ],
             'patient' => [
                 'appointment' => [
-                    'cancelled' => 1687742,
+                    'canceled' => 1687742,
                     'new' => 1492142,
                 ],
                 'welcome' => 1450461,

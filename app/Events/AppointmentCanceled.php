@@ -7,7 +7,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-class AppointmentCancelled
+class AppointmentCanceled
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
