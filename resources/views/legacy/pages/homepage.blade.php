@@ -25,8 +25,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">The frustration ends here.</h2>
-            <p class="copy-has-max-width subtitle is-4">Harvey provides virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root cause of their health conditions, instead of just treating the symptoms.</p>
+            <h2 class="title is-3">Your frustration ends here.</h2>
+            <p class="copy-has-max-width subtitle headline is-4">Harvey provides virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root cause of their health conditions, instead of just treating the symptoms.</p>
         </div>
     </section>
 
@@ -119,7 +119,7 @@
     <section class="section" id="tests">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
-            <p class="copy-has-max-width subtitle is-5 has-text-centered">We partner with the top boutique laboratories and testing centers across the country to give you easy access to a broad inventory of lab tests — ranging from basic blood tests to more specialized panels like allergy, hormone and microbiome tests.</p>
+            <p class="copy-has-max-width subtitle is-5 has-text-centered">We partner with the top boutique laboratories and testing centers across the country to give you easy access to a broad inventory of lab tests ranging from basic blood tests to more specialized panels.</p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -204,7 +204,7 @@
     <section class="section" id="how-it-works">
         <div class="container">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <p class="copy-has-max-width subtitle is-5">Build a healthy, cooperative relationship with an integrative physician of your choice, perform lab testing in your home, and receive results and treatment plans 100% private and online.</p>
+            <p class="copy-has-max-width subtitle is-5">Build a healthy, cooperative relationship with an integrative physician of your choice, perform lab testing in your home, and receive diagnostic results and treatment plans 100% private and online.</p>
             <div class="columns is-multiline">
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
@@ -253,7 +253,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, autism, migraines and much more.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, migraines and much more.</p>
                 <div class="columns is-multiline">
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
@@ -367,7 +367,7 @@
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
-                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email address" required>
+                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email goes here..." required>
                         <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_dc828d195bee3640b849c2838_93440a985d" tabindex="-1" value=""></div>
                         <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
                         </div>

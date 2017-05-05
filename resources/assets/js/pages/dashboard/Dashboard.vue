@@ -7,7 +7,7 @@
           </a>
         </nav>
         <a href="/logout" class="nav-bar-logout" title="Logout">
-          <svg><use xlink:href="#logout" /></svg>
+          <svg><use xlink:href="#logout"/></svg>
         </a>
         <a href="#" class="nav-bar-account">
           <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
@@ -21,7 +21,7 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">{{ dashboardTitle }}
-          <a href="#" class="button main-action disabled">New Appointment</a></h1>
+          <a href="/schedule" class="button main-action">New Appointment</a></h1>
         </div>
       </div>
       <div class="card-wrapper">
@@ -50,7 +50,7 @@
               <h4 class="card-contact-sublabel">Phone</h4>
               <p class="card-contact-info">{{ user.attributes.phone }}</p>
               <h4 class="card-contact-sublabel">ID</h4>
-              <p class="card-contact-info">#100{{ user.id }}</p>
+              <p class="card-contact-info">#{{ user.id }}</p>
             </div>
           </div>
         </div>
