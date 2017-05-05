@@ -52,7 +52,7 @@
         </div>
       </div>
     </div>
-    <Flyout></Flyout>
+    <Flyout :details="appointment_details"></Flyout>
   </div>
 </template>
 
@@ -66,9 +66,17 @@
     name: 'dashboard',
     data() {
       return {
-        patientName: Laravel.user.fullName,
-        upcoming_appointments: [],
+        appointment_details: {
+          'appointment_at': '',
+          'appointment_purpose': '',
+          'doctor_name': '',
+          'patient_email': '',
+          'patient_name': '',
+          'patient_phone': '',
+        },
+        patientName: Laravel.user.fullName, // because it's already there
         recent_appointments: [],
+        upcoming_appointments: [],
       };
     },
     props: ['user', 'patient'],
@@ -82,6 +90,9 @@
       }
     },
     computed: {
+      // The user information needs to be computed properties because the data
+      // is coming from a promise and most likely will not be available when
+      // Dashboard is fully mounted. Without this, lots of errors in the console.
       displayName() {
         if(this.user.attributes === undefined) {
           return '';
@@ -99,7 +110,7 @@
         return this.user.id || '';
       },
       userType() {
-        return this.user.user_type;
+        return Laravel.user.userType;
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
@@ -115,6 +126,16 @@
           this.recent_appointments = response.data.data;
         });
     },
+    mounted() {
+      this.$eventHub.$on('appointmentSelected', (details) => {
+        if (this.userType === 'patient') {
+          details.patient_email = this.email;
+          details.patient_name = this.patientName;
+          details.patient_phone = this.phone;
+        }
+        this.appointment_details = details;
+      })
+    }
   }
 </script>
 
