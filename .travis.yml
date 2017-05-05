@@ -2,11 +2,6 @@ dist: trusty
 sudo: required
 services:
   - mysql
-test:
-  adapter: mysql2
-  database: harvey
-  username: travis
-  encoding: utf8
 git:
   depth: 3
 language: php
