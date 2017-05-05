@@ -2,20 +2,7 @@
   <div :class="{ appointment: true, isactive: isActive }" @click="showDetails">
     <div class="appointment_left">
       <template v-if="userType == 'admin' || userType == 'practitioner'">
-        <p class="color-greylight">Patient</p>
-        <p>{{ capitalize(patient.first_name) }} {{ capitalize(patient.last_name) }}</p>
-        <p>
-          <a :href="hyperlink(patient.phone, 'phone')">
-            <span class="icon is-small"><span class="fa fa-phone"></span></span>
-            <span>{{ phone(patient.phone) }}</span>
-          </a>
-        </p>
-        <p>
-          <a :href="hyperlink(patient.email, 'email')">
-            <span class="icon is-small"><span class="fa fa-envelope"></span></span>
-            <span>{{ patient.email }}</span>
-          </a>
-        </p>
+        <p v-text="fullName"></p>
       </template>
       <template v-else>
         <p class="appointment_doctor">Dr. {{ appointment.attributes.practitioner_name }}</p>
@@ -45,7 +32,13 @@
     data() {
       return {
         isActive: false,
-        patient: {},
+        patient: {
+          first_name: '',
+          last_name: '',
+          phone: '',
+          email: '',
+        },
+        user_data: {},
         local_timezone: 'America/Los_Angeles'
       }
     },
@@ -54,11 +47,17 @@
       phone,
       hyperlink,
       showDetails() {
-        this.$eventHub.$emit('appointmentSelected', {
+        let details = {
           appointment_at: this.localAppointmentTime.format('ddd, MMM Do [at] h:mma'),
           appointment_purpose: this.appointment.attributes.reason_for_visit,
           doctor_name: this.appointment.attributes.practitioner_name,
-        })
+        }
+        if (this.userType === 'admin') {
+          details.patient_name = this.fullName;
+          details.patient_email = this.patient.email;
+          details.patient_phone = this.patient.phone;
+        }
+        this.$eventHub.$emit('appointmentSelected', details);
         this.isActive = true;
       }
     },
@@ -66,7 +65,28 @@
       localAppointmentTime() {
         let m = moment.utc(this.appointment.attributes.appointment_at.date, "YYYY-MM-DD h:i:s");
         return moment(m).tz(this.local_timezone);
+      },
+      fullName() {
+        if (this.patient.first_name) {
+          return `${capitalize(this.patient.first_name)} ${capitalize(this.patient.last_name)}`;
+        }
+        return 'Patient';
       }
+    },
+    created() {
+      axios.get(`/api/v1/patients/${this.appointment.attributes.patient_id}`).then(response => {
+        if (response) {
+          axios.get(`/api/v1/users/${response.data.data.attributes.user_id}`).then(response => {
+            console.log(response.data.data);
+            this.patient.first_name = response.data.data.attributes.first_name;
+            this.patient.last_name = response.data.data.attributes.last_name;
+            this.patient.phone = response.data.data.attributes.phone;
+            this.patient.email = response.data.data.attributes.email;
+          })
+        }
+      }).catch(error => {
+
+      })
     },
     mounted() {
       this.local_timezone = moment.tz.guess();
