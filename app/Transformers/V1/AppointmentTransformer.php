@@ -18,12 +18,12 @@ class AppointmentTransformer extends TransformerAbstract
     public function transform(Appointment $appointment)
     {
         return [
-            'id' => $appointment->id,
-            'patient_id' => $appointment->patient_id,
-            'practitioner_id' => $appointment->practitioner_id,
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
+            'id' => (string) $appointment->id,
+            'patient_id' => (string) $appointment->patient_id,
+            'practitioner_id' => (string) $appointment->practitioner_id,
+            'practitioner_name' => (string) $appointment->practitioner->user->fullName(),
             'appointment_at' => $appointment->appointment_at,
-            'reason_for_visit' => $appointment->reason_for_visit
+            'reason_for_visit' => (string) $appointment->reason_for_visit
         ];
     }
     
