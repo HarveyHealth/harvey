@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 
 // AUTHENTICATION
 Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout');
 
 // Additional routing to not use Laravel's built-in "register" route
 // Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
@@ -41,7 +42,6 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
-    Route::get('logout', 'Auth\LoginController@logout');
 }
 
 Route::group(['middleware' => 'auth'], function () {
