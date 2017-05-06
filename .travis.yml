@@ -10,17 +10,11 @@ cache:
   directories:
   - "$HOME/.composer/cache"
 before_install:
-- cp .env.dusk.local .env
 - nvm install 7.4.0
 - nvm use 7.4.0
-- bash .travis.install-mysql-5.7.sh
 - npm cache clean
 - npm install
 - mysql -e 'CREATE DATABASE harvey;'
-- export DB_CONNECTION=mysql
-- export DB_USERNAME=root
-- export DB_DATABASE=harvey
-- export DB_SOCKET=/var/run/mysqld/mysqld.sock
 before_script:
 - phpenv config-rm xdebug.ini
 - composer self-update
@@ -32,7 +26,7 @@ services:
   - mysql
 script:
 - php artisan migrate --seed
-- php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
+- php artisan serve --host=localhost &
 - vendor/bin/phpunit
 - php artisan dusk
 branches:
@@ -41,12 +35,3 @@ branches:
   - develop
   - dusk
   - /^release\//
-notifications:
-  email: false
-  slack:
-    rooms:
-      secure: IPwRGtt3SVK8MvcVLulMdVOmrCfMly5GZt0YU5L6fmX8AXKRHLj99RwDwJ+pHuFPmrDrxphxaxeBhhf6kzYI4em0MYBaqfsAk0XsdOLY+7WoF/Bu5T1xGKsjgmHQpEzHhwTrghboGoSw3Op2o2x5FgvhMi6Bg03Lmp73As1yB4mIPb6z9x9PxYeS9UNsTBiyyFpV9r7pVLzSMrwKZXfaaaHkKScto0RKcg7aovtKphWlsuxGLOXejcZU9DFV7QBX8oFZmsTc1Qlga/3SD0VjlNU7wlHLTxZR9qWj7pOyssU2XEjCCET77MypifMA/vNysdG/VWturDSSJZ3yeeFpJTbgMwpXK+SYj+2yHc59z9RZFLoQ3nDmopFjsnz04ypcuDWLt6L0pQcOtiVbqcTLJpCTAAvoClMIVIVy9O1xSqj8S3ZIj6rXxVsGxVnlbhNJXKv+aQUrglbSmdlsQmtEz6W1e8x+sqj8WLXUN6WWuxqgOhEDXKvJ6VjWblo2YjKGJMcmSbadsdRO6Px8yMgSUj9d/jz8QcGjo+yb05Omz2YRBpUWnBTCn+p3E7wJFAAi0qtdhdHHqmiBs1+rWRMFrY/r7GTps3bLuI5p5QXOyqdvuTiZtparlGgdWjo8sZRJeJaBVg8rhAxqM9bpuR+NiR+SzqC8RMg8i8n56pVO1dI=
-    template:
-      - "%{commit_message} on `%{branch}` by %{author}: %{message}"
-      - "Elapsed Time: %{elapsed_time}"
-      - "Build details: %{build_url}"
