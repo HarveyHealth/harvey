@@ -28,6 +28,7 @@ script:
 - php artisan migrate --seed
 - php artisan serve --host=localhost &
 - vendor/bin/phpunit
+- touch .env
 - php artisan dusk
 branches:
   only:
