@@ -97,4 +97,10 @@ class PractitionerTest extends TestCase
         $this->assertEquals($expected_result, $practitioner->availability());
         Carbon::setTestNow(Carbon::now());
     }
+
+    protected function tearDown()
+    {
+        Carbon::setTestNow(Carbon::parse((new \DateTime('now'))->format('c')));
+        parent::tearDown();
+    }
 }
