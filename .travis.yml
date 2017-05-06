@@ -23,12 +23,12 @@ before_script:
 - composer install --no-interaction
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-- php artisan serve &
 services:
   - mysql
 script:
-- vendor/bin/phpunit
 - php artisan migrate --seed
+- php artisan serve &
+- vendor/bin/phpunit
 - touch .env
 - php artisan dusk
 branches:
