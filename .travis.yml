@@ -27,7 +27,7 @@ services:
   - mysql
 script:
 - php artisan migrate --seed
-- php artisan serve --host=localhost &
+- php artisan serve --host=localhost -q &
 - vendor/bin/phpunit
 - touch .env
 - php artisan dusk
