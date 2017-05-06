@@ -28,7 +28,7 @@ services:
   - mysql
 script:
 - php artisan migrate --seed
-- php artisan serve --host=localhost --quiet &
+- php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - vendor/bin/phpunit
 - php artisan dusk
 branches:
