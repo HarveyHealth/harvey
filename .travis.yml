@@ -17,6 +17,10 @@ before_install:
 - npm cache clean
 - npm install
 - mysql -e 'CREATE DATABASE harvey;'
+- export DB_CONNECTION=mysql
+- export DB_USERNAME=root
+- export DB_DATABASE=harvey
+- export DB_SOCKET=/var/run/mysqld/mysqld.sock
 before_script:
 - phpenv config-rm xdebug.ini
 - composer self-update
