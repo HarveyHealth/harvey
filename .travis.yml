@@ -10,7 +10,7 @@ cache:
   directories:
   - "$HOME/.composer/cache"
 before_install:
-- cp env.dusk.custom .env
+- cp .env.dusk.custom .env
 - nvm install 7.4.0
 - nvm use 7.4.0
 - bash .travis.install-mysql-5.7.sh
