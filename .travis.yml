@@ -33,7 +33,7 @@ script:
 - php artisan migrate --seed
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
-- killall -s SIGKILL Xvfb chromedriver-linux php
+- killall -s SIGKILL Xvfb chromedriver-linux php mysqld
 - vendor/bin/phpunit
 branches:
   only:
