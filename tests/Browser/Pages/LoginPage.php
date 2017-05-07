@@ -78,7 +78,7 @@ class LoginPage extends BasePage
             '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
             '@forgotPassword' => '#login > p.control.is-clearfix > a',
             '@signUpButton' => '#app > div > section > div > div > footer > div > a',
-            '@header' => '#app > nav > div > div.nav-left > a > div > svg > path.harvey-logo-icon'
+            '@header' => '#app > nav > div > div.nav-left > a',
         ];
     }
 }
