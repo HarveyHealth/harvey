@@ -11,17 +11,13 @@ cache:
   - "$HOME/.composer/cache"
 before_install:
 - bash .travis.install-mysql-5.7.sh
-- cp .env.dusk.local .env
+- cp .env.dusk.travis .env
 - nvm install 7.4.0
 - nvm use 7.4.0
 - npm cache clean
 - npm install
 - mysql -e 'CREATE DATABASE harvey_dusk;'
 before_script:
-- export DB_CONNECTION=mysql
-- export DB_USERNAME=root
-- export DB_DATABASE=harvey_dusk
-- export DB_SOCKET=/var/run/mysqld/mysqld.sock
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
@@ -32,6 +28,8 @@ script:
 - php artisan migrate --seed
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
+- killall chromedriver-linux
+- vendor/bin/phpunit
 branches:
   only:
   - master
