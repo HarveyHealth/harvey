@@ -11,18 +11,15 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/node_modules"
 before_install:
-- bash .travis.install-mysql-5.7.sh
+- touch harvey_dusk.sqlite
 - cp .env.dusk.travis .env
 - nvm install 7.4.0
 - nvm use 7.4.0
 - npm cache clean
 - npm install
-- mysql -e 'CREATE DATABASE harvey_dusk;'
 before_script:
-- export DB_CONNECTION=mysql
-- export DB_USERNAME=root
-- export DB_DATABASE=harvey_dusk
-- export DB_SOCKET=/var/run/mysqld/mysqld.sock
+- export DB_CONNECTION=sqlite
+- export DB_DATABASE=harvey_dusk.sqlite
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
@@ -33,7 +30,7 @@ script:
 - php artisan migrate --seed
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
-- sudo killall -s SIGKILL Xvfb chromedriver-linux php mysqld
+- sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
 branches:
   only:
