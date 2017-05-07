@@ -11,15 +11,15 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/node_modules"
 before_install:
-- touch harvey_dusk.sqlite
-- cp .env.dusk.travis .env
 - nvm install 7.4.0
 - nvm use 7.4.0
 - npm cache clean
 - npm install
+- touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
+- cp .env.dusk.travis .env
 before_script:
 - export DB_CONNECTION=sqlite
-- export DB_DATABASE=harvey_dusk.sqlite
+- export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
