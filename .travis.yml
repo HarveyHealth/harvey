@@ -9,6 +9,7 @@ cache:
   yarn: true
   directories:
   - "$HOME/.composer/cache"
+  - "$HOME/node_modules"
 before_install:
 - bash .travis.install-mysql-5.7.sh
 - cp .env.dusk.travis .env
@@ -32,9 +33,7 @@ script:
 - php artisan migrate --seed
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
-- killall Xvfb
-- killall chromedriver-linux
-- killall php
+- killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
 branches:
   only:
