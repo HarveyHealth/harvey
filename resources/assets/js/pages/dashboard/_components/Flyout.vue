@@ -1,5 +1,5 @@
 <template>
-  <aside class="flyout">
+  <aside :class="{ flyout: true, isactive: isActive }">
     <header class="flyout__section">
       <span class="flyout__patientname">{{ details.patient_name }}</span>
       <span>with Dr. {{ details.doctor_name }}</span>
@@ -18,7 +18,7 @@
       <p class="flyout__item">{{ details.appointment_purpose }}</p>
     </section>
     <section class="flyout__section flyout__ctas">
-      <button class="flyout__item">Update Appointment</button><br>
+      <button class="flyout__item button main-action">Update Appointment</button><br>
       <a class="flyout__item" href="#cancel">Cancel Appointment</a>
     </section>
   </aside>
@@ -42,7 +42,11 @@
 
     },
     mounted() {
-
+      // activeDetails = are the details for this appointment already in view?
+      // This is for toggling the flyout window if the same appointment is clicked
+      this.$eventHub.$on('appointmentSelected', (details, activeDetails) => {
+        this.isActive = !activeDetails;
+      });
     }
   }
 </script>
