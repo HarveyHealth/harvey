@@ -24,8 +24,8 @@
           </h1>
         </div>
       </div>
+      <AppointmentsWrapper :comp="'TableData'" :transform="test" />
     </div>
-    <AppointmentsWrapper />
   </div>
 </template>
 
@@ -44,9 +44,12 @@
     },
     props: ['user', 'patient'],
     components: {
-      AppointmentsWrapper
+      AppointmentsWrapper,
     },
     methods: {
+      test(thing) {
+        return [{'col_a': 'foo', 'col_b': 'bar'}];
+      }
     },
     computed: {
     },

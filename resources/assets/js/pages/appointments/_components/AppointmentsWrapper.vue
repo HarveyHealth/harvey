@@ -1,15 +1,21 @@
 <template>
-  <component :is="comp"></component>
+  <component :is="comp" :compdata="appointmentsCombined"></component>
 </template>
 
 <script>
+    // Available components
+    import TableData from '../../_components/TableData.vue';
+
     export default {
         data() {
             return {
                 appointments: [],
             }
         },
-        props: ['userType', 'comp'],
+        components: {
+          TableData
+        },
+        props: ['userType', 'comp', 'transform'],
         methods: {
             getIncludedPatient(_included, _appointment) {
                 const patientId = _appointment.attributes.patient_id;
@@ -45,11 +51,13 @@
             appointmentsInclude() {
                 return this.appointments.included;
             },
-            appointmentPatients() {
-                return this.appointments.data.map(appt => {
-                  return this.getIncludedPatient(this.appointments.included, appt);
-                })
-            }
+            appointmentsCombined() {
+                const output = this.appointments.data ? this.appointments.data.map(appt => {
+                  appt.patientData = this.getIncludedPatient(this.appointments.included, appt);
+                  return appt;
+                }) : [];
+                return this.transform ? this.transform(output) : output;
+            },
         },
         created() {
           axios.get('/api/v1/appointments?include=patient.user').then(response => {
@@ -57,12 +65,7 @@
           })
         },
         mounted() {
-          setTimeout(() => {
-            this.appointmentsData.forEach(appt => {
-              console.log(appt);
-              console.log(this.getIncludedPatient(this.appointmentsInclude, appt));
-            })
-          }, 3000);
+          console.log(typeof(this.transform));
         }
     }
 </script>
