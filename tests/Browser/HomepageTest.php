@@ -17,6 +17,7 @@ class HomepageTest extends DuskTestCase
         });
     }
 
+
     public function test_get_started_button_in_header()
     {
           $this->browse(function ($browser) {
