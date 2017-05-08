@@ -44,7 +44,7 @@
     mounted() {
       if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'User Registered/Get Started',
+            action: 'Interstitial',
             fb_event: 'ViewContent',
             category: 'clicks',
             properties: {
