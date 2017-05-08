@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">Personalized and integrative medicine, unique as you are.</h1>
-                        <p class="subtitle">Harvey emphasizes prevention, self-healing and science-based natural therapies to help patients suffering from acute and chronic health conditions.</p>
+                        <p class="subtitle">Harvey is the leading telehealth provider of integrative medicine that emphasizes prevention, self-healing and science-based natural therapies to help patients suffering from acute and chronic health conditions.</p>
                         <div class="button-wrapper">
                             <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
@@ -25,8 +25,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-2">Mind. Body. Spirit.</h2>
-            <p class="copy-has-max-width subtitle is-5">We provide virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root causes of their health conditions instead of just treating the symptoms. This means we spend a lot of time with you!</p>
+            <h2 class="title is-3">Your frustration ends here.</h2>
+            <p class="copy-has-max-width subtitle headline is-4">Harvey provides virtual consultations with functional and naturopathic doctors, in-home lab testing and progressive therapies to help patients find the root cause of their health conditions, instead of just treating the symptoms.</p>
         </div>
     </section>
 
@@ -61,7 +61,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctors must pass an extensive board examination and receive a medical license from their practicing state.</p>
+                        <p class="subtitle is-6">100% of our doctors passed an extensive board examination and received a medical license from their practicing state.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -70,7 +70,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Backed by science</strong></p>
-                        <p class="subtitle is-6">We will examine your biomarkers to help you explore the root causes of your chronic issues, instead of just treating the symptoms.</p>
+                        <p class="subtitle is-6">Our doctors rely heavily on evidence-based clinical laboratory tests to validate their proposed treatments.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -79,7 +79,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>Natural remedies</strong></p>
-                        <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, supplements or lifestyle changes.</p>
+                        <p class="subtitle is-6">We design unique treatment plans that may include diet, nutrition, supplements and lifestyle changes.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -107,9 +107,9 @@
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop has-content-vertical-aligned">
                     <div class="content">
-                        <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying cause chronic conditions.</strong></h2>
-                        <p>Far too often, people struggling to suppress acute or chronic symptoms with prescription drugs or over-the-counter medications have been failed by their medical doctor.</p>
-                        <p>Integrative physicians tend to be more experienced in helping patients identify and treat nutritional deficiencies, allergies, digestive problems, imbalances in biomarkers (such as vitamins, minerals and hormones) and testing for high levels of toxic metals and chemicals.</p>
+                        <h2 class="title is-4 is-3-widescreen"><strong>Stimulate your body’s natural healing abilities to combat the root underlying cause of chronic health conditions.</strong></h2>
+                        <p>There are over <strong>117 million people</strong> in the United States who are battling chronic health conditions. These patients are often failed by Western medical doctors who lack the time, education and financial incentives to heal patients naturally and holistically.</p>
+                        <p>Without proper treatment, these health issues slowly evolve into more serious chronic diseases.</p>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
     <section class="section" id="tests">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
-            <p class="copy-has-max-width subtitle is-5 has-text-centered">We partner with the top boutique laboratories and testing centers across the country to give you easy access to a broad inventory of lab tests — ranging from basic blood tests to more specialized panels like our allergy, hormone and microbiome tests.</p>
+            <p class="copy-has-max-width subtitle is-5 has-text-centered">We partner with the top boutique laboratories and testing centers across the country to give you easy access to a broad inventory of lab tests ranging from basic blood tests to more specialized panels.</p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -204,7 +204,7 @@
     <section class="section" id="how-it-works">
         <div class="container">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <p class="copy-has-max-width subtitle is-5">Build a healthy, cooperative relationship with an integrative physician of your choice, perform lab testing in your home, and receive results and treatment plans 100% private and online.</p>
+            <p class="copy-has-max-width subtitle is-5">Build a healthy, cooperative relationship with an integrative physician of your choice, perform lab testing in your home, and receive diagnostic results and treatment plans 100% private and online.</p>
             <div class="columns is-multiline">
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
@@ -221,7 +221,7 @@
                     </figure>
                     <div class="column">
                         <p class="title is-5"><strong>2. Lab Testing</strong></p>
-                        <p>We will mail lab kits to your home in a discrete package, and if necessary send a phlebotomist to your home for a blood draw.</p>
+                        <p>We will mail you a custom lab kit and, if necessary, send a mobile phlebotomist to your home for a blood draw.</p>
                     </div>
                 </div>
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
@@ -230,7 +230,7 @@
                     </figure>
                     <div class="column">
                         <p class="title is-5"><strong>3. Analysis</strong></p>
-                        <p>Once the results are in, you can review every biomarker with your doctor and begin to identify the root causes of your symptoms.</p>
+                        <p>You can review your results and biomarkers with your doctor and begin to identify the root causes of your symptoms.</p>
                     </div>
                 </div>
                 <div class="column columns is-mobile is-half-tablet is-auto-desktop">
@@ -253,7 +253,7 @@
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
-                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, autism, migraines and much more.</p>
+                <p class="copy-has-max-width subtitle is-5 has-text-centered">Our physicians have experience treating patients suffering from a wide range of chronic health conditions — including auto-immune diseases, diabetes, eczema, fibromyalgia, migraines and much more.</p>
                 <div class="columns is-multiline">
                     <div class="column columns is-mobile is-half-tablet is-auto-desktop">
                         <figure class="has-text-centered has-margin circle">
@@ -367,7 +367,7 @@
                 <div id="mc_embed_signup">
                     <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div id="mc_embed_signup_scroll">
-                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Email address" required>
+                        <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Your email goes here..." required>
                         <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_dc828d195bee3640b849c2838_93440a985d" tabindex="-1" value=""></div>
                         <div class="clear"><input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
                         </div>
