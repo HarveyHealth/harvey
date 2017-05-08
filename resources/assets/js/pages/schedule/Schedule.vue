@@ -49,6 +49,7 @@
 
         axios.post(`api/v1/appointments`, appointmentData)
           .then(response => {
+            this.$root.$data.sharedState.appointmentData = response.data;
             this.$router.push('/confirmation');
           })
           .catch(error => {

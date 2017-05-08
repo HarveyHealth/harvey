@@ -2,7 +2,7 @@
 
 @section('page_title','Email Verified')
 
-@section('content')
+@section('main_content')
 <section class="section">
         <div class="container">
             <div class="content">

@@ -1,9 +1,16 @@
 <template>
-  <div class="main-container">
-    <div class="nav-bar">
-      <nav class="admin-nav">
-        <a class="admin-nav-link dashboard" href="#">
-          <svg class="icon icon-person"><use xlink:href="#person" /></svg>
+    <div class="main-container">
+      <div class="nav-bar">
+        <nav class="admin-nav">
+          <a class="admin-nav-link dashboard" href="#">
+            <svg class="icon icon-person"><use xlink:href="#person" /></svg>
+          </a>
+        </nav>
+        <a href="/logout" class="nav-bar-logout" title="Logout">
+          <svg><use xlink:href="#logout"/></svg>
+        </a>
+        <a href="#" class="nav-bar-account">
+          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
         </a>
       </nav>
       <a href="#" class="nav-bar-account">
@@ -13,9 +20,8 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container">
-          <h1 class="title header-xlarge">Your Dashboard
-            <a href="#" class="button main-action disabled">New Appointment</a>
-          </h1>
+          <h1 class="title header-xlarge">{{ dashboardTitle }}
+          <a href="/schedule" class="button main-action">New Appointment</a></h1>
         </div>
       </div>
       <div class="card-wrapper">
@@ -90,6 +96,13 @@
       }
     },
     computed: {
+      dashboardTitle() {
+        if (this.userType === 'admin') {
+          return 'Admin Dashboard';
+        } else {
+          return 'Your Dashboard';
+        }
+      },
       // The user information needs to be computed properties because the data
       // is coming from a promise and most likely will not be available when
       // Dashboard is fully mounted. Without this, lots of errors in the console.
