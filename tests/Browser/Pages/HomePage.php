@@ -18,6 +18,11 @@ class HomePage extends Page
         return '/';
     }
 
+    public function assertCoverTitle(Browser $browser)
+    {
+      $browser->assertSee($this->coverTitle);
+    }
+
     public function assert(Browser $browser)
     {
         $browser->assertPathIs($this->url());
@@ -50,7 +55,7 @@ class HomePage extends Page
     public function logoHeader(Browser $browser)
     {
         $browser->click('@harveyLogoHeader')
-                ->assertSee($this->coverTitle);
+                ->assertCoverTitle();
     }
 
 //***************Get Started buttons on the page
@@ -124,8 +129,8 @@ class HomePage extends Page
     {
         return [
             '@element' => '#selector',
-            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
-            '@loginHeader' => '#app > nav > div > div.nav-right > span > a.button.is-primary.is-outlined',
+            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(3)',
+            '@loginHeader' => '#app > nav > div > div.nav-right > span > a.button.is-primary.is-outlined.is-hidden-mobile',
             '@harveyLogoHeader' => '#app > nav > div > div.nav-left > a > div > svg',
             '@getStartedCover' => '#app > div > div > section.hero.is-fullheight.is-primary > div.hero-body > div > div > div > div > a',
             '@getStartedOne' => '#how-it-works > div > div.button-wrapper.has-text-centered > a',

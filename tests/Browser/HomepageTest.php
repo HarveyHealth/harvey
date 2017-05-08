@@ -9,11 +9,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomepageTest extends DuskTestCase
 {
+
     public function test_if_homepage_is_up()
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->assertSee('Mind. Body. Spirit.');
+                    ->assertCoverTitle();
         });
     }
 
@@ -22,7 +23,7 @@ class HomepageTest extends DuskTestCase
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->getStartedHeader(new HomePage);
+                    ->getStartedHeader();
               });
     }
 

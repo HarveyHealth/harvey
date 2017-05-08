@@ -75,7 +75,7 @@ class LoginPage extends BasePage
     {
         return [
             '@login' => '#login > p.control.is-clearfix > button',
-            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(2)',
+            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(3)',
             '@forgotPassword' => '#login > p.control.is-clearfix > a',
             '@signUpButton' => '#app > div > section > div > div > footer > div > a',
             '@header' => '#app > nav > div > div.nav-left > a',
