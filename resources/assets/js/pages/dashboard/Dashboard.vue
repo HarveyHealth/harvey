@@ -104,7 +104,7 @@
         return this.user.attributes ? this.user.attributes.email : '';
       },
       phone() {
-        return this.user.attributes ? this.user.attributes.phone : '';
+        return this.user.attributes ? phone(this.user.attributes.phone) : '';
       },
       user_id() {
         return this.user.id || '';

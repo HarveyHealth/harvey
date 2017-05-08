@@ -46,14 +46,19 @@
       showDetails() {
         // Used to display appointment details in flyout
         let details = {
-          appointment_at: this.localAppointmentTime.format('ddd, MMM Do [at] h:mma'),
+          appointment_at: this.localAppointmentTime.format('dddd, MMM Do [at] h:mma'),
+          appointment_status: 'Pending', // temp until api is finalized
           appointment_purpose: this.appointment.attributes.reason_for_visit,
           doctor_name: this.appointment.attributes.practitioner_name,
+          patient_email: null,
+          patient_name: null,
+          patient_phone: null,
         }
         // Used for toggling the row highlight as well as the flyout state
         let nowActive = this.isActive;
 
-        // Admin users see Patient information
+        // Admin users and Practitioners see Patient information
+
         if (this.user_type === 'admin' || this.user_type === 'practitioner') {
           details.patient_name = this.fullName;
           details.patient_email = this.patientData.email;
