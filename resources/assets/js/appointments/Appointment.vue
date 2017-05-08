@@ -1,7 +1,11 @@
 <template>
   <div :class="{ appointment: true, isactive: isActive }" @click="showDetails">
     <div class="appointment_left">
-      <template v-if="userType == 'admin' || userType == 'practitioner'">
+      <template v-if="user_type == 'admin'">
+        <p v-text="fullName"></p>
+        <p class="appointment_doctor">Dr. {{ appointment.attributes.practitioner_name }}</p>
+      </template>
+      <template v-else-if="user_type == 'practitioner'">
         <p v-text="fullName"></p>
       </template>
       <template v-else>
@@ -23,7 +27,7 @@
 
 <script>
   import moment from 'moment-timezone';
-  import {capitalize, phone, hyperlink} from '../filters/textformat.js';
+  import { capitalize, phone, hyperlink } from '../filters/textformat.js';
   import Contact from '../mixins/Contact';
 
   export default {
@@ -40,21 +44,24 @@
       phone,
       hyperlink,
       showDetails() {
+        // Used to display appointment details in flyout
         let details = {
           appointment_at: this.localAppointmentTime.format('ddd, MMM Do [at] h:mma'),
           appointment_purpose: this.appointment.attributes.reason_for_visit,
           doctor_name: this.appointment.attributes.practitioner_name,
         }
+        // Used for toggling the row highlight as well as the flyout state
+        let nowActive = this.isActive;
 
         // Admin users see Patient information
-        if (this.userType === 'admin') {
+        if (this.user_type === 'admin' || this.user_type === 'practitioner') {
           details.patient_name = this.fullName;
           details.patient_email = this.patientData.email;
           details.patient_phone = this.patientData.phone;
         }
 
-        this.$eventHub.$emit('appointmentSelected', details);
-        this.isActive = true;
+        this.$eventHub.$emit('appointmentSelected', details, nowActive);
+        this.isActive = !nowActive;
       },
     },
     computed: {
@@ -67,6 +74,9 @@
           return `${capitalize(this.patientData.first_name)} ${capitalize(this.patientData.last_name)}`;
         }
         return 'Patient';
+      },
+      user_type() {
+        return this.userType;
       }
     },
     mounted() {
