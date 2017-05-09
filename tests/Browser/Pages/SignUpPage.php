@@ -32,10 +32,38 @@ class SignUpPage extends BasePage
               ->assertSee('Details');
     }
 
+    public function clickSignUp(Browser $browser)
+    {
+      $browser->click('@signUp');
+    }
+
+    public function clickTerms(Browser $browser)
+    {
+      $browser->click('@terms')
+              ->assertSee('Terms and Conditions');
+    }
+
+    public function clickPrivacy(Browser $browser)
+    {
+      $browser->click('@privacy')
+              ->assertSee('Please Read Carefully');
+    }
+
+    public function checkTerms(Browser $browser)
+    {
+      $browser->check('@checkbox');
+    }
+
     public function elements()
     {
         return [
             '@element' => '#selector',
+            '@signUp' => '#signup > div > form > div.text-centered > input',
+            '@terms' => '#signup > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
+            '@privacy' => '#signup > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
+            '@checkbox' => '#checkbox'
         ];
     }
+
+
 }

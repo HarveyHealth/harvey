@@ -22,7 +22,7 @@ class LoginPageTest extends DuskTestCase
         });
     }
 
-    public function test_if_forgot_your_password_is_anchored()
+    public function test_if_forgot_your_password_routes_to_page()
     {
        $this->browse(function (Browser $browser) {
           $browser->visit(new LoginPage)
