@@ -8,11 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, Searchable;
+
+    public $asYouType = true;
 
     protected $guarded = ['id', 'enabled', 'password', 'remember_token',
                             'terms_accepted_at', 'phone_verified_at',
@@ -30,6 +33,23 @@ class User extends Authenticatable implements Mailable
         static::addGlobalScope('enabled', function (Builder $builder) {
             $builder->where('enabled', true);
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $searchableFields = [
+            'id',
+            'email',
+            'first_name',
+            'last_name',
+        ];
+
+        return array_only($this->toArray(), $searchableFields);
     }
 
     public function patient()
