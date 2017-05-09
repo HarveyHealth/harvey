@@ -6,7 +6,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="rowData in tableData" @click="rowClick(rowData.raw)">
+      <tr v-for="rowData in tableData" @click="rowClick(rowData.raw, $event)">
         <td v-for="obj, col in rowData.formatted" :width="obj.width">{{ obj.value }}</td>
       </tr>
     </tbody>
@@ -25,9 +25,12 @@ export default {
     }
   },
   methods: {
-    rowClick(rowData) {
-      console.log(rowData);
+    rowClick(rowData, event) {
+      let classname = event.target.parentElement.className;
+      document.querySelectorAll('tr.isactive').forEach(n => n.className = '');
+      event.target.parentElement.className = classname === '' ? 'isactive' : '';
+      this.$eventHub.$emit('rowClickEvent', rowData, classname !== '');
     }
-  }
+  },
 }
 </script>

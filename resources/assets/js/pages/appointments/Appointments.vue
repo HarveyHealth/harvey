@@ -24,14 +24,21 @@
           </h1>
         </div>
       </div>
-      <AppointmentsWrapper :comp="'TableData'" :transform="appointmentTablePrep" />
+      <AppointmentsWrapper
+        :comp="'TableData'"
+        :transform="appointmentTablePrep"
+        :parameters="'include=patient.user'"
+      />
     </div>
+    <Flyout :details="appointment_details" />
   </div>
 </template>
 
 <script>
   // import Flyout from './_components/Flyout.vue';
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
+  import Flyout from '../dashboard/_components/Flyout.vue';
+
   import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
 
@@ -41,12 +48,21 @@
     name: 'appointments',
     data() {
       return {
+        appointment_details: {
+          'appointment_at': '',
+          'appointment_purpose': '',
+          'doctor_name': '',
+          'patient_email': '',
+          'patient_name': '',
+          'patient_phone': '',
+        },
         userType: Laravel.user.userType
       };
     },
     props: ['user', 'patient'],
     components: {
       AppointmentsWrapper,
+      Flyout,
     },
     methods: {
       appointmentTablePrep(appointmentData) {
@@ -86,6 +102,9 @@
     created() {
     },
     mounted() {
+      this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
+        this.$eventHub.$emit('appointmentSelected', this.appointmentDetails, rowIsActive);
+      })
     }
   }
 </script>

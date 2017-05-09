@@ -15,7 +15,7 @@
         components: {
           TableData
         },
-        props: ['userType', 'comp', 'transform'],
+        props: ['comp', 'parameters', 'transform', 'userType'],
         methods: {
             getIncludedPatient(_included, _appointment) {
                 const patientId = _appointment.attributes.patient_id;
@@ -60,7 +60,7 @@
             },
         },
         created() {
-          axios.get('/api/v1/appointments?include=patient.user').then(response => {
+          axios.get(`/api/v1/appointments?${this.parameters}`).then(response => {
             this.appointments = response.data;
           })
         },
