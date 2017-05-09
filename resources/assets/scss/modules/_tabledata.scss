@@ -1,0 +1,30 @@
+.tabledata {
+  border: none;
+  width: 100%;
+
+  td {
+    background: $white;
+    cursor: pointer;
+    font-weight: 300;
+    padding: 1.5em 1em;
+    transition: color 200ms;
+  }
+
+  th {
+    background: $lightest-gray;
+    color: lighten($gray, 10%);
+    font-size: 0.85em;
+    font-weight: 500;
+    padding: 2.3em 1em 0.7em;
+    text-transform: uppercase;
+  }
+
+  th, td {
+    border-bottom: 1px solid $color--grey;
+    text-align: left;
+  }
+
+  tr:hover td {
+    color: darken($darkest-gray, 10%);
+  }
+}

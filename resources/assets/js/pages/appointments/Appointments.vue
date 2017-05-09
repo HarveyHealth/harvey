@@ -24,7 +24,7 @@
           </h1>
         </div>
       </div>
-      <AppointmentsWrapper :comp="'TableData'" :transform="test" />
+      <AppointmentsWrapper :comp="'TableData'" :transform="appointmentTablePrep" />
     </div>
   </div>
 </template>
@@ -34,6 +34,8 @@
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
   import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
+
+  import moment from 'moment';
 
   export default {
     name: 'appointments',
@@ -47,8 +49,36 @@
       AppointmentsWrapper,
     },
     methods: {
-      test(thing) {
-        return [{'col_a': 'foo', 'col_b': 'bar'}];
+      appointmentTablePrep(appointmentData) {
+        return appointmentData.map(appt => {
+          return {
+            formatted: {
+              'Date': {
+                'value': moment(appt.attributes.appointment_at.date).format('ddd MMM Do'),
+                'width': '10%' },
+              'Time': {
+                'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
+                'width': '10%' },
+              'Client': {
+                'value': `${capitalize(appt.patientData.first_name)} ${capitalize(appt.patientData.last_name)}`,
+                'width': '15%' },
+              'Doctor': {
+                'value': `Dr. ${appt.attributes.practitioner_name}`,
+                'width': '15%' },
+              'Type': {
+                'value': 'ND',
+                'width': '10%' },
+              'Purpose': {
+                'value': appt.attributes.reason_for_visit,
+                'width': '30%' },
+              'Rate': {
+                'values': '$150',
+                'width': '10%'
+              }
+            },
+            raw: appt
+          }
+        });
       }
     },
     computed: {

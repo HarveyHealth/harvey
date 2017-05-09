@@ -64,8 +64,5 @@
             this.appointments = response.data;
           })
         },
-        mounted() {
-          console.log(typeof(this.transform));
-        }
     }
 </script>
