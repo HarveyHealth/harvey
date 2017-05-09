@@ -79,28 +79,32 @@ class BaseAPIController extends Controller
     {
         return $this->respondWithError($message, 'Unprocessable Entity.', ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
     }
-
+    
     /**
      * @param      $item
+     * @param      $include
      * @param null $transformer
      * @return Fractal
      */
-    public function baseTransformItem($item, $transformer = null)
+    public function baseTransformItem($item, $include = null, $transformer = null)
     {
         return fractal()->item($item)
+            ->parseIncludes($include)
             ->withResourceName($this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }
-
+    
     /**
      * @param      $collection
+     * @param      $include
      * @param null $transformer
      * @return Fractal
      */
-    public function baseTransformCollection($collection, $transformer = null)
+    public function baseTransformCollection($collection, $include = null, $transformer = null)
     {
         return fractal()->collection($collection)
+            ->parseIncludes($include)
             ->withResourceName($this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);

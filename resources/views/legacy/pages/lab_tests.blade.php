@@ -1,7 +1,7 @@
 @extends('legacy._layouts.public')
 @section('page_title','Lab Tests & Pricing')
 
-@section('content')
+@section('main_content')
 <section class="hero">
     <div class="hero-body container">
         <header class="content has-text-centered">

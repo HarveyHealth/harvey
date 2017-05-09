@@ -37,17 +37,6 @@ class Appointment extends Model
                 $appointment->appointment_block_ends_at = $start->addMinutes(89)->toDateTimeString();
             }
         });
-
-        self::created(function ($appointment) {
-            $patient = $appointment->patient;
-            $practitioner = $appointment->practitioner;
-            $time = new Carbon($appointment->appointment_at);
-            $time->timezone = 'America/Los_Angeles';
-
-            $message = '*[New Appointment]* ' . $patient->user->fullName() . ' with ' . $practitioner->user->fullName() . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');
-
-            (new Slack)->notify(new SlackNotification($message, 'operations'));
-        });
     }
 
     /*
@@ -83,6 +72,20 @@ class Appointment extends Model
         $appointment_time = Carbon::parse($this->appointment_at);
         return Carbon::now()->diffInHours($appointment_time, false);
     }
+    
+    public function patientAppointmentAtDate()
+    {
+        $carbonDate = new Carbon($this->appointment_at);
+        return $carbonDate->timezone($this->patient->user->timezone);
+    }
+    
+    public function practitionerAppointmentAtDate()
+    {
+        $carbonDate = new Carbon($this->appointment_at);
+        return $carbonDate->timezone($this->practitioner->user->timezone);
+    }
+    
+    
 
     /*
      * SCOPES

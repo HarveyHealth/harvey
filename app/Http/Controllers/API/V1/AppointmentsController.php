@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \ResponseCode;
 use \Validator;
@@ -28,20 +30,23 @@ class AppointmentsController extends BaseAPIController
     public function index()
     {
         if (auth()->user()->isAdmin()) {
-            $appointments = Appointment::limit(10)->orderBy('appointment_at', 'asc');
+            $appointments = Appointment::orderBy('appointment_at', 'asc');
         } else {
             $appointments = auth()->user()->appointments();
         }
 
-        if(request('filter') == 'recent') {
+        if (request('filter') == 'recent') {
             $appointments = $appointments->recent();
         }
 
-        if(request('filter') == 'upcoming') {
+        if (request('filter') == 'upcoming') {
             $appointments = $appointments->upcoming();
         }
 
-        return $this->baseTransformCollection($appointments->get())->respond();
+        return $this->baseTransformCollection(
+                $appointments->get(),
+                request()->get('include'))
+                ->respond();
     }
 
     /**
@@ -51,9 +56,14 @@ class AppointmentsController extends BaseAPIController
     public function show(Appointment $appointment)
     {
         if (auth()->user()->can('view', $appointment)) {
-            return $this->baseTransformItem($appointment)->respond();
+            return $this->baseTransformItem(
+                    $appointment,
+                    request()->get('include'))
+                    ->respond();
         } else {
-            return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->respondNotAuthorized($problem);
         }
     }
 
@@ -70,7 +80,9 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
+            $problem = new ApiProblem();
+            $problem->setDetail($validator->errors()->first());
+            return $this->respondBadRequest($problem);
         }
 
         $appointment = new Appointment($request->all());
@@ -79,9 +91,13 @@ class AppointmentsController extends BaseAPIController
             $patient = auth()->user()->patient;
             $patient->appointments()->save($appointment);
 
+            event(new AppointmentScheduled($appointment));
+
             return $this->baseTransformItem($appointment)->respond();
         } else {
-            return $this->respondNotAuthorized("You do not have access to schedule a new appointment.");
+            $problem = new ApiProblem();
+            $problem->setDetail("You do not have access to schedule a new appointment.");
+            return $this->respondNotAuthorized($problem);
         }
     }
 
@@ -97,7 +113,9 @@ class AppointmentsController extends BaseAPIController
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to update this appointment.";
 
-            return $this->respondNotAuthorized($message);
+            $problem = new ApiProblem();
+            $problem->setDetail($message);
+            return $this->respondNotAuthorized($problem);
         }
     }
 
@@ -115,7 +133,9 @@ class AppointmentsController extends BaseAPIController
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to cancel this appointment.";
 
-            return $this->respondNotAuthorized($message);
+            $problem = new ApiProblem();
+            $problem->setDetail($message);
+            return $this->respondNotAuthorized($problem);
         }
     }
 }

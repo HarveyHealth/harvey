@@ -26,9 +26,9 @@ class TestTest extends TestCase
         
         // It is successful
         $response->assertStatus(200);
-        
-        // And the test data is displayed
+    
         $this->assertEquals($response->original['data']['attributes']['sku_id'], $test->sku_id);
+        // And the test data is displayed
     }
     
     public function test_a_practitioner_can_view_tests_from_their_patients()

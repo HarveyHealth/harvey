@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Admin;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Practitioner;
@@ -190,5 +191,42 @@ class AppointmentTest extends TestCase
         
         // And they can see the appointment information
         $response->assertJsonFragment(['reason_for_visit' => 'some reason.']);
+    }
+    
+    public function test_it_can_include_patient_and_user_information()
+    {
+        // Given a practitioner with a scheduled appointment
+        $appointment = factory(Appointment::class)->create([
+            'reason_for_visit' => 'some reason.'
+        ]);
+        $admin = factory(Admin::class)->create();
+        
+        // When they attempt to view the information for a specific appointment
+        // and include patient and user info
+        Passport::actingAs($admin->user);
+        $response = $this->json('GET', "api/v1/appointments/{$appointment->id}?include=patient.user");
+        
+        // Then it is successful
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        
+        // And they can see the appointment information
+        $response->assertJsonFragment(['reason_for_visit' => 'some reason.']);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes',
+                'links',
+                'relationships'
+            ],
+            'included' => [
+                '*' => [
+                    'type',
+                    'id',
+                    'attributes',
+                    'links',
+                ],
+            ]
+        ]);
     }
 }

@@ -12,8 +12,10 @@
   .nav-bar {
     background: $white;
     border-right: 1px solid $color--grey;
+    bottom: 0;
     flex-basis: 60px;
-    position: relative;
+    position: fixed;
+    top: 0;
   }
     .admin-nav-link {
       display: inline-block;
@@ -22,7 +24,7 @@
       width: 60px;
 
       &.dashboard {
-        background-color: $blue;
+        background-color: $purple;
       }
         .icon {
           left: 50%;
@@ -34,7 +36,7 @@
     .nav-bar-account {
       border: 1px solid $white; // matches the color of the navbar background
       border-radius: 5px;
-      bottom: 5px;
+      bottom: 60px;
       height: 50px;
       left: 5px;
       position: absolute;
@@ -42,7 +44,7 @@
       width: 50px;
 
       &:hover {
-        border-color: $green-bright;
+        border-color: none;
       }
 
       .harvey-mark {
@@ -52,13 +54,38 @@
         transform: translate(-50%, -50%);
       }
     }
+    .nav-bar-logout {
+      bottom: 10px;
+      display: block;
+      left: calc(50% - 24px);
+      position: absolute;
+
+      &, & svg {
+        height: 48px;
+        width: 48px;
+      }
+    }
 
   // Main Content Area
   .main-content {
     flex-grow: 1;
+    margin-left: 55px;
   }
     .main-header {
       background: $white;
       border-bottom: 1px solid $color--grey;
-      padding: 60px 50px 30px 50px;
+      padding: 50px 50px 30px;
+      .container{
+        max-width: 1090px;
+        padding: 0 55px 0 15px;
+        margin: 0;
+        .main-action{
+          float: right;
+          &.disabled {
+            opacity:.5;
+            pointer-events: none;
+            cursor: default;
+          }
+        }
+      }
     }

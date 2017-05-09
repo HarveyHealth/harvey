@@ -14,6 +14,9 @@ class SendWelcomeEmail implements ShouldQueue
     public function handle(UserRegistered $event)
     {
         if (app()->environment(['local', 'testing'])) {
+            \Log::info(
+                "User id {$event->user->id} with email {$event->user->email} was registered."
+            );
             return;
         }
         

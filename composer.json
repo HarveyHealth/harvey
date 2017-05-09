@@ -27,14 +27,14 @@
         "spatie/laravel-fractal": "^3.5",
         "laravel/passport": "^2.0",
         "crell/api-problem": "^2.0",
-        "wildbit/postmark-php": "^2.3"
+        "wildbit/postmark-php": "^2.3",
+        "laravel/homestead": "^5.2"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "laravel/homestead": "^4"
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [

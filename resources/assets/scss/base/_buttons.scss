@@ -2,7 +2,7 @@
 input[type="submit"] {
   @extend %sans--medium;
   appearance: none;
-  background-color: $green;
+  background-color: $harvey-primary;
   border: 0;
   border-radius: 3px;
   color: #fff;
@@ -21,7 +21,8 @@ input[type="submit"] {
 
   &:hover,
   &:focus {
-    background-color: darken($green, 10);
+    background-color: darken($harvey-primary, 10);
+    color: white;
   }
 
   &:disabled {

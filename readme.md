@@ -30,21 +30,6 @@ php artisan serve
 
 ### Front End File Structure
 
-- Public and logged in pages are separate apps, but
-    - they both extend `./resources/views/legacy._layouts/main.blade.php`
-    - they both include `./resources/assets/js/bootstrap.js` for dependency injection and setup
-    - they both include `./resources/assets/sass/all.scss` for shared css
-
-- Entry points (Public)
-    `./resources/views/legacy._layouts/public.blade.php`
-    `./resources/assets/js/app_public.js`
-    `./resources/assets/sass/app_public.scss`
-
-- Entry points (Logged in)
-    `./resources/views/legacy._layouts/logged_in.blade.php`
-    `./resources/assets/js/app_logged_in.js`
-    `./resources/assets/sass/app_logged_in.scss`
-
 - `./resources` should always be the working folder, while `./public` are generated or bundled files.
 
 - We are using Laravel Mix as a wrapper of Webpack for module bundles and other front end build steps.  Config at `./webpack.mix.js`.
@@ -87,6 +72,9 @@ Database Seeding will provide you with these accounts:
 
 ### Standardization Notes:
 - Use response codes found in `Symfony\Component\HttpFoundation\Response`
+- Methods should be written in camel-case: `getSomeThing()`
+- Variables should be written in snake-case: `$some_variable_name`
+- Test methods should be written in snake-case with "test" prepended: `test_it_allows_something_to_occur()`
 
 
 # Nginx
