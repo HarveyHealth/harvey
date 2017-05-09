@@ -15,13 +15,13 @@
 
 <script>
 export default {
-  props: ['compdata', 'rowClickEvent'],
+  props: ['allTableData'],
   computed: {
     tableData() {
-      return this.compdata || [];
+      return this.allTableData || [];
     },
     tableColumns() {
-      return this.compdata[0] ? Object.keys(this.compdata[0].formatted) : [];
+      return this.allTableData[0] ? Object.keys(this.allTableData[0].formatted) : [];
     }
   },
   methods: {

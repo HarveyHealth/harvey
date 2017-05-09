@@ -24,13 +24,11 @@
           </h1>
         </div>
       </div>
-      <AppointmentsWrapper
-        :comp="'TableData'"
-        :transform="appointmentTablePrep"
-        :parameters="'include=patient.user'"
-      />
+      <TableData :allTableData="tableData" />
     </div>
-    <Flyout :details="appointment_details" />
+    <!-- <Flyout :details="appointment_details">
+      <PatientInput :classes="['flyout__section']" />
+    </Flyout> -->
   </div>
 </template>
 
@@ -38,31 +36,47 @@
   // import Flyout from './_components/Flyout.vue';
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
   import Flyout from '../dashboard/_components/Flyout.vue';
+  import PatientInput from '../_components/PatientInput.vue';
+  import TableData from '../_components/TableData.vue';
 
   import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
+  import combineAppointmentDetails from '../../helpers/getAppointmentDetails.js';
 
   import moment from 'moment';
 
   export default {
     name: 'appointments',
-    data() {
-      return {
-        appointment_details: {
-          'appointment_at': '',
-          'appointment_purpose': '',
-          'doctor_name': '',
-          'patient_email': '',
-          'patient_name': '',
-          'patient_phone': '',
-        },
-        userType: Laravel.user.userType
-      };
-    },
     props: ['user', 'patient'],
     components: {
       AppointmentsWrapper,
       Flyout,
+      PatientInput,
+      TableData
+    },
+    data() {
+      return {
+        _appointmentDetails: [],
+        appointmentModNew: false,
+        appointmentModUpdate: false,
+        apiParameters: 'include=patient.user',
+        dataCollected: false,
+        selectedRowData: {},
+        tableFilterAll: true,
+        tableFilterCompleted: false,
+        tableFilterUpcoming: false,
+        userType: Laravel.user.userType,
+      };
+    },
+    computed: {
+      appointmentDetails() {
+        return this._appointmentDetails;
+      },
+      tableData() {
+        return this.dataCollected
+          ? this.appointmentTablePrep(this.appointmentDetails)
+          : [];
+      }
     },
     methods: {
       appointmentTablePrep(appointmentData) {
@@ -97,9 +111,11 @@
         });
       }
     },
-    computed: {
-    },
     created() {
+      axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
+        this._appointmentDetails = combineAppointmentDetails(response.data);
+        this.dataCollected = true;
+      })
     },
     mounted() {
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {

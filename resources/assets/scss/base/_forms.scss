@@ -43,3 +43,20 @@
   line-height: 1.2;
   margin-top: 5px;
 }
+
+.input__container {
+  width: 100%;
+}
+.input__label {
+  color: lighten($gray, 15%);
+  display: block;
+  font-size: 0.85em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin-bottom: 0.75em;
+  text-transform: uppercase;
+}
+.input--text {
+  color: $gray;
+  display: block;
+}
