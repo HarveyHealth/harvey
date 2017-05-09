@@ -4,21 +4,21 @@
     <input class="input--text"
            type="text"
            name="patient-name"
-           v-model="patientName"
+           @input="value => { value = value; patient_name = value }"
+           :value="value"
            :readonly="isReadonly" />
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['classes', 'patientname', 'readonly'],
+  props: ['classes', 'patientname', 'type', 'usertype', 'value'],
   data() {
     return {
-      classNames: {
-        'input__container': true
-      },
-      patientName: this.patientname || '',
-      isReadonly: this.readonly || false
+      classNames: { 'input__container': true },
+      patient_name: this.patientname,
+      isReadonly: !(this['user-type'] === 'admin' && this.type === 'new')
     }
   },
   created() {

@@ -26,23 +26,31 @@
       </div>
       <TableData :allTableData="tableData" />
     </div>
-    <!-- <Flyout :details="appointment_details">
-      <PatientInput :classes="['flyout__section']" />
-    </Flyout> -->
+    <Flyout>
+      <PatientInput
+        :classes="['flyout__section']"
+        :type="appointmentModType"
+        :usertype="userType"
+        v-model="selectedRowData.patientName"
+      >
+        <div><a :href="'mailto:' + selectedRowData.patientEmail">{{ selectedRowData.patientEmail }}</a></div>
+        <div><a :href="'tel:' + selectedRowData.patientPhone">{{ selectedRowData.patientPhone | formatPhone }}</a></div>
+      </PatientInput>
+    </Flyout>
   </div>
 </template>
 
 <script>
-  // import Flyout from './_components/Flyout.vue';
+  // Components
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
   import Flyout from '../dashboard/_components/Flyout.vue';
   import PatientInput from '../_components/PatientInput.vue';
   import TableData from '../_components/TableData.vue';
 
+  // Helpers
   import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
   import combineAppointmentDetails from '../../helpers/getAppointmentDetails.js';
-
   import moment from 'moment';
 
   export default {
@@ -57,11 +65,12 @@
     data() {
       return {
         _appointmentDetails: [],
-        appointmentModNew: false,
-        appointmentModUpdate: false,
+        appointmentModType: null,
         apiParameters: 'include=patient.user',
         dataCollected: false,
-        selectedRowData: {},
+        selectedRowData: {
+          patientName: ''
+        },
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -71,6 +80,9 @@
     computed: {
       appointmentDetails() {
         return this._appointmentDetails;
+      },
+      selectedTableData() {
+        return this.selectedRowData;
       },
       tableData() {
         return this.dataCollected
@@ -111,6 +123,11 @@
         });
       }
     },
+    filters: {
+      formatPhone(num) {
+        return phone(num);
+      }
+    },
     created() {
       axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
         this._appointmentDetails = combineAppointmentDetails(response.data);
@@ -119,6 +136,16 @@
     },
     mounted() {
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
+        // this.selectedRowData.patientName = `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`;
+        this.selectedRowData = {
+          appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
+          appointmentStatus: 'Pending', // Still need this from
+          appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
+          doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
+          patientEmail: rowData.patientData.email,
+          patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
+          patientPhone: rowData.patientData.phone
+        }
         this.$eventHub.$emit('appointmentSelected', this.appointmentDetails, rowIsActive);
       })
     }

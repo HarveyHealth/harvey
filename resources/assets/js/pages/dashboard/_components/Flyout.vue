@@ -38,15 +38,6 @@
       };
     },
     props: ['details'],
-    components: {
-
-    },
-    methods: {
-
-    },
-    computed: {
-
-    },
     filters: {
       phone(num) { return phone(num); }
     },
