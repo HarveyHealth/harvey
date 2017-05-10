@@ -93,7 +93,7 @@ class AppointmentsController extends BaseAPIController
 
             event(new AppointmentScheduled($appointment));
 
-            return $this->baseTransformItem($appointment)->respond();
+            return $this->baseTransformItem($appointment->fresh())->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to schedule a new appointment.");
@@ -121,7 +121,7 @@ class AppointmentsController extends BaseAPIController
 
     public function delete(Appointment $appointment)
     {
-        if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
+        if (auth()->user()->can('delete', $appointment)) {
             $appointment->delete();
 
             return $this->baseTransformItem($appointment)
