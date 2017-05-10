@@ -53,7 +53,7 @@ class UsersController extends BaseAPIController
         }
 
         $problem = new ApiProblem();
-        $problem->setDetail('Your not allowed to use this endpoint.');
+        $problem->setDetail('You are not authorized to access this resource.');
 
         return $this->respondNotAuthorized($problem);
     }
