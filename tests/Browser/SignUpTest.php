@@ -70,7 +70,7 @@ class signUpTest extends DuskTestCase
     public function test_user_is_created_and_sent_to_next_page()
     {
         $user = factory(User::class)->make();
-      
+
 
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
@@ -81,6 +81,6 @@ class signUpTest extends DuskTestCase
                       ->clickSignUp()
                       ->waitForText("Success! Let's get started.")
                       ->assertSee("Success! Let's get started.");
-          });
+                    });
     }
 }
