@@ -1,12 +1,12 @@
 <template>
   <div :class="classNames">
     <label class="input__label" for="patient-name">client</label>
-    <input class="input--text"
+    <input v-if="type === 'new'"
+           class="input--text"
            type="text"
            name="patient-name"
-           @input="value => { value = value; patient_name = value }"
-           :value="value"
-           :readonly="isReadonly" />
+           v-model="patient_name" />
+    <span v-else class="input__item">{{ patientName }}</span>
     <slot></slot>
   </div>
 </template>
@@ -17,8 +17,13 @@ export default {
   data() {
     return {
       classNames: { 'input__container': true },
-      patient_name: this.patientname,
-      isReadonly: !(this['user-type'] === 'admin' && this.type === 'new')
+      patient_name: this.patientname || '',
+      isEditable: !(this.usertype === 'admin' && this.type === 'new')
+    }
+  },
+  computed: {
+    patientName() {
+      return this.patientname;
     }
   },
   created() {
