@@ -185,7 +185,7 @@
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
       if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'View Date and Time Selector',
+            action: 'Date/Time',
             fb_event: 'ViewContent',
             category: 'clicks',
             properties: {
