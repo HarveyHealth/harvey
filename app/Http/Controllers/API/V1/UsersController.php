@@ -40,6 +40,15 @@ class UsersController extends BaseAPIController
                 $query = User::withoutGlobalScopes();
             }
 
+            switch (request('type')) {
+                case 'practitioner':
+                    $query = $query->practitioners();
+                    break;
+                case 'patients':
+                    $query = $query->patients();
+                    break;
+            }
+
             return $this->baseTransformBuilderPaginated($query, new UserTransformer, request('per_page'))->respond();
         }
 

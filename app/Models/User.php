@@ -172,4 +172,12 @@ class User extends Authenticatable implements Mailable
         ->orWhere('email','LIKE',"%{$term}%");
     }
 
+    public function scopePractitioners($query) {
+        return $query->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
+    }
+
+    public function scopePatients($query) {
+        return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
+    }
+
 }
