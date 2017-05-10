@@ -14,6 +14,17 @@
 </template>
 
 <script>
+// allTableData is an array of objects. Interface for that object:
+//  {
+//    formatted: {
+//      'Column A Name': {
+//        value: 'Data for column a',
+//        width: '25%'
+//      },
+//      'Column B Name': { ... }
+//    }
+//    raw: ...raw row data
+//  }
 export default {
   props: ['allTableData'],
   computed: {
@@ -27,10 +38,15 @@ export default {
   methods: {
     rowClick(rowData, event) {
       let classname = event.target.parentElement.className;
-      document.querySelectorAll('tr.isactive').forEach(n => n.className = '');
+      this.$eventHub.$emit('deselectRows');
       event.target.parentElement.className = classname === '' ? 'isactive' : '';
       this.$eventHub.$emit('rowClickEvent', rowData, classname !== '');
     }
   },
+  mounted() {
+    this.$eventHub.$on('deselectRows', () => {
+      document.querySelectorAll('tr.isactive').forEach(n => n.className = '');
+    })
+  }
 }
 </script>
