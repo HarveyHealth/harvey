@@ -102,13 +102,13 @@ a:hover {
 .practitioner-main-content {
     margin-bottom: 10px;
   p{
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.25em;
     margin-bottom: 4px;
   }
   ul {
     margin: 7px 0 20px;
-    font-size: 14px;
+    font-size: 15px;
   } li {
     margin-bottom: 5px;
   }
@@ -306,4 +306,25 @@ button:focus {
 // Form Errors/Feedback
 .error-container {
   margin: 0 0 15px 0;
+}
+
+// Add event button overrides
+.addeventatc {
+  font-family: $sans;
+  color: $gray;
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+
+  &.isVisible {
+    opacity: 1;
+  }
+}
+.addeventatc_icon {
+  background-image: url(/images/signup/calendar-add.png) !important;
+}
+.addeventatc_dropdown .copyx {
+  height: 8px !important;
+}
+.addeventatc_dropdown .copyx em {
+  display: none !important;
 }

@@ -8,7 +8,7 @@ use League\Fractal\TransformerAbstract;
 class PatientTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
-        'users',
+        'user',
     ];
     
     /**
@@ -30,10 +30,13 @@ class PatientTransformer extends TransformerAbstract
      * @param Patient $patient
      * @return mixed
      */
-    public function includeUsers(Patient $patient)
+    public function includeUser(Patient $patient)
     {
         $user = $patient->user;
-        return $this->item($user, new UserTransformer());
+        return $this->item(
+            $user,
+            new UserTransformer()
+        )->setResourceKey('users');
     }
     
     /**
@@ -43,6 +46,9 @@ class PatientTransformer extends TransformerAbstract
     public function includeAppointments(Patient $patient)
     {
         $appointments = $patient->appointments;
-        return $this->collection($appointments, new AppointmentTransformer());
+        return $this->collection(
+            $appointments,
+            new AppointmentTransformer()
+        )->setResourceKey('appointments');
     }
 }

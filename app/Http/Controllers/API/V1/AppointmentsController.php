@@ -43,7 +43,10 @@ class AppointmentsController extends BaseAPIController
             $appointments = $appointments->upcoming();
         }
 
-        return $this->baseTransformCollection($appointments->get())->respond();
+        return $this->baseTransformCollection(
+                $appointments->get(),
+                request()->get('include'))
+                ->respond();
     }
 
     /**
@@ -53,7 +56,10 @@ class AppointmentsController extends BaseAPIController
     public function show(Appointment $appointment)
     {
         if (auth()->user()->can('view', $appointment)) {
-            return $this->baseTransformItem($appointment)->respond();
+            return $this->baseTransformItem(
+                    $appointment,
+                    request()->get('include'))
+                    ->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
@@ -87,7 +93,7 @@ class AppointmentsController extends BaseAPIController
 
             event(new AppointmentScheduled($appointment));
 
-            return $this->baseTransformItem($appointment)->respond();
+            return $this->baseTransformItem($appointment->fresh())->respond();
         } else {
             $problem = new ApiProblem();
             $problem->setDetail("You do not have access to schedule a new appointment.");
@@ -115,7 +121,7 @@ class AppointmentsController extends BaseAPIController
 
     public function delete(Appointment $appointment)
     {
-        if (auth()->user()->can('delete', $appointment) && $appointment->isNotLocked()) {
+        if (auth()->user()->can('delete', $appointment)) {
             $appointment->delete();
 
             return $this->baseTransformItem($appointment)

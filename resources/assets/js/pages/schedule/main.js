@@ -5,11 +5,13 @@ import VueMultianalytics from 'vue-multianalytics'
 import Schedule from './Schedule.vue';
 import Confirmation from './Confirmation.vue';
 import filter_datetime from '../../filters/datetime';
+import phonemask from '../../directives/phonemask';
 
 // for environment conditionals
 const env = require('get-env')();
 
 Vue.filter('datetime', filter_datetime);
+Vue.directive('phonemask', phonemask);
 
 const eventHub = new Vue();
 Vue.prototype.$eventHub = eventHub;

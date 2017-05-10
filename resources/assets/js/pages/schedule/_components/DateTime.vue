@@ -64,7 +64,7 @@
           <input
             class="button"
             type="submit"
-            value="Book Now"
+            value="Confirm Appointment"
             :disabled="dateSelected && timeSelected ? false : true"
           />
         </div>
