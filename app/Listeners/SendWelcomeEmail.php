@@ -19,19 +19,19 @@ class SendWelcomeEmail implements ShouldQueue
             );
             return;
         }
-        
+
         try {
             $template_model = [
                 'name' => $event->user->fullName(),
                 'action_url' => $event->user->emailVerificationURL()
             ];
-            
+
             $client = new PostmarkClient(config('services.postmark.token'));
-            
+
             $client->sendEmailWithTemplate(
                 config('services.postmark.signature'),
                 $event->user->email,
-                1450461, // Postmark Template ID for welcome email
+                config('services.postmark.templates.patient.welcome'),
                 $template_model
             );
         } catch (\Exception $exception) {
