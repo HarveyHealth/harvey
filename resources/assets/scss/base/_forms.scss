@@ -45,7 +45,13 @@
 }
 
 .input__container {
+  margin-bottom: 1.2em;
   width: 100%;
+}
+.input__item,
+.input--text {
+  color: darken($darkest-gray, 15%);
+  font-family: inherit;
 }
 .input__label {
   color: lighten($gray, 15%);
@@ -57,9 +63,11 @@
   text-transform: uppercase;
 }
 .input--text {
+  border: 1px solid $color--grey;
+  border-radius: 3px;
   display: block;
   font-weight: 300;
-  padding: 0.3em 0.6em;
+  padding: 0.6em 0.8em 0.5em 0.8em;
   width: 100%;
 
   &[readonly="readonly"] {

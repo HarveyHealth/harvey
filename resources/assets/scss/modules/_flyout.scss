@@ -11,6 +11,7 @@
   top: 0;
   transition: right 185ms ease-in-out;
   width: 25em;
+  z-index: 9999;
 
   &__ctas {
     text-align: center;
