@@ -20,7 +20,7 @@
         <div class="container">
           <h1 class="title header-xlarge">
             Appointments
-            <a href="/schedule" class="button main-action">New Appointment</a>
+            <button href="/schedule" class="button main-action" @click="newAppointmentSetup()">New Appointment</button>
           </h1>
         </div>
       </div>
@@ -28,22 +28,32 @@
     </div>
     <Flyout>
       <PatientInput
-        :classes="['flyout__section']"
         :type="appointmentModType"
         :usertype="userType"
-        v-model="selectedRowData.patientName"
+        :patientname="appointmentData.patientName"
+        v-model="appointmentData.patientName"
       >
-        <div><a :href="'mailto:' + selectedRowData.patientEmail">{{ selectedRowData.patientEmail }}</a></div>
-        <div><a :href="'tel:' + selectedRowData.patientPhone">{{ selectedRowData.patientPhone | formatPhone }}</a></div>
+        <div><a :href="'mailto:' + appointmentData.patientEmail">{{ appointmentData.patientEmail }}</a></div>
+        <div><a :href="'tel:' + appointmentData.patientPhone">{{ appointmentData.patientPhone | formatPhone }}</a></div>
       </PatientInput>
+      <!-- doctorlist needs api call? -->
+      <DoctorName
+        :doctorname="appointmentData.doctorName"
+        :doctorlist="['Dr. Twila Block', 'Dr. Cierra Grady', 'Dr. Maria Jacobi']"
+        :type="appointmentModType"
+        :usertype="userType"
+      />
     </Flyout>
+    <Overlay />
   </div>
 </template>
 
 <script>
   // Components
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
+  import DoctorName from '../_components/DoctorName.vue';
   import Flyout from '../dashboard/_components/Flyout.vue';
+  import Overlay from '../_components/Overlay.vue';
   import PatientInput from '../_components/PatientInput.vue';
   import TableData from '../_components/TableData.vue';
 
@@ -58,19 +68,27 @@
     props: ['user', 'patient'],
     components: {
       AppointmentsWrapper,
+      DoctorName,
       Flyout,
+      Overlay,
       PatientInput,
       TableData
     },
     data() {
       return {
         _appointmentDetails: [],
+        appointmentData: {
+          appointmentDay: '',
+          appointmentStatus: '',
+          appointmentTime: '',
+          doctorName: '',
+          patientName: '',
+          patientEmail: '',
+          patientPhone: ''
+        },
         appointmentModType: null,
         apiParameters: 'include=patient.user',
         dataCollected: false,
-        selectedRowData: {
-          patientName: ''
-        },
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -82,7 +100,7 @@
         return this._appointmentDetails;
       },
       selectedTableData() {
-        return this.selectedRowData;
+        return this.appointmentData;
       },
       tableData() {
         return this.dataCollected
@@ -121,6 +139,13 @@
             raw: appt
           }
         });
+      },
+      newAppointmentSetup() {
+        Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
+        this.appointmentModType = 'new';
+        this.$eventHub.$emit('toggleOverlay');
+        this.$eventHub.$emit('deselectRows');
+        this.$eventHub.$emit('callFlyout', false);
       }
     },
     filters: {
@@ -135,18 +160,22 @@
       })
     },
     mounted() {
+      this.$eventHub.$on('overlayClicked', () => {
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('toggleOverlay');
+      })
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
-        // this.selectedRowData.patientName = `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`;
-        this.selectedRowData = {
+        this.appointmentModType = 'update';
+        this.appointmentData = {
           appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
-          appointmentStatus: 'Pending', // Still need this from
+          appointmentStatus: 'Pending', // Still need this from api?
           appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
           doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
           patientEmail: rowData.patientData.email,
           patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
           patientPhone: rowData.patientData.phone
         }
-        this.$eventHub.$emit('appointmentSelected', this.appointmentDetails, rowIsActive);
+        this.$eventHub.$emit('callFlyout', rowIsActive);
       })
     }
   }
