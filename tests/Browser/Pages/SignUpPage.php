@@ -51,7 +51,7 @@ class SignUpPage extends BasePage
 
     public function checkTerms(Browser $browser)
     {
-      $browser->check('@checkbox');
+      $browser->check('terms');
     }
 
     public function elements()
