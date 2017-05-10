@@ -165,4 +165,11 @@ class User extends Authenticatable implements Mailable
     {
         return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
     }
+
+    public function scopeMatching($query, $term) {
+        return $query->where('first_name','LIKE',"%{$term}%")
+        ->orWhere('last_name','LIKE',"%{$term}%")
+        ->orWhere('email','LIKE',"%{$term}%");
+    }
+
 }
