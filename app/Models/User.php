@@ -42,14 +42,18 @@ class User extends Authenticatable implements Mailable
      */
     public function toSearchableArray()
     {
-        $searchableFields = [
-            'id',
-            'email',
-            'first_name',
-            'last_name',
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'full_name' => $this->fullName(),
         ];
+    }
 
-        return array_only($this->toArray(), $searchableFields);
+    public function getUserTypeAttribute()
+    {
+        return $this->userType();
     }
 
     public function patient()

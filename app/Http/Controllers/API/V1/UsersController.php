@@ -31,8 +31,9 @@ class UsersController extends BaseAPIController
     {
         if (auth()->user()->isAdmin()) {
             $term = request('term');
+            $type = request('type');
 
-            if ($term && request('unindexed')) {
+            if ($term && !$indexed) {
                 $query = User::matching($term)->withoutGlobalScopes();
             } elseif ($term) {
                 $query = User::search($term);
@@ -40,13 +41,10 @@ class UsersController extends BaseAPIController
                 $query = User::withoutGlobalScopes();
             }
 
-            switch (request('type')) {
-                case 'practitioner':
-                    $query = $query->practitioners();
-                    break;
-                case 'patients':
-                    $query = $query->patients();
-                    break;
+            if (in_array($type, ['patient', 'practitioner'])) {
+                $typePlural = str_plural($type);
+                // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
+                $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
             }
 
             return $this->baseTransformBuilderPaginated($query, new UserTransformer, request('per_page'))->respond();
