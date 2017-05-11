@@ -81,7 +81,7 @@ class SignUpPage extends BasePage
             '@practitioner' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > label',
             '@continuePract' => '#schedule > form > div > div.container.large > div > div:nth-child(4) > button',
             '@continueDeta' => '#schedule > form > div > div > div.signup-form-container > div.text-centered',
-            '@weekday' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button > span',
+            '@weekday' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(2) > ul > li:nth-child(2) > button > span',
             '@time' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(4) > button',
             '@confirmTime' => '#schedule > form > div > div.container.large > div > div.text-centered > input'
         ];

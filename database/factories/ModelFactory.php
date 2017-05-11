@@ -90,9 +90,9 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
 
     return [
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'day_of_week' => $faker->dayOfWeek,
-        'start_time' => $start_time->toTimeString(),
-        'stop_time' => $start_time->addHour(rand(1, 8))->toTimeString(),
+        'day_of_week' => 'Tuesday',//$faker->dayOfWeek,
+        'start_time' => '08:00:00',//$start_time->toTimeString(),
+        'stop_time' => '12:00:00',
     ];
 });
 

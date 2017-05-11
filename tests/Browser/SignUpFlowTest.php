@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\Models\User;
+use App\Models\PractitionerSchedule;
 use Tests\Browser\Pages\SignUpPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -11,7 +12,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class signUpFlowTest extends DuskTestCase
 {
-    //use DatabaseMigrations;
+    use DatabaseMigrations;
 
 
 
@@ -32,8 +33,7 @@ class signUpFlowTest extends DuskTestCase
     public function test_if_user_can_get_through_the_sign_up_flow()
     {
         $user = factory(User::class)->make();
-
-
+        $schedule = factory(PractitionerSchedule::class)->create();
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
                       ->addUser($user)
@@ -44,7 +44,7 @@ class signUpFlowTest extends DuskTestCase
                       ->assertSee('Choose your physician')
                       ->click('@practitioner')
                       ->click('@continuePract')
-                      ->pause(10000)
+                      ->pause(1000)
                       ->type('first_name', $user->first_name)
                       ->type('last_name', $user->last_name)
                       ->type('phone_number', $user->phone)
