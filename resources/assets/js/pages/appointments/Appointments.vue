@@ -52,7 +52,7 @@
   // Components
   import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
   import DoctorName from '../_components/DoctorName.vue';
-  import Flyout from '../dashboard/_components/Flyout.vue';
+  import Flyout from '../_components/Flyout.vue';
   import Overlay from '../_components/Overlay.vue';
   import PatientInput from '../_components/PatientInput.vue';
   import TableData from '../_components/TableData.vue';

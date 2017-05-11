@@ -68,16 +68,3 @@
         margin-bottom: 0;
       }
     }
-
-.appointment {
-  cursor: pointer;
-  transition: color 200ms;
-
-  &.isactive {
-    background: lighten($harvey-primary, 10%);
-  }
-
-  &:hover {
-    color: $darkest-gray;
-  }
-}

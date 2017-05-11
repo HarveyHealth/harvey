@@ -58,13 +58,11 @@
         </div>
       </div>
     </div>
-    <Flyout :details="appointment_details"></Flyout>
   </div>
 </template>
 
 <script>
   import Appointments from '../../appointments/Appointments.vue';
-  import Flyout from './_components/Flyout.vue';
   import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
 
@@ -72,14 +70,6 @@
     name: 'dashboard',
     data() {
       return {
-        appointment_details: {
-          'appointment_at': '',
-          'appointment_purpose': '',
-          'doctor_name': '',
-          'patient_email': '',
-          'patient_name': '',
-          'patient_phone': '',
-        },
         patientName: Laravel.user.fullName, // because it's already there
         recent_appointments: [],
         upcoming_appointments: [],
@@ -88,7 +78,6 @@
     props: ['user', 'patient'],
     components: {
       Appointments,
-      Flyout
     },
     methods: {
       viewAppointmentPage() {
@@ -139,16 +128,6 @@
           this.recent_appointments = response.data;
         });
     },
-    mounted() {
-      this.$eventHub.$on('appointmentSelected', (details) => {
-        if (this.userType === 'patient') {
-          details.patient_email = this.email;
-          details.patient_name = this.patientName;
-          details.patient_phone = this.phone;
-        }
-        this.appointment_details = details;
-      })
-    }
   }
 </script>
 

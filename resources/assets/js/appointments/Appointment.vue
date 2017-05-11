@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ appointment: true, isactive: isActive }" @click="showDetails">
+  <div class="appointment">
     <div class="appointment_left">
       <template v-if="user_type == 'admin'">
         <p v-text="fullName"></p>
@@ -17,11 +17,6 @@
         <p class="appointment_date">{{ localAppointmentTime.format('ddd, MMM Do [at] h:mma') }}</p>
       </div>
     </div>
-    <!-- <div class="appointment_right">
-      <div v-if="userType == 'patient'" class="title">
-        <button class="appointment_button" @click="toggleContact">Reschedule</button>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -35,7 +30,6 @@
     props: ['appointment', 'patientData', 'userType'],
     data() {
       return {
-        isActive: false,
         local_timezone: 'America/Los_Angeles'
       }
     },
@@ -43,31 +37,6 @@
       capitalize,
       phone,
       hyperlink,
-      showDetails() {
-        // Used to display appointment details in flyout
-        let details = {
-          appointment_at: this.localAppointmentTime.format('dddd, MMM Do [at] h:mma'),
-          appointment_status: 'Pending', // temp until api is finalized
-          appointment_purpose: this.appointment.attributes.reason_for_visit,
-          doctor_name: this.appointment.attributes.practitioner_name,
-          patient_email: null,
-          patient_name: null,
-          patient_phone: null,
-        }
-        // Used for toggling the row highlight as well as the flyout state
-        let nowActive = this.isActive;
-
-        // Admin users and Practitioners see Patient information
-
-        if (this.user_type === 'admin' || this.user_type === 'practitioner') {
-          details.patient_name = this.fullName;
-          details.patient_email = this.patientData.email;
-          details.patient_phone = this.patientData.phone;
-        }
-
-        this.$eventHub.$emit('appointmentSelected', details, nowActive);
-        this.isActive = !nowActive;
-      },
     },
     computed: {
       localAppointmentTime() {
@@ -86,9 +55,6 @@
     },
     mounted() {
       this.local_timezone = moment.tz.guess();
-      this.$eventHub.$on('appointmentSelected', () => {
-        this.isActive = false;
-      });
     }
   }
 </script>
@@ -99,7 +65,6 @@
   }
     .appointment {
       border-bottom: 1px solid #E4EAEC;
-      cursor: pointer;
       overflow: hidden;
       padding: 20px 30px;
     }
