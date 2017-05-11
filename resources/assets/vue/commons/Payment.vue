@@ -96,7 +96,7 @@
 </template>
 
 <script>
-    import Form from '../objects/Form.js';
+    import Form from '../utils/objects/Form.js';
 
     export default {
         name: 'payment',

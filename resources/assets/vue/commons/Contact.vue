@@ -18,7 +18,7 @@
 </template>
 
 <script>
-    import {capitalize, hyperlink} from '../filters/textformat.js';
+    import {capitalize, hyperlink} from '../utils/filters/textformat.js';
 
     export default {
         data() {
