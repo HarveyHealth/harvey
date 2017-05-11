@@ -32,6 +32,7 @@ class UsersController extends BaseAPIController
         if (auth()->user()->isAdmin()) {
             $term = request('term');
             $type = request('type');
+            $indexed = request('indexed');
 
             if ($term && !$indexed) {
                 $query = User::matching($term)->withoutGlobalScopes();
