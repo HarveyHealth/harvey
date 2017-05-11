@@ -4,38 +4,47 @@
       <div>doctor</div>
     </label>
     <span v-if="isEditable" class="custom-select">
-      <select>
+      <select @change="selectDoctor($event)">
         <option
           v-for="doc in doctorlist"
-          @click="chosenDoctor = doc"
-          :selected="doc === doctorname" >{{ doc }}</option>
+          :selected="doc.name === doctorname" >{{ doc.name }}</option>
       </select>
     </span>
-    <span v-else class="input__item">{{ chosenDoctor }}</span>
+    <span v-else class="input__item">{{ chosenDoctor.name }}</span>
     <slot></slot>
   </div>
 </template>
 
 <script>
+// TO-DO: doctorlist needs to come from the user?type=practitioner call
 export default {
-  props: ['classes', 'doctorlist', 'doctorname', 'type', 'usertype'],
+  props: ['classes', 'doctorid', 'doctorlist', 'doctorname', 'type', 'usertype'],
   data() {
     return {
       classNames: { 'input__container': true },
+      selected: {}
     }
   },
   computed: {
     chosenDoctor() {
-      return this.doctorname;
+      return { name: this.doctorname, id: this.doctorid };
     },
     isEditable() {
       return ( this.usertype === 'admin' || this.usertype === 'patient' ) && this.type === 'new';
+    }
+  },
+  methods: {
+    selectDoctor(e) {
+      this.selected = this.doctorlist[e.target.selectedIndex];
+      axios.get(`api/v1/practitioners/${this.selected.id}?include=availability`).then(response => {
+        console.log(response.data);
+      })
     }
   },
   created() {
     return this.classes
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
-  }
+  },
 }
 </script>

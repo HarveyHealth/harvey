@@ -39,8 +39,9 @@
       </PatientInput>
       <!-- doctorlist needs api call? -->
       <DoctorName
+        :doctorid="appointmentData.doctorId"
         :doctorname="appointmentData.doctorName"
-        :doctorlist="['Dr. Twila Block', 'Dr. Cierra Grady', 'Dr. Maria Jacobi']"
+        :doctorlist="[{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}]"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -50,7 +51,7 @@
         :usertype="userType"
       />
     </Flyout>
-    
+
     <Overlay />
 
   </div>
@@ -92,6 +93,7 @@
           appointmentPurpose: '',
           appointmentStatus: '',
           appointmentTime: '',
+          doctorId: '',
           doctorName: '',
           patientName: '',
           patientEmail: '',
@@ -197,6 +199,7 @@
           appointmentPurpose: rowData.attributes.reason_for_visit,
           appointmentStatus: 'Pending', // Still need this from api?
           appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
+          doctorId: rowData.attributes.practitioner_id,
           doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
           patientEmail: rowData.patientData.email,
           patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
@@ -207,6 +210,7 @@
         // textarea, we need to call an event on the next tick after data has been defined
         // from the row click.
         Vue.nextTick(() => this.$eventHub.$emit('setPurposeText'));
+        // console.log(this.appointmentData);
       })
     }
   }
