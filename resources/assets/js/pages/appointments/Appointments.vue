@@ -26,6 +26,7 @@
       </div>
       <TableData :allTableData="tableData" />
     </div>
+
     <Flyout>
       <PatientInput
         :type="appointmentModType"
@@ -49,7 +50,9 @@
         :usertype="userType"
       />
     </Flyout>
+    
     <Overlay />
+
   </div>
 </template>
 
@@ -117,6 +120,9 @@
       }
     },
     methods: {
+      // The TableData component consumes data in a particular format. This
+      // just takes the data returned from the api and puts it in the proper format.
+      // See docs in _components/TableData.vue
       appointmentTablePrep(appointmentData) {
         return appointmentData.map(appt => {
           return {
@@ -148,6 +154,9 @@
           }
         });
       },
+      // The same components are used in the flyout for updating appointments and creating new appointments.
+      // This function resets all the data values to an empty string, switches the mod type to 'new' and then
+      // fires all the events to initiate the flyout for appointment creation.
       newAppointmentSetup() {
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
@@ -156,7 +165,6 @@
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
-          console.log(this.appointmentData);
         })
       }
     },
@@ -166,16 +174,22 @@
       }
     },
     created() {
+      // For right now, we're just adding all appointments. Future iterations will include filters
+      // for upcoming and recent appointments
       axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
         this._appointmentDetails = combineAppointmentDetails(response.data);
         this.dataCollected = true;
       })
     },
     mounted() {
+      // Clicking the overlay disengages the flyout
       this.$eventHub.$on('overlayClicked', () => {
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
       })
+      // TableData emits rowClickEvent when a row is selected. It takes the data associated with
+      // that row and passes it along in the event along with whether or not the row is currently
+      // active. This helps for any toggle events you may need to trigger.
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
         this.appointmentModType = 'update';
         this.appointmentData = {
@@ -191,7 +205,7 @@
         this.$eventHub.$emit('callFlyout', rowIsActive);
         // PurposeInput uses a v-model to calculate character count. In order to populate the
         // textarea, we need to call an event on the next tick after data has been defined
-        // from the row click
+        // from the row click.
         Vue.nextTick(() => this.$eventHub.$emit('setPurposeText'));
       })
     }
