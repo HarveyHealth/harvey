@@ -1,9 +1,6 @@
 import '../../bootstrap';
 import router from './routes';
 
-
-
-
 // FILTERS
 import filter_datetime from '../../filters/datetime';
 Vue.filter('datetime', filter_datetime);
