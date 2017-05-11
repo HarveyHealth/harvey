@@ -17,7 +17,7 @@ class AppointmentPolicy
      */
     public function before(User $user, $ability)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() ?: null;
     }
 
     /**
