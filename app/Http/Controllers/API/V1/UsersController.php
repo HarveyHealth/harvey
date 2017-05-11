@@ -35,11 +35,11 @@ class UsersController extends BaseAPIController
             $indexed = request('indexed');
 
             if ($term && !$indexed) {
-                $query = User::matching($term)->withoutGlobalScopes();
+                $query = User::matching($term);
             } elseif ($term) {
                 $query = User::search($term);
             } else {
-                $query = User::withoutGlobalScopes();
+                $query = User::make();
             }
 
             if (in_array($type, ['patient', 'practitioner'])) {
