@@ -74,13 +74,10 @@ class signUpTest extends DuskTestCase
 
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
-                      ->type('zipcode','91202')
-                      ->type('email', $user->email)
-                      ->type('password', bcrypt('secret'))
-                      ->checkTerms()
-                      ->clickSignUp()
-                      ->waitForText("Success! Let's get started.")
-                      ->assertSee("Success! Let's get started.");
+                      ->addUser($user);
+
                     });
+
+              $this->assertDatabaseHas('users', ['email' => $user->email]);
     }
 }
