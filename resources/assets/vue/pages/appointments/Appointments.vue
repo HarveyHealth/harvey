@@ -39,7 +39,7 @@
 </template>
 
 <script>
-    import Appointment from './Appointment.vue';
+    import Appointment from './components/Appointment.vue';
 
     export default {
         props: ['userType', 'recentAppointments', 'upcomingAppointments'],

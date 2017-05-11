@@ -50,7 +50,7 @@
 
 <script>
 
-  import Interstitial from './Interstitial.vue';
+  import Interstitial from './components/Interstitial.vue';
 
   export default {
     name: 'Signup',

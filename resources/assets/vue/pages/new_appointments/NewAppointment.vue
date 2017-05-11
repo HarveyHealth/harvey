@@ -56,9 +56,9 @@
 
 <script>
     import moment from 'moment';
-    import Form from '../objects/Form.js';
-    import DatePicker from './DatePicker.vue';
-    import TimePicker from './TimePicker.vue';
+    import Form from '../../utils/objects/Form.js';
+    import DatePicker from './components/DatePicker.vue';
+    import TimePicker from './components/TimePicker.vue';
 
     export default {
         name: 'new-appointment',

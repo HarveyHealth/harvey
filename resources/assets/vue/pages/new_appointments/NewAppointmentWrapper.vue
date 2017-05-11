@@ -33,8 +33,8 @@
     import moment from 'moment';
     import Form from '../objects/Form.js';
     import NewAppointment from './NewAppointment.vue';
-    import Profile from '../user/Profile.vue';
-    import Payment from '../user/Payment.vue';
+    import Profile from '../../commons/Profile.vue';
+    import Payment from '../../commons/Payment.vue';
 
     export default {
         name: 'new-appointment-wrapper',

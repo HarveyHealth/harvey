@@ -7,9 +7,9 @@
 </template>
 
 <script>
-  import Practitioner from './_components/Practitioner.vue';
-  import Phone from './_components/Phone.vue';
-  import DateTime from './_components/DateTime.vue';
+  import Practitioner from './components/Practitioner.vue';
+  import Phone from './components/Phone.vue';
+  import DateTime from './components/DateTime.vue';
 
   import moment from 'moment';
 
