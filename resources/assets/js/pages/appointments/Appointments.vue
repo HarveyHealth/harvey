@@ -43,6 +43,11 @@
         :type="appointmentModType"
         :usertype="userType"
       />
+      <PurposeInput
+        :purposetext="appointmentData.appointmentPurpose"
+        :type="appointmentModType"
+        :usertype="userType"
+      />
     </Flyout>
     <Overlay />
   </div>
@@ -55,6 +60,7 @@
   import Flyout from '../_components/Flyout.vue';
   import Overlay from '../_components/Overlay.vue';
   import PatientInput from '../_components/PatientInput.vue';
+  import PurposeInput from '../_components/PurposeInput.vue';
   import TableData from '../_components/TableData.vue';
 
   // Helpers
@@ -72,6 +78,7 @@
       Flyout,
       Overlay,
       PatientInput,
+      PurposeInput,
       TableData
     },
     data() {
@@ -79,6 +86,7 @@
         _appointmentDetails: [],
         appointmentData: {
           appointmentDay: '',
+          appointmentPurpose: '',
           appointmentStatus: '',
           appointmentTime: '',
           doctorName: '',
@@ -143,9 +151,13 @@
       newAppointmentSetup() {
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
-        this.$eventHub.$emit('toggleOverlay');
-        this.$eventHub.$emit('deselectRows');
-        this.$eventHub.$emit('callFlyout', false);
+        Vue.nextTick(() => {
+          this.$eventHub.$emit('setPurposeText')
+          this.$eventHub.$emit('toggleOverlay');
+          this.$eventHub.$emit('deselectRows');
+          this.$eventHub.$emit('callFlyout', false);
+          console.log(this.appointmentData);
+        })
       }
     },
     filters: {
@@ -168,6 +180,7 @@
         this.appointmentModType = 'update';
         this.appointmentData = {
           appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
+          appointmentPurpose: rowData.attributes.reason_for_visit,
           appointmentStatus: 'Pending', // Still need this from api?
           appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
           doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
@@ -176,6 +189,10 @@
           patientPhone: rowData.patientData.phone
         }
         this.$eventHub.$emit('callFlyout', rowIsActive);
+        // PurposeInput uses a v-model to calculate character count. In order to populate the
+        // textarea, we need to call an event on the next tick after data has been defined
+        // from the row click
+        Vue.nextTick(() => this.$eventHub.$emit('setPurposeText'));
       })
     }
   }

@@ -3,19 +3,15 @@
     <label class="input__label" for="doctor-name">
       <div>doctor</div>
     </label>
-    <template v-if="isEditable">
-      <span class="custom-select">
-        <select>
-          <option
-            v-for="doc in doctorlist"
-            @click="chosenDoctor = doc"
-            :selected="doc === doctorname" >{{ doc }}</option>
-        </select>
-      </span>
-    </template>
-    <template v-else>
-      <span class="input__item">{{ chosenDoctor }}</span>
-    </template>
+    <span v-if="isEditable" class="custom-select">
+      <select>
+        <option
+          v-for="doc in doctorlist"
+          @click="chosenDoctor = doc"
+          :selected="doc === doctorname" >{{ doc }}</option>
+      </select>
+    </span>
+    <span v-else class="input__item">{{ chosenDoctor }}</span>
     <slot></slot>
   </div>
 </template>
@@ -40,12 +36,6 @@ export default {
     return this.classes
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
-  },
-  updated() {
-    console.log(`
-      Editable: ${this.isEditable}
-      Doctor: ${this.chosenDoctor}
-    `);
   }
 }
 </script>
