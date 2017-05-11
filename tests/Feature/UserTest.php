@@ -135,7 +135,7 @@ class UserTest extends TestCase
         $response = $this->json('GET', 'api/v1/users');
 
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
-        $response->assertSee('Your not allowed to use this endpoint.');
+        $response->assertSee('You are not authorized to access this resource.');
     }
 
 
