@@ -107,7 +107,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
 
         // And they get an error response message
-        $response->assertSee('You are unable to modify an appointment with less than 2 hours of notice.');
+        $response->assertSee('You are unable to modify an appointment with less than 4 hours of notice.');
     }
 
     public function test_it_does_not_allow_cancellation_if_the_appointment_is_less_than_2_hours_away()
@@ -130,7 +130,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
 
         // And they get an error response message
-        $response->assertSee('You are unable to cancel an appointment with less than 2 hours of notice.');
+        $response->assertSee('You are unable to cancel an appointment with less than 4 hours of notice.');
     }
 
     public function test_it_does_not_allow_modification_if_the_appointment_was_completed()
