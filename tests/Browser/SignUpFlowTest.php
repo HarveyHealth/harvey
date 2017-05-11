@@ -7,9 +7,14 @@ use Tests\Browser\Pages\SignUpPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+//Artisan::call('migrate:refresh', ['--seed' => true]);
 
 class signUpFlowTest extends DuskTestCase
 {
+    //use DatabaseMigrations;
+
+
+
     /**
      * A Dusk test example.
      *
@@ -39,12 +44,12 @@ class signUpFlowTest extends DuskTestCase
                       ->assertSee('Choose your physician')
                       ->click('@practitioner')
                       ->click('@continuePract')
-                      ->pause(1000)
+                      ->pause(10000)
                       ->type('first_name', $user->first_name)
                       ->type('last_name', $user->last_name)
                       ->type('phone_number', $user->phone)
                       ->click('@continueDeta')
-                      ->pause(1000)
+                      ->pause(30000)
                       ->click('@weekday')
                       ->click('@time')
                       ->click('@confirmTime')
