@@ -60,9 +60,9 @@
 </template>
 
 <script>
-  import Appointments from '../../appointments/Appointments.vue';
-  import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
-  import Contact from '../../mixins/Contact';
+  import Appointments from '../appointments/Appointments.vue';
+  import {capitalize, phone, hyperlink} from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
 
   export default {
     name: 'dashboard',

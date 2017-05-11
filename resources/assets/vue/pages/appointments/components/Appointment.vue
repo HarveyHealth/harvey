@@ -36,8 +36,8 @@
 
 <script>
     import moment from 'moment-timezone';
-    import {capitalize, phone, hyperlink} from '../filters/textformat.js';
-    import Contact from '../mixins/Contact';
+    import {capitalize, phone, hyperlink} from '../../../utils/filters/textformat';
+    import Contact from '../../../utils/mixins/Contact';
 
     export default {
         mixins: [Contact],

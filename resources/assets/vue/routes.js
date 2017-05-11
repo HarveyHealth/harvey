@@ -8,28 +8,31 @@ let routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: require('./components/dashboard/Dashboard.vue'),
+        component: require('./pages/dashboard/Dashboard.vue'),
         children: [
             {
                 path: 'schedule',
-                component: require('./Schedule.vue'),
+                name: 'schedule',
+                component: require('./pages/schedule/Schedule.vue'),
                 children: [
                     {
                         path: 'confirmation',
-                        component: require('./Confirmation.vue'),
+                        name: 'confirmation',
+                        component: require('./pages/schedule/Confirmation.vue'),
                     }
                 ]
             },
             {
                 path: '/new-appointment',
                 name: 'new-appointment',
-                component: require('./components/new_appointment/NewAppointmentWrapper.vue')
+                component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
             }
         ]
     },
     {
       path: '/signup',
-      component: require('./Signup.vue'),
+      name: 'signup',
+      component: require('./pages/signup/Signup.vue'),
     },
     {
         path: '*',
