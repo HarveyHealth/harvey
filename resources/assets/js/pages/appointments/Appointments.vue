@@ -41,7 +41,7 @@
       <DoctorName
         :doctorid="appointmentData.doctorId"
         :doctorname="appointmentData.doctorName"
-        :doctorlist="[{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}]"
+        :doctorlist="doctorList"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -59,7 +59,6 @@
 
 <script>
   // Components
-  import AppointmentsWrapper from './_components/AppointmentsWrapper.vue';
   import DoctorName from '../_components/DoctorName.vue';
   import Flyout from '../_components/Flyout.vue';
   import Overlay from '../_components/Overlay.vue';
@@ -77,7 +76,6 @@
     name: 'appointments',
     props: ['user', 'patient'],
     components: {
-      AppointmentsWrapper,
       DoctorName,
       Flyout,
       Overlay,
@@ -102,6 +100,9 @@
         appointmentModType: null,
         apiParameters: 'include=patient.user',
         dataCollected: false,
+        doctorAvailability: {},
+        // TO-DO: Tate is working on getting this api endpoint for me
+        doctorList: [],
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -163,7 +164,8 @@
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
         Vue.nextTick(() => {
-          this.$eventHub.$emit('setPurposeText')
+          this.$eventHub.$emit('setPurposeText');
+          this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
@@ -181,7 +183,21 @@
       axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
         this._appointmentDetails = combineAppointmentDetails(response.data);
         this.dataCollected = true;
+        // If the user is the practitioner, the doctorList should just include the practitioner
+        // To avoid making another call for the practitioner_id, we're just using the appointments list
+        if (this.userType === 'practitioner') {
+          this.doctorList = [{
+              name: this._appointmentDetails[0].attributes.practitioner_name,
+              id: this._appointmentDetails[0].attributes.practitioner_id
+          }]
+        }
       })
+      // This is where we'll get the practitioner list... eventually. Pretend there's a call.
+      // The call will only be made if the user is not a practitioner because a doctor shouldn't
+      // be allowed to schedule new appointments for other doctors.
+      if (this.userType !== 'practitioner') {
+        this.doctorList = [{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}];
+      }
     },
     mounted() {
       // Clicking the overlay disengages the flyout
@@ -189,6 +205,7 @@
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
       })
+
       // TableData emits rowClickEvent when a row is selected. It takes the data associated with
       // that row and passes it along in the event along with whether or not the row is currently
       // active. This helps for any toggle events you may need to trigger.
@@ -209,9 +226,17 @@
         // PurposeInput uses a v-model to calculate character count. In order to populate the
         // textarea, we need to call an event on the next tick after data has been defined
         // from the row click.
-        Vue.nextTick(() => this.$eventHub.$emit('setPurposeText'));
-        // console.log(this.appointmentData);
+        Vue.nextTick(() => {
+          this.$eventHub.$emit('setPurposeText');
+          if (!rowIsActive) this.$eventHub.$emit('getDoctorAvailability', );
+        });
+      });
+
+      this.$eventHub.$on('returnAvailability', availability => {
+        this.doctorAvailability = availability;
+        console.log(this.doctorAvailability);
       })
+
     }
   }
 </script>

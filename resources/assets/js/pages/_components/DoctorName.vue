@@ -1,15 +1,17 @@
 <template>
   <div :class="classNames">
-    <label class="input__label" for="doctor-name">
-      <div>doctor</div>
-    </label>
-    <span v-if="isEditable" class="custom-select">
-      <select @change="selectDoctor($event)">
-        <option
-          v-for="doc in doctorlist"
-          :selected="doc.name === doctorname" >{{ doc.name }}</option>
-      </select>
-    </span>
+    <template v-if="isEditable">
+      <label class="input__label" for="doctor-name">
+        <div>doctor</div>
+      </label>
+      <span v-if="isEditable" class="custom-select">
+        <select @change="selectDoctor($event.target.selectedIndex)">
+          <option
+            v-for="doc in doctorlist"
+            :selected="doc.name === doctorname" >{{ doc.name }}</option>
+        </select>
+      </span>
+    </template>
     <span v-else class="input__item">{{ chosenDoctor.name }}</span>
     <slot></slot>
   </div>
@@ -21,6 +23,8 @@ export default {
   props: ['classes', 'doctorid', 'doctorlist', 'doctorname', 'type', 'usertype'],
   data() {
     return {
+      availability: {},
+      dataCollected: false,
       classNames: { 'input__container': true },
       selected: {}
     }
@@ -34,11 +38,15 @@ export default {
     }
   },
   methods: {
-    selectDoctor(e) {
-      this.selected = this.doctorlist[e.target.selectedIndex];
-      axios.get(`api/v1/practitioners/${this.selected.id}?include=availability`).then(response => {
-        console.log(response.data);
-      })
+    selectDoctor(selection) {
+      this.selected = this.doctorlist[selection];
+      this.getAvailability(this.selected.id, (response) => {
+        this.$eventHub.$emit('returnAvailability', response);
+      });
+    },
+    getAvailability(id, cb) {
+      axios.get(`api/v1/practitioners/${id}?include=availability`)
+        .then(response => cb(response.data))
     }
   },
   created() {
@@ -46,5 +54,28 @@ export default {
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
   },
+  mounted() {
+    // Not the most elegant thing but this logic exists to limit api calls
+    // when the user is a practitioner (since they don't need the option to
+    // to select different doctors when updating or creating appointments)
+    this.$eventHub.$on('getDoctorAvailability',(id) => {
+      if (this.usertype === 'practitioner' && !this.dataCollected) {
+        this.getAvailability(this.doctorid, (response) => {
+          this.dataCollected = true;
+          this.availability = response;
+          this.$eventHub.$emit('returnAvailability', response);
+          console.log('initial')
+        });
+      } else if (this.usertype === 'practitioner' && this.dataCollected) {
+        this.$eventHub.$emit('returnAvailability', this.availability);
+        console.log('again')
+      } else {
+        this.getAvailability(id || this.doctorid, (response) => {
+          this.$eventHub.$emit('returnAvailability', response);
+          console.log('not doctor')
+        });
+      }
+    });
+  }
 }
 </script>
