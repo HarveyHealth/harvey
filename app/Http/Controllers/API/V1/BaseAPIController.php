@@ -118,11 +118,12 @@ class BaseAPIController extends Controller
 
     /**
      * @param  $builder
+     * @param  $include
      * @param  $transformer
      * @param  $itemsPerPage
      * @return \Spatie\Fractal\Fractal
      */
-    public function baseTransformBuilderPaginated($builder, $transformer, $itemsPerPage)
+    public function baseTransformBuilder($builder, $include = null, $transformer = null, $itemsPerPage = null)
     {
         if (is_numeric($itemsPerPage)) {
             $paginator = $builder->paginate((int) $itemsPerPage);
@@ -130,7 +131,7 @@ class BaseAPIController extends Controller
             $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
         }
 
-        return $this->baseTransformCollection($builder->get(), null, $transformer, $paginationAdapter ?? null);
+        return $this->baseTransformCollection($builder->get(), $include, $transformer, $paginationAdapter ?? null);
     }
 
 }

@@ -48,7 +48,7 @@ class UsersController extends BaseAPIController
                 $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
             }
 
-            return $this->baseTransformBuilderPaginated($query, new UserTransformer, request('per_page'))->respond();
+            return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
         }
 
         $problem = new ApiProblem();
