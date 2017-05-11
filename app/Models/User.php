@@ -184,4 +184,7 @@ class User extends Authenticatable implements Mailable
         return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
     }
 
+    public function scopeAdmins($query) {
+        return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
+    }
 }
