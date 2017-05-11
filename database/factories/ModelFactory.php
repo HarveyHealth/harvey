@@ -128,8 +128,7 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'appointment_at' => $start_time->toDateTimeString(),
-        'appointment_block_ends_at' => $start_time->addMinutes(90)->toDateTimeString(),
-        'reason_for_visit' => $faker->sentence
+        'reason_for_visit' => $faker->sentence,
     ];
 });
 
@@ -140,7 +139,7 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
 
-    return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
+    return ['appointment_at' => $start_time->toDateTimeString()];
 });
 
 $factory->state(App\Models\Appointment::class, 'soon', function ($faker) {
