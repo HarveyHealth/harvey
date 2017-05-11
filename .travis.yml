@@ -18,12 +18,8 @@ before_install:
 - touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - cp .env.dusk.travis .env
 before_script:
-<<<<<<< HEAD
 - export DB_CONNECTION=sqlite
 - export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
-=======
-- touch /home/travis/build/HomeHero/harvey/harvey.sqlite
->>>>>>> 1a32924004774d4f761ca54199af1b720b5516e0
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
