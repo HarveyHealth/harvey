@@ -31,7 +31,7 @@ class User extends Authenticatable implements Mailable
         parent::boot();
 
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->where('enabled', true);
+            $builder->where('users.enabled', true);
         });
     }
 
@@ -170,21 +170,25 @@ class User extends Authenticatable implements Mailable
         return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
     }
 
-    public function scopeMatching($query, $term) {
-        return $query->where('first_name','LIKE',"%{$term}%")
-        ->orWhere('last_name','LIKE',"%{$term}%")
-        ->orWhere('email','LIKE',"%{$term}%");
+    public function scopeMatching($query, $term)
+    {
+        return $query->where('first_name', 'LIKE', "%{$term}%")
+        ->orWhere('last_name', 'LIKE', "%{$term}%")
+        ->orWhere('email', 'LIKE', "%{$term}%");
     }
 
-    public function scopePractitioners($query) {
+    public function scopePractitioners($query)
+    {
         return $query->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
     }
 
-    public function scopePatients($query) {
+    public function scopePatients($query)
+    {
         return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
     }
 
-    public function scopeAdmins($query) {
+    public function scopeAdmins($query)
+    {
         return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
 }

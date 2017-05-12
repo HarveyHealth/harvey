@@ -137,6 +137,4 @@ class UserTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
         $response->assertSee('You are not authorized to access this resource.');
     }
-
-
 }
