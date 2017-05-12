@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Test;
 use App\Transformers\V1\TestTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use \Validator;
@@ -32,9 +31,7 @@ class TestsController extends BaseAPIController
         if (auth()->user()->can('view', $test)) {
             return $this->baseTransformItem($test)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail('You do not have access to view this test.');
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized('You do not have access to view this test.');
         }
     }
 
@@ -50,9 +47,7 @@ class TestsController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         $relative_path = "$test->patient_id/$test->id";
@@ -67,12 +62,10 @@ class TestsController extends BaseAPIController
 
             $test->results_key = "$relative_path/results.pdf";
             $test->save();
-    
+
             return $this->baseTransformItem($test)->respond();
         } catch (\Exception $e) {
-            $problem = new ApiProblem();
-            $problem->setDetail($e->getMessage());
-            return $this->respondUnprocessable($problem);
+            return $this->respondUnprocessable($e->getMessage());
         }
     }
 }
