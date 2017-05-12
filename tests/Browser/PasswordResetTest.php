@@ -9,6 +9,8 @@ use Tests\Browser\Pages\ForgotPasswordPage;
 
 class PasswordResetTest extends DuskTestCase
 {
+    //use DatabaseMigrations;
+
     public function test_a_user_can_request_a_password_reset_link()
     {
         $user = factory(User::class)->create();
