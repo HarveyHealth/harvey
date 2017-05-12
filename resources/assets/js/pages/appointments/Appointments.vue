@@ -151,7 +151,7 @@
             formatted: {
               'Date': {
                 'value': moment(appt.attributes.appointment_at.date).format('ddd MMM Do'),
-                'width': '10%' },
+                'width': '15%' },
               'Time': {
                 'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
                 'width': '10%' },
@@ -161,15 +161,12 @@
               'Doctor': {
                 'value': `Dr. ${appt.attributes.practitioner_name}`,
                 'width': '15%' },
-              'Type': {
-                'value': 'ND',
-                'width': '10%' },
               'Status': {
                 'value': capitalize(appt.attributes.status),
                 'width': '10%' },
               'Purpose': {
                 'value': appt.attributes.reason_for_visit,
-                'width': '30%' },
+                'width': '35%' },
             },
             raw: appt
           }
@@ -188,6 +185,13 @@
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
         })
+      },
+      resetAppointmentData(data) {
+        let output = data;
+        for (let appt in output) {
+          output[appt] = '';
+        }
+        return output;
       }
     },
     filters: {
@@ -201,7 +205,7 @@
       axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
         this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
         this.dataCollected = true;
-        // If the user is the practitioner, the doctorList should just include the practitioner
+        // If the user is the practitioner, the doctorList should just include the practitioner.
         // To avoid making another call for the practitioner_id, we're just using the appointments list
         if (this.userType === 'practitioner') {
           this.doctorList = [{
@@ -214,7 +218,12 @@
       // The call will only be made if the user is not a practitioner because a doctor shouldn't
       // be allowed to schedule new appointments for other doctors.
       if (this.userType !== 'practitioner') {
-        this.doctorList = [{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}];
+        axios.get(`${this.$root.apiUrl}/users?type=practitioner&include=practitioner`).then(response => {
+          this.doctorList = response.data.included.map(dr => {
+              return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
+          })
+          // this.doctorList = [{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}];
+        })
       }
     },
     mounted() {
@@ -222,6 +231,7 @@
       this.$eventHub.$on('overlayClicked', () => {
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
+        this.doctorAvailability = [];
       })
 
       // TableData emits rowClickEvent when a row is selected. It takes the data associated with
@@ -229,7 +239,7 @@
       // active. This helps for any toggle events you may need to trigger.
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
         this.appointmentModType = 'update';
-        this.appointmentData = {
+        this.appointmentData = rowIsActive ? this.resetAppointmentData(this.appointmentData) : {
           appointmentDate: rowData.attributes.appointment_at.date,
           appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
           appointmentPurpose: rowData.attributes.reason_for_visit,
@@ -252,6 +262,8 @@
           if (!rowIsActive) {
             this.$eventHub.$emit('getDoctorAvailability');
             this.$eventHub.$emit('populateAvailableTimes');
+          } else {
+            this.doctorAvailability = [];
           }
         });
       });

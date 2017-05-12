@@ -59,12 +59,14 @@ export default {
       week1.Wednesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       week1.Thursday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       week1.Friday = weekStart.add(1, 'days').format('dddd, MMMM Do');
+      week1.Saturday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       let week2 = {};
-      week2.Monday = weekStart.add(3, 'days').format('dddd, MMMM Do');
+      week2.Monday = weekStart.add(2, 'days').format('dddd, MMMM Do');
       week2.Tuesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       week2.Wednesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       week2.Thursday = weekStart.add(1, 'days').format('dddd, MMMM Do');
       week2.Friday = weekStart.add(1, 'days').format('dddd, MMMM Do');
+      week2.Saturday = weekStart.add(1, 'days').format('dddd, MMMM Do');
 
       return { week1: week1, week2: week2 };
     },
@@ -80,11 +82,14 @@ export default {
     },
     parseAvailability(times) {
       if (!times.length) return [];
+
       const parsedTimes = {};
       const week1 = this.transformTimeData(times[0], this.currentWeeks.week1);
       const week2 = this.transformTimeData(times[1], this.currentWeeks.week2);
+
       times[0].forEach(obj => week1[obj.day].time.push(obj.time));
       times[1].forEach(obj => week2[obj.day].time.push(obj.time));
+
       for (let day in week1) {
         parsedTimes[week1[day].display] = week1[day].time;
       }
