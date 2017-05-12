@@ -184,13 +184,13 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
 
     $senderClassName = $classesNames->pop();
     $output['sender_user_id'] = function () use ($senderClassName) {
-            return factory($senderClassName)->create()->user->id;
-        };
+        return factory($senderClassName)->create()->user->id;
+    };
 
     $recipientClassName = $classesNames->pop();
     $output['recipient_user_id'] = function () use ($recipientClassName) {
-            return factory($recipientClassName)->create()->user->id;
-        };
+        return factory($recipientClassName)->create()->user->id;
+    };
     $output['message'] = $faker->sentence;
     $output['is_admin'] = App\Models\Admin::class == $senderClassName;
 
