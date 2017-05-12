@@ -18,7 +18,7 @@ let routes = [
                     {
                         path: 'confirmation',
                         name: 'confirmation',
-                        component: require('./pages/schedule/Confirmation.vue'),
+                        component: require('./pages/schedule/Confirmation.vue')
                     }
                 ]
             },
@@ -32,7 +32,7 @@ let routes = [
     {
       path: '/signup',
       name: 'signup',
-      component: require('./pages/signup/Signup.vue'),
+      component: require('./pages/signup/Signup.vue')
     },
     {
         path: '*',
