@@ -33,7 +33,7 @@ class signUpFlowTest extends DuskTestCase
     public function test_if_user_can_get_through_the_sign_up_flow()
     {
         $user = factory(User::class)->make();
-        $schedule = factory(PractitionerSchedule::class)->create();
+        $schedule = factory(PractitionerSchedule::class)->create(['day_of_week' => 'Tuesday', 'start_time' => '08:00:00', 'stop_time' => '12:00:00']);
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
                       ->addUser($user)
@@ -58,7 +58,7 @@ class signUpFlowTest extends DuskTestCase
 
                     });
               $this->assertDatabaseHas('users', ['email' => $user->email]);
-              //$this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
+              $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
     }
 
     // public function test_if_succesfull_signup_page_loads_and_next_step()
