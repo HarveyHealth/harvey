@@ -31,7 +31,7 @@ class User extends Authenticatable implements Mailable
         parent::boot();
 
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->where('enabled', true);
+            $builder->where('users.enabled', true);
         });
     }
 
