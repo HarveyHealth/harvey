@@ -50,10 +50,7 @@ class UsersController extends BaseAPIController
             return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
         }
 
-        $problem = new ApiProblem();
-        $problem->setDetail('You are not authorized to access this resource.');
-
-        return $this->respondNotAuthorized($problem);
+        return $this->respondNotAuthorized('You are not authorized to access this resource.');
     }
 
     public function create(Request $request)
