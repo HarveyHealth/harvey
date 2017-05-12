@@ -26,7 +26,6 @@ Route::get('appointments', 'AppointmentsController@index')->name('appointments')
 
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
-Route::get('api/user', 'DashboardController@getUser');
 
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');

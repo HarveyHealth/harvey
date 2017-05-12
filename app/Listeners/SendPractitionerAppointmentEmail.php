@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentScheduled;
+use App\Http\Traits\PostmarkExceptionHandler;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Postmark\Models\PostmarkException;
@@ -27,16 +28,11 @@ class SendPractitionerAppointmentEmail implements ShouldQueue
                 $client->sendEmailWithTemplate(
                     config('services.postmark.signature'),
                     $event->appointment->practitioner->user->email,
-                    1529541, // Postmark Template ID for welcome email
+                    config('services.postmark.templates.practitioner.appointment.new'),
                     $template_model
                 );
             } catch (PostmarkException $exception) {
-                if (406 == $exception->postmarkApiErrorCode) {
-                    \Log::warning("Mailbox {$event->appointment->practitioner->user->email} is marked as 'Inactive' on Postmark so PractitionerAppointmentEmail will not be sent.");
-                } else {
-                    $contextualData = ['message' => $exception->message, 'api_error_code' => $exception->postmarkApiErrorCode];
-                    \Log::error("Unable to send email to {$event->appointment->practitioner->user->email}.", $contextualData);
-                }
+                self::handlePostmarkException($exception);
             }
         }
     }

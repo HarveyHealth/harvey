@@ -45,8 +45,23 @@ return [
     ],
 
     'postmark' => [
-        'token' => env('POSTMARK_TOKEN'),
-        'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com')
+        'token' => env('POSTMARK_TOKEN', 'POSTMARK_API_TEST'),
+        'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
+        'templates' => [
+            'practitioner' => [
+                'appointment' => [
+                    'canceled' => 1692581,
+                    'new' => 1529541,
+                ],
+            ],
+            'patient' => [
+                'appointment' => [
+                    'canceled' => 1687742,
+                    'new' => 1492142,
+                ],
+                'welcome' => 1450461,
+            ],
+        ]
     ],
 
 ];

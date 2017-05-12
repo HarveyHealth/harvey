@@ -6,9 +6,8 @@ use App\Events\UserRegistered;
 use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
-use \Validator;
+use Validator;
 
 class UsersController extends BaseAPIController
 {
@@ -23,7 +22,37 @@ class UsersController extends BaseAPIController
         parent::__construct();
         $this->transformer = $transformer;
     }
-    
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        if (auth()->user()->isAdmin()) {
+            $term = request('term');
+            $type = request('type');
+            $indexed = request('indexed');
+
+            if ($term && !$indexed) {
+                $query = User::matching($term);
+            } elseif ($term) {
+                $query = User::search($term);
+            } else {
+                $query = User::make();
+            }
+
+            if (in_array($type, ['patient', 'practitioner', 'admin'])) {
+                $typePlural = str_plural($type);
+                // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
+                $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
+            }
+
+            return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        }
+
+        return $this->respondNotAuthorized('You are not authorized to access this resource.');
+    }
+
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -36,31 +65,27 @@ class UsersController extends BaseAPIController
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
-    
+
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
-        
+
         try {
             $user = new User(
                 $request->only(['first_name', 'last_name', 'email', 'zip'])
             );
-            
+
             $user->password = bcrypt($request->password);
             $user->save();
             event(new UserRegistered($user));
             $user->patient()->save(new Patient());
-            
+
             return $this->baseTransformItem($user)->respond();
         } catch (\Exception $exception) {
-            $problem = new ApiProblem();
-            $problem->setDetail($exception->getMessage());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($exception->getMessage());
         }
     }
-    
+
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
@@ -70,9 +95,7 @@ class UsersController extends BaseAPIController
         if (auth()->user()->can('view', $user)) {
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }
     }
 
@@ -92,21 +115,17 @@ class UsersController extends BaseAPIController
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
-    
+
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
-        
+
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
-    
+
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
     }
 }
