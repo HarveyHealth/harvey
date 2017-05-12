@@ -7,7 +7,6 @@ use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
 {
-
     protected $availableIncludes = [
         'patient', 'practitioner'
     ];
@@ -53,5 +52,4 @@ class UserTransformer extends TransformerAbstract
             return $this->item($practitioner, new PractitionerTransformer())->setResourceKey('practitioner');
         }
     }
-
 }

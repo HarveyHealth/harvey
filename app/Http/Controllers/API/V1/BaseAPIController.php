@@ -131,5 +131,4 @@ class BaseAPIController extends Controller
 
         return $this->baseTransformCollection($builder->get(), $include, $transformer, $paginationAdapter ?? null);
     }
-
 }
