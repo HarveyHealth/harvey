@@ -173,3 +173,26 @@ $factory->define(Laravel\Passport\Client::class, function (Faker\Generator $fake
         'revoked' => 0
     ];
 });
+
+$factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
+    $classesNames = collect([
+        App\Models\Practitioner::class,
+        App\Models\Patient::class,
+        App\Models\Admin::class,
+    ]);
+    $classesNames = $classesNames->shuffle();
+
+    $senderClassName = $classesNames->pop();
+    $output['sender_user_id'] = function () use ($senderClassName) {
+            return factory($senderClassName)->create()->user->id;
+        };
+
+    $recipientClassName = $classesNames->pop();
+    $output['recipient_user_id'] = function () use ($recipientClassName) {
+            return factory($recipientClassName)->create()->user->id;
+        };
+    $output['message'] = $faker->sentence;
+    $output['is_admin'] = App\Models\Admin::class == $senderClassName;
+
+    return $output;
+});
