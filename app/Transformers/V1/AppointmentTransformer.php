@@ -10,7 +10,7 @@ class AppointmentTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'patient', 'practitioner'
     ];
-    
+
     /**
      * @param Appointment $appointment
      * @return array
@@ -18,15 +18,16 @@ class AppointmentTransformer extends TransformerAbstract
     public function transform(Appointment $appointment)
     {
         return [
+            'appointment_at' => $appointment->appointment_at,
             'id' => $appointment->id,
             'patient_id' => $appointment->patient_id,
             'practitioner_id' => $appointment->practitioner_id,
             'practitioner_name' => $appointment->practitioner->user->fullName(),
-            'appointment_at' => $appointment->appointment_at,
-            'reason_for_visit' => $appointment->reason_for_visit
+            'reason_for_visit' => $appointment->reason_for_visit,
+            'status' => $appointment->status,
         ];
     }
-    
+
     /**
      * @param Appointment $appointment
      * @return mixed
@@ -39,7 +40,7 @@ class AppointmentTransformer extends TransformerAbstract
             new PatientTransformer()
         )->setResourceKey('patients');
     }
-    
+
     /**
      * @param Appointment $appointment
      * @return mixed

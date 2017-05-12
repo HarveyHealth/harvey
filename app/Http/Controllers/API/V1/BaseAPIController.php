@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
 use League\Fractal\Serializer\JsonApiSerializer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Spatie\Fractal\Fractal;
 use \ResponseCode;
 
@@ -49,39 +50,37 @@ class BaseAPIController extends Controller
     }
 
 
-    protected function respondWithError(ApiProblem $apiproblem)
+    protected function respondWithError($message, $title = 'Internal Server Error', $code = ResponseCode::HTTP_INTERNAL_SERVER_ERROR)
     {
-        return response()->apiproblem($apiproblem->asArray(), $this->getStatusCode());
+        $this->setStatusCode($code);
+
+        $problem = new ApiProblem();
+        $problem->setTitle($title);
+        $problem->setDetail($message);
+
+        return response()->apiproblem($problem->asArray(), $this->getStatusCode());
     }
 
-    public function respondBadRequest(ApiProblem $problem)
+    public function respondBadRequest($message)
     {
-        $problem->setTitle("Bad Request.");
-        return $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Bad Request.', ResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function respondNotAuthorized(ApiProblem $problem)
+    public function respondNotAuthorized($message)
     {
-        $problem->setTitle("Unauthorized Access.");
-        return $this->setStatusCode(ResponseCode::HTTP_UNAUTHORIZED)
-                ->respondWithError($problem);
+        return $this->respondWithError($message, 'Unauthorized Access.', ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function respondNotFound(ApiProblem $problem)
+    public function respondNotFound($message)
     {
-        $problem->setTitle("Not Found.");
-        return $this->setStatusCode(ResponseCode::HTTP_NOT_FOUND)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Not Found.', ResponseCode::HTTP_NOT_FOUND);
     }
 
-    public function respondUnprocessable(ApiProblem $problem)
+    public function respondUnprocessable($message)
     {
-        $problem->setTitle("Unprocessable Entity.");
-        return $this->setStatusCode(ResponseCode::HTTP_UNPROCESSABLE_ENTITY)
-            ->respondWithError($problem);
+        return $this->respondWithError($message, 'Unprocessable Entity.', ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
     }
-    
+
     /**
      * @param      $item
      * @param      $include
@@ -96,19 +95,40 @@ class BaseAPIController extends Controller
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }
-    
+
     /**
      * @param      $collection
      * @param      $include
      * @param null $transformer
-     * @return Fractal
+     * @param \League\Fractal\Pagination\IlluminatePaginatorAdapter $paginator
+     * @return \Spatie\Fractal\Fractal
      */
-    public function baseTransformCollection($collection, $include = null, $transformer = null)
+    public function baseTransformCollection($collection, $include = null, $transformer = null, IlluminatePaginatorAdapter $paginator = null)
     {
-        return fractal()->collection($collection)
+        $output = fractal()->collection($collection)
             ->parseIncludes($include)
             ->withResourceName($this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
+
+        return $paginator ? $output->paginateWith($paginator) : $output;
+    }
+
+    /**
+     * @param  $builder
+     * @param  $include
+     * @param  $transformer
+     * @param  $itemsPerPage
+     * @return \Spatie\Fractal\Fractal
+     */
+    public function baseTransformBuilder($builder, $include = null, $transformer = null, $itemsPerPage = null)
+    {
+        if (is_numeric($itemsPerPage)) {
+            $paginator = $builder->paginate((int) $itemsPerPage);
+            $paginator->appends(array_diff_key(request()->all(), array_flip(['page'])));
+            $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
+        }
+
+        return $this->baseTransformCollection($builder->get(), $include, $transformer, $paginationAdapter ?? null);
     }
 }
