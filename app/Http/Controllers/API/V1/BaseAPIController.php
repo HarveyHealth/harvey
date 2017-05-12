@@ -107,13 +107,16 @@ class BaseAPIController extends Controller
      */
     public function baseTransformCollection($collection, $include = null, $transformer = null, IlluminatePaginatorAdapter $paginator = null)
     {
-        $output = fractal()->collection($collection)
-            ->parseIncludes($include)
+        if ($paginator) {
+            $output = fractal()->collection($paginator->getPaginator()->items())->paginateWith($paginator);
+        } else {
+            $output = fractal()->collection($collection);
+        }
+
+        return $output->parseIncludes($include)
             ->withResourceName($this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
-
-        return $paginator ? $output->paginateWith($paginator) : $output;
     }
 
     /**
