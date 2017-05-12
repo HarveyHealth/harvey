@@ -8,11 +8,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, Notifiable, Searchable;
+
+    public $asYouType = true;
 
     protected $guarded = ['id', 'enabled', 'password', 'remember_token',
                             'terms_accepted_at', 'phone_verified_at',
@@ -30,6 +33,27 @@ class User extends Authenticatable implements Mailable
         static::addGlobalScope('enabled', function (Builder $builder) {
             $builder->where('enabled', true);
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'full_name' => $this->fullName(),
+        ];
+    }
+
+    public function getUserTypeAttribute()
+    {
+        return $this->userType();
     }
 
     public function patient()
@@ -144,5 +168,23 @@ class User extends Authenticatable implements Mailable
     public function emailVerificationURL()
     {
         return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
+    }
+
+    public function scopeMatching($query, $term) {
+        return $query->where('first_name','LIKE',"%{$term}%")
+        ->orWhere('last_name','LIKE',"%{$term}%")
+        ->orWhere('email','LIKE',"%{$term}%");
+    }
+
+    public function scopePractitioners($query) {
+        return $query->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
+    }
+
+    public function scopePatients($query) {
+        return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
+    }
+
+    public function scopeAdmins($query) {
+        return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
 }

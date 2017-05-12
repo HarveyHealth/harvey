@@ -7,7 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
-use \Validator;
+use Validator;
 
 class UsersController extends BaseAPIController
 {
@@ -21,6 +21,39 @@ class UsersController extends BaseAPIController
     {
         parent::__construct();
         $this->transformer = $transformer;
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        if (auth()->user()->isAdmin()) {
+            $term = request('term');
+            $type = request('type');
+            $indexed = request('indexed');
+
+            if ($term && !$indexed) {
+                $query = User::matching($term);
+            } elseif ($term) {
+                $query = User::search($term);
+            } else {
+                $query = User::make();
+            }
+
+            if (in_array($type, ['patient', 'practitioner', 'admin'])) {
+                $typePlural = str_plural($type);
+                // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
+                $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
+            }
+
+            return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        }
+
+        $problem = new ApiProblem();
+        $problem->setDetail('You are not authorized to access this resource.');
+
+        return $this->respondNotAuthorized($problem);
     }
 
     public function create(Request $request)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
 use League\Fractal\Serializer\JsonApiSerializer;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use Spatie\Fractal\Fractal;
 use \ResponseCode;
 
@@ -79,7 +80,7 @@ class BaseAPIController extends Controller
     {
         return $this->respondWithError($message, 'Unprocessable Entity.', ResponseCode::HTTP_UNPROCESSABLE_ENTITY);
     }
-    
+
     /**
      * @param      $item
      * @param      $include
@@ -94,19 +95,41 @@ class BaseAPIController extends Controller
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }
-    
+
     /**
      * @param      $collection
      * @param      $include
      * @param null $transformer
-     * @return Fractal
+     * @param \League\Fractal\Pagination\IlluminatePaginatorAdapter $paginator
+     * @return \Spatie\Fractal\Fractal
      */
-    public function baseTransformCollection($collection, $include = null, $transformer = null)
+    public function baseTransformCollection($collection, $include = null, $transformer = null, IlluminatePaginatorAdapter $paginator = null)
     {
-        return fractal()->collection($collection)
+        $output = fractal()->collection($collection)
             ->parseIncludes($include)
             ->withResourceName($this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
+
+        return $paginator ? $output->paginateWith($paginator) : $output;
     }
+
+    /**
+     * @param  $builder
+     * @param  $include
+     * @param  $transformer
+     * @param  $itemsPerPage
+     * @return \Spatie\Fractal\Fractal
+     */
+    public function baseTransformBuilder($builder, $include = null, $transformer = null, $itemsPerPage = null)
+    {
+        if (is_numeric($itemsPerPage)) {
+            $paginator = $builder->paginate((int) $itemsPerPage);
+            $paginator->appends(array_diff_key(request()->all(), array_flip(['page'])));
+            $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
+        }
+
+        return $this->baseTransformCollection($builder->get(), $include, $transformer, $paginationAdapter ?? null);
+    }
+
 }
