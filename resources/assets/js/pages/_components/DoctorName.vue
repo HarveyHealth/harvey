@@ -1,17 +1,15 @@
 <template>
   <div :class="classNames">
-    <template v-if="isEditable">
-      <label class="input__label" for="doctor-name">
-        <div>doctor</div>
-      </label>
-      <span v-if="isEditable" class="custom-select">
-        <select @change="selectDoctor($event.target.selectedIndex)">
-          <option
-            v-for="doc in doctorlist"
-            :selected="doc.name === doctorname" >{{ doc.name }}</option>
-        </select>
-      </span>
-    </template>
+    <label v-if="showLabel" class="input__label" for="doctor-name">
+      <div>doctor</div>
+    </label>
+    <span v-if="isEditable" class="custom-select">
+      <select @change="selectDoctor($event.target.selectedIndex)">
+        <option
+          v-for="doc in doctorlist"
+          :selected="doc.name === doctorname" >{{ doc.name }}</option>
+      </select>
+    </span>
     <span v-else class="input__item">{{ chosenDoctor.name }}</span>
     <slot></slot>
   </div>
@@ -26,7 +24,8 @@ export default {
       availability: {},
       dataCollected: false,
       classNames: { 'input__container': true },
-      selected: {}
+      selected: {},
+      showLabel: this.usertype !== 'practitioner' || (this.usertype === 'practitioner' && !this.isEditable)
     }
   },
   computed: {
@@ -64,15 +63,12 @@ export default {
           this.dataCollected = true;
           this.availability = response;
           this.$eventHub.$emit('returnAvailability', response);
-          console.log('initial')
         });
       } else if (this.usertype === 'practitioner' && this.dataCollected) {
         this.$eventHub.$emit('returnAvailability', this.availability);
-        console.log('again')
       } else {
         this.getAvailability(id || this.doctorid, (response) => {
           this.$eventHub.$emit('returnAvailability', response);
-          console.log('not doctor')
         });
       }
     });

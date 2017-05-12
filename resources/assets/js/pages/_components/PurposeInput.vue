@@ -1,8 +1,10 @@
 <template>
   <div :class="classNames">
     <label class="input__label" for="purpose">purpose</label>
-    <span :class="{ charcount:true, iszero:count === 0 }">{{ count }}</span>
+    <span v-if="!past" :class="{ charcount:true, iszero:count === 0 }">{{ count }}</span>
+    <p v-if="past" class="input__item">{{ textValue }}</p>
     <textarea
+      v-else
       class="input--textarea"
       v-model="textValue"
       @input="charCheck()"
@@ -12,7 +14,7 @@
 
 <script>
 export default {
-  props: ['classes', 'purposetext', 'type', 'usertype'],
+  props: ['classes', 'past', 'purposetext', 'type', 'usertype'],
   data() {
     return {
       charLimit: 180,

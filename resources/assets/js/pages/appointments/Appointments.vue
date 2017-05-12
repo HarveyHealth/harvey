@@ -45,7 +45,14 @@
         :type="appointmentModType"
         :usertype="userType"
       />
+      <DayAndTime
+        :availability="doctorAvailability"
+        :date="appointmentData.appointmentDate"
+        :past="appointmentData.pastAppointment"
+        :type="appointmentModType"
+      />
       <PurposeInput
+        :past="appointmentData.pastAppointment"
         :purposetext="appointmentData.appointmentPurpose"
         :type="appointmentModType"
         :usertype="userType"
@@ -59,6 +66,7 @@
 
 <script>
   // Components
+  import DayAndTime from '../_components/DayAndTime.vue';
   import DoctorName from '../_components/DoctorName.vue';
   import Flyout from '../_components/Flyout.vue';
   import Overlay from '../_components/Overlay.vue';
@@ -76,6 +84,7 @@
     name: 'appointments',
     props: ['user', 'patient'],
     components: {
+      DayAndTime,
       DoctorName,
       Flyout,
       Overlay,
@@ -87,12 +96,14 @@
       return {
         _appointmentDetails: [],
         appointmentData: {
+          appointmentDate: '',
           appointmentDay: '',
           appointmentPurpose: '',
           appointmentStatus: '',
           appointmentTime: '',
           doctorId: '',
           doctorName: '',
+          pastAppointment: '',
           patientName: '',
           patientEmail: '',
           patientPhone: ''
@@ -132,7 +143,7 @@
             formatted: {
               'Date': {
                 'value': moment(appt.attributes.appointment_at.date).format('ddd MMM Do'),
-                'width': '10%' },
+                'width': '15%' },
               'Time': {
                 'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
                 'width': '10%' },
@@ -147,11 +158,7 @@
                 'width': '10%' },
               'Purpose': {
                 'value': appt.attributes.reason_for_visit,
-                'width': '30%' },
-              'Rate': {
-                'values': '$150',
-                'width': '10%'
-              }
+                'width': '35%' },
             },
             raw: appt
           }
@@ -181,7 +188,7 @@
       // For right now, we're just adding all appointments. Future iterations will include filters
       // for upcoming and recent appointments
       axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
-        this._appointmentDetails = combineAppointmentDetails(response.data);
+        this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
         this.dataCollected = true;
         // If the user is the practitioner, the doctorList should just include the practitioner
         // To avoid making another call for the practitioner_id, we're just using the appointments list
@@ -212,12 +219,14 @@
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
         this.appointmentModType = 'update';
         this.appointmentData = {
+          appointmentDate: rowData.attributes.appointment_at.date,
           appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
           appointmentPurpose: rowData.attributes.reason_for_visit,
           appointmentStatus: 'Pending', // Still need this from api?
           appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
           doctorId: rowData.attributes.practitioner_id,
           doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
+          pastAppointment: moment().diff(moment(rowData.attributes.appointment_at.date)) > 0,
           patientEmail: rowData.patientData.email,
           patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
           patientPhone: rowData.patientData.phone
@@ -228,13 +237,15 @@
         // from the row click.
         Vue.nextTick(() => {
           this.$eventHub.$emit('setPurposeText');
-          if (!rowIsActive) this.$eventHub.$emit('getDoctorAvailability', );
+          if (!rowIsActive) {
+            this.$eventHub.$emit('getDoctorAvailability');
+            this.$eventHub.$emit('populateAvailableTimes');
+          }
         });
       });
 
-      this.$eventHub.$on('returnAvailability', availability => {
-        this.doctorAvailability = availability;
-        console.log(this.doctorAvailability);
+      this.$eventHub.$on('returnAvailability', response => {
+        this.doctorAvailability = response.meta.availability;
       })
 
     }
