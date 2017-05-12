@@ -6,7 +6,7 @@
            type="text"
            name="patient-name"
            v-model="patient_name" />
-    <span v-else class="input__item">{{ patientName }}</span>
+    <span v-else class="input__item patient-display">{{ patientName }}</span>
     <slot></slot>
   </div>
 </template>

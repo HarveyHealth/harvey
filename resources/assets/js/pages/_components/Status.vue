@@ -20,7 +20,7 @@ export default {
       classNames: { 'input__container': true },
       initialStatus: 'Pending',
       statuses: ['Pending', 'No-Show-Patient', 'No-Show-Doctor',
-                 'General Conflict', 'Canceled', 'Complete']
+                 'General Conflict', 'Cancelled', 'Complete']
     }
   },
   computed: {
