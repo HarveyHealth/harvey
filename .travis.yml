@@ -13,6 +13,7 @@ before_install:
 - npm cache clean
 - npm install
 before_script:
+- touch /home/travis/build/HomeHero/harvey/harvey.sqlite
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction

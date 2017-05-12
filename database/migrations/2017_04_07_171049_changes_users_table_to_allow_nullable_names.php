@@ -14,8 +14,8 @@ class ChangesUsersTableToAllowNullableNames extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->unsigned()->nullable()->change();
-            $table->string('last_name')->unsigned()->nullable()->change();
+            $table->string('first_name')->nullable()->change();
+            $table->string('last_name')->nullable()->change();
         });
     }
 
@@ -26,9 +26,9 @@ class ChangesUsersTableToAllowNullableNames extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('first_name')->unsigned()->nullable(false)->change();
-            $table->string('last_name')->unsigned()->nullable(false)->change();
-        });
+        /**
+         * Re-enforcing non-null fields after null data has been entered, will
+         * cause rollback to fail. Removing to allow for migration refresh.
+        */
     }
 }

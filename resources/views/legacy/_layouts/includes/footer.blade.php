@@ -14,7 +14,7 @@
                 <a href="/" class="nav-item">Home</a>
                 <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="https://blog.goharvey.com" class="nav-item">Blog</a>
-                <a href="https://help.goharvey.com" class="nav-item">Help</a>
+                <a href="http://help.goharvey.com" class="nav-item">Help</a>
                 <a href="/terms" class="nav-item">Terms</a>
                 <a href="/privacy" class="nav-item">Privacy</a>
             </p>
