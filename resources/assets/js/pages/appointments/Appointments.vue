@@ -51,6 +51,12 @@
         :past="appointmentData.pastAppointment"
         :type="appointmentModType"
       />
+      <Status
+        :appointmentstatus="appointmentData.appointmentStatus"
+        :past="appointmentData.pastAppointment"
+        :type="appointmentModType"
+        :usertype="userType"
+      />
       <PurposeInput
         :past="appointmentData.pastAppointment"
         :purposetext="appointmentData.appointmentPurpose"
@@ -72,6 +78,7 @@
   import Overlay from '../_components/Overlay.vue';
   import PatientInput from '../_components/PatientInput.vue';
   import PurposeInput from '../_components/PurposeInput.vue';
+  import Status from '../_components/Status.vue';
   import TableData from '../_components/TableData.vue';
 
   // Helpers
@@ -90,6 +97,7 @@
       Overlay,
       PatientInput,
       PurposeInput,
+      Status,
       TableData
     },
     data() {
@@ -143,7 +151,7 @@
             formatted: {
               'Date': {
                 'value': moment(appt.attributes.appointment_at.date).format('ddd MMM Do'),
-                'width': '15%' },
+                'width': '10%' },
               'Time': {
                 'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
                 'width': '10%' },
@@ -156,9 +164,12 @@
               'Type': {
                 'value': 'ND',
                 'width': '10%' },
+              'Status': {
+                'value': capitalize(appt.attributes.status),
+                'width': '10%' },
               'Purpose': {
                 'value': appt.attributes.reason_for_visit,
-                'width': '35%' },
+                'width': '30%' },
             },
             raw: appt
           }
@@ -222,7 +233,7 @@
           appointmentDate: rowData.attributes.appointment_at.date,
           appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
           appointmentPurpose: rowData.attributes.reason_for_visit,
-          appointmentStatus: 'Pending', // Still need this from api?
+          appointmentStatus: capitalize(rowData.attributes.status),
           appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
           doctorId: rowData.attributes.practitioner_id,
           doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
@@ -231,6 +242,7 @@
           patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
           patientPhone: rowData.patientData.phone
         }
+
         this.$eventHub.$emit('callFlyout', rowIsActive);
         // PurposeInput uses a v-model to calculate character count. In order to populate the
         // textarea, we need to call an event on the next tick after data has been defined

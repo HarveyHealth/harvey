@@ -1,7 +1,7 @@
 <template>
   <div :class="classNames">
     <label class="input__label">
-      <div v-if="past">conducted on</div>
+      <div v-if="past">booked for</div>
       <div v-else-if="type === 'update'">reschedule</div>
       <div v-else-if="type === 'new'">available times</div>
     </label>
