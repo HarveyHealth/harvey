@@ -71,4 +71,18 @@ class Message extends Model
         return $this->sender == $user || $this->recipient == $user;
     }
 
+    /*
+     * Scopes
+     */
+    public function scopeFrom($query, User $user)
+    {
+        $userId = $user ? $user->id : 0;
+        return $query->where('sender_user_id', $userId);
+    }
+
+    public function scopeTo($query, User $user)
+    {
+        $userId = $user ? $user->id : 0;
+        return $query->where('recipient_user_id', $userId);
+    }
 }

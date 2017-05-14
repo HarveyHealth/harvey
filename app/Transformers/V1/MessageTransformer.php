@@ -46,3 +46,4 @@ class MessageTransformer extends TransformerAbstract
     {
         return $this->item($message->recipient, new UserTransformer())->setResourceKey('recipient');
     }
+}
