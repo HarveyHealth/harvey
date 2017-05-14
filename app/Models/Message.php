@@ -65,4 +65,10 @@ class Message extends Model
 
         return $this->save();
     }
+
+    public function canUserRead(User $user)
+    {
+        return $this->sender == $user || $this->recipient == $user;
+    }
+
 }

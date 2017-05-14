@@ -44,5 +44,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
+
+        Route::get('messages', 'MessagesController@index')->name('messages.index');
+        Route::get('messages/{message}', 'MessagesController@show')->name('messages.show');
+        Route::post('messages', 'MessagesController@new')->name('messages.new');
+        Route::delete('messages/{message}', 'messagesController@delete')->name('messages.delete');
     });
 });
