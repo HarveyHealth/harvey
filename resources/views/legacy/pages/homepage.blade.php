@@ -15,7 +15,7 @@
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
                         <h1 class="title is-1">Personalized and integrative medicine, delivered at home.</h1>
-                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We help you reach your optimal levels of health and wellness by focusing on .</p>
+                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We combine the best aspects of Eastern and Western medicine to help you reach your optimal levels of health and holistic wellness.</p>
                         <div class="columns">
                             <div class="column is-5">
                                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&controls=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -142,7 +142,7 @@
     <section class="section is-paddingless is-marginless" id="social-feed">
         <ul class="juicer-feed" data-feed-id="goharveyapp" data-per="15"></ul>
         <div class="button-wrapper has-text-centered social-feed">
-            <a href="//www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
+            <a href="//www.instagram.com/goharveyapp" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
                 <img src="/images/home/instagram.png"> Follow Instagram</a>
         </div>
     </section>
@@ -361,14 +361,14 @@
                     <img src="/images/home/empty.png" class="is-opaque-75" alt="">
                     <p class="title is-5 is-marginless-bottom"><strong>Maybe you? Join our team.</strong></p>
                     <em>Looking for Integrative/Naturopathic Doctors</em>
-                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for making holistic health and wellness more accessible to millions of people? We are growing our clinical team at Harvey and would love to meet you!</p>
+                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you!</p>
                     <a href="mailto:support@goharvey.com?Subject=Practitioner%20Inquiry" target="_blank">Get in touch</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="symptoms">
+    <section class="section is-marginless-bottom" id="symptoms">
         <div class="section-wrapper">
             <div class="container content">
                 <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
