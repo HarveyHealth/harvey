@@ -19,6 +19,14 @@ class PractitionerController extends BaseAPIController
         $this->availabilityTransformer = $availabilityTransformer;
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        return $this->baseTransformBuilder(Practitioner::make(), null, $this->transformer, request('per_page'))->respond();
+    }
+
     public function show(Practitioner $practitioner)
     {
         $data = $this->baseTransformItem($practitioner);

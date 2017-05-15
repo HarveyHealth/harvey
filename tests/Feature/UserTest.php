@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Admin;
 use App\Models\User;
 use App\Models\Patient;
 use Faker\Factory as Faker;
@@ -116,4 +117,24 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('patients', ['user_id' => $newUserId]);
     }
 
+    public function test_admin_can_search_users()
+    {
+        $admin = factory(Admin::class)->create();
+        Passport::actingAs($admin->user);
+
+        $response = $this->json('GET', 'api/v1/users');
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $response->assertJsonFragment(['email' => $admin->user->email]);
+    }
+
+    public function test_unprivileged_user_is_not_allowed_to_search_users()
+    {
+        $user = factory(User::class)->create();
+        Passport::actingAs($user);
+
+        $response = $this->json('GET', 'api/v1/users');
+
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertSee('You are not authorized to access this resource.');
+    }
 }

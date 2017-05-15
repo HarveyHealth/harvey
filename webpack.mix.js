@@ -20,10 +20,13 @@ mix.options({processCssUrls: false})
    .js('resources/assets/js/vendors/modernizr-custom.js', 'public/js/vendors')
    .js('resources/assets/js/vendors/intercom.js', 'public/js/vendors')
    .js('resources/assets/js/vendors/typekit.js', 'public/js/vendors')
+   .js('resources/assets/js/vendors/zepto.js', 'public/js/vendors')
+   .js('resources/assets/js/vendors/lity.js', 'public/js/vendors')
    .copy('resources/assets/images', 'public/images', false)
    .sass('resources/assets/scss/application.scss', 'public/css')
    .sass('resources/assets/legacy/sass/pages/legal.scss', 'public/legacy/css')
-   .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css');
+   .sass('resources/assets/legacy/sass/app_public.scss', 'public/legacy/css')
+   .sass('resources/assets/css/vendors/lity.css', 'public/css/vendors');
 
 if (mix.config.inProduction) {
     mix.version();

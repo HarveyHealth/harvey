@@ -39,7 +39,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
         'height_inches' => $faker->numberBetween(0, 12),
@@ -63,7 +65,9 @@ $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
         'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
     ];
 });
@@ -102,7 +106,9 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
     ];
 });
 
