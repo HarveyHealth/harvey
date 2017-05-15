@@ -6,7 +6,7 @@ Vue.use(VeeValidate);
 
 let routes = [
     {
-        path: '/',
+        path: '/wifey',
         name: 'dashboard',
         component: require('./pages/dashboard/Dashboard.vue'),
         children: [
@@ -41,7 +41,6 @@ let routes = [
 ];
 
 let router = new VueRouter({
-    mode: 'history',
     routes,
     linkActiveClass: 'is-active'
 });

@@ -1,4 +1,5 @@
 <template>
+  <div>
     <header class="site-header">
       <div class="container">
         <div class="logo-wrapper">
@@ -12,6 +13,7 @@
       <phone v-if="step === 2" />
       <datetime v-if="step === 3" :availability="practitioner_availability" />
     </form>
+  </div>
 </template>
 
 <script>
