@@ -15,7 +15,7 @@ class TestTransformer extends TransformerAbstract
         return [
             'id' => $test->id,
             'results_key' => $test->tempResultsURL(),
-            'sku_id' => $test->sku_id
+            'sku_id' => (string) $test->sku_id
         ];
     }
 }

@@ -6,7 +6,6 @@ use App\Events\UserRegistered;
 use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -42,7 +41,7 @@ class UsersController extends BaseAPIController
                 $query = User::make();
             }
 
-            if (in_array($type, ['patient', 'practitioner'])) {
+            if (in_array($type, ['patient', 'practitioner', 'admin'])) {
                 $typePlural = str_plural($type);
                 // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
                 $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
@@ -51,10 +50,7 @@ class UsersController extends BaseAPIController
             return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
         }
 
-        $problem = new ApiProblem();
-        $problem->setDetail('You are not authorized to access this resource.');
-
-        return $this->respondNotAuthorized($problem);
+        return $this->respondNotAuthorized('You are not authorized to access this resource.');
     }
 
     public function create(Request $request)
@@ -71,9 +67,7 @@ class UsersController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         try {
@@ -88,9 +82,7 @@ class UsersController extends BaseAPIController
 
             return $this->baseTransformItem($user)->respond();
         } catch (\Exception $exception) {
-            $problem = new ApiProblem();
-            $problem->setDetail($exception->getMessage());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($exception->getMessage());
         }
     }
 
@@ -103,9 +95,7 @@ class UsersController extends BaseAPIController
         if (auth()->user()->can('view', $user)) {
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }
     }
 
@@ -127,9 +117,7 @@ class UsersController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         if (auth()->user()->can('update', $user)) {
@@ -137,9 +125,7 @@ class UsersController extends BaseAPIController
 
             return $this->baseTransformItem($user)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to modify the user with id {$user->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
     }
 }
