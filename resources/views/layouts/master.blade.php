@@ -12,21 +12,20 @@
             <title>Harvey | Personalized integrative medicine</title>
         @endif
 
-        <!-- OG -->
+        <!-- SEO -->
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
         <meta property="og:url" content="https://www.goharvey.com">
         <meta property="og:image" content="https://www.goharvey.org/img/social-share.jpg">
-
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="msapplication-config" content="none"/>
-        <meta name="robots" content="">
-
-        <!-- CSRF TOKEN -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="robots" content="">
+        <meta name="description" content="Harvey is a telehealth provider of personalized and integrative medicine. Consult with functional and naturopathic doctors to find the root cause of chronic health conditions.">
+        <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
 
-        <!-- icons -->
+        <!-- Icons -->
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="/img/icon.jpg">
         <link type="image/x-icon" rel="shortcut icon" href="/img/favicon.ico">
         <link type="image/x-icon" rel="icon" href="/img/favicon.ico">
@@ -34,22 +33,18 @@
         <!-- RSS -->
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
 
-        <meta name="description" content="Harvey is a telehealth provider of personalized and integrative medicine. Consult with functional and naturopathic doctors to find the root cause of chronic health conditions.">
-        <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
+        <!-- Typekit -->
+        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
-        <!-- <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" /> -->
-        <!-- <meta property="fb:app_id" content="383090978468158"> -->
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <!-- Lity -->
+        <link href="{{ mix('css/vendors/lity.css') }}" rel="stylesheet">
+        <script src="{{ mix('js/vendors/zepto.js') }}"></script>
+        <script src="{{ mix('js/vendors/lity.js') }}"></script>
 
         <!-- Styles -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css">
         @stack('stylesheets')
-
-        <!-- Typekit -->
-        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
         @if (App::environment(['production', 'staging']))
             <script type="text/javascript" src="{{ mix('js/vendors/intercom.js') }}"></script>
