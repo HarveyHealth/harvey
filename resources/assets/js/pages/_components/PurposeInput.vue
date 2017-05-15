@@ -1,7 +1,7 @@
 <template>
   <div :class="classNames">
     <label class="input__label" for="purpose">purpose</label>
-    <span v-if="!past" :class="{ charcount:true, iszero:count === 0 }">{{ count }}</span>
+    <span v-if="!past" :class="{ charcount:true, 'input--warning':count === 0 }">{{ count }}</span>
     <p v-if="past" class="input__item">{{ textValue }}</p>
     <textarea
       v-else

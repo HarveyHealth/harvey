@@ -88,10 +88,11 @@
   line-height: 1.4;
   min-height: 7em;
 }
+.input--warning {
+  color: $red;
+}
   .charcount {
     right: 0;
     position: absolute;
-    top: 0;
-
-    &.iszero { color: $red; }
+    top: -0.5em;
   }

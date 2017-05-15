@@ -20,7 +20,14 @@
         <div class="container">
           <h1 class="title header-xlarge">
             Appointments
-            <button href="/schedule" class="button main-action" @click="newAppointmentSetup()">New Appointment</button>
+            <button
+              v-show="patientDataCollected"
+              href="/schedule"
+              class="button main-action"
+              @click="newAppointmentSetup()"
+            >
+              New Appointment
+            </button>
           </h1>
         </div>
       </div>
@@ -31,13 +38,12 @@
       <PatientInput
         :type="appointmentModType"
         :usertype="userType"
+        :patientemail="appointmentData.patientEmail"
+        :patientlist="patientList"
         :patientname="appointmentData.patientName"
+        :patientphone="appointmentData.patientPhone"
         v-model="appointmentData.patientName"
-      >
-        <div><a :href="'mailto:' + appointmentData.patientEmail">{{ appointmentData.patientEmail }}</a></div>
-        <div><a :href="'tel:' + appointmentData.patientPhone">{{ appointmentData.patientPhone | formatPhone }}</a></div>
-      </PatientInput>
-      <!-- doctorlist needs api call? -->
+      />
       <DoctorName
         :doctorid="appointmentData.doctorId"
         :doctorname="appointmentData.doctorName"
@@ -122,6 +128,8 @@
         doctorAvailability: {},
         // TO-DO: Tate is working on getting this api endpoint for me
         doctorList: [],
+        patientDataCollected: false,
+        patientList: [],
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -181,6 +189,7 @@
         Vue.nextTick(() => {
           this.$eventHub.$emit('setPurposeText');
           this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
+          this.$eventHub.$emit('setPatientInfo');
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
@@ -199,6 +208,9 @@
         return phone(num);
       }
     },
+    // We're making a whole lot of calls here for basic information. Perhaps when we get global state
+    // management in a better spot, we can get role-specific data sets up front so this information
+    // is just always available.
     created() {
       // For right now, we're just adding all appointments. Future iterations will include filters
       // for upcoming and recent appointments
@@ -222,7 +234,19 @@
           this.doctorList = response.data.included.map(dr => {
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
           })
-          // this.doctorList = [{name:'Dr. Twila Block', id: 35}, {name:'Dr. Cierra Grady',id:1}, {name:'Dr. Maria Jacobi', id:26}];
+        })
+      }
+
+      if (this.userType !== 'patient') {
+        axios.get(`${this.$root.apiUrl}/users?type=patient`).then(response => {
+          this.patientList = response.data.data.map(patient => {
+              return {
+                name: `${patient.attributes.first_name} ${patient.attributes.last_name}`,
+                email: patient.attributes.email,
+                phone: patient.attributes.phone
+              }
+          })
+          this.patientDataCollected = true;
         })
       }
     },
@@ -231,7 +255,7 @@
       this.$eventHub.$on('overlayClicked', () => {
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
-        this.doctorAvailability = [];
+        setTimeout(() => this.doctorAvailability = [], 200);
       })
 
       // TableData emits rowClickEvent when a row is selected. It takes the data associated with
