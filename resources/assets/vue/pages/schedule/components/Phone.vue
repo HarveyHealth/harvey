@@ -4,7 +4,7 @@
 
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
-        <li class="signup_progress-step"></li>
+        <li class="signup_progress-step" v-on:click="lastStep"></li>
         <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
       </ul>
@@ -54,9 +54,9 @@
       return {
         title: 'We need a few more details…',
         subtitle: 'Please enter your full name and the phone number you would like your doctor to call at the time of your phone consultation.',
-        firstname: '',
-        lastname: '',
-        phone: '',
+        firstname: this.$root.$data.schedule.firstname || '',
+        lastname: this.$root.$data.schedule.lastname || '',
+        phone: this.$root.$data.schedule.phone || '',
         animClasses: {
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,
@@ -66,26 +66,13 @@
     },
     methods: {
       nextStep() {
-
         this.$validator.validateAll().then(() => {
-
-          // update the User
-          const userId = Laravel.user.id;
-
-          axios.patch(`api/v1/users/${userId}`, {
-            first_name: this.firstname,
-            last_name: this.lastname,
-            phone: this.phone,
-          })
-          .then(response => {
-            this.$parent.next();
-          })
-          .catch(error => {
-            this.responseErrors = error.response.data.errors;
-          });
-
+          this.$parent.next();
         }).catch(() => {});
       },
+      lastStep() {
+        this.$parent.previous();
+      }
     },
     name: 'Phone',
     mounted() {

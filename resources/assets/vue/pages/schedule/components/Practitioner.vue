@@ -93,7 +93,7 @@
       return {
         title: 'Choose your physician',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
-        practitioner: '',
+        practitioner: this.$root.$data.schedule.practitioner || '',
         animClasses: {
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,

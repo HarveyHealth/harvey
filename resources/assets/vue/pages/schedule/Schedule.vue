@@ -29,7 +29,7 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-        step: 0,
+        step: this.$root.$data.schedule.step,
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
@@ -43,7 +43,10 @@
     },
     methods: {
       next() {
-        this.step ++; // simply increment the steps to move through the form states
+        this.$root.$data.schedule.step ++; // simply increment the steps to move through the form states
+      },
+      previous() {
+        this.$root.$data.schedule.step --; // simply decrement the steps to move through the form states
       },
       onSubmit() {
 

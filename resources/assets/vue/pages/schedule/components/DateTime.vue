@@ -4,8 +4,8 @@
 
       <!-- progress indicator -->
       <ul class="signup_progress-indicator">
-        <li class="signup_progress-step"></li>
-        <li class="signup_progress-step"></li>
+        <li class="signup_progress-step" v-on:click="firstStep"></li>
+        <li class="signup_progress-step" v-on:click="previousStep"></li>
         <li class="signup_progress-step current"></li>
       </ul>
 
@@ -95,8 +95,8 @@
         minimumNotice: 0,
         duration: 1,
 
-        selectedDate: moment(),
-        selectedTime: moment().add(1, 'hour'), // making sure we can't select the current hour
+        selectedDate: this.$root.$data.schedule.selectedDate || moment(),
+        selectedTime: this.$root.$data.schedule.selectedTime || moment().add(1, 'hour'), // making sure we can't select the current hour
 
         // validation
         dateSelected: false,
@@ -120,7 +120,13 @@
 
         return acceptableTime <= endOfDayTime;
       },
-
+      previousStep() {
+        this.$parent.previous();
+      },
+      firstStep() {
+        this.$parent.previous();
+        this.$parent.previous();
+      },
       getNearestTime(_time, _interval) {
         let minutes = Math.ceil(Math.max(1, _time.minutes()) / _interval) * _interval,
             hours = _time.hours();
