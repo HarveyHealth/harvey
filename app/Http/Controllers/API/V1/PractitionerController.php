@@ -12,10 +12,11 @@ class PractitionerController extends BaseAPIController
 {
     protected $resource_name = 'practitioner';
 
-    public function __construct(PractitionerTransformer $transformer)
+    public function __construct(PractitionerTransformer $transformer, PractitionerAvailabilityTransformer $availabilityTransformer)
     {
         parent::__construct();
         $this->transformer = $transformer;
+        $this->availabilityTransformer = $availabilityTransformer;
     }
 
     /**
@@ -32,7 +33,7 @@ class PractitionerController extends BaseAPIController
 
         if (request()->get('include') == 'availability') {
             $data = $data->addMeta([
-                'availability' => (new PractitionerAvailabilityTransformer())->transform($practitioner)
+                'availability' => $this->availabilityTransformer->transform($practitioner)
             ]);
         }
         return $data->respond();
