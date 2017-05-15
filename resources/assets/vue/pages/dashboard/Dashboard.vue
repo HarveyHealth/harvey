@@ -61,6 +61,7 @@
 
 <script>
   import Appointments from '../appointments/Appointments.vue';
+  import Schedule from '../schedule/Schedule.vue';
   import {capitalize, phone, hyperlink} from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
 
@@ -74,7 +75,8 @@
     },
     props: ['user', 'patient'],
     components: {
-      Appointments
+      Appointments,
+      Schedule
     },
     methods: {
       viewAppointmentPage() {
@@ -101,11 +103,11 @@
       },
     },
     mounted() {
-      this.$http.get('/api/v1/appointments?filter=upcoming')
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
         .then((response) => {
           this.upcoming_appointments = response.data.data;
         });
-      this.$http.get('/api/v1/appointments?filter=recent')
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
         .then((response) => {
           this.recent_appointments = response.data.data;
         });

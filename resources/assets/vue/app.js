@@ -12,6 +12,8 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
+import Schedule from './pages/schedule/Schedule.vue';
+import Dashboard from './pages/dashboard/Dashboard.vue';
 
 
 Vue.filter('datetime', filter_datetime);
@@ -58,7 +60,8 @@ const app = new Vue({
     router,
     mixins: [TopNav],
     components: {
-        Alert
+        Alert,
+        Dashboard
     },
     data: {
         guest: false,
@@ -69,12 +72,12 @@ const app = new Vue({
             test_results:[]
         },
         environment: env,
-        apiUrl: ''
+        apiUrl: '/api/v1'
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
-        this.$http.get('/api/v1/users/' + Laravel.user.id)
+        this.$http.get(this.apiUrl + '/users/' + Laravel.user.id)
             .then( response => {
                 this.global.user = response.data.data;
             } )
