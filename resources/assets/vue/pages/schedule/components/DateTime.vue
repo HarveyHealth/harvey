@@ -151,11 +151,13 @@
         if (_obj.type === 'date') {
 
           this.selectedDate = _obj.value;
+           this.$root.$data.schedule.selectedDate = _obj.value
           this.dateSelected = true;
 
         } else if(_obj.type === 'time') {
 
           this.selectedTime = _obj.value;
+           this.$root.$data.schedule.selectedTime = _obj.value
           this.timeSelected = true;
 
         }
