@@ -1,9 +1,19 @@
 <template>
-  <form @submit.prevent="onSubmit">
-    <practitioner v-if="step === 1" />
-    <phone v-if="step === 2" />
-    <datetime v-if="step === 3" :availability="practitioner_availability" />
-  </form>
+    <div>
+      <header class="site-header">
+        <div class="container">
+          <div class="logo-wrapper">
+            <router-link to="/" alt="Home"><svg class="harvey-logo"></svg></router-link>
+          </div>
+          <span class="header_phone-number">(800) 690-9989</span>
+        </div>
+      </header>
+      <form @submit.prevent="onSubmit">
+        <practitioner v-if="step === 1" />
+        <phone v-if="step === 2" />
+        <datetime v-if="step === 3" :availability="practitioner_availability" />
+      </form>
+    </div>
 </template>
 
 <script>

@@ -21,7 +21,7 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">{{ dashboardTitle }}
-          <a href="/schedule" class="button main-action">New Appointment</a></h1>
+          <router-link to="schedule" class="button main-action">New Appointment</router-link></h1>
         </div>
       </div>
       <div class="card-wrapper">
