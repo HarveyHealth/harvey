@@ -6,6 +6,7 @@
       <div v-else-if="type === 'new'">available times</div>
     </label>
     <span v-if="past" class="input__item">{{ conductedOn }}</span>
+    <span v-else-if="noneAvailable" class="input--warning">No available slots</span>
     <template v-else>
       <span class="custom-select">
         <select @change="selectedDay = $event.target.value">
@@ -48,7 +49,10 @@ export default {
     },
     conductedOn() {
       return this.past ? moment(this.date).format('dddd, MMMM Do [at] h:mm a') : false;
-    }
+    },
+    noneAvailable() {
+      return !Object.keys(this.availableDays).length;
+    },
   },
   methods: {
     getCurrentWeeks() {
@@ -105,6 +109,6 @@ export default {
     return this.classes
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
-  },
+  }
 }
 </script>
