@@ -95,12 +95,12 @@
         minimumNotice: 0,
         duration: 1,
 
-        selectedDate: this.$root.$data.schedule.selectedDate || moment(),
-        selectedTime: this.$root.$data.schedule.selectedTime || moment().add(1, 'hour'), // making sure we can't select the current hour
+        selectedDate: this.$parent.selectedDate || moment(),
+        selectedTime: this.$parent.selectedTime || moment().add(1, 'hour'), // making sure we can't select the current hour
 
         // validation
-        dateSelected: this.$root.$data.schedule.selectedDateBool,
-        timeSelected: this.$root.$data.schedule.selectedTimeBool,
+        dateSelected: this.$parent.selectedDateBool,
+        timeSelected: this.$parent.selectedTimeBool,
 
         animClasses: {
           'anim-fade-slideup': true,
@@ -121,13 +121,13 @@
         return acceptableTime <= endOfDayTime;
       },
       previousStep() {
-        this.$root.$data.schedule.selectedDate = this.selectedDate
-        this.$root.$data.schedule.selectedTime = this.selectedTime
+        this.$parent.selectedDate = this.selectedDate
+        this.$parent.selectedTime = this.selectedTime
         this.$parent.previous();
       },
       firstStep() {
-        this.$root.$data.schedule.selectedDate = this.selectedDate
-        this.$root.$data.schedule.selectedTime = this.selectedTime
+        this.$parent.selectedDate = this.selectedDate
+        this.$parent.selectedTime = this.selectedTime
         this.$parent.previous();
         this.$parent.previous();
       },
@@ -151,16 +151,16 @@
         if (_obj.type === 'date') {
 
           this.selectedDate = _obj.value;
-          this.$root.$data.schedule.selectedDate = _obj.value
+          this.$parent.selectedDate = _obj.value
           this.dateSelected = true;
-          this.$root.$data.schedule.selectedDateBool = true;
+          this.$parent.selectedDateBool = true;
 
         } else if(_obj.type === 'time') {
 
           this.selectedTime = _obj.value;
-           this.$root.$data.schedule.selectedTime = _obj.value
+           this.$parent.selectedTime = _obj.value
           this.timeSelected = true;
-          this.$root.$data.schedule.selectedTimeBool = true;
+          this.$parent.selectedTimeBool = true;
 
         }
 
@@ -173,6 +173,8 @@
             minute: this.selectedTime.minute(),
           },
         );
+
+
 
         // this should be UTC
 

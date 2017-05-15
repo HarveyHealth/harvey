@@ -93,7 +93,7 @@
       return {
         title: 'Choose your physician',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
-        practitioner: this.$root.$data.schedule.practitioner || '',
+        practitioner: this.$parent.practitioner || '',
         animClasses: {
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,
@@ -104,7 +104,6 @@
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
-          this.$root.$data.schedule.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
         }).catch(() => {});
       },

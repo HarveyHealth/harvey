@@ -71,18 +71,8 @@ const app = new Vue({
             patients: [],
             test_results:[]
         },
-        schedule: {
-          step: 0,
-          firstname: '',
-          lastname: '',
-          phone: '',
-          practitioner: null,
-          selectedDate: null,
-          selectedTime: null,
-          selectedTimeBool: false,
-          selectedDateBool: false
-        },
         environment: env,
+        appointmentData: null,
         apiUrl: '/api/v1'
     },
     mounted() {

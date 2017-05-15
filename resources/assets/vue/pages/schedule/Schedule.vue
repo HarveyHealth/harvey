@@ -29,10 +29,17 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-        step: this.$root.$data.schedule.step,
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
+        step: 0,
+        firstname: '',
+        lastname: '',
+        phone: '',
+        selectedDate: null,
+        selectedTime: null,
+        selectedTimeBool: false,
+        selectedDateBool: false,
         env: this.$root.$data.environment,
       }
     },
@@ -43,17 +50,12 @@
     },
     methods: {
       next() {
-        this.$root.$data.schedule.step ++; // simply increment the steps to move through the form states
         this.step ++; // simply increment the steps to move through the form states
       },
       previous() {
-        this.$root.$data.schedule.step --; // simply decrement the steps to move through the form states
         this.step --; // simply decrement the steps to move through the form states
       },
       onSubmit() {
-
-        // send the appointmentDate up so other components can get to it
-        this.$root.$data.sharedState.appointmentDate = this.appointmentDate;
 
         // build the data for the submission
         const appointmentData = {
@@ -64,7 +66,7 @@
 
         axios.post(`/api/v1/appointments`, appointmentData)
           .then(response => {
-            this.$root.$data.sharedState.appointmentData = response.data;
+            this.$root.$data.appointmentData = response.data;
             this.$router.push('/confirmation');
           })
           .catch(error => {

@@ -54,9 +54,9 @@
       return {
         title: 'We need a few more details…',
         subtitle: 'Please enter your full name and the phone number you would like your doctor to call at the time of your phone consultation.',
-        firstname: this.$root.$data.schedule.firstname || '',
-        lastname: this.$root.$data.schedule.lastname || '',
-        phone: this.$root.$data.schedule.phone || '',
+        firstname: this.$parent.firstname || '',
+        lastname: this.$parent.lastname || '',
+        phone: this.$parent.phone || '',
         animClasses: {
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,
@@ -67,16 +67,16 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
-          this.$root.$data.schedule.firstname = this.firstname
-          this.$root.$data.schedule.lastname = this.lastname
-          this.$root.$data.schedule.phone = this.phone
+          this.$parent.firstname = this.firstname
+          this.$parent.lastname = this.lastname
+          this.$parent.phone = this.phone
           this.$parent.next();
         }).catch(() => {});
       },
       lastStep() {
-        this.$root.$data.schedule.firstname = this.firstname
-        this.$root.$data.schedule.lastname = this.lastname
-        this.$root.$data.schedule.phone = this.phone
+        this.$parent.firstname = this.firstname
+        this.$parent.lastname = this.lastname
+        this.$parent.phone = this.phone
         this.$parent.previous();
       }
     },
