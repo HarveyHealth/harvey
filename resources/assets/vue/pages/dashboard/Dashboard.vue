@@ -1,4 +1,5 @@
 <template>
+<router-view>
     <div class="main-container">
       <div class="nav-bar">
         <nav class="admin-nav">
@@ -21,7 +22,7 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">{{ dashboardTitle }}
-          <router-link to="schedule" class="button main-action">New Appointment</router-link></h1>
+          <router-link to="/schedule" class="button main-action">New Appointment</router-link></h1>
         </div>
       </div>
       <div class="card-wrapper">
@@ -57,6 +58,7 @@
       </div>
     </div>
   </div>
+  </router-view>
 </template>
 
 <script>
@@ -75,8 +77,7 @@
     },
     props: ['user', 'patient'],
     components: {
-      Appointments,
-      Schedule
+      Appointments
     },
     methods: {
       viewAppointmentPage() {
