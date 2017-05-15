@@ -11,21 +11,21 @@ let routes = [
         component: require('./pages/dashboard/Dashboard.vue'),
         children: [
             {
-                path: 'schedule',
-                name: 'schedule',
-                component: require('./pages/schedule/Schedule.vue'),
-                children: [
-                    {
-                        path: 'confirmation',
-                        name: 'confirmation',
-                        component: require('./pages/schedule/Confirmation.vue')
-                    }
-                ]
-            },
-            {
                 path: '/new-appointment',
                 name: 'new-appointment',
                 component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
+            }
+        ]
+    },
+    {
+        path: '/schedule',
+        name: 'schedule',
+        component: require('./pages/schedule/Schedule.vue'),
+        children: [
+            {
+                path: 'confirmation',
+                name: 'confirmation',
+                component: require('./pages/schedule/Confirmation.vue')
             }
         ]
     },

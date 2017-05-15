@@ -121,9 +121,13 @@
         return acceptableTime <= endOfDayTime;
       },
       previousStep() {
+        this.$root.$data.schedule.selectedDate = this.selectedDate
+        this.$root.$data.schedule.selectedTime = this.selectedTime
         this.$parent.previous();
       },
       firstStep() {
+        this.$root.$data.schedule.selectedDate = this.selectedDate
+        this.$root.$data.schedule.selectedTime = this.selectedTime
         this.$parent.previous();
         this.$parent.previous();
       },

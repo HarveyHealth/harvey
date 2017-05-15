@@ -67,10 +67,16 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
+          this.$root.$data.schedule.firstname = this.firstname
+          this.$root.$data.schedule.lastname = this.lastname
+          this.$root.$data.schedule.phone = this.phone
           this.$parent.next();
         }).catch(() => {});
       },
       lastStep() {
+        this.$root.$data.schedule.firstname = this.firstname
+        this.$root.$data.schedule.lastname = this.lastname
+        this.$root.$data.schedule.phone = this.phone
         this.$parent.previous();
       }
     },

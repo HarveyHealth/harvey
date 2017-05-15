@@ -44,9 +44,11 @@
     methods: {
       next() {
         this.$root.$data.schedule.step ++; // simply increment the steps to move through the form states
+        this.step ++; // simply increment the steps to move through the form states
       },
       previous() {
         this.$root.$data.schedule.step --; // simply decrement the steps to move through the form states
+        this.step --; // simply decrement the steps to move through the form states
       },
       onSubmit() {
 

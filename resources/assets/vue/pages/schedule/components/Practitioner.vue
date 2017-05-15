@@ -104,6 +104,7 @@
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.$parent.practitioner = this.practitioner;
+          this.$root.$data.schedule.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
         }).catch(() => {});
       },

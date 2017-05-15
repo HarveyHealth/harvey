@@ -1,5 +1,4 @@
 <template>
-<router-view>
     <div class="main-container">
       <div class="nav-bar">
         <nav class="admin-nav">
@@ -58,7 +57,6 @@
       </div>
     </div>
   </div>
-  </router-view>
 </template>
 
 <script>
