@@ -1,4 +1,4 @@
-<h3>Upcoming Appointments</h3>
+<!--<h3>Upcoming Appointments</h3>
 @if (count($upcoming_appointments) > 0)
     <table class="table">
         <th>Date</th>
@@ -57,4 +57,4 @@
         </tr>
     @endforeach
 </table>
-@endif
+@endif-->

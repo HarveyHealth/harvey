@@ -44,11 +44,11 @@
             </div>
             <div class="card-content-wrap">
               <h4 class="card-contact-sublabel">Email</h4>
-              <p class="card-contact-info">{{ user.attributes.email }}</p>
+              <p class="card-contact-info">{{ user.email }}</p>
               <h4 class="card-contact-sublabel">Zip</h4>
-              <p class="card-contact-info">{{ user.attributes.zip }}</p>
+              <p class="card-contact-info">{{ user.zip }}</p>
               <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ user.attributes.phone }}</p>
+              <p class="card-contact-info">{{ user.phone }}</p>
               <h4 class="card-contact-sublabel">ID</h4>
               <p class="card-contact-info">#{{ user.id }}</p>
             </div>
@@ -86,7 +86,7 @@
           if(this.user.attributes === undefined) {
               return 'Harvey Client';
           } else {
-              return this.user.attributes.first_name;
+              return this.user.first_name;
           }
       },
       dashboardTitle() {
@@ -97,7 +97,7 @@
         }
       },
       userType() {
-        return this.user.attributes ? this.user.attributes.user_type : null;
+        return this.user ? this.user.user_type : null;
       },
     },
     mounted() {
