@@ -19,7 +19,7 @@
             enter-active-class="animated animated-fast fadeIn"
             leave-active-class="animated animated-fast fadeOut"
         >
-            <router-view :user="user"></router-view>
+            <router-view :user="global.user"></router-view>
         </transition>
 
       </div>
@@ -34,7 +34,7 @@
     </script>
 
     @script(https://js.stripe.com/v2/)
-    <script type="text/javascript" src="{{ mix('js/dashboard/main.js') }}"></script>
+    <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
     @stack('scripts')
 @stop
