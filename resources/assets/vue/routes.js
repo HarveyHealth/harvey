@@ -6,7 +6,7 @@ Vue.use(VeeValidate);
 
 let routes = [
     {
-        path: '/wifey',
+        path: '/',
         name: 'dashboard',
         component: require('./pages/dashboard/Dashboard.vue'),
         children: [

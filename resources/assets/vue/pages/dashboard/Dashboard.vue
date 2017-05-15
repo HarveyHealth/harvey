@@ -83,7 +83,7 @@
     },
     computed: {
       displayName() {
-          if(this.user.attributes === undefined) {
+          if(this.user === undefined) {
               return 'Harvey Client';
           } else {
               return this.user.first_name;
@@ -101,11 +101,11 @@
       },
     },
     mounted() {
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
+      this.$http.get('/api/v1/appointments?filter=upcoming')
         .then((response) => {
           this.upcoming_appointments = response.data.data;
         });
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
+      this.$http.get('/api/v1/appointments?filter=recent')
         .then((response) => {
           this.recent_appointments = response.data.data;
         });

@@ -69,12 +69,12 @@ const app = new Vue({
             test_results:[]
         },
         environment: env,
-        apiUrl: '/api/alpha'
+        apiUrl: ''
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
-        this.$http.get(this.apiUrl + '/users/' + Laravel.user.id)
+        this.$http.get('/api/v1/users/' + Laravel.user.id)
             .then( response => {
                 this.global.user = response.data.data;
             } )

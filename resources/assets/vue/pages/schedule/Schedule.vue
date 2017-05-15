@@ -57,7 +57,7 @@
           practitioner_id: this.practitioner,
         }
 
-        axios.post(`api/v1/appointments`, appointmentData)
+        axios.post(`/api/v1/appointments`, appointmentData)
           .then(response => {
             this.$root.$data.sharedState.appointmentData = response.data;
             this.$router.push('/confirmation');
