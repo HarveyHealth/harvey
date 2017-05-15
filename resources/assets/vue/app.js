@@ -78,7 +78,9 @@ const app = new Vue({
           phone: '',
           practitioner: null,
           selectedDate: null,
-          selectedTime: null
+          selectedTime: null,
+          selectedTimeBool: false,
+          selectedDateBool: false
         },
         environment: env,
         apiUrl: '/api/v1'
