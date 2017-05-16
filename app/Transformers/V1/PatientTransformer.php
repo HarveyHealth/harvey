@@ -10,7 +10,7 @@ class PatientTransformer extends TransformerAbstract
     protected $availableIncludes = [
         'user',
     ];
-    
+
     /**
      * @param Patient $patient
      * @return array
@@ -18,14 +18,15 @@ class PatientTransformer extends TransformerAbstract
     public function transform(Patient $patient)
     {
         return [
-            'id' => $patient->id,
-            'user_id' => $patient->user_id,
             'birthdate' => $patient->birthdate,
             'height_feet' => $patient->height_feet,
             'height_inches' => $patient->height_inches,
+            'id' => $patient->id,
+            'name' => $patient->user->fullName(),
+            'user_id' => $patient->user_id,
         ];
     }
-    
+
     /**
      * @param Patient $patient
      * @return mixed
@@ -38,7 +39,7 @@ class PatientTransformer extends TransformerAbstract
             new UserTransformer()
         )->setResourceKey('users');
     }
-    
+
     /**
      * @param Patient $patient
      * @return mixed
