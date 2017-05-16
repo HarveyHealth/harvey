@@ -18,14 +18,14 @@
     top: 0;
   }
     .admin-nav-link {
-      display: inline-block;
+      background-color: $white;
+      border-bottom: 1px solid $color--grey;
+      color: lighten($harvey-secondary, 20%);
+      display: block;
       height: 60px;
       position: relative;
       width: 60px;
-
-      &.dashboard {
-        background-color: $purple;
-      }
+      
         .icon {
           left: 50%;
           position: absolute;

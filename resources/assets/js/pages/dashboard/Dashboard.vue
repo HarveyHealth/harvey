@@ -1,27 +1,12 @@
 <template>
-    <div class="main-container">
-      <div class="nav-bar">
-        <nav class="admin-nav">
-          <a class="admin-nav-link dashboard" href="#">
-            <svg class="icon icon-person"><use xlink:href="#person" /></svg>
-          </a>
-        </nav>
-        <a href="/logout" class="nav-bar-logout" title="Logout">
-          <svg><use xlink:href="#logout"/></svg>
-        </a>
-        <a href="#" class="nav-bar-account">
-          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-        </a>
-      </nav>
-      <a href="#" class="nav-bar-account">
-        <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-      </a>
-    </div>
+  <div class="main-container">
+
+    <UserNav />
+
     <div class="main-content">
       <div class="main-header">
         <div class="container">
-          <h1 class="title header-xlarge">{{ dashboardTitle }}
-          <a href="/schedule" class="button main-action">New Appointment</a></h1>
+          <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
       <div class="card-wrapper">
@@ -63,6 +48,8 @@
 
 <script>
   import Appointments from '../../appointments/Appointments.vue';
+  import UserNav from '../_components/UserNav.vue';
+
   import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
 
@@ -78,6 +65,7 @@
     props: ['user', 'patient'],
     components: {
       Appointments,
+      UserNav,
     },
     methods: {
       viewAppointmentPage() {

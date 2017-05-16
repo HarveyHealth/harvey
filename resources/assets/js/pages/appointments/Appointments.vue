@@ -1,19 +1,7 @@
 <template>
   <div class="main-container">
 
-    <div class="nav-bar">
-      <nav class="admin-nav">
-        <a class="admin-nav-link dashboard" href="#">
-          <svg class="icon icon-person"><use xlink:href="#person" /></svg>
-        </a>
-        <a href="/logout" class="nav-bar-logout" title="Logout">
-          <svg><use xlink:href="#logout"/></svg>
-        </a>
-        <a href="#" class="nav-bar-account">
-          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-        </a>
-      </nav>
-    </div>
+    <UserNav />
 
     <div class="main-content">
       <div class="main-header">
@@ -106,6 +94,7 @@
   import PurposeInput from '../_components/PurposeInput.vue';
   import Status from '../_components/Status.vue';
   import TableData from '../_components/TableData.vue';
+  import UserNav from '../_components/UserNav.vue';
 
   // Helpers
   import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
@@ -125,7 +114,8 @@
       PatientInput,
       PurposeInput,
       Status,
-      TableData
+      TableData,
+      UserNav,
     },
     data() {
       return {

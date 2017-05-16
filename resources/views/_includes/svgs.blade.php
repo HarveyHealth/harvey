@@ -13,13 +13,24 @@
   </symbol>
 
   <symbol id="person" viewBox="0 0 18 18">
-    <path d="M8.5 9C6.015 9 4 6.985 4 4.5S6.015 0 8.5 0 13 2.015 13 4.5 10.985 9 8.5 9zM0 14.75c0-1.105.844-2.297 1.892-2.622C1.892 12.128 4.5 11 9 11s7.108 1.128 7.108 1.128C17.153 12.472 18 13.64 18 14.75V16c0 1.105-.893 2-1.995 2H1.995C.893 18 0 17.11 0 16v-1.25z" fill="#FFF" fill-rule="evenodd"/>
+    <path d="M8.5 9C6.015 9 4 6.985 4 4.5S6.015 0 8.5 0 13 2.015 13 4.5 10.985 9 8.5 9zM0 14.75c0-1.105.844-2.297 1.892-2.622C1.892 12.128 4.5 11 9 11s7.108 1.128 7.108 1.128C17.153 12.472 18 13.64 18 14.75V16c0 1.105-.893 2-1.995 2H1.995C.893 18 0 17.11 0 16v-1.25z" fill="currentColor" fill-rule="evenodd"/>
   </symbol>
 
   <symbol id="small-person" viewBox="0 0 30 30">
     <g fill="none" fill-rule="evenodd"><circle fill="#BAA7B5" cx="15" cy="15" r="15"/>
       <path d="M15 15c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm-6 4.257c0-1.11.844-2.316 1.9-2.64 0 0 1.1-.617 4.1-.617 3 0 4.1.618 4.1.618 1.05.35 1.9 1.52 1.9 2.64v-.265c0 1.11-.902 2.007-2.01 2.007h-7.98C9.9 21 9 20.11 9 18.993v.264z" fill="#FFF"/>
     </g>
+  </symbol>
+
+  <symbol id="appointments" viewBox="0 0 20 20">
+      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <g transform="translate(-30.000000, -121.000000)" class="icon-foreground" fill="currentColor">
+              <g transform="translate(30.000000, 121.000000)">
+                  <rect x="10" y="11" width="6" height="5" rx="1"></rect>
+                  <path d="M2,18 L18,18 L18,6 L2,6 L2,18 Z M0,0 L20,0 L20,20 L0,20 L0,0 Z" fill-rule="nonzero"></path>
+              </g>
+          </g>
+      </g>
   </symbol>
 
   <symbol id="logout" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
@@ -31,5 +42,5 @@
       <rect stroke="#E4EAEC" x=".5" y=".5" width="47" height="47" rx="5"/>
     </g>
   </symbol>
-  
+
 </svg>
