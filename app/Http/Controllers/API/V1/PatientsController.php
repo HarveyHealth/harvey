@@ -22,13 +22,28 @@ class PatientsController extends BaseAPIController
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        if (auth()->user()->isAdminOrPractitioner()) {
+            return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
+        }
+
+        $problem = new ApiProblem();
+        $problem->setDetail('You are not authorized to access this resource.');
+
+        return $this->respondNotAuthorized($problem);
+    }
+
+    /**
      * @param Patient $patient
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return $this->baseTransformItem($patient)->respond();
+            return $this->baseTransformItem($patient, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }

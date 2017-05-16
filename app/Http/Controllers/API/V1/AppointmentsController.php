@@ -4,10 +4,12 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
+use App\Models\Patient;
 use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
-use \ResponseCode;
-use \Validator;
+use Carbon;
+use ResponseCode;
+use Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -34,18 +36,11 @@ class AppointmentsController extends BaseAPIController
             $appointments = auth()->user()->appointments();
         }
 
-        if (request('filter') == 'recent') {
-            $appointments = $appointments->recent();
+        if (in_array($filter = request('filter'), ['recent', 'upcoming'])) {
+            $appointments = $appointments->$filter();
         }
 
-        if (request('filter') == 'upcoming') {
-            $appointments = $appointments->upcoming();
-        }
-
-        return $this->baseTransformCollection(
-                $appointments->get(),
-                request()->get('include'))
-                ->respond();
+        return $this->baseTransformCollection($appointments->get(), request()->get('include')) ->respond();
     }
 
     /**
@@ -71,9 +66,10 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'appointment_at' => 'required',
+            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:' . Carbon::now(),
             'reason_for_visit' => 'required',
-            'practitioner_id' => 'required'
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'patient_id' => 'required_if_is_admin|exists:patients,id',
         ]);
 
         if ($validator->fails()) {
@@ -83,7 +79,12 @@ class AppointmentsController extends BaseAPIController
         $appointment = new Appointment($request->all());
 
         if (auth()->user()->can('create', $appointment)) {
-            $patient = auth()->user()->patient;
+            if (auth()->user()->isAdmin()) {
+                $patient = Patient::find($request('patient_id'));
+            } else {
+                $patient = auth()->user()->patient;
+            }
+
             $patient->appointments()->save($appointment);
 
             event(new AppointmentScheduled($appointment));
