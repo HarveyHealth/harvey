@@ -44,8 +44,6 @@ class Appointment extends Model
         self::COMPLETE_STATUS_ID => 'complete',
     ];
 
-    const DEFAULT_STATUS_ID = self::PENDING_STATUS_ID;
-
     /*
      * Relationships
      */
@@ -96,7 +94,10 @@ class Appointment extends Model
 
     public function setStatusAttribute($value)
     {
-        $this->status_id = array_search($value, self::STATUSES) ?: self::DEFAULT_STATUS_ID;
+        if (false !== ($key = array_search($value, self::STATUSES))) {
+            $this->status_id = $key;
+        }
+
         return $value;
     }
 

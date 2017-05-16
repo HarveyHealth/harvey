@@ -54,12 +54,12 @@
         }
       },
 
-      getTimes(_forDay = this.startOfWeek) {
+      getTimes(_forDay = this.startOfWeek, weekNumber = 0) {
 
         const times = [];
         let availableTime = {};
 
-        this.availability[1].map(datetime => {
+        this.availability[weekNumber].map(datetime => {
           availableTime = moment.utc(datetime.time, 'HH:mm').local();
           const selectedISOWeekday = moment(datetime.day, 'dddd').isoWeekday();
 
@@ -82,7 +82,7 @@
 
         if (_obj.type === 'date') {
           // regenerate times
-          this.getTimes(_obj.value.isoWeekday());
+          this.getTimes(_obj.value.isoWeekday(), _obj.weekNumber);
         }
       }
     },

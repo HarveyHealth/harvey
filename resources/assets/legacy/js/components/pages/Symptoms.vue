@@ -71,7 +71,7 @@
 
 <style lang="scss">
     .column {
-        padding: 0.75rem 1.5rem;
+        padding: 1.5rem;
     }
     .control-legend {
         margin-bottom: 0;
