@@ -1,35 +1,28 @@
 <template>
-  <div :class="classNames" v-if="usertype !== 'patient'">
-    <label class="input__label" for="patient-name">client</label>
-    <span v-if="type === 'new'" class="custom-select" name="patient-name">
-      <select @change="setPatientInfo($event.target.selectedIndex)" id="patient-selection">
-        <option v-for="patient in patientlist">{{ patient.name }}</option>
+  <div :class="classNames" v-if="isVisible">
+    <label class="input__label" for="patient_name">client</label>
+    <span v-if="isEditable" class="custom-select">
+      <select v-model="selected" @change="updatePatient($event)" name="patient_name">
+        <option v-for="patient in patientlist" :data-id="patient.id">{{ patient.name }}</option>
       </select>
     </span>
-    <span v-else class="input__item patient-display">{{ patientname || patient_name }}</span>
-    <template v-if="type === 'update'">
-      <div><a :href="'mailto:' + patientemail">{{ patientemail }}</a></div>
-      <div><a :href="'tel:' + patientphone">{{ patientphone | formatPhone }}</a></div>
+    <span v-else class="input__item patient-display">{{ selected }}</span>
+    <template v-if="isVisible">
+      <div><a :href="'mailto:' + patientInfo[selectedId].email">{{ patientInfo[selectedId].email }}</a></div>
+      <div><a :href="'tel:' + patientInfo[selectedId].phone">{{ patientInfo[selectedId].phone | formatPhone }}</a></div>
     </template>
-    <template v-else-if="type === 'new'">
-      <div><a :href="'mailto:' + patient_email">{{ patient_email }}</a></div>
-      <div><a :href="'tel:' + patient_phone">{{ patient_phone | formatPhone }}</a></div>
-    </template>
-
   </div>
 </template>
 
 <script>
 import { phone } from '../../filters/textformat.js';
 export default {
-  props: ['classes', 'patientlist', 'patientemail', 'patientname', 'patientphone', 'type', 'usertype', 'value'],
+  props: ['classes', 'patientlist', 'type', 'usertype'],
   data() {
     return {
       classNames: { 'input__container': true },
-      patient_name: '',
-      patient_email: '',
-      patient_phone: '',
-      isEditable: !(this.usertype === 'admin' && this.type === 'new')
+      selected: '',
+      selectedId: '1',
     }
   },
   filters: {
@@ -38,14 +31,29 @@ export default {
     }
   },
   computed: {
-    patientName() {
-      return this.patientname;
+    isVisible() {
+      return this.usertype !== 'patient';
     },
+    isEditable() {
+      return this.type === 'new';
+    },
+    patientInfo() {
+      if (this.patientlist.length) {
+        const info = {};
+        this.patientlist.forEach(patient => {
+          info[patient.id] = { name: patient.name, email: patient.email, phone: patient.phone }
+        })
+        return info;
+      } else {
+        return { '1': { name: '', email: '', phone: '' } }
+      }
+
+    }
   },
   methods: {
-    setPatientInfo(index) {
-      this.patient_email = this.patientlist[index].email;
-      this.patient_phone = this.patientlist[index].phone;
+    updatePatient(e) {
+      this.selectedId = e.target.children[e.target.selectedIndex].dataset.id;
+      this.$eventHub.$emit('updatePatient', this.selectedId, this.selected);
     }
   },
   created() {
@@ -54,9 +62,9 @@ export default {
       : this.classes;
   },
   mounted() {
-    this.$eventHub.$on('setPatientInfo', () => {
-      document.getElementById('patient-selection').value = this.patientlist[0].name;
-      this.setPatientInfo(0);
+    this.$eventHub.$on('setPatient', id => {
+      this.selectedId = id;
+      this.selected = this.patientInfo[id].name;
     })
   }
 }

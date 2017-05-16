@@ -9,16 +9,17 @@
     <span v-else-if="noneAvailable" class="input--warning">No available slots</span>
     <template v-else>
       <span class="custom-select">
-        <select @change="selectedDay = $event.target.value">
-          <option v-for="time, day in availableDays">{{ day }}</option>
+        <select v-model="day" @change="selectDay($event.target.value)" name="appointment_day">
+          <option v-for="t, d in availableDays">{{ d }}</option>
         </select>
       </span>
       <span class="custom-select">
-        <select>
-          <option v-for="time in availableTimes">{{ time | normalTime }}</option>
+        <select v-model="time" @change="selectTime($event.target.selectedIndex)" name="appointment_time">
+          <option v-for="t in availableTimes">{{ normalTime(t) }}</option>
         </select>
       </span>
     </template>
+    {{ dateEventSend }}
   </div>
 </template>
 
@@ -33,19 +34,21 @@ export default {
       currentWeeks: this.getCurrentWeeks(),
       times: [],
       selectedDay: '',
-    }
-  },
-  filters: {
-    normalTime(time) {
-      return moment(time, 'HH:mm').format('h:mm a');
+      day: '',
+      timeIndex: 0,
+      time: ''
     }
   },
   computed: {
     availableDays() {
-      return this.parseAvailability(this.availability);
+      const days = this.parseAvailability(this.availability);
+      this.day = Object.keys(days)[0];
+      return days;
     },
     availableTimes() {
-      return this.availableDays[this.selectedDay];
+      const times = this.availableDays[this.selectedDay];
+      this.time = this.normalTime(times[0]);
+      return times;
     },
     conductedOn() {
       return this.past ? moment(this.date).format('dddd, MMMM Do [at] h:mm a') : false;
@@ -53,26 +56,50 @@ export default {
     noneAvailable() {
       return !Object.keys(this.availableDays).length;
     },
+    dateEventSend() {
+      if (this.day && this.time) {
+        this.$eventHub.$emit('updateDayTime', this.availableDays[this.day][this.timeIndex]);
+      }
+      return '';
+    }
   },
   methods: {
+    normalTime(time) {
+      return moment(time, 'HH:mm').format('h:mm a');
+    },
+    selectDay(value) {
+      this.selectedDay = value;
+    },
+    selectTime(index) {
+      this.timeIndex = index;
+    },
     getCurrentWeeks() {
       const weekStart = moment().startOf('week').add(1, 'days');
-      let week1 = {};
-      week1.Monday = weekStart.format('dddd, MMMM Do');
-      week1.Tuesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week1.Wednesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week1.Thursday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week1.Friday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week1.Saturday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      let week2 = {};
-      week2.Monday = weekStart.add(2, 'days').format('dddd, MMMM Do');
-      week2.Tuesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week2.Wednesday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week2.Thursday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week2.Friday = weekStart.add(1, 'days').format('dddd, MMMM Do');
-      week2.Saturday = weekStart.add(1, 'days').format('dddd, MMMM Do');
+      let week1 = {}, week2 = {};
+      let week1b = {}, week2b = {};
 
-      return { week1: week1, week2: week2 };
+      week1.Monday = weekStart.format('YYYY-MM-DD hh:mm:ss');
+      week1.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week1.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week1.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week1.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week1.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+
+      week2.Monday = weekStart.add(2, 'days').format('YYYY-MM-DD');
+      week2.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week2.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week2.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week2.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+      week2.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
+
+      for (let day in week1) {
+        week1b[day] = { raw: week1[day], formatted: moment(week1[day]).format('dddd, MMMM Do') }
+      }
+      for (let day in week2) {
+        week2b[day] = { raw: week2[day], formatted: moment(week2[day]).format('dddd, MMMM Do') }
+      }
+
+      return { week1: week1b, week2: week2b };
     },
     transformTimeData(times, weeks) {
       const output = {};
@@ -80,7 +107,7 @@ export default {
         .map(obj => obj.day)
         .filter((day, i, arr) => arr.indexOf(day) === i)
         .forEach(day => {
-          output[day] = { display: weeks[day], time: [] };
+          output[day] = { formatted: { display: weeks[day].formatted, time: [] }, raw: weeks[day].raw };
         });
       return output;
     },
@@ -91,24 +118,28 @@ export default {
       const week1 = this.transformTimeData(times[0], this.currentWeeks.week1);
       const week2 = this.transformTimeData(times[1], this.currentWeeks.week2);
 
-      times[0].forEach(obj => week1[obj.day].time.push(obj.time));
-      times[1].forEach(obj => week2[obj.day].time.push(obj.time));
+      times[0].forEach(obj => {
+        week1[obj.day].formatted.time.push(moment(`${week1[obj.day].raw} ${obj.time}:00`))
+      });
+      times[1].forEach(obj => {
+        week2[obj.day].formatted.time.push(moment(`${week2[obj.day].raw} ${obj.time}:00`))
+      });
 
       for (let day in week1) {
-        parsedTimes[week1[day].display] = week1[day].time;
+        parsedTimes[week1[day].formatted.display] = week1[day].formatted.time;
       }
       for (let day in week2) {
-        parsedTimes[week2[day].display] = week2[day].time;
+        parsedTimes[week2[day].formatted.display] = week2[day].formatted.time;
       }
 
       this.selectedDay = Object.keys(parsedTimes)[0];
       return parsedTimes;
-    }
+    },
   },
   created() {
     return this.classes
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
-  }
+  },
 }
 </script>

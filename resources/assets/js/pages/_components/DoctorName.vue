@@ -40,6 +40,7 @@ export default {
     selectDoctor(selection) {
       this.selected = this.doctorlist[selection];
       this.getAvailability(this.selected.id, (response) => {
+        this.$eventHub.$emit('updateDoctor', this.selected.id);
         this.$eventHub.$emit('returnAvailability', response);
       });
     },

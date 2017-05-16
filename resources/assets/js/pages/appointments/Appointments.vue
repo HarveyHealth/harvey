@@ -36,13 +36,9 @@
 
     <Flyout>
       <PatientInput
+        :patientlist="patientList"
         :type="appointmentModType"
         :usertype="userType"
-        :patientemail="appointmentData.patientEmail"
-        :patientlist="patientList"
-        :patientname="appointmentData.patientName"
-        :patientphone="appointmentData.patientPhone"
-        v-model="appointmentData.patientName"
       />
       <DoctorName
         :doctorid="appointmentData.doctorId"
@@ -58,7 +54,6 @@
         :type="appointmentModType"
       />
       <Status
-        :appointmentstatus="appointmentData.appointmentStatus"
         :past="appointmentData.pastAppointment"
         :type="appointmentModType"
         :usertype="userType"
@@ -69,6 +64,10 @@
         :type="appointmentModType"
         :usertype="userType"
       />
+      <button
+        v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+        @click.prevent="setupUpdateAppointment()"
+      >Update Appointment</button>
     </Flyout>
 
     <Overlay />
@@ -110,6 +109,7 @@
       return {
         _appointmentDetails: [],
         appointmentData: {
+          appointmentId: '',
           appointmentDate: '',
           appointmentDay: '',
           appointmentPurpose: '',
@@ -124,9 +124,26 @@
         },
         appointmentModType: null,
         apiParameters: 'include=patient.user',
+        dataForCancel: {
+          id: null,
+        },
+        dataForNew: {
+          appointment_at: null,
+          patient_id: null,
+          practitioner_id: null,
+          reason_for_visit: null,
+          status: null,
+        },
+        dataForUpdate: {
+          appointment_at: null,
+          id: null,
+          patient_id: null,
+          practitioner_id: null,
+          reason_for_visit: null,
+          status: null
+        },
         dataCollected: false,
         doctorAvailability: {},
-        // TO-DO: Tate is working on getting this api endpoint for me
         doctorList: [],
         patientDataCollected: false,
         patientList: [],
@@ -164,7 +181,7 @@
                 'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
                 'width': '10%' },
               'Client': {
-                'value': `${capitalize(appt.patientData.first_name)} ${capitalize(appt.patientData.last_name)}`,
+                'value': `${capitalize(appt.patientData.last_name)}, ${capitalize(appt.patientData.first_name)}`,
                 'width': '15%' },
               'Doctor': {
                 'value': `Dr. ${appt.attributes.practitioner_name}`,
@@ -187,7 +204,11 @@
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
         Vue.nextTick(() => {
+          // New logic
+          this.$eventHub.$emit('setPatient', this.patientList[0].id);
+
           this.$eventHub.$emit('setPurposeText');
+          this.$eventHub.$emit('setStatus', 'pending');
           this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
           this.$eventHub.$emit('setPatientInfo');
           this.$eventHub.$emit('toggleOverlay');
@@ -201,6 +222,9 @@
           output[appt] = '';
         }
         return output;
+      },
+      setupUpdateAppointment() {
+        console.log(this.dataForUpdate);
       }
     },
     filters: {
@@ -238,13 +262,25 @@
       }
 
       if (this.userType !== 'patient') {
-        axios.get(`${this.$root.apiUrl}/users?type=patient`).then(response => {
+        axios.get(`${this.$root.apiUrl}/users?type=patient&include=patient`).then(response => {
           this.patientList = response.data.data.map(patient => {
               return {
-                name: `${patient.attributes.first_name} ${patient.attributes.last_name}`,
+                id: patient.relationships.patient.data.id,
+                name: `${patient.attributes.last_name}, ${patient.attributes.first_name}`,
                 email: patient.attributes.email,
                 phone: patient.attributes.phone
               }
+          // Sort by last name
+          }).sort((a, b) => {
+            const nameA = a.name.replace(/,.+/g, '').toUpperCase();
+            const nameB = b.name.replace(/,.+/g, '').toUpperCase();
+            if (nameA < nameB) {
+              return -1;
+            } else if (nameA > nameB) {
+              return 1
+            } else {
+              return 0;
+            }
           })
           this.patientDataCollected = true;
         })
@@ -263,19 +299,39 @@
       // active. This helps for any toggle events you may need to trigger.
       this.$eventHub.$on('rowClickEvent', (rowData, rowIsActive) => {
         this.appointmentModType = 'update';
-        this.appointmentData = rowIsActive ? this.resetAppointmentData(this.appointmentData) : {
-          appointmentDate: rowData.attributes.appointment_at.date,
-          appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
-          appointmentPurpose: rowData.attributes.reason_for_visit,
-          appointmentStatus: capitalize(rowData.attributes.status),
-          appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
-          doctorId: rowData.attributes.practitioner_id,
-          doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
-          pastAppointment: moment().diff(moment(rowData.attributes.appointment_at.date)) > 0,
-          patientEmail: rowData.patientData.email,
-          patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
-          patientPhone: rowData.patientData.phone
+
+        // Refactored logic
+        // Set flyout component data
+        this.$eventHub.$emit('setStatus', rowData.attributes.status);
+        this.dataForUpdate.status = rowData.attributes.status;
+        this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        // Set initial data for CRUD operations
+        this.dataForUpdate.appointment_at = rowData.attributes.appointment_at.date;
+        this.dataForUpdate.id = rowData.id;
+        this.dataForUpdate.patient_id = rowData.attributes.patient_id;
+        this.dataForUpdate.practitioner_id = rowData.attributes.practitioner_id;
+        this.dataForUpdate.reason_for_visit = rowData.attributes.reason_for_visit;
+        this.dataForUpdate.status = rowData.attributes.status;
+
+        // Old stuff we may not use
+        this.appointmentData = this.resetAppointmentData(this.appointmentData);
+        if (!rowIsActive) {
+          this.appointmentData = {
+            appointmentDate: rowData.attributes.appointment_at.date,
+            appointmentDay: moment(rowData.attributes.appointment_at.date).format('ddd MMM Do'),
+            appointmentPurpose: rowData.attributes.reason_for_visit,
+            appointmentStatus: rowData.attributes.status,
+            appointmentTime: moment(rowData.attributes.appointment_at.date).format('h:mm a'),
+            doctorId: rowData.attributes.practitioner_id,
+            doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
+            pastAppointment: moment().diff(moment(rowData.attributes.appointment_at.date)) > 0,
+            patientEmail: rowData.patientData.email,
+            patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
+            patientPhone: rowData.patientData.phone
+          }
         }
+
+        // console.log(rowData);
 
         this.$eventHub.$emit('callFlyout', rowIsActive);
         // PurposeInput uses a v-model to calculate character count. In order to populate the
@@ -283,6 +339,7 @@
         // from the row click.
         Vue.nextTick(() => {
           this.$eventHub.$emit('setPurposeText');
+
           if (!rowIsActive) {
             this.$eventHub.$emit('getDoctorAvailability');
             this.$eventHub.$emit('populateAvailableTimes');
@@ -291,9 +348,34 @@
           }
         });
       });
-
+      // The Appointments component holds the doctorAvailability data. When a doctor
+      // is selected from the dropdown, it is updated with this event after the api call
+      // response data comes back
       this.$eventHub.$on('returnAvailability', response => {
         this.doctorAvailability = response.meta.availability;
+      })
+
+      this.$eventHub.$on('updatePatient', (id, name) => {
+        this.dataForNew.patient_id = id;
+      })
+
+      this.$eventHub.$on('updateDoctor', id => {
+        this.dataForUpdate.practitioner_id = id;
+        this.dataForNew.practitioner_id = id;
+      })
+
+      this.$eventHub.$on('updateDayTime', timeObj => {
+        this.dataForUpdate.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
+        this.dataForNew.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
+      })
+
+      this.$eventHub.$on('updateStatus', value => {
+        this.dataForUpdate.status = value.replace(/-| /g, '_').toLowerCase();
+      })
+
+      this.$eventHub.$on('updatePurpose', purposeText => {
+        this.dataForUpdate.reason_for_visit = purposeText;
+        this.dataForNew.reason_for_visit = purposeText;
       })
 
     }

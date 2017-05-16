@@ -35,6 +35,7 @@ export default {
       if (this.countIsZero) {
         this.textValue = this.textValue.substring(0, this.charLimit);
       }
+      this.$eventHub.$emit('updatePurpose', this.textValue);
     }
   },
   created() {
