@@ -19,11 +19,11 @@ class PatientTransformer extends TransformerAbstract
     {
         return [
             'birthdate' => $patient->birthdate,
-            'height_feet' => $patient->height_feet,
-            'height_inches' => $patient->height_inches,
-            'id' => $patient->id,
+            'height_feet' => (int) $patient->height_feet,
+            'height_inches' => (int) $patient->height_inches,
+            'id' => (string) $patient->id,
             'name' => $patient->user->fullName(),
-            'user_id' => $patient->user_id,
+            'user_id' => (string) $patient->user_id,
         ];
     }
 

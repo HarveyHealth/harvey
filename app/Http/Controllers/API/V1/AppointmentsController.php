@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Events\AppointmentScheduled;
 use App\Models\Appointment;
 use App\Transformers\V1\AppointmentTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use \ResponseCode;
 use \Validator;
@@ -61,9 +60,7 @@ class AppointmentsController extends BaseAPIController
                     request()->get('include'))
                     ->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the appointment with id {$appointment->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
         }
     }
 
@@ -80,9 +77,7 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         $appointment = new Appointment($request->all());
@@ -95,9 +90,7 @@ class AppointmentsController extends BaseAPIController
 
             return $this->baseTransformItem($appointment->fresh())->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to schedule a new appointment.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to schedule a new appointment.");
         }
     }
 
@@ -113,9 +106,7 @@ class AppointmentsController extends BaseAPIController
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to update this appointment.";
 
-            $problem = new ApiProblem();
-            $problem->setDetail($message);
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized($message);
         }
     }
 
@@ -133,9 +124,7 @@ class AppointmentsController extends BaseAPIController
                     . Appointment::CANCEL_LOCK . " hours of notice."
                 : "You do not have access to cancel this appointment.";
 
-            $problem = new ApiProblem();
-            $problem->setDetail($message);
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized($message);
         }
     }
 }
