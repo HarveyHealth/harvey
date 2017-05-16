@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
 use Illuminate\Http\Request;
-use \Validator;
+use Crell\ApiProblem\ApiProblem;
+use Validator;
 
 class PatientsController extends BaseAPIController
 {
