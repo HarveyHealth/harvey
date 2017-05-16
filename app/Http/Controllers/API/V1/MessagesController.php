@@ -57,4 +57,17 @@ class MessagesController extends BaseAPIController
 
         return $this->respondNotAuthorized('You are not authorized to access this resource.');
     }
+
+    /**
+     * @param Message $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Message $message)
+    {
+        if (auth()->user()->can('view', $message)) {
+            return $this->baseTransformItem($message)->respond();
+        }
+
+        return $this->respondNotAuthorized("You do not have access to view the Message with id {$message->id}.");
+    }
 }
