@@ -85,4 +85,10 @@ class Message extends Model
         $userId = $user ? $user->id : 0;
         return $query->where('recipient_user_id', $userId);
     }
+
+    public function scopeUnread($query, User $user)
+    {
+        return $query->whereNull('read_at');
+    }
+
 }
