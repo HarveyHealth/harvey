@@ -25,7 +25,7 @@
               v-model="practitioner"
               v-validate="'required'"
             />
-            <label class="block" for="naturopathic" style="height: 500px;">
+            <label class="block doctor-label" for="naturopathic">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Naturopathic Doctor</h2>
                 <em class="tip text-centered">Here's an example...</em>
@@ -52,7 +52,7 @@
               value="osteopathy"
               v-model="practitioner"
             />
-            <label class="block" for="osteopathy" style="height: 500px;">
+            <label class="block doctor-label" for="osteopathy">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
                 <em class="tip text-centered">Here's an example...</em>
