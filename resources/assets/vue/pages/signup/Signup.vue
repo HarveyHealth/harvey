@@ -89,7 +89,9 @@
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
-
+              
+              // remove local storage items on sign up
+              // needed if you decide to sign up multiple acounts on one browser
               localStorage.removeItem('sign up zip');
               localStorage.removeItem('sign up email');
               localStorage.removeItem('sign up password');
