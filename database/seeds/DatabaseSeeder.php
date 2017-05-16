@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             $this->command->getOutput()->writeln("<info>Oauth Password Client Name: </info> Postman");
             $this->command->getOutput()->writeln("<info>Oauth Password Client ID: </info> 1");
             $this->command->getOutput()->writeln("<info>Oauth Password Client Secret: </info> bHdnJqfTV7QtKC8JTifFenxBcCW4TlUVXQPk63In");
+
         }
     }
 }
