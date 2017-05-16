@@ -55,6 +55,7 @@
       />
       <Status
         :past="appointmentData.pastAppointment"
+        :statuses="statuses"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -85,12 +86,18 @@
     </Flyout>
 
     <Overlay />
+    <AppointmentModal
+      :affirm="confirmationButton"
+      :affirmEvent="confirmationEvent"
+      :text="confirmationText"
+      :title="confirmationTitle" />
 
   </div>
 </template>
 
 <script>
   // Components
+  import AppointmentModal from '../_components/AppointmentModal.vue';
   import DayAndTime from '../_components/DayAndTime.vue';
   import DoctorName from '../_components/DoctorName.vue';
   import Flyout from '../_components/Flyout.vue';
@@ -110,6 +117,7 @@
     name: 'appointments',
     props: ['user', 'patient'],
     components: {
+      AppointmentModal,
       DayAndTime,
       DoctorName,
       Flyout,
@@ -138,6 +146,10 @@
         },
         appointmentModType: null,
         apiParameters: 'include=patient.user',
+        confirmationButton: '',
+        confirmationEvent: '',
+        confirmationText: '',
+        confirmationTitle: '',
         dataForCancel: {
           id: null,
         },
@@ -161,6 +173,14 @@
         doctorList: [],
         patientDataCollected: false,
         patientList: [],
+        statuses: {
+          'pending': 'Pending',
+          'no_show_patient': 'No-Show-Patient',
+          'no_show_doctor': 'No-Show-Doctor',
+          'general_conflict': 'General Conflict',
+          'canceled': 'Canceled',
+          'complete': 'Complete'
+        },
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -234,6 +254,8 @@
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
 
+          this.appointmentData.patientName = this.patientList[0].name;
+          this.appointmentData.doctorName = this.doctorList[0].name;
           this.dataForNew.patient_id = this.patientList[0].id;
           this.dataForNew.practitioner_id = this.doctorList[0].id;
           this.dataForNew.status = 'pending';
@@ -249,12 +271,60 @@
       },
       setupAppointmentCancel() {
         console.log(JSON.stringify(this.dataForCancel, null, 2));
+        this.confirmationButton = 'Yes, Cancel Appointment';
+        this.confirmationEvent = 'cancelAppointment';
+        this.confirmationTitle = 'Confirm Appointment Cancellation';
+        this.confirmationText = {
+          'Client': this.appointmentData.patientName,
+          'Doctor': this.appointmentData.doctorName,
+          'Booked For': moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
+          'Status': this.statuses[this.dataForUpdate.status],
+          'Purpose': this.dataForUpdate.reason_for_visit
+        };
+        this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
         console.log(JSON.stringify(this.dataForNew, null, 2));
+        this.confirmationButton = 'Yes, Book Appointment';
+        this.confirmationEvent = 'bookAppointment';
+        this.confirmationTitle = 'Confirm Appointment Booking';
+        this.confirmationText = {
+          'Client': this.appointmentData.patientName,
+          'Doctor': this.appointmentData.doctorName,
+          'Booked For': moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
+          'Purpose': this.dataForNew.reason_for_visit
+        };
+        this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
         console.log(JSON.stringify(this.dataForUpdate, null, 2));
+        this.confirmationButton = 'Yes, Update Appointment';
+        this.confirmationEvent = 'updateAppointment';
+        this.confirmationTitle = 'Confirm Appointment Update';
+        this.confirmationText = {
+          'Client': this.appointmentData.patientName,
+          'Doctor': this.appointmentData.doctorName,
+          'Booked For': moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
+          'Status': this.statuses[this.dataForUpdate.status],
+          'Purpose': this.dataForUpdate.reason_for_visit
+        };
+        this.$eventHub.$emit('callAppointmentModal');
+      },
+      getAppointmentData() {
+        // For right now, we're just adding all appointments. Future iterations will include filters
+        // for upcoming and recent appointments
+        axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
+          this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
+          this.dataCollected = true;
+          // If the user is the practitioner, the doctorList should just include the practitioner.
+          // To avoid making another call for the practitioner_id, we're just using the appointments list
+          if (this.userType === 'practitioner') {
+            this.doctorList = [{
+                name: this._appointmentDetails[0].attributes.practitioner_name,
+                id: this._appointmentDetails[0].attributes.practitioner_id
+            }]
+          }
+        })
       }
     },
     filters: {
@@ -266,20 +336,7 @@
     // management in a better spot, we can get role-specific data sets up front so this information
     // is just always available.
     created() {
-      // For right now, we're just adding all appointments. Future iterations will include filters
-      // for upcoming and recent appointments
-      axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
-        this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
-        this.dataCollected = true;
-        // If the user is the practitioner, the doctorList should just include the practitioner.
-        // To avoid making another call for the practitioner_id, we're just using the appointments list
-        if (this.userType === 'practitioner') {
-          this.doctorList = [{
-              name: this._appointmentDetails[0].attributes.practitioner_name,
-              id: this._appointmentDetails[0].attributes.practitioner_id
-          }]
-        }
-      })
+      this.getAppointmentData();
       // This is where we'll get the practitioner list... eventually. Pretend there's a call.
       // The call will only be made if the user is not a practitioner because a doctor shouldn't
       // be allowed to schedule new appointments for other doctors.
@@ -357,7 +414,7 @@
             doctorName: `Dr. ${rowData.attributes.practitioner_name}`,
             pastAppointment: moment().diff(moment(rowData.attributes.appointment_at.date)) > 0,
             patientEmail: rowData.patientData.email,
-            patientName: `${capitalize(rowData.patientData.first_name)} ${capitalize(rowData.patientData.last_name)}`,
+            patientName: `${capitalize(rowData.patientData.last_name)}, ${capitalize(rowData.patientData.first_name)}`,
             patientPhone: rowData.patientData.phone
           }
         }
@@ -388,6 +445,7 @@
 
       this.$eventHub.$on('updatePatient', (id, name) => {
         this.dataForNew.patient_id = id;
+        this.appointmentData.patientName = name;
       })
 
       this.$eventHub.$on('updateDoctor', id => {
@@ -402,11 +460,37 @@
 
       this.$eventHub.$on('updateStatus', value => {
         this.dataForUpdate.status = value.replace(/-| /g, '_').toLowerCase();
+        this.appointmentData.appointmentStatus = value;
       })
 
       this.$eventHub.$on('updatePurpose', purposeText => {
         this.dataForUpdate.reason_for_visit = purposeText;
         this.dataForNew.reason_for_visit = purposeText;
+      })
+
+      this.$eventHub.$on('bookAppointment', () => {
+        console.log('Book appointment api call');
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('toggleOverlay');
+        this._appointmentDetails = [];
+        // this.dataCollected = false;
+        Vue.nextTick(() => this.getAppointmentData());
+      })
+
+      this.$eventHub.$on('cancelAppointment', () => {
+        console.log('Cancel appointment api call');
+        this.$eventHub.$emit('callFlyout', true);
+        this._appointmentDetails = [];
+        this.dataCollected = false;
+        Vue.nextTick(() => this.getAppointmentData());
+      })
+
+      this.$eventHub.$on('updateAppointment', () => {
+        console.log('Update appointment api call');
+        this.$eventHub.$emit('callFlyout', true);
+        this._appointmentDetails = [];
+        this.dataCollected = false;
+        Vue.nextTick(() => this.getAppointmentData());
       })
 
     }

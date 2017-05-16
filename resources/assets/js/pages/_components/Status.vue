@@ -14,19 +14,11 @@
 
 <script>
 export default {
-  props: ['classes', 'past', 'type', 'usertype'],
+  props: ['classes', 'past', 'statuses', 'type', 'usertype'],
   data() {
     return {
       classNames: { 'input__container': true },
       selected: '',
-      statuses: {
-        'pending': 'Pending',
-        'no_show_patient': 'No-Show-Patient',
-        'no_show_doctor': 'No-Show-Doctor',
-        'general_conflict': 'General Conflict',
-        'canceled': 'Canceled',
-        'complete': 'Complete'
-      }
     }
   },
   computed: {
