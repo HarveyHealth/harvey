@@ -1,5 +1,5 @@
 <template>
-  <div :class="classNames">
+  <div :class="classNames" v-if="isVisible">
     <label v-if="showLabel" class="input__label" for="doctor-name">
       <div>doctor</div>
     </label>
@@ -11,7 +11,6 @@
       </select>
     </span>
     <span v-else class="input__item">{{ chosenDoctor.name }}</span>
-    <slot></slot>
   </div>
 </template>
 
@@ -34,6 +33,9 @@ export default {
     },
     isEditable() {
       return ( this.usertype === 'admin' || this.usertype === 'patient' ) && this.type === 'new';
+    },
+    isVisible() {
+      return this.usertype === 'admin' || this.usertype === 'patient';
     }
   },
   methods: {
