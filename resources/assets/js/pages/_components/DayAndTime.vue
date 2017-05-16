@@ -69,6 +69,7 @@ export default {
     },
     selectDay(value) {
       this.selectedDay = value;
+      this.timeIndex = 0;
     },
     selectTime(index) {
       this.timeIndex = index;
