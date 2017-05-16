@@ -48,6 +48,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('messages', 'MessagesController@index')->name('messages.index');
         Route::get('messages/{message}', 'MessagesController@show')->name('messages.show');
         Route::post('messages', 'MessagesController@new')->name('messages.new');
-        Route::delete('messages/{message}', 'messagesController@delete')->name('messages.delete');
+        Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
+        Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
     });
 });

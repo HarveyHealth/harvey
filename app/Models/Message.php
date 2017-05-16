@@ -59,11 +59,11 @@ class Message extends Model
      * Model functions
      */
 
-    public function touchReadAt()
+    public function setReadAt()
     {
-        $this->read_at = Carbon::now();
+        $this->read_at = $this->read_at ?: Carbon::now();
 
-        return $this->save();
+        return $this;
     }
 
     public function canUserRead(User $user)

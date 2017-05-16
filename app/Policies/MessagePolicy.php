@@ -40,6 +40,15 @@ class MessagePolicy
     }
 
     /**
+     * @param User $user
+     * @return bool
+     */
+    public function markAsRead(User $user, Message $message)
+    {
+        return $user->id == $message->recipient->id;
+    }
+
+    /**
      * @param User        $user
      * @param Message $message
      * @return bool

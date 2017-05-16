@@ -59,6 +59,48 @@ class MessagesController extends BaseAPIController
     }
 
     /**
+     * @param Request     $request
+     * @param Message     $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function read(Request $request, Message $message)
+    {
+        if (auth()->user()->can('markAsRead', $message)) {
+            $message->setReadAt()->save();
+            return $this->baseTransformItem($message)->respond();
+        }
+
+        return $this->respondNotAuthorized("You do not have access to update the Message with ID #{$message->id}.");
+    }
+
+    /**
+     * @param Request     $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'recipient_user_id' => 'required|exists:users,id',
+            'message' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator->errors()->first());
+        }
+
+        if (auth()->user()->can('create', $message)) {
+            $message = new Message($request->all());
+            $message->is_admin = auth()->user()->isAdmin();
+            $message->sender_user_id = auth()->user()->id;
+            $message->save();
+
+            return $this->baseTransformItem($message)->respond();
+        }
+
+        return $this->respondNotAuthorized("You do not have access to create a new Message.");
+    }
+
+    /**
      * @param Message $message
      * @return \Illuminate\Http\JsonResponse
      */
@@ -68,6 +110,20 @@ class MessagesController extends BaseAPIController
             return $this->baseTransformItem($message)->respond();
         }
 
-        return $this->respondNotAuthorized("You do not have access to view the Message with id {$message->id}.");
+        return $this->respondNotAuthorized("You do not have access to view the Message with ID #{$message->id}.");
+    }
+
+    /**
+     * @param Message $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Message $message)
+    {
+        if (auth()->user()->can('delete', $message)) {
+            $message->delete();
+            return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_GONE);
+        }
+
+        return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");
     }
 }
