@@ -10,11 +10,13 @@
     <template v-else>
       <span class="custom-select">
         <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
+          <option v-if="type === 'update'"></option>
           <option v-for="t, d in availableDays">{{ d }}</option>
         </select>
       </span>
       <span class="custom-select">
         <select v-model="time" @change="selectTime($event.target)" name="appointment_time">
+          <option v-if="type === 'update'"></option>
           <option v-for="t in availableTimes">{{ normalTime(t) }}</option>
         </select>
       </span>
@@ -39,25 +41,15 @@ export default {
       time: ''
     }
   },
-  // Firefox onchange events don't fire until a blur off of the element.
-  // For some odd reason, if you run console methods, the change triggers.
-  watch: {
-    day(newDay) {
-      console.log();
-    },
-    time(newTime) {
-      console.log();
-    }
-  },
   computed: {
     availableDays() {
       const days = this.parseAvailability(this.availability);
-      this.day = Object.keys(days)[0];
+      this.day = this.type === 'update' ? '' : Object.keys(days)[0];
       return days;
     },
     availableTimes() {
       const times = this.availableDays[this.selectedDay];
-      this.time = this.normalTime(times[0]);
+      this.time = this.type === 'update' ? '' : this.normalTime(times[0]);
       this.timeIndex = 0;
       return times;
     },
@@ -77,15 +69,21 @@ export default {
     }
   },
   methods: {
+    normalDay(day) {
+      return moment(day).format('dddd, MMMM Do');
+    },
     normalTime(time) {
       return moment(time, 'HH:mm').format('h:mm a');
     },
     selectDay(target) {
       this.selectedDay = target.value;
       this.timeIndex = 0;
+      if (target.value === '') {
+        this.$eventHub.$emit('updateDayTime', moment(this.date));
+      }
     },
     selectTime(target) {
-      this.timeIndex = target.selectedIndex;
+      this.timeIndex = this.type === 'update' ? target.selectedIndex - 1 : target.selectedIndex;
     },
     getCurrentWeeks() {
       const weekStart = moment().startOf('week').add(1, 'days');
