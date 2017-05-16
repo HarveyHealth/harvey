@@ -27,7 +27,7 @@ class PatientsController extends BaseAPIController
     public function index()
     {
         if (auth()->user()->isAdminOrPractitioner()) {
-            return $this->baseTransformBuilder(Patient::make(), null, $this->transformer, request('per_page'))->respond();
+            return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
         }
 
         $problem = new ApiProblem();
@@ -43,7 +43,7 @@ class PatientsController extends BaseAPIController
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return $this->baseTransformItem($patient)->respond();
+            return $this->baseTransformItem($patient, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }
