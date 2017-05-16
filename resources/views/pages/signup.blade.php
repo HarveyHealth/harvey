@@ -41,7 +41,7 @@
       </header>
 
       <main class="signup-content">
-        <div id="app">
+        <div id="signup">
           <router-view />
         </div>
       </main>
@@ -50,6 +50,6 @@
       <script>
         window.Laravel = {!! $vue_data !!}
       </script>
-      <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
+      <script type="text/javascript" src="{{ mix('js/vue/main.js') }}"></script>
     </body>
 </html>

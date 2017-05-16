@@ -17,7 +17,7 @@
     </div>
 
     <div class="text-centered">
-      <a class="button" @click.prevent="nextStep">Let's Go!</a>
+      <a href="/dashboard" class="button" @click.prevent="nextStep">Let's Go!</a>
     </div>
 
   </div>
@@ -35,7 +35,7 @@
     methods: {
       nextStep() {
         if (this.zipInRange) {
-          window.location.href = '/schedule';
+          window.location.href = '/dashboard';
         } else {
           window.location.href = '/'; // home for now
         }

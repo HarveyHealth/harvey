@@ -12,7 +12,7 @@
             </a>
         </div>
         @if (Auth::guest())
-{{--             <span class="nav-toggle"
+    {{-- <span class="nav-toggle"
                 :class="{'is-active': nav_is_open}"
                 @click="toggleNav"
             >
@@ -24,7 +24,7 @@
                 <span class="nav-item">
                     <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
                     <a href="/login" class="button is-primary is-outlined is-hidden-mobile">Log In</a>
-                    <router-link to="/signup" class="button is-primary">Get Started</router-link>
+                    <a href="/signup" class="button is-primary">Get Started</a>
                 </span>
             </div>
         @else

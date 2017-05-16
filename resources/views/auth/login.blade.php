@@ -85,7 +85,7 @@
             <footer class="card-footer">
                 <div class="card-footer-item level">
                     <p>Don't have an account?</p>
-                    <router-link to="/signup" class="level-right button">Sign Up</router-link>
+                    <a href="/signup" class="level-right button">Sign Up</a>
                 </div>
             </footer>
         </div>
