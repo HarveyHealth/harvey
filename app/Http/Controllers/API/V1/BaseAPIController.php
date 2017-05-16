@@ -103,12 +103,12 @@ class BaseAPIController extends Controller
      * @param \League\Fractal\Pagination\IlluminatePaginatorAdapter $paginator
      * @return \Spatie\Fractal\Fractal
      */
-    public function baseTransformCollection($collection, $include = null, $transformer = null, IlluminatePaginatorAdapter $paginator = null)
+    public function baseTransformCollection($collection, $include = null, $transformer = null, IlluminatePaginatorAdapter $paginationAdapter = null)
     {
-        if ($paginator) {
-            $output = fractal()->collection($paginator->getPaginator()->items())->paginateWith($paginator);
-        } else {
-            $output = fractal()->collection($collection);
+        $output = fractal()->collection($collection);
+
+        if ($paginationAdapter) {
+            $output = $output->paginateWith($paginationAdapter);
         }
 
         return $output->parseIncludes($include)
@@ -129,9 +129,13 @@ class BaseAPIController extends Controller
         if (is_numeric($itemsPerPage)) {
             $paginator = $builder->paginate((int) $itemsPerPage);
             $paginator->appends(array_diff_key(request()->all(), array_flip(['page'])));
+            $collection = $paginator->items();
             $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
+        } else {
+            $collection = $builder->get();
+            $paginationAdapter = null;
         }
 
-        return $this->baseTransformCollection($builder->get(), $include, $transformer, $paginationAdapter ?? null);
+        return $this->baseTransformCollection($collection, $include, $transformer, $paginationAdapter);
     }
 }
