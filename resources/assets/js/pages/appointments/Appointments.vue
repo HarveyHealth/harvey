@@ -327,28 +327,30 @@
     // is just always available.
     created() {
       this.getAppointmentData();
-      // This is where we'll get the practitioner list... eventually. Pretend there's a call.
-      // The call will only be made if the user is not a practitioner because a doctor shouldn't
-      // be allowed to schedule new appointments for other doctors.
+
       if (this.userType !== 'practitioner') {
         axios.get(`${this.$root.apiUrl}/users?type=practitioner&include=practitioner`).then(response => {
           this.doctorList = response.data.included.map(dr => {
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
           })
         })
+      } else {
+        this.doctorList = [{ name: `Dr. ${Laravel.user.fullName}`, id: 1 }]
       }
 
       if (this.userType !== 'patient') {
-        axios.get(`${this.$root.apiUrl}/users?type=patient&include=patient`).then(response => {
-          this.patientList = response.data.data.map(patient => {
-              return {
-                id: patient.relationships.patient.data.id,
-                name: `${patient.attributes.last_name}, ${patient.attributes.first_name}`,
-                email: patient.attributes.email,
-                phone: patient.attributes.phone
-              }
+        axios.get(`${this.$root.apiUrl}/patients?include=user`).then(response => {
+          const include = response.data.included;
+          response.data.data.forEach((obj, i) => {
+            this.patientList.push({
+              id: obj.id,
+              name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
+              email: include[i].attributes.email,
+              phone: include[i].attributes.phone
+            })
+          });
           // Sort by last name
-          }).sort((a, b) => {
+          this.patientList = this.patientList.sort((a, b) => {
             const nameA = a.name.replace(/,.+/g, '').toUpperCase();
             const nameB = b.name.replace(/,.+/g, '').toUpperCase();
             if (nameA < nameB) {
@@ -368,7 +370,7 @@
       this.$eventHub.$on('overlayClicked', () => {
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
-        setTimeout(() => this.doctorAvailability = [], 200);
+        setTimeout(() => this.doctorAvailability = [], 400);
       })
 
       // TableData emits rowClickEvent when a row is selected. It takes the data associated with

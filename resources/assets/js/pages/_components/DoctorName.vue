@@ -1,5 +1,5 @@
 <template>
-  <div :class="classNames" v-if="isVisible">
+  <div :class="classNames" v-show="isVisible">
     <label v-if="showLabel" class="input__label" for="doctor-name">
       <div>doctor</div>
     </label>
@@ -47,7 +47,7 @@ export default {
       });
     },
     getAvailability(id, cb) {
-      axios.get(`api/v1/practitioners/${id}?include=availability`)
+      axios.get(`/api/v1/practitioners/${id}?include=availability`)
         .then(response => cb(response.data))
     }
   },
@@ -62,7 +62,7 @@ export default {
     // to select different doctors when updating or creating appointments)
     this.$eventHub.$on('getDoctorAvailability',(id) => {
       if (this.usertype === 'practitioner' && !this.dataCollected) {
-        this.getAvailability(this.doctorid, (response) => {
+        this.getAvailability(id, (response) => {
           this.dataCollected = true;
           this.availability = response;
           this.$eventHub.$emit('returnAvailability', response);
