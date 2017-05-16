@@ -9,12 +9,12 @@
     <span v-else-if="noneAvailable" class="input--warning">No available slots</span>
     <template v-else>
       <span class="custom-select">
-        <select v-model="day" @change="selectDay($event.target.value)" name="appointment_day">
+        <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
           <option v-for="t, d in availableDays">{{ d }}</option>
         </select>
       </span>
       <span class="custom-select">
-        <select v-model="time" @change="selectTime($event.target.selectedIndex)" name="appointment_time">
+        <select v-model="time" @change="selectTime($event.target)" name="appointment_time">
           <option v-for="t in availableTimes">{{ normalTime(t) }}</option>
         </select>
       </span>
@@ -39,6 +39,16 @@ export default {
       time: ''
     }
   },
+  // Firefox onchange events don't fire until a blur off of the element.
+  // For some odd reason, if you run console methods, the change triggers.
+  watch: {
+    day(newDay) {
+      console.log();
+    },
+    time(newTime) {
+      console.log();
+    }
+  },
   computed: {
     availableDays() {
       const days = this.parseAvailability(this.availability);
@@ -48,6 +58,7 @@ export default {
     availableTimes() {
       const times = this.availableDays[this.selectedDay];
       this.time = this.normalTime(times[0]);
+      this.timeIndex = 0;
       return times;
     },
     conductedOn() {
@@ -56,23 +67,25 @@ export default {
     noneAvailable() {
       return !Object.keys(this.availableDays).length;
     },
+    // Using this computed property as an event emitter
     dateEventSend() {
-      if (this.day && this.time) {
-        this.$eventHub.$emit('updateDayTime', this.availableDays[this.day][this.timeIndex]);
+      if (!this.noneAvailable && this.day && this.time) {
+        Vue.nextTick(() => {
+          this.$eventHub.$emit('updateDayTime', this.availableDays[this.day][this.timeIndex]);
+        })
       }
-      return '';
     }
   },
   methods: {
     normalTime(time) {
       return moment(time, 'HH:mm').format('h:mm a');
     },
-    selectDay(value) {
-      this.selectedDay = value;
+    selectDay(target) {
+      this.selectedDay = target.value;
       this.timeIndex = 0;
     },
-    selectTime(index) {
-      this.timeIndex = index;
+    selectTime(target) {
+      this.timeIndex = target.selectedIndex;
     },
     getCurrentWeeks() {
       const weekStart = moment().startOf('week').add(1, 'days');

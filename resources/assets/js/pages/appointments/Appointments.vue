@@ -64,10 +64,24 @@
         :type="appointmentModType"
         :usertype="userType"
       />
-      <button
-        v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
-        @click.prevent="setupUpdateAppointment()"
-      >Update Appointment</button>
+      <div class="inline-centered">
+        <button
+          v-if="appointmentModType === 'new'"
+          @click.prevent="setupAppointmentNew()"
+          class="button"
+          :disabled="!noAvailability"
+        >Book Appointment</button>
+        <button
+          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+          @click.prevent="setupAppointmentUpdate()"
+          class="button"
+        >Update Appointment</button>
+        <a href="#"
+          class="input__linkcta"
+          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+          @click="setupAppointmentCancel()"
+        >Cancel Appointment</a>
+      </div>
     </Flyout>
 
     <Overlay />
@@ -157,6 +171,13 @@
       appointmentDetails() {
         return this._appointmentDetails;
       },
+      noAvailability() {
+        if (this.doctorAvailability.length) {
+          return this.doctorAvailability[0].concat(this.doctorAvailability[1]).length;
+        } else {
+          return false;
+        }
+      },
       selectedTableData() {
         return this.appointmentData;
       },
@@ -204,9 +225,7 @@
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
         Vue.nextTick(() => {
-          // New logic
           this.$eventHub.$emit('setPatient', this.patientList[0].id);
-
           this.$eventHub.$emit('setPurposeText');
           this.$eventHub.$emit('setStatus', 'pending');
           this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
@@ -214,6 +233,11 @@
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
+
+          this.dataForNew.patient_id = this.patientList[0].id;
+          this.dataForNew.practitioner_id = this.doctorList[0].id;
+          this.dataForNew.status = 'pending';
+          this.dataForNew.reason_for_visit = '';
         })
       },
       resetAppointmentData(data) {
@@ -223,8 +247,14 @@
         }
         return output;
       },
-      setupUpdateAppointment() {
-        console.log(this.dataForUpdate);
+      setupAppointmentCancel() {
+        console.log(JSON.stringify(this.dataForCancel, null, 2));
+      },
+      setupAppointmentNew() {
+        console.log(JSON.stringify(this.dataForNew, null, 2));
+      },
+      setupAppointmentUpdate() {
+        console.log(JSON.stringify(this.dataForUpdate, null, 2));
       }
     },
     filters: {
@@ -306,12 +336,13 @@
         this.dataForUpdate.status = rowData.attributes.status;
         this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
         // Set initial data for CRUD operations
-        this.dataForUpdate.appointment_at = rowData.attributes.appointment_at.date;
+        this.dataForUpdate.appointment_at = moment(rowData.attributes.appointment_at.date).format('YYYY-MM-DD HH:mm:ss');
         this.dataForUpdate.id = rowData.id;
         this.dataForUpdate.patient_id = rowData.attributes.patient_id;
         this.dataForUpdate.practitioner_id = rowData.attributes.practitioner_id;
         this.dataForUpdate.reason_for_visit = rowData.attributes.reason_for_visit;
         this.dataForUpdate.status = rowData.attributes.status;
+        this.dataForCancel.id = rowData.id;
 
         // Old stuff we may not use
         this.appointmentData = this.resetAppointmentData(this.appointmentData);
