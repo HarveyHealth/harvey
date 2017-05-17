@@ -23,7 +23,7 @@
         </whitelist>
     </filter>
     <logging>
-      <log type="coverage-html" target="public/code-coverage" charset="UTF-8"/>
+      <log type="coverage-html" target="tests/code-coverage" charset="UTF-8"/>
     </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
