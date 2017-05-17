@@ -28,9 +28,13 @@ class MessagesController extends BaseAPIController
     public function index()
     {
         $filterUnread = 'unread' == request('filter');
-        $recipientId = currentUser()->isAdmin() ? request('recipient_user_id') : currentUser()->id;
+        $recipientId = currentUser()->id;
         $senderId = request('sender_user_id');
         $term = request('term');
+
+        if (currentUser()->isAdmin() && request('recipient_user_id')) {
+            $recipientId = request('recipient_user_id');
+        }
 
         if ($term) {
             // Indexed search
