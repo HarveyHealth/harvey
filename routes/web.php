@@ -22,8 +22,6 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify');
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword');
 
-
-
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 
