@@ -66,7 +66,7 @@
                         role="form"
                         method="post"
                         action="/register"
-                        redirect-url="/dashboard#/new-appointment"
+                        redirect-url="/dashboard#/signup"
                         @submit.prevent="onSubmit"
                         @keydown="register.form.errors.clear($event.target.name)"
                     >

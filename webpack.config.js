@@ -359,7 +359,7 @@ plugins.push(
         },
         target: {
             image: path.resolve(__dirname, 'public/images/sprite.png'),
-            css: path.resolve(__dirname, 'resources/assets/legacy/sass/_sprite.scss')
+            css: path.resolve(__dirname, 'resources/assets/scss/public/_sprite.scss')
         },
         retina: '@2x',
         apiOptions: {
