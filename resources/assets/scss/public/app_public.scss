@@ -1,0 +1,209 @@
+@import "mixins";
+@import "sprite";
+@import "all.scss";
+@import "pages/home.scss";
+@import "pages/signup.scss";
+@import "pages/lab_tests.scss";
+//
+ @include sprites($spritesheet-sprites);
+ @include retina-sprites($retina-groups);
+//
+// elements
+.button {
+    &.is-primary {
+        &.has-arrow {
+            &:after {
+                content: "\f105";
+                font-family: FontAwesome;
+                color: #fff;
+                transition: margin 0.2s ease;
+                margin-left: .25em;
+                margin-right: .25em;
+                position: relative;
+                right: -.5em;
+            }
+            @at-root &:hover:after {
+                margin-left: .5em;
+                margin-right: 0;
+            }
+        }
+        &.is-outlined {
+            &.has-arrow {
+                &:after {
+                    color: $primary;
+                }
+            }
+            &:focus,
+            &:hover {
+                color: $primary;
+                background-color: transparent;
+            }
+        }
+    }
+    &.is-secondary {
+        color: $harvey-purple;
+        border-color: $harvey-purple;
+        &.has-arrow {
+            &:after {
+                content: "\f105";
+                font-family: FontAwesome;
+                color: $harvey-purple;
+                transition: margin 0.2s ease;
+                margin-left: .25em;
+                margin-right: .25em;
+                position: relative;
+                right: -.5em;
+            }
+        }
+    }
+}
+
+.page-content {
+    p:not(.title),
+    .content ul {
+        font-family: $family-secondary;
+    }
+}
+
+.title + .subtitle {
+    margin-top: 0.25rem;
+}
+
+.disclaimer {
+    font-family: $family-sans-serif !important;
+}
+
+blockquote {
+    font-family: $family-secondary;
+    font-style: italic;
+    font-size: $size-5;
+}
+
+.is-paddingless-mobile {
+    @include until($tablet) {
+        padding: 0 !important;
+    }
+}
+
+.column.is-auto-desktop {
+    @include from($desktop) {
+        width: auto;
+        flex: 1;
+    }
+}
+
+.vertical-tabs {
+    .menu-list a {
+        &:not(.is-active):hover {
+            color: $tertiary;
+        }
+        &.is-active {
+            background-color: $tertiary;
+        }
+    }
+}
+
+.check-load {
+    opacity: 0;
+    transition: opacity cubic-bezier(1,.03,.42,.88) .25s;
+    &.is-loaded {
+        opacity: 1;
+    }
+}
+
+.has-small-lineheight {
+    line-height: 1;
+}
+
+@include from($tablet) {
+    .copy-has-max-width {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+}
+
+// page specific styles
+body {
+    &.signup,
+    &.register {
+        #app {
+            padding-bottom: 0;
+        }
+    }
+    &.login,
+    &.signup,
+    &[class^="password-reset"] {
+        .page-content + .footer {
+            display: none;
+        }
+    }
+    &.login,
+    &.signup:not(.widget),
+    &[class^="password-reset"] {
+        &.hero {
+            justify-content: flex-start;
+        }
+        .page-content {
+            .container {
+                @include from(400px) {
+                    margin: 0 auto;
+                    width: 340px;
+                }
+            }
+        }
+        .section {
+            background-color: transparent;
+        }
+        a.button:not(.is-primary) {
+            color: $grey-darker;
+        }
+    }
+    &.home,
+    &.lab-tests {
+        .header.is-inverted {
+            background-color: transparent;
+            box-shadow: none;
+            .harvey-logo-icon {
+                fill: #fff;
+                @include from($mobile) {
+                    fill: $primary;
+                }
+            }
+            @at-root .no-svg & .logo-wrapper {
+                background-image: url('/images/logos/mobile-logo-inverted.png');
+            }
+            .button {
+                &:not(.is-outlined) {
+                    color: $tertiary;
+                    background-color: #fff;
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        color: #fff;
+                        background-color: $tertiary;
+                    }
+                }
+                &.is-outlined {
+                    color: #fff;
+                    border-color: #fff;
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        color: darken($tertiary, 5%);
+                        border-color: darken($tertiary, 5%);
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+    }
+    &.lab-tests {
+        .header.is-inverted {
+            position: absolute;
+            width: 100%;
+        }
+        .page-content {
+            padding-top: 56px;
+        }
+    }
+}
