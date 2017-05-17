@@ -30,10 +30,10 @@ class AppointmentsController extends BaseAPIController
      */
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
+        if (currentUser()->isAdmin()) {
             $appointments = Appointment::orderBy('appointment_at', 'asc');
         } else {
-            $appointments = auth()->user()->appointments();
+            $appointments = currentUser()->appointments();
         }
 
         if (in_array($filter = request('filter'), ['recent', 'upcoming'])) {
@@ -49,7 +49,7 @@ class AppointmentsController extends BaseAPIController
      */
     public function show(Appointment $appointment)
     {
-        if (auth()->user()->can('view', $appointment)) {
+        if (currentUser()->can('view', $appointment)) {
             return $this->baseTransformItem(
                     $appointment,
                     request('include'))
@@ -65,39 +65,35 @@ class AppointmentsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $inputData = $request->all();
+        $validator = Validator::make($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:' . Carbon::now(),
             'reason_for_visit' => 'required',
-            'practitioner_id' => 'required|exists:practitioners,id',
-            'patient_id' => 'required_if_is_admin|exists:patients,id',
+            'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
+            'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
         ]);
 
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors()->first());
         }
 
-        $appointment = new Appointment($request->all());
 
-        if (auth()->user()->can('create', $appointment)) {
-            if (auth()->user()->isAdmin()) {
-                $patient = Patient::find($request->get('patient_id'));
-            } else {
-                $patient = auth()->user()->patient;
-            }
-
-            $patient->appointments()->save($appointment);
-
-            event(new AppointmentScheduled($appointment));
-
-            return $this->baseTransformItem($appointment->fresh())->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to schedule a new appointment.");
+        if (currentUser()->isPatient()) {
+            $inputData['patient_id'] = currentUser()->id;
+        } elseif (currentUser()->isPractitioner()) {
+            $inputData['practitioner_id'] = currentUser()->id;
         }
+
+        $appointment = Appointment::create($inputData);
+
+        event(new AppointmentScheduled($appointment));
+
+        return $this->baseTransformItem($appointment->fresh())->respond();
     }
 
     public function update(Request $request, Appointment $appointment)
     {
-        if (auth()->user()->can('update', $appointment)) {
+        if (currentUser()->can('update', $appointment)) {
             $appointment->update($request->all());
 
             return $this->baseTransformItem($appointment)->respond();
@@ -113,7 +109,7 @@ class AppointmentsController extends BaseAPIController
 
     public function delete(Appointment $appointment)
     {
-        if (auth()->user()->can('delete', $appointment)) {
+        if (currentUser()->can('delete', $appointment)) {
             $appointment->delete();
 
             return $this->baseTransformItem($appointment)
