@@ -40,7 +40,7 @@ class AppointmentsController extends BaseAPIController
             $appointments = $appointments->$filter();
         }
 
-        return $this->baseTransformCollection($appointments->get(), request()->get('include')) ->respond();
+        return $this->baseTransformCollection($appointments->get(), request('include')) ->respond();
     }
 
     /**
@@ -52,7 +52,7 @@ class AppointmentsController extends BaseAPIController
         if (auth()->user()->can('view', $appointment)) {
             return $this->baseTransformItem(
                     $appointment,
-                    request()->get('include'))
+                    request('include'))
                     ->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
@@ -80,7 +80,7 @@ class AppointmentsController extends BaseAPIController
 
         if (auth()->user()->can('create', $appointment)) {
             if (auth()->user()->isAdmin()) {
-                $patient = Patient::find($request('patient_id'));
+                $patient = Patient::find($request->get('patient_id'));
             } else {
                 $patient = auth()->user()->patient;
             }
