@@ -9,17 +9,19 @@
           <h1 class="title header-xlarge">
             Appointments
             <button
-              v-show="patientDataCollected"
-              href="/schedule"
+              v-show="patientDataCollected || userType === 'patient'"
+              href="#"
               class="button main-action"
-              @click="newAppointmentSetup()"
+              @click.prevent="newAppointmentSetup()"
             >
               New Appointment
             </button>
           </h1>
         </div>
       </div>
-      <TableData :allTableData="tableData" />
+
+      <TableData :allTableData="tableData" :config="tableConfig"/>
+
     </div>
 
     <Flyout>
@@ -74,6 +76,7 @@
     </Flyout>
 
     <Overlay />
+
     <AppointmentModal
       :affirm="confirmationButton"
       :affirmEvent="confirmationEvent"
@@ -101,6 +104,7 @@
   import Contact from '../../mixins/Contact';
   import combineAppointmentDetails from '../../helpers/getAppointmentDetails.js';
   import moment from 'moment';
+  import tableConfig from './common/tableconfig';
 
   export default {
     name: 'appointments',
@@ -171,6 +175,7 @@
           'canceled': 'Canceled',
           'complete': 'Complete'
         },
+        tableConfig: tableConfig,
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
@@ -195,6 +200,11 @@
         return this.dataCollected
           ? this.appointmentTablePrep(this.appointmentDetails)
           : [];
+      }
+    },
+    watch: {
+      _appointmentDetails() {
+        this.getAppointmentData();
       }
     },
     methods: {
@@ -235,21 +245,24 @@
         Object.keys(this.appointmentData).forEach(key => this.appointmentData[key] = '');
         this.appointmentModType = 'new';
         Vue.nextTick(() => {
-          this.$eventHub.$emit('setPatient', this.patientList[0].id);
+          if (this.userType !== 'patient') {
+            this.$eventHub.$emit('setPatient', this.patientList[0].id);
+            this.appointmentData.patientName = this.patientList[0].name;
+            this.dataForNew.patient_id = this.patientList[0].id;
+          }
+            this.appointmentData.doctorName = this.doctorList[0].name;
+            this.appointmentData.doctorId = this.doctorList[0].id;
+            this.dataForNew.practitioner_id = this.doctorList[0].id;
+
+          this.dataForNew.status = 'pending';
+          this.dataForNew.reason_for_visit = '';
+
           this.$eventHub.$emit('setPurposeText');
           this.$eventHub.$emit('setStatus', 'pending');
           this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
-          this.$eventHub.$emit('setPatientInfo');
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false);
-
-          this.appointmentData.patientName = this.patientList[0].name;
-          this.appointmentData.doctorName = this.doctorList[0].name;
-          this.dataForNew.patient_id = this.patientList[0].id;
-          this.dataForNew.practitioner_id = this.doctorList[0].id;
-          this.dataForNew.status = 'pending';
-          this.dataForNew.reason_for_visit = '';
         })
       },
       resetAppointmentData(data) {
@@ -306,14 +319,6 @@
         axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
           this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
           this.dataCollected = true;
-          // If the user is the practitioner, the doctorList should just include the practitioner.
-          // To avoid making another call for the practitioner_id, we're just using the appointments list
-          if (this.userType === 'practitioner') {
-            this.doctorList = [{
-                name: this._appointmentDetails[0].attributes.practitioner_name,
-                id: this._appointmentDetails[0].attributes.practitioner_id
-            }]
-          }
         })
       }
     },
@@ -329,13 +334,19 @@
       this.getAppointmentData();
 
       if (this.userType !== 'practitioner') {
-        axios.get(`${this.$root.apiUrl}/users?type=practitioner&include=practitioner`).then(response => {
-          this.doctorList = response.data.included.map(dr => {
-              return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
+        axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
+          this.doctorList = response.data.data.map(dr => {
+            return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
           })
         })
       } else {
-        this.doctorList = [{ name: `Dr. ${Laravel.user.fullName}`, id: 1 }]
+        axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
+          this.doctorList = response.data.data.filter(dr => {
+            return dr.attributes.name === Laravel.user.fullName;
+          }).map(obj => {
+            return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
+          })
+        })
       }
 
       if (this.userType !== 'patient') {
@@ -421,7 +432,7 @@
           this.$eventHub.$emit('setPurposeText');
 
           if (!rowIsActive) {
-            this.$eventHub.$emit('getDoctorAvailability');
+            this.$eventHub.$emit('getDoctorAvailability', rowData.attributes.practitioner_id);
             this.$eventHub.$emit('populateAvailableTimes');
           } else {
             this.doctorAvailability = [];
@@ -461,28 +472,39 @@
       })
 
       this.$eventHub.$on('bookAppointment', () => {
-        console.log('Book appointment api call');
-        this.$eventHub.$emit('callFlyout', true);
-        this.$eventHub.$emit('toggleOverlay');
-        this._appointmentDetails = [];
-        // this.dataCollected = false;
-        Vue.nextTick(() => this.getAppointmentData());
+        const data = {
+          appointment_at: this.dataForNew.appointment_at,
+          reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
+          practitioner_id: this.dataForNew.practitioner_id * 1,
+        }
+
+        if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
+
+        axios.post('/api/v1/appointments', data).then(response => {
+          this.$eventHub.$emit('callFlyout', true);
+          this.$eventHub.$emit('toggleOverlay');
+          this.$eventHub.$emit('refreshTable');
+        }).catch(err => console.error(err.response));
+
       })
 
       this.$eventHub.$on('cancelAppointment', () => {
-        console.log('Cancel appointment api call');
-        this.$eventHub.$emit('callFlyout', true);
-        this._appointmentDetails = [];
-        this.dataCollected = false;
-        Vue.nextTick(() => this.getAppointmentData());
+        axios.delete(`/api/v1/appointments/${this.dataForCancel.id}`).then(response => {
+          this.$eventHub.$emit('callFlyout', true);
+          this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('deselectRows');
+        }).catch(err => console.error(err.response));
       })
 
       this.$eventHub.$on('updateAppointment', () => {
-        console.log('Update appointment api call');
-        this.$eventHub.$emit('callFlyout', true);
-        this._appointmentDetails = [];
-        this.dataCollected = false;
-        Vue.nextTick(() => this.getAppointmentData());
+        axios.patch(`/api/v1/appointments/${this.dataForUpdate.id}`, {
+          appointment_at: this.dataForUpdate.appointment_at,
+          reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.'
+        }).then(response => {
+          this.$eventHub.$emit('callFlyout', true);
+          this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('deselectRows');
+        }).catch(err => console.error(err.response));
       })
 
     }
