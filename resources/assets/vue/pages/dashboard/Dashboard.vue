@@ -70,7 +70,8 @@
     data() {
       return {
         'upcoming_appointments': [],
-        'recent_appointments': []
+        'recent_appointments': [],
+        flag: false
       };
     },
     props: ['user', 'patient'],
@@ -106,9 +107,11 @@
       if (flag) {
         this.$router.push('/schedule')
         localStorage.removeItem('signed up')
+        return null;
       }
     },
     mounted() {
+      if (localStorage.getItem('signed up')) return null;
       this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
         .then((response) => {
           this.upcoming_appointments = response.data.data;
