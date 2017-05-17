@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @push('stylesheets')
-    <link rel="stylesheet" href="{{ mix('legacy/css/app_public.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
 @endpush
 
 @section('content')
@@ -27,10 +27,10 @@
 
     @if (Auth::guest())
         @script(/js/vendors/modernizr-custom.js)
-        <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('/js/app_public.js') }}"></script>
     @else
         @script(https://js.stripe.com/v2/)
-        <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
+        <script type="text/javascript" src="{{ mix('/js/app.js') }}"></script>
     @endif
 
     @stack('scripts')

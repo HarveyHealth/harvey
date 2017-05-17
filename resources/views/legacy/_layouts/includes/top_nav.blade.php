@@ -12,7 +12,7 @@
             </a>
         </div>
         @if (Auth::guest())
-{{--             <span class="nav-toggle"
+    {{-- <span class="nav-toggle"
                 :class="{'is-active': nav_is_open}"
                 @click="toggleNav"
             >
