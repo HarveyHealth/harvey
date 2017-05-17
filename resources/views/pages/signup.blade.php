@@ -43,7 +43,7 @@
       </header>
 
       <main class="signup-content">
-        <div id="signup">
+        <div id="app">
           <router-view />
         </div>
       </main>
@@ -51,7 +51,8 @@
       <!-- Scripts -->
       <script>
         window.Laravel = {!! $vue_data !!}
+        localStorage.setItem('signing up', 'true')
       </script>
-      <script type="text/javascript" src="{{ mix('js/vue/main.js') }}"></script>
+      <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>

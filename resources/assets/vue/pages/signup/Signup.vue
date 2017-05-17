@@ -119,6 +119,7 @@
         }
     },
     mounted () {
+      localStorage.removeItem('signing up')
       if (this.env === 'prod') {
         this.$ma.trackEvent({
             action: 'View Signup Page',
