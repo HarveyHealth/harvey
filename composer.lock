@@ -8,6 +8,7 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.27.3",
             "source": {
                 "type": "git",
@@ -18,6 +19,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5530121afccd4c7842de11d0e5c1d1ac2526f26d",
                 "reference": "5530121afccd4c7842de11d0e5c1d1ac2526f26d",
+=======
+            "version": "3.27.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "3f313d2bfb7c56fecf58fc728701f7282a39e318"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3f313d2bfb7c56fecf58fc728701f7282a39e318",
+                "reference": "3f313d2bfb7c56fecf58fc728701f7282a39e318",
+>>>>>>> 3a1e4f336c835ce4c99291ffd9953d9097e7927b
                 "shasum": ""
             },
             "require": {
@@ -84,7 +97,11 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2017-05-15T21:42:26+00:00"
+=======
+            "time": "2017-05-16T20:49:25+00:00"
+>>>>>>> 3a1e4f336c835ce4c99291ffd9953d9097e7927b
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1816,16 +1833,16 @@
         },
         {
             "name": "laravel/homestead",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/homestead.git",
-                "reference": "30538185078f3226a75953eaa57efa0cde145981"
+                "reference": "ec5933c686e1084a30d7871992f2fbcaf6b15db3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/homestead/zipball/30538185078f3226a75953eaa57efa0cde145981",
-                "reference": "30538185078f3226a75953eaa57efa0cde145981",
+                "url": "https://api.github.com/repos/laravel/homestead/zipball/ec5933c686e1084a30d7871992f2fbcaf6b15db3",
+                "reference": "ec5933c686e1084a30d7871992f2fbcaf6b15db3",
                 "shasum": ""
             },
             "require": {
@@ -1862,7 +1879,7 @@
                 }
             ],
             "description": "A virtual machine for web artisans.",
-            "time": "2017-05-12T03:00:20+00:00"
+            "time": "2017-05-17T02:11:31+00:00"
         },
         {
             "name": "laravel/passport",
@@ -1930,16 +1947,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "64d28db58a054174eadf1d4df38dad81ff7e68dd"
+                "reference": "c822eaff08929439879407ffa27de7966f3c5926"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/64d28db58a054174eadf1d4df38dad81ff7e68dd",
-                "reference": "64d28db58a054174eadf1d4df38dad81ff7e68dd",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/c822eaff08929439879407ffa27de7966f3c5926",
+                "reference": "c822eaff08929439879407ffa27de7966f3c5926",
                 "shasum": ""
             },
             "require": {
@@ -1986,7 +2003,7 @@
                 "laravel",
                 "search"
             ],
-            "time": "2017-04-09T00:54:26+00:00"
+            "time": "2017-05-09T12:31:27+00:00"
         },
         {
             "name": "laravel/tinker",

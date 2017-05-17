@@ -14,7 +14,7 @@
 /ngrok
 /node_modules
 /public/build/*
-/public/code-coverage
+/tests/code-coverage
 /public/css/app.css
 /public/hot
 /public/mix-manifest.json

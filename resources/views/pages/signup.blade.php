@@ -36,12 +36,14 @@
           <div class="logo-wrapper">
             <a href="/" alt="Home"><svg class="harvey-logo"><use xlink:href="#harvey-logo"></svg></a>
           </div>
-          <span class="header_phone-number">(800) 690-9989</span>
+          <div class="nav-item">
+              <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
+          </div>
         </div>
       </header>
 
       <main class="signup-content">
-        <div id="signup">
+        <div id="app">
           <router-view />
         </div>
       </main>
@@ -49,7 +51,8 @@
       <!-- Scripts -->
       <script>
         window.Laravel = {!! $vue_data !!}
+        localStorage.setItem('signing up', 'true')
       </script>
-      <script type="text/javascript" src="{{ mix('js/vue/main.js') }}"></script>
+      <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>

@@ -7,15 +7,15 @@ Vue.use(VeeValidate);
 let routes = [
     {
         path: '/',
-        name: 'dashboard',
-        component: require('./pages/dashboard/Dashboard.vue'),
-        children: [
-            {
-                path: '/new-appointment',
-                name: 'new-appointment',
-                component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
-            }
-        ]
+        name: localStorage.getItem('signing up') ? 
+            'signup' : 
+            localStorage.getItem('signed up') ? 
+            'schedule' : 'dashboard',
+        component: localStorage.getItem('signing up') ? 
+            require('./pages/signup/Signup.vue') : 
+            localStorage.getItem('signed up') ? 
+            require('./pages/schedule/Schedule.vue') :
+            require('./pages/dashboard/Dashboard.vue')
     },
     {
         path: '/schedule',
@@ -33,6 +33,11 @@ let routes = [
       path: '/signup',
       name: 'signup',
       component: require('./pages/signup/Signup.vue')
+    },
+    {
+        path: '/new-appointments',
+        name: 'new-appointments',
+        component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
     },
     {
         path: '*',

@@ -1,12 +1,32 @@
 $gray: #EFEFEF;
 
 body.home {
-    // general
+    
+    // General
+
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
-    .title.is-1{ // Override
-    font-size: 3rem;
+    .title.is-1 { // Override
+        font-size: 3rem;
+    }
+    .watch-video {
+        &:focus {
+            outline: 0;
+        }
+        &:hover{
+            img {
+                opacity: .8;
+            }
+            cursor: pointer;
+            svg {
+                left: 1px;
+            }
+        }
+    }
+    .video-intro {
+        max-width: 200px;
+        padding: 20px 0 0 20px;
     }
     .subtitle {
         line-height: 1.5;
@@ -25,21 +45,20 @@ body.home {
         padding: 1rem 3rem;
         margin-top: 0.5rem;
     }
-    .is-paddingless-top {
-        padding-top: 0;
-    }
     .columns.is-narrow {
         max-width: 1052px;
         margin-left: auto;
         margin-right: auto;
     }
 
-    // layout
+    // Layout
+
     #app {
         height: auto;
         min-height: 100%;
         width: 100%;
         position: relative;
+        margin-bottom: 0;
     }
     .header {
         position: fixed;
@@ -77,7 +96,9 @@ body.home {
     .section:not(:last-of-type) {
         padding-bottom: 1rem;
     }
+
     // Logo
+
     .is-inverted .logo-wrapper {
         @include from($mobile) {
             .harvey-logo-type {
@@ -86,7 +107,8 @@ body.home {
         }
     }
 
-    // hero
+    // Hero
+
     .hero {
         position: relative;
         @include until($desktop) {
@@ -96,7 +118,7 @@ body.home {
         .hero-background {
             width: 100%;
             // background-image: gradient;
-            background: lighten($gray, 90%) url('/images/home/hero_sm.jpg') no-repeat center top;
+            background: lighten($gray, 90%) url('/images/home/hero_lg.jpg') no-repeat center top;
             background-size: cover;
             &, &:after {
                 position: absolute;
@@ -111,14 +133,11 @@ body.home {
                 background-color: rgba(darken($gray, 90%), $opacity-light);
             }
             @include from($tablet) {
-                background-image: url('/images/home/hero_md.jpg');
+                background-image: url('/images/home/hero_lg.jpg');
             }
             @include from($megascreen) {
                 background-image: url('/images/home/hero_lg.jpg');
             }
-        }
-        .title + .subtitle {
-            margin-top: 0;
         }
         @include from($megascreen) {
             min-height: initial;
@@ -150,7 +169,8 @@ body.home {
         }
     }
 
-    // elements
+    // Elements
+
     .section-header {
         text-transform: uppercase;
         text-align: center;
@@ -181,6 +201,10 @@ body.home {
         }
     }
     .button-wrapper {
+        img {
+            margin-right: 10px;
+            max-width: 60px;
+        }
         @include until($tablet) {
             text-align: center;
         }
@@ -225,7 +249,7 @@ body.home {
         }
     }
     .copy-has-max-width + .columns {
-        margin-top: $size-2;
+        margin-top: $size-3;
     }
     .disclaimer {
         font-size: 1.125em;
@@ -243,38 +267,68 @@ body.home {
             font-size: $size-3;
         }
     }
-    // page specific content
+
     #integrative-medicine {
-        margin-bottom: 3em;
+        .title {
+            margin-bottom: 0;
+        }
+        margin-bottom: 2em;
+        .introduction {
+            margin-top: 0;
+            margin-bottom: 2rem;
+            img {
+                padding: 1rem;
+                max-width: 470px;
+            }
+        }
         figure.has-margin {
             margin-top: 3rem;
             margin-bottom: 3.5rem;
         }
-        .is-narrow {
-            max-width: 960px;
+        .columns {
+            padding: 12px 20px 0 0;
             transform: translateX(1.5rem);
         }
     }
+
     #western-medicine, #pricing {
         padding-bottom: 5rem;
         .columns {
             background-color: #fff;
         }
     }
+
     #western-medicine{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
     }
+
     #pricing{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
     }
+
+    #pricing {
+        .button {
+            margin-bottom: 20px;
+        }
+    }
+
     #tests {
         .columns {
             margin-top: 0;
         }
     }
+
+    #social-feed, #symptoms {
+        .social-feed {
+            margin-top: 40px;
+            img {
+                max-width: 30px;
+            }
+        }
+    }
+
     #how-it-works {
         @include from($desktop) {
-            margin-bottom: 30px;
             text-align: center;
             .column.columns {
                 flex-direction: column;
@@ -283,27 +337,80 @@ body.home {
                 }
             }
         }
+        em {
+            margin: 10px 0;
+        }
     }
-    .circle img{
-        border-radius: 100%;
+
+    #stories, #advisors {
+        a {
+            &:focus {
+                outline: 0; 
+            }
+        }
+        .column {
+            p {
+                margin-top: 10px;
+            }
+        }
     }
-    // misc
+
+    #symptoms {
+        margin-bottom: 4rem;
+        .circle img{
+            border-radius: 100%;
+            max-width: 70%;
+            padding: 5px 0 0;
+        }
+    }
+
+    #get-started {
+        margin: 30px 0 75px;
+        background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
+        padding: 80px 0 90px;
+        h2 {
+            margin-bottom: 0;
+        }
+        p {
+            color: $tertiary;
+            font-size: 1.2rem;
+            margin: .5rem 0 1rem;
+        }
+    }
+
+    // Misc
+
     .vue-slider-tooltip.vue-slider-tooltip-top {
         top: -3px;
     }
+
     // Mailchimp
+
+    #mc_embed_signup form {
+        margin-bottom: 10px;
+    }
+
     #mc_embed_signup input {
         font-family: "proxima-nova", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
         font-size: 15px;
+        weight: 100px;
         height: 38px;
     }
     #mc_embed_signup .button {
+        max-width: 200px;
         background: $primary;
     }
     #mc_embed_signup #mce-EMAIL{
+        max-width: 200px;
         padding-left: 12px;
+        &:focus,
+        &:active {
+            outline: none;
+        }
     }
-    // media queries
+
+    // Media
+
     @include until($tablet) {
         .title {
             &.is-1,
@@ -316,10 +423,6 @@ body.home {
         #symptoms {
             .columns {
                 text-align: left;
-            }
-            .subtitle {
-                margin-top: 3rem;
-                margin-bottom: 3rem;
             }
         }
     }
