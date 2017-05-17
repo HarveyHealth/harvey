@@ -16,6 +16,9 @@ export default {
   },
   mounted() {
     this.$eventHub.$on('toggleOverlay', () => this.isActive = !this.isActive);
+  },
+  destroyed() {
+    this.$eventHub.$off('toggleOverlay');
   }
 }
 </script>

@@ -37,6 +37,9 @@ export default {
   },
   mounted() {
     this.$eventHub.$on('callAppointmentModal', () => this.isActive = true)
+  },
+  destroyed() {
+    this.$eventHub.$off('callAppointmentModal');
   }
 }
 </script>

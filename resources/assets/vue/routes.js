@@ -6,6 +6,11 @@ Vue.use(VeeValidate);
 
 let routes = [
     {
+        path: '/appointments',
+        name: 'appointments',
+        component: require('./pages/appointments/Appointments.vue'),
+    },
+    {
         path: '/',
         name: 'dashboard',
         component: require('./pages/dashboard/Dashboard.vue'),

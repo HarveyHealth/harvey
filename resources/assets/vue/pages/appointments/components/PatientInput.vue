@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { phone } from '../../filters/textformat.js';
+import { phone } from '../../../utils/filters/textformat.js';
 export default {
   props: ['classes', 'patientlist', 'type', 'usertype'],
   data() {
@@ -66,6 +66,9 @@ export default {
       this.selectedId = id;
       this.selected = this.patientInfo[id].name;
     })
+  },
+  destroyed() {
+    this.$eventHub.$off('setPatient');
   }
 }
 </script>

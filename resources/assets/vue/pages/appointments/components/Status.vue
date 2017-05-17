@@ -43,6 +43,9 @@ export default {
   },
   mounted() {
     this.$eventHub.$on('setStatus', value => this.selected = this.statuses[value]);
+  },
+  destroyed() {
+    this.$eventHub.$off('toggleOverlay');
   }
 }
 </script>

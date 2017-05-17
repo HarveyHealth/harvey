@@ -45,6 +45,9 @@ export default {
   },
   mounted() {
     this.$eventHub.$on('setPurposeText', () => this.textValue = this.purposetext);
+  },
+  destroyed() {
+    this.$eventHub.$off('setPurposeText');
   }
 }
 </script>

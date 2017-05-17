@@ -30,9 +30,9 @@
 
 <script>
 
-import { capitalize } from '../../filters/textformat';
-import combineAppointmentData from '../../helpers/getAppointmentDetails';
-import convertStatus from '../appointments/common/statuses';
+import { capitalize } from '../../../utils/filters/textformat';
+import combineAppointmentData from '../utils/combineAppointmentData';
+import convertStatus from '../utils/statuses';
 import moment from 'moment';
 
 export default {
@@ -80,6 +80,10 @@ export default {
 
     this.getAppointmentData();
 
+  },
+  destroyed() {
+    this.$eventHub.$off('deselectRows');
+    this.$eventHub.$off('refreshTable');
   }
 }
 </script>

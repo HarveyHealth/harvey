@@ -17,6 +17,9 @@
       this.$eventHub.$on('callFlyout', activeDetails => {
         this.isActive = !activeDetails;
       });
+    },
+    destroyed() {
+      this.$eventHub.$off('callFlyout');
     }
   }
 </script>

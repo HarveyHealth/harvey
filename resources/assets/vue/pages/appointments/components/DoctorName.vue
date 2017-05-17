@@ -75,6 +75,9 @@ export default {
         });
       }
     });
+  },
+  destroyed() {
+    this.$eventHub.$off('getDoctorAvailability');
   }
 }
 </script>

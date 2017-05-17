@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-
+    
     <UserNav />
 
     <div class="main-content">
@@ -48,7 +48,7 @@
 
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
-  import UserNav from '../_components/UserNav.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
