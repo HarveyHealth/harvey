@@ -32,7 +32,7 @@
         </template>
 
           <div v-else class="card-empty-container">
-              <p>You have no history.</p>
+              <p>You have no appointment history.</p>
           </div>
       </div>
     </div>
