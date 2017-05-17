@@ -37,4 +37,5 @@ class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
         } catch (PostmarkException $exception) {
             self::handlePostmarkException($exception);
         }
+    }
 }

@@ -15,7 +15,7 @@ class SchedulerTest extends TestCase
     {
         // Given no user
         // If we try to view the scheduler
-        $response = $this->get(route('scheduler'));
+        $response = $this->get('dashboard#/schedule');
 
         // Then the user will be redirected to the login page
         $response->assertRedirect(route('login'));
@@ -27,7 +27,7 @@ class SchedulerTest extends TestCase
         factory(Patient::class)->create(['user_id' => $user->id]);
 
         // And they try to view the scheduling flow
-        $response = $this->actingAs($user)->get(route('scheduler'));
+        $response = $this->actingAs($user)->get('dashboard#/schedule');
 
         // Then it will be successful
         $response->assertStatus(200);

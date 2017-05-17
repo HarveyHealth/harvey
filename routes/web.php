@@ -43,10 +43,6 @@ if (App::environment('local')) {
     Route::get('test', 'TestController@index');
 }
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/schedule', 'SchedulerController@index')->name('scheduler');
-});
-
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
