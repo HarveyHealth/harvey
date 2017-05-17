@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr v-if="!tabledata.length">
-          <td colspan="6">Loading appointment data</td>
+          <td colspan="6">Loading your appointment details</td>
         </tr>
         <tr v-for="row in tabledata" @click="rowClick(row, $event)">
           <td>{{ row.attributes.appointment_at.date | tableDate }}</td>
@@ -80,7 +80,6 @@ export default {
 
     this.getAppointmentData();
 
-    window.foo = this.getAppointmentData;
   }
 }
 </script>

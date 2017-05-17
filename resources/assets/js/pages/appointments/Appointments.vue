@@ -9,7 +9,7 @@
           <h1 class="title header-xlarge">
             Appointments
             <button
-              v-show="patientDataCollected || userType === 'patient'"
+              v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'"
               href="#"
               class="button main-action"
               @click.prevent="newAppointmentSetup()"
@@ -273,44 +273,44 @@
         return output;
       },
       setupAppointmentCancel() {
-        console.log(JSON.stringify(this.dataForCancel, null, 2));
         this.confirmationButton = 'Yes, Cancel Appointment';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Appointment Cancellation';
-        this.confirmationText = {
-          'Client': this.appointmentData.patientName,
-          'Doctor': this.appointmentData.doctorName,
-          'Booked For': moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
-          'Status': this.statuses[this.dataForUpdate.status],
-          'Purpose': this.dataForUpdate.reason_for_visit
-        };
+
+        this.confirmationText = {};
+        if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
+        if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
+        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
+        this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
+
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        console.log(JSON.stringify(this.dataForNew, null, 2));
         this.confirmationButton = 'Yes, Book Appointment';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment Booking';
-        this.confirmationText = {
-          'Client': this.appointmentData.patientName,
-          'Doctor': this.appointmentData.doctorName,
-          'Booked For': moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
-          'Purpose': this.dataForNew.reason_for_visit
-        };
+
+        this.confirmationText = {};
+        if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
+        if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
+        this.confirmationText['Booked For'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Purpose'] = this.dataForNew.reason_for_visit;
+
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        console.log(JSON.stringify(this.dataForUpdate, null, 2));
         this.confirmationButton = 'Yes, Update Appointment';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment Update';
-        this.confirmationText = {
-          'Client': this.appointmentData.patientName,
-          'Doctor': this.appointmentData.doctorName,
-          'Booked For': moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a'),
-          'Status': this.statuses[this.dataForUpdate.status],
-          'Purpose': this.dataForUpdate.reason_for_visit
-        };
+
+        this.confirmationText = {};
+        if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
+        if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
+        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
+        this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
+
         this.$eventHub.$emit('callAppointmentModal');
       },
       getAppointmentData() {
@@ -499,7 +499,8 @@
       this.$eventHub.$on('updateAppointment', () => {
         axios.patch(`/api/v1/appointments/${this.dataForUpdate.id}`, {
           appointment_at: this.dataForUpdate.appointment_at,
-          reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.'
+          reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
+          status: this.dataForUpdate.status,
         }).then(response => {
           this.$eventHub.$emit('callFlyout', true);
           this.$eventHub.$emit('refreshTable');
