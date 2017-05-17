@@ -7,8 +7,15 @@ Vue.use(VeeValidate);
 let routes = [
     {
         path: '/',
-        name: localStorage.getItem('signing up') ? 'signup' : localStorage.getItem('signed up') ? 'schedule' : 'dashboard',
-        component: localStorage.getItem('signing up') ? require('./pages/signup/Signup.vue') : localStorage.getItem('signed up') ? require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue')
+        name: localStorage.getItem('signing up') ? 
+            'signup' : 
+            localStorage.getItem('signed up') ? 
+            'schedule' : 'dashboard',
+        component: localStorage.getItem('signing up') ? 
+            require('./pages/signup/Signup.vue') : 
+            localStorage.getItem('signed up') ? 
+            require('./pages/schedule/Schedule.vue') :
+            require('./pages/dashboard/Dashboard.vue')
     },
     {
         path: '/schedule',
