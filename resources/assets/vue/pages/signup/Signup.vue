@@ -38,7 +38,7 @@
       </div>
 
       <div class="text-centered">
-        <input type="submit" class="button" value="Sign Up">
+        <input type="submit" class="button" value="Sign Up" v-on:click="setFlag">
       </div>
     </form>
 
@@ -113,9 +113,13 @@
         },
         persistTextFields(field, value) {
           localStorage.setItem(`sign up ${field}`, value)
+        },
+        setFlag() {
+          localStorage.setItem('signed up', 'true')
         }
     },
     mounted () {
+      localStorage.removeItem('signing up')
       if (this.env === 'prod') {
         this.$ma.trackEvent({
             action: 'View Signup Page',

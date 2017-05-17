@@ -19,6 +19,20 @@ input[type="submit"] {
   vertical-align: middle;
   width: auto;
 
+  &.is-outlined {
+    color: $harvey-tertiary;
+    border-color: $harvey-tertiary;
+    background-color: transparent;
+    padding: 7px 16px 9px;
+    border: 1px solid;
+    &:hover,
+    &:focus{
+      color: $harvey-tertiary;
+      border-color: $harvey-tertiary;
+      background-color: transparent;
+    }
+  }
+
   &:hover,
   &:focus {
     background-color: darken($harvey-primary, 10);

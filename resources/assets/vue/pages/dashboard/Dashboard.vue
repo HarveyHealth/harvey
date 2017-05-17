@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    
+
     <UserNav />
 
     <div class="main-content">
@@ -60,6 +60,7 @@
         patientName: Laravel.user.fullName, // because it's already there
         recent_appointments: [],
         upcoming_appointments: [],
+        flag: false
       };
     },
     props: ['user', 'patient'],
@@ -116,6 +117,16 @@
           this.recent_appointments = response.data;
         });
     },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
+    },
+    mounted() {
+      if (localStorage.getItem('signed up')) return null;
+    }
+
   }
 </script>
 
