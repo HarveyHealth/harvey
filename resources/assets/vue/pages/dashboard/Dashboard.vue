@@ -47,8 +47,8 @@
               <p class="card-contact-info">{{ user.email }}</p>
               <h4 class="card-contact-sublabel">Zip</h4>
               <p class="card-contact-info">{{ user.zip }}</p>
-              <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ user.phone }}</p>
+              <h4 v-if="user.phone" class="card-contact-sublabel">Phone</h4>
+              <p v-if="user.phone" class="card-contact-info">{{ user.phone }}</p>
               <h4 class="card-contact-sublabel">ID</h4>
               <p class="card-contact-info">#{{ user.id }}</p>
             </div>
@@ -70,7 +70,8 @@
     data() {
       return {
         'upcoming_appointments': [],
-        'recent_appointments': []
+        'recent_appointments': [],
+        flag: false
       };
     },
     props: ['user', 'patient'],
@@ -101,7 +102,14 @@
         return this.user ? this.user.user_type : null;
       },
     },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
+    },
     mounted() {
+      if (localStorage.getItem('signed up')) return null;
       this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
         .then((response) => {
           this.upcoming_appointments = response.data.data;

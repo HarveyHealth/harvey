@@ -61,7 +61,7 @@
                   <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice a full scope of medicine in all 50 states, equivalent to a medical doctor (MD).</p>
                   <ul>
                     <li>Receives more training than NDs or MDs in musculoskeletal systems (nerves, muscles and bones).</li>
-                    <li>Also heavily trained in prevention, clinical nutrition, medical lab testing and neutraceuticals.</li>
+                    <li>Heavily trained in prevention, clinical nutrition, medical lab testing and nutraceuticals.</li>
                     <li>Utilizes a wide variety of therapies to treat unusual health conditions.</li>
                   </ul>
                 </div>

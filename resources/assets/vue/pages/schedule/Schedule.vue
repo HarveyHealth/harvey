@@ -5,7 +5,9 @@
         <div class="logo-wrapper">
           <router-link to="/" alt="Home"><svg class="harvey-logo"></svg></router-link>
         </div>
-        <span class="header_phone-number">(800) 690-9989</span>
+        <div class="nav-item">
+            <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
+        </div>
       </div>
     </header>
     <form @submit.prevent="onSubmit">
@@ -85,6 +87,11 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
+      
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
     }
   }
 </script>
