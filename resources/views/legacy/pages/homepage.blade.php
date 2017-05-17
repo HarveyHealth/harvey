@@ -18,7 +18,7 @@
                         <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer virtual consultations with functional and naturopathic doctors, in-home lab tests and natural therapies to help you optimize your health and wellness.</p>
                         <div class="columns">
                             <div class="column is-5">
-                                <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&controls=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                                <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                                     <img src="/images/home/amanda.jpg" alt="">
                                 </a>
                             </div>
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="column has-text-right">
-                    <figure class="circle">
+                    <figure>
                         <img src="/images/home/micronutrient.jpg" alt="">
                     </figure>
                 </div>
@@ -168,7 +168,7 @@
             <hr>
             <div class="columns is-narrow">
                 <div class="column">
-                    <figure class="circle">
+                    <figure>
                         <img src="/images/home/allergy.jpg" alt="">
                     </figure>
                 </div>
@@ -190,7 +190,7 @@
                     </div>
                 </div>
                 <div class="column has-text-right">
-                    <figure class="circle">
+                    <figure>
                         <img src="/images/home/chemical.jpg" alt="">
                     </figure>
                 </div>
@@ -265,7 +265,7 @@
 
             <div class="columns">
                 <div class="column is-4 is-offset-2-desktop">
-                    <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&controls=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                    <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/sandra.jpg" alt="">
                     </a>
                 </div>
