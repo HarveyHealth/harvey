@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Appointment;
+use App\Events\AppointmentCanceled;
 
 class AppointmentObserver
 {
