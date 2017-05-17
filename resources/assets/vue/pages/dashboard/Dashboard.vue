@@ -11,9 +11,9 @@
       </div>
       <div class="card-wrapper">
         <div class="card">
-          <Appointments :user-type="userType"
+          <DashboardAppointments :user-type="userType"
                         :recent-appointments="recent_appointments"
-                        :upcoming-appointments="upcoming_appointments"></Appointments>
+                        :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
         <div class="card smaller">
           <div class="card-heading-container">
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-  import Appointments from '../appointments/Appointments.vue';
+  import DashboardAppointments from './components/DashboardAppointments.vue';
   import UserNav from '../_components/UserNav.vue';
 
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
