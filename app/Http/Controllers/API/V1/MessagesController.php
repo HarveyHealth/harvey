@@ -31,7 +31,7 @@ class MessagesController extends BaseAPIController
             $term = request('term');
             $senderId = request('sender_user_id');
             $recipientId = request('recipient_user_id');
-            $notRead = request('unread');
+            $filterUnread = 'unread' == request('filter');
 
             if ($term) {
                 // Indexed search
@@ -42,7 +42,7 @@ class MessagesController extends BaseAPIController
                 if (is_numeric($recipientId)) {
                     $query = $query->where('recipient_user_id', (int) $recipientId);
                 }
-                if ($notRead) {
+                if ($filterUnread) {
                     $query = $query->where('read_at', null);
                 }
             } else {
@@ -54,7 +54,7 @@ class MessagesController extends BaseAPIController
                 if (is_numeric($recipientId)) {
                     $query = $query->to(User::find($recipientId));
                 }
-                if ($notRead) {
+                if ($filterUnread) {
                     $query = $query->unread();
                 }
             }
