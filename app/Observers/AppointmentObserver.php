@@ -19,4 +19,16 @@ class AppointmentObserver
             event(new AppointmentCanceled($appointment));
         }
     }
+
+    /**
+     * Listen to the Appointment delete event.
+     *
+     * @param  Appointment $appointment
+     * @return void
+     */
+    public function deleted(Appointment $appointment)
+    {
+        event(new AppointmentCanceled($appointment));
+    }
+
 }
