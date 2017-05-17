@@ -31,7 +31,7 @@ class User extends Authenticatable implements Mailable
         parent::boot();
 
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->where('enabled', true);
+            $builder->where('users.enabled', true);
         });
     }
 
@@ -125,6 +125,11 @@ class User extends Authenticatable implements Mailable
     public function isAdmin()
     {
         return $this->admin != null;
+    }
+
+    public function isAdminOrPractitioner()
+    {
+        return $this->isAdmin() || $this->isPractitioner();
     }
 
     public function fullName()

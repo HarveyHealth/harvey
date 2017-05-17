@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
 
+        Route::get('patients', 'PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
 
@@ -40,6 +41,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
 
+        Route::get('practitioners', 'PractitionerController@index')->name('practitioner.index');
         Route::get('practitioners/{practitioner}', 'PractitionerController@show')->name('practitioner.show');
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
