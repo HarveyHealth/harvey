@@ -20,8 +20,7 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container">
-          <h1 class="title header-xlarge">{{ dashboardTitle }}
-          <router-link to="/schedule" class="button main-action">New Appointment</router-link></h1>
+          <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
       <div class="card-wrapper">
