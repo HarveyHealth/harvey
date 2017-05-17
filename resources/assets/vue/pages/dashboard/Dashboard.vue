@@ -104,9 +104,7 @@
     beforeMount() {
       let flag = localStorage.getItem('signed up')
       if (flag) {
-        this.$router.push('/schedule')
         localStorage.removeItem('signed up')
-        return null;
       }
     },
     mounted() {

@@ -7,8 +7,8 @@ Vue.use(VeeValidate);
 let routes = [
     {
         path: '/',
-        name: 'dashboard',
-        component: require('./pages/dashboard/Dashboard.vue')
+        name: localStorage.getItem('signed up') ? 'schedule' : 'dashboard',
+        component: localStorage.getItem('signed up') ? require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue')
     },
     {
         path: '/schedule',
