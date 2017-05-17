@@ -118,7 +118,7 @@ class AppointmentsController extends BaseAPIController
 
             return $this->baseTransformItem($appointment)
                         ->addMeta(['deleted' => true])
-                        ->respond(ResponseCode::HTTP_GONE);
+                        ->respond(ResponseCode::HTTP_NO_CONTENT);
         } else {
             $message = $appointment->isLocked() ?
                 "You are unable to cancel an appointment with less than "
