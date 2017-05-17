@@ -101,6 +101,13 @@
         return this.user ? this.user.user_type : null;
       },
     },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        this.$router.push('/schedule')
+        localStorage.removeItem('signed up')
+      }
+    },
     mounted() {
       this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
         .then((response) => {
