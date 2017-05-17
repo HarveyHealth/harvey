@@ -63,3 +63,8 @@ function ip_address()
     }
     return $ip;
 }
+
+function currentUser()
+{
+    return auth()->user();
+}

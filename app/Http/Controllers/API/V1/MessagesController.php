@@ -27,42 +27,38 @@ class MessagesController extends BaseAPIController
      */
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
-            $term = request('term');
-            $senderId = request('sender_user_id');
-            $recipientId = request('recipient_user_id');
-            $filterUnread = 'unread' == request('filter');
+        $filterUnread = 'unread' == request('filter');
+        $recipientId = currentUser()->isAdmin() ? request('recipient_user_id') : currentUser()->id;
+        $senderId = request('sender_user_id');
+        $term = request('term');
 
-            if ($term) {
-                // Indexed search
-                $query = Message::search($term);
-                if (is_numeric($senderId)) {
-                    $query = $query->where('sender_user_id', (int) $senderId);
-                }
-                if (is_numeric($recipientId)) {
-                    $query = $query->where('recipient_user_id', (int) $recipientId);
-                }
-                if ($filterUnread) {
-                    $query = $query->where('read_at', null);
-                }
-            } else {
-                //Non-indexed search
-                $query = Message::make();
-                if (is_numeric($senderId)) {
-                    $query = $query->from(User::find($senderId));
-                }
-                if (is_numeric($recipientId)) {
-                    $query = $query->to(User::find($recipientId));
-                }
-                if ($filterUnread) {
-                    $query = $query->unread();
-                }
+        if ($term) {
+            // Indexed search
+            $query = Message::search($term);
+            if (is_numeric($senderId)) {
+                $query = $query->where('sender_user_id', (int) $senderId);
             }
-
-            return $this->baseTransformBuilder($query, request('include'), new MessageTransformer, request('per_page'))->respond();
+            if (is_numeric($recipientId)) {
+                $query = $query->where('recipient_user_id', (int) $recipientId);
+            }
+            if ($filterUnread) {
+                $query = $query->where('read_at', null);
+            }
+        } else {
+            //Non-indexed search
+            $query = Message::make();
+            if (is_numeric($senderId)) {
+                $query = $query->from(User::find($senderId));
+            }
+            if (is_numeric($recipientId)) {
+                $query = $query->to(User::find($recipientId));
+            }
+            if ($filterUnread) {
+                $query = $query->unread();
+            }
         }
 
-        return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        return $this->baseTransformBuilder($query, request('include'), new MessageTransformer, request('per_page'))->respond();
     }
 
     /**
@@ -72,7 +68,7 @@ class MessagesController extends BaseAPIController
      */
     public function read(Request $request, Message $message)
     {
-        if (auth()->user()->can('markAsRead', $message)) {
+        if (currentUser()->can('markAsRead', $message)) {
             $message->setReadAt()->save();
             return $this->baseTransformItem($message)->respond();
         }
@@ -95,10 +91,10 @@ class MessagesController extends BaseAPIController
             return $this->respondBadRequest($validator->errors()->first());
         }
 
-        if (auth()->user()->can('create', $message)) {
+        if (currentUser()->can('create', $message)) {
             $message = new Message($request->all());
-            $message->is_admin = auth()->user()->isAdmin();
-            $message->sender_user_id = auth()->user()->id;
+            $message->is_admin = currentUser()->isAdmin();
+            $message->sender_user_id = currentUser()->id;
             $message->save();
 
             return $this->baseTransformItem($message)->respond();
@@ -113,7 +109,7 @@ class MessagesController extends BaseAPIController
      */
     public function show(Message $message)
     {
-        if (auth()->user()->can('view', $message)) {
+        if (currentUser()->can('view', $message)) {
             return $this->baseTransformItem($message)->respond();
         }
 
@@ -126,7 +122,7 @@ class MessagesController extends BaseAPIController
      */
     public function delete(Message $message)
     {
-        if (auth()->user()->can('delete', $message)) {
+        if (currentUser()->can('delete', $message)) {
             $message->delete();
             return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_GONE);
         }
