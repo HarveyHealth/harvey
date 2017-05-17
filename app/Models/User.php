@@ -127,6 +127,11 @@ class User extends Authenticatable implements Mailable
         return $this->admin != null;
     }
 
+    public function isAdminOrPractitioner()
+    {
+        return $this->isAdmin() || $this->isPractitioner();
+    }
+
     public function fullName()
     {
         $fullName = trim($this->first_name . ' ' . $this->last_name);
