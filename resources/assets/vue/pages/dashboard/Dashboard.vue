@@ -47,8 +47,8 @@
               <p class="card-contact-info">{{ user.email }}</p>
               <h4 class="card-contact-sublabel">Zip</h4>
               <p class="card-contact-info">{{ user.zip }}</p>
-              <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ user.phone }}</p>
+              <h4 v-if="user.phone" class="card-contact-sublabel">Phone</h4>
+              <p v-if="user.phone" class="card-contact-info">{{ user.phone }}</p>
               <h4 class="card-contact-sublabel">ID</h4>
               <p class="card-contact-info">#{{ user.id }}</p>
             </div>
