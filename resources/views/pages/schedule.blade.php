@@ -14,7 +14,11 @@
         <div class="logo-wrapper">
           <a href="/" alt="Home"><svg class="harvey-logo"><use xlink:href="#harvey-logo"></svg></a>
         </div>
-        <span class="header_phone-number">(800) 690-9989</span>
+        <div class="nav-right">
+            <span class="nav-item">
+                <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
+            </span>
+        </div>
       </div>
     </header>
 

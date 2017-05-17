@@ -14,8 +14,8 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-7-tablet is-6-desktop">
-                        <h1 class="title is-1">Personalized and integrative medicine, delivered at home.</h1>
-                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We combine the best aspects of Eastern and Western medicine to help you reach your optimal levels of health and holistic wellness.</p>
+                        <h1 class="title is-1">Personalized and integrative medicine, where you need it.</h1>
+                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer virtual consultations with functional and naturopathic doctors, in-home lab tests and natural therapies to help you optimize your health and wellness.</p>
                         <div class="columns">
                             <div class="column is-5">
                                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&controls=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -35,8 +35,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Take a deeper dive into your health.</h2>
-            <p class="copy-has-max-width subtitle headline is-4">Harvey provides virtual consultations with functional and naturopathic doctors, in-home lab testing and holistic therapies to help you find the root cause of your chronic health conditions, instead of just treating the symptoms.</p>
+            <h2 class="title is-3">Take a deep dive into your health.</h2>
+            <p class="copy-has-max-width subtitle headline is-4">Harvey can help you find the root cause of your chronic health conditions, instead of just treating the symptoms, and get you feeling the way you know you should feel.</p>
             <div class="button-wrapper">
                 <a href="/signup" class="button is-primary is-medium has-arrow">Get Started</a>
             </div>
@@ -55,7 +55,7 @@
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
                         <h2 class="is-3">The medicine of the future.</h2>
-                        <p class="subtitle is-5">"Integrative Medicine" combines traditional philosophies of Eastern medicine such as nutrition and holistic wellness with advanced evidence-based research of Western medicine. It focuses on the whole person and makes use of a wide variety of therapies to achieve optimal health and healing.</p>
+                        <p class="subtitle is-5">Integrative medicine combines traditional philosophies of Eastern medicine — like nutrition and homeopathic remedies — with advanced evidence-based research of Western medicine. It focuses on the whole person instead of parts of the body and uses a wide variety of therapies to achieve optimal health and healing.</p>
                     </div>
                 </div>
             </div>

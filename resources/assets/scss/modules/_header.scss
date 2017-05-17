@@ -10,7 +10,26 @@
             max-height: 56px;
         }
     }
+
+    .nav-item {
+        float: right;
+        height: 56px;
+        display: flex;
+        font-size: 1rem;
+        padding: 0.75rem;
+        align-items: center;
+        .button.is-outlined {
+            color: $harvey-tertiary;
+            border-color: $harvey-tertiary;
+            background-color: transparent;
+            padding: 7px 16px 9px;
+            font-size: 18px;
+            border: 1px solid;
+        }
+    }
+
 }
+
 
 .header_phone-number {
     @extend %sans--medium;
