@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('users/{user}', 'API\V1\UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'API\V1\UsersController@update')->name('users.update');
 
+        Route::get('patients', 'API\V1\PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'API\V1\PatientsController@show')->name('patients.show');
         Route::patch('patients/{patient}', 'API\V1\PatientsController@update')->name('patients.update');
 
