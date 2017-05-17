@@ -6,7 +6,7 @@
       <div v-else-if="type === 'new'">available times</div>
     </label>
     <span v-if="past" class="input__item">{{ conductedOn }}</span>
-    <span v-else-if="noneAvailable" class="input--warning">No available slots</span>
+    <span v-else-if="noneAvailable" class="input--warning">{{ warningMessage }}</span>
     <template v-else>
       <span class="custom-select">
         <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
@@ -38,7 +38,8 @@ export default {
       selectedDay: '',
       day: '',
       timeIndex: 0,
-      time: ''
+      time: '',
+      warningMessage: 'No available slots'
     }
   },
   computed: {

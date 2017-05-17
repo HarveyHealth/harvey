@@ -64,7 +64,7 @@
     },
     props: ['user', 'patient'],
     components: {
-      Appointments,
+      DashboardAppointments,
       UserNav,
     },
     methods: {

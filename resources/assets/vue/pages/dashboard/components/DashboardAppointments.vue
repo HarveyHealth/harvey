@@ -24,12 +24,12 @@
         </div>
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">
             <div class="appointment-wrapper" v-for="appointment in recentAppointmentsData">
-                <Appointment
+                <DashboardAppointment
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
                 >
-                </Appointment>
+              </DashboardAppointment>
             </div>
         </template>
 
@@ -46,7 +46,7 @@
     export default {
         props: ['userType', 'recentAppointments', 'upcomingAppointments'],
         components: {
-            Appointment,
+            DashboardAppointment,
         },
         methods: {
             getIncludedPatient(_included, _appointment) {

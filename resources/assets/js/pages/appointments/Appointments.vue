@@ -9,7 +9,7 @@
           <h1 class="title header-xlarge">
             Appointments
             <button
-              v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'"
+              v-show="patientDataCollected || userType === 'patient'"
               href="#"
               class="button main-action"
               @click.prevent="newAppointmentSetup()"
