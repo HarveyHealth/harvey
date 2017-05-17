@@ -2,11 +2,12 @@
 
 namespace App\Http\Traits;
 
+use App\Events\AppointmentCanceled;
 use Postmark\Models\PostmarkException;
 
 trait PostmarkExceptionHandler
 {
-    public static function handlePostmarkException(PostmarkException $exception)
+    public static function handlePostmarkException(PostmarkException $exception, AppointmentCanceled $event)
     {
         if (406 == $exception->postmarkApiErrorCode) {
             \Log::warning("Mailbox {$event->appointment->patient->user->email} is marked as 'Inactive' on Postmark so PatientAppointmentEmail will not be sent.");
