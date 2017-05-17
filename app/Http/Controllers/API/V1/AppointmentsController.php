@@ -79,9 +79,9 @@ class AppointmentsController extends BaseAPIController
         }
 
         if (currentUser()->isPatient()) {
-            $inputData['patient_id'] = currentUser()->id;
+            $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
-            $inputData['practitioner_id'] = currentUser()->id;
+            $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
         $appointment = Appointment::create($inputData);
