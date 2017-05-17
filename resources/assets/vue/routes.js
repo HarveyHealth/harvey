@@ -8,14 +8,7 @@ let routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: require('./pages/dashboard/Dashboard.vue'),
-        children: [
-            {
-                path: '/new-appointment',
-                name: 'new-appointment',
-                component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
-            }
-        ]
+        component: require('./pages/dashboard/Dashboard.vue')
     },
     {
         path: '/schedule',
@@ -33,6 +26,11 @@ let routes = [
       path: '/signup',
       name: 'signup',
       component: require('./pages/signup/Signup.vue')
+    },
+    {
+        path: '/new-appointments',
+        name: 'new-appointments',
+        component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
     },
     {
         path: '*',

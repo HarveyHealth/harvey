@@ -1,5 +1,5 @@
 <template>
-    <a href="/appointments" class="appointment-row" alt="Appointment Details">
+    <router-link to="/new-appointments" class="appointment-row" alt="Appointment Details">
         <div class="appointment">
             <div class="appointment_left">
                 <template v-if="userType == 'admin' || userType == 'practitioner'">
@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>
-    </a>
+    </router-link>
 </template>
 
 <script>
