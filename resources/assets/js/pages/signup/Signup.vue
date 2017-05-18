@@ -109,7 +109,7 @@
     mounted () {
       if (this.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'View Signup Page',
+            action: 'Registration',
             fb_event: 'ViewContent',
             category: 'clicks',
             properties: {

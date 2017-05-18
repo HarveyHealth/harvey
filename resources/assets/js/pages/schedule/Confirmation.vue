@@ -72,7 +72,7 @@
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',
-            action: 'Appointment Scheduled',
+            action: 'Confirmation',
             category: 'clicks',
             value: 50.00,
             currency: 'USD',
