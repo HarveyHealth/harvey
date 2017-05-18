@@ -10,7 +10,6 @@
         <p class="confirmation_date">
           <span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
           <!-- confirmation_calendar-add -->
-          <!-- <a class="atcb-link"><img src="/images/signup/calendar-add.png" alt=""></a> -->
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
             <span class="start">{{ calendarStart }}</span>
@@ -27,8 +26,6 @@
           </div>
         </p>
 
-        <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
-
         <p class="confirmation_text large">{{ subtitle }}</p>
 
         <div class="text-centered">
@@ -41,7 +38,7 @@
 </template>
 
 <script>
-  import moment from 'moment';
+  import moment from 'moment-timezone';
 
   export default {
     name: 'Confirmation',
@@ -68,17 +65,15 @@
       }
     },
     created() {
-      this.appointmentInformation = this.$root.$data.sharedState.appointmentData.data;
-      this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
+      this.appointmentInformation = this.$root.appointmentData.data;
+      this.appointmentDate = moment(this.$root.initialAppointment.appointment_at);
       this.calendarSummary = `Appointment with ${this.appointmentInformation.attributes.practitioner_name}`;
       this.calendarStart = moment(this.appointmentDate).format('MM/DD/YYYY hh:mm A');
       this.calendarEnd = moment(this.appointmentDate).add(60, 'm').format('MM/DD/YYYY hh:mm A');
     },
     methods: {
       dispatchEvent() {
-
         if (this.env === 'prod') {
-
             this.$ma.trackEvent({
             action: 'IntakeQ Form Initiated',
             fb_event: 'ViewContent',
@@ -110,10 +105,10 @@
           });
         }
 
-        axios.patch(`api/v1/users/${userId}`, {
-            first_name: this.$root.$data.schedule.firstname,
-            last_name: this.$root.$data.schedule.lastname,
-            phone: this.$root.$data.schedule.phone
+        axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
+            first_name: this.$root.global.user.attributes.first_name,
+            last_name: this.$root.global.user.attributes.last_name,
+            phone: this.$root.global.user.attributes.phone
           })
           .then(response => {
               // phone, firstname, lastname updated
