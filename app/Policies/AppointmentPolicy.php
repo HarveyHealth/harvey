@@ -27,17 +27,10 @@ class AppointmentPolicy
      */
     public function view(User $user, Appointment $appointment)
     {
-        return $user->id == $appointment->patient->user->id ||
-                $user->id == $appointment->practitioner->user->id;
-    }
+        $patient = $appointment->patient;
+        $practitioner = $appointment->practitioner;
 
-    /**
-     * @param User $user
-     * @return bool
-     */
-    public function create(User $user)
-    {
-        return $user->isPatient();
+        return $user->id == $patient->user->id || $user->id == $practitioner->user->id;
     }
 
     /**
@@ -47,7 +40,10 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment)
     {
-        return ($user->id == $appointment->patient->user->id || $user->id == $appointment->practitioner->user->id) && $appointment->isNotLocked();
+        $patient = $appointment->patient;
+        $practitioner = $appointment->practitioner;
+
+        return ($user->id == $patient->user->id || $user->id == $practitioner->user->id) && $appointment->isNotLocked();
     }
 
     /**
@@ -58,7 +54,9 @@ class AppointmentPolicy
      */
     public function delete(User $user, Appointment $appointment)
     {
-        return $user->id == $appointment->patient->user->id &&
-                $appointment->isNotLocked();
+        $patient = $appointment->patient;
+        $practitioner = $appointment->practitioner;
+
+        return ($user->id == $patient->user->id || $user->id == $practitioner->user->id) && $appointment->isNotLocked();
     }
 }

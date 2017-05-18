@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Appointment;
+use App\Events\AppointmentCanceled;
 
 class AppointmentObserver
 {
@@ -18,4 +19,16 @@ class AppointmentObserver
             event(new AppointmentCanceled($appointment));
         }
     }
+
+    /**
+     * Listen to the Appointment delete event.
+     *
+     * @param  Appointment $appointment
+     * @return void
+     */
+    public function deleted(Appointment $appointment)
+    {
+        event(new AppointmentCanceled($appointment));
+    }
+
 }

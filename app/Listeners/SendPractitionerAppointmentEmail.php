@@ -11,6 +11,8 @@ use Postmark\PostmarkClient;
 
 class SendPractitionerAppointmentEmail implements ShouldQueue
 {
+    use PostmarkExceptionHandler;
+
     public function handle(AppointmentScheduled $event)
     {
         if (!app()->environment('local', 'testing')) {
@@ -32,7 +34,7 @@ class SendPractitionerAppointmentEmail implements ShouldQueue
                     $template_model
                 );
             } catch (PostmarkException $exception) {
-                self::handlePostmarkException($exception);
+                self::handlePostmarkException($exception, $event);
             }
         }
     }

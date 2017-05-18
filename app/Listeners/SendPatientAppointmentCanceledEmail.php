@@ -11,6 +11,8 @@ use Postmark\PostmarkClient;
 
 class SendPatientAppointmentCanceledEmail implements ShouldQueue
 {
+    use PostmarkExceptionHandler;
+
     public function handle(AppointmentCanceled $event)
     {
         $appointment = $event->appointment;
@@ -35,7 +37,7 @@ class SendPatientAppointmentCanceledEmail implements ShouldQueue
                 $templateData
             );
         } catch (PostmarkException $exception) {
-            self::handlePostmarkException($exception);
+            self::handlePostmarkException($exception, $event);
         }
     }
 }

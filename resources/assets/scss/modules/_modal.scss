@@ -9,6 +9,9 @@
   height: 100%;
   z-index: 100;
 }
+.modal-wrapper.appointment-modal {
+  z-index: 9999;
+}
 
 .modal {
   position: fixed;
@@ -34,3 +37,17 @@
   .modal-button-container {
     margin-top: 30px;
   }
+
+.appointment-modal .modal {
+  color: darken($darkest-gray, 15%);
+  max-width: 40em;
+  top: 40%;
+  .modal-header {
+    font-size: 1.5em;
+  }
+  p {
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 1em;
+  }
+}
