@@ -40,7 +40,8 @@ class AppointmentsController extends BaseAPIController
             $appointments = $appointments->$filter();
         }
 
-        return $this->baseTransformCollection($appointments->get(), request('include')) ->respond();
+        return $this->baseTransformCollection($appointments->get(), request('include'))->respond();
+
     }
 
     /**
@@ -76,7 +77,6 @@ class AppointmentsController extends BaseAPIController
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors()->first());
         }
-
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
