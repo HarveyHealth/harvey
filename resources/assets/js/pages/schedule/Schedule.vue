@@ -1,15 +1,27 @@
 <template>
-  <form @submit.prevent="onSubmit">
-    <practitioner v-if="step === 1" />
-    <phone v-if="step === 2" />
-    <datetime v-if="step === 3" :availability="practitioner_availability" />
-  </form>
+  <div>
+    <header class="site-header">
+      <div class="container">
+        <div class="logo-wrapper">
+          <router-link to="/" alt="Home"><svg class="harvey-logo"></svg></router-link>
+        </div>
+        <div class="nav-item">
+            <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
+        </div>
+      </div>
+    </header>
+    <form @submit.prevent="onSubmit">
+      <practitioner v-if="step === 1" />
+      <phone v-if="step === 2" />
+      <datetime v-if="step === 3" :availability="practitioner_availability" />
+    </form>
+  </div>
 </template>
 
 <script>
-  import Practitioner from './_components/Practitioner.vue';
-  import Phone from './_components/Phone.vue';
-  import DateTime from './_components/DateTime.vue';
+  import Practitioner from './components/Practitioner.vue';
+  import Phone from './components/Phone.vue';
+  import DateTime from './components/DateTime.vue';
 
   import moment from 'moment';
 
@@ -19,10 +31,17 @@
       return {
         title: "We're starting the process",
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
-        step: 0,
         practitioner: null,
         practitioner_availability: [],
         appointmentDate: '',
+        step: 0,
+        firstname: '',
+        lastname: '',
+        phone: '',
+        selectedDate: null,
+        selectedTime: null,
+        selectedTimeBool: false,
+        selectedDateBool: false,
         env: this.$root.$data.environment,
       }
     },
@@ -35,10 +54,10 @@
       next() {
         this.step ++; // simply increment the steps to move through the form states
       },
+      previous() {
+        this.step --; // simply decrement the steps to move through the form states
+      },
       onSubmit() {
-
-        // send the appointmentDate up so other components can get to it
-        this.$root.$data.sharedState.appointmentDate = this.appointmentDate;
 
         // build the data for the submission
         const appointmentData = {
@@ -47,9 +66,9 @@
           practitioner_id: this.practitioner,
         }
 
-        axios.post(`api/v1/appointments`, appointmentData)
+        axios.post(`/api/v1/appointments`, appointmentData)
           .then(response => {
-            this.$root.$data.sharedState.appointmentData = response.data;
+            this.$root.$data.appointmentData = response.data;
             this.$router.push('/confirmation');
           })
           .catch(error => {
@@ -68,6 +87,11 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
+      
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
     }
   }
 </script>
