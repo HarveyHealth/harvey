@@ -14,17 +14,17 @@
         <div class="signup-form-container">
 
           <div class="input-wrap">
-            <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+            <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('email', email)" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
             <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
             <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
           </div>
 
@@ -38,7 +38,7 @@
       </div>
 
       <div class="text-centered">
-        <input type="submit" class="button" value="Sign Up">
+        <input type="submit" class="button" value="Sign Up" v-on:click="setFlag">
       </div>
     </form>
 
@@ -50,7 +50,7 @@
 
 <script>
 
-  import Interstitial from './Interstitial.vue';
+  import Interstitial from './components/Interstitial.vue';
 
   export default {
     name: 'Signup',
@@ -58,9 +58,9 @@
       return {
         title: 'Your journey starts here',
         subtitle: '',
-        email: '',
-        password: '',
-        zip: '',
+        email: localStorage.getItem('sign up email') || '',
+        password: localStorage.getItem('sign up password') || '',
+        zip: localStorage.getItem('sign up zip') || '',
         zipInRange: false,
         terms: false,
         isComplete: false,
@@ -85,10 +85,16 @@
               terms: this.terms,
             })
             .then(response => {
-                this.login(this.email, this.password);
+              this.login(this.email, this.password);
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
+              
+              // remove local storage items on sign up
+              // needed if you decide to sign up multiple acounts on one browser
+              localStorage.removeItem('sign up zip');
+              localStorage.removeItem('sign up email');
+              localStorage.removeItem('sign up password');
             })
             .catch(error => {
               this.responseErrors = error.response.data.errors;
@@ -105,8 +111,15 @@
             // TODO: catch error
           });
         },
+        persistTextFields(field, value) {
+          localStorage.setItem(`sign up ${field}`, value)
+        },
+        setFlag() {
+          localStorage.setItem('signed up', 'true')
+        }
     },
     mounted () {
+      localStorage.removeItem('signing up')
       if (this.env === 'prod') {
         this.$ma.trackEvent({
             action: 'View Signup Page',

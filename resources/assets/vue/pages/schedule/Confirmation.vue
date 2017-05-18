@@ -9,6 +9,8 @@
 
         <p class="confirmation_date">
           <span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
+          <!-- confirmation_calendar-add -->
+          <!-- <a class="atcb-link"><img src="/images/signup/calendar-add.png" alt=""></a> -->
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
             <span class="start">{{ calendarStart }}</span>
@@ -24,6 +26,8 @@
             <span class="client">ajiwVmWorzcyJqbpmmXE27705</span>
           </div>
         </p>
+
+        <!-- <a class="confirmation_reschedule" href="#">Reschedule</a> -->
 
         <p class="confirmation_text large">{{ subtitle }}</p>
 
@@ -105,6 +109,18 @@
             properties: { laravel_object: Laravel.user }
           });
         }
+
+        axios.patch(`api/v1/users/${userId}`, {
+            first_name: this.$root.$data.schedule.firstname,
+            last_name: this.$root.$data.schedule.lastname,
+            phone: this.$root.$data.schedule.phone
+          })
+          .then(response => {
+              // phone, firstname, lastname updated
+          })
+          .catch(error => {
+            this.responseErrors = error.response.data.errors;
+          });
 
         // From https://www.addevent.com/buttons/add-to-calendar
         // Has to be added on component mount because it needs to be able to find
