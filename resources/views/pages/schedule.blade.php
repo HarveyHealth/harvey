@@ -45,6 +45,19 @@
         </div>
       </header>
 
+      <script>
+        fbq('track', 'CompleteRegistration', {
+          value: 25.00,
+          currency: 'USD'
+        });
+      </script>
+
+
+      <script>
+        fbq('track', 'InitiateCheckout');
+      </script>
+
+
       <main class="signup-content">
         <div id="schedule">
           <router-view />
