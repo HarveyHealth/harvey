@@ -10,7 +10,7 @@ let routes = [
     {
         path: '/new-appointment',
         name: 'new-appointment',
-        component: require('../../new_appointment/NewAppointmentWrapper.vue')
+        component: require('../../new_appointment/NewAppointment.vue')
     },
     {
         path: '*',

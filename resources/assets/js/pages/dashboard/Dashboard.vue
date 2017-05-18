@@ -1,26 +1,12 @@
 <template>
-    <div class="main-container">
-      <div class="nav-bar">
-        <nav class="admin-nav">
-          <a class="admin-nav-link dashboard" href="#">
-            <svg class="icon icon-person"><use xlink:href="#person" /></svg>
-          </a>
-        </nav>
-        <a href="/logout" class="nav-bar-logout" title="Logout">
-          <svg><use xlink:href="#logout"/></svg>
-        </a>
-        <a href="#" class="nav-bar-account">
-          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-        </a>
-      </nav>
-      <a href="#" class="nav-bar-account">
-        <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-      </a>
-    </div>
+  <div class="main-container">
+
+    <UserNav />
+
     <div class="main-content">
       <div class="main-header">
         <div class="container">
-          <h1 class="title header-xlarge">{{ dashboardTitle }}
+          <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
       <div class="card-wrapper">
@@ -35,7 +21,9 @@
           </div>
           <div class="card-content-container">
             <div class="card-content-wrap">
-              <h3 class="card-contact-name"><svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}</h3>
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
+              </h3>
             </div>
             <div v-if="upcoming_appointments.length > 0" class="card-content-wrap">
               <h4 class="card-contact-sublabel">Doctor</h4>
@@ -43,13 +31,13 @@
             </div>
             <div class="card-content-wrap">
               <h4 class="card-contact-sublabel">Email</h4>
-              <p class="card-contact-info">{{ user.attributes.email }}</p>
+              <p class="card-contact-info">{{ email }}</p>
               <h4 class="card-contact-sublabel">Zip</h4>
-              <p class="card-contact-info">{{ user.attributes.zip }}</p>
+              <p class="card-contact-info">{{ zip }}</p>
               <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ user.attributes.phone }}</p>
+              <p class="card-contact-info">{{ phone }}</p>
               <h4 class="card-contact-sublabel">ID</h4>
-              <p class="card-contact-info">#{{ user.id }}</p>
+              <p class="card-contact-info">#100{{ user_id }}</p>
             </div>
           </div>
         </div>
@@ -60,6 +48,8 @@
 
 <script>
   import Appointments from '../../appointments/Appointments.vue';
+  import UserNav from '../_components/UserNav.vue';
+
   import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
   import Contact from '../../mixins/Contact';
 
@@ -67,13 +57,15 @@
     name: 'dashboard',
     data() {
       return {
-        'upcoming_appointments': [],
-        'recent_appointments': []
+        patientName: Laravel.user.fullName, // because it's already there
+        recent_appointments: [],
+        upcoming_appointments: [],
       };
     },
     props: ['user', 'patient'],
     components: {
-      Appointments
+      Appointments,
+      UserNav,
     },
     methods: {
       viewAppointmentPage() {
@@ -81,13 +73,6 @@
       }
     },
     computed: {
-      displayName() {
-          if(this.user.attributes === undefined) {
-              return 'Harvey Client';
-          } else {
-              return this.user.attributes.first_name;
-          }
-      },
       dashboardTitle() {
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
@@ -95,20 +80,42 @@
           return 'Your Dashboard';
         }
       },
-      userType() {
-        return this.user.attributes ? this.user.attributes.user_type : null;
+      // The user information needs to be computed properties because the data
+      // is coming from a promise and most likely will not be available when
+      // Dashboard is fully mounted. Without this, lots of errors in the console.
+      displayName() {
+        if(this.user.attributes === undefined) {
+          return '';
+        } else {
+          return `${this.user.attributes.first_name} ${this.user.attributes.last_name}`;
+        }
       },
+      email() {
+        return this.user.attributes ? this.user.attributes.email : '';
+      },
+      phone() {
+        return this.user.attributes ? phone(this.user.attributes.phone) : '';
+      },
+      user_id() {
+        return this.user.id || '';
+      },
+      userType() {
+        return Laravel.user.userType;
+      },
+      zip() {
+        return this.user.attributes ? this.user.attributes.zip : '';
+      }
     },
-    mounted() {
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
+    created() {
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming&include=patient.user')
         .then((response) => {
-          this.upcoming_appointments = response.data.data;
+          this.upcoming_appointments = response.data;
         });
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
+      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent&include=patient.user')
         .then((response) => {
-          this.recent_appointments = response.data.data;
+          this.recent_appointments = response.data;
         });
-    }
+    },
   }
 </script>
 
