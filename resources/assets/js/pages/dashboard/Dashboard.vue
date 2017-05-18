@@ -11,9 +11,9 @@
       </div>
       <div class="card-wrapper">
         <div class="card">
-          <Appointments :user-type="userType"
+          <DashboardAppointments :user-type="userType"
                         :recent-appointments="recent_appointments"
-                        :upcoming-appointments="upcoming_appointments"></Appointments>
+                        :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
         <div class="card smaller">
           <div class="card-heading-container">
@@ -47,11 +47,11 @@
 </template>
 
 <script>
-  import Appointments from '../../appointments/Appointments.vue';
-  import UserNav from '../_components/UserNav.vue';
+  import DashboardAppointments from './components/DashboardAppointments.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
-  import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
-  import Contact from '../../mixins/Contact';
+  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
 
   export default {
     name: 'dashboard',
@@ -60,11 +60,12 @@
         patientName: Laravel.user.fullName, // because it's already there
         recent_appointments: [],
         upcoming_appointments: [],
+        flag: false
       };
     },
     props: ['user', 'patient'],
     components: {
-      Appointments,
+      DashboardAppointments,
       UserNav,
     },
     methods: {
@@ -107,15 +108,24 @@
       }
     },
     created() {
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming&include=patient.user')
+      axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
         .then((response) => {
           this.upcoming_appointments = response.data;
         });
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent&include=patient.user')
+      axios.get('/api/v1/appointments?filter=recent&include=patient.user')
         .then((response) => {
           this.recent_appointments = response.data;
         });
     },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
+    },
+    mounted() {
+      if (localStorage.getItem('signed up')) return null;
+    }
   }
 </script>
 

@@ -70,7 +70,7 @@
         <a href="#"
           class="input__linkcta"
           v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
-          @click="setupAppointmentCancel()"
+          @click.prevent="setupAppointmentCancel()"
         >Cancel Appointment</a>
       </div>
     </Flyout>
@@ -88,23 +88,23 @@
 
 <script>
   // Components
-  import AppointmentModal from '../_components/AppointmentModal.vue';
-  import DayAndTime from '../_components/DayAndTime.vue';
-  import DoctorName from '../_components/DoctorName.vue';
-  import Flyout from '../_components/Flyout.vue';
-  import Overlay from '../_components/Overlay.vue';
-  import PatientInput from '../_components/PatientInput.vue';
-  import PurposeInput from '../_components/PurposeInput.vue';
-  import Status from '../_components/Status.vue';
-  import TableData from '../_components/TableData.vue';
-  import UserNav from '../_components/UserNav.vue';
+  import AppointmentModal from './components/AppointmentModal.vue';
+  import DayAndTime from './components/DayAndTime.vue';
+  import DoctorName from './components/DoctorName.vue';
+  import Flyout from '../../commons/Flyout.vue';
+  import Overlay from '../../commons/Overlay.vue';
+  import PatientInput from './components/PatientInput.vue';
+  import PurposeInput from './components/PurposeInput.vue';
+  import Status from './components/Status.vue';
+  import TableData from './components/TableData.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
   // Helpers
-  import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
-  import Contact from '../../mixins/Contact';
-  import combineAppointmentDetails from '../../helpers/getAppointmentDetails.js';
+  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
+  import combineAppointmentData from './utils/combineAppointmentData.js';
   import moment from 'moment';
-  import tableConfig from './common/tableconfig';
+  import tableConfig from './utils/tableconfig';
 
   export default {
     name: 'appointments',
@@ -273,6 +273,7 @@
         return output;
       },
       setupAppointmentCancel() {
+        console.log(JSON.stringify(this.dataForCancel, null, 2));
         this.confirmationButton = 'Yes, Cancel Appointment';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Appointment Cancellation';
@@ -287,6 +288,7 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
+        console.log(JSON.stringify(this.dataForNew, null, 2));
         this.confirmationButton = 'Yes, Book Appointment';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment Booking';
@@ -300,6 +302,7 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
+        console.log(JSON.stringify(this.dataForUpdate, null, 2));
         this.confirmationButton = 'Yes, Update Appointment';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment Update';
@@ -317,7 +320,7 @@
         // For right now, we're just adding all appointments. Future iterations will include filters
         // for upcoming and recent appointments
         axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
-          this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
+          this._appointmentDetails = combineAppointmentData(response.data).reverse();
           this.dataCollected = true;
         })
       }
@@ -481,19 +484,18 @@
         if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
 
         axios.post('/api/v1/appointments', data).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
-          this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('refreshTable');
         }).catch(err => console.error(err.response));
-
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('toggleOverlay');
       })
 
       this.$eventHub.$on('cancelAppointment', () => {
         axios.delete(`/api/v1/appointments/${this.dataForCancel.id}`).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
           this.$eventHub.$emit('refreshTable');
-          this.$eventHub.$emit('deselectRows');
         }).catch(err => console.error(err.response));
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('deselectRows');
       })
 
       this.$eventHub.$on('updateAppointment', () => {
@@ -502,12 +504,25 @@
           reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
           status: this.dataForUpdate.status,
         }).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
           this.$eventHub.$emit('refreshTable');
-          this.$eventHub.$emit('deselectRows');
         }).catch(err => console.error(err.response));
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('deselectRows');
       })
 
+    },
+    destroyed() {
+      this.$eventHub.$off('overlayClicked');
+      this.$eventHub.$off('rowClickEvent');
+      this.$eventHub.$off('returnAvailability');
+      this.$eventHub.$off('updatePatient');
+      this.$eventHub.$off('updateDoctor');
+      this.$eventHub.$off('updateDayTime');
+      this.$eventHub.$off('updateStatus');
+      this.$eventHub.$off('updatePurpose');
+      this.$eventHub.$off('bookAppointment');
+      this.$eventHub.$off('cancelAppointment');
+      this.$eventHub.$off('updateAppointment');
     }
   }
 </script>
