@@ -12,12 +12,11 @@ const { mix } = require('laravel-mix');
  */
 
 mix.options({processCssUrls: false})
-   .js('resources/assets/vue/app_public.js', 'public/js')
-   .js('resources/assets/vue/app.js', 'public/js')
-   .js('resources/assets/vue/pages/signup/main.js', 'public/js/vue')
-   .js('resources/assets/vue/vendors/modernizr-custom.js', 'public/js/vendors')
-   .js('resources/assets/vue/vendors/intercom.js', 'public/js/vendors')
-   .js('resources/assets/vue/vendors/typekit.js', 'public/js/vendors')
+   .js('resources/assets/js/app_public.js', 'public/js')
+   .js('resources/assets/js/app.js', 'public/js')
+   .js('resources/assets/js/vendors/modernizr-custom.js', 'public/js/vendors')
+   .js('resources/assets/js/vendors/intercom.js', 'public/js/vendors')
+   .js('resources/assets/js/vendors/typekit.js', 'public/js/vendors')
    .js('resources/assets/js/vendors/zepto.js', 'public/js/vendors')
    .js('resources/assets/js/vendors/lity.js', 'public/js/vendors')
    .copy('resources/assets/images', 'public/images', false)
