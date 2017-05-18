@@ -50,6 +50,14 @@
 
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
+    <script>
+        fbq('track', 'ViewContent', {
+        value: 3.50,
+        currency: 'USD'
+        });
+    </script>
+
+
     <div id="app">
         @include('legacy._layouts.includes.top_nav')
 

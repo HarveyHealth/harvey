@@ -78,6 +78,15 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
+          this.$ma.trackEvent({
+            fb_event: 'CompleteRegistration',
+            type: 'product',
+            action: 'Completed Registration',
+            category: 'clicks',
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+          });
         }
       }
     },

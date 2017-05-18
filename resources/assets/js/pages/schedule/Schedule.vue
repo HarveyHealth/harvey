@@ -67,6 +67,17 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
+      if (this.env === 'prod') {
+          this.$ma.trackEvent({
+              fb_event: 'InitiateCheckout',
+              type: 'product',
+              action: 'Appointment Scheduled',
+              category: 'clicks',
+              value: 50.00,
+              currency: 'USD',
+              properties: { laravel_object: Laravel.user }
+          });
+      }
     }
   }
 </script>

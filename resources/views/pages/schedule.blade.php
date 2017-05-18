@@ -60,6 +60,7 @@
         </div>
       </header>
 
+
       <main class="signup-content">
         <div id="schedule">
           <router-view />
