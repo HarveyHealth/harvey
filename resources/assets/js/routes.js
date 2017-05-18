@@ -12,27 +12,30 @@ let routes = [
     },
     {
         path: '/',
-        name: localStorage.getItem('signing up') ? 
-            'signup' : 
-            localStorage.getItem('signed up') ? 
-            'schedule' : 'dashboard',
-        component: localStorage.getItem('signing up') ? 
-            require('./pages/signup/Signup.vue') : 
-            localStorage.getItem('signed up') ? 
-            require('./pages/schedule/Schedule.vue') :
-            require('./pages/dashboard/Dashboard.vue')
+        // 'signing up' -> 'signup'
+        // 'signed up' -> 'schedule'
+        // '' -> 'dashboard'
+        name: localStorage.getItem('signing up') ?
+            'signup' : localStorage.getItem('signed up') ?
+              'schedule' : 'dashboard',
+        // 'signing up' -> Signup.vue
+        // 'signed up' -> Schedule.vue
+        // '' -> Dashboard.vue
+        component: localStorage.getItem('signing up') ?
+            require('./pages/signup/Signup.vue') : localStorage.getItem('signed up') ?
+                require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue'),
+        children: [
+          {
+            path: 'confirmation',
+            name: 'confirmation',
+            component: require('./pages/schedule/Confirmation.vue')
+          }
+        ]
     },
     {
         path: '/schedule',
         name: 'schedule',
-        component: require('./pages/schedule/Schedule.vue'),
-        children: [
-            {
-                path: 'confirmation',
-                name: 'confirmation',
-                component: require('./pages/schedule/Confirmation.vue')
-            }
-        ]
+        component: require('./pages/schedule/Schedule.vue')
     },
     {
       path: '/signup',

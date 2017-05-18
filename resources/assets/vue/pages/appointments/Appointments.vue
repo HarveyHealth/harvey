@@ -9,7 +9,7 @@
           <h1 class="title header-xlarge">
             Appointments
             <button
-              v-show="patientDataCollected || userType === 'patient'"
+              v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'"
               href="#"
               class="button main-action"
               @click.prevent="newAppointmentSetup()"
@@ -488,6 +488,8 @@
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
+
+
       })
 
       this.$eventHub.$on('cancelAppointment', () => {

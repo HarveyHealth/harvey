@@ -67,10 +67,17 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
+
+          this.$root.global.user.attributes.first_name = this.firstname;
+          this.$root.global.user.attributes.last_name = this.lastname;
+          this.$root.global.user.attributes.phone = this.phone;
+          
           this.$parent.firstname = this.firstname
           this.$parent.lastname = this.lastname
           this.$parent.phone = this.phone
+
           this.$parent.next();
+
         }).catch(() => {});
       },
       lastStep() {

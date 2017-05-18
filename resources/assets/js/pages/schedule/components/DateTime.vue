@@ -177,7 +177,7 @@
 
 
         // this should be UTC
-
+        this.$root.initialAppointment.appointment_at = this.selectedAppointmentDate.utc().format('YYYY-MM-DD hh:mm:ss');
         this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss a');
       },
     },

@@ -126,6 +126,7 @@
     mounted() {
       if (localStorage.getItem('signed up')) return null;
     }
+
   }
 </script>
 
