@@ -12,20 +12,12 @@ let routes = [
     },
     {
         path: '/',
-        name: localStorage.getItem('signing up') ? 
-            'signup' : 
-            localStorage.getItem('signed up') ? 
-            'schedule' : 'dashboard',
-        component: localStorage.getItem('signing up') ? 
-            require('./pages/signup/Signup.vue') : 
-            localStorage.getItem('signed up') ? 
-            require('./pages/schedule/Schedule.vue') :
-            require('./pages/dashboard/Dashboard.vue')
-    },
-    {
-        path: '/schedule',
-        name: 'schedule',
-        component: require('./pages/schedule/Schedule.vue'),
+        name: localStorage.getItem('signing up') ?
+            'signup' : localStorage.getItem('signed up') ?
+              'schedule' : 'dashboard',
+        component: localStorage.getItem('signing up') ?
+            require('./pages/signup/Signup.vue') : localStorage.getItem('signed up') ?
+              require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue'),
         children: [
             {
                 path: 'confirmation',
@@ -33,6 +25,11 @@ let routes = [
                 component: require('./pages/schedule/Confirmation.vue')
             }
         ]
+    },
+    {
+        path: '/schedule',
+        name: 'schedule',
+        component: require('./pages/schedule/Schedule.vue'),
     },
     {
       path: '/signup',

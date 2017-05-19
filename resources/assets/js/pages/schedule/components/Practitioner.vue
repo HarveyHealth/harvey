@@ -109,9 +109,14 @@
       },
 
       getAvailability(practitioner) {
-        const practitioner_id = practitioner === 'osteopathy' ? 2 : 1; // Todo: Dynamically return best available practitioner id
+        // !!
+        // !! Hardcoded for now. But this will need to be updated once more doctors get invovled
+        // !!
+        const practitioner_id = practitioner === 'osteopathy' ? 2 : 1;
 
-        axios.get(`api/v1/practitioners/${practitioner_id}?include=availability`)
+        this.$root.initialAppointment.practitioner_id = practitioner_id;
+
+        axios.get(`api/v1/practitioners/${this.$root.initialAppointment.practitioner_id}?include=availability`)
           .then(response => {
             this.$parent.practitioner_availability = response.data.meta.availability;
 

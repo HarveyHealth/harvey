@@ -10,11 +10,12 @@
         </div>
       </div>
     </header>
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit" v-if="!$root.initialAppointmentComplete">
       <practitioner v-if="step === 1" />
       <phone v-if="step === 2" />
       <datetime v-if="step === 3" :availability="practitioner_availability" />
     </form>
+    <router-view v-if="$root.initialAppointmentComplete" />
   </div>
 </template>
 
@@ -33,6 +34,7 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         practitioner: null,
         practitioner_availability: [],
+        practitioner_id: null,
         appointmentDate: '',
         step: 0,
         firstname: '',
@@ -61,14 +63,15 @@
 
         // build the data for the submission
         const appointmentData = {
-          appointment_at: this.appointmentDateUTC,
-          reason_for_visit: 'blank',
-          practitioner_id: this.practitioner,
+          appointment_at: this.$root.initialAppointment.appointment_at,
+          reason_for_visit: 'First time appointment',
+          practitioner_id: this.$root.initialAppointment.practitioner_id,
         }
 
         axios.post(`/api/v1/appointments`, appointmentData)
           .then(response => {
             this.$root.$data.appointmentData = response.data;
+            this.$root.initialAppointmentComplete = true;
             this.$router.push('/confirmation');
           })
           .catch(error => {
@@ -87,7 +90,7 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-      
+
       let flag = localStorage.getItem('signed up')
       if (flag) {
         localStorage.removeItem('signed up')
