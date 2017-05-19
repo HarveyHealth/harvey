@@ -323,6 +323,19 @@
           this._appointmentDetails = combineAppointmentData(response.data).reverse();
           this.dataCollected = true;
         })
+      },
+      sortByLastName(names) {
+        return names.sort((a, b) => {
+          const nameA = a.name.replace(/,.+/g, '').toUpperCase();
+          const nameB = b.name.replace(/,.+/g, '').toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1
+          } else {
+            return 0;
+          }
+        })
       }
     },
     filters: {
@@ -364,17 +377,7 @@
             })
           });
           // Sort by last name
-          this.patientList = this.patientList.sort((a, b) => {
-            const nameA = a.name.replace(/,.+/g, '').toUpperCase();
-            const nameB = b.name.replace(/,.+/g, '').toUpperCase();
-            if (nameA < nameB) {
-              return -1;
-            } else if (nameA > nameB) {
-              return 1
-            } else {
-              return 0;
-            }
-          })
+          this.patientList = this.sortByLastName(this.patientList);
           this.patientDataCollected = true;
         })
       }
@@ -397,7 +400,9 @@
         // Set flyout component data
         this.$eventHub.$emit('setStatus', rowData.attributes.status);
         this.dataForUpdate.status = rowData.attributes.status;
-        this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        if (this.userType !== 'patient') {
+          this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        }
         // Set initial data for CRUD operations
         this.dataForUpdate.appointment_at = moment(rowData.attributes.appointment_at.date).format('YYYY-MM-DD HH:mm:ss');
         this.dataForUpdate.id = rowData.id;
