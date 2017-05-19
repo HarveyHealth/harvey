@@ -46,7 +46,6 @@ export default {
     availableDays() {
       const days = this.parseAvailability(this.availability);
       this.day = this.type === 'update' ? '' : Object.keys(days)[0];
-      console.log(days);
       return days;
     },
     availableTimes() {

@@ -274,7 +274,6 @@
         return output;
       },
       setupAppointmentCancel() {
-        console.log(JSON.stringify(this.dataForCancel, null, 2));
         this.confirmationButton = 'Yes, Cancel Appointment';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Appointment Cancellation';
@@ -289,7 +288,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        console.log(JSON.stringify(this.dataForNew, null, 2));
         this.confirmationButton = 'Yes, Book Appointment';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment Booking';
@@ -303,7 +301,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        console.log(JSON.stringify(this.dataForUpdate, null, 2));
         this.confirmationButton = 'Yes, Update Appointment';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment Update';
