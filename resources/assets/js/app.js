@@ -77,6 +77,8 @@ const app = new Vue({
         timezone: moment.tz.guess(),
         environment: env,
         appointmentData: null,
+        initialAppointment: {},
+        initialAppointmentComplete: false,
         apiUrl: '/api/v1'
     },
     mounted() {
