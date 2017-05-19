@@ -37,7 +37,6 @@
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '170447220119877'); // Insert your pixel ID here.
-    fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=170447220119877&ev=PageView&noscript=1"
@@ -49,13 +48,6 @@
 <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
 
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
-
-    <script>
-        fbq('track', 'ViewContent', {
-        value: 3.50,
-        currency: 'USD'
-        });
-    </script>
 
 
     <div id="app">
