@@ -13,7 +13,6 @@ class PatientTest extends TestCase
 {
     use DatabaseMigrations;
 
-
     public function test_only_admin_or_practitioner_can_view_patients_data()
     {
         $patient = factory(Patient::class, 3)->create();
