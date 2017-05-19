@@ -16,8 +16,8 @@
           <td colspan="6">Loading your appointment details</td>
         </tr>
         <tr v-for="row in tabledata" @click="rowClick(row, $event)">
-          <td>{{ row.attributes.appointment_at.date | tableDate }}</td>
-          <td>{{ row.attributes.appointment_at.date | tableTime }}</td>
+          <td>{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>
+          <td>{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableTime }}</td>
           <td>{{ row.patientData.last_name | capitalize }}, {{ row.patientData.first_name | capitalize }}</td>
           <td>Dr. {{ row.attributes.practitioner_name }}</td>
           <td>{{ row.attributes.status | tableStatus }}</td>
@@ -33,7 +33,8 @@
 import { capitalize } from '../../../utils/filters/textformat';
 import combineAppointmentData from '../utils/combineAppointmentData';
 import convertStatus from '../utils/statuses';
-import moment from 'moment';
+import moment from 'moment-timezone';
+import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
 
 export default {
   props: ['allTableData', 'config'],
@@ -47,13 +48,13 @@ export default {
       return capitalize(word);
     },
     tableDate(d) {
-      return moment(d).format('ddd MMM Do');
+      return d.format('ddd MMM Do');
     },
     tableStatus(s) {
       return convertStatus(s);
     },
     tableTime(t) {
-      return moment(t).format('h:mm a');
+      return t.format('h:mm a');
     }
   },
   methods: {
@@ -68,10 +69,10 @@ export default {
       this.$eventHub.$emit('deselectRows');
       event.target.parentElement.className = classname === '' ? 'isactive' : '';
       this.$eventHub.$emit('rowClickEvent', rowData, classname !== '');
-    }
+    },
+    toLocalTimezone
   },
   mounted() {
-
     this.$eventHub.$on('deselectRows', () => {
       document.querySelectorAll('tr.isactive').forEach(n => n.className = '');
     })

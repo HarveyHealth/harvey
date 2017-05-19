@@ -103,8 +103,9 @@
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from './utils/combineAppointmentData.js';
-  import moment from 'moment';
+  import moment from 'moment-timezone';
   import tableConfig from './utils/tableconfig';
+  import toLocalTimezone from '../../utils/methods/toLocalTimezone';
 
   export default {
     name: 'appointments',
@@ -273,7 +274,6 @@
         return output;
       },
       setupAppointmentCancel() {
-        console.log(JSON.stringify(this.dataForCancel, null, 2));
         this.confirmationButton = 'Yes, Cancel Appointment';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Appointment Cancellation';
@@ -288,7 +288,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        console.log(JSON.stringify(this.dataForNew, null, 2));
         this.confirmationButton = 'Yes, Book Appointment';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment Booking';
@@ -302,7 +301,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        console.log(JSON.stringify(this.dataForUpdate, null, 2));
         this.confirmationButton = 'Yes, Update Appointment';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment Update';
@@ -323,7 +321,21 @@
           this._appointmentDetails = combineAppointmentData(response.data).reverse();
           this.dataCollected = true;
         })
-      }
+      },
+      sortByLastName(names) {
+        return names.sort((a, b) => {
+          const nameA = a.name.replace(/,.+/g, '').toUpperCase();
+          const nameB = b.name.replace(/,.+/g, '').toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1
+          } else {
+            return 0;
+          }
+        })
+      },
+      toLocalTimezone
     },
     filters: {
       formatPhone(num) {
@@ -364,17 +376,7 @@
             })
           });
           // Sort by last name
-          this.patientList = this.patientList.sort((a, b) => {
-            const nameA = a.name.replace(/,.+/g, '').toUpperCase();
-            const nameB = b.name.replace(/,.+/g, '').toUpperCase();
-            if (nameA < nameB) {
-              return -1;
-            } else if (nameA > nameB) {
-              return 1
-            } else {
-              return 0;
-            }
-          })
+          this.patientList = this.sortByLastName(this.patientList);
           this.patientDataCollected = true;
         })
       }
@@ -397,7 +399,9 @@
         // Set flyout component data
         this.$eventHub.$emit('setStatus', rowData.attributes.status);
         this.dataForUpdate.status = rowData.attributes.status;
-        this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        if (this.userType !== 'patient') {
+          this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        }
         // Set initial data for CRUD operations
         this.dataForUpdate.appointment_at = moment(rowData.attributes.appointment_at.date).format('YYYY-MM-DD HH:mm:ss');
         this.dataForUpdate.id = rowData.id;
@@ -460,8 +464,8 @@
       })
 
       this.$eventHub.$on('updateDayTime', timeObj => {
-        this.dataForUpdate.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
-        this.dataForNew.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
+        this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
+        this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
       })
 
       this.$eventHub.$on('updateStatus', value => {
@@ -476,7 +480,7 @@
 
       this.$eventHub.$on('bookAppointment', () => {
         const data = {
-          appointment_at: this.dataForNew.appointment_at,
+          appointment_at: moment(this.dataForNew.appointment_at).utc().format('YYYY-MM-DD hh:mm:ss'),
           reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
           practitioner_id: this.dataForNew.practitioner_id * 1,
         }
