@@ -73,6 +73,8 @@ const app = new Vue({
         },
         environment: env,
         appointmentData: null,
+        initialAppointment: {},
+        initialAppointmentComplete: false,
         apiUrl: '/api/v1'
     },
     mounted() {
@@ -83,7 +85,7 @@ const app = new Vue({
                 this.global.user = response.data.data;
             } )
             .catch( error => this.global.user = {} );
-      
+
         this.$eventHub.$on('mixpanel', (event) => {
             if (typeof mixpanel !== 'undefined') mixpanel.track(event);
         });
@@ -93,7 +95,7 @@ const app = new Vue({
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      
+
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
     }
