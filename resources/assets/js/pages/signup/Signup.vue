@@ -85,7 +85,7 @@
               terms: this.terms,
             })
             .then(response => {
-                this.login(this.email, this.password);
+              this.login(this.email, this.password);
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
