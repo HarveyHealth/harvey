@@ -42,16 +42,7 @@
       }
     },
     mounted() {
-      if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({
-            action: 'Interstitial',
-            fb_event: 'ViewContent',
-            category: 'clicks',
-            properties: {
-                laravel_object: Laravel.user
-            }
-        })
-      }
+
     }
   }
 </script>

@@ -202,22 +202,19 @@ const app = new Vue({
             this.appLoaded = true;
         });
 
-        this.isHomePage = this.checkWhichPage('home');
-
-        if (this.isHomePage) {
-            if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
+        if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
 
             initTracking();
             if (env === 'prod') {
-              this.$ma.trackEvent({
+                this.$ma.trackEvent({
                 action: 'Homepage',
                 fb_event: 'ViewContent',
                 type: 'product',
                 properties: { laravel_object: Laravel.user },
-              });
-            }
+            });
         }
+
 
         if (this.checkWhichPage('signup', 'register')) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");

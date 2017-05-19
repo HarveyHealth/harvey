@@ -48,12 +48,11 @@
       dispatchEvent() {
 
         if (this.env === 'prod') {
-
             this.$ma.trackEvent({
-            action: 'IntakeQ Form Initiated',
-            fb_event: 'ViewContent',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
+              action: 'IntakeQ Form Initiated',
+              fb_event: 'ViewContent',
+              category: 'clicks',
+              properties: { laravel_object: Laravel.user }
           });
         }
       }
@@ -72,16 +71,7 @@
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',
-            action: 'Confirmation',
-            category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
-            properties: { laravel_object: Laravel.user }
-          });
-          this.$ma.trackEvent({
-            fb_event: 'CompleteRegistration',
-            type: 'product',
-            action: 'Completed Registration',
+            action: 'Complete Purchase',
             category: 'clicks',
             value: 50.00,
             currency: 'USD',
