@@ -85,10 +85,22 @@
               terms: this.terms,
             })
             .then(response => {
-                this.login(this.email, this.password);
+              this.login(this.email, this.password);
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
+
+              if (this.env === 'prod') {
+                this.$ma.trackEvent({
+                    fb_event: 'CompleteRegistration',
+                    type: 'product',
+                    action: 'Completed Signup',
+                    category: 'clicks',
+                    value: 50.00,
+                    currency: 'USD',
+                    properties: { laravel_object: Laravel.user }
+                });
+              }
             })
             .catch(error => {
               this.responseErrors = error.response.data.errors;
@@ -109,14 +121,14 @@
     mounted () {
       if (this.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'Registration',
-            fb_event: 'ViewContent',
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Start Signup',
             category: 'clicks',
-            properties: {
-                laravel_object: Laravel.user
-            },
-            value: 'PageView'
-        })
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
       }
     }
   }

@@ -71,7 +71,7 @@
           this.$ma.trackEvent({
               fb_event: 'InitiateCheckout',
               type: 'product',
-              action: 'Appointment Scheduled',
+              action: 'Scheduling Appointment',
               category: 'clicks',
               value: 50.00,
               currency: 'USD',
