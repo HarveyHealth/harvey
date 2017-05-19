@@ -17,15 +17,12 @@ class PatientTest extends TestCase
     {
         $patient = factory(Patient::class, 3)->create();
 
-        Passport::actingAs(factory(Practitioner::class)->create()->user);
-        $response = $this->json('GET', 'api/v1/patients/');
-        $response->assertStatus(200);
-        $this->assertCount(3, $response->original['data']);
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-        $response = $this->json('GET', 'api/v1/patients/');
-        $response->assertStatus(200);
-        $this->assertCount(3, $response->original['data']);
+        foreach ([Admin::class, Practitioner::class] as $userClass) {
+            Passport::actingAs(factory($userClass)->create()->user);
+            $response = $this->json('GET', 'api/v1/patients/');
+            $response->assertStatus(200);
+            $this->assertCount(3, $response->original['data']);
+        }
 
         Passport::actingAs(factory(Patient::class)->create()->user);
         $response = $this->json('GET', 'api/v1/patients/');
