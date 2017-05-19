@@ -2,9 +2,10 @@ import './bootstrap';
 import router from './routes';
 import VueMultianalytics from 'vue-multianalytics';
 
-
 // FILTERS
 import filter_datetime from './utils/filters/datetime';
+
+// DIRECTIVES
 import phonemask from './utils/directives/phonemask';
 
 // MIXINS
@@ -15,6 +16,8 @@ import Alert from './commons/Alert.vue';
 import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 
+// HELPERS
+import moment from 'moment-timezone';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
@@ -71,6 +74,7 @@ const app = new Vue({
             patients: [],
             test_results:[]
         },
+        timezone: moment.tz.guess(),
         environment: env,
         appointmentData: null,
         initialAppointment: {},

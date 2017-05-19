@@ -103,8 +103,9 @@
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from './utils/combineAppointmentData.js';
-  import moment from 'moment';
+  import moment from 'moment-timezone';
   import tableConfig from './utils/tableconfig';
+  import toLocalTimezone from '../../utils/methods/toLocalTimezone';
 
   export default {
     name: 'appointments',
@@ -273,7 +274,6 @@
         return output;
       },
       setupAppointmentCancel() {
-        console.log(JSON.stringify(this.dataForCancel, null, 2));
         this.confirmationButton = 'Yes, Cancel Appointment';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Appointment Cancellation';
@@ -288,7 +288,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        console.log(JSON.stringify(this.dataForNew, null, 2));
         this.confirmationButton = 'Yes, Book Appointment';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment Booking';
@@ -302,7 +301,6 @@
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        console.log(JSON.stringify(this.dataForUpdate, null, 2));
         this.confirmationButton = 'Yes, Update Appointment';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment Update';
@@ -336,7 +334,8 @@
             return 0;
           }
         })
-      }
+      },
+      toLocalTimezone
     },
     filters: {
       formatPhone(num) {
@@ -465,8 +464,8 @@
       })
 
       this.$eventHub.$on('updateDayTime', timeObj => {
-        this.dataForUpdate.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
-        this.dataForNew.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
+        this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
+        this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
       })
 
       this.$eventHub.$on('updateStatus', value => {
@@ -481,7 +480,7 @@
 
       this.$eventHub.$on('bookAppointment', () => {
         const data = {
-          appointment_at: this.dataForNew.appointment_at,
+          appointment_at: moment(this.dataForNew.appointment_at).utc().format('YYYY-MM-DD hh:mm:ss'),
           reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
           practitioner_id: this.dataForNew.practitioner_id * 1,
         }
