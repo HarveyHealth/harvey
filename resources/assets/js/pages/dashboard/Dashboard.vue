@@ -125,6 +125,7 @@
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
+      console.log(JSON.stringify(this.$root.$data, null, 2));
     }
 
   }

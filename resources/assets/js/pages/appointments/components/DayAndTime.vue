@@ -27,6 +27,7 @@
 
 <script>
 import moment from 'moment-timezone';
+import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
 
 export default {
   props: ['availability', 'classes', 'date', 'past', 'type'],
@@ -45,6 +46,7 @@ export default {
     availableDays() {
       const days = this.parseAvailability(this.availability);
       this.day = this.type === 'update' ? '' : Object.keys(days)[0];
+      console.log(days);
       return days;
     },
     availableTimes() {
@@ -54,7 +56,7 @@ export default {
       return times;
     },
     conductedOn() {
-      return this.past ? moment(this.date).format('dddd, MMMM Do [at] h:mm a') : false;
+      return this.past ? this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a') : false;
     },
     noneAvailable() {
       return !Object.keys(this.availableDays).length;
@@ -73,8 +75,11 @@ export default {
       return moment(day).format('dddd, MMMM Do');
     },
     normalTime(time) {
-      return moment(time, 'HH:mm').format('h:mm a');
+      return this.toLocalTimezone(time, this.$root.timezone).format('h:mm a');
     },
+
+    toLocalTimezone,
+
     selectDay(target) {
       this.selectedDay = target.value;
       this.timeIndex = 0;
