@@ -118,9 +118,9 @@ class Appointment extends Model
                     ->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeRecent($query, $limit = 3)
+    public function scopeRecent($query)
     {
-        return $query->where('appointment_at', '<', Carbon::now())->limit($limit)->orderBy('appointment_at', 'DESC');
+        return $query->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
     }
 
     public function scopeForPractitioner($query, Practitioner $practitioner)
