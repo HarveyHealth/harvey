@@ -29,7 +29,7 @@
           </div>
 
           <div class="input-wrap text-centered">
-            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'" />
+            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'">
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>

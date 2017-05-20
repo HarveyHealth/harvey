@@ -220,6 +220,7 @@ body.home {
             height: 68px;
             padding-top: 10px;
             border-radius: 50%;
+            display: inline-block;
             @include from($desktop) {
                 width: 80px;
                 height: 80px;
@@ -272,26 +273,26 @@ body.home {
         .title {
             margin-bottom: 0;
         }
-        margin-bottom: 2em;
+        margin-bottom: 1em;
         .introduction {
             margin-top: 0;
             margin-bottom: 2rem;
             img {
-                padding: 1rem;
+                padding: 2rem;
                 max-width: 470px;
             }
         }
         figure.has-margin {
-            margin-top: 3rem;
+            margin-top: 2rem 3rem;
             margin-bottom: 3.5rem;
         }
         .columns {
-            padding: 12px 20px 0 0;
+            padding: 0 20px 15px 0;
             transform: translateX(1.5rem);
         }
     }
 
-    #western-medicine, #pricing {
+    #western-medicine, #labs {
         padding-bottom: 5rem;
         .columns {
             background-color: #fff;
@@ -302,11 +303,11 @@ body.home {
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
     }
 
-    #pricing{
+    #labs{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
     }
 
-    #pricing {
+    #labs {
         .button {
             margin-bottom: 20px;
         }
@@ -332,6 +333,7 @@ body.home {
             text-align: center;
             .column.columns {
                 flex-direction: column;
+                margin-bottom: 50px;
                 .icon-wrapper {
                     margin: 0 auto;
                 }
@@ -365,16 +367,14 @@ body.home {
     }
 
     #get-started {
-        margin: 30px 0 75px;
         background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
-        padding: 80px 0 90px;
+        padding: 70px 0 90px;
         h2 {
             margin-bottom: 0;
         }
         p {
             color: $tertiary;
             font-size: 1.2rem;
-            margin: .5rem 0 1rem;
         }
     }
 
@@ -382,6 +382,13 @@ body.home {
 
     .vue-slider-tooltip.vue-slider-tooltip-top {
         top: -3px;
+    }
+
+    .anchor {
+        display: block;
+        position: relative;
+        top: -64px;
+        visibility: hidden;
     }
 
     // Mailchimp
