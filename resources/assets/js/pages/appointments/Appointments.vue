@@ -41,6 +41,7 @@
         :availability="doctorAvailability"
         :date="appointmentData.appointmentDate"
         :past="appointmentData.pastAppointment"
+        :status="appointmentData.appointmentStatus"
         :type="appointmentModType"
       />
       <Status
@@ -52,6 +53,7 @@
       <PurposeInput
         :past="appointmentData.pastAppointment"
         :purposetext="appointmentData.appointmentPurpose"
+        :status="appointmentData.appointmentStatus"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -63,13 +65,17 @@
           :disabled="!noAvailability"
         >Book Appointment</button>
         <button
-          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+          v-if="appointmentModType === 'update'
+            && !appointmentData.pastAppointment
+            && !(appointmentData.appointmentStatus !== 'pending' && userType === 'patient')"
           @click.prevent="setupAppointmentUpdate()"
           class="button"
         >Update Appointment</button>
         <a href="#"
           class="input__linkcta"
-          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+          v-if="appointmentModType === 'update'
+            && !appointmentData.pastAppointment
+            && !(appointmentData.appointmentStatus !== 'pending' && userType === 'patient')"
           @click.prevent="setupAppointmentCancel()"
         >Cancel Appointment</a>
       </div>
