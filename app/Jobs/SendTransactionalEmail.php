@@ -41,11 +41,8 @@ class SendTransactionalEmail implements ShouldQueue
 
         // remove the base config path if it's there
         $template = str_replace('services.postmark.templates.', '', $this->template);
-
-        // add it back
-        $template = 'services.postmark.templates.' . $template;
-
-        $template_id = config($template);
+        
+        $template_id = config('services.postmark.templates.' . $template);
 
         if (!app()->environment(['production','staging'])) {
             \Log::info("Faking sending transactional email with Postmark to {$this->to} with template {$template}.");
@@ -63,7 +60,7 @@ class SendTransactionalEmail implements ShouldQueue
             );
         } catch (PostmarkException $exception) {
             if (406 == $exception->postmarkApiErrorCode) {
-                $message = "Mailbox {$this->to} is marked as 'Inactive' on Postmark so email {$template} will not be sent.";
+                $message = "Mailbox {$this->to} is marked as *Inactive* on Postmark so email {$template} will not be sent.";
 
                 \Log::warning($message);
                 ops_message('warning', 'Warning', $message, 'engineering');
