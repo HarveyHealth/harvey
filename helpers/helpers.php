@@ -68,3 +68,22 @@ function currentUser()
 {
     return auth()->user();
 }
+
+function ops_message($level, $alert, $message, $channels = 'engineering')
+{
+    if (is_string($channels)) {
+        $channels = [$channel];
+    }
+
+    if (!empty($alert)) {
+        $alert = ucwords($alert);
+        $message = "*[{$alert}]* " . $message;
+    }
+
+    foreach ($channels as $channel) {
+        $notification = new SlackNotification($message, $channel);
+        $notification->level = $level;
+
+        (new Slack)->notify($notification);
+    }
+}
