@@ -43,4 +43,8 @@
     </g>
   </symbol>
 
+  <symbol id="close" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
+  </symbol>
+
 </svg>
