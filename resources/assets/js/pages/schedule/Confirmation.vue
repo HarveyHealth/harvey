@@ -9,6 +9,7 @@
 
         <p class="confirmation_date">
           <span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
+          <!-- confirmation_calendar-add -->
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
             <span class="start">{{ calendarStart }}</span>
@@ -28,7 +29,8 @@
         <p class="confirmation_text large">{{ subtitle }}</p>
 
         <div class="text-centered">
-          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake</a>
+          <a href="/dashboard" class="button is-outlined dashboard">Dashboard</a>
         </div>
 
       </div>
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-  import moment from 'moment';
+  import moment from 'moment-timezone';
 
   export default {
     name: 'Confirmation',
@@ -64,8 +66,8 @@
       }
     },
     created() {
-      this.appointmentInformation = this.$root.$data.sharedState.appointmentData.data;
-      this.appointmentDate = moment(this.$root.$data.sharedState.appointmentDate);
+      this.appointmentInformation = this.$root.appointmentData.data;
+      this.appointmentDate = moment(this.$root.initialAppointment.appointment_at);
       this.calendarSummary = `Appointment with ${this.appointmentInformation.attributes.practitioner_name}`;
       this.calendarStart = moment(this.appointmentDate).format('MM/DD/YYYY hh:mm A');
       this.calendarEnd = moment(this.appointmentDate).add(60, 'm').format('MM/DD/YYYY hh:mm A');
@@ -94,17 +96,29 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-        if (this.env === 'prod') {
+       if (this.env === 'prod') {
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',
-            action: 'Appointment Scheduled',
+            action: 'Complete Purchase',
             category: 'clicks',
             value: 50.00,
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
         }
+
+        axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
+            first_name: this.$root.global.user.attributes.first_name,
+            last_name: this.$root.global.user.attributes.last_name,
+            phone: this.$root.global.user.attributes.phone
+          })
+          .then(response => {
+              // phone, firstname, lastname updated
+          })
+          .catch(error => {
+            this.responseErrors = error.response.data.errors;
+          });
 
         // From https://www.addevent.com/buttons/add-to-calendar
         // Has to be added on component mount because it needs to be able to find

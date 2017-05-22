@@ -11,16 +11,17 @@
       </div>
       <div class="card-wrapper">
         <div class="card">
-          <Appointments :user-type="userType"
+          <DashboardAppointments :user-type="userType"
                         :recent-appointments="recent_appointments"
-                        :upcoming-appointments="upcoming_appointments"></Appointments>
+                        :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
         <div class="card smaller">
           <div class="card-heading-container">
-            <h2 class="card-header">Your Contact</h2>
+            <h2 class="card-header">Your Info</h2>
+            <!-- <a href="/dashboard#/appointments">Edit Info</a> -->
           </div>
           <div class="card-content-container">
-            <div class="card-content-wrap">
+            <div class="card-content-wrap" v-if="patientName">
               <h3 class="card-contact-name">
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
               </h3>
@@ -30,14 +31,14 @@
               <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
             </div>
             <div class="card-content-wrap">
-              <h4 class="card-contact-sublabel">Email</h4>
-              <p class="card-contact-info">{{ email }}</p>
-              <h4 class="card-contact-sublabel">Zip</h4>
-              <p class="card-contact-info">{{ zip }}</p>
-              <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ phone }}</p>
-              <h4 class="card-contact-sublabel">ID</h4>
-              <p class="card-contact-info">#100{{ user_id }}</p>
+              <h4 class="card-contact-sublabel" v-if="email">Email</h4>
+              <p class="card-contact-info" v-if="email">{{ email }}</p>
+              <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
+              <p class="card-contact-info" v-if="zip">{{ zip }}</p>
+              <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
+              <p class="card-contact-info" v-if="phone">{{ phone }}</p>
+              <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
+              <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>
           </div>
         </div>
@@ -47,11 +48,11 @@
 </template>
 
 <script>
-  import Appointments from '../../appointments/Appointments.vue';
-  import UserNav from '../_components/UserNav.vue';
+  import DashboardAppointments from './components/DashboardAppointments.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
-  import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
-  import Contact from '../../mixins/Contact';
+  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
 
   export default {
     name: 'dashboard',
@@ -60,11 +61,12 @@
         patientName: Laravel.user.fullName, // because it's already there
         recent_appointments: [],
         upcoming_appointments: [],
+        flag: false
       };
     },
     props: ['user', 'patient'],
     components: {
-      Appointments,
+      DashboardAppointments,
       UserNav,
     },
     methods: {
@@ -107,22 +109,32 @@
       }
     },
     created() {
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming&include=patient.user')
+      axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
         .then((response) => {
           this.upcoming_appointments = response.data;
         });
-      this.$http.get(this.$root.apiUrl + '/appointments?filter=recent&include=patient.user')
+      axios.get('/api/v1/appointments?filter=recent&include=patient.user')
         .then((response) => {
           this.recent_appointments = response.data;
         });
     },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up')
+      if (flag) {
+        localStorage.removeItem('signed up')
+      }
+    },
+    mounted() {
+      if (localStorage.getItem('signed up')) return null;
+    }
+
   }
 </script>
 
 <style lang="scss" scoped>
   .icon-person {
     height: 30px;
-    margin-right: 7px;
+    margin-right: 15px;
     width: 30px;
     vertical-align: top;
   }

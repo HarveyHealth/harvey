@@ -99,6 +99,10 @@ a:hover {
   }
 }
 
+.guide-block {
+  text-align: center;
+}
+
 .practitioner-main-content {
     margin-bottom: 10px;
   p{
@@ -246,7 +250,7 @@ button:focus {
             }
 
             .calendar-item_link {
-              color: $darkest-gray;
+              color: $gray;
               border: none;
               background: none;
               cursor: pointer;
@@ -270,7 +274,7 @@ button:focus {
 
 // Confirmation
 .confirmation {
-
+  text-align: center;
 }
   .confirmation_calendar {
     margin: 30px auto;
@@ -303,6 +307,19 @@ button:focus {
       margin-bottom: 30px;
     }
 
+    .button.dashboard {
+      color: #666;
+      border: 1px solid #e2e2e2;
+      background-color: #f9f9f9;
+      padding: 12px 30px;
+      margin-left: 10px;
+      &:hover{
+        color: #444;
+        border: 1px solid #444;
+        background-color: #e9e9e9;
+      }
+    }
+
 // Form Errors/Feedback
 .error-container {
   margin: 0 0 15px 0;
@@ -313,11 +330,12 @@ button:focus {
 #addeventatc1, .addeventatc1 {
   font-family: $sans !important;
   font-size: 16px !important;
+  color: $gray !important;
   border-color: #efefef !important;
   font-weight: 400 !important;
   transition: opacity 200ms ease-in;
   &:hover{
-    font-size: 16px !important;
+    opacity: .75 !important;
   }
   &.isVisible {
     opacity: 1;

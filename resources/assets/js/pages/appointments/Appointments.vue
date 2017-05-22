@@ -7,15 +7,8 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">
-            Appointments
-            <button
-              v-show="patientDataCollected || userType === 'patient'"
-              href="#"
-              class="button main-action"
-              @click.prevent="newAppointmentSetup()"
-            >
-              New Appointment
-            </button>
+            <span class="text">Your Appointments</span>
+            <button v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'" href="#" class="button main-action circle" @click.prevent="newAppointmentSetup()"><svg><use xlink:href="#addition"/></svg></button>
           </h1>
         </div>
       </div>
@@ -41,6 +34,7 @@
         :availability="doctorAvailability"
         :date="appointmentData.appointmentDate"
         :past="appointmentData.pastAppointment"
+        :status="appointmentData.appointmentStatus"
         :type="appointmentModType"
       />
       <Status
@@ -52,6 +46,7 @@
       <PurposeInput
         :past="appointmentData.pastAppointment"
         :purposetext="appointmentData.appointmentPurpose"
+        :status="appointmentData.appointmentStatus"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -63,14 +58,18 @@
           :disabled="!noAvailability"
         >Book Appointment</button>
         <button
-          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
+          v-if="appointmentModType === 'update'
+            && !appointmentData.pastAppointment
+            && !(appointmentData.appointmentStatus !== 'pending' && userType === 'patient')"
           @click.prevent="setupAppointmentUpdate()"
           class="button"
         >Update Appointment</button>
         <a href="#"
           class="input__linkcta"
-          v-if="appointmentModType === 'update' && !appointmentData.pastAppointment"
-          @click="setupAppointmentCancel()"
+          v-if="appointmentModType === 'update'
+            && !appointmentData.pastAppointment
+            && !(appointmentData.appointmentStatus !== 'pending' && userType === 'patient')"
+          @click.prevent="setupAppointmentCancel()"
         >Cancel Appointment</a>
       </div>
     </Flyout>
@@ -88,23 +87,24 @@
 
 <script>
   // Components
-  import AppointmentModal from '../_components/AppointmentModal.vue';
-  import DayAndTime from '../_components/DayAndTime.vue';
-  import DoctorName from '../_components/DoctorName.vue';
-  import Flyout from '../_components/Flyout.vue';
-  import Overlay from '../_components/Overlay.vue';
-  import PatientInput from '../_components/PatientInput.vue';
-  import PurposeInput from '../_components/PurposeInput.vue';
-  import Status from '../_components/Status.vue';
-  import TableData from '../_components/TableData.vue';
-  import UserNav from '../_components/UserNav.vue';
+  import AppointmentModal from './components/AppointmentModal.vue';
+  import DayAndTime from './components/DayAndTime.vue';
+  import DoctorName from './components/DoctorName.vue';
+  import Flyout from '../../commons/Flyout.vue';
+  import Overlay from '../../commons/Overlay.vue';
+  import PatientInput from './components/PatientInput.vue';
+  import PurposeInput from './components/PurposeInput.vue';
+  import Status from './components/Status.vue';
+  import TableData from './components/TableData.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
   // Helpers
-  import { capitalize, phone, hyperlink } from '../../filters/textformat.js';
-  import Contact from '../../mixins/Contact';
-  import combineAppointmentDetails from '../../helpers/getAppointmentDetails.js';
-  import moment from 'moment';
-  import tableConfig from './common/tableconfig';
+  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
+  import combineAppointmentData from './utils/combineAppointmentData.js';
+  import moment from 'moment-timezone';
+  import tableConfig from './utils/tableconfig';
+  import toLocalTimezone from '../../utils/methods/toLocalTimezone';
 
   export default {
     name: 'appointments',
@@ -273,41 +273,41 @@
         return output;
       },
       setupAppointmentCancel() {
-        this.confirmationButton = 'Yes, Cancel Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'cancelAppointment';
-        this.confirmationTitle = 'Confirm Appointment Cancellation';
+        this.confirmationTitle = 'Confirm Cancellation';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        this.confirmationButton = 'Yes, Book Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'bookAppointment';
-        this.confirmationTitle = 'Confirm Appointment Booking';
+        this.confirmationTitle = 'Confirm Appointment';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Purpose'] = this.dataForNew.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        this.confirmationButton = 'Yes, Update Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'updateAppointment';
-        this.confirmationTitle = 'Confirm Appointment Update';
+        this.confirmationTitle = 'Confirm Appointment';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
@@ -317,10 +317,24 @@
         // For right now, we're just adding all appointments. Future iterations will include filters
         // for upcoming and recent appointments
         axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
-          this._appointmentDetails = combineAppointmentDetails(response.data).reverse();
+          this._appointmentDetails = combineAppointmentData(response.data).reverse();
           this.dataCollected = true;
         })
-      }
+      },
+      sortByLastName(names) {
+        return names.sort((a, b) => {
+          const nameA = a.name.replace(/,.+/g, '').toUpperCase();
+          const nameB = b.name.replace(/,.+/g, '').toUpperCase();
+          if (nameA < nameB) {
+            return -1;
+          } else if (nameA > nameB) {
+            return 1
+          } else {
+            return 0;
+          }
+        })
+      },
+      toLocalTimezone
     },
     filters: {
       formatPhone(num) {
@@ -361,17 +375,7 @@
             })
           });
           // Sort by last name
-          this.patientList = this.patientList.sort((a, b) => {
-            const nameA = a.name.replace(/,.+/g, '').toUpperCase();
-            const nameB = b.name.replace(/,.+/g, '').toUpperCase();
-            if (nameA < nameB) {
-              return -1;
-            } else if (nameA > nameB) {
-              return 1
-            } else {
-              return 0;
-            }
-          })
+          this.patientList = this.sortByLastName(this.patientList);
           this.patientDataCollected = true;
         })
       }
@@ -394,7 +398,9 @@
         // Set flyout component data
         this.$eventHub.$emit('setStatus', rowData.attributes.status);
         this.dataForUpdate.status = rowData.attributes.status;
-        this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        if (this.userType !== 'patient') {
+          this.$eventHub.$emit('setPatient', rowData.attributes.patient_id);
+        }
         // Set initial data for CRUD operations
         this.dataForUpdate.appointment_at = moment(rowData.attributes.appointment_at.date).format('YYYY-MM-DD HH:mm:ss');
         this.dataForUpdate.id = rowData.id;
@@ -457,8 +463,8 @@
       })
 
       this.$eventHub.$on('updateDayTime', timeObj => {
-        this.dataForUpdate.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
-        this.dataForNew.appointment_at = timeObj.format('YYYY-MM-DD HH:mm:ss');
+        this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
+        this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
       })
 
       this.$eventHub.$on('updateStatus', value => {
@@ -473,7 +479,7 @@
 
       this.$eventHub.$on('bookAppointment', () => {
         const data = {
-          appointment_at: this.dataForNew.appointment_at,
+          appointment_at: moment(this.dataForNew.appointment_at).utc().format('YYYY-MM-DD hh:mm:ss'),
           reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
           practitioner_id: this.dataForNew.practitioner_id * 1,
         }
@@ -481,19 +487,20 @@
         if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
 
         axios.post('/api/v1/appointments', data).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
-          this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('refreshTable');
         }).catch(err => console.error(err.response));
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('toggleOverlay');
+
 
       })
 
       this.$eventHub.$on('cancelAppointment', () => {
         axios.delete(`/api/v1/appointments/${this.dataForCancel.id}`).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
           this.$eventHub.$emit('refreshTable');
-          this.$eventHub.$emit('deselectRows');
         }).catch(err => console.error(err.response));
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('deselectRows');
       })
 
       this.$eventHub.$on('updateAppointment', () => {
@@ -502,12 +509,25 @@
           reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
           status: this.dataForUpdate.status,
         }).then(response => {
-          this.$eventHub.$emit('callFlyout', true);
           this.$eventHub.$emit('refreshTable');
-          this.$eventHub.$emit('deselectRows');
         }).catch(err => console.error(err.response));
+        this.$eventHub.$emit('callFlyout', true);
+        this.$eventHub.$emit('deselectRows');
       })
 
+    },
+    destroyed() {
+      this.$eventHub.$off('overlayClicked');
+      this.$eventHub.$off('rowClickEvent');
+      this.$eventHub.$off('returnAvailability');
+      this.$eventHub.$off('updatePatient');
+      this.$eventHub.$off('updateDoctor');
+      this.$eventHub.$off('updateDayTime');
+      this.$eventHub.$off('updateStatus');
+      this.$eventHub.$off('updatePurpose');
+      this.$eventHub.$off('bookAppointment');
+      this.$eventHub.$off('cancelAppointment');
+      this.$eventHub.$off('updateAppointment');
     }
   }
 </script>

@@ -16,11 +16,13 @@
   }
     .card-empty-container{
       padding: 20px 30px;
+      max-height: 70px;
       p {
         font-weight: 300;
         letter-spacing: 1px;
         font-size: 18px;
         font-style: italic;
+        margin: 0;
         opacity: .5;
       }
     }
@@ -28,15 +30,18 @@
       border-bottom: 1px solid $color--grey;
       padding: 20px 30px;
       background: $lightest-gray;
-      .new-appointment{
+      a{
         float: right;
         padding: 12px 18px;
+        margin: -30px -30px 0 0;
+        font-size: 16px;
       }
     }
       .card-header {
         font-size: 16px;
         margin: 0;
         letter-spacing: 1px;
+        text-transform: uppercase;
       }
     .card-content-wrap {
       border-bottom: 1px solid $color--grey;

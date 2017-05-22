@@ -30,5 +30,4 @@ class AppointmentObserver
     {
         event(new AppointmentCanceled($appointment));
     }
-
 }
