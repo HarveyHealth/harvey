@@ -42,6 +42,11 @@ let routes = [
         component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
     },
     {
+        path: '/messages',
+        name: 'messages',
+        component: require('./pages/messages/Messages.vue')
+    },
+    {
         path: '*',
         redirect:  '/'
     }

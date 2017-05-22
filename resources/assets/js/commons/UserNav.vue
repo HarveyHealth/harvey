@@ -12,6 +12,10 @@
         <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
         <div class="text">Appointments</div>
       </router-link>
+      <router-link class="admin-nav-link" to="/messages" title="Messages">
+        <svg class="icon icon-nav-bar"><use xlink:href="#messages" /></svg>
+        <div class="text">Messages</div>
+      </router-link>
       <div class="release">©2017 Harvey, Inc.</div>
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <svg class="icon icon-nav-bar"><use xlink:href="#logout"/></svg>

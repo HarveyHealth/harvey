@@ -75,7 +75,7 @@ const app = new Vue({
         global: {
             appointments: [],
             patients: [],
-            test_results:[],
+            test_results: [],
             user: {},
         },
         initialAppointment: {},
