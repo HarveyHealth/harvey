@@ -3,6 +3,9 @@
     <button class="button--close flyout-close" @click="closeFlyout()">
       <svg><use xlink:href="#close" /></svg>
     </button>
+    
+    <!-- TODO: Make this dynamic to the page... -->
+    <h2 class="title">New Appointment</h2>
     <slot></slot>
   </aside>
 </template>

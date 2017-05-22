@@ -64,7 +64,7 @@
         // build the data for the submission
         const appointmentData = {
           appointment_at: this.$root.initialAppointment.appointment_at,
-          reason_for_visit: 'First time appointment',
+          reason_for_visit: 'First Appointment',
           practitioner_id: this.$root.initialAppointment.practitioner_id,
         }
 
