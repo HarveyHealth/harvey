@@ -16,6 +16,14 @@ class UserTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_a_user_must_be_logged_in_order_to_view_their_own_account_information()
+    {
+        $user = factory(User::class)->create();
+        $response = $this->json('GET', 'api/v1/users/' . $user->id);
+
+        $response->assertStatus(401);
+    }
+
     public function test_a_user_can_view_their_own_account_information()
     {
         // Given a user
