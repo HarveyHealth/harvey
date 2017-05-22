@@ -29,7 +29,7 @@
           </div>
 
           <div class="input-wrap text-centered">
-            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'" />
+            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'">
             <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>
@@ -56,7 +56,7 @@
     name: 'Signup',
     data() {
       return {
-        title: 'Your journey starts here',
+        title: 'Your journey starts here.',
         subtitle: '',
         email: localStorage.getItem('sign up email') || '',
         password: localStorage.getItem('sign up password') || '',
@@ -89,6 +89,18 @@
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
+
+              if (this.env === 'prod') {
+                this.$ma.trackEvent({
+                    fb_event: 'CompleteRegistration',
+                    type: 'product',
+                    action: 'Completed Signup',
+                    category: 'clicks',
+                    value: 50.00,
+                    currency: 'USD',
+                    properties: { laravel_object: Laravel.user }
+                });
+              }
               
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser
@@ -122,14 +134,14 @@
       localStorage.removeItem('signing up')
       if (this.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'View Signup Page',
-            fb_event: 'ViewContent',
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Start Signup',
             category: 'clicks',
-            properties: {
-                laravel_object: Laravel.user
-            },
-            value: 'PageView'
-        })
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
       }
     }
   }

@@ -64,7 +64,7 @@
         // build the data for the submission
         const appointmentData = {
           appointment_at: this.$root.initialAppointment.appointment_at,
-          reason_for_visit: 'First time appointment',
+          reason_for_visit: 'First Appointment',
           practitioner_id: this.$root.initialAppointment.practitioner_id,
         }
 
@@ -94,6 +94,18 @@
       let flag = localStorage.getItem('signed up')
       if (flag) {
         localStorage.removeItem('signed up')
+      }
+
+      if (this.env === 'prod') {
+          this.$ma.trackEvent({
+              fb_event: 'InitiateCheckout',
+              type: 'product',
+              action: 'Scheduling Appointment',
+              category: 'clicks',
+              value: 50.00,
+              currency: 'USD',
+              properties: { laravel_object: Laravel.user }
+          });
       }
     }
   }

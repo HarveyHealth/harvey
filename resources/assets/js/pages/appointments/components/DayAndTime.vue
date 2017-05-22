@@ -1,12 +1,12 @@
 <template>
   <div :class="classNames">
     <label class="input__label">
-      <div v-if="past">booked for</div>
+      <div v-if="past || displayOnly">booked for</div>
       <div v-else-if="type === 'update'">reschedule</div>
       <div v-else-if="type === 'new'">available times</div>
     </label>
-    <span v-if="past" class="input__item">{{ conductedOn }}</span>
-    <span v-else-if="noneAvailable" class="input--warning">No available slots</span>
+    <span v-if="past || displayOnly" class="input__item">{{ conductedOn }}</span>
+    <span v-else-if="noneAvailable" class="input--warning">Sorry, this doctor does not have any available appointment times.</span>
     <template v-else>
       <span class="custom-select">
         <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
@@ -30,7 +30,7 @@ import moment from 'moment-timezone';
 import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
 
 export default {
-  props: ['availability', 'classes', 'date', 'past', 'type'],
+  props: ['availability', 'classes', 'date', 'past', 'status', 'type'],
   data() {
     return {
       classNames: { 'input__container': true },
@@ -55,7 +55,10 @@ export default {
       return times;
     },
     conductedOn() {
-      return this.past ? this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a') : false;
+      return this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a');
+    },
+    displayOnly() {
+      return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
       return !Object.keys(this.availableDays).length;
