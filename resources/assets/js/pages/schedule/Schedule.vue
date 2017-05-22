@@ -96,7 +96,7 @@
         localStorage.removeItem('signed up')
       }
 
-      if (this.env === 'prod') {
+      if (this.env === 'production') {
           this.$ma.trackEvent({
               fb_event: 'InitiateCheckout',
               type: 'product',
