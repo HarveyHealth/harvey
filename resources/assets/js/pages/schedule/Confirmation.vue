@@ -96,11 +96,11 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-        if (this.env === 'prod') {
+       if (this.env === 'prod') {
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',
-            action: 'Appointment Scheduled',
+            action: 'Complete Purchase',
             category: 'clicks',
             value: 50.00,
             currency: 'USD',
