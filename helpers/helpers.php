@@ -87,3 +87,23 @@ function ops_message($level, $alert, $message, $channels = 'engineering')
         (new Slack)->notify($notification);
     }
 }
+
+function ops_info($alert, $message, $channels = 'engineering')
+{
+    ops_message('info', $alert, $message, $channels);
+}
+
+function ops_warning($alert, $message, $channels = 'engineering')
+{
+    ops_message('warning', $alert, $message, $channels);
+}
+
+function ops_error($alert, $message, $channels = 'engineering')
+{
+    ops_message('error', $alert, $message, $channels);
+}
+
+function ops_success($alert, $message, $channels = 'engineering')
+{
+    ops_message('success', $alert, $message, $channels);
+}
