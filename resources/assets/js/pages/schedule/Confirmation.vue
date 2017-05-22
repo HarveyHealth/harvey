@@ -75,7 +75,7 @@
     methods: {
       dispatchEvent() {
 
-        if (this.env === 'prod') {
+        if (this.env === 'production') {
 
             this.$ma.trackEvent({
             action: 'IntakeQ Form Initiated',
@@ -96,7 +96,7 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-       if (this.env === 'prod') {
+       if (this.env === 'production') {
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',

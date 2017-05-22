@@ -90,7 +90,7 @@
               this.isComplete = true;
               this.zipInRange = true;
 
-              if (this.env === 'prod') {
+              if (this.env === 'production') {
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',
                     type: 'product',
@@ -132,7 +132,7 @@
     },
     mounted () {
       localStorage.removeItem('signing up')
-      if (this.env === 'prod') {
+      if (this.env === 'production') {
         this.$ma.trackEvent({
             fb_event: 'InitiateCheckout',
             type: 'product',
