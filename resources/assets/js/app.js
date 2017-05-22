@@ -17,6 +17,7 @@ import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 
 // HELPERS
+import combineAppointmentData from './utils/methods/combineAppointmentData';
 import moment from 'moment-timezone';
 
 Vue.filter('datetime', filter_datetime);
@@ -82,15 +83,26 @@ const app = new Vue({
         initialAppointmentComplete: false,
         timezone: moment.tz.guess(),
     },
+    methods: {
+      getAppointments() {
+        axios.get('/api/v1/appointments?include=patient.user')
+          .then(response => this.global.appointments = combineAppointmentData(response.data).reverse())
+          .catch(error => console.log(error.response));
+      },
+      getUser() {
+        axios.get(`/api/v1/users/${Laravel.user.id}`)
+          .then( response => this.global.user = response.data.data)
+          .catch( error => this.global.user = {} );
+      }
+    },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
-        this.$http.get(this.apiUrl + '/users/' + Laravel.user.id)
-            .then( response => {
-                this.global.user = response.data.data;
-            } )
-            .catch( error => this.global.user = {} );
+        // Initial GET requests
+        this.getUser()
+        this.getAppointments();
 
+        // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {
             if (typeof mixpanel !== 'undefined') mixpanel.track(event);
         });
@@ -103,5 +115,6 @@ const app = new Vue({
 
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
+
     }
 }).$mount('#app');

@@ -53,6 +53,8 @@
 
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
+  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
+  import getAppointments from '../../utils/methods/getAppointments';
 
   export default {
     name: 'dashboard',
@@ -119,13 +121,14 @@
         });
     },
     beforeMount() {
-      let flag = localStorage.getItem('signed up')
+      let flag = localStorage.getItem('signed up');
       if (flag) {
-        localStorage.removeItem('signed up')
+        localStorage.removeItem('signed up');
       }
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
+
     }
 
   }

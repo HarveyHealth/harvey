@@ -13,7 +13,7 @@
         </div>
       </div>
 
-      <TableData :allTableData="tableData" :config="tableConfig"/>
+      <TableData :config="tableConfig"/>
 
     </div>
 
@@ -56,7 +56,7 @@
           @click.prevent="setupAppointmentNew()"
           class="button"
           :disabled="!noAvailability"
-        >Book Appointment</button>
+        >Create Appointment</button>
         <button
           v-if="appointmentModType === 'update'
             && !appointmentData.pastAppointment
@@ -102,6 +102,7 @@
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from './utils/combineAppointmentData.js';
+  import getAppointments from '../../utils/methods/getAppointments';
   import moment from 'moment-timezone';
   import tableConfig from './utils/tableconfig';
   import toLocalTimezone from '../../utils/methods/toLocalTimezone';
@@ -123,7 +124,7 @@
     },
     data() {
       return {
-        _appointmentDetails: [],
+        _appointmentDetails: this.$root.$data.global.appointments || [],
         appointmentData: {
           appointmentId: '',
           appointmentDate: '',
@@ -208,36 +209,6 @@
       }
     },
     methods: {
-      // The TableData component consumes data in a particular format. This
-      // just takes the data returned from the api and puts it in the proper format.
-      // See docs in _components/TableData.vue
-      appointmentTablePrep(appointmentData) {
-        return appointmentData.map(appt => {
-          return {
-            formatted: {
-              'Date': {
-                'value': moment(appt.attributes.appointment_at.date).format('ddd MMM Do'),
-                'width': '15%' },
-              'Time': {
-                'value': moment(appt.attributes.appointment_at.date).format('h:mm a'),
-                'width': '10%' },
-              'Client': {
-                'value': `${capitalize(appt.patientData.last_name)}, ${capitalize(appt.patientData.first_name)}`,
-                'width': '15%' },
-              'Doctor': {
-                'value': `Dr. ${appt.attributes.practitioner_name}`,
-                'width': '15%' },
-              'Status': {
-                'value': capitalize(appt.attributes.status),
-                'width': '10%' },
-              'Purpose': {
-                'value': appt.attributes.reason_for_visit,
-                'width': '35%' },
-            },
-            raw: appt
-          }
-        });
-      },
       // The same components are used in the flyout for updating appointments and creating new appointments.
       // This function resets all the data values to an empty string, switches the mod type to 'new' and then
       // fires all the events to initiate the flyout for appointment creation.
@@ -262,7 +233,7 @@
           this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
-          this.$eventHub.$emit('callFlyout', false);
+          this.$eventHub.$emit('callFlyout', false, 'Create Appointment');
         })
       },
       resetAppointmentData(data) {
@@ -313,14 +284,6 @@
 
         this.$eventHub.$emit('callAppointmentModal');
       },
-      getAppointmentData() {
-        // For right now, we're just adding all appointments. Future iterations will include filters
-        // for upcoming and recent appointments
-        axios.get(`${this.$root.apiUrl}/appointments?${this.apiParameters}`).then(response => {
-          this._appointmentDetails = combineAppointmentData(response.data).reverse();
-          this.dataCollected = true;
-        })
-      },
       sortByLastName(names) {
         return names.sort((a, b) => {
           const nameA = a.name.replace(/,.+/g, '').toUpperCase();
@@ -345,8 +308,6 @@
     // management in a better spot, we can get role-specific data sets up front so this information
     // is just always available.
     created() {
-      this.getAppointmentData();
-
       if (this.userType !== 'practitioner') {
         axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
           this.doctorList = response.data.data.map(dr => {
@@ -428,9 +389,7 @@
           }
         }
 
-        // console.log(rowData);
-
-        this.$eventHub.$emit('callFlyout', rowIsActive);
+        this.$eventHub.$emit('callFlyout', rowIsActive, 'Update Appointment');
         // PurposeInput uses a v-model to calculate character count. In order to populate the
         // textarea, we need to call an event on the next tick after data has been defined
         // from the row click.
@@ -491,7 +450,6 @@
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
-
 
       })
 
