@@ -67,7 +67,7 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-      if (this.env === 'production') {
+
           this.$ma.trackEvent({
               fb_event: 'InitiateCheckout',
               type: 'product',
@@ -77,7 +77,7 @@
               currency: 'USD',
               properties: { laravel_object: Laravel.user }
           });
-      }
+
     }
   }
 </script>

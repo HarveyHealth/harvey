@@ -90,7 +90,7 @@
               this.isComplete = true;
               this.zipInRange = true;
 
-              if (this.env === 'production') {
+
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',
                     type: 'product',
@@ -100,7 +100,7 @@
                     currency: 'USD',
                     properties: { laravel_object: Laravel.user }
                 });
-              }
+
             })
             .catch(error => {
               this.responseErrors = error.response.data.errors;
@@ -119,7 +119,6 @@
         },
     },
     mounted () {
-      if (this.env === 'production') {
         this.$ma.trackEvent({
             fb_event: 'InitiateCheckout',
             type: 'product',
@@ -129,7 +128,6 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
         });
-      }
     }
   }
 </script>
