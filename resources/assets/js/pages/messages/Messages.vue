@@ -13,7 +13,9 @@
                 </div>
             </div>
             <preview v-if="renderNewMessage" />
-            <MessagePost></MessagePost>
+            <div style="padding: 20px;">
+              <MessagePost></MessagePost>
+            </div>
       </div>
     </div>
   </div>
