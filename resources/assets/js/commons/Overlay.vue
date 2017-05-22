@@ -1,5 +1,5 @@
 <template>
-  <div @click="emitClick" :class="{ overlay:true, isactive: isActive }"></div>
+  <div @click="emitClick" :class="{ overlay:true, isactive: $root.flyoutActive }"></div>
 </template>
 
 <script>
@@ -15,7 +15,7 @@ export default {
     }
   },
   mounted() {
-    this.$eventHub.$on('toggleOverlay', () => this.isActive = !this.isActive);
+    this.$eventHub.$on('toggleOverlay', () => this.$root.flyoutActive = !this.$root.flyoutActive);
   },
   destroyed() {
     this.$eventHub.$off('toggleOverlay');

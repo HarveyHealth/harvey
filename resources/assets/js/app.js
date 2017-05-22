@@ -67,19 +67,20 @@ const app = new Vue({
         Dashboard
     },
     data: {
+        apiUrl: '/api/v1',
+        appointmentData: null,
+        environment: env,
+        flyoutActive: false,
         guest: false,
         global: {
-            user: {},
             appointments: [],
             patients: [],
-            test_results:[]
+            test_results:[],
+            user: {},
         },
-        timezone: moment.tz.guess(),
-        environment: env,
-        appointmentData: null,
         initialAppointment: {},
         initialAppointmentComplete: false,
-        apiUrl: '/api/v1'
+        timezone: moment.tz.guess(),
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
