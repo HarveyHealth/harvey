@@ -68,16 +68,22 @@
         this.step = this.step === 0 ? 1 : this.step;
       })
 
-          this.$ma.trackEvent({
-              fb_event: 'InitiateCheckout',
-              type: 'product',
-              action: 'Scheduling Appointment',
-              category: 'clicks',
-              value: 50.00,
-              currency: 'USD',
-              properties: { laravel_object: Laravel.user }
-          });
+      this.$ma.trackEvent({
+          fb_event: 'PageView',
+          type: 'product',
+          category: 'clicks',
+          properties: { laravel_object: Laravel.user }
+        });
 
+        this.$ma.trackEvent({
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Scheduling Appointment',
+            category: 'clicks',
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
     }
   }
 </script>

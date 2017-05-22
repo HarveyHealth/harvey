@@ -65,6 +65,13 @@
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
         this.$ma.trackEvent({
+          fb_event: 'PageView',
+          type: 'product',
+          category: 'clicks',
+          properties: { laravel_object: Laravel.user }
+        });
+
+        this.$ma.trackEvent({
           fb_event: 'Purchase',
           type: 'product',
           action: 'Complete Purchase',
@@ -73,6 +80,7 @@
           currency: 'USD',
           properties: { laravel_object: Laravel.user }
         });
+        
       }
     },
     computed: {
