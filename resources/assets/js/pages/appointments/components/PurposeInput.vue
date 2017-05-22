@@ -1,8 +1,8 @@
 <template>
   <div :class="classNames">
     <label class="input__label" for="purpose">purpose</label>
-    <span v-if="!past" :class="{ charcount:true, 'input--warning':count === 0 }">{{ count }}</span>
-    <p v-if="past" class="input__item">{{ textValue }}</p>
+    <span v-if="!past && !displayOnly" :class="{ charcount:true, 'input--warning':count === 0 }">{{ count }}</span>
+    <p v-if="past || displayOnly" class="input__item">{{ textValue }}</p>
     <textarea
       v-else
       class="input--textarea"
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  props: ['classes', 'past', 'purposetext', 'type', 'usertype'],
+  props: ['classes', 'past', 'purposetext', 'status', 'type', 'usertype'],
   data() {
     return {
       charLimit: 180,
@@ -28,6 +28,9 @@ export default {
     },
     countIsZero() {
       return (this.charLimit - this.textValue.length) < 0;
+    },
+    displayOnly() {
+      return this.status !== 'pending' && Laravel.user.userType === 'patient';
     }
   },
   methods: {
