@@ -89,6 +89,18 @@
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
+
+              if (this.env === 'prod') {
+                this.$ma.trackEvent({
+                    fb_event: 'CompleteRegistration',
+                    type: 'product',
+                    action: 'Completed Signup',
+                    category: 'clicks',
+                    value: 50.00,
+                    currency: 'USD',
+                    properties: { laravel_object: Laravel.user }
+                });
+              }
               
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser
@@ -122,14 +134,14 @@
       localStorage.removeItem('signing up')
       if (this.env === 'prod') {
         this.$ma.trackEvent({
-            action: 'View Signup Page',
-            fb_event: 'ViewContent',
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Start Signup',
             category: 'clicks',
-            properties: {
-                laravel_object: Laravel.user
-            },
-            value: 'PageView'
-        })
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
       }
     }
   }
