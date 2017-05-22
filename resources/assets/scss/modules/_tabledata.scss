@@ -23,9 +23,11 @@
     border-bottom: 1px solid $color--grey;
     text-align: left;
   }
-
-  tr:hover {
-    opacity: .70;
+  
+  tbody {
+    tr:hover {
+      opacity: .70;
+    }
   }
 
   tr.isactive {
