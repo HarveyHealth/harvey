@@ -17,10 +17,10 @@
         </div>
         <div class="card smaller">
           <div class="card-heading-container">
-            <h2 class="card-header">Your Contact</h2>
+            <h2 class="card-header">Your Info</h2>
           </div>
           <div class="card-content-container">
-            <div class="card-content-wrap">
+            <div class="card-content-wrap" v-if="patientName">
               <h3 class="card-contact-name">
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
               </h3>
@@ -30,14 +30,14 @@
               <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
             </div>
             <div class="card-content-wrap">
-              <h4 class="card-contact-sublabel">Email</h4>
-              <p class="card-contact-info">{{ email }}</p>
-              <h4 class="card-contact-sublabel">Zip</h4>
-              <p class="card-contact-info">{{ zip }}</p>
-              <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info">{{ phone }}</p>
-              <h4 class="card-contact-sublabel">ID</h4>
-              <p class="card-contact-info">#100{{ user_id }}</p>
+              <h4 class="card-contact-sublabel" v-if="email">Email</h4>
+              <p class="card-contact-info" v-if="email">{{ email }}</p>
+              <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
+              <p class="card-contact-info" v-if="zip">{{ zip }}</p>
+              <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
+              <p class="card-contact-info" v-if="phone">{{ phone }}</p>
+              <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
+              <p class="card-contact-info" v-if="user_id">#100{{ user_id }}</p>
             </div>
           </div>
         </div>

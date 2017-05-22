@@ -8,84 +8,108 @@
   height: 100%;
 }
 
-  // Left Nav Bar
-  .nav-bar {
-    background: $white;
-    border-right: 1px solid $color--grey;
-    bottom: 0;
-    flex-basis: 60px;
-    position: fixed;
-    top: 0;
+// Left Nav Bar
+
+.nav-bar {
+  background: $white;
+  border-right: 1px solid $color--grey;
+  bottom: 0;
+  flex-basis: 60px;
+  position: fixed;
+  top: 0;
+}
+
+.admin-nav-link {
+  background-color: $white;
+  border-bottom: 1px solid $color--grey;
+  color: lighten($harvey-secondary, 20%);
+  display: block;
+  height: 60px;
+  position: relative;
+  width: 60px;
+  &hover {
+    cursor: pointer;
   }
-    .admin-nav-link {
-      background-color: $white;
-      border-bottom: 1px solid $color--grey;
-      color: lighten($harvey-secondary, 20%);
-      display: block;
-      height: 60px;
-      position: relative;
-      width: 60px;
-      
-        .icon {
-          left: 50%;
-          position: absolute;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-    }
-    .nav-bar-account {
-      border: 1px solid $white; // matches the color of the navbar background
-      border-radius: 5px;
-      bottom: 60px;
-      height: 50px;
-      left: 5px;
-      position: absolute;
-      transition: border-color .25s ease-in-out;
-      width: 50px;
-
-      &:hover {
-        border-color: none;
-      }
-
-      .harvey-mark {
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    }
-    .nav-bar-logout {
-      bottom: 10px;
-      display: block;
-      left: calc(50% - 24px);
-      position: absolute;
-
-      &, & svg {
-        height: 48px;
-        width: 48px;
-      }
-    }
-
-  // Main Content Area
-  .main-content {
-    flex-grow: 1;
-    margin-left: 60px;
+  .icon {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
-    .main-header {
-      background: $white;
-      border-bottom: 1px solid $color--grey;
-      padding: 50px 50px 30px;
-      .container{
-        max-width: 1090px;
-        padding: 0 55px 0 15px;
-        margin: 0;
-        .main-action{
-          float: right;
-          &.disabled {
-            opacity:.5;
-            pointer-events: none;
-            cursor: default;
+}
+
+.nav-bar-account {
+  border: 1px solid $white; // matches the color of the navbar background
+  border-radius: 5px;
+  bottom: 60px;
+  height: 50px;
+  left: 5px;
+  position: absolute;
+  transition: border-color .25s ease-in-out;
+  width: 50px;
+  &:hover {
+    border-color: none;
+  }
+  .harvey-mark {
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.nav-bar-logout {
+  bottom: 10px;
+  display: block;
+  left: calc(50% - 24px);
+  position: absolute;
+  &, & svg {
+    height: 48px;
+    width: 48px;
+  }
+}
+
+// Main Content Area
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 60px;
+}
+
+.main-header {
+  background: $white;
+  border-bottom: 1px solid $color--grey;
+  padding: 50px 50px 30px;
+  .container{
+    max-width: 1090px;
+    padding: 0 55px 0 15px;
+    margin: 0;
+    .title {
+      min-height: 48px;
+      .text {
+        float: left;
+      }
+      .main-action{
+        float: left;
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        margin: -2px 0 0 10px;
+        &.circle{
+          border-radius: 1000px;
+          svg {
+            width: 25px;
+            height: 25px;
+            margin-left: -1px;
+            margin-top: 2px;
           }
         }
+        &.disabled {
+          opacity:.5;
+          pointer-events: none;
+          cursor: default;
+        }
       }
     }
+  }
+}

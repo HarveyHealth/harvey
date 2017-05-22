@@ -13,7 +13,9 @@
       </thead>
       <tbody>
         <tr v-if="!tabledata.length">
-          <td colspan="6">Loading your appointment details</td>
+          <td colspan="6" class="card-empty-container">
+              <p>You have no upcoming appointments.</p>
+          </td>
         </tr>
         <tr v-for="row in tabledata" @click="rowClick(row, $event)">
           <td>{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>

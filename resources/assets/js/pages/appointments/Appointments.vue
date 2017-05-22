@@ -7,15 +7,8 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">
-            Appointments
-            <button
-              v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'"
-              href="#"
-              class="button main-action"
-              @click.prevent="newAppointmentSetup()"
-            >
-              New Appointment
-            </button>
+            <span class="text">Your Appointments</span>
+            <button v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'" href="#" class="button main-action circle" @click.prevent="newAppointmentSetup()"><svg><use xlink:href="#addition"/></svg></button>
           </h1>
         </div>
       </div>

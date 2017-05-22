@@ -56,7 +56,7 @@
     name: 'Signup',
     data() {
       return {
-        title: 'Your journey starts here',
+        title: 'Your journey starts here.',
         subtitle: '',
         email: localStorage.getItem('sign up email') || '',
         password: localStorage.getItem('sign up password') || '',
