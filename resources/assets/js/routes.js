@@ -47,6 +47,11 @@ let routes = [
         component: require('./pages/messages/Messages.vue')
     },
     {
+        path: '/detail',
+        name: 'detail',
+        component: require('./pages/messages/DetailMessage.vue')
+    },
+    {
         path: '*',
         redirect:  '/'
     }

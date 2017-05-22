@@ -5,7 +5,7 @@
             <div class="main-header">
                 <div class="container">
                   <h1 class="title header-xlarge">
-                    <span class="text">Messages</span>
+                    <span class="text">Details</span>
                     <button v-on:click="renderNewMessage = !renderNewMessage" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
@@ -14,9 +14,9 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
+              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
+              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
+              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
             </div>
       </div>
     </div>
