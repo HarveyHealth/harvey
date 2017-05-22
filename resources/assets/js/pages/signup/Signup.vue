@@ -132,17 +132,21 @@
     },
     mounted () {
       localStorage.removeItem('signing up')
-
         this.$ma.trackEvent({
-            fb_event: 'InitiateCheckout',
+            fb_event: 'PageView',
             type: 'product',
-            action: 'Start Signup',
             category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
             properties: { laravel_object: Laravel.user }
         });
-
+      this.$ma.trackEvent({
+          fb_event: 'InitiateCheckout',
+          type: 'product',
+          action: 'Start Signup',
+          category: 'clicks',
+          value: 50.00,
+          currency: 'USD',
+          properties: { laravel_object: Laravel.user }
+      });
     }
   }
 </script>
