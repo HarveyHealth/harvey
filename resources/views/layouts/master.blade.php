@@ -24,6 +24,8 @@
         <meta name="robots" content="">
         <meta name="description" content="Harvey is a telehealth provider of personalized and integrative medicine. Consult with functional and naturopathic doctors to find the root cause of chronic health conditions.">
         <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
+        <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
+        <meta property="fb:app_id" content="383090978468158">
 
         <!-- Icons -->
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="/img/icon.jpg">
@@ -32,12 +34,6 @@
 
         <!-- RSS -->
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
-
-        <meta name="description" content="Harvey is a telehealth provider of personalized and integrative medicine. Consult with functional and naturopathic doctors to find the root cause of chronic health conditions.">
-        <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
-
-        <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
-        <meta property="fb:app_id" content="383090978468158">
 
         <!-- Typekit -->
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
@@ -57,20 +53,19 @@
         @endif
 
         <!-- Facebook Pixel Code -->
-            <script>
-            !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-            document,'script','https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '170447220119877'); // Insert your pixel ID here.
-            fbq('track', 'PageView');
-            </script>
-            <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=170447220119877&ev=PageView&noscript=1"
-            /></noscript>
-            <!-- DO NOT MODIFY -->
-            <!-- End Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+        document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '170447220119877'); // Insert your pixel ID here.
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=170447220119877&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- End Facebook Pixel Code -->
 
     </head>
     <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">

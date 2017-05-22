@@ -1,16 +1,15 @@
 <template>
   <div :class="animClasses">
     <div class="container small">
-
-      <!-- progress indicator -->
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step" v-on:click="lastStep"></li>
         <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
       </ul>
-
-      <h1 class="header-xlarge">{{ title }}</h1>
-      <p class="large">{{ subtitle }}</p>
+      <div class="guide-block">
+        <h1 class="header-xlarge">{{ title }}</h1>
+        <p class="large">{{ subtitle }}</p>
+      </div>
 
       <div class="error-container" v-show="responseErrors.length > 0">
         <p v-for="error in responseErrors" v-text="error.detail" class="error-text"></p>

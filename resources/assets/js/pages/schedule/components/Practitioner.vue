@@ -1,15 +1,15 @@
 <template>
   <div :class="animClasses">
     <div class="container small">
-      <!-- progress indicator -->
       <ul class="signup_progress-indicator">
         <li class="signup_progress-step current"></li>
         <li class="signup_progress-step"></li>
         <li class="signup_progress-step"></li>
       </ul>
-
-      <h1 class="header-xlarge">Choose your physician</h1>
-      <p class="large">Tell us which type of integrative doctor you would like to partner with. We currently offer <strong>two types</strong> of doctors in your state.</p>
+      <div class="guide-block">
+        <h1 class="header-xlarge">Choose your physician</h1>
+        <p class="large">Tell us which type of integrative doctor you would like to partner with. We currently offer <strong>two types</strong> of doctors in your state.</p>
+      </div>
     </div>
 
     <div class="container large">
