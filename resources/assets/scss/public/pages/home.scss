@@ -30,15 +30,9 @@ body.home {
     }
     .subtitle {
         line-height: 1.5;
-        &.headline{
-            font-size: 1.4rem;
-        }
     }
     figure {
         margin-right: 0;
-    }
-    .image img {
-        height: 100%;
     }
     .button.is-medium {
         height: auto;
@@ -50,6 +44,8 @@ body.home {
         margin-left: auto;
         margin-right: auto;
     }
+
+
 
     // Layout
 
@@ -164,7 +160,7 @@ body.home {
 
     .image-has-max-height {
         @include until($desktop) {
-            max-height: 400px;
+            max-height: 500px;
             overflow: hidden;
         }
     }
@@ -270,15 +266,10 @@ body.home {
     }
 
     #integrative-medicine {
-        .title {
-            margin-bottom: 0;
-        }
         margin-bottom: 1em;
         .introduction {
-            margin-top: 0;
             margin-bottom: 2rem;
             img {
-                padding: 2rem;
                 max-width: 470px;
             }
         }
@@ -290,6 +281,10 @@ body.home {
             padding: 0 20px 15px 0;
             transform: translateX(1.5rem);
         }
+        @include until($tablet) {
+            padding-left: 0;
+        }
+
     }
 
     #western-medicine, #labs {
@@ -305,11 +300,13 @@ body.home {
 
     #labs{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
-    }
-
-    #labs {
         .button {
             margin-bottom: 20px;
+        }
+        @include until($desktop) {
+            figure {
+                width: 100%;
+            }
         }
     }
 
@@ -337,6 +334,19 @@ body.home {
                 .icon-wrapper {
                     margin: 0 auto;
                 }
+            }
+        }
+        @include until($desktop) {
+            .columns {
+                .column {
+                    text-align: left;
+                    .column {
+                        padding-left: 0;
+                    }
+                }
+            }
+            .title {
+                margin: 0 0 1rem !important;
             }
         }
         em {
