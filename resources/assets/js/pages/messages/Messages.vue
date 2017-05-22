@@ -13,6 +13,7 @@
                 </div>
             </div>
             <preview v-if="renderNewMessage" />
+            <MessagePost></MessagePost>
       </div>
     </div>
   </div>
@@ -20,12 +21,14 @@
 
 <script>
     import Preview from './components/PreviewMessages.vue'
+    import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
     export default {
         name: 'messages',
         components: {
           Preview,
-          UserNav
+          UserNav,
+          MessagePost
         },
         data() {
             return {
