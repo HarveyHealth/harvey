@@ -126,7 +126,6 @@
     },
     name: 'Practitioner',
     mounted() {
-      if (this.$parent.env === 'prod') {
         this.$ma.trackEvent({
           action: 'Practitioner',
           fb_event: 'ViewContent',
@@ -134,7 +133,12 @@
           properties: { laravel_object: Laravel.user },
           value: 'PageView',
         });
-      }
+        this.$ma.trackEvent({
+            fb_event: 'PageView',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     },
     beforeDestroy() {
