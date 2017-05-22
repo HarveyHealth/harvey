@@ -18,6 +18,7 @@
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Your Info</h2>
+            <!-- <a href="/dashboard#/appointments">Edit Info</a> -->
           </div>
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
@@ -37,7 +38,7 @@
               <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
               <p class="card-contact-info" v-if="phone">{{ phone }}</p>
               <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
-              <p class="card-contact-info" v-if="user_id">#100{{ user_id }}</p>
+              <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>
           </div>
         </div>

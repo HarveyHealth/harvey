@@ -50,7 +50,7 @@ input[type="submit"] {
 }
 
 .button--cancel {
-  background-color: lighten($dark-gray, 10%);
+  background-color: lighten($gray, 10%);
   margin-left: 1em;
 
   &:hover,

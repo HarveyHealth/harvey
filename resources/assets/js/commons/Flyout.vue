@@ -1,5 +1,7 @@
 <template>
   <aside :class="{ flyout: true, isactive: isActive }">
+    <!-- TODO: Make this dynamic to the page... -->
+    <h2 class="title">New Appointment</h2>
     <slot></slot>
   </aside>
 </template>

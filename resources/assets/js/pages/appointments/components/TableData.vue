@@ -18,12 +18,18 @@
           </td>
         </tr>
         <tr v-for="row in tabledata" @click="rowClick(row, $event)">
-          <td>{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>
-          <td>{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableTime }}</td>
-          <td>{{ row.patientData.last_name | capitalize }}, {{ row.patientData.first_name | capitalize }}</td>
-          <td>Dr. {{ row.attributes.practitioner_name }}</td>
-          <td>{{ row.attributes.status | tableStatus }}</td>
-          <td>{{ row.attributes.reason_for_visit }}</td>
+          <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>
+            <td v-else=""></td>
+          <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableTime }}</td>
+            <td v-else=""></td>
+          <td v-if="row.patientData.last_name">{{ row.patientData.last_name | capitalize }}, {{ row.patientData.first_name | capitalize }}</td>
+            <td v-else=""></td>
+          <td v-if="row.attributes.practitioner_name">Dr. {{ row.attributes.practitioner_name }}</td>
+            <td v-else=""></td>
+          <td v-if="row.attributes.status">{{ row.attributes.status | tableStatus }}</td>
+            <td v-else=""></td>
+          <td v-if="row.attributes.reason_for_visit">{{ row.attributes.reason_for_visit }}</td>
+            <td v-else=""></td>
         </tr>
       </tbody>
     </table>
@@ -50,7 +56,7 @@ export default {
       return capitalize(word);
     },
     tableDate(d) {
-      return d.format('ddd MMM Do');
+      return d.format('dddd, MMM Do');
     },
     tableStatus(s) {
       return convertStatus(s);
