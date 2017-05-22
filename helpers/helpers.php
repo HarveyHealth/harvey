@@ -81,10 +81,7 @@ function ops_message($level, $alert, $message, $channels = 'engineering')
     }
 
     foreach ($channels as $channel) {
-        $notification = new \App\Notifications\SlackNotification($message, $channel);
-        $notification->level = $level;
-
-        (new \App\Lib\Slack)->notify($notification);
+        (new \App\Lib\Slack)->notify(new \App\Notifications\SlackNotification($message, $channel, $level));
     }
 }
 
