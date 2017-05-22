@@ -11,6 +11,7 @@
 // Left Nav Bar
 
 .nav-bar {
+  width: 150px;
   background: $white;
   border-right: 1px solid $color--grey;
   bottom: 0;
@@ -19,53 +20,71 @@
   top: 0;
 }
 
-.admin-nav-link {
-  background-color: $white;
-  border-bottom: 1px solid $color--grey;
-  color: lighten($harvey-secondary, 20%);
-  display: block;
-  height: 60px;
-  position: relative;
-  width: 60px;
-  &hover {
-    cursor: pointer;
+.admin-nav {
+  margin-top: 57px;
+  border-top: 1px solid $color--grey;
+  .admin-nav-link {
+    background-color: $white;
+    border-bottom: 1px solid $color--grey;
+    color: lighten($harvey-secondary, 20%);
+    display: block;
+    height: 60px;
+    position: relative;
+    width: 100%;
+    &.logout {
+      bottom: 0;
+      position: absolute;
+      border-top: 1px solid $color--grey;
+      svg {
+        width: 25px;
+        height: 25px;
+        left: 27%;
+        top: 55%;
+      }
+      .text {
+        left: 40%;
+        font-size: 15px;
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    .icon {
+      left: 15%;
+      top: 49%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+    .text {
+      font-size: 14px;
+      position: absolute;
+      left: 30%;
+      top: 36%;
+    }
   }
-  .icon {
-    left: 50%;
+  .release {
+    color: #E4EAEC;
+    font-size: 10px;
+    bottom: 68px;
     position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    text-align: center;
+    margin-left: -3px;
+    width: 100%;
   }
 }
 
 .nav-bar-account {
-  border: 1px solid $white; // matches the color of the navbar background
-  border-radius: 5px;
-  bottom: 60px;
-  height: 50px;
-  left: 5px;
-  position: absolute;
-  transition: border-color .25s ease-in-out;
-  width: 50px;
-  &:hover {
-    border-color: none;
-  }
   .harvey-mark {
-    left: 50%;
+    top: 28px;
+    left: 49%;
     position: absolute;
-    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
-}
-
-.nav-bar-logout {
-  bottom: 10px;
-  display: block;
-  left: calc(50% - 24px);
-  position: absolute;
-  &, & svg {
-    height: 48px;
-    width: 48px;
+    transition: border-color .25s ease-in-out;
+    width: 100px;
+    &:hover {
+      opacity: .9;
+    }
   }
 }
 
@@ -73,7 +92,7 @@
 
 .main-content {
   flex-grow: 1;
-  margin-left: 60px;
+  margin-left: 150px;
 }
 
 .main-header {

@@ -1,17 +1,21 @@
 <template>
   <div class="nav-bar">
     <nav class="admin-nav">
+      <a href="/" class="nav-bar-account">
+        <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
+      </a>
       <router-link class="admin-nav-link" to="/dashboard" title="Dashboard">
         <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg>
+        <div class="text">Dashboard</div>
       </router-link>
       <router-link class="admin-nav-link" to="/appointments" title="Appointments">
         <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
+        <div class="text">Appointments</div>
       </router-link>
-      <a href="/logout" class="nav-bar-logout" title="Logout">
-        <svg><use xlink:href="#logout"/></svg>
-      </a>
-      <a href="#" class="nav-bar-account">
-        <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
+      <div class="release">©2017 Harvey, Inc.</div>
+      <a href="/logout" class="admin-nav-link logout" title="Logout">
+        <svg class="icon icon-nav-bar"><use xlink:href="#logout"/></svg>
+        <div class="text">Logout</div>
       </a>
     </nav>
   </div>

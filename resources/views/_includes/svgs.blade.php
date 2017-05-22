@@ -23,27 +23,26 @@
   </symbol>
 
   <symbol id="appointments" viewBox="0 0 20 20">
-      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g transform="translate(-30.000000, -121.000000)" class="icon-foreground" fill="currentColor">
-              <g transform="translate(30.000000, 121.000000)">
-                  <rect x="10" y="11" width="6" height="5" rx="1"></rect>
-                  <path d="M2,18 L18,18 L18,6 L2,6 L2,18 Z M0,0 L20,0 L20,20 L0,20 L0,0 Z" fill-rule="nonzero"></path>
-              </g>
-          </g>
-      </g>
-  </symbol>
-
-  <symbol id="logout" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd">
-      <g stroke="#607379" stroke-linecap="round">
-        <path d="M18.51 21.07v7.637"/>
-        <path d="M22.364 24.818h6.725M27.455 22.273L30 24.818l-2.545 2.546" stroke-linejoin="round"/>
-      </g>
-      <rect stroke="#E4EAEC" x=".5" y=".5" width="47" height="47" rx="5"/>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-30.000000, -121.000000)" class="icon-foreground" fill="currentColor">
+            <g transform="translate(30.000000, 121.000000)">
+                <rect x="10" y="11" width="6" height="5" rx="1"></rect>
+                <path d="M2,18 L18,18 L18,6 L2,6 L2,18 Z M0,0 L20,0 L20,20 L0,20 L0,0 Z" fill-rule="nonzero"></path>
+            </g>
+        </g>
     </g>
   </symbol>
 
-  <symbol id="addition" width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="logout" viewBox="0 0 20 20">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1495468426_logout-2" fill-rule="nonzero" fill="#93a4aa">
+            <path d="M15,0 L1,0 C0.447,0 0,0.447 0,1 L0,15 C0,15.553 0.447,16 1,16 L15,16 C15.553,16 16,15.553 16,15 L16,11.5 C16,11.224 15.776,11 15.5,11 L14.5,11 C14.224,11 14,11.224 14,11.5 L14,14 L2,14 L2,2 L14,2 L14,4.5 C14,4.776 14.224,5 14.5,5 L15.5,5 C15.776,5 16,4.776 16,4.5 L16,1 C16,0.447 15.553,0 15,0 Z" id="Shape"></path>
+            <path d="M15.5,7 L10,7 L10,5.305 C10,5.008 9.735,4.911 9.5,5.09 L6.178,7.677 C5.943,7.855 5.939,8.145 6.174,8.323 L9.5,10.91 C9.736,11.089 10,10.992 10,10.695 L10,9 L15.5,9 C15.775,9 16,8.776 16,8.5 L16,7.5 C16,7.224 15.775,7 15.5,7 Z" id="Shape"></path>
+        </g>
+    </g>
+  </symbol>
+
+  <symbol id="addition" width="30" height="30" viewBox="0 0 30 30">
     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g fill-rule="nonzero" fill="#FFFFFF">
             <g id="1495459563_addition">
