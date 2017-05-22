@@ -96,7 +96,7 @@
         localStorage.removeItem('signed up')
       }
 
-      if (this.env === 'production') {
+
           this.$ma.trackEvent({
               fb_event: 'InitiateCheckout',
               type: 'product',
@@ -106,7 +106,7 @@
               currency: 'USD',
               properties: { laravel_object: Laravel.user }
           });
-      }
+
     }
   }
 </script>
