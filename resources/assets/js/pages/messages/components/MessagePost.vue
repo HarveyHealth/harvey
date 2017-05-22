@@ -1,5 +1,5 @@
 <template>
-    <div style="border-left: 6px solid blue; background-color: white; height: 200px;">
+    <div style="border-left: 6px solid #82BEF2; background-color: white; height: 200px;">
         <div style="width: 50px; height: 50px; float: left;">
             <img style="border-radius: 50%; margin: 150% 60px; float: left;" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
         </div>
