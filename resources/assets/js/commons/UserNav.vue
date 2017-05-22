@@ -13,7 +13,7 @@
         <div class="text">Appointments</div>
       </router-link>
       <router-link class="admin-nav-link" to="/messages" title="Messages">
-        <svg class="icon icon-nav-bar"><use xlink:href="#messages" /></svg>
+        <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
       <div class="release">©2017 Harvey, Inc.</div>
