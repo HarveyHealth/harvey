@@ -7,15 +7,8 @@
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">
-            Appointments
-            <button
-              v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'"
-              href="#"
-              class="button main-action"
-              @click.prevent="newAppointmentSetup()"
-            >
-              New Appointment
-            </button>
+            <span class="text">Your Appointments</span>
+            <button v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'" href="#" class="button main-action circle" @click.prevent="newAppointmentSetup()"><svg><use xlink:href="#addition"/></svg></button>
           </h1>
         </div>
       </div>
@@ -280,41 +273,41 @@
         return output;
       },
       setupAppointmentCancel() {
-        this.confirmationButton = 'Yes, Cancel Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'cancelAppointment';
-        this.confirmationTitle = 'Confirm Appointment Cancellation';
+        this.confirmationTitle = 'Confirm Cancellation';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentNew() {
-        this.confirmationButton = 'Yes, Book Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'bookAppointment';
-        this.confirmationTitle = 'Confirm Appointment Booking';
+        this.confirmationTitle = 'Confirm Appointment';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Purpose'] = this.dataForNew.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
       },
       setupAppointmentUpdate() {
-        this.confirmationButton = 'Yes, Update Appointment';
+        this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'updateAppointment';
-        this.confirmationTitle = 'Confirm Appointment Update';
+        this.confirmationTitle = 'Confirm Appointment';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Booked For'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 

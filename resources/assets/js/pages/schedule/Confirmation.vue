@@ -29,7 +29,8 @@
         <p class="confirmation_text large">{{ subtitle }}</p>
 
         <div class="text-centered">
-          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake Form</a>
+          <a @click="dispatchEvent" :href="intakeUrl" class="button">Start Intake</a>
+          <a href="/dashboard" class="button is-outlined dashboard">Dashboard</a>
         </div>
 
       </div>

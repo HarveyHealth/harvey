@@ -23,24 +23,37 @@
   </symbol>
 
   <symbol id="appointments" viewBox="0 0 20 20">
-      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g transform="translate(-30.000000, -121.000000)" class="icon-foreground" fill="currentColor">
-              <g transform="translate(30.000000, 121.000000)">
-                  <rect x="10" y="11" width="6" height="5" rx="1"></rect>
-                  <path d="M2,18 L18,18 L18,6 L2,6 L2,18 Z M0,0 L20,0 L20,20 L0,20 L0,0 Z" fill-rule="nonzero"></path>
-              </g>
-          </g>
-      </g>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-30.000000, -121.000000)" class="icon-foreground" fill="currentColor">
+            <g transform="translate(30.000000, 121.000000)">
+                <rect x="10" y="11" width="6" height="5" rx="1"></rect>
+                <path d="M2,18 L18,18 L18,6 L2,6 L2,18 Z M0,0 L20,0 L20,20 L0,20 L0,0 Z" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
   </symbol>
 
-  <symbol id="logout" width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd">
-      <g stroke="#607379" stroke-linecap="round">
-        <path d="M18.51 21.07v7.637"/>
-        <path d="M22.364 24.818h6.725M27.455 22.273L30 24.818l-2.545 2.546" stroke-linejoin="round"/>
-      </g>
-      <rect stroke="#E4EAEC" x=".5" y=".5" width="47" height="47" rx="5"/>
+  <symbol id="logout" viewBox="0 0 20 20">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1495468426_logout-2" fill-rule="nonzero" fill="#93a4aa">
+            <path d="M15,0 L1,0 C0.447,0 0,0.447 0,1 L0,15 C0,15.553 0.447,16 1,16 L15,16 C15.553,16 16,15.553 16,15 L16,11.5 C16,11.224 15.776,11 15.5,11 L14.5,11 C14.224,11 14,11.224 14,11.5 L14,14 L2,14 L2,2 L14,2 L14,4.5 C14,4.776 14.224,5 14.5,5 L15.5,5 C15.776,5 16,4.776 16,4.5 L16,1 C16,0.447 15.553,0 15,0 Z" id="Shape"></path>
+            <path d="M15.5,7 L10,7 L10,5.305 C10,5.008 9.735,4.911 9.5,5.09 L6.178,7.677 C5.943,7.855 5.939,8.145 6.174,8.323 L9.5,10.91 C9.736,11.089 10,10.992 10,10.695 L10,9 L15.5,9 C15.775,9 16,8.776 16,8.5 L16,7.5 C16,7.224 15.775,7 15.5,7 Z" id="Shape"></path>
+        </g>
     </g>
+  </symbol>
+
+  <symbol id="addition" width="30" height="30" viewBox="0 0 30 30">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g fill-rule="nonzero" fill="#FFFFFF">
+            <g id="1495459563_addition">
+                <path d="M30,12.1153846 L30,17.8846154 C30,18.521867 29.4834055,19.0384615 28.8461538,19.0384615 L19.0384615,19.0384615 L19.0384615,28.8461538 C19.0384615,29.4834055 18.521867,30 17.8846154,30 L12.1153846,30 C11.478133,30 10.9615385,29.4834055 10.9615385,28.8461538 L10.9615385,19.0384615 L1.15384615,19.0384615 C0.516594519,19.0384615 0,18.521867 0,17.8846154 L0,12.1153846 C0,11.478133 0.516594519,10.9615385 1.15384615,10.9615385 L10.9615385,10.9615385 L10.9615385,1.15384615 C10.9615385,0.516594519 11.478133,0 12.1153846,0 L17.8846154,0 C18.521867,0 19.0384615,0.516594519 19.0384615,1.15384615 L19.0384615,10.9615385 L28.8461538,10.9615385 C29.4834055,10.9615385 30,11.478133 30,12.1153846 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+  </symbol>
+
+  <symbol id="close" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <path class="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30" />
   </symbol>
 
 </svg>

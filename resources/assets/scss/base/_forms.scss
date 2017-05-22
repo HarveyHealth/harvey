@@ -56,7 +56,7 @@
 .input__item,
 .input--text,
 .input--textarea {
-  color: darken($darkest-gray, 15%);
+  color: darken($gray, 15%);
   font-family: inherit;
 }
 .input__item.patient-display {
@@ -89,6 +89,7 @@
   min-height: 7em;
 }
 .input--warning {
+  line-height: 1.45rem;
   color: $red;
 }
   .charcount {
