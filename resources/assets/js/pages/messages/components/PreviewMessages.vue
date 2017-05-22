@@ -1,7 +1,8 @@
 <template>
     <div>
-        <h1>PREVIEW</h1>
+        <aside :class="{ flyout: true, isactive: true }">
         
+        </aside>
     </div>
 </template>
 
