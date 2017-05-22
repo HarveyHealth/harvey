@@ -90,7 +90,7 @@
               this.isComplete = true;
               this.zipInRange = true;
 
-              if (this.env === 'prod') {
+              if (this.env === 'production') {
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',
                     type: 'product',
@@ -119,7 +119,7 @@
         },
     },
     mounted () {
-      if (this.env === 'prod') {
+      if (this.env === 'production') {
         this.$ma.trackEvent({
             fb_event: 'InitiateCheckout',
             type: 'product',

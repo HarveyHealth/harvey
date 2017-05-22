@@ -67,7 +67,7 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-      if (this.env === 'prod') {
+      if (this.env === 'production') {
           this.$ma.trackEvent({
               fb_event: 'InitiateCheckout',
               type: 'product',
