@@ -72,7 +72,7 @@ function currentUser()
 function ops_message($level, $alert, $message, $channels = 'engineering')
 {
     if (is_string($channels)) {
-        $channels = [$channel];
+        $channels = [$channels];
     }
 
     if (!empty($alert)) {
