@@ -13,6 +13,14 @@ class PatientTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_a_non_valid_patient_id_will_return_404()
+    {
+        Passport::actingAs(factory(Patient::class)->create()->user);
+        $response = $this->json('GET', 'api/v1/patients/1234');
+
+        $response->assertStatus(404);
+    }
+
     public function test_only_admin_or_practitioner_can_view_patients_data()
     {
         $patient = factory(Patient::class, 3)->create();
