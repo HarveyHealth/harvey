@@ -263,7 +263,7 @@
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
                         <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative and specialty lab tests are not reimbursable. However, you may be able to use an HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Our prices</a> are comparable to the out-of-pocket co-pays and deductibles you would pay at other in-person clinics.</p>       
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would have to pay at other in-person clinics.</p>       
                     </div>
                 </div>
                 <div class="column is-8 is-auto-tablet has-text-right">
@@ -334,10 +334,9 @@
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
-                        <h2 class="title is-3 is-padding-top"><strong>Affordable lab testing delivered right to your doorstep.</strong></h2>
-                        <p class="is-6">No more driving to clinics. All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform an in-home blood draw <strong>free of charge</strong>.</p>
-                        <p>Click below for more information on our labs.</p>
-                        <div class="button-wrapper has-text-centered">
+                        <h2 class="title is-3 is-padding-top"><strong>Lab testing delivered right to your doorstep.</strong></h2>
+                        <p class="is-6">All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform a free in-home blood draw.</p>
+                        <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
                                 <img src="/images/home/vial.png"> Lab Tests
                             </a>

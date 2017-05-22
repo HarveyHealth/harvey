@@ -303,7 +303,15 @@ body.home {
         .button {
             margin-bottom: 20px;
         }
+        @include from($desktop) {
+            figure {
+                max-width: 475px;
+            }
+        }
         @include until($desktop) {
+            .button-wrapper {
+                text-align: center;
+            }
             figure {
                 width: 100%;
             }
