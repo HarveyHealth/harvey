@@ -1,5 +1,5 @@
 <template>
-      <div :class="{isActive: renderNewMessage}" class="main-container">
+      <div :class="{isactive: renderNewMessage, overlay: renderNewMessage}" class="main-container">
       <UserNav />
         <div class="main-content">
             <div class="main-header">
