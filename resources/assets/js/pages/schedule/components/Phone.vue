@@ -84,13 +84,6 @@
     },
     name: 'Phone',
     mounted() {
-      this.$ma.trackEvent({
-        action: 'View Personal Contact Form',
-        fb_event: 'ViewContent',
-        category: 'clicks',
-        properties: { laravel_object: Laravel.user },
-        value: 'PageView'
-      });
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     },
     beforeDestroy() {
