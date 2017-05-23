@@ -1,9 +1,11 @@
 .card-wrapper {
   display: flex;
   max-width: 1150px;
-  padding: 40px 50px;
+  padding: 40px 40px 0;
+  &:last-of-type{
+    padding: 20px 40px 40px 40px;
+  }
   &.alert{
-    padding: 40px 50px 0;
     margin-bottom: -25px;
     .card {
       background: #9AABB9;
