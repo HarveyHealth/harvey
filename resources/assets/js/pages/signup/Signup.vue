@@ -100,7 +100,6 @@
                     currency: 'USD',
                     properties: { laravel_object: Laravel.user }
                 });
-
               
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser

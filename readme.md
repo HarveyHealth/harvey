@@ -14,6 +14,7 @@ A web application to provide virtual consultations with state-licensed integrati
 ## Local Installation
  - Clone the repository locally
  - Install front-end dependencies with `npm install`
+ - Install authenication dependiences with `php artisan passport:install`
  - Generate front-end assets with `npm run dev`
  - Install back-end dependencies with `composer install`
  - Copy [.env.example](https://github.com/HomeHero/harvey/blob/master/.env.example) to `.env` and modify the contents to reflect your local environment

@@ -203,10 +203,7 @@ const app = new Vue({
             this.appLoaded = true;
         });
 
-        this.isHomePage = this.checkWhichPage('home');
-
-        if (this.isHomePage) {
-            if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
+        if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
 
             initTracking();
@@ -222,26 +219,19 @@ const app = new Vue({
                 type: 'product',
                 properties: { laravel_object: Laravel.user },
             });
-            console.log(`HOME`)
-        }
-
-        this.LoginPage = this.checkWhichPage('login');
-
-        if (this.isLoginPage) {
-            this.$ma.trackEvent({
-                fb_event: 'PageView',
-                type: 'product',
-                category: 'clicks',
-                properties: { laravel_object: Laravel.user }
-            });
-            console.log(`LOGIN`)
-        }
 
         if (this.checkWhichPage('signup', 'register')) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
             window.focus();
             window.addEventListener('blur', this.onIframeClick);
         }
+
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-89414173-1', 'auto');
+        ga('send', 'pageview');
     },
     destroyed() {
         if (this.isHomePage) {
