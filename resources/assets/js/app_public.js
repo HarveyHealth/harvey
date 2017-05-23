@@ -209,14 +209,18 @@ const app = new Vue({
             this.onPageScroll();
 
             initTracking();
-            if (env === 'prod') {
-                this.$ma.trackEvent({
-                    action: 'Homepage',
-                    fb_event: 'ViewContent',
-                    type: 'product',
-                    properties: { laravel_object: Laravel.user },
-                });
-            }
+            this.$ma.trackEvent({
+                fb_event: 'PageView',
+                type: 'product',
+                category: 'clicks',
+                properties: { laravel_object: Laravel.user }
+            });
+            this.$ma.trackEvent({
+                action: 'Homepage',
+                fb_event: 'ViewContent',
+                type: 'product',
+                properties: { laravel_object: Laravel.user },
+            });
         }
 
         if (this.checkWhichPage('signup', 'register')) {

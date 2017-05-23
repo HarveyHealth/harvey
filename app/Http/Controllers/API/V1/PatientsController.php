@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API\V1;
 use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
 use Illuminate\Http\Request;
-use Crell\ApiProblem\ApiProblem;
 use Validator;
 
 class PatientsController extends BaseAPIController
@@ -31,10 +30,7 @@ class PatientsController extends BaseAPIController
             return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
         }
 
-        $problem = new ApiProblem();
-        $problem->setDetail('You are not authorized to access this resource.');
-
-        return $this->respondNotAuthorized($problem);
+        return $this->respondNotAuthorized('You are not authorized to access this patient.');
     }
 
     /**
