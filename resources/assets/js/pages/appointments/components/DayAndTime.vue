@@ -60,7 +60,7 @@ export default {
       return this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a');
     },
     displayOnly() {
-      return this.status !== 'pending' && Laravel.user.userType !== 'patient';
+      return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
       return !Object.keys(this.availableDays).length;
