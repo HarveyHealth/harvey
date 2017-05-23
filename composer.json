@@ -28,11 +28,15 @@
         "laravel/passport": "^2.0",
         "crell/api-problem": "^2.0",
         "wildbit/postmark-php": "^2.3",
-        "laravel/homestead": "^5.2"
+        "laravel/homestead": "^5.2",
+        "laravel/scout": "^3.0",
+        "teamtnt/laravel-scout-tntsearch-driver": "^3.0",
+        "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "~5.0",
+        "phpunit/php-code-coverage": "~4.0",
         "symfony/css-selector": "3.1.*",
         "symfony/dom-crawler": "3.1.*"
     },
@@ -61,6 +65,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize",
             "php artisan migrate --force",
+            "php artisan scout:import 'App\\Models\\User'",
             "php artisan passport:getkeys",
             "npm run production"
         ],
@@ -68,6 +73,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan optimize",
             "php artisan migrate --force",
+            "php artisan scout:import 'App\\Models\\User'",
             "php artisan view:clear",
             "npm run dev"
         ]

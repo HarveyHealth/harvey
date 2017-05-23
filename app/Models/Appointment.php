@@ -8,36 +8,41 @@ use App\Notifications\SlackNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Lang;
 
 class Appointment extends Model
 {
     use HasPatientAndPractitioner, SoftDeletes;
-    
+
     /**
      * An appointment will lock when less than 2 hours away.
      */
-    const CANCEL_LOCK = 2;
+    const CANCEL_LOCK = 4;
+
+    const PENDING_STATUS_ID = 0;
+    const NO_SHOW_PATIENT_STATUS_ID = 1;
+    const NO_SHOW_DOCTOR_STATUS_ID = 2;
+    const GENERAL_CONFLICT_STATUS_ID = 3;
+    const CANCELED_STATUS_ID = 4;
+    const COMPLETE_STATUS_ID = 5;
 
     protected $dates = [
+        'appointment_at',
         'created_at',
-        'updated_at',
         'deleted_at',
-        'appointment_at'
+        'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'status_id'];
 
-    public static function boot()
-    {
-        parent::boot();
-
-        self::creating(function ($appointment) {
-            if (empty($appointment->appointment_block_ends_at)) {
-                $start = new Carbon($appointment->created_at);
-                $appointment->appointment_block_ends_at = $start->addMinutes(89)->toDateTimeString();
-            }
-        });
-    }
+    const STATUSES = [
+        self::PENDING_STATUS_ID => 'pending',
+        self::NO_SHOW_PATIENT_STATUS_ID => 'no_show_patient',
+        self::NO_SHOW_DOCTOR_STATUS_ID => 'no_show_doctor',
+        self::GENERAL_CONFLICT_STATUS_ID => 'general_conflict',
+        self::CANCELED_STATUS_ID => 'canceled',
+        self::COMPLETE_STATUS_ID => 'complete',
+    ];
 
     /*
      * Relationships
@@ -56,52 +61,66 @@ class Appointment extends Model
     {
         return $this->belongsTo(Practitioner::class);
     }
-    
+
     public function isLocked()
     {
         return $this->hoursToStart() <= self::CANCEL_LOCK;
     }
-    
+
     public function isNotLocked()
     {
         return !$this->isLocked();
     }
-    
+
     public function hoursToStart()
     {
-        $appointment_time = Carbon::parse($this->appointment_at);
-        return Carbon::now()->diffInHours($appointment_time, false);
+        return Carbon::now()->diffInHours($this->appointment_at, false);
     }
-    
+
     public function patientAppointmentAtDate()
     {
-        $carbonDate = new Carbon($this->appointment_at);
-        return $carbonDate->timezone($this->patient->user->timezone);
+        return $this->appointment_at->timezone($this->patient->user->timezone);
     }
-    
+
     public function practitionerAppointmentAtDate()
     {
-        $carbonDate = new Carbon($this->appointment_at);
-        return $carbonDate->timezone($this->practitioner->user->timezone);
+        return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
-    
-    
+
+    public function getStatusAttribute()
+    {
+        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
+    }
+
+    public function setStatusAttribute($value)
+    {
+        if (false !== ($key = array_search($value, self::STATUSES))) {
+            $this->status_id = $key;
+        }
+
+        return $value;
+    }
+
+    public function getStatusFriendlyName()
+    {
+        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
+    }
 
     /*
      * SCOPES
      */
     public function scopeUpcoming($query, $weeks = 2)
     {
-        $end_date = (new Carbon())->addWeeks($weeks);
+        $end_date = Carbon::now()->addWeeks($weeks);
 
-        return $query->where('appointment_at', '>', \Carbon::now())
+        return $query->where('appointment_at', '>', Carbon::now())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
                     ->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeRecent($query, $limit = 3)
+    public function scopeRecent($query)
     {
-        return $query->where('appointment_at', '<', \Carbon::now())->limit($limit)->orderBy('appointment_at', 'DESC');
+        return $query->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
     }
 
     public function scopeForPractitioner($query, Practitioner $practitioner)
@@ -119,5 +138,35 @@ class Appointment extends Model
         return $query->where('appointment_at', '>=', $start_date->toDateTimeString())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
                     ->orderBy('appointment_at', 'ASC');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status_id', self::PENDING_STATUS_ID);
+    }
+
+    public function scopeNoShowPatient($query)
+    {
+        return $query->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+    }
+
+    public function scopeNoShowDoctor($query)
+    {
+        return $query->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
+    }
+
+    public function scopeGeneralConflict($query)
+    {
+        return $query->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
+    }
+
+    public function scopeCanceled($query)
+    {
+        return $query->where('status_id', self::CANCELED_STATUS_ID);
+    }
+
+    public function scopeComplete($query)
+    {
+        return $query->where('status_id', self::COMPLETE_STATUS_ID);
     }
 }

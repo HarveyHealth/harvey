@@ -1,7 +1,7 @@
 @extends('legacy._layouts.main')
 
 @push('stylesheets')
-    <link rel="stylesheet" href="{{ mix('legacy/css/app_logged_in.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app_logged_in.css') }}">
 @endpush
 
 @section('main_content')

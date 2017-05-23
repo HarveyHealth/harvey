@@ -8,7 +8,7 @@ input[type="submit"] {
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-size: 19px;
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
   line-height: 1;
   padding: 10px 30px 12px;
@@ -18,6 +18,20 @@ input[type="submit"] {
   user-select: none;
   vertical-align: middle;
   width: auto;
+
+  &.is-outlined {
+    color: $harvey-tertiary;
+    border-color: $harvey-tertiary;
+    background-color: transparent;
+    padding: 9px 16px;
+    border: 1px solid;
+    &:hover,
+    &:focus{
+      color: $harvey-tertiary;
+      border-color: $harvey-tertiary;
+      background-color: transparent;
+    }
+  }
 
   &:hover,
   &:focus {
@@ -32,5 +46,39 @@ input[type="submit"] {
     &:hover {
       background-color: $green;
     }
+  }
+}
+
+.button--cancel {
+  background-color: lighten($gray, 10%);
+  margin-left: 1em;
+
+  &:hover,
+  &:focus {
+    background-color: $dark-gray;
+  }
+}
+
+.button--close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.button--close.flyout-close {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+
+  & svg {
+    height: 1em;
+    position: absolute;
+    stroke: $gray;
+    stroke-width: 6px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1em;
   }
 }

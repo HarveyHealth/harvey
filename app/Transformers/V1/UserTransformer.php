@@ -7,6 +7,10 @@ use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
 {
+    protected $availableIncludes = [
+        'patient', 'practitioner'
+    ];
+
     /**
      * A Fractal transformer.
      *
@@ -15,14 +19,37 @@ class UserTransformer extends TransformerAbstract
     public function transform(User $user)
     {
         return [
-            'id' => $user->id,
-            'first_name' => $user->first_name,
-            'last_name' => $user->last_name,
-            'image_url' => $user->imageURL(),
             'email' => $user->email,
-            'phone' => $user->phone,
+            'first_name' => $user->first_name,
             'gender' => $user->gender,
-            'zip' => $user->zip
+            'id' => (string) $user->id,
+            'image_url' => $user->imageURL(),
+            'last_name' => $user->last_name,
+            'phone' => $user->phone,
+            'user_type' => $user->userType(),
+            'zip' => $user->zip,
         ];
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function includePatient(User $user)
+    {
+        if ($patient = $user->patient) {
+            return $this->item($patient, new PatientTransformer())->setResourceKey('patient');
+        }
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function includePractitioner(User $user)
+    {
+        if ($practitioner = $user->practitioner) {
+            return $this->item($practitioner, new PractitionerTransformer())->setResourceKey('practitioner');
+        }
     }
 }
