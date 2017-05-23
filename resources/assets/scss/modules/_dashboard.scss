@@ -27,6 +27,7 @@
       }
     }
     .card-heading-container {
+      min-width: 410px;
       border-bottom: 1px solid $color--grey;
       padding: 20px 30px;
       background: $lightest-gray;
@@ -66,7 +67,7 @@
     .card-contact-info {
       font-weight: 300;
       letter-spacing: 1px;
-      font-size: 18px;
+      font-size: 16px;
       margin-bottom: 20px;
 
       &:last-of-type {

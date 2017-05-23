@@ -189,24 +189,9 @@ body {
     width: 100%;
 }
 .logo-wrapper {
-    width: 30px;
-    height: 40px;
-    svg,
-    .harvey-logo {
-        height: 100%;
-    }
-    .harvey-logo-icon {
-        fill: $primary;
-    }
-    .harvey-logo-type {
-        display: none;
-    }
     @include from($mobile) {
         width: 150px;
-        .harvey-logo-type {
-            display: block;
-            fill: $secondary;
-        }
+        padding-top: 2px;
     }
     .no-svg & {
         background: url('/images/logos/mobile-logo.png') no-repeat center center;
@@ -216,8 +201,7 @@ body {
     }
 }
 .page-title {
-    &,
-    &.title {
+    &, &.title {
         font-weight: 500;
     }
 }
