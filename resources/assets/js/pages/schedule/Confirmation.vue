@@ -74,16 +74,12 @@
     },
     methods: {
       dispatchEvent() {
-
-        if (this.env === 'prod') {
-
-            this.$ma.trackEvent({
+          this.$ma.trackEvent({
             action: 'IntakeQ Form Initiated',
             fb_event: 'ViewContent',
             category: 'clicks',
             properties: { laravel_object: Laravel.user }
-          });
-        }
+        });
       }
     },
     mounted() {
@@ -96,17 +92,21 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-       if (this.env === 'prod') {
-          this.$ma.trackEvent({
-            fb_event: 'Purchase',
-            type: 'product',
-            action: 'Complete Purchase',
-            category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
-            properties: { laravel_object: Laravel.user }
+        this.$ma.trackEvent({
+              fb_event: 'PageView',
+              type: 'product',
+              category: 'clicks',
+              properties: { laravel_object: Laravel.user }
           });
-        }
+        this.$ma.trackEvent({
+          fb_event: 'Purchase',
+          type: 'product',
+          action: 'Complete Purchase',
+          category: 'clicks',
+          value: 50.00,
+          currency: 'USD',
+          properties: { laravel_object: Laravel.user }
+        });
 
         axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
             first_name: this.$root.global.user.attributes.first_name,

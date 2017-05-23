@@ -42,7 +42,12 @@
       }
     },
     mounted() {
-    
+      this.$ma.trackEvent({
+          fb_event: 'PageView',
+          type: 'product',
+          category: 'clicks',
+          properties: { laravel_object: Laravel.user }
+      });
     }
   }
 </script>
