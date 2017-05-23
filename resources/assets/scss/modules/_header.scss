@@ -1,13 +1,41 @@
-.site-header {
-    background: $white;
-    height: 57px;
-    border-bottom: 1px solid #EFEFEF;
+.header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 101;
+    height: 60px;
+    background: #FFF;
     .container {
+        height: 60px;
         max-width: 1152px;
+        padding: 0;
         margin: 0 auto;
-        .logo-wrapper {
+        .nav-left {
             float: left;
-            max-height: 56px;
+            .logo-wrapper {
+                float: left;
+                svg {
+                    width: 150px;
+                    margin-top: 8px;
+                    &.harvey-mark{
+                        width: 150px;
+                        margin-top: 2px;
+                        height: 43px;
+                    }
+                }
+            }
+        }
+        .nav-right {
+            float: right;
+            .nav-item {
+                font-size: 16px;
+                margin-top: 12px;
+                display: flex;
+                a {
+                    font-size: 16px;
+                    margin-left: 10px;
+                }
+            }
         }
     }
 }

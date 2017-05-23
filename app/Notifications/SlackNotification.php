@@ -15,18 +15,18 @@ class SlackNotification extends Notification
 
     protected $message;
     protected $channel;
-    protected $error;
+    protected $level;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message, $channel, $error = false)
+    public function __construct($message, $channel, $level = 'info')
     {
         $this->message = $message;
         $this->channel = app()->environment(['staging', 'production']) ? $channel : config('services.slack.testing_channel');
-        $this->error = $error;
+        $this->level = $level;
     }
 
     /**
@@ -43,7 +43,7 @@ class SlackNotification extends Notification
     public function toSlack($notifiable)
     {
         $message = new SlackMessage;
-        $message = ($this->error) ? $message->error() : $message->success();
+        $message->level = $this->level;
         $message = $message->to($this->channel);
         return $message->content($this->message);
     }

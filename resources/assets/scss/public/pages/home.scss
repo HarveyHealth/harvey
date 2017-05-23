@@ -1,0 +1,459 @@
+$gray: #EFEFEF;
+
+body.home {
+    
+    // General
+
+    &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
+        color: $text-secondary;
+    }
+    .title.is-1 { // Override
+        font-size: 3rem;
+    }
+    .watch-video {
+        &:focus {
+            outline: 0;
+        }
+        &:hover{
+            img {
+                opacity: .8;
+            }
+            cursor: pointer;
+            svg {
+                left: 1px;
+            }
+        }
+    }
+    .video-intro {
+        max-width: 200px;
+        padding: 20px 0 0 20px;
+    }
+    .subtitle {
+        line-height: 1.5;
+    }
+    figure {
+        margin-right: 0;
+    }
+    .button.is-medium {
+        height: auto;
+        padding: 1rem 3rem;
+        margin-top: 0.5rem;
+    }
+    .columns.is-narrow {
+        max-width: 1052px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+
+    // Layout
+
+    #app {
+        height: auto;
+        min-height: 100%;
+        width: 100%;
+        position: relative;
+        margin-bottom: 0;
+    }
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 101;
+        height: 60px;
+        background-color: rgba(#fff, $opacity-dark);
+        &,
+        .button {
+            transition: all 0.2s ease;
+        }
+        .button {
+            &:not(.is-outlined) {
+                background-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    background-color: darken($tertiary, 2.5%);
+                }
+            }
+            &.is-outlined {
+                color: $tertiary;
+                border-color: $tertiary;
+                &:hover,
+                &:active,
+                &:focus {
+                    color: darken($tertiary, 5%);
+                    border-color: darken($tertiary, 5%);
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    .section:not(:last-of-type) {
+        padding-bottom: 1rem;
+    }
+
+    // Logo
+
+    .is-inverted .logo-wrapper {
+        @include from($mobile) {
+            .harvey-text {
+                fill: #fff;
+            }
+            .harvey-icon {
+                fill: #B4E7A0;
+            }
+        }
+    }
+
+    // Hero
+
+    .hero {
+        position: relative;
+        @include until($desktop) {
+            min-height: initial;
+            padding-top: 3.5rem;
+        }
+        .hero-background {
+            width: 100%;
+            // background-image: gradient;
+            background: lighten($gray, 90%) url('/images/home/hero_lg.jpg') no-repeat center top;
+            background-size: cover;
+            &, &:after {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+            }
+            &:after {
+                content: ' ';
+                display: block;
+                background-color: rgba(darken($gray, 90%), $opacity-light);
+            }
+            @include from($tablet) {
+                background-image: url('/images/home/hero_lg.jpg');
+            }
+            @include from($megascreen) {
+                background-image: url('/images/home/hero_lg.jpg');
+            }
+        }
+        @include from($megascreen) {
+            min-height: initial;
+            .hero-body {
+                padding-top: 9rem;
+                padding-bottom: 9rem;
+            }
+        }
+    }
+    .has-content-vertical-aligned {
+        @include from($desktop) {
+            position: relative;
+            .content,
+            .has-content-vertical-aligned-content {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                margin-left: 0.75rem;
+                margin-right: 0.75rem;
+            }
+        }
+    }
+
+    .image-has-max-height {
+        @include until($desktop) {
+            max-height: 500px;
+            overflow: hidden;
+        }
+    }
+
+    // Elements
+
+    .section-header {
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 2em;
+        span {
+            font-weight: 500;
+        }
+        @include from($tablet) {
+            display: table;
+            white-space: nowrap;
+            overflow: hidden;
+            span {
+                margin: 0 $space-medium;
+                vertical-align: middle
+            }
+            &:before,
+            &:after {
+                display: table-cell;
+                content: ' ';
+                width: 50%;
+                border-top: 1px solid $border;
+                position: relative;
+                top: 0.7em;
+            }
+        }
+        & + .columns {
+            margin-top: 3rem;
+        }
+    }
+    .button-wrapper {
+        img {
+            margin-right: 10px;
+            max-width: 60px;
+        }
+        @include until($tablet) {
+            text-align: center;
+        }
+    }
+    .tagline {
+        margin-top: $space-xsmall;
+        margin-bottom: $size-2;
+    }
+    .icon-wrapper {
+        text-align: center;
+        &.icon-wrapper-has-background {
+            width: 68px;
+            height: 68px;
+            padding-top: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            @include from($desktop) {
+                width: 80px;
+                height: 80px;
+                padding-top: 16px;
+            }
+            &.is-lime {
+                @include background-gradient($harvey-lime);
+            }
+            &.is-pink {
+                @include background-gradient($harvey-pink);
+            }
+            &.is-brown {
+                @include background-gradient($harvey-brown);
+            }
+            &.is-purple {
+                @include background-gradient($harvey-purple);
+            }
+            &.is-turquoise {
+                @include background-gradient($harvey-turquoise);
+            }
+            &.is-slategrey {
+                @include background-gradient($harvey-slategrey);
+            }
+            &.is-green {
+                @include background-gradient($harvey-green);
+            }
+        }
+    }
+    .copy-has-max-width + .columns {
+        margin-top: $size-3;
+    }
+    .disclaimer {
+        font-size: 1.125em;
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .symptoms-selector-wrapper {
+        li + li {
+            margin-top: 0;
+        }
+    }
+    .is-3-widescreen {
+        @include from($widescreen) {
+            font-size: $size-3;
+        }
+    }
+
+    #integrative-medicine {
+        margin-bottom: 1em;
+        .introduction {
+            margin-bottom: 2rem;
+            img {
+                max-width: 470px;
+            }
+        }
+        figure.has-margin {
+            margin-top: 2rem 3rem;
+            margin-bottom: 3.5rem;
+        }
+        .columns {
+            padding: 0 20px 15px 0;
+            transform: translateX(1.5rem);
+        }
+        @include until($tablet) {
+            padding-left: 0;
+        }
+
+    }
+
+    #western-medicine, #labs {
+        padding-bottom: 5rem;
+        .columns {
+            background-color: #fff;
+        }
+    }
+
+    #western-medicine{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
+    }
+
+    #labs{
+        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
+        .button {
+            margin-bottom: 20px;
+        }
+        @include from($desktop) {
+            figure {
+                max-width: 475px;
+            }
+        }
+        @include until($desktop) {
+            .button-wrapper {
+                text-align: center;
+            }
+            figure {
+                width: 100%;
+            }
+        }
+    }
+
+    #tests {
+        .columns {
+            margin-top: 0;
+        }
+    }
+
+    #social-feed, #symptoms {
+        .social-feed {
+            margin-top: 40px;
+            img {
+                max-width: 30px;
+            }
+        }
+    }
+
+    #how-it-works {
+        @include from($desktop) {
+            text-align: center;
+            .column.columns {
+                flex-direction: column;
+                margin-bottom: 50px;
+                .icon-wrapper {
+                    margin: 0 auto;
+                }
+            }
+        }
+        @include until($desktop) {
+            .columns {
+                .column {
+                    text-align: left;
+                    .column {
+                        padding-left: 0;
+                    }
+                }
+            }
+            .title {
+                margin: 0 0 1rem !important;
+            }
+        }
+        em {
+            margin: 10px 0;
+        }
+    }
+
+    #stories, #advisors {
+        a {
+            &:focus {
+                outline: 0; 
+            }
+        }
+        .column {
+            p {
+                margin-top: 10px;
+            }
+        }
+    }
+
+    #symptoms {
+        margin-bottom: 4rem;
+        .circle img{
+            border-radius: 100%;
+            max-width: 70%;
+            padding: 5px 0 0;
+        }
+    }
+
+    #get-started {
+        background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
+        padding: 70px 0 90px;
+        h2 {
+            margin-bottom: 0;
+        }
+        p {
+            color: $tertiary;
+            font-size: 1.2rem;
+        }
+    }
+
+    // Misc
+
+    .vue-slider-tooltip.vue-slider-tooltip-top {
+        top: -3px;
+    }
+
+    .anchor {
+        display: block;
+        position: relative;
+        top: -64px;
+        visibility: hidden;
+    }
+
+    // Mailchimp
+
+    #mc_embed_signup form {
+        margin-bottom: 10px;
+    }
+
+    #mc_embed_signup input {
+        font-family: "proxima-nova";
+        font-size: 15px;
+        weight: 100px;
+        height: 38px;
+    }
+    #mc_embed_signup .button {
+        max-width: 200px;
+        background: $primary;
+    }
+    #mc_embed_signup #mce-EMAIL{
+        max-width: 200px;
+        padding-left: 12px;
+        &:focus,
+        &:active {
+            outline: none;
+        }
+    }  
+
+
+    // Media
+
+    @include until($tablet) {
+        .title {
+            &.is-1,
+            &.is-2 {
+                font-size: 2rem;
+            }
+        }
+    }
+    @include from($desktop) {
+        #symptoms {
+            .columns {
+                text-align: left;
+            }
+        }
+    }
+}

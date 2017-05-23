@@ -39,7 +39,9 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
         'height_inches' => $faker->numberBetween(0, 12),
@@ -63,7 +65,9 @@ $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
         'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
     ];
 });
@@ -77,18 +81,24 @@ $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $
 });
 
 $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generator $faker) {
-    $start_time = Carbon::instance(
-        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
-    );
-    
-    $start_time->minute = $faker->randomElement([0, 30]);
-    $start_time->second = 0;
-    
+    $workableDays = collect();
+
+    for ($i = 0; $i < 5; $i++) {
+        $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
+    }
+
+    $start_hour = rand(0, 23);
+    $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
+
+    $stop_hour = rand($start_hour + 1, 24);
+    $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
+    $stop_time = "{$stop_hour}:{$stop_minutes}:00";
+
     return [
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'day_of_week' => $faker->dayOfWeek,
-        'start_time' => $start_time->toTimeString(),
-        'stop_time' => $start_time->addHour(rand(1, 8))->toTimeString(),
+        'day_of_week' => $workableDays->random(),
+        'start_time' => $start_time,
+        'stop_time' => $stop_time,
     ];
 });
 
@@ -96,7 +106,9 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'user_id' => factory(App\Models\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
     ];
 });
 
@@ -113,7 +125,7 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     // Create an appointment start time that begins at the top of the hour
     // or 30 minutes into the hour
     $start_time = Carbon::instance(
-        $faker->dateTimeBetween($startDate = 'now', $endDate = '+7 days', 'UTC')
+        $faker->dateTimeBetween($startDate = '+1 days', $endDate = '+5 days')
     );
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
@@ -122,8 +134,7 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
         'appointment_at' => $start_time->toDateTimeString(),
-        'appointment_block_ends_at' => $start_time->addMinutes(90)->toDateTimeString(),
-        'reason_for_visit' => $faker->sentence
+        'reason_for_visit' => $faker->sentence,
     ];
 });
 
@@ -133,8 +144,8 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
     );
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
-    
-    return ['appointment_at' => $start_time->toDateTimeString(), 'appointment_block_ends_at' => $start_time->addMinutes(90)];
+
+    return ['appointment_at' => $start_time->toDateTimeString()];
 });
 
 $factory->state(App\Models\Appointment::class, 'soon', function ($faker) {
@@ -167,4 +178,28 @@ $factory->define(Laravel\Passport\Client::class, function (Faker\Generator $fake
         'password_client' => 1,
         'revoked' => 0
     ];
+});
+
+$factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
+    $classesNames = collect([
+        App\Models\Practitioner::class,
+        App\Models\Patient::class,
+        App\Models\Admin::class,
+    ]);
+    $classesNames = $classesNames->shuffle();
+
+    $senderClassName = $classesNames->pop();
+    $output['sender_user_id'] = function () use ($senderClassName) {
+        return factory($senderClassName)->create()->user->id;
+    };
+
+    $recipientClassName = $classesNames->pop();
+    $output['recipient_user_id'] = function () use ($recipientClassName) {
+        return factory($recipientClassName)->create()->user->id;
+    };
+    $output['message'] = $faker->sentence;
+    $output['is_admin'] = App\Models\Admin::class == $senderClassName;
+    $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
+
+    return $output;
 });

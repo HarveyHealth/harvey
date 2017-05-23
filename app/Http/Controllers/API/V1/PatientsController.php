@@ -4,9 +4,8 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
-use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
-use \Validator;
+use Validator;
 
 class PatientsController extends BaseAPIController
 {
@@ -23,17 +22,27 @@ class PatientsController extends BaseAPIController
     }
 
     /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        if (auth()->user()->isAdminOrPractitioner()) {
+            return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
+        }
+
+        return $this->respondNotAuthorized('You are not authorized to access this patient.');
+    }
+
+    /**
      * @param Patient $patient
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Patient $patient)
     {
         if (auth()->user()->can('view', $patient)) {
-            return $this->baseTransformItem($patient)->respond();
+            return $this->baseTransformItem($patient, request('include'))->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the patient with id {$patient->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }
     }
 
@@ -52,19 +61,15 @@ class PatientsController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         if (auth()->user()->can('update', $patient)) {
             $patient->update($request->all());
-    
+
             return $this->baseTransformItem($patient)->respond();
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail('You do not have access to modify this patient.');
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized('You do not have access to modify this patient.');
         }
     }
 }

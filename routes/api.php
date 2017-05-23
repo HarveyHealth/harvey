@@ -20,28 +20,37 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
     Route::resource('tests', 'API\alpha\TestsController');
 });
 
-Route::group(['prefix' => 'v1'], function () {
-    Route::post('users', 'API\V1\UsersController@create')->name('users.create');
-    
+Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
+    Route::post('users', 'UsersController@create')->name('users.create');
+
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('tests/{test}', 'API\V1\TestsController@show')->name('tests.show');
-        Route::post('tests/{test}/results', 'API\V1\TestsController@results')->name('test.results');
-        
-        Route::get('users/{user}', 'API\V1\UsersController@show')->name('users.show');
-        Route::patch('users/{user}', 'API\V1\UsersController@update')->name('users.update');
-        
-        Route::get('patients/{patient}', 'API\V1\PatientsController@show')->name('patients.show');
-        Route::patch('patients/{patient}', 'API\V1\PatientsController@update')->name('patients.update');
-        
-        Route::get('appointments', 'API\V1\AppointmentsController@index')->name('appointments.index');
-        Route::get('appointments/{appointment}', 'API\V1\AppointmentsController@show')->name('appointments.show');
-        Route::post('appointments', 'API\V1\AppointmentsController@store')->name('appointments.store');
-        Route::patch('appointments/{appointment}', 'API\V1\AppointmentsController@update')->name('appointments.update');
-        Route::delete('appointments/{appointment}', 'API\V1\AppointmentsController@delete')->name('appointments.delete');
-    
-        Route::get('practitioners/{practitioner}', 'API\V1\PractitionerController@show')->name('practitioner.show');
-        
-        Route::get('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@show')->name('practitioner-schedule.show');
-        Route::patch('practitioner/{practitioner}/schedule', 'API\V1\PractitionerScheduleController@update')->name('practitioner-schedule.update');
+        Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
+        Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
+
+        Route::get('users', 'UsersController@index')->name('users.index');
+        Route::get('users/{user}', 'UsersController@show')->name('users.show');
+        Route::patch('users/{user}', 'UsersController@update')->name('users.update');
+
+        Route::get('patients', 'PatientsController@index')->name('patients.index');
+        Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
+        Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
+
+        Route::get('appointments', 'AppointmentsController@index')->name('appointments.index');
+        Route::get('appointments/{appointment}', 'AppointmentsController@show')->name('appointments.show');
+        Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
+        Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
+        Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
+
+        Route::get('practitioners', 'PractitionerController@index')->name('practitioner.index');
+        Route::get('practitioners/{practitioner}', 'PractitionerController@show')->name('practitioner.show');
+
+        Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
+        Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
+
+        Route::get('messages', 'MessagesController@index')->name('messages.index');
+        Route::get('messages/{message}', 'MessagesController@show')->name('messages.show');
+        Route::post('messages', 'MessagesController@new')->name('messages.new');
+        Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
+        Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
     });
 });

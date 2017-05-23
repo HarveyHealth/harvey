@@ -14,6 +14,7 @@ use Illuminate\Routing\Controller;
 
 // AUTHENTICATION
 Auth::routes();
+Route::get('logout', 'Auth\LoginController@logout');
 
 // Additional routing to not use Laravel's built-in "register" route
 // Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
@@ -21,11 +22,8 @@ Auth::routes();
 Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify');
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword');
 
-
-
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
-Route::get('api/user', 'DashboardController@getUser');
 
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');
@@ -41,12 +39,7 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
 if (App::environment('local')) {
     Route::get('test', 'TestController@index');
-    Route::get('logout', 'Auth\LoginController@logout');
 }
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/schedule', 'SchedulerController@index')->name('scheduler');
-});
 
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');

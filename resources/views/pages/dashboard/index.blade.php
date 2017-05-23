@@ -1,22 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.master')
 
-        <title>Dashboard</title>
+@section('page_title', 'Dashboard')
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+@push('stylesheets')
+    <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+@endpush
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+@section('content')
+    @include('_includes.svgs')
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+    <div class="admin-content">
+      <div id="app">
+        {{-- Alert component for handling success/error messages --}}
+        <alert></alert>
 
-        <!-- Typekit -->
-        <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
+        <transition
+            mode="out-in"
+            enter-active-class="animated animated-fast fadeIn"
+            leave-active-class="animated animated-fast fadeOut"
+        >
+            <router-view :user="global.user"></router-view>
+        </transition>
 
         <!-- Facebook Pixel Code -->
         <script>
@@ -75,29 +79,23 @@
           </transition>
 
         </div>
-      </div>
 
-      <script>
+    <script>
+      window.Laravel = {!! $vue_data !!}
+    </script>
+
+    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
     </script>
 
-      <!-- Scripts -->
-      @stack('square')
+    @script(https://js.stripe.com/v2/)
+    <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
-      {{-- To add data here, see the VueHelperViewComposer --}}
-      <script>
-        window.Laravel = {!! $vue_data !!}
-      </script>
-
-      @script(https://js.stripe.com/v2/)
-      <script type="text/javascript" src="{{ mix('js/dashboard/main.js') }}"></script>
-
-      @stack('scripts')
-
-    </body>
-</html>
+    @stack('scripts')
+@stop
