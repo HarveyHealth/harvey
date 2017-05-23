@@ -203,9 +203,9 @@
         this.appointmentModType = 'new';
         Vue.nextTick(() => {
           if (this.userType !== 'patient') {
-            this.$eventHub.$emit('setPatient', this.patientList[0].id);
-            this.appointmentData.patientName = this.patientList[0].name;
-            this.dataForNew.patient_id = this.patientList[0].id;
+            this.$eventHub.$emit('setPatient', this.$root.$data.global.patients[0].id);
+            this.appointmentData.patientName = this.$root.$data.global.patients[0].name;
+            this.dataForNew.patient_id = this.$root.$data.global.patients[0].id;
           }
           this.appointmentData.appointmentStatus = 'pending';
           this.appointmentData.doctorName = this.$root.$data.global.practitioners[0].name;
@@ -339,6 +339,7 @@
             this.$eventHub.$emit('populateAvailableTimes');
           } else {
             this.doctorAvailability = [];
+            this.$eventHub.$emit('availabilityResponse', false);
           }
         });
       });

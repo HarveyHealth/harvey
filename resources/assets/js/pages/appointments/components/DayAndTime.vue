@@ -6,6 +6,7 @@
       <div v-else-if="type === 'new'">available times</div>
     </label>
     <span v-if="past || displayOnly" class="input__item">{{ conductedOn }}</span>
+    <span v-else-if="loading">Loading availability...</span>
     <span v-else-if="noneAvailable" class="input--warning">Sorry, this doctor does not have any available appointment times.</span>
     <template v-else>
       <span class="custom-select">
@@ -39,7 +40,8 @@ export default {
       selectedDay: '',
       day: '',
       timeIndex: 0,
-      time: ''
+      time: '',
+      loading: true,
     }
   },
   computed: {
@@ -160,5 +162,20 @@ export default {
       ? this.classes.forEach(cls => this.classNames[cls] = true)
       : this.classes;
   },
+  mounted() {
+    this.$eventHub.$on('callFlyout', active => this.loading = true);
+    this.$eventHub.$on('availabilityResponse', response => {
+      if (response === 'refresh') {
+        this.loading = true;
+      } else {
+        this.loading = false;
+        this.noneAvailable = !response;
+      }
+    });
+  },
+  destroyed() {
+    this.$eventHub.$off('callFlyout');
+    this.$eventHub.$off('availabilityResponse');
+  }
 }
 </script>
