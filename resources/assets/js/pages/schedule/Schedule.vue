@@ -4,7 +4,7 @@
     <div class="header nav">
         <div class="container">
             <div class="nav-left">
-                <a href="/" class="nav-item">
+                <a href="#" class="nav-item">
                     <div class="logo-wrapper">
                         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
                     </div>
@@ -13,7 +13,6 @@
             <div class="nav-right">
                 <span class="nav-item">
                     <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
-                    <a href="/login" class="button is-primary is-outlined is-hidden-mobile">Log In</a>
                 </span>
             </div>
         </div>
