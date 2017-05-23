@@ -161,7 +161,5 @@ const app = new Vue({
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
 
-        setTimeout(() => console.log(this.global), 2000);
-
     }
 }).$mount('#app');
