@@ -23,7 +23,7 @@ class MessageTransformer extends TransformerAbstract
             'message' => $message->message,
             'sender_user_id' => (string) $message->sender_user_id,
             'recipient_user_id' => (string) $message->recipient_user_id,
-            'is_admin' => $message->is_sender_admin,
+            'is_sender_admin' => (boolean) $message->is_sender_admin,
             'read_at' => $message->read_at,
             'created_at' => $message->created_at,
         ];

@@ -100,16 +100,12 @@
     },
     name: 'Modal',
     mounted() {
-      this.$ma.trackEvent({
-          fb_event: 'PageView',
-          type: 'product',
-          category: 'clicks',
-          properties: { laravel_object: Laravel.user }
-      });
-      this.$ma.trackEvent({
-          value: 'PageView',
-          fb_event: 'ViewContent',
-      })
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        this.$ma.trackEvent({
+            value: 'PageView',
+            fb_event: 'ViewContent',
+        })
+      }
     }
   }
 </script>

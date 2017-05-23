@@ -84,12 +84,13 @@
     },
     name: 'Phone',
     mounted() {
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
         this.$ma.trackEvent({
-                fb_event: 'PageView',
-                type: 'product',
-                category: 'clicks',
-                properties: { laravel_object: Laravel.user }
-            });
+            fb_event: 'PageView',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
         this.$ma.trackEvent({
           action: 'Additional Info',
           fb_event: 'ViewContent',
@@ -97,6 +98,7 @@
           properties: { laravel_object: Laravel.user },
           value: 'PageView'
         });
+      }
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     },
     beforeDestroy() {
