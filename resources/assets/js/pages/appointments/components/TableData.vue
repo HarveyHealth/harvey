@@ -12,12 +12,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-if="!tabledata.length">
+        <tr v-if="!tableData.length">
           <td colspan="6" class="card-empty-container">
               <p>You have no upcoming appointments.</p>
           </td>
         </tr>
-        <tr v-for="row in tabledata" @click="rowClick(row, $event)">
+        <tr v-for="row in tableData" @click="rowClick(row, $event)">
           <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>
             <td v-else=""></td>
           <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableTime }}</td>
@@ -39,17 +39,16 @@
 <script>
 
 import { capitalize } from '../../../utils/filters/textformat';
-import combineAppointmentData from '../utils/combineAppointmentData';
 import convertStatus from '../utils/statuses';
 import moment from 'moment-timezone';
 import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
 
 export default {
   props: ['allTableData', 'config'],
-  data() {
-    return {
-      tabledata: [],
-    }
+  computed: {
+    tableData() {
+      return this.$root.$data.global.appointments;
+    },
   },
   filters: {
     capitalize(word) {
@@ -66,12 +65,6 @@ export default {
     }
   },
   methods: {
-    getAppointmentData() {
-      axios.get('/api/v1/appointments?include=patient.user').then(response => {
-        const newData = combineAppointmentData(response.data).reverse();
-        this.tabledata = newData;
-      })
-    },
     rowClick(rowData, event) {
       let classname = event.target.parentElement.className;
       this.$eventHub.$emit('deselectRows');
@@ -85,9 +78,7 @@ export default {
       document.querySelectorAll('tr.isactive').forEach(n => n.className = '');
     })
 
-    this.$eventHub.$on('refreshTable', this.getAppointmentData);
-
-    this.getAppointmentData();
+    this.$eventHub.$on('refreshTable', this.$root.getAppointments);
 
   },
   destroyed() {

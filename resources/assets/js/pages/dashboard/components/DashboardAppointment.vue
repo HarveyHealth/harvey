@@ -84,6 +84,6 @@
     .appointment_date, .appointment_doctor {
       font-weight: 300;
       letter-spacing: 1px;
-      font-size: 18px;
+      font-size: 16px;
     }
 </style>

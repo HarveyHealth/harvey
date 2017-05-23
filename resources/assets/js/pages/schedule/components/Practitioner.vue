@@ -15,6 +15,36 @@
     <div class="container large">
       <div class="signup-form-container large">
         <div class="flex-wrapper">
+
+          <div class="input-wrap radio-block">
+            <input
+              type="radio"
+              name="practitioner"
+              id="osteopathy"
+              class="radio_block input-hidden"
+              value="osteopathy"
+              v-model="practitioner"
+            />
+            <label class="block doctor-label" for="osteopathy">
+              <div class="radio-block_container">
+                <h2 class="header-large text-centered">Functional M.D. or D.O.</h2>
+                <em class="tip text-centered">Functional Medical Doctor or Doctor of Osteopathy</em>
+                <div class="practitioner-main-content">
+                  <ul>
+                    <li>4-year medical school</li>
+                    <li>Medical board exam</li>
+                    <li>State medical license</li>
+                    <li>Can order all lab tests</li>
+                    <li>Can prescribe all scheduled drugs (I-V) and professional grade supplements</li>
+                    <li>Prevention focused</li>
+                    <li>Holistic approach</li>
+                  </ul>
+                </div>
+                <h3 class="text-centered price"><em class="bold">$300</em> per hour</h3></li>
+              </div>
+            </label>
+          </div>
+
           <div class="input-wrap radio-block">
             <input
               type="radio"
@@ -28,47 +58,23 @@
             <label class="block doctor-label" for="naturopathic">
               <div class="radio-block_container">
                 <h2 class="header-large text-centered">Naturopathic Doctor</h2>
-                <em class="tip text-centered">Here's an example...</em>
-                <img src="/images/doctors/amanda.png">
+                <em class="tip text-centered">Board-Certified Naturopathic Doctor (N.D.)</em>
                 <div class="practitioner-main-content">
-                  <p><strong>Dr. Amanda Frick, N.D.</strong> went to an accredited four-year naturopathic medical school and she's licensed by the state of California.</p>
-                  <ul>
-                    <li>Combines natural healing philosophies with the rigors of modern science.</li>
-                    <li>Specializes in prevention, root cause analysis and holistic treatments.</li>
-                    <li>Heavy training in nutrition, lab testing and supplementation.</li>
-                  </ul>
+                    <ul>
+                      <li>4-year medical school</li>
+                      <li>Medical board exam</li>
+                      <li>State medical license</li>
+                      <li>3-7 years residency</li>
+                      <li>Can order all lab tests</li>
+                      <li>Can prescribe schedule III-V drugs and professional grade supplements</li>
+                      <li>Nutrition expertise</li>
+                    </ul>
                 </div>
-                <h3 class="text-centered price"><em class="bold">$150</em> per hour<em class="tip text-centered blue">(First time? Pick me!)</em></h3>
+                <h3 class="text-centered price"><em class="bold">$150</em> per hour</h3>
               </div>
             </label>
           </div>
 
-          <div class="input-wrap radio-block">
-            <input
-              type="radio"
-              name="practitioner"
-              id="osteopathy"
-              class="radio_block input-hidden"
-              value="osteopathy"
-              v-model="practitioner"
-            />
-            <label class="block doctor-label" for="osteopathy">
-              <div class="radio-block_container">
-                <h2 class="header-large text-centered">Doctor of Osteopathy</h2>
-                <em class="tip text-centered">Here's an example...</em>
-                <img src="/images/doctors/rachel.png">
-                <div class="practitioner-main-content">
-                  <p><strong>Dr. Rachel West, D.O.</strong> is licensed to practice a full scope of medicine in all 50 states, equivalent to a medical doctor (MD).</p>
-                  <ul>
-                    <li>Receives more training than NDs or MDs in musculoskeletal systems (nerves, muscles and bones).</li>
-                    <li>Also heavily trained in prevention, clinical nutrition, medical lab testing and neutraceuticals.</li>
-                    <li>Utilizes a wide variety of therapies to treat unusual health conditions.</li>
-                  </ul>
-                </div>
-                <h3 class="text-centered price"><em class="bold">$300</em> per hour</h3></li>
-              </div>
-            </label>
-          </div>
         </div>
 
         <div v-show="errors.has('practitioner')" class="text-centered">
@@ -131,15 +137,6 @@
     },
     name: 'Practitioner',
     mounted() {
-      if (this.$parent.env === 'prod') {
-        this.$ma.trackEvent({
-          action: 'View Select Practitioner',
-          fb_event: 'ViewContent',
-          category: 'clicks',
-          properties: { laravel_object: Laravel.user },
-          value: 'PageView',
-        });
-      }
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     },
     beforeDestroy() {

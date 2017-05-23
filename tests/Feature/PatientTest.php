@@ -13,23 +13,51 @@ class PatientTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function test_a_non_valid_patient_id_will_return_404()
+    {
+        Passport::actingAs(factory(Patient::class)->create()->user);
+        $response = $this->json('GET', 'api/v1/patients/1234');
+
+        $response->assertStatus(404);
+    }
+
     public function test_only_admin_or_practitioner_can_view_patients_data()
     {
         $patient = factory(Patient::class, 3)->create();
 
-        Passport::actingAs(factory(Practitioner::class)->create()->user);
-        $response = $this->json('GET', 'api/v1/patients/');
-        $response->assertStatus(200);
-        $this->assertCount(3, $response->original['data']);
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-        $response = $this->json('GET', 'api/v1/patients/');
-        $response->assertStatus(200);
-        $this->assertCount(3, $response->original['data']);
+        foreach ([Admin::class, Practitioner::class] as $userClass) {
+            Passport::actingAs(factory($userClass)->create()->user);
+            $response = $this->json('GET', 'api/v1/patients/');
+            $response->assertStatus(200);
+            $this->assertCount(3, $response->original['data']);
+        }
 
         Passport::actingAs(factory(Patient::class)->create()->user);
         $response = $this->json('GET', 'api/v1/patients/');
         $response->assertStatus(401);
+    }
+
+    public function test_admin_or_practitioner_can_view_paginated_patients_data()
+    {
+        $patient = factory(Patient::class, 3)->create();
+
+        foreach ([Admin::class, Practitioner::class] as $userClass) {
+            Passport::actingAs(factory($userClass)->create()->user);
+            $response = $this->json('GET', 'api/v1/patients/?per_page=2');
+            $response->assertStatus(200);
+            $this->assertCount(2, $response->original['data']);
+            $response->assertJsonFragment([
+                'meta' => [
+                    'pagination' => [
+                        'count' => 2,
+                        'current_page' => 1,
+                        'per_page' => 2,
+                        'total' => 3,
+                        'total_pages' => 2,
+                    ]
+                ]
+            ]);
+        }
     }
 
     public function test_a_patient_can_view_their_patient_data()

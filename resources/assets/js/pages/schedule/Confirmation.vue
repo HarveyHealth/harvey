@@ -9,7 +9,7 @@
 
         <p class="confirmation_date">
           <span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
-          <!-- confirmation_calendar-add -->
+
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
             <span class="start">{{ calendarStart }}</span>
@@ -46,7 +46,7 @@
     data() {
       return {
         title: 'Your appointment is confirmed!',
-        subtitle: 'We just sent you a text message and email confirmation — make sure you received them both. Please note, before talking with your doctor, you must complete our patient intake form (link below).',
+        subtitle: 'Please note, your doctor requires you to fill out a patient intake form before your first consultation. This will take about 20 minutes. The link to the form is below and in your email confirmation.',
         intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
         appointmentDate: null,
         appointmentInformation: null,
@@ -74,14 +74,18 @@
     },
     methods: {
       dispatchEvent() {
+<<<<<<< HEAD
 
         if (this.env === 'production') {
 
+=======
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+>>>>>>> b5d16227e68fc69a6028cd0ccd2cf3a3311d7c3e
             this.$ma.trackEvent({
-            action: 'IntakeQ Form Initiated',
-            fb_event: 'ViewContent',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
+              action: 'IntakeQ Form Initiated',
+              fb_event: 'ViewContent',
+              category: 'clicks',
+              properties: { laravel_object: Laravel.user }
           });
         }
       }
@@ -96,7 +100,13 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-       if (this.env === 'production') {
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          this.$ma.trackEvent({
+              fb_event: 'PageView',
+              type: 'product',
+              category: 'clicks',
+              properties: { laravel_object: Laravel.user }
+          });
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',

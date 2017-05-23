@@ -24,7 +24,6 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
-
     @if (Auth::guest())
         @script(/js/vendors/modernizr-custom.js)
         <script type="text/javascript" src="{{ mix('/js/app_public.js') }}"></script>

@@ -41,7 +41,7 @@ a:hover {
 
 // Progress Indicator
 .signup_progress-indicator {
-  margin-bottom: 25px;
+  margin: 25px 0;
   text-align: center;
 }
   .signup_progress-step {
@@ -73,72 +73,14 @@ a:hover {
     margin-right: 40px;
   }
 }
-.radio-block_container {
-  background-color: $light-gray;
-  border: 1px solid #EFEFEF;
-  border-radius: 5px;
-  cursor: pointer;
-  height: 100%;
-  padding: 20px;
-  h2{
-    margin-bottom: 7px;
-  }
-  .tip{
-  margin-bottom: 15px;
-  }
-  img {
-    max-width: 65px;
-    border-radius: 3px;
-    display: block;
-    float: left;
-    margin: 3px 12px 10px 0;
-  }
-  &:hover {
-    border: 1px solid $harvey-primary;
-    box-shadow: inset 0px 0px 0px 6px $harvey-primary;
-  }
-}
 
 .guide-block {
   text-align: center;
 }
 
-.practitioner-main-content {
-    margin-bottom: 10px;
-  p{
-    font-size: 15px;
-    line-height: 1.25em;
-    margin-bottom: 4px;
-  }
-  ul {
-    margin: 7px 0 20px;
-    font-size: 15px;
-  } li {
-    margin-bottom: 5px;
-  }
-}
-
 .price{
   border-top: 1px solid #DDD;
   padding-top: 20px;
-}
-
-.tip{
-  color:$gray;
-  display:block;
-  font-size:17px;
-  clear:both;
-  &.blue{
-    color: $harvey-tertiary;
-    font-size: 14px;
-    opacity: .7;
-    margin-top: 3px;
-  }
-}
-
-.radio_block:checked + label .radio-block_container  {
-  border: 1px solid $harvey-primary;
-  box-shadow: inset 0px 0px 0px 6px $harvey-primary;
 }
 
 .radio_block {
@@ -308,15 +250,15 @@ button:focus {
     }
 
     .button.dashboard {
-      color: #666;
-      border: 1px solid #e2e2e2;
+      color: #888;
+      border: 1px solid #EFEFEF;
       background-color: #f9f9f9;
       padding: 12px 30px;
       margin-left: 10px;
       &:hover{
-        color: #444;
-        border: 1px solid #444;
-        background-color: #e9e9e9;
+        color: #666;
+        border: 1px solid #ddd;
+        background-color: #f2f2f2;
       }
     }
 
@@ -330,15 +272,16 @@ button:focus {
 #addeventatc1, .addeventatc1 {
   font-family: $sans !important;
   font-size: 16px !important;
-  color: $gray !important;
-  border-color: #efefef !important;
+  color: #888 !important;
+  border-color: #EFEFEF !important;
   font-weight: 400 !important;
-  transition: opacity 200ms ease-in;
+  margin-bottom: 20px !important;
+  transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;
   }
   &.isVisible {
-    opacity: 1;
+    opacity: 1 !important;
   }
 }
 .addeventatc_icon {

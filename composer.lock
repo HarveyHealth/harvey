@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.28.0",
+            "version": "3.28.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "af653f256d99ff372ce3e3be3048e7e5373ab1bc"
+                "reference": "374225ec7e4ca2cc3edab2cd54b99ab383bfcbc6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/af653f256d99ff372ce3e3be3048e7e5373ab1bc",
-                "reference": "af653f256d99ff372ce3e3be3048e7e5373ab1bc",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/374225ec7e4ca2cc3edab2cd54b99ab383bfcbc6",
+                "reference": "374225ec7e4ca2cc3edab2cd54b99ab383bfcbc6",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-05-18T20:44:27+00:00"
+            "time": "2017-05-22T22:26:55+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1026,16 +1026,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0"
+                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
-                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
+                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
                 "shasum": ""
             },
             "require": {
@@ -1044,7 +1044,8 @@
             },
             "require-dev": {
                 "illuminate/http": "~5.0",
-                "mockery/mockery": "~0.9.3"
+                "mockery/mockery": "~0.9.3",
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "extra": {
@@ -1073,7 +1074,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2017-03-23T23:17:29+00:00"
+            "time": "2017-05-23T13:52:16+00:00"
         },
         {
             "name": "firebase/php-jwt",

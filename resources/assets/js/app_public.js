@@ -116,6 +116,7 @@ const app = new Vue({
         },
         navIsInverted: true,
         isHomePage: false,
+        isLoginPage: false,
         wait: 400,
         navScrollThreshold: 56,
         showSignupContent: true
@@ -207,9 +208,14 @@ const app = new Vue({
         if (this.isHomePage) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
             this.onPageScroll();
-
-            initTracking();
-            if (env === 'prod') {
+            if (env === 'production' || env === 'prod') {
+                initTracking();
+                this.$ma.trackEvent({
+                    fb_event: 'PageView',
+                    type: 'product',
+                    category: 'clicks',
+                    properties: { laravel_object: Laravel.user }
+                });
                 this.$ma.trackEvent({
                     action: 'Homepage',
                     fb_event: 'ViewContent',

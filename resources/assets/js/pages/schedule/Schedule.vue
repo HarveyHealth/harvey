@@ -1,15 +1,23 @@
 <template>
   <div>
-    <header class="site-header">
-      <div class="container">
-        <div class="logo-wrapper">
-          <router-link to="/" alt="Home"><svg class="harvey-logo"></svg></router-link>
+
+    <div class="header nav">
+        <div class="container">
+            <div class="nav-left">
+                <a href="#" class="nav-item">
+                    <div class="logo-wrapper">
+                        <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-right">
+                <span class="nav-item">
+                    <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
+                </span>
+            </div>
         </div>
-        <div class="nav-item">
-            <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
-        </div>
-      </div>
-    </header>
+    </div>
+
     <form @submit.prevent="onSubmit" v-if="!$root.initialAppointmentComplete">
       <practitioner v-if="step === 1" />
       <phone v-if="step === 2" />
@@ -90,22 +98,27 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-
+      
       let flag = localStorage.getItem('signed up')
       if (flag) {
         localStorage.removeItem('signed up')
       }
-
-      if (this.env === 'production') {
-          this.$ma.trackEvent({
-              fb_event: 'InitiateCheckout',
-              type: 'product',
-              action: 'Scheduling Appointment',
-              category: 'clicks',
-              value: 50.00,
-              currency: 'USD',
-              properties: { laravel_object: Laravel.user }
-          });
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        this.$ma.trackEvent({
+            fb_event: 'PageView',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
+        this.$ma.trackEvent({
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Scheduling Appointment',
+            category: 'clicks',
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
       }
     }
   }

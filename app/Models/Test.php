@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Storage;
 
 class Test extends Model
 {
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'results_key'];
 
     public function patient()
     {
         return $this->belongsTo(Patient::class);
     }
-    
+
     public function practitioner()
     {
         return $this->belongsTo(Practitioner::class);
@@ -25,7 +25,7 @@ class Test extends Model
         if (empty($this->results_key)) {
             return null;
         }
-        
+
         try {
             $client = Storage::disk('s3')->getDriver()->getAdapter()->getClient();
             $expiry = "+1 hour";
@@ -34,7 +34,7 @@ class Test extends Model
                 'Key'    => $this->results_key
             ]);
             $request = $client->createPresignedRequest($command, $expiry);
-            
+
             return (string) $request->getUri();
         } catch (\Exception $e) {
             throw new S3Exception("Error generating pre-signed request for test results url: {$e->getMessage()}", 0, $e);

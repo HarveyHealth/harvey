@@ -4,17 +4,59 @@
     <UserNav />
 
     <div class="main-content">
+
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
+
+      <div class="card-wrapper alert">
+        <div class="card">
+          <h3>Patient Intake Form</h3>
+          <p>Please note: You must finish your patient intake form before your first appointment.</p>
+          <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+        </div>
+      </div>
+
       <div class="card-wrapper">
+        
         <div class="card">
           <DashboardAppointments :user-type="userType"
-                        :recent-appointments="recent_appointments"
-                        :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
+            :recent-appointments="recent_appointments"
+            :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
+
+        <div class="card">
+          <div class="card-heading-container">
+            <h2 class="card-header">Your Doctor</h2>
+          </div>
+          <div class="card-content-container">
+
+            <div class="card-content-wrap" v-if="upcoming_appointments.length > 0">
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ upcoming_appointments[0].attributes.practitioner_name }}
+              </h3>
+            </div>
+
+            <div class="card-content-wrap" v-else>
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg> Dr. Amanda Frick, N.D.
+              </h3>
+            </div>
+
+            <div class="card-content-wrap">
+<!--          <h4 class="card-contact-sublabel" v-if="email">Email</h4>
+              <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
+              <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
+              <p class="card-contact-info" v-if="phone"><a href="tel:800-690-9989">(800) 690-9989</a></p> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-wrapper">
+
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Your Info</h2>
@@ -26,23 +68,42 @@
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
               </h3>
             </div>
-            <div v-if="upcoming_appointments.length > 0" class="card-content-wrap">
-              <h4 class="card-contact-sublabel">Doctor</h4>
-              <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
-            </div>
             <div class="card-content-wrap">
               <h4 class="card-contact-sublabel" v-if="email">Email</h4>
-              <p class="card-contact-info" v-if="email">{{ email }}</p>
+              <p class="card-contact-info" v-if="email"><a :href="'mailto:'+email">{{ email }}</a></p>
               <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
               <p class="card-contact-info" v-if="zip">{{ zip }}</p>
               <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
-              <p class="card-contact-info" v-if="phone">{{ phone }}</p>
+              <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
               <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
               <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>
           </div>
         </div>
+
+        <div class="card smaller">
+          <div class="card-heading-container">
+            <h2 class="card-header">Account Manager</h2>
+          </div>
+          <div class="card-content-container">
+            <div class="card-content-wrap" v-if="patientName">
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>Sandra Walker
+              </h3>
+            </div>
+            <div class="card-content-wrap">
+              <h4 class="card-contact-sublabel">Support</h4>
+              <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
+              <h4 class="card-contact-sublabel">Phone</h4>
+              <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
+              <h4 class="card-contact-sublabel">Available</h4>
+              <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
+            </div>
+          </div>
+        </div>
+
       </div>
+
     </div>
   </div>
 </template>
@@ -53,14 +114,14 @@
 
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
+  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
+  import getAppointments from '../../utils/methods/getAppointments';
 
   export default {
     name: 'dashboard',
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        recent_appointments: [],
-        upcoming_appointments: [],
         flag: false
       };
     },
@@ -82,9 +143,6 @@
           return 'Your Dashboard';
         }
       },
-      // The user information needs to be computed properties because the data
-      // is coming from a promise and most likely will not be available when
-      // Dashboard is fully mounted. Without this, lots of errors in the console.
       displayName() {
         if(this.user.attributes === undefined) {
           return '';
@@ -95,8 +153,17 @@
       email() {
         return this.user.attributes ? this.user.attributes.email : '';
       },
+      patientName() {
+        
+      },
       phone() {
         return this.user.attributes ? phone(this.user.attributes.phone) : '';
+      },
+      recent_appointments() {
+        return this.$root.$data.global.recent_appointments || [];
+      },
+      upcoming_appointments() {
+        return this.$root.$data.global.upcoming_appointments || [];
       },
       user_id() {
         return this.user.id || '';
@@ -108,24 +175,25 @@
         return this.user.attributes ? this.user.attributes.zip : '';
       }
     },
-    created() {
-      axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
-        .then((response) => {
-          this.upcoming_appointments = response.data;
-        });
-      axios.get('/api/v1/appointments?filter=recent&include=patient.user')
-        .then((response) => {
-          this.recent_appointments = response.data;
-        });
-    },
+    // created() {
+    //   axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
+    //     .then((response) => {
+    //       this.upcoming_appointments = response.data;
+    //     });
+    //   axios.get('/api/v1/appointments?filter=recent&include=patient.user')
+    //     .then((response) => {
+    //       this.recent_appointments = response.data;
+    //     });
+    // },
     beforeMount() {
-      let flag = localStorage.getItem('signed up')
+      let flag = localStorage.getItem('signed up');
       if (flag) {
-        localStorage.removeItem('signed up')
+        localStorage.removeItem('signed up');
       }
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
+
     }
 
   }
