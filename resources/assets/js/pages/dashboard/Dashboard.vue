@@ -36,7 +36,7 @@
               <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
               <p class="card-contact-info" v-if="zip">{{ zip }}</p>
               <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
-              <p class="card-contact-info" v-if="phone">{{ phone }}</p>
+              <p class="card-contact-info" v-if="phone"><a href="tel">{{ phone }}</a></p>
               <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
               <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>

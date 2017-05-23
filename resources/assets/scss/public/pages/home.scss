@@ -62,6 +62,7 @@ body.home {
         left: 0;
         width: 100%;
         z-index: 101;
+        height: 60px;
         background-color: rgba(#fff, $opacity-dark);
         &,
         .button {
@@ -97,8 +98,11 @@ body.home {
 
     .is-inverted .logo-wrapper {
         @include from($mobile) {
-            .harvey-logo-type {
+            .harvey-text {
                 fill: #fff;
+            }
+            .harvey-icon {
+                fill: #B4E7A0;
             }
         }
     }
