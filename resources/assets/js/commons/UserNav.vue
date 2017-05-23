@@ -1,10 +1,10 @@
 <template>
   <div class="nav-bar">
     <nav class="admin-nav">
-      <a href="/" class="nav-bar-account">
+      <router-linkto="/" class="nav-bar-account">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
-      </a>
-      <router-link class="admin-nav-link" to="/dashboard" title="Dashboard">
+      </router-link>
+      <router-link class="admin-nav-link" to="/" title="Dashboard">
         <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg>
         <div class="text">Dashboard</div>
       </router-link>

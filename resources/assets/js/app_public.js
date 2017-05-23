@@ -204,23 +204,22 @@ const app = new Vue({
         });
 
         if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
-            this.onPageScroll();
-
-            if (env === 'production' || env === 'prod') {
-                initTracking();
-                this.$ma.trackEvent({
-                    fb_event: 'PageView',
-                    type: 'product',
-                    category: 'clicks',
-                    properties: { laravel_object: Laravel.user }
-                });
-                this.$ma.trackEvent({
-                    action: 'Homepage',
-                    fb_event: 'ViewContent',
-                    type: 'product',
-                    properties: { laravel_object: Laravel.user },
-                });
-            }
+        this.onPageScroll();
+        if (env === 'production' || env === 'prod') {
+            initTracking();
+            this.$ma.trackEvent({
+                fb_event: 'PageView',
+                type: 'product',
+                category: 'clicks',
+                properties: { laravel_object: Laravel.user }
+            });
+            this.$ma.trackEvent({
+                action: 'Homepage',
+                fb_event: 'ViewContent',
+                type: 'product',
+                properties: { laravel_object: Laravel.user },
+            });
+        }
 
         if (this.checkWhichPage('signup', 'register')) {
             if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
