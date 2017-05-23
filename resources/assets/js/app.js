@@ -114,7 +114,21 @@ const app = new Vue({
         });
       },
       getPractitioners() {
-
+        if (Laravel.user.userType !== 'practitioner') {
+          axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
+            this.global.practitioners = response.data.data.map(dr => {
+              return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
+            })
+          })
+        } else {
+          axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
+            this.global.practitioners = response.data.data.filter(dr => {
+              return dr.attributes.name === Laravel.user.fullName;
+            }).map(obj => {
+              return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
+            })
+          })
+        }
       },
       getUser() {
         axios.get(`/api/v1/users/${Laravel.user.id}`)
@@ -130,9 +144,8 @@ const app = new Vue({
         // Initial GET requests
         this.getUser()
         this.getAppointments();
-        if (Laravel.user.userType !== 'patient') {
-          this.getPatients();
-        }
+        this.getPractitioners();
+        if (Laravel.user.userType !== 'patient') this.getPatients();
 
         // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {

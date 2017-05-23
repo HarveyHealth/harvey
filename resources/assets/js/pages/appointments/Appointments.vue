@@ -24,14 +24,14 @@
 
     <Flyout>
       <PatientInput
-        :patientlist="this.$root.$data.global.patients || []"
+        :patientlist="this.$root.$data.global.patients"
         :type="appointmentModType"
         :usertype="userType"
       />
       <DoctorName
         :doctorid="appointmentData.doctorId"
         :doctorname="appointmentData.doctorName"
-        :doctorlist="doctorList"
+        :doctorlist="this.$root.$data.global.practitioners"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -104,10 +104,7 @@
   import UserNav from '../../commons/UserNav.vue';
 
   // Helpers
-  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
-  import Contact from '../../utils/mixins/Contact';
-  import combineAppointmentData from './utils/combineAppointmentData.js';
-  import getAppointments from '../../utils/methods/getAppointments';
+  import { capitalize, phone } from '../../utils/filters/textformat.js';
   import moment from 'moment-timezone';
   import sortByLastName from '../../utils/methods/sortByLastName';
   import tableConfig from './utils/tableconfig';
@@ -146,7 +143,6 @@
           patientPhone: ''
         },
         appointmentModType: null,
-        apiParameters: 'include=patient.user',
         confirmationButton: '',
         confirmationEvent: '',
         confirmationText: '',
@@ -171,9 +167,6 @@
         },
         dataCollected: false,
         doctorAvailability: {},
-        doctorList: [],
-        patientDataCollected: false,
-        patientList: [],
         statuses: {
           'pending': 'Pending',
           'no_show_patient': 'No-Show-Patient',
@@ -182,30 +175,16 @@
           'canceled': 'Canceled',
           'complete': 'Complete'
         },
-        tableConfig: tableConfig,
-        tableFilterAll: true,
-        tableFilterCompleted: false,
-        tableFilterUpcoming: false,
+        tableConfig: tableConfig
       };
     },
     computed: {
-      appointmentDetails() {
-        return this._appointmentDetails;
-      },
       noAvailability() {
         if (this.doctorAvailability.length) {
           return this.doctorAvailability[0].concat(this.doctorAvailability[1]).length;
         } else {
           return false;
         }
-      },
-      selectedTableData() {
-        return this.appointmentData;
-      },
-      tableData() {
-        return this.dataCollected
-          ? this.appointmentTablePrep(this.appointmentDetails)
-          : [];
       },
       userType() {
         if (this.$root.$data.global.user.attributes) {
@@ -229,16 +208,16 @@
             this.dataForNew.patient_id = this.patientList[0].id;
           }
           this.appointmentData.appointmentStatus = 'pending';
-          this.appointmentData.doctorName = this.doctorList[0].name;
-          this.appointmentData.doctorId = this.doctorList[0].id;
-          
-          this.dataForNew.practitioner_id = this.doctorList[0].id;
+          this.appointmentData.doctorName = this.$root.$data.global.practitioners[0].name;
+          this.appointmentData.doctorId = this.$root.$data.global.practitioners[0].id;
+
+          this.dataForNew.practitioner_id = this.$root.$data.global.practitioners[0].id;
           this.dataForNew.status = 'pending';
           this.dataForNew.reason_for_visit = '';
 
           this.$eventHub.$emit('setPurposeText');
           this.$eventHub.$emit('setStatus', 'pending');
-          this.$eventHub.$emit('getDoctorAvailability', this.doctorList[0].id);
+          this.$eventHub.$emit('getDoctorAvailability', this.$root.$data.global.practitioners[0].id);
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
           this.$eventHub.$emit('callFlyout', false, 'Create Appointment');
@@ -298,26 +277,6 @@
     filters: {
       formatPhone(num) {
         return phone(num);
-      }
-    },
-    // We're making a whole lot of calls here for basic information. Perhaps when we get global state
-    // management in a better spot, we can get role-specific data sets up front so this information
-    // is just always available.
-    created() {
-      if (this.userType !== 'practitioner') {
-        axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
-          this.doctorList = response.data.data.map(dr => {
-            return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
-          })
-        })
-      } else {
-        axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
-          this.doctorList = response.data.data.filter(dr => {
-            return dr.attributes.name === Laravel.user.fullName;
-          }).map(obj => {
-            return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
-          })
-        })
       }
     },
     mounted() {
