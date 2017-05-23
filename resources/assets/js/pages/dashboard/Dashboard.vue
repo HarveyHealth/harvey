@@ -9,11 +9,18 @@
           <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
+      <div class="card-wrapper alert">
+        <div class="card">
+          <h3>Patient Intake Form</h3>
+          <p>Please note: You must finish your patient intake form before your first appointment.</p>
+          <a href="https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+        </div>
+      </div>
       <div class="card-wrapper">
         <div class="card">
           <DashboardAppointments :user-type="userType"
-                        :recent-appointments="recent_appointments"
-                        :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
+            :recent-appointments="recent_appointments"
+            :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
         <div class="card smaller">
           <div class="card-heading-container">

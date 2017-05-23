@@ -36,7 +36,7 @@
                     <li>State medical license</li>
                     <li>Can order all lab tests</li>
                     <li>Can prescribe all scheduled drugs (I-V) and professional grade supplements</li>
-                    <li>Nutrition expertise</li>
+                    <li>Prevention focused</li>
                     <li>Holistic approach</li>
                   </ul>
                 </div>
@@ -67,7 +67,7 @@
                       <li>3-7 years residency</li>
                       <li>Can order all lab tests</li>
                       <li>Can prescribe schedule III-V drugs and professional grade supplements</li>
-                      <li>Prevention focused</li>
+                      <li>Nutrition expertise</li>
                     </ul>
                 </div>
                 <h3 class="text-centered price"><em class="bold">$150</em> per hour</h3>
