@@ -21,7 +21,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
         $response = $this->json('GET', 'api/v1/users/' . $user->id);
 
-        $response->assertStatus(401);
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
     public function test_a_user_can_view_their_own_account_information()
@@ -37,7 +37,7 @@ class UserTest extends TestCase
         $response = $this->json('GET', 'api/v1/users/' . $user->id);
 
         // Then it is successful
-        $response->assertStatus(200);
+        $response->assertStatus(ResponseCode::HTTP_OK);
 
         // And the user can see their own information
         $response->assertJsonFragment(['type' => 'users', 'id' => "{$user->id}"]);
@@ -59,7 +59,7 @@ class UserTest extends TestCase
         $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
 
         // Then it is successful
-        $response->assertStatus(200);
+        $response->assertStatus(ResponseCode::HTTP_OK);
 
         // And we recognize a change has been made to the user
         $response->assertJsonFragment(['first_name' => 'ZZXXYY']);
@@ -105,7 +105,7 @@ class UserTest extends TestCase
         $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
 
         // Then is is successful
-        $response->assertStatus(200);
+        $response->assertStatus(ResponseCode::HTTP_OK);
 
         // But the property will remain unchanged
         $this->assertDatabaseHas('users', [
@@ -125,7 +125,7 @@ class UserTest extends TestCase
         $response = $this->json('GET', 'api/v1/users/' . $userB->id);
 
         // Then it is not successful
-        $response->assertStatus(401);
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
         $response->assertSee('Unauthorized Access');
     }
 
@@ -144,7 +144,7 @@ class UserTest extends TestCase
 
         $response = $this->json('POST', 'api/v1/users', $parameters);
 
-        $response->assertStatus(ResponseCode::HTTP_OK);
+        $response->assertStatus(ResponseCode::HTTP_CREATED);
 
         $newUserId = $response->decodeResponseJson()['data']['id'];
         $this->assertDatabaseHas('patients', ['user_id' => $newUserId]);

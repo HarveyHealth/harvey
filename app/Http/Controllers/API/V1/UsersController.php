@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
+use ResponseCode;
 use Validator;
 
 class UsersController extends BaseAPIController
@@ -31,7 +32,7 @@ class UsersController extends BaseAPIController
         if (auth()->user()->isAdmin()) {
             $term = request('term');
             $type = request('type');
-            $indexed = request('indexed');
+            $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
 
             if ($term && !$indexed) {
                 $query = User::matching($term);
@@ -80,7 +81,7 @@ class UsersController extends BaseAPIController
             event(new UserRegistered($user));
             $user->patient()->save(new Patient());
 
-            return $this->baseTransformItem($user)->respond();
+            return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
         } catch (\Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
