@@ -1,5 +1,6 @@
 <template>
-      <div :class="{isactive: renderNewMessage, overlay: renderNewMessage}" class="main-container">
+      <div class="main-container">
+      <div  v-on:click="renderNewMessage = !renderNewMessage" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
       <UserNav />
         <div class="main-content">
             <div class="main-header">
