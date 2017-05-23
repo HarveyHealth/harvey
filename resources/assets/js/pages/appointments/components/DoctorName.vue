@@ -41,9 +41,12 @@ export default {
   methods: {
     selectDoctor(selection) {
       this.selected = this.doctorlist[selection];
+      this.$eventHub.$emit('availabilityResponse', 'refresh');
       this.getAvailability(this.selected.id, (response) => {
+        const availabilityStatus = response.meta.availability[0].length + response.meta.availability[1].length;
         this.$eventHub.$emit('updateDoctor', this.selected.id);
         this.$eventHub.$emit('returnAvailability', response);
+        this.$eventHub.$emit('availabilityResponse', availabilityStatus);
       });
     },
     getAvailability(id, cb) {
@@ -63,15 +66,21 @@ export default {
     this.$eventHub.$on('getDoctorAvailability',(id) => {
       if (this.usertype === 'practitioner' && !this.dataCollected) {
         this.getAvailability(id, (response) => {
+          const availabilityStatus = response.meta.availability[0].length + response.meta.availability[1].length;
           this.dataCollected = true;
           this.availability = response;
           this.$eventHub.$emit('returnAvailability', response);
+          this.$eventHub.$emit('availabilityResponse', availabilityStatus);
         });
       } else if (this.usertype === 'practitioner' && this.dataCollected) {
+        const availabilityStatus = this.meta.availability[0].length + this.meta.availability[1].length;
         this.$eventHub.$emit('returnAvailability', this.availability);
+        this.$eventHub.$emit('availabilityResponse', availabilityStatus);
       } else {
         this.getAvailability(id || this.doctorid, (response) => {
+          const availabilityStatus = response.meta.availability[0].length + response.meta.availability[1].length;
           this.$eventHub.$emit('returnAvailability', response);
+          this.$eventHub.$emit('availabilityResponse', availabilityStatus);
         });
       }
     });

@@ -17,7 +17,9 @@ import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 
 // HELPERS
+import combineAppointmentData from './utils/methods/combineAppointmentData';
 import moment from 'moment-timezone';
+import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
@@ -75,22 +77,77 @@ const app = new Vue({
         global: {
             appointments: [],
             patients: [],
+            practitioners: [],
+            recent_appointments: [],
             test_results:[],
+            upcoming_appointments: [],
             user: {},
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
         timezone: moment.tz.guess(),
     },
+    methods: {
+      getAppointments() {
+        axios.get(`${this.apiUrl}/appointments?include=patient.user`)
+          .then(response => this.global.appointments = combineAppointmentData(response.data).reverse())
+          .catch(error => console.log(error.response));
+        axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
+          .then((response) => this.global.upcoming_appointments = response.data)
+          .catch(error => console.log(error.response));
+        axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
+          .then((response) => this.global.recent_appointments = response.data)
+          .catch(error => console.log(error.response));
+      },
+      getPatients() {
+        axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+          const include = response.data.included;
+          response.data.data.forEach((obj, i) => {
+            this.global.patients.push({
+              id: obj.id,
+              name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
+              email: include[i].attributes.email,
+              phone: include[i].attributes.phone
+            })
+          });
+          this.global.patients = sortByLastName(this.global.patients);
+        });
+      },
+      getPractitioners() {
+        if (Laravel.user.userType !== 'practitioner') {
+          axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
+            this.global.practitioners = response.data.data.map(dr => {
+              return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
+            })
+          })
+        } else {
+          axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
+            this.global.practitioners = response.data.data.filter(dr => {
+              return dr.attributes.name === Laravel.user.fullName;
+            }).map(obj => {
+              return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
+            })
+          })
+        }
+      },
+      getUser() {
+        axios.get(`/api/v1/users/${Laravel.user.id}`)
+          .then(response => {
+            this.global.user = response.data.data;
+          })
+          .catch(error => this.global.user = {} );
+      }
+    },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
-        this.$http.get(this.apiUrl + '/users/' + Laravel.user.id)
-            .then( response => {
-                this.global.user = response.data.data;
-            } )
-            .catch( error => this.global.user = {} );
+        // Initial GET requests
+        this.getUser()
+        this.getAppointments();
+        this.getPractitioners();
+        if (Laravel.user.userType !== 'patient') this.getPatients();
 
+        // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {
             if (typeof mixpanel !== 'undefined') mixpanel.track(event);
         });
@@ -110,5 +167,6 @@ const app = new Vue({
 
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
+
     }
 }).$mount('#app');
