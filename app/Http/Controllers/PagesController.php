@@ -26,11 +26,6 @@ class PagesController extends Controller
         return view('legacy.pages.homepage');
     }
 
-    public function getAbout()
-    {
-        return view('legacy.pages.about');
-    }
-
     public function getLabTests()
     {
         return view('legacy.pages.lab_tests');

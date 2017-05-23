@@ -8,19 +8,22 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable;
-    
+    use HasApiTokens, Notifiable, Searchable;
+
+    public $asYouType = true;
+
     protected $guarded = ['id', 'enabled', 'password', 'remember_token',
                             'terms_accepted_at', 'phone_verified_at',
                             'email_verified_at', 'created_at', 'updated_at'];
-    
+
     protected $dates = ['created_at','updated_at','terms_accepted_at',
                         'phone_verified_at','email_verified_at'];
-    
+
     protected $hidden = ['password', 'remember_token'];
 
     protected static function boot()
@@ -28,25 +31,46 @@ class User extends Authenticatable implements Mailable
         parent::boot();
 
         static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->where('enabled', true);
+            $builder->where('users.enabled', true);
         });
     }
-    
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'full_name' => $this->fullName(),
+        ];
+    }
+
+    public function getUserTypeAttribute()
+    {
+        return $this->userType();
+    }
+
     public function patient()
     {
         return $this->hasOne(Patient::class);
     }
-    
+
     public function practitioner()
     {
         return $this->hasOne(Practitioner::class);
     }
-    
+
     public function admin()
     {
         return $this->hasOne(Admin::class);
     }
-    
+
     public function appointments()
     {
         if ($this->isPatient()) {
@@ -55,17 +79,17 @@ class User extends Authenticatable implements Mailable
             return $this->hasManyThrough(Appointment::class, Practitioner::class);
         }
     }
-    
+
     public function nextUpcomingAppointment()
     {
         return $this->appointments()->upcoming()->first();
     }
-    
+
     public function hasUpcomingAppointment()
     {
         return count($this->nextUpcomingAppointment()) == 1;
     }
-    
+
     public function tests()
     {
         if ($this->isPatient()) {
@@ -74,7 +98,7 @@ class User extends Authenticatable implements Mailable
             return $this->hasManyThrough(Test::class, Practitioner::class);
         }
     }
-    
+
     public function userType()
     {
         if ($this->isPatient()) {
@@ -84,30 +108,37 @@ class User extends Authenticatable implements Mailable
         } elseif ($this->isAdmin()) {
             return 'admin';
         } else {
-            throwException("Unable to determine user's type.");
+            throw new \Exception("Unable to determine user's type.");
         }
     }
-    
+
     public function isPatient()
     {
         return $this->patient != null;
     }
-    
+
     public function isPractitioner()
     {
         return $this->practitioner != null;
     }
-    
+
     public function isAdmin()
     {
         return $this->admin != null;
     }
-    
+
+    public function isAdminOrPractitioner()
+    {
+        return $this->isAdmin() || $this->isPractitioner();
+    }
+
     public function fullName()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        $fullName = trim($this->first_name . ' ' . $this->last_name);
+
+        return  empty($fullName) ? null : $fullName;
     }
-    
+
     public function imageURL()
     {
         return $this->image_url ?: config('app.default_image_url');
@@ -142,5 +173,27 @@ class User extends Authenticatable implements Mailable
     public function emailVerificationURL()
     {
         return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
+    }
+
+    public function scopeMatching($query, $term)
+    {
+        return $query->where('first_name', 'LIKE', "%{$term}%")
+        ->orWhere('last_name', 'LIKE', "%{$term}%")
+        ->orWhere('email', 'LIKE', "%{$term}%");
+    }
+
+    public function scopePractitioners($query)
+    {
+        return $query->join('practitioners', 'practitioners.user_id', 'users.id')->select('users.*');
+    }
+
+    public function scopePatients($query)
+    {
+        return $query->join('patients', 'patients.user_id', 'users.id')->select('users.*');
+    }
+
+    public function scopeAdmins($query)
+    {
+        return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
 }

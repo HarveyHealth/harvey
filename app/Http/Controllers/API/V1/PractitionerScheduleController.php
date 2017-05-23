@@ -17,9 +17,7 @@ class PractitionerScheduleController extends BaseAPIController
         if (auth()->user()->can('view', $practitioner)) {
             $availabilities = $practitioner->availability;
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail("You do not have access to view the practitioner with id {$practitioner->id}.");
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized("You do not have access to view the practitioner with id {$practitioner->id}.");
         }
     }
 
@@ -38,16 +36,12 @@ class PractitionerScheduleController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
-            $problem = new ApiProblem();
-            $problem->setDetail($validator->errors()->first());
-            return $this->respondBadRequest($problem);
+            return $this->respondBadRequest($validator->errors()->first());
         }
 
         if (auth()->user()->can('update', $practitioner)) {
         } else {
-            $problem = new ApiProblem();
-            $problem->setDetail('You do not have access to modify this patient.');
-            return $this->respondNotAuthorized($problem);
+            return $this->respondNotAuthorized('You do not have access to modify this patient.');
         }
     }
 }

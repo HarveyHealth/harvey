@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Appointment;
+use App\Models\Message;
 use App\Models\Patient;
 use App\Models\Practitioner;
 use App\Models\Test;
 use App\Models\User;
 use App\Policies\AppointmentPolicy;
+use App\Policies\MessagePolicy;
 use App\Policies\PatientPolicy;
 use App\Policies\PractitionerPolicy;
 use App\Policies\TestPolicy;
@@ -24,13 +26,14 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        User::class => UserPolicy::class,
-        Patient::class => PatientPolicy::class,
         Appointment::class => AppointmentPolicy::class,
+        Message::class => MessagePolicy::class,
+        Patient::class => PatientPolicy::class,
+        Practitioner::class => PractitionerPolicy::class,
         Test::class => TestPolicy::class,
-        Practitioner::class => PractitionerPolicy::class
+        User::class => UserPolicy::class,
     ];
-    
+
     /**
      * Register any authentication / authorization services.
      *
@@ -39,7 +42,6 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-        
         Passport::routes();
     }
 }

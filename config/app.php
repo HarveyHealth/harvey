@@ -168,14 +168,16 @@ return [
         /*
          * Package Service Providers...
          */
-        Laravel\Tinker\TinkerServiceProvider::class,
         August\Pitbull\PitbullServiceProvider::class,
-        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
         Fideloper\Proxy\TrustedProxyServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
 
         /*
          * Application Service Providers...

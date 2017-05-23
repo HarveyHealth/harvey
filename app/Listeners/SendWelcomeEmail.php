@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\UserRegistered;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Postmark\PostmarkClient;
+use App\Jobs\SendTransactionalEmail;
 
 class SendWelcomeEmail implements ShouldQueue
 {
@@ -13,29 +13,20 @@ class SendWelcomeEmail implements ShouldQueue
      */
     public function handle(UserRegistered $event)
     {
-        if (app()->environment(['local', 'testing'])) {
-            \Log::info(
-                "User id {$event->user->id} with email {$event->user->email} was registered."
-            );
+        if (!app()->environment(['production','staging'])) {
+            \Log::info("User id {$event->user->id} with email {$event->user->email} was registered.");
             return;
         }
-        
-        try {
-            $template_model = [
-                'name' => $event->user->fullName(),
-                'action_url' => $event->user->emailVerificationURL()
-            ];
-            
-            $client = new PostmarkClient(config('services.postmark.token'));
-            
-            $client->sendEmailWithTemplate(
-                config('services.postmark.signature'),
-                $event->user->email,
-                1450461, // Postmark Template ID for welcome email
-                $template_model
-            );
-        } catch (\Exception $exception) {
-            \Log::error("Unable to send email to {$event->user->email}.", [$exception->getMessage()]);
-        }
+
+        $template_model = [
+            'name' => $event->user->fullName(),
+            'action_url' => $event->user->emailVerificationURL()
+        ];
+
+        dispatch(new SendTransactionalEmail(
+                        $event->user->email,
+                        'patient.welcome',
+                        $template_model)
+                );
     }
 }

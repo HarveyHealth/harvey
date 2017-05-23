@@ -2,8 +2,8 @@
 
 @section('page_title','Log in')
 
-@section('content')
-<section class="section">
+@section('main_content')
+<section class="section login">
     <div class="container">
         <header class="content has-text-centered">
             <h2 class="title is-3">Log in</h2>
@@ -15,7 +15,7 @@
                     role="form"
                     method="post"
                     action="/login"
-                    redirect-url="/dashboard"
+                    redirect-url="/#/"
                     @submit.prevent.self="onSubmit"
                     @keydown="login.form.errors.clear($event.target.name)"
                 >
@@ -32,6 +32,7 @@
                             placeholder="Email"
                             required
                             :autofocus="!login.form.errors.length || login.form.errors.has('email')"
+                            @change="login.form.errors.clear()"
                         >
                         <span class="icon is-small"><i class="fa fa-envelope"></i></span>
                         <template v-if="login.form.errors.has('email')">
@@ -51,6 +52,7 @@
                             placeholder="Password"
                             required
                             :autofocus="login.form.errors.has('password')"
+                            @change="login.form.errors.clear()"
                         >
                         <span class="icon is-small"><i class="fa fa-lock"></i></span>
                         <template v-if="login.form.errors.has('password')">
@@ -73,7 +75,6 @@
                         <button
                             type="submit"
                             class="button is-primary is-pulled-right"
-                            :disabled="login.form.errors.any()"
                         >Log In</button>
                         <a class="button is-link" href="/password/reset">
                             Forgot Your Password?

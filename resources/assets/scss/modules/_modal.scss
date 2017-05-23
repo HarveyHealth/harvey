@@ -9,6 +9,9 @@
   height: 100%;
   z-index: 100;
 }
+.modal-wrapper.appointment-modal {
+  z-index: 9999;
+}
 
 .modal {
   position: fixed;
@@ -22,15 +25,33 @@
   width: 90%;
 
   p {
-    font-size: 17px;
-    margin-bottom: 1.5em;
+    font-size: 1.15em;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    line-height: 1rem;
   }
 }
 
   .modal-header {
     font-size: 29px;
-    margin-bottom: 25px;
+    border-bottom: 1px solid #F4F4F4;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
   }
   .modal-button-container {
     margin-top: 30px;
   }
+
+.appointment-modal .modal {
+  color: darken($gray, 15%);
+  max-width: 35em;
+  top: 40%;
+  .modal-header {
+    font-size: 1.5em;
+  }
+  p {
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: 1em;
+  }
+}
