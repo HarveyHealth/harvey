@@ -116,6 +116,7 @@ const app = new Vue({
         },
         navIsInverted: true,
         isHomePage: false,
+        isLoginPage: false,
         wait: 400,
         navScrollThreshold: 56,
         showSignupContent: true
@@ -221,6 +222,19 @@ const app = new Vue({
                 type: 'product',
                 properties: { laravel_object: Laravel.user },
             });
+            console.log(`HOME`)
+        }
+
+        this.LoginPage = this.checkWhichPage('login');
+
+        if (this.isLoginPage) {
+            this.$ma.trackEvent({
+                fb_event: 'PageView',
+                type: 'product',
+                category: 'clicks',
+                properties: { laravel_object: Laravel.user }
+            });
+            console.log(`LOGIN`)
         }
 
         if (this.checkWhichPage('signup', 'register')) {

@@ -90,11 +90,12 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-
+      
       let flag = localStorage.getItem('signed up')
       if (flag) {
         localStorage.removeItem('signed up')
       }
+
       this.$ma.trackEvent({
           fb_event: 'PageView',
           type: 'product',
