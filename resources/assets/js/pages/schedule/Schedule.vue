@@ -103,22 +103,23 @@
       if (flag) {
         localStorage.removeItem('signed up')
       }
-
-      this.$ma.trackEvent({
-          fb_event: 'PageView',
-          type: 'product',
-          category: 'clicks',
-          properties: { laravel_object: Laravel.user }
-      });
-      this.$ma.trackEvent({
-          fb_event: 'InitiateCheckout',
-          type: 'product',
-          action: 'Scheduling Appointment',
-          category: 'clicks',
-          value: 50.00,
-          currency: 'USD',
-          properties: { laravel_object: Laravel.user }
-      });
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        this.$ma.trackEvent({
+            fb_event: 'PageView',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
+        this.$ma.trackEvent({
+            fb_event: 'InitiateCheckout',
+            type: 'product',
+            action: 'Scheduling Appointment',
+            category: 'clicks',
+            value: 50.00,
+            currency: 'USD',
+            properties: { laravel_object: Laravel.user }
+        });
+      }
     }
   }
 </script>
