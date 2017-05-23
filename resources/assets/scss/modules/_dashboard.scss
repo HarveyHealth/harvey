@@ -1,7 +1,35 @@
 .card-wrapper {
   display: flex;
   max-width: 1150px;
-  padding: 40px 50px;
+  padding: 40px 40px 0;
+  &:last-of-type{
+    padding: 20px 40px 40px 40px;
+  }
+  &.alert{
+    margin-bottom: -25px;
+    .card {
+      background: #9AABB9;
+      h3 {
+        color: $white;
+        padding: 20px 0 0 30px;
+        margin-bottom: 5px;
+      }
+      p {
+        color: $white;
+        font-size: 16px;
+        padding: 0 0 0 30px;
+        margin: 0 0 25px 0;
+        font-weight: 300;
+        letter-spacing: .75px;
+      }
+      button {
+        float: right;
+        margin: -66px 35px 0 0;
+        border-color: $white;
+        color: $white;
+      }
+    }
+  }
 }
   .card {
     background: $white;
@@ -13,6 +41,12 @@
     &.smaller {
       flex-basis: 360px;
     }
+
+    &.larger {
+      flex-basis: 1360px;
+    }
+
+
   }
     .card-empty-container{
       padding: 20px 30px;
