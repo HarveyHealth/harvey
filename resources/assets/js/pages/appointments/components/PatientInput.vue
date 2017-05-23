@@ -3,7 +3,7 @@
     <label class="input__label" for="patient_name">client</label>
     <span v-if="isEditable" class="custom-select">
       <select v-model="selected" @change="updatePatient($event)" name="patient_name">
-        <option v-for="patient in patientlist" :data-id="patient.id">{{ patient.name }}</option>
+        <option v-for="patient in patientList" :data-id="patient.id">{{ patient.name }}</option>
       </select>
     </span>
     <span v-else class="input__item patient-display">{{ selected }}</span>
@@ -17,7 +17,7 @@
 <script>
 import { phone } from '../../../utils/filters/textformat.js';
 export default {
-  props: ['classes', 'patientlist', 'type', 'usertype'],
+  props: ['classes', 'type', 'usertype'],
   data() {
     return {
       classNames: { 'input__container': true },
@@ -32,15 +32,18 @@ export default {
   },
   computed: {
     isVisible() {
-      return this.usertype !== 'patient';
+      return this.usertype !== 'patient' && this.patientList.length;
     },
     isEditable() {
       return this.type === 'new';
     },
+    patientList() {
+      return this.$root.$data.global.patients;
+    },
     patientInfo() {
-      if (this.patientlist.length) {
+      if (this.$root.$data.global.patients.length) {
         const info = {};
-        this.patientlist.forEach(patient => {
+        this.$root.$data.global.patients.forEach(patient => {
           info[patient.id] = { name: patient.name, email: patient.email, phone: patient.phone }
         })
         return info;

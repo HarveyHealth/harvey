@@ -8,7 +8,12 @@
         <div class="container">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
-            <button v-show="(userType === 'admin' && patientDataCollected) || userType === 'patient'" href="#" class="button main-action circle" @click.prevent="newAppointmentSetup()"><svg><use xlink:href="#addition"/></svg></button>
+            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient'"
+                    href="#"
+                    class="button main-action circle"
+                    @click.prevent="newAppointmentSetup()">
+              <svg><use xlink:href="#addition"/></svg>
+            </button>
           </h1>
         </div>
       </div>
@@ -19,7 +24,7 @@
 
     <Flyout>
       <PatientInput
-        :patientlist="patientList"
+        :patientlist="this.$root.$data.global.patients || []"
         :type="appointmentModType"
         :usertype="userType"
       />
@@ -104,6 +109,7 @@
   import combineAppointmentData from './utils/combineAppointmentData.js';
   import getAppointments from '../../utils/methods/getAppointments';
   import moment from 'moment-timezone';
+  import sortByLastName from '../../utils/methods/sortByLastName';
   import tableConfig from './utils/tableconfig';
   import toLocalTimezone from '../../utils/methods/toLocalTimezone';
 
@@ -124,7 +130,7 @@
     },
     data() {
       return {
-        _appointmentDetails: this.$root.$data.global.appointments || [],
+        _appointmentDetails: this.$root.$data.global.appointments,
         appointmentData: {
           appointmentId: '',
           appointmentDate: '',
@@ -180,7 +186,6 @@
         tableFilterAll: true,
         tableFilterCompleted: false,
         tableFilterUpcoming: false,
-        userType: Laravel.user.userType,
       };
     },
     computed: {
@@ -201,11 +206,13 @@
         return this.dataCollected
           ? this.appointmentTablePrep(this.appointmentDetails)
           : [];
-      }
-    },
-    watch: {
-      _appointmentDetails() {
-        this.getAppointmentData();
+      },
+      userType() {
+        if (this.$root.$data.global.user.attributes) {
+          return this.$root.$data.global.user.attributes.user_type;
+        } else {
+          return '';
+        }
       }
     },
     methods: {
@@ -221,10 +228,11 @@
             this.appointmentData.patientName = this.patientList[0].name;
             this.dataForNew.patient_id = this.patientList[0].id;
           }
-            this.appointmentData.doctorName = this.doctorList[0].name;
-            this.appointmentData.doctorId = this.doctorList[0].id;
-            this.dataForNew.practitioner_id = this.doctorList[0].id;
-
+          this.appointmentData.appointmentStatus = 'pending';
+          this.appointmentData.doctorName = this.doctorList[0].name;
+          this.appointmentData.doctorId = this.doctorList[0].id;
+          
+          this.dataForNew.practitioner_id = this.doctorList[0].id;
           this.dataForNew.status = 'pending';
           this.dataForNew.reason_for_visit = '';
 
@@ -284,19 +292,7 @@
 
         this.$eventHub.$emit('callAppointmentModal');
       },
-      sortByLastName(names) {
-        return names.sort((a, b) => {
-          const nameA = a.name.replace(/,.+/g, '').toUpperCase();
-          const nameB = b.name.replace(/,.+/g, '').toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          } else if (nameA > nameB) {
-            return 1
-          } else {
-            return 0;
-          }
-        })
-      },
+      sortByLastName,
       toLocalTimezone
     },
     filters: {
@@ -321,23 +317,6 @@
           }).map(obj => {
             return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
           })
-        })
-      }
-
-      if (this.userType !== 'patient') {
-        axios.get(`${this.$root.apiUrl}/patients?include=user`).then(response => {
-          const include = response.data.included;
-          response.data.data.forEach((obj, i) => {
-            this.patientList.push({
-              id: obj.id,
-              name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
-              email: include[i].attributes.email,
-              phone: include[i].attributes.phone
-            })
-          });
-          // Sort by last name
-          this.patientList = this.sortByLastName(this.patientList);
-          this.patientDataCollected = true;
         })
       }
     },

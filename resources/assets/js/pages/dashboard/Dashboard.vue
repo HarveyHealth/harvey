@@ -61,8 +61,6 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        recent_appointments: [],
-        upcoming_appointments: [],
         flag: false
       };
     },
@@ -84,9 +82,6 @@
           return 'Your Dashboard';
         }
       },
-      // The user information needs to be computed properties because the data
-      // is coming from a promise and most likely will not be available when
-      // Dashboard is fully mounted. Without this, lots of errors in the console.
       displayName() {
         if(this.user.attributes === undefined) {
           return '';
@@ -97,8 +92,17 @@
       email() {
         return this.user.attributes ? this.user.attributes.email : '';
       },
+      patientName() {
+        
+      },
       phone() {
         return this.user.attributes ? phone(this.user.attributes.phone) : '';
+      },
+      recent_appointments() {
+        return this.$root.$data.global.recent_appointments || [];
+      },
+      upcoming_appointments() {
+        return this.$root.$data.global.upcoming_appointments || [];
       },
       user_id() {
         return this.user.id || '';
@@ -110,16 +114,16 @@
         return this.user.attributes ? this.user.attributes.zip : '';
       }
     },
-    created() {
-      axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
-        .then((response) => {
-          this.upcoming_appointments = response.data;
-        });
-      axios.get('/api/v1/appointments?filter=recent&include=patient.user')
-        .then((response) => {
-          this.recent_appointments = response.data;
-        });
-    },
+    // created() {
+    //   axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
+    //     .then((response) => {
+    //       this.upcoming_appointments = response.data;
+    //     });
+    //   axios.get('/api/v1/appointments?filter=recent&include=patient.user')
+    //     .then((response) => {
+    //       this.recent_appointments = response.data;
+    //     });
+    // },
     beforeMount() {
       let flag = localStorage.getItem('signed up');
       if (flag) {

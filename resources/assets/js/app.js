@@ -19,6 +19,7 @@ import Dashboard from './pages/dashboard/Dashboard.vue';
 // HELPERS
 import combineAppointmentData from './utils/methods/combineAppointmentData';
 import moment from 'moment-timezone';
+import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
@@ -76,7 +77,10 @@ const app = new Vue({
         global: {
             appointments: [],
             patients: [],
+            practitioners: [],
+            recent_appointments: [],
             test_results:[],
+            upcoming_appointments: [],
             user: {},
         },
         initialAppointment: {},
@@ -85,14 +89,39 @@ const app = new Vue({
     },
     methods: {
       getAppointments() {
-        axios.get('/api/v1/appointments?include=patient.user')
+        axios.get(`${this.apiUrl}/appointments?include=patient.user`)
           .then(response => this.global.appointments = combineAppointmentData(response.data).reverse())
           .catch(error => console.log(error.response));
+        axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
+          .then((response) => this.global.upcoming_appointments = response.data)
+          .catch(error => console.log(error.response));
+        axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
+          .then((response) => this.global.recent_appointments = response.data)
+          .catch(error => console.log(error.response));
+      },
+      getPatients() {
+        axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+          const include = response.data.included;
+          response.data.data.forEach((obj, i) => {
+            this.global.patients.push({
+              id: obj.id,
+              name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
+              email: include[i].attributes.email,
+              phone: include[i].attributes.phone
+            })
+          });
+          this.global.patients = sortByLastName(this.global.patients);
+        });
+      },
+      getPractitioners() {
+
       },
       getUser() {
         axios.get(`/api/v1/users/${Laravel.user.id}`)
-          .then( response => this.global.user = response.data.data)
-          .catch( error => this.global.user = {} );
+          .then(response => {
+            this.global.user = response.data.data;
+          })
+          .catch(error => this.global.user = {} );
       }
     },
     mounted() {
@@ -101,6 +130,9 @@ const app = new Vue({
         // Initial GET requests
         this.getUser()
         this.getAppointments();
+        if (Laravel.user.userType !== 'patient') {
+          this.getPatients();
+        }
 
         // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {
@@ -115,6 +147,8 @@ const app = new Vue({
 
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
+
+        setTimeout(() => console.log(this.global), 2000);
 
     }
 }).$mount('#app');
