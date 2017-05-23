@@ -198,15 +198,17 @@
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
-      this.$ma.trackEvent({
-          action: 'View Date and Time Selector',
-          fb_event: 'ViewContent',
-          category: 'clicks',
-          properties: {
-              laravel_object: Laravel.user
-          },
-          value: 'PageView'
-      })
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        this.$ma.trackEvent({
+            action: 'View Date and Time Selector',
+            fb_event: 'ViewContent',
+            category: 'clicks',
+            properties: {
+                laravel_object: Laravel.user
+            },
+            value: 'PageView'
+        })
+      }
     },
   }
 </script>
