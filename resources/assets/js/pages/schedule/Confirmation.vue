@@ -74,13 +74,7 @@
     },
     methods: {
       dispatchEvent() {
-<<<<<<< HEAD
-
-        if (this.env === 'production') {
-
-=======
         if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
->>>>>>> b5d16227e68fc69a6028cd0ccd2cf3a3311d7c3e
             this.$ma.trackEvent({
               action: 'IntakeQ Form Initiated',
               fb_event: 'ViewContent',
