@@ -15,9 +15,7 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/messages" style="padding: 4px;"><MessagePost></MessagePost></router-link>
+
             </div>
       </div>
     </div>

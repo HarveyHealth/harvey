@@ -15,9 +15,11 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
-              <router-link to="/detail" style="padding: 4px;"><MessagePost></MessagePost></router-link>
+                <div v-for="message in messageList">
+                  <router-link to="/detail" style="padding: 4px;">
+                    <MessagePost />
+                  </router-link>
+                </div>
             </div>
       </div>
     </div>
@@ -28,6 +30,7 @@
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import axios from 'axios'
     export default {
         name: 'messages',
         components: {
@@ -38,7 +41,8 @@
         data() {
             return {
               renderNewMessage: false,
-              isActive: null
+              isActive: null,
+              messageList: []
             }
         },
         methods: {
@@ -50,7 +54,7 @@
           getMessageList() {
             let data = [];
             console.log(`COMPUTED`);
-            this.$http.get(`/api/v1/messages`)
+            axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
                 console.log(`CALLED`);
                 data = response.data;
@@ -58,6 +62,13 @@
               })
             return data;
           }
+        },
+        mounted() {
+            axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
+              .then(response => {
+                this.messageList = response.data;
+                console.log(`MESSAGING`, this.messageList.data);
+              })
         }
     }
 </script>
