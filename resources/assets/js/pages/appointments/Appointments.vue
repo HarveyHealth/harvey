@@ -242,7 +242,7 @@
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment.utc(this.dataForUpdate.appointment_at).local().format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.appointmentData.appointmentDate).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
@@ -252,6 +252,8 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment';
+
+        this.dataForNew.reason_for_visit = this.dataForNew.reason_for_visit || 'No reason given';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
@@ -367,9 +369,6 @@
       this.$eventHub.$on('updateDayTime', dateTime => {
         this.dataForUpdate.appointment_at = dateTime;
         this.dataForNew.appointment_at = dateTime;
-        console.log(dateTime);
-        // this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
-        // this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
       })
 
       this.$eventHub.$on('updateStatus', value => {
