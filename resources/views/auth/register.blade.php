@@ -7,7 +7,7 @@
     @push('square')
         @script(https://squareup.com/appointments/buyer/widget/c64ea9cf-ffea-45c8-a153-d0dd72234c4c.js)
     @endpush
-    @section('content')
+    @section('main_content')
     <section class="hero is-bold is-primary"
         :class="{'animated animated-medium fadeOutUp': !showSignupContent}"
     >
@@ -53,7 +53,7 @@
     </section>
     @endsection
 @else
-    @section('content')
+    @section('main_content')
     <section class="section">
         <div class="container">
             <header class="content has-text-centered">
@@ -66,7 +66,7 @@
                         role="form"
                         method="post"
                         action="/register"
-                        redirect-url="/dashboard#/new-appointment"
+                        redirect-url="/dashboard#/signup"
                         @submit.prevent="onSubmit"
                         @keydown="register.form.errors.clear($event.target.name)"
                     >

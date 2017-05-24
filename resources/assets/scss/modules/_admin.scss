@@ -1,77 +1,129 @@
 .admin-content,
 .admin-content #app {
   height: 100%;
-  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-family: "proxima-nova";
 }
 
 .main-container {
   height: 100%;
 }
 
-  // Left Nav Bar
-  .nav-bar {
-    background: $white;
-    border-right: 1px solid $color--grey;
-    flex-basis: 60px;
+// Left Nav Bar
+
+.nav-bar {
+  width: 150px;
+  background: $white;
+  border-right: 1px solid $color--grey;
+  bottom: 0;
+  flex-basis: 60px;
+  position: fixed;
+  top: 0;
+}
+
+.admin-nav {
+  margin-top: 57px;
+  border-top: 1px solid $color--grey;
+  .admin-nav-link {
+    background-color: $white;
+    border-bottom: 1px solid $color--grey;
+    color: lighten($harvey-secondary, 20%);
+    display: block;
+    height: 60px;
     position: relative;
-  }
-    .admin-nav-link {
-      display: inline-block;
-      height: 60px;
-      position: relative;
-      width: 60px;
-
-      &.dashboard {
-        background-color: $purple;
-      }
-        .icon {
-          left: 50%;
-          position: absolute;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-    }
-    .nav-bar-account {
-      border: 1px solid $white; // matches the color of the navbar background
-      border-radius: 5px;
-      bottom: 5px;
-      height: 50px;
-      left: 5px;
+    width: 100%;
+    &.logout {
+      bottom: 0;
       position: absolute;
-      transition: border-color .25s ease-in-out;
-      width: 50px;
-
-      &:hover {
-        border-color: none;
+      border-top: 1px solid $color--grey;
+      svg {
+        width: 25px;
+        height: 25px;
+        left: 27%;
+        top: 55%;
       }
-
-      .harvey-mark {
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
+      .text {
+        left: 40%;
+        font-size: 15px;
       }
     }
-
-  // Main Content Area
-  .main-content {
-    flex-grow: 1;
+    &:hover {
+      cursor: pointer;
+    }
+    .icon {
+      left: 15%;
+      top: 49%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+    .text {
+      font-size: 14px;
+      position: absolute;
+      left: 30%;
+      top: 36%;
+    }
   }
-    .main-header {
-      background: $white;
-      border-bottom: 1px solid $color--grey;
-      padding: 50px 50px 30px;
-      .container{
-        max-width: 1090px;
-        padding: 0 55px 0 15px;
-        margin: 0;
-        .main-action{
-          float: right;
-          &.disabled {
-            opacity:.5;
-            pointer-events: none;
-            cursor: default;
+  .release {
+    color: #E4EAEC;
+    font-size: 10px;
+    bottom: 68px;
+    position: absolute;
+    text-align: center;
+    margin-left: -3px;
+    width: 100%;
+  }
+}
+
+.nav-bar-account {
+  .harvey-mark {
+    top: 25px;
+    left: 49%;
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transition: border-color .25s ease-in-out;
+    width: 100px;
+    &:hover {
+      opacity: .9;
+    }
+  }
+}
+
+// Main Content Area
+
+.main-content {
+  flex-grow: 1;
+  margin-left: 150px;
+}
+
+.main-header {
+  background: $white;
+  border-bottom: 1px solid $color--grey;
+  padding: 50px 50px 30px;
+  .container{
+    max-width: 1090px;
+    padding: 0 55px 0 15px;
+    margin: 0;
+    .title {
+      min-height: 48px;
+      .text {
+        float: left;
+      }
+      .main-action{
+        float: left;
+        width: 45px;
+        height: 45px;
+        padding: 0;
+        margin: -2px 0 0 10px;
+        &.circle{
+          border-radius: 1000px;
+          svg {
+            width: 25px;
+            height: 25px;
+            margin-left: -1px;
+            margin-top: 2px;
           }
         }
       }
     }
+  }
+}

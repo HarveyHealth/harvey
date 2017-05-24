@@ -1,0 +1,52 @@
+.doctor-label {
+    height: 410px;
+    .radio-block_container {
+        background-color: $light-gray;
+        border: 2px solid $light-gray;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 100%;
+        padding: 30px;
+        &:hover {
+            border: 2px solid $harvey-primary;
+            box-shadow: inset 0px 0px 0px 5px $harvey-primary;
+        }
+        h2{
+            margin-bottom: 10px;
+        }
+        .tip {
+            color: #999999;
+            display: block;
+            font-size: 16px;
+            line-height: 18px;
+            margin-bottom: 15px;
+            clear: both;
+            &.blue{
+                color: $harvey-tertiary;
+                font-size: 14px;
+                opacity: .7;
+                margin-top: 3px;
+            }
+        }
+        .practitioner-main-content {
+            margin-bottom: 10px;
+            p {
+                font-size: 15px;
+                line-height: 1.25em;
+                margin-bottom: 4px;
+            }
+            ul {
+                margin: 7px 0 20px;
+                font-size: 15px;
+                li {
+                    padding-bottom: 5px;
+                }
+            }
+        }
+    }
+}
+
+.radio_block:checked + label .radio-block_container  {
+    border: 2px solid $harvey-primary;
+    box-shadow: inset 0px 0px 0px 5px $harvey-primary;
+}

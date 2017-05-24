@@ -1,0 +1,44 @@
+.tabledata {
+  border: none;
+  width: 100%;
+
+  td {
+    background: $white;
+    cursor: pointer;
+    font-weight: 300;
+    padding: 1.5em 1em 1.5em 1.75em;
+    transition: color 200ms;
+    font-size: 16px;
+  }
+
+  th {
+    background: $lightest-gray;
+    color: lighten($gray, 10%);
+    font-size: 0.85em;
+    font-weight: 500;
+    padding: 1.5em 1em 1.5em 2em;
+    text-transform: uppercase;
+  }
+
+  th, td {
+    border-bottom: 1px solid $color--grey;
+    text-align: left;
+  }
+  
+  tbody {
+    tr:hover {
+      opacity: .70;
+    }
+  }
+
+  tr.isactive {
+    &:hover {
+      opacity: 1;
+    }
+    td {
+        background: lighten($harvey-primary,15%);
+        color: darken($gray, 10%);
+      }
+  }
+
+}

@@ -1,109 +1,197 @@
 <template>
-    <div class="main-container">
-      <div class="nav-bar">
-        <nav class="admin-nav">
-          <a class="admin-nav-link dashboard" href="#">
-            <svg class="icon icon-person"><use xlink:href="#person" /></svg>
-          </a>
-        </nav>
-        <a href="#" class="nav-bar-account">
-          <svg class="harvey-mark"><use xlink:href="#harvey-mark" /></svg>
-        </a>
-      </div>
-      <div class="main-content">
-        <div class="main-header">
-          <div class="container">
-            <h1 class="title header-xlarge">Your Dashboard
-            <a href="#" class="button main-action disabled">New Appointment</a></h1>
-          </div>
-        </div>
-        <div class="card-wrapper">
-          <div class="card">
-              <Appointments :user-type="userType"
-                            :recent-appointments="recent_appointments"
-                            :upcoming-appointments="upcoming_appointments"></Appointments>
-          </div>
-          <div class="card smaller">
-            <div class="card-heading-container">
-               <h2 class="card-header">Your Contact</h2>
-            </div>
-            <div class="card-content-container">
-              <div class="card-content-wrap">
-                <h3 class="card-contact-name"><svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}</h3>
-              </div>
-              <div v-if="upcoming_appointments.length > 0" class="card-content-wrap">
-                <h4 class="card-contact-sublabel">Doctor</h4>
-                <p class="card-contact-info">{{ upcoming_appointments[0].attributes.practitioner_name }}</p>
-              </div>
-              <div class="card-content-wrap">
-                <h4 class="card-contact-sublabel">Email</h4>
-                <p class="card-contact-info">{{ user.attributes.email }}</p>
-                <h4 class="card-contact-sublabel">Zip</h4>
-                <p class="card-contact-info">{{ user.attributes.zip }}</p>
-                <h4 class="card-contact-sublabel">Phone</h4>
-                <p class="card-contact-info">{{ user.attributes.phone }}</p>
-                <h4 class="card-contact-sublabel">ID</h4>
-                <p class="card-contact-info">#100{{ user.id }}</p>
-              </div>
-            </div>
-          </div>
+  <div class="main-container">
+
+    <UserNav />
+
+    <div class="main-content">
+
+      <div class="main-header">
+        <div class="container">
+          <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
+
+      <div class="card-wrapper alert">
+        <div class="card">
+          <h3>Patient Intake Form</h3>
+          <p>Please note: You must finish your patient intake form before your first appointment.</p>
+          <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+
+        <div class="card">
+          <DashboardAppointments :user-type="userType"
+            :recent-appointments="recent_appointments"
+            :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
+        </div>
+
+        <div class="card">
+          <div class="card-heading-container">
+            <h2 class="card-header">Your Doctor</h2>
+          </div>
+          <div class="card-content-container">
+
+            <div class="card-content-wrap" v-if="upcoming_appointments.length > 0">
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ upcoming_appointments[0].attributes.practitioner_name }}
+              </h3>
+            </div>
+
+            <div class="card-content-wrap" v-else>
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg> Dr. Amanda Frick, N.D.
+              </h3>
+            </div>
+
+            <div class="card-content-wrap">
+<!--          <h4 class="card-contact-sublabel" v-if="email">Email</h4>
+              <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
+              <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
+              <p class="card-contact-info" v-if="phone"><a href="tel:800-690-9989">(800) 690-9989</a></p> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="card-wrapper">
+
+        <div class="card smaller">
+          <div class="card-heading-container">
+            <h2 class="card-header">Your Info</h2>
+          </div>
+          <div class="card-content-container">
+            <div class="card-content-wrap" v-if="patientName">
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
+              </h3>
+            </div>
+            <div class="card-content-wrap">
+              <h4 class="card-contact-sublabel" v-if="email">Email</h4>
+              <p class="card-contact-info" v-if="email"><a :href="'mailto:'+email">{{ email }}</a></p>
+              <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
+              <p class="card-contact-info" v-if="zip">{{ zip }}</p>
+              <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
+              <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
+              <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
+              <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card smaller">
+          <div class="card-heading-container">
+            <h2 class="card-header">Account Manager</h2>
+          </div>
+          <div class="card-content-container">
+            <div class="card-content-wrap" v-if="patientName">
+              <h3 class="card-contact-name">
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>Sandra Walker
+              </h3>
+            </div>
+            <div class="card-content-wrap">
+              <h4 class="card-contact-sublabel">Support</h4>
+              <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
+              <h4 class="card-contact-sublabel">Phone</h4>
+              <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
+              <h4 class="card-contact-sublabel">Available</h4>
+              <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
+  </div>
 </template>
 
 <script>
-    import Appointments from '../../appointments/Appointments.vue';
-    import {capitalize, phone, hyperlink} from '../../filters/textformat.js';
-    import Contact from '../../mixins/Contact';
+  import DashboardAppointments from './components/DashboardAppointments.vue';
+  import UserNav from '../../commons/UserNav.vue';
 
-    export default {
-        name: 'dashboard',
-        data() {
-          return {
-            'upcoming_appointments': [],
-            'recent_appointments': []
-          };
-        },
-        props: ['user', 'patient'],
-        components: {
-            Appointments
-        },
-        methods: {
-            viewAppointmentPage() {
-                this.$eventHub.$emit('mixpanel', "View New Appointment Page");
-            }
-        },
-        computed: {
-            userType() {
-                return this.user.user_type;
-            },
-            displayName() {
-                if(this.user.attributes === undefined) {
-                    return 'Harvey Client';
-                } else {
-                    return this.user.attributes.first_name;
-                }
-            }
-        },
-        mounted() {
-            this.$http.get(this.$root.apiUrl + '/appointments?filter=upcoming')
-                .then((response) => {
-                  this.upcoming_appointments = response.data.data;
-                });
+  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+  import Contact from '../../utils/mixins/Contact';
+  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
+  import getAppointments from '../../utils/methods/getAppointments';
 
-            this.$http.get(this.$root.apiUrl + '/appointments?filter=recent')
-                .then((response) => {
-                    this.recent_appointments = response.data.data;
-                });
+  export default {
+    name: 'dashboard',
+    data() {
+      return {
+        patientName: Laravel.user.fullName, // because it's already there
+        flag: false
+      };
+    },
+    props: ['user', 'patient'],
+    components: {
+      DashboardAppointments,
+      UserNav,
+    },
+    methods: {
+      viewAppointmentPage() {
+        this.$eventHub.$emit('mixpanel', "View New Appointment Page");
+      }
+    },
+    computed: {
+      dashboardTitle() {
+        if (this.userType === 'admin') {
+          return 'Admin Dashboard';
+        } else {
+          return 'Your Dashboard';
         }
+      },
+      displayName() {
+        if(this.user.attributes === undefined) {
+          return '';
+        } else {
+          return `${this.user.attributes.first_name} ${this.user.attributes.last_name}`;
+        }
+      },
+      email() {
+        return this.user.attributes ? this.user.attributes.email : '';
+      },
+      patientName() {
+
+      },
+      phone() {
+        return this.user.attributes ? phone(this.user.attributes.phone) : '';
+      },
+      recent_appointments() {
+        return this.$root.$data.global.recent_appointments || [];
+      },
+      upcoming_appointments() {
+        return this.$root.$data.global.upcoming_appointments || [];
+      },
+      user_id() {
+        return this.user.id || '';
+      },
+      userType() {
+        return Laravel.user.userType;
+      },
+      zip() {
+        return this.user.attributes ? this.user.attributes.zip : '';
+      }
+    },
+    beforeMount() {
+      let flag = localStorage.getItem('signed up');
+      if (flag) {
+        localStorage.removeItem('signed up');
+      }
+    },
+    mounted() {
+      if (localStorage.getItem('signed up')) return null;
+
     }
+
+  }
 </script>
 
 <style lang="scss" scoped>
   .icon-person {
     height: 30px;
-    margin-right: 7px;
+    margin-right: 15px;
     width: 30px;
     vertical-align: top;
   }

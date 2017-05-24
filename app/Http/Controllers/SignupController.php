@@ -9,9 +9,9 @@ class SignupController extends Controller
     public function index()
     {
         if (auth()->check()) {
-            return redirect(route('scheduler'));
+            return redirect(route('dashboard'));
         }
-        
+
         return view('pages.signup');
     }
 }
