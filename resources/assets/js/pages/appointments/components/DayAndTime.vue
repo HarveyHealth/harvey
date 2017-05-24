@@ -10,151 +10,74 @@
     <span v-else-if="noneAvailable" class="input--warning">Sorry, this doctor does not have any available appointment times.</span>
     <template v-else>
       <span class="custom-select">
-        <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
-          <option v-if="type === 'update'"></option>
-          <option v-for="t, d in availableDays">{{ d }}</option>
+        <select v-model="testDay" @change="daySelect($event.target)">
+          <option v-for="dayObj in _availability">{{ dayObj.date | formatDay }}</option>
         </select>
       </span>
       <span class="custom-select">
-        <select v-model="time" @change="selectTime($event.target)" name="appointment_time">
-          <option v-if="type === 'update'"></option>
-          <option v-for="t in availableTimes">{{ normalTime(t) }}</option>
+        <select @change="timeSelect($event.target)">
+          <option v-for="timeObj in times">{{ timeObj.local | formatTime }}</option>
         </select>
       </span>
     </template>
-    {{ dateEventSend }}
   </div>
 </template>
 
 <script>
 import moment from 'moment-timezone';
-import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
+import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   props: ['availability', 'classes', 'date', 'past', 'status', 'type'],
   data() {
     return {
       classNames: { 'input__container': true },
-      currentWeeks: this.getCurrentWeeks(),
-      times: [],
-      selectedDay: '',
-      day: '',
-      timeIndex: 0,
-      time: '',
+      dayIndex: 0,
       loading: true,
+      testDay: '',
+    }
+  },
+  filters: {
+    formatDay(date) {
+      return moment(date).format('dddd, MMM Do');
+    },
+    formatTime(dateObj) {
+      return dateObj.format('h:mm a');
     }
   },
   computed: {
-    availableDays() {
-      const days = this.parseAvailability(this.availability);
-      this.day = this.type === 'update' ? '' : Object.keys(days)[0];
-      return days;
+    _availability() {
+      let obj = transformAvailability(this.availability);
+      if (obj) obj = obj.filter(day => day.times.length);
+      this.testDay = moment(obj[0].date).format('dddd, MMM Do');
+      this.send(moment.utc(obj[this.dayIndex].times[0].stored).format('YYYY-MM-DD HH:mm:ss'));
+      return obj;
     },
-    availableTimes() {
-      const times = this.availableDays[this.selectedDay];
-      this.time = this.type === 'update' ? '' : this.normalTime(times[0]);
-      this.timeIndex = 0;
-      return times;
+    times() {
+      if (this._availability.length) {
+        return this._availability[this.dayIndex].times;
+      }
     },
     conductedOn() {
-      return this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a');
+      return moment.utc(this.date).local().format('dddd, MMMM Do [at] h:mm a');
     },
     displayOnly() {
       return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
-      return !Object.keys(this.availableDays).length;
+      return !Object.keys(this._availability).length;
     },
-    // Using this computed property as an event emitter
-    dateEventSend() {
-      if (!this.noneAvailable && this.day && this.time) {
-        Vue.nextTick(() => {
-          this.$eventHub.$emit('updateDayTime', this.availableDays[this.day][this.timeIndex]);
-        })
-      }
-    }
   },
   methods: {
-    normalDay(day) {
-      return moment(day).format('dddd, MMMM Do');
+    daySelect(target, index) {
+      this.testDay = target.value;
+      this.dayIndex = target.selectedIndex;
     },
-    normalTime(time) {
-      return this.toLocalTimezone(time, this.$root.timezone).format('h:mm a');
+    timeSelect(target) {
+      this.send(moment.utc(this._availability[this.dayIndex].times[target.selectedIndex].stored).format('YYYY-MM-DD HH:mm:ss'));
     },
-
-    toLocalTimezone,
-
-    selectDay(target) {
-      this.selectedDay = target.value;
-      this.timeIndex = 0;
-      if (target.value === '') {
-        this.$eventHub.$emit('updateDayTime', moment(this.date));
-      }
-    },
-    selectTime(target) {
-      this.timeIndex = this.type === 'update' ? target.selectedIndex - 1 : target.selectedIndex;
-    },
-    getCurrentWeeks() {
-      const weekStart = moment().startOf('week').add(1, 'days');
-      let week1 = {}, week2 = {};
-      let week1b = {}, week2b = {};
-
-      week1.Monday = weekStart.format('YYYY-MM-DD hh:mm:ss');
-      week1.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-
-      week2.Monday = weekStart.add(2, 'days').format('YYYY-MM-DD');
-      week2.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-
-      for (let day in week1) {
-        week1b[day] = { raw: week1[day], formatted: moment(week1[day]).format('dddd, MMMM Do') }
-      }
-      for (let day in week2) {
-        week2b[day] = { raw: week2[day], formatted: moment(week2[day]).format('dddd, MMMM Do') }
-      }
-
-      return { week1: week1b, week2: week2b };
-    },
-    transformTimeData(times, weeks) {
-      const output = {};
-      times
-        .map(obj => obj.day)
-        .filter((day, i, arr) => arr.indexOf(day) === i)
-        .forEach(day => {
-          output[day] = { formatted: { display: weeks[day].formatted, time: [] }, raw: weeks[day].raw };
-        });
-      return output;
-    },
-    parseAvailability(times) {
-      if (!times.length) return [];
-
-      const parsedTimes = {};
-      const week1 = this.transformTimeData(times[0], this.currentWeeks.week1);
-      const week2 = this.transformTimeData(times[1], this.currentWeeks.week2);
-
-      times[0].forEach(obj => {
-        week1[obj.day].formatted.time.push(moment(`${week1[obj.day].raw} ${obj.time}:00`))
-      });
-      times[1].forEach(obj => {
-        week2[obj.day].formatted.time.push(moment(`${week2[obj.day].raw} ${obj.time}:00`))
-      });
-
-      for (let day in week1) {
-        parsedTimes[week1[day].formatted.display] = week1[day].formatted.time;
-      }
-      for (let day in week2) {
-        parsedTimes[week2[day].formatted.display] = week2[day].formatted.time;
-      }
-
-      this.selectedDay = Object.keys(parsedTimes)[0];
-      return parsedTimes;
+    send(dateTime) {
+      this.$eventHub.$emit('updateDayTime', dateTime);
     },
   },
   created() {
