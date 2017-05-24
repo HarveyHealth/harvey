@@ -1026,16 +1026,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0"
+                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
-                "reference": "4ac60dbd4bcd6636bf231ea0fd87c40ece4bdce0",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
+                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
                 "shasum": ""
             },
             "require": {
@@ -1044,7 +1044,8 @@
             },
             "require-dev": {
                 "illuminate/http": "~5.0",
-                "mockery/mockery": "~0.9.3"
+                "mockery/mockery": "~0.9.3",
+                "phpunit/phpunit": "^5.7"
             },
             "type": "library",
             "extra": {
@@ -1073,7 +1074,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2017-03-23T23:17:29+00:00"
+            "time": "2017-05-23T13:52:16+00:00"
         },
         {
             "name": "firebase/php-jwt",
