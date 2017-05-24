@@ -1,42 +1,32 @@
-.button,
-input[type="submit"] {
-  @extend %sans--medium;
+#{$all-buttons} {
   appearance: none;
-  background-color: $harvey-primary;
+  background-color: $action-color;
   border: 0;
-  border-radius: 3px;
+  border-radius: $base-border-radius;
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-size: 17px;
+  font-family: $base-font-family;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  font-weight: 600;
   line-height: 1;
-  padding: 10px 30px 12px;
+  padding: $small-spacing $base-spacing;
   text-align: center;
   text-decoration: none;
-  transition: background-color .25s ease-in-out;
+  transition: background-color $base-duration $base-timing;
   user-select: none;
   vertical-align: middle;
-  width: auto;
+  white-space: nowrap;
 
-  &.is-outlined {
-    color: $harvey-tertiary;
-    border-color: $harvey-tertiary;
-    background-color: transparent;
-    padding: 9px 16px;
-    border: 1px solid;
-    &:hover,
-    &:focus{
-      color: $harvey-tertiary;
-      border-color: $harvey-tertiary;
-      background-color: transparent;
-    }
+  &:hover {
+    background-color: shade($action-color, 20%);
+    color: #fff;
   }
 
-  &:hover,
   &:focus {
-    background-color: darken($harvey-primary, 10);
-    color: white;
+    outline: $focus-outline;
+    outline-offset: $focus-outline-offset;
   }
 
   &:disabled {
@@ -44,41 +34,7 @@ input[type="submit"] {
     opacity: 0.5;
 
     &:hover {
-      background-color: $green;
+      background-color: $action-color;
     }
-  }
-}
-
-.button--cancel {
-  background-color: lighten($gray, 10%);
-  margin-left: 1em;
-
-  &:hover,
-  &:focus {
-    background-color: $dark-gray;
-  }
-}
-
-.button--close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-}
-
-.button--close.flyout-close {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-
-  & svg {
-    height: 1em;
-    position: absolute;
-    stroke: $gray;
-    stroke-width: 6px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 1em;
   }
 }
