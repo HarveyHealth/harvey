@@ -6,10 +6,10 @@
             </button>
             <h2 class="title">Create Messages</h2>
             <div class="input__container">
-                <label class="input__label" for="patient_name">doctor</label>
+                <label class="input__label" for="patient_name">{{ toUserType }}</label>
                 <span class="custom-select">
-                    <select @change="updateDoctor($event)" name="doctor_name">
-                        <option  v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+                    <select @change="updateUser($event)" name="doctor_name">
+                        <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
                     </select>
                 </span>
             </div>
@@ -40,7 +40,8 @@
         data() {
             return {
                 close: this.$parent.close,
-                selected: ''
+                selected: '',
+
             }
         },
         methods: {
@@ -56,13 +57,28 @@
                 this.isActive = false;
                 this.$eventHub.$emit(this.affirmEvent);
             },
-            updateDoctor(e) {
+            updateUser(e) {
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             }
         },
         computed: {
-            doctorList() {
-                return [''].concat(this.$root.$data.global.practitioners);
+            userList() {
+                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                    return [''].concat(this.$root.$data.global.practitioners);
+                } else if (this.$root.$data.global.user.attributes.user_type === 'practitionier') {
+                    return [''].concat(this.$root.$data.global.patients);
+                } else {
+                    return [''].concat(this.$root.$data.global.practitioners);
+                }
+            },
+            toUserType() {
+                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                    return "doctor";
+                } else if (this.$root.$data.global.user.attributes.user_type === 'practitionier') {
+                    return "patient";
+                } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+                    return "doctor";
+                }
             }
         }
     }
