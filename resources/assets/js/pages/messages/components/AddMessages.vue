@@ -23,7 +23,7 @@
             </div>
             <div>
                 <div class="inline-centered">
-                    <button class="button">Create Message</button>
+                    <button class="button" v-on:click="createMessage()">Create Message</button>
                 </div>
             </div>
         </aside>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         props: [],
         name: 'Preview',
@@ -50,9 +51,11 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                this.$http.post(`/api/v1/messages`, {
+                console.log(`HIT`);
+                axios.post(`/api/v1/messages`, {
                     message: this.message,
-                    recipient_user_id: this.selected
+                    recipient_user_id: this.selected,
+                    subject: this.subject
                 })
                 .then(response => {
                     console.log(`SUCCESSFUL`);
@@ -60,6 +63,7 @@
                 .catch(error => {
                     console.log(`ERROR`);
                 })
+                this.$parent.close();
             }
         },
         computed: {
