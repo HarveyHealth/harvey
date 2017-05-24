@@ -19,13 +19,14 @@ class MessageTransformer extends TransformerAbstract
     public function transform(Message $message)
     {
         return [
-            'id' => (string) $message->id,
-            'message' => $message->message,
-            'sender_user_id' => (string) $message->sender_user_id,
-            'recipient_user_id' => (string) $message->recipient_user_id,
-            'is_sender_admin' => (boolean) $message->is_sender_admin,
-            'read_at' => $message->read_at,
             'created_at' => $message->created_at,
+            'id' => (string) $message->id,
+            'is_sender_admin' => (boolean) $message->is_sender_admin,
+            'message' => htmlentities($message->message),
+            'read_at' => $message->read_at,
+            'recipient_user_id' => (string) $message->recipient_user_id,
+            'sender_user_id' => (string) $message->sender_user_id,
+            'subject' => htmlentities($message->subject),
         ];
     }
 
