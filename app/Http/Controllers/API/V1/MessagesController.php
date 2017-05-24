@@ -89,6 +89,7 @@ class MessagesController extends BaseAPIController
         $validator = Validator::make($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
             'message' => 'required',
+            'subject' => 'required',
         ]);
 
         if ($validator->fails()) {
