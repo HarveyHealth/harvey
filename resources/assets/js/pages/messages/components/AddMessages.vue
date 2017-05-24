@@ -15,9 +15,11 @@
             </div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">subject</label>
+                <input  class="input--text" type="text">
             </div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">message</label>
+                <textarea class="input--textarea"></textarea>
             </div>
         </aside>
     </div>
