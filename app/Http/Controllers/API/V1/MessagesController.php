@@ -90,14 +90,16 @@ class MessagesController extends BaseAPIController
         $validator = Validator::make($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
             'message' => 'required',
+            'subject' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->respondBadRequest($validator->errors()->first());
         }
 
+        $message = new Message($request->all());
+
         if (currentUser()->can('create', $message)) {
-            $message = new Message($request->all());
             $message->is_admin = currentUser()->isAdmin();
             $message->sender_user_id = currentUser()->id;
             $message->save();

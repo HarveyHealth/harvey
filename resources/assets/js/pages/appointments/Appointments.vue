@@ -109,6 +109,7 @@
   import sortByLastName from '../../utils/methods/sortByLastName';
   import tableConfig from './utils/tableconfig';
   import toLocalTimezone from '../../utils/methods/toLocalTimezone';
+  import transformAvailability from '../../utils/methods/transformAvailability';
 
   export default {
     name: 'appointments',
@@ -179,6 +180,9 @@
       };
     },
     computed: {
+      availability() {
+        return transformAvailability(this.doctorAvailability);
+      },
       noAvailability() {
         if (this.doctorAvailability.length) {
           return this.doctorAvailability[0].concat(this.doctorAvailability[1]).length;
@@ -238,7 +242,7 @@
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.appointmentData.appointmentDate).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
@@ -249,10 +253,12 @@
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment';
 
+        this.dataForNew.reason_for_visit = this.dataForNew.reason_for_visit || 'No reason given';
+
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.dataForNew.appointment_at).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Purpose'] = this.dataForNew.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
@@ -265,7 +271,7 @@
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.dataForUpdate.appointment_at).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
@@ -360,9 +366,9 @@
         this.dataForNew.practitioner_id = id;
       })
 
-      this.$eventHub.$on('updateDayTime', timeObj => {
-        this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
-        this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
+      this.$eventHub.$on('updateDayTime', dateTime => {
+        this.dataForUpdate.appointment_at = dateTime;
+        this.dataForNew.appointment_at = dateTime;
       })
 
       this.$eventHub.$on('updateStatus', value => {
@@ -377,7 +383,7 @@
 
       this.$eventHub.$on('bookAppointment', () => {
         const data = {
-          appointment_at: moment(this.dataForNew.appointment_at).utc().format('YYYY-MM-DD hh:mm:ss'),
+          appointment_at: this.dataForNew.appointment_at,
           reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
           practitioner_id: this.dataForNew.practitioner_id * 1,
         }
