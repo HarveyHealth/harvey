@@ -49,9 +49,12 @@
         computed: {
           getMessageList() {
             let data = [];
+            console.log(`COMPUTED`);
             this.$http.get(`/api/v1/messages`)
               .then(response => {
+                console.log(`CALLED`);
                 data = response.data;
+                console.log(`DATA`, data);
               })
             return data;
           }
