@@ -1,13 +1,13 @@
 <template>
       <div class="main-container">
-      <div  v-on:click="renderNewMessage = !renderNewMessage" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
+      <div  v-on:click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
       <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
                   <h1 class="title header-xlarge">
                     <span class="text">Details</span>
-                    <button v-on:click="renderNewMessage = !renderNewMessage" class="button main-action circle">
+                    <button v-on:click="close()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import Preview from './components/PreviewMessages.vue'
+    import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
     export default {
@@ -43,6 +43,9 @@
         },
         methods: {
           newMessage() {
+          },
+          close() {
+            this.renderNewMessage = !this.renderNewMessage
           }
         }
     }
