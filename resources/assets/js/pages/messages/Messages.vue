@@ -42,10 +42,18 @@
             }
         },
         methods: {
-          newMessage() {
-          },
           close() {
             this.renderNewMessage = !this.renderNewMessage
+          }
+        },
+        computed: {
+          getMessageList() {
+            let data = [];
+            this.$http.get(`/api/v1/messages`)
+              .then(response => {
+                data = response.data;
+              })
+            return data;
           }
         }
     }
