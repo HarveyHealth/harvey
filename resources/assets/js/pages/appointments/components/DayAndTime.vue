@@ -49,7 +49,9 @@ export default {
     _availability() {
       let obj = transformAvailability(this.availability);
       if (obj) obj = obj.filter(day => day.times.length);
-      this.testDay = moment(obj[0].date).format('dddd, MMM Do');
+      this.testDay = this.testDay
+        ? moment(obj[this.dayIndex].date).format('dddd, MMM Do')
+        : moment(obj[0].date).format('dddd, MMM Do');
       this.send(moment.utc(obj[this.dayIndex].times[0].stored).format('YYYY-MM-DD HH:mm:ss'));
       return obj;
     },

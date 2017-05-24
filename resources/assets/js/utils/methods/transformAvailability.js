@@ -23,7 +23,7 @@ export default function(availability) {
           const dateTime = `${dayObj.date} ${timeObj.time}:00`;
           return {
             stored: dateTime,
-            utc: moment(dateTime).utc(),
+            utc: moment.utc(dateTime),
             local: moment.utc(dateTime).local()
           }
         })
