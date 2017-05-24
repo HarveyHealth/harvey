@@ -15,11 +15,11 @@
             </div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">subject</label>
-                <input  class="input--text" type="text">
+                <input v-model="subject" class="input--text" type="text">
             </div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">message</label>
-                <textarea class="input--textarea"></textarea>
+                <textarea v-model="message" class="input--textarea"></textarea>
             </div>
             <div>
                 <div class="inline-centered">
@@ -41,24 +41,25 @@
             return {
                 close: this.$parent.close,
                 selected: '',
-
+                subject: '',
+                message: ''
             }
         },
         methods: {
-            handleOverlayClick(e) {
-                if (/.*appointment-modal.*/.test(e.target.className)) {
-                    this.isActive = false;
-                }
-            },
-            handleCancelClick() {
-                this.isActive = false;
-            },
-            handleAffirmClick() {
-                this.isActive = false;
-                this.$eventHub.$emit(this.affirmEvent);
-            },
             updateUser(e) {
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
+            },
+            createMessage() {
+                this.$http.post(`/api/v1/messages`, {
+                    message: this.message,
+                    recipient_user_id: this.selected
+                })
+                .then(response => {
+                    console.log(`SUCCESSFUL`);
+                })
+                .catch(error => {
+                    console.log(`ERROR`);
+                })
             }
         },
         computed: {
