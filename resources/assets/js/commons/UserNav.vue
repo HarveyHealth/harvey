@@ -1,7 +1,7 @@
 <template>
   <div class="nav-bar">
     <nav class="admin-nav">
-      <router-linkto="/" class="nav-bar-account">
+      <router-link to="/" class="nav-bar-account">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
       <router-link class="admin-nav-link" to="/" title="Dashboard">
