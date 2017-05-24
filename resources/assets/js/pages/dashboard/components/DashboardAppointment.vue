@@ -40,7 +40,7 @@
     },
     computed: {
       localAppointmentTime() {
-        let m = moment.utc(this.appointment.attributes.appointment_at.date, "YYYY-MM-DD h:i:s");
+        let m = moment.utc(this.appointment.attributes.appointment_at.date, "YYYY-MM-DD h:m:s");
         return moment(m).tz(this.local_timezone);
       },
       fullName() {
