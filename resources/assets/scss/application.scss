@@ -1,7 +1,8 @@
 // Bourbon IO
 @import "bourbon/bourbon";
 @import "neat/neat";
+@import "base/base";
 
 //Custom styles
-@import "base/-index";
+@import "custom/-index";
 @import "modules/-index";
