@@ -21,6 +21,11 @@
                 <label class="input__label" for="patient_name">message</label>
                 <textarea class="input--textarea"></textarea>
             </div>
+            <div>
+                <div class="inline-centered">
+                    <button class="button">Create Message</button>
+                </div>
+            </div>
         </aside>
     </div>
 </template>
