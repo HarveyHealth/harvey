@@ -8,7 +8,7 @@
             <div class="input__container">
                 <label class="input__label" for="patient_name">doctor</label>
                 <span class="custom-select">
-                    <select name="doctor_name">
+                    <select @change="updateDoctor($event)" name="doctor_name">
                         <option  v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
                     </select>
                 </span>
@@ -55,7 +55,7 @@
         },
         computed: {
             doctorList() {
-                return this.$root.$data.global.practitioners;
+                return [''].concat(this.$root.$data.global.practitioners);
             }
         }
     }
