@@ -52,6 +52,7 @@ class Message extends Model
         return [
             'id' => $this->id,
             'message' => $this->message,
+            'subject' => $this->subject,
        ];
     }
 
