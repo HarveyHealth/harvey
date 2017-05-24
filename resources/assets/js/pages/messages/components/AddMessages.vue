@@ -4,7 +4,21 @@
             <button class="button--close flyout-close" @click="close()">
                 <svg><use xlink:href="#close" /></svg>
             </button>
-
+            <h2 class="title">Create Messages</h2>
+            <div class="input__container">
+                <label class="input__label" for="patient_name">doctor</label>
+                <span class="custom-select">
+                    <select name="doctor_name">
+                        <option  v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+                    </select>
+                </span>
+            </div>
+            <div class="input__container">
+                <label class="input__label" for="patient_name">subject</label>
+            </div>
+            <div class="input__container">
+                <label class="input__label" for="patient_name">message</label>
+            </div>
         </aside>
     </div>
 </template>
@@ -18,7 +32,8 @@
         },
         data() {
             return {
-                close: this.$parent.close
+                close: this.$parent.close,
+                selected: ''
             }
         },
         methods: {
@@ -33,6 +48,14 @@
             handleAffirmClick() {
                 this.isActive = false;
                 this.$eventHub.$emit(this.affirmEvent);
+            },
+            updateDoctor(e) {
+                this.selected = e.target.children[e.target.selectedIndex].dataset.id;
+            }
+        },
+        computed: {
+            doctorList() {
+                return this.$root.$data.global.practitioners;
             }
         }
     }
