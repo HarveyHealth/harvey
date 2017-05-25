@@ -8,7 +8,7 @@
         <div class="container">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
-            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient'"
+            <button v-show="(userType !== 'patient' && this.$root.$data.global.patients.length) || userType === 'patient'"
                     href="#"
                     class="button main-action circle"
                     @click.prevent="newAppointmentSetup()">
