@@ -33,7 +33,6 @@
         <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
         <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
 
-
         <!-- Lity -->
         <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
         <script type="text/javascript" src="{{ mix('js/vendors/zepto.js') }}"></script>
