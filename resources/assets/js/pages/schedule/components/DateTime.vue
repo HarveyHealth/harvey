@@ -18,7 +18,7 @@
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Date</h2>
 
-              <day-picker
+              <!-- <day-picker
                 :selected-date="selectedDate"
                 :maximum-days="maximumDays"
                 :start-date-time="startDateTime"
@@ -32,7 +32,40 @@
                 :start-date-time="startDateTime"
                 :availability="availability"
                 :weekOffset="7"
-              />
+              /> -->
+
+
+              <div class="calendar-week-container">
+                <div class="calendar-week-container_title-wrapper">
+                  <h3 class="calendar-week-container_title">This Week</h3>
+                  <span class="calendar-week-container_date">{{ week1Range }}</span>
+                </div>
+                <ul class="calendar-week-container_days-wrapper">
+                  <li class="calendar-item" :class="{selected: selected_day === dayObj}" v-for="dayObj in week1">
+                    <button class="calendar-item_link"
+                            @click.prevent="selectDay(dayObj)"
+                            :disabled="!dayObj.times.length">
+                      <span>{{ dayObj.date | datetime('dd') }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="calendar-week-container">
+                <div class="calendar-week-container_title-wrapper">
+                  <h3 class="calendar-week-container_title">Next Week</h3>
+                  <span class="calendar-week-container_date">{{ week2Range }}</span>
+                </div>
+                <ul class="calendar-week-container_days-wrapper">
+                  <li class="calendar-item" :class="{selected: selected_day === dayObj}" v-for="dayObj in week2">
+                    <button class="calendar-item_link"
+                            @click.prevent="selectDay(dayObj)"
+                            :disabled="!dayObj.times.length">
+                      <span>{{ dayObj.date | datetime('dd') }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
 
             </div>
           </div>
@@ -41,7 +74,7 @@
             <div class="calendar-block_container">
               <h2 class="header-large text-centered">Choose Time</h2>
 
-              <time-picker
+              <!-- <time-picker
                 :availability="availability"
                 :selected-date="selectedDate"
                 :selected-time="selectedTime"
@@ -51,9 +84,21 @@
                 :minimum-notice="minimumNotice"
                 :duration="duration"
                 :start-date-time="startDateTime"
-              />
+              /> -->
 
-              <p class="text-centered small">Time Zone: PST</p>
+              <div class="calendar-week-container">
+                <ul class="calendar-week-container_days-wrapper" v-if="selected_day">
+                  <li class="calendar-item bar"
+                      v-for="(timeObj, i) in selected_day.times"
+                      :class="{selected: selected_time === selected_day.times[i].stored}">
+                    <button class="calendar-item_link" @click.prevent="selectTime(i)">
+                      {{ timeObj.stored | toLocal }}
+                    </button>
+                  </li>
+                </ul>
+                <p class="text-centered" v-if="!selected_day">Please select a day.</p>
+              </div>
+
             </div>
           </div>
         </div>
@@ -64,7 +109,7 @@
             class="button"
             type="submit"
             value="Confirm Appointment"
-            :disabled="dateSelected && timeSelected ? false : true"
+            :disabled="!selected_time"
           />
         </div>
       </div>
@@ -82,6 +127,8 @@
     props: ['availability'],
     data() {
       return {
+        selected_day: null,
+        selected_time: null,
         title: 'Choose date and time',
         subtitle: 'Lastly, tell us the best date and time you would like to schedule a 45-60 minute phone consultation with your chosen physician.',
         selectedAppointmentDate: moment(),
@@ -173,14 +220,50 @@
           },
         );
 
-
-
         // this should be UTC
         this.$root.initialAppointment.appointment_at = this.selectedAppointmentDate.utc().format('YYYY-MM-DD hh:mm:ss');
         this.$parent.appointmentDate = this.selectedAppointmentDate.format('YYYY-MM-DD hh:mm:ss a');
       },
+      weekRange(date) {
+        return moment(date).format('MMM. Do');
+      },
+      selectDay(dayObj) {
+        this.selected_day = dayObj;
+      },
+      selectTime(index) {
+        this.selected_time = this.selected_day.times[index].stored;
+        this.$root.initialAppointment.appointment_at = this.selected_time;
+      }
+    },
+    filters: {
+      weekRange(date) {
+        return moment(date).format('MMM. Do');
+      },
+      toLocal(date) {
+        return moment.utc(date).local().format('h:mm a');
+      }
     },
     computed: {
+      week1() {
+        if (this.availability.length) {
+          return this.availability.slice(0, 5);
+        }
+      },
+      week2() {
+        if (this.availability.length) {
+          return this.availability.slice(7, 12);
+        }
+      },
+      week1Range() {
+        if (this.availability.length) {
+          return `${this.weekRange(this.week1[0].date)} - ${this.weekRange(this.week1[4].date)}`;
+        }
+      },
+      week2Range() {
+        if (this.availability.length) {
+          return `${this.weekRange(this.week2[0].date)} - ${this.weekRange(this.week2[4].date)}`;
+        }
+      },
       startDateTime() {
         const canBookToday = this.canBookToday();
         let startDate = {};

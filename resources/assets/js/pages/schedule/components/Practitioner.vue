@@ -94,6 +94,8 @@
 </template>
 
 <script>
+  import transformAvailability from '../../../utils/methods/transformAvailability';
+
   export default {
     data() {
       return {
@@ -125,6 +127,7 @@
         axios.get(`api/v1/practitioners/${this.$root.initialAppointment.practitioner_id}?include=availability`)
           .then(response => {
             this.$parent.practitioner_availability = response.data.meta.availability;
+            this.$parent._availability = transformAvailability(response.data.meta.availability);
 
             // since the availability is required for this process, let's block
             // next steps until we get a 200
