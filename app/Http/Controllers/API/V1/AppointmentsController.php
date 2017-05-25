@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentScheduled;
-use App\Lib\Validation\Validator;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
 use Carbon;
 use ResponseCode;
+use Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -92,23 +92,8 @@ class AppointmentsController extends BaseAPIController
 
     public function update(Request $request, Appointment $appointment)
     {
-        $inputData = $request->all();
-/*
-        $validator = Validator::make($inputData, [
-            'appointment_at' => 'date_format:Y-m-d H:i:s|after:' . Carbon::now(),
-            'reason_for_visit' => 'filled',
-            'status' => 'filled',
-        ]);
-
-        $validator->allowOnlyCurrentRules();
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
-//dd('Pasó');
-*/
         if (currentUser()->can('update', $appointment)) {
-            $appointment->update($inputData);
+            $appointment->update($request->all());
 
             return $this->baseTransformItem($appointment)->respond();
         } else {
