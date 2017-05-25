@@ -26,7 +26,7 @@ class EmailVerificationController extends Controller
         if ($user->passwordNotSet()) {
             return view('auth.email_verification')->with(compact('user_id', 'token'));
         } elseif (!$user->hasUpcomingAppointment()) {
-            return redirect(route('dashboard') . '#/schedule');
+            return redirect(route('dashboard') . '#/appointments');
         } else {
             return redirect(route('dashboard'));
         }
