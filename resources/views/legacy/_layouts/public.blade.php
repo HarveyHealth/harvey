@@ -45,7 +45,7 @@
         @script(js/vendors/lity.js)
 
         <!-- Public.js -->
-        @script(/js/app_public.js)
+        <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
 
     @else
 
@@ -53,7 +53,7 @@
         @script(js.stripe.com/v2/)
         
         <!-- App.js -->
-        @script(js/app.js)
+        <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
 
     @endif
 
