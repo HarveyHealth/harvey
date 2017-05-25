@@ -178,8 +178,8 @@
   }
   
   // User Role
-  var role = Laravel.user.userType;
-  console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
+  // var role = Laravel.user.userType;
+  // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
 
 </script>
 
