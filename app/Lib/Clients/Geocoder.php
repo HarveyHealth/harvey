@@ -2,6 +2,9 @@
 
 namespace App\Lib\Clients;
 
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
+
 class Geocoder extends BaseClient
 {
     protected $base_endpoint = 'https://hhlocation.obcl.io/Service/geocode:';
