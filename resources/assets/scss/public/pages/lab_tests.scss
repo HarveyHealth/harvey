@@ -1,7 +1,9 @@
 body.lab-tests {
     .logo-wrapper {
-        .harvey-text {
-            fill: white;
+        @include from($mobile) {
+            .harvey-logo-type {
+                fill: #fff;
+            }
         }
     }
     .hero {
@@ -12,8 +14,7 @@ body.lab-tests {
         }
     }
     .section {
-        padding: 0;
-        margin-bottom: 60px;
+        padding-top: 0;
         background-color: transparent;
     }
     .tab {
