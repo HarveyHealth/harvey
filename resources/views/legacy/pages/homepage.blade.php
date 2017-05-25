@@ -335,7 +335,7 @@
         <div class="container">
             <div class="columns is-narrow is-multiline">
                 <figure class="image">
-                    <img src="/images/home/lab-order.jpg" alt="">
+                    <img src="/images/home/package-door.jpg" alt="">
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
