@@ -21,7 +21,7 @@
     <form @submit.prevent="onSubmit" v-if="!$root.initialAppointmentComplete">
       <practitioner v-if="step === 1" />
       <phone v-if="step === 2" />
-      <datetime v-if="step === 3" :availability="_availability" />
+      <datetime v-if="step === 3" :availability="practitioner_availability" />
     </form>
     <router-view v-if="$root.initialAppointmentComplete" />
   </div>
@@ -42,7 +42,6 @@
         subtitle: 'Before talking to a doctor, we need some basic contact info, your choice of practitioner and a date/time you are available for a consultation. This should take less than 5 minutes.',
         practitioner: null,
         practitioner_availability: [],
-        _availability: [],
         practitioner_id: null,
         appointmentDate: '',
         step: 0,
@@ -99,7 +98,7 @@
       Vue.nextTick(() => {
         this.step = this.step === 0 ? 1 : this.step;
       })
-
+      
       let flag = localStorage.getItem('signed up')
       if (flag) {
         localStorage.removeItem('signed up')
@@ -107,6 +106,12 @@
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
         this.$ma.trackEvent({
             fb_event: 'PageView',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
+        this.$ma.trackEvent({
+            fb_event: 'ViewContent',
             type: 'product',
             category: 'clicks',
             properties: { laravel_object: Laravel.user }
