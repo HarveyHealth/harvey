@@ -89,7 +89,7 @@ export default {
       return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
-      return !Object.keys(this._availability).length;
+      return !this.availability.length;
     },
   },
   methods: {
