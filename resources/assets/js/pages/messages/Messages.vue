@@ -16,7 +16,7 @@
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
                 <div v-for="chat in messageList">
-                  <a v-link="{path: '/detail', message_id: chat.id}" style="padding: 4px;">
+                  <router-link to="/detail" style="padding: 4px;">
                     <MessagePost
                         name="Alicia Keys"
                         :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
@@ -24,7 +24,7 @@
                         :subject="chat.attributes.subject"
                         :message="chat.attributes.message"
                      />
-                  </a>
+                  </router-link>
                 </div>
             </div>
       </div>
