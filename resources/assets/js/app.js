@@ -82,6 +82,7 @@ const app = new Vue({
             test_results:[],
             upcoming_appointments: [],
             user: {},
+            messages: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,

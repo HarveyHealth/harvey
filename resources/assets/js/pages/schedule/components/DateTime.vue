@@ -200,7 +200,13 @@
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
         this.$ma.trackEvent({
-            action: 'View Date and Time Selector',
+                fb_event: 'PageView',
+                type: 'product',
+                category: 'clicks',
+                properties: { laravel_object: Laravel.user }
+            });
+        this.$ma.trackEvent({
+            action: 'Date/Time',
             fb_event: 'ViewContent',
             category: 'clicks',
             properties: {

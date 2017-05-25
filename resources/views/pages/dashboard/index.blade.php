@@ -28,6 +28,7 @@
     <!-- Scripts -->
     @stack('square')
 
+
     {{-- To add data here, see the VueHelperViewComposer --}}
     <script>
       window.Laravel = {!! $vue_data !!}

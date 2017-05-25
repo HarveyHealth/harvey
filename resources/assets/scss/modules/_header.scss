@@ -39,3 +39,12 @@
         }
     }
 }
+
+.header_phone-number {
+    @extend %sans--medium;
+    float: right;
+    letter-spacing: 1px;
+    color: $gray;
+    font-size: 19px;
+    line-height: 56px;
+}

@@ -15,10 +15,16 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-                <div v-for="message in messageList">
-                  <router-link to="/detail" style="padding: 4px;">
-                    <MessagePost />
-                  </router-link>
+                <div v-for="chat in messageList">
+                  <a v-link="{path: '/detail', message_id: chat.id}" style="padding: 4px;">
+                    <MessagePost
+                        name="Alicia Keys"
+                        :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
+                        :time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                        :subject="chat.attributes.subject"
+                        :message="chat.attributes.message"
+                     />
+                  </a>
                 </div>
             </div>
       </div>
@@ -42,7 +48,7 @@
             return {
               renderNewMessage: false,
               isActive: null,
-              messageList: []
+              messageList: this.$root.$data.global.messages
             }
         },
         methods: {
@@ -66,8 +72,8 @@
         mounted() {
             axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
-                this.messageList = response.data;
-                console.log(`MESSAGING`, this.messageList.data);
+                this.messageList = response.data.data;
+                this.$root.$data.global.messages = response.data.data;
               })
         }
     }

@@ -89,7 +89,7 @@
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
-
+              
               if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',

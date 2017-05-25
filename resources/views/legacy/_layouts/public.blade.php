@@ -24,6 +24,9 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
+    <script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
+    <link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
+
     @if (Auth::guest())
         @script(/js/vendors/modernizr-custom.js)
         <script type="text/javascript" src="{{ mix('/js/app_public.js') }}"></script>

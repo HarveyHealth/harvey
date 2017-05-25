@@ -14,7 +14,7 @@
     </div>
     <div class="appointment_right">
       <div class="box">
-        <p class="appointment_date">{{ localAppointmentTime.format('ddd, MMM Do [at] h:mma') }}</p>
+        <p class="appointment_date">{{ localAppointmentTime }}</p>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@
     props: ['appointment', 'patientData', 'userType'],
     data() {
       return {
-        local_timezone: 'America/Los_Angeles'
+        local_timezone: ''
       }
     },
     methods: {
@@ -40,8 +40,7 @@
     },
     computed: {
       localAppointmentTime() {
-        let m = moment.utc(this.appointment.attributes.appointment_at.date, "YYYY-MM-DD h:i:s");
-        return moment(m).tz(this.local_timezone);
+        return moment.utc(this.appointment.attributes.appointment_at.date).local().format('ddd, MMM Do [at] h:mm a');
       },
       fullName() {
         if (this.patientData.first_name) {
