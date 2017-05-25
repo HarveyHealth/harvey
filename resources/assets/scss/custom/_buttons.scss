@@ -72,6 +72,11 @@ input[type="submit"] {
   right: 1em;
   top: 1em;
 
+  &:hover {
+    background-color: transparent; // overwrites $all-buttons hover state
+    svg { stroke: darken($gray, 15%); }
+  }
+
   & svg {
     height: 1em;
     position: absolute;

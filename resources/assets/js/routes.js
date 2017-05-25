@@ -26,16 +26,6 @@ let routes = [
             }
         ]
     },
-    // {
-    //     path: '/schedule',
-    //     name: 'schedule',
-    //     component: require('./pages/schedule/Schedule.vue'),
-    // },
-    // {
-    //   path: '/signup',
-    //   name: 'signup',
-    //   component: require('./pages/signup/Signup.vue')
-    // },
     {
         path: '/new-appointments',
         name: 'new-appointments',
