@@ -142,12 +142,10 @@ const app = new Vue({
         Stripe.setPublishableKey(Laravel.services.stripe.key);
 
         // Initial GET requests
-        if (Laravel.user.signedIn) {
-          this.getUser()
-          this.getAppointments();
-          this.getPractitioners();
-          if (Laravel.user.userType !== 'patient') this.getPatients();
-        }
+        this.getUser()
+        this.getAppointments();
+        this.getPractitioners();
+        if (Laravel.user.userType !== 'patient') this.getPatients();
 
         // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {

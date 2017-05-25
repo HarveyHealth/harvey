@@ -83,13 +83,7 @@
                 return this.recentAppointments.included;
             },
             upcomingAppointmentsData() {
-              if (this.upcomingAppointments.length) {
-                return this.upcomingAppointments.data.filter(obj => {
-                  return obj.attributes.status !== 'canceled';
-                }).reverse();
-              } else {
-                return [];
-              }
+                return this.upcomingAppointments.data;
             },
             upcomingAppointmentsIncluded() {
                 return this.upcomingAppointments.included;

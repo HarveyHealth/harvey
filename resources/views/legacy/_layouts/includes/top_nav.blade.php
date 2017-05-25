@@ -11,7 +11,7 @@
             <span class="nav-item">
                 <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
                 <a href="/login" class="button is-primary is-outlined is-hidden-mobile">Log In</a>
-                <a href="/signup" class="button is-primary">Book Now</a>
+                <a href="/signup" class="button is-primary">Get Started</a>
             </span>
         </div>
     </div>

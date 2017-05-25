@@ -7,7 +7,6 @@
     </label>
     <span v-if="past || displayOnly" class="input__item">{{ conductedOn }}</span>
     <span v-else-if="loading">Loading availability...</span>
-    <span v-else-if="noAvailableTimesAtAll" class="input--warning">{{ noAvailableAtAllMsg }}</span>
     <span v-else-if="noneAvailable" class="input--warning">Sorry, this doctor does not have any available appointment times.</span>
     <template v-else>
       <span :class="{ 'custom-select':true, 'show-day-label': !selectedDay }">
@@ -39,7 +38,6 @@ export default {
       intialLoad: false,
       timeIndex: 0,
       loading: true,
-      noAvailableTimesAtAll: false,
       selectedDay: '',
       selectedTime: '',
     }
@@ -55,13 +53,7 @@ export default {
   computed: {
     _availability() {
       let obj = transformAvailability(this.availability);
-
       if (obj) obj = obj.filter(day => day.times.length);
-
-      if (!obj.length) {
-        this.noAvailableTimesAtAll = true;
-        return [];
-      }
 
       if (this.type === 'update' && !this.initialLoad) {
         this.selectedDay = '';
@@ -88,8 +80,6 @@ export default {
         } else {
           return this._availability[this.dayIndex].times;
         }
-      } else {
-        return [];
       }
     },
     conductedOn() {
@@ -99,13 +89,8 @@ export default {
       return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
-      return !this.availability.length;
+      return !Object.keys(this._availability).length;
     },
-    noAvailableAtAllMsg() {
-      return this.$root.$data.global.user.attributes.user_type === 'practitioner'
-        ? 'Oops, you do not have any available time slots to book a new appointment. Please contact customer support.'
-        : 'Sorry, there are no appointment slots available at this time.';
-    }
   },
   methods: {
     daySelect(target, index) {

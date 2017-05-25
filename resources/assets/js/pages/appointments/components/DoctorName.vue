@@ -73,7 +73,7 @@ export default {
           this.$eventHub.$emit('availabilityResponse', availabilityStatus);
         });
       } else if (this.usertype === 'practitioner' && this.dataCollected) {
-        const availabilityStatus = this.availability.meta.availability[0].length + this.availability.meta.availability[1].length;
+        const availabilityStatus = this.meta.availability[0].length + this.meta.availability[1].length;
         this.$eventHub.$emit('returnAvailability', this.availability);
         this.$eventHub.$emit('availabilityResponse', availabilityStatus);
       } else {
