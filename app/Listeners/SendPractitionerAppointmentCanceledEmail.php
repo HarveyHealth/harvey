@@ -24,7 +24,7 @@ class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
         ];
 
         dispatch(new SendTransactionalEmail(
-                        $patient->user->email,
+                        $practitioner->user->email,
                         'practitioner.appointment.canceled',
                         $template_model)
                 );
