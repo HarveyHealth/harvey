@@ -56,7 +56,6 @@
 
       </div>
       <div class="card-wrapper">
-
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Your Info</h2>
@@ -79,7 +78,6 @@
             </div>
           </div>
         </div>
-
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Account Manager</h2>
@@ -100,9 +98,7 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -150,9 +146,6 @@
       },
       email() {
         return this.user.attributes ? this.user.attributes.email : '';
-      },
-      patientName() {
-
       },
       phone() {
         return this.user.attributes ? phone(this.user.attributes.phone) : '';
