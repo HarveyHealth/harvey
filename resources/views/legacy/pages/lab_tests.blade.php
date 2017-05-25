@@ -6,7 +6,7 @@
     <div class="hero-body container">
         <header class="content has-text-centered">
             <h1 class="title is-3 page-title">Lab Tests &amp; Pricing</h1>
-            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatments.</p>
+            <p class="copy-has-max-width subtitle is-4">Our doctors rely heavily on specialized laboratory tests to explore the root cause of chronic health conditions and help validate the credibility of their proposed treatment plans.</p>
         </header>
     </div>
 </section>

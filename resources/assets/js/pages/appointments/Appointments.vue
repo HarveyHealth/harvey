@@ -8,7 +8,7 @@
         <div class="container">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
-            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient'"
+            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient' | userType === 'practitioner'" 
                     href="#"
                     class="button main-action circle"
                     @click.prevent="newAppointmentSetup()">
@@ -61,7 +61,7 @@
           @click.prevent="setupAppointmentNew()"
           class="button"
           :disabled="!noAvailability"
-        >Create Appointment</button>
+        >Book Appointment</button>
         <button
           v-if="appointmentModType === 'update'
             && !appointmentData.pastAppointment
@@ -224,7 +224,7 @@
           this.$eventHub.$emit('getDoctorAvailability', this.$root.$data.global.practitioners[0].id);
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
-          this.$eventHub.$emit('callFlyout', false, 'Create Appointment');
+          this.$eventHub.$emit('callFlyout', false, 'Book Appointment');
         })
       },
       resetAppointmentData(data) {
