@@ -134,7 +134,6 @@ const app = new Vue({
         axios.get(`/api/v1/users/${Laravel.user.id}`)
           .then(response => {
             this.global.user = response.data.data;
-            console.log(JSON.stringify(this.global, null, 2))
           })
           .catch(error => this.global.user = {} );
       }
