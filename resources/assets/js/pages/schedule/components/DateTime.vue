@@ -206,6 +206,12 @@
                 properties: { laravel_object: Laravel.user }
             });
         this.$ma.trackEvent({
+            fb_event: 'ViewContent',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
+        this.$ma.trackEvent({
             action: 'Date/Time',
             fb_event: 'ViewContent',
             category: 'clicks',
