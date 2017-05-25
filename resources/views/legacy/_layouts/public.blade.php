@@ -26,8 +26,8 @@
 
     @if (Auth::guest())
         
-        <!-- Modernizr -->    
-        <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
+        <!-- Modernizr -->
+        <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
 
         <!-- Juicer -->
         <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
@@ -43,11 +43,13 @@
         <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
 
     @else
+
         <!-- Stripe -->
         <script type="text/javascript" src="https://js.stripe.com/v2"></script>
         
         <!-- App.js -->
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
+
     @endif
 
     @stack('scripts')
