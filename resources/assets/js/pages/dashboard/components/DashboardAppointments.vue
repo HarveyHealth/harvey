@@ -83,7 +83,7 @@
                 return this.recentAppointments.included;
             },
             upcomingAppointmentsData() {
-                return this.upcomingAppointments.data;
+                return this.upcomingAppointments.data ? this.upcomingAppointments.data.reverse() : [];
             },
             upcomingAppointmentsIncluded() {
                 return this.upcomingAppointments.included;
