@@ -1,5 +1,5 @@
 @extends('legacy._layouts.public')
-@section('page_title','Welcome to Harvey')
+@section('page_title','Holistic and Integrative Medicine')
 @section('body_class','home')
 @section('main_content')
 
@@ -491,7 +491,7 @@
                 </div>
                 <div class="button-wrapper has-text-centered social-feed">
                     <a href="https://blog.goharvey.com" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
-                        <img src="/images/home/medium.png"> Learn More</a>
+                        <img src="/images/home/medium.png"> Read More</a>
                 </div>
             </div>
         </div>
@@ -501,7 +501,6 @@
         <div class="container">
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
-                <p class="is-hidden-mobile is-hidden-tablet">First consultations start at $150 for one hour.</p>
                 <div class="button-wrapper">
                     <a href="/signup" class="button is-primary is-medium has-arrow">Book Consultation</a>
                 </div>

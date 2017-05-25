@@ -1,9 +1,7 @@
 body.lab-tests {
     .logo-wrapper {
-        @include from($mobile) {
-            .harvey-logo-type {
-                fill: #fff;
-            }
+        .harvey-text {
+            fill: white;
         }
     }
     .hero {
