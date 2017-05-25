@@ -3,10 +3,6 @@
 @section('body_class','home')
 @section('main_content')
 
-<!-- Juicer -->
-<script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
-<link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
-
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
     <section class="hero is-fullheight is-primary">
         <div class="hero-background"></div>
@@ -330,7 +326,7 @@
         <div class="container">
             <div class="columns is-narrow is-multiline">
                 <figure class="image">
-                    <img src="/images/home/lab-order.jpg" alt="">
+                    <img src="/images/home/package-door.jpg" alt="">
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">

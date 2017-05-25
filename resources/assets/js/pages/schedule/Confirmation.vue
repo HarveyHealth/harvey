@@ -110,6 +110,12 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
+          this.$ma.trackEvent({
+            fb_event: 'ViewContent',
+            type: 'product',
+            category: 'clicks',
+            properties: { laravel_object: Laravel.user }
+        });
         }
 
         axios.patch(`api/v1/users/${this.$root.global.user.id}`, {

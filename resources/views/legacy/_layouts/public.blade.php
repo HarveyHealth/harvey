@@ -26,13 +26,12 @@
 
     @if (Auth::guest())
         
-        <!-- Modernizr -->    
-        <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
+        <!-- Modernizr -->
+        <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
 
         <!-- Juicer -->
         <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
         <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
-
 
         <!-- Lity -->
         <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
@@ -49,6 +48,7 @@
         
         <!-- App.js -->
         <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
+
     @endif
 
     @stack('scripts')
