@@ -110,7 +110,6 @@
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
   import UserNav from '../../commons/UserNav.vue';
-
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from '../../utils/methods/combineAppointmentData';
@@ -182,10 +181,13 @@
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
-
     }
-
   }
+  
+  // User Role
+  var role = Laravel.user.userType;
+  console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
+
 </script>
 
 <style lang="scss" scoped>
