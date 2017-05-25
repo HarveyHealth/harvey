@@ -221,6 +221,45 @@ class AppointmentTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
     }
+    
+    public function test_an_admin_or_practitioner_can_modify_an_appointment_regardless_of_how_soon_the_appointment_will_be()
+    {
+        // Given a patient with a scheduled appointment less than 4 hours away
+        $appointment = factory(Appointment::class)->states('soon')->create();
+        $admin = factory(Admin::class)->create();
+        
+        // And new parameters they want to save to the appointment
+        $parameters = [
+            'reason_for_visit' => 'Some other reason.',
+        ];
+        
+        // When they try updating the schedule
+        Passport::actingAs($admin->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+        
+        // Then it is successful
+        $response->assertStatus(ResponseCode::HTTP_OK);
+    
+        // And when the practitioner attempts to modify the appointment
+        $parameters = [
+            'reason_for_visit' => 'Some other reason by the practitioner.',
+        ];
+        Passport::actingAs($appointment->practitioner->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+    
+        // Then it is successful
+        $response->assertStatus(ResponseCode::HTTP_OK);
+    
+        // but when the patient tries to modify the appointment
+        $parameters = [
+            'reason_for_visit' => 'Hey, I want to cancel this.',
+        ];
+        Passport::actingAs($appointment->patient->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+    
+        // Then it is unsuccessful due to the 4 hour lock
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+    }
 
     public function test_it_does_not_allow_modification_if_the_appointment_was_completed()
     {
