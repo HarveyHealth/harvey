@@ -8,12 +8,8 @@
             <h4 style="float: left; margin: 0 1%;">{{ day }}</h4>
             <h4 style="float: left; margin: 0 1%;">{{ time }}</h4>
             <h4 style="float: left; margin: 0 1%;">...</h4>
-        </div>
-        <div style="float: left; margin: 100px -325px;">
-            <h2>{{ subject }}</h2>
-        </div>
-        <div  style="float: left; margin: 140px -325px;">
-            <h3>{{ message }}</h3>
+            <h2 style="float: left; margin: 6px 100% 0 0;">{{ subject }}</h2>
+            <h3 style="float: left; margin-top: 6px;">{{ message }}</h3>
         </div>
     </div>
 </template>
