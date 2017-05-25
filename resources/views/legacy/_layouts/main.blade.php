@@ -76,11 +76,13 @@
     </script>
 
     @if (Auth::guest())
-        @script(/js/vendors/modernizr-custom.js)
-        <script type="text/javascript" src="{{ mix('/legacy/js/app_public.js') }}"></script>
+        <!-- Modernizr -->
+        <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('legacy/js/app_public.js') }}"></script>
     @else
-        @script(https://js.stripe.com/v2/)
-        <script type="text/javascript" src="{{ mix('/legacy/js/app_logged_in.jss') }}"></script>
+        <!-- Stripe -->
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script type="text/javascript" src="{{ mix('legacy/js/app_logged_in.jss') }}"></script>
     @endif
 
     @stack('scripts')
