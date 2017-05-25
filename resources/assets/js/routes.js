@@ -26,11 +26,11 @@ let routes = [
             }
         ]
     },
-    {
-        path: '/schedule',
-        name: 'schedule',
-        component: require('./pages/schedule/Schedule.vue'),
-    },
+    // {
+    //     path: '/schedule',
+    //     name: 'schedule',
+    //     component: require('./pages/schedule/Schedule.vue'),
+    // },
     // {
     //   path: '/signup',
     //   name: 'signup',
