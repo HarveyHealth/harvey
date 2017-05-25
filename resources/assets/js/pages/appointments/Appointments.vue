@@ -8,7 +8,7 @@
         <div class="container">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
-            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient' | userType === 'practitioner'" 
+            <button v-show="(userType !== 'patient' && this.$root.$data.global.patients.length) || userType === 'patient'"
                     href="#"
                     class="button main-action circle"
                     @click.prevent="newAppointmentSetup()">
@@ -243,7 +243,7 @@
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
         this.confirmationText['Date'] = moment.utc(this.appointmentData.appointmentDate).local().format('dddd, MMMM Do [at] h:mm a');
-        this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
+        this.confirmationText['Status'] = 'Canceled';
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
@@ -399,7 +399,10 @@
       })
 
       this.$eventHub.$on('cancelAppointment', () => {
-        axios.delete(`/api/v1/appointments/${this.dataForCancel.id}`).then(response => {
+        axios.patch(`/api/v1/appointments/${this.dataForCancel.id}`, {
+          reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
+          status: 'canceled',
+        }).then(response => {
           this.$eventHub.$emit('refreshTable');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);

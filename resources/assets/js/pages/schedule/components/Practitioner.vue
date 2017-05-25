@@ -86,7 +86,9 @@
         </div>
 
         <div class="text-centered">
-          <p v-if="availabilityCheck" v-show="!hasAvailability" class="input--warning">{{ noAvailabilityWarning }}</p>
+          <p v-if="availabilityCheck" v-show="!hasAvailability" class="input--warning">
+            Unfortunately we don't have any availability for that practitioner type in the next 2 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.
+          </p>
           <button class="button" @click.prevent="nextStep">Continue</button>
         </div>
       </div>
@@ -100,7 +102,7 @@
   export default {
     data() {
       return {
-        noAvailabilityWarning: 'Sorry, there are no available times for that practitioner.',
+        noAvailabilityWarning: 'We\'re sorry, but there are no available times with doctors of that type. Please give us a call at 800',
         availabilityCheck: false,
         hasAvailability: false,
         title: 'Choose your physician',
