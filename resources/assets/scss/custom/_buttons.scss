@@ -11,7 +11,7 @@ input[type="submit"] {
   font-size: 17px;
   -webkit-font-smoothing: antialiased;
   line-height: 1;
-  padding: 10px 30px 12px;
+  padding: 10px 25px;
   text-align: center;
   text-decoration: none;
   transition: background-color .25s ease-in-out;
@@ -67,15 +67,14 @@ input[type="submit"] {
   width: 30px;
 }
 
-.button--close.flyout-close {
+.button--close.flyout-close,
+.button--cancel.modal-close {
   position: absolute;
   right: 1em;
   top: 1em;
-
-  &:hover {
-    background-color: transparent; // overwrites $all-buttons hover state
-    svg { stroke: darken($gray, 15%); }
-  }
+  background: none;
+  border: none;
+  padding: 8px 10px;
 
   & svg {
     height: 1em;
@@ -85,5 +84,10 @@ input[type="submit"] {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 1em;
+  }
+
+  &:hover {
+    background-color: transparent; // overwrites $all-buttons hover state
+    svg { stroke: darken($gray, 15%); }
   }
 }

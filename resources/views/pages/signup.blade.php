@@ -72,6 +72,7 @@
         ga('send', 'pageview');
       </script>
     
+      @script(https://js.stripe.com/v2/)
       <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
     </body>
