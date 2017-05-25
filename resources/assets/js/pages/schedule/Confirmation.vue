@@ -8,7 +8,7 @@
         <h1 class="header-xlarge">{{ title }}</h1>
 
         <p class="confirmation_date">
-          <span class="confirmation_day">{{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }}</span>
+          <span class="confirmation_day">{{date.format('dddd')}}, {{date.format('MMMM')}} {{date.format('Do')}}</span> at <span class="confirmation_time">{{time}}</span>
 
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
@@ -67,10 +67,10 @@
     },
     created() {
       this.appointmentInformation = this.$root.appointmentData.data;
-      this.appointmentDate = this.$root.initialAppointment.appointment_at;
+      this.appointmentDate = moment(this.$root.initialAppointment.appointment_at);
       this.calendarSummary = `Appointment with ${this.appointmentInformation.attributes.practitioner_name}`;
-      this.calendarStart = moment.utc(this.appointmentDate).local().format('MM/DD/YYYY hh:mm A');
-      this.calendarEnd = moment.utc(this.appointmentDate).add(60, 'm').local().format('MM/DD/YYYY hh:mm A');
+      this.calendarStart = moment(this.appointmentDate).format('MM/DD/YYYY hh:mm A');
+      this.calendarEnd = moment(this.appointmentDate).add(60, 'm').format('MM/DD/YYYY hh:mm A');
     },
     methods: {
       dispatchEvent() {
@@ -84,17 +84,9 @@
         }
       }
     },
-    filters: {
-      toDate(date) {
-        return moment.utc(date).local().format('dddd, MMMM Do');
-      },
-      toTime(date) {
-        return moment.utc(date).local().format('h:mm a');
-      }
-    },
     mounted() {
       // if state is lost, move into the dashboard
-      if (!moment(this.appointmentDate).isValid()) {
+      if (!this.appointmentDate.isValid()) {
         window.location.href = '/dashboard';
       } else {
         this.validDate = true;

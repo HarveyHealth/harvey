@@ -180,7 +180,9 @@ class PractitionerAvailability
 
         $slots = [];
 
-        $appointments = $this->practitioner->appointments()->pending()->withinDateRange($start_date, $end_date)->get();
+        $appointments = $this->practitioner->appointments()
+                            ->withinDateRange($start_date, $end_date)
+                            ->get();
 
         // loop through each one and build an array of timeslots
         foreach ($appointments as $appointment) {
