@@ -2,7 +2,7 @@
 
 @push('stylesheets')
 
-    @stylesheet(css/app_public.css)
+    <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
 
 @endpush
 
@@ -33,27 +33,28 @@
     @if (Auth::guest())
         
         <!-- Modernizr -->    
-        @script(/js/vendors/modernizr-custom.js)
+        <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
 
         <!-- Juicer -->
-        @script(https://assets.juicer.io/embed.js)
-        @stylesheet(https://assets.juicer.io/embed.css)
+        <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
+        <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
+
 
         <!-- Lity -->
-        @stylesheet(css/vendors/lity.css)
-        @script(js/vendors/zepto.js)
-        @script(js/vendors/lity.js)
+        <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
+        <script type="text/javascript" src="{{ mix('js/vendors/zepto.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/vendors/lity.js') }}"></script>
 
         <!-- Public.js -->
-        <script type="text/javascript" src="{{ mix('/js/app_public.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
 
     @else
 
         <!-- Stripe -->
-        @script(js.stripe.com/v2/)
+        <script type="text/javascript" src="https://js.stripe.com/v2"></script>
         
         <!-- App.js -->
-        <script type="text/javascript" src="{{ mix('/js/app.js') }}"></script>
+        <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
     @endif
 
     @stack('scripts')
