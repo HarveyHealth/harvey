@@ -52,12 +52,14 @@ return [
                 'appointment' => [
                     'canceled' => 1692581,
                     'new' => 1529541,
+                    'updated' => 1929883,
                 ],
             ],
             'patient' => [
                 'appointment' => [
                     'canceled' => 1687742,
                     'new' => 1492142,
+                    'updated' => 1929884,
                 ],
                 'welcome' => 1450461,
             ],
