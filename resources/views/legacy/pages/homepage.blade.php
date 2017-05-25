@@ -3,10 +3,6 @@
 @section('body_class','home')
 @section('main_content')
 
-<!-- Juicer -->
-<script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
-<link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
-
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
     <section class="hero is-fullheight is-primary">
         <div class="hero-background"></div>
