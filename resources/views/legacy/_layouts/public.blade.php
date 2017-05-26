@@ -1,7 +1,10 @@
 @extends('layouts.master')
 
 @push('stylesheets')
+
+    <!-- Public.css -->
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
+
 @endpush
 
 @section('content')
