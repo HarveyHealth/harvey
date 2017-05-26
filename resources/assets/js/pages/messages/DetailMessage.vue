@@ -41,6 +41,7 @@
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     export default {
+        props: ['id'],
         name: 'messages',
         components: {
           Preview,
