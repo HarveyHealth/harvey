@@ -86,6 +86,9 @@
         </div>
 
         <div class="text-centered">
+          <p v-if="availabilityCheck" v-show="!hasAvailability" class="input--warning">
+            Unfortunately we don't have any availability for that practitioner type in the next 2 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.
+          </p>
           <button class="button" @click.prevent="nextStep">Continue</button>
         </div>
       </div>
@@ -94,9 +97,14 @@
 </template>
 
 <script>
+  import transformAvailability from '../../../utils/methods/transformAvailability';
+
   export default {
     data() {
       return {
+        noAvailabilityWarning: 'We\'re sorry, but there are no available times with doctors of that type. Please give us a call at 800',
+        availabilityCheck: false,
+        hasAvailability: false,
         title: 'Choose your physician',
         subtitle: 'Tell us which type of integrative doctor you would like to partner with. If this is your first time seeking advice for a specific ailment, we recommend a Naturopathic Doctor.',
         practitioner: this.$parent.practitioner || '',
@@ -109,6 +117,7 @@
     methods: {
       nextStep() {
         this.$validator.validateAll().then(() => {
+          this.availabilityCheck = false;
           this.$parent.practitioner = this.practitioner;
           this.getAvailability(this.practitioner);
         }).catch(() => {});
@@ -125,10 +134,20 @@
         axios.get(`api/v1/practitioners/${this.$root.initialAppointment.practitioner_id}?include=availability`)
           .then(response => {
             this.$parent.practitioner_availability = response.data.meta.availability;
+            this.$parent._availability = transformAvailability(response.data.meta.availability);
+
+            // Check if all day objects have empty times arrays
+            const hasAvailability = this.$parent._availability.reduce((acc, dayObj) => acc.concat(dayObj.times), []).length;
 
             // since the availability is required for this process, let's block
             // next steps until we get a 200
-            this.$parent.next();
+            // we also want a check to see if the practitioner has available times open
+            if (hasAvailability) {
+              this.$parent.next();
+            } else {
+              this.availabilityCheck = true;
+              this.hasAvailability = hasAvailability;
+            }
           })
           .catch(error => {
             // Todo: Catch error

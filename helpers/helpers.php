@@ -1,5 +1,6 @@
 <?php
 
+
 // converts dot notation, i.e. about.index
 // to a path, i.e. /about/index
 function dots_to_path($dots)
