@@ -15,7 +15,20 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-
+              <div style="background-color: white; height: 80%;">
+                <DetailPost 
+                    name="Alicia Keys"
+                    day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
+                    time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                    subject="chat.attributes.subject"
+                    message="chat.attributes.message"
+                />
+                <div>
+                  <div class="inline-centered">
+                    <button class="button" v-on:click="">Reply</button>
+                </div>
+                </div>
+              </div>
             </div>
       </div>
     </div>
@@ -24,14 +37,14 @@
 
 <script>
     import Preview from './components/AddMessages.vue'
-    import MessagePost from './components/MessagePost.vue'
+    import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     export default {
         name: 'messages',
         components: {
           Preview,
           UserNav,
-          MessagePost
+          DetailPost
         },
         data() {
             return {
