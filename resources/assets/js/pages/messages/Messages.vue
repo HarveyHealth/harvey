@@ -18,7 +18,7 @@
                 <div v-for="chat in messageList">
                   <router-link :to="'/detail/' + chat.attributes.sender_user_id" style="padding: 4px;">
                     <MessagePost
-                        name="Alicia Keys"
+                        name="chat.attributes.sender_user_id"
                         :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
                         :time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
                         :subject="chat.attributes.subject"
