@@ -324,8 +324,6 @@ body {
 
         svg {
           width: 150px;
-          margin-top: 8px;
-
           @include mobile {
             .harvey-text {
               display: none;
@@ -348,7 +346,7 @@ body {
       .nav-item {
         float: right;
         font-size: 16px;
-        margin-top: 12px;
+        margin-top: 0;
         display: flex;
 
         a {
