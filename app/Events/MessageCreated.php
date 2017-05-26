@@ -46,7 +46,8 @@ class MessageCreated implements ShouldBroadcast
         return [
             'is_sender_admin' => $this->message->is_sender_admin,
             'message' => htmlentities($this->message->message),
-            'sender_full_name' => $this->message->sender->id,
+            'sender_full_name' => $this->message->sender->fullName(),
+            'sender_id' => $this->message->sender->id,
             'subject' => htmlentities($this->message->subject),
         ];
     }
