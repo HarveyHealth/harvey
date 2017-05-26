@@ -1,7 +1,7 @@
 <template>
       <div class="main-container">
       <div  v-on:click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
-      <div  v-on:click="reply()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
+      <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
       <UserNav />
         <div class="main-content">
             <div class="main-header">
