@@ -1,6 +1,5 @@
 <template>
       <div class="main-container">
-      <div  v-on:click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
       <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
       <UserNav />
         <div class="main-content">
@@ -8,13 +7,12 @@
                 <div class="container">
                   <h1 class="title header-xlarge">
                     <span class="text">Details</span>
-                    <button v-on:click="close()" class="button main-action circle">
+                    <button v-on:click="reply()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
                 </div>
             </div>
-            <preview v-if="renderNewMessage" />
             <Reply v-if="renderReply" />
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
