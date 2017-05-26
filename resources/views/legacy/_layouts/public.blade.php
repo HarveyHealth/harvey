@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @push('stylesheets')
+
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
+
 @endpush
 
 @section('content')

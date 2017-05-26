@@ -31,6 +31,11 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPractitionerAppointmentUpdatedEmail',
             'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
         ],
+        'App\Events\AppointmentUpdated' => [
+            'App\Listeners\SendPatientAppointmentUpdatedEmail',
+            'App\Listeners\SendPractitionerAppointmentUpdatedEmail',
+            'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
+        ],
     ];
 
     protected $subscribe = [
