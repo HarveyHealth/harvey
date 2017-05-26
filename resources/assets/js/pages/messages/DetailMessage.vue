@@ -1,6 +1,7 @@
 <template>
       <div class="main-container">
       <div  v-on:click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
+      <div  v-on:click="reply()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
       <UserNav />
         <div class="main-content">
             <div class="main-header">
@@ -14,6 +15,7 @@
                 </div>
             </div>
             <preview v-if="renderNewMessage" />
+            <Reply v-if="renderReply" />
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
                 <DetailPost 
@@ -25,7 +27,7 @@
                 />
                 <div>
                   <div class="inline-centered">
-                    <button class="button" v-on:click="">Reply</button>
+                    <button class="button" v-on:click="reply()">Reply</button>
                 </div>
                 </div>
               </div>
@@ -37,6 +39,7 @@
 
 <script>
     import Preview from './components/AddMessages.vue'
+    import Reply from './components/ReplyMessages.vue'
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     export default {
@@ -44,11 +47,13 @@
         components: {
           Preview,
           UserNav,
-          DetailPost
+          DetailPost,
+          Reply
         },
         data() {
             return {
               renderNewMessage: false,
+              renderReply: false,
               isActive: null
             }
         },
@@ -57,6 +62,9 @@
           },
           close() {
             this.renderNewMessage = !this.renderNewMessage
+          },
+          reply() {
+            this.renderReply = !this.renderReply
           }
         }
     }
