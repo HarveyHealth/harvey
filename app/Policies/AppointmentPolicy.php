@@ -42,8 +42,12 @@ class AppointmentPolicy
     {
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
+        
+        if ($user->isPatient() && $appointment->isLocked()) {
+            return false;
+        }
 
-        return ($user->id == $patient->user->id || $user->id == $practitioner->user->id) && $appointment->isNotLocked();
+        return $user->id == $patient->user->id || $user->id == $practitioner->user->id;
     }
 
     /**

@@ -2,6 +2,9 @@
   <div v-show="isActive" class="modal-wrapper appointment-modal" @click="handleOverlayClick($event)">
     <div class="modal">
       <h3 class="modal-header">{{ title }}</h3>
+      <button @click="handleCancelClick()" class="button button--cancel modal-close">
+        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use></svg>
+      </button>
       <p v-for="(value, key) in text">
         <strong>{{ key }}</strong>: {{ value }}
       </p>
