@@ -2,14 +2,14 @@
 
 namespace App\Listeners;
 
-use App\Events\AppointmentCanceled;
+use App\Events\AppointmentUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Jobs\SendTransactionalEmail;
 
-class SendPatientAppointmentCanceledEmail implements ShouldQueue
+class SendPatientAppointmentUpdatedEmail implements ShouldQueue
 {
-    public function handle(AppointmentCanceled $event)
+    public function handle(AppointmentUpdated $event)
     {
         $appointment = $event->appointment;
         $patient = $appointment->patient;
@@ -25,7 +25,7 @@ class SendPatientAppointmentCanceledEmail implements ShouldQueue
 
         dispatch(new SendTransactionalEmail(
                         $patient->user->email,
-                        'practitioner.appointment.canceled',
+                        'practitioner.appointment.updated',
                         $template_model)
                 );
     }
