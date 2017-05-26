@@ -5,6 +5,8 @@
     <!-- Public.css -->
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
 
+@endpush
+
 @section('content')
     <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
 
