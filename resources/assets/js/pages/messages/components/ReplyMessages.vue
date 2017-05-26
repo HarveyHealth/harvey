@@ -4,12 +4,12 @@
             <button class="button--close flyout-close" @click="reply()">
                 <svg><use xlink:href="#close" /></svg>
             </button>
-            <h2 class="title">Create Messages</h2>
+            <h2 class="title">Reply</h2>
             <div class="input__container">
                 <label class="input__label" for="patient_name">{{ toUserType }}</label>
                 <span class="custom-select">
-                    <select @change="updateUser($event)" name="doctor_name">
-                        <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
+                    <select name="doctor_name">
+                        <option>{{ user }}</option>
                     </select>
                 </span>
             </div>
@@ -38,7 +38,8 @@
             return {
                 reply: this.$parent.reply,
                 selected: '',
-                message: ''
+                message: '',
+                user: this.$parent.user
             }
         },
         methods: {

@@ -54,7 +54,8 @@
             return {
               renderNewMessage: false,
               renderReply: false,
-              isActive: null
+              isActive: null,
+              user: 'OTHER'
             }
         },
         methods: {
