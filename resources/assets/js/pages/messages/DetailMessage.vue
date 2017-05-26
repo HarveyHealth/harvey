@@ -54,7 +54,7 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: 'OTHER'
+              user: this.userName
             }
         },
         methods: {
@@ -65,7 +65,19 @@
           },
           reply() {
             this.renderReply = !this.renderReply
-          }
+          },
+          userName() {
+              if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                  let arr = this.$root.$data.global.practitioners
+                  return arr.filter(e => e.id === this.$route.params.id)[0].name
+              } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+                  let arr = this.$root.$data.global.patients
+                  return arr.filter(e => e.id === this.$route.params.id)[0].name
+              } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+                  let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients)
+                  return all.filter(e => e.id === this.$route.params.id)[0].name
+              }
+           }
         }
     }
 </script>

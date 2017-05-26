@@ -9,7 +9,7 @@
                 <label class="input__label" for="patient_name">{{ toUserType }}</label>
                 <span class="custom-select">
                     <select name="doctor_name">
-                        <option>{{ user }}</option>
+                        <option>{{ user() }}</option>
                     </select>
                 </span>
             </div>

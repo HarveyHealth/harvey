@@ -16,7 +16,7 @@
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
                 <div v-for="chat in messageList">
-                  <router-link :to="'/detail/' + chat.id" style="padding: 4px;">
+                  <router-link :to="'/detail/' + chat.attributes.sender_user_id" style="padding: 4px;">
                     <MessagePost
                         name="Alicia Keys"
                         :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
@@ -59,12 +59,9 @@
         computed: {
           getMessageList() {
             let data = [];
-            console.log(`COMPUTED`);
             axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
-                console.log(`CALLED`);
                 data = response.data;
-                console.log(`DATA`, data);
               })
             return data;
           }
