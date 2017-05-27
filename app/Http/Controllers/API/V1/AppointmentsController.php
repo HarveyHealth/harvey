@@ -68,7 +68,7 @@ class AppointmentsController extends BaseAPIController
     {
         $inputData = $request->all();
         $validator = Validator::make($inputData, [
-            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now',
+            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available',
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
@@ -96,7 +96,7 @@ class AppointmentsController extends BaseAPIController
         $inputData = $request->all();
 
         StrictValidator::check($inputData, [
-            'appointment_at' => 'date_format:Y-m-d H:i:s|after:now',
+            'appointment_at' => 'date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available',
             'reason_for_visit' => 'filled',
             'status' => 'filled',
         ]);
