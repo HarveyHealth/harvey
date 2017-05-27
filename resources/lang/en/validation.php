@@ -120,6 +120,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'appointment_at' => 'appointment time',
+    ],
 
 ];
