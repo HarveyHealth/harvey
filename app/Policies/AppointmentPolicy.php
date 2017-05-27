@@ -30,7 +30,7 @@ class AppointmentPolicy
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
 
-        return $user->id == $patient->user->id || $user->id == $practitioner->user->id;
+        return $user->is($patient->user) || $user->is($practitioner->user);
     }
 
     /**
@@ -42,12 +42,12 @@ class AppointmentPolicy
     {
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
-        
+
         if ($user->isPatient() && $appointment->isLocked()) {
             return false;
         }
 
-        return $user->id == $patient->user->id || $user->id == $practitioner->user->id;
+        return $user->is($patient->user) || $user->is($practitioner->user);
     }
 
     /**
@@ -61,6 +61,6 @@ class AppointmentPolicy
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
 
-        return ($user->id == $patient->user->id || $user->id == $practitioner->user->id) && $appointment->isNotLocked();
+        return ($user->is($patient->user) || $user->is($practitioner->user)) && $appointment->isNotLocked();
     }
 }
