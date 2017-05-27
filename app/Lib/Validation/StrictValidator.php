@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Lib;
+namespace App\Lib\Validation;
 
 use Illuminate\Support\Facades\Validator;
 
 class StrictValidator extends Validator
 {
-    public static function make(array $data, array $rules, array $messages = [], array $customAttributes = [])
+    public static function check(array $data, array $rules, array $messages = [], array $customAttributes = [])
     {
         $validator = parent::make($data, $rules, $messages, $customAttributes);
 
@@ -18,6 +18,10 @@ class StrictValidator extends Validator
             }
         });
 
-        return $validator;
+        if ($validator->fails()) {
+            throw new StrictValidatorException($validator->errors()->first());
+        }
+
+        return true;
     }
 }
