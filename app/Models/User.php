@@ -51,6 +51,11 @@ class User extends Authenticatable implements Mailable
         ];
     }
 
+    public function getImageUrlAttribute()
+    {
+        return $this->image_url ?: config('app.default_image_url');
+    }
+
     public function getUserTypeAttribute()
     {
         return $this->userType();
@@ -137,11 +142,6 @@ class User extends Authenticatable implements Mailable
         $fullName = trim($this->first_name . ' ' . $this->last_name);
 
         return  empty($fullName) ? null : $fullName;
-    }
-
-    public function imageURL()
-    {
-        return $this->image_url ?: config('app.default_image_url');
     }
 
     public function passwordSet()
