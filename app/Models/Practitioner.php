@@ -15,6 +15,11 @@ class Practitioner extends Model
         return $this->availability()->availability();
     }
 
+    public function getTimezoneAttribute()
+    {
+        return $this->user->timezone;
+    }
+
     public function availability()
     {
         return new PractitionerAvailability($this);

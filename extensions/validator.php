@@ -1,7 +1,11 @@
 <?php
 
+use App\Lib\TimeslotManager;
+use App\Lib\ZipCodeValidator;
+use App\Models\Practitioner;
+
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
-    return app()->make(\App\Lib\ZipCodeValidator::class)->setZip($value)->isServiceable();
+    return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
 });
 
 Validator::extendImplicit('required_if_is_admin', function ($attribute, $value, $parameters, $validator) {
@@ -16,18 +20,16 @@ Validator::extendImplicit('required_if_is_patient', function ($attribute, $value
     return !(currentUser()->isPatient() && empty($value));
 });
 
-Validator::extendImplicit('practitioner_is_available', function ($attribute, $value, $parameters, $validator) {
-    if (currentUser()->isPractitioner()) {
+Validator::extend('practitioner_is_available', function ($attribute, $value, $parameters, $validator) {
+    if (!empty($parameters)) {
+        $practitioner = Practitioner::find($parameters[0]);
+    } elseif (currentUser()->isPractitioner()) {
         $practitioner =  currentUser()->practitioner;
-    } elseif ($practitionerId = \Illuminate\Support\Arr::get($validator->attributes(), 'practitioner_id', false)) {
-        $practitioner = \App\Models\Practitioner::find($practitionerId);
+    } elseif ($practitionerId = array_get($validator->attributes(), 'practitioner_id', false)) {
+        $practitioner = Practitioner::find($practitionerId);
     } else {
         return false;
     }
 
-    $appointmentAt = \Carbon::parse($value);
-    $tsm = new \App\Lib\TimeslotManager;
-    $appointmentAtTimeslot = $tsm->timeslotForDayAndTime($appointmentAt->format('l'), $appointmentAt->format('H:i'));
-
-    return in_array($appointmentAtTimeslot, $practitioner->availability()->validAvailabilitySlotsForWeek($appointmentAt));
+    return $practitioner->availability()->canScheduleAt(Carbon::parse($value, 'UTC'));
 });
