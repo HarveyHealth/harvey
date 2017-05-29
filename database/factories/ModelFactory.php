@@ -54,14 +54,6 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
-    return [
-        'enabled' => true,
-        'name' => $faker->word,
-        'rate' => $faker->randomElement(['150', '300']),
-    ];
-});
-
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
@@ -75,7 +67,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
 $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'name' => $faker->name,
+        'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
 });
