@@ -11,6 +11,11 @@ let routes = [
         component: require('./pages/appointments/Appointments.vue'),
     },
     {
+        path: '/appts',
+        name: 'appts',
+        component: require('./pages/appts/Appointments.vue'),
+    },
+    {
         path: '/',
         name: localStorage.getItem('signing up') ?
             'signup' : localStorage.getItem('signed up') ?
