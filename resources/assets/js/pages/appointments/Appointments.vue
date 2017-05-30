@@ -88,9 +88,9 @@
       :title="confirmationTitle" />
 
     <NotificationPopup
-      :from="'top-right'"
-      :symbol="'&#10003;'"
-      :text="'New Appoitnment created'" />
+      :from="notificationDirection"
+      :symbol="notificationSymbol"
+      :text="notificationMessage" />
 
   </div>
 </template>
@@ -175,6 +175,9 @@
         },
         dataCollected: false,
         doctorAvailability: {},
+        notificationDirection: 'top-right',
+        notificationMessage: '',
+        notificationSymbol: '&#10003;',
         statuses: {
           'pending': 'Pending',
           'no_show_patient': 'No-Show-Patient',
@@ -398,7 +401,9 @@
         if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
 
         axios.post('/api/v1/appointments', data).then(response => {
+          this.notificationMessage = 'Appointment Created!';
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
@@ -422,6 +427,7 @@
           reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
           status: this.dataForUpdate.status,
         }).then(response => {
+          this.notificationMessage = 'Appointment Updated!';
           this.$eventHub.$emit('refreshTable');
           this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
