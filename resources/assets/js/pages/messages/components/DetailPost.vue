@@ -1,5 +1,5 @@
 <template>
-    <div class="container-message">
+    <div class="container-message border-message">
         <div class="image-card">
             <img class="image-avatar" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
         </div>
@@ -31,43 +31,3 @@
         }
     }
 </script>
-
-<style>
-    .unread {
-        border-left: 6px solid #82BEF2; 
-    }
-    .container-message {
-        background-color: white; 
-        height: 200px;
-        border-left: none;
-        border-bottom: 2px solid #f8f8f8;
-    }
-    .top-layer {
-        float: left; 
-        margin: 0 1%;
-    }
-    .subject-header {
-        float: left; 
-        margin: 0 1%;
-    }
-    .message-layer {
-        float: left; 
-        margin-top: 1%;
-    }
-    .details {
-        float: left; 
-        margin:6% 3%; 
-        width: 80%;
-    }
-    .image-card {
-        width: 6%; 
-        height: 6%; 
-        float: left;
-        margin: 2%;
-    }
-    .image-avatar {
-        border-radius: 50%; 
-        margin: 85% 20%; 
-        float: left;
-    }
-</style>
