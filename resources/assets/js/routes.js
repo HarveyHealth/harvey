@@ -38,6 +38,11 @@ let routes = [
         component: require('./pages/messages/DetailMessage.vue')
     },
     {
+        path: '/lab_orders',
+        props: true,
+        component: require('./pages/lab_orders/LabOrders.vue')
+    },
+    {
         path: '*',
         redirect:  '/'
     }
