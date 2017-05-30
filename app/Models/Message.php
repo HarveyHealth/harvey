@@ -92,4 +92,9 @@ class Message extends Model
         return $query->whereNull('read_at');
     }
 
+    public function scopeNewestThan($query, Carbon $date)
+    {
+        return $query->where('created_at', '>', $date);
+    }
+
 }

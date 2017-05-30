@@ -36,7 +36,7 @@ class MessagePolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->isAllowedToSendMessages();
     }
 
     /**
