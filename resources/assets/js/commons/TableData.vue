@@ -7,7 +7,8 @@
           @click="utilSort(obj)"
           :width="obj.width"
           :class="{
-            sorted: sortedColumn === obj.key,
+            'sortable': obj.sort,
+            'sorted': sortedColumn === obj.key,
             'sort-up': sortAscending,
             'sort-down': !sortAscending
           }"
@@ -65,7 +66,7 @@ export default {
           this.tabledata.reverse();
           this.sortAscending = !this.sortAscending;
         } else {
-          this.tableData = this.tableData.sort(obj.sort);
+          this.tabledata = this.tabledata.sort(obj.sort);
           this.sortedColumn = obj.key;
           this.sortAscending = true;
         }
