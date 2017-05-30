@@ -87,6 +87,11 @@
       :text="confirmationText"
       :title="confirmationTitle" />
 
+    <NotificationPopup
+      :from="notificationDirection"
+      :symbol="notificationSymbol"
+      :text="notificationMessage" />
+
   </div>
 </template>
 
@@ -96,6 +101,7 @@
   import DayAndTime from './components/DayAndTime.vue';
   import DoctorName from './components/DoctorName.vue';
   import Flyout from '../../commons/Flyout.vue';
+  import NotificationPopup from '../../commons/NotificationPopup.vue';
   import Overlay from '../../commons/Overlay.vue';
   import PatientInput from './components/PatientInput.vue';
   import PurposeInput from './components/PurposeInput.vue';
@@ -119,6 +125,7 @@
       DayAndTime,
       DoctorName,
       Flyout,
+      NotificationPopup,
       Overlay,
       PatientInput,
       PurposeInput,
@@ -168,6 +175,9 @@
         },
         dataCollected: false,
         doctorAvailability: {},
+        notificationDirection: 'top-right',
+        notificationMessage: '',
+        notificationSymbol: '&#10003;',
         statuses: {
           'pending': 'Pending',
           'no_show_patient': 'No-Show-Patient',
@@ -391,7 +401,9 @@
         if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
 
         axios.post('/api/v1/appointments', data).then(response => {
+          this.notificationMessage = 'Appointment Created!';
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
@@ -415,7 +427,9 @@
           reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
           status: this.dataForUpdate.status,
         }).then(response => {
+          this.notificationMessage = 'Appointment Updated!';
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('deselectRows');
