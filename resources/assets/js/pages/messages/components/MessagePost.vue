@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container-message">
         <div class="image-card">
             <img class="image-avatar" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
         </div>
@@ -32,11 +32,14 @@
     }
 </script>
 
-<style lang="sass">
-    .container {
+<style>
+    .unread {
         border-left: 6px solid #82BEF2; 
+    }
+    .container-message {
         background-color: white; 
         height: 200px;
+        border-left: none;
     }
     .top-layer {
         float: left; 
