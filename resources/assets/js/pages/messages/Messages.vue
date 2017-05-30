@@ -19,8 +19,8 @@
                   <router-link :to="'/detail/' + chat.attributes.sender_user_id" style="padding: 4px;">
                     <MessagePost
                         :name="allUsers.filter(e => chat.attributes.sender_user_id === e.id)[0].name"
-                        :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
-                        :time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                        :day="chat.attributes.created_at.date"
+                        :time="chat.attributes.created_at.date"
                         :subject="chat.attributes.subject"
                         :message="chat.attributes.message"
                      />
