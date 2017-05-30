@@ -53,10 +53,10 @@ class User extends Authenticatable implements Mailable
 
     public function getImageUrlAttribute()
     {
-        return $this->image_url ?: config('app.default_image_url');
+        return $this->getAttributeFromArray('image_url') ?: config('app.default_image_url');
     }
 
-    public function getUserTypeAttribute()
+    public function getTypeAttribute()
     {
         return $this->userType();
     }

@@ -24,7 +24,9 @@ class PractitionerController extends BaseAPIController
      */
     public function index()
     {
-        return $this->baseTransformBuilder(Practitioner::make(), null, $this->transformer, request('per_page'))->respond();
+        $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
+
+        return $this->baseTransformBuilder(Practitioner::make(), $include, $this->transformer, request('per_page'))->respond();
     }
 
     public function show(Practitioner $practitioner)
@@ -36,6 +38,7 @@ class PractitionerController extends BaseAPIController
                 'availability' => $this->availabilityTransformer->transform($practitioner)
             ]);
         }
+
         return $data->respond();
     }
 }

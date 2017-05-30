@@ -16,13 +16,17 @@ class Practitioner extends Model
         return $availability->availability();
     }
 
-
     /*
      * Relationships
      */
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function type()
+    {
+        return $this->hasOne(PractitionerType::class, 'id', 'practitioner_type');
     }
 
     public function notes()

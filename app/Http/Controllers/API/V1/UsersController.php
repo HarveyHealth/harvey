@@ -44,7 +44,7 @@ class UsersController extends BaseAPIController
             if (in_array($type, ['patient', 'practitioner', 'admin'])) {
                 $typePlural = str_plural($type);
                 // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
-                $query = $indexed ? $query->where('user_type', $type) : $query->$typePlural();
+                $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
             }
 
             return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();

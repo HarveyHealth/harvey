@@ -41,9 +41,9 @@ class PatientsController extends BaseAPIController
     {
         if (auth()->user()->can('view', $patient)) {
             return $this->baseTransformItem($patient, request('include'))->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }
+
+        return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
     }
 
     /**
@@ -53,23 +53,22 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
-        $validator = Validator::make($request->all(), [
-            'birthdate' => 'date',
-            'height_inches' => 'integer',
-            'height_feet' => 'integer',
-            'weight' => 'integer'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
-
         if (auth()->user()->can('update', $patient)) {
-            $patient->update($request->all());
+            $validator = Validator::make($request->all(), [
+                'birthdate' => 'date',
+                'height_inches' => 'integer',
+                'height_feet' => 'integer',
+                'weight' => 'integer'
+            ]);
 
+            if ($validator->fails()) {
+                return $this->respondBadRequest($validator->errors()->first());
+            }
+
+            $patient->update($request->all());
             return $this->baseTransformItem($patient)->respond();
-        } else {
-            return $this->respondNotAuthorized('You do not have access to modify this patient.');
         }
+
+        return $this->respondNotAuthorized('You do not have access to modify this patient.');
     }
 }

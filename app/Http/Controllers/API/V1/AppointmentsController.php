@@ -50,13 +50,10 @@ class AppointmentsController extends BaseAPIController
     public function show(Appointment $appointment)
     {
         if (currentUser()->can('view', $appointment)) {
-            return $this->baseTransformItem(
-                    $appointment,
-                    request('include'))
-                    ->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->baseTransformItem($appointment, request('include'))->respond();
         }
+
+        return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
     }
 
     /**

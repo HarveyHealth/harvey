@@ -23,7 +23,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
-        'phone' => $faker->randomElement(array('626','323','818')) . $faker->numberBetween(1111111, 9999999),
+        'phone' => $faker->randomElement(['626','323','818']) . $faker->numberBetween(1111111, 9999999),
         'phone_verified_at' => Carbon::now(),
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
@@ -94,7 +94,6 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
     ];
 });
 
-
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
@@ -103,7 +102,6 @@ $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
         },
     ];
 });
-
 
 $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     return [
