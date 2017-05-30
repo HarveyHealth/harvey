@@ -17,7 +17,7 @@ class SignUpTest extends TestCase
     public function test_if_signup_returns_ok()
     {
         $response = $this->get('/signup');
-        $response->isOk();
+        $response->assertStatus(ResponseCode::HTTP_OK);
     }
 
     public function test_if_signup_redirect_to_dashboard_if_logged_in()

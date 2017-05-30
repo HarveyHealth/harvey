@@ -8,7 +8,7 @@
         <div class="container">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
-            <button v-show="(userType === 'admin' && this.$root.$data.global.patients.length) || userType === 'patient'"
+            <button v-show="(userType !== 'patient' && this.$root.$data.global.patients.length) || userType === 'patient'"
                     href="#"
                     class="button main-action circle"
                     @click.prevent="newAppointmentSetup()">
@@ -61,7 +61,7 @@
           @click.prevent="setupAppointmentNew()"
           class="button"
           :disabled="!noAvailability"
-        >Create Appointment</button>
+        >Book Appointment</button>
         <button
           v-if="appointmentModType === 'update'
             && !appointmentData.pastAppointment
@@ -109,6 +109,7 @@
   import sortByLastName from '../../utils/methods/sortByLastName';
   import tableConfig from './utils/tableconfig';
   import toLocalTimezone from '../../utils/methods/toLocalTimezone';
+  import transformAvailability from '../../utils/methods/transformAvailability';
 
   export default {
     name: 'appointments',
@@ -179,6 +180,9 @@
       };
     },
     computed: {
+      availability() {
+        return transformAvailability(this.doctorAvailability);
+      },
       noAvailability() {
         if (this.doctorAvailability.length) {
           return this.doctorAvailability[0].concat(this.doctorAvailability[1]).length;
@@ -220,7 +224,7 @@
           this.$eventHub.$emit('getDoctorAvailability', this.$root.$data.global.practitioners[0].id);
           this.$eventHub.$emit('toggleOverlay');
           this.$eventHub.$emit('deselectRows');
-          this.$eventHub.$emit('callFlyout', false, 'Create Appointment');
+          this.$eventHub.$emit('callFlyout', false, 'Book Appointment');
         })
       },
       resetAppointmentData(data) {
@@ -238,8 +242,8 @@
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
-        this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
+        this.confirmationText['Date'] = moment.utc(this.appointmentData.appointmentDate).local().format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Status'] = 'Canceled';
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
@@ -249,10 +253,12 @@
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment';
 
+        this.dataForNew.reason_for_visit = this.dataForNew.reason_for_visit || 'No reason given';
+
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForNew.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.dataForNew.appointment_at).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Purpose'] = this.dataForNew.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
@@ -265,7 +271,7 @@
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
         if (this.userType !== 'practitioner') this.confirmationText.Doctor = this.appointmentData.doctorName;
-        this.confirmationText['Date'] = moment(this.dataForUpdate.appointment_at).format('dddd, MMMM Do [at] h:mm a');
+        this.confirmationText['Date'] = moment.utc(this.dataForUpdate.appointment_at).local().format('dddd, MMMM Do [at] h:mm a');
         this.confirmationText['Status'] = this.statuses[this.dataForUpdate.status];
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
@@ -360,9 +366,9 @@
         this.dataForNew.practitioner_id = id;
       })
 
-      this.$eventHub.$on('updateDayTime', timeObj => {
-        this.dataForUpdate.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
-        this.dataForNew.appointment_at = this.toLocalTimezone(timeObj, this.$root.timezone).format('YYYY-MM-DD HH:mm:ss');
+      this.$eventHub.$on('updateDayTime', dateTime => {
+        this.dataForUpdate.appointment_at = dateTime;
+        this.dataForNew.appointment_at = dateTime;
       })
 
       this.$eventHub.$on('updateStatus', value => {
@@ -377,7 +383,7 @@
 
       this.$eventHub.$on('bookAppointment', () => {
         const data = {
-          appointment_at: moment(this.dataForNew.appointment_at).utc().format('YYYY-MM-DD hh:mm:ss'),
+          appointment_at: this.dataForNew.appointment_at,
           reason_for_visit: this.dataForNew.reason_for_visit || 'No reason given.',
           practitioner_id: this.dataForNew.practitioner_id * 1,
         }
@@ -393,7 +399,10 @@
       })
 
       this.$eventHub.$on('cancelAppointment', () => {
-        axios.delete(`/api/v1/appointments/${this.dataForCancel.id}`).then(response => {
+        axios.patch(`/api/v1/appointments/${this.dataForCancel.id}`, {
+          reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
+          status: 'canceled',
+        }).then(response => {
           this.$eventHub.$emit('refreshTable');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);

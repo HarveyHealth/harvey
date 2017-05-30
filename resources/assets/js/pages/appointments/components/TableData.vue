@@ -18,9 +18,9 @@
           </td>
         </tr>
         <tr v-for="row in tableData" @click="rowClick(row, $event)">
-          <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableDate }}</td>
+          <td v-if="row.attributes.appointment_at.date">{{ row.attributes.appointment_at.date | tableDate }}</td>
             <td v-else=""></td>
-          <td v-if="row.attributes.appointment_at.date">{{ toLocalTimezone(row.attributes.appointment_at.date, $root.timezone) | tableTime }}</td>
+          <td v-if="row.attributes.appointment_at.date">{{ row.attributes.appointment_at.date | tableTime }}</td>
             <td v-else=""></td>
           <td v-if="row.patientData.last_name">{{ row.patientData.first_name | capitalize }} {{ row.patientData.last_name | capitalize }}</td>
             <td v-else=""></td>
@@ -55,13 +55,13 @@ export default {
       return capitalize(word);
     },
     tableDate(d) {
-      return d.format('dddd, MMM Do');
+      return moment.utc(d).local().format('dddd, MMM Do');
     },
     tableStatus(s) {
       return convertStatus(s);
     },
     tableTime(t) {
-      return t.format('h:mm a');
+      return moment.utc(t).local().format('h:mm a');
     }
   },
   methods: {

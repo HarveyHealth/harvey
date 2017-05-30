@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Traits\HasPatientAndPractitioner;
-use App\Lib\Slack;
-use App\Notifications\SlackNotification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,10 +9,10 @@ use Lang;
 
 class Appointment extends Model
 {
-    use HasPatientAndPractitioner, SoftDeletes;
+    use SoftDeletes;
 
     /**
-     * An appointment will lock when less than 2 hours away.
+     * An appointment will lock when less than 4 hours away.
      */
     const CANCEL_LOCK = 4;
 
@@ -133,11 +130,24 @@ class Appointment extends Model
         return $query->where('patient_id', '=', $patient->id);
     }
 
-    public function scopeWithinDateRange($query, Carbon $start_date, Carbon $end_date)
+    public function scopeWithinDateRange($query, Carbon $startDate, Carbon $endDate)
     {
-        return $query->where('appointment_at', '>=', $start_date->toDateTimeString())
-                    ->where('appointment_at', '<=', $end_date->toDateTimeString())
-                    ->orderBy('appointment_at', 'ASC');
+        return $query->afterThan($startDate)->beforeThan($endDate);
+    }
+
+    public function scopeByAppointmentAtAsc($query)
+    {
+        $query->orderBy('appointment_at', 'ASC');
+    }
+
+    public function scopeBeforeThan($query, Carbon $date)
+    {
+        return $query->where('appointment_at', '<=', $date);
+    }
+
+    public function scopeAfterThan($query, Carbon $date)
+    {
+        return $query->where('appointment_at', '>=', $date);
     }
 
     public function scopePending($query)

@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\User;
 use App\Transformers\V1\MessageTransformer;
 use Illuminate\Http\Request;
+use ResponseCode;
 use Validator;
 
 class MessagesController extends BaseAPIController
@@ -84,7 +85,7 @@ class MessagesController extends BaseAPIController
      * @param Request     $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function new(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
@@ -96,13 +97,14 @@ class MessagesController extends BaseAPIController
             return $this->respondBadRequest($validator->errors()->first());
         }
 
+        $message = new Message($request->all());
+
         if (currentUser()->can('create', $message)) {
-            $message = new Message($request->all());
             $message->is_admin = currentUser()->isAdmin();
             $message->sender_user_id = currentUser()->id;
             $message->save();
 
-            return $this->baseTransformItem($message)->respond();
+            return $this->baseTransformItem($message)->respond(ResponseCode::HTTP_CREATED);
         }
 
         return $this->respondNotAuthorized("You do not have access to create a new Message.");

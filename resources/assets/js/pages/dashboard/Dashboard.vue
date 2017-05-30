@@ -20,7 +20,7 @@
       </div>
 
       <div class="card-wrapper">
-        
+
         <div class="card">
           <DashboardAppointments :user-type="userType"
             :recent-appointments="recent_appointments"
@@ -56,11 +56,9 @@
 
       </div>
       <div class="card-wrapper">
-
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Your Info</h2>
-            <!-- <a href="/dashboard#/appointments">Edit Info</a> -->
           </div>
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
@@ -80,7 +78,6 @@
             </div>
           </div>
         </div>
-
         <div class="card smaller">
           <div class="card-heading-container">
             <h2 class="card-header">Account Manager</h2>
@@ -101,9 +98,7 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -111,7 +106,6 @@
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
   import UserNav from '../../commons/UserNav.vue';
-
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from '../../utils/methods/combineAppointmentData';
@@ -153,9 +147,6 @@
       email() {
         return this.user.attributes ? this.user.attributes.email : '';
       },
-      patientName() {
-        
-      },
       phone() {
         return this.user.attributes ? phone(this.user.attributes.phone) : '';
       },
@@ -175,16 +166,6 @@
         return this.user.attributes ? this.user.attributes.zip : '';
       }
     },
-    // created() {
-    //   axios.get('/api/v1/appointments?filter=upcoming&include=patient.user')
-    //     .then((response) => {
-    //       this.upcoming_appointments = response.data;
-    //     });
-    //   axios.get('/api/v1/appointments?filter=recent&include=patient.user')
-    //     .then((response) => {
-    //       this.recent_appointments = response.data;
-    //     });
-    // },
     beforeMount() {
       let flag = localStorage.getItem('signed up');
       if (flag) {
@@ -193,10 +174,13 @@
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
-
     }
-
   }
+  
+  // User Role
+  // var role = Laravel.user.userType;
+  // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
+
 </script>
 
 <style lang="scss" scoped>

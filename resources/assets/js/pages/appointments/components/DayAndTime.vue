@@ -7,154 +7,124 @@
     </label>
     <span v-if="past || displayOnly" class="input__item">{{ conductedOn }}</span>
     <span v-else-if="loading">Loading availability...</span>
+    <span v-else-if="noAvailableTimesAtAll" class="input--warning">{{ noAvailableAtAllMsg }}</span>
     <span v-else-if="noneAvailable" class="input--warning">Sorry, this doctor does not have any available appointment times.</span>
     <template v-else>
-      <span class="custom-select">
-        <select v-model="day" @change="selectDay($event.target)" name="appointment_day">
+      <span :class="{ 'custom-select':true, 'show-day-label': !selectedDay }">
+        <select v-model="selectedDay" @change="daySelect($event.target)">
           <option v-if="type === 'update'"></option>
-          <option v-for="t, d in availableDays">{{ d }}</option>
+          <option v-for="dayObj in _availability">{{ dayObj.date | formatDay }}</option>
         </select>
       </span>
-      <span class="custom-select">
-        <select v-model="time" @change="selectTime($event.target)" name="appointment_time">
+      <span :class="{ 'custom-select':true, 'show-time-label': !selectedTime }">
+        <select v-model="selectedTime" @change="timeSelect($event.target)">
           <option v-if="type === 'update'"></option>
-          <option v-for="t in availableTimes">{{ normalTime(t) }}</option>
+          <option v-for="timeObj in times">{{ timeObj.local | formatTime }}</option>
         </select>
       </span>
     </template>
-    {{ dateEventSend }}
   </div>
 </template>
 
 <script>
 import moment from 'moment-timezone';
-import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
+import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   props: ['availability', 'classes', 'date', 'past', 'status', 'type'],
   data() {
     return {
       classNames: { 'input__container': true },
-      currentWeeks: this.getCurrentWeeks(),
-      times: [],
-      selectedDay: '',
-      day: '',
+      dayIndex: 0,
+      intialLoad: false,
       timeIndex: 0,
-      time: '',
       loading: true,
+      noAvailableTimesAtAll: false,
+      selectedDay: '',
+      selectedTime: '',
+    }
+  },
+  filters: {
+    formatDay(date) {
+      return moment(date).format('dddd, MMM Do');
+    },
+    formatTime(dateObj) {
+      return dateObj.format('h:mm a');
     }
   },
   computed: {
-    availableDays() {
-      const days = this.parseAvailability(this.availability);
-      this.day = this.type === 'update' ? '' : Object.keys(days)[0];
-      return days;
+    _availability() {
+      let obj = transformAvailability(this.availability);
+
+      if (obj) obj = obj.filter(day => day.times.length);
+
+      if (!obj.length) {
+        this.noAvailableTimesAtAll = true;
+        return [];
+      }
+
+      if (this.type === 'update' && !this.initialLoad) {
+        this.selectedDay = '';
+        this.selectedTime = '';
+      } else if (this.type === 'update') {
+        this.selectedDay = moment(obj[this.dayIndex].date).format('dddd, MMM Do');
+        this.selectedTime = moment.utc(obj[this.dayIndex].times[0].stored).local().format('h:mm a');
+      }
+
+      if (this.type === 'new' && !this.initialLoad) {
+        this.selectedTime = moment.utc(obj[0].times[0].stored).local().format('h:mm a');
+        this.selectedDay = moment(obj[this.dayIndex].date).format('dddd, MMM Do');
+        this.send(moment(obj[this.dayIndex].times[0].stored).format('YYYY-MM-DD HH:mm:ss'));
+      }
+
+      this.initialLoad = true;
+
+      return obj;
     },
-    availableTimes() {
-      const times = this.availableDays[this.selectedDay];
-      this.time = this.type === 'update' ? '' : this.normalTime(times[0]);
-      this.timeIndex = 0;
-      return times;
+    times() {
+      if (this._availability.length && this.selectedDay) {
+        if (this.dayIndex < 0) {
+          return [];
+        } else {
+          return this._availability[this.dayIndex].times;
+        }
+      } else {
+        return [];
+      }
     },
     conductedOn() {
-      return this.toLocalTimezone(this.date, this.$root.timezone).format('dddd, MMMM Do [at] h:mm a');
+      return moment.utc(this.date).local().format('dddd, MMMM Do [at] h:mm a');
     },
     displayOnly() {
       return this.status !== 'pending' && Laravel.user.userType === 'patient';
     },
     noneAvailable() {
-      return !Object.keys(this.availableDays).length;
+      return !this.availability.length;
     },
-    // Using this computed property as an event emitter
-    dateEventSend() {
-      if (!this.noneAvailable && this.day && this.time) {
-        Vue.nextTick(() => {
-          this.$eventHub.$emit('updateDayTime', this.availableDays[this.day][this.timeIndex]);
-        })
-      }
+    noAvailableAtAllMsg() {
+      return this.$root.$data.global.user.attributes.user_type === 'practitioner'
+        ? 'Oops, you do not have any available time slots to book a new appointment. Please contact customer support.'
+        : 'Sorry, there are no appointment slots available at this time.';
     }
   },
   methods: {
-    normalDay(day) {
-      return moment(day).format('dddd, MMMM Do');
-    },
-    normalTime(time) {
-      return this.toLocalTimezone(time, this.$root.timezone).format('h:mm a');
-    },
-
-    toLocalTimezone,
-
-    selectDay(target) {
+    daySelect(target, index) {
       this.selectedDay = target.value;
-      this.timeIndex = 0;
-      if (target.value === '') {
-        this.$eventHub.$emit('updateDayTime', moment(this.date));
+      this.dayIndex = this.type === 'update' ? target.selectedIndex - 1 : target.selectedIndex;
+      if (this.dayIndex >= 0) {
+        this.selectedTime = moment.utc(this._availability[this.dayIndex].times[0].stored).local().format('h:mm a');
+        this.send(moment.utc(this._availability[this.dayIndex].times[0].stored).format('YYYY-MM-DD HH:mm:ss'));
+      } else {
+        this.selectedTime = '';
+        this.send(this.date);
       }
     },
-    selectTime(target) {
-      this.timeIndex = this.type === 'update' ? target.selectedIndex - 1 : target.selectedIndex;
+    timeSelect(target) {
+      const index = this.type === 'update' ? target.selectedIndex - 1 : target.selectedIndex;
+      this.send(moment.utc(this._availability[this.dayIndex].times[index].stored).format('YYYY-MM-DD HH:mm:ss'));
     },
-    getCurrentWeeks() {
-      const weekStart = moment().startOf('week').add(1, 'days');
-      let week1 = {}, week2 = {};
-      let week1b = {}, week2b = {};
-
-      week1.Monday = weekStart.format('YYYY-MM-DD hh:mm:ss');
-      week1.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week1.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-
-      week2.Monday = weekStart.add(2, 'days').format('YYYY-MM-DD');
-      week2.Tuesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Wednesday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Thursday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Friday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-      week2.Saturday = weekStart.add(1, 'days').format('YYYY-MM-DD');
-
-      for (let day in week1) {
-        week1b[day] = { raw: week1[day], formatted: moment(week1[day]).format('dddd, MMMM Do') }
-      }
-      for (let day in week2) {
-        week2b[day] = { raw: week2[day], formatted: moment(week2[day]).format('dddd, MMMM Do') }
-      }
-
-      return { week1: week1b, week2: week2b };
-    },
-    transformTimeData(times, weeks) {
-      const output = {};
-      times
-        .map(obj => obj.day)
-        .filter((day, i, arr) => arr.indexOf(day) === i)
-        .forEach(day => {
-          output[day] = { formatted: { display: weeks[day].formatted, time: [] }, raw: weeks[day].raw };
-        });
-      return output;
-    },
-    parseAvailability(times) {
-      if (!times.length) return [];
-
-      const parsedTimes = {};
-      const week1 = this.transformTimeData(times[0], this.currentWeeks.week1);
-      const week2 = this.transformTimeData(times[1], this.currentWeeks.week2);
-
-      times[0].forEach(obj => {
-        week1[obj.day].formatted.time.push(moment(`${week1[obj.day].raw} ${obj.time}:00`))
-      });
-      times[1].forEach(obj => {
-        week2[obj.day].formatted.time.push(moment(`${week2[obj.day].raw} ${obj.time}:00`))
-      });
-
-      for (let day in week1) {
-        parsedTimes[week1[day].formatted.display] = week1[day].formatted.time;
-      }
-      for (let day in week2) {
-        parsedTimes[week2[day].formatted.display] = week2[day].formatted.time;
-      }
-
-      this.selectedDay = Object.keys(parsedTimes)[0];
-      return parsedTimes;
+    send(dateTime) {
+      this.$eventHub.$emit('updateDayTime', dateTime);
     },
   },
   created() {
@@ -163,7 +133,14 @@ export default {
       : this.classes;
   },
   mounted() {
-    this.$eventHub.$on('callFlyout', active => this.loading = true);
+    this.$eventHub.$on('callFlyout', active => {
+      this.loading = true;
+      this.initialLoad = false;
+      this.selectedDay = '';
+      this.selectedTime = '';
+      this.dayIndex = 0;
+      this.timeIndex = 0;
+    });
     this.$eventHub.$on('availabilityResponse', response => {
       if (response === 'refresh') {
         this.loading = true;

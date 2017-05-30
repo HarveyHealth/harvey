@@ -20,7 +20,7 @@ class SendPatientAppointmentCanceledEmail implements ShouldQueue
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
-            'reschedule_url' => config('app.url') . '/reschedule',
+            'reschedule_url' => config('app.url') . '/dashboard#/appointments',
         ];
 
         dispatch(new SendTransactionalEmail(
