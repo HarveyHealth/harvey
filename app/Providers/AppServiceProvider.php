@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Lib\ZipCodeValidator;
 use App\Models\Appointment;
+use App\Models\Message;
 use App\Observers\AppointmentObserver;
+use App\Observers\MessageObserver;
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Validator;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Appointment::observe(AppointmentObserver::class);
+        Message::observe(MessageObserver::class);
     }
 
     /**

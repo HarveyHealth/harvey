@@ -180,7 +180,7 @@ class User extends Authenticatable implements Mailable
 
     public function isAllowedToSendMessages()
     {
-        $recentMessagesCount = Message::from($this)->newestThan(Carbon::parse('-10 minutes'))->count();
+        $recentMessagesCount = Message::from($this)->createdAfter(Carbon::parse('-10 minutes'))->count();
 
         if ($recentMessagesCount <= 5) {
             return true;
