@@ -1026,16 +1026,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00"
+                "reference": "c70165bf9b45c34e03a2866ffc5e7f532592709d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
-                "reference": "fdd21d3891fc5cd2c00b1038d243bee9d7c43c00",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/c70165bf9b45c34e03a2866ffc5e7f532592709d",
+                "reference": "c70165bf9b45c34e03a2866ffc5e7f532592709d",
                 "shasum": ""
             },
             "require": {
@@ -1074,7 +1074,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2017-05-23T13:52:16+00:00"
+            "time": "2017-05-30T14:27:12+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -1688,16 +1688,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.4.23",
+            "version": "v5.4.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ad82327705658dbf5f0ce72805caa950dfbe150d"
+                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ad82327705658dbf5f0ce72805caa950dfbe150d",
-                "reference": "ad82327705658dbf5f0ce72805caa950dfbe150d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/ec8548db26c1b147570f661128649e98f3ac0f29",
+                "reference": "ec8548db26c1b147570f661128649e98f3ac0f29",
                 "shasum": ""
             },
             "require": {
@@ -1813,7 +1813,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2017-05-11T20:10:35+00:00"
+            "time": "2017-05-30T12:44:32+00:00"
         },
         {
             "name": "laravel/homestead",
