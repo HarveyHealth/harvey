@@ -6,8 +6,9 @@
       </div>
       <div class="card-content-container">
         <template v-if="upcomingAppointmentsData && upcomingAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="appointment in upcomingAppointmentsData">
+            <div class="appointment-wrapper" v-for="(appointment, index) in upcomingAppointmentsData">
                 <DashboardAppointment
+                    v-if="index < 7"
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(upcomingAppointmentsIncluded, appointment)"
@@ -23,8 +24,9 @@
             <!-- <a href="/dashboard#/history">View History</a> -->
         </div>
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="appointment in recentAppointmentsData">
+            <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
                 <DashboardAppointment
+                    v-if="index < 7"
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
@@ -77,7 +79,11 @@
         },
         computed: {
             recentAppointmentsData() {
-                return this.recentAppointments.data;
+              if (this.recentAppointments.data && this.recentAppointments.data.length) {
+                return this.recentAppointments.data.reverse();
+              } else {
+                return [];
+              }
             },
             recentAppointmentsIncluded() {
                 return this.recentAppointments.included;
