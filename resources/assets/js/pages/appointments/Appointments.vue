@@ -87,6 +87,11 @@
       :text="confirmationText"
       :title="confirmationTitle" />
 
+    <NotificationPopup
+      :from="'top-right'"
+      :symbol="'&#10003;'"
+      :text="'New Appoitnment created'" />
+
   </div>
 </template>
 
@@ -96,6 +101,7 @@
   import DayAndTime from './components/DayAndTime.vue';
   import DoctorName from './components/DoctorName.vue';
   import Flyout from '../../commons/Flyout.vue';
+  import NotificationPopup from '../../commons/NotificationPopup.vue';
   import Overlay from '../../commons/Overlay.vue';
   import PatientInput from './components/PatientInput.vue';
   import PurposeInput from './components/PurposeInput.vue';
@@ -119,6 +125,7 @@
       DayAndTime,
       DoctorName,
       Flyout,
+      NotificationPopup,
       Overlay,
       PatientInput,
       PurposeInput,
@@ -416,6 +423,7 @@
           status: this.dataForUpdate.status,
         }).then(response => {
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('deselectRows');
