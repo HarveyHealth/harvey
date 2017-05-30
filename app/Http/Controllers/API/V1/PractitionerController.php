@@ -31,9 +31,11 @@ class PractitionerController extends BaseAPIController
 
     public function show(Practitioner $practitioner)
     {
-        $data = $this->baseTransformItem($practitioner);
+        $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
 
-        if (request()->get('include') == 'availability') {
+        $data = $this->baseTransformItem($practitioner, $include);
+
+        if (in_array('availability', explode(',', request('include')))) {
             $data = $data->addMeta([
                 'availability' => $this->availabilityTransformer->transform($practitioner)
             ]);
