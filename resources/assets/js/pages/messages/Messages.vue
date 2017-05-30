@@ -18,7 +18,7 @@
                 <div v-for="chat in messageList">
                   <router-link :to="'/detail/' + chat.attributes.sender_user_id" style="padding: 4px;">
                     <MessagePost
-                        name="chat.attributes.sender_user_id"
+                        :name="allUsers.filter(e => chat.attributes.sender_user_id === e.id)[0].name"
                         :day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
                         :time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
                         :subject="chat.attributes.subject"
@@ -48,7 +48,8 @@
             return {
               renderNewMessage: false,
               isActive: null,
-              messageList: this.$root.$data.global.messages
+              messageList: this.$root.$data.global.messages,
+              allUsers: this.$root.$data.global.allUsers
             }
         },
         methods: {
@@ -56,21 +57,17 @@
             this.renderNewMessage = !this.renderNewMessage
           }
         },
-        computed: {
-          getMessageList() {
-            let data = [];
-            axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
-              .then(response => {
-                data = response.data;
-              })
-            return data;
-          }
-        },
         mounted() {
             axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
                 this.messageList = response.data.data;
                 this.$root.$data.global.messages = response.data.data;
+                this.$root.$data.global.allUsers = this.$root.$data.global.practitioners
+                  .concat(this.$root.$data.global.patients)
+                  .concat([this.$root.$data.global.user]);
+                this.allUsers = this.$root.$data.global.practitioners
+                  .concat(this.$root.$data.global.patients)
+                  .concat([this.$root.$data.global.user]);
               })
         }
     }
