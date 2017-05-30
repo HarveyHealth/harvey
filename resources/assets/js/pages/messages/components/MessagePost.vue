@@ -5,7 +5,7 @@
         </div>
         <div class="details">
             <h4 class="top-layer">{{ name }}</h4>
-            <h4 class="top-layer">{{ day }}</h4>
+            <h4 class="top-layer">{{ moment(day).format("MMM Do YYYY") }}</h4>
             <h4 class="top-layer">{{ time }}</h4>
             <h4 class="top-layer">...</h4>
             <h2 class="subject-header">{{ subject }}</h2>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import moment from 'moment'
     export default {
         props: ['name', 'day', 'time', 'subject', 'message'],
         name: 'MessagingPost',
@@ -23,7 +24,7 @@
         },
         data() {
             return {
-
+                moment: moment
             }
         },
         methods: {
