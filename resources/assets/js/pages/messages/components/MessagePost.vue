@@ -1,5 +1,5 @@
 <template>
-    <div class="container-message">
+    <div class="container-message unread">
         <div class="image-card">
             <img class="image-avatar" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
         </div>
@@ -55,13 +55,14 @@
     }
     .details {
         float: left; 
-        margin: 70px 50px; 
+        margin:6% 3%; 
         width: 80%;
     }
     .image-card {
         width: 6%; 
         height: 6%; 
         float: left;
+        margin: 2%;
     }
     .image-avatar {
         border-radius: 50%; 
