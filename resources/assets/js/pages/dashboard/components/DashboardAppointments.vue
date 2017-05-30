@@ -6,9 +6,8 @@
       </div>
       <div class="card-content-container">
         <template v-if="upcomingAppointmentsData && upcomingAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="(appointment, index) in upcomingAppointmentsData">
+            <div class="appointment-wrapper" v-for="appointment in upcomingAppointmentsData">
                 <DashboardAppointment
-                    v-if="index < 7"
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(upcomingAppointmentsIncluded, appointment)"
@@ -26,7 +25,7 @@
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">
             <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
                 <DashboardAppointment
-                    v-if="index < 7"
+                    v-if="dayOffset(appointment, 7)"
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
@@ -43,6 +42,7 @@
 
 <script>
     import DashboardAppointment from './DashboardAppointment.vue';
+    import moment from 'moment';
 
     export default {
         props: ['userType', 'recentAppointments', 'upcomingAppointments'],
@@ -75,6 +75,11 @@
                 });
 
                 return patientData;
+            },
+            dayOffset(appt, days) {
+              const today = moment();
+              const apptDate = moment.utc(appt.attributes.appointment_at.date).local();
+              return today.diff(apptDate, 'days') <= days;
             }
         },
         computed: {
