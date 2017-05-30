@@ -84,6 +84,7 @@
     <AppointmentModal
       :affirm="confirmationButton"
       :affirmEvent="confirmationEvent"
+      :note="confirmationNote"
       :text="confirmationText"
       :title="confirmationTitle" />
 
@@ -153,6 +154,7 @@
         appointmentModType: null,
         confirmationButton: '',
         confirmationEvent: '',
+        confirmationNote: '',
         confirmationText: '',
         confirmationTitle: '',
         dataForCancel: {
@@ -248,6 +250,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Cancellation';
+        this.confirmationNote = '';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
@@ -262,6 +265,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment';
+        this.confirmationNote = 'You will receive an email confirmation of your new appointment. We will send you another notification one hour before your appointment.';
 
         this.dataForNew.reason_for_visit = this.dataForNew.reason_for_visit || 'No reason given';
 
@@ -277,6 +281,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment';
+        this.confirmationNote = 'You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
