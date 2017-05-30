@@ -50,7 +50,8 @@
                 console.log(`HIT`);
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
-                    recipient_user_id: this.selected
+                    recipient_user_id: this.selected,
+                    subject: this.$parent.subject
                 })
                 .then(response => {
                     console.log(`SUCCESSFUL`);

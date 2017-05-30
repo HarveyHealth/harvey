@@ -23,6 +23,13 @@
                     subject="chat.attributes.subject"
                     message="chat.attributes.message"
                 />
+               <DetailPost 
+                    name="Alicia Keys"
+                    day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
+                    time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                    subject="chat.attributes.subject"
+                    message="chat.attributes.message"
+                />
                 <div>
                   <div class="inline-centered">
                     <button class="button" v-on:click="reply()">Reply</button>
@@ -40,8 +47,9 @@
     import Reply from './components/ReplyMessages.vue'
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import axios from 'axios'
     export default {
-        props: ['id'],
+        props: ['id', 'subject'],
         name: 'messages',
         components: {
           Preview,
@@ -54,7 +62,8 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: this.userName
+              user: this.userName,
+              subject: 'Hello'
             }
         },
         methods: {
@@ -78,6 +87,11 @@
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }
            }
+        },
+        mounted() {
+            // axios.get(``)
+            //     .then(response => {})
+            //     .catch(error => {})
         }
     }
 </script>

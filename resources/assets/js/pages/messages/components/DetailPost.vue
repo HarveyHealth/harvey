@@ -40,6 +40,7 @@
         background-color: white; 
         height: 200px;
         border-left: none;
+        border-bottom: 2px solid #f8f8f8;
     }
     .top-layer {
         float: left; 
@@ -47,11 +48,11 @@
     }
     .subject-header {
         float: left; 
-        margin: 6px 100% 0 0;
+        margin: 0 1%;
     }
     .message-layer {
         float: left; 
-        margin-top: 6px;
+        margin-top: 1%;
     }
     .details {
         float: left; 
