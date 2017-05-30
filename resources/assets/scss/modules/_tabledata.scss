@@ -6,8 +6,9 @@
     background: $white;
     cursor: pointer;
     font-weight: 300;
-    padding: 1.5em 1em;
+    padding: 1.5em 1em 1.5em 1.75em;
     transition: color 200ms;
+    font-size: 16px;
   }
 
   th {
@@ -15,7 +16,7 @@
     color: lighten($gray, 10%);
     font-size: 0.85em;
     font-weight: 500;
-    padding: 2.3em 1em 0.7em;
+    padding: 1.5em 1em 1.5em 2em;
     text-transform: uppercase;
   }
 
@@ -23,13 +24,21 @@
     border-bottom: 1px solid $color--grey;
     text-align: left;
   }
-
-  tr:hover td {
-    color: darken($darkest-gray, 10%);
+  
+  tbody {
+    tr:hover {
+      opacity: .70;
+    }
   }
 
-  tr.isactive td {
-    background: lighten($harvey-primary, 15%);
-    color: darken($darkest-gray, 10%);
+  tr.isactive {
+    &:hover {
+      opacity: 1;
+    }
+    td {
+        background: lighten($harvey-primary,15%);
+        color: darken($gray, 10%);
+      }
   }
+
 }

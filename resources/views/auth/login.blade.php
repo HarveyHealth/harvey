@@ -3,7 +3,7 @@
 @section('page_title','Log in')
 
 @section('main_content')
-<section class="section">
+<section class="section login">
     <div class="container">
         <header class="content has-text-centered">
             <h2 class="title is-3">Log in</h2>

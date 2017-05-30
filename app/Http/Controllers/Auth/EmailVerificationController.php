@@ -22,11 +22,11 @@ class EmailVerificationController extends Controller
             $user->email_verified_at = Carbon::now();
             $user->save();
         }
-    
+
         if ($user->passwordNotSet()) {
             return view('auth.email_verification')->with(compact('user_id', 'token'));
         } elseif (!$user->hasUpcomingAppointment()) {
-            return redirect(route('scheduler'));
+            return redirect(route('dashboard') . '#/appointments');
         } else {
             return redirect(route('dashboard'));
         }

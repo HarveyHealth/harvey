@@ -1,19 +1,11 @@
 @extends('legacy._layouts.public')
-@section('page_title','')
+@section('page_title','404')
 
-@push('stylesheets')
-    {{-- use @stylesheet(path/to/style.css) here --}}
-@endpush
-
-@push('scripts')
-    {{-- use @script(path/to/script.js) here --}}
-@endpush
-
-
-
-
-@section('content')
-
-<h1>Whoops! Seems you're lost!</h1>
-
+@section('main_content')
+    <section class="section">
+        <div class="container has-text-centered">
+            <h3 class='title is-3'>Whoops! Seems you're lost!</h3>
+            <a href="/" class="nav-item">Take me home</a>
+        </div>
+    </section>
 @endsection

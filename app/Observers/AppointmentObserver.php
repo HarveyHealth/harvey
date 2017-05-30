@@ -2,8 +2,9 @@
 
 namespace App\Observers;
 
-use App\Models\Appointment;
 use App\Events\AppointmentCanceled;
+use App\Events\AppointmentUpdated;
+use App\Models\Appointment;
 
 class AppointmentObserver
 {
@@ -17,6 +18,8 @@ class AppointmentObserver
     {
         if ($appointment->isDirty('status_id') && Appointment::CANCELED_STATUS_ID == $appointment->status_id) {
             event(new AppointmentCanceled($appointment));
+        } elseif ($appointment->isDirty('appointment_at')) {
+            event(new AppointmentUpdated($appointment));
         }
     }
 
@@ -30,5 +33,4 @@ class AppointmentObserver
     {
         event(new AppointmentCanceled($appointment));
     }
-
 }

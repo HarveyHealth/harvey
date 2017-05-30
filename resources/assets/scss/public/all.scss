@@ -8,216 +8,360 @@
 
 // rewrite bulma styles
 .nav-left {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .title {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .button {
-    &.is-link {
-        padding-left: 0;
-        padding-right: 0;
-        &:hover {
-            background-color: transparent;
-        }
+  &.is-link {
+    padding-left: 0;
+    padding-right: 0;
+
+    &:hover {
+      background-color: transparent;
     }
+  }
 }
 
 .hero-buttons {
-    @include from($tablet) {
-        justify-content: flex-end;
-    }
+  @include from($tablet) {
+    justify-content: flex-end;
+  }
 }
 
 .control.has-icon .button.is-primary > .icon {
-    color: #fff;
-}
-
-.header {
-    box-shadow: 0 1px $grey-lighter;
+  color: #fff;
 }
 
 .footer {
-    padding-bottom: 4rem;
-    &.is-simple {
-        background-color: transparent;
-        opacity: 0.75;
+  padding-bottom: 4rem;
+
+  &.is-simple {
+    background-color: transparent;
+    opacity: 0.75;
+  }
+
+  &:not(.is-simple) {
+    background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 50%);
+
+    .content,
+    a.nav-item {
+      color: white;
     }
-    &:not(.is-simple) {
-        background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 50%);
-        .content,
-        a.nav-item {
-            color: white;
-        }
-    }
+  }
 }
 
 //hide before font loads
 .wf-loading {
-    h1, h2, h3, h4, h5, h6, a, p, label, span, div {
-        visibility: hidden;
-    }
+  h1, h2, h3, h4, h5, h6, a, p, label, span, div {
+    visibility: hidden;
+  }
 }
 
 // new global styles
 [tabindex="-1"] {
-    outline: 0px solid transparent;
+  outline: 0px solid transparent;
 }
 
 @mixin has-border($border_direction) {
-    border-#{$border_direction}: 1px solid $border;
+  border-#{$border_direction}: 1px solid $border;
 }
 
 @mixin has-padding($padding_direction) {
-    padding-#{$padding_direction}: 1.5rem;
+  padding-#{$padding_direction}: 1.5rem;
 }
 
 .has-border-top {
-    @include has-border(top);
+  @include has-border(top);
 }
 
 .has-border-bottom {
-    @include has-border(bottom);
+  @include has-border(bottom);
 }
 
 .has-padding-left {
-    @include has-padding(left);
+  @include has-padding(left);
 }
 
 .has-padding-right {
-    @include has-padding(right);
+  @include has-padding(right);
 }
 
 .font-secondary-family {
-    font-family: $family-secondary;
+  font-family: $family-secondary;
 }
 
 .image-wrapper {
-    margin-bottom: $space-medium;
+  margin-bottom: $space-medium;
 }
 
 .icon {
-    vertical-align: middle !important; // rewrite bulma
-    &.has-border-circle {
-        border: 2px solid;
-        border-radius: 50%;
-        .fa {
-            font-size: $size-6;
-            margin-top: -2px;
-        }
+  vertical-align: middle !important; // rewrite bulma
+  &.has-border-circle {
+    border: 2px solid;
+    border-radius: 50%;
+    .fa {
+      font-size: $size-6;
+      margin-top: -2px;
     }
-    .control.has-icon:not(.has-icon-right)  &.align-right {
-        left: initial;
-        right: ($size-normal * 2.5) / 2;
-        transform: translateX(50%) translateY(-50%);
-    }
-    .control.has-icon &.is-danger {
-        color: $danger;
-    }
-    & + span {
-        vertical-align: middle;
-        margin-left: 5px
-    }
+  }
+  .control.has-icon:not(.has-icon-right)  &.align-right {
+    left: initial;
+    right: ($size-normal * 2.5) / 2;
+    transform: translateX(50%) translateY(-50%);
+  }
+  .control.has-icon &.is-danger {
+    color: $danger;
+  }
+  & + span {
+    vertical-align: middle;
+    margin-left: 5px
+  }
 }
 
 .link-inherit-color {
-    color: inherit;
+  color: inherit;
 }
 
 .card-footer-item {
-    padding: 1.5rem;
+  padding: 1.5rem;
 }
 
 .panel-block {
-    > .media {
-        flex: 1;
-    }
+  > .media {
+    flex: 1;
+  }
 }
 
 .page-content {
-    overflow: hidden;
-    .nav {
-        z-index: 1;
-    }
+  overflow: hidden;
+  .nav {
+    z-index: 1;
+  }
 }
 
 .control.is-grouped.is-gapless > .control:not(:last-child) {
-    margin-right: -1px;
+  margin-right: -1px;
 }
 
 .section {
-    .has-max-width {
-        max-width: 560px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+  .has-max-width {
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 em {
-    font-size: 0.85em;
+  font-size: 0.85em;
 }
 
 // modify animations
 .animated {
-    &.notification {
-        &.fadeOut {
-            animation-delay: 3s;
-        }
+  &.notification {
+    &.fadeOut {
+      animation-delay: 3s;
     }
-    &.animated-fast {
-        animation-duration: $speed;
-    }
-    &.animated-medium {
-        animation-duration: $speed * 5;
-    }
+  }
+  &.animated-fast {
+    animation-duration: $speed;
+  }
+  &.animated-medium {
+    animation-duration: $speed * 5;
+  }
 }
 
 #app {
-    padding-bottom: 300px;
+  padding-bottom: 300px;
 }
 
 body {
-    position: relative;
-    min-height: 100vh;
+  position: relative;
+  min-height: 100vh;
 }
 .footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
 }
 .logo-wrapper {
-    width: 30px;
-    height: 40px;
-    svg,
-    .harvey-logo {
-        height: 100%;
-    }
-    .harvey-logo-icon {
-        fill: $primary;
-    }
-    .harvey-logo-type {
-        display: none;
-    }
+  .no-svg & {
+    background: url('/images/logos/mobile-logo.png') no-repeat center center;
     @include from($mobile) {
-        width: 150px;
-        .harvey-logo-type {
-            display: block;
-            fill: $secondary;
-        }
+      background-image: url('/images/logos/main-logo.png');
     }
-    .no-svg & {
-        background: url('/images/logos/mobile-logo.png') no-repeat center center;
-        @include from($mobile) {
-            background-image: url('/images/logos/main-logo.png');
-        }
-    }
+  }
 }
 .page-title {
-    &,
-    &.title {
-        font-weight: 500;
+  &, &.title {
+    font-weight: 500;
+  }
+}
+
+// Margin
+
+.is-margin {
+  margin: 1rem !important;
+}
+
+.is-margin-top {
+  margin-top: 1rem !important;
+}
+
+.is-margin-left {
+  margin-left: 1rem !important;
+}
+
+.is-margin-bottom {
+  margin-bottom: 1rem !important;
+}
+
+.is-marginless {
+  margin: 0 !important;
+}
+
+.is-marginless-top {
+  margin-top: 0 !important;
+}
+
+.is-marginless-left {
+  margin-left: 0 !important;
+}
+
+.is-marginless-bottom {
+  margin-bottom: 0 !important;
+}
+
+// Margin/Padding (Negative)
+
+.is-padding {
+  padding: 1rem;
+}
+
+.is-padding-top {
+  padding-top: 1rem !important;
+}
+
+.is-padding-left {
+  padding-left: 1rem !important;
+}
+
+.is-padding-bottom {
+  padding-bottom: 1rem !important;
+}
+
+.is-paddingless {
+  padding: 0 !important;
+}
+
+.is-paddingless-top {
+  padding-top: 0 !important;
+}
+
+.is-paddingless-left {
+  padding-left: 0 !important;
+}
+
+.is-paddingless-bottom {
+  padding-bottom: 0 !important;
+}
+
+// Opacity
+
+.is-opaque-25 {
+  opacity: 0.25;
+}
+
+.is-opaque-50 {
+  opacity: 0.5;
+}
+
+.is-opaque-75 {
+  opacity: 0.75;
+}
+
+// Other
+
+.is-unselectable {
+  @include unselectable;
+}
+
+.is-disabled {
+  pointer-events: none;
+}
+
+// Should match _header.scss, we need to combine
+
+.header {
+  box-shadow: 0 1px $grey-lighter;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
+  height: 60px;
+  overflow: hidden;
+  background: #FFF;
+
+  .container {
+    height: 60px;
+    max-width: 1152px;
+    margin: 0 auto;
+
+    + mobile, + tablet {
+      padding: 0 20px;
     }
+
+    .nav-left {
+      float: left;
+      width: 30%;
+
+      .logo-wrapper {
+        float: left;
+
+        svg {
+          width: 150px;
+          @include mobile {
+            .harvey-text {
+              display: none;
+            }
+          }
+
+          &.harvey-mark {
+            width: 150px;
+            margin-top: 2px;
+            height: 43px;
+          }
+        }
+      }
+    }
+
+    .nav-right {
+      float: right;
+      width: 70%;
+
+      .nav-item {
+        float: right;
+        font-size: 16px;
+        margin-top: 0;
+        display: flex;
+
+        a {
+          font-size: 16px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}
+
+.header_phone-number {
+  color: #999;
+  float: right;
+  font-size: 19px;
+  letter-spacing: 1px;
+  line-height: 56px;
 }

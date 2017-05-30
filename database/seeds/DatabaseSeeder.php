@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
+            $this->call(MessagesSeeder::class);
 
             $this->command->getOutput()->writeln("Seeding Successful!");
             $this->command->getOutput()->writeln("");

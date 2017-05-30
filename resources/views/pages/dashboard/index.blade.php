@@ -38,12 +38,14 @@
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
     </script>
 
-    @script(https://js.stripe.com/v2/)
+    <!-- Stripe -->
+    <script type="text/javascript" src="https://js.stripe.com/v2"></script>
+    
+    <!-- App.js -->
     <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
     @stack('scripts')

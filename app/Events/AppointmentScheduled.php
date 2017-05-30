@@ -12,7 +12,7 @@ class AppointmentScheduled
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $appointment;
-    
+
     public function __construct(Appointment $appointment)
     {
         $this->appointment = $appointment;

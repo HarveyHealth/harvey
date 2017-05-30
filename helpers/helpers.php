@@ -1,5 +1,6 @@
 <?php
 
+
 // converts dot notation, i.e. about.index
 // to a path, i.e. /about/index
 function dots_to_path($dots)
@@ -67,4 +68,40 @@ function ip_address()
 function currentUser()
 {
     return auth()->user();
+}
+
+function ops_message($level, $alert, $message, $channels = 'engineering')
+{
+    if (is_string($channels)) {
+        $channels = [$channels];
+    }
+
+    if (!empty($alert)) {
+        $alert = ucwords($alert);
+        $message = "*[{$alert}]* " . $message;
+    }
+
+    foreach ($channels as $channel) {
+        (new \App\Lib\Slack)->notify(new \App\Notifications\SlackNotification($message, $channel, $level));
+    }
+}
+
+function ops_info($alert, $message, $channels = 'engineering')
+{
+    ops_message('info', $alert, $message, $channels);
+}
+
+function ops_warning($alert, $message, $channels = 'engineering')
+{
+    ops_message('warning', $alert, $message, $channels);
+}
+
+function ops_error($alert, $message, $channels = 'engineering')
+{
+    ops_message('error', $alert, $message, $channels);
+}
+
+function ops_success($alert, $message, $channels = 'engineering')
+{
+    ops_message('success', $alert, $message, $channels);
 }

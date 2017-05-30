@@ -30,7 +30,8 @@
         "wildbit/postmark-php": "^2.3",
         "laravel/homestead": "^5.2",
         "laravel/scout": "^3.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^3.0"
+        "teamtnt/laravel-scout-tntsearch-driver": "^3.0",
+        "pusher/pusher-php-server": "^2.6"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
@@ -65,6 +66,7 @@
             "php artisan optimize",
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
+            "php artisan scout:import 'App\\Models\\Message'",
             "php artisan passport:getkeys",
             "npm run production"
         ],
@@ -73,6 +75,7 @@
             "php artisan optimize",
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
+            "php artisan scout:import 'App\\Models\\Message'",
             "php artisan view:clear",
             "npm run dev"
         ]
