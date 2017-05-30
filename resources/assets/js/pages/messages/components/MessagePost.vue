@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+    import moment from 'moment'
     export default {
         props: ['name', 'day', 'time', 'subject', 'message'],
         name: 'MessagingPost',
