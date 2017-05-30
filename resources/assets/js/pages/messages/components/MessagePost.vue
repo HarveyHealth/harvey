@@ -1,15 +1,15 @@
 <template>
-    <div style="border-left: 6px solid #82BEF2; background-color: white; height: 200px;">
-        <div style="width: 6%; height: 6%; float: left;">
-            <img style="border-radius: 50%; margin: 85% 20%; float: left;" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
+    <div class="container">
+        <div class="image-card">
+            <img class="image-avatar" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
         </div>
-        <div style="float: left; margin: 70px; 50px; width: 80%;">
-            <h4 style="float: left; margin: 0 1%;">{{ name }}</h4>
-            <h4 style="float: left; margin: 0 1%;">{{ day }}</h4>
-            <h4 style="float: left; margin: 0 1%;">{{ time }}</h4>
-            <h4 style="float: left; margin: 0 1%;">...</h4>
-            <h2 style="float: left; margin: 6px 100% 0 0;">{{ subject }}</h2>
-            <h3 style="float: left; margin-top: 6px;">{{ message }}</h3>
+        <div class="details">
+            <h4 class="top-layer">{{ name }}</h4>
+            <h4 class="top-layer">{{ day }}</h4>
+            <h4 class="top-layer">{{ time }}</h4>
+            <h4 class="top-layer">...</h4>
+            <h2 class="subject-header">{{ subject }}</h2>
+            <h3 class="message-layer">{{ message }}</h3>
         </div>
     </div>
 </template>
@@ -32,6 +32,37 @@
     }
 </script>
 
-<style>
-
+<style lang="sass">
+    .container {
+        border-left: 6px solid #82BEF2; 
+        background-color: white; 
+        height: 200px;
+    }
+    .top-layer {
+        float: left; 
+        margin: 0 1%;
+    }
+    .subject-header {
+        float: left; 
+        margin: 6px 100% 0 0;
+    }
+    .message-layer {
+        float: left; 
+        margin-top: 6px;
+    }
+    .details {
+        float: left; 
+        margin: 70px 50px; 
+        width: 80%;
+    }
+    .image-card {
+        width: 6%; 
+        height: 6%; 
+        float: left;
+    }
+    .image-avatar {
+        border-radius: 50%; 
+        margin: 85% 20%; 
+        float: left;
+    }
 </style>
