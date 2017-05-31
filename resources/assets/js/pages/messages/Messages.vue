@@ -15,7 +15,7 @@
             </div>
             <preview v-if="renderNewMessage" />
             <div style="padding: 20px;">
-                <div v-for="chat in messageList">
+                <div v-if="messageList" v-for="chat in messageList">
                   <router-link :to="{
                       name: 'detail',
                       params: {
@@ -59,9 +59,7 @@
             return {
               renderNewMessage: false,
               isActive: null,
-              messageList: this.$root.$data.global.messages,
-              detailList: this.$root.$data.global.detailMessages,
-              allUsers: this.$root.$data.global.allUsers
+              messageList: this.$root.$data.global.messages
             }
         },
         methods: {
@@ -70,8 +68,9 @@
           }
         },
         mounted() {
-            axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
+          axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
+                this.$root.$data.global.detailMessages = {};
                 response.data.data.forEach(e => {
                   this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] ?  
                       this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] :
@@ -79,14 +78,14 @@
                   this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
                       this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
-                  if (!_.includes(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject], e)) {
+                  if (!_.includes(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject], this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].id)) {
                     this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                    this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject]);
                   }
-                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject])
                 });
-                this.detailList = this.$root.$data.global.detailMessages;
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => Object.values(e)[0][Object.values(e)[0].length - 1]);
+                this.messageList = this.$root.$data.global.messages;
               })
         }
     }

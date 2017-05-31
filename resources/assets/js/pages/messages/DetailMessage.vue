@@ -19,7 +19,7 @@
                 <div style="margin: 0 20px;">
                     <h1>{{ subject }}</h1>
                 </div>
-                <div v-for="detail in detailList">
+                <div v-if="detailList" v-for="detail in detailList">
                     <DetailPost 
                         :name="detail.attributes.sender_full_name"
                         :day="detail.attributes.created_at.date"
@@ -63,10 +63,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
-              user_id: this.$root.$data.global.user.id,
-              detailList: _.uniq(this.$root.$data.global.detailMessages[Number(this.$route.params.sender_id)][this.$route.params.subject]
-                    .concat(this.$root.$data.global.detailMessages[Number(this.$route.params.recipient_id)][this.$route.params.subject])
-                    .sort((a, b) => a.attributes.created_at - b.attributes.created_at))
+              user_id: this.$root.$data.global.user.id
             }
         },
         methods: {
@@ -90,6 +87,14 @@
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }
            }
+        },
+        computed: {
+            detailList() {
+                let array = this.$root.$data.global.detailMessages[Number(this.$route.params.sender_id)][this.$route.params.subject]
+                    .concat(this.$root.$data.global.detailMessages[Number(this.$route.params.recipient_id)][this.$route.params.subject])
+                    .sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+                return _.uniq(array);
+            }
         },
         mounted() {
             

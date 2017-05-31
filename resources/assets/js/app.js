@@ -77,7 +77,6 @@ const app = new Vue({
         global: {
             appointments: [],
             patients: [],
-            allUsers: [],
             practitioners: [],
             recent_appointments: [],
             test_results:[],

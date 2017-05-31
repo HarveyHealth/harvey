@@ -50,12 +50,6 @@
                     recipient_user_id: this.$props.id,
                     subject: this.$props.header
                 })
-                .then(response => {
-                    console.log(`SUCCESSFUL`);
-                })
-                .catch(error => {
-                    console.log(`ERROR`);
-                })
                 this.$parent.close();
             }
         },
