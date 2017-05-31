@@ -86,7 +86,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function test_it_allows_and_admin_to_view_all_appointments()
+    public function test_it_allows_an_admin_to_view_all_appointments()
     {
         factory(Patient::class, 2)->create()->each(function ($patient) {
             $patient->appointments()->saveMany(factory(Appointment::class, 3)->make());
@@ -100,7 +100,7 @@ class AppointmentTest extends TestCase
         $this->assertCount(6, $response->original['data']);
     }
 
-    public function test_it_allows_and_admin_to_view_upcoming_appointments()
+    public function test_it_allows_an_admin_to_view_upcoming_appointments()
     {
         factory(Patient::class, 3)->create()->each(function ($patient) {
             $patient->appointments()->saveMany(factory(Appointment::class, 3)->states('past')->make());

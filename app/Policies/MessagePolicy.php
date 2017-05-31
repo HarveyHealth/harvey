@@ -27,7 +27,7 @@ class MessagePolicy
      */
     public function view(User $user, Message $message)
     {
-        return $user->id == $message->sender->id || $user->id == $message->recipient->id;
+        return $user->is($message->sender) || $user->is($message->recipient);
     }
 
     /**
@@ -36,7 +36,7 @@ class MessagePolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->isAllowedToSendMessages();
     }
 
     /**
@@ -45,7 +45,7 @@ class MessagePolicy
      */
     public function markAsRead(User $user, Message $message)
     {
-        return $user->id == $message->recipient->id;
+        return $user->is($message->recipient);
     }
 
     /**
