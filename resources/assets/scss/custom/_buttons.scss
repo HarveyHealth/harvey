@@ -91,3 +91,23 @@ input[type="submit"] {
     svg { stroke: darken($gray, 15%); }
   }
 }
+
+.button--filter {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  margin-right: 0.5em;
+  padding: 0.4em 0.6em;
+
+  &.isactive {
+    border-bottom: 3px solid $harvey-primary;
+  }
+
+  &:hover,
+  &.isactive {
+    color: $dark-gray;
+  }
+}

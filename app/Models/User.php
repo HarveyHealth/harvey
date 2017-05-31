@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Mail\VerifyEmailAddress;
+use App\Models\Message;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
+use Carbon;
+use Log;
 use Mail;
 
 class User extends Authenticatable implements Mailable
@@ -51,7 +54,12 @@ class User extends Authenticatable implements Mailable
         ];
     }
 
-    public function getUserTypeAttribute()
+    public function getImageUrlAttribute()
+    {
+        return $this->getAttributeFromArray('image_url') ?: config('app.default_image_url');
+    }
+
+    public function getTypeAttribute()
     {
         return $this->userType();
     }
@@ -139,11 +147,6 @@ class User extends Authenticatable implements Mailable
         return  empty($fullName) ? null : $fullName;
     }
 
-    public function imageURL()
-    {
-        return $this->image_url ?: config('app.default_image_url');
-    }
-
     public function passwordSet()
     {
         return isset($this->password);
@@ -173,6 +176,18 @@ class User extends Authenticatable implements Mailable
     public function emailVerificationURL()
     {
         return secure_url("/verify/{$this->id}/" . $this->emailVerificationToken());
+    }
+
+    public function isAllowedToSendMessages()
+    {
+        $recentMessagesCount = Message::from($this)->createdAfter(Carbon::parse('-10 minutes'))->count();
+
+        if ($recentMessagesCount <= 5) {
+            return true;
+        }
+
+        Log::warning("User ID #{$this->id} blocked to send new message. User created too many messages in the last 10 minutes.");
+        return false;
     }
 
     public function scopeMatching($query, $term)

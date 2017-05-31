@@ -13,7 +13,7 @@ class PractitionerAvailabilityTransformer extends TransformerAbstract
      */
     public function transform(Practitioner $practitioner)
     {
-        $availability_collection = collect(array_values($practitioner->availability()));
+        $availability_collection = collect(array_values($practitioner->availability));
 
         $availability = $availability_collection->map(function ($week) {
             return collect($week)->map(function ($timeslot) {
@@ -23,7 +23,7 @@ class PractitionerAvailabilityTransformer extends TransformerAbstract
                 ];
             });
         });
-        
+
         return $availability->toArray();
     }
 }

@@ -44,9 +44,11 @@ class MessageCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'sender_full_name' => $this->message->sender->id,
-            'message' => htmlentities($this->message->message),
             'is_sender_admin' => $this->message->is_sender_admin,
+            'message' => htmlentities($this->message->message),
+            'sender_full_name' => $this->message->sender->fullName(),
+            'sender_id' => $this->message->sender->id,
+            'subject' => htmlentities($this->message->subject),
         ];
     }
 }

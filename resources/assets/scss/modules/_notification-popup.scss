@@ -1,0 +1,40 @@
+.notification {
+  background: $harvey-primary;
+  border-radius: 3px;
+  color: $dark-gray;
+  font-weight: 300;
+  line-height: 2em;
+  padding: 1em 1.7em 1em 1.2em;
+  position: fixed;
+  z-index: 9999;
+}
+
+.notification-symbol {
+  border: 1px solid $dark-gray;
+  border-radius: 50%;
+  display: inline-block;
+  height: 2em;
+  margin-right: 0.75em;
+  text-align: center;
+  width: 2em;
+}
+
+.notification.from-top-right {
+  right: -3000px;
+  top: 2em;
+  transition: right 750ms ease-in-out;
+
+  &.isactive {
+    right: 2em;
+  }
+}
+
+.notification.from-bottom-right {
+  right: -3000px;
+  bottom: 2em;
+  transition: right 750ms ease-in-out;
+
+  &.isactive {
+    right: 2em;
+  }
+}

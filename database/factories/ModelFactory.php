@@ -23,7 +23,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
-        'phone' => $faker->randomElement(array('626','323','818')) . $faker->numberBetween(1111111, 9999999),
+        'phone' => $faker->randomElement(['626','323','818']) . $faker->numberBetween(1111111, 9999999),
         'phone_verified_at' => Carbon::now(),
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
@@ -54,14 +54,6 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
-    return [
-        'enabled' => true,
-        'name' => $faker->word,
-        'rate' => $faker->randomElement(['150', '300']),
-    ];
-});
-
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
@@ -75,7 +67,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
 $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'name' => $faker->name,
+        'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
 });
@@ -87,21 +79,22 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
         $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
     }
 
-    $start_hour = rand(0, 23);
+    $start_hour = rand(0, 22);
     $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
 
-    $stop_hour = rand($start_hour + 1, 24);
+    $stop_hour = rand($start_hour + 2, 24);
     $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
     $stop_time = "{$stop_hour}:{$stop_minutes}:00";
 
     return [
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'practitioner_id' => function () {
+            return factory(App\Models\Practitioner::class)->create()->id;
+        },
         'day_of_week' => $workableDays->random(),
         'start_time' => $start_time,
         'stop_time' => $stop_time,
     ];
 });
-
 
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
@@ -111,7 +104,6 @@ $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
         },
     ];
 });
-
 
 $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     return [

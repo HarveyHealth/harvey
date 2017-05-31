@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Lib\Validation\StrictValidatorException;
 use Crell\ApiProblem\ApiProblem;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use ResponseCode;
 
 class Handler extends ExceptionHandler
 {
@@ -16,6 +18,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
+        \App\Lib\Validation\StrictValidatorException::class,
         \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
@@ -49,6 +52,10 @@ class Handler extends ExceptionHandler
             $problem = new ApiProblem('Not Found.');
             $problem->setDetail($exception->getMessage());
             return response()->apiproblem($problem->asArray(), 404);
+        } elseif ($exception instanceof StrictValidatorException) {
+            $problem = new ApiProblem('Bad Request.');
+            $problem->setDetail($exception->getMessage());
+            return response()->apiproblem($problem->asArray(), ResponseCode::HTTP_BAD_REQUEST);
         }
 
         return parent::render($request, $exception);
