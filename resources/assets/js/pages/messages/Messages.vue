@@ -51,6 +51,7 @@
               renderNewMessage: false,
               isActive: null,
               messageList: this.$root.$data.global.messages,
+              detailList: this.$root.$data.global.detailMessages,
               allUsers: this.$root.$data.global.allUsers
             }
         },
@@ -64,12 +65,16 @@
               .then(response => {
                 this.messageList = response.data.data;
                 this.$root.$data.global.messages = response.data.data;
-                this.$root.$data.global.allUsers = this.$root.$data.global.practitioners
-                  .concat(this.$root.$data.global.patients)
-                  .concat([this.$root.$data.global.user]);
-                this.allUsers = this.$root.$data.global.practitioners
-                  .concat(this.$root.$data.global.patients)
-                  .concat([this.$root.$data.global.user]);
+                this.$root.$data.global.detailMessages = response.data.data.forEach(e => {
+                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] ?  
+                      this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] :
+                      {};
+                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
+                      this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] :
+                      [];
+                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject]  = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                });
+                this.detailList = this.$root.$data.global.detailMessages;
               })
         }
     }

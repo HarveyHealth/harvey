@@ -16,19 +16,24 @@
             <Reply v-if="renderReply" />
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
+                <div style="margin: 0 20px;">
+                    <h1>SUBJECT</h1>
+                </div>
                 <DetailPost 
                     name="Alicia Keys"
-                    day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
-                    time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                    day="chat.attributes.created_at.date"
+                    time="chat.attributes.created_at.date"
                     subject="chat.attributes.subject"
                     message="chat.attributes.message"
+                    image="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg"
                 />
                <DetailPost 
                     name="Alicia Keys"
-                    day="chat.attributes.created_at.date.split('').splice(0, 10).join('')"
-                    time="chat.attributes.created_at.date.split('').splice(11, 8).join('')"
+                    day="chat.attributes.created_at.date"
+                    time="chat.attributes.created_at.date"
                     subject="chat.attributes.subject"
                     message="chat.attributes.message"
+                    image="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg"
                 />
                 <div>
                   <div class="inline-centered">
