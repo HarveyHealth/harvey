@@ -119,7 +119,8 @@ const app = new Vue({
           axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
             this.global.practitioners = response.data.data.map(dr => {
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
-            })
+            });
+            this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
           })
         } else {
           axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
@@ -127,7 +128,8 @@ const app = new Vue({
               return dr.attributes.name === Laravel.user.fullName;
             }).map(obj => {
               return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
-            })
+            });
+            this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
           })
         }
       },
