@@ -13,7 +13,7 @@
                     </h1>
                 </div>
             </div>
-            <Reply v-if="renderReply" :name="sender_name" />
+            <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
                 <div style="margin: 0 20px;">
@@ -63,6 +63,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
+              user_id: this.$root.$data.global.user.id,
               detailList: _.uniq(this.$root.$data.global.detailMessages[Number(this.$route.params.sender_id)][this.$route.params.subject]
                     .concat(this.$root.$data.global.detailMessages[Number(this.$route.params.recipient_id)][this.$route.params.subject])
                     .sort((a, b) => a.attributes.created_at - b.attributes.created_at))

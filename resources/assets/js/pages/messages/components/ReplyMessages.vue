@@ -29,7 +29,7 @@
 <script>
     import axios from 'axios';
     export default {
-        props: ['name'],
+        props: ['name', 'header', 'id'],
         name: 'Reply',
         components: {
 
@@ -37,7 +37,6 @@
         data() {
             return {
                 reply: this.$parent.reply,
-                selected: '',
                 message: ''
             }
         },
@@ -46,11 +45,10 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                console.log(`HIT`);
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
-                    recipient_user_id: this.selected,
-                    subject: this.$parent.subject
+                    recipient_user_id: this.$props.id,
+                    subject: this.$props.header
                 })
                 .then(response => {
                     console.log(`SUCCESSFUL`);
