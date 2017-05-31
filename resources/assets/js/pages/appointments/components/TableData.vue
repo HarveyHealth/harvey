@@ -42,12 +42,19 @@ import { capitalize } from '../../../utils/filters/textformat';
 import convertStatus from '../utils/statuses';
 import moment from 'moment-timezone';
 import toLocalTimezone from '../../../utils/methods/toLocalTimezone';
+import combineAppointmentData from '../../../utils/methods/combineAppointmentData';
 
 export default {
-  props: ['allTableData', 'config'],
+  props: ['config', 'filter'],
   computed: {
     tableData() {
+      if (this.filter === 'Upcoming') {
+        return combineAppointmentData(this.$root.$data.global.upcoming_appointments).reverse();
+      } else if (this.filter === 'Completed') {
+        return combineAppointmentData(this.$root.$data.global.recent_appointments).reverse();
+      } else {
       return this.$root.$data.global.appointments;
+      }
     },
   },
   filters: {

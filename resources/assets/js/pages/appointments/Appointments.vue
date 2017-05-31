@@ -15,10 +15,16 @@
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
+          <div>
+            <button
+              v-for="(obj, index) in tableFilters"
+              :class="{'button--filter': true, 'isactive': activeFilter === index}"
+              @click="filterTable(index, obj.name)">{{ obj.name }}</button>
+          </div>
         </div>
       </div>
 
-      <TableData :config="tableConfig"/>
+      <TableData :config="tableConfig" :filter="tableFilter" />
 
     </div>
 
@@ -112,6 +118,7 @@
 
   // Helpers
   import { capitalize, phone } from '../../utils/filters/textformat.js';
+  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
   import moment from 'moment-timezone';
   import sortByLastName from '../../utils/methods/sortByLastName';
   import tableConfig from './utils/tableconfig';
@@ -136,6 +143,7 @@
     },
     data() {
       return {
+        activeFilter: 0,
         _appointmentDetails: this.$root.$data.global.appointments,
         appointmentData: {
           appointmentId: '',
@@ -177,6 +185,11 @@
         },
         dataCollected: false,
         doctorAvailability: {},
+        tableFilters: [
+          { name: 'All', active: true },
+          { name: 'Upcoming', active: false },
+          { name: 'Completed', active: false }
+        ],
         notificationDirection: 'top-right',
         notificationMessage: '',
         notificationSymbol: '&#10003;',
@@ -188,12 +201,23 @@
           'canceled': 'Canceled',
           'complete': 'Complete'
         },
-        tableConfig: tableConfig
+        tableFilter: 'All',
+        tableConfig,
       };
     },
     computed: {
       availability() {
         return transformAvailability(this.doctorAvailability);
+      },
+      upcomingAppointments() {
+        return this.$root.$data.global.upcoming_appointments.length
+          ? combineAppointmentData(this.$root.$data.global.upcoming_appointments)
+          : [];
+      },
+      recentAppointments() {
+        return this.$root.$data.global.recent_appointments.length
+          ? combineAppointmentData(this.$root.$data.global.recent_appointments)
+          : [];
       },
       noAvailability() {
         if (this.doctorAvailability.length) {
@@ -291,6 +315,10 @@
         this.confirmationText['Purpose'] = this.dataForUpdate.reason_for_visit;
 
         this.$eventHub.$emit('callAppointmentModal');
+      },
+      filterTable(index, name) {
+        this.activeFilter = index;
+        this.tableFilter = name;
       },
       sortByLastName,
       toLocalTimezone
