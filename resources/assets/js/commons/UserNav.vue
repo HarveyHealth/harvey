@@ -12,13 +12,15 @@
         <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
         <div class="text">Appointments</div>
       </router-link>
-      <router-link class="admin-nav-link" to="/messages" title="Messages">
-        <i class="fa fa-envelope-o icon icon-nav-bar"></i>
-        <div class="text">Messages</div>
-      </router-link>
+      <!--
       <router-link class="admin-nav-link" to="/lab_orders" title="Lab Orders">
         <i class="fa fa-eyedropper icon icon-nav-bar"></i>
         <div class="text">Lab Orders</div>
+      </router-link>
+      -->
+      <router-link class="admin-nav-link" to="/messages" title="Messages">
+        <i class="fa fa-envelope-o icon icon-nav-bar"></i>
+        <div class="text">Messages</div>
       </router-link>
       <div class="release">©2017 Harvey, Inc.</div>
       <a href="/logout" class="admin-nav-link logout" title="Logout">
