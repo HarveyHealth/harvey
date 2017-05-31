@@ -12,6 +12,8 @@ class MessagesSeeder extends Seeder
      */
     public function run()
     {
-        factory(Message::class, 12)->create();
+        factory(Message::class, 6)->create();
+        factory(Message::class, 3)->create(['subject' => 'Subject one.']);
+        factory(Message::class, 3)->create(['subject' => 'Subject two.']);
     }
 }

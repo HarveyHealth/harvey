@@ -189,7 +189,8 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
     $output['recipient_user_id'] = function () use ($recipientClassName) {
         return factory($recipientClassName)->create()->user->id;
     };
-    $output['message'] = $faker->sentence;
+    $output['message'] = $faker->text;
+    $output['subject'] = $faker->sentence;
     $output['is_admin'] = App\Models\Admin::class == $senderClassName;
     $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
 
