@@ -2,8 +2,9 @@
 
 namespace App\Lib;
 
-use Carbon\Carbon;
+use App\Lib\TimeslotManager;
 use App\Models\Practitioner;
+use Carbon\Carbon;
 
 class PractitionerAvailability
 {
@@ -19,7 +20,7 @@ class PractitionerAvailability
      */
     public function availability()
     {
-        $practitioner_timezone = $this->practitioner->user->timezone;
+        $practitioner_timezone = $this->practitioner->timezone;
 
         $now = Carbon::now($practitioner_timezone);
         $current_week = clone $now;
@@ -34,11 +35,10 @@ class PractitionerAvailability
             $availability = $this->validAvailabilitySlotsForWeek($current_week);
 
             // convert all the timeslots into day/times
-            $tsm = new TimeslotManager();
             $available_slots = [];
 
             foreach ($availability as $slot) {
-                $time_data = $tsm->dayAndTimeForTimeslot($slot);
+                $time_data = TimeslotManager::dayAndTimeForTimeslot($slot);
 
                 $day = $time_data['day'];
                 $time = $time_data['time'];
@@ -136,12 +136,22 @@ class PractitionerAvailability
     }
 
     /**
+     * @param Carbon $date
+     * @return boolean
+     */
+    public function canScheduleAt(Carbon $appointmentAt) {
+        $appointmentAt->tz = $this->practitioner->timezone;
+        $appointmentAtTimeslot = TimeslotManager::timeslotForDayAndTime($appointmentAt->format('l'), $appointmentAt->format('H:i'));
+
+        return in_array($appointmentAtTimeslot, $this->practitioner->availability()->validAvailabilitySlotsForWeek($appointmentAt));
+    }
+
+    /**
      * @return array
      */
     private function timeslotsForSchedule()
     {
         $schedules = $this->practitioner->schedule;
-        $tsm = new TimeslotManager();
 
         $slots = [];
 
@@ -153,7 +163,7 @@ class PractitionerAvailability
             $number_of_half_hours = ceil($start->diffInSeconds($end) / 1800);
 
             for ($i = 0; $i < $number_of_half_hours; $i++) {
-                $timeslot = $tsm->timeslotForDayAndTime($schedule->day_of_week, $start);
+                $timeslot = TimeslotManager::timeslotForDayAndTime($schedule->day_of_week, $start);
                 $start->addMinutes(30);
                 $slots[$timeslot] = $schedule->id;
             }
@@ -165,8 +175,7 @@ class PractitionerAvailability
 
     private function timeslotsForAppointmentForWeek(Carbon $week)
     {
-        $practitioner_timezone = $this->practitioner->user->timezone;
-        $tsm = new TimeslotManager();
+        $practitioner_timezone = $this->practitioner->timezone;
 
         $date = clone $week;
         $date->tz = $practitioner_timezone;
@@ -195,7 +204,7 @@ class PractitionerAvailability
             $number_of_half_hours = 3;
 
             for ($i = 0; $i < $number_of_half_hours; $i++) {
-                $timeslot = $tsm->timeslotForDayAndTime($start->format('l'), $start);
+                $timeslot = TimeslotManager::timeslotForDayAndTime($start->format('l'), $start);
                 $start->addMinutes(30);
                 $slots[$timeslot] = $appointment->id;
             }
@@ -204,4 +213,6 @@ class PractitionerAvailability
         ksort($slots);
         return array_keys($slots);
     }
+
+
 }

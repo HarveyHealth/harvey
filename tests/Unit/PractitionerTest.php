@@ -17,7 +17,7 @@ class PractitionerTest extends TestCase
     {
         $practitioner = factory(Practitioner::class)->create();
 
-        $this->assertEquals(['week 1' => [], 'week 2' => []], $practitioner->availability());
+        $this->assertEquals(['week 1' => [], 'week 2' => []], $practitioner->availability);
     }
 
     public function test_it_shows_the_correct_availability_if_schedules_are_set()
@@ -53,7 +53,7 @@ class PractitionerTest extends TestCase
             ]
         ];
 
-        $this->assertEquals($expected_result, $practitioner->availability());
+        $this->assertEquals($expected_result, $practitioner->availability);
         Carbon::setTestNow(Carbon::now());
     }
 
@@ -94,7 +94,7 @@ class PractitionerTest extends TestCase
             'week 2' => []
         ];
 
-        $this->assertEquals($expected_result, $practitioner->availability());
+        $this->assertEquals($expected_result, $practitioner->availability);
         Carbon::setTestNow(Carbon::now());
     }
 

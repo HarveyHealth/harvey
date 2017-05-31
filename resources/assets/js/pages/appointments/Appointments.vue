@@ -90,8 +90,14 @@
     <AppointmentModal
       :affirm="confirmationButton"
       :affirmEvent="confirmationEvent"
+      :note="confirmationNote"
       :text="confirmationText"
       :title="confirmationTitle" />
+
+    <NotificationPopup
+      :from="notificationDirection"
+      :symbol="notificationSymbol"
+      :text="notificationMessage" />
 
   </div>
 </template>
@@ -102,6 +108,7 @@
   import DayAndTime from './components/DayAndTime.vue';
   import DoctorName from './components/DoctorName.vue';
   import Flyout from '../../commons/Flyout.vue';
+  import NotificationPopup from '../../commons/NotificationPopup.vue';
   import Overlay from '../../commons/Overlay.vue';
   import PatientInput from './components/PatientInput.vue';
   import PurposeInput from './components/PurposeInput.vue';
@@ -126,6 +133,7 @@
       DayAndTime,
       DoctorName,
       Flyout,
+      NotificationPopup,
       Overlay,
       PatientInput,
       PurposeInput,
@@ -154,6 +162,7 @@
         appointmentModType: null,
         confirmationButton: '',
         confirmationEvent: '',
+        confirmationNote: '',
         confirmationText: '',
         confirmationTitle: '',
         dataForCancel: {
@@ -181,6 +190,9 @@
           { name: 'Upcoming', active: false },
           { name: 'Completed', active: false }
         ],
+        notificationDirection: 'top-right',
+        notificationMessage: '',
+        notificationSymbol: '&#10003;',
         statuses: {
           'pending': 'Pending',
           'no_show_patient': 'No-Show-Patient',
@@ -262,6 +274,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'cancelAppointment';
         this.confirmationTitle = 'Confirm Cancellation';
+        this.confirmationNote = '';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
@@ -276,6 +289,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'bookAppointment';
         this.confirmationTitle = 'Confirm Appointment';
+        this.confirmationNote = 'You will receive an email confirmation of your new appointment. We will send you another notification one hour before your appointment.';
 
         this.dataForNew.reason_for_visit = this.dataForNew.reason_for_visit || 'No reason given';
 
@@ -291,6 +305,7 @@
         this.confirmationButton = 'Yes, Confirm';
         this.confirmationEvent = 'updateAppointment';
         this.confirmationTitle = 'Confirm Appointment';
+        this.confirmationNote = 'You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.';
 
         this.confirmationText = {};
         if (this.userType !== 'patient') this.confirmationText.Client = this.appointmentData.patientName;
@@ -419,7 +434,9 @@
         if (this.userType !== 'patient') data.patient_id = this.dataForNew.patient_id * 1;
 
         axios.post('/api/v1/appointments', data).then(response => {
+          this.notificationMessage = 'Appointment Created!';
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('toggleOverlay');
@@ -443,7 +460,9 @@
           reason_for_visit: this.dataForUpdate.reason_for_visit || 'No reason given.',
           status: this.dataForUpdate.status,
         }).then(response => {
+          this.notificationMessage = 'Appointment Updated!';
           this.$eventHub.$emit('refreshTable');
+          this.$eventHub.$emit('eventCallNotificationPopup');
         }).catch(err => console.error(err.response));
         this.$eventHub.$emit('callFlyout', true);
         this.$eventHub.$emit('deselectRows');

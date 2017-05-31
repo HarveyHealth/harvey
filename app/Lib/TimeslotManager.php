@@ -2,48 +2,39 @@
 
 namespace App\Lib;
 
-use \Cache;
-use \Storage;
+use Cache;
+use Storage;
 
 class TimeslotManager
 {
-    private $timeslots;
 
-    public function __construct()
+    public static function getTimeslotsArray()
     {
-        // Store timeslots cache for one year
-        $time_interval = TimeInterval::years(1)->toMinutes();
-    
-        $this->timeslots = Cache::remember('compiled timeslots', $time_interval, function () {
-            return $this->getTimeslotsArray();
+        return Cache::remember('compiled timeslots', TimeInterval::years(1)->toMinutes(), function () {
+            $data = Storage::disk('resources')->get('assets/other/timeslots.txt');
+            return unserialize($data);
         });
     }
-    
-    public function getTimeslotsArray()
-    {
-        $data = Storage::disk('resources')->get('assets/other/timeslots.txt');
-        return unserialize($data);
-    }
-    
-    public function getMinutesFromTimeString($timestring)
+
+    public static function getMinutesFromTimeString($timestring)
     {
         return date('i', strtotime($timestring));
     }
-    
-    public function getNearestThirtyMinIntervalTimeFor($timestring)
+
+    public static function getNearestThirtyMinIntervalTimeFor($timestring)
     {
-        return $this->getMinutesFromTimeString($timestring) >= 30 ? "30" : "00";
+        return static::getMinutesFromTimeString($timestring) >= 30 ? "30" : "00";
     }
-    
+
     /**
      * Returns the slot id for the specified day and time
      * @param $day Sunday
      * @param $time "11:00"
      * @return integer slot id
      */
-    public function timeslotForDayAndTime($day, $time)
+    public static function timeslotForDayAndTime($day, $time)
     {
-        $minute = $this->getNearestThirtyMinIntervalTimeFor($time);
+        $minute = static::getNearestThirtyMinIntervalTimeFor($time);
         $time = date("H:{$minute}:00", strtotime($time));
 
         // cache for better performance
@@ -55,7 +46,7 @@ class TimeslotManager
         $slot = Cache::remember($key, $time_interval, function () use ($day, $time) {
 
             // return the first match to the day and time
-            $slot = array_first($this->timeslots, function ($slot) use ($day, $time) {
+            $slot = array_first(static::getTimeslotsArray(), function ($slot) use ($day, $time) {
                 return ($day == $slot[1] && $time == $slot[2]);
             });
 
@@ -65,7 +56,7 @@ class TimeslotManager
         return $slot;
     }
 
-    public function dayAndTimeForTimeslot($timeslot)
+    public static function dayAndTimeForTimeslot($timeslot)
     {
         // cache for better performance
         // no need to walk the array every time
@@ -76,7 +67,7 @@ class TimeslotManager
         $slot = Cache::remember($key, $time_interval, function () use ($timeslot) {
 
             // return the first match to the timeslot id
-            $slot = array_first($this->timeslots, function ($slot) use ($timeslot) {
+            $slot = array_first(static::getTimeslotsArray(), function ($slot) use ($timeslot) {
                 return ($timeslot == $slot[0]);
             });
 
