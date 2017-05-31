@@ -111,6 +111,7 @@ const app = new Vue({
             })
           });
           this.global.patients = sortByLastName(this.global.patients);
+          this.$eventHub.$emit('receivedPatients', this.global.patients);
         });
       },
       getPractitioners() {

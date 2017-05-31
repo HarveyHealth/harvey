@@ -50,11 +50,11 @@ export default {
       if (this.selectedIndex !== index) {
         this.selectedIndex = index;
         this.selectedObject = this.tabledata[index];
-        this.$eventHub.$emit('eventRowClick', obj, index);
+        this.$eventHub.$emit('tableRowClick', obj, index);
       } else {
         this.selectedIndex = null;
         this.selectedObject = null;
-        this.$eventHub.$emit('eventRowClick', null, null);
+        this.$eventHub.$emit('tableRowClick', null, null);
       }
     },
     utilSort(obj) {
@@ -80,11 +80,21 @@ export default {
     },
   },
   mounted() {
+
     this.columns.forEach(obj => {
       if (this.defaultSortColumn === obj.key) {
         this.utilSort(obj);
       }
+    });
+
+    this.$eventHub.$on('tableRowUnselect', () => {
+      this.selectedIndex = null;
+      this.selectedObject = null;
     })
+
   },
+  destroyed() {
+    this.$eventHub.$off('tableRowUnselect');
+  }
 }
 </script>
