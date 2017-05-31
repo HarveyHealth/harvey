@@ -17,7 +17,7 @@
 <script>
     import moment from 'moment'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id'],
         name: 'MessagingPost',
         data() {
             return {
@@ -28,8 +28,7 @@
 
         },
         mounted() {
-            // Mark read
-            // Load all details
+            axios.put(`/api/v1/messages/${this.$props.id}/read`)
         }
     }
 </script>

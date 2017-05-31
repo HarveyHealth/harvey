@@ -21,6 +21,7 @@
                 </div>
                 <div v-if="detailList" v-for="detail in detailList">
                     <DetailPost 
+                        :id="detail.id"
                         :name="detail.attributes.sender_full_name"
                         :day="detail.attributes.created_at.date"
                         :time="detail.attributes.created_at.date"
