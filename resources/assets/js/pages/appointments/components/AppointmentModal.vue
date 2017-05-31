@@ -11,6 +11,7 @@
       <div class="modal-button-container">
         <button @click="handleAffirmClick()" class="button">{{ affirm }}</button>
         <button @click="handleCancelClick()" class="button button--cancel">Go Back</button>
+        <p v-if="note !== ''">{{ note }}</p>
       </div>
     </div>
   </div>
@@ -18,7 +19,7 @@
 
 <script>
 export default {
-  props: ['affirm', 'affirmEvent', 'text', 'title'],
+  props: ['affirm', 'affirmEvent', 'note', 'text', 'title'],
   data() {
     return {
       isActive: false
