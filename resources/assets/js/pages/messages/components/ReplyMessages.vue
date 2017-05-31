@@ -50,6 +50,9 @@
                     recipient_user_id: this.$props.id,
                     subject: this.$props.header
                 })
+                .then(response => {
+                    this.$root.$data.global.detailMessages[this.$props.id][this.$props.header].push(response.data.data);
+                })
                 this.$parent.reply();
             }
         },

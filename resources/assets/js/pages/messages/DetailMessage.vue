@@ -63,7 +63,8 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
-              user_id: this.$root.$data.global.user.id
+              user_id: this.$root.$data.global.user.id,
+              detailList: this.$root.$data.global.detailMessages[this.$props.sender_id][this.$props.subject]
             }
         },
         methods: {
@@ -87,14 +88,6 @@
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }
            }
-        },
-        computed: {
-            detailList() {
-                let array = this.$root.$data.global.detailMessages[Number(this.$route.params.sender_id)][this.$route.params.subject]
-                    .concat(this.$root.$data.global.detailMessages[Number(this.$route.params.recipient_id)][this.$route.params.subject])
-                    .sort((a, b) => a.attributes.created_at - b.attributes.created_at);
-                return _.uniq(array);
-            }
         },
         mounted() {
             
