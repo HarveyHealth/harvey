@@ -24,6 +24,7 @@
                         :time="chat.attributes.created_at.date"
                         :subject="chat.attributes.subject"
                         :message="chat.attributes.message"
+                        :read="chat.attributes.read_at"
                      />
                   </router-link>
                 </div>

@@ -1,7 +1,7 @@
 <template>
-    <div class="container-message unread">
+    <div class="container-message" :class="{unread: !read}">
         <div class="image-card">
-            <img class="image-avatar" :src="{{ image }}" alt="avatar">
+            <img class="image-avatar" :src="image" alt="avatar">
         </div>
         <div class="details">
             <h4 class="top-layer">{{ name }}</h4>
@@ -17,7 +17,7 @@
 <script>
     import moment from 'moment'
     export default {
-        props: ['name', 'day', 'time', 'subject', 'message', 'image'],
+        props: ['name', 'day', 'time', 'subject', 'message', 'image', 'read'],
         name: 'MessagingPost',
         components: {
 
