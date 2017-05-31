@@ -95,12 +95,16 @@ export default {
 
   methods: {
 
+    setPatientInfo(data) {
+      this.appointment.patientEmail = data.email;
+      this.appointment.patientName = data.name;
+      this.appointment.patientId = data.id;
+      this.appointment.patientPhone = data.phone;
+    },
+
     handleNewAppointmentClick() {
       if (this.userType !== 'patient' && this.patientList.length) {
-        this.appointment.patientEmail = this.patientList[0].data.email;
-        this.appointment.patientName = this.patientList[0].data.name;
-        this.appointment.patientId = this.patientList[0].data.id;
-        this.appointment.patientPhone = this.patientList[0].data.phone;
+        this.setPatientInfo(this.patientList[0].data);
       }
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
@@ -138,19 +142,15 @@ export default {
       this.patientList = list.map(item => {
         return { value: item.name, data: item };
       });
+      // If flyout mode is new, add patient info
       if (this.userType !== 'patient' && this.flyoutMode === 'new') {
-        this.appointment.patientEmail = this.patientList[0].data.email;
-        this.appointment.patientName = this.patientList[0].data.name;
-        this.appointment.patientId = this.patientList[0].data.id;
-        this.appointment.patientPhone = this.patientList[0].data.phone;
+        this.setPatientInfo(this.patientList[0].data);
       }
     });
 
+    // For when a patient is selected from the dropdown
     this.$eventHub.$on('selectPatient', patient => {
-      this.appointment.patientId = patient.data.id;
-      this.appointment.patientEmail = patient.data.email;
-      this.appointment.patientName = patient.data.name;
-      this.appointment.patientPhone = patient.data.phone;
+      this.setPatientInfo(this.patient.data);
     })
 
     // On row click, set heading and open flyout, or close flyout
@@ -185,6 +185,7 @@ export default {
     this.$eventHub.$off('closeFlyout');
     this.$eventHub.$off('receivedPatients');
     this.$eventHub.$off('overlayClicked');
+    this.$eventHub.$off('selectPatient');
     this.$eventHub.$off('tableRowClick');
   }
 }
