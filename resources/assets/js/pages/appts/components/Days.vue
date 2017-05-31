@@ -12,7 +12,7 @@
       :selectevent="'selectDay'"
     />
     <span v-else-if="noavailability" class="input--warning">No available openings</span>
-    <span v-else class="input__item patient-display">{{ time | dayFilter }}</span>
+    <span v-else class="input__item">{{ time | dayFilter }}</span>
   </div>
 </template>
 

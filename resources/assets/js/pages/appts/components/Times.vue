@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="input__container">
     <span v-if="isloading"></span>
     <SelectOptions
       v-else-if="editable"
@@ -9,7 +9,7 @@
       :options="times"
       :selectevent="'selectTime'"
     />
-    <span v-else class="input__item patient-display">{{ time | timeFilter }}</span>
+    <span v-else class="input__item">{{ time | timeFilter }}</span>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
       :options="list"
       :selectevent="'selectPractitioner'"
     />
-    <span v-else class="input__item patient-display">{{ name }}</span>
+    <span v-else class="input__item">{{ name }}</span>
   </div>
 </template>
 

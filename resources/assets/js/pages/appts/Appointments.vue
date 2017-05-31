@@ -53,6 +53,13 @@
         :time="appointment.currentDate"
       />
 
+      <Status
+        :editable="editableStatus"
+        :list="statuses"
+        :status="appointment.status"
+        :visible="visibleStatus"
+      />
+
     </Flyout>
 
     <Overlay :active="overlayActive" />
@@ -67,11 +74,13 @@ import Flyout from '../../commons/Flyout2.vue';
 import Overlay from '../../commons/Overlay2.vue';
 import Patient from './components/Patient.vue';
 import Practitioner from './components/Practitioner.vue';
+import Status from './components/Status.vue';
 import TableData from '../../commons/TableData.vue';
 import Times from './components/Times.vue';
 import UserNav from '../../commons/UserNav.vue';
 
 // other
+import convertStatus from './convertStatus';
 import moment from 'moment';
 import tableColumns from './tableColumns';
 import tableDataTransform from './tableDataTransform';
@@ -106,6 +115,13 @@ export default {
       practitionerList: [],
       selectedRowData: null,
       selectedRowIndex: null,
+      statuses: [
+        { value: 'Pending', data: 'pending' },
+        { value: 'No-Show-Patient', data: 'no_show_patient' },
+        { value: 'No-Show-Doctor', data: 'no_show_doctor' },
+        { value: 'Canceled', data: 'canceled' },
+        { value: 'Complete', data: 'complete' }
+      ],
       tableColumns,
       userType: Laravel.user.userType
     }
@@ -117,6 +133,7 @@ export default {
     Overlay,
     Patient,
     Practitioner,
+    Status,
     TableData,
     Times,
     UserNav
@@ -129,11 +146,17 @@ export default {
       if (this.flyoutMode === 'new') return true;
       return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
+    editableStatus() {
+      return this.userType !== 'patient';
+    },
     editablePatient() {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
     },
     editablePractitioner() {
       return this.userType !== 'practitioner' && this.flyoutMode === 'new';
+    },
+    visibleStatus() {
+      return this.flyoutMode !== 'new';
     },
     visiblePatient() {
       return this.userType !== 'patient';
@@ -175,6 +198,8 @@ export default {
       if (this.practitionerList.length) {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
+
+      this.appointment.status = 'pending';
 
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
@@ -269,6 +294,11 @@ export default {
       }
     });
 
+    // For when a status is selected
+    this.$eventHub.$on('selectStatus', status => {
+      this.appointment.status = status.data;
+    });
+
     // For when a patient is selected from the dropdown
     this.$eventHub.$on('selectPatient', patient => {
       this.setPatientInfo(patient.data);
@@ -298,6 +328,7 @@ export default {
       this.selectedRowData = obj;
       this.selectedRowIndex = index;
 
+      // Initial resets for if flyout is already open
       this.appointment.date = '';
       this.appointment.currentDate = '';
       this.appointment.availableTimes = '';
@@ -306,29 +337,42 @@ export default {
       this.$eventHub.$emit('forceTimeSelect', '');
 
       if (obj) {
+        // appointment id
         this.appointment.id = obj.rowData._appointmentId;
+
+        // patient info
         this.appointment.patientEmail = obj.rowData._patientEmail;
         this.appointment.patientName = `${obj.rowData._patientLast}, ${obj.rowData._patientFirst}`;
         this.appointment.patientPhone = obj.rowData._patientPhone;
+        if (this.userType !== 'patient') this.appointment.patientId = obj.rowData._patientId;
+
+        // store current date
         this.appointment.currentDate = obj.rowData._date;
 
-        if (!this.editableDays) this.loadingDays = false;
+        // set status
+        this.$eventHub.$emit('forceStatusSelect', obj.rowData.status);
+        this.appointment.status = convertStatus(obj.rowData.status);
 
+        // Availability
+        if (!this.editableDays) this.loadingDays = false;
         if (!this.appointment.practitionerAvailability.length
             || this.appointment.practitionerId !== obj.rowData._doctorId) {
           this.appointment.practitionerAvailability = [];
           this.getAvailability(obj.rowData._doctorId);
         }
 
-        if (this.userType !== 'patient') this.appointment.patientId = obj.rowData._patientId;
-
+        // Practitioner info
         this.appointment.practitionerName = obj.rowData.doctor;
         this.appointment.practitionerId = obj.rowData._doctorId;
 
+        // Activate flyout
         this.flyoutHeading = 'Update Appointment';
         this.flyoutMode = 'update';
         this.flyoutActive = true;
+
       } else {
+
+        // Reset everything
         this.flyoutActive = false;
         this.flyoutMode = null;
         this.selectedRowData = null;
@@ -358,6 +402,7 @@ export default {
     this.$eventHub.$off('selectDay');
     this.$eventHub.$off('selectPatient');
     this.$eventHub.$off('selectPractitioner');
+    this.$eventHub.$off('selectStatus');
     this.$eventHub.$off('selectTime');
     this.$eventHub.$off('tableRowClick');
   }
