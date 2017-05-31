@@ -70,20 +70,21 @@
         mounted() {
           axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
-                this.$root.$data.global.detailMessages = {};
+                let data = {};
                 response.data.data.forEach(e => {
-                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] ?  
-                      this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)] :
+                  data[Number(e.attributes.sender_user_id)] = data[Number(e.attributes.sender_user_id)] ?  
+                      data[Number(e.attributes.sender_user_id)] :
                       {};
-                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
-                      this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] :
+                  data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
+                      data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
-                  if (!_.includes(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject], this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].id)) {
-                    this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
-                    this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject]);
+                  if (!_.includes(data[Number(e.attributes.sender_user_id)][e.attributes.subject], data[Number(e.attributes.sender_user_id)][e.attributes.subject].id)) {
+                    data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                    data[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(data[Number(e.attributes.sender_user_id)][e.attributes.subject]);
                   }
                 });
-                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+                this.$root.$data.global.detailMessages = data;
+                this.$root.$data.global.messages = Object.values(data)
                     .map(e => Object.values(e)[0][Object.values(e)[0].length - 1]);
                 this.messageList = this.$root.$data.global.messages;
               })

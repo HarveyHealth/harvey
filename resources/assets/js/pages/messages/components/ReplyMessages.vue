@@ -50,7 +50,7 @@
                     recipient_user_id: this.$props.id,
                     subject: this.$props.header
                 })
-                this.$parent.close();
+                this.$parent.reply();
             }
         },
         computed: {
