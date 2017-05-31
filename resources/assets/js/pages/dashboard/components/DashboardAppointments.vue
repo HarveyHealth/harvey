@@ -23,8 +23,9 @@
             <!-- <a href="/dashboard#/history">View History</a> -->
         </div>
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="appointment in recentAppointmentsData">
+            <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
                 <DashboardAppointment
+                    v-if="dayOffset(appointment, 7)"
                     :appointment="appointment"
                     :user-type="userType"
                     :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
@@ -41,6 +42,7 @@
 
 <script>
     import DashboardAppointment from './DashboardAppointment.vue';
+    import moment from 'moment';
 
     export default {
         props: ['userType', 'recentAppointments', 'upcomingAppointments'],
@@ -73,11 +75,20 @@
                 });
 
                 return patientData;
+            },
+            dayOffset(appt, days) {
+              const today = moment();
+              const apptDate = moment.utc(appt.attributes.appointment_at.date).local();
+              return today.diff(apptDate, 'days') <= days;
             }
         },
         computed: {
             recentAppointmentsData() {
-                return this.recentAppointments.data;
+              if (this.recentAppointments.data && this.recentAppointments.data.length) {
+                return this.recentAppointments.data.reverse();
+              } else {
+                return [];
+              }
             },
             recentAppointmentsIncluded() {
                 return this.recentAppointments.included;

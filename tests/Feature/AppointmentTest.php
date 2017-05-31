@@ -6,14 +6,46 @@ use App\Models\Admin;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Practitioner;
+use App\Models\PractitionerSchedule;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
+use Carbon;
 use ResponseCode;
 use Tests\TestCase;
 
 class AppointmentTest extends TestCase
 {
     use DatabaseMigrations;
+
+    protected function createScheduleAndGetValidAppointmentAt(Practitioner $practitioner)
+    {
+        PractitionerSchedule::where('practitioner_id', $practitioner->id)->delete();
+
+        $practitionerSchedule = factory(PractitionerSchedule::class)->create([
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        $availabilitySlots = $practitionerSchedule->practitioner->availability;
+
+        if (empty($availabilitySlots['week 1']) && empty($availabilitySlots['week 2'])) {
+            return false;
+        } elseif (empty($availabilitySlots['week 1'])) {
+            $pickFromWeek = 2;
+        } elseif (empty($availabilitySlots['week 2'])) {
+            $pickFromWeek = 1;
+        } else {
+            $pickFromWeek = rand(1, 2);
+        }
+
+        $randomSlot = collect($availabilitySlots["week {$pickFromWeek}"])->random();
+        $appointmentAt = Carbon::parse($randomSlot, 'UTC');
+
+        if (2 == $pickFromWeek) {
+            $appointmentAt->addWeek();
+        }
+
+        return $appointmentAt->format('Y-m-d H:i:s');
+    }
 
     public function test_it_allows_a_patient_to_view_their_own_appointments()
     {
@@ -90,10 +122,11 @@ class AppointmentTest extends TestCase
 
         // And a practitioner exists
         $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         // And valid appointment parameters
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some reason.',
             'practitioner_id' => $practitioner->id
         ];
@@ -112,9 +145,10 @@ class AppointmentTest extends TestCase
     public function test_it_allows_a_practitioner_to_schedule_a_new_appointment()
     {
         $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some reason.',
             'patient_id' => factory(Patient::class)->create()->id,
         ];
@@ -130,9 +164,10 @@ class AppointmentTest extends TestCase
     public function test_it_requires_a_patient_id_when_a_practitioner_schedule_a_new_appointment()
     {
         $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some reason.',
         ];
 
@@ -147,10 +182,11 @@ class AppointmentTest extends TestCase
         // Given a patient with a scheduled appointment
         $appointment = factory(Appointment::class)->create();
         $patient = $appointment->patient;
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
         // And new parameters they want to save to the appointment
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some new reason.',
         ];
 
@@ -162,7 +198,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_OK);
 
         // And they can see the new appointment information
-        $this->assertDatabaseHas('appointments', ['appointment_at' => '2017-12-12 00:00:00']);
+        $this->assertDatabaseHas('appointments', ['appointment_at' => $appointment_at]);
         $this->assertDatabaseHas('appointments', ['reason_for_visit' => 'Some new reason.']);
     }
 
@@ -171,10 +207,11 @@ class AppointmentTest extends TestCase
         // Given a patient with a scheduled appointment less than 4 hours away
         $appointment = factory(Appointment::class)->states('soon')->create();
         $patient = $appointment->patient;
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
         // And new parameters they want to save to the appointment
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some new reason.',
         ];
 
@@ -194,10 +231,11 @@ class AppointmentTest extends TestCase
         // Given a patient with a scheduled appointment less than 4 hours away
         $appointment = factory(Appointment::class)->states('soon')->create();
         $patient = $appointment->patient;
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
         // And new parameters they want to save to the appointment
         $parameters = [
-            'appointment_at' => '2017-12-12 00:00:00',
+            'appointment_at' => $appointment_at,
             'reason_for_visit' => 'Some new reason.',
         ];
 
@@ -221,42 +259,42 @@ class AppointmentTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
     }
-    
+
     public function test_an_admin_or_practitioner_can_modify_an_appointment_regardless_of_how_soon_the_appointment_will_be()
     {
         // Given a patient with a scheduled appointment less than 4 hours away
         $appointment = factory(Appointment::class)->states('soon')->create();
         $admin = factory(Admin::class)->create();
-        
+
         // And new parameters they want to save to the appointment
         $parameters = [
             'reason_for_visit' => 'Some other reason.',
         ];
-        
+
         // When they try updating the schedule
         Passport::actingAs($admin->user);
         $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
-        
+
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);
-    
+
         // And when the practitioner attempts to modify the appointment
         $parameters = [
             'reason_for_visit' => 'Some other reason by the practitioner.',
         ];
         Passport::actingAs($appointment->practitioner->user);
         $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
-    
+
         // Then it is successful
         $response->assertStatus(ResponseCode::HTTP_OK);
-    
+
         // but when the patient tries to modify the appointment
         $parameters = [
             'reason_for_visit' => 'Hey, I want to cancel this.',
         ];
         Passport::actingAs($appointment->patient->user);
         $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
-    
+
         // Then it is unsuccessful due to the 4 hour lock
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }

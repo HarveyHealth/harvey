@@ -10,10 +10,19 @@ class Practitioner extends Model
 {
     protected $dates = ['created_at','updated_at'];
 
+    public function getAvailabilityAttribute()
+    {
+        return $this->availability()->availability();
+    }
+
+    public function getTimezoneAttribute()
+    {
+        return $this->user->timezone;
+    }
+
     public function availability()
     {
-        $availability = new PractitionerAvailability($this);
-        return $availability->availability();
+        return new PractitionerAvailability($this);
     }
 
     /*

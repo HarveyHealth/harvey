@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentScheduled;
+use App\Lib\Validation\StrictValidator;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Transformers\V1\AppointmentTransformer;
@@ -64,7 +65,7 @@ class AppointmentsController extends BaseAPIController
     {
         $inputData = $request->all();
         $validator = Validator::make($inputData, [
-            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:' . Carbon::now(),
+            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available',
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
@@ -90,6 +91,12 @@ class AppointmentsController extends BaseAPIController
     public function update(Request $request, Appointment $appointment)
     {
         if (currentUser()->can('update', $appointment)) {
+            StrictValidator::check($request->all(), [
+                'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available:{$appointment->practitioner->id}",
+                'reason_for_visit' => 'filled',
+                'status' => 'filled',
+            ]);
+
             $appointment->update($request->all());
 
             return $this->baseTransformItem($appointment)->respond();

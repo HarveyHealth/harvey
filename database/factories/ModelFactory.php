@@ -79,15 +79,17 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
         $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
     }
 
-    $start_hour = rand(0, 23);
+    $start_hour = rand(0, 22);
     $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
 
-    $stop_hour = rand($start_hour + 1, 24);
+    $stop_hour = rand($start_hour + 2, 24);
     $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
     $stop_time = "{$stop_hour}:{$stop_minutes}:00";
 
     return [
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'practitioner_id' => function () {
+            return factory(App\Models\Practitioner::class)->create()->id;
+        },
         'day_of_week' => $workableDays->random(),
         'start_time' => $start_time,
         'stop_time' => $stop_time,

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Lib\ZipCodeValidator;
 use App\Models\Appointment;
 use App\Models\Message;
 use App\Observers\AppointmentObserver;
@@ -23,10 +22,6 @@ class AppServiceProvider extends ServiceProvider
     {
         require base_path('extensions/blade.php');
         require base_path('extensions/validator.php');
-
-        Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
-            return $validator = app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
-        });
 
         Appointment::observe(AppointmentObserver::class);
         Message::observe(MessageObserver::class);
