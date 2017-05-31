@@ -8,7 +8,7 @@
             <h4 class="top-layer">{{ day }}</h4>
             <h4 class="top-layer">{{ time }}</h4>
             <h4 class="top-layer">...</h4>
-            <h2 class="subject-header">{{ subject }}</h2>
+            <h2 class="subject-header">{{ header }}</h2>
             <h3 class="message-layer">{{ message }}</h3>
         </div>
     </div>
@@ -16,11 +16,8 @@
 
 <script>
     export default {
-        props: ['name', 'day', 'time', 'subject', 'message', 'image'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image'],
         name: 'MessagingPost',
-        components: {
-
-        },
         data() {
             return {
 

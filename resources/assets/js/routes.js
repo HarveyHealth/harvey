@@ -33,13 +33,12 @@ let routes = [
         component: require('./pages/messages/Messages.vue')
     },
     {
-        path: '/detail/:id',
-        props: true,
+        path: '/detail',
+        props:  true,
         component: require('./pages/messages/DetailMessage.vue')
     },
     {
         path: '/lab_orders',
-        props: true,
         component: require('./pages/lab_orders/LabOrders.vue')
     },
     {

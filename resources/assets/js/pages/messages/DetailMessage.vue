@@ -17,28 +17,22 @@
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
                 <div style="margin: 0 20px;">
-                    <h1>SUBJECT</h1>
+                    <h1>{{ subject }}</h1>
                 </div>
-                <DetailPost 
-                    name="Alicia Keys"
-                    day="chat.attributes.created_at.date"
-                    time="chat.attributes.created_at.date"
-                    subject="chat.attributes.subject"
-                    message="chat.attributes.message"
-                    image="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg"
-                />
-               <DetailPost 
-                    name="Alicia Keys"
-                    day="chat.attributes.created_at.date"
-                    time="chat.attributes.created_at.date"
-                    subject="chat.attributes.subject"
-                    message="chat.attributes.message"
-                    image="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg"
-                />
-                <div>
-                  <div class="inline-centered">
-                    <button class="button" v-on:click="reply()">Reply</button>
+                <div v-for="detail in detailList">
+                    <DetailPost 
+                        :name="detail.attributes.sender_full_name"
+                        :day="detail.attributes.created_at.date"
+                        :time="detail.attributes.created_at.date"
+                        :header="detail.attributes.subject"
+                        :message="detail.attributes.message"
+                        :image="detail.attributes.sender_image_url"
+                    />
                 </div>
+                 <div>
+                    <div class="inline-centered">
+                        <button class="button" v-on:click="reply()">Reply</button>
+                    </div>
                 </div>
               </div>
             </div>
@@ -54,7 +48,7 @@
     import UserNav from '../../commons/UserNav.vue'
     import axios from 'axios'
     export default {
-        props: ['id', 'subject'],
+        props: ['id', 'subject', 'detailList'],
         name: 'messages',
         components: {
           Preview,
@@ -67,8 +61,7 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: this.userName,
-              subject: 'Hello'
+              user: this.userName
             }
         },
         methods: {
