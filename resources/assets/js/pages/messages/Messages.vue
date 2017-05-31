@@ -18,7 +18,8 @@
                 <div v-for="chat in messageList">
                   <router-link :to="'/detail/' + chat.attributes.sender_user_id" style="padding: 4px;">
                     <MessagePost
-                        :name="allUsers.filter(e => chat.attributes.sender_user_id === e.id)[0].name"
+                        :name="chat.attributes.sender_full_name"
+                        :image="chat.attributes.sender_image_url"
                         :day="chat.attributes.created_at.date"
                         :time="chat.attributes.created_at.date"
                         :subject="chat.attributes.subject"

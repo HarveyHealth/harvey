@@ -30,12 +30,6 @@
         },
         methods: {
 
-        },
-        computed: {
-
-        },
-        mounted: {
-
         }
     }
 </script>
