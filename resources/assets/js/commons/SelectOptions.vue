@@ -16,6 +16,7 @@ export default {
     'defaultoption',
     'emptylabel',
     'firstempty',
+    'forceevent',
     'isdisabled',
     'loadingmsg',
     'options',
@@ -33,20 +34,35 @@ export default {
       return this.defaultoption || '';
     },
     labelOverlay() {
+      let classes = {};
       if (this.emptylabel && this.emptylabel !== '' && !this.selection) {
-        return { [`${this.emptylabel}`]: true };
+        classes[`${this.emptylabel}`] = true;
       }
+      if (this.isdisabled) {
+        classes['isdisabled'] = true;
+      }
+      return classes;
     },
     loading() {
-      return !this.options.length;
+      return !this.options.length && this.loadingmsg !== undefined;
     }
   },
   methods: {
     selected(target) {
       const index = this.emptylabel !== ''
-        ? target.selectedIndex - 1
+        ? target.selectedIndex === 0 ? null : target.selectedIndex - 1
         : target.selectedIndex;
       this.$eventHub.$emit(this.selectevent, this.options[index])
+    }
+  },
+  mounted() {
+    if (this.forceevent) {
+      this.$eventHub.$on(this.forceevent, forced => this.selection = forced);
+    }
+  },
+  destroyed() {
+    if (this.forceevent) {
+      this.$eventHub.$off(this.forceevent);
     }
   }
 }

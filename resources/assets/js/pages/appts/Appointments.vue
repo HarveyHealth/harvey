@@ -42,7 +42,15 @@
         :editable="editableDays"
         :list="appointment.practitionerAvailability"
         :mode="flyoutMode"
-        :time="appointment.date"
+        :time="appointment.currentDate"
+        :noavailability="noAvailability"
+      />
+
+      <Times
+        :editable="editableDays"
+        :isloading="loadingDays"
+        :list="appointment.availableTimes"
+        :time="appointment.currentDate"
       />
 
     </Flyout>
@@ -60,6 +68,7 @@ import Overlay from '../../commons/Overlay2.vue';
 import Patient from './components/Patient.vue';
 import Practitioner from './components/Practitioner.vue';
 import TableData from '../../commons/TableData.vue';
+import Times from './components/Times.vue';
 import UserNav from '../../commons/UserNav.vue';
 
 // other
@@ -73,7 +82,9 @@ export default {
   data() {
     return {
       appointment: {
+        availableTimes: '',
         date: '',
+        currentDate: '',
         id: '',
         status: '',
         patientEmail: '',
@@ -88,6 +99,8 @@ export default {
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
+      loadingDays: true,
+      noAvailability: false,
       overlayActive: false,
       patientList: [],
       practitionerList: [],
@@ -105,6 +118,7 @@ export default {
     Patient,
     Practitioner,
     TableData,
+    Times,
     UserNav
   },
   computed: {
@@ -113,7 +127,7 @@ export default {
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
-      return moment.utc(this.appointment.date).local().diff(moment()) > 0;
+      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
     editablePatient() {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
@@ -133,24 +147,38 @@ export default {
 
     // Get availability for appointment practitioner
     getAvailability(id) {
+      if (this.editableDays) this.loadingDays = true;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
         this.appointment.practitionerAvailability = transformAvailability(response.data.meta.availability);
-        console.log(this.appointment.practitionerAvailability);
+        // if no availabilty, show warning message
+        if (!this.appointment.practitionerAvailability.filter(obj => obj.times.length).length) {
+          this.noAvailability = true;
+        // else turn off loading display
+        } else {
+          this.loadingDays = false;
+        }
       });
     },
 
     // Setup flyout and appointment info on new appointment click
     handleNewAppointmentClick() {
+
+      this.resetAppointment();
+
       if (this.userType !== 'patient' && this.patientList.length) {
         this.setPatientInfo(this.patientList[0].data);
       }
-      if (this.userType !== 'practitioner' && this.practitionerList.length) {
+
+      // Even though the practitioner isn't shown, we still need the information
+      // to grab availability
+      this.loadingDays = true;
+      if (this.practitionerList.length) {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
+
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
       this.flyoutActive = true;
-
       this.overlayActive = true;
       this.selectedRowData = null;
       this.selectedRowIndex = null;
@@ -161,6 +189,9 @@ export default {
       for (var key in this.appointment) {
         this.appointment[key] = '';
       }
+      this.noAvailability = false;
+      this.$eventHub.$emit('forceDaySelect', '');
+      this.$eventHub.$emit('forceTimeSelect', '');
     },
 
     // Set patient info with data from list object
@@ -225,42 +256,78 @@ export default {
     // Assign practitioners to practitionerList when Promise resolves
     this.$eventHub.$on('receivedPractitioners', this.setupPractitionerList);
 
-    //For when a day is selectedDay
+    // For when a day is selected
     this.$eventHub.$on('selectDay', dayObj => {
-      console.log(dayObj);
+      // If the user selects the empty option it returns false
+      // If the mode is update then we want to revert back to the current date
+      this.$eventHub.$emit('forceTimeSelect', '');
+      if (dayObj) {
+        this.appointment.availableTimes = dayObj.data.times;
+      } else {
+        this.appointment.availableTimes = '';
+        this.appointment.date = '';
+      }
     });
 
     // For when a patient is selected from the dropdown
     this.$eventHub.$on('selectPatient', patient => {
       this.setPatientInfo(patient.data);
-    })
+    });
 
     // For when a practitioner is selected from the dropdown
     this.$eventHub.$on('selectPractitioner', practitioner => {
+      this.loadingDays = true;
+      this.noAvailability = false;
+      this.appointment.practitionerAvailability = '';
+      this.appointment.availableTimes = '';
       this.setPractitionerInfo(practitioner.data);
-    })
+    });
+
+    // For when a time is selected
+    this.$eventHub.$on('selectTime', timeObj => {
+      if (timeObj) {
+        this.appointment.date = timeObj.data.utc.format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        this.appointment.date = '';
+      }
+    });
 
     // On row click setup appointment information and call flyout
     this.$eventHub.$on('tableRowClick', (obj, index) => {
+
       this.selectedRowData = obj;
       this.selectedRowIndex = index;
+
+      this.appointment.date = '';
+      this.appointment.currentDate = '';
+      this.appointment.availableTimes = '';
+
+      this.$eventHub.$emit('forceDaySelect', '');
+      this.$eventHub.$emit('forceTimeSelect', '');
+
       if (obj) {
+        this.appointment.id = obj.rowData._appointmentId;
         this.appointment.patientEmail = obj.rowData._patientEmail;
         this.appointment.patientName = `${obj.rowData._patientLast}, ${obj.rowData._patientFirst}`;
         this.appointment.patientPhone = obj.rowData._patientPhone;
+        this.appointment.currentDate = obj.rowData._date;
+
+        if (!this.editableDays) this.loadingDays = false;
+
+        if (!this.appointment.practitionerAvailability.length
+            || this.appointment.practitionerId !== obj.rowData._doctorId) {
+          this.appointment.practitionerAvailability = [];
+          this.getAvailability(obj.rowData._doctorId);
+        }
+
+        if (this.userType !== 'patient') this.appointment.patientId = obj.rowData._patientId;
+
         this.appointment.practitionerName = obj.rowData.doctor;
         this.appointment.practitionerId = obj.rowData._doctorId;
-        this.appointment.date = obj.rowData._date;
-
-        if (!this.appointment.practitionerAvailability.length || this.appointment.practitionerId === obj.rowData._doctorId) {
-          this.appointment.practitionerAvailability = [];
-          this.getAvailability(this.appointment.practitionerId);
-        }
 
         this.flyoutHeading = 'Update Appointment';
         this.flyoutMode = 'update';
         this.flyoutActive = true;
-        console.log(obj);
       } else {
         this.flyoutActive = false;
         this.flyoutMode = null;
@@ -278,6 +345,10 @@ export default {
       setTimeout(this.resetAppointment, 300);
     });
 
+    window.check = () => {
+      console.log(this.appointment);
+    }
+
   },
   destroyed() {
     this.$eventHub.$off('closeFlyout');
@@ -287,6 +358,7 @@ export default {
     this.$eventHub.$off('selectDay');
     this.$eventHub.$off('selectPatient');
     this.$eventHub.$off('selectPractitioner');
+    this.$eventHub.$off('selectTime');
     this.$eventHub.$off('tableRowClick');
   }
 }
