@@ -13,7 +13,7 @@
                     </h1>
                 </div>
             </div>
-            <Reply v-if="renderReply" />
+            <Reply v-if="renderReply" :name="sender_name" />
             <div style="padding: 20px;">
               <div style="background-color: white; height: 80%;">
                 <div style="margin: 0 20px;">
@@ -47,8 +47,9 @@
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import axios from 'axios'
+    import _ from 'lodash'
     export default {
-        props: ['id', 'subject', 'detailList'],
+        props: ['sender_id', 'subject', 'recipient_id', 'sender_name'],
         name: 'messages',
         components: {
           Preview,
@@ -61,7 +62,10 @@
               renderNewMessage: false,
               renderReply: false,
               isActive: null,
-              user: this.userName
+              user: this.userName,
+              detailList: _.uniq(this.$root.$data.global.detailMessages[Number(this.$route.params.sender_id)][this.$route.params.subject]
+                    .concat(this.$root.$data.global.detailMessages[Number(this.$route.params.recipient_id)][this.$route.params.subject])
+                    .sort((a, b) => a.attributes.created_at - b.attributes.created_at))
             }
         },
         methods: {
@@ -87,9 +91,7 @@
            }
         },
         mounted() {
-            // axios.get(``)
-            //     .then(response => {})
-            //     .catch(error => {})
+            
         }
     }
 </script>

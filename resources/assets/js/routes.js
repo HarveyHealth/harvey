@@ -34,6 +34,8 @@ let routes = [
     },
     {
         path: '/detail',
+        name: 'detail',
+        props: true,
         component: require('./pages/messages/DetailMessage.vue')
     },
     {

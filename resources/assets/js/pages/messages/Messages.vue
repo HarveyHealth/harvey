@@ -17,10 +17,13 @@
             <div style="padding: 20px;">
                 <div v-for="chat in messageList">
                   <router-link :to="{
-                      path: '/detail', 
-                      subject: chat.attributes.subject,
-                      detailList : detailList[chat.attributes.sender_user_id][chat.attributes.subject],
-                      id : chat.attributes.sender_user_id
+                      name: 'detail',
+                      params: {
+                        subject: chat.attributes.subject,
+                        sender_id : chat.attributes.sender_user_id,
+                        recipient_id : chat.attributes.recipient_user_id,
+                        sender_name: chat.attributes.sender_full_name
+                      }
                     }" style="padding: 4px;">
                     <MessagePost
                         :name="chat.attributes.sender_full_name"
@@ -44,7 +47,7 @@
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import axios from 'axios'
-    import includes from 'lodash/includes'
+    import _ from 'lodash'
     export default {
         name: 'messages',
         components: {
@@ -76,9 +79,10 @@
                   this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
                       this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
-                  if (!includes(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject], e)) {
+                  if (!_.includes(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject], e)) {
                     this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
                   }
+                  this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(this.$root.$data.global.detailMessages[Number(e.attributes.sender_user_id)][e.attributes.subject])
                 });
                 this.detailList = this.$root.$data.global.detailMessages;
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)

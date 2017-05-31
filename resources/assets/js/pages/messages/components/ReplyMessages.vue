@@ -9,7 +9,7 @@
                 <label class="input__label" for="patient_name">{{ toUserType }}</label>
                 <span class="custom-select">
                     <select name="doctor_name">
-                        <option>{{ user() }}</option>
+                        <option>{{ name }}</option>
                     </select>
                 </span>
             </div>
@@ -29,7 +29,7 @@
 <script>
     import axios from 'axios';
     export default {
-        props: [],
+        props: ['name'],
         name: 'Reply',
         components: {
 
@@ -38,8 +38,7 @@
             return {
                 reply: this.$parent.reply,
                 selected: '',
-                message: '',
-                user: this.$parent.user
+                message: ''
             }
         },
         methods: {
