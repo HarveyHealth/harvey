@@ -1,7 +1,7 @@
 <template>
     <div class="container-message border-message">
         <div class="image-card">
-            <img class="image-avatar" src="http://res.cloudinary.com/dzllxh0km/image/upload/v1493268974/smqbmnavbzfsfssjf1hp.jpg" alt="avatar">
+            <img class="image-avatar" :src="{{ image }}" alt="avatar">
         </div>
         <div class="details">
             <h4 class="top-layer">{{ name }}</h4>
@@ -16,7 +16,7 @@
 
 <script>
     export default {
-        props: ['name', 'day', 'time', 'subject', 'message'],
+        props: ['name', 'day', 'time', 'subject', 'message', 'image'],
         name: 'MessagingPost',
         components: {
 

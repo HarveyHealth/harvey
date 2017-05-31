@@ -1,7 +1,7 @@
 <template>
     <div class="container-message unread">
         <div class="image-card">
-            <img class="image-avatar" :src="image" alt="avatar">
+            <img class="image-avatar" :src="{{ image }}" alt="avatar">
         </div>
         <div class="details">
             <h4 class="top-layer">{{ name }}</h4>
