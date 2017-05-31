@@ -20,6 +20,7 @@ class StrictValidator extends Validator
 
         if ($validator->fails()) {
             throw new StrictValidatorException($validator->errors()->first());
+            return false;
         }
 
         return true;
