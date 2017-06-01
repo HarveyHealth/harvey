@@ -1,13 +1,13 @@
 <template>
       <div class="main-container">
-      <div  v-on:click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
+      <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
       <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
                   <h1 class="title header-xlarge">
                     <span class="text">Messages</span>
-                    <button v-on:click="close()" class="button main-action circle">
+                    <button @click="close()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
