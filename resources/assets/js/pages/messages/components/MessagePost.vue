@@ -10,7 +10,7 @@
                 <h4 class="top-layer">{{ moment.utc(time).local().format("h:mm a") }}</h4>
                 <h4 class="top-layer"><i class="fa fa-ellipsis-h"></i></h4>
             </div>
-            <div class="message-margin"><h2 class="subject-header">{{ header }}</h2></div>
+            <div class="message-margin"><h2 class="subject-header">{{ subjects }}</h2></div>
             <h3 class="message-layer">{{ messages }}</h3>
         </div>
     </div>
@@ -34,6 +34,14 @@
                     return message.join('');
                 }
                 return this.$props.message;
+            },
+            subjects() {
+                if (this.$props.header.split('').length > 50) {
+                    let header = this.$props.header.split('').splice(0, 47);
+                    header[47] === ' ' ? header.push('...') : header.push(' ...');
+                    return header.join('');
+                }
+                return this.$props.header;
             }
         }
     }
