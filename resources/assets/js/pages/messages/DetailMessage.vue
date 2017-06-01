@@ -15,10 +15,10 @@
             </div>
             <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             <div style="padding: 20px;">
-              <div class="container-detail">
-                <div style="margin: 0 20px;">
-                    <h1>{{ subject }}</h1>
+                <div style="background-color: white; width: auto;">
+                    <h1 style="margin: auto;">{{ subject }}</h1>
                 </div>
+              <div class="container-detail">
                 <div v-if="detailList" v-for="detail in detailList">
                     <DetailPost 
                         :id="detail.id"
