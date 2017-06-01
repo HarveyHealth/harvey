@@ -13,6 +13,9 @@
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
+
+          <FilterButtons :filterdata="filters" />
+
         </div>
       </div>
 
@@ -139,6 +142,7 @@
 <script>
 // components
 import Days from './components/Days.vue';
+import FilterButtons from '../../commons/FilterButtons.vue';
 import Flyout from '../../commons/Flyout2.vue';
 import Modal from '../../commons/Modal.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
@@ -179,6 +183,17 @@ export default {
         practitionerName: '',
         purpose: ''
       },
+      appointments: [],
+      cache: {
+        all: [],
+        upcoming: [],
+        completed: []
+      },
+      filters: [
+        { name: 'All', event: 'filterAll' },
+        { name: 'Upcoming', event: 'filterUpcoming' },
+        { name: 'Completed', event: 'filterCompleted' },
+      ],
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
@@ -211,6 +226,7 @@ export default {
   name: 'appts',
   components: {
     Days,
+    FilterButtons,
     Flyout,
     Modal,
     NotificationPopup,
@@ -235,9 +251,9 @@ export default {
     }
   },
   computed: {
-    appointments() {
-      return tableDataTransform(this.$root.$data.global.appointments);
-    },
+    // appointments() {
+    //   return tableDataTransform(this.$root.$data.global.appointments);
+    // },
     disabledNewButton() {
       return this.flyoutMode === 'new' && !this.appointment.date;
     },
@@ -291,6 +307,14 @@ export default {
 
     checkPastAppointment() {
       return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+    },
+
+    checkTableData() {
+      if (!this.appointments.length) {
+        this.tableEmptyMsg = 'No appointments found';
+      } else {
+        this.tableEmptyMsg = '';
+      }
     },
 
     // Get availability for appointment practitioner
@@ -471,9 +495,29 @@ export default {
       setTimeout(this.resetAppointment, 300);
     });
 
+    this.$eventHub.$on('filterAll', () => {
+      this.appointments = this.cache.all;
+      this.checkTableData();
+    });
+
+    this.$eventHub.$on('filterUpcoming', () => {
+      this.appointments = this.cache.upcoming;
+      this.checkTableData();
+    });
+
+    this.$eventHub.$on('filterCompleted', () => {
+      this.appointments = this.cache.completed;
+      this.checkTableData();
+    });
+
+
     this.$eventHub.$on('receivedAppointments', list => {
+      this.appointments = tableDataTransform(list);
+      this.cache.all = this.appointments;
+      this.cache.upcoming = this.appointments.filter(obj => obj.rowData.status === 'Pending');
+      this.cache.completed = this.appointments.filter(obj => obj.rowData.status === 'Complete');
       Vue.nextTick(() => {
-        if (!list.length) this.tableEmptyMsg = 'You have no appointment data';
+        this.checkTableData();
         this.$eventHub.$emit('tableDataReceived', list);
       })
     });

@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-if="!tabledata.length">
+      <tr v-if="!dataReceived">
         <td :colspan="columns.length" style="font-style: italic;">{{ loadingmsg }}</td>
       </tr>
       <tr v-if="emptymsg && emptymsg !== ''">
@@ -39,6 +39,7 @@ export default {
 
   data() {
     return {
+      dataReceived: false,
       selectedIndex: null,
       selectedObject: null,
       sortedColumn: null,
@@ -87,6 +88,7 @@ export default {
   mounted() {
 
     this.$eventHub.$on('tableDataReceived', data => {
+      this.dataReceived = true;
       if (data.length) {
         this.columns.forEach(obj => {
           if (this.defaultsortcolumn === obj.key) {
