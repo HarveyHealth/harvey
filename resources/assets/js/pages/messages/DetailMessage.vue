@@ -16,7 +16,7 @@
             <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             <div style="padding: 20px;">
                 <div style="background-color: white; width: auto;">
-                    <h1 style="margin: auto;">{{ subject }}</h1>
+                    <h1 style="margin: auto; padding: 20px 40px;">{{ subject }}</h1>
                 </div>
               <div class="container-detail">
                 <div v-if="detailList" v-for="detail in detailList">
