@@ -16,7 +16,7 @@
                     <h1 style="margin: auto; padding: 20px 40px;">{{ subject }}</h1>
                 </div>
               <div class="container-detail">
-                <div v-if="detailList" v-for="detail in detailList">
+                <div style="height: auto;" v-if="detailList" v-for="detail in detailList">
                     <DetailPost 
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"
