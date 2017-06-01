@@ -127,6 +127,12 @@
       </div>
     </Modal>
 
+    <NotificationPopup
+      :from="notificationDirection"
+      :symbol="notificationSymbol"
+      :text="notificationMessage"
+    />
+
   </div>
 </template>
 
@@ -135,6 +141,7 @@
 import Days from './components/Days.vue';
 import Flyout from '../../commons/Flyout2.vue';
 import Modal from '../../commons/Modal.vue';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
 import Overlay from '../../commons/Overlay2.vue';
 import Patient from './components/Patient.vue';
 import Practitioner from './components/Practitioner.vue';
@@ -178,6 +185,9 @@ export default {
       loadingDays: true,
       modalActive: false,
       noAvailability: false,
+      notificationDirection: 'top-right',
+      notificationMessage: '',
+      notificationSymbol: '&#10003;',
       overlayActive: false,
       patientList: [],
       practitionerList: [],
@@ -203,6 +213,7 @@ export default {
     Days,
     Flyout,
     Modal,
+    NotificationPopup,
     Overlay,
     Patient,
     Practitioner,
@@ -377,9 +388,7 @@ export default {
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
         this.$root.getAppointments();
-        // this.notificationMessage = 'Appointment Created!';
-        // this.$eventHub.$emit('refreshTable');
-        // this.$eventHub.$emit('eventCallNotificationPopup');
+        if (succesPopup) this.$eventHub.$emit('eventCallNotificationPopup', popupMsg);
       }).catch(err => console.error(err.response));
 
       // Resets
