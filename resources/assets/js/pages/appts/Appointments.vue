@@ -60,6 +60,10 @@
         :visible="visibleStatus"
       />
 
+      <Purpose
+        :editable="editablePurpose"
+      />
+
     </Flyout>
 
     <Overlay :active="overlayActive" />
@@ -74,6 +78,7 @@ import Flyout from '../../commons/Flyout2.vue';
 import Overlay from '../../commons/Overlay2.vue';
 import Patient from './components/Patient.vue';
 import Practitioner from './components/Practitioner.vue';
+import Purpose from './components/Purpose.vue';
 import Status from './components/Status.vue';
 import TableData from '../../commons/TableData.vue';
 import Times from './components/Times.vue';
@@ -133,6 +138,7 @@ export default {
     Overlay,
     Patient,
     Practitioner,
+    Purpose,
     Status,
     TableData,
     Times,
@@ -154,6 +160,10 @@ export default {
     },
     editablePractitioner() {
       return this.userType !== 'practitioner' && this.flyoutMode === 'new';
+    },
+    editablePurpose() {
+      if (this.flyoutMode === 'new') return true;
+      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
@@ -200,6 +210,8 @@ export default {
       }
 
       this.appointment.status = 'pending';
+      this.appointment.purpose = 'New appointment';
+      this.$eventHub.$emit('forcePurposeText', this.appointment.purpose);
 
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
@@ -249,7 +261,7 @@ export default {
         return { value: obj.name, data: obj };
       });
       // If flyout mode is new, add practitioner info
-      if (this.userType !== 'practitioner' && this.flyoutMode === 'new') {
+      if (this.flyoutMode === 'new') {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
     },
@@ -322,6 +334,11 @@ export default {
       }
     });
 
+    // For when user inputs into purpose textarea
+    this.$eventHub.$on('setPurpose', text => {
+      this.appointment.purpose = text;
+    });
+
     // On row click setup appointment information and call flyout
     this.$eventHub.$on('tableRowClick', (obj, index) => {
 
@@ -364,6 +381,10 @@ export default {
         // Practitioner info
         this.appointment.practitionerName = obj.rowData.doctor;
         this.appointment.practitionerId = obj.rowData._doctorId;
+
+        // Purpose text
+        this.appointment.purpose = obj.rowData.purpose;
+        this.$eventHub.$emit('forcePurposeText', this.appointment.purpose);
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
