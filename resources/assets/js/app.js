@@ -90,7 +90,10 @@ const app = new Vue({
     methods: {
       getAppointments() {
         axios.get(`${this.apiUrl}/appointments?include=patient.user`)
-          .then(response => this.global.appointments = combineAppointmentData(response.data).reverse())
+          .then(response => {
+            this.global.appointments = combineAppointmentData(response.data).reverse();
+            this.$eventHub.$emit('receivedAppointments', this.global.appointments);
+          })
           .catch(error => console.log(error.response));
         axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
           .then((response) => this.global.upcoming_appointments = response.data)

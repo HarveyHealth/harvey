@@ -16,6 +16,12 @@
       </tr>
     </thead>
     <tbody>
+      <tr v-if="!tabledata.length">
+        <td :colspan="columns.length" style="font-style: italic;">{{ loadingmsg }}</td>
+      </tr>
+      <tr v-if="emptymsg && emptymsg !== ''">
+        <td :colspan="columns.length" style="font-style: italic;">{{ emptymsg }}</td>
+      </tr>
       <tr
         v-for="(obj, i) in tabledata"
         @click="handleRowClick(obj, i)"
@@ -29,11 +35,10 @@
 
 <script>
 export default {
-  props: ['columns', 'tabledata'],
+  props: ['columns', 'defaultsortcolumn', 'defaultsortmode', 'emptymsg', 'loadingmsg', 'tabledata'],
 
   data() {
     return {
-      defaultSortColumn: null,
       selectedIndex: null,
       selectedObject: null,
       sortedColumn: null,
@@ -81,9 +86,16 @@ export default {
   },
   mounted() {
 
-    this.columns.forEach(obj => {
-      if (this.defaultSortColumn === obj.key) {
-        this.utilSort(obj);
+    this.$eventHub.$on('tableDataReceived', data => {
+      if (data.length) {
+        this.columns.forEach(obj => {
+          if (this.defaultsortcolumn === obj.key) {
+            this.utilSort(obj);
+          }
+        });
+        if (this.defaultsortmode && this.defaultsortmode === 'descending') {
+          this.tabledata.reverse();
+        }
       }
     });
 
@@ -94,6 +106,7 @@ export default {
 
   },
   destroyed() {
+    this.$eventHub.$off('tableDataReceived');
     this.$eventHub.$off('tableRowUnselect');
   }
 }

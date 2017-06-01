@@ -16,7 +16,14 @@
         </div>
       </div>
 
-      <TableData :columns="tableColumns" :tabledata="appointments" />
+      <TableData
+        :columns="tableColumns"
+        :defaultsortcolumn="'date'"
+        :defaultsortmode="'descending'"
+        :emptymsg="emptyTableMsg"
+        :loadingmsg="tableLoadingMsg"
+        :tabledata="appointments"
+      />
 
     </div>
 
@@ -147,7 +154,9 @@ export default {
         { value: 'Canceled', data: 'canceled' },
         { value: 'Complete', data: 'complete' }
       ],
+      tableEmptyMsg: '',
       tableColumns,
+      tableLoadingMsg: 'Loading appointment data...',
       userType: Laravel.user.userType
     }
   },
@@ -195,6 +204,9 @@ export default {
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
       return this.checkPastAppointment();
+    },
+    emptyTableMsg() {
+      return this.tableEmptyMsg;
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
@@ -329,6 +341,13 @@ export default {
       setTimeout(this.resetAppointment, 300);
     });
 
+    this.$eventHub.$on('receivedAppointments', list => {
+      Vue.nextTick(() => {
+        if (!list.length) this.tableEmptyMsg = 'You have no appointment data';
+        this.$eventHub.$emit('tableDataReceived', list);
+      })
+    });
+
     // Assign patients to patientList when the Promise resolves
     this.$eventHub.$on('receivedPatients', this.setupPatientList);
 
@@ -461,6 +480,7 @@ export default {
   },
   destroyed() {
     this.$eventHub.$off('closeFlyout');
+    this.$eventHub.$off('receivedAppointments');
     this.$eventHub.$off('receivedPatients');
     this.$eventHub.$off('receivedPractitioners');
     this.$eventHub.$off('overlayClicked');
