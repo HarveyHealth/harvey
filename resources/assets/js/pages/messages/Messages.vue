@@ -84,8 +84,8 @@
                   }
                 });
                 this.$root.$data.global.detailMessages = data;
-                this.$root.$data.global.messages = Object.values(data)
-                    .map(e => Object.values(e)[0][Object.values(e)[0].length - 1]);
+                this.$root.$data.global.messages = _.flatten(Object.values(data)
+                    .map(e => Object.values(e).map(ele => ele[ele.length - 1])));
                 this.messageList = this.$root.$data.global.messages;
               })
         }
