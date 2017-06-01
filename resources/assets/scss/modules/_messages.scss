@@ -7,9 +7,17 @@
     border-left: none;
     min-width: 400px;
 }
+.container-detail {
+    background-color: white; 
+    max-height: 700px;
+    min-height: 700px;
+    border-left: none;
+    min-width: 400px;
+    overflow: scroll;
+}
 .top-layer {
     float: left; 
-    margin: 0 10px;
+    margin: 0 10px 0 0;
 }
 .subject-header {
     margin: 6px 100% 0 0;
@@ -36,4 +44,10 @@
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
+}
+.message-margin {
+    margin-top: 30px;
+}
+.top-layer-margin {
+    margin-top: 0 -10px;
 }

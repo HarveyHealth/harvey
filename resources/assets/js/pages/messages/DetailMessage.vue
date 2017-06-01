@@ -15,7 +15,7 @@
             </div>
             <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             <div style="padding: 20px;">
-              <div style="background-color: white; height: 80%;">
+              <div class="container-detail">
                 <div style="margin: 0 20px;">
                     <h1>{{ subject }}</h1>
                 </div>
@@ -30,13 +30,11 @@
                         :image="detail.attributes.sender_image_url"
                     />
                 </div>
-                 <div>
-                    <div class="inline-centered">
-                        <button class="button" v-on:click="reply()">Reply</button>
-                    </div>
-                </div>
               </div>
+            <div class="inline-centered" style="background-color: white; width: auto">
+                <button class="button" v-on:click="reply()">Reply</button>
             </div>
+        </div>
       </div>
     </div>
   </div>
