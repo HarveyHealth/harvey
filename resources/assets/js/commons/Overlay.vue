@@ -1,24 +1,14 @@
 <template>
-  <div @click="emitClick" :class="{ overlay:true, isactive: $root.flyoutActive }"></div>
+  <div @click="emitClick" :class="{ overlay:true, isactive: active }"></div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      isActive: false
-    }
-  },
+  props: ['active'],
   methods: {
     emitClick() {
       this.$eventHub.$emit('overlayClicked');
     }
   },
-  mounted() {
-    this.$eventHub.$on('toggleOverlay', () => this.$root.flyoutActive = !this.$root.flyoutActive);
-  },
-  destroyed() {
-    this.$eventHub.$off('toggleOverlay');
-  }
 }
 </script>
