@@ -7,9 +7,6 @@
                 <div class="container">
                   <h1 class="title header-xlarge">
                     <span class="text">Details</span>
-                    <button v-on:click="reply()" class="button main-action circle">
-                        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                    </button>
                     </h1>
                 </div>
             </div>
