@@ -64,6 +64,24 @@
         :editable="editablePurpose"
       />
 
+      <div class="inline-centered">
+
+        <button
+          v-if="visibleNewButton"
+          class="button"
+          :disabled="disabledNewButton">Book Appointment</button>
+
+        <button
+          v-if="visibleUpdateButtons"
+          class="button"
+          :disabled="disableUpdateButton">Update Appointment</button>
+
+        <a v-if="visibleUpdateButtons"
+          href="#"
+          class="input__linkcta">Cancel Appointment</a>
+
+      </div>
+
     </Flyout>
 
     <Overlay :active="overlayActive" />
@@ -99,6 +117,8 @@ export default {
         availableTimes: '',
         date: '',
         currentDate: '',
+        currentPurpose: '',
+        currentStatus: '',
         id: '',
         status: '',
         patientEmail: '',
@@ -148,9 +168,20 @@ export default {
     appointments() {
       return tableDataTransform(this.$root.$data.global.appointments);
     },
+    disabledNewButton() {
+      return this.flyoutMode === 'new' && !this.appointment.date;
+    },
+    disableUpdateButton() {
+      return this.flyoutMode === 'update'
+             && (
+               (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
+               this.appointment.purpose === this.appointment.currentPurpose &&
+               this.appointment.status === this.appointment.currentStatus
+             )
+    },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
-      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+      return this.checkPastAppointment();
     },
     editableStatus() {
       return this.userType !== 'patient';
@@ -163,7 +194,10 @@ export default {
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
-      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+      return this.checkPastAppointment();
+    },
+    visibleNewButton() {
+      return this.flyoutMode === 'new';
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
@@ -173,10 +207,18 @@ export default {
     },
     visiblePractitioner() {
       return this.userType !== 'practitioner';
-    }
+    },
+    visibleUpdateButtons() {
+      return this.flyoutMode === 'update'
+             && ((this.userType === 'patient' && this.checkPastAppointment()) || this.userType !== 'patient');
+    },
   },
 
   methods: {
+
+    checkPastAppointment() {
+      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+    },
 
     // Get availability for appointment practitioner
     getAvailability(id) {
@@ -364,7 +406,9 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = obj.rowData._patientId;
 
         // store current date
-        this.appointment.currentDate = obj.rowData._date;
+        this.appointment.currentDate = moment(obj.rowData._date).format('YYYY-MM-DD HH:mm:ss');
+        this.appointment.currentPurpose = obj.rowData.purpose;
+        this.appointment.currentStatus = convertStatus(obj.rowData.status);
 
         // set status
         this.$eventHub.$emit('forceStatusSelect', obj.rowData.status);
