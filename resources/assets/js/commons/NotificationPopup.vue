@@ -10,10 +10,11 @@
 
 <script>
 export default {
-  props: ['symbol', 'text', 'from'],
+  props: ['symbol', 'from'],
   data() {
     return {
       duration: 3000,
+      text: '',
       classes: {
         'notification': true,
         [`from-${this.from}`]: true,
@@ -22,7 +23,8 @@ export default {
     }
   },
   mounted() {
-    this.$eventHub.$on('eventCallNotificationPopup', () => {
+    this.$eventHub.$on('eventCallNotificationPopup', msg => {
+      this.text = msg;
       this.classes.isactive = true;
       setTimeout(() => this.classes.isactive = false, this.duration);
     })
