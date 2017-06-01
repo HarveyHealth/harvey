@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Message;
+use App\Events\MessageCreated;
 
 class MessageObserver
 {

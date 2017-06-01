@@ -17,7 +17,7 @@ class UserTransformer extends Transformer
             'height_feet' => $user->height_feet,
             'height_inches' => $user->height_inches,
             'weight' => $user->weight,
-            'user_type' => $user->user_type,
+            'user_type' => $user->type,
             'payment_info'=> (bool) $user->stripe_customer_id ? true : false,
             'api_token' => $user->api_token
       ];

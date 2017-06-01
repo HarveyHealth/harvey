@@ -33,6 +33,11 @@ class Practitioner extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function type()
+    {
+        return $this->hasOne(PractitionerType::class, 'id', 'practitioner_type');
+    }
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class, 'practitioner_id', 'id');
