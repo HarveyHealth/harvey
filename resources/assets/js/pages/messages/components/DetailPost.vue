@@ -1,5 +1,5 @@
 <template>
-    <div class="container-message border-message">
+    <div class="container-detail-message border-message">
         <div class="image-card">
             <img class="image-avatar" :src="image" alt="avatar">
         </div>

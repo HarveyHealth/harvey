@@ -13,7 +13,7 @@
                     </h1>
                 </div>
             </div>
-            <preview v-if="renderNewMessage" />
+            <preview v-if="renderNewMessage" class="slide-right" />
             <div style="padding: 20px;">
                 <div v-if="messageList" v-for="chat in messageList">
                   <router-link :to="{

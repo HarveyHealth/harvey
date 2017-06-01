@@ -1,10 +1,12 @@
 // Animation duration
 $anim-duration: 300ms;
+$slide-duration: 185ms;
 
 // Transitions
 $trans-fade: opacity $anim-duration ease-in-out;
 $trans-slideup: top $anim-duration ease-in-out;
 $trans-fade-slideup: $trans-fade, $trans-slideup;
+$trans-slideright: right $slide-duration ease-in-out;
 
 // Initial states
 .anim-fade {
@@ -38,4 +40,8 @@ $trans-fade-slideup: $trans-fade, $trans-slideup;
 .anim-fade-slideup-in {
   opacity: 1;
   top: 0;
+}
+
+.slide-right {
+  transition: $trans-slideright;
 }

@@ -1,42 +1,43 @@
 <template>
-    <div>
-        <aside :class="{ flyout: true, isactive: true }">
-            <button class="button--close flyout-close" @click="close()">
-                <svg><use xlink:href="#close" /></svg>
-            </button>
-            <h2 class="title">Create Messages</h2>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">{{ toUserType }}</label>
-                <span class="custom-select">
-                    <select @change="updateUser($event)" name="doctor_name">
-                        <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
-                    </select>
-                </span>
+    <Flyout>
+    <aside :class="{ flyout: true, isactive: true }">
+        <button class="button--close flyout-close" @click="close()">
+            <svg><use xlink:href="#close" /></svg>
+        </button>
+        <h2 class="title">Create Messages</h2>
+        <div class="input__container">
+            <label class="input__label" for="patient_name">{{ toUserType }}</label>
+            <span class="custom-select">
+                <select @change="updateUser($event)" name="doctor_name">
+                    <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
+                </select>
+            </span>
+        </div>
+        <div class="input__container">
+            <label class="input__label" for="patient_name">subject</label>
+            <input v-model="subject" class="input--text" type="text">
+        </div>
+        <div class="input__container">
+            <label class="input__label" for="patient_name">message</label>
+            <textarea v-model="message" class="input--textarea"></textarea>
+        </div>
+        <div>
+            <div class="inline-centered">
+                <button class="button" v-on:click="createMessage()">Create Message</button>
             </div>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">subject</label>
-                <input v-model="subject" class="input--text" type="text">
-            </div>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">message</label>
-                <textarea v-model="message" class="input--textarea"></textarea>
-            </div>
-            <div>
-                <div class="inline-centered">
-                    <button class="button" v-on:click="createMessage()">Create Message</button>
-                </div>
-            </div>
-        </aside>
-    </div>
+        </div>
+    </aside>
+    </Flyout>
 </template>
 
 <script>
     import axios from 'axios';
+    import Flyout from '../../../commons/Flyout.vue';
     export default {
         props: [],
         name: 'Preview',
         components: {
-
+            Flyout
         },
         data() {
             return {

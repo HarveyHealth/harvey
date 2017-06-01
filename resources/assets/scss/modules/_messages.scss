@@ -5,14 +5,20 @@
     background-color: white; 
     height: 200px;
     border-left: none;
-    min-width: 400px;
+    width: 1000px;
+}
+.container-detail-message {
+    background-color: white; 
+    height: auto;
+    border-left: none;
+    width: 1000px;
 }
 .container-detail {
     background-color: white; 
     max-height: 700px;
     min-height: 700px;
     border-left: none;
-    min-width: 400px;
+    width: 1000px;
     overflow: scroll;
 }
 .top-layer {
@@ -23,19 +29,19 @@
     margin: 6px 100% 0 0;
 }
 .message-layer {
-    margin: 6px 100% 0 0;
+    margin: 0;
+    text-align: left;
 }
 .details {
     float: left; 
     margin: 4em; 
-    width: 500px;
-
+    width: 70%;
 }
 .image-card {
     width: 80px; 
     height: 80px; 
     float: left;
-    margin: 2%;
+    margin: 20px;
 }
 .image-avatar {
     border-radius: 50%; 

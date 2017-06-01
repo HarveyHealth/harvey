@@ -1,29 +1,27 @@
 <template>
-    <div>
-        <aside :class="{ flyout: true, isactive: true }">
-            <button class="button--close flyout-close" @click="reply()">
-                <svg><use xlink:href="#close" /></svg>
-            </button>
-            <h2 class="title">Reply</h2>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">{{ toUserType }}</label>
-                <span class="custom-select">
-                    <select name="doctor_name">
-                        <option>{{ name }}</option>
-                    </select>
-                </span>
+    <aside :class="{ flyout: true, isactive: true }">
+        <button class="button--close flyout-close" @click="reply()">
+            <svg><use xlink:href="#close" /></svg>
+        </button>
+        <h2 class="title">Reply</h2>
+        <div class="input__container">
+            <label class="input__label" for="patient_name">{{ toUserType }}</label>
+            <span class="custom-select">
+                <select name="doctor_name">
+                    <option>{{ name }}</option>
+                </select>
+            </span>
+        </div>
+        <div class="input__container">
+            <label class="input__label" for="patient_name">message</label>
+            <textarea v-model="message" class="input--textarea"></textarea>
+        </div>
+        <div>
+            <div class="inline-centered">
+                <button class="button" v-on:click="createMessage()">Create Message</button>
             </div>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">message</label>
-                <textarea v-model="message" class="input--textarea"></textarea>
-            </div>
-            <div>
-                <div class="inline-centered">
-                    <button class="button" v-on:click="createMessage()">Create Message</button>
-                </div>
-            </div>
-        </aside>
-    </div>
+        </div>
+    </aside>
 </template>
 
 <script>
