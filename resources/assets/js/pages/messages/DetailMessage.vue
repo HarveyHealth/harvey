@@ -28,7 +28,7 @@
                     />
                 </div>
               </div>
-            <div class="inline-centered" style="background-color: white; width: auto">
+            <div class="inline-centered" style="background-color: white; width: 1000px;">
                 <button class="button" v-on:click="reply()">Reply</button>
             </div>
         </div>
