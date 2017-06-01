@@ -647,11 +647,6 @@ export default {
       setTimeout(this.resetAppointment, 300);
     });
 
-    window.check = () => {
-      console.log(this.appointment);
-      this.modalActive = true;
-    }
-
   },
   destroyed() {
     this.$eventHub.$off('closeFlyout');
