@@ -76,15 +76,18 @@
         <button
           v-if="visibleNewButton"
           class="button"
+          @click="handleConfirmationModal('new')"
           :disabled="disabledNewButton">Book Appointment</button>
 
         <button
           v-if="visibleUpdateButtons"
           class="button"
+          @click="handleConfirmationModal('update')"
           :disabled="disableUpdateButton">Update Appointment</button>
 
         <a v-if="visibleUpdateButtons"
           href="#"
+          @click.prevent="handleConfirmationModal('cancel')"
           class="input__linkcta">Cancel Appointment</a>
 
       </div>
@@ -93,6 +96,37 @@
 
     <Overlay :active="overlayActive" />
 
+    <Modal :active="modalActive" :containerclass="'appointment-modal'">
+      <h3 class="modal-header">{{ userActionTitle }}</h3>
+      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0">
+        <tr v-if="userType !== 'patient'">
+          <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
+          <td><p>{{ appointment.patientName }}</p></td>
+        </tr>
+        <tr v-if="userType !== 'practitioner'">
+          <td width="25%"><p><strong>Doctor:</strong></p></td>
+          <td><p>{{ appointment.practitionerName }}</p></td>
+        </tr>
+        <tr>
+          <td width="25%"><p><strong>Time:</strong></p></td>
+          <td><p>{{ appointment.date | confirmDate }}</p></td>
+        </tr>
+        <tr v-if="flyoutMode === 'update'">
+          <td width="25%"><p><strong>Status:</strong></p></td>
+          <td><p>{{ appointment.status | confirmStatus }}</p></td>
+        </tr>
+        <tr>
+          <td width="25%"><p><strong>Purpose:</strong></p></td>
+          <td><p>{{ appointment.purpose | confirmPurpose }}</p></td>
+        </tr>
+      </table>
+      <div class="modal-button-container">
+        <button class="button" @click="handleUserAction">Yes, Confirm</button>
+        <button class="button button--cancel" @click="modalActive = false">Go Back</button>
+        <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
+      </div>
+    </Modal>
+
   </div>
 </template>
 
@@ -100,6 +134,7 @@
 // components
 import Days from './components/Days.vue';
 import Flyout from '../../commons/Flyout2.vue';
+import Modal from '../../commons/Modal.vue';
 import Overlay from '../../commons/Overlay2.vue';
 import Patient from './components/Patient.vue';
 import Practitioner from './components/Practitioner.vue';
@@ -141,6 +176,7 @@ export default {
       flyoutHeading: '',
       flyoutMode: null,
       loadingDays: true,
+      modalActive: false,
       noAvailability: false,
       overlayActive: false,
       patientList: [],
@@ -157,6 +193,8 @@ export default {
       tableEmptyMsg: '',
       tableColumns,
       tableLoadingMsg: 'Loading appointment data...',
+      userAction: '',
+      userActionTitle: '',
       userType: Laravel.user.userType
     }
   },
@@ -164,6 +202,7 @@ export default {
   components: {
     Days,
     Flyout,
+    Modal,
     Overlay,
     Patient,
     Practitioner,
@@ -172,6 +211,17 @@ export default {
     TableData,
     Times,
     UserNav
+  },
+  filters: {
+    confirmDate(date) {
+      return toLocal(date, 'dddd, MMMM Do [at] h:mm a');
+    },
+    confirmPurpose(purpose) {
+      return purpose.length ? purpose : 'New appointment';
+    },
+    confirmStatus(status) {
+      return convertStatus(status);
+    }
   },
   computed: {
     appointments() {
@@ -247,6 +297,30 @@ export default {
       });
     },
 
+    // When user clicks flyout button
+    handleConfirmationModal(action) {
+      this.userAction = action;
+      switch(action) {
+        case 'cancel':
+          this.userActionTitle = 'Confirm Cancellation';
+          this.appointment.status = 'canceled';
+          this.appointment.date = this.appointment.currentDate;
+          break;
+        case 'update':
+          this.userActionTitle = 'Confirm Update';
+          if (this.appointment.status === 'canceled' ||
+             (this.userType !== 'patient' && this.appointment.date === '')) {
+            this.appointment.date = this.appointment.currentDate;
+          }
+          break;
+        case 'new':
+          this.userActionTitle = 'Confirm Appointment';
+          this.appointment.status = 'pending';
+          break;
+      }
+      this.modalActive = true;
+    },
+
     // Setup flyout and appointment info on new appointment click
     handleNewAppointmentClick() {
 
@@ -276,11 +350,56 @@ export default {
       this.$eventHub.$emit('tableRowUnselect');
     },
 
+    handleUserAction() {
+      // Setup
+      let data = {
+        appointment_at: this.appointment.date,
+        reason_for_visit: this.appointment.purpose,
+        status: this.appointment.status,
+        patient_id: this.appointment.patientId * 1,
+        practitioner_id: this.appointment.practitionerId * 1
+      }
+      const action = this.userAction === 'new' ? 'post' : 'patch';
+      const api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
+      const succesPopup = this.userAction !== 'cancel';
+      const popupMsg = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
+
+      // api constraints
+      if (this.userType === 'patient') delete data.patient_id;
+      if (this.userAction === 'update') delete data.patient_id;
+      if (this.userAction !== 'new') delete data.practitioner_id;
+      if (this.userAction === 'cancel') {
+        delete data.appointment_at;
+        delete data.patient_id;
+      }
+
+      // Make the call
+      // TO-DO: Add error notifications if api call fails
+      axios[action](api, data).then(response => {
+        this.$root.getAppointments();
+        // this.notificationMessage = 'Appointment Created!';
+        // this.$eventHub.$emit('refreshTable');
+        // this.$eventHub.$emit('eventCallNotificationPopup');
+      }).catch(err => console.error(err.response));
+
+      // Resets
+      this.flyoutActive = false;
+      this.flyoutMode = null;
+      this.modalActive = false;
+      this.overlayActive = false;
+      this.selectedRowData = null;
+      this.selectedRowIndex = null;
+      setTimeout(this.resetAppointment, 300);
+    },
+
     resetAppointment() {
       for (var key in this.appointment) {
         this.appointment[key] = '';
       }
+      this.selectedRowData = null;
+      this.selectedRowIndex = null;
       this.noAvailability = false;
+      this.$eventHub.$emit('tableRowUnselect');
       this.$eventHub.$emit('forceDaySelect', '');
       this.$eventHub.$emit('forceTimeSelect', '');
     },
@@ -330,14 +449,16 @@ export default {
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
+    // When the confirmation modal closes
+    this.$eventHub.$on('closeModal', () => {
+      this.modalActive = false;
+    });
+
     // When the flyout closes, close the overlay and unselect any table rows
     this.$eventHub.$on('closeFlyout', () => {
       this.flyoutActive = false;
       this.flyoutMode = null;
       this.overlayActive = false;
-      this.selectedRowData = null;
-      this.selectedRowIndex = null;
-      this.$eventHub.$emit('tableRowUnselect');
       setTimeout(this.resetAppointment, 300);
     });
 
@@ -475,6 +596,7 @@ export default {
 
     window.check = () => {
       console.log(this.appointment);
+      this.modalActive = true;
     }
 
   },
