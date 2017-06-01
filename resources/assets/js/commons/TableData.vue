@@ -91,11 +91,11 @@ export default {
         this.columns.forEach(obj => {
           if (this.defaultsortcolumn === obj.key) {
             this.utilSort(obj);
+            if (this.defaultsortmode && this.defaultsortmode === 'descending') {
+              this.utilSort(obj);
+            }
           }
         });
-        if (this.defaultsortmode && this.defaultsortmode === 'descending') {
-          this.tabledata.reverse();
-        }
       }
     });
 
