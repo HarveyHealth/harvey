@@ -11,7 +11,7 @@
                 <h4 class="top-layer"><i class="fa fa-ellipsis-h"></i></h4>
             </div>
             <div class="message-margin"><h2 class="subject-header">{{ header }}</h2></div>
-            <div><h3 class="message-layer">{{ message }}</h3></div>
+            <h3 class="message-layer">{{ messages }}</h3>
         </div>
     </div>
 </template>
@@ -26,8 +26,15 @@
                 moment: moment
             }
         },
-        methods: {
-
+        computed: {
+            messages() {
+                if (this.$props.message.split('').length > 50) {
+                    let message = this.$props.message.split('').splice(0, 47);
+                    message[47] === ' ' ? message.push('...') : message.push(' ...');
+                    return message.join('');
+                }
+                return this.$props.message;
+            }
         }
     }
 </script>
