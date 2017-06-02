@@ -22,8 +22,8 @@
                       name: 'detail',
                       params: {
                         subject: chat.attributes.subject,
-                        sender_id : chat.attributes.sender_user_id,
-                        recipient_id : chat.attributes.recipient_user_id,
+                        sender_id : Number(chat.attributes.sender_user_id),
+                        recipient_id : Number(chat.attributes.recipient_user_id),
                         sender_name: chat.attributes.sender_full_name
                       }
                     }" style="padding: 4px;">
@@ -80,16 +80,27 @@
                   data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
                       data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
-                  if (!_.includes(data[Number(e.attributes.sender_user_id)][e.attributes.subject], data[Number(e.attributes.sender_user_id)][e.attributes.subject].id)) {
-                    data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
-                    data[Number(e.attributes.sender_user_id)][e.attributes.subject] = _.uniq(data[Number(e.attributes.sender_user_id)][e.attributes.subject]);
-                  }
+
                 });
+                _.each(data[this.$root.$data.global.user.id], (value, key) => {
+                    Object.values(data).forEach(e => {
+                      _.each(e, (v, k) => {
+                          if (k === key) {
+                            value.concat(v).sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+                          }
+                      })
+                   })
+                })
+                this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
                 this.$root.$data.global.detailMessages = data;
-                this.$root.$data.global.messages = _.flatten(Object.values(data)
-                    .map(e => Object.values(e).map(ele => ele[ele.length - 1])));
                 this.messageList = this.$root.$data.global.messages;
               })
+          let channel = socket.channel(`App.User.${this.$root.$data.global.user.id}`);
+          channel.bind_global((event, data) => {
+            this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].push(data)
+            this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+            this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
+          })
         }
     }
 </script>
