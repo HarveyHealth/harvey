@@ -45,6 +45,7 @@
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import axios from 'axios'
+    import socket from './websocket'
     import _ from 'lodash'
     export default {
         props: ['sender_id', 'subject', 'recipient_id', 'sender_name'],
