@@ -1,16 +1,19 @@
 <?php
 
-namespace Tests\Browser\Pages;
+ namespace Tests\Browser\Pages;
 
-use Laravel\Dusk\Browser;
+ use Laravel\Dusk\Browser;
+ use Laravel\Dusk\Page as BasePage;
+ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomePage extends Page
 {
 
 
     public $signupText = 'I agree to terms and privacy policy.';
-    public $coverTitle = 'Personalized and integrative medicine, unique as you are.';
+    public $coverTitle = "Hi. We're Harvey. We specialize in complex health conditions.";
     public $labsPage = 'Micronutrient Test';
+    public $faqPage =  'Advice and answers from the Harvey Team';
 
 
     public function url()
@@ -28,10 +31,6 @@ class HomePage extends Page
         $browser->assertPathIs($this->url());
     }
 
-    public function setFatigue(Browser $browser)
-    {
-        $browser->drag('@symptom1', '@symptom2');
-    }
 
     public function logout(Browser $browser)
     {
@@ -40,9 +39,9 @@ class HomePage extends Page
     }
 
 //********************Header Tests
-    public function getStartedHeader(Browser $browser)
+    public function bookNowHeader(Browser $browser)
     {
-        $browser->click('@getStartedHeader')
+        $browser->click('@bookNowHeader')
                 ->assertSee($this->signupText);
     }
 
@@ -58,25 +57,22 @@ class HomePage extends Page
                 ->assertCoverTitle();
     }
 
-//***************Get Started buttons on the page
+//***************Boook Appointment buttons on the page
 
-    public function getStartedCover(Browser $browser)
+
+    public function bookAppOne(Browser $browser)
     {
-        $browser->click('@getStartedCover')
+        $browser->mouseover('@labTesting')
+                ->pause(3000)
+                ->click('@bookAppOne')
                 ->assertSee($this->signupText);
     }
 
-    public function getStartedOne(Browser $browser)
-    {
-        $browser->click('@getStartedOne')
-                ->assertSee($this->signupText);
-    }
-
-    public function getStartedTwo(Browser $browser)
+    public function bookAppTwo(Browser $browser)
     {
         $browser->mouseover('@footer')
                 ->pause(2000)
-                ->click('@getStaredTwo')
+                ->click('@bookAppTwo')
                 ->assertSee($this->signupText);
     }
 
@@ -87,37 +83,58 @@ class HomePage extends Page
     public function labsButton(Browser $browser)
     {
             $browser->pause(2000)
-                    ->mouseover('@labsTestDiv')
+                    ->mouseover('@medicalAdvisors')
                     ->click('@labsTestButton')
                     ->assertSee($this->labsPage);
 
     }
 
     //Test footer
+    public function homeFooter(Browser $browser)
+    {
+          $browser->mouseover('@footerBottom')
+                  ->pause(1000)
+                  ->click('#app > footer > div > div > p.nav-center > a:nth-child(1)')
+                  ->assertSee($this->coverTitle);
+    }
+
 
     public function labsFooter(Browser $browser)
     {
-          $browser->mouseover('@footer')
+          $browser->mouseover('@footerBottom')
                   ->pause(1000)
-                  ->mouseover('@footer')
                   ->click('@footerLabs')
                   ->assertSee($this->labsPage);
     }
 
+    public function blogFooter(Browser $browser)
+    {
+          $browser->mouseover('@footerBottom')
+                  ->pause(1000)
+                  ->click('@footerBlog')
+                  ->assertSee('VISIT SITE');
+    }
+
+    public function faqFooter(Browser $browser)
+    {
+          $browser->mouseover('@footerBottom')
+                  ->pause(1000)
+                  ->click('@footerFaq')
+                  ->assertSee($this->faqPage);
+    }
+
     public function termsFooter(Browser $browser)
     {
-          $browser->mouseover('@footer')
+          $browser->mouseover('@footerBottom')
                   ->pause(1000)
-                  ->mouseover('@footer')
                   ->click('@footerTerms')
                   ->assertSee('Terms and Conditions');
     }
 
     public function privacyFooter(Browser $browser)
     {
-          $browser->mouseover('@footer')
+          $browser->mouseover('@footerBottom')
                   ->pause(1000)
-                  ->mouseover('@footer')
                   ->click('@footerPrivacy')
                   ->assertSee('Privacy Policy');
     }
@@ -129,16 +146,20 @@ class HomePage extends Page
     {
         return [
             '@element' => '#selector',
-            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(3)',
-            '@loginHeader' => '#app > nav > div > div.nav-right > span > a.button.is-primary.is-outlined.is-hidden-mobile',
-            '@harveyLogoHeader' => '#app > nav > div > div.nav-left > a > div > svg',
-            '@getStartedCover' => '#app > div > div > section.hero.is-fullheight.is-primary > div.hero-body > div > div > div > div > a',
-            '@getStartedOne' => '#how-it-works > div > div.button-wrapper.has-text-centered > a',
-            '@getStaredTwo' => '#get-started > div:nth-child(2) > div > div > div > a',
-            '@labsTestDiv' => '#pricing > div > div > div',
-            '@labsTestButton' => '#pricing > div > div > div > div > div > a',
-            '@footer' => '#app > footer > div > div',
+            '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
+            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a.button.is-primary.is-outlined.is-hidden-mobile',
+            '@harveyLogoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
+            '@labTesting' => '#tests > div > h2 > span',
+            '@bookAppOne' => '#pricing > div > div.has-text-centered > div > a',
+            '@bookAppTwo' => '#get-started > div > div > div > a',
+            '@medicalAdvisors' => '#advisors > div > h2 > span',
+            '@labsTestButton' => '#labs > div > div > div > div > div > a',
+            '@footer' => '#app > footer > div > div > a > img',
+            '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',
+            '@homeFooter' => '#app > footer > div > div > p.nav-center > a:nth-child(1)',
             '@footerLabs' => '#app > footer > div > div > p.nav-center > a:nth-child(2)',
+            '@footerBlog' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
+            '@footerFaq' => '#app > footer > div > div > p.nav-center > a:nth-child(4)',
             '@footerTerms' => '#app > footer > div > div > p.nav-center > a:nth-child(5)',
             '@footerPrivacy' => '#app > footer > div > div > p.nav-center > a:nth-child(6)'
 

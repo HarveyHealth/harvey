@@ -19,11 +19,11 @@ class HomepageTest extends DuskTestCase
     }
 
 
-    public function test_get_started_button_in_header()
+    public function test_if_book_now_is_in_header()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->getStartedHeader();
+                    ->bookNowHeader();
               });
     }
 
@@ -45,23 +45,23 @@ class HomepageTest extends DuskTestCase
 
     }
 
-    public function test_first_get_started_button_on_page()
+    public function test_first_book_appointment_on_page()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->getStartedOne();
+                    ->bookAppOne();
               });
     }
 
-    public function test_second_get_started_button_on_page()
+    public function test_second_book_appointment_button_on_page()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->getStartedTwo();
+                    ->bookAppTwo();
               });
     }
 
-    public function test_if_labs_button_works()
+    public function test_if_labs_tests_button_works()
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
@@ -69,62 +69,53 @@ class HomepageTest extends DuskTestCase
         });
     }
 
-   public function test_if_labs_button_work_in_footer()
-   {
-       $this->browse(function ($browser) {
-           $browser->visit(new HomePage)
-                   ->labsFooter();
-       });
-    }
-
-    public function test_if_terms_button_work_in_footer()
+    public function test_if_home_button_works_in_footer()
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->termsFooter();
+                    ->homeFooter();
         });
      }
 
-     public function test_if_privacy_button_work_in_footer()
+
+    public function test_if_labs_button_work_in_footer()
+    {
+        $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->labsFooter();
+        });
+     }
+
+     public function test_if_blog_button_works_in_footer()
      {
          $this->browse(function ($browser) {
              $browser->visit(new HomePage)
-                     ->privacyFooter();
+                     ->blogFooter();
          });
       }
 
-  // public function test_if_footer_links_work()
-    // {
-    //     $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->assertSee('It’s time to think differently about your medicine.');
-    //               // ->mouseover('.footer')
-    //               // ->clickLink('Terms')
-    //               // ->assertSee('Welcome to Harvey (“Harvey” or “Company”).')
-    //               // ->visit('/')
-    //               // ->mouseover('.footer')
-    //               // ->clickLink('Privacy')
-    //               // ->assertSee('This Privacy Policy describes the information Harvey (“Harvey”) collects about you,')
-    //               // ->visit('/')
-    //               // ->mouseOver('.footer')
-    //               // ->clickLink('Book')
-    //               // ->assertSee('Create your account')
-    //               // ->visit('/')
-    //               // ->mouseOver('.footer')
-    //               // ->clickLink('Labs')
-    //               // ->assertSee('Lab Tests & Pricing');
-    //     });
-    // }
+      public function test_if_FAQ_button_works_in_footer()
+      {
+          $this->browse(function ($browser) {
+              $browser->visit(new HomePage)
+                      ->faqFooter();
+          });
+       }
 
-    //
-    // public function test_explore_other_tests_button()
-    // {
-    //       $this->browse(function ($browser){
-    //         $browser->visit(new HomePage)
-    //                 ->mouseOver('@mouseOverHowitWorks')
-    //                 ->click('@exploreOtherTests')
-    //                 ->assertSee('Lab Tests & Pricing');
-        //   });
-        //
-        // }
+     public function test_if_terms_button_work_in_footer()
+     {
+         $this->browse(function ($browser) {
+             $browser->visit(new HomePage)
+                     ->termsFooter();
+         });
+      }
+
+      public function test_if_privacy_button_work_in_footer()
+      {
+          $this->browse(function ($browser) {
+              $browser->visit(new HomePage)
+                      ->privacyFooter();
+          });
+       }
+
 }
