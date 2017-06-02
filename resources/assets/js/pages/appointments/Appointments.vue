@@ -401,9 +401,18 @@ export default {
       const popupMsg = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
       // api constraints
-      if (this.userType === 'patient') delete data.patient_id;
-      if (this.userAction === 'update') delete data.patient_id;
-      if (this.userAction !== 'new') delete data.practitioner_id;
+      if (this.userType === 'patient') {
+        delete data.patient_id;
+      }
+      if (this.userAction === 'update') {
+        if (this.appointment.currentDate === data.appointment_at) {
+          delete data.appointment_at;
+        }
+        delete data.patient_id;
+      }
+      if (this.userAction !== 'new') {
+        delete data.practitioner_id;
+      }
       if (this.userAction === 'cancel') {
         delete data.appointment_at;
         delete data.patient_id;
@@ -444,6 +453,17 @@ export default {
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
+    },
+
+    setupAppointments(list) {
+      this.appointments = tableDataTransform(list);
+      this.cache.all = this.appointments;
+      this.cache.upcoming = this.appointments.filter(obj => obj.rowData.status === 'Pending');
+      this.cache.completed = this.appointments.filter(obj => obj.rowData.status === 'Complete');
+      Vue.nextTick(() => {
+        this.checkTableData();
+        this.$eventHub.$emit('tableDataReceived', list);
+      })
     },
 
     // Set practitioner info with data from list object
@@ -511,16 +531,12 @@ export default {
       this.checkTableData();
     });
 
+    if (this.$root.$data.global.appointments.length) {
+      this.setupAppointments(this.$root.$data.global.appointments);
+    }
 
     this.$eventHub.$on('receivedAppointments', list => {
-      this.appointments = tableDataTransform(list);
-      this.cache.all = this.appointments;
-      this.cache.upcoming = this.appointments.filter(obj => obj.rowData.status === 'Pending');
-      this.cache.completed = this.appointments.filter(obj => obj.rowData.status === 'Complete');
-      Vue.nextTick(() => {
-        this.checkTableData();
-        this.$eventHub.$emit('tableDataReceived', list);
-      })
+      this.setupAppointments(list);
     });
 
     // Assign patients to patientList when the Promise resolves

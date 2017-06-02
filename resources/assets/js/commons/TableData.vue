@@ -89,6 +89,7 @@ export default {
 
     this.$eventHub.$on('tableDataReceived', data => {
       this.dataReceived = true;
+      this.sortedColumn = null;
       if (data.length) {
         this.columns.forEach(obj => {
           if (this.defaultsortcolumn === obj.key) {
