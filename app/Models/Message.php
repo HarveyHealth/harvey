@@ -67,11 +67,6 @@ class Message extends Model
         return $this;
     }
 
-    public function canUserRead(User $user)
-    {
-        return $this->sender == $user || $this->recipient == $user;
-    }
-
     /*
      * Scopes
      */
@@ -90,6 +85,11 @@ class Message extends Model
     public function scopeUnread($query)
     {
         return $query->whereNull('read_at');
+    }
+
+    public function scopeCreatedAfter($query, Carbon $date)
+    {
+        return $query->where('created_at', '>', $date);
     }
 
 }

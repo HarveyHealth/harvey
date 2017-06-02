@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
 use League\Fractal\Serializer\JsonApiSerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
-use Spatie\Fractal\Fractal;
-use \ResponseCode;
+use ResponseCode;
 
 class BaseAPIController extends Controller
 {
@@ -54,8 +53,7 @@ class BaseAPIController extends Controller
     {
         $this->setStatusCode($code);
 
-        $problem = new ApiProblem();
-        $problem->setTitle($title);
+        $problem = new ApiProblem($title);
         $problem->setDetail($message);
 
         return response()->apiproblem($problem->asArray(), $this->getStatusCode());

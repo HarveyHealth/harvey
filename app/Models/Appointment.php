@@ -30,7 +30,7 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'status_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -179,4 +179,10 @@ class Appointment extends Model
     {
         return $query->where('status_id', self::COMPLETE_STATUS_ID);
     }
+
+    public function scopeNot($query, Appointment $appointment)
+    {
+        return $query->where('appointments.id', '!=', $appointment->id);
+    }
+
 }

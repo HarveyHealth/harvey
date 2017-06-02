@@ -64,6 +64,7 @@ return [
     ],
     'not_in'               => 'The selected :attribute is invalid.',
     'numeric'              => 'The :attribute must be a number.',
+    'practitioner_is_available' => 'Practitioner is not available at that time.',
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
     'required'             => 'The :attribute field is required.',
@@ -120,6 +121,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'appointment_at' => 'appointment time',
+    ],
 
 ];

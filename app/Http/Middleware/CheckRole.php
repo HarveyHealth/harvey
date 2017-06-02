@@ -27,7 +27,7 @@ class CheckRole
         $allowed = false;
 
         foreach ($roles as $role) {
-            if ($user->user_type == $role) {
+            if ($user->type == $role) {
                 $allowed = true;
                 break;
             }
