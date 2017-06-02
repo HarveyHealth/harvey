@@ -10,7 +10,9 @@
                 <h4 class="top-layer">{{ moment.utc(time).local().format("h:mm a") }}</h4>
                 <h4 class="top-layer"><i class="fa fa-ellipsis-h"></i></h4>
             </div>
-            <div class="message-margin"><h3 class="message-layer">{{ message }}</h3></div>
+            <div class="message-margin">
+                <h3 class="message-layer">{{ message }}</h3>
+            </div>
         </div>
     </div>
 </template>

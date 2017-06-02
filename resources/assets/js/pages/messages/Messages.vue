@@ -48,6 +48,7 @@
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import socket from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
     export default {
