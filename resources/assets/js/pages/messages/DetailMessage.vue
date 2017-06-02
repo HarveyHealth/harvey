@@ -67,8 +67,6 @@
             }
         },
         methods: {
-          newMessage() {
-          },
           close() {
             this.renderNewMessage = !this.renderNewMessage
           },

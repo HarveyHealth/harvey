@@ -80,8 +80,9 @@
                   data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
                       data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
-
+                  data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
                 });
+                console.log(`DATA`, data);
                 _.each(data[this.$root.$data.global.user.id], (value, key) => {
                     Object.values(data).forEach(e => {
                       _.each(e, (v, k) => {
