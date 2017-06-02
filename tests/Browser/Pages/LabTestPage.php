@@ -32,9 +32,7 @@ class LabTestPage extends BasePage
     {
         $browser->waitForText('Micronutrient Test')
                 ->assertSee('Micronutrient Test')
-                ->assertSee('$299')
-                ->click('@appointmentbutton')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$299');
     }
 
     public function testHormones(Browser $browser)
@@ -42,9 +40,7 @@ class LabTestPage extends BasePage
         $browser->click('@hormones')
                 ->waitForText('Hormone Test')
                 ->assertSee('Hormone Test')
-                ->assertSee('$99')
-                ->click('@appointmentbuttontwo')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$99');
     }
 
     public function testAdrenals(Browser $browser)
@@ -52,9 +48,7 @@ class LabTestPage extends BasePage
         $browser->click('@adrenals')
                 ->waitForText('Sample: Saliva')
                 ->assertSee('Sample: Saliva')
-                ->assertSee('$125')
-                ->click('@appointmentbuttonthree')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$125');
 
     }
 
@@ -63,9 +57,7 @@ class LabTestPage extends BasePage
         $browser->click('@thyroid')
                 ->waitForText('Thyroid/Cortisol Test')
                 ->assertSee('Thyroid/Cortisol Test')
-                ->assertSee('$99')
-                ->click('@appointmentbuttonfour')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$99');
     }
 
     public function testCardio(Browser $browser)
@@ -73,9 +65,7 @@ class LabTestPage extends BasePage
         $browser->click('@cardio')
                 ->waitForText('CardioMetabolic Test')
                 ->assertSee('CardioMetabolic Test')
-                ->assertSee('$99')
-                ->click('@appointmentbuttonfive')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$99');
     }
 
     public function testCBC(Browser $browser)
@@ -83,9 +73,7 @@ class LabTestPage extends BasePage
         $browser->click('@cbc')
                 ->waitForText('CBC/CMP Test')
                 ->assertSee('CBC/CMP Test')
-                ->assertSee('$29')
-                ->click('@appointmentbuttonsix')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$29');
     }
 
     public function testToxicMetals(Browser $browser)
@@ -93,9 +81,7 @@ class LabTestPage extends BasePage
         $browser->click('@toxicMetal')
                 ->waitForText('Toxic Metals Test')
                 ->assertSee('Toxic Metals Test')
-                ->assertSee('$199')
-                ->click('@appointmentbuttonseven')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$199');
     }
 
     public function testToxicChemicals(Browser $browser)
@@ -103,9 +89,7 @@ class LabTestPage extends BasePage
         $browser->click('@toxicChemical')
                 ->waitForText('Toxic Chemicals Test')
                 ->assertSee('Toxic Chemicals Test')
-                ->assertSee('$239')
-                ->click('@appointmentbuttoneight')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$199');
     }
 
     public function testFoodAllergies(Browser $browser)
@@ -113,9 +97,7 @@ class LabTestPage extends BasePage
         $browser->click('@foodAllergies')
                 ->waitForText('Food Allergy Test')
                 ->assertSee('Food Allergy Test')
-                ->assertSee('$239')
-                ->click('@appointmentbuttonnine')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$199');
     }
 
     public function testMicrobiome(Browser $browser)
@@ -123,9 +105,7 @@ class LabTestPage extends BasePage
         $browser->click('@microbiome')
                 ->waitForText('Microbiome (Gut) Test')
                 ->assertSee('Microbiome (Gut) Test')
-                ->assertSee('$199')
-                ->click('@appointmentbuttonten')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$199');
     }
 
     public function testOrganic(Browser $browser)
@@ -133,9 +113,7 @@ class LabTestPage extends BasePage
         $browser->click('@organic')
                 ->waitForText('Organic Acids Test')
                 ->assertSee('Organic Acids Test')
-                ->assertSee('$299')
-                ->click('@appointmentbuttoneleven')
-                ->assertSee('Your journey starts here');
+                ->assertSee('$299');
     }
     /**
      * Get the element shortcuts for the page.
@@ -156,17 +134,6 @@ class LabTestPage extends BasePage
             '@foodAllergies' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(10) > a',
             '@microbiome' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(11) > a',
             '@organic' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(12) > a',
-            '@appointmentbutton' => '#tab-1 > div > div > a',
-            '@appointmentbuttontwo' => '#tab-2 > div > div > a',
-            '@appointmentbuttonthree' => '#tab-3 > div > div > a',
-            '@appointmentbuttonfour' => '#tab-4 > div > div > a',
-            '@appointmentbuttonfive' => '#tab-5 > div > div > a',
-            '@appointmentbuttonsix' => '#tab-6 > div > div > a',
-            '@appointmentbuttonseven' => '#tab-7 > div > div > a',
-            '@appointmentbuttoneight' => '#tab-8 > div > div > a',
-            '@appointmentbuttonnine' => '#tab-9 > div > div > a',
-            '@appointmentbuttonten' => '#tab-10 > div > div > a',
-            '@appointmentbuttoneleven' => '#tab-11 > div > div > a'
         ];
     }
 }

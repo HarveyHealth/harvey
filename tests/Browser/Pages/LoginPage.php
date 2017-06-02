@@ -10,7 +10,7 @@ class LoginPage extends BasePage
 
   public $signupPage = "Your journey starts here";
   public $forgotPasswordPage = "Reset Password";
-  public $homepage = 'Personalized and integrative medicine, unique as you are.';
+  public $homepage = "Hi. We're Harvey. We specialize in complex health conditions.";
 
     /**
      * Get the URL for the page.
@@ -33,9 +33,9 @@ class LoginPage extends BasePage
     }
 
 
-    public function getStartedHeader(Browser $browser)
+    public function bookNowHeader(Browser $browser)
     {
-        $browser->click('@getStartedHeader')
+        $browser->click('@bookNowHeader')
                 ->assertSee($this->signupPage);
     }
 
@@ -56,7 +56,7 @@ class LoginPage extends BasePage
 
     public function logoHeader(Browser $browser)
     {
-       $browser->click('@header')
+       $browser->click('@logoHeader')
                ->assertSee($this->homepage);
     }
 
@@ -75,10 +75,10 @@ class LoginPage extends BasePage
     {
         return [
             '@login' => '#login > p.control.is-clearfix > button',
-            '@getStartedHeader' => '#app > nav > div > div.nav-right > span > a:nth-child(3)',
+            '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
             '@forgotPassword' => '#login > p.control.is-clearfix > a',
             '@signUpButton' => '#app > div > section > div > div > footer > div > a',
-            '@header' => '#app > nav > div > div.nav-left > a',
+            '@logoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
             '@logout' => '#app > div.main-container > div.nav-bar > a.nav-bar-logout'
         ];
     }

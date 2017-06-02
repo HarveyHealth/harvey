@@ -14,11 +14,11 @@ class LoginPageTest extends DuskTestCase
      *
      * @return void
      */
-    public function test_if_get_stared_is_linked_in_header()
+    public function test_if_book_now_is_working_in_header()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit(new LoginPage)
-                    ->getStartedHeader();
+                    ->bookNowHeader();
         });
     }
 
