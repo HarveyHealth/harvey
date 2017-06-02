@@ -21,7 +21,10 @@
 ///     gutter: 20px,
 ///   );
 
-$neat-grid: () !default;
+$neat-grid: (
+    columns: 12,
+    gutter: 20px,
+) !default;
 
 /// If you need multiple grids in a single project, you can do
 /// this by defining a new map stored within a variable of your choosing. This
@@ -71,4 +74,7 @@ $neat-grid: () !default;
 ///   );
 ///
 
-$neat-custom-grid: () !default;
+$neat-custom-grid: (
+    columns: 12,
+    gutter: 20px,
+) !default;
