@@ -1,5 +1,5 @@
 <template>
-    <aside :class="{ flyout: true, isactive: true }">
+    <aside>
         <button class="button--close flyout-close" @click="reply()">
             <svg><use xlink:href="#close" /></svg>
         </button>

@@ -1,6 +1,5 @@
 <template>
-    <Flyout>
-    <aside :class="{ flyout: true, isactive: true }">
+    <aside>
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
@@ -27,7 +26,6 @@
             </div>
         </div>
     </aside>
-    </Flyout>
 </template>
 
 <script>

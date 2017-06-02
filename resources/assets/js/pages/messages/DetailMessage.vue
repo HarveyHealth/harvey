@@ -10,7 +10,9 @@
                     </h1>
                 </div>
             </div>
-            <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
+            <div :class="{flyout: true, isactive: renderReply}">
+             <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
+            </div>
             <div style="padding: 20px;">
                 <div style="background-color: white; width: 1000px;" class="border-message">
                     <h2 style="margin: auto; padding: 20px 40px;">{{ subject }}</h2>

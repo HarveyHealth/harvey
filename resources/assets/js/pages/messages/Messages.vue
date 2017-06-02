@@ -13,7 +13,9 @@
                     </h1>
                 </div>
             </div>
-            <preview v-if="renderNewMessage" class="slide-right" />
+            <div :class="{flyout: true, isactive: renderNewMessage}">
+              <preview v-if="renderNewMessage" />
+            </div>
             <div style="padding: 20px;">
                 <div v-if="messageList" v-for="chat in messageList">
                   <router-link :to="{
@@ -58,7 +60,6 @@
         data() {
             return {
               renderNewMessage: false,
-              isActive: null,
               messageList: this.$root.$data.global.messages
             }
         },
