@@ -87,8 +87,8 @@
            }
         },
         mounted() {
-            let channel = socket.channel(`private-App.User.${window.Laravel.user.id}`);
-            channel.bind('MessageCreated', (data) => {
+            let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
+            channel.bind('App\\Events\\MessageCreated', (data) => {
                 this.$root.$data.global.detailMessages[data.subject].push(data.data);
                 this.$root.$data.global.detailMessages[data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
                 this.detailList = this.$root.$data.global.detailMessages;
