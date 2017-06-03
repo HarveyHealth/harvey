@@ -81,25 +81,32 @@
                       data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
                       [];
                   data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                  if (data[this.$root.$data.global.user.id] && data[this.$root.$data.global.user.id][e.attributes.subject]) {
+                    data[this.$root.$data.global.user.id][e.attributes.subject].push(e);
+                  }
                 });
-                console.log(`DATA`, data);
-                _.each(data[this.$root.$data.global.user.id], (value, key) => {
-                    Object.values(data).forEach(e => {
-                      _.each(e, (v, k) => {
-                          if (k === key) {
-                            value.concat(v).sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-                          }
-                      })
-                   })
+                let object = data[this.$root.$data.global.user.id];
+                delete data[this.$root.$data.global.user.id];
+                _.each(data, (value, key) => {
+                      _.each(object, (v, k) => {
+                          _.each(value, (val, ki) => {
+                              if (ki == k) {
+                                object[k] = object[k].concat(v);
+                              }
+                          });
+                      });
+                });
+                _.each(object, (val, key) => {
+                  object[key] = _.uniq(val);
                 })
-                this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
-                this.$root.$data.global.detailMessages = data;
+                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length -1])
+                this.$root.$data.global.detailMessages = object;
                 this.messageList = this.$root.$data.global.messages;
               })
           let channel = socket.channel(`App.User.${this.$root.$data.global.user.id}`);
           channel.bind('MessageCreated', (data) => {
-            this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].push(data)
-            this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].push(data.data)
+            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
             this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
           })
         }

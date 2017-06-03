@@ -63,7 +63,7 @@
               isActive: null,
               user: this.userName,
               user_id: this.$root.$data.global.user.id,
-              detailList: this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][this.$props.subject]
+              detailList: this.$root.$data.global.detailMessages[this.$props.subject]
             }
         },
         methods: {
@@ -89,8 +89,8 @@
         mounted() {
             let channel = socket.channel(`App.User.${this.$root.$data.global.user.id}`);
             channel.bind('MessageCreated', (data) => {
-                this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].push(data);
-                this.$root.$data.global.detailMessages[Number(this.$root.$data.global.user.id)][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+                this.$root.$data.global.detailMessages[data.subject].push(data.data);
+                this.$root.$data.global.detailMessages[data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
                 this.detailList = this.$root.$data.global.detailMessages;
                 this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1]);
             })
