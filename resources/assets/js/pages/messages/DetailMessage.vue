@@ -87,7 +87,7 @@
            }
         },
         mounted() {
-            let channel = socket.channel(`App.User.${this.$root.$data.global.user.id}`);
+            let channel = socket.subscribe(`private-App.User.${this.$root.$data.global.user.id}`);
             channel.bind('MessageCreated', (data) => {
                 this.$root.$data.global.detailMessages[data.subject].push(data.data);
                 this.$root.$data.global.detailMessages[data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
