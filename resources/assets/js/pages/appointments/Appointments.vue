@@ -268,6 +268,7 @@ export default {
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
+      if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     editableStatus() {
@@ -281,6 +282,7 @@ export default {
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
+      if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     emptyTableMsg() {
@@ -299,8 +301,9 @@ export default {
       return this.userType !== 'practitioner';
     },
     visibleUpdateButtons() {
-      return this.flyoutMode === 'update'
-             && ((this.userType === 'patient' && this.checkPastAppointment()) || this.userType !== 'patient');
+      return this.flyoutMode === 'update' &&
+        (this.userType === 'patient' && this.appointment.status === 'pending') &&
+        ((this.userType === 'patient' && this.checkPastAppointment()) || this.userType !== 'patient')
     },
   },
 
