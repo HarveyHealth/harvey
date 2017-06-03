@@ -35,7 +35,6 @@
     "vue-router": "^2.3.1",
     "vue-slider-component": "^2.2.5",
     "webpack": "2.2.1",
-    "webpack-spritesmith": "^0.3.3",
-    "wss": "^3.0.2"
+    "webpack-spritesmith": "^0.3.3"
   }
 }
