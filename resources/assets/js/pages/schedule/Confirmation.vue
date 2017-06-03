@@ -97,6 +97,7 @@
       if (!moment(this.appointmentDate).isValid()) {
         window.location.href = '/dashboard';
       } else {
+
         this.validDate = true;
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300);
 
@@ -127,6 +128,9 @@
           })
           .then(response => {
               // phone, firstname, lastname updated
+              this.$root.getUser();
+              this.$root.getAppointments();
+              this.$root.getPractitioners();
           })
           .catch(error => {
             this.responseErrors = error.response.data.errors;

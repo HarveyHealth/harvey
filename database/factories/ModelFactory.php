@@ -123,8 +123,12 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     $start_time->second = 0;
 
     return [
-        'patient_id' => factory(App\Models\Patient::class)->create()->id,
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'patient_id' => function () {
+            return factory(App\Models\Patient::class)->create()->id;
+        },
+        'practitioner_id' => function () {
+            return factory(App\Models\Practitioner::class)->create()->id;
+        },
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
     ];
