@@ -30,7 +30,11 @@
 
     </div>
 
-    <Flyout :active="flyoutActive" :heading="flyoutHeading">
+    <Flyout
+      :active="flyoutActive"
+      :heading="flyoutHeading"
+      :on-close="handleFlyoutClose"
+    >
 
       <Patient
         :editable="editablePatient"
@@ -357,6 +361,13 @@ export default {
       this.modalActive = true;
     },
 
+    handleFlyoutClose() {
+      this.flyoutActive = false;
+      this.flyoutMode = null;
+      this.overlayActive = false;
+      setTimeout(this.resetAppointment, 300);
+    },
+
     // Setup flyout and appointment info on new appointment click
     handleNewAppointmentClick() {
 
@@ -506,14 +517,6 @@ export default {
     // When the confirmation modal closes
     this.$eventHub.$on('closeModal', () => {
       this.modalActive = false;
-    });
-
-    // When the flyout closes, close the overlay and unselect any table rows
-    this.$eventHub.$on('closeFlyout', () => {
-      this.flyoutActive = false;
-      this.flyoutMode = null;
-      this.overlayActive = false;
-      setTimeout(this.resetAppointment, 300);
     });
 
     this.$eventHub.$on('filterAll', () => {
@@ -666,7 +669,6 @@ export default {
 
   },
   destroyed() {
-    this.$eventHub.$off('closeFlyout');
     this.$eventHub.$off('receivedAppointments');
     this.$eventHub.$off('receivedPatients');
     this.$eventHub.$off('receivedPractitioners');
