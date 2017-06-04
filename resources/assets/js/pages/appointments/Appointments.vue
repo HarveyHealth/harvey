@@ -103,7 +103,11 @@
 
     <Overlay :active="overlayActive" />
 
-    <Modal :active="modalActive" :containerclass="'appointment-modal'">
+    <Modal
+      :active="modalActive"
+      :container-class="'appointment-modal'"
+      :on-close="handleModalClose"
+    >
       <h3 class="modal-header">{{ userActionTitle }}</h3>
       <table border="0" style="width: 100%" cellpadding="0" cellspacing="0">
         <tr v-if="userType !== 'patient'">
@@ -368,6 +372,10 @@ export default {
       setTimeout(this.resetAppointment, 300);
     },
 
+    handleModalClose() {
+      this.modalActive = false;
+    },
+
     // Setup flyout and appointment info on new appointment click
     handleNewAppointmentClick() {
 
@@ -513,11 +521,6 @@ export default {
     const practitioners = this.$root.$data.global.practitioners;
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
-
-    // When the confirmation modal closes
-    this.$eventHub.$on('closeModal', () => {
-      this.modalActive = false;
-    });
 
     this.$eventHub.$on('filterAll', () => {
       this.appointments = this.cache.all;
