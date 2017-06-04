@@ -139,7 +139,8 @@
     </Modal>
 
     <NotificationPopup
-      :from="notificationDirection"
+      :active="notificationActive"
+      :comes-from="notificationDirection"
       :symbol="notificationSymbol"
       :text="notificationMessage"
     />
@@ -209,7 +210,9 @@ export default {
       loadingDays: true,
       modalActive: false,
       noAvailability: false,
+      notificationActive: false,
       notificationDirection: 'top-right',
+      notificationDuration: 3000,
       notificationMessage: '',
       notificationSymbol: '&#10003;',
       overlayActive: false,
@@ -405,6 +408,11 @@ export default {
       this.$eventHub.$emit('tableRowUnselect');
     },
 
+    handleNotificationInit() {
+      this.notificationActive = true;
+      setTimeout(() => this.notificationActive = false, this.notificationDuration);
+    },
+
     handleUserAction() {
       // Setup
       let data = {
@@ -417,7 +425,7 @@ export default {
       const action = this.userAction === 'new' ? 'post' : 'patch';
       const api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
-      const popupMsg = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
+      this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
       // api constraints
       if (this.userType === 'patient') {
@@ -441,7 +449,7 @@ export default {
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
         this.$root.getAppointments();
-        if (succesPopup) this.$eventHub.$emit('eventCallNotificationPopup', popupMsg);
+        if (succesPopup) this.handleNotificationInit();
       }).catch(err => console.error(err.response));
 
       // Resets

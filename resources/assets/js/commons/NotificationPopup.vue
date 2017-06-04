@@ -1,36 +1,36 @@
 <template>
-  <div :class="classes">
+  <div :class="{
+    'notification': true,
+    [`from-${comesFrom}`]: true,
+    'isactive': active
+  }">
     <span
       v-if="symbol !== ''"
       class="notification-symbol"
-      v-html="symbol"></span>
-    {{ text }}
+      v-html="symbol"
+    ></span>
+    <span v-html="text"></span>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['symbol', 'from'],
-  data() {
-    return {
-      duration: 3000,
-      text: '',
-      classes: {
-        'notification': true,
-        [`from-${this.from}`]: true,
-        'isactive': false
-      }
+  props: {
+    active: {
+      type: Boolean,
+      required: true
+    },
+    comesFrom: {
+      type: String,
+      required: true
+    },
+    symbol: {
+      type: String
+    },
+    text: {
+      type: String,
+      required: true
     }
-  },
-  mounted() {
-    this.$eventHub.$on('eventCallNotificationPopup', msg => {
-      this.text = msg;
-      this.classes.isactive = true;
-      setTimeout(() => this.classes.isactive = false, this.duration);
-    })
-  },
-  destroyed() {
-    this.$eventHub.$off('eventCallNotificationPopup');
   }
 }
 </script>
