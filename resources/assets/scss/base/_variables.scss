@@ -17,10 +17,33 @@ $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 
 // Colors
-$blue: #1565c0;
-$dark-gray: #333;
-$medium-gray: #999;
-$light-gray: #ddd;
+// Grays
+$white: #fff;
+$lightest-gray: #f8f8f8;
+$light-gray: #F4F4F4;
+$medium-gray: #999999;
+$gray: #999999;
+$dark-gray: #777777;
+$darkest-gray: #444444;
+
+// New Greys
+$color--grey: #E4EAEC;
+
+// Brand
+
+$harvey-primary: #B4E7A0;
+$harvey-secondary: #5F7278;
+$harvey-tertiary: #82BEF2;
+
+$lime: #E3EAA7;
+$pink: #EDA1A6;
+$brown: #ADA397;
+$purple: #BAA7B5;
+$blue: #82BEF2;
+$turquoise: #82BEF2;
+$slategrey: #5F7278;
+$green: #BDCEBE;
+$red: #FF0000;
 
 // Font Colors
 $base-font-color: $dark-gray;
