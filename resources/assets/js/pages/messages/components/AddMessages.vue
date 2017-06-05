@@ -57,34 +57,12 @@
                     subject: this.subject
                 })
                 .then(resp => {
-                    axios.get(`/api/v1/messages`)
-                        .then(response => {
-                            let data = {};
-                            response.data.data.forEach(e => {
-                            data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
-                                data[e.attributes.sender_user_id] :
-                                {};
-                            data[e.attributes.sender_user_id][e.attributes.subject] = data[e.attributes.sender_user_id][e.attributes.subject] ?
-                                data[e.attributes.sender_user_id][e.attributes.subject] :
-                                [];
-                            data[e.attributes.sender_user_id][e.attributes.subject].push(e);
-                            if (data[window.Laravel.user.id] && data[window.Laravel.user.id][e.attributes.subject]) {
-                                data[window.Laravel.user.id][e.attributes.subject].push(e);
-                            }
-                            });
-                            let object = {}
-                            _.each(data, (val, key) => {
-                                _.extend(object, val);
-                            });
-                            if (object) {
-                                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
-                                this.$root.$data.global.detailMessages = object;
-                            }
-                            this.messageList = this.$root.$data.global.messages;
-                    })
+                    this.$root.$data.global.detailMessages[resp.data.data.attributes.subject] = [resp.data.data];
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
+                    this.$parent.messageList = this.$root.$data.global.messages
                 })
                 .catch(error => {
-                    console.log(`ERROR`);
+                    console.log(`ERROR`, error);
                 })
                 this.$parent.close();
             }
