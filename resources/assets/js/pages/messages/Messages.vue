@@ -91,6 +91,11 @@
                   }
                 });
                 let object = data[this.$root.$data.global.user.id];
+                if (!object) {
+                    this.$root.$data.global.messages = [];
+                    this.$root.$data.global.detailMessages = {};
+                    return;
+                }
                 delete data[this.$root.$data.global.user.id];
                 _.each(data, (value, key) => {
                       _.each(object, (v, k) => {
@@ -104,8 +109,10 @@
                 _.each(object, (val, key) => {
                   object[key] = _.uniq(val);
                 })
-                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length -1])
-                this.$root.$data.global.detailMessages = object;
+                if (object) {
+                  this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
+                  this.$root.$data.global.detailMessages = object;
+                }
                 this.messageList = this.$root.$data.global.messages;
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {

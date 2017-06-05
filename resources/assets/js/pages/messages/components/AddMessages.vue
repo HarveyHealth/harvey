@@ -50,14 +50,52 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                console.log(`HIT`);
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
                     recipient_user_id: this.selected,
                     subject: this.subject
                 })
-                .then(response => {
-                    console.log(`SUCCESSFUL`);
+                .then(resp => {
+                    axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
+                        .then(response => {
+                            let data = {};
+                            response.data.data.forEach(e => {
+                            data[Number(e.attributes.sender_user_id)] = data[Number(e.attributes.sender_user_id)] ?  
+                                data[Number(e.attributes.sender_user_id)] :
+                                {};
+                            data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
+                                data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
+                                [];
+                            data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                            if (data[Number(this.$root.$data.global.user.id)] && data[Number(this.$root.$data.global.user.id)][e.attributes.subject]) {
+                                data[Number(this.$root.$data.global.user.id)][e.attributes.subject].push(e);
+                            }
+                            });
+                            let object = data[Number(this.$root.$data.global.user.id)];
+                            if (!object) {
+                                this.$root.$data.global.messages = [];
+                                this.$root.$data.global.detailMessages = {};
+                                return;
+                            }
+                            delete data[Number(this.$root.$data.global.user.id)];
+                            _.each(data, (value, key) => {
+                                _.each(object, (v, k) => {
+                                    _.each(value, (val, ki) => {
+                                        if (ki == k) {
+                                            object[k] = object[k].concat(v);
+                                        }
+                                    });
+                                });
+                            });
+                            _.each(object, (val, key) => {
+                            object[key] = _.uniq(val);
+                            })
+                            if (object) {
+                                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
+                                this.$root.$data.global.detailMessages = object;
+                            }
+                            this.messageList = this.$root.$data.global.messages;
+                        })
                 })
                 .catch(error => {
                     console.log(`ERROR`);
