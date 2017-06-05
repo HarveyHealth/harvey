@@ -52,7 +52,7 @@
             createMessage() {
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
-                    recipient_user_id: this.selected,
+                    recipient_user_id: Number(this.selected),
                     subject: this.subject
                 })
                 .then(resp => {
