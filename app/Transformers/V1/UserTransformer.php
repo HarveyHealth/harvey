@@ -23,10 +23,10 @@ class UserTransformer extends TransformerAbstract
             'first_name' => $user->first_name,
             'gender' => $user->gender,
             'id' => (string) $user->id,
-            'image_url' => $user->imageURL(),
+            'image_url' => $user->image_url,
             'last_name' => $user->last_name,
             'phone' => $user->phone,
-            'user_type' => $user->userType(),
+            'user_type' => $user->type,
             'zip' => $user->zip,
         ];
     }

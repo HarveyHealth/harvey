@@ -2,6 +2,7 @@
 
 use App\Lib\TimeslotManager;
 use App\Lib\ZipCodeValidator;
+use App\Models\Appointment;
 use App\Models\Practitioner;
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
@@ -22,7 +23,8 @@ Validator::extendImplicit('required_if_is_patient', function ($attribute, $value
 
 Validator::extend('practitioner_is_available', function ($attribute, $value, $parameters, $validator) {
     if (!empty($parameters)) {
-        $practitioner = Practitioner::find($parameters[0]);
+        $appointmentEditing = Appointment::find($parameters[0]);
+        $practitioner = Practitioner::find($appointmentEditing->practitioner->id);
     } elseif (currentUser()->isPractitioner()) {
         $practitioner =  currentUser()->practitioner;
     } elseif ($practitionerId = array_get($validator->attributes(), 'practitioner_id', false)) {
@@ -31,5 +33,5 @@ Validator::extend('practitioner_is_available', function ($attribute, $value, $pa
         return false;
     }
 
-    return $practitioner->availability()->canScheduleAt(Carbon::parse($value, 'UTC'));
+    return $practitioner->availability()->canScheduleAt(Carbon::parse($value, 'UTC'), $appointmentEditing ?? null);
 });

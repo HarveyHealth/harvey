@@ -184,4 +184,10 @@ class Appointment extends Model
     {
         return $query->where('status_id', self::COMPLETE_STATUS_ID);
     }
+
+    public function scopeNot($query, Appointment $appointment)
+    {
+        return $query->where('appointments.id', '!=', $appointment->id);
+    }
+
 }

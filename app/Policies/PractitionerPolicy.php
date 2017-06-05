@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PractitionerPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * @param User $user
      * @param      $ability
@@ -17,11 +17,9 @@ class PractitionerPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        return $user->isAdmin() ?: null;
     }
-    
+
     /**
      * @param User         $user
      * @param Practitioner $practitioner

@@ -86,7 +86,7 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function test_it_allows_and_admin_to_view_all_appointments()
+    public function test_it_allows_an_admin_to_view_all_appointments()
     {
         factory(Patient::class, 2)->create()->each(function ($patient) {
             $patient->appointments()->saveMany(factory(Appointment::class, 3)->make());
@@ -100,7 +100,7 @@ class AppointmentTest extends TestCase
         $this->assertCount(6, $response->original['data']);
     }
 
-    public function test_it_allows_and_admin_to_view_upcoming_appointments()
+    public function test_it_allows_an_admin_to_view_upcoming_appointments()
     {
         factory(Patient::class, 3)->create()->each(function ($patient) {
             $patient->appointments()->saveMany(factory(Appointment::class, 3)->states('past')->make());
@@ -199,6 +199,28 @@ class AppointmentTest extends TestCase
 
         // And they can see the new appointment information
         $this->assertDatabaseHas('appointments', ['appointment_at' => $appointment_at]);
+        $this->assertDatabaseHas('appointments', ['reason_for_visit' => 'Some new reason.']);
+    }
+
+    public function test_a_patient_can_submit_the_same_date_and_time_when_updating_their_appointment()
+    {
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+        $appointment = factory(Appointment::class)->create([
+            'appointment_at' => $appointment_at,
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        $parameters = [
+            'appointment_at' => $appointment->appointment_at->format('Y-m-d H:i:s'),
+            'reason_for_visit' => 'Some new reason.',
+        ];
+
+        Passport::actingAs($appointment->practitioner->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
         $this->assertDatabaseHas('appointments', ['reason_for_visit' => 'Some new reason.']);
     }
 

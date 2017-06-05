@@ -28,7 +28,7 @@ class MessagesController extends BaseAPIController
      */
     public function index()
     {
-        $filterUnread = 'unread' == request('filter');
+        $filterUnread = 'unread' === request('filter');
         $recipientId = currentUser()->id;
         $senderId = request('sender_user_id');
         $term = request('term');
@@ -131,7 +131,7 @@ class MessagesController extends BaseAPIController
     {
         if (currentUser()->can('delete', $message)) {
             $message->delete();
-            return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_GONE);
+            return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_NO_CONTENT);
         }
 
         return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");

@@ -23,7 +23,7 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'password' => $password ?: $password = bcrypt('secret'),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => Carbon::now(),
-        'phone' => $faker->randomElement(array('626','323','818')) . $faker->numberBetween(1111111, 9999999),
+        'phone' => $faker->randomElement(['626','323','818']) . $faker->numberBetween(1111111, 9999999),
         'phone_verified_at' => Carbon::now(),
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
@@ -54,14 +54,6 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
-    return [
-        'enabled' => true,
-        'name' => $faker->word,
-        'rate' => $faker->randomElement(['150', '300']),
-    ];
-});
-
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
@@ -75,7 +67,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
 $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
-        'name' => $faker->name,
+        'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
 });
@@ -104,7 +96,6 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
     ];
 });
 
-
 $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
@@ -113,7 +104,6 @@ $factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
         },
     ];
 });
-
 
 $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     return [
@@ -133,8 +123,12 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     $start_time->second = 0;
 
     return [
-        'patient_id' => factory(App\Models\Patient::class)->create()->id,
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'patient_id' => function () {
+            return factory(App\Models\Patient::class)->create()->id;
+        },
+        'practitioner_id' => function () {
+            return factory(App\Models\Practitioner::class)->create()->id;
+        },
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
     ];
@@ -199,7 +193,8 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
     $output['recipient_user_id'] = function () use ($recipientClassName) {
         return factory($recipientClassName)->create()->user->id;
     };
-    $output['message'] = $faker->sentence;
+    $output['message'] = $faker->text;
+    $output['subject'] = $faker->sentence;
     $output['is_admin'] = App\Models\Admin::class == $senderClassName;
     $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
 

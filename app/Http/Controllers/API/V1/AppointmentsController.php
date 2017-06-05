@@ -51,13 +51,10 @@ class AppointmentsController extends BaseAPIController
     public function show(Appointment $appointment)
     {
         if (currentUser()->can('view', $appointment)) {
-            return $this->baseTransformItem(
-                    $appointment,
-                    request('include'))
-                    ->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
+            return $this->baseTransformItem($appointment, request('include'))->respond();
         }
+
+        return $this->respondNotAuthorized("You do not have access to view the appointment with id {$appointment->id}.");
     }
 
     /**
@@ -95,7 +92,7 @@ class AppointmentsController extends BaseAPIController
     {
         if (currentUser()->can('update', $appointment)) {
             StrictValidator::check($request->all(), [
-                'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available:{$appointment->practitioner->id}",
+                'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available:{$appointment->id}",
                 'reason_for_visit' => 'filled',
                 'status' => 'filled',
             ]);

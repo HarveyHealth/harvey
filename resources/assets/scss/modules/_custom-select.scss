@@ -57,6 +57,14 @@
 	display: none;
 }
 
+.custom-select.isdisabled {
+  color: lighten($gray, 10%);
+  select { cursor: default; }
+  &::after {
+    content: '' !important;
+  }
+}
+
 /* Firefox <= 34 has a false positive on @supports( -moz-appearance: none )
  * @supports ( mask-type: alpha ) is Firefox 35+
  */

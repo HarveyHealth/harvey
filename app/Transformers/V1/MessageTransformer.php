@@ -24,7 +24,11 @@ class MessageTransformer extends TransformerAbstract
             'is_sender_admin' => (boolean) $message->is_sender_admin,
             'message' => htmlentities($message->message),
             'read_at' => $message->read_at,
+            'recipient_full_name' => $message->recipient->fullName(),
+            'recipient_image_url' => $message->recipient->image_url,
             'recipient_user_id' => (string) $message->recipient_user_id,
+            'sender_full_name' => $message->sender->fullName(),
+            'sender_image_url' => $message->sender->image_url,
             'sender_user_id' => (string) $message->sender_user_id,
             'subject' => htmlentities($message->subject),
         ];
