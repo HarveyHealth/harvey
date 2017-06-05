@@ -73,6 +73,11 @@
           axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
                 let data = {};
+                if (!response.data.data) {
+                  this.$root.$data.global.messages = [];
+                  this.$root.$data.global.detailMessages = {};
+                  return null;
+                }
                 response.data.data.forEach(e => {
                   data[Number(e.attributes.sender_user_id)] = data[Number(e.attributes.sender_user_id)] ?  
                       data[Number(e.attributes.sender_user_id)] :
