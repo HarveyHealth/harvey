@@ -9,24 +9,30 @@ use App\Jobs\SendTransactionalEmail;
 
 class SendPatientAppointmentCanceledEmail implements ShouldQueue
 {
+    protected $sendTransactionalEmail;
+
+    public function __construct(SendTransactionalEmail $sendTransactionalEmail)
+    {
+        $this->sendTransactionalEmail = $sendTransactionalEmail;
+    }
+
     public function handle(AppointmentCanceled $event)
     {
         $appointment = $event->appointment;
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
 
-        $template_model = [
+        $this->sendTransactionalEmail
+            ->setTo($patient->user->email)
+            ->setTemplate('patient.appointment.canceled')
+            ->setTemplateModel([
             'practitioner_name' => $practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-        ];
+        ]);
 
-        dispatch(new SendTransactionalEmail(
-                        $patient->user->email,
-                        'practitioner.appointment.canceled',
-                        $template_model)
-                );
+        dispatch($this->sendTransactionalEmail);
     }
 }
