@@ -410,6 +410,9 @@ export default {
       // Even though the practitioner isn't shown, we still need the information
       // to grab availability
       // this.loadingDays = true;
+      if (this.userType === 'practitioner') {
+        this.setPractitionerInfo(this.practitionerList[0].data);
+      }
 
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
