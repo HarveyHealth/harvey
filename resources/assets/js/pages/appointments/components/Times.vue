@@ -21,7 +21,14 @@ import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: ['currentTime', 'editable', 'isLoading', 'list', 'setTime', 'time'],
+  props: {
+    currentTime: String,
+    editable: Boolean,
+    isLoading: Boolean,
+    list: Array,
+    setTime: Function,
+    time: String,
+  },
   components: {
     SelectOptions2
   },
