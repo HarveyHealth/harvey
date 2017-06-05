@@ -108,7 +108,10 @@
 
     </Flyout>
 
-    <Overlay :active="overlayActive" />
+    <Overlay
+      :active="overlayActive"
+      :on-click="handleOverlayClick"
+    />
 
     <Modal
       :active="modalActive"
@@ -420,6 +423,13 @@ export default {
       setTimeout(() => this.notificationActive = false, this.notificationDuration);
     },
 
+    handleOverlayClick() {
+      this.flyoutActive = false;
+      this.flyoutMode = null;
+      this.overlayActive = false;
+      setTimeout(this.resetAppointment, 300);
+    },
+
     handleUserAction() {
       // Setup
       let data = {
@@ -665,14 +675,6 @@ export default {
         this.selectedRowIndex = null;
         setTimeout(this.resetAppointment, 300);
       }
-    });
-
-    // When the overlay is closed because it was clicked, close the flyout
-    this.$eventHub.$on('overlayClicked', () => {
-      this.flyoutActive = false;
-      this.flyoutMode = null;
-      this.overlayActive = false;
-      setTimeout(this.resetAppointment, 300);
     });
 
   },
