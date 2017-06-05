@@ -28,7 +28,8 @@ class SendPatientAppointmentEmail implements ShouldQueue
             'harvey_id' => $event->appointment->patient->user->id,
             'phone_number' => $event->appointment->patient->user->phone,
             'patient_name' => $event->appointment->patient->user->first_name,
-            'patient_phone' => $event->appointment->patient->user->phone
+            'patient_phone' => $event->appointment->patient->user->phone,
+            'doctor_state' => $event->appointment->practitioner->doctor_state,
         ]);
 
         dispatch($this->sendTransactionalEmail);

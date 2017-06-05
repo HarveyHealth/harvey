@@ -90,7 +90,8 @@ class UserListenersTest extends TestCase
             'harvey_id' => $appointment->patient->user->id,
             'phone_number' => $appointment->patient->user->phone,
             'patient_name' => $appointment->patient->user->first_name,
-            'patient_phone' => $appointment->patient->user->phone
+            'patient_phone' => $appointment->patient->user->phone,
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -108,6 +109,7 @@ class UserListenersTest extends TestCase
             'patient_name' => $appointment->patient->user->fullName(),
             'patient_phone' => $appointment->patient->user->phone,
             'practitioner_name' => $appointment->practitioner->user->first_name,
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -125,6 +127,7 @@ class UserListenersTest extends TestCase
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -142,6 +145,7 @@ class UserListenersTest extends TestCase
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -159,6 +163,7 @@ class UserListenersTest extends TestCase
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -176,6 +181,7 @@ class UserListenersTest extends TestCase
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
+            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 

@@ -27,6 +27,7 @@ class SendPractitionerAppointmentEmail implements ShouldQueue
             'patient_name' => $event->appointment->patient->user->fullName(),
             'patient_phone' => $event->appointment->patient->user->phone,
             'practitioner_name' => $event->appointment->practitioner->user->first_name,
+            'doctor_state' => $event->appointment->practitioner->doctor_state,
         ]);
 
         dispatch($this->sendTransactionalEmail);
