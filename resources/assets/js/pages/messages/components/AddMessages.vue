@@ -30,6 +30,7 @@
 
 <script>
     import axios from 'axios';
+    import _ from 'lodash';
     import Flyout from '../../../commons/Flyout.vue';
     export default {
         props: [],
@@ -73,11 +74,11 @@
                             });
                             let object = {}
                             _.each(data, (val, key) => {
-                            _.extend(object, val)
+                                _.extend(object, val)
                             })
                             if (object) {
-                            this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
-                            this.$root.$data.global.detailMessages = object;
+                                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
+                                this.$root.$data.global.detailMessages = object;
                             }
                             this.messageList = this.$root.$data.global.messages;
                     })

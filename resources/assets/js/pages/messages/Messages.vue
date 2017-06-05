@@ -73,6 +73,7 @@
           axios.get(`/api/v1/messages`)
               .then(response => {
                 let data = {};
+                console.log(`RESPONSE`, response.data.data);
                 response.data.data.forEach(e => {
                   data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
                       data[e.attributes.sender_user_id] :
