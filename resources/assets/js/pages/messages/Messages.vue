@@ -22,8 +22,8 @@
                       name: 'detail',
                       params: {
                         subject: chat.attributes.subject,
-                        sender_id : Number(chat.attributes.sender_user_id),
-                        recipient_id : Number(chat.attributes.recipient_user_id),
+                        sender_id : chat.attributes.sender_user_id,
+                        recipient_id : chat.attributes.recipient_user_id,
                         sender_name: chat.attributes.sender_full_name
                       }
                     }" style="padding: 4px;">
@@ -73,19 +73,15 @@
           axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
               .then(response => {
                 let data = {};
-                if (!response.data.data) {
-                  this.$root.$data.global.messages = [];
-                  this.$root.$data.global.detailMessages = {};
-                  return null;
-                }
+                console.log(`DATA`, response.data.data);
                 response.data.data.forEach(e => {
-                  data[Number(e.attributes.sender_user_id)] = data[Number(e.attributes.sender_user_id)] ?  
-                      data[Number(e.attributes.sender_user_id)] :
+                  data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
+                      data[e.attributes.sender_user_id] :
                       {};
-                  data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
-                      data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
+                  data[e.attributes.sender_user_id][e.attributes.subject] = data[e.attributes.sender_user_id][e.attributes.subject] ?
+                      data[e.attributes.sender_user_id][e.attributes.subject] :
                       [];
-                  data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
+                  data[e.attributes.sender_user_id][e.attributes.subject].push(e);
                   if (data[this.$root.$data.global.user.id] && data[this.$root.$data.global.user.id][e.attributes.subject]) {
                     data[this.$root.$data.global.user.id][e.attributes.subject].push(e);
                   }

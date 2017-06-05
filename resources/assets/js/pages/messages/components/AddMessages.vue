@@ -60,24 +60,24 @@
                         .then(response => {
                             let data = {};
                             response.data.data.forEach(e => {
-                            data[Number(e.attributes.sender_user_id)] = data[Number(e.attributes.sender_user_id)] ?  
-                                data[Number(e.attributes.sender_user_id)] :
+                            data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
+                                data[e.attributes.sender_user_id] :
                                 {};
-                            data[Number(e.attributes.sender_user_id)][e.attributes.subject] = data[Number(e.attributes.sender_user_id)][e.attributes.subject] ?
-                                data[Number(e.attributes.sender_user_id)][e.attributes.subject] :
+                            data[e.attributes.sender_user_id][e.attributes.subject] = data[e.attributes.sender_user_id][e.attributes.subject] ?
+                                data[e.attributes.sender_user_id][e.attributes.subject] :
                                 [];
-                            data[Number(e.attributes.sender_user_id)][e.attributes.subject].push(e);
-                            if (data[Number(this.$root.$data.global.user.id)] && data[Number(this.$root.$data.global.user.id)][e.attributes.subject]) {
-                                data[Number(this.$root.$data.global.user.id)][e.attributes.subject].push(e);
+                            data[e.attributes.sender_user_id][e.attributes.subject].push(e);
+                            if (data[this.$root.$data.global.user.id] && data[this.$root.$data.global.user.id][e.attributes.subject]) {
+                                data[this.$root.$data.global.user.id][e.attributes.subject].push(e);
                             }
                             });
-                            let object = data[Number(this.$root.$data.global.user.id)];
+                            let object = data[this.$root.$data.global.user.id];
                             if (!object) {
                                 this.$root.$data.global.messages = [];
                                 this.$root.$data.global.detailMessages = {};
                                 return;
                             }
-                            delete data[Number(this.$root.$data.global.user.id)];
+                            delete data[this.$root.$data.global.user.id];
                             _.each(data, (value, key) => {
                                 _.each(object, (v, k) => {
                                     _.each(value, (val, ki) => {
