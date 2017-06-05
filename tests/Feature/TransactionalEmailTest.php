@@ -12,7 +12,6 @@ use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Mockery;
 use Log;
 
 class UserListenersTest extends TestCase
