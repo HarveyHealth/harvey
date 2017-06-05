@@ -1,29 +1,37 @@
 <template>
   <div class="input__container">
-    <span v-if="isloading"></span>
-    <SelectOptions
-      v-else-if="editable"
+    <span v-if="isLoading"></span>
+    <!-- <SelectOptions
+      v-else-if="editable && list.length"
       :emptylabel="'show-time-label'"
       :forceevent="'forceTimeSelect'"
       :isdisabled="!times.length"
       :options="times"
       :selectevent="'selectTime'"
+    /> -->
+    <SelectOptions2 v-else-if="editable && list.length"
+      :detached-label="time ? null : 'Select time'"
+      :is-disabled="!times.length"
+      :is-required="false"
+      :options="times"
+      :selected="time"
+      :on-select="handleSelect"
     />
-    <span v-else class="input__item">{{ time | timeFilter }}</span>
+    <span v-else-if="!editable" class="input__item">{{ currentTime | timeFilter }}</span>
   </div>
 </template>
 
 <script>
 // components
-import SelectOptions from '../../../commons/SelectOptions.vue';
+import SelectOptions2 from '../../../commons/SelectOptions2.vue';
 // other
 import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: ['editable','isloading', 'list', 'time'],
+  props: ['currentTime', 'editable', 'isLoading', 'list', 'setTime', 'time'],
   components: {
-    SelectOptions
+    SelectOptions2
   },
   computed: {
     times() {
@@ -42,6 +50,14 @@ export default {
   filters: {
     timeFilter(date) {
       return toLocal(date, 'h:mm a');
+    }
+  },
+  methods: {
+    handleSelect(e) {
+      const timeObj = e.target.value
+        ? this.times[e.target.selectedIndex - 1].data
+        : null;
+      this.setTime(timeObj);
     }
   }
 }

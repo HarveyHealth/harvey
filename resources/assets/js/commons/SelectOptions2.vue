@@ -1,8 +1,8 @@
 <template>
   <div>
     <span v-if="isLoading" v-html="loadingMsg"></span>
-    <span v-else :class="$$selectionClasses" :data-default-label="detachedLabel">
-      <select :value="selected" @change="onSelect($event)">
+    <span v-else :class="$$selectionClasses" :data-detached-label="detachedLabel">
+      <select :value="selected" @change="onSelect($event)" :disabled="isDisabled">
         <option v-if="$$hasAttachedLabel" disabled value="">{{ attachedLabel }}</option>
         <option v-if="!isRequired"></option>
         <option v-for="item in options">{{ item.value }}</option>
@@ -19,6 +19,9 @@ export default {
     },
     detachedLabel: {
       type: String,
+    },
+    isDisabled: {
+      type: Boolean
     },
     isLoading: {
       type: Boolean
@@ -55,7 +58,8 @@ export default {
     $$selectionClasses() {
       return {
         'custom-select': true,
-        'detached-label': this.detachedLabel && this.selected === ''
+        'detached-label': this.detachedLabel && this.selected === '',
+        'isdisabled': this.isDisabled
       }
     }
   }

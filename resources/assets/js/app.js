@@ -76,8 +76,9 @@ const app = new Vue({
         guest: false,
         global: {
             appointments: [],
-            patients: [],
             loadingPatients: true,
+            loadingPractitioners: true,
+            patients: [],
             practitioners: [],
             recent_appointments: [],
             test_results:[],
@@ -126,6 +127,7 @@ const app = new Vue({
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id }
             });
             this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
+            this.global.loadingPractitioners = false;
           })
         } else {
           axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
@@ -135,6 +137,7 @@ const app = new Vue({
               return { name: `Dr. ${obj.attributes.name}`, id: obj.id };
             });
             this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
+            this.global.loadingPractitioners = false;
           })
         }
       },

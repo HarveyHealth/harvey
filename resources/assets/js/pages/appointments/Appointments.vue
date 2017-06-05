@@ -39,7 +39,6 @@
       <Patient
         :editable="editablePatient"
         :email="appointment.patientEmail"
-        :loading="loadingPatients"
         :list="patientList"
         :name="appointment.patientName"
         :phone="appointment.patientPhone"
@@ -51,22 +50,28 @@
         :editable="editablePractitioner"
         :name="appointment.practitionerName"
         :list="practitionerList"
+        :set-practitioner="setPractitionerInfo"
         :visible="visiblePractitioner"
       />
 
       <Days
+        :day="this.appointment.day"
         :editable="editableDays"
+        :is-loading="loadingDays"
         :list="appointment.practitionerAvailability"
         :mode="flyoutMode"
+        :set-times="setAvailableTimes"
         :time="appointment.currentDate"
-        :noavailability="noAvailability"
+        :no-availability="noAvailability"
       />
 
       <Times
+        :current-time="appointment.currentTime"
         :editable="editableDays"
-        :isloading="loadingDays"
+        :is-loading="loadingDays"
         :list="appointment.availableTimes"
-        :time="appointment.currentDate"
+        :set-time="setTime"
+        :time="appointment.time"
       />
 
       <Status
@@ -179,8 +184,9 @@ export default {
     return {
       name: 'appointments',
       appointment: {
-        availableTimes: '',
+        availableTimes: [],
         date: '',
+        day: '',
         currentDate: '',
         currentPurpose: '',
         currentStatus: '',
@@ -190,10 +196,11 @@ export default {
         patientId: '',
         patientName: '',
         patientPhone: '',
-        practitionerAvailability: '',
+        practitionerAvailability: [],
         practitionerId: '',
         practitionerName: '',
-        purpose: ''
+        purpose: '',
+        time: '',
       },
       appointments: [],
       cache: {
@@ -209,7 +216,7 @@ export default {
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
-      loadingDays: true,
+      loadingDays: false,
       loadingPatients: !this.$root.$data.global.patients.length,
       modalActive: false,
       noAvailability: false,
@@ -335,11 +342,18 @@ export default {
     // Get availability for appointment practitioner
     getAvailability(id) {
       if (this.editableDays) this.loadingDays = true;
+      this.noAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
-        this.appointment.practitionerAvailability = transformAvailability(response.data.meta.availability);
+        let list = transformAvailability(response.data.meta.availability);
+        this.appointment.practitionerAvailability = list
+          .filter(obj => obj.times.length)
+          .map(obj => {
+            return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
+          });
         // if no availabilty, show warning message
-        if (!this.appointment.practitionerAvailability.filter(obj => obj.times.length).length) {
+        if (!list.filter(obj => obj.times.length).length) {
           this.noAvailability = true;
+          this.loadingDays = false;
         // else turn off loading display
         } else {
           this.loadingDays = false;
@@ -387,16 +401,9 @@ export default {
 
       this.resetAppointment();
 
-      if (this.userType !== 'patient' && this.patientList.length) {
-        // this.setPatientInfo(this.patientList[0].data);
-      }
-
       // Even though the practitioner isn't shown, we still need the information
       // to grab availability
-      this.loadingDays = true;
-      if (this.practitionerList.length) {
-        this.setPractitionerInfo(this.practitionerList[0].data);
-      }
+      // this.loadingDays = true;
 
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
@@ -466,15 +473,38 @@ export default {
     },
 
     resetAppointment() {
-      for (var key in this.appointment) {
-        this.appointment[key] = '';
-      }
+      this.appointment.availableTimes = [];
+      this.appointment.date = '';
+      this.appointment.day = '';
+      this.appointment.currentDate = '';
+      this.appointment.currentPurpose = '';
+      this.appointment.currentStatus = '';
+      this.appointment.id = '';
+      this.appointment.status = '';
+      this.appointment.patientEmail = '';
+      this.appointment.patientId = '';
+      this.appointment.patientName = '';
+      this.appointment.patientPhone = '';
+      this.appointment.practitionerAvailability = [];
+      this.appointment.practitionerId = '';
+      this.appointment.practitionerName = '';
+      this.appointment.purpose = '';
+      this.appointment.time = '';
+
       this.selectedRowData = null;
       this.selectedRowIndex = null;
       this.noAvailability = false;
       this.$eventHub.$emit('tableRowUnselect');
       this.$eventHub.$emit('forceDaySelect', '');
       this.$eventHub.$emit('forceTimeSelect', '');
+    },
+
+    setAvailableTimes(value, index) {
+      this.appointment.day = value;
+      this.appointment.availableTimes = [];
+      this.appointment.availableTimes = this.appointment.day
+        ? this.appointment.practitionerAvailability[index - 1].data.times
+        : [];
     },
 
     // Set patient info with data from list object
@@ -507,21 +537,23 @@ export default {
       this.patientList = list.map(item => {
         return { value: item.name, data: item };
       });
-      // If flyout mode is new, add patient info
-      if (this.userType !== 'patient' && this.flyoutMode === 'new') {
-        // this.setPatientInfo(this.patientList[0].data);
-      }
     },
 
     setupPractitionerList(list) {
       this.practitionerList = list.map(obj => {
         return { value: obj.name, data: obj };
       });
-      // If flyout mode is new, add practitioner info
-      if (this.flyoutMode === 'new') {
-        this.setPractitionerInfo(this.practitionerList[0].data);
-      }
     },
+
+    setTime(timeObj) {
+      if (timeObj) {
+        this.appointment.time = toLocal(timeObj.stored, 'h:mm a');
+        this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        this.appointment.time = '';
+        this.appointment.date = '';
+      }
+    }
 
   },
 
