@@ -1,14 +1,6 @@
 <template>
   <div class="input__container">
     <span v-if="isLoading"></span>
-    <!-- <SelectOptions
-      v-else-if="editable && list.length"
-      :emptylabel="'show-time-label'"
-      :forceevent="'forceTimeSelect'"
-      :isdisabled="!times.length"
-      :options="times"
-      :selectevent="'selectTime'"
-    /> -->
     <SelectOptions2 v-else-if="editable && list.length"
       :detached-label="time ? null : 'Select time'"
       :is-disabled="!times.length"

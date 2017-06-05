@@ -66,7 +66,7 @@
       />
 
       <Times
-        :current-time="appointment.currentTime"
+        :current-time="appointment.currentDate"
         :editable="editableDays"
         :is-loading="loadingDays"
         :list="appointment.availableTimes"
@@ -273,9 +273,6 @@ export default {
     }
   },
   computed: {
-    // appointments() {
-    //   return tableDataTransform(this.$root.$data.global.appointments);
-    // },
     disabledNewButton() {
       return this.flyoutMode === 'new' && (!this.appointment.date || !this.appointment.patientId);
     },
@@ -565,6 +562,10 @@ export default {
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
+    if (this.$root.$data.global.appointments.length) {
+      this.setupAppointments(this.$root.$data.global.appointments);
+    }
+
     this.$eventHub.$on('filterAll', () => {
       this.appointments = this.cache.all;
       this.checkTableData();
@@ -580,10 +581,6 @@ export default {
       this.checkTableData();
     });
 
-    if (this.$root.$data.global.appointments.length) {
-      this.setupAppointments(this.$root.$data.global.appointments);
-    }
-
     this.$eventHub.$on('receivedAppointments', list => {
       this.setupAppointments(list);
     });
@@ -594,45 +591,10 @@ export default {
     // Assign practitioners to practitionerList when Promise resolves
     this.$eventHub.$on('receivedPractitioners', this.setupPractitionerList);
 
-    // For when a day is selected
-    this.$eventHub.$on('selectDay', dayObj => {
-      // If the user selects the empty option it returns false
-      // If the mode is update then we want to revert back to the current date
-      this.$eventHub.$emit('forceTimeSelect', '');
-      if (dayObj) {
-        this.appointment.availableTimes = dayObj.data.times;
-      } else {
-        this.appointment.availableTimes = '';
-        this.appointment.date = '';
-      }
-    });
 
     // For when a status is selected
     this.$eventHub.$on('selectStatus', status => {
       this.appointment.status = status.data;
-    });
-
-    // For when a patient is selected from the dropdown
-    this.$eventHub.$on('selectPatient', patient => {
-      this.setPatientInfo(patient.data);
-    });
-
-    // For when a practitioner is selected from the dropdown
-    this.$eventHub.$on('selectPractitioner', practitioner => {
-      this.loadingDays = true;
-      this.noAvailability = false;
-      this.appointment.practitionerAvailability = '';
-      this.appointment.availableTimes = '';
-      this.setPractitionerInfo(practitioner.data);
-    });
-
-    // For when a time is selected
-    this.$eventHub.$on('selectTime', timeObj => {
-      if (timeObj) {
-        this.appointment.date = timeObj.data.utc.format('YYYY-MM-DD HH:mm:ss');
-      } else {
-        this.appointment.date = '';
-      }
     });
 
     // For when user inputs into purpose textarea
@@ -719,11 +681,7 @@ export default {
     this.$eventHub.$off('receivedPatients');
     this.$eventHub.$off('receivedPractitioners');
     this.$eventHub.$off('overlayClicked');
-    this.$eventHub.$off('selectDay');
-    this.$eventHub.$off('selectPatient');
-    this.$eventHub.$off('selectPractitioner');
     this.$eventHub.$off('selectStatus');
-    this.$eventHub.$off('selectTime');
     this.$eventHub.$off('tableRowClick');
   }
 }
