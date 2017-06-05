@@ -56,7 +56,7 @@
                     subject: this.subject
                 })
                 .then(resp => {
-                    axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
+                    axios.get(`/api/v1/messages`)
                         .then(response => {
                             let data = {};
                             response.data.data.forEach(e => {

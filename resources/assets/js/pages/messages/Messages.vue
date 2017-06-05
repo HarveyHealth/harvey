@@ -70,10 +70,10 @@
           }
         },
         mounted() {
-          axios.get(`/api/v1/messages?recipient_user_id=${this.$root.$data.global.user.id}`)
+          axios.get(`/api/v1/messages`)
               .then(response => {
-                let data = {};
                 console.log(`DATA`, response.data.data);
+                let data = {};
                 response.data.data.forEach(e => {
                   data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
                       data[e.attributes.sender_user_id] :
