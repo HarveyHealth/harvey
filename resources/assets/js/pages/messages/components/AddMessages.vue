@@ -94,7 +94,7 @@
                                 this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
                                 this.$root.$data.global.detailMessages = object;
                             }
-                            this.messageList = this.$root.$data.global.messages;
+                            this.$parent.messageList = this.$root.$data.global.messages;
                         })
                 })
                 .catch(error => {
