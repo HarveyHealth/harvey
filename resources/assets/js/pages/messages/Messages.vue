@@ -103,10 +103,10 @@
                 this.$root.$data.global.detailMessages = object;
                 this.messageList = this.$root.$data.global.messages;
               })
-              .catch(err => {console.log(`ERROR`, err)})
-          channel.bind((data) => {
-            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].push(data.data)
-            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+          channel.bind('App\\Events\\MessageCreated', (data) => {
+            console.log(`DATA`, data);
+            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.attributes.subject].push(data.data)
+            this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
             this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
           })
         }
