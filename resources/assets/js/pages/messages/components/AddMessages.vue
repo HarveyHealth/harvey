@@ -82,6 +82,9 @@
                             }
                             this.messageList = this.$root.$data.global.messages;
                     })
+                    .catch(err => {
+                        console.log(`ERROR`);
+                    })
                 })
                 .catch(error => {
                     console.log(`ERROR`);
