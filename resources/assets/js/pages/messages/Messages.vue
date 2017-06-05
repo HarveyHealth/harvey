@@ -48,7 +48,7 @@
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
-    import socket from './websocket'
+    import channel from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
     export default {
@@ -103,7 +103,7 @@
                 this.$root.$data.global.detailMessages = object;
                 this.messageList = this.$root.$data.global.messages;
               })
-          let channel = socket.channel(`private-App.User.${window.Laravel.user.id}`);
+              .catch(err => {console.log(`ERROR`, err)})
           channel.bind((data) => {
             this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].push(data.data)
             this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)

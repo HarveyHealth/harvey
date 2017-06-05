@@ -11,4 +11,6 @@ const socket = new Pusher('921f783fca361d2ac622', {
   }
 });
 
-export default socket;
+let channel = socket.subscribe(`private-App.User.${Number(window.Laravel.user.id)}`);
+
+export default channel;

@@ -45,7 +45,7 @@
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import axios from 'axios'
-    import socket from './websocket'
+    import channel from './websocket'
     import _ from 'lodash'
     export default {
         props: ['sender_id', 'subject', 'recipient_id', 'sender_name'],
@@ -87,7 +87,6 @@
            }
         },
         mounted() {
-            let channel = socket.channel(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('MessageCreated', (data) => {
                 this.$root.$data.global.detailMessages[data.subject].push(data.data);
                 this.$root.$data.global.detailMessages[data.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
