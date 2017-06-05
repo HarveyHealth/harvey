@@ -88,7 +88,6 @@
         },
         mounted() {
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                console.log(`DATA`, data);
                 this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data);
                 this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
                 this.detailList = this.$root.$data.global.detailMessages;

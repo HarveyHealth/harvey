@@ -104,7 +104,6 @@
                 this.messageList = this.$root.$data.global.messages;
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
-            console.log(`DATA`, data);
             this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.attributes.subject].push(data.data)
             this.$root.$data.global.detailMessages[this.$root.$data.global.user.id][data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
             this.$root.$data.global.messages = Object.values(data[this.$root.$data.global.user.id]).map(e => e[e.length -1])
