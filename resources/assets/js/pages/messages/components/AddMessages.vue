@@ -67,35 +67,20 @@
                                 data[e.attributes.sender_user_id][e.attributes.subject] :
                                 [];
                             data[e.attributes.sender_user_id][e.attributes.subject].push(e);
-                            if (data[this.$root.$data.global.user.id] && data[this.$root.$data.global.user.id][e.attributes.subject]) {
-                                data[this.$root.$data.global.user.id][e.attributes.subject].push(e);
+                            if (data[window.Laravel.user.id] && data[window.Laravel.user.id][e.attributes.subject]) {
+                                data[window.Laravel.user.id][e.attributes.subject].push(e);
                             }
                             });
-                            let object = data[this.$root.$data.global.user.id];
-                            if (!object) {
-                                this.$root.$data.global.messages = [];
-                                this.$root.$data.global.detailMessages = {};
-                                return;
-                            }
-                            delete data[this.$root.$data.global.user.id];
-                            _.each(data, (value, key) => {
-                                _.each(object, (v, k) => {
-                                    _.each(value, (val, ki) => {
-                                        if (ki == k) {
-                                            object[k] = object[k].concat(v);
-                                        }
-                                    });
-                                });
-                            });
-                            _.each(object, (val, key) => {
-                            object[key] = _.uniq(val);
+                            let object = {}
+                            _.each(data, (val, key) => {
+                            _.extend(object, val)
                             })
                             if (object) {
-                                this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
-                                this.$root.$data.global.detailMessages = object;
+                            this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
+                            this.$root.$data.global.detailMessages = object;
                             }
-                            this.$parent.messageList = this.$root.$data.global.messages;
-                        })
+                            this.messageList = this.$root.$data.global.messages;
+                    })
                 })
                 .catch(error => {
                     console.log(`ERROR`);
