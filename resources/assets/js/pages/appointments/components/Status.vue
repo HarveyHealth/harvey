@@ -1,29 +1,42 @@
 <template>
   <div v-if="visible" class="input__container">
     <label class="input__label">status</label>
-    <SelectOptions
-      v-if="editable"
-      :forceevent="'forceStatusSelect'"
+    <SelectOptions2 v-if="editable"
+      :on-select="handleSelect"
       :options="list"
-      :selectevent="'selectStatus'"
+      :selected="convertedStatus"
     />
-    <span v-else class="input__item">{{ status | convertStatus }}</span>
+    <span v-else class="input__item">{{ convertedStatus }}</span>
   </div>
 </template>
 
 <script>
-// components
-import SelectOptions from '../../../commons/SelectOptions.vue';
-// other
+import SelectOptions2 from '../../../commons/SelectOptions2.vue';
 import convertStatus from '../convertStatus';
 
 export default {
-  props: ['editable', 'list', 'status', 'visible'],
+  props: {
+    editable: Boolean,
+    list: Array,
+    setStatus: Function,
+    status: String,
+    visible: Boolean,
+  },
   components: {
-    SelectOptions
+    SelectOptions2
+  },
+  computed: {
+    convertedStatus() {
+      return convertStatus(this.status) || '';
+    }
   },
   filters: {
     convertStatus
+  },
+  methods: {
+    handleSelect(e) {
+      this.setStatus(this.list[e.target.selectedIndex]);
+    }
   }
 }
 </script>

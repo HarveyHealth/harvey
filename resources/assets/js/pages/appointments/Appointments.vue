@@ -77,6 +77,7 @@
       <Status
         :editable="editableStatus"
         :list="statuses"
+        :set-status="setStatus"
         :status="appointment.status"
         :visible="visibleStatus"
       />
@@ -277,18 +278,20 @@ export default {
   },
   computed: {
     disabledNewButton() {
-      return this.flyoutMode === 'new' && (!this.appointment.date || !this.appointment.patientId);
+      return this.flyoutMode === 'new' &&
+        (!this.appointment.date || (!this.appointment.patientId && this.userType !== 'patient'));
     },
     disableUpdateButton() {
       return this.flyoutMode === 'update'
-             && (
-               (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
-               this.appointment.purpose === this.appointment.currentPurpose &&
-               this.appointment.status === this.appointment.currentStatus
-             )
+        && (
+           (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
+           (this.appointment.purpose === this.appointment.currentPurpose) &&
+           (this.appointment.status === this.appointment.currentStatus)
+        )
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
+      if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     editableStatus() {
@@ -302,6 +305,7 @@ export default {
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
+      if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     emptyTableMsg() {
@@ -320,8 +324,10 @@ export default {
       return this.userType !== 'practitioner';
     },
     visibleUpdateButtons() {
-      return this.flyoutMode === 'update'
-             && ((this.userType === 'patient' && this.checkPastAppointment()) || this.userType !== 'patient');
+      return this.flyoutMode === 'update' &&
+        (this.userType !== 'patient') ||
+        (this.userType === 'patient' && this.checkPastAppointment()) &&
+        (this.userType === 'patient' && this.appointment.status === 'pending')
     },
   },
 
@@ -552,6 +558,10 @@ export default {
       });
     },
 
+    setStatus(status) {
+      this.appointment.status = status.data;
+    },
+
     setTime(timeObj) {
       if (timeObj) {
         this.appointment.time = toLocal(timeObj.stored, 'h:mm a');
@@ -621,10 +631,7 @@ export default {
       // Initial resets for if flyout is already open
       this.appointment.date = '';
       this.appointment.currentDate = '';
-      this.appointment.availableTimes = '';
-
-      this.$eventHub.$emit('forceDaySelect', '');
-      this.$eventHub.$emit('forceTimeSelect', '');
+      this.appointment.availableTimes = [];
 
       if (obj) {
         // appointment id
