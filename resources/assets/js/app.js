@@ -77,6 +77,7 @@ const app = new Vue({
         global: {
             appointments: [],
             patients: [],
+            loadingPatients: true,
             practitioners: [],
             recent_appointments: [],
             test_results:[],
@@ -114,6 +115,7 @@ const app = new Vue({
             })
           });
           this.global.patients = sortByLastName(this.global.patients);
+          this.global.loadingPatients = false;
           this.$eventHub.$emit('receivedPatients', this.global.patients);
         });
       },

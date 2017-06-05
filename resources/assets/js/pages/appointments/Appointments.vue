@@ -39,9 +39,11 @@
       <Patient
         :editable="editablePatient"
         :email="appointment.patientEmail"
+        :loading="loadingPatients"
         :list="patientList"
         :name="appointment.patientName"
         :phone="appointment.patientPhone"
+        :set-patient="setPatientInfo"
         :visible="visiblePatient"
       />
 
@@ -208,6 +210,7 @@ export default {
       flyoutHeading: '',
       flyoutMode: null,
       loadingDays: true,
+      loadingPatients: !this.$root.$data.global.patients.length,
       modalActive: false,
       noAvailability: false,
       notificationActive: false,
@@ -267,7 +270,7 @@ export default {
     //   return tableDataTransform(this.$root.$data.global.appointments);
     // },
     disabledNewButton() {
-      return this.flyoutMode === 'new' && !this.appointment.date;
+      return this.flyoutMode === 'new' && (!this.appointment.date || !this.appointment.patientId);
     },
     disableUpdateButton() {
       return this.flyoutMode === 'update'
@@ -385,7 +388,7 @@ export default {
       this.resetAppointment();
 
       if (this.userType !== 'patient' && this.patientList.length) {
-        this.setPatientInfo(this.patientList[0].data);
+        // this.setPatientInfo(this.patientList[0].data);
       }
 
       // Even though the practitioner isn't shown, we still need the information
@@ -506,7 +509,7 @@ export default {
       });
       // If flyout mode is new, add patient info
       if (this.userType !== 'patient' && this.flyoutMode === 'new') {
-        this.setPatientInfo(this.patientList[0].data);
+        // this.setPatientInfo(this.patientList[0].data);
       }
     },
 
