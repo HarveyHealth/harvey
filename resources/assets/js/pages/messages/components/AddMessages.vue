@@ -74,8 +74,8 @@
                             });
                             let object = {}
                             _.each(data, (val, key) => {
-                                _.extend(object, val)
-                            })
+                                _.extend(object, val);
+                            });
                             if (object) {
                                 this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
                                 this.$root.$data.global.detailMessages = object;

@@ -49,7 +49,7 @@
                     subject: this.$props.header
                 })
                 .then(response => {
-                    this.$root.$data.global.detailMessages[this.$props.id][this.$props.header].push(response.data.data);
+                    this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
                 })
                 this.$parent.reply();
             }
