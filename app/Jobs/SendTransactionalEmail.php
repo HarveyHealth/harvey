@@ -17,6 +17,7 @@ class SendTransactionalEmail implements ShouldQueue
 
     protected $to;
     protected $template;
+    protected $template_id;
     protected $template_model;
 
     const ALLOWED_EMPTY_KEYS = [];
@@ -64,8 +65,8 @@ class SendTransactionalEmail implements ShouldQueue
             Log::error("Found empty 'to' value when sending email with template '{$this->template}'.");
         }
 
-        if (empty($this->template)) {
-            Log::error("Found empty 'template' value when sending email to '{$this->to}'.");
+        if (!(is_numeric($this->template_id))) {
+            Log::error("Wrong 'template' value when sending email to '{$this->to}'.");
         }
     }
     /**
@@ -77,7 +78,7 @@ class SendTransactionalEmail implements ShouldQueue
     {
         $this->template = str_replace('services.postmark.templates.', '', $this->template);
 
-        $template_id = config("services.postmark.templates.{$this->template}");
+        $this->template_id = config("services.postmark.templates.{$this->template}");
 
         $this->checkForEmptyKeys();
 
@@ -88,13 +89,7 @@ class SendTransactionalEmail implements ShouldQueue
 
         try {
             $client = new PostmarkClient(config('services.postmark.token'));
-
-            $client->sendEmailWithTemplate(
-                config('services.postmark.signature'),
-                $this->to,
-                $template_id,
-                $this->template_model
-            );
+            $client->sendEmailWithTemplate(config('services.postmark.signature'), $this->to, $this->template_id, $this->template_model);
         } catch (PostmarkException $exception) {
             if (406 == $exception->postmarkApiErrorCode) {
                 $message = "Mailbox '{$this->to}' is marked as *Inactive* on Postmark so email '{$this->template}' will not be sent.";

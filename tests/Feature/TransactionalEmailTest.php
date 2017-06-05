@@ -6,14 +6,60 @@ use App\Events\AppointmentCanceled;
 use App\Events\AppointmentScheduled;
 use App\Events\AppointmentUpdated;
 use App\Events\UserRegistered;
+use App\Jobs\SendTransactionalEmail;
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
+use Mockery;
+use Log;
 
 class UserListenersTest extends TestCase
 {
     use DatabaseMigrations;
+
+    public function test_no_error_are_raised_if_data_is_valid()
+    {
+        Log::spy();
+
+        dispatch(new SendTransactionalEmail('valid@email.com', 'patient.welcome', ['data' => 'valid']));
+
+        Log::shouldNotHaveReceived(['error', 'warning']);
+    }
+
+    public function test_an_error_is_raised_if_to_value_is_null()
+    {
+        Log::spy();
+
+        dispatch(new SendTransactionalEmail(null, 'patient.welcome', ['data' => 'valid']));
+
+        Log::shouldHaveReceived('error')->once();
+    }
+
+    public function test_an_error_is_raised_if_template_value_is_wrong()
+    {
+        Log::spy();
+
+        dispatch(new SendTransactionalEmail('valid@email.com', 'pat-ient.welcome', ['data' => 'valid']));
+
+        Log::shouldHaveReceived('error')->once();
+    }
+
+    public function test_a_warning_is_raised_if_some_data_value_is_empty()
+    {
+        Log::spy();
+
+        $data = [
+            'data' => 'valid',
+            'moreData' => '',
+            "evenMoreData" => 124,
+        ];
+
+        dispatch(new SendTransactionalEmail('valid@email.com', 'patient.welcome', $data));
+
+        Log::shouldHaveReceived('warning')->once();
+    }
 
     public function test_user_registered_event_fills_correctly_welcome_email()
     {
@@ -132,4 +178,5 @@ class UserListenersTest extends TestCase
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
         ]);
     }
+
 }
