@@ -59,6 +59,11 @@ class Practitioner extends Model
         return $this->doctor_state ? Lang::get("practitioners.doctor_state.{$this->doctor_state}") : null;
     }
 
+    public function getUserIdAttribute()
+    {
+        return $this->user->id;
+    }
+
     public function availability()
     {
         return new PractitionerAvailability($this);
