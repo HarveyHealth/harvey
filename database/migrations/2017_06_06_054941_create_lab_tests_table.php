@@ -24,6 +24,7 @@ class CreateLabTestsTable extends Migration
             $table->timestamps();
             $table->foreign('lab_order_id')->references('id')->on('lab_orders');
             $table->foreign('sku_id')->references('id')->on('skus');
+            $table->softDeletes();
         });
     }
 

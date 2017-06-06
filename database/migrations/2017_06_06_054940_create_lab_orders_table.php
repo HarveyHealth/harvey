@@ -23,6 +23,7 @@ class CreateLabOrdersTable extends Migration
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->foreign('practitioner_id')->references('id')->on('practitioners');
+            $table->softDeletes();
         });
     }
 
