@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible" class="input__container">
     <label class="input__label">status</label>
-    <SelectOptions2 v-if="editable"
+    <SelectOptions v-if="editable"
       :on-select="handleSelect"
       :options="list"
       :selected="convertedStatus"
@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import SelectOptions2 from '../../../commons/SelectOptions2.vue';
-import convertStatus from '../convertStatus';
+import SelectOptions from '../../../commons/SelectOptions.vue';
+import convertStatus from '../methods/convertStatus';
 
 export default {
   props: {
@@ -23,15 +23,12 @@ export default {
     visible: Boolean,
   },
   components: {
-    SelectOptions2
+    SelectOptions
   },
   computed: {
     convertedStatus() {
       return convertStatus(this.status) || '';
     }
-  },
-  filters: {
-    convertStatus
   },
   methods: {
     handleSelect(e) {

@@ -2,7 +2,7 @@
   <div class="input__container" style="margin-bottom: 0.5em;">
     <label class="input__label">{{ $$label }}</label>
     <span v-if="isLoading">Loading availability...</span>
-    <SelectOptions2 v-else-if="editable && !noAvailability"
+    <SelectOptions v-else-if="editable && !noAvailability"
       :detached-label="day ? null : 'Select day'"
       :is-disabled="!list.length"
       :is-required="false"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import SelectOptions2 from '../../../commons/SelectOptions2.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
 import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
@@ -32,7 +32,7 @@ export default {
     time: String
   },
   components: {
-    SelectOptions2
+    SelectOptions
   },
   computed: {
     $$label() {

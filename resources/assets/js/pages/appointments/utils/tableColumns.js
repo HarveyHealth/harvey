@@ -1,4 +1,4 @@
-import tableSort from '../../utils/methods/tableSort';
+import tableSort from '../../../utils/methods/tableSort';
 
 export default [
   {

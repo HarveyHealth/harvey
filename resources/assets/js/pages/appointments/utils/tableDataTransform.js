@@ -1,6 +1,6 @@
-import convertStatus from './convertStatus';
-import toLocal from '../../utils/methods/toLocal';
-import { capitalize } from '../../utils/filters/textformat';
+import convertStatus from '../methods/convertStatus';
+import toLocal from '../../../utils/methods/toLocal';
+import { capitalize } from '../../../utils/filters/textformat';
 
 export default function(appointments) {
   return appointments.map(obj => {

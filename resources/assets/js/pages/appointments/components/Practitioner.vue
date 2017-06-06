@@ -1,7 +1,7 @@
 <template>
   <div class="input__container" v-if="visible">
     <label class="input__label">doctor</label>
-    <SelectOptions2 v-if="editable"
+    <SelectOptions v-if="editable"
       :attached-label="'Select practitioner'"
       :is-loading="$root.$data.global.loadingPractitioners"
       :loading-msg="'Loading practitioners...'"
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import SelectOptions2 from '../../../commons/SelectOptions2.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
 
 export default {
   props: {
@@ -25,7 +25,7 @@ export default {
     visible: Boolean
   },
   components: {
-    SelectOptions2
+    SelectOptions
   },
   methods: {
     handleSelect(e) {

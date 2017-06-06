@@ -181,37 +181,18 @@ import Times from './components/Times.vue';
 import UserNav from '../../commons/UserNav.vue';
 
 // other
-import convertStatus from './convertStatus';
+import convertStatus from './utils/convertStatus';
 import moment from 'moment';
-import tableColumns from './tableColumns';
-import tableDataTransform from './tableDataTransform';
+import tableColumns from './utils/tableColumns';
+import tableDataTransform from './utils/tableDataTransform';
 import transformAvailability from '../../utils/methods/transformAvailability';
 import toLocal from '../../utils/methods/toLocal';
 
 export default {
   data() {
     return {
-      name: 'appointments',
-      appointment: {
-        availableTimes: [],
-        date: '',
-        day: '',
-        currentDate: '',
-        currentPurpose: '',
-        currentStatus: '',
-        id: '',
-        status: '',
-        patientEmail: '',
-        patientId: '',
-        patientName: '',
-        patientPhone: '',
-        practitionerAvailability: [],
-        practitionerId: '',
-        practitionerName: '',
-        purpose: '',
-        time: '',
-      },
       activeFilter: 0,
+      appointment: this.resetAppointment(),
       appointments: [],
       cache: {
         all: [],
@@ -244,15 +225,14 @@ export default {
         { value: 'Canceled', data: 'canceled' },
         { value: 'Complete', data: 'complete' }
       ],
-      tableEmptyMsg: '',
-      tableColumns,
-      tableLoadingMsg: 'Loading appointment data...',
       userAction: '',
       userActionTitle: '',
       userType: Laravel.user.userType
     }
   },
-  name: 'appts',
+
+  name: 'appointments',
+
   components: {
     AppointmentTable,
     Days,
@@ -268,6 +248,7 @@ export default {
     Times,
     UserNav
   },
+
   filters: {
     confirmDate(date) {
       return toLocal(date, 'dddd, MMMM Do [at] h:mm a');
@@ -279,6 +260,7 @@ export default {
       return convertStatus(status);
     }
   },
+
   computed: {
     disabledNewButton() {
       return this.flyoutMode === 'new' &&
@@ -373,7 +355,6 @@ export default {
     // When user clicks flyout button
     handleConfirmationModal(action) {
       this.userAction = action;
-      console.log(moment.utc('2017-06-13 00:30:00').local().format('YYYY-MM-DD HH:mm:ss'))
       switch(action) {
         case 'cancel':
           this.userActionTitle = 'Confirm Cancellation';
@@ -416,7 +397,7 @@ export default {
       this.flyoutMode = null;
       this.overlayActive = false;
       this.handleRowClick(null, null);
-      setTimeout(this.resetAppointment, 300);
+      setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
     handleModalClose() {
@@ -428,12 +409,10 @@ export default {
 
       this.resetAppointment();
 
-      // Even though the practitioner isn't shown, we still need the information
-      // to grab availability
-      // this.loadingDays = true;
-      if (this.userType === 'practitioner') {
+      if (this.userType === 'practitioner' && !this.$root.$data.global.loadingPractitioners) {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
+
 
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
@@ -457,7 +436,7 @@ export default {
       this.flyoutActive = false;
       this.flyoutMode = null;
       this.overlayActive = false;
-      setTimeout(this.resetAppointment, 300);
+      setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
     handleRowClick(obj, index) {
@@ -523,7 +502,7 @@ export default {
         this.flyoutMode = null;
         this.selectedRowData = null;
         this.selectedRowIndex = null;
-        setTimeout(this.resetAppointment, 300);
+        setTimeout(() => this.appointment = this.resetAppointment(), 300);
       }
     },
 
@@ -573,30 +552,32 @@ export default {
       this.overlayActive = false;
       this.selectedRowData = null;
       this.selectedRowIndex = null;
-      setTimeout(this.resetAppointment, 300);
+      setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
     resetAppointment() {
-      this.appointment.availableTimes = [];
-      this.appointment.date = '';
-      this.appointment.day = '';
-      this.appointment.currentDate = '';
-      this.appointment.currentPurpose = '';
-      this.appointment.currentStatus = '';
-      this.appointment.id = '';
-      this.appointment.status = '';
-      this.appointment.patientEmail = '';
-      this.appointment.patientId = '';
-      this.appointment.patientName = '';
-      this.appointment.patientPhone = '';
-      this.appointment.practitionerAvailability = [];
-      this.appointment.practitionerId = '';
-      this.appointment.practitionerName = '';
-      this.appointment.purpose = '';
-      this.appointment.time = '';
       this.selectedRowData = null;
       this.selectedRowIndex = null;
       this.noAvailability = false;
+      return {
+        availableTimes: [],
+        date: '',
+        day: '',
+        currentDate: '',
+        currentPurpose: '',
+        currentStatus: '',
+        id: '',
+        status: '',
+        patientEmail: '',
+        patientId: '',
+        patientName: '',
+        patientPhone: '',
+        practitionerAvailability: [],
+        practitionerId: '',
+        practitionerName: '',
+        purpose: '',
+        time: '',
+      }
     },
 
     setAvailableTimes(value, index) {
@@ -642,6 +623,9 @@ export default {
       this.practitionerList = list.map(obj => {
         return { value: obj.name, data: obj };
       });
+      if (this.userType === 'practitioner') {
+        this.setPractitionerInfo(this.practitionerList[0].data);
+      }
     },
 
     setStatus(status) {

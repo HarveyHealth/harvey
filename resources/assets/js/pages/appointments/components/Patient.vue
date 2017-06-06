@@ -1,7 +1,7 @@
 <template>
   <div class="input__container" v-if="visible">
     <label class="input__label">client</label>
-    <SelectOptions2 v-if="editable"
+    <SelectOptions v-if="editable"
       :attached-label="'Select patient'"
       :is-loading="$root.$data.global.loadingPatients"
       :loading-msg="'Loading patients...'"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import SelectOptions2 from '../../../commons/SelectOptions2.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
 import { phone } from '../../../utils/filters/textformat';
 
 export default {
@@ -30,7 +30,7 @@ export default {
     visible: Boolean
   },
   components: {
-    SelectOptions2
+    SelectOptions
   },
   methods: {
     handleSelect(e) {

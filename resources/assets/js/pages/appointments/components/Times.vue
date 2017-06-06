@@ -1,7 +1,7 @@
 <template>
   <div class="input__container">
     <span v-if="isLoading"></span>
-    <SelectOptions2 v-else-if="editable && list.length"
+    <SelectOptions v-else-if="editable && list.length"
       :detached-label="time ? null : 'Select time'"
       :is-disabled="!times.length"
       :is-required="false"
@@ -15,7 +15,7 @@
 
 <script>
 // components
-import SelectOptions2 from '../../../commons/SelectOptions2.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
 // other
 import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
@@ -30,7 +30,7 @@ export default {
     time: String,
   },
   components: {
-    SelectOptions2
+    SelectOptions
   },
   computed: {
     times() {
