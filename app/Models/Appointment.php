@@ -103,6 +103,11 @@ class Appointment extends Model
         return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
     }
 
+    public function isPending()
+    {
+        return $this->status_id == self::PENDING_STATUS_ID;
+    }
+
     /*
      * SCOPES
      */
