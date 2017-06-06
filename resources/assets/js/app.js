@@ -76,6 +76,7 @@ const app = new Vue({
         guest: false,
         global: {
             appointments: [],
+            loadingAppointments: true,
             loadingPatients: true,
             loadingPractitioners: true,
             patients: [],
@@ -94,6 +95,7 @@ const app = new Vue({
         axios.get(`${this.apiUrl}/appointments?include=patient.user`)
           .then(response => {
             this.global.appointments = combineAppointmentData(response.data).reverse();
+            this.global.loadingAppointments = false;
             this.$eventHub.$emit('receivedAppointments', this.global.appointments);
           })
           .catch(error => console.log(error.response));
