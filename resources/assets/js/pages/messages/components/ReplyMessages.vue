@@ -18,7 +18,10 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" @click="createMessage()">Create Message</button>
+                <button 
+                class="button" 
+                @click="createMessage()"
+                :disabled="!message">Create Message</button>
             </div>
         </div>
     </aside>
