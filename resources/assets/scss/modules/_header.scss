@@ -13,7 +13,7 @@
         max-width: 1152px;
         margin: 0 auto;
         @media (max-width:768px) {
-            padding: 0 20px;
+            @include padding(0 20px);
         }
         .nav-left {
             float: left;

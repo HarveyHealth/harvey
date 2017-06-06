@@ -12,7 +12,7 @@ body.lab-tests {
         }
     }
     .section {
-        padding: 0;
+        @include padding(0);
         margin-bottom: 60px;
         background-color: transparent;
     }

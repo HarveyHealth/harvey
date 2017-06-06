@@ -1,9 +1,9 @@
 .card-wrapper {
   display: flex;
   max-width: 1150px;
-  padding: 40px 40px 0;
+  @include padding(40px 40px 0);
   &:last-of-type{
-    padding: 20px 40px 40px 40px;
+    @include padding(20px 40px 40px 40px);
   }
   &.alert{
     margin-bottom: -25px;
@@ -11,14 +11,14 @@
       background: #9AABB9;
       h3 {
         color: $white;
-        padding: 20px 0 0 30px;
+        @include padding(20px 0 0 30px);
         margin-bottom: 5px;
         letter-spacing: .75px;
       }
       p {
         color: $white;
         font-size: 16px;
-        padding: 0 0 0 30px;
+        @include padding(0 0 0 30px);
         margin: 0 0 25px 0;
         font-weight: 300;
         letter-spacing: .75px;
@@ -50,7 +50,7 @@
 
   }
     .card-empty-container{
-      padding: 20px 30px;
+      @include padding(20px 30px);
       max-height: 70px;
       p {
         font-weight: 300;
@@ -64,11 +64,11 @@
     .card-heading-container {
       min-width: 410px;
       border-bottom: 1px solid $color--grey;
-      padding: 20px 30px;
+      @include padding(20px 30px);
       background: $lightest-gray;
       a{
         float: right;
-        padding: 12px 18px;
+        @include padding(12px 18px);
         margin: -30px -30px 0 0;
         font-size: 16px;
       }
@@ -81,7 +81,7 @@
       }
     .card-content-wrap {
       border-bottom: 1px solid $color--grey;
-      padding: 20px 30px;
+      @include padding(20px 30px);
 
       &:last-of-type {
         border-bottom: none;

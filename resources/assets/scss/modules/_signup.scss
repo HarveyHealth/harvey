@@ -11,14 +11,14 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   margin: 30px auto;
   max-width: 510px;
-  padding: 30px;
-  @media (min-width: 850px) { padding: 50px 90px; }
+  @include padding(30px);
+  @media (min-width: 850px) { @include padding(50px 90px); }
   text-align: left;
 
   &.large {
     max-width: 775px;
-    padding: 30px;
-    @media (min-width: 850px) { padding: 60px 75px; }
+    @include padding(30px);
+    @media (min-width: 850px) { @include padding(60px 75px); }
   }
 }
 
@@ -121,7 +121,7 @@ button:focus {
     border: 1px solid #EFEFEF;
     border-radius: 5px;
     height: 100%;
-    padding: 25px 35px;
+    @include padding(25px 35px);
   }
     .calendar-main-content  {
       border-bottom: 1px solid $gray;
@@ -153,7 +153,7 @@ button:focus {
           list-style: none;
           overflow: hidden;
           margin: 0 0 10px;
-          padding: 15px 0 0 0;
+          @include padding(15px 0 0 0);
         }
           .calendar-item {
             background: #F1F1F2;
@@ -195,7 +195,7 @@ button:focus {
             background: none;
             cursor: pointer;
             font-size: 12px;
-            padding: 0;
+            @include padding(0);
             line-height: 35px;
             text-align: center;
             width: 100%;
@@ -265,7 +265,7 @@ button:focus {
       color: #888;
       border: 1px solid #EFEFEF;
       background-color: #f9f9f9;
-      padding: 12px 30px;
+      @include padding(12px 30px;
       margin-left: 10px;
       &:hover{
         color: #666;

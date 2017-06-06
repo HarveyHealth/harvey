@@ -1,8 +1,9 @@
 ul,
 ol {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+  font-size: 15px;
+  line-height: 1.2;
+  margin-bottom: 15px;
+  padding-left: 20px;
 }
 
 dl {
@@ -10,7 +11,6 @@ dl {
 }
 
 dt {
-  font-weight: 600;
   margin: 0;
 }
 

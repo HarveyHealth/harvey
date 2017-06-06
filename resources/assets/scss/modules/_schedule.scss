@@ -6,7 +6,7 @@
         border-radius: 5px;
         cursor: pointer;
         height: 100%;
-        padding: 30px;
+        @include padding(30px);
         &:hover {
             border: 2px solid $harvey-primary;
             box-shadow: inset 0px 0px 0px 5px $harvey-primary;

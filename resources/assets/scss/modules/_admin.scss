@@ -98,10 +98,10 @@
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
-  padding: 40px 50px 20px;
+  @include padding(40px 50px 20px);
   .container{
     max-width: 1090px;
-    padding: 0 55px 0 15px;
+    @include padding(0 55px 0 15px);
     margin: 0;
     .title {
       min-height: 48px;
@@ -112,7 +112,7 @@
         float: left;
         width: 40px;
         height: 40px;
-        padding: 0;
+        @include padding(0);
         margin: -1px 0 0 10px;
         &.circle{
           border-radius: 1000px;

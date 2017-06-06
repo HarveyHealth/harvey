@@ -81,7 +81,7 @@ blockquote {
 
 .is-paddingless-mobile {
     @include until($tablet) {
-        padding: 0 !important;
+        @include padding(0 !important);
     }
 }
 
