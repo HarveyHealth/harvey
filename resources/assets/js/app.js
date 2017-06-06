@@ -123,7 +123,6 @@ const app = new Vue({
         if (Laravel.user.userType !== 'practitioner') {
           axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
             this.global.practitioners = response.data.data.map(dr => {
-              console.log(`dr`, dr)
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
             });
             this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
@@ -133,7 +132,6 @@ const app = new Vue({
             this.global.practitioners = response.data.data.filter(dr => {
               return dr.attributes.name === Laravel.user.fullName;
             }).map(obj => {
-              console.log(`obj`, obj)
               return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: dr.attributes.user_id };
             });
             this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
