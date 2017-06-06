@@ -34,3 +34,7 @@
   margin-#{_neat-opposite-direction($grid)}: -($_grid-gutter);
   width: calc(100% + #{($_grid-gutter * 2)});
 }
+
+.grid-collapse {
+  @include grid-collapse;
+}

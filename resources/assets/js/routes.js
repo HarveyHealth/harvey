@@ -7,7 +7,6 @@ Vue.use(VeeValidate);
 let routes = [
     {
         path: '/appointments',
-        name: 'appointments',
         component: require('./pages/appointments/Appointments.vue'),
     },
     {
@@ -21,15 +20,27 @@ let routes = [
         children: [
             {
                 path: 'confirmation',
-                name: 'confirmation',
                 component: require('./pages/schedule/Confirmation.vue')
             }
         ]
     },
     {
         path: '/new-appointments',
-        name: 'new-appointments',
         component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
+    },
+    {
+        path: '/messages',
+        component: require('./pages/messages/Messages.vue')
+    },
+    {
+        path: '/detail',
+        name: 'detail',
+        props: true,
+        component: require('./pages/messages/DetailMessage.vue')
+    },
+    {
+        path: '/lab_orders',
+        component: require('./pages/lab_orders/LabOrders.vue')
     },
     {
         path: '*',

@@ -105,11 +105,11 @@
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
         if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
           this.$ma.trackEvent({
-                fb_event: 'PageView',
-                type: 'product',
-                category: 'clicks',
-                properties: { laravel_object: Laravel.user }
-            });
+              fb_event: 'PageView',
+              type: 'product',
+              category: 'clicks',
+              properties: { laravel_object: Laravel.user }
+          });
           this.$ma.trackEvent({
             fb_event: 'Purchase',
             type: 'product',
