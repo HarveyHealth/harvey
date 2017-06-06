@@ -72,6 +72,7 @@
         mounted() {
           axios.get(`/api/v1/messages`)
               .then(response => {
+                console.log(`data`, response.data.data);
                 let data = {};
                 response.data.data.forEach(e => {
                   data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
@@ -86,12 +87,16 @@
                   }
                 });
                 let object = {}
+                console.log(`data`, data);
                 _.each(data, (val, key) => {
-                  _.extend(object, val)
+                  _.each(val, (v, k) => {
+                    object[k] = object[k] ? object[k].concat(v) : v
+                  })
                 })
                 if (object) {
+                  Object.values(object).map(e => e.sort((a, b) => a.attributes.created_at - b.attributes.created_at))
+                  this.$root.$data.global.detailMessages = object
                   this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
-                  this.$root.$data.global.detailMessages = object;
                 }
                 this.messageList = this.$root.$data.global.messages;
               })
