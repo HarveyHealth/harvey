@@ -9,22 +9,29 @@ use App\Jobs\SendTransactionalEmail;
 
 class SendPatientAppointmentEmail implements ShouldQueue
 {
+    protected $sendTransactionalEmail;
+
+    public function __construct(SendTransactionalEmail $sendTransactionalEmail)
+    {
+        $this->sendTransactionalEmail = $sendTransactionalEmail;
+    }
+
     public function handle(AppointmentScheduled $event)
     {
-        $template_model = [
+        $this->sendTransactionalEmail
+            ->setTo($event->appointment->patient->user->email)
+            ->setTemplate('patient.appointment.new')
+            ->setTemplateModel([
             'practitioner_name' => $event->appointment->practitioner->user->fullName(),
             'appointment_date' => $event->appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $event->appointment->patientAppointmentAtDate()->format('h:i A'),
             'harvey_id' => $event->appointment->patient->user->id,
             'phone_number' => $event->appointment->patient->user->phone,
             'patient_name' => $event->appointment->patient->user->first_name,
-            'patient_phone' => $event->appointment->patient->user->phone
-        ];
+            'patient_phone' => $event->appointment->patient->user->phone,
+            'doctor_state' => $event->appointment->practitioner->doctor_state,
+        ]);
 
-        dispatch(new SendTransactionalEmail(
-                        $event->appointment->patient->user->email,
-                        'patient.appointment.new',
-                        $template_model)
-                );
+        dispatch($this->sendTransactionalEmail);
     }
 }
