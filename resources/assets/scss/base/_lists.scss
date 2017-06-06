@@ -3,7 +3,7 @@ ol {
   font-size: 15px;
   line-height: 1.2;
   margin-bottom: 15px;
-  padding-left: 20px;
+  @include padding(null null null 20px);
 }
 
 dl {

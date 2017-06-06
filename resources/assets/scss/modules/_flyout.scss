@@ -50,7 +50,7 @@
 
   .title {
     border-bottom: 1px solid $light-gray;
-    padding-bottom: 15px;
+    @include padding(null null 15px null);
     margin-bottom: 30px;
   }
 

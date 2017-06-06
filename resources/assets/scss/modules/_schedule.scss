@@ -39,7 +39,7 @@
                 margin: 7px 0 20px;
                 font-size: 15px;
                 li {
-                    padding-bottom: 5px;
+                    @include padding(5px);
                 }
             }
         }

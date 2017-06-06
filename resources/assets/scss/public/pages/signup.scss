@@ -1,5 +1,5 @@
 body.signup {
-    padding-bottom: 30px;
+    @include padding(null null 30px null);
     overflow-y: hidden;
     a[href*="/signup"] {
         display: none;

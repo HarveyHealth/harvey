@@ -17,8 +17,8 @@
 
 .button {
   &.is-link {
-    padding-left: 0;
-    padding-right: 0;
+    @include padding(null null null 0);
+    @include padding(null 0 null null);
 
     &:hover {
       background-color: transparent;
@@ -37,7 +37,7 @@
 }
 
 .footer {
-  padding-bottom: 4rem;
+  @include padding(null null 4rem null);
 
   &.is-simple {
     background-color: transparent;
@@ -175,7 +175,7 @@ em {
 }
 
 #app {
-  padding-bottom: 300px;
+  @include padding(null null 300px null);
 }
 
 body {
@@ -243,15 +243,15 @@ body {
 }
 
 .is-padding-top {
-  padding-top: 1rem !important;
+  @include padding(1rem null null null !important);
 }
 
 .is-padding-left {
-  padding-left: 1rem !important;
+  @include padding(null null null 1rem !important);
 }
 
 .is-padding-bottom {
-  padding-bottom: 1rem !important;
+  @include padding(null null 1rem null !important);
 }
 
 .is-paddingless {
@@ -259,15 +259,15 @@ body {
 }
 
 .is-paddingless-top {
-  padding-top: 0 !important;
+  @include padding(0 null null null !important);
 }
 
 .is-paddingless-left {
-  padding-left: 0 !important;
+  @include padding(null null null 0 !important);
 }
 
 .is-paddingless-bottom {
-  padding-bottom: 0 !important;
+  @include padding(null null 0 null !important);
 }
 
 // Opacity

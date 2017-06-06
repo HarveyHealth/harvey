@@ -1,6 +1,6 @@
 // Global signup styles
 .signup-content {
-  padding-top: 25px;
+  @include padding(25px null null null);
   text-align: center;
   margin-bottom: 60px;
 }
@@ -80,7 +80,7 @@ a:hover {
 
 .price{
   border-top: 1px solid #DDD;
-  padding-top: 20px;
+  @include padding(20px null null null);
 }
 
 .radio_block {
@@ -126,7 +126,7 @@ button:focus {
     .calendar-main-content  {
       border-bottom: 1px solid $gray;
       margin-bottom: 25px;
-      padding-bottom: 25px;
+      @include padding(null null 25px null);
     }
 
       .calendar-week-container {
@@ -135,7 +135,7 @@ button:focus {
         .calendar-week-container_title-wrapper {
           border-bottom: 1px solid #ccc;
           margin-top: 20px;
-          padding-bottom: 10px;
+          @include padding(null null 10px null);
         }
           .calendar-week-container_title {
             display: inline-block;

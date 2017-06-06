@@ -91,7 +91,7 @@ body.home {
         }
     }
     .section:not(:last-of-type) {
-        padding-bottom: 1rem;
+        @include padding(null null 1rem null);
     }
 
     // Logo
@@ -113,7 +113,7 @@ body.home {
         position: relative;
         @include until($desktop) {
             min-height: initial;
-            padding-top: 3.5rem;
+            @include padding(3.5rem null null null);
         }
         .hero-background {
             width: 100%;
@@ -142,8 +142,8 @@ body.home {
         @include from($megascreen) {
             min-height: initial;
             .hero-body {
-                padding-top: 9rem;
-                padding-bottom: 9rem;
+                @include padding(9rem null null null);
+                @include padding(null null 9rem null);
             }
         }
     }
@@ -218,13 +218,13 @@ body.home {
         &.icon-wrapper-has-background {
             width: 68px;
             height: 68px;
-            padding-top: 10px;
+            @include padding(10px null null null);
             border-radius: 50%;
             display: inline-block;
             @include from($desktop) {
                 width: 80px;
                 height: 80px;
-                padding-top: 16px;
+                @include padding(16px null null null);
             }
             &.is-lime {
                 @include background-gradient($harvey-lime);
@@ -286,13 +286,13 @@ body.home {
             transform: translateX(1.5rem);
         }
         @include until($tablet) {
-            padding-left: 0;
+            @include padding(null null null 0);
         }
 
     }
 
     #western-medicine, #labs {
-        padding-bottom: 5rem;
+        @include padding(null null 5rem null);
         .columns {
             background-color: #fff;
         }
@@ -353,7 +353,7 @@ body.home {
                 .column {
                     text-align: left;
                     .column {
-                        padding-left: 0;
+                        @include padding(null null null 0);
                     }
                 }
             }
@@ -431,7 +431,7 @@ body.home {
     }
     #mc_embed_signup #mce-EMAIL{
         max-width: 200px;
-        padding-left: 12px;
+        @include padding(null null null 12px);
         &:focus,
         &:active {
             outline: none;
