@@ -112,7 +112,8 @@ const app = new Vue({
               id: obj.id,
               name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
               email: include[i].attributes.email,
-              phone: include[i].attributes.phone
+              phone: include[i].attributes.phone,
+              user_id: include[i].attributes.user_id
             })
           });
           this.global.patients = sortByLastName(this.global.patients);
