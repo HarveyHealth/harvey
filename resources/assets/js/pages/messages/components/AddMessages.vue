@@ -8,7 +8,7 @@
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
                 <select @change="updateUser($event)" name="doctor_name">
-                    <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
+                    <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
                 </select>
             </span>
         </div>
@@ -51,6 +51,7 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
+                console.log(`SELECTED`, this.select);
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
                     recipient_user_id: Number(this.selected),
