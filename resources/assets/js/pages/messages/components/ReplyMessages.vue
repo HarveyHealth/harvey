@@ -52,8 +52,10 @@
                     subject: this.$props.header
                 })
                 .then(response => {
-                    this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
                     axios.put(`/api/v1/messages/${response.data.data.id}/read`)
+                        .then(resp => {
+                            this.$root.$data.global.detailMessages[this.$props.header].push(resp.data.data);
+                        })
                 })
                 this.$parent.reply();
             }
