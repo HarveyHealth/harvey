@@ -87,7 +87,6 @@
                   }
                 });
                 let object = {}
-                console.log(`data`, data);
                 _.each(data, (val, key) => {
                   _.each(val, (v, k) => {
                     object[k] = object[k] ? object[k].concat(v) : v
