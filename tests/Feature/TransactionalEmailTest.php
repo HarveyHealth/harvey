@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Listeners;
+namespace Tests\Feature;
 
 use App\Events\AppointmentCanceled;
 use App\Events\AppointmentScheduled;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Log;
 
-class UserListenersTest extends TestCase
+class TransactionalEmailTest extends TestCase
 {
     use DatabaseMigrations;
 
