@@ -22,7 +22,9 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" @click="createMessage()">Create Message</button>
+                <button class="button" 
+                @click="createMessage()"
+                :disabled="!subject || !selected || !message">Send</button>
             </div>
         </div>
     </aside>
@@ -51,7 +53,6 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                console.log(`SELECTED`, this.select);
                 axios.post(`/api/v1/messages`, {
                     message: this.message,
                     recipient_user_id: Number(this.selected),
@@ -75,7 +76,7 @@
                 } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
                     return [''].concat(this.$root.$data.global.patients);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
-                    return [''].concat(this.$root.$data.global.practitioners);
+                    return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
                 }
             },
             toUserType() {
