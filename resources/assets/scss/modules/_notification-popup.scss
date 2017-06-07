@@ -4,7 +4,7 @@
   color: $dark-gray;
   font-weight: 300;
   line-height: 2em;
-  padding: 1em 1.7em 1em 1.2em;
+  @include padding(1em 1.7em 1em 1.2em);
   position: fixed;
   z-index: 9999;
 }
@@ -14,7 +14,7 @@
   border-radius: 50%;
   display: inline-block;
   height: 2em;
-  margin-right: 0.75em;
+  @include margin(null 0.75em null null);
   text-align: center;
   width: 2em;
 }

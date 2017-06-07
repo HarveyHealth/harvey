@@ -1,32 +1,32 @@
 .card-wrapper {
   display: flex;
   max-width: 1150px;
-  padding: 40px 40px 0;
+  @include padding(40px 40px 0);
   &:last-of-type{
-    padding: 20px 40px 40px 40px;
+    @include padding(20px 40px 40px 40px);
   }
   &.alert{
-    margin-bottom: -25px;
+    @include margin(null null -25px);
     .card {
       background: #9AABB9;
       h3 {
         color: $white;
-        padding: 20px 0 0 30px;
-        margin-bottom: 5px;
+        @include padding(20px 0 0 30px);
+        @include margin(null null 5px);
         letter-spacing: .75px;
       }
       p {
         color: $white;
         font-size: 16px;
-        padding: 0 0 0 30px;
-        margin: 0 0 25px 0;
+        @include padding(0 0 0 30px);
+        @include margin(0 0 25px 0);
         font-weight: 300;
         letter-spacing: .75px;
       }
       button {
         float: right;
-        margin: -66px 35px 0 0;
-        border-color: $white;
+        @include margin(-66px 35px 0 0);
+        @include border-color($white);
         color: $white;
       }
     }
@@ -36,7 +36,7 @@
     background: $white;
     border: 1px solid $color--grey;
     flex-grow: 1;
-    margin: 0 15px 15px;
+    @include margin(0 15px 15px);
     width: 50%;
 
     &.smaller {
@@ -50,38 +50,38 @@
 
   }
     .card-empty-container{
-      padding: 20px 30px;
+      @include padding(20px 30px);
       max-height: 70px;
       p {
         font-weight: 300;
         letter-spacing: 1px;
         font-size: 18px;
         font-style: italic;
-        margin: 0;
+        @include margin(0);
         opacity: .5;
       }
     }
     .card-heading-container {
       min-width: 410px;
       border-bottom: 1px solid $color--grey;
-      padding: 20px 30px;
+      @include padding(20px 30px);
       background: $lightest-gray;
       a{
         float: right;
-        padding: 12px 18px;
-        margin: -30px -30px 0 0;
+        @include padding(12px 18px);
+        @include margin(-30px -30px 0 0);
         font-size: 16px;
       }
     }
       .card-header {
         font-size: 16px;
-        margin: 0;
+        @include margin(0);
         letter-spacing: 1px;
         text-transform: uppercase;
       }
     .card-content-wrap {
       border-bottom: 1px solid $color--grey;
-      padding: 20px 30px;
+      @include padding(20px 30px);
 
       &:last-of-type {
         border-bottom: none;
@@ -90,22 +90,22 @@
     .card-contact-name {
       font-weight: 200;
       font-size: 24px;
-      margin-bottom: 0;
+      @include margin(null null 0 null);
     }
     .card-contact-sublabel {
       color: #9ba2a5;
       font-weight: 700;
       font-size: 12px;
-      margin: 0 0 5px;
+      @include margin(0 0 5px);
       text-transform: uppercase;
     }
     .card-contact-info {
       font-weight: 300;
       letter-spacing: 1px;
       font-size: 16px;
-      margin-bottom: 20px;
+      @include margin(null null 20px null);
 
       &:last-of-type {
-        margin-bottom: 0;
+        @include margin(null null 0 null);
       }
     }
