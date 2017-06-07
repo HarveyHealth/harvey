@@ -1,6 +1,6 @@
 .input-wrap {
   &:not(:last-child) {
-    margin-bottom: 30px;
+    @include margin(null null 30px null);
   }
 }
 
@@ -21,7 +21,7 @@
     font-size: 18px;
   }
   &_checkbox {
-    margin-right: 10px;
+    @include margin(null 10px null null);
     font-size: 15px;
     width: auto;
   }
@@ -41,11 +41,11 @@
   display: inline-block;
   font-size: 14px;
   line-height: 1.2;
-  margin-top: 5px;
+  @include margin(5px null null null);
 }
 
 .input__container {
-  margin-bottom: 2.5em;
+  @include margin(null null 2.5em null);
   position: relative;
   width: 100%;
 

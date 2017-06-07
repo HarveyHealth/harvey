@@ -51,7 +51,7 @@ input[type="submit"] {
 
 .button--cancel {
   background-color: lighten($gray, 10%);
-  margin-left: 1em;
+  @include margin(null null null 1em);
 
   &:hover,
   &:focus {
@@ -99,7 +99,7 @@ input[type="submit"] {
   cursor: pointer;
   font-family: inherit;
   font-size: 1em;
-  margin-right: 0.5em;
+  @include margin(null 0.5em null null);
   @include padding(0.4em 0.6em);
 
   &.isactive {
