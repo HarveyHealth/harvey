@@ -46,18 +46,18 @@
   } @else if ($direction == inset-up) {
     @include border-color($background-color $background-color $foreground-color);
     border-style: solid;
-    border-width: $height $width;
+    @include border-width($height $width);
   } @else if ($direction == inset-down) {
     @include border-color($foreground-color $background-color $background-color);
     border-style: solid;
-    border-width: $height $width;
+    @include border-width($height $width);
   } @else if ($direction == inset-right) {
     @include border-color($background-color $background-color $background-color $foreground-color);
     border-style: solid;
-    border-width: $width $height;
+    @include border-width($width $height);
   } @else if ($direction == inset-left) {
     @include border-color($background-color $foreground-color $background-color $background-color);
     border-style: solid;
-    border-width: $width $height;
+    @include border-width($width $height);
   }
 }
