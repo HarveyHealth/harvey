@@ -21,7 +21,7 @@
                 <button 
                 class="button" 
                 @click="createMessage()"
-                :disabled="!message">Create Message</button>
+                :disabled="!message">Send</button>
             </div>
         </div>
     </aside>
