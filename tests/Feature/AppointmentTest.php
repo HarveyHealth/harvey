@@ -224,6 +224,23 @@ class AppointmentTest extends TestCase
         $this->assertDatabaseHas('appointments', ['reason_for_visit' => 'Some new reason.']);
     }
 
+    public function test_a_patient_may_not_modify_a_non_pending_appointment()
+    {
+        $appointment = factory(Appointment::class)->create(['status' => 'complete']);
+        $patient = $appointment->patient;
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some new reason.',
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+    }
+
     public function test_it_does_not_allow_modifications_if_the_appointment_is_less_than_4_hours_away()
     {
         // Given a patient with a scheduled appointment less than 4 hours away
