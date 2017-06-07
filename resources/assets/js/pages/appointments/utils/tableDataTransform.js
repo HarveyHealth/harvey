@@ -5,7 +5,7 @@ import { capitalize } from '../../../utils/filters/textformat';
 export default function(appointments) {
   return appointments.map(obj => {
     const data = {
-      date: toLocal(obj.attributes.appointment_at.date, 'dddd, MMM Do'),
+      date: toLocal(obj.attributes.appointment_at.date, 'dddd, MMMM Do'),
       time: toLocal(obj.attributes.appointment_at.date, 'h:mm a'),
       client: `${capitalize(obj.patientData.first_name)} ${capitalize(obj.patientData.last_name)}`,
       doctor: `Dr. ${obj.attributes.practitioner_name}`,

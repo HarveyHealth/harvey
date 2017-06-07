@@ -7,6 +7,7 @@
     :on-row-click="handleRowClick"
     :row-data="tableData"
     :selected-row="selectedRow"
+    :updating-row="updatingRow"
   />
 </template>
 
@@ -28,7 +29,7 @@ export default {
     // Needs to be computed to respond to global state change
     // Also, default sort by date for now until more robust sort is created
     tableData() {
-      return this.tableRowData.sort(tableSort.byDate('_date')).reverse();
+      return this.tableRowData;
     }
   },
   methods: {
@@ -59,7 +60,10 @@ export default {
     tableRowData: {
       type: Array,
       required: true
-    }
+    },
+    updatingRow: {
+      required: false
+    },
   }
 }
 </script>

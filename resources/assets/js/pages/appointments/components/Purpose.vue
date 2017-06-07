@@ -1,48 +1,47 @@
 <template>
   <div class="input__container">
     <label class="input__label" for="purpose">purpose</label>
-    <span v-if="editable" :class="{ charcount:true, 'input--warning':count === 0 }">{{ count }}</span>
+    <span v-if="editable" :class="$$countClasses">{{ $$count }}</span>
     <p v-if="!editable" class="input__item">{{ textValue }}</p>
     <textarea
       v-else
       class="input--textarea"
-      v-model="textValue"
-      @input="charCheck()"
+      :value="textValue"
+      @input="$$count > 0 ? onInput($event.target.value) : false"
     ></textarea>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['editable'],
-  data() {
-    return {
-      charLimit: 180,
-      classNames: { 'input__container': true },
-      textValue: ''
+  props: {
+    characterLimit: {
+      type: Number,
+      required: true
+    },
+    editable: {
+      type: Boolean,
+      default: true
+    },
+    onInput: {
+      type: Function,
+      required: true
+    },
+    textValue: {
+      type: String,
+      required: true
     }
   },
   computed: {
-    count() {
-      return this.charLimit - this.textValue.length;
+    $$count() {
+      return this.characterLimit - this.textValue.length;
     },
-    countIsZero() {
-      return (this.charLimit - this.textValue.length) < 0;
-    },
-  },
-  methods: {
-    charCheck() {
-      if (this.countIsZero) {
-        this.textValue = this.textValue.substring(0, this.charLimit);
+    $$countClasses() {
+      return {
+        'charcount': true,
+        'input--warning': this.$$count === 0
       }
-      this.$eventHub.$emit('setPurpose', this.textValue);
     }
-  },
-  mounted() {
-    this.$eventHub.$on('forcePurposeText', text => this.textValue = text);
-  },
-  destroyed() {
-    this.$eventHub.$off('forcePurposeText');
   }
 }
 </script>

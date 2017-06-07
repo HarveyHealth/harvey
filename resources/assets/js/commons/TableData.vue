@@ -21,7 +21,7 @@
       </tr>
       <tr v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
-          :class="{ 'is-selected': selectedRow === row.data }">
+          :class="$$rowClasses(row.data, i)">
         <td v-for="val in row.values">{{ val }}</td>
       </tr>
     </tbody>
@@ -30,6 +30,14 @@
 
 <script>
 export default {
+  methods: {
+    $$rowClasses(data, index) {
+      return {
+        'is-selected': this.selectedRow === data,
+        'is-updating': this.updatingRow === index
+      }
+    }
+  },
   props: {
     columns: {
       type: Array,
@@ -58,6 +66,9 @@ export default {
     },
     selectedRow: {
       required: true
+    },
+    updatingRow: {
+      required: false
     }
   }
 }

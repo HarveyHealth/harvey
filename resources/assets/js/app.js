@@ -93,11 +93,15 @@ const app = new Vue({
         timezone: moment.tz.guess(),
     },
     methods: {
-      getAppointments() {
+      getAppointments(cb) {
         axios.get(`${this.apiUrl}/appointments?include=patient.user`)
           .then(response => {
             this.global.appointments = combineAppointmentData(response.data).reverse();
-            this.global.loadingAppointments = false;
+            this.global.loadingAppointments = true;
+            Vue.nextTick(() => {
+              this.global.loadingAppointments = false
+              if (cb) cb();
+            });
           }).catch(error => console.log(error.response));
 
         axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
