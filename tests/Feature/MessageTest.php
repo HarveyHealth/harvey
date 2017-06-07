@@ -43,7 +43,7 @@ class MessageTest extends TestCase
         $this->assertDatabaseHas('messages', ['message' => $message]);
     }
 
-    public function test_a_new_message_only_requires_body_and_recipient()
+    public function test_a_new_message_only_requires_a_recipient()
     {
         $patient = factory(Patient::class)->create();
         $practitioner = factory(Practitioner::class)->create();
@@ -52,7 +52,6 @@ class MessageTest extends TestCase
 
         $parameters = [
             'recipient_user_id' => $practitioner->user->id,
-            'subject' => $subject,
         ];
 
         Passport::actingAs($patient->user);
@@ -63,7 +62,7 @@ class MessageTest extends TestCase
         $response->assertJsonFragment(['sender_user_id' => "{$patient->user->id}"]);
         $response->assertJsonFragment(['recipient_user_id' => "{$practitioner->user->id}"]);
 
-        $this->assertDatabaseHas('messages', ['subject' => $subject]);
+        $this->assertDatabaseHas('messages', ['recipient_user_id' => $practitioner->user->id]);
     }
 
     public function test_it_allows_a_patient_to_retrieve_his_messages()
