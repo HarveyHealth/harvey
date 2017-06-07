@@ -79,12 +79,12 @@ body.home {
             }
             &.is-outlined {
                 color: $tertiary;
-                border-color: $tertiary;
+                @include border-color($tertiary);
                 &:hover,
                 &:active,
                 &:focus {
                     color: darken($tertiary, 5%);
-                    border-color: darken($tertiary, 5%);
+                    @include border-color(darken($tertiary, 5%));
                     background-color: transparent;
                 }
             }

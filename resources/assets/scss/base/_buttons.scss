@@ -21,14 +21,14 @@ input[type="submit"] {
 
   &.is-outlined {
     color: $harvey-tertiary;
-    border-color: $harvey-tertiary;
+    @include border-color($harvey-tertiary);
     background-color: transparent;
     @include padding(9px 16px);
     border: 1px solid;
     &:hover,
     &:focus{
       color: $harvey-tertiary;
-      border-color: $harvey-tertiary;
+      @include border-color($harvey-tertiary);
       background-color: transparent;
     }
   }

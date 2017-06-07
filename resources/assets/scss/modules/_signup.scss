@@ -285,7 +285,7 @@ button:focus {
   font-family: $sans !important;
   font-size: 16px !important;
   color: #888 !important;
-  border-color: #EFEFEF !important;
+  @include border-color( #EFEFEF !important);
   font-weight: 400 !important;
   @include margin(null null 20px null !important);
   transition: opacity 200ms ease-in !important;

@@ -26,7 +26,7 @@
       button {
         float: right;
         @include margin(-66px 35px 0 0);
-        border-color: $white;
+        @include border-color($white);
         color: $white;
       }
     }

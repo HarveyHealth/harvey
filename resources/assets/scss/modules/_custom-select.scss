@@ -88,6 +88,6 @@
 		appearance: none;
 	}
 	// .custom-select select:focus {
-	// 	border-color: $gray; /* Match-03 */
+	// 	@include border-color($gray); /* Match-03 */
 	// }
 }

@@ -42,7 +42,7 @@
     }
     &.is-secondary {
         color: $harvey-purple;
-        border-color: $harvey-purple;
+        @include border-color($harvey-purple);
         &.has-arrow {
             &:after {
                 content: "\f105";
@@ -185,12 +185,12 @@ body {
                 }
                 &.is-outlined {
                     color: #fff;
-                    border-color: #fff;
+                    @include border-color(#fff);
                     &:hover,
                     &:active,
                     &:focus {
                         color: darken($tertiary, 5%);
-                        border-color: darken($tertiary, 5%);
+                        @include border-color(darken($tertiary, 5%));
                         background-color: transparent;
                     }
                 }
