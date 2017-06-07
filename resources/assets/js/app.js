@@ -113,7 +113,7 @@ const app = new Vue({
               name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
               email: include[i].attributes.email,
               phone: include[i].attributes.phone,
-              user_id: include[i].attributes.user_id
+              user_id: obj.attributes.user_id
             })
           });
           this.global.patients = sortByLastName(this.global.patients);
@@ -133,7 +133,7 @@ const app = new Vue({
             this.global.practitioners = response.data.data.filter(dr => {
               return dr.attributes.name === Laravel.user.fullName;
             }).map(obj => {
-              return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: dr.attributes.user_id };
+              return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
             });
             this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
           })

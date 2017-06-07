@@ -1,5 +1,5 @@
 <template>
-      <div class="main-container">
+    <div class="main-container">
       <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
       <UserNav />
         <div class="main-content">
@@ -30,7 +30,7 @@
                     />
                 </div>
               </div>
-            <div class="inline-centered" style="background-color: white; width: 1000px;">
+            <div class="inline-centered" style="background-color: white; width: 1000px; padding-bottom: 10px;">
                 <button class="button" @click="reply()">Reply</button>
             </div>
         </div>

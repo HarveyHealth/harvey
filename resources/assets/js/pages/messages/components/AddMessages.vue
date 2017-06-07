@@ -7,7 +7,7 @@
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
-                <select @change="updateUser($event)" name="doctor_name">
+                <select @change="updateUser($event)">
                     <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
                 </select>
             </span>
@@ -24,7 +24,7 @@
             <div class="inline-centered">
                 <button class="button" 
                 @click="createMessage()"
-                :disabled="!subject || !selected || !message">Send</button>
+                :disabled="!subject || !selected">Send</button>
             </div>
         </div>
     </aside>
