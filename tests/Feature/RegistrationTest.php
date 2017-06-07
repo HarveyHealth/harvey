@@ -38,7 +38,7 @@ class RegistrationTest extends TestCase
         $this->assertDatabaseHas('patients', ['user_id' => $created_user_id]);
     }
 
-    public function test_it_does_not_create_a_user_if_the_zip_code_is_not_serviceable()
+    public function test_it_does_not_create_a_user_if_the_zip_code_is_not_serviceable_but_it_does_create_a_lead()
     {
         // Given invalid user data
         $parameters = [
@@ -49,17 +49,20 @@ class RegistrationTest extends TestCase
             'terms' => true,
             'zip' => 11111
         ];
-
+        
         // When a request is made to create a new user
         $response = $this->post(route('users.create'), $parameters);
-
+    
         // It returns a bad request response
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-
+        
         // And an appropriate message will be displayed
         $response->assertJsonFragment(["detail" => "Sorry, we do not service this zip."]);
 
         // And no new user is created
         $this->assertDatabaseMissing('users', ['first_name' => 'Albus']);
+        
+        // But a lead is created
+        $this->assertDatabaseHas('leads', ['email' => 'headmaster@hogwarts.co.uk', 'zip' => 11111]);
     }
 }

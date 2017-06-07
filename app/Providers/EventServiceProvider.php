@@ -24,27 +24,19 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\AppointmentCanceled' => [
             'App\Listeners\SendPatientAppointmentCanceledEmail',
             'App\Listeners\SendPractitionerAppointmentCanceledEmail',
+            'App\Listeners\NotifyAppointmentCanceledSlackChannel',
         ],
         'App\Events\AppointmentUpdated' => [
             'App\Listeners\SendPatientAppointmentUpdatedEmail',
             'App\Listeners\SendPractitionerAppointmentUpdatedEmail',
             'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
         ],
+        'App\Events\OutOfServiceZipCodeRegistered' => [
+            'App\Listeners\CreateLead',
+        ],
     ];
 
     protected $subscribe = [
         'App\Listeners\UserEventSubscriber',
     ];
-
-    /**
-     * Register any events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-
-        //
-    }
 }

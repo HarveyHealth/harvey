@@ -82,6 +82,16 @@ class Message extends Model
         return $query->where('recipient_user_id', $userId);
     }
 
+    public function scopeSenderOrRecipient($query, User $user)
+    {
+        $userId = $user ? $user->id : 0;
+        return $query->where(function ($query) use ($userId)
+            {
+                $query->where('recipient_user_id', $userId)
+                      ->orWhere('sender_user_id', $userId);
+            });
+    }
+
     public function scopeUnread($query)
     {
         return $query->whereNull('read_at');
