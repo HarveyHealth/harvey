@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Lib\Validation\StrictValidator;
 use App\Models\Message;
 use App\Models\User;
 use App\Transformers\V1\MessageTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
-use Validator;
 
 class MessagesController extends BaseAPIController
 {
@@ -82,15 +82,11 @@ class MessagesController extends BaseAPIController
      */
     public function new(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = StrictValidator::check($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
             'message' => 'required',
             'subject' => 'required',
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         $message = new Message($request->all());
 

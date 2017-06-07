@@ -5,11 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Traits\BelongsToPatientAndPractitioner;
 use App\Http\Traits\HasStatusColumn;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -47,16 +48,6 @@ class Appointment extends Model
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function practitioner()
-    {
-        return $this->belongsTo(Practitioner::class);
     }
 
     public function isLocked()
