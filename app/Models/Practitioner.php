@@ -8,7 +8,27 @@ use Carbon\Carbon;
 
 class Practitioner extends Model
 {
-    protected $dates = ['created_at','updated_at'];
+
+    const UNKNOWN_DOCTOR_STATE_ID = 0;
+
+    const DOCTOR_STATES = [
+        self::UNKNOWN_DOCTOR_STATE_ID => 'unknown',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $guarded = [
+        'id',
+        'enabled',
+        'user_id',
+        'practitioner_type',
+        'created_at',
+        'updated_at',
+        'doctor_state_id',
+    ];
 
     public function getAvailabilityAttribute()
     {
@@ -18,6 +38,25 @@ class Practitioner extends Model
     public function getTimezoneAttribute()
     {
         return $this->user->timezone;
+    }
+
+    public function getDoctorStateAttribute()
+    {
+        return empty(self::DOCTOR_STATES[$this->doctor_state_id]) ? null : self::DOCTOR_STATES[$this->doctor_state_id];
+    }
+
+    public function setDoctorStateAttribute($value)
+    {
+        if (false !== ($key = array_search($value, self::DOCTOR_STATES))) {
+            $this->doctor_state_id = $key;
+        }
+
+        return $value;
+    }
+
+    public function getDoctorStateFriendlyName()
+    {
+        return $this->doctor_state ? Lang::get("practitioners.doctor_state.{$this->doctor_state}") : null;
     }
 
     public function availability()
