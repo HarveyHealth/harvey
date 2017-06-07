@@ -21,7 +21,7 @@
 }
 
 .admin-nav {
-  margin-top: 57px;
+  @include margin(57px null null null);
   border-top: 1px solid $color--grey;
   .admin-nav-link {
     background-color: $white;
@@ -68,7 +68,7 @@
     bottom: 68px;
     position: absolute;
     text-align: center;
-    margin-left: -3px;
+    @include margin(null null null -3px);
     width: 100%;
   }
 }
@@ -92,17 +92,17 @@
 
 .main-content {
   flex-grow: 1;
-  margin-left: 150px;
+  @include margin(null null null 150px);
 }
 
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
-  padding: 40px 50px 20px;
+  @include padding(40px 50px 20px);
   .container{
     max-width: 1090px;
-    padding: 0 55px 0 15px;
-    margin: 0;
+    @include padding(0 55px 0 15px);
+    @include margin(0);
     .title {
       min-height: 48px;
       .text {
@@ -112,15 +112,15 @@
         float: left;
         width: 40px;
         height: 40px;
-        padding: 0;
-        margin: -1px 0 0 10px;
+        @include padding(0);
+        @include margin(-1px 0 0 10px);
         &.circle{
           border-radius: 1000px;
           svg {
             width: 24px;
             height: 24px;
-            margin-left: 0;
-            margin-top: 2px;
+            @include margin(null null null 0);
+            @include margin(2px null null null);
           }
         }
       }
