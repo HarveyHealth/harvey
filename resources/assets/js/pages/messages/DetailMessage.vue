@@ -1,5 +1,5 @@
 <template>
-      <div class="main-container">
+    <div class="main-container">
       <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
       <UserNav />
         <div class="main-content">
@@ -30,7 +30,7 @@
                     />
                 </div>
               </div>
-            <div class="inline-centered" style="background-color: white; width: 1000px;">
+            <div class="inline-centered" style="background-color: white; width: 1000px; padding-bottom: 10px;">
                 <button class="button" @click="reply()">Reply</button>
             </div>
         </div>
@@ -62,7 +62,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
-              user_id: this.$props.recipient_id,
+              user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               detailList: this.$root.$data.global.detailMessages[this.$props.subject]
             }
         },

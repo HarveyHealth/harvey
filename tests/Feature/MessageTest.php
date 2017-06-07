@@ -43,20 +43,26 @@ class MessageTest extends TestCase
         $this->assertDatabaseHas('messages', ['message' => $message]);
     }
 
-    public function test_a_new_message_must_contain_body()
+    public function test_a_new_message_only_requires_a_recipient()
     {
         $patient = factory(Patient::class)->create();
         $practitioner = factory(Practitioner::class)->create();
 
+        $subject = Faker::create()->text;
+
         $parameters = [
             'recipient_user_id' => $practitioner->user->id,
-            'subject' => 'Hello',
         ];
 
         Passport::actingAs($patient->user);
         $response = $this->json('POST', 'api/v1/messages', $parameters);
 
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
+        $response->assertStatus(ResponseCode::HTTP_CREATED);
+
+        $response->assertJsonFragment(['sender_user_id' => "{$patient->user->id}"]);
+        $response->assertJsonFragment(['recipient_user_id' => "{$practitioner->user->id}"]);
+
+        $this->assertDatabaseHas('messages', ['recipient_user_id' => $practitioner->user->id]);
     }
 
     public function test_it_allows_a_patient_to_retrieve_his_messages()
