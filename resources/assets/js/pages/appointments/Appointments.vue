@@ -296,6 +296,15 @@ export default {
     emptyTableMsg() {
       return this.tableEmptyMsg;
     },
+    loadedAppointments() {
+      return this.$root.$data.global.loadingAppointments;
+    },
+    loadedPatients() {
+      return this.$root.$data.global.loadingPatients;
+    },
+    loadedPractitioners() {
+      return this.$root.$data.global.loadingPractitioners;
+    },
     visibleNewButton() {
       return this.flyoutMode === 'new';
     },
@@ -314,6 +323,24 @@ export default {
         (this.userType === 'patient' && this.checkPastAppointment()) &&
         (this.userType === 'patient' && this.appointment.status === 'pending')
     },
+  },
+
+  watch: {
+    loadedAppointments(val) {
+      if (!val) {
+        this.setupAppointments(this.$root.$data.global.appointments);
+      }
+    },
+    loadedPatients(val) {
+      if (!val) {
+        this.setupPatientList(this.$root.$data.global.patients);
+      }
+    },
+    loadedPractitioners(val) {
+      if (!val) {
+        this.setupPractitionerList(this.$root.$data.global.practitioners);
+      }
+    }
   },
 
   methods: {
@@ -655,24 +682,19 @@ export default {
   mounted() {
 
     // If data from app.js has loaded prior to mount, set data
+    const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;
     const practitioners = this.$root.$data.global.practitioners;
+
+    if (appointments.length) this.setupAppointments(appointments);
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
-    if (this.$root.$data.global.appointments.length) {
-      this.setupAppointments(this.$root.$data.global.appointments);
-    }
-
-    this.$eventHub.$on('receivedAppointments', list => {
-      this.setupAppointments(list);
-    });
-
     // Assign patients to patientList when the Promise resolves
-    this.$eventHub.$on('receivedPatients', this.setupPatientList);
+    // this.$eventHub.$on('receivedPatients', this.setupPatientList);
 
     // Assign practitioners to practitionerList when Promise resolves
-    this.$eventHub.$on('receivedPractitioners', this.setupPractitionerList);
+    // this.$eventHub.$on('receivedPractitioners', this.setupPractitionerList);
 
     // For when user inputs into purpose textarea
     this.$eventHub.$on('setPurpose', text => {
@@ -681,9 +703,6 @@ export default {
 
   },
   destroyed() {
-    this.$eventHub.$off('receivedAppointments');
-    this.$eventHub.$off('receivedPatients');
-    this.$eventHub.$off('receivedPractitioners');
     this.$eventHub.$off('setPurpose');
   }
 }
