@@ -12,7 +12,7 @@
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import convertStatus from '../methods/convertStatus';
+import convertStatus from '../utils/convertStatus';
 
 export default {
   props: {

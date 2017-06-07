@@ -1,4 +1,4 @@
-import convertStatus from '../methods/convertStatus';
+import convertStatus from './convertStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
