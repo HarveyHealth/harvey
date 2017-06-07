@@ -31,7 +31,7 @@ class LabTestTransformer extends TransformerAbstract
      * @return mixed
      */
     public function includePatient(LabTest $labTest)
-
+    {
         return $this->item($labTest->patient, new PatientTransformer())->setResourceKey('patients');
     }
 
@@ -40,7 +40,7 @@ class LabTestTransformer extends TransformerAbstract
      * @return mixed
      */
     public function includePractitioner(LabTest $labTest)
-
+    {
         return $this->item($labTest->practitioner, new PractitionerTransformer())->setResourceKey('practitioners');
     }
 
@@ -49,7 +49,7 @@ class LabTestTransformer extends TransformerAbstract
      * @return mixed
      */
     public function includeLabOrder(LabTest $labTest)
-
+    {
         return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_orders');
     }
 }

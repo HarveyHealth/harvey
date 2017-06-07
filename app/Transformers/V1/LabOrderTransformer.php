@@ -30,7 +30,7 @@ class LabOrderTransformer extends TransformerAbstract
      * @return mixed
      */
     public function includePatient(LabOrder $labOrder)
-
+    {
         return $this->item($labOrder->patient, new PatientTransformer())->setResourceKey('patients');
     }
 
@@ -39,7 +39,7 @@ class LabOrderTransformer extends TransformerAbstract
      * @return mixed
      */
     public function includePractitioner(LabOrder $labOrder)
-
+    {
         return $this->item($labOrder->practitioner, new PractitionerTransformer())->setResourceKey('practitioners');
     }
 
