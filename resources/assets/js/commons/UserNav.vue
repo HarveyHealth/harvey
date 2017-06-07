@@ -18,7 +18,7 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages">
+      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
@@ -32,5 +32,19 @@
 </template>
 
 <script>
-export default {}
+  import axios from 'axios'
+  export default {
+    data() {
+      return {
+        unread: false
+      }
+    },
+    beforeMount() {
+      axios.get(`/api/v1/messages`)
+        .then(response => {
+          let unread = response.data.data.filter(e => !e.attributes.read_at)
+          this.unread = unread.length > 0 ? true : false
+        })
+    }
+  }
 </script>

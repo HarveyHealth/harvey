@@ -25,6 +25,20 @@ class PractitionerTest extends TestCase
         }
     }
 
+    public function test_transformer_includes_expected_keys()
+    {
+        $practitioner = factory(Practitioner::class)->create();
+
+        Passport::actingAs($practitioner->user);
+
+        $response = $this->json('GET', "api/v1/practitioners/{$practitioner->id}");
+
+        $response->assertJsonFragment(['name' => $practitioner->user->fullName()]);
+        $response->assertJsonFragment(['type_name' => $practitioner->type->name]);
+        $response->assertJsonFragment(['user_id' => (string) $practitioner->user_id]);
+        $response->assertStatus(200);
+    }
+
     public function test_anyone_can_view_practitioner_availability()
     {
         factory(Practitioner::class, 3)->create();

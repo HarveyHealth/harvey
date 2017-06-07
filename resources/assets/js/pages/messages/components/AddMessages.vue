@@ -7,8 +7,8 @@
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
-                <select @change="updateUser($event)" name="doctor_name">
-                    <option  v-for="user in userList" :data-id="user.id">{{ user.name }}</option>
+                <select @change="updateUser($event)">
+                    <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
                 </select>
             </span>
         </div>
@@ -22,7 +22,9 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" @click="createMessage()">Create Message</button>
+                <button class="button" 
+                @click="createMessage()"
+                :disabled="!subject || !selected">Send</button>
             </div>
         </div>
     </aside>
@@ -74,7 +76,7 @@
                 } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
                     return [''].concat(this.$root.$data.global.patients);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
-                    return [''].concat(this.$root.$data.global.practitioners);
+                    return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
                 }
             },
             toUserType() {

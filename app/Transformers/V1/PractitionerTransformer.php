@@ -20,6 +20,7 @@ class PractitionerTransformer extends TransformerAbstract
             'id' => (string) $practitioner->id,
             'name' => $practitioner->user->fullName(),
             'type_name' => $practitioner->type->name,
+            'user_id' => (string) $practitioner->user_id,
         ];
     }
 

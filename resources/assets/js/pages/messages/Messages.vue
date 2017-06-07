@@ -72,32 +72,19 @@
         mounted() {
           axios.get(`/api/v1/messages`)
               .then(response => {
-                console.log(`data`, response.data.data);
                 let data = {};
                 response.data.data.forEach(e => {
-                  data[e.attributes.sender_user_id] = data[e.attributes.sender_user_id] ?  
-                      data[e.attributes.sender_user_id] :
-                      {};
-                  data[e.attributes.sender_user_id][e.attributes.subject] = data[e.attributes.sender_user_id][e.attributes.subject] ?
-                      data[e.attributes.sender_user_id][e.attributes.subject] :
+                  data[e.attributes.subject] = data[e.attributes.subject] ?
+                      data[e.attributes.subject] :
                       [];
-                  data[e.attributes.sender_user_id][e.attributes.subject].push(e);
-                  if (data[window.Laravel.user.id] && data[window.Laravel.user.id][e.attributes.subject]) {
-                    data[window.Laravel.user.id][e.attributes.subject].push(e);
-                  }
+                  data[e.attributes.subject].push(e);
                 });
-                let object = {}
-                _.each(data, (val, key) => {
-                  _.each(val, (v, k) => {
-                    object[k] = object[k] ? object[k].concat(v) : v
-                  })
-                })
-                if (object) {
-                  Object.values(object).map(e => e.sort((a, b) => a.attributes.created_at - b.attributes.created_at))
-                  this.$root.$data.global.detailMessages = object
-                  this.$root.$data.global.messages = Object.values(object).map(e => e[e.length - 1])
+                if (data) {
+                  Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                  this.$root.$data.global.detailMessages = data;
+                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => b.attributes.read_at - a.attributes.read_at);
+                  this.messageList = this.$root.$data.global.messages;
                 }
-                this.messageList = this.$root.$data.global.messages;
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
             this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data)
