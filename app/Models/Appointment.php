@@ -60,6 +60,11 @@ class Appointment extends Model
         return !$this->isLocked();
     }
 
+    public function isPending()
+    {
+        return $this->status_id == self::PENDING_STATUS_ID;
+    }
+
     public function hoursToStart()
     {
         return Carbon::now()->diffInHours($this->appointment_at, false);
