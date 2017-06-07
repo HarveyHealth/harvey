@@ -59,9 +59,12 @@
                     subject: this.subject
                 })
                 .then(resp => {
-                    this.$root.$data.global.detailMessages[resp.data.data.attributes.subject] = [resp.data.data];
-                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
-                    this.$parent.messageList = this.$root.$data.global.messages
+                    axios.put(`/api/v1/messages/${resp.data.data.id}/read`)
+                        .then(response => {
+                            this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
+                            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
+                            this.$parent.messageList = this.$root.$data.global.messages
+                        })
                 })
                 .catch(error => {
                     console.log(`ERROR`, error);
