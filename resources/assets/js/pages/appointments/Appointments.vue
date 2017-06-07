@@ -30,6 +30,7 @@
         :refresh="$root.getAppointments"
         :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
+        :updating-row="selectedRowUpdating"
         :tableRowData="appointments"
       />
 
@@ -88,7 +89,10 @@
       />
 
       <Purpose
+        :character-limit="purposeCharLimit"
         :editable="editablePurpose"
+        :on-input="handlePurposeInput"
+        :text-value="appointment.purpose"
       />
 
       <div class="inline-centered">
@@ -144,7 +148,7 @@
         </tr>
         <tr>
           <td width="25%"><p><strong>Purpose:</strong></p></td>
-          <td><p>{{ appointment.purpose | confirmPurpose }}</p></td>
+          <td><p>{{ appointment.purpose }}</p></td>
         </tr>
       </table>
       <div class="modal-button-container">
@@ -185,6 +189,7 @@ import convertStatus from './utils/convertStatus';
 import moment from 'moment';
 import tableColumns from './utils/tableColumns';
 import tableDataTransform from './utils/tableDataTransform';
+import tableSort from '../../utils/methods/tableSort';
 import transformAvailability from '../../utils/methods/transformAvailability';
 import toLocal from '../../utils/methods/toLocal';
 
@@ -216,8 +221,10 @@ export default {
       overlayActive: false,
       patientList: [],
       practitionerList: [],
+      purposeCharLimit: 180,
       selectedRowData: null,
       selectedRowIndex: null,
+      selectedRowUpdating: null,
       statuses: [
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
@@ -252,9 +259,6 @@ export default {
   filters: {
     confirmDate(date) {
       return toLocal(date, 'dddd, MMMM Do [at] h:mm a');
-    },
-    confirmPurpose(purpose) {
-      return purpose.length ? purpose : 'New appointment';
     },
     confirmStatus(status) {
       return convertStatus(status);
@@ -382,6 +386,7 @@ export default {
     // When user clicks flyout button
     handleConfirmationModal(action) {
       this.userAction = action;
+      this.appointment.purpose = this.appointment.purpose || 'New appointment';
       switch(action) {
         case 'cancel':
           this.userActionTitle = 'Confirm Cancellation';
@@ -390,8 +395,7 @@ export default {
           break;
         case 'update':
           this.userActionTitle = 'Confirm Update';
-          if (this.appointment.status === 'canceled' ||
-             (this.userType !== 'patient' && this.appointment.date === '')) {
+          if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
           break;
@@ -440,18 +444,14 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
 
-
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
-      this.$eventHub.$emit('forcePurposeText', this.appointment.purpose);
-
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
       this.flyoutActive = true;
       this.overlayActive = true;
       this.selectedRowData = null;
       this.selectedRowIndex = null;
-      this.$eventHub.$emit('tableRowUnselect');
     },
 
     handleNotificationInit() {
@@ -464,6 +464,10 @@ export default {
       this.flyoutMode = null;
       this.overlayActive = false;
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
+    },
+
+    handlePurposeInput(val) {
+      this.appointment.purpose = val.substring(0, this.purposeCharLimit);
     },
 
     handleRowClick(obj, index) {
@@ -481,9 +485,7 @@ export default {
 
       if (data) {
         this.selectedRowData = data;
-        this.appointments.forEach((obj, i) => {
-          this.selectedRowIndex = this.selectedRowData === obj.data ? null : i;
-        })
+        this.selectedRowIndex = index;
         // appointment id
         this.appointment.id = data._appointmentId;
 
@@ -515,7 +517,6 @@ export default {
 
         // Purpose text
         this.appointment.purpose = data.purpose;
-        this.$eventHub.$emit('forcePurposeText', this.appointment.purpose);
 
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
@@ -548,14 +549,7 @@ export default {
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
       // api constraints
-      if (this.userType === 'patient') {
-        delete data.patient_id;
-      }
-      if (this.userAction === 'update') {
-        if (this.appointment.currentDate === data.appointment_at) {
-
-          delete data.appointment_at;
-        }
+      if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
       if (this.userAction !== 'new') {
@@ -566,21 +560,48 @@ export default {
         delete data.patient_id;
       }
 
+      // If updating, let the table know which row is changing
+      this.selectedRowUpdating = this.userAction !== 'new'
+        ? this.selectedRowIndex
+        : null;
+      // Grab a copy of the old appointments data for comparison after the api call
+      const oldAppointments = JSON.parse(JSON.stringify(this.appointments));
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
-        this.$root.getAppointments();
-        if (succesPopup) this.handleNotificationInit();
+        this.$root.getAppointments(() => {
+          Vue.nextTick(() => {
+            this.selectedRowIndex = null;
+
+            // Cycle through the new appointment list with Array.some so we can break out easily.
+            // For each item compare against oldAppointments
+            // If no match, splice the first item of oldAppointments
+            // If match is found, splice first item of oldAppointments but continue with next appointment object
+            // Once oldAppointments is empty you know you have no match
+            // The row you ended on is the updated data so mark accordingly
+            this.appointments.some((obj, i) => {
+              while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
+                oldAppointments.splice(0, 1);
+                if (!oldAppointments.length) {
+                  this.selectedRowUpdating = i;
+                  if (succesPopup) this.handleNotificationInit();
+                  setTimeout(() => this.selectedRowUpdating = null, 2200);
+                  return true;
+                }
+              }
+              oldAppointments.splice(0, 1);
+            })
+
+            this.appointment = this.resetAppointment();
+          })
+        });
       }).catch(err => console.error(err.response));
 
-      // Resets
+      this.selectedRowData = null;
       this.flyoutActive = false;
       this.flyoutMode = null;
       this.modalActive = false;
       this.overlayActive = false;
-      this.selectedRowData = null;
-      this.selectedRowIndex = null;
-      setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
     resetAppointment() {
@@ -625,7 +646,7 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list);
+      const appts = tableDataTransform(list).sort(tableSort.byDate('_date')).reverse();
       this.cache.all = appts;
       this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
       this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
@@ -690,20 +711,6 @@ export default {
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
-    // Assign patients to patientList when the Promise resolves
-    // this.$eventHub.$on('receivedPatients', this.setupPatientList);
-
-    // Assign practitioners to practitionerList when Promise resolves
-    // this.$eventHub.$on('receivedPractitioners', this.setupPractitionerList);
-
-    // For when user inputs into purpose textarea
-    this.$eventHub.$on('setPurpose', text => {
-      this.appointment.purpose = text;
-    });
-
   },
-  destroyed() {
-    this.$eventHub.$off('setPurpose');
-  }
 }
 </script>

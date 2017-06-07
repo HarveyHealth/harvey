@@ -1,7 +1,7 @@
 .notification {
   background: $harvey-primary;
   border-radius: 3px;
-  color: $dark-gray;
+  color: $darkest-gray;
   font-weight: 300;
   line-height: 2em;
   padding: 1em 1.7em 1em 1.2em;
@@ -10,7 +10,7 @@
 }
 
 .notification-symbol {
-  border: 1px solid $dark-gray;
+  border: 1px solid $darkest-gray;
   border-radius: 50%;
   display: inline-block;
   height: 2em;
