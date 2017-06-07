@@ -31,6 +31,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPractitionerAppointmentUpdatedEmail',
             'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
         ],
+        'App\Events\OutOfServiceZipCodeRegistered' => [
+            'App\Listeners\CreateLead',
+        ],
     ];
 
     protected $subscribe = [

@@ -1,50 +1,52 @@
 <template>
   <div class="input__container" style="margin-bottom: 0.5em;">
-    <label class="input__label" v-if="editable && mode === 'new'">available times</label>
-    <label class="input__label" v-else-if="editable && mode === 'update'">reschedule</label>
-    <label class="input__label" v-else>booked for</label>
-    <SelectOptions
-      v-if="editable && !noavailability"
-      :emptylabel="'show-day-label'"
-      :forceevent="'forceDaySelect'"
-      :loadingmsg="'Loading availability...'"
-      :options="days"
-      :selectevent="'selectDay'"
+    <label class="input__label">{{ $$label }}</label>
+    <span v-if="isLoading">Loading availability...</span>
+    <SelectOptions v-else-if="editable && !noAvailability"
+      :detached-label="day ? null : 'Select day'"
+      :is-disabled="!list.length"
+      :is-required="false"
+      :on-select="handleSelect"
+      :options="list"
+      :selected="day"
     />
-    <span v-else-if="noavailability" class="input--warning">No available openings</span>
-    <span v-else class="input__item">{{ time | dayFilter }}</span>
+    <span v-else-if="noAvailability" class="input--warning">No available openings</span>
+    <span v-else class="input__item">{{ $$selectedDay }}</span>
   </div>
 </template>
 
 <script>
-// components
 import SelectOptions from '../../../commons/SelectOptions.vue';
-
-// other
 import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: ['noavailability', 'editable', 'list', 'mode', 'time'],
+  props: {
+    day: String,
+    editable: Boolean,
+    isLoading: Boolean,
+    list: Array,
+    mode: String,
+    noAvailability: Boolean,
+    setTimes: Function,
+    time: String
+  },
   components: {
     SelectOptions
   },
   computed: {
-    days() {
-      if (this.list.length) {
-        return this.list
-          .filter(obj => obj.times.length)
-          .map(obj => {
-            return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
-          });
-      } else {
-        return [];
-      }
+    $$label() {
+      if (this.editable && this.mode === 'new') return 'available times';
+      if (this.editable && this.mode === 'update') return 'reschedule';
+      return 'booked for';
+    },
+    $$selectedDay() {
+      return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
     }
   },
-  filters: {
-    dayFilter(date) {
-      return toLocal(date, 'dddd, MMMM Do');
+  methods: {
+    handleSelect(e) {
+      this.setTimes(e.target.value, e.target.selectedIndex);
     }
   }
 }

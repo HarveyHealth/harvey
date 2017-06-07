@@ -19,7 +19,7 @@
             enter-active-class="animated animated-fast fadeIn"
             leave-active-class="animated animated-fast fadeOut"
         >
-            <router-view :user="global.user"></router-view>
+            <keep-alive><router-view :user="global.user"></router-view></keep-alive>
         </transition>
 
       </div>
@@ -44,7 +44,7 @@
 
     <!-- Stripe -->
     <script type="text/javascript" src="https://js.stripe.com/v2"></script>
-    
+
     <!-- App.js -->
     <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
 
