@@ -1,5 +1,5 @@
 <template>
-      <div class="main-container">
+    <div class="main-container">
       <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
       <UserNav />
         <div class="main-content">

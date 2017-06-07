@@ -24,7 +24,7 @@
             <div class="inline-centered">
                 <button class="button" 
                 @click="createMessage()"
-                :disabled="!subject || !selected || !message">Send</button>
+                :disabled="!subject || !selected">Send</button>
             </div>
         </div>
     </aside>
