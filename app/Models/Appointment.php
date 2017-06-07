@@ -5,11 +5,11 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Lang;
+use App\Http\Traits\HasStatusColumn;
 
 class Appointment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasStatusColumn;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -82,25 +82,6 @@ class Appointment extends Model
     public function practitionerAppointmentAtDate()
     {
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
-    }
-
-    public function getStatusAttribute()
-    {
-        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
-    }
-
-    public function setStatusAttribute($value)
-    {
-        if (false !== ($key = array_search($value, self::STATUSES))) {
-            $this->status_id = $key;
-        }
-
-        return $value;
-    }
-
-    public function getStatusFriendlyName()
-    {
-        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
     }
 
     /*

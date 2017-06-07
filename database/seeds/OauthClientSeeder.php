@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class OauthClientSeeder extends Seeder
 {
+    const SECRET = 'bHdnJqfTV7QtKC8JTifFenxBcCW4TlUVXQPk63In';
     /**
      * Run the database seeds.
      *
@@ -13,7 +14,7 @@ class OauthClientSeeder extends Seeder
     {
         factory(Laravel\Passport\Client::class)->create([
             'name' => 'Postman',
-            'secret' => 'bHdnJqfTV7QtKC8JTifFenxBcCW4TlUVXQPk63In'
+            'secret' => self::SECRET,
         ]);
     }
 }
