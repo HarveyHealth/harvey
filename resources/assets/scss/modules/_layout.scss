@@ -1,5 +1,5 @@
 .container {
-  margin: 0 auto;
+  @include margin(0 auto);
   @include padding(0 25px);
 
   &.small {

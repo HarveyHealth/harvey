@@ -2,14 +2,14 @@
 .signup-content {
   @include padding(25px null null null);
   text-align: center;
-  margin-bottom: 60px;
+  @include margin(null null 60px null);
 }
 
 .signup-form-container {
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  margin: 30px auto;
+  @include margin(30px auto);
   max-width: 510px;
   @include padding(30px);
   @media (min-width: 850px) { @include padding(50px 90px); }
@@ -30,18 +30,18 @@ a:hover {
 
 // Registration specific styles
 .registration-tree, .interstitial {
-  margin-bottom: 25px;
+  @include margin(null null 25px null);
   max-width: 470px;
   width: 100%;
 }
 
 .interstitial {
-  margin-top: 20px;
+  @include margin(20px null null null);
 }
 
 // Progress Indicator
 .signup_progress-indicator {
-  margin: 25px 0;
+  @include margin(25px 0);
   text-align: center;
 }
   .signup_progress-step {
@@ -49,11 +49,11 @@ a:hover {
     border-radius: 50%;
     display: inline-block;
     height: 18px;
-    margin-right: 10px;
+    @include margin(null 10px null null);
     width: 18px;
 
     &:last-child {
-      margin-right: 0;
+      @include margin(null 0 null null);
     }
 
     &.current {
@@ -64,13 +64,13 @@ a:hover {
 
 // Checked Radio
 .radio-block {
-  margin-bottom: 40px;
+  @include margin(null null 40px null);
   width: 100%;
   @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
-    margin-bottom: 40px;
-    margin-right: 40px;
+    @include margin(null null 40px null);
+    @include margin(null 40px null null);
   }
 }
 
@@ -107,13 +107,13 @@ button:focus {
 
 // Calendar
 .calendar-block {
-  margin-bottom: 55px;
+  @include margin(null null 55px null);
   width: 100%;
   @media (min-width: 850px) { width: 50%; }
 
   &:not(:last-child) {
-    margin-bottom: 55px;
-    margin-right: 50px;
+    @include margin(null null 55px null);
+    @include margin(null 50px null null);
   }
 }
   .calendar-block_container {
@@ -125,7 +125,7 @@ button:focus {
   }
     .calendar-main-content  {
       border-bottom: 1px solid $gray;
-      margin-bottom: 25px;
+      @include margin(null null 25px null);
       @include padding(null null 25px null);
     }
 
@@ -134,13 +134,13 @@ button:focus {
       }
         .calendar-week-container_title-wrapper {
           border-bottom: 1px solid #ccc;
-          margin-top: 20px;
+          @include margin(20px null null null);
           @include padding(null null 10px null);
         }
           .calendar-week-container_title {
             display: inline-block;
             font-size: 15px;
-            margin-bottom: 0;
+            @include margin(null null 0 null);
           }
           .calendar-week-container_date {
             display: inline-block;
@@ -152,7 +152,7 @@ button:focus {
         .calendar-week-container_days-wrapper {
           list-style: none;
           overflow: hidden;
-          margin: 0 0 10px;
+          @include margin(0 0 10px);
           @include padding(15px 0 0 0);
         }
           .calendar-item {
@@ -160,7 +160,7 @@ button:focus {
             border-radius: 50%;
             float: left;
             height: 35px;
-            margin: 0 10px 10px 0;
+            @include margin(0 10px 10px 0);
             position: relative;
             transition: box-shadow .25s ease-in-out;
             width: 35px;
@@ -172,7 +172,7 @@ button:focus {
             }
 
             &:nth-child(5n) {
-              @media (min-width: 850px) { margin-right: 0; }
+              @media (min-width: 850px) { @include margin(null 0 null null); }
             }
 
             &.selected {
@@ -221,7 +221,7 @@ button:focus {
 
 
   .calendar-notice p {
-    margin: 0 auto 25px;
+    @include margin(0 auto 25px);
     max-width: 355px;
     font-style: italic;
   }
@@ -231,12 +231,12 @@ button:focus {
   text-align: center;
 }
   .confirmation_calendar {
-    margin: 30px auto;
+    @include margin(30px auto);
     max-width: 132px;
   }
     .confirmation_date {
       font-size: 23px;
-      margin-bottom: 20px;
+      @include margin(null null 20px null);
     }
       .confirmation_day {
         @extend %sans--bold;
@@ -255,18 +255,18 @@ button:focus {
       }
     .confirmation_reschedule {
       display: inline-block;
-      margin-bottom: 20px;
+      @include margin(null null 20px null);
     }
     .confirmation_text {
-      margin-bottom: 30px;
+      @include margin(null null 30px null);
     }
 
     .button.dashboard {
       color: #888;
       border: 1px solid #EFEFEF;
       background-color: #f9f9f9;
-      @include padding(12px 30px;
-      margin-left: 10px;
+      @include padding(12px 30px);
+      @include margin(null null null 10px);
       &:hover{
         color: #666;
         border: 1px solid #ddd;
@@ -276,7 +276,7 @@ button:focus {
 
 // Form Errors/Feedback
 .error-container {
-  margin: 0 0 15px 0;
+  @include margin(0 0 15px 0);
 }
 
 // Add event button overrides
@@ -287,7 +287,7 @@ button:focus {
   color: #888 !important;
   border-color: #EFEFEF !important;
   font-weight: 400 !important;
-  margin-bottom: 20px !important;
+  @include margin(null null 20px null !important);
   transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;

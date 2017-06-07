@@ -17,14 +17,14 @@
                 font-family: FontAwesome;
                 color: #fff;
                 transition: margin 0.2s ease;
-                margin-left: .25em;
-                margin-right: .25em;
+                @include margin(null null null .25em);
+                @include margin(null .25em null null);
                 position: relative;
                 right: -.5em;
             }
             @at-root &:hover:after {
-                margin-left: .5em;
-                margin-right: 0;
+                @include margin(null null null .5em);
+                @include margin(null 0 null null);
             }
         }
         &.is-outlined {
@@ -49,8 +49,8 @@
                 font-family: FontAwesome;
                 color: $harvey-purple;
                 transition: margin 0.2s ease;
-                margin-left: .25em;
-                margin-right: .25em;
+                @include margin(null null null .25em);
+                @include margin(null .25em null null);
                 position: relative;
                 right: -.5em;
             }
@@ -66,7 +66,7 @@
 }
 
 .title + .subtitle {
-    margin-top: 0.25rem;
+    @include margin(0.25rem null null null);
 }
 
 .disclaimer {
@@ -118,7 +118,7 @@ blockquote {
 @include from($tablet) {
     .copy-has-max-width {
         max-width: 640px;
-        margin: 0 auto;
+        @include margin(0 auto);
     }
 }
 
@@ -146,7 +146,7 @@ body {
         .page-content {
             .container {
                 @include from(400px) {
-                    margin: 0 auto;
+                    @include margin(0 auto);
                     width: 340px;
                 }
             }

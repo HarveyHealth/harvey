@@ -26,7 +26,7 @@
  * we can see the button styles in the wrapper */
 .custom-select select {
 	width: 100%;
-	margin: 0;
+	@include margin(0);
 	outline: none;
 	@include padding(.6em .8em .5em .8em);
   color: darken($gray, 15%);

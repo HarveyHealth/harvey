@@ -13,12 +13,12 @@ body.lab-tests {
     }
     .section {
         @include padding(0);
-        margin-bottom: 60px;
+        @include margin(null null 60px null);
         background-color: transparent;
     }
     .tab {
         .title {
-            margin-bottom: 0;
+            @include margin(null null 0 null);
         }
     }
     blockquote {

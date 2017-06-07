@@ -11,7 +11,7 @@
     .container {
         height: 60px;
         max-width: 1152px;
-        margin: 0 auto;
+        @include margin(0 auto);
         @media (max-width:768px) {
             @include padding(0 20px);
         }
@@ -22,7 +22,7 @@
                 float: left;
                 svg {
                     width: 150px;
-                    margin-top: 8px;
+                    @include margin(8px null null null);
                     @media (max-width:768px) {
                         .harvey-text {
                             display: none;
@@ -30,7 +30,7 @@
                     }
                     &.harvey-mark{
                         width: 150px;
-                        margin-top: 2px;
+                        @include margin(2px null null null);
                         height: 43px;
                     }
                 }
@@ -42,11 +42,11 @@
             .nav-item {
                 float: right;
                 font-size: 16px;
-                margin-top: 12px;
+                @include margin(12px null null null);
                 display: flex;
                 a {
                     font-size: 16px;
-                    margin-left: 10px;
+                    @include margin(null null null 10px);
                 }
             }
         }

@@ -30,7 +30,7 @@
 
   &__item {
     display: inline-block;
-    margin-top: 0.8em;
+    @include margin(0.8em null null null);
   }
 
   &__section {
@@ -45,13 +45,13 @@
     display: block;
     font-size: 1.4em;
     font-weight: 500;
-    margin-bottom: 0.6em;
+    @include margin(null null 0.6em null);
   }
 
   .title {
     border-bottom: 1px solid $light-gray;
     @include padding(null null 15px null);
-    margin-bottom: 30px;
+    @include margin(null null 30px null);
   }
 
 }

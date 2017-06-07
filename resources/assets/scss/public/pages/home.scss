@@ -32,17 +32,17 @@ body.home {
         line-height: 1.5;
     }
     figure {
-        margin-right: 0;
+        @include margin(null 0 null null);
     }
     .button.is-medium {
         height: auto;
         @include padding(1rem 3rem);
-        margin-top: 0.5rem;
+        @include margin(0.5rem null null null);
     }
     .columns.is-narrow {
         max-width: 1052px;
-        margin-left: auto;
-        margin-right: auto;
+        @include margin(null null null auto);
+        @include margin(null auto null null);
     }
 
 
@@ -54,7 +54,7 @@ body.home {
         min-height: 100%;
         width: 100%;
         position: relative;
-        margin-bottom: 0;
+        @include margin(null null 0 null);
     }
     .header {
         position: fixed;
@@ -156,8 +156,8 @@ body.home {
                 top: 50%;
                 left: 0;
                 transform: translateY(-50%);
-                margin-left: 0.75rem;
-                margin-right: 0.75rem;
+                @include margin(null null null 0.75rem);
+                @include margin(null 0.75rem null null);
             }
         }
     }
@@ -174,7 +174,7 @@ body.home {
     .section-header {
         text-transform: uppercase;
         text-align: center;
-        margin-bottom: 2em;
+        @include margin(null null 2em null);
         span {
             font-weight: 500;
         }
@@ -183,7 +183,7 @@ body.home {
             white-space: nowrap;
             overflow: hidden;
             span {
-                margin: 0 $space-medium;
+                @include margin(0 $space-medium);
                 vertical-align: middle
             }
             &:before,
@@ -197,12 +197,12 @@ body.home {
             }
         }
         & + .columns {
-            margin-top: 3rem;
+            @include margin(3rem null null null);
         }
     }
     .button-wrapper {
         img {
-            margin-right: 10px;
+            @include margin(null 10px null null);
             max-width: 60px;
         }
         @include until($tablet) {
@@ -210,8 +210,8 @@ body.home {
         }
     }
     .tagline {
-        margin-top: $space-xsmall;
-        margin-bottom: $size-2;
+        @include margin($space-xsmall null null null);
+        @include margin(null null $size-2 null);
     }
     .icon-wrapper {
         text-align: center;
@@ -250,17 +250,17 @@ body.home {
         }
     }
     .copy-has-max-width + .columns {
-        margin-top: $size-3;
+        @include margin($size-3 null null null);
     }
     .disclaimer {
         font-size: 1.125em;
         max-width: 380px;
-        margin-left: auto;
-        margin-right: auto;
+        @include margin(null null null auto);
+        @include margin(null auto null null null);
     }
     .symptoms-selector-wrapper {
         li + li {
-            margin-top: 0;
+            @include margin(0 null null null);
         }
     }
     .is-3-widescreen {
@@ -270,16 +270,16 @@ body.home {
     }
 
     #integrative-medicine {
-        margin-bottom: 1em;
+        @include margin(null null 1em null);
         .introduction {
-            margin-bottom: 2rem;
+            @include margin(null null 2rem null);
             img {
                 max-width: 470px;
             }
         }
         figure.has-margin {
-            margin-top: 2rem 3rem;
-            margin-bottom: 3.5rem;
+            @include margin(2rem 3rem);
+            @include margin(null null 3.5rem null);
         }
         .columns {
             @include padding(0 20px 15px 0);
@@ -305,7 +305,7 @@ body.home {
     #labs{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
         .button {
-            margin-bottom: 20px;
+            @include margin(null null 20px null);
         }
         @include from($desktop) {
             figure {
@@ -324,13 +324,13 @@ body.home {
 
     #tests {
         .columns {
-            margin-top: 0;
+            @include margin(0 null null null);
         }
     }
 
     #social-feed, #symptoms {
         .social-feed {
-            margin-top: 40px;
+            @include margin(40px null null null);
             img {
                 max-width: 30px;
             }
@@ -342,9 +342,9 @@ body.home {
             text-align: center;
             .column.columns {
                 flex-direction: column;
-                margin-bottom: 50px;
+                @include margin(null null 50px null);
                 .icon-wrapper {
-                    margin: 0 auto;
+                    @include margin(0 auto);
                 }
             }
         }
@@ -358,11 +358,11 @@ body.home {
                 }
             }
             .title {
-                margin: 0 0 1rem !important;
+                @include margin(0 0 1rem !important);
             }
         }
         em {
-            margin: 10px 0;
+            @include margin(10px 0);
         }
     }
 
@@ -374,13 +374,13 @@ body.home {
         }
         .column {
             p {
-                margin-top: 10px;
+                @include margin(10px null null null);
             }
         }
     }
 
     #symptoms {
-        margin-bottom: 4rem;
+        @include margin(null null 4rem null);
         .circle img{
             border-radius: 100%;
             max-width: 70%;
@@ -392,7 +392,7 @@ body.home {
         background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
         @include padding(70px 0 90px);
         h2 {
-            margin-bottom: 0;
+            @include margin(null null 0 null);
         }
         p {
             color: $tertiary;
@@ -416,7 +416,7 @@ body.home {
     // Mailchimp
 
     #mc_embed_signup form {
-        margin-bottom: 10px;
+        @include margin(null null 10px null);
     }
 
     #mc_embed_signup input {

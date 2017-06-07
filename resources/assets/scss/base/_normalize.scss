@@ -25,7 +25,7 @@ html {
  */
 
 body {
-  margin: 0;
+  @include margin(0);
 }
 
 /**
@@ -48,7 +48,7 @@ section {
 
 h1 {
   font-size: 2em;
-  margin: 0.67em 0;
+  @include margin(0.67em 0);
 }
 
 /* Grouping content
@@ -70,7 +70,7 @@ main { /* 1 */
  */
 
 figure {
-  margin: 1em 40px;
+  @include margin(1em 40px);
 }
 
 /**
@@ -257,7 +257,7 @@ textarea {
   font-family: "proxima-nova"; /* 1 */
   font-size: 100%; /* 1 */
   line-height: 1.15; /* 1 */
-  margin: 0; /* 2 */
+  @include margin(0); /* 2 */
 }
 
 /**
@@ -322,7 +322,7 @@ button:-moz-focusring,
 
 fieldset {
   border: 1px solid #c0c0c0;
-  margin: 0 2px;
+  @include margin(0 2px);
   @include padding(0.35em 0.625em 0.75em);
 }
 
