@@ -407,7 +407,7 @@ export default {
     // Setup flyout and appointment info on new appointment click
     handleNewAppointmentClick() {
 
-      this.resetAppointment();
+      this.appointment = this.resetAppointment();
 
       if (this.userType === 'practitioner' && !this.$root.$data.global.loadingPractitioners) {
         this.setPractitionerInfo(this.practitionerList[0].data);
@@ -509,7 +509,7 @@ export default {
     handleUserAction() {
       // Setup
       let data = {
-        appointment_at: this.appointment.date,
+        appointment_at: this.appointment.date || this.appointment.currentDate,
         reason_for_visit: this.appointment.purpose,
         status: this.appointment.status,
         patient_id: this.appointment.patientId * 1,
@@ -526,6 +526,7 @@ export default {
       }
       if (this.userAction === 'update') {
         if (this.appointment.currentDate === data.appointment_at) {
+
           delete data.appointment_at;
         }
         delete data.patient_id;
@@ -597,10 +598,17 @@ export default {
     },
 
     setupAppointments(list) {
-      this.appointments = tableDataTransform(list);
-      this.cache.all = this.appointments;
-      this.cache.upcoming = this.appointments.filter(obj => obj.data.status === 'Pending');
-      this.cache.completed = this.appointments.filter(obj => obj.data.status === 'Complete');
+      const appts = tableDataTransform(list);
+      this.cache.all = appts;
+      this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
+      this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
+
+      this.appointments = this.activeFilter === 0
+        ? this.cache.all
+        : this.activeFilter === 1
+          ? this.cache.upcoming
+          : this.cache.completed;
+
       Vue.nextTick(() => {
         this.checkTableData();
       })
