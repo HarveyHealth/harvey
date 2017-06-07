@@ -30,7 +30,7 @@
                     />
                 </div>
               </div>
-            <div class="inline-centered" style="background-color: white; width: 1000px;">
+            <div class="inline-centered" style="background-color: white; width: 1000px; padding-bottom: 10px;">
                 <button class="button" @click="reply()">Reply</button>
             </div>
         </div>
