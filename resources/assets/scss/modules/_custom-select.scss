@@ -12,7 +12,7 @@
 .custom-select.show-time-label:before,
 .custom-select.detached-label:before {
   display: block;
-  padding: 0.6em 0.8em 0.5em 0.8em;
+  @include padding(0.6em 0.8em 0.5em 0.8em);
   position: absolute;
   z-index: -10;
 }
@@ -30,9 +30,9 @@
  * we can see the button styles in the wrapper */
 .custom-select select {
 	width: 100%;
-	margin: 0;
+	@include margin(0);
 	outline: none;
-	padding: .6em .8em .5em .8em;
+	@include padding(.6em .8em .5em .8em);
   color: darken($gray, 15%);
   cursor: pointer;
 
@@ -81,7 +81,7 @@
 
 	/* Remove select styling */
 	.custom-select select {
-		padding-right: 2em; /* Match-01 */
+		@include padding(null 2em null null); /* Match-01 */
 		/* inside @supports so that iOS <= 8 display the native arrow */
 		background: none; /* Match-04 */
 		/* inside @supports so that Android <= 4.3 display the native arrow */
@@ -92,6 +92,6 @@
 		appearance: none;
 	}
 	// .custom-select select:focus {
-	// 	border-color: $gray; /* Match-03 */
+	// 	@include border-color($gray); /* Match-03 */
 	// }
 }

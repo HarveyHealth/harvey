@@ -6,40 +6,40 @@
         border-radius: 5px;
         cursor: pointer;
         height: 100%;
-        padding: 30px;
+        @include padding(30px);
         &:hover {
             border: 2px solid $harvey-primary;
             box-shadow: inset 0px 0px 0px 5px $harvey-primary;
         }
         h2{
-            margin-bottom: 10px;
+            @include margin(null null 10px null);
         }
         .tip {
             color: #999999;
             display: block;
             font-size: 16px;
             line-height: 18px;
-            margin-bottom: 15px;
+            @include margin(null null 15px null);
             clear: both;
             &.blue{
                 color: $harvey-tertiary;
                 font-size: 14px;
                 opacity: .7;
-                margin-top: 3px;
+                @include margin(3px null null null);
             }
         }
         .practitioner-main-content {
-            margin-bottom: 10px;
+            @include margin(null null 10px null);
             p {
                 font-size: 15px;
                 line-height: 1.25em;
-                margin-bottom: 4px;
+                @include margin(null null 4px null);
             }
             ul {
-                margin: 7px 0 20px;
+                @include margin(7px 0 20px);
                 font-size: 15px;
                 li {
-                    padding-bottom: 5px;
+                    @include padding(5px);
                 }
             }
         }
