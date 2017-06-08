@@ -34,7 +34,7 @@
                         :time="chat.attributes.created_at.date"
                         :header="chat.attributes.subject"
                         :message="chat.attributes.message"
-                        :read="chat.attributes.read_at && user == chat.attributes.recipient_user_id"
+                        :read="chat.attributes.read_at == null && user == chat.attributes.recipient_user_id"
                      />
                   </router-link>
                 </div>
