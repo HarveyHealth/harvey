@@ -27,6 +27,7 @@
                         :header="detail.attributes.subject"
                         :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
+                        :userId="detail.attributes.recipient_user_id"
                     />
                 </div>
               </div>

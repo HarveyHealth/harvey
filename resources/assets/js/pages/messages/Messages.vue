@@ -70,7 +70,7 @@
           }
         },
         mounted() {
-          axios.get(`/api/v1/messages`)
+          axios.get(`${this.$root.$data.apiUrl}/messages`)
               .then(response => {
                 let data = {};
                 response.data.data.forEach(e => {

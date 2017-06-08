@@ -46,16 +46,13 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                axios.post(`/api/v1/messages`, {
+                axios.post(`${this.$root.$data.apiUrl}/messages`, {
                     message: this.message,
                     recipient_user_id: this.$props.id,
                     subject: this.$props.header
                 })
                 .then(response => {
-                    axios.put(`/api/v1/messages/${response.data.data.id}/read`)
-                        .then(resp => {
-                            this.$root.$data.global.detailMessages[this.$props.header].push(resp.data.data);
-                        })
+                    this.$root.$data.global.detailMessages[this.$props.header].push(resp.data.data);
                 })
                 this.$parent.reply();
             }
