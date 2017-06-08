@@ -1,7 +1,7 @@
 <template>
       <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
-      <UserNav />
+      <UserNav :current-page="'messages'" />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
@@ -70,6 +70,7 @@
           }
         },
         mounted() {
+          this.$root.$data.global.currentPage = 'messages';
           axios.get(`/api/v1/messages`)
               .then(response => {
                 let data = {};

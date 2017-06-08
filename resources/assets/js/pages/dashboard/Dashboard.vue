@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
 
-    <UserNav />
+    <UserNav :current-page="'dashboard'" />
 
     <div class="main-content">
 
@@ -174,6 +174,7 @@
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
+      this.$root.$data.global.currentPage = 'dashboard';
     }
   }
 
