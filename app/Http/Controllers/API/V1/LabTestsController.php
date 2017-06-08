@@ -41,7 +41,7 @@ class LabTestsController extends BaseAPIController
      * @param LabTest     $labTest
      * @return \Illuminate\Http\JsonResponse
      */
-    public function read(Request $request, LabTest $labTest)
+    public function show(Request $request, LabTest $labTest)
     {
         if (currentUser()->cant('view', $labTest)) {
             return $this->respondNotAuthorized("You do not have access to view this LabTest.");
