@@ -19,7 +19,7 @@ $backoffice-grid: (
 }
 
 .container {
-  @include padding(40px 25px);
+  @include padding(48px 25px 40px);
 }
 
 .main-content {
@@ -35,9 +35,39 @@ $backoffice-grid: (
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
+
+  .main-action {
+    border-radius: 50%;
+    display: inline-block;
+    height: 28px;
+    padding: 0;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 28px;
+
+    svg {
+      height: 14px;
+      width: 14px;
+      @include margin(2px null null null);
+    }
+  }
+
 }
 
 @media screen and (min-width: 800px) {
+  .main-header .main-action {
+    height: 36px;
+    margin-top: -10px;
+    position: static !important;
+    width: 36px;
+
+    svg {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
   .main-content {
     margin-left: 150px;
     left: 0px !important;
