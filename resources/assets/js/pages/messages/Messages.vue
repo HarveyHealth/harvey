@@ -34,7 +34,7 @@
                         :time="chat.attributes.created_at.date"
                         :header="chat.attributes.subject"
                         :message="chat.attributes.message"
-                        :read="chat.attributes.read_at"
+                        :read="chat.attributes.read_at && user == chat.attributes.recipient_user_id"
                      />
                   </router-link>
                 </div>
@@ -61,7 +61,8 @@
         data() {
             return {
               renderNewMessage: false,
-              messageList: this.$root.$data.global.messages
+              messageList: this.$root.$data.global.messages,
+              user: this.$root.$data.global.user.id
             }
         },
         methods: {
