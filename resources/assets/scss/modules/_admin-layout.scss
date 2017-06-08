@@ -1,0 +1,49 @@
+$backoffice-grid: (
+  columns: 12,
+  gutter: 0px,
+);
+
+#app {
+  overflow-x: hidden;
+}
+
+.admin-content {
+  font-family: 'proxima-nova';
+  height: 100%;
+  @include grid-column(12, $backoffice-grid);
+
+  .main-container {
+    height: 100%;
+  }
+
+}
+
+.container {
+  @include padding(40px 25px);
+}
+
+.main-content {
+  left: 0;
+  position: relative;
+  transition: left 200ms ease-in-out, margin-left 200ms ease-in-out;
+
+  .menu-open & {
+    left: 150px;
+  }
+}
+
+.main-header {
+  background: $white;
+  border-bottom: 1px solid $color--grey;
+}
+
+@media screen and (min-width: 800px) {
+  .main-content {
+    margin-left: 150px;
+    left: 0px !important;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}

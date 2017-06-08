@@ -1,10 +1,6 @@
 <template>
   <div class="main-container">
-
-    <UserNav />
-
     <div class="main-content">
-
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">
@@ -182,7 +178,6 @@ import Practitioner from './components/Practitioner.vue';
 import Purpose from './components/Purpose.vue';
 import Status from './components/Status.vue';
 import Times from './components/Times.vue';
-import UserNav from '../../commons/UserNav.vue';
 
 // other
 import convertStatus from './utils/convertStatus';
@@ -253,7 +248,6 @@ export default {
     Purpose,
     Status,
     Times,
-    UserNav
   },
 
   filters: {

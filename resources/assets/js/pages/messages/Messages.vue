@@ -1,7 +1,6 @@
 <template>
       <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
-      <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
@@ -47,7 +46,6 @@
 <script>
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
-    import UserNav from '../../commons/UserNav.vue'
     import channel from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
@@ -55,7 +53,6 @@
         name: 'messages',
         components: {
           Preview,
-          UserNav,
           MessagePost
         },
         data() {

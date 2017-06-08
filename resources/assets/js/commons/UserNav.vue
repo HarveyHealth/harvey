@@ -1,14 +1,22 @@
 <template>
   <div class="nav-bar">
+    <button class="menu-button"
+      @click="handleMenu(null)"
+    >
+      <i :class="menuIcon"></i>
+    </button>
     <nav class="admin-nav">
-      <router-link to="/" class="nav-bar-account">
+      <router-link to="/" class="nav-bar-account"
+        @click.native="handleMenu(false)">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
-      <router-link class="admin-nav-link" to="/" title="Dashboard">
+      <router-link class="admin-nav-link" to="/" title="Dashboard"
+        @click.native="handleMenu(false)">
         <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg>
         <div class="text">Dashboard</div>
       </router-link>
-      <router-link class="admin-nav-link" to="/appointments" title="Appointments">
+      <router-link class="admin-nav-link" to="/appointments" title="Appointments"
+        @click.native="handleMenu(false)">
         <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
         <div class="text">Appointments</div>
       </router-link>
@@ -18,7 +26,8 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}">
+      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}"
+        @click.native="handleMenu(false)">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
@@ -36,7 +45,26 @@
   export default {
     data() {
       return {
-        unread: false
+        unread: false,
+      }
+    },
+    computed: {
+      menuIcon() {
+        return {
+          'fa': true,
+          'fa-close': this.$root.$data.global.menuOpen,
+          'fa-navicon': !this.$root.$data.global.menuOpen
+        }
+      }
+    },
+    methods: {
+      handleMenu(force) {
+        // Added delay to allow time for new component to render in the router-view
+        if (force === null) {
+          this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
+        } else {
+          setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
+        }
       }
     },
     beforeMount() {

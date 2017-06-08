@@ -22,7 +22,7 @@
       <tr v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-for="val in row.values">{{ val }}</td>
+        <td v-for="(val, j) in row.values" :data-column="columns[j].name">{{ val }}</td>
       </tr>
     </tbody>
   </table>

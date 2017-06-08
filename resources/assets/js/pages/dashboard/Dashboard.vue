@@ -1,10 +1,6 @@
 <template>
   <div class="main-container">
-
-    <UserNav />
-
     <div class="main-content">
-
       <div class="main-header">
         <div class="container">
           <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
@@ -105,7 +101,6 @@
 
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
-  import UserNav from '../../commons/UserNav.vue';
   import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
   import Contact from '../../utils/mixins/Contact';
   import combineAppointmentData from '../../utils/methods/combineAppointmentData';
@@ -122,7 +117,6 @@
     props: ['user', 'patient'],
     components: {
       DashboardAppointments,
-      UserNav,
     },
     methods: {
       viewAppointmentPage() {
@@ -176,7 +170,7 @@
       if (localStorage.getItem('signed up')) return null;
     }
   }
-  
+
   // User Role
   // var role = Laravel.user.userType;
   // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
