@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
 
-    <UserNav />
+    <UserNav :current-page="'appointments'" />
 
     <div class="main-content">
 
@@ -701,7 +701,6 @@ export default {
   },
 
   mounted() {
-
     // If data from app.js has loaded prior to mount, set data
     const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;
@@ -711,6 +710,6 @@ export default {
     if (patients.length) this.setupPatientList(patients);
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
-  },
+  }
 }
 </script>

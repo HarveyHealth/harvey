@@ -31,6 +31,11 @@
     height: 60px;
     position: relative;
     width: 100%;
+
+    &.current {
+      color: $fiord;
+    }
+
     &.logout {
       bottom: 0;
       position: absolute;

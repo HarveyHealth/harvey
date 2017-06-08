@@ -1,7 +1,7 @@
 <template>
       <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
-      <UserNav />
+      <UserNav :current-page="'messages'" />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
