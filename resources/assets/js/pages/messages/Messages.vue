@@ -70,7 +70,6 @@
           }
         },
         mounted() {
-          this.$root.$data.global.currentPage = 'messages';
           axios.get(`/api/v1/messages`)
               .then(response => {
                 let data = {};

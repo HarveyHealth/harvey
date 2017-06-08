@@ -174,7 +174,6 @@
     },
     mounted() {
       if (localStorage.getItem('signed up')) return null;
-      this.$root.$data.global.currentPage = 'dashboard';
     }
   }
 

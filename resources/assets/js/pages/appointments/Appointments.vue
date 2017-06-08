@@ -701,8 +701,6 @@ export default {
   },
 
   mounted() {
-    this.$root.$data.global.currentPage = 'appointments';
-
     // If data from app.js has loaded prior to mount, set data
     const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;
