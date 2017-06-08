@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert" v-if="userType === 'patient'">
+      <div class="card-wrapper alert" v-if="userType === 'patient' && appointments.length > 0">
         <div class="card">
           <h3>Patient Intake Form</h3>
           <p>Please note: You must finish your patient intake form before your first appointment.</p>
@@ -116,7 +116,8 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false
+        flag: false,
+        appointments: this.$root.$data.global.appointments
       };
     },
     props: ['user', 'patient'],
