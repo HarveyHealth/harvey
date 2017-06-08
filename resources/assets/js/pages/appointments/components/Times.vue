@@ -1,15 +1,15 @@
 <template>
   <div class="input__container">
-    <span v-if="isloading"></span>
-    <SelectOptions
-      v-else-if="editable"
-      :emptylabel="'show-time-label'"
-      :forceevent="'forceTimeSelect'"
-      :isdisabled="!times.length"
+    <span v-if="isLoading"></span>
+    <SelectOptions v-else-if="editable && list.length"
+      :detached-label="time ? null : 'Select time'"
+      :is-disabled="!times.length"
+      :is-required="false"
       :options="times"
-      :selectevent="'selectTime'"
+      :selected="time"
+      :on-select="handleSelect"
     />
-    <span v-else class="input__item">{{ time | timeFilter }}</span>
+    <span v-else-if="!editable" class="input__item">{{ currentTime | timeFilter }}</span>
   </div>
 </template>
 
@@ -21,7 +21,14 @@ import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: ['editable','isloading', 'list', 'time'],
+  props: {
+    currentTime: String,
+    editable: Boolean,
+    isLoading: Boolean,
+    list: Array,
+    setTime: Function,
+    time: String,
+  },
   components: {
     SelectOptions
   },
@@ -42,6 +49,14 @@ export default {
   filters: {
     timeFilter(date) {
       return toLocal(date, 'h:mm a');
+    }
+  },
+  methods: {
+    handleSelect(e) {
+      const timeObj = e.target.value
+        ? this.times[e.target.selectedIndex - 1].data
+        : null;
+      this.setTime(timeObj);
     }
   }
 }

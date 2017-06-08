@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Events\OutOfServiceZipCodeRegistered;
 use App\Events\UserRegistered;
 use App\Models\Patient;
 use App\Models\User;
@@ -68,6 +69,9 @@ class UsersController extends BaseAPIController
         ]);
 
         if ($validator->fails()) {
+            if($validator->errors()->get('zip')) {
+                event(new OutOfServiceZipCodeRegistered($request));
+            }
             return $this->respondBadRequest($validator->errors()->first());
         }
 

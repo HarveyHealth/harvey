@@ -1,7 +1,7 @@
 .harvey-logo {
     height: 56px;
     width: 185px;
-    padding: 8px 0;
+    @include padding(8px 0);
 }
 .harvey-mark {
   height: 29px;

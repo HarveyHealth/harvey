@@ -1,24 +1,30 @@
 <template>
   <div>
     <button
-      v-for="(obj, index) in filterdata"
+      v-for="(name, index) in filters"
       :class="{'button--filter': true, 'isactive': activeFilter === index}"
-      @click="handleFilter(index, obj)">{{ obj.name }}</button>
+      :disabled="loading"
+      @click="onFilter(name, index)">{{ name }}</button>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['filterdata'],
-  data() {
-    return {
-      activeFilter: 0
-    }
-  },
-  methods: {
-    handleFilter(index, obj) {
-      this.activeFilter = index;
-      this.$eventHub.$emit(obj.event);
+  props: {
+    activeFilter: {
+      type: Number,
+      required: true
+    },
+    filters: {
+      type: Array,
+      required: true,
+    },
+    loading: {
+      type: Boolean,
+    },
+    onFilter: {
+      type: Function,
+      required: true
     }
   }
 }

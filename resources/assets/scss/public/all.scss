@@ -1,3 +1,4 @@
+@import '../bourbon/_bourbon';
 // Variables
 @import "~bulma/sass/utilities/functions";
 @import "variables";
@@ -17,8 +18,8 @@
 
 .button {
   &.is-link {
-    padding-left: 0;
-    padding-right: 0;
+    @include padding(null null null 0);
+    @include padding(null 0 null null);
 
     &:hover {
       background-color: transparent;
@@ -37,7 +38,7 @@
 }
 
 .footer {
-  padding-bottom: 4rem;
+  @include padding(null null 4rem null);
 
   &.is-simple {
     background-color: transparent;
@@ -95,7 +96,7 @@
 }
 
 .image-wrapper {
-  margin-bottom: $space-medium;
+  @include margin(null null $space-medium null);
 }
 
 .icon {
@@ -105,7 +106,7 @@
     border-radius: 50%;
     .fa {
       font-size: $size-6;
-      margin-top: -2px;
+      @include margin(-2px null null null);
     }
   }
   .control.has-icon:not(.has-icon-right)  &.align-right {
@@ -118,7 +119,7 @@
   }
   & + span {
     vertical-align: middle;
-    margin-left: 5px
+    @include margin(null null null 5px);
   }
 }
 
@@ -127,7 +128,7 @@
 }
 
 .card-footer-item {
-  padding: 1.5rem;
+  @include padding(1.5rem);
 }
 
 .panel-block {
@@ -144,14 +145,14 @@
 }
 
 .control.is-grouped.is-gapless > .control:not(:last-child) {
-  margin-right: -1px;
+  @include margin(null -1px null null);
 }
 
 .section {
   .has-max-width {
     max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
+    @include margin(null null null auto);
+    @include margin(null auto null null);
   }
 }
 
@@ -175,7 +176,7 @@ em {
 }
 
 #app {
-  padding-bottom: 300px;
+  @include padding(null null 300px null);
 }
 
 body {
@@ -205,69 +206,69 @@ body {
 // Margin
 
 .is-margin {
-  margin: 1rem !important;
+  @include margin(1rem !important);
 }
 
 .is-margin-top {
-  margin-top: 1rem !important;
+  @include margin(1rem null null null !important);
 }
 
 .is-margin-left {
-  margin-left: 1rem !important;
+  @include margin(null null null 1rem !important);
 }
 
 .is-margin-bottom {
-  margin-bottom: 1rem !important;
+  @include margin(null null 1rem null !important);
 }
 
 .is-marginless {
-  margin: 0 !important;
+  @include margin(0 !important);
 }
 
 .is-marginless-top {
-  margin-top: 0 !important;
+  @include margin(0 null null null !important);
 }
 
 .is-marginless-left {
-  margin-left: 0 !important;
+  @include margin(null null null 0 !important);
 }
 
 .is-marginless-bottom {
-  margin-bottom: 0 !important;
+  @include margin(null null 0 null !important);
 }
 
 // Margin/Padding (Negative)
 
 .is-padding {
-  padding: 1rem;
+  @include padding(1rem);
 }
 
 .is-padding-top {
-  padding-top: 1rem !important;
+  @include padding(1rem null null null !important);
 }
 
 .is-padding-left {
-  padding-left: 1rem !important;
+  @include padding(null null null 1rem !important);
 }
 
 .is-padding-bottom {
-  padding-bottom: 1rem !important;
+  @include padding(null null 1rem null !important);
 }
 
 .is-paddingless {
-  padding: 0 !important;
+  @include padding(0 !important);
 }
 
 .is-paddingless-top {
-  padding-top: 0 !important;
+  @include padding(0 null null null !important);
 }
 
 .is-paddingless-left {
-  padding-left: 0 !important;
+  @include padding(null null null 0 !important);
 }
 
 .is-paddingless-bottom {
-  padding-bottom: 0 !important;
+  @include padding(null null 0 null !important);
 }
 
 // Opacity
@@ -309,10 +310,10 @@ body {
   .container {
     height: 60px;
     max-width: 1152px;
-    margin: 0 auto;
+    @include margin(0 auto);
 
     + mobile, + tablet {
-      padding: 0 20px;
+      @include padding(0 20px);
     }
 
     .nav-left {
@@ -332,7 +333,7 @@ body {
 
           &.harvey-mark {
             width: 150px;
-            margin-top: 2px;
+            @include margin(2px null null null);
             height: 43px;
           }
         }
@@ -346,12 +347,12 @@ body {
       .nav-item {
         float: right;
         font-size: 16px;
-        margin-top: 0;
+        @include margin(0 null null null);
         display: flex;
 
         a {
           font-size: 16px;
-          margin-left: 10px;
+          @include margin(null null null 10px);
         }
       }
     }

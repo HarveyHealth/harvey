@@ -76,6 +76,9 @@ const app = new Vue({
         guest: false,
         global: {
             appointments: [],
+            loadingAppointments: true,
+            loadingPatients: true,
+            loadingPractitioners: true,
             patients: [],
             practitioners: [],
             recent_appointments: [],
@@ -90,16 +93,21 @@ const app = new Vue({
         timezone: moment.tz.guess(),
     },
     methods: {
-      getAppointments() {
+      getAppointments(cb) {
         axios.get(`${this.apiUrl}/appointments?include=patient.user`)
           .then(response => {
             this.global.appointments = combineAppointmentData(response.data).reverse();
-            this.$eventHub.$emit('receivedAppointments', this.global.appointments);
-          })
-          .catch(error => console.log(error.response));
+            this.global.loadingAppointments = true;
+            Vue.nextTick(() => {
+              this.global.loadingAppointments = false
+              if (cb) cb();
+            });
+          }).catch(error => console.log(error.response));
+
         axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
           .then((response) => this.global.upcoming_appointments = response.data)
           .catch(error => console.log(error.response));
+
         axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
           .then((response) => this.global.recent_appointments = response.data)
           .catch(error => console.log(error.response));
@@ -117,7 +125,7 @@ const app = new Vue({
             })
           });
           this.global.patients = sortByLastName(this.global.patients);
-          this.$eventHub.$emit('receivedPatients', this.global.patients);
+          this.global.loadingPatients = false;
         });
       },
       getPractitioners() {
@@ -126,7 +134,7 @@ const app = new Vue({
             this.global.practitioners = response.data.data.map(dr => {
               return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
             });
-            this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
+            this.global.loadingPractitioners = false;
           })
         } else {
           axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
@@ -135,7 +143,7 @@ const app = new Vue({
             }).map(obj => {
               return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
             });
-            this.$eventHub.$emit('receivedPractitioners', this.global.practitioners);
+            this.global.loadingPractitioners = false;
           })
         }
 
