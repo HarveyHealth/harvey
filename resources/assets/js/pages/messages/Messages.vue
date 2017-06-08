@@ -83,14 +83,26 @@
                 if (data) {
                   Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
                   this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => b.attributes.read_at - a.attributes.read_at);
+                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
+                    if (a.attributes.read_at == null || b.attributes.read_at == null) {
+                      return 1;
+                    }
+                    return -1;
+                  });
                   this.messageList = this.$root.$data.global.messages;
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
             this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data)
-            this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length -1])
+            this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => b.attributes.created_at - a.attributes.created_at)
+            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+              .map(e => e[e.length -1])
+              .sort((a, b) => {
+                    if (a.attributes.read_at == null || b.attributes.read_at == null) {
+                      return 1;
+                    }
+                    return -1;
+                  });
           })
         }
     }
