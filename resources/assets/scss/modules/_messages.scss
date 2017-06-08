@@ -26,7 +26,7 @@
     @include margin(0 10px 0 0);
 }
 .subject-header {
-    @include margin(null null null -30px);
+    @include margin(null null 5px -30px);
     text-align: left;
 }
 .message-layer {
