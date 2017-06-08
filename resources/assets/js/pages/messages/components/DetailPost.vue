@@ -20,7 +20,7 @@
 <script>
     import moment from 'moment'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId'],
         name: 'MessagingPost',
         data() {
             return {
@@ -31,7 +31,9 @@
 
         },
         mounted() {
-            axios.put(`/api/v1/messages/${this.$props.id}/read`)
+            if (this.$props.userId == this.$root.$data.global.user.id) {
+                axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
+            }
         }
     }
 </script>
