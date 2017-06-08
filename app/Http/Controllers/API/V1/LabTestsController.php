@@ -6,6 +6,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\LabTest;
 use App\Transformers\V1\LabTestTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use ResponseCode;
 
 class LabTestsController extends BaseAPIController
@@ -44,10 +45,46 @@ class LabTestsController extends BaseAPIController
     public function show(Request $request, LabTest $labTest)
     {
         if (currentUser()->cant('view', $labTest)) {
-            return $this->respondNotAuthorized("You do not have access to view this LabTest.");
+            return $this->respondNotAuthorized('You do not have access to view this LabTest.');
         }
 
         return $this->baseTransformItem($labTest)->respond();
+    }
+
+    /**
+     * @param Request     $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $validator = StrictValidator::check($request->all(), [
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'patient_id' => 'required|exists:patients,id',
+            'lab_order_id' => 'required|exists:lab_orders,id',
+            'sku_id' => 'required|exists:skus,id',
+            'status' => ['filled', Rule::in(LabTest::STATUSES)],
+            'results_url' => 'url',
+            'shipment_code' => 'string',
+        ]);
+
+        return $this->baseTransformItem(LabTest::create($request->all()))->respond();
+    }
+
+    public function update(Request $request, Appointment $appointment)
+    {
+        if (currentUser()->cant('update', $appointment)) {
+            return $this->respondNotAuthorized('You do not have access to update this LabTest.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'status' => ['filled', Rule::in(LabTest::STATUSES)],
+            'results_url' => 'url',
+            'shipment_code' => 'string',
+        ]);
+
+        $appointment->update($request->all());
+
+        return $this->baseTransformItem($appointment)->respond();
     }
 
     /**

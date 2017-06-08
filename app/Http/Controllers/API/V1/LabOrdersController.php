@@ -51,6 +51,38 @@ class LabOrdersController extends BaseAPIController
     }
 
     /**
+     * @param Request     $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $validator = StrictValidator::check($request->all(), [
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'patient_id' => 'required|exists:patients,id',
+            'status' => ['filled', Rule::in(LabOrder::STATUSES)],
+            'shipment_code' => 'string',
+        ]);
+
+        return $this->baseTransformItem(LabOrder::create($request->all()))->respond();
+    }
+
+    public function update(Request $request, Appointment $appointment)
+    {
+        if (currentUser()->cant('update', $appointment)) {
+            return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'status' => ['filled', Rule::in(LabOrder::STATUSES)],
+            'shipment_code' => 'string',
+        ]);
+
+        $appointment->update($request->all());
+
+        return $this->baseTransformItem($appointment)->respond();
+    }
+
+    /**
      * @param LabOrder $labOrder
      * @return \Illuminate\Http\JsonResponse
      */
