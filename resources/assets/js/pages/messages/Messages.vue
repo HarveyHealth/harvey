@@ -41,6 +41,12 @@
             </div>
       </div>
     </div>
+      <NotificationPopup
+        :active="notificationActive"
+        :comes-from="notificationDirection"
+        :symbol="notificationSymbol"
+        :text="notificationMessage"
+      />
   </div>
 </template>
 
@@ -48,6 +54,7 @@
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue'
     import channel from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
@@ -62,7 +69,11 @@
             return {
               renderNewMessage: false,
               messageList: this.$root.$data.global.messages,
-              user: this.$root.$data.global.user.id
+              user: this.$root.$data.global.user.id,
+              notificationSymbol: '&#10003;',
+              notificationMessage: 'Message Sent!',
+              notificationActive: false,
+              notificationDirection: 'top-right'
             }
         },
         methods: {

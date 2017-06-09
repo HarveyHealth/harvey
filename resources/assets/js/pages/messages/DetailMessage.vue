@@ -6,7 +6,7 @@
             <div class="main-header">
                 <div class="container">
                   <h1 class="title header-xlarge">
-                    <span class="text">Details</span>
+                    <span class="text">Message Details</span>
                     </h1>
                 </div>
             </div>
@@ -37,6 +37,12 @@
         </div>
       </div>
     </div>
+    <NotificationPopup
+        :active="notificationActive"
+        :comes-from="notificationDirection"
+        :symbol="notificationSymbol"
+        :text="notificationMessage"
+      />
   </div>
 </template>
 
@@ -64,7 +70,11 @@
               isActive: null,
               user: this.userName,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
-              detailList: this.$root.$data.global.detailMessages[this.$props.subject]
+              detailList: this.$root.$data.global.detailMessages[this.$props.subject],
+              notificationSymbol: '&#10003;',
+              notificationMessage: 'Message Sent!',
+              notificationActive: false,
+              notificationDirection: 'top-right'
             }
         },
         methods: {
