@@ -47,7 +47,7 @@ class LabOrderTransformer extends TransformerAbstract
      * @param LabOrder $labOrder
      * @return mixed
      */
-    public function includeLabTest(LabOrder $labOrder)
+    public function includeLabTests(LabOrder $labOrder)
     {
         return $this->collection($labOrder->labTests, new LabTestTransformer())->setResourceKey('lab_tests');
     }
