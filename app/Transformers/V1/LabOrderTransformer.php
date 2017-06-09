@@ -19,7 +19,7 @@ class LabOrderTransformer extends TransformerAbstract
             'id' => (string) $labOrder->id,
             'patient_id' => (string) $labOrder->patient_id,
             'practitioner_id' => (string) $labOrder->practitioner_id,
-            'status' => (string) $labOrder->status,
+            'status' => $labOrder->status,
             'shipment_code' => (string) $labOrder->shipment_code,
             'completed_at' => $labOrder->completed_at,
         ];
