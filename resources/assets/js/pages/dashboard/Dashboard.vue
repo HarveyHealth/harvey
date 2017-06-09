@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
 
-    <UserNav />
+    <UserNav :current-page="'dashboard'" />
 
     <div class="main-content">
 
@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert">
+      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
         <div class="card">
           <h3>Patient Intake Form</h3>
           <p>Please note: You must finish your patient intake form before your first appointment.</p>
@@ -27,7 +27,7 @@
             :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
 
-        <div class="card">
+        <div class="card" v-if="userType === 'patient'">
           <div class="card-heading-container">
             <h2 class="card-header">Your Doctor</h2>
           </div>
@@ -116,7 +116,8 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false
+        flag: false,
+        appointments: this.$root.$data.global.appointments
       };
     },
     props: ['user', 'patient'],
@@ -164,6 +165,9 @@
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
+      },
+      appointments() {
+        return this.$root.$data.global.appointments;
       }
     },
     beforeMount() {
@@ -176,7 +180,7 @@
       if (localStorage.getItem('signed up')) return null;
     }
   }
-  
+
   // User Role
   // var role = Laravel.user.userType;
   // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );

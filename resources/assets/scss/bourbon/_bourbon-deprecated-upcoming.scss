@@ -128,7 +128,7 @@
   font-size: $textsize;
   font-weight: bold;
   @include linear-gradient ($base-color, $stop-gradient);
-  padding: $padding;
+  @include padding($padding);
   text-decoration: none;
   text-shadow: 0 1px 0 $text-shadow;
   background-clip: padding-box;
@@ -201,7 +201,7 @@
   display: inline-block;
   font-size: $textsize;
   font-weight: bold;
-  padding: $padding;
+  @include padding($padding);
   text-align: center;
   text-decoration: none;
   text-shadow: 0 -1px 1px $text-shadow;
@@ -272,7 +272,7 @@
   font-weight: normal;
   line-height: 1;
   @include linear-gradient ($base-color, $stop-gradient);
-  padding: $padding;
+  @include padding($padding);
   text-align: center;
   text-decoration: none;
   text-shadow: 0 -1px 1px $text-shadow;
@@ -346,7 +346,7 @@
   display: inline-block;
   font-size: $textsize;
   font-weight: bold;
-  padding: $padding;
+  @include padding($padding);
   text-decoration: none;
   background-clip: padding-box;
 

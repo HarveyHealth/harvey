@@ -1,0 +1,58 @@
+.unread {
+      border-left: 6px solid #82BEF2 !important; 
+  }
+.container-message {
+    background-color: white; 
+    height: 200px;
+    border-left: none;
+    width: 1000px;
+}
+.container-detail-message {
+    background-color: white; 
+    height: auto;
+    border-left: none;
+    width: 1000px;
+}
+.container-detail {
+    background-color: white; 
+    max-height: 600px;
+    min-height: 600px;
+    border-left: none;
+    width: 1000px;
+    overflow: scroll;
+}
+.top-layer {
+    float: left; 
+    @include margin(0 10px 0 0);
+}
+.subject-header {
+    @include margin(null null 5px -30px);
+    text-align: left;
+}
+.message-layer {
+    @include margin(0);
+    text-align: left;
+    width: 100%;
+}
+.details {
+    float: left; 
+    @include margin(4em); 
+    width: 70%;
+}
+.image-card {
+    width: 80px; 
+    height: 80px; 
+    float: left;
+    @include margin(20px);
+}
+.image-avatar {
+    border-radius: 50%; 
+    @include margin(50px 20px); 
+    float: left;
+}
+.border-message {
+    border-bottom: 2px solid #f8f8f8;
+}
+.message-margin {
+    @include margin(30px 30px null 30px);
+}

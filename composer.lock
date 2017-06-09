@@ -8,6 +8,7 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.29.1",
             "source": {
                 "type": "git",
@@ -18,6 +19,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e6c57795d2900c900dc273de36e4dddd1027fd8c",
                 "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c",
+=======
+            "version": "3.28.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "983a73400bb9a922275a6750327f43eac1f96e7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/983a73400bb9a922275a6750327f43eac1f96e7d",
+                "reference": "983a73400bb9a922275a6750327f43eac1f96e7d",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
                 "shasum": ""
             },
             "require": {
@@ -84,7 +97,11 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2017-06-08T20:17:11+00:00"
+=======
+            "time": "2017-06-05T20:28:39+00:00"
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -3725,7 +3742,11 @@
         },
         {
             "name": "symfony/console",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -3847,7 +3868,11 @@
         },
         {
             "name": "symfony/debug",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -3903,7 +3928,11 @@
         },
         {
             "name": "symfony/event-dispatcher",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3966,7 +3995,11 @@
         },
         {
             "name": "symfony/finder",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -4015,7 +4048,11 @@
         },
         {
             "name": "symfony/http-foundation",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
@@ -4068,6 +4105,7 @@
         },
         {
             "name": "symfony/http-kernel",
+<<<<<<< HEAD
             "version": "v3.3.2",
             "source": {
                 "type": "git",
@@ -4078,6 +4116,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/http-kernel/zipball/be8280f7fa8e95b86514f1e1be997668a53b2888",
                 "reference": "be8280f7fa8e95b86514f1e1be997668a53b2888",
+=======
+            "version": "v3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-kernel.git",
+                "reference": "f059ab440934839e13eb959fe48789d0c2171f87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/f059ab440934839e13eb959fe48789d0c2171f87",
+                "reference": "f059ab440934839e13eb959fe48789d0c2171f87",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
                 "shasum": ""
             },
             "require": {
@@ -4150,7 +4200,11 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
+<<<<<<< HEAD
             "time": "2017-06-06T03:59:58+00:00"
+=======
+            "time": "2017-06-05T17:31:57+00:00"
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -4213,7 +4267,11 @@
         },
         {
             "name": "symfony/process",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -4322,7 +4380,11 @@
         },
         {
             "name": "symfony/routing",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
@@ -4400,7 +4462,11 @@
         },
         {
             "name": "symfony/translation",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
@@ -4465,7 +4531,11 @@
         },
         {
             "name": "symfony/var-dumper",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
@@ -4533,7 +4603,11 @@
         },
         {
             "name": "symfony/yaml",
+<<<<<<< HEAD
             "version": "v3.3.2",
+=======
+            "version": "v3.3.1",
+>>>>>>> 74551668b2b557e2b8957124eef08119e715a4ee
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

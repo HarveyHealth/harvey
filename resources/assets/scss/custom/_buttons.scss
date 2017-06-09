@@ -110,4 +110,10 @@ input[type="submit"] {
   &.isactive {
     color: $dark-gray;
   }
+
+  &[disabled] {
+    color: #ccc;
+    border-bottom: none;
+    cursor: default;
+  }
 }

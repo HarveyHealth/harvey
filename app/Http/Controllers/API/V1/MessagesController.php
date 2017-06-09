@@ -29,7 +29,8 @@ class MessagesController extends BaseAPIController
     public function index()
     {
         $filterUnread = 'unread' === request('filter');
-        $recipientId = currentUser()->id;
+        $currentUserId = currentUser()->id;
+        $recipientId = null;
         $senderId = request('sender_user_id');
         $term = request('term');
 
@@ -37,30 +38,24 @@ class MessagesController extends BaseAPIController
             $recipientId = request('recipient_user_id');
         }
 
+        $query = Message::make();
+
         if ($term) {
-            // Indexed search
-            $query = Message::search($term);
-            if (is_numeric($senderId)) {
-                $query = $query->where('sender_user_id', (int) $senderId);
-            }
-            if (is_numeric($recipientId)) {
-                $query = $query->where('recipient_user_id', (int) $recipientId);
-            }
-            if ($filterUnread) {
-                $query = $query->where('read_at', null);
-            }
+            $query = $query->whereIn('id', Message::search($term)->get()->pluck('id'));
+        }
+
+        if ($filterUnread) {
+            $query = $query->unread();
+        }
+
+        if (is_numeric($senderId)) {
+            $query = $query->from(User::find($senderId));
+        }
+
+        if (is_numeric($recipientId)) {
+            $query = $query->to(User::find($recipientId));
         } else {
-            //Non-indexed search
-            $query = Message::make();
-            if (is_numeric($senderId)) {
-                $query = $query->from(User::find($senderId));
-            }
-            if (is_numeric($recipientId)) {
-                $query = $query->to(User::find($recipientId));
-            }
-            if ($filterUnread) {
-                $query = $query->unread();
-            }
+            $query = $query->senderOrRecipient(currentUser());
         }
 
         return $this->baseTransformBuilder($query, request('include'), new MessageTransformer, request('per_page'))->respond();
@@ -89,8 +84,6 @@ class MessagesController extends BaseAPIController
     {
         $validator = Validator::make($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
-            'message' => 'required',
-            'subject' => 'required',
         ]);
 
         if ($validator->fails()) {

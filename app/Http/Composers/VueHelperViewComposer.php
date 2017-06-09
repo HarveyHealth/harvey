@@ -4,6 +4,7 @@ namespace App\Http\Composers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Config;
 
 class VueHelperViewComposer
 {
@@ -46,7 +47,7 @@ class VueHelperViewComposer
             $data['firstName'] = $user->first_name;
             $data['lastName'] = $user->last_name;
             $data['fullName'] = $user->fullName();
-            $data['userType'] = $user->userType();
+            $data['userType'] = $user->type;
         }
 
         return $data;
@@ -56,8 +57,11 @@ class VueHelperViewComposer
     {
         $data = [
             'stripe' => [
-                'key' => \Config::get('services.stripe.key'),
-            ]
+                'key' => Config::get('services.stripe.key'),
+            ],
+            'pusher' => [
+                'key' => Config::get('broadcasting.connections.pusher.key')
+            ],
         ];
 
         return $data;

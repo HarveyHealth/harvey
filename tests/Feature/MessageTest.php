@@ -43,39 +43,58 @@ class MessageTest extends TestCase
         $this->assertDatabaseHas('messages', ['message' => $message]);
     }
 
-    public function test_a_new_message_must_contain_body()
+    public function test_a_new_message_only_requires_a_recipient()
     {
         $patient = factory(Patient::class)->create();
         $practitioner = factory(Practitioner::class)->create();
 
+        $subject = Faker::create()->text;
+
         $parameters = [
             'recipient_user_id' => $practitioner->user->id,
-            'subject' => 'Hello',
         ];
 
         Passport::actingAs($patient->user);
         $response = $this->json('POST', 'api/v1/messages', $parameters);
 
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
+        $response->assertStatus(ResponseCode::HTTP_CREATED);
+
+        $response->assertJsonFragment(['sender_user_id' => "{$patient->user->id}"]);
+        $response->assertJsonFragment(['recipient_user_id' => "{$practitioner->user->id}"]);
+
+        $this->assertDatabaseHas('messages', ['recipient_user_id' => $practitioner->user->id]);
     }
 
     public function test_it_allows_a_patient_to_retrieve_his_messages()
     {
         $patient = factory(Patient::class)->create();
 
-        factory(Message::class, 10)->create(['recipient_user_id' => $patient->user->id]);
+        factory(Message::class, 3)->create(['recipient_user_id' => $patient->user->id]);
+        factory(Message::class, 3)->create(['sender_user_id' => $patient->user->id]);
 
         Passport::actingAs($patient->user);
         $response = $this->json('GET', 'api/v1/messages');
 
         $response->assertStatus(ResponseCode::HTTP_OK);
-        $this->assertCount(10, $response->original['data']);
+        $this->assertCount(6, $response->original['data']);
     }
 
-    public function test_it_allows_a_patient_to_retrieve_a_message()
+    public function test_it_allows_a_patient_to_retrieve_a_message_to_him()
     {
         $patient = factory(Patient::class)->create();
         $message = factory(Message::class)->create(['recipient_user_id' => $patient->user->id]);
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('GET', "api/v1/messages/{$message->id}");
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $response->assertJsonFragment(['message' => $message->message]);
+    }
+
+    public function test_it_allows_a_patient_to_retrieve_a_message_from_him()
+    {
+        $patient = factory(Patient::class)->create();
+        $message = factory(Message::class)->create(['sender_user_id' => $patient->user->id]);
 
         Passport::actingAs($patient->user);
         $response = $this->json('GET', "api/v1/messages/{$message->id}");
