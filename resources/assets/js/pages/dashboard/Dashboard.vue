@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert" v-if="upcoming_appointments.concat(recent_appointments).length > 0 && userType === 'patient'">
+      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
         <div class="card">
           <h3>Patient Intake Form</h3>
           <p>Please note: You must finish your patient intake form before your first appointment.</p>
@@ -116,8 +116,7 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false,
-        appointments: this.$root.$data.global.appointments
+        flag: false
       };
     },
     props: ['user', 'patient'],
@@ -165,6 +164,9 @@
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
+      },
+      appointments() {
+        return this.$root.$data.global.appointments;
       }
     },
     beforeMount() {
