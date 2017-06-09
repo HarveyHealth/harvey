@@ -50,7 +50,7 @@ class signUpFlowTest extends DuskTestCase
                       ->type('last_name', $user->last_name)
                       ->type('phone_number', $user->phone)
                       ->click('@continueDeta')
-                      ->pause(30000)
+                      ->pause(1000)
                       ->click('@weekday')
                       ->click('@time')
                       ->click('@confirmTime')
