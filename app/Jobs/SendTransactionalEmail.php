@@ -20,7 +20,7 @@ class SendTransactionalEmail implements ShouldQueue
     protected $template_id;
     protected $template_model;
 
-    const ALLOWED_EMPTY_KEYS = [];
+    const ALLOWED_EMPTY_KEYS = ['doctor_state'];
 
     /**
      * Create a new job instance.

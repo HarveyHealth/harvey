@@ -84,8 +84,6 @@ class MessagesController extends BaseAPIController
     {
         $validator = StrictValidator::check($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
-            'message' => 'required',
-            'subject' => 'required',
         ]);
 
         $message = new Message($request->all());

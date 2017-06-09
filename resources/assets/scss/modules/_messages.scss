@@ -15,47 +15,44 @@
 }
 .container-detail {
     background-color: white; 
-    max-height: 700px;
-    min-height: 700px;
+    max-height: 600px;
+    min-height: 600px;
     border-left: none;
     width: 1000px;
     overflow: scroll;
 }
 .top-layer {
     float: left; 
-    margin: 0 10px 0 0;
+    @include margin(0 10px 0 0);
 }
 .subject-header {
-    margin: 0;
+    @include margin(null null 5px -30px);
     text-align: left;
 }
 .message-layer {
-    margin: 0;
+    @include margin(0);
     text-align: left;
     width: 100%;
 }
 .details {
     float: left; 
-    margin: 4em; 
+    @include margin(4em); 
     width: 70%;
 }
 .image-card {
     width: 80px; 
     height: 80px; 
     float: left;
-    margin: 20px;
+    @include margin(20px);
 }
 .image-avatar {
     border-radius: 50%; 
-    margin: 50px 20px; 
+    @include margin(50px 20px); 
     float: left;
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
 }
 .message-margin {
-    margin-top: 30px;
-}
-.top-layer-margin {
-    margin-top: 0 -10px;
+    @include margin(30px 30px null 30px);
 }

@@ -18,7 +18,10 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" @click="createMessage()">Create Message</button>
+                <button 
+                class="button" 
+                @click="createMessage()"
+                :disabled="!message">Send</button>
             </div>
         </div>
     </aside>
@@ -43,13 +46,15 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                axios.post(`/api/v1/messages`, {
+                axios.post(`${this.$root.$data.apiUrl}/messages`, {
                     message: this.message,
                     recipient_user_id: this.$props.id,
                     subject: this.$props.header
                 })
                 .then(response => {
                     this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
+                    this.$root.$data.global.detailMessages[this.$props.header].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length -1])
                 })
                 this.$parent.reply();
             }
