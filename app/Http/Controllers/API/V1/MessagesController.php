@@ -118,11 +118,14 @@ class MessagesController extends BaseAPIController
      */
     public function delete(Message $message)
     {
-        if (currentUser()->can('delete', $message)) {
-            $message->delete();
-            return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_NO_CONTENT);
+        if (currentUser()->cant('delete', $message)) {
+            return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");
         }
 
-        return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");
+        if (!$message->delete()) {
+            return $this->baseTransformItem($message)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }
