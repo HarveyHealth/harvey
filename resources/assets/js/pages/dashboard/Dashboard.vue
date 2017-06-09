@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
+      <div class="card-wrapper alert" v-if="upcoming_appointments.concat(recent_appointments).length > 0 && userType === 'patient'">
         <div class="card">
           <h3>Patient Intake Form</h3>
           <p>Please note: You must finish your patient intake form before your first appointment.</p>
