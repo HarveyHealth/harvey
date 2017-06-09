@@ -72,18 +72,18 @@ class SignUpPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#signup > div > form > div.text-centered > input',
-            '@terms' => '#signup > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
-            '@privacy' => '#signup > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
+            '@signUp' => '#app > div > form > div.text-centered > input',
+            '@terms' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
+            '@privacy' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
             '@checkbox' => '#checkbox',
-            '@letsgo' => '#signup > div > div > div.text-centered > a',
-            '@clickpage' => '#signup > div > div > div.container.small.message-container > div > img',
-            '@practitioner' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > label',
-            '@continuePract' => '#schedule > form > div > div.container.large > div > div:nth-child(4) > button',
-            '@continueDeta' => '#schedule > form > div > div > div.signup-form-container > div.text-centered',
-            '@weekday' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(2) > ul > li:nth-child(2) > button > span',
-            '@time' => '#schedule > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(4) > button',
-            '@confirmTime' => '#schedule > form > div > div.container.large > div > div.text-centered > input'
+            '@letsgo' => '#app > div > div > div.text-centered > a',
+            '@clickpage' => '#app > div > div > div.container.small.message-container > div > h1',
+            '@practitioner' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > label',
+            '@continuePract' => '#app > div:nth-child(2) > form > div > div.container.large > div > div:nth-child(4) > button',
+            '@continueDeta' => '#app > div:nth-child(2) > form > div > div > div.signup-form-container > div.text-centered > a',
+            '@weekday' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button',
+            '@time' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(5) > button',
+            '@confirmTime' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.text-centered > input'
         ];
     }
 

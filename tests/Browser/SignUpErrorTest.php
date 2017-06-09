@@ -8,7 +8,7 @@ use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class signUpTest extends DuskTestCase
+class SignUpErrorTest extends DuskTestCase
 {
     use DatabaseMigrations;
     /**
@@ -25,16 +25,6 @@ class signUpTest extends DuskTestCase
         });
     }
 
-    public function test_if_user_is_show_message_for_wrong_zipcode_format()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(new SignUpPage)
-                    ->type('zipcode', '4')
-                    ->type('email', 'a')
-                    ->assertSee('The zipcode field must be numeric and exactly contain 5 digits.');
-        });
-    }
-
     public function test_no_input_return_messages()
     {
         $this->browse(function (Browser $browser) {
@@ -46,6 +36,18 @@ class signUpTest extends DuskTestCase
                     ->assertSee('The terms field is required.');
         });
     }
+
+    public function test_if_user_is_show_message_for_wrong_zipcode_format()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new SignUpPage)
+                    ->type('zipcode', '4')
+                    ->type('email', 'a')
+                    ->assertSee('The zipcode field must be numeric and exactly contain 5 digits.');
+        });
+    }
+
+
 
     public function test_if_invalid_email_recieve_message()
     {
@@ -65,20 +67,5 @@ class signUpTest extends DuskTestCase
                     ->visit(new SignUpPage)
                     ->clickPrivacy();
         });
-    }
-
-
-    public function test_user_is_created_and_sent_to_next_page()
-    {
-        $user = factory(User::class)->make();
-
-
-          $this->browse(function ($browser) use ($user) {
-              $browser->visit(new SignUpPage)
-                      ->addUser($user);
-
-                    });
-
-              $this->assertDatabaseHas('users', ['email' => $user->email]);
     }
 }
