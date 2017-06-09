@@ -13,6 +13,12 @@
             <div :class="{flyout: true, isactive: renderReply}">
              <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             </div>
+            <NotificationPopup
+                :active="notificationActive"
+                :comes-from="notificationDirection"
+                :symbol="notificationSymbol"
+                :text="notificationMessage"
+            />
             <div style="padding: 20px;">
                 <div style="background-color: white; width: 1000px;" class="border-message">
                     <h2 style="margin: auto; padding: 20px 40px;">{{ subject }}</h2>
@@ -37,12 +43,6 @@
         </div>
       </div>
     </div>
-    <NotificationPopup
-        :active="notificationActive"
-        :comes-from="notificationDirection"
-        :symbol="notificationSymbol"
-        :text="notificationMessage"
-      />
   </div>
 </template>
 
@@ -51,6 +51,7 @@
     import Reply from './components/ReplyMessages.vue'
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue'
     import axios from 'axios'
     import channel from './websocket'
     import _ from 'lodash'
@@ -61,7 +62,8 @@
           Preview,
           UserNav,
           DetailPost,
-          Reply
+          Reply,
+          NotificationPopup
         },
         data() {
             return {

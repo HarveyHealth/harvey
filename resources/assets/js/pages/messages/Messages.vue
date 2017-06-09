@@ -13,6 +13,12 @@
                     </h1>
                 </div>
             </div>
+            <NotificationPopup
+              :active="notificationActive"
+              :comes-from="notificationDirection"
+              :symbol="notificationSymbol"
+              :text="notificationMessage"
+            />
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
@@ -41,12 +47,6 @@
             </div>
       </div>
     </div>
-      <NotificationPopup
-        :active="notificationActive"
-        :comes-from="notificationDirection"
-        :symbol="notificationSymbol"
-        :text="notificationMessage"
-      />
   </div>
 </template>
 
@@ -63,7 +63,8 @@
         components: {
           Preview,
           UserNav,
-          MessagePost
+          MessagePost,
+          NotificationPopup
         },
         data() {
             return {
