@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert">
+      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
         <div class="card">
           <h3>Patient Intake Form</h3>
           <p>Please note: You must finish your patient intake form before your first appointment.</p>
@@ -164,6 +164,9 @@
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
+      },
+      appointments() {
+        return this.$root.$data.global.appointments;
       }
     },
     beforeMount() {
