@@ -70,9 +70,9 @@ class LabTestsController extends BaseAPIController
         return $this->baseTransformItem(LabTest::create($request->all()))->respond();
     }
 
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('update', $appointment)) {
+        if (currentUser()->cant('update', $labTest) || $labTest->isLocked()) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
@@ -82,9 +82,9 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        $appointment->update($request->all());
+        $labTest->update($request->all());
 
-        return $this->baseTransformItem($appointment)->respond();
+        return $this->baseTransformItem($labTest)->respond();
     }
 
     /**

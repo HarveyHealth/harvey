@@ -66,20 +66,19 @@ class LabOrdersController extends BaseAPIController
         return $this->baseTransformItem(LabOrder::create($request->all()))->respond();
     }
 
-    public function update(Request $request, Appointment $appointment)
+    public function update(Request $request, LabOrder $labOrder)
     {
-        if (currentUser()->cant('update', $appointment)) {
+        if (currentUser()->cant('update', $labOrder)) {
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'status' => ['filled', Rule::in(LabOrder::STATUSES)],
             'shipment_code' => 'string',
         ]);
 
-        $appointment->update($request->all());
+        $labOrder->update($request->all());
 
-        return $this->baseTransformItem($appointment)->respond();
+        return $this->baseTransformItem($labOrder)->respond();
     }
 
     /**

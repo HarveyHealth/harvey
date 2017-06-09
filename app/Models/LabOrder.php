@@ -41,4 +41,26 @@ class LabOrder extends Model
         return $this->hasMany(LabTest::class);
     }
 
+    public function isComplete()
+    {
+        return self::COMPLETE_STATUS_ID == $this->status_id;
+    }
+
+    public function markAsComplete()
+    {
+        $this->status_id = self::COMPLETE_STATUS_ID;
+
+        return $this->save();
+    }
+
+    public function areLabTestsCompleted()
+    {
+        foreach ($this->labTests as $labTest) {
+            if ($labTest->isNotComplete()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

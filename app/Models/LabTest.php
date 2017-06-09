@@ -57,4 +57,19 @@ class LabTest extends Model
     {
         return $this->labOrder->practitioner();
     }
+
+    public function isLocked()
+    {
+        return $this->labOrder->isComplete();
+    }
+
+    public function isComplete()
+    {
+        return $this->status_id == self::COMPLETE_STATUS_ID;
+    }
+
+    public function isNotComplete()
+    {
+        return !$this->isComplete();
+    }
 }
