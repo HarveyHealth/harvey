@@ -116,8 +116,7 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false,
-        appointments: this.$root.$data.global.appointments
+        flag: false
       };
     },
     props: ['user', 'patient'],
@@ -165,6 +164,9 @@
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
+      },
+      appointments() {
+        return this.$root.$data.global.appointments;
       }
     },
     beforeMount() {
