@@ -1,32 +1,42 @@
-#{$all-buttons} {
+.button,
+input[type="submit"] {
+  @extend %sans--medium;
   appearance: none;
-  background-color: $action-color;
+  background-color: $harvey-primary;
   border: 0;
-  border-radius: $base-border-radius;
+  border-radius: 3px;
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: $base-font-family;
-  font-size: 16px;
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
-  font-weight: 600;
   line-height: 1;
-  padding: $small-spacing $base-spacing;
+  @include padding(10px 25px);
   text-align: center;
   text-decoration: none;
-  transition: background-color $base-duration $base-timing;
+  transition: background-color .25s ease-in-out;
   user-select: none;
   vertical-align: middle;
-  white-space: nowrap;
+  width: auto;
 
-  &:hover {
-    background-color: shade($action-color, 20%);
-    color: #fff;
+  &.is-outlined {
+    color: $harvey-tertiary;
+    @include border-color($harvey-tertiary);
+    background-color: transparent;
+    @include padding(9px 16px);
+    border: 1px solid;
+    &:hover,
+    &:focus{
+      color: $harvey-tertiary;
+      @include border-color($harvey-tertiary);
+      background-color: transparent;
+    }
   }
 
+  &:hover,
   &:focus {
-    outline: $focus-outline;
-    outline-offset: $focus-outline-offset;
+    background-color: darken($harvey-primary, 10);
+    color: white;
   }
 
   &:disabled {
@@ -34,7 +44,70 @@
     opacity: 0.5;
 
     &:hover {
-      background-color: $action-color;
+      background-color: $green;
     }
+  }
+}
+
+.button--cancel {
+  background-color: lighten($gray, 10%);
+  @include margin(null null null 1em);
+
+  &:hover,
+  &:focus {
+    background-color: $dark-gray;
+  }
+}
+
+.button--close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.button--close.flyout-close,
+.button--cancel.modal-close {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  background: none;
+  border: none;
+  @include padding(8px 10px);
+
+  & svg {
+    height: 1em;
+    position: absolute;
+    stroke: $gray;
+    stroke-width: 6px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1em;
+  }
+
+  &:hover {
+    background-color: transparent; // overwrites $all-buttons hover state
+    svg { stroke: darken($gray, 15%); }
+  }
+}
+
+.button--filter {
+  background: none;
+  border: none;
+  color: #aaa;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  @include margin(null 0.5em null null);
+  @include padding(0.4em 0.6em);
+
+  &.isactive {
+    border-bottom: 3px solid $harvey-primary;
+  }
+
+  &:hover,
+  &.isactive {
+    color: $dark-gray;
   }
 }

@@ -17,14 +17,14 @@
                 font-family: FontAwesome;
                 color: #fff;
                 transition: margin 0.2s ease;
-                margin-left: .25em;
-                margin-right: .25em;
+                @include margin(null null null .25em);
+                @include margin(null .25em null null);
                 position: relative;
                 right: -.5em;
             }
             @at-root &:hover:after {
-                margin-left: .5em;
-                margin-right: 0;
+                @include margin(null null null .5em);
+                @include margin(null 0 null null);
             }
         }
         &.is-outlined {
@@ -42,15 +42,15 @@
     }
     &.is-secondary {
         color: $harvey-purple;
-        border-color: $harvey-purple;
+        @include border-color($harvey-purple);
         &.has-arrow {
             &:after {
                 content: "\f105";
                 font-family: FontAwesome;
                 color: $harvey-purple;
                 transition: margin 0.2s ease;
-                margin-left: .25em;
-                margin-right: .25em;
+                @include margin(null null null .25em);
+                @include margin(null .25em null null);
                 position: relative;
                 right: -.5em;
             }
@@ -66,7 +66,7 @@
 }
 
 .title + .subtitle {
-    margin-top: 0.25rem;
+    @include margin(0.25rem null null null);
 }
 
 .disclaimer {
@@ -81,7 +81,7 @@ blockquote {
 
 .is-paddingless-mobile {
     @include until($tablet) {
-        padding: 0 !important;
+        @include padding(0 !important);
     }
 }
 
@@ -118,7 +118,7 @@ blockquote {
 @include from($tablet) {
     .copy-has-max-width {
         max-width: 640px;
-        margin: 0 auto;
+        @include margin(0 auto);
     }
 }
 
@@ -127,7 +127,7 @@ body {
     &.signup,
     &.register {
         #app {
-            padding-bottom: 0;
+            @include padding( null null 0 null);
         }
     }
     &.login,
@@ -146,7 +146,7 @@ body {
         .page-content {
             .container {
                 @include from(400px) {
-                    margin: 0 auto;
+                    @include margin(0 auto);
                     width: 340px;
                 }
             }
@@ -185,12 +185,12 @@ body {
                 }
                 &.is-outlined {
                     color: #fff;
-                    border-color: #fff;
+                    @include border-color(#fff);
                     &:hover,
                     &:active,
                     &:focus {
                         color: darken($tertiary, 5%);
-                        border-color: darken($tertiary, 5%);
+                        @include border-color(darken($tertiary, 5%));
                         background-color: transparent;
                     }
                 }
@@ -203,7 +203,7 @@ body {
             width: 100%;
         }
         .page-content {
-            padding-top: 56px;
+            @include padding(56px null null null);
         }
     }
 }

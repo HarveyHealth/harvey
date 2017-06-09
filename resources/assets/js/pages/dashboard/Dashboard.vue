@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
 
-    <UserNav />
+    <UserNav :current-page="'dashboard'" />
 
     <div class="main-content">
 
@@ -27,7 +27,7 @@
             :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
 
-        <div class="card">
+        <div class="card" v-if="userType === 'patient'">
           <div class="card-heading-container">
             <h2 class="card-header">Your Doctor</h2>
           </div>
@@ -116,7 +116,8 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false
+        flag: false,
+        appointments: this.$root.$data.global.appointments
       };
     },
     props: ['user', 'patient'],
@@ -179,7 +180,7 @@
       if (localStorage.getItem('signed up')) return null;
     }
   }
-  
+
   // User Role
   // var role = Laravel.user.userType;
   // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
