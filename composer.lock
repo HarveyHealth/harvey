@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.29.0",
+            "version": "3.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "ad2206be87d722de5a52b3d1b0d6549fe2980fc7"
+                "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/ad2206be87d722de5a52b3d1b0d6549fe2980fc7",
-                "reference": "ad2206be87d722de5a52b3d1b0d6549fe2980fc7",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e6c57795d2900c900dc273de36e4dddd1027fd8c",
+                "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-06-07T22:44:10+00:00"
+            "time": "2017-06-08T20:17:11+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -150,16 +150,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1"
+                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
-                "reference": "ba743434ab6bfbbd2a7f9bc0572bf82628e9fdc1",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/4df7153905c3676fff119167ca6f30a25bb9698a",
+                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a",
                 "shasum": ""
             },
             "require": {
@@ -203,7 +203,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-04-06T17:03:50+00:00"
+            "time": "2017-06-07T23:48:45+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
@@ -2322,16 +2322,16 @@
         },
         {
             "name": "league/flysystem-aws-s3-v3",
-            "version": "1.0.15",
+            "version": "1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem-aws-s3-v3.git",
-                "reference": "c947f36f977b495a57e857ae1630df0da35ec456"
+                "reference": "4cb99ce9207e7a5cb2233523d7c4175b091c4a66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/c947f36f977b495a57e857ae1630df0da35ec456",
-                "reference": "c947f36f977b495a57e857ae1630df0da35ec456",
+                "url": "https://api.github.com/repos/thephpleague/flysystem-aws-s3-v3/zipball/4cb99ce9207e7a5cb2233523d7c4175b091c4a66",
+                "reference": "4cb99ce9207e7a5cb2233523d7c4175b091c4a66",
                 "shasum": ""
             },
             "require": {
@@ -2365,7 +2365,7 @@
                 }
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
-            "time": "2017-04-28T10:21:54+00:00"
+            "time": "2017-06-08T13:37:03+00:00"
         },
         {
             "name": "league/fractal",
