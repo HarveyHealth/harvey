@@ -1,0 +1,40 @@
+$dashboard-grid: (
+  columns: 12,
+  gutter: 0px
+);
+
+.card-wrapper {
+  @include grid-column(12, (columns: 12, gutter: 25px));
+  @include margin(25px null);
+}
+
+.card {
+  background: white;
+  border: 1px solid $color--grey;
+}
+
+.is-patient .card {
+  @include grid-column(6, $dashboard-grid);
+}
+.is-patient .card-appointments {
+  @include grid-column(7, $dashboard-grid);
+}
+.is-patient .card-info {
+  @include grid-column(5, $dashboard-grid);
+}
+
+.card-heading-container {
+  background: $lightest-gray;
+  @include padding(20px 30px);
+
+  a {
+    float: right;
+  }
+}
+
+.card-header {
+  display: inline-block;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}

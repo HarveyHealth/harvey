@@ -55,7 +55,7 @@ $backoffice-grid: (
 
 }
 
-@media screen and (min-width: 800px) {
+@include query(md) {
   .main-header .main-action {
     height: 36px;
     margin-top: -10px;

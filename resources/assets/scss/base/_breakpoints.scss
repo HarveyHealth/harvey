@@ -1,0 +1,12 @@
+$breakpoints: (
+  xs: 0px,
+  sm: 480px,
+  md: 960px,
+  lg: 1280px
+);
+
+@mixin query($bp) {
+  @media screen and (min-width: map-get($breakpoints, $bp)) {
+    @content;
+  }
+}

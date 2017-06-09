@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div class="main-container" :class="userClass">
     <div class="main-content">
       <div class="main-header">
         <div class="container">
@@ -7,23 +7,27 @@
         </div>
       </div>
 
-      <div class="card-wrapper alert" v-if="userType === 'patient' && appointments.length > 0">
+      <div class="card-wrapper alert" v-if="viewableIntakeAlert">
         <div class="card">
-          <h3>Patient Intake Form</h3>
-          <p>Please note: You must finish your patient intake form before your first appointment.</p>
-          <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+          <div class="card-alert-text">
+            <h3>Patient Intake Form</h3>
+            <p>Please note: You must finish your patient intake form before your first appointment.</p>
+          </div>
+          <div class="card-alert-button">
+            <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+          </div>
         </div>
       </div>
 
       <div class="card-wrapper">
 
-        <div class="card">
+        <div class="card card-appointments">
           <DashboardAppointments :user-type="userType"
             :recent-appointments="recent_appointments"
             :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
 
-        <div class="card" v-if="userType === 'patient'">
+        <div class="card card-info" v-if="userType === 'patient'">
           <div class="card-heading-container">
             <h2 class="card-header">Your Doctor</h2>
           </div>
@@ -151,11 +155,21 @@
       upcoming_appointments() {
         return this.$root.$data.global.upcoming_appointments || [];
       },
+      userClass() {
+        return {
+          [`is-${this.userType}`]: true
+        }
+      },
       user_id() {
         return this.user.id || '';
       },
       userType() {
         return Laravel.user.userType;
+      },
+      viewableIntakeAlert() {
+        return !this.$root.$data.global.loadingAppointments &&
+               !this.$root.$data.global.appointments.length &&
+               this.userType === 'patient';
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';

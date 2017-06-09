@@ -59,30 +59,5 @@
 </script>
 
 <style lang="scss" scoped>
-  .appointment-wrapper:last-of-type .appointment {
-    border-bottom: none;
-  }
-    .appointment {
-      border-bottom: 1px solid #E4EAEC;
-      overflow: hidden;
-      padding: 20px 30px;
-    }
-    .appointment_left {
-      float: left;
 
-      p {
-        margin-bottom: 0;
-      }
-    }
-    .appointment_right {
-      float: right;
-      p {
-        margin-bottom: 0;
-      }
-    }
-    .appointment_date, .appointment_doctor {
-      font-weight: 300;
-      letter-spacing: 1px;
-      font-size: 16px;
-    }
 </style>

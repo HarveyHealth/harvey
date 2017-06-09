@@ -37,7 +37,7 @@
 
   th, td {
     text-align: left;
-    @include padding(1em);
+    @include padding(15px);
   }
 
   tbody {
@@ -121,7 +121,7 @@
 .tabledata.appointments-table .cell-wrap {
   @include margin(null null null 90px);
 }
-@media screen and (min-width: 900px) {
+@include query(md) {
   .tabledata.appointments-table {
     @include normalTableStyles;
   }
