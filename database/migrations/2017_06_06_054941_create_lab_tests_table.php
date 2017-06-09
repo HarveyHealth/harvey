@@ -19,7 +19,7 @@ class CreateLabTestsTable extends Migration
             $table->integer('sku_id')->unsigned()->index();
             $table->tinyInteger('status_id')->unsigned()->default(0)->index();
             $table->string('results_url')->nullable();
-            $table->string('shipment_code')->index();
+            $table->string('shipment_code')->nullable()->index();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
             $table->foreign('lab_order_id')->references('id')->on('lab_orders');

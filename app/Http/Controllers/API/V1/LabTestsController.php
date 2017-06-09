@@ -57,9 +57,11 @@ class LabTestsController extends BaseAPIController
      */
     public function store(Request $request)
     {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        }
+
         $validator = StrictValidator::check($request->all(), [
-            'practitioner_id' => 'required|exists:practitioners,id',
-            'patient_id' => 'required|exists:patients,id',
             'lab_order_id' => 'required|exists:lab_orders,id',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
@@ -67,7 +69,7 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all()))->respond();
+        return $this->baseTransformItem(LabTest::create($request->all())->fresh())->respond();
     }
 
     public function update(Request $request, LabTest $labTest)

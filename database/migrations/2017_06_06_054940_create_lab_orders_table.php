@@ -18,7 +18,7 @@ class CreateLabOrdersTable extends Migration
             $table->integer('patient_id')->unsigned();
             $table->integer('practitioner_id')->unsigned();
             $table->tinyInteger('status_id')->unsigned()->default(0)->index();
-            $table->string('shipment_code')->index();
+            $table->string('shipment_code')->nullable()->index();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
             $table->foreign('patient_id')->references('id')->on('patients');

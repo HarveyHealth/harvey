@@ -7,6 +7,7 @@ use App\Http\Traits\HasStatusColumn;
 use App\Models\LabTest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon;
 
 class LabOrder extends Model
 {
@@ -49,6 +50,7 @@ class LabOrder extends Model
     public function markAsComplete()
     {
         $this->status_id = self::COMPLETE_STATUS_ID;
+        $this->completed_at = Carbon::now();
 
         return $this->save();
     }
