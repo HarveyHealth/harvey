@@ -64,7 +64,7 @@ class LabOrdersController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabOrder::create($request->all()))->respond();
+        return $this->baseTransformItem(LabOrder::create($request->all())->fresh())->respond();
     }
 
     public function update(Request $request, LabOrder $labOrder)
