@@ -14,7 +14,7 @@ class LabTestObserver
      */
     public function updated(LabTest $labTest)
     {
-        if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsCompleted()) {
+        if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsComplete()) {
             $labTest->labOrder->markAsComplete();
         }
     }

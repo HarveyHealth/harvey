@@ -53,7 +53,7 @@ class LabOrder extends Model
         return $this->save();
     }
 
-    public function areLabTestsCompleted()
+    public function areLabTestsComplete()
     {
         foreach ($this->labTests as $labTest) {
             if ($labTest->isNotComplete()) {
