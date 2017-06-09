@@ -6,6 +6,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\LabOrder;
 use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use ResponseCode;
 
 class LabOrdersController extends BaseAPIController
