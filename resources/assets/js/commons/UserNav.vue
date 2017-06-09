@@ -68,11 +68,11 @@
       }
     },
     beforeMount() {
-      axios.get(`/api/v1/messages`)
+      axios.get(`${this.$root.$data.apiUrl}/messages`)
         .then(response => {
-          let unread = response.data.data.filter(e => !e.attributes.read_at)
+          let unread = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
           this.unread = unread.length > 0 ? true : false
         })
-    }
+    },
   }
 </script>

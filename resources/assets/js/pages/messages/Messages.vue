@@ -33,7 +33,7 @@
                         :time="chat.attributes.created_at.date"
                         :header="chat.attributes.subject"
                         :message="chat.attributes.message"
-                        :read="chat.attributes.read_at"
+                        :read="chat.attributes.read_at == null && user == chat.attributes.recipient_user_id"
                      />
                   </router-link>
                 </div>
@@ -58,7 +58,8 @@
         data() {
             return {
               renderNewMessage: false,
-              messageList: this.$root.$data.global.messages
+              messageList: this.$root.$data.global.messages,
+              user: this.$root.$data.global.user.id
             }
         },
         methods: {
@@ -67,7 +68,7 @@
           }
         },
         mounted() {
-          axios.get(`/api/v1/messages`)
+          axios.get(`${this.$root.$data.apiUrl}/messages`)
               .then(response => {
                 let data = {};
                 response.data.data.forEach(e => {
@@ -79,14 +80,28 @@
                 if (data) {
                   Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
                   this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => b.attributes.read_at - a.attributes.read_at);
+                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
+                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
+                      return 1;
+                    }
+                    return -1;
+                  });
                   this.messageList = this.$root.$data.global.messages;
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
             this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data)
-            this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length -1])
+            this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => b.attributes.created_at - a.attributes.created_at)
+            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+              .map(e => e[e.length -1])
+              .sort((a, b) => {
+                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
+                      return 1;
+                    }
+                    return -1;
+                  });
           })
         }
     }

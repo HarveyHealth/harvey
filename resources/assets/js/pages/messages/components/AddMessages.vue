@@ -53,7 +53,7 @@
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
             createMessage() {
-                axios.post(`/api/v1/messages`, {
+                axios.post(`${this.$root.$data.apiUrl}/messages`, {
                     message: this.message,
                     recipient_user_id: Number(this.selected),
                     subject: this.subject
