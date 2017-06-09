@@ -48,7 +48,7 @@ class LabTestPolicy
      */
     public function update(User $user, LabTest $labTest)
     {
-        return $user->is($labTest->practitioner->user);
+        return $user->is($labTest->practitioner->user) && $labTest->isNotLocked();
     }
 
     /**

@@ -73,6 +73,11 @@ class LabTest extends Model
         return $this->status_id == self::CANCELED_STATUS_ID;
     }
 
+    public function isNotLocked()
+    {
+        return !$this->isLocked();
+    }
+
     public function isNotComplete()
     {
         return !$this->isComplete();

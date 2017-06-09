@@ -74,7 +74,7 @@ class LabTestsController extends BaseAPIController
 
     public function update(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('update', $labTest) || $labTest->isLocked()) {
+        if (currentUser()->cant('update', $labTest)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
@@ -97,8 +97,10 @@ class LabTestsController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to delete this LabTest");
         }
 
-        $labTest->delete();
+        if (!$labTest->delete()) {
+            return $this->baseTransformItem($labTest)->respond(ResponseCode::HTTP_CONFLICT);
+        }
 
-        return $this->baseTransformItem($labTest)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_NO_CONTENT);
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }

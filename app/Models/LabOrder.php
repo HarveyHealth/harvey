@@ -47,6 +47,11 @@ class LabOrder extends Model
         return self::COMPLETE_STATUS_ID == $this->status_id;
     }
 
+    public function isNotComplete()
+    {
+        return !$this->isComplete();
+    }
+
     public function markAsComplete()
     {
         $this->status_id = self::COMPLETE_STATUS_ID;

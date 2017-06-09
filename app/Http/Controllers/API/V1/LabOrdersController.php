@@ -67,6 +67,11 @@ class LabOrdersController extends BaseAPIController
         return $this->baseTransformItem(LabOrder::create($request->all())->fresh())->respond();
     }
 
+    /**
+     * @param Request     $request
+     * @param LabOrder     $labOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, LabOrder $labOrder)
     {
         if (currentUser()->cant('update', $labOrder)) {
@@ -92,8 +97,10 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to delete this LabOrder");
         }
 
-        $labOrder->delete();
+        if (!$labOrder->delete()) {
+            return $this->baseTransformItem($labOrder)->respond(ResponseCode::HTTP_CONFLICT);
+        }
 
-        return $this->baseTransformItem($labOrder)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_NO_CONTENT);
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }
