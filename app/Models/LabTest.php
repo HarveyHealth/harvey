@@ -68,8 +68,18 @@ class LabTest extends Model
         return $this->status_id == self::COMPLETE_STATUS_ID;
     }
 
+    public function isCanceled()
+    {
+        return $this->status_id == self::CANCELED_STATUS_ID;
+    }
+
     public function isNotComplete()
     {
         return !$this->isComplete();
+    }
+
+    public function isNotCanceled()
+    {
+        return !$this->isCanceled();
     }
 }

@@ -53,10 +53,28 @@ class LabOrder extends Model
         return $this->save();
     }
 
+    public function markAsCanceled()
+    {
+        $this->status_id = self::CANCELED_STATUS_ID;
+
+        return $this->save();
+    }
+
     public function areLabTestsComplete()
     {
         foreach ($this->labTests as $labTest) {
             if ($labTest->isNotComplete()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function areLabTestsCanceled()
+    {
+        foreach ($this->labTests as $labTest) {
+            if ($labTest->isNotCanceled()) {
                 return false;
             }
         }

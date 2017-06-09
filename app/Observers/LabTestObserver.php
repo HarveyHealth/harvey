@@ -16,6 +16,8 @@ class LabTestObserver
     {
         if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsComplete()) {
             $labTest->labOrder->markAsComplete();
+        } elseif (LabTest::CANCELED_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsCanceled()) {
+            $labTest->labOrder->markAsCanceled();
         }
     }
 }
