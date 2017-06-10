@@ -11,7 +11,7 @@
     />
     <span v-else class="input__item patient-display">{{ name }}</span>
     <div><a :href="'mailto:' + email">{{ email }}</a></div>
-    <div><a :href="'tel:' + phone">{{ phone | phone }}</a></div>
+    <div><a :href="'tel:' + phone" @click="trackPhoneNumber">{{ phone | phone }}</a></div>
   </div>
 </template>
 
@@ -35,6 +35,10 @@ export default {
   methods: {
     handleSelect(e) {
       this.setPatient(this.list[e.target.selectedIndex - 1].data);
+    },
+    trackPhoneCall() {
+      ga('category', 'website');
+      ga('action', 'Click Phone Number');
     }
   },
   filters: {
