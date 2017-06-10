@@ -28,11 +28,11 @@ class LabTestsController extends BaseAPIController
      */
     public function index()
     {
-        if (currentUser()->isNotAdmin()) {
-            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        if (currentUser()->isAdmin()) {
+            $builder = LabTest::make();
+        } else {
+            $builder = LabTest::patientOrPractitioner(currentUser());
         }
-
-        $builder = LabTest::make();
 
         return $this->baseTransformBuilder($builder, request('include'), new LabTestTransformer, request('per_page'))->respond();
     }

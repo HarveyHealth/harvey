@@ -63,8 +63,10 @@ class LabTest extends Model
         return $this->labOrder->isComplete();
     }
 
-    public function isNotLocked()
+    public function scopePatientOrPractitioner($query, User $user)
     {
-        return !$this->isLocked();
+        return $query->whereHas('labOrder', function ($query) use ($user) {
+            $query->patientOrPractitioner($user);
+        });
     }
 }

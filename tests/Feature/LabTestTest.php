@@ -14,22 +14,30 @@ class LabTestTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_it_does_not_allows_a_patient_to_retrieve_lab_tests()
+    public function test_it_allows_a_patient_to_retrieve_only_his_labs_tests()
     {
-        $patient = factory(Patient::class)->create();
+        $labTests = factory(LabTest::class, 3)->create();
+        $patient = $labTests->first()->patient;
+
         Passport::actingAs($patient->user);
         $response = $this->json('GET', 'api/v1/lab/tests');
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $this->assertCount(1, $response->original['data']);
     }
 
-    public function test_it_does_not_allows_a_practitioner_to_retrieve_lab_tests()
+    public function test_it_allows_a_practitioner_to_retrieve_only_his_labs_tests()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $labTests = factory(LabTest::class, 3)->create();
+        $practitioner = $labTests->first()->practitioner;
+
         Passport::actingAs($practitioner->user);
         $response = $this->json('GET', 'api/v1/lab/tests');
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $this->assertCount(1, $response->original['data']);
     }
 
     public function test_it_allows_an_admin_to_retrieve_lab_tests()

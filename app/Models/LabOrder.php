@@ -40,5 +40,4 @@ class LabOrder extends Model
     {
         return $this->hasMany(LabTest::class);
     }
-
 }

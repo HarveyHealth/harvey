@@ -28,11 +28,11 @@ class LabOrdersController extends BaseAPIController
      */
     public function index()
     {
-        if (currentUser()->isNotAdmin()) {
-            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        if (currentUser()->isAdmin()) {
+            $builder = LabOrder::make();
+        } else {
+            $builder = LabOrder::patientOrPractitioner(currentUser());
         }
-
-        $builder = LabOrder::make();
 
         return $this->baseTransformBuilder($builder, request('include'), new LabOrderTransformer, request('per_page'))->respond();
     }

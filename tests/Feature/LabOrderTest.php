@@ -12,22 +12,30 @@ class LabOrderTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_it_does_not_allows_a_patient_to_retrieve_lab_orders()
+    public function test_it_allows_a_patient_to_retrieve_only_his_labs_orders()
     {
-        $patient = factory(Patient::class)->create();
+        $labOrders = factory(LabOrder::class, 3)->create();
+        $patient = $labOrders->first()->patient;
+
         Passport::actingAs($patient->user);
         $response = $this->json('GET', 'api/v1/lab/orders');
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $this->assertCount(1, $response->original['data']);
     }
 
-    public function test_it_does_not_allows_a_practitioner_to_retrieve_lab_orders()
+    public function test_it_allows_a_practitioner_to_retrieve_only_his_labs_orders()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $labOrders = factory(LabOrder::class, 3)->create();
+        $practitioner = $labOrders->first()->practitioner;
+
         Passport::actingAs($practitioner->user);
         $response = $this->json('GET', 'api/v1/lab/orders');
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $this->assertCount(1, $response->original['data']);
     }
 
     public function test_it_allows_an_admin_to_retrieve_lab_orders()
