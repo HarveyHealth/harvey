@@ -29,9 +29,9 @@ class LabTestObserver
      */
     public function updated(LabTest $labTest)
     {
-        if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsComplete()) {
+        if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->labTests->every->isComplete()) {
             $labTest->labOrder->markAsComplete();
-        } elseif (LabTest::CANCELED_STATUS_ID == $labTest->status_id && $labTest->labOrder->areLabTestsCanceled()) {
+        } elseif (LabTest::CANCELED_STATUS_ID == $labTest->status_id && $labTest->labOrder->labTests->every->isCanceled()) {
             $labTest->labOrder->markAsCanceled();
         }
     }

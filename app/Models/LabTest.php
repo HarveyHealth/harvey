@@ -77,14 +77,4 @@ class LabTest extends Model
     {
         return !$this->isLocked();
     }
-
-    public function isNotComplete()
-    {
-        return !$this->isComplete();
-    }
-
-    public function isNotCanceled()
-    {
-        return !$this->isCanceled();
-    }
 }

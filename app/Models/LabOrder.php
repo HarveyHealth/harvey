@@ -66,26 +66,4 @@ class LabOrder extends Model
 
         return $this->save();
     }
-
-    public function areLabTestsComplete()
-    {
-        foreach ($this->labTests as $labTest) {
-            if ($labTest->isNotComplete()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function areLabTestsCanceled()
-    {
-        foreach ($this->labTests as $labTest) {
-            if ($labTest->isNotCanceled()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
