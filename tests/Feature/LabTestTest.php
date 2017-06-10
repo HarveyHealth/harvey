@@ -208,7 +208,7 @@ class LabTestTest extends TestCase
 
         $response->assertJsonFragment($parameters);
 
-        $this->assertDatabaseHas('lab_tests', ['status' => (string) LabTest::CANCELED_STATUS_ID]);
+        $this->assertDatabaseHas('lab_tests', ['status_id' => LabTest::CANCELED_STATUS_ID]);
     }
 
     public function test_it_allows_a_practitioner_to_update_his_lab_test()
@@ -227,7 +227,7 @@ class LabTestTest extends TestCase
 
         $response->assertJsonFragment($parameters);
 
-        $this->assertDatabaseHas('lab_tests', ['status' => (string) LabTest::CANCELED_STATUS_ID]);
+        $this->assertDatabaseHas('lab_tests', ['status_id' => LabTest::CANCELED_STATUS_ID]);
     }
 
     public function test_it_does_not_allows_a_patient_to_update_his_lab_test()
