@@ -7,7 +7,6 @@ use App\Http\Traits\HasStatusColumn;
 use App\Models\LabTest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Carbon;
 
 class LabOrder extends Model
 {
@@ -42,28 +41,4 @@ class LabOrder extends Model
         return $this->hasMany(LabTest::class);
     }
 
-    public function isComplete()
-    {
-        return self::COMPLETE_STATUS_ID == $this->status_id;
-    }
-
-    public function isNotComplete()
-    {
-        return !$this->isComplete();
-    }
-
-    public function markAsComplete()
-    {
-        $this->status_id = self::COMPLETE_STATUS_ID;
-        $this->completed_at = Carbon::now();
-
-        return $this->save();
-    }
-
-    public function markAsCanceled()
-    {
-        $this->status_id = self::CANCELED_STATUS_ID;
-
-        return $this->save();
-    }
 }

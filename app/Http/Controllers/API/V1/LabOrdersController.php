@@ -57,6 +57,10 @@ class LabOrdersController extends BaseAPIController
      */
     public function store(Request $request)
     {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        }
+
         $validator = StrictValidator::check($request->all(), [
             'practitioner_id' => 'required|exists:practitioners,id',
             'patient_id' => 'required|exists:patients,id',
