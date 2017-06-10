@@ -48,7 +48,7 @@ class LabOrderPolicy
      */
     public function update(User $user, LabOrder $labOrder)
     {
-        return $user->is($labOrder->practitioner->user) && $labOrder->isNotComplete();
+        return $user->is($labOrder->practitioner->user);
     }
 
     /**

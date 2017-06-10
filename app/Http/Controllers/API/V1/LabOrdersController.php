@@ -78,7 +78,7 @@ class LabOrdersController extends BaseAPIController
      */
     public function update(Request $request, LabOrder $labOrder)
     {
-        if (currentUser()->cant('update', $labOrder)) {
+        if (currentUser()->cant('update', $labOrder) || $labOrder->isComplete()) {
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
