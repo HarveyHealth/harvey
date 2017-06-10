@@ -173,6 +173,21 @@ class LabOrderTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
+    public function test_it_doesn_not_allows_an_admin_to_update_a_completed_lab_order()
+    {
+        $labOrder = factory(LabOrder::class)->create(['status' => 'complete']);
+
+        Passport::actingAs(factory(Admin::class)->create()->user);
+
+        $parameters = [
+            'shipment_code' => 'test1234',
+        ];
+
+        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+    }
+
     public function test_it_allows_an_admin_to_update_a_lab_order()
     {
         $labOrder = factory(LabOrder::class)->create();
