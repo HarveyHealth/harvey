@@ -3,11 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\{Admin, Patient, Practitioner, LabTest, LabOrder};
-use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Carbon;
 use ResponseCode;
 
 class LabOrderTest extends TestCase

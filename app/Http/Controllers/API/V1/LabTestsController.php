@@ -74,7 +74,7 @@ class LabTestsController extends BaseAPIController
 
     public function update(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('update', $labTest)) {
+        if (currentUser()->cant('update', $labTest) || $labTest->isLocked()) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
