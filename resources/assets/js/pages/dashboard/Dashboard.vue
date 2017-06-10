@@ -130,8 +130,10 @@
         this.$eventHub.$emit('mixpanel', "View New Appointment Page");
       },
       trackPhoneCall() {
-        ga('category', 'website');
-        ga('action', 'Click Phone Number');
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          ga('category', 'website');
+          ga('action', 'Click Phone Number');
+        }
       }
     },
     computed: {

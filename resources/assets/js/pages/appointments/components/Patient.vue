@@ -37,8 +37,10 @@ export default {
       this.setPatient(this.list[e.target.selectedIndex - 1].data);
     },
     trackPhoneCall() {
-      ga('category', 'website');
-      ga('action', 'Click Phone Number');
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        ga('category', 'website');
+        ga('action', 'Click Phone Number');
+      }
     }
   },
   filters: {
