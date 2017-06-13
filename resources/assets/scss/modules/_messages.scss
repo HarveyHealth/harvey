@@ -4,22 +4,16 @@
 .container-message {
     background-color: white;
     border: 1px solid $color--grey;
+    position: relative;
     width: 100%;
     @include padding(25px);
 }
-.container-detail-message {
-    background-color: white;
-    height: auto;
-    border-left: none;
-    width: 1000px;
-}
 .container-detail {
-    background-color: white;
-    max-height: 600px;
-    min-height: 600px;
     border-left: none;
-    width: 1000px;
-    overflow: scroll;
+}
+.container-detail-message {
+    border-left: none;
+    position: relative;
 }
 .top-layer {
     font-weight: 300;
@@ -33,6 +27,7 @@
   @include margin(null null 18px null);
 }
 .subject-header {
+    border-bottom: 1px solid $light-gray;
     font-size: 18px;
     text-align: left;
     @include margin(0);
@@ -44,7 +39,6 @@
   }
 }
 .message-margin {
-    border-bottom: 1px solid $light-gray;
     @include margin(null null 16px);
 }
 .message-layer {
@@ -65,11 +59,25 @@
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
+
+    h2 {
+      @include margin(0);
+      @include padding(null null 25px);
+    }
+}
+
+.border-message,
+.container-detail,
+.container-reply {
+  @include margin(null null 25px);
 }
 
 @include query(md) {
   .image-card {
-    float: left;
+    bottom: 0;
+    position: absolute;
+    top: 0;
+    transform: translate(0, 40%);
   }
   .details {
     @include margin(null null null 105px);

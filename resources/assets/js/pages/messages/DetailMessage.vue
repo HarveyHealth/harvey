@@ -13,26 +13,28 @@
             <div :class="{flyout: true, isactive: renderReply}">
              <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             </div>
-            <div style="padding: 20px;">
-                <div style="background-color: white; width: 1000px;" class="border-message">
-                    <h2 style="margin: auto; padding: 20px 40px;">{{ subject }}</h2>
+            <div class="content-container">
+                <div class="container-message">
+                    <div class="border-message">
+                        <h2>{{ subject }}</h2>
+                    </div>
+                    <div class="container-detail">
+                        <div v-if="detailList" v-for="detail in detailList">
+                            <DetailPost
+                                :id="detail.id"
+                                :name="detail.attributes.sender_full_name"
+                                :day="detail.attributes.created_at.date"
+                                :time="detail.attributes.created_at.date"
+                                :header="detail.attributes.subject"
+                                :message="detail.attributes.message"
+                                :image="detail.attributes.sender_image_url"
+                                :userId="detail.attributes.recipient_user_id"
+                            />
+                        </div>
+                    </div>
+                <div class="container-reply inline-centered">
+                    <button class="button" @click="reply()">Reply</button>
                 </div>
-              <div class="container-detail">
-                <div style="height: auto;" v-if="detailList" v-for="detail in detailList">
-                    <DetailPost 
-                        :id="detail.id"
-                        :name="detail.attributes.sender_full_name"
-                        :day="detail.attributes.created_at.date"
-                        :time="detail.attributes.created_at.date"
-                        :header="detail.attributes.subject"
-                        :message="detail.attributes.message"
-                        :image="detail.attributes.sender_image_url"
-                        :userId="detail.attributes.recipient_user_id"
-                    />
-                </div>
-              </div>
-            <div class="inline-centered" style="background-color: white; width: 1000px; padding-bottom: 10px;">
-                <button class="button" @click="reply()">Reply</button>
             </div>
         </div>
       </div>
