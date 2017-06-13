@@ -1,58 +1,85 @@
 .unread {
-      border-left: 6px solid #82BEF2 !important; 
-  }
-.container-message {
-    background-color: white; 
-    height: 200px;
-    border-left: none;
-    width: 1000px;
+    border-left: 6px solid #82BEF2 !important;
 }
-.container-detail-message {
-    background-color: white; 
-    height: auto;
-    border-left: none;
-    width: 1000px;
+.container-message {
+    background-color: white;
+    border: 1px solid $color--grey;
+    position: relative;
+    width: 100%;
+    @include padding(25px);
 }
 .container-detail {
-    background-color: white; 
-    max-height: 600px;
-    min-height: 600px;
     border-left: none;
-    width: 1000px;
-    overflow: scroll;
+}
+.container-detail-message {
+    border-left: none;
+    position: relative;
 }
 .top-layer {
-    float: left; 
-    @include margin(0 10px 0 0);
+    font-weight: 300;
+    text-align: left;
+    @include margin(0);
+}
+.top-layer:first-child {
+  font-weight: bold;
+}
+.top-layer-margin {
+  @include margin(null null 18px null);
 }
 .subject-header {
-    @include margin(null null 5px -30px);
+    border-bottom: 1px solid $light-gray;
+    font-size: 18px;
     text-align: left;
+    @include margin(0);
+}
+.messages-wrapper {
+  a {
+    display: block;
+    @include margin(null null 25px);
+  }
+}
+.message-margin {
+    @include margin(null null 16px);
 }
 .message-layer {
-    @include margin(0);
+    font-weight: 300;
     text-align: left;
     width: 100%;
+    @include margin(0);
 }
 .details {
-    float: left; 
-    @include margin(4em); 
-    width: 70%;
+  color: $dark-gray;
 }
 .image-card {
-    width: 80px; 
-    height: 80px; 
-    float: left;
-    @include margin(20px);
+    width: 80px;
+    @include margin(0 auto 25px);
 }
 .image-avatar {
-    border-radius: 50%; 
-    @include margin(50px 20px); 
-    float: left;
+    border-radius: 50%;
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
+
+    h2 {
+      @include margin(0);
+      @include padding(null null 25px);
+    }
 }
-.message-margin {
-    @include margin(30px 30px null 30px);
+
+.border-message,
+.container-detail,
+.container-reply {
+  @include margin(null null 25px);
+}
+
+@include query(md) {
+  .image-card {
+    bottom: 0;
+    position: absolute;
+    top: 0;
+    transform: translate(0, 40%);
+  }
+  .details {
+    @include margin(null null null 105px);
+  }
 }

@@ -15,6 +15,7 @@ import TopNav from './utils/mixins/TopNav';
 import Alert from './commons/Alert.vue';
 import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
+import Usernav from './commons/UserNav.vue';
 
 // HELPERS
 import combineAppointmentData from './utils/methods/combineAppointmentData';
@@ -66,7 +67,8 @@ const app = new Vue({
     mixins: [TopNav],
     components: {
         Alert,
-        Dashboard
+        Dashboard,
+        Usernav,
     },
     data: {
         apiUrl: '/api/v1',
@@ -79,6 +81,7 @@ const app = new Vue({
             loadingAppointments: true,
             loadingPatients: true,
             loadingPractitioners: true,
+            menuOpen: false,
             patients: [],
             practitioners: [],
             recent_appointments: [],

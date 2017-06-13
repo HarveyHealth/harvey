@@ -1,28 +1,43 @@
 .tabledata {
   border: none;
+  padding: 14px;
   width: 100%;
 
   td {
     background: $white;
+    border-right: 1px solid $color--grey;
+    border-left: 1px solid $color--grey;
     cursor: pointer;
+    display: block;
+    font-size: 14px;
     font-weight: 300;
-    @include padding(1.5em 1em 1.5em 1.75em);
+    position: relative;
     transition: color 200ms;
-    font-size: 16px;
+    width: 100%;
+
+    &:first-child {
+      border-top: 1px solid $color--grey;
+      @include padding(1.5em null null null);
+    }
+    &:last-child {
+      border-bottom: 1px solid $color--grey;
+      @include margin(null null 16px null);
+      @include padding(null null 1.5em null);
+    }
   }
 
   th {
     background: $lightest-gray;
     color: lighten($gray, 10%);
+    display: none;
     font-size: 0.85em;
     font-weight: 500;
-    @include padding(1.5em 1em 1.5em 2em);
     text-transform: uppercase;
   }
 
   th, td {
-    border-bottom: 1px solid $color--grey;
     text-align: left;
+    @include padding(15px);
   }
 
   tbody {
@@ -48,6 +63,14 @@
     // border-bottom: 3px solid;
   }
 
+  .cell-wrap:before {
+    content: attr(data-column);
+    display: block;
+    font-weight: bold;
+    left: 22px;
+    position: absolute;
+  }
+
   .sortable:hover {
     color: darken($gray, 10%);
     cursor: pointer;
@@ -70,4 +93,37 @@
     }
   }
 
+}
+
+@mixin normalTableStyles {
+  & {
+    @include padding(0);
+  }
+  th, td {
+    border: none;
+    border-bottom: 1px solid $color--grey;
+    display: table-cell;
+    width: auto;
+    @include padding(25px);
+  }
+  td {
+    font-size: 16px;
+  }
+  .cell-wrap {
+    @include margin(0);
+  }
+  .cell-wrap:before {
+    display: none;
+  }
+}
+
+
+// Appointments Table
+.tabledata.appointments-table .cell-wrap {
+  @include margin(null null null 90px);
+}
+@include query(lg) {
+  .tabledata.appointments-table {
+    @include normalTableStyles;
+  }
 }

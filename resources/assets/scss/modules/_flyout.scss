@@ -4,13 +4,14 @@
   bottom: 0;
   font-size: 16px;
   font-weight: 300;
+  max-width: 25em;
   overflow-y: auto;
   @include padding(3em 1.6em 2em);
   position: fixed;
   right: -26em;
   top: 0;
   transition: right 185ms ease-in-out;
-  width: 25em;
+  width: 100%;
   z-index: 9999;
 
   &__ctas {

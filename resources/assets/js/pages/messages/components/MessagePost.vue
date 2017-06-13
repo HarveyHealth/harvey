@@ -5,13 +5,12 @@
         </div>
         <div class="details">
             <div class="top-layer-margin">
-                <h4 class="top-layer top-layer-margin">{{ name }}</h4>
-                <h4 class="top-layer">{{ moment(day).format("MMM Do YYYY") }}</h4>
-                <h4 class="top-layer">{{ moment.utc(time).local().format("h:mm a") }}</h4>
+                <h4 class="top-layer">{{ name }}</h4>
+                <h4 class="top-layer">{{ moment(day).format("MMM Do YYYY") }}, {{ moment.utc(time).local().format("h:mm a") }}</h4>
                 <h4 class="top-layer"><i class="fa fa-ellipsis-h"></i></h4>
             </div>
             <div class="message-margin"><h2 class="subject-header">{{ subjects }}</h2></div>
-            <h3 class="message-layer">{{ messages }}</h3>
+            <p class="message-layer">{{ messages }}</p>
         </div>
     </div>
 </template>
