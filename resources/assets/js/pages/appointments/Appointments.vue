@@ -60,6 +60,11 @@
         :visible="visiblePractitioner"
       />
 
+      <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
+        <label class="input__label">Appointment</label>
+        <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+      </div>
+
       <Days
         :day="this.appointment.day"
         :editable="editableDays"
