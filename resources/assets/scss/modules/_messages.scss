@@ -1,20 +1,20 @@
 .unread {
-      border-left: 6px solid #82BEF2 !important; 
-  }
+    border-left: 6px solid #82BEF2 !important;
+}
 .container-message {
-    background-color: white; 
-    height: 200px;
+    background-color: white;
     border-left: none;
-    width: 1000px;
+    width: 100%;
+    @include padding(25px);
 }
 .container-detail-message {
-    background-color: white; 
+    background-color: white;
     height: auto;
     border-left: none;
     width: 1000px;
 }
 .container-detail {
-    background-color: white; 
+    background-color: white;
     max-height: 600px;
     min-height: 600px;
     border-left: none;
@@ -22,37 +22,41 @@
     overflow: scroll;
 }
 .top-layer {
-    float: left; 
-    @include margin(0 10px 0 0);
+    font-weight: 300;
+    text-align: left;
+    @include margin(0);
+}
+.top-layer:first-child {
+  font-weight: bold;
+}
+.top-layer-margin {
+  @include margin(null null 18px null);
 }
 .subject-header {
-    @include margin(null null 5px -30px);
+    font-size: 18px;
     text-align: left;
+    @include margin(0);
+}
+.message-margin {
+    border-bottom: 1px solid $light-gray;
+    @include margin(null null 16px);
 }
 .message-layer {
-    @include margin(0);
+    font-weight: 300;
     text-align: left;
     width: 100%;
+    @include margin(0);
 }
 .details {
-    float: left; 
-    @include margin(4em); 
-    width: 70%;
+  color: $dark-gray;
 }
 .image-card {
-    width: 80px; 
-    height: 80px; 
-    float: left;
-    @include margin(20px);
+    width: 80px;
+    @include margin(0 auto 25px);
 }
 .image-avatar {
-    border-radius: 50%; 
-    @include margin(50px 20px); 
-    float: left;
+    border-radius: 50%;
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
-}
-.message-margin {
-    @include margin(30px 30px null 30px);
 }
