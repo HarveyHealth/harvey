@@ -10,9 +10,11 @@
     @include('_includes.svgs')
 
     <div class="admin-content">
-      <div id="app">
+      <div id="app" :class="{ 'menu-open': global.menuOpen }">
         {{-- Alert component for handling success/error messages --}}
         <alert></alert>
+
+        <usernav></usernav>
 
         <transition
             mode="out-in"

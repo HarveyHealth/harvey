@@ -1,0 +1,107 @@
+.admin-nav {
+  border-top: 1px solid $color--grey;
+  @include margin(57px null null null);
+}
+
+.admin-nav-link {
+  border-bottom: 1px solid $color--grey;
+  color: lighten($harvey-secondary, 20%);
+  display: block;
+  height: 60px;
+  position: relative;
+
+  .icon {
+    left: 15%;
+    position: absolute;
+    top: 49%;
+    transform: translate(-50%, -50%);
+  }
+
+  .text {
+    font-size: 14px;
+    left: 30%;
+    position: absolute;
+    top: 36%;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.admin-nav-link.logout {
+  border-top: 1px solid $color--grey;
+  bottom: 0;
+  position: absolute;
+  width: 100%;
+
+  .text {
+    font-size: 15px;
+    left: 40%;
+  }
+
+  svg {
+    height: 25px;
+    left: 27%;
+    top: 55%;
+    width: 25px
+  }
+}
+
+.nav-bar {
+  background: white;
+  border-right: 1px solid $color--grey;
+  bottom: 0;
+  left: -150px;
+  position: fixed;
+  top: 0;
+  transition: left 200ms ease-in-out;
+  width: 150px;
+  z-index: 1000;
+
+  .menu-button {
+    background: none;
+    border: none;
+    color: $harvey-secondary;
+    cursor: pointer;
+    right: -52px;
+    position: absolute;
+
+    @include padding(16px);
+  }
+
+  .menu-open & {
+    left: 0;
+  }
+
+}
+
+.nav-bar-account .harvey-mark {
+  top: 25px;
+  left: 49%;
+  position: absolute;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  transition: border-color .25s ease-in-out;
+  width: 100px;
+  &:hover {
+    opacity: .9;
+  }
+}
+
+.release {
+  color: #E4EAEC;
+  font-size: 10px;
+  bottom: 68px;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+
+  @include margin(null null null -3px);
+}
+
+@include query(lg) {
+  .nav-bar {
+    left: 0px !important;
+  }
+}

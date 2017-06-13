@@ -7,6 +7,7 @@
     :on-row-click="handleRowClick"
     :row-data="tableData"
     :selected-row="selectedRow"
+    :table-class="'appointments-table'"
     :updating-row="updatingRow"
   />
 </template>

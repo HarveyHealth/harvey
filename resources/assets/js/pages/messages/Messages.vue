@@ -1,7 +1,6 @@
 <template>
       <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
-      <UserNav :current-page="'messages'" />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
@@ -16,8 +15,8 @@
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
-            <div style="padding: 20px;">
-                <div v-if="messageList" v-for="chat in messageList">
+            <div class="content-container">
+                <div v-if="messageList" v-for="chat in messageList" class="messages-wrapper">
                   <router-link :to="{
                       name: 'detail',
                       params: {
@@ -26,7 +25,7 @@
                         recipient_id : chat.attributes.recipient_user_id,
                         sender_name: chat.attributes.sender_full_name
                       }
-                    }" style="padding: 4px;">
+                    }">
                     <MessagePost
                         :name="chat.attributes.sender_full_name"
                         :image="chat.attributes.sender_image_url"
@@ -47,7 +46,6 @@
 <script>
     import Preview from './components/AddMessages.vue'
     import MessagePost from './components/MessagePost.vue'
-    import UserNav from '../../commons/UserNav.vue'
     import channel from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
@@ -55,7 +53,6 @@
         name: 'messages',
         components: {
           Preview,
-          UserNav,
           MessagePost
         },
         data() {

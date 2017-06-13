@@ -1,5 +1,5 @@
 <template>
-  <table class="tabledata" cellpadding="0" cellspacing="0">
+  <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
         <th v-for="col in columns"
@@ -22,7 +22,9 @@
       <tr v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-for="val in row.values">{{ val }}</td>
+        <td v-for="(val, j) in row.values" :width="columns[j].width">
+          <div class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
+        </td>
       </tr>
     </tbody>
   </table>
@@ -30,6 +32,14 @@
 
 <script>
 export default {
+  computed: {
+    $$tableClasses() {
+      return {
+        tabledata: true,
+        [`${this.tableClass}`]: true,
+      }
+    }
+  },
   methods: {
     $$rowClasses(data, index) {
       return {
@@ -66,6 +76,9 @@ export default {
     },
     selectedRow: {
       required: true
+    },
+    tableClass: {
+      type: String
     },
     updatingRow: {
       required: false

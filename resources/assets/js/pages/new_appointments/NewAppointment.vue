@@ -164,13 +164,6 @@
         }
     }
 
-    .details {
-        background:clear;
-        text-align:center;
-        margin-bottom:1em;
-        color:#777;
-    }
-
     @media screen and (min-width: 769px) {
         .control-label {
             text-align: left;
