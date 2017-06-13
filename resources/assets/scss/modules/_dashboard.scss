@@ -107,7 +107,7 @@
 }
 
 // Medium breakpoint styles
-@include query(md) {
+@include query(lg) {
   .appointments_date,
   .appointment_doctor {
     font-size: 16px;

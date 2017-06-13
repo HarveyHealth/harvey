@@ -22,6 +22,10 @@ $backoffice-grid: (
   @include padding(48px 25px 40px);
 }
 
+.content-container {
+  @include padding(25px);
+}
+
 .main-content {
   left: 0;
   position: relative;
@@ -55,7 +59,11 @@ $backoffice-grid: (
 
 }
 
-@include query(md) {
+@include query(lg) {
+  .content-container {
+    max-width: 1150px;
+  }
+
   .main-header .main-action {
     height: 36px;
     margin-top: -10px;

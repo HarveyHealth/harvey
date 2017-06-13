@@ -3,7 +3,7 @@
 }
 .container-message {
     background-color: white;
-    border-left: none;
+    border: 1px solid $color--grey;
     width: 100%;
     @include padding(25px);
 }
@@ -37,6 +37,12 @@
     text-align: left;
     @include margin(0);
 }
+.messages-wrapper {
+  a {
+    display: block;
+    @include margin(null null 25px);
+  }
+}
 .message-margin {
     border-bottom: 1px solid $light-gray;
     @include margin(null null 16px);
@@ -59,4 +65,13 @@
 }
 .border-message {
     border-bottom: 2px solid #f8f8f8;
+}
+
+@include query(md) {
+  .image-card {
+    float: left;
+  }
+  .details {
+    @include margin(null null null 105px);
+  }
 }

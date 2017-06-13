@@ -15,8 +15,8 @@
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
-            <div style="padding: 20px;">
-                <div v-if="messageList" v-for="chat in messageList">
+            <div class="content-container">
+                <div v-if="messageList" v-for="chat in messageList" class="messages-wrapper">
                   <router-link :to="{
                       name: 'detail',
                       params: {
@@ -25,7 +25,7 @@
                         recipient_id : chat.attributes.recipient_user_id,
                         sender_name: chat.attributes.sender_full_name
                       }
-                    }" style="padding: 4px;">
+                    }">
                     <MessagePost
                         :name="chat.attributes.sender_full_name"
                         :image="chat.attributes.sender_image_url"

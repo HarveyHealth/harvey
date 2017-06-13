@@ -100,7 +100,7 @@
   @include margin(null null null -3px);
 }
 
-@include query(md) {
+@include query(lg) {
   .nav-bar {
     left: 0px !important;
   }
