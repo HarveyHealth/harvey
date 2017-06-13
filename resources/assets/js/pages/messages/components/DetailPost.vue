@@ -32,6 +32,18 @@
         mounted() {
             if (this.$props.userId == this.$root.$data.global.user.id) {
                 axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
+                    .then(response => {
+                        this.$root.$data.global.detailMessages[this.$props.header] = this.$root.$data.global.detailMessages[this.$props.header]
+                            .reduce((acc, item) => {
+                                if (item.id !== this.$props.id) {
+                                    acc.push(item)
+                                } else {
+                                    acc.push(response.data.data)
+                                }
+                                return acc;
+                            }, []);
+                            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1])
+                     })
             }
         }
     }
