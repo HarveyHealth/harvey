@@ -2,9 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\{User, Appointment};
+use App\Models\{Appointment, Practitioner, User};
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Passport\Passport;
 use Tests\TestCase;
 use Auth, Mockery, ResponseCode;
 
@@ -97,4 +98,15 @@ class AuthTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_FOUND);
         $this->assertEquals($response->getSession()->get('status'), 'We have e-mailed your password reset link!');
     }
+
+    public function test_login_redirects_to_dashboard_if_logged_in()
+    {
+        Passport::actingAs(factory(Practitioner::class)->create()->user);
+
+        $response = $this->get('/login');
+
+        $this->assertTrue($response->isRedirect());
+        $this->assertStringEndsWith('dashboard', $response->getTargetUrl());
+    }
+
 }
