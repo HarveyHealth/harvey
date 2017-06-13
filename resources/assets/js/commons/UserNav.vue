@@ -10,7 +10,8 @@
         to="/"
         title="Dashboard"
       >
-        <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg>
+        <i class="fa fa-user icon icon-nav-bar"></i>
+        <!-- <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg> -->
         <div class="text">Dashboard</div>
       </router-link>
       <router-link
@@ -19,7 +20,8 @@
         to="/appointments"
         title="Appointments"
       >
-        <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
+        <!-- <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg> -->
+        <i class="fa fa-calendar icon icon-nav-bar"></i>
         <div class="text">Appointments</div>
       </router-link>
       <!--
