@@ -103,7 +103,7 @@
             channel.bind('App\\Events\\MessageCreated', (data) => {
                 this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data)
                 this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length -1])
+                this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1])
                 this.detailList = this.$root.$data.global.detailMessages
             })
         },
@@ -123,7 +123,7 @@
                     this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
                         if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
                         (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
-                        return 1;
+                            return 1;
                         }
                         return -1;
                     })
