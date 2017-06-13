@@ -173,6 +173,9 @@
       },
       zip() {
         return this.user.attributes ? this.user.attributes.zip : '';
+      },
+      appointments() {
+        return this.$root.$data.global.appointments;
       }
     },
     beforeMount() {
@@ -185,11 +188,6 @@
       if (localStorage.getItem('signed up')) return null;
     }
   }
-
-  // User Role
-  // var role = Laravel.user.userType;
-  // console.log('Role: '+ role.charAt(0).toUpperCase() + role.slice(1) );
-
 </script>
 
 <style lang="scss" scoped>
