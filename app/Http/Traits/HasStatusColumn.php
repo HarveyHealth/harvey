@@ -72,4 +72,19 @@ trait HasStatusColumn
     {
         return !$this->isPending();
     }
+
+    public function scopePending($query)
+    {
+        return $query->where('status_id', self::PENDING_STATUS_ID);
+    }
+
+    public function scopeCanceled($query)
+    {
+        return $query->where('status_id', self::CANCELED_STATUS_ID);
+    }
+
+    public function scopeComplete($query)
+    {
+        return $query->where('status_id', self::COMPLETE_STATUS_ID);
+    }
 }
