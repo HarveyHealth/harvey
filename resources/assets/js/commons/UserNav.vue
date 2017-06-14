@@ -30,7 +30,7 @@
       -->
       <router-link
         class="admin-nav-link"
-        :class="{unread: unread, current: currentPage === 'messages'}"
+        :class="{unread: unread.length > 0, current: currentPage === 'messages'}"
         to="/messages"
         title="Messages"
       >
@@ -55,15 +55,8 @@
     },
     data() {
       return {
-        unread: false,
+        unread: this.$root.$data.global.unreadMessages,
       }
-    },
-    mounted() {
-        axios.get(`${this.$root.$data.apiUrl}/messages`)
-          .then(response => {
-              let messages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-              this.unread = messages.length > 0 ? true : false
-          })
     }
   }
 </script>

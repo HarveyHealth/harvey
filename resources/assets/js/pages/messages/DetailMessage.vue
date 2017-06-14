@@ -127,6 +127,7 @@
                         }
                         return -1;
                     })
+                    this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
             });
         }
