@@ -43,7 +43,7 @@
                 return this.$props.header;
             },
             read() {
-                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id)
+                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0
             }
         }
     }
