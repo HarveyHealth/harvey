@@ -26,7 +26,7 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread.length > 0}"
+      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}"
         @click.native="handleMenu(false)">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
@@ -49,17 +49,15 @@
       }
     },
     computed: {
-      unread() {
-        return this.$root.$data.global.unreadMessages;
-      }
-    },
-    computed: {
       menuIcon() {
         return {
           'fa': true,
           'fa-close': this.$root.$data.global.menuOpen,
           'fa-navicon': !this.$root.$data.global.menuOpen
         }
+      },
+      unread() {
+        return this.$root.$data.global.unreadMessages.length > 0;
       }
     },
     methods: {
