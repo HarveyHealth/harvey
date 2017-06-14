@@ -349,7 +349,7 @@ export default {
   methods: {
 
     checkPastAppointment() {
-      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+      return moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4;
     },
 
     checkTableData() {

@@ -7,7 +7,7 @@
     </button>
     <nav class="admin-nav">
       <router-link to="/" class="nav-bar-account"
-        @click.native="handleMenu(false)">
+        @click.native="handleMenu(false, 'dashboard')">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
       <router-link to="/" title="Dashboard"
@@ -36,7 +36,7 @@
       </router-link>
       <div class="release">©2017 Harvey, Inc.</div>
       <a href="/logout" class="admin-nav-link logout" title="Logout">
-        <svg class="icon icon-nav-bar"><use xlink:href="#logout"/></svg>
+        <i class="fa fa-sign-out icon icon-nav-bar"></i>
         <div class="text">Logout</div>
       </a>
     </nav>
