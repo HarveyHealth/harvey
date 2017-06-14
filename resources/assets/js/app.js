@@ -86,7 +86,8 @@ const app = new Vue({
             upcoming_appointments: [],
             user: {},
             messages: [],
-            detailMessages: {}
+            detailMessages: {},
+            unreadMessages: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -176,6 +177,8 @@ const app = new Vue({
                   }
                   return -1;
               })
+            let messages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.global.user.id)
+            this.global.unreadMessages = messages.length > 0 ? true : false
           }
       })
     },
