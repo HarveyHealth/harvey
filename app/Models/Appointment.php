@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Http\Traits\BelongsToPatientAndPractitioner;
 use App\Http\Traits\HasStatusColumn;
+use Lang;
 
 class Appointment extends Model
 {
@@ -35,7 +36,7 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id', 'type_id'];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -74,7 +75,7 @@ class Appointment extends Model
         return $value;
     }
 
-    public function getStatusFriendlyName()
+    public function getTypeFriendlyName()
     {
         $tableName = $this->getTable();
 

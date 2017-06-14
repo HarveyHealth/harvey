@@ -16,7 +16,9 @@ class AppointmentObserver
      */
     public function creating(Appointment $appointment)
     {
-
+        if ($appointment->isFirst()) {
+            $appointment->type_id = Appointment::FIRST_APPOINTMENT_TYPE_ID;
+        }
     }
 
     /**
