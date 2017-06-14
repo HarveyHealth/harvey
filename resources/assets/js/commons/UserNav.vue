@@ -26,7 +26,7 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}"
+      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread.length > 0}"
         @click.native="handleMenu(false)">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
@@ -42,10 +42,11 @@
 
 <script>
   import axios from 'axios'
+  import channel from '../pages/messages/websocket'
   export default {
     data() {
       return {
-        unread: false,
+        unread: this.$root.$data.global.unreadMessages,
       }
     },
     computed: {
@@ -73,6 +74,6 @@
           let unread = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
           this.unread = unread.length > 0 ? true : false
         })
-    },
+    }
   }
 </script>

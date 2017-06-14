@@ -53,8 +53,10 @@
                 })
                 .then(response => {
                     this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
-                    this.$root.$data.global.detailMessages[this.$props.header].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length -1])
+                    this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1])
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
                 })
                 this.$parent.reply();
             }

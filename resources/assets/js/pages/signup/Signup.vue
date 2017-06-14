@@ -100,8 +100,10 @@
                     currency: 'USD',
                     properties: { laravel_object: Laravel.user }
                 });
+                ga('category', 'website');
+                ga('action', 'Sign Up For Account');
               }
-              
+
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser
               localStorage.removeItem('sign up zip');

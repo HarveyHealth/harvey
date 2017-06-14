@@ -394,6 +394,10 @@ export default {
           }
           break;
         case 'new':
+          if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            ga('category', 'website');
+            ga('action', 'Comfirm Appointment');
+          }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';
           break;

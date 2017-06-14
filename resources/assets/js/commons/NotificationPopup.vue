@@ -6,10 +6,10 @@
   }">
     <span
       v-if="symbol !== ''"
-      class="notification-symbol"
+      class="notification-symbol notify-color"
       v-html="symbol"
     ></span>
-    <span v-html="text"></span>
+    <span v-html="text" class="notify-color"></span>
   </div>
 </template>
 

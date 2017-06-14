@@ -62,6 +62,8 @@
                     this.$root.$data.global.detailMessages[resp.data.data.attributes.subject] = [resp.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
                     this.$parent.messageList = this.$root.$data.global.messages
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
                 })
                 .catch(error => {
                     console.log(`ERROR`, error);
@@ -91,7 +93,3 @@
         }
     }
 </script>
-
-<style>
-
-</style>
