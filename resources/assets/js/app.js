@@ -187,6 +187,7 @@ const app = new Vue({
           this.getUser()
           this.getAppointments();
           this.getPractitioners();
+          this.getMessages();
           if (Laravel.user.userType !== 'patient') this.getPatients();
         }
 
