@@ -25,6 +25,9 @@
 }
 .top-layer-margin {
   @include margin(null null 18px null);
+    float: left; 
+    @include margin(0 10px 0 0);
+    color: #AAA;
 }
 .subject-header {
     border-bottom: 1px solid $light-gray;
@@ -82,4 +85,10 @@
   .details {
     @include margin(null null null 105px);
   }
+}
+.message-margin {
+    @include margin(30px 30px null 30px);
+}
+.detail-margin {
+    @include margin(null null null -30px);
 }
