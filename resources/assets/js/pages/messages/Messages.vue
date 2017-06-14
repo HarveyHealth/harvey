@@ -69,13 +69,17 @@
         data() {
             return {
               renderNewMessage: false,
-              messageList: this.$root.$data.global.messages,
               user: this.$root.$data.global.user.id,
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right'
             }
+        },
+        computed: {
+          messageList() {
+            return this.$root.$data.global.messages
+          }
         },
         methods: {
           close() {

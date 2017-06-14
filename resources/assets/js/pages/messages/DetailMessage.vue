@@ -72,11 +72,15 @@
               isActive: null,
               user: this.userName,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
-              detailList: this.$root.$data.global.detailMessages[this.$props.subject],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right'
+            }
+        },
+        computed: {
+            detailList() {
+                return this.$root.$data.global.detailMessages[this.$props.subject]
             }
         },
         methods: {
