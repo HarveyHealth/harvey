@@ -31,10 +31,12 @@
 
         },
         mounted() {
-            axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
+            if (this.$root.$data.global.user.id == this.$props.userId) {
+                axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
                 .then(response => {
                     this.$root.$data.global.unreadMessages = this.$root.$data.global.unreadMessages.filter(e => e.id !== this.$props.id)
                 })
+            }
         }
     }
 </script>
