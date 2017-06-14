@@ -13,7 +13,9 @@
 @import "schedule";
 @import "notification-popup";
 @import "messages";
-
 @import "admin-layout";
 // @import "dashboard-layout";
 @import "user-nav";
+
+// Google Analytics
+.async-hide { opacity: 0 !important}

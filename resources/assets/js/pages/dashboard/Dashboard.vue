@@ -7,7 +7,11 @@
         </div>
       </div>
 
+<<<<<<< HEAD
       <div class="card-wrapper alert" v-if="viewableIntakeAlert">
+=======
+      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
+>>>>>>> messages
         <div class="card">
           <div class="card-alert-text">
             <h3>Patient Intake Form</h3>
@@ -72,7 +76,7 @@
               <h4 class="card-contact-sublabel" v-if="zip">Zip</h4>
               <p class="card-contact-info" v-if="zip">{{ zip }}</p>
               <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
-              <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
+              <p class="card-contact-info" v-if="phone"><a @click="trackPhoneNumber" :href="'tel:'+phone">{{ phone }}</a></p>
               <h4 class="card-contact-sublabel" v-if="user_id">ID</h4>
               <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>
@@ -92,7 +96,7 @@
               <h4 class="card-contact-sublabel">Support</h4>
               <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
               <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
+              <p class="card-contact-info"><a v-on:click="trackPhoneNumber" href="tel:800-690-9989">800-690-9989</a></p>
               <h4 class="card-contact-sublabel">Available</h4>
               <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
             </div>
@@ -126,6 +130,12 @@
     methods: {
       viewAppointmentPage() {
         this.$eventHub.$emit('mixpanel', "View New Appointment Page");
+      },
+      trackPhoneCall() {
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          ga('category', 'website');
+          ga('action', 'Click Phone Number');
+        }
       }
     },
     computed: {
