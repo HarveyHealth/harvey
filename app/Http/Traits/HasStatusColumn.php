@@ -4,6 +4,7 @@ namespace App\Http\Traits;
 
 use Carbon;
 use Lang;
+use Schema;
 
 trait HasStatusColumn
 {
@@ -58,7 +59,10 @@ trait HasStatusColumn
     public function markAsComplete()
     {
         $this->status_id = self::COMPLETE_STATUS_ID;
-        $this->completed_at = Carbon::now();
+
+        if (Schema::hasColumn($this->getTable(), 'completed_at')) {
+            $this->completed_at = Carbon::now();
+        }
 
         return $this->save();
     }
