@@ -155,32 +155,31 @@ const app = new Vue({
             this.global.user = response.data.data;
           })
           .catch(error => this.global.user = {} );
-      }
-    },
-    getMessages() {
-      axios.get(`${this.apiUrl}/messages`)
-        .then(response => {
-              let data = {};
-              response.data.data.forEach(e => {
-              data[e.attributes.subject] = data[e.attributes.subject] ?
-                  data[e.attributes.subject] :
-                  [];
-              data[e.attributes.subject].push(e);
-              });
-              if (data) {
-              Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-              this.global.detailMessages = data;
-              this.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
-                  if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
-                  (this.global.user.id == a.attributes.recipient_user_id || this.global.user.id == b.attributes.recipient_user_id)) {
-                      return 1;
-                  }
-                  return -1;
-              })
-            let messages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.global.user.id)
-            this.global.unreadMessages = messages.length > 0 ? true : false
-          }
-      })
+      },
+      getMessages() {
+        axios.get(`${this.apiUrl}/messages`)
+          .then(response => {
+                let data = {};
+                response.data.data.forEach(e => {
+                data[e.attributes.subject] = data[e.attributes.subject] ?
+                    data[e.attributes.subject] :
+                    [];
+                data[e.attributes.subject].push(e);
+                });
+                if (data) {
+                Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                this.global.detailMessages = data;
+                this.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
+                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                    (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id)) {
+                        return 1;
+                    }
+                    return -1;
+                })
+              this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
+            }
+        })
+      },
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
@@ -214,5 +213,6 @@ const app = new Vue({
         (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
         })(window,document.documentElement,'async-hide','dataLayer',4000,
         {'GTM-T732G62':true});
+
     }
 }).$mount('#app');

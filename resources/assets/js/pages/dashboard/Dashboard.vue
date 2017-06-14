@@ -92,7 +92,7 @@
               <h4 class="card-contact-sublabel">Support</h4>
               <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
               <h4 class="card-contact-sublabel">Phone</h4>
-              <p class="card-contact-info"><a @click="trackPhoneNumber" href="tel:800-690-9989">800-690-9989</a></p>
+              <p class="card-contact-info"><a v-on:click="trackPhoneNumber" href="tel:800-690-9989">800-690-9989</a></p>
               <h4 class="card-contact-sublabel">Available</h4>
               <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
             </div>
