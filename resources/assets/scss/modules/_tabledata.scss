@@ -58,9 +58,25 @@
   }
 
   tr.is-updating td {
+    background: $color--grey;
+    color: darken($color--grey, 15%);
     font-weight: bold;
-    // border-top: 3px solid;
-    // border-bottom: 3px solid;
+
+    & i {
+      color: darken($color--grey, 65%);
+      font-size: 22px;
+      left: 50%;
+      position: absolute;
+    }
+  }
+
+  tr.has-updated td {
+    border-color: darken($color--grey, 65%);
+    color: darken($color--grey, 65%);
+    // font-weight: bold;
+    @include query(lg) {
+      border-top: 1px solid;
+    }
   }
 
   .cell-wrap:before {

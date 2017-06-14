@@ -23,6 +23,7 @@
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
+          <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
         </td>
       </tr>
@@ -44,7 +45,8 @@ export default {
     $$rowClasses(data, index) {
       return {
         'is-selected': this.selectedRow === data,
-        'is-updating': this.updatingRow === index
+        'is-updating': this.updatingRow === index,
+        'has-updated': this.updatedRow === index,
       }
     }
   },
@@ -79,6 +81,9 @@ export default {
     },
     tableClass: {
       type: String
+    },
+    updatedRow: {
+      required: false
     },
     updatingRow: {
       required: false

@@ -23,7 +23,10 @@ $backoffice-grid: (
 }
 
 .content-container {
-  @include padding(25px);
+  @include padding(15px);
+  @include query(lg) {
+    @include padding(25px);
+  }
 }
 
 .main-content {
