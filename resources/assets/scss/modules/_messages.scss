@@ -24,7 +24,7 @@
   font-weight: bold;
 }
 .top-layer-margin {
-  @include margin(null null 18px null);
+    @include margin(null null 18px null);
     float: left; 
     @include margin(0 10px 0 0);
     color: #AAA;
