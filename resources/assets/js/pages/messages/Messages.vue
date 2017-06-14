@@ -69,13 +69,17 @@
         data() {
             return {
               renderNewMessage: false,
-              messageList: this.$root.$data.global.messages,
               user: this.$root.$data.global.user.id,
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right'
             }
+        },
+        computed: {
+          messageList() {
+            return this.$root.$data.global.messages
+          }
         },
         methods: {
           close() {
@@ -102,7 +106,6 @@
                     }
                     return -1;
                   });
-                  this.messageList = this.$root.$data.global.messages;
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
               })

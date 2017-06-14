@@ -72,11 +72,15 @@
               isActive: null,
               user: this.userName,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
-              detailList: this.$root.$data.global.detailMessages[this.$props.subject],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right'
+            }
+        },
+        computed: {
+            detailList() {
+                return this.$root.$data.global.detailMessages[this.$props.subject]
             }
         },
         methods: {
@@ -104,7 +108,6 @@
                 this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data)
                 this.$root.$data.global.detailMessages[data.data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1])
-                this.detailList = this.$root.$data.global.detailMessages
             })
         },
         destroyed() {
