@@ -110,6 +110,7 @@
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
+            console.log(`Data`, data);
             this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data)
             this.$root.$data.global.detailMessages[data.data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
@@ -143,7 +144,6 @@
                     }
                     return -1;
                   });
-                  this.messageList = this.$root.$data.global.messages;
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
             })
