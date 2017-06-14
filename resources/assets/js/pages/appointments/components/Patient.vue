@@ -11,7 +11,7 @@
     />
     <span v-else class="input__item patient-display">{{ name }}</span>
     <div><a :href="'mailto:' + email">{{ email }}</a></div>
-    <div><a :href="'tel:' + phone" v-on:click="trackPhoneNumber">{{ phone | phone }}</a></div>
+    <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
   </div>
 </template>
 

@@ -55,7 +55,11 @@
     },
     data() {
       return {
-        unread: this.$root.$data.global.unreadMessages,
+      }
+    },
+    computed: {
+      unread() {
+        return this.$root.$data.global.unreadMessages;
       }
     }
   }
