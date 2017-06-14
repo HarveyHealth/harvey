@@ -24,6 +24,10 @@
     top: 36%;
   }
 
+  &.current {
+    color: $fiord;
+  }
+
   &:hover {
     cursor: pointer;
   }

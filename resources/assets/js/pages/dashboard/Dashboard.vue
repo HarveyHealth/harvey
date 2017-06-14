@@ -185,6 +185,7 @@
       }
     },
     mounted() {
+      this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
     }
   }

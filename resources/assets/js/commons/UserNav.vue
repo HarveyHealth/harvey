@@ -10,13 +10,15 @@
         @click.native="handleMenu(false)">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
-      <router-link class="admin-nav-link" to="/" title="Dashboard"
-        @click.native="handleMenu(false)">
+      <router-link to="/" title="Dashboard"
+        :class="currentPageCheck('dashboard')"
+        @click.native="handleMenu(false, 'dashboard')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Dashboard</div>
       </router-link>
-      <router-link class="admin-nav-link" to="/appointments" title="Appointments"
-        @click.native="handleMenu(false)">
+      <router-link to="/appointments" title="Appointments"
+        :class="currentPageCheck('appointments')"
+        @click.native="handleMenu(false, 'appointments')">
         <i class="fa fa-calendar icon icon-nav-bar"></i>
         <div class="text">Appointments</div>
       </router-link>
@@ -26,8 +28,9 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread}"
-        @click.native="handleMenu(false)">
+      <router-link to="/messages" title="Messages"
+        :class="currentPageCheck('messages', unread)"
+        @click.native="handleMenu(false, 'messages')">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
@@ -58,7 +61,15 @@
       }
     },
     methods: {
-      handleMenu(force) {
+      currentPageCheck(page, unread) {
+        return {
+          'admin-nav-link': true,
+          'current': this.$root.$data.global.currentPage === page,
+          'unread': unread
+        }
+      },
+      handleMenu(force, item) {
+        this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;

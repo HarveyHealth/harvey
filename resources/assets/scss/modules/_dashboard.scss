@@ -115,13 +115,26 @@
   .card-wrapper {
     display: flex;
   }
-  .card {
+
+  .card-appointments {
+    width: 100%;
+    @include margin(25px);
+  }
+
+  .is-patient .card-appointments,
+  .is-patient .card-info,
+  .card.smaller {
     width: 50%;
     @include margin(25px);
     &:last-child {
       margin-left: 0;
     }
   }
+
+  .card.smaller {
+    @include margin(0 25px 25px);
+  }
+
   .card-wrapper.alert {
     @include margin(25px null null);
     .card {
