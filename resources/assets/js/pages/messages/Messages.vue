@@ -102,7 +102,7 @@
                     return -1;
                   });
                   this.messageList = this.$root.$data.global.messages;
-                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.global.user.id)
+                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
