@@ -349,7 +349,9 @@ export default {
   methods: {
 
     checkPastAppointment() {
-      return moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4;
+      return this.userType === 'patient'
+        ? moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4
+        : moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
 
     checkTableData() {
@@ -365,7 +367,7 @@ export default {
       if (this.editableDays) this.loadingDays = true;
       this.noAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
-        let list = transformAvailability(response.data.meta.availability);
+        let list = transformAvailability(response.data.meta.availability, this.userType);
         this.appointment.practitionerAvailability = list
           .filter(obj => obj.times.length)
           .map(obj => {
@@ -550,6 +552,9 @@ export default {
       // api constraints
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
+      }
+      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+        delete data.appointment_at;
       }
       if (this.userAction !== 'new') {
         delete data.practitioner_id;
