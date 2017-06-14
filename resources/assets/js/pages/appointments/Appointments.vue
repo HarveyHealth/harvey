@@ -27,6 +27,7 @@
         :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
+        :updated-row="selectedRowHasUpdated"
         :tableRowData="appointments"
       />
 
@@ -223,6 +224,7 @@ export default {
       practitionerList: [],
       purposeCharLimit: 180,
       selectedRowData: null,
+      selectedRowHasUpdated: null,
       selectedRowIndex: null,
       selectedRowUpdating: null,
       statuses: [
@@ -589,7 +591,11 @@ export default {
                 if (!oldAppointments.length) {
                   this.selectedRowUpdating = i;
                   if (succesPopup) this.handleNotificationInit();
-                  setTimeout(() => this.selectedRowUpdating = null, 2200);
+                  setTimeout(() => {
+                    this.selectedRowUpdating = null;
+                    this.selectedRowHasUpdated = i;
+                    setTimeout(() => this.selectedRowHasUpdated = null, 1500);
+                  }, 1500);
                   return true;
                 }
               }
