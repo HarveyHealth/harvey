@@ -1,25 +1,21 @@
 <template>
     <div class="main-container">
-      <div  v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
-      <UserNav />
+        <div v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
+        <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container">
-                  <h1 class="title header-xlarge">
-                    <span class="text">Details</span>
-                    </h1>
+                    <h1 class="title header-xlarge"><span class="text">Details</span></h1>
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-             <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             </div>
             <div class="content-container">
-                <div class="container-message">
-                    <div class="border-message">
-                        <h2>{{ subject }}</h2>
-                    </div>
-                    <div class="container-detail">
-                        <div v-if="detailList" v-for="detail in detailList">
+                <div class="container-message message-detail">
+                    <h2 class="message-reply-subject">{{ subject }}</h2>
+                    <div>
+                        <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
                             <DetailPost
                                 :id="detail.id"
                                 :name="detail.attributes.sender_full_name"
@@ -32,14 +28,13 @@
                             />
                         </div>
                     </div>
+                </div>
                 <div class="container-reply inline-centered">
                     <button class="button" @click="reply()">Reply</button>
                 </div>
             </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>

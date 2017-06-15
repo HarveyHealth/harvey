@@ -1,16 +1,15 @@
 <template>
-    <div class="container-message" :class="{unread: read}">
-        <div class="image-card">
-            <img class="image-avatar" :src="image" alt="avatar">
+    <div class="container-message message-post" :class="{unread: read}">
+        <div class="message-post-details">
+          <div class="message-post-avatar">
+              <img :src="image" alt="avatar">
+          </div>
+          <h3 class="message-post-name emphasis">{{ name }}</h3>
+          <h3 class="message-post-time subtle">{{ moment(day).format("M/D/YYYY") }}, {{ moment.utc(time).local().format("h:mm a") }}</h3>
         </div>
-        <div class="details">
-            <div class="top-layer-margin">
-                <h4 class="top-layer">{{ name }}</h4>
-                <h4 class="top-layer">{{ moment(day).format("MMM Do YYYY") }}, {{ moment.utc(time).local().format("h:mm a") }}</h4>
-                <h4 class="top-layer"><i class="fa fa-ellipsis-h"></i></h4>
-            </div>
-            <div class="message-margin"><h2 class="subject-header">{{ subjects }}</h2></div>
-            <p class="message-layer">{{ messages }}</p>
+        <div class="message-post-body">
+          <h2 class="message-post-subject emphasis">{{ subjects }}</h2>
+          <p class="message-post-message subtle">{{ messages }}</p>
         </div>
     </div>
 </template>
