@@ -39,7 +39,7 @@
                         :time="chat.attributes.created_at.date"
                         :header="chat.attributes.subject"
                         :message="chat.attributes.message"
-                        :read="chat.attributes.read_at == null && user == chat.attributes.recipient_user_id"
+                        :id="chat.id"
                      />
                   </router-link>
                 </div>
@@ -68,13 +68,17 @@
         data() {
             return {
               renderNewMessage: false,
-              messageList: this.$root.$data.global.messages,
               user: this.$root.$data.global.user.id,
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right'
             }
+        },
+        computed: {
+          messageList() {
+            return this.$root.$data.global.messages
+          }
         },
         methods: {
           close() {
@@ -101,13 +105,12 @@
                     }
                     return -1;
                   });
-                  this.messageList = this.$root.$data.global.messages;
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
-            this.$root.$data.global.detailMessages[data.attributes.subject].push(data.data)
-            this.$root.$data.global.detailMessages[data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+            this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ? 
+                this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])
               .sort((a, b) => {
@@ -139,7 +142,6 @@
                     }
                     return -1;
                   });
-                  this.messageList = this.$root.$data.global.messages;
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
             })

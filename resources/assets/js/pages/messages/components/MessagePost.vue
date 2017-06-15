@@ -18,7 +18,7 @@
 <script>
     import moment from 'moment'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'read'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id'],
         name: 'MessagingPost',
         data() {
             return {
@@ -41,6 +41,9 @@
                     return header.join('');
                 }
                 return this.$props.header;
+            },
+            read() {
+                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0
             }
         }
     }

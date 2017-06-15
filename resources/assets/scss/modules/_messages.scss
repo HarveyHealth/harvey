@@ -16,7 +16,6 @@
     position: relative;
 }
 .top-layer {
-<<<<<<< HEAD
     font-weight: 300;
     text-align: left;
     @include margin(0);
@@ -26,11 +25,6 @@
 }
 .top-layer-margin {
   @include margin(null null 18px null);
-=======
-    float: left; 
-    @include margin(0 10px 0 0);
-    color: #AAA;
->>>>>>> messages
 }
 .subject-header {
     border-bottom: 1px solid $light-gray;
