@@ -54,7 +54,7 @@
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import NotificationPopup from '../../commons/NotificationPopup.vue'
-    import channel from './websocket'
+    import socket from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
     export default {
@@ -110,9 +110,11 @@
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
                 }
               })
+          let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
           channel.bind('App\\Events\\MessageCreated', (data) => {
             this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ? 
                 this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
+            this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])
               .sort((a, b) => {
