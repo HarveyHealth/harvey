@@ -66,14 +66,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .datetime-selector {
-        color: #363636;
-        &[disabled] {
-            opacity: 0.5;
-            cursor: default;
-            box-shadow: none;
-        }
-    }
-</style>

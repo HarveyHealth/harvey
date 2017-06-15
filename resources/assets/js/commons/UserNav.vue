@@ -45,7 +45,6 @@
 
 <script>
   import axios from 'axios'
-  import channel from '../pages/messages/websocket'
   export default {
     data() {
       return {

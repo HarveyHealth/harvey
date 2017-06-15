@@ -4,6 +4,7 @@
         @submit.prevent="onSubmit"
         @keydown="form.errors.clear($event.target.name)"
         class="section"
+        id="payment"
     >
         <div class="has-max-width">
             <label class="label">Card Number</label>
@@ -127,14 +128,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .is-expanded:first-child {
-        margin-right: 1.5rem;
-    }
-
-    .delimiter {
-        line-height: 2.285rem;
-        margin-right: 0.75rem;
-    }
-</style>

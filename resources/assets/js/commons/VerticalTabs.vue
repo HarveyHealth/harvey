@@ -1,5 +1,5 @@
 <template>
-    <div class="columns is-gapless vertical-tabs">
+    <div id="vertical-tabs" class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
                 <ul class="menu-list">  
@@ -61,55 +61,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    $border: 1px solid #e3eaee;
-
-    .vertical-tabs {
-        background-color: #fff;
-    }
-
-    .tabs-navigation {
-        border-top: $border;
-        border-left: $border;
-        li {
-            border-right: $border;
-            border-bottom: $border;
-            @media screen and (min-width: 768px) {
-                border-right: none;
-            }
-            a:not(.is-active):hover {
-                background-color: transparent;
-            }
-        }
-        @media screen and (min-width: 768px) {
-            border-bottom: $border;
-            li {
-                border-right: none;
-            }
-        }
-    }
-
-    .menu-label {
-        font-size: 1em;
-        margin-bottom: 0;
-        padding: 0.5em 0.75em;
-        background-color: #f5f8fa;
-        text-transform: initial;
-    }
-
-    .tabs-content {
-        border: $border;
-        overflow: hidden;
-        @media screen and (max-width: 767px) {
-            border-top: none;
-        }
-        .columns.is-gapless > &.column {
-            padding: 1.5rem 0.75rem;
-            @media screen and (min-width: 768px) {
-                padding-top: 3rem;
-                padding-bottom: 3rem;
-            }
-        }
-    }
-</style>

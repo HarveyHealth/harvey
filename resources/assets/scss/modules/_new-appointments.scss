@@ -1,0 +1,41 @@
+.datetime-selector {
+        color: #363636;
+        &[disabled] {
+            opacity: 0.5;
+            cursor: default;
+            box-shadow: none;
+        }
+    }
+
+$color-comp: #ada397;
+
+    .datetime-selector {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+        &:not([disabled]) {
+            &.is-selected {
+                background-color: $color-comp;
+                p,
+                .title,
+                .subtitle {
+                    color: white;
+                }
+            }
+        }
+    }
+
+    @media screen and (min-width: 769px) {
+        .control-label {
+            text-align: left;
+        }
+        .control.is-horizontal > {
+            .control,
+            .is-expanded {
+                flex-grow: 2;
+                flex-wrap: wrap;
+            }
+            .is-expanded {
+                flex-basis: 0;
+            }
+        }
+    }
