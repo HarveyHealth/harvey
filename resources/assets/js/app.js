@@ -78,6 +78,7 @@ const app = new Vue({
         guest: false,
         global: {
             appointments: [],
+            currentPage: '',
             loadingAppointments: true,
             loadingPatients: true,
             loadingPractitioners: true,

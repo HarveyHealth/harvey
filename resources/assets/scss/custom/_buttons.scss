@@ -111,9 +111,10 @@ input[type="submit"] {
     color: $dark-gray;
   }
 
-  &[disabled] {
-    color: #ccc;
-    border-bottom: none;
-    cursor: default;
-  }
+}
+
+button.button--filter:disabled {
+  border-bottom: none;
+  color: #aaa;
+  cursor: default;
 }

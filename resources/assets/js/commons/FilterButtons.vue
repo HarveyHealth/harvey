@@ -2,7 +2,7 @@
   <div>
     <button
       v-for="(name, index) in filters"
-      :class="{'button--filter': true, 'isactive': activeFilter === index}"
+      :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
       :disabled="loading"
       @click="onFilter(name, index)">{{ name }}</button>
   </div>

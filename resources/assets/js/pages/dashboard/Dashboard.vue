@@ -7,11 +7,7 @@
         </div>
       </div>
 
-<<<<<<< HEAD
       <div class="card-wrapper alert" v-if="viewableIntakeAlert">
-=======
-      <div class="card-wrapper alert" v-if="appointments.length > 0 && userType === 'patient'">
->>>>>>> messages
         <div class="card">
           <div class="card-alert-text">
             <h3>Patient Intake Form</h3>
@@ -194,6 +190,7 @@
       }
     },
     mounted() {
+      this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
     }
   }

@@ -8,6 +8,7 @@
     :row-data="tableData"
     :selected-row="selectedRow"
     :table-class="'appointments-table'"
+    :updated-row="updatedRow"
     :updating-row="updatingRow"
   />
 </template>
@@ -61,6 +62,9 @@ export default {
     tableRowData: {
       type: Array,
       required: true
+    },
+    updatedRow: {
+      required: false
     },
     updatingRow: {
       required: false

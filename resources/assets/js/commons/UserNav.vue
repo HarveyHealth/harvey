@@ -7,17 +7,19 @@
     </button>
     <nav class="admin-nav">
       <router-link to="/" class="nav-bar-account"
-        @click.native="handleMenu(false)">
+        @click.native="handleMenu(false, 'dashboard')">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
-      <router-link class="admin-nav-link" to="/" title="Dashboard"
-        @click.native="handleMenu(false)">
-        <svg class="icon icon-nav-bar"><use xlink:href="#person" /></svg>
+      <router-link to="/" title="Dashboard"
+        :class="currentPageCheck('dashboard')"
+        @click.native="handleMenu(false, 'dashboard')">
+        <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Dashboard</div>
       </router-link>
-      <router-link class="admin-nav-link" to="/appointments" title="Appointments"
-        @click.native="handleMenu(false)">
-        <svg class="icon icon-nav-bar"><use xlink:href="#appointments" /></svg>
+      <router-link to="/appointments" title="Appointments"
+        :class="currentPageCheck('appointments')"
+        @click.native="handleMenu(false, 'appointments')">
+        <i class="fa fa-calendar icon icon-nav-bar"></i>
         <div class="text">Appointments</div>
       </router-link>
       <!--
@@ -26,14 +28,15 @@
         <div class="text">Lab Orders</div>
       </router-link>
       -->
-      <router-link class="admin-nav-link" to="/messages" title="Messages" :class="{unread: unread.length > 0}"
-        @click.native="handleMenu(false)">
+      <router-link to="/messages" title="Messages"
+        :class="currentPageCheck('messages', unread)"
+        @click.native="handleMenu(false, 'messages')">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
       <div class="release">©2017 Harvey, Inc.</div>
       <a href="/logout" class="admin-nav-link logout" title="Logout">
-        <svg class="icon icon-nav-bar"><use xlink:href="#logout"/></svg>
+        <i class="fa fa-sign-out icon icon-nav-bar"></i>
         <div class="text">Logout</div>
       </a>
     </nav>
@@ -49,21 +52,27 @@
       }
     },
     computed: {
-      unread() {
-        return this.$root.$data.global.unreadMessages;
-      }
-    },
-    computed: {
       menuIcon() {
         return {
           'fa': true,
           'fa-close': this.$root.$data.global.menuOpen,
           'fa-navicon': !this.$root.$data.global.menuOpen
         }
+      },
+      unread() {
+        return this.$root.$data.global.unreadMessages.length > 0;
       }
     },
     methods: {
-      handleMenu(force) {
+      currentPageCheck(page, unread) {
+        return {
+          'admin-nav-link': true,
+          'current': this.$root.$data.global.currentPage === page,
+          'unread': unread
+        }
+      },
+      handleMenu(force, item) {
+        this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;

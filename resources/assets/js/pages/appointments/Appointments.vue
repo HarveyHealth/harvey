@@ -13,7 +13,7 @@
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
-            :loading="$root.$data.global.loadingAppointments"
+            :loading="disabledFilters"
             :on-filter="handleFilter"
           />
 
@@ -27,6 +27,7 @@
         :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
+        :updated-row="selectedRowHasUpdated"
         :tableRowData="appointments"
       />
 
@@ -55,6 +56,11 @@
         :set-practitioner="setPractitionerInfo"
         :visible="visiblePractitioner"
       />
+
+      <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
+        <label class="input__label">Appointment</label>
+        <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+      </div>
 
       <Days
         :day="this.appointment.day"
@@ -218,6 +224,7 @@ export default {
       practitionerList: [],
       purposeCharLimit: 180,
       selectedRowData: null,
+      selectedRowHasUpdated: null,
       selectedRowIndex: null,
       selectedRowUpdating: null,
       statuses: [
@@ -260,6 +267,9 @@ export default {
   },
 
   computed: {
+    disabledFilters() {
+      return this.$root.$data.global.loadingAppointments || this.selectedRowUpdating !== null;
+    },
     disabledNewButton() {
       return this.flyoutMode === 'new' &&
         (!this.appointment.date || (!this.appointment.patientId && this.userType !== 'patient'));
@@ -344,7 +354,9 @@ export default {
   methods: {
 
     checkPastAppointment() {
-      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+      return this.userType === 'patient'
+        ? moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4
+        : moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
 
     checkTableData() {
@@ -360,7 +372,7 @@ export default {
       if (this.editableDays) this.loadingDays = true;
       this.noAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
-        let list = transformAvailability(response.data.meta.availability);
+        let list = transformAvailability(response.data.meta.availability, this.userType);
         this.appointment.practitionerAvailability = list
           .filter(obj => obj.times.length)
           .map(obj => {
@@ -550,6 +562,9 @@ export default {
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
+      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+        delete data.appointment_at;
+      }
       if (this.userAction !== 'new') {
         delete data.practitioner_id;
       }
@@ -557,6 +572,9 @@ export default {
         delete data.appointment_at;
         delete data.patient_id;
       }
+
+      // Reset appointment here so that subsequent row clicks don't get reset after api call
+      this.appointment = this.resetAppointment();
 
       // If updating, let the table know which row is changing
       this.selectedRowUpdating = this.userAction !== 'new'
@@ -583,14 +601,16 @@ export default {
                 if (!oldAppointments.length) {
                   this.selectedRowUpdating = i;
                   if (succesPopup) this.handleNotificationInit();
-                  setTimeout(() => this.selectedRowUpdating = null, 2200);
+                  setTimeout(() => {
+                    this.selectedRowUpdating = null;
+                    this.selectedRowHasUpdated = i;
+                    setTimeout(() => this.selectedRowHasUpdated = null, 1000);
+                  }, 1000);
                   return true;
                 }
               }
               oldAppointments.splice(0, 1);
             })
-
-            this.appointment = this.resetAppointment();
           })
         });
       }).catch(err => console.error(err.response));
@@ -603,8 +623,8 @@ export default {
     },
 
     resetAppointment() {
-      this.selectedRowData = null;
-      this.selectedRowIndex = null;
+      // this.selectedRowData = null;
+      // this.selectedRowIndex = null;
       this.noAvailability = false;
       return {
         availableTimes: [],
@@ -699,6 +719,9 @@ export default {
   },
 
   mounted() {
+
+    this.$root.$data.global.currentPage = 'appointments';
+
     // If data from app.js has loaded prior to mount, set data
     const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;
