@@ -21,12 +21,20 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   props: {
+    // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
+    // If a name is given from a selected row
     name: String,
+    // Associated email with name
     email: String,
+    // The list of patients (see SelectOptions for structure)
     list: Array,
+    // Associated phone with name
     phone: String,
+    // What happens when a patient option is selected.
+    // Function takes the selected patient data object
     setPatient: Function,
+    // If we should display a patient name or options at all
     visible: Boolean
   },
   components: {
