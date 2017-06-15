@@ -112,7 +112,6 @@
           channel.bind('App\\Events\\MessageCreated', (data) => {
             this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ? 
                 this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
-            this.$root.$data.global.detailMessages[data.data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])
               .sort((a, b) => {
