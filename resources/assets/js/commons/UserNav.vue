@@ -83,9 +83,27 @@
     beforeMount() {
       axios.get(`${this.$root.$data.apiUrl}/messages`)
         .then(response => {
-          let unread = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-          this.unread = unread.length > 0 ? true : false
+          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
+          this.unread = this.$root.$data.global.unreadMessages.length > 0 ? true : false
         })
+    },
+    mounted() {
+      let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
+      channel.bind('App\\Events\\MessageCreated', (data) => {
+          this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ? 
+                this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
+          this.$root.$data.global.detailMessages[data.data.attributes.subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
+          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
+          this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+            .map(e => e[e.length - 1])
+            .sort((a, b) => {
+                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
+                      return 1;
+                    }
+                    return -1;
+                  });
+      })
     }
   }
 </script>
