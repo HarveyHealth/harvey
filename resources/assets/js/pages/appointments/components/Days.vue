@@ -10,8 +10,9 @@
       :options="list"
       :selected="day"
     />
-    <span v-else-if="noAvailability" class="input--warning">No available openings</span>
-    <span v-else class="input__item">{{ $$selectedDay }}</span>
+    <span v-else-if="!editable" class="input__item">{{ $$selectedDay }}</span>
+    <span v-else class="input--warning">No available openings</span>
+
   </div>
 </template>
 
