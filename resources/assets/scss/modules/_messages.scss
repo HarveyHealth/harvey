@@ -7,6 +7,33 @@
     border-bottom: 0;
     position: relative;
     width: 100%;
+    @include padding(25px);
+}
+.container-detail {
+    border-left: none;
+}
+.container-detail-message {
+    border-left: none;
+    position: relative;
+}
+.top-layer {
+    font-weight: 300;
+    text-align: left;
+    @include margin(0);
+}
+.top-layer:first-child {
+  font-weight: bold;
+}
+.top-layer-margin {
+    float: left; 
+    @include margin(0 10px 0 0);
+    color: #AAA;
+}
+.subject-header {
+    border-bottom: 1px solid $light-gray;
+    font-size: 18px;
+    text-align: left;
+    @include margin(0);
     @include padding(35px);
 }
 .messages-wrapper {
