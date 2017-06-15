@@ -45,10 +45,10 @@
 
 <script>
   import axios from 'axios'
+  import channel from '../pages/messages/websocket'
   export default {
     data() {
       return {
-        unread: false,
       }
     },
     computed: {
@@ -58,6 +58,9 @@
           'fa-close': this.$root.$data.global.menuOpen,
           'fa-navicon': !this.$root.$data.global.menuOpen
         }
+      },
+      unread() {
+        return this.$root.$data.global.unreadMessages.length > 0;
       }
     },
     methods: {
@@ -84,6 +87,6 @@
           let unread = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
           this.unread = unread.length > 0 ? true : false
         })
-    },
+    }
   }
 </script>

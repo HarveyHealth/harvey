@@ -90,7 +90,8 @@ const app = new Vue({
             upcoming_appointments: [],
             user: {},
             messages: [],
-            detailMessages: {}
+            detailMessages: {},
+            unreadMessages: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -141,7 +142,7 @@ const app = new Vue({
             this.global.loadingPractitioners = false;
           })
         } else {
-          axios.get(`${this.$root.apiUrl}/practitioners?include=availability`).then(response => {
+          axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
             this.global.practitioners = response.data.data.filter(dr => {
               return dr.attributes.name === Laravel.user.fullName;
             }).map(obj => {
@@ -153,12 +154,36 @@ const app = new Vue({
 
       },
       getUser() {
-        axios.get(`/api/v1/users/${Laravel.user.id}`)
+        axios.get(`${this.apiUrl}/users/${Laravel.user.id}`)
           .then(response => {
             this.global.user = response.data.data;
           })
           .catch(error => this.global.user = {} );
-      }
+      },
+      getMessages() {
+        axios.get(`${this.apiUrl}/messages`)
+          .then(response => {
+                let data = {};
+                response.data.data.forEach(e => {
+                data[e.attributes.subject] = data[e.attributes.subject] ?
+                    data[e.attributes.subject] :
+                    [];
+                data[e.attributes.subject].push(e);
+                });
+                if (data) {
+                Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                this.global.detailMessages = data;
+                this.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
+                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                    (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id)) {
+                        return 1;
+                    }
+                    return -1;
+                })
+              this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
+            }
+        })
+      },
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
@@ -168,6 +193,7 @@ const app = new Vue({
           this.getUser()
           this.getAppointments();
           this.getPractitioners();
+          this.getMessages();
           if (Laravel.user.userType !== 'patient') this.getPatients();
         }
 
@@ -183,7 +209,14 @@ const app = new Vue({
         })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
         ga('create', 'UA-89414173-1', 'auto');
+        ga('require', 'GTM-T732G62');
         ga('send', 'pageview');
+
+        (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
+        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
+        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
+        })(window,document.documentElement,'async-hide','dataLayer',4000,
+        {'GTM-T732G62':true});
 
     }
 }).$mount('#app');

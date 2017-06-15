@@ -7,6 +7,9 @@
 @import '~bulma/bulma';
 @import '~animate.css/animate';
 
+// Google Analytics
+.async-hide { opacity: 0 !important}
+
 // rewrite bulma styles
 .nav-left {
   overflow-x: hidden;
