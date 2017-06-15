@@ -331,6 +331,9 @@ export default {
     },
   },
 
+  // These watches are setup to look at computed properties that receive data from global state.
+  // When the global state changes it triggers the computed property and based on the return value
+  // these functions will run setup methods for the data necessary to run the Appointments page.
   watch: {
     loadedAppointments(val) {
       if (!val) {
