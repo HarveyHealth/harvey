@@ -95,6 +95,7 @@ input[type="submit"] {
 .button--filter {
   background: none;
   border: none;
+  border-bottom: 3px solid transparent;
   color: #aaa;
   cursor: pointer;
   font-family: inherit;
@@ -103,11 +104,17 @@ input[type="submit"] {
   @include padding(0.4em 0.6em);
 
   &.isactive {
-    border-bottom: 3px solid $harvey-primary;
+    border-color: $harvey-primary;
   }
 
   &:hover,
   &.isactive {
     color: $dark-gray;
+  }
+
+  &:disabled {
+    border-color: transparent;
+    color: #aaa;
+    cursor: default;
   }
 }

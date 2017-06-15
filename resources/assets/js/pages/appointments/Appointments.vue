@@ -13,7 +13,7 @@
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
-            :loading="$root.$data.global.loadingAppointments"
+            :loading="disabledFilters"
             :on-filter="handleFilter"
           />
 
@@ -267,6 +267,9 @@ export default {
   },
 
   computed: {
+    disabledFilters() {
+      return this.$root.$data.global.loadingAppointments || this.selectedRowUpdating !== null;
+    },
     disabledNewButton() {
       return this.flyoutMode === 'new' &&
         (!this.appointment.date || (!this.appointment.patientId && this.userType !== 'patient'));
@@ -570,6 +573,9 @@ export default {
         delete data.patient_id;
       }
 
+      // Reset appointment here so that subsequent row clicks don't get reset after api call
+      this.appointment = this.resetAppointment();
+
       // If updating, let the table know which row is changing
       this.selectedRowUpdating = this.userAction !== 'new'
         ? this.selectedRowIndex
@@ -598,15 +604,13 @@ export default {
                   setTimeout(() => {
                     this.selectedRowUpdating = null;
                     this.selectedRowHasUpdated = i;
-                    setTimeout(() => this.selectedRowHasUpdated = null, 1500);
-                  }, 1500);
+                    setTimeout(() => this.selectedRowHasUpdated = null, 1000);
+                  }, 1000);
                   return true;
                 }
               }
               oldAppointments.splice(0, 1);
             })
-
-            this.appointment = this.resetAppointment();
           })
         });
       }).catch(err => console.error(err.response));
@@ -619,8 +623,8 @@ export default {
     },
 
     resetAppointment() {
-      this.selectedRowData = null;
-      this.selectedRowIndex = null;
+      // this.selectedRowData = null;
+      // this.selectedRowIndex = null;
       this.noAvailability = false;
       return {
         availableTimes: [],
