@@ -23,8 +23,6 @@
       <AppointmentTable
         :handle-row-click="handleRowClick"
         :loading="$root.$data.global.loadingAppointments"
-        :refresh="$root.getAppointments"
-        :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
