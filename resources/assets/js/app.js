@@ -91,7 +91,9 @@ const app = new Vue({
             user: {},
             messages: [],
             detailMessages: {},
-            unreadMessages: []
+            unreadMessages: [],
+            confirmedDoctors: [],
+            confirmedPatients: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -171,19 +173,26 @@ const app = new Vue({
                 data[e.attributes.subject].push(e);
                 });
                 if (data) {
-                Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                this.global.detailMessages = data;
-                this.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
-                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
-                    (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id)) {
-                        return 1;
-                    }
-                    return -1;
-                })
-              this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
+                  Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
+                  this.global.detailMessages = data;
+                  this.global.messages = Object.values(data)
+                      .map(e => e[e.length - 1])
+                      .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) &&
+                          (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id) ? 1 : -1));
+                  this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
             }
         })
       },
+      getConfirmedUsers() {
+        this.global.confirmedDoctors = this.global.appointments
+            .filter(e => e.attributes.status === 'complete')
+            .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
+        this.global.confirmedPatients = this.global.appointments
+            .filter(e => e.attributes.status === 'complete')
+            .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
+        this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
+        this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+      }
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
@@ -195,6 +204,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           if (Laravel.user.userType !== 'patient') this.getPatients();
+          this.getConfirmedUsers();
         }
 
         // Event handlers

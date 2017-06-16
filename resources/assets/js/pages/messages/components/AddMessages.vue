@@ -74,9 +74,9 @@
         computed: {
             userList() {
                 if (this.$root.$data.global.user.attributes.user_type === 'patient') {
-                    return [''].concat(this.$root.$data.global.practitioners);
+                    return [''].concat(this.$root.$data.global.confirmedDoctors);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
-                    return [''].concat(this.$root.$data.global.patients);
+                    return [''].concat(this.$root.$data.global.confirmedPatients);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
                     return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
                 }

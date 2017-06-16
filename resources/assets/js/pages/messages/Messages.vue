@@ -1,5 +1,5 @@
 <template>
-      <div class="main-container">
+    <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
         <div class="main-content">
             <div class="main-header">
