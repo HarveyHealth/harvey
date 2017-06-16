@@ -3,7 +3,7 @@
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
         <div class="main-content">
             <div class="main-header">
-                <div class="container">
+                <div class="container container-backoffice">
                   <h1 class="title header-xlarge">
                     <span class="text">Messages</span>
                     <button @click="close()" class="button main-action circle">
@@ -111,7 +111,7 @@
                 }
               })
           channel.bind('App\\Events\\MessageCreated', (data) => {
-            this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ? 
+            this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ?
                 this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])

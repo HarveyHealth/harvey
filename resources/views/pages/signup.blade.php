@@ -70,7 +70,7 @@
         ga('create', 'UA-89414173-1', 'auto');
         ga('send', 'pageview');
       </script>
-    
+
       <!-- Stripe -->
       <script type="text/javascript" src="https://js.stripe.com/v2"></script>
 

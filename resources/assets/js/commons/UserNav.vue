@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar">
+  <div class="nav-bar" v-if="$root.$data.global.currentPage">
 
     <button class="menu-button"
       @click="handleMenu(null)"
@@ -47,7 +47,7 @@
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
         <div class="text">Logout</div>
       </a>
-      
+
     </nav>
   </div>
 </template>

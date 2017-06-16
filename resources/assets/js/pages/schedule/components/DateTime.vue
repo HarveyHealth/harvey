@@ -58,6 +58,7 @@
               <h2 class="header-large text-centered">Choose Time</h2>
 
               <div class="calendar-week-container">
+                <small>Timezone: {{$root.addTimezone()}}</small>
                 <ul class="calendar-week-container_days-wrapper" v-if="selected_day">
                   <li class="calendar-item bar"
                       v-for="(timeObj, i) in selected_day.times"

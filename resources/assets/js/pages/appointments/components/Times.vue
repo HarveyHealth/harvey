@@ -44,7 +44,7 @@ export default {
       if (this.list.length) {
         return this.list.map(timeObj => {
           return {
-            value: toLocal(timeObj.stored, 'h:mm a'),
+            value: this.$root.addTimezone(toLocal(timeObj.stored, 'h:mm a')),
             data: timeObj
           }
         });
