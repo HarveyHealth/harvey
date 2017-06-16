@@ -21,7 +21,7 @@
             enter-active-class="animated animated-fast fadeIn"
             leave-active-class="animated animated-fast fadeOut"
         >
-            <keep-alive><router-view :user="global.user"></router-view></keep-alive>
+            <router-view :user="global.user"></router-view>
         </transition>
 
       </div>
