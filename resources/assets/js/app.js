@@ -99,6 +99,10 @@ const app = new Vue({
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
     methods: {
+      addTimezone(value) {
+        if (value) return `${value} (${this.timezoneAbbr})`;
+        else return this.timezoneAbbr;
+      },
       getAppointments(cb) {
         axios.get(`${this.apiUrl}/appointments?include=patient.user`)
           .then(response => {
