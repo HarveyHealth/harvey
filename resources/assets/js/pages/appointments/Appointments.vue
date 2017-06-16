@@ -60,6 +60,7 @@
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
         <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+        <div class="input--warning" v-if="currentDateUnavailable">Previous time unavailable. Please select a new day and time.</div>
       </div>
 
       <Days
@@ -111,7 +112,7 @@
           @click="handleConfirmationModal('update')"
           :disabled="disableUpdateButton">Update Appointment</button>
 
-        <a v-if="visibleUpdateButtons"
+        <a v-if="visibleCancelButton"
           href="#"
           @click.prevent="handleConfirmationModal('cancel')"
           class="input__linkcta">Cancel Appointment</a>
@@ -155,7 +156,7 @@
       </table>
       <div class="modal-button-container">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
-        <button class="button button--cancel" @click="modalActive = false">Go Back</button>
+        <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
       </div>
     </Modal>
@@ -267,6 +268,15 @@ export default {
   },
 
   computed: {
+    currentDateUnavailable() {
+      if (this.appointment.currentStatus !== 'pending') {
+        return this.appointment.practitionerAvailability.filter(dayObj => {
+          return dayObj.data.times.filter(timeObj => timeObj.stored === this.appointment.currentDate).length;
+        }).length === 0;
+      } else {
+        return false;
+      }
+    },
     disabledFilters() {
       return this.$root.$data.global.loadingAppointments || this.selectedRowUpdating !== null;
     },
@@ -276,15 +286,17 @@ export default {
     },
     disableUpdateButton() {
       return this.flyoutMode === 'update'
-        && (
-           (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
-           (this.appointment.purpose === this.appointment.currentPurpose) &&
-           (this.appointment.status === this.appointment.currentStatus)
-        )
+        && (this.currentDateUnavailable && !this.appointment.date) ||
+           (
+             (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
+             (this.appointment.purpose === this.appointment.currentPurpose) &&
+             (this.appointment.status === this.appointment.currentStatus)
+           )
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
       if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
+      if (this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     editableStatus() {
@@ -312,6 +324,9 @@ export default {
     },
     loadedPractitioners() {
       return this.$root.$data.global.loadingPractitioners;
+    },
+    visibleCancelButton() {
+      return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
@@ -442,6 +457,10 @@ export default {
     },
 
     handleModalClose() {
+      if (this.appointment.status === 'canceled') {
+        console.log(this.appointment.status);
+        this.appointment.status = this.appointment.currentStatus;
+      }
       this.modalActive = false;
     },
 
@@ -489,6 +508,8 @@ export default {
       }
 
       // Initial resets for if flyout is already open
+      this.appointment.day = '';
+      this.appointment.time = '';
       this.appointment.date = '';
       this.appointment.currentDate = '';
       this.appointment.availableTimes = [];
@@ -704,6 +725,11 @@ export default {
 
     setStatus(status) {
       this.appointment.status = status.data;
+      if (status.data !== 'pending') {
+        this.appointment.date = '';
+      } else {
+
+      }
     },
 
     setTime(timeObj) {
