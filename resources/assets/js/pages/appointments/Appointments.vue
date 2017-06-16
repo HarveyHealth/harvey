@@ -156,7 +156,7 @@
       </table>
       <div class="modal-button-container">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
-        <button class="button button--cancel" @click="modalActive = false">Go Back</button>
+        <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
       </div>
     </Modal>
@@ -457,6 +457,10 @@ export default {
     },
 
     handleModalClose() {
+      if (this.appointment.status === 'canceled') {
+        console.log(this.appointment.status);
+        this.appointment.status = this.appointment.currentStatus;
+      }
       this.modalActive = false;
     },
 
