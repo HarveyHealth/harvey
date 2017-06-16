@@ -23,8 +23,6 @@
       <AppointmentTable
         :handle-row-click="handleRowClick"
         :loading="$root.$data.global.loadingAppointments"
-        :refresh="$root.getAppointments"
-        :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
@@ -348,6 +346,9 @@ export default {
     },
   },
 
+  // These watches are setup to look at computed properties that receive data from global state.
+  // When the global state changes it triggers the computed property and based on the return value
+  // these functions will run setup methods for the data necessary to run the Appointments page.
   watch: {
     loadedAppointments(val) {
       if (!val) {
@@ -384,12 +385,18 @@ export default {
 
     // Get availability for appointment practitioner
     getAvailability(id) {
+      // If Days is editable we want to reset loadingDays to see the loading message
       if (this.editableDays) this.loadingDays = true;
+      // Reset noAvailability before new data set is fetched
       this.noAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
+        // The returned data structure is a bit odd so we need to perform some hefty transformations
+        // in order to use it.
         let list = transformAvailability(response.data.meta.availability, this.userType);
         this.appointment.practitionerAvailability = list
+          // Remove day objects with no times
           .filter(obj => obj.times.length)
+          // Transform into a format the TableData component can consume
           .map(obj => {
             return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
           });
@@ -404,7 +411,8 @@ export default {
       });
     },
 
-    // When user clicks flyout button
+    // When user clicks the CTA in the flyout for updating, canceling, or creating an appointment.
+    // This is the initial setup before the api call is actually made.
     handleConfirmationModal(action) {
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
@@ -432,6 +440,9 @@ export default {
       this.modalActive = true;
     },
 
+    // When getAppointments is run we save three copies of the data to match
+    // the three filters: all, upcoming, and pending. This method just assigns
+    // one of these copies to appointments to re-render TableData
     handleFilter(name, index) {
       this.activeFilter = index;
       switch(name) {
@@ -448,6 +459,7 @@ export default {
       this.checkTableData();
     },
 
+    // When the flyout closes we want to reset certain pieces of state
     handleFlyoutClose() {
       this.flyoutActive = false;
       this.flyoutMode = null;
@@ -464,11 +476,12 @@ export default {
       this.modalActive = false;
     },
 
-    // Setup flyout and appointment info on new appointment click
+
     handleNewAppointmentClick() {
 
       this.appointment = this.resetAppointment();
 
+      // If the user is a practitioner we only want their information to load for practitioner
       if (this.userType === 'practitioner' && !this.$root.$data.global.loadingPractitioners) {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
@@ -500,6 +513,7 @@ export default {
     },
 
     handleRowClick(obj, index) {
+      // Assign data if new row click, unassign if same row click
       let data;
       if (obj) {
         data = obj.data === this.selectedRowData ? null : obj.data;
