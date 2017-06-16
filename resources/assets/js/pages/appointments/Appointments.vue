@@ -489,6 +489,8 @@ export default {
       }
 
       // Initial resets for if flyout is already open
+      this.appointment.day = '';
+      this.appointment.time = '';
       this.appointment.date = '';
       this.appointment.currentDate = '';
       this.appointment.availableTimes = [];
