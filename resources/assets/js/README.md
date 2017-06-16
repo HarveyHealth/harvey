@@ -1,3 +1,7 @@
 # Frontend JavaScript
 
-## Global State
+## State Management
+
+### Global State
+
+### Local State
