@@ -96,6 +96,7 @@ const app = new Vue({
         initialAppointment: {},
         initialAppointmentComplete: false,
         timezone: moment.tz.guess(),
+        timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
     methods: {
       getAppointments(cb) {
@@ -187,6 +188,7 @@ const app = new Vue({
     },
     mounted() {
         Stripe.setPublishableKey(Laravel.services.stripe.key);
+        window.debug = () => console.log(this.$data);
 
         // Initial GET requests
         if (Laravel.user.signedIn) {
