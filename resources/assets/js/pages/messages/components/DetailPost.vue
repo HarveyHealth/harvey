@@ -24,9 +24,6 @@
                 moment: moment
             }
         },
-        methods: {
-
-        },
         mounted() {
             if (this.$root.$data.global.user.id == this.$props.userId) {
                 axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)

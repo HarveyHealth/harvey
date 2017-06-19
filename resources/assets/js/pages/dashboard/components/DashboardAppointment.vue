@@ -36,7 +36,7 @@
     methods: {
       capitalize,
       phone,
-      hyperlink,
+      hyperlink
     },
     computed: {
       localAppointmentTime() {
