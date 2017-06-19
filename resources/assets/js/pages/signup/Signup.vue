@@ -49,7 +49,6 @@
 </template>
 
 <script>
-
   import Interstitial from './components/Interstitial.vue';
 
   export default {
