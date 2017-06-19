@@ -80,11 +80,13 @@
                     this.global.confirmedDoctors = this.global.appointments
                         .filter(e => e.attributes.status === 'complete')
                         .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                    this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
                     return [''].concat(this.$root.$data.global.confirmedDoctors);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
                     this.global.confirmedPatients = this.global.appointments
                         .filter(e => e.attributes.status === 'complete')
                         .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
+                    this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
                     return [''].concat(this.$root.$data.global.confirmedPatients);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
                     return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
