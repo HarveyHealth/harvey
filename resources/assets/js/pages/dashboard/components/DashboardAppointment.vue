@@ -36,7 +36,7 @@
     methods: {
       capitalize,
       phone,
-      hyperlink,
+      hyperlink
     },
     computed: {
       localAppointmentTime() {
@@ -57,7 +57,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

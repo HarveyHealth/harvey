@@ -1,0 +1,103 @@
+#contact {
+    .modal-content {
+        overflow-y: hidden;
+    }
+
+    .title.is-1 {
+        color: white;
+        margin-bottom: 3rem;
+    }
+
+    li {
+        margin-bottom: 1.5rem;
+        .title {
+            color: hsl(0, 0%, 48%);
+        }
+        .subtitle a {
+            color: white;
+        }
+    }
+}
+
+#payment {
+    .is-expanded:first-child {
+        margin-right: 1.5rem;
+    }
+
+    .delimiter {
+        line-height: 2.285rem;
+        margin-right: 0.75rem;
+    }
+}
+
+#profile {
+    .control.has-addons {
+        .input {
+            width: 100%;
+        }
+        .button {
+            cursor: default;
+        }
+    }
+    .label-button {
+        width: 100%;
+        input[type="radio"] {
+            display: none;
+        }
+        &.is-danger {
+            color: #363636;
+        }
+    }
+}
+
+#vertical-tabs {
+    $border: 1px solid #e3eaee;
+
+    .vertical-tabs {
+        background-color: #fff;
+    }
+
+    .tabs-navigation {
+        border-top: $border;
+        border-left: $border;
+        li {
+            border-right: $border;
+            border-bottom: $border;
+            @media screen and (min-width: 768px) {
+                border-right: none;
+            }
+            a:not(.is-active):hover {
+                background-color: transparent;
+            }
+        }
+        @media screen and (min-width: 768px) {
+            border-bottom: $border;
+            li {
+                border-right: none;
+            }
+        }
+    }
+
+    .menu-label {
+        font-size: 1em;
+        margin-bottom: 0;
+        padding: 0.5em 0.75em;
+        background-color: #f5f8fa;
+        text-transform: initial;
+    }
+
+    .tabs-content {
+        border: $border;
+        overflow: hidden;
+        @media screen and (max-width: 767px) {
+            border-top: none;
+        }
+        .columns.is-gapless > &.column {
+            padding: 1.5rem 0.75rem;
+            @media screen and (min-width: 768px) {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+        }
+    }
+}

@@ -18,8 +18,8 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button 
-                class="button" 
+                <button
+                class="button"
                 @click="createMessage()"
                 :disabled="!message">Send</button>
             </div>
@@ -32,9 +32,6 @@
     export default {
         props: ['name', 'header', 'id'],
         name: 'Reply',
-        components: {
-
-        },
         data() {
             return {
                 reply: this.$parent.reply,
