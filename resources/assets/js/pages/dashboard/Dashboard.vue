@@ -2,7 +2,7 @@
   <div class="main-container" :class="userClass">
     <div class="main-content">
       <div class="main-header">
-        <div class="container">
+        <div class="container container-backoffice">
           <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>

@@ -3,7 +3,7 @@
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
         <div class="main-content">
             <div class="main-header">
-                <div class="container">
+                <div class="container container-backoffice">
                   <h1 class="title header-xlarge">
                     <span class="text">Messages</span>
                     <button @click="close()" class="button main-action circle">
