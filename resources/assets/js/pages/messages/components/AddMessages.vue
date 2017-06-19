@@ -4,6 +4,9 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="title">Create Messages</h2>
+        <div v-if="userList.length <= 1" class="no-message-banner">
+            You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
+        </div>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
@@ -22,7 +25,7 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" 
+                <button class="button"
                 @click="createMessage()"
                 :disabled="!subject || !selected">Send</button>
             </div>
