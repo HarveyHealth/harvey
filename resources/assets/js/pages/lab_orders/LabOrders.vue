@@ -30,6 +30,9 @@
         },
         methods: {
 
+        },
+        mounted() {
+            this.$root.$data.global.currentPage = 'lab-orders';
         }
     }
 </script>
