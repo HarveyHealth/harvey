@@ -101,45 +101,45 @@ const app = new Vue({
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
     methods: {
-      addTimezone(value) {
-        if (value) return `${value} (${this.timezoneAbbr})`;
-        else return this.timezoneAbbr;
-      },
-      getAppointments(cb) {
-        axios.get(`${this.apiUrl}/appointments?include=patient.user`)
-          .then(response => {
-            this.global.appointments = combineAppointmentData(response.data).reverse();
-            this.global.loadingAppointments = true;
-            Vue.nextTick(() => {
-              this.global.loadingAppointments = false
-              if (cb) cb();
+        addTimezone(value) {
+            if (value) return `${value} (${this.timezoneAbbr})`;
+            else return this.timezoneAbbr;
+        },
+        getAppointments(cb) {
+            axios.get(`${this.apiUrl}/appointments?include=patient.user`)
+                .then(response => {
+                    this.global.appointments = combineAppointmentData(response.data).reverse();
+                    this.global.loadingAppointments = true;
+                    Vue.nextTick(() => {
+                        this.global.loadingAppointments = false
+                        if (cb) cb();
+                    });
+                }).catch(error => console.log(error.response));
+
+            axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
+                .then((response) => this.global.upcoming_appointments = response.data)
+                .catch(error => console.log(error.response));
+
+            axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
+                .then((response) => this.global.recent_appointments = response.data)
+                .catch(error => console.log(error.response));
+        },
+        getPatients() {
+            axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+                const include = response.data.included;
+                response.data.data.forEach((obj, i) => {
+                    this.global.patients.push({
+                        id: obj.id,
+                        name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
+                        email: include[i].attributes.email,
+                        phone: include[i].attributes.phone,
+                        user_id: obj.attributes.user_id
+                    })
+                });
+                this.global.patients = sortByLastName(this.global.patients);
+                this.global.loadingPatients = false;
             });
-          }).catch(error => console.log(error.response));
-
-        axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
-          .then((response) => this.global.upcoming_appointments = response.data)
-          .catch(error => console.log(error.response));
-
-        axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
-          .then((response) => this.global.recent_appointments = response.data)
-          .catch(error => console.log(error.response));
-      },
-      getPatients() {
-        axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
-          const include = response.data.included;
-          response.data.data.forEach((obj, i) => {
-            this.global.patients.push({
-              id: obj.id,
-              name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
-              email: include[i].attributes.email,
-              phone: include[i].attributes.phone,
-              user_id: obj.attributes.user_id
-            })
-          });
-          this.global.patients = sortByLastName(this.global.patients);
-          this.global.loadingPatients = false;
-        });
-      },
+        },
         getPractitioners() {
             if (Laravel.user.userType !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
@@ -188,10 +188,10 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
+                .filter(e => e.attributes.status === 'pending')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
             this.global.confirmedPatients = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
+                .filter(e => e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
