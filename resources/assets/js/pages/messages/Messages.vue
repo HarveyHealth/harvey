@@ -1,5 +1,5 @@
 <template>
-      <div class="main-container">
+    <div class="main-container">
       <div  @click="close()" :class="{overlay: renderNewMessage, isactive: renderNewMessage}"></div>
         <div class="main-content">
             <div class="main-header">
@@ -54,7 +54,7 @@
     import MessagePost from './components/MessagePost.vue'
     import UserNav from '../../commons/UserNav.vue'
     import NotificationPopup from '../../commons/NotificationPopup.vue'
-    import channel from './websocket'
+    import socket from './websocket'
     import axios from 'axios'
     import _ from 'lodash'
     export default {
@@ -88,6 +88,7 @@
         mounted() {
           this.$root.$data.global.currentPage = 'messages';
 
+          let userId = this.$root.$data.global.user.id
           axios.get(`${this.$root.$data.apiUrl}/messages`)
               .then(response => {
                 let data = {};
@@ -100,29 +101,23 @@
                 if (data) {
                   Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
                   this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
-                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
-                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
-                      return 1;
-                    }
-                    return -1;
-                  });
-                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
+                  this.$root.$data.global.messages = Object.values(data)
+                    .map(e => e[e.length - 1])
+                    .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
                 }
               })
+          let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
           channel.bind('App\\Events\\MessageCreated', (data) => {
-            this.$root.$data.global.detailMessages[data.data.attributes.subject] = this.$root.$data.global.detailMessages[data.data.attributes.subject] ?
-                this.$root.$data.global.detailMessages[data.data.attributes.subject].push(data.data) : [data.data]
+            let subject = data.data.attributes.subject
+            this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
+            this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])
-              .sort((a, b) => {
-                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
-                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
-                      return 1;
-                    }
-                    return -1;
-                  });
+              .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
           })
+          this.$root.getConfirmedUsers();
         },
         destroyed() {
             axios.get(`${this.$root.$data.apiUrl}/messages`)
@@ -137,14 +132,10 @@
                 if (data) {
                   Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
                   this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data).map(e => e[e.length - 1]).sort((a, b) => {
-                    if ((a.attributes.read_at == null || b.attributes.read_at == null) &&
-                      (this.$root.$data.global.user.id == a.attributes.recipient_user_id || this.$root.$data.global.user.id == b.attributes.recipient_user_id)) {
-                      return 1;
-                    }
-                    return -1;
-                  });
-                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
+                  this.$root.$data.global.messages = Object.values(data)
+                      .map(e => e[e.length - 1])
+                      .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
                 }
             })
         }

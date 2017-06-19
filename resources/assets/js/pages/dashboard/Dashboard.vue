@@ -195,12 +195,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .icon-person {
-    height: 30px;
-    margin-right: 15px;
-    width: 30px;
-    vertical-align: top;
-  }
-</style>

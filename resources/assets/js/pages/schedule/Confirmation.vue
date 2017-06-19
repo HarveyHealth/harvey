@@ -166,7 +166,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

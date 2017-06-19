@@ -48,10 +48,3 @@
     }
   }
 </script>
-
-<style>
-  .map {
-    margin-bottom: 40px;
-    max-width: 142px;
-  }
-</style>
