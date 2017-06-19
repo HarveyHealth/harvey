@@ -83,8 +83,7 @@ class SendTransactionalEmail implements ShouldQueue
         $this->checkForEmptyKeys();
 
         if (!app()->environment(['production','staging'])) {
-            Log::info("Faking sending transactional email with Postmark to '{$this->to}' with template '{$this->template}'.");
-            return;
+            return Log::info("Faking sending transactional email with Postmark to '{$this->to}' with template '{$this->template}'.");
         }
 
         try {
@@ -93,8 +92,6 @@ class SendTransactionalEmail implements ShouldQueue
         } catch (PostmarkException $exception) {
             if (406 == $exception->postmarkApiErrorCode) {
                 $message = "Mailbox '{$this->to}' is marked as *Inactive* on Postmark so email '{$this->template}' will not be sent.";
-
-                Log::warning($message);
                 ops_warning('Warning', $message, 'engineering');
             } else {
                 $contextual_data = ['message' => $exception->message, 'api_error_code' => $exception->postmarkApiErrorCode];
