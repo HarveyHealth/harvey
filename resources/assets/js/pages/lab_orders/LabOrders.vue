@@ -12,16 +12,19 @@
                     </h1>
                 </div>
             </div>
+            
         </div>
     </div>
 </template>
 
 <script>
     import UserNav from '../../commons/UserNav.vue'
+    import LabOrderTable from './components/LabOrderTable.vue'
     export default {
         name: 'LabOrders',
         components: {
-            UserNav
+            UserNav,
+            LabOrderTable
         },
         data() {
             return {

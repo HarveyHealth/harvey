@@ -1,47 +1,45 @@
 <template>
-  <TableData
-    :columns="tableColumns"
-    :empty-msg="'No appointments found.'"
-    :loading="loading"
-    :loading-msg="'Loading your appointments...'"
-    :on-row-click="handleRowClick"
-    :row-data="tableData"
-    :selected-row="selectedRow"
-    :table-class="'appointments-table'"
-    :updated-row="updatedRow"
-    :updating-row="updatingRow"
-  />
+    <div>
+        <TableData 
+            :columns="tableColumns"
+            :empty-msg="'No lab orders found.'"
+            :loading="loading"
+            :loading-msg="'Loading your lab tests...'"
+            :on-row-click="handleRowClick"
+            :row-data="tableData"
+            :selected-row="selectedRow"
+            :table-class="'appointments-table'"
+            :updated-row="updatedRow"
+            :updating-row="updatingRow"
+        />
+    </div>
 </template>
 
 <script>
-// AppointmentTable is the wrapper component around TableData used to
-// manage state for the Appointments component
-
-import TableData from '../../../commons/TableData.vue';
+import TableData from '../../../commons/TableData.vue'
 import tableColumns from '../utils/tableColumns';
 import tableSort from '../../../utils/methods/tableSort';
 
 export default {
-  data() {
-    return {
-      tableColumns
-    }
+  name: 'LabOrderTable',
+  component: {
+    TableData,
+    tableColumns
   },
-  components: {
-    TableData
+  data() {
+      return {
+        tableColumns: tableColumns
+      }
   },
   computed: {
-    // Needs to be computed to respond to global state change
-    // Also, default sort by date for now until more robust sort is created
     tableData() {
       return this.tableRowData;
     }
   },
   methods: {
-    handleSort(colObj) {
-      // computed properties can be mutated, apparently?
+      handleSort(colObj) {
       this.tableData.sort(colObj.sort);
-    },
+    }
   },
   props: {
     // Passed from Appointments so we can modify the appointment data and trigger
@@ -70,7 +68,7 @@ export default {
     // See TableData
     updatingRow: {
       required: false
-    },
+    }
   }
 }
 </script>
