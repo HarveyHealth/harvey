@@ -1,5 +1,4 @@
 <template>
-    <div>
         <TableData 
             :columns="tableColumns"
             :empty-msg="'No lab orders found.'"
@@ -12,7 +11,6 @@
             :updated-row="updatedRow"
             :updating-row="updatingRow"
         />
-    </div>
 </template>
 
 <script>
@@ -28,7 +26,7 @@ export default {
   },
   data() {
       return {
-        tableColumns: tableColumns
+        tableColumns
       }
   },
   computed: {
@@ -37,7 +35,7 @@ export default {
     }
   },
   methods: {
-      handleSort(colObj) {
+    handleSort(colObj) {
       this.tableData.sort(colObj.sort);
     }
   },

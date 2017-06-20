@@ -93,7 +93,9 @@ const app = new Vue({
             detailMessages: {},
             unreadMessages: [],
             confirmedDoctors: [],
-            confirmedPatients: []
+            confirmedPatients: [],
+            labOrders: [],
+            labTests: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -158,6 +160,19 @@ const app = new Vue({
                     this.global.loadingPractitioners = false;
                 })
             }
+        },
+        getLabData() {
+            axios.get(`${this.apiUrl}/lab/orders`)
+                .then(response => {
+                    this.global.labOrders = response.data.data
+                })
+                .catch(err => console.log(`ERROR`))
+
+            axios.get(`${this.apiUrl}/lab/tests`)
+                .then(response => {
+                    this.global.labTests = response.data.data
+                })
+                .catch(err => console.log(`ERROR`))
         },
         getUser() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}`)

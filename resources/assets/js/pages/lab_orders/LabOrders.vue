@@ -12,7 +12,9 @@
                     </h1>
                 </div>
             </div>
-            
+            <!--
+            <LabOrderTable />
+            -->
         </div>
     </div>
 </template>
