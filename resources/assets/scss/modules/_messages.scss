@@ -56,3 +56,11 @@
 .message-margin {
     @include margin(30px 30px null 30px);
 }
+.no-message-banner {
+    background-color: $pink;
+    color: $white;
+    height: 115px;
+    width: 80%;
+    margin: 0 auto 20px auto;
+    padding: 20px;
+}
