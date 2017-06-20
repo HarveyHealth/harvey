@@ -16,7 +16,7 @@
       <router-link to="/" title="Dashboard"
         :class="currentPageCheck('dashboard')"
         @click.native="handleMenu(false, 'dashboard')">
-        <i class="fa fa-user icon icon-nav-bar"></i>
+        <i class="fa fa-dashboard icon icon-nav-bar"></i>
         <div class="text">Dashboard</div>
       </router-link>
 
