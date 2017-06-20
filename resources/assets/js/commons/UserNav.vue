@@ -106,7 +106,7 @@
       let userId = this.$root.$data.global.user.id
       channel.bind('App\\Events\\MessageCreated', (data) => {
         let subject = data.data.attributes.subject
-          this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ? 
+          this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
                 this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
           this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
           this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
