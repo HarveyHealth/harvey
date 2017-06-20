@@ -4,23 +4,41 @@ import { capitalize } from '../../../utils/filters/textformat';
 
 export default function (orders, tests, zone) {
     return orders.map(obj => {
-        const data = {
+        let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
-            completed_at: obj.attributes.completed_at
+            completed_at: obj.attributes.completed_at,
+            tests_status: {},
+            tests_ids: {},
+            sku_ids: {},
+            result_urls: {},
+            shipment_codes: {},
+            completed_ats: {}
         }
+        tests.map(test => {
+            if (test.attributes.lab_order_id == obj.id) {
+                data.number_of_tests = data.number_of_tests ?
+                    data.number_of_tests++ : 1
+                data.sku_ids[test.attributes.lab_order_id] = test.attributes.sku_id
+                data.tests_status[test.attributes.lab_order_id] = test.attributes.status
+                data.tests_ids[test.attributes.lab_order_id] = test.id
+                data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
+                data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
+                data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
+            }
+        })
         return {
             data,
             values: [
-                data.id,
+                data.order_date,
                 data.patient_id,
                 data.practitioner_id,
-                data.status_id,
-                data.shipment_code,
-                data.completed_at
+                data.id,
+                data.number_of_tests,
+                data.status_id
             ]
         }
     })
