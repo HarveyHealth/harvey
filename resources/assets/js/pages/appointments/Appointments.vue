@@ -197,7 +197,25 @@ export default {
   data() {
     return {
       activeFilter: 0,
-      appointment: this.resetAppointment(),
+      appointment: {
+        availableTimes: [],
+        date: '',
+        day: '',
+        currentDate: '',
+        currentPurpose: '',
+        currentStatus: '',
+        id: '',
+        status: '',
+        patientEmail: '',
+        patientId: '',
+        patientName: '',
+        patientPhone: '',
+        practitionerAvailability: [],
+        practitionerId: '',
+        practitionerName: '',
+        purpose: '',
+        time: '',
+      },
       appointments: [],
       cache: {
         all: [],
@@ -221,7 +239,7 @@ export default {
       overlayActive: false,
       patientList: [],
       practitionerList: [],
-      purposeCharLimit: 180,
+      purposeCharLimit: 40,
       selectedRowData: null,
       selectedRowHasUpdated: null,
       selectedRowIndex: null,
@@ -470,7 +488,6 @@ export default {
 
     handleModalClose() {
       if (this.appointment.status === 'canceled') {
-        console.log(this.appointment.status);
         this.appointment.status = this.appointment.currentStatus;
       }
       this.modalActive = false;
@@ -508,8 +525,11 @@ export default {
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
-    handlePurposeInput(val) {
-      this.appointment.purpose = val.substring(0, this.purposeCharLimit);
+    handlePurposeInput(e) {
+      this.appointment.purpose = e.target.value.substring(0, this.purposeCharLimit);
+      // Need to set this manually for some reason. I'm not sure why the bound value does not
+      // update with the change to appointment.purpose
+      e.target.value = e.target._value;
     },
 
     handleRowClick(obj, index) {
@@ -661,25 +681,25 @@ export default {
       // this.selectedRowData = null;
       // this.selectedRowIndex = null;
       this.noAvailability = false;
-      return {
-        availableTimes: [],
-        date: '',
-        day: '',
-        currentDate: '',
-        currentPurpose: '',
-        currentStatus: '',
-        id: '',
-        status: '',
-        patientEmail: '',
-        patientId: '',
-        patientName: '',
-        patientPhone: '',
-        practitionerAvailability: [],
-        practitionerId: '',
-        practitionerName: '',
-        purpose: '',
-        time: '',
-      }
+
+      this.appointment.availableTimes = [];
+      this.appointment.date = '';
+      this.appointment.day = '';
+      this.appointment.currentDate = '';
+      this.appointment.currentPurpose = '';
+      this.appointment.currentStatus = '';
+      this.appointment.id = '';
+      this.appointment.status = '';
+      this.appointment.patientEmail = '';
+      this.appointment.patientId = '';
+      this.appointment.patientName = '';
+      this.appointment.patientPhone = '';
+      this.appointment.practitionerAvailability = [];
+      this.appointment.practitionerId = '';
+      this.appointment.practitionerName = '';
+      this.appointment.purpose = '';
+      this.appointment.time = '';
+
     },
 
     setAvailableTimes(value, index) {
