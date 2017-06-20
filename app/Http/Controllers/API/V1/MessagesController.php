@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Lib\Validation\StrictValidator;
 use App\Models\Message;
 use App\Models\User;
 use App\Transformers\V1\MessageTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
+use Validator;
 
 class MessagesController extends BaseAPIController
 {
@@ -82,9 +82,13 @@ class MessagesController extends BaseAPIController
      */
     public function new(Request $request)
     {
-        $validator = StrictValidator::check($request->all(), [
+        $validator = Validator::make($request->all(), [
             'recipient_user_id' => 'required|exists:users,id',
         ]);
+
+        if ($validator->fails()) {
+            return $this->respondBadRequest($validator->errors()->first());
+        }
 
         $message = new Message($request->all());
 
@@ -118,14 +122,11 @@ class MessagesController extends BaseAPIController
      */
     public function delete(Message $message)
     {
-        if (currentUser()->cant('delete', $message)) {
-            return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");
+        if (currentUser()->can('delete', $message)) {
+            $message->delete();
+            return $this->baseTransformItem($message)->addMeta(['deleted' => true])->respond(ResponseCode::HTTP_NO_CONTENT);
         }
 
-        if (!$message->delete()) {
-            return $this->baseTransformItem($message)->respond(ResponseCode::HTTP_CONFLICT);
-        }
-
-        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+        return $this->respondNotAuthorized("You do not have access to delete the Message with ID #{$message->id}.");
     }
 }
