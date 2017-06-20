@@ -4,6 +4,9 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="title">Create Messages</h2>
+        <div v-if="userList.length <= 1" class="no-message-banner">
+            You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
+        </div>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
@@ -22,9 +25,9 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" 
+                <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected">Send</button>
+                :disabled="!subject || !selected || userList.length <= 1">Send</button>
             </div>
         </div>
     </aside>
@@ -58,8 +61,8 @@
                     recipient_user_id: Number(this.selected),
                     subject: this.subject
                 })
-                .then(resp => {
-                    this.$root.$data.global.detailMessages[resp.data.data.attributes.subject] = [resp.data.data];
+                .then(response => {
+                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
                     this.$parent.messageList = this.$root.$data.global.messages
                     this.$parent.notificationActive = true;
@@ -74,9 +77,17 @@
         computed: {
             userList() {
                 if (this.$root.$data.global.user.attributes.user_type === 'patient') {
-                    return [''].concat(this.$root.$data.global.practitioners);
+                    this.global.confirmedDoctors = this.global.appointments
+                        .filter(e => e.attributes.status === 'pending')
+                        .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                    this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
+                    return [''].concat(this.$root.$data.global.confirmedDoctors);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
-                    return [''].concat(this.$root.$data.global.patients);
+                    this.global.confirmedPatients = this.global.appointments
+                        .filter(e => e.attributes.status === 'pending')
+                        .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
+                    this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+                    return [''].concat(this.$root.$data.global.confirmedPatients);
                 } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
                     return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
                 }

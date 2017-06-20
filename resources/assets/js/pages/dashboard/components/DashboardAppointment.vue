@@ -36,11 +36,11 @@
     methods: {
       capitalize,
       phone,
-      hyperlink,
+      hyperlink
     },
     computed: {
       localAppointmentTime() {
-        return moment.utc(this.appointment.attributes.appointment_at.date).local().format('ddd, MMM Do [at] h:mm a');
+        return this.$root.addTimezone(moment.utc(this.appointment.attributes.appointment_at.date).local().format('ddd, MMM Do [at] h:mm a'));
       },
       fullName() {
         if (this.patientData.first_name) {
@@ -57,7 +57,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

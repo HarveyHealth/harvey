@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="main-content">
       <div class="main-header">
-        <div class="container">
+        <div class="container container-backoffice">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
@@ -258,7 +258,7 @@ export default {
 
   filters: {
     confirmDate(date) {
-      return toLocal(date, 'dddd, MMMM Do [at] h:mm a');
+      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
     },
     confirmStatus(status) {
       return convertStatus(status);
@@ -699,7 +699,7 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list).sort(tableSort.byDate('_date')).reverse();
+      const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
       this.cache.all = appts;
       this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
       this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
@@ -748,7 +748,7 @@ export default {
 
     setTime(timeObj) {
       if (timeObj) {
-        this.appointment.time = toLocal(timeObj.stored, 'h:mm a');
+        this.appointment.time = this.$root.addTimezone(toLocal(timeObj.stored, 'h:mm a'));
         this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
       } else {
         this.appointment.time = '';

@@ -2,7 +2,7 @@
   <div class="main-container" :class="userClass">
     <div class="main-content">
       <div class="main-header">
-        <div class="container">
+        <div class="container container-backoffice">
           <h1 class="title header-xlarge">{{ dashboardTitle }}</h1>
         </div>
       </div>
@@ -195,12 +195,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .icon-person {
-    height: 30px;
-    margin-right: 15px;
-    width: 30px;
-    vertical-align: top;
-  }
-</style>

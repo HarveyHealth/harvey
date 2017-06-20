@@ -8,7 +8,9 @@
         <h1 class="header-xlarge">{{ title }}</h1>
 
         <p class="confirmation_date">
-          <span class="confirmation_day">{{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }}</span>
+          <span class="confirmation_day">
+            {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
+          </span>
 
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
@@ -164,7 +166,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

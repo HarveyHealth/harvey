@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container small message-container">
+    <div class="container small message-container-interstitial">
 
       <div v-if="zipInRange" class="container small">
         <img src="/images/signup/interstitial.png" class="interstitial" alt="">
@@ -53,9 +53,3 @@
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .message-container {
-    margin-bottom: 25px;
-  }
-</style>

@@ -1,5 +1,5 @@
 <template>
-    <div :class="['modal', {'is-active animated fadeIn': show}]">
+    <div  id="contact" :class="['modal', {'is-active animated fadeIn': show}]">
         <div class="modal-background" @click="show = false"></div>
         <div class="modal-content has-text-centered">
             <h2 class="title is-1"><strong>Contact Us</strong></h2>
@@ -41,24 +41,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .modal-content {
-        overflow-y: hidden;
-    }
-
-    .title.is-1 {
-        color: white;
-        margin-bottom: 3rem;
-    }
-
-    li {
-        margin-bottom: 1.5rem;
-        .title {
-            color: hsl(0, 0%, 48%);
-        }
-        .subtitle a {
-            color: white;
-        }
-    }
-</style>

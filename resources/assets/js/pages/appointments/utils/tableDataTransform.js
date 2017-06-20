@@ -2,11 +2,11 @@ import convertStatus from './convertStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
-export default function(appointments) {
+export default function(appointments, zone) {
   return appointments.map(obj => {
     const data = {
       date: toLocal(obj.attributes.appointment_at.date, 'dddd, MMMM Do'),
-      time: toLocal(obj.attributes.appointment_at.date, 'h:mm a'),
+      time: `${toLocal(obj.attributes.appointment_at.date, 'h:mm a')} (${zone})`,
       client: `${capitalize(obj.patientData.first_name)} ${capitalize(obj.patientData.last_name)}`,
       doctor: `Dr. ${obj.attributes.practitioner_name}`,
       status: convertStatus(obj.attributes.status),

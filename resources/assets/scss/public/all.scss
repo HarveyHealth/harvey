@@ -1,8 +1,9 @@
-@import '../bourbon/_bourbon';
+@import '../bourbon/bourbon';
 // Variables
 @import "~bulma/sass/utilities/functions";
 @import "variables";
 
+@import "./pages/symptoms";
 // Libraries
 @import '~bulma/bulma';
 @import '~animate.css/animate';

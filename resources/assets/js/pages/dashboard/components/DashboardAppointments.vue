@@ -105,6 +105,6 @@
             upcomingAppointmentsIncluded() {
                 return this.upcomingAppointments.included;
             }
-        },
+        }
     }
 </script>
