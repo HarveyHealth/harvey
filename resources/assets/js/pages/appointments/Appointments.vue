@@ -197,25 +197,7 @@ export default {
   data() {
     return {
       activeFilter: 0,
-      appointment: {
-        availableTimes: [],
-        date: '',
-        day: '',
-        currentDate: '',
-        currentPurpose: '',
-        currentStatus: '',
-        id: '',
-        status: '',
-        patientEmail: '',
-        patientId: '',
-        patientName: '',
-        patientPhone: '',
-        practitionerAvailability: [],
-        practitionerId: '',
-        practitionerName: '',
-        purpose: '',
-        time: '',
-      },
+      appointment: this.resetAppointment(),
       appointments: [],
       cache: {
         all: [],
@@ -239,7 +221,7 @@ export default {
       overlayActive: false,
       patientList: [],
       practitionerList: [],
-      purposeCharLimit: 40,
+      purposeCharLimit: 180,
       selectedRowData: null,
       selectedRowHasUpdated: null,
       selectedRowIndex: null,
@@ -682,23 +664,25 @@ export default {
       // this.selectedRowIndex = null;
       this.noAvailability = false;
 
-      this.appointment.availableTimes = [];
-      this.appointment.date = '';
-      this.appointment.day = '';
-      this.appointment.currentDate = '';
-      this.appointment.currentPurpose = '';
-      this.appointment.currentStatus = '';
-      this.appointment.id = '';
-      this.appointment.status = '';
-      this.appointment.patientEmail = '';
-      this.appointment.patientId = '';
-      this.appointment.patientName = '';
-      this.appointment.patientPhone = '';
-      this.appointment.practitionerAvailability = [];
-      this.appointment.practitionerId = '';
-      this.appointment.practitionerName = '';
-      this.appointment.purpose = '';
-      this.appointment.time = '';
+      return {
+        availableTimes: [],
+        date: '',
+        day: '',
+        currentDate: '',
+        currentPurpose: '',
+        currentStatus: '',
+        id: '',
+        status: '',
+        patientEmail: '',
+        patientId: '',
+        patientName: '',
+        patientPhone: '',
+        practitionerAvailability: [],
+        practitionerId: '',
+        practitionerName: '',
+        purpose: '',
+        time: '',
+      }
 
     },
 
