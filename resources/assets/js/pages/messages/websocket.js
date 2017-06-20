@@ -11,6 +11,6 @@ const socket = new Pusher(`${window.Laravel.services.pusher.key}`, {
   }
 });
 
-let channel = socket.subscribe(`private-App.User.${Number(window.Laravel.user.id)}`);
+let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
 
 export default channel;

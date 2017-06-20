@@ -230,7 +230,7 @@
                     </figure>
                     <div class="column is-paddingless-bottom">
                         <p class="title is-5"><strong>4. Treatment</strong></p>
-                        <p>Your doctor will create for you a treatment plan and may include diet, nutrition, supplements or lifestyle changes.</p>
+                        <p>Your doctor will create for you a treatment plan that may include diet, nutrition, supplements or lifestyle changes.</p>
                     </div>
                 </div>
             </div>
@@ -374,7 +374,7 @@
                     <a href="//www.drrachelwest.com/" target="_blank">Visit Website</a>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                    <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/amanda2.jpg" alt="">
                     </a>
                     <p class="title is-5 is-marginless-bottom"><strong>Dr. Amanda Frick, N.D., LAc</strong></p>

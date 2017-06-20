@@ -6,13 +6,19 @@
             <div class="main-header">
                 <div class="container">
                   <h1 class="title header-xlarge">
-                    <span class="text">Details</span>
+                    <span class="text">Message Details</span>
                     </h1>
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
              <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
             </div>
+            <NotificationPopup
+                :active="notificationActive"
+                :comes-from="notificationDirection"
+                :symbol="notificationSymbol"
+                :text="notificationMessage"
+            />
             <div style="padding: 20px;">
                 <div style="background-color: white; width: 1000px;" class="border-message">
                     <h2 style="margin: auto; padding: 20px 40px;">{{ subject }}</h2>
@@ -45,6 +51,7 @@
     import Reply from './components/ReplyMessages.vue'
     import DetailPost from './components/DetailPost.vue'
     import UserNav from '../../commons/UserNav.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue'
     import axios from 'axios'
     import channel from './websocket'
     import _ from 'lodash'
@@ -55,7 +62,8 @@
           Preview,
           UserNav,
           DetailPost,
-          Reply
+          Reply,
+          NotificationPopup
         },
         data() {
             return {
@@ -64,7 +72,15 @@
               isActive: null,
               user: this.userName,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
-              detailList: this.$root.$data.global.detailMessages[this.$props.subject]
+              notificationSymbol: '&#10003;',
+              notificationMessage: 'Message Sent!',
+              notificationActive: false,
+              notificationDirection: 'top-right'
+            }
+        },
+        computed: {
+            detailList() {
+                return this.$root.$data.global.detailMessages[this.$props.subject]
             }
         },
         methods: {

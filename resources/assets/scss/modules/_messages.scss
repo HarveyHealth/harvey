@@ -24,6 +24,7 @@
 .top-layer {
     float: left; 
     @include margin(0 10px 0 0);
+    color: #AAA;
 }
 .subject-header {
     @include margin(null null 5px -30px);
@@ -63,4 +64,7 @@
     width: 80%;
     margin: 0 auto 20px auto;
     padding: 20px;
+}
+.detail-margin {
+    @include margin(null null null -30px);
 }
