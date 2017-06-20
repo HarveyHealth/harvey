@@ -508,8 +508,11 @@ export default {
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
-    handlePurposeInput(val) {
-      this.appointment.purpose = val.substring(0, this.purposeCharLimit);
+    handlePurposeInput(e) {
+      this.appointment.purpose = e.target.value.substring(0, this.purposeCharLimit);
+      // Need to set this manually for some reason. I'm not sure why the bound value does not
+      // update with the change to appointment.purpose
+      e.target.value = e.target._value;
     },
 
     handleRowClick(obj, index) {
