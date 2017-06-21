@@ -21,7 +21,7 @@ class CreateLabTestsDetailsTable extends Migration
             $table->string('lab_name');
             $table->string('name')
             $table->string('sample');
-            $table->text('qoute');
+            $table->text('quote');
             $table->foreign('sku_id')->references('id')->on('skus');
             $table->softDeletes();
         });
