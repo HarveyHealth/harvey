@@ -82,6 +82,8 @@ const app = new Vue({
             loadingAppointments: true,
             loadingPatients: true,
             loadingPractitioners: true,
+            loadingLabOrders: true,
+            loadingLabTests: true,
             menuOpen: false,
             patients: [],
             practitioners: [],
@@ -165,14 +167,14 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/orders`)
                 .then(response => {
                     this.global.labOrders = response.data.data
+                    this.global.loadingLabOrders = false
                 })
-                .catch(err => console.log(`ERROR`))
 
             axios.get(`${this.apiUrl}/lab/tests`)
                 .then(response => {
                     this.global.labTests = response.data.data
+                    this.global.loadingLabTests = false
                 })
-                .catch(err => console.log(`ERROR`))
         },
         getUser() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}`)
@@ -222,6 +224,7 @@ const app = new Vue({
             this.getAppointments();
             this.getPractitioners();
             this.getMessages();
+            this.getLabData();
             if (Laravel.user.userType !== 'patient') this.getPatients();
         }
 
