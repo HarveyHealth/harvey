@@ -24,7 +24,7 @@
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="labData"
-             /> 
+             />
         </div>
     </div>
 </template>
@@ -34,6 +34,7 @@
     import Overlay from '../../commons/Overlay.vue'
     import LabOrderTable from './components/LabOrderTable.vue'
     import AddLabOrders from './components/AddLabOrders.vue'
+    import tableDataTransform from './utils/tableDataTransform'
 
     export default {
         name: 'LabOrders',
@@ -48,7 +49,6 @@
                 selectedRowData: null,
                 selectedRowUpdating: null,
                 selectedRowHasUpdated: null,
-                labData: [],
                 addFlyoutActive: false
             }
         },
@@ -75,6 +75,11 @@
             },
             addingFlyoutActive() {
                 this.addFlyoutActive = !this.addFlyoutActive
+            }
+        },
+        computed: {
+            labData() {
+                return tableDataTransform(this.$root.$data.global.labOrders, this.$root.$data.global.labTests, 3)
             }
         },
         mounted() {

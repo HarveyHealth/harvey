@@ -7,7 +7,7 @@
       :on-row-click="handleRowClick"
       :row-data="tableData"
       :selected-row="selectedRow"
-      :table-class="'lab-table'"
+      :table-class="'appointments-table'"
       :updated-row="updatedRow"
       :updating-row="updatingRow"
   />
