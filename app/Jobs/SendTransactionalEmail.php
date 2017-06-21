@@ -96,9 +96,6 @@ class SendTransactionalEmail implements ShouldQueue
             } else {
                 $contextual_data = ['message' => $exception->message, 'api_error_code' => $exception->postmarkApiErrorCode];
                 Log::error("Unable to send email to '{$this->to}'.", $contextual_data);
-
-                $message = "Unable to send email to '{$this->to}'. Message: '{$exception->message}', Error code: '{$exception->postmarkApiErrorCode}'.";
-                ops_error('Error', $message, 'engineering');
             }
         }
     }
