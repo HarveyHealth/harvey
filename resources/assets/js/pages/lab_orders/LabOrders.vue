@@ -6,18 +6,17 @@
                 <div class="container">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="$root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
                 </div>
             </div>
-            <AddLabOrders />
+            <AddLabOrders v-if="$root.$data.global.user.attributes.user_type === 'admin'" />
             <Overlay 
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"
             />
-            <!--
             <LabOrderTable
                 :handle-row-click="handleRowClick"
                 :loading="$root.$data.global.loadingLabOrders && $root.$data.global.loadingLabTests"
@@ -26,7 +25,6 @@
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="labData"
              /> 
-            -->
         </div>
     </div>
 </template>
@@ -36,6 +34,7 @@
     import Overlay from '../../commons/Overlay.vue'
     import LabOrderTable from './components/LabOrderTable.vue'
     import AddLabOrders from './components/AddLabOrders.vue'
+
     export default {
         name: 'LabOrders',
         components: {
@@ -55,7 +54,24 @@
         },
         methods: {
             handleRowClick(obj, index) {
+                let data;
+                if (obj) {
+                    data = obj.data === this.selectedRowData ? null : obj.data;
+                } else {
+                    data = null;
+                }
 
+                if (data) {
+                    this.selectedRowData = data;
+                    this.selectedRowIndex = index;
+                }
+            },
+            $$rowClasses(data, index) {
+                return {
+                    'is-selected': this.selectedRow === data,
+                    'is-updating': this.updatingRow === index,
+                    'has-updated': this.updatedRow === index,
+                }
             },
             addingFlyoutActive() {
                 this.addFlyoutActive = !this.addFlyoutActive

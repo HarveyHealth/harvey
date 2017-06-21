@@ -1,16 +1,16 @@
 <template>
-        <TableData 
-            :columns="tableColumns"
-            :empty-msg="'No lab orders found.'"
-            :loading="loading"
-            :loading-msg="'Loading your lab tests...'"
-            :on-row-click="handleRowClick"
-            :row-data="tableData"
-            :selected-row="selectedRow"
-            :table-class="'appointments-table'"
-            :updated-row="updatedRow"
-            :updating-row="updatingRow"
-        />
+  <TableData 
+      :columns="tableColumns"
+      :empty-msg="'No lab orders found.'"
+      :loading="loading"
+      :loading-msg="'Loading your lab tests...'"
+      :on-row-click="handleRowClick"
+      :row-data="tableData"
+      :selected-row="selectedRow"
+      :table-class="'lab-table'"
+      :updated-row="updatedRow"
+      :updating-row="updatingRow"
+  />
 </template>
 
 <script>
@@ -20,9 +20,8 @@ import tableSort from '../../../utils/methods/tableSort';
 
 export default {
   name: 'LabOrderTable',
-  component: {
-    TableData,
-    tableColumns
+  components: {
+    TableData
   },
   data() {
       return {

@@ -4,16 +4,18 @@
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
   >
-    HELLO
+
   </Flyout>
 </template>
 
 <script>
 import Flyout from '../../../commons/Flyout.vue'
+import SelectOptions from '../../../commons/SelectOptions.vue'
 export default {
   name: 'AddLabOrders',
   components: {
-    Flyout
+    Flyout,
+    SelectOptions
   },
   data() {
     return {
