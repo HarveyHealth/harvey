@@ -7,6 +7,7 @@ class BaseClient
     protected $base_endpoint;
     protected $client;
     protected $headers = [];
+    protected $params = [];
 
     public function __construct($client = null)
     {
@@ -35,7 +36,7 @@ class BaseClient
         $client = $this->client();
 
         $data = [];
-        $data['query'] = $params;
+        $data['query'] = array_merge($params, $this->params);
         $data['headers'] = array_merge($this->headers, $headers);
 
         $response = $client->get($this->baseEndpoint($call), $data);
@@ -48,7 +49,7 @@ class BaseClient
         $client = $this->client();
 
         $data = [];
-        $data['body'] = $params;
+        $data['body'] = array_merge($params, $this->params);;
         $data['headers'] = array_merge($this->headers, $headers);
 
         $response = $client->post($this->baseEndpoint($call), $data);
