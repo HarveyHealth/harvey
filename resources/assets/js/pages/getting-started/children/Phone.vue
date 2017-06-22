@@ -1,9 +1,9 @@
 <template>
-  <h1>Welcome Interstitial</h1>
+  <h1>Phone Number and SMS Confirmation</h1>
 </template>
 
 <script>
 export default {
-  name: 'welcome'
+  name: 'phone'
 }
 </script>

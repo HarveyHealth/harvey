@@ -15,10 +15,10 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
+        <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
           window.Laravel = {!! $vue_data !!}
-          // localStorage.setItem('signing up', 'true')
-          window.TestGettingStarted = true;
+          window.TestGettingStarted = true; // only until the signup page is no longer used
           window.$$context = 'getting-started';
           if (Laravel.user.signedIn && !localStorage.getItem('new_registration')) {
             window.location.href = '/dashboard';

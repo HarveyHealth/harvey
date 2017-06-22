@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" :class="animClasses">
     <div class="container small">
       <img src="/images/signup/tree.png" class="registration-tree" alt="">
 
@@ -56,7 +56,11 @@ export default {
       terms: false,
       isComplete: false,
       responseErrors: [],
-      env: this.$root.$data.environment
+      env: this.$root.$data.environment,
+      animClasses: {
+        'anim-fade-slideup': true,
+        'anim-fade-slideup-in': false,
+      },
     }
   },
   methods: {
@@ -111,7 +115,8 @@ export default {
         password: password,
       })
       .then(resp => {
-        console.log('TODO: Check zipcode here and push to welcome or out-of-range');
+        // TODO: check zip code to determine if out of range
+        // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
         window.location.href = '/getting-started';
       })
@@ -124,6 +129,7 @@ export default {
     },
   },
   mounted () {
+    this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
       this.$ma.trackEvent({
           fb_event: 'PageView',
@@ -142,5 +148,8 @@ export default {
       });
     }
   },
+  beforeDestroy() {
+    this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
+  }
 }
 </script>

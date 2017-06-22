@@ -26,20 +26,34 @@ rootRoute.component = context !== 'getting-started'
   ? require('./pages/dashboard/Dashboard.vue')
   : require('./pages/getting-started/GettingStarted.vue');
 
-rootRoute.children = context === 'getting-started'
-  ? [
-    {
-      path: 'signup',
+if (context === 'getting-started') {
+  rootRoute.children = [
+    { path: 'signup',
       name: 'sign-up',
-      component: require('./pages/getting-started/children/Signup.vue')
-    },
-    {
-      path: 'welcome',
+      component: require('./pages/getting-started/children/Signup.vue') },
+    { path: 'welcome',
       name: 'welcome',
-      component: require('./pages/getting-started/children/Welcome.vue')
-    }
+      component: require('./pages/getting-started/children/Welcome.vue') },
+    { path: 'out-of-range',
+      name: 'out-of-range',
+      component: require('./pages/getting-started/children/OutOfRange.vue') },
+    { path: 'practitioner',
+      name: 'practitioner',
+      component: require('./pages/getting-started/children/Practitioner.vue') },
+    { path: 'phone',
+      name: 'phone',
+      component: require('./pages/getting-started/children/Phone.vue') },
+    { path: 'schedule',
+      name: 'schedule',
+      component: require('./pages/getting-started/children/Schedule.vue') },
+    { path: 'confirmation',
+      name: 'confirmation',
+      component: require('./pages/getting-started/children/Confirmation.vue') },
+    { path: 'success',
+      name: 'success',
+      component: require('./pages/getting-started/children/Success.vue') }
   ]
-  : []
+}
 
 // This code is to manage the current funnel which uses localStorage to save information
 if (!window.TestGettingStarted) {

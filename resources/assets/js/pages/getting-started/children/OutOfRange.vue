@@ -1,9 +1,9 @@
 <template>
-  <h1>Welcome Interstitial</h1>
+  <h1>Zip Out of Range</h1>
 </template>
 
 <script>
 export default {
-  name: 'welcome'
+  name: 'out-of-reach'
 }
 </script>

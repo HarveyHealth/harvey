@@ -1,9 +1,9 @@
 <template>
-  <h1>Welcome Interstitial</h1>
+  <h1>Success screen</h1>
 </template>
 
 <script>
 export default {
-  name: 'welcome'
+  name: 'success'
 }
 </script>
