@@ -209,27 +209,3 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
 
     return $output;
 });
-
-$factory->define(App\Models\LabOrder::class, function (Faker\Generator $faker) {
-    return [
-        'patient_id' => function () {
-            return factory(App\Models\Patient::class)->create()->id;
-        },
-        'practitioner_id' => function () {
-            return factory(App\Models\Practitioner::class)->create()->id;
-        },
-        'shipment_code' => $faker->isbn13,
-    ];
-});
-
-$factory->define(App\Models\LabTest::class, function (Faker\Generator $faker) {
-    return [
-        'lab_order_id' => function () {
-            return factory(App\Models\LabOrder::class)->create()->id;
-        },
-        'sku_id' => function () {
-            return factory(App\Models\SKU::class)->create()->id;
-        },
-        'shipment_code' => $faker->isbn13,
-    ];
-});

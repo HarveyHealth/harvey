@@ -470,7 +470,6 @@ export default {
 
     handleModalClose() {
       if (this.appointment.status === 'canceled') {
-        console.log(this.appointment.status);
         this.appointment.status = this.appointment.currentStatus;
       }
       this.modalActive = false;
@@ -508,8 +507,11 @@ export default {
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
-    handlePurposeInput(val) {
-      this.appointment.purpose = val.substring(0, this.purposeCharLimit);
+    handlePurposeInput(e) {
+      this.appointment.purpose = e.target.value.substring(0, this.purposeCharLimit);
+      // Need to set this manually for some reason. I'm not sure why the bound value does not
+      // update with the change to appointment.purpose
+      e.target.value = e.target._value;
     },
 
     handleRowClick(obj, index) {
@@ -616,14 +618,14 @@ export default {
         ? this.selectedRowIndex
         : null;
       // Grab a copy of the old appointments data for comparison after the api call
-      const oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+      let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             this.selectedRowIndex = null;
-
             // Cycle through the new appointment list with Array.some so we can break out easily.
             // For each item compare against oldAppointments
             // If no match, splice the first item of oldAppointments
@@ -631,6 +633,14 @@ export default {
             // Once oldAppointments is empty you know you have no match
             // The row you ended on is the updated data so mark accordingly
             this.appointments.some((obj, i) => {
+              // If user is filtered and the updated row is disqualified from that filter
+              // the appointments will be less and we just need to end it immediately
+              // and scroll to the top of the page
+              if (this.appointments.length < oldAppointments.length) {
+                this.selectedRowUpdating = null;
+                if (succesPopup) this.handleNotificationInit();
+                window.scrollTo(0, 0);
+              }
               while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
                 oldAppointments.splice(0, 1);
                 if (!oldAppointments.length) {

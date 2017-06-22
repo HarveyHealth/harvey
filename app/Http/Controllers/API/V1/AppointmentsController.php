@@ -91,7 +91,7 @@ class AppointmentsController extends BaseAPIController
     public function update(Request $request, Appointment $appointment)
     {
         if (currentUser()->can('update', $appointment)) {
-            StrictValidator::checkUpdate($request->all(), [
+            StrictValidator::check($request->all(), [
                 'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
                 'reason_for_visit' => 'filled',
                 'status' => 'filled',
