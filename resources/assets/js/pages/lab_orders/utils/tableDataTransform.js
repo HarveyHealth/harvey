@@ -28,7 +28,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             completed_ats: {},
             order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do"),
             address_1: obj.attributes.address_1,
-            address_2: obj.attributes.address_2
+            address_2: obj.attributes.address_2,
+            test_list: []
         }
         tests.map(test => {
             if (test.attributes.lab_order_id == obj.id) {
@@ -40,15 +41,21 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
                 data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
+                data.test_list.push({
+                    item_type: test.included.attributes.item_type,
+                    price: test.included.attributes.price,
+                    name: test.included.attributes.name
+                })
             }
         })
+        data.number_of_tests = !data.number_of_tests ? 0 : data.number_of_tests
         return {
             data,
             values: [
                 data.order_date,
                 patientLookUp[data.patient_id].attributes.name,
                 `Dr. ${practitionerLookup[data.practitioner_id].attributes.name}`,
-                data.id,
+                `#${data.id}`,
                 data.number_of_tests,
                 data.completed_at
             ]

@@ -7,7 +7,7 @@
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">lab tests</label>
-              <label class="input__label" style="color: #737373;">{{ doctorName }} <a style="color: #B4E7A0;">(Track Cli)</a></label>
+              <label v-for="test in testList" class="input__label" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
           </div>
         </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -63,22 +63,26 @@ export default {
   },
   computed: {
     flyoutHeading() {
-      return `Lab Order #${this.$props.rowData.id}`
+      return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : null
     },
     doctorName() {
       return `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
     },
     status() {
-      return this.$props.rowData.completed_at
+      return this.$props.rowData.completed_at || ''
     },
     shipmentCode() {
-      return this.$props.rowData.shipment_code
+      return this.$props.rowData.shipment_code || ''
     },
     addressOne() {
       return this.$props.rowData.address_1 || ''
     },
     addressTwo() {
       return this.$props.rowData.address_2 || ''
+    },
+    testList() {
+      this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true}] : this.$props.rowData.test_list
+      return this.$props.rowData.test_list
     }
   }
 }
