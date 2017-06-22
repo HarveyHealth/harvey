@@ -48,7 +48,7 @@ class LabTestsController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to view this LabTest.');
         }
 
-        return $this->baseTransformItem($labTest)->respond();
+        return $this->baseTransformItem($labTest, request('include'))->respond();
     }
 
     /**

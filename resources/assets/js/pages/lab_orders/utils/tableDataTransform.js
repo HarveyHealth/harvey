@@ -3,6 +3,14 @@ import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
 
+const SHIPPED_STATUS_ID = 0;
+const CANCELED_STATUS_ID = 1;
+const COMPLETE_STATUS_ID = 2;
+const MAILED_STATUS_ID = 3;
+const PENDING_STATUS_ID = 4;
+const PROCESSING_STATUS_ID = 5;
+const RECEIVED_STATUS_ID = 6;
+
 export default function (orders, tests, patientLookUp, practitionerLookup) {
     return orders.map(obj => {
         let data = {
