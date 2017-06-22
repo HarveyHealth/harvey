@@ -15,6 +15,16 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 
+        <script>
+          window.Laravel = {!! $vue_data !!}
+          // localStorage.setItem('signing up', 'true')
+          window.TestGettingStarted = true;
+          window.$$context = 'getting-started';
+          if (Laravel.user.signedIn && !localStorage.getItem('new_registration')) {
+            window.location.href = '/dashboard';
+          }
+        </script>
+
         <!-- Typekit -->
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
@@ -56,12 +66,6 @@
           <router-view />
         </div>
       </main>
-
-      <script>
-        window.Laravel = {!! $vue_data !!}
-        // localStorage.setItem('signing up', 'true')
-        window.TestGettingStarted = true;
-      </script>
 
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

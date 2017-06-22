@@ -8,6 +8,7 @@ Vue.use(VeeValidate);
 //    /getting-started -> signup funnel
 //    /dashboard -> user backoffice
 const loggedIn = Laravel.user.signedIn;
+const context = window.$$context;
 
 let rootRoute = {
   path: '/',
@@ -17,13 +18,28 @@ let rootRoute = {
 };
 
 // This is the basic logic once the new getting-started components are up
-rootRoute.name = loggedIn
+rootRoute.name = context !== 'getting-started'
   ? 'dashboard'
-  : 'signup';
+  : 'getting-started';
 
-rootRoute.component = loggedIn
+rootRoute.component = context !== 'getting-started'
   ? require('./pages/dashboard/Dashboard.vue')
-  : require('./pages/signup/Signup.vue');
+  : require('./pages/getting-started/GettingStarted.vue');
+
+rootRoute.children = context === 'getting-started'
+  ? [
+    {
+      path: 'signup',
+      name: 'sign-up',
+      component: require('./pages/getting-started/children/Signup.vue')
+    },
+    {
+      path: 'welcome',
+      name: 'welcome',
+      component: require('./pages/getting-started/children/Welcome.vue')
+    }
+  ]
+  : []
 
 // This code is to manage the current funnel which uses localStorage to save information
 if (!window.TestGettingStarted) {
