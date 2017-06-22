@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
         <UserNav />
-        <div class="main-content" v-on:click="detailsFlyoutActive()">
+        <div class="main-content">
             <div class="main-header">
                 <div class="container">
                     <h1 class="title header-xlarge">
@@ -65,10 +65,11 @@
                     data = null;
                 }
 
+                this.detailFlyoutActive = !this.detailFlyoutActive
+
                 if (data) {
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
-                    this.detailFlyoutActive = !this.detailFlyoutActive
                 }
             },
             $$rowClasses(data, index) {
@@ -79,9 +80,11 @@
                 }
             },
             addingFlyoutActive() {
+                this.detailFlyoutActive = false
                 this.addFlyoutActive = !this.addFlyoutActive
             },
             detailsFlyoutActive() {
+                this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
             }
         },
