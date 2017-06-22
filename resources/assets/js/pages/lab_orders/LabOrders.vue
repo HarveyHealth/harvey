@@ -13,6 +13,7 @@
                 </div>
             </div>
             <AddLabOrders v-if="$root.$data.global.user.attributes.user_type === 'admin'" />
+            <DetailLabOrders />
             <Overlay 
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"
@@ -34,6 +35,7 @@
     import Overlay from '../../commons/Overlay.vue'
     import LabOrderTable from './components/LabOrderTable.vue'
     import AddLabOrders from './components/AddLabOrders.vue'
+    import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
 
     export default {
@@ -42,14 +44,16 @@
             UserNav,
             LabOrderTable,
             AddLabOrders,
-            Overlay
+            Overlay,
+            DetailLabOrders
         },
         data() {
             return {
                 selectedRowData: null,
                 selectedRowUpdating: null,
                 selectedRowHasUpdated: null,
-                addFlyoutActive: false
+                addFlyoutActive: false,
+                detailFlyoutActive: false
             }
         },
         methods: {
@@ -64,6 +68,8 @@
                 if (data) {
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                    this.detailFlyoutActive = !this.detailFlyoutActive
+
                 }
             },
             $$rowClasses(data, index) {
@@ -79,7 +85,12 @@
         },
         computed: {
             labData() {
-                return tableDataTransform(this.$root.$data.global.labOrders, this.$root.$data.global.labTests, 3)
+                return tableDataTransform(
+                    this.$root.$data.global.labOrders, 
+                    this.$root.$data.global.labTests, 
+                    this.$root.$data.global.patientLookUp, 
+                    this.$root.$data.global.practitionerLookUp
+                )
             }
         },
         mounted() {

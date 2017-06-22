@@ -97,7 +97,9 @@ const app = new Vue({
             confirmedDoctors: [],
             confirmedPatients: [],
             labOrders: [],
-            labTests: []
+            labTests: [],
+            patientLookUp: {},
+            practitionerLookUp: {}
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -142,6 +144,9 @@ const app = new Vue({
                 });
                 this.global.patients = sortByLastName(this.global.patients);
                 this.global.loadingPatients = false;
+                response.data.data.forEach(e => {
+                    this.global.patientLookUp[e.id] = e
+                })
             });
         },
         getPractitioners() {
@@ -151,6 +156,9 @@ const app = new Vue({
                         return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
                     });
                     this.global.loadingPractitioners = false;
+                    response.data.data.forEach(e => {
+                        this.global.practitionerLookUp[e.id] = e
+                    })
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
@@ -160,6 +168,9 @@ const app = new Vue({
                         return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
                     });
                     this.global.loadingPractitioners = false;
+                    response.data.data.forEach(e => {
+                        this.global.practitionerLookUp[e.id] = e
+                    })
                 })
             }
         },
