@@ -16,6 +16,7 @@ let rootRoute = {
   children: []
 };
 
+// This is the basic logic once the new getting-started components are up
 rootRoute.name = loggedIn
   ? 'dashboard'
   : 'signup';
@@ -24,6 +25,7 @@ rootRoute.component = loggedIn
   ? require('./pages/dashboard/Dashboard.vue')
   : require('./pages/signup/Signup.vue');
 
+// This code is to manage the current funnel which uses localStorage to save information
 if (!window.TestGettingStarted) {
   const signingUp = localStorage.getItem('signing up');
   const signedUp = localStorage.getItem('signed up');
@@ -46,31 +48,12 @@ if (!window.TestGettingStarted) {
 }
 
 let routes = [
-    {
-        path: '/appointments',
-        component: require('./pages/appointments/Appointments.vue'),
-    },
 
     rootRoute,
 
-    // {
-    //     path: '/',
-    //     name: localStorage.getItem('signing up') ?
-    //         'signup' : localStorage.getItem('signed up') ?
-    //           'schedule' : 'dashboard',
-    //     component: localStorage.getItem('signing up') ?
-    //         require('./pages/signup/Signup.vue') : localStorage.getItem('signed up') ?
-    //           require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue');,
-    //     children: [
-    //         {
-    //             path: 'confirmation',
-    //             component: require('./pages/schedule/Confirmation.vue')
-    //         }
-    //     ]
-    // },
     {
-        path: '/new-appointments',
-        component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
+        path: '/appointments',
+        component: require('./pages/appointments/Appointments.vue'),
     },
     {
         path: '/messages',
