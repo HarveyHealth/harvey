@@ -3,7 +3,7 @@
     <div class="container small">
       <img src="/images/signup/tree.png" class="registration-tree" alt="">
 
-      <h1 class="header-xlarge">{{ title }}</h1>
+      <strong><h1 class="header-xlarge" v-html="title"></h1></strong>
       <p class="large">{{ subtitle }}</p>
 
       <div class="error-container" v-show="responseErrors.length > 0">
@@ -13,8 +13,13 @@
       <div class="signup-form-container">
 
         <div class="input-wrap">
-          <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
-          <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
+          <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
+          <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name')}}</span>
+        </div>
+
+        <div class="input-wrap">
+          <input class="form-input form-input_text" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'" />
+          <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
         </div>
 
         <div class="input-wrap">
@@ -23,15 +28,27 @@
         </div>
 
         <div class="input-wrap">
+          <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+          <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
+        </div>
+
+        <div class="input-wrap">
           <input class="form-input form-input_text" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
           <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
         </div>
 
-        <div class="input-wrap text-centered">
+        <div class="input-wrap">
           <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'">
           <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
           <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
         </div>
+
+        <!-- <div class="input-wrap" style="margin-top: -20px;">
+          <input class="form-input form-input_checkbox" name="newsletter" type="checkbox" id="newsletter" v-model="newsletter">
+          <label class="form-label form-label_checkbox" for="checkbox">I would like to receive the Harvey newsletter.</label>
+        </div> -->
+
+        <p class="text-centered">Start your health journey today.</p>
 
         <div class="text-centered">
           <input type="submit" class="button" value="Sign Up">
@@ -47,20 +64,24 @@ export default {
   name: 'sign-up',
   data() {
     return {
-      title: 'Your journey starts here.',
-      subtitle: '',
-      email: localStorage.getItem('sign up email') || '',
-      password: localStorage.getItem('sign up password') || '',
-      zip: localStorage.getItem('sign up zip') || '',
-      zipInRange: false,
-      terms: false,
-      isComplete: false,
-      responseErrors: [],
-      env: this.$root.$data.environment,
       animClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
       },
+      email: localStorage.getItem('sign up email') || '',
+      env: this.$root.$data.environment,
+      firstname: localStorage.getItem('sign up first_name') || '',
+      isComplete: false,
+      lastname: localStorage.getItem('sign up last_name') || '',
+      newsletter: false,
+      password: localStorage.getItem('sign up password') || '',
+      processing: false,
+      responseErrors: [],
+      subtitle: '',
+      terms: false,
+      title: 'Let&rsquo;s get acquainted.',
+      zip: localStorage.getItem('sign up zip') || '',
+      zipInRange: false,
     }
   },
   methods: {
