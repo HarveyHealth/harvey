@@ -121,6 +121,7 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
+          ga('Website', 'Sign-up For Account')
         }
 
         // From https://www.addevent.com/buttons/add-to-calendar
