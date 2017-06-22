@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class LabTestTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner', 'lab_order'];
+    protected $availableIncludes = ['patient', 'practitioner', 'lab_order', 'sku'];
 
     /**
      * @param LabTest $labTest
@@ -52,4 +52,14 @@ class LabTestTransformer extends TransformerAbstract
     {
         return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_orders');
     }
+
+    /**
+     * @param LabTest $labTest
+     * @return mixed
+     */
+    public function includeSku(LabTest $labTest)
+    {
+        return $this->item($labTest->sku, new SKUTransformer())->setResourceKey('SKUs');
+    }
+
 }
