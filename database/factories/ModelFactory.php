@@ -56,9 +56,11 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
         'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
+        },
+        'license_id'  => function () {
+            return factory(App\Models\License::class)->create()->id;
         },
         'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
     ];
@@ -110,6 +112,13 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
         'name' => $faker->word,
         'item_type' => $faker->randomElement(['test', 'product', 'service']),
         'price' => $faker->randomNumber(2),
+    ];
+});
+
+$factory->define(App\Models\License::class, function (Faker\Generator $faker) {
+    return [
+        'number' => $faker->regexify('[A-Z]{2}-[0-9]{4}'),
+        'state' => $faker->randomElement(['CA', 'NV', 'AZ']),
     ];
 });
 
