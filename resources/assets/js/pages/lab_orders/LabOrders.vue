@@ -13,7 +13,7 @@
                 </div>
             </div>
             <AddLabOrders v-if="$root.$data.global.user.attributes.user_type === 'admin'" />
-            <DetailLabOrders />
+            <DetailLabOrders :row-data="selectedRowData" />
             <Overlay 
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"

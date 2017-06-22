@@ -1,7 +1,7 @@
 import convertStatus from './convertStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
-
+import moment from 'moment';
 
 const SHIPPED_STATUS_ID = 0;
 const CANCELED_STATUS_ID = 1;
@@ -19,14 +19,14 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
-            completed_at: obj.attributes.completed_at ? 'complete' : 'pending',
+            completed_at: obj.attributes.completed_at ? 'Complete' : 'Pending',
             tests_status: {},
             tests_ids: {},
             sku_ids: {},
             result_urls: {},
             shipment_codes: {},
             completed_ats: {},
-            order_date: 'HARD_CODED'
+            order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do")
         }
         tests.map(test => {
             if (test.attributes.lab_order_id == obj.id) {
