@@ -4,6 +4,7 @@
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
   >
+    <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'admin'">
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">lab tests</label>
@@ -16,7 +17,6 @@
               <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
           </div>
         </div>
-      </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
@@ -24,14 +24,12 @@
               <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
           </div>
         </div>
-      </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">order tracking</label>
               <label class="input__label" style="color: #737373;">{{ shipmentCode }}</label>
           </div>
         </div>
-      </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">order status</label>
@@ -39,6 +37,57 @@
           </div>
         </div>
       </div>
+    </div>
+  <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'">
+        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+                <label class="input__label" for="patient_name">lab tests</label>
+                <label v-for="test in testList" class="input__label" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+                <label class="input__label" for="patient_name">doctor</label>
+                <span class="custom-select">
+                    <select @change="updateDoctor($event)">
+                        <option v-for="doctor in doctorList" :data-id="doctor.user_id">{{ doctor.name }}</option>
+                    </select>
+                </span>
+            </div>
+          </div>
+        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+                <label class="input__label" for="patient_name">shipping address</label>
+                <input v-model="addressOne" class="input--text" type="text">
+                <input v-model="addressTwo" class="input--text" type="text">
+            </div>
+          </div>
+        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+                <label class="input__label" for="patient_name">order tracking</label>
+                <input v-model="shipmentCode" class="input--text" type="text">
+            </div>
+          </div>
+        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+          <label class="input__label" for="patient_name">order status</label>
+          <span class="custom-select">
+              <select @change="updateStatus($event)">
+                  <option v-for="status in statusList" :data-status="status">{{ status }}</option>
+              </select>
+          </span>
+      </div>
+          </div>
+          <div>
+            <div class="inline-centered">
+                <button class="button"
+                @click="handleFlyoutClose()"
+                >Update Shipment</button>
+            </div>
+        </div>
+        </div>
+      </div>
+
   </Flyout>
 </template>
 
@@ -54,11 +103,18 @@ export default {
   },
   data() {
     return {
+      selectedStatus: null
     }
   },
   methods: {
     handleFlyoutClose() {
       this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
+    },
+    updateDoctor(e) {
+        this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
+    },
+    updateStatus(e) {
+        this.selectedStatus = e.target.children[e.target.selectedIndex].dataset.status;
     }
   },
   computed: {
@@ -79,6 +135,16 @@ export default {
     },
     addressTwo() {
       return this.$props.rowData.address_2 || ''
+    },
+    doctorList() {
+      let data = {}
+      data.name = `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
+      data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id
+      data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.user_id
+      return [data].concat(this.$root.$data.global.practitioners)
+    },
+    statusList() {
+      return [this.$props.rowData.completed_at, 'Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled']
     },
     testList() {
       this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true}] : this.$props.rowData.test_list
