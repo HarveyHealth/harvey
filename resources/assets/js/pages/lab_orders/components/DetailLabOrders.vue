@@ -20,8 +20,8 @@
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
-              <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
+              <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
+              <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
           </div>
         </div>
       </div>
@@ -73,6 +73,12 @@ export default {
     },
     shipmentCode() {
       return this.$props.rowData.shipment_code
+    },
+    addressOne() {
+      return this.$props.rowData.address_1 || ''
+    },
+    addressTwo() {
+      return this.$props.rowData.address_2 || ''
     }
   }
 }

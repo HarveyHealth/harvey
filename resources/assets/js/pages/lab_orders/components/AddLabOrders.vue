@@ -46,9 +46,22 @@
             <input v-model="hormones" class="input--text" type="text">
         </div>
       </div>
-      <div class="input__container">
-          <label class="input__label" for="patient_name">master tracking</label>
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+        <div class="input__container">
+            <label class="input__label" for="patient_name">master tracking</label>
+            <input v-model="masterTracking" class="input--text" type="text">
+        </div>
       </div>
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+        <div class="input__container">
+            <label class="input__label" for="patient_name">mailing address</label>
+            <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
+            <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
+            <input placeholder="Enter city" v-model="city" class="input--text" type="text">
+            <input placeholder="Enter state" v-model="state" class="input--text" type="text">
+            <input placeholder="Enter zip" v-model="zip" class="input--text" type="text">
+        </div>
+      </div> 
       <div>
           <div class="inline-centered">
               <button class="button"
@@ -76,7 +89,13 @@ export default {
       selectedClient: '',
       step: 1,
       hormones: '',
-      micronutrient: ''
+      micronutrient: '',
+      masterTracking: '',
+      address1: '',
+      address2: '',
+      city: '',
+      zip: '',
+      state: ''
     }
   },
   methods: {

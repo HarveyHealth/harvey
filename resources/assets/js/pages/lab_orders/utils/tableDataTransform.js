@@ -26,7 +26,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             result_urls: {},
             shipment_codes: {},
             completed_ats: {},
-            order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do")
+            order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do"),
+            address_1: obj.attributes.address_1,
+            address_2: obj.attributes.address_2
         }
         tests.map(test => {
             if (test.attributes.lab_order_id == obj.id) {
