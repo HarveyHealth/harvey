@@ -51,7 +51,11 @@
         <p class="text-centered">Start your health journey today.</p>
 
         <div class="text-centered">
-          <input type="submit" class="button" value="Sign Up">
+          <button class="button" style="width: 160px" :disabled="processing">
+            <span v-if="!processing">Sign Up</span>
+            <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
+            <i v-else-if="isComplete" class="fa fa-check"></i>
+          </button>
         </div>
 
       </div>
@@ -60,8 +64,14 @@
 </template>
 
 <script>
+
+import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+
 export default {
   name: 'sign-up',
+  components: {
+    LoadingBubbles
+  },
   data() {
     return {
       animClasses: {
@@ -86,7 +96,7 @@ export default {
   },
   methods: {
     onSubmit() {
-
+      this.processing = true;
       // Validate the form
       this.$validator.validateAll().then(() => {
 
