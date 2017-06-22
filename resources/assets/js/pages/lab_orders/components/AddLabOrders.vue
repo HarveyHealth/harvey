@@ -58,19 +58,23 @@
             <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
             <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
             <input placeholder="Enter city" v-model="city" class="input--text" type="text">
-            <input placeholder="Enter state" v-model="state" class="input--text" type="text">
-            <input placeholder="Enter zip" v-model="zip" class="input--text" type="text">
-        </div>
-      </div> 
-      <div>
-          <div class="inline-centered">
-              <button class="button"
-              @click="prevStep()"
-              >Mark as Shipped</button>
+            <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
+            <span class="custom-select" style="width: 45%; float:left;">
+                <select @change="updateDoctor($event)">
+                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                </select>
+            </span>
           </div>
+        </div> 
+        <div>
+            <div class="inline-centered">
+                <button class="button"
+                @click="prevStep()"
+                >Mark as Shipped</button>
+            </div>
+        </div>
       </div>
     </div>
-  </div>
   </Flyout>
 </template>
 
@@ -113,6 +117,9 @@ export default {
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
+    },
+    markedAsShipped() {
+      
     }
   },
   computed: {
@@ -125,6 +132,9 @@ export default {
     flyoutHeading() {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"
+    },
+    stateList() {
+      return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     }
   }
 }
