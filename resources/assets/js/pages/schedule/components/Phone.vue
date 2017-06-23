@@ -86,6 +86,9 @@
             this.$root.getAppointments();
             this.$root.getPractitioners();
             this.$parent.next();
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              ga('Website', 'Click Phone Number')
+            }
           })
           .catch(error => {
             this.responseErrors = error.response.data.errors;
