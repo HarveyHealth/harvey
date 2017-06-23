@@ -5,7 +5,7 @@
         border: 2px solid $light-gray;
         border-radius: 5px;
         cursor: pointer;
-        height: 100%;
+        height: 105%;
         @include padding(30px);
         &:hover {
             border: 2px solid $harvey-primary;
@@ -50,3 +50,8 @@
     border: 2px solid $harvey-primary;
     box-shadow: inset 0px 0px 0px 5px $harvey-primary;
 }
+
+  .map {
+    margin-bottom: 40px;
+    max-width: 142px;
+  }

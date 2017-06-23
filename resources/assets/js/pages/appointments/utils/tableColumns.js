@@ -22,7 +22,7 @@ export default [
   {
     key: 'doctor',
     name: 'Doctor',
-    widrth: '20%',
+    width: '20%',
     sort: tableSort.byString('doctor')
   },
   {

@@ -22,6 +22,10 @@
   }
 }
 
+  .message-container-interstitial {
+    margin-bottom: 25px;
+  }
+
 a:active,
 a:focus,
 a:hover {
@@ -129,8 +133,9 @@ button:focus {
       @include padding(null null 25px null);
     }
 
-      .calendar-week-container {
-
+      .calendar-week-container small {
+        display: block;
+        text-align: center;
       }
         .calendar-week-container_title-wrapper {
           border-bottom: 1px solid #ccc;

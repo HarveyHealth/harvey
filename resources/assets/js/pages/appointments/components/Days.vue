@@ -10,8 +10,9 @@
       :options="list"
       :selected="day"
     />
-    <span v-else-if="noAvailability" class="input--warning">No available openings</span>
-    <span v-else class="input__item">{{ $$selectedDay }}</span>
+    <span v-else-if="!editable" class="input__item">{{ $$selectedDay }}</span>
+    <span v-else class="input--warning">No available openings</span>
+
   </div>
 </template>
 
@@ -22,13 +23,21 @@ import toLocal from '../../../utils/methods/toLocal';
 
 export default {
   props: {
+    // A given day string to set as the selection or display
     day: String,
+    // Do we need to give options, or just display given day?
     editable: Boolean,
+    // Is the day data still loading?
     isLoading: Boolean,
+    // List of day objects (see SelectOptions for structure)
     list: Array,
+    // Is this for a new appointment or for updating an appointment
     mode: String,
+    // Is the loaded data empty?
     noAvailability: Boolean,
+    // What happens when a user selects a day
     setTimes: Function,
+    // The UTC formatted date string for a given selection
     time: String
   },
   components: {

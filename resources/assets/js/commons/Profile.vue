@@ -4,6 +4,7 @@
             @submit.prevent="onSubmit"
             @keydown="form.errors.clear($event.target.name)"
             class="section"
+            id="profile"
         >
             <div class="has-max-width">
                 <div class="control is-horizontal">
@@ -258,23 +259,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    .control.has-addons {
-        .input {
-            width: 100%;
-        }
-        .button {
-            cursor: default;
-        }
-    }
-    .label-button {
-        width: 100%;
-        input[type="radio"] {
-            display: none;
-        }
-        &.is-danger {
-            color: #363636;
-        }
-    }
-</style>

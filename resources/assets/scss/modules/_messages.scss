@@ -1,58 +1,182 @@
 .unread {
-      border-left: 6px solid #82BEF2 !important; 
-  }
+    border-left: 6px solid #82BEF2 !important;
+}
+
 .container-message {
-    background-color: white; 
-    height: 200px;
-    border-left: none;
-    width: 1000px;
-}
-.container-detail-message {
-    background-color: white; 
-    height: auto;
-    border-left: none;
-    width: 1000px;
-}
-.container-detail {
-    background-color: white; 
-    max-height: 600px;
-    min-height: 600px;
-    border-left: none;
-    width: 1000px;
-    overflow: scroll;
-}
-.top-layer {
-    float: left; 
-    @include margin(0 10px 0 0);
-}
-.subject-header {
-    @include margin(null null 5px -30px);
-    text-align: left;
-}
-.message-layer {
-    @include margin(0);
-    text-align: left;
+    background-color: white;
+    border: 1px solid $color--grey;
+    border-bottom: 0;
+    position: relative;
     width: 100%;
+    @include padding(25px);
 }
-.details {
-    float: left; 
-    @include margin(4em); 
-    width: 70%;
+
+.container-detail {
+    border-left: none;
 }
-.image-card {
-    width: 80px; 
-    height: 80px; 
+
+.container-detail-message {
+    border-left: none;
+    position: relative;
+}
+
+.top-layer {
+    font-weight: 300;
+    text-align: left;
+    @include margin(0);
+}
+
+.top-layer:first-child {
+    font-weight: bold;
+}
+
+.top-layer-margin {
     float: left;
-    @include margin(20px);
+    @include margin(0 10px 0 0);
+    color: #AAA;
 }
-.image-avatar {
-    border-radius: 50%; 
-    @include margin(50px 20px); 
-    float: left;
+
+.subject-header {
+    border-bottom: 1px solid $light-gray;
+    font-size: 18px;
+    text-align: left;
+    @include margin(0);
+    @include padding(35px);
 }
-.border-message {
-    border-bottom: 2px solid #f8f8f8;
+
+.messages-wrapper {
+    a {
+        display: block;
+        // @include margin(null null 25px);
+    }
+    &:last-child .container-message {
+        border-bottom: 2px solid $color--grey;
+    }
 }
-.message-margin {
-    @include margin(30px 30px null 30px);
+
+.message-post-details {
+    * {
+        font-size: 14px;
+        font-weight: bold;
+        @include margin(0);
+    }
+    @include margin(0 0 20px);
+}
+
+.message-post-avatar {
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+        width: 100%;
+    }
+}
+
+.message-post-name {
+    text-transform: uppercase;
+}
+
+.detail-wrap:not(:last-child) {
+    border-bottom: 1px solid $light-gray;
+    @include padding(0 0 25px);
+    @include margin(0 0 35px);
+}
+
+.detail-wrap p {
+    color: $harvey-secondary;
+    font-weight: 300;
+}
+
+.container-message.message-detail {
+    @include padding(35px);
+    .message-reply-subject {
+        @include margin(0 0 35px);
+    }
+    .message-post-details {
+        position: relative;
+        @include padding(3px 0 0 45px);
+    }
+    .message-post-avatar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 35px;
+    }
+}
+
+.container-message.message-post {
+    .message-post-avatar {
+        display: inline-block;
+        float: left;
+        width: 40px;
+        @include margin(0 25px 0 0);
+    }
+}
+
+.message-post-subject {
+    font-size: 20px;
+    font-weight: 300;
+    @include margin(0 0 6px 0);
+}
+
+.container-reply {
+    background: $white;
+    border: 1px solid $color--grey;
+    @include padding(35px);
+}
+
+.emphasis {
+    color: $harvey-secondary;
+}
+
+.subtle {
+    color: lighten($harvey-secondary, 30%);
+}
+
+@include query(md) {
+    .container-message.message-post {
+        @include padding(55px 25px);
+        .message-post-avatar {
+            float: none;
+            left: 35px;
+            overflow: hidden;
+            position: absolute;
+            top: calc(50% - 30px);
+            width: 60px;
+            @include margin(0);
+        }
+        .message-post-details,
+        .message-post-body {
+            @include margin(0 0 8px 100px);
+        }
+        .message-post-details h3 {
+            display: inline-block;
+        }
+        .message-post-time {
+            @include margin(0 0 0 35px);
+        }
+    }
+    .container-message.message-detail {
+        @include padding(55px);
+        .message-post-details {
+            position: relative;
+            @include padding(10px 0 0 65px);
+            @include margin(0 0 25px);
+            * {
+                display: inline-block;
+            }
+        }
+        .message-post-time {
+            @include margin(0 0 0 35px);
+        }
+    }
+}
+
+.no-message-banner {
+    background-color: $pink;
+    color: $white;
+    height: 115px;
+    width: 80%;
+    margin: 0 auto 20px auto;
+    padding: 20px;
 }

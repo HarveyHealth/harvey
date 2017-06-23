@@ -1,0 +1,90 @@
+$backoffice-grid: (
+  columns: 12,
+  gutter: 0px,
+);
+
+#app {
+  overflow-x: hidden;
+}
+
+.admin-content {
+  font-family: 'proxima-nova';
+  height: 100%;
+  @include grid-column(12, $backoffice-grid);
+
+  .main-container {
+    height: 100%;
+  }
+
+}
+
+.container-backoffice {
+  @include padding(48px 25px 40px);
+}
+
+.content-container {
+  @include padding(15px);
+  @include query(lg) {
+    @include padding(25px);
+  }
+}
+
+.main-content {
+  left: 0;
+  position: relative;
+  transition: left 200ms ease-in-out, margin-left 200ms ease-in-out;
+
+  .menu-open & {
+    left: 150px;
+  }
+}
+
+.main-header {
+  background: $white;
+  border-bottom: 1px solid $color--grey;
+
+  .main-action {
+    border-radius: 50%;
+    display: inline-block;
+    height: 28px;
+    padding: 0;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    width: 28px;
+
+    svg {
+      height: 14px;
+      width: 14px;
+      @include margin(2px null null null);
+    }
+  }
+
+}
+
+@include query(lg) {
+  .content-container {
+    max-width: 1150px;
+  }
+
+  .main-header .main-action {
+    height: 36px;
+    margin-top: -10px;
+    position: static !important;
+    width: 36px;
+
+    svg {
+      height: 18px;
+      width: 18px;
+    }
+  }
+
+  .main-content {
+    margin-left: 150px;
+    left: 0px !important;
+  }
+
+  .menu-button {
+    display: none;
+  }
+}

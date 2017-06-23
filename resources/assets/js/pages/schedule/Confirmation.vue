@@ -8,7 +8,9 @@
         <h1 class="header-xlarge">{{ title }}</h1>
 
         <p class="confirmation_date">
-          <span class="confirmation_day">{{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }}</span>
+          <span class="confirmation_day">
+            {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
+          </span>
 
           <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible}">
             Add to Calendar
@@ -121,21 +123,6 @@
           });
         }
 
-        axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
-            first_name: this.$root.global.user.attributes.first_name,
-            last_name: this.$root.global.user.attributes.last_name,
-            phone: this.$root.global.user.attributes.phone
-          })
-          .then(response => {
-              // phone, firstname, lastname updated
-              this.$root.getUser();
-              this.$root.getAppointments();
-              this.$root.getPractitioners();
-          })
-          .catch(error => {
-            this.responseErrors = error.response.data.errors;
-          });
-
         // From https://www.addevent.com/buttons/add-to-calendar
         // Has to be added on component mount because it needs to be able to find
         // the corresponding button in the DOM.
@@ -164,7 +151,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

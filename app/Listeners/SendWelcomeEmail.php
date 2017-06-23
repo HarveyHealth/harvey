@@ -24,7 +24,6 @@ class SendWelcomeEmail implements ShouldQueue
             ->setTo($event->user->email)
             ->setTemplate('patient.welcome')
             ->setTemplateModel([
-                'name' => $event->user->fullName(),
                 'action_url' => $event->user->emailVerificationURL(),
             ]);
 

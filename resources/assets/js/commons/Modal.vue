@@ -12,13 +12,16 @@
 <script>
 export default {
   props: {
+    // Whether the modal is open or not
     active: {
       type: Boolean,
       required: true
     },
+    // CSS classes for customization
     containerClass: {
       type: [String, Object]
     },
+    // onClose should toggle the active prop state
     onClose: {
       type: Function,
       required: true

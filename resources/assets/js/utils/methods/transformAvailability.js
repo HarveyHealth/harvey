@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default function(availability) {
+export default function(availability, userType) {
 
   if (!availability || !availability.length) return;
 
@@ -34,14 +34,17 @@ export default function(availability) {
 
   week1 = transform([], availability[0], weekStart);
   // Remove times in current day that fall within the 4-hour buffer zone
-  week1 = week1.map(dayObj => {
-    if (dayObj.day === today) {
-      dayObj.times = dayObj.times.filter(timeObj => {
-        return buffer.diff(moment.utc(timeObj.stored), 'hours') < 0;
-      })
-    }
-    return dayObj;
-  })
+  // if the userType is patient. Else, give all available times.
+  if (userType === 'patient') {
+    week1 = week1.map(dayObj => {
+      if (dayObj.day === today) {
+        dayObj.times = dayObj.times.filter(timeObj => {
+          return buffer.diff(moment.utc(timeObj.stored), 'hours') < 0;
+        })
+      }
+      return dayObj;
+    })
+  }
 
   week2 = transform([], availability[1], weekStart);
   times = week1.concat(week2);

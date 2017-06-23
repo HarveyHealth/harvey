@@ -49,7 +49,6 @@
 </template>
 
 <script>
-
   import Interstitial from './components/Interstitial.vue';
 
   export default {
@@ -65,7 +64,7 @@
         terms: false,
         isComplete: false,
         responseErrors: [],
-        env: this.$parent.environment,
+        env: this.$parent.environment
       }
     },
     components: {
@@ -89,7 +88,7 @@
               // the form is complete
               this.isComplete = true;
               this.zipInRange = true;
-              
+
               if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',
@@ -100,8 +99,10 @@
                     currency: 'USD',
                     properties: { laravel_object: Laravel.user }
                 });
+                ga('category', 'website');
+                ga('action', 'Sign Up For Account');
               }
-              
+
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser
               localStorage.removeItem('sign up zip');

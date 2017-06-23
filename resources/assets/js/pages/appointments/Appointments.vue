@@ -1,12 +1,8 @@
 <template>
   <div class="main-container">
-
-    <UserNav :current-page="'appointments'" />
-
     <div class="main-content">
-
       <div class="main-header">
-        <div class="container">
+        <div class="container container-backoffice">
           <h1 class="title header-xlarge">
             <span class="text">Your Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
@@ -17,7 +13,7 @@
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
-            :loading="$root.$data.global.loadingAppointments"
+            :loading="disabledFilters"
             :on-filter="handleFilter"
           />
 
@@ -27,10 +23,9 @@
       <AppointmentTable
         :handle-row-click="handleRowClick"
         :loading="$root.$data.global.loadingAppointments"
-        :refresh="$root.getAppointments"
-        :reset="() => appointments = $root.$data.global.appointments"
         :selected-row="selectedRowData"
         :updating-row="selectedRowUpdating"
+        :updated-row="selectedRowHasUpdated"
         :tableRowData="appointments"
       />
 
@@ -59,6 +54,12 @@
         :set-practitioner="setPractitionerInfo"
         :visible="visiblePractitioner"
       />
+
+      <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
+        <label class="input__label">Appointment</label>
+        <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+        <div class="input--warning" v-if="currentDateUnavailable">Previous time unavailable. Please select a new day and time.</div>
+      </div>
 
       <Days
         :day="this.appointment.day"
@@ -109,7 +110,7 @@
           @click="handleConfirmationModal('update')"
           :disabled="disableUpdateButton">Update Appointment</button>
 
-        <a v-if="visibleUpdateButtons"
+        <a v-if="visibleCancelButton"
           href="#"
           @click.prevent="handleConfirmationModal('cancel')"
           class="input__linkcta">Cancel Appointment</a>
@@ -153,7 +154,7 @@
       </table>
       <div class="modal-button-container">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
-        <button class="button button--cancel" @click="modalActive = false">Go Back</button>
+        <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
       </div>
     </Modal>
@@ -182,7 +183,6 @@ import Practitioner from './components/Practitioner.vue';
 import Purpose from './components/Purpose.vue';
 import Status from './components/Status.vue';
 import Times from './components/Times.vue';
-import UserNav from '../../commons/UserNav.vue';
 
 // other
 import convertStatus from './utils/convertStatus';
@@ -223,6 +223,7 @@ export default {
       practitionerList: [],
       purposeCharLimit: 180,
       selectedRowData: null,
+      selectedRowHasUpdated: null,
       selectedRowIndex: null,
       selectedRowUpdating: null,
       statuses: [
@@ -253,12 +254,11 @@ export default {
     Purpose,
     Status,
     Times,
-    UserNav
   },
 
   filters: {
     confirmDate(date) {
-      return toLocal(date, 'dddd, MMMM Do [at] h:mm a');
+      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
     },
     confirmStatus(status) {
       return convertStatus(status);
@@ -266,21 +266,35 @@ export default {
   },
 
   computed: {
+    currentDateUnavailable() {
+      if (this.appointment.currentStatus !== 'pending') {
+        return this.appointment.practitionerAvailability.filter(dayObj => {
+          return dayObj.data.times.filter(timeObj => timeObj.stored === this.appointment.currentDate).length;
+        }).length === 0;
+      } else {
+        return false;
+      }
+    },
+    disabledFilters() {
+      return this.$root.$data.global.loadingAppointments || this.selectedRowUpdating !== null;
+    },
     disabledNewButton() {
       return this.flyoutMode === 'new' &&
         (!this.appointment.date || (!this.appointment.patientId && this.userType !== 'patient'));
     },
     disableUpdateButton() {
       return this.flyoutMode === 'update'
-        && (
-           (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
-           (this.appointment.purpose === this.appointment.currentPurpose) &&
-           (this.appointment.status === this.appointment.currentStatus)
-        )
+        && (this.currentDateUnavailable && !this.appointment.date) ||
+           (
+             (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
+             (this.appointment.purpose === this.appointment.currentPurpose) &&
+             (this.appointment.status === this.appointment.currentStatus)
+           )
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
       if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
+      if (this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     editableStatus() {
@@ -309,6 +323,9 @@ export default {
     loadedPractitioners() {
       return this.$root.$data.global.loadingPractitioners;
     },
+    visibleCancelButton() {
+      return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
+    },
     visibleNewButton() {
       return this.flyoutMode === 'new';
     },
@@ -329,6 +346,9 @@ export default {
     },
   },
 
+  // These watches are setup to look at computed properties that receive data from global state.
+  // When the global state changes it triggers the computed property and based on the return value
+  // these functions will run setup methods for the data necessary to run the Appointments page.
   watch: {
     loadedAppointments(val) {
       if (!val) {
@@ -350,7 +370,9 @@ export default {
   methods: {
 
     checkPastAppointment() {
-      return moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
+      return this.userType === 'patient'
+        ? moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4
+        : moment.utc(this.appointment.currentDate).local().diff(moment()) > 0;
     },
 
     checkTableData() {
@@ -363,12 +385,18 @@ export default {
 
     // Get availability for appointment practitioner
     getAvailability(id) {
+      // If Days is editable we want to reset loadingDays to see the loading message
       if (this.editableDays) this.loadingDays = true;
+      // Reset noAvailability before new data set is fetched
       this.noAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
-        let list = transformAvailability(response.data.meta.availability);
+        // The returned data structure is a bit odd so we need to perform some hefty transformations
+        // in order to use it.
+        let list = transformAvailability(response.data.meta.availability, this.userType);
         this.appointment.practitionerAvailability = list
+          // Remove day objects with no times
           .filter(obj => obj.times.length)
+          // Transform into a format the TableData component can consume
           .map(obj => {
             return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
           });
@@ -383,7 +411,8 @@ export default {
       });
     },
 
-    // When user clicks flyout button
+    // When user clicks the CTA in the flyout for updating, canceling, or creating an appointment.
+    // This is the initial setup before the api call is actually made.
     handleConfirmationModal(action) {
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
@@ -400,6 +429,10 @@ export default {
           }
           break;
         case 'new':
+          if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            ga('category', 'website');
+            ga('action', 'Comfirm Appointment');
+          }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';
           break;
@@ -407,6 +440,9 @@ export default {
       this.modalActive = true;
     },
 
+    // When getAppointments is run we save three copies of the data to match
+    // the three filters: all, upcoming, and pending. This method just assigns
+    // one of these copies to appointments to re-render TableData
     handleFilter(name, index) {
       this.activeFilter = index;
       switch(name) {
@@ -423,6 +459,7 @@ export default {
       this.checkTableData();
     },
 
+    // When the flyout closes we want to reset certain pieces of state
     handleFlyoutClose() {
       this.flyoutActive = false;
       this.flyoutMode = null;
@@ -432,14 +469,18 @@ export default {
     },
 
     handleModalClose() {
+      if (this.appointment.status === 'canceled') {
+        this.appointment.status = this.appointment.currentStatus;
+      }
       this.modalActive = false;
     },
 
-    // Setup flyout and appointment info on new appointment click
+
     handleNewAppointmentClick() {
 
       this.appointment = this.resetAppointment();
 
+      // If the user is a practitioner we only want their information to load for practitioner
       if (this.userType === 'practitioner' && !this.$root.$data.global.loadingPractitioners) {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
@@ -466,11 +507,15 @@ export default {
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
-    handlePurposeInput(val) {
-      this.appointment.purpose = val.substring(0, this.purposeCharLimit);
+    handlePurposeInput(e) {
+      this.appointment.purpose = e.target.value.substring(0, this.purposeCharLimit);
+      // Need to set this manually for some reason. I'm not sure why the bound value does not
+      // update with the change to appointment.purpose
+      e.target.value = e.target._value;
     },
 
     handleRowClick(obj, index) {
+      // Assign data if new row click, unassign if same row click
       let data;
       if (obj) {
         data = obj.data === this.selectedRowData ? null : obj.data;
@@ -479,6 +524,8 @@ export default {
       }
 
       // Initial resets for if flyout is already open
+      this.appointment.day = '';
+      this.appointment.time = '';
       this.appointment.date = '';
       this.appointment.currentDate = '';
       this.appointment.availableTimes = [];
@@ -552,6 +599,9 @@ export default {
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
+      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+        delete data.appointment_at;
+      }
       if (this.userAction !== 'new') {
         delete data.practitioner_id;
       }
@@ -560,19 +610,22 @@ export default {
         delete data.patient_id;
       }
 
+      // Reset appointment here so that subsequent row clicks don't get reset after api call
+      this.appointment = this.resetAppointment();
+
       // If updating, let the table know which row is changing
       this.selectedRowUpdating = this.userAction !== 'new'
         ? this.selectedRowIndex
         : null;
       // Grab a copy of the old appointments data for comparison after the api call
-      const oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+      let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             this.selectedRowIndex = null;
-
             // Cycle through the new appointment list with Array.some so we can break out easily.
             // For each item compare against oldAppointments
             // If no match, splice the first item of oldAppointments
@@ -580,19 +633,29 @@ export default {
             // Once oldAppointments is empty you know you have no match
             // The row you ended on is the updated data so mark accordingly
             this.appointments.some((obj, i) => {
+              // If user is filtered and the updated row is disqualified from that filter
+              // the appointments will be less and we just need to end it immediately
+              // and scroll to the top of the page
+              if (this.appointments.length < oldAppointments.length) {
+                this.selectedRowUpdating = null;
+                if (succesPopup) this.handleNotificationInit();
+                window.scrollTo(0, 0);
+              }
               while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
                 oldAppointments.splice(0, 1);
                 if (!oldAppointments.length) {
                   this.selectedRowUpdating = i;
                   if (succesPopup) this.handleNotificationInit();
-                  setTimeout(() => this.selectedRowUpdating = null, 2200);
+                  setTimeout(() => {
+                    this.selectedRowUpdating = null;
+                    this.selectedRowHasUpdated = i;
+                    setTimeout(() => this.selectedRowHasUpdated = null, 1000);
+                  }, 1000);
                   return true;
                 }
               }
               oldAppointments.splice(0, 1);
             })
-
-            this.appointment = this.resetAppointment();
           })
         });
       }).catch(err => console.error(err.response));
@@ -605,8 +668,8 @@ export default {
     },
 
     resetAppointment() {
-      this.selectedRowData = null;
-      this.selectedRowIndex = null;
+      // this.selectedRowData = null;
+      // this.selectedRowIndex = null;
       this.noAvailability = false;
       return {
         availableTimes: [],
@@ -646,7 +709,7 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list).sort(tableSort.byDate('_date')).reverse();
+      const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
       this.cache.all = appts;
       this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
       this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
@@ -686,11 +749,16 @@ export default {
 
     setStatus(status) {
       this.appointment.status = status.data;
+      if (status.data !== 'pending') {
+        this.appointment.date = '';
+      } else {
+
+      }
     },
 
     setTime(timeObj) {
       if (timeObj) {
-        this.appointment.time = toLocal(timeObj.stored, 'h:mm a');
+        this.appointment.time = this.$root.addTimezone(toLocal(timeObj.stored, 'h:mm a'));
         this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
       } else {
         this.appointment.time = '';
@@ -701,6 +769,9 @@ export default {
   },
 
   mounted() {
+
+    this.$root.$data.global.currentPage = 'appointments';
+
     // If data from app.js has loaded prior to mount, set data
     const appointments = this.$root.$data.global.appointments;
     const patients = this.$root.$data.global.patients;

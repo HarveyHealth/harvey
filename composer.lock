@@ -8,6 +8,7 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
+<<<<<<< HEAD
             "version": "3.29.1",
             "source": {
                 "type": "git",
@@ -18,6 +19,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e6c57795d2900c900dc273de36e4dddd1027fd8c",
                 "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c",
+=======
+            "version": "3.29.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "f09876b949e51110c3385f71fb3ad21880f85ded"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f09876b949e51110c3385f71fb3ad21880f85ded",
+                "reference": "f09876b949e51110c3385f71fb3ad21880f85ded",
+>>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
                 "shasum": ""
             },
             "require": {
@@ -84,7 +97,11 @@
                 "s3",
                 "sdk"
             ],
+<<<<<<< HEAD
             "time": "2017-06-08T20:17:11+00:00"
+=======
+            "time": "2017-06-15T21:00:24+00:00"
+>>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1696,6 +1713,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v5.4.25",
             "source": {
                 "type": "git",
@@ -1706,6 +1724,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
                 "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
+=======
+            "version": "v5.4.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "66f5e1b37cbd66e730ea18850ded6dc0ad570404"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/66f5e1b37cbd66e730ea18850ded6dc0ad570404",
+                "reference": "66f5e1b37cbd66e730ea18850ded6dc0ad570404",
+>>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
                 "shasum": ""
             },
             "require": {
@@ -1821,7 +1851,11 @@
                 "framework",
                 "laravel"
             ],
+<<<<<<< HEAD
             "time": "2017-06-07T13:35:12+00:00"
+=======
+            "time": "2017-06-15T19:08:25+00:00"
+>>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
         },
         {
             "name": "laravel/homestead",
@@ -1875,16 +1909,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v2.0.10",
+            "version": "v2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "cd908e73505f7d3aad101d3177280db952ffc190"
+                "reference": "1e6f56ccf42255e8479d0dcd695619dab6613313"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/cd908e73505f7d3aad101d3177280db952ffc190",
-                "reference": "cd908e73505f7d3aad101d3177280db952ffc190",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/1e6f56ccf42255e8479d0dcd695619dab6613313",
+                "reference": "1e6f56ccf42255e8479d0dcd695619dab6613313",
                 "shasum": ""
             },
             "require": {
@@ -1912,6 +1946,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Passport\\PassportServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -1935,7 +1974,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2017-06-02T21:51:18+00:00"
+            "time": "2017-06-14T21:58:27+00:00"
         },
         {
             "name": "laravel/scout",
@@ -4650,16 +4689,16 @@
         },
         {
             "name": "teamtnt/tntsearch",
-            "version": "v1.0.3",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamtnt/tntsearch.git",
-                "reference": "163817a9d05cb048e920ee84f53efb4fff268df9"
+                "reference": "a85bfcc54745591455dc9b59c3889025456a9aba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/163817a9d05cb048e920ee84f53efb4fff268df9",
-                "reference": "163817a9d05cb048e920ee84f53efb4fff268df9",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/a85bfcc54745591455dc9b59c3889025456a9aba",
+                "reference": "a85bfcc54745591455dc9b59c3889025456a9aba",
                 "shasum": ""
             },
             "require": {
@@ -4702,7 +4741,7 @@
                 "teamtnt",
                 "tntsearch"
             ],
-            "time": "2017-05-11T21:10:29+00:00"
+            "time": "2017-06-11T22:54:11+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

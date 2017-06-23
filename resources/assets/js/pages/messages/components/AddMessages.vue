@@ -4,6 +4,9 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="title">Create Messages</h2>
+        <div v-if="userList.length <= 1" class="no-message-banner">
+            You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
+        </div>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
@@ -22,9 +25,9 @@
         </div>
         <div>
             <div class="inline-centered">
-                <button class="button" 
+                <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected">Send</button>
+                :disabled="!subject || !selected || userList.length <= 1">Send</button>
             </div>
         </div>
     </aside>
@@ -58,10 +61,12 @@
                     recipient_user_id: Number(this.selected),
                     subject: this.subject
                 })
-                .then(resp => {
-                    this.$root.$data.global.detailMessages[resp.data.data.attributes.subject] = [resp.data.data];
+                .then(response => {
+                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]);
                     this.$parent.messageList = this.$root.$data.global.messages
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
                 })
                 .catch(error => {
                     console.log(`ERROR`, error);
@@ -71,27 +76,33 @@
         },
         computed: {
             userList() {
-                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
-                    return [''].concat(this.$root.$data.global.practitioners);
-                } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
-                    return [''].concat(this.$root.$data.global.patients);
-                } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
-                    return [''].concat(this.$root.$data.global.practitioners).concat(this.$root.$data.global.patients);
+              const store = this.$root.$data.global;
+                if (store.user.attributes.user_type === 'patient') {
+                    store.confirmedDoctors = store.appointments
+                        .filter(e => e.attributes.status === 'pending')
+                        .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                    store.confirmedDoctors = _.uniq(store.confirmedDoctors)
+                    return [''].concat(store.confirmedDoctors);
+                } else if (store.user.attributes.user_type === 'practitioner') {
+                    store.confirmedPatients = store.appointments
+                        .filter(e => e.attributes.status === 'pending')
+                        .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
+                    store.confirmedPatients = _.uniq(store.confirmedPatients)
+                    return [''].concat(store.confirmedPatients);
+                } else if (store.user.attributes.user_type === 'admin') {
+                    return [''].concat(store.practitioners).concat(store.patients);
                 }
             },
             toUserType() {
-                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                const store = this.$root.$data.global;
+                if (store.user.attributes.user_type === 'patient') {
                     return "doctor";
-                } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+                } else if (store.user.attributes.user_type === 'practitioner') {
                     return "patient";
-                } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+                } else if (store.user.attributes.user_type === 'admin') {
                     return "all";
                 }
             }
         }
     }
 </script>
-
-<style>
-
-</style>

@@ -10,16 +10,18 @@
     @include('_includes.svgs')
 
     <div class="admin-content">
-      <div id="app">
+      <div id="app" :class="{ 'menu-open': global.menuOpen }">
         {{-- Alert component for handling success/error messages --}}
         <alert></alert>
+
+        <usernav></usernav>
 
         <transition
             mode="out-in"
             enter-active-class="animated animated-fast fadeIn"
             leave-active-class="animated animated-fast fadeOut"
         >
-            <keep-alive><router-view :user="global.user"></router-view></keep-alive>
+            <router-view :user="global.user"></router-view>
         </transition>
 
       </div>
