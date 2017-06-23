@@ -3,13 +3,19 @@
         <UserNav />
         <div class="main-content">
             <div class="main-header">
-                <div class="container">
+                <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
                     <button v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
+                    <FilterButtons
+                        :active-filter="activeFilter"
+                        :filters="filters"
+                        :loading="disabledFilters"
+                        :on-filter="handleFilter"
+                    />
                 </div>
             </div>
             <AddLabOrders v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
@@ -33,6 +39,7 @@
 <script>
     import UserNav from '../../commons/UserNav.vue'
     import Overlay from '../../commons/Overlay.vue'
+    import FilterButtons from '../../commons/FilterButtons.vue'
     import LabOrderTable from './components/LabOrderTable.vue'
     import AddLabOrders from './components/AddLabOrders.vue'
     import DetailLabOrders from './components/DetailLabOrders.vue'
@@ -45,15 +52,19 @@
             LabOrderTable,
             AddLabOrders,
             Overlay,
-            DetailLabOrders
+            DetailLabOrders,
+            FilterButtons
         },
         data() {
             return {
+                filters: ['All', 'Pending', 'Completed'],
+                activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
                 selectedRowHasUpdated: null,
                 addFlyoutActive: false,
-                detailFlyoutActive: false
+                detailFlyoutActive: false,
+                cache: {}
             }
         },
         methods: {
@@ -72,6 +83,9 @@
                     this.selectedRowIndex = index;
                 }
             },
+            handleFilter(name, index) {
+                this.activeFilter = index;
+            },
             $$rowClasses(data, index) {
                 return {
                     'is-selected': this.selectedRow === data,
@@ -86,16 +100,47 @@
             detailsFlyoutActive() {
                 this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
-            }
-        },
-        computed: {
-            labData() {
-                return tableDataTransform(
+            },
+            setupLabData() {
+                this.cache.All = tableDataTransform(
                     this.$root.$data.global.labOrders, 
                     this.$root.$data.global.labTests, 
                     this.$root.$data.global.patientLookUp, 
                     this.$root.$data.global.practitionerLookUp
                 )
+                this.cache.Pending = this.cache.All.filter(e => e.data.completed_at == "Pending")
+                this.cache.Completed = this.cache.All.filter(e => e.data.completed_at == "Completed")
+                return this.cache[this.filters[this.activeFilter]]
+            }
+        },
+        computed: {
+            disabledFilters() {
+                return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
+            },
+            loadingLabOrders() {
+                return this.$root.$data.global.loadingLabOrders
+            },
+            loadingLabTests() {
+                return this.$root.$data.global.loadingLabTests
+            },
+            labData() {
+                let data = tableDataTransform(
+                    this.$root.$data.global.labOrders, 
+                    this.$root.$data.global.labTests, 
+                    this.$root.$data.global.patientLookUp, 
+                    this.$root.$data.global.practitionerLookUp
+                )
+                this.cache.All = data
+                this.cache.Pending = data.filter(e => e.data.completed_at == "Pending")
+                this.cache.Completed = data.filter(e => e.data.completed_at == "Completed")
+                return this.cache[this.filters[this.activeFilter]]
+            }
+        },
+        watch: {
+            labData(val) {
+                if (!val) {
+                    this.setupLabData()
+                }
             }
         },
         mounted() {
