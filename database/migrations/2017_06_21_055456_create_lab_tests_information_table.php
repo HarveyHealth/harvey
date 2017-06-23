@@ -25,8 +25,6 @@ class CreateLabTestsInformationTable extends Migration
             $table->foreign('sku_id')->references('id')->on('skus');
             $table->softDeletes();
         });
-
-        $this->seedTable();
     }
 
     /**
