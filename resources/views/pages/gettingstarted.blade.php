@@ -22,6 +22,8 @@
           window.$$context = 'getting-started';
           if (Laravel.user.signedIn && !localStorage.getItem('new_registration')) {
             window.location.href = '/dashboard';
+          } else if (!Laravel.user.signedIn) {
+            window.location.hash = '/signup';
           }
         </script>
 

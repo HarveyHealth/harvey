@@ -26,11 +26,12 @@ rootRoute.component = context !== 'getting-started'
   ? require('./pages/dashboard/Dashboard.vue')
   : require('./pages/getting-started/GettingStarted.vue');
 
-if (context === 'getting-started') {
+if (context === 'getting-started' && !loggedIn) {
+  rootRoute.redirect = '/signup';
+}
+
+if (context === 'getting-started' && loggedIn) {
   rootRoute.children = [
-    { path: 'signup',
-      name: 'sign-up',
-      component: require('./pages/getting-started/children/Signup.vue') },
     { path: 'welcome',
       name: 'welcome',
       component: require('./pages/getting-started/children/Welcome.vue') },
@@ -54,6 +55,12 @@ if (context === 'getting-started') {
       component: require('./pages/getting-started/children/Success.vue') }
   ]
 }
+
+rootRoute.children.push({
+  path: 'signup',
+  name: 'sign-up',
+  component: require('./pages/getting-started/children/Signup.vue')
+})
 
 // This code is to manage the current funnel which uses localStorage to save information
 if (!window.TestGettingStarted) {
