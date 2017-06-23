@@ -2,6 +2,8 @@ import convertStatus from './convertStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 import moment from 'moment';
+import _ from 'lodash';
+
 
 const SHIPPED_STATUS_ID = 0;
 const CANCELED_STATUS_ID = 1;
@@ -45,7 +47,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
                     item_type: test.included.attributes.item_type,
                     price: test.included.attributes.price,
                     name: test.included.attributes.name,
-                    status: test.attributes.status
+                    status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status)))
                 })
             }
         })
