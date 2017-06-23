@@ -141,10 +141,12 @@ export default {
       data.name = `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
       data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id
       data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.user_id
-      return [data].concat(this.$root.$data.global.practitioners)
+      let arr = _.pull(this.$root.$data.global.practitioners, data)
+      return [data].concat(arr)
     },
     statusList() {
-      return [this.$props.rowData.completed_at, 'Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled']
+      let arr = _.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], this.$props.rowData.completed_at)
+      return [this.$props.rowData.completed_at].concat(arr)
     },
     testList() {
       this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true}] : this.$props.rowData.test_list
