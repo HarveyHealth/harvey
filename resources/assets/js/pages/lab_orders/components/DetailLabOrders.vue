@@ -42,7 +42,14 @@
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">lab tests</label>
-                <label v-for="test in testList" class="input__label" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
+                <div v-for="test in testList">
+                  <label class="input__label" style="color: #737373;">{{ test.name }}</label>
+                  <span class="custom-select">
+                      <select @change="updateTest($event)">
+                          <option v-for="current in test.status" :data-status="current">{{ current }}</option>
+                      </select>
+                  </span>
+                </div>
             </div>
           </div>
           <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -94,6 +101,7 @@
 <script>
 import Flyout from '../../../commons/Flyout.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
+import {capitalize} from '../../../utils/filters/textformat'
 export default {
   name: 'DetailLabOrders',
   props: ['row-data'],
@@ -115,6 +123,9 @@ export default {
     },
     updateStatus(e) {
         this.selectedStatus = e.target.children[e.target.selectedIndex].dataset.status;
+    },
+    updateTest(e) {
+
     }
   },
   computed: {
@@ -149,7 +160,14 @@ export default {
       return [this.$props.rowData.completed_at].concat(arr)
     },
     testList() {
-      this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true}] : this.$props.rowData.test_list
+      this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true, status: 'No Order'}] : this.$props.rowData.test_list
+      if ( this.$props.rowData && this.$props.rowData.test_list.length == 0) return this.$props.rowData.test_list
+      this.$props.rowData.test_list.map(e => {
+        let arr = _.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(e.status))
+        let array = [capitalize(e.status)].concat(arr)
+        e.status = array
+        return e;
+      })
       return this.$props.rowData.test_list
     }
   }

@@ -44,7 +44,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
                 data.test_list.push({
                     item_type: test.included.attributes.item_type,
                     price: test.included.attributes.price,
-                    name: test.included.attributes.name
+                    name: test.included.attributes.name,
+                    status: test.attributes.status
                 })
             }
         })
