@@ -46,7 +46,7 @@
                   <label class="input__label" style="color: #737373;">{{ test.name }}</label>
                   <span class="custom-select">
                       <select @change="updateTest($event, test.test_id)">
-                          <option v-for="current in test.status" :data-status="current">{{ current }}</option>
+                          <option v-for="current in test.status">{{ current }}</option>
                       </select>
                   </span>
                 </div>
@@ -80,7 +80,7 @@
           <label class="input__label" for="patient_name">order status</label>
           <span class="custom-select">
               <select @change="updateStatus($event)">
-                  <option v-for="status in statusList" :data-status="status">{{ status }}</option>
+                  <option v-for="status in statusList">{{ status }}</option>
               </select>
           </span>
       </div>
@@ -89,7 +89,6 @@
             <div class="inline-centered">
                 <button class="button"
                 @click="updateOrder()"
-                :disabled="!selectedShipment"
                 >Update Shipment</button>
             </div>
         </div>
@@ -128,11 +127,11 @@ export default {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
     },
     updateStatus(e) {
-        this.selectedStatus = e.target.children[e.target.selectedIndex].dataset.status;
+        this.selectedStatus = e.target.value;
     },
     updateTest(e, id) {
       this.selectedShipment = {}
-      this.selectedShipment[id] = e.target.children[e.target.selectedIndex].dataset.status;
+      this.selectedShipment[id] = e.target.value;
     },
     updateShipmentCode(e) {
       this.selectedShipment = e.target.value

@@ -24,16 +24,18 @@
           </span>
       </div>
     </div>
-    <div class="input__container">
-        <label class="input__label" for="patient_name">tests</label>
-    </div>
     <div>
+          <label class="input__label" for="patient_name">tests</label>
+          <span v-for="tests in testNameList" class="fullscreen-left">
+              <input :checked="tests.checked" @click="updateTestSelection($event, tests.id)" class="form-radio" type="radio"> 
+              <label class="radio--text">{{ tests.name }}</label>
+          </span>
+    </div>
         <div class="inline-centered">
-            <button class="button"
+            <button class="button flyout-btn"
             @click="nextStep()"
             :disabled="!selectedClient || !selectedDoctor">Save &amp; Continue</button>
         </div>
-    </div>
   </div>
   <div v-if="step == 2">
     <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -83,6 +85,7 @@
 import Flyout from '../../../commons/Flyout.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
+import _ from 'lodash'
 export default {
   name: 'AddLabOrders',
   components: {
@@ -101,7 +104,55 @@ export default {
       address2: '',
       city: '',
       zip: '',
-      state: ''
+      state: '',
+      selectedTests: [],
+      testNameList: [
+        {
+          name: "Blood Test",
+          id: 1,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 2,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 3,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 4,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 5,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 6,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 7,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 8,
+          checked: false
+        },
+        {
+          name: "Blood Test",
+          id: 9,
+          checked: false
+        }
+      ]
     }
   },
   methods: {
@@ -110,6 +161,15 @@ export default {
     },
     prevStep() {
       this.step--
+    },
+    updateTestSelection(e, id) {
+      this.testNameList[id - 1].checked = !this.testNameList[id - 1].checked
+      console.log(this.testNameList)
+      if (this.testNameList[id - 1].checked) {
+        this.selectedTests.push(id)
+      } else {
+        _.pull(this.selectedTests, id)
+      }
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
