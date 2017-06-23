@@ -63,6 +63,10 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
             return factory(App\Models\License::class)->create()->id;
         },
         'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
+        'specialty' => json_encode([$faker->word, $faker->jobTitle]),
+        'description' => $faker->text,
+        'school' => "{$faker->word} {$faker->word} {$faker->word}",
+        'graduated_at' => Carbon::parse('-5 year')->hour(0)->minute(0)->second(0),
     ];
 });
 
