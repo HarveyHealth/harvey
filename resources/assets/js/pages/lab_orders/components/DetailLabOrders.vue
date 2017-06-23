@@ -45,7 +45,7 @@
                 <div v-for="test in testList">
                   <label class="input__label" style="color: #737373;">{{ test.name }}</label>
                   <span class="custom-select">
-                      <select @change="updateTest($event)">
+                      <select @change="updateTest($event, test.test_id)">
                           <option v-for="current in test.status" :data-status="current">{{ current }}</option>
                       </select>
                   </span>
@@ -65,14 +65,14 @@
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">shipping address</label>
-                <input v-model="addressOne" class="input--text" type="text">
-                <input v-model="addressTwo" class="input--text" type="text">
+                <input @change="updateAddressOne($event)" v-model="addressOne" class="input--text" type="text">
+                <input @change="updateAddressTwo($event)" v-model="addressTwo" class="input--text" type="text">
             </div>
           </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">order tracking</label>
-                <input v-model="shipmentCode" class="input--text" type="text">
+                <input @change="updateShipmentCode($event)" v-model="shipmentCode" class="input--text" type="text">
             </div>
           </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -88,7 +88,8 @@
           <div>
             <div class="inline-centered">
                 <button class="button"
-                @click="handleFlyoutClose()"
+                @click="updateOrder()"
+                :disabled="!selectedShipment"
                 >Update Shipment</button>
             </div>
         </div>
@@ -102,6 +103,7 @@
 import Flyout from '../../../commons/Flyout.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
 import {capitalize} from '../../../utils/filters/textformat'
+import axios from 'axios'
 export default {
   name: 'DetailLabOrders',
   props: ['row-data'],
@@ -111,7 +113,11 @@ export default {
   },
   data() {
     return {
-      selectedStatus: null
+      selectedStatus: null,
+      selectedDoctor: null,
+      selectedShipment: null,
+      selectedAddressOne: null,
+      selectedAddressTwo: null
     }
   },
   methods: {
@@ -124,8 +130,33 @@ export default {
     updateStatus(e) {
         this.selectedStatus = e.target.children[e.target.selectedIndex].dataset.status;
     },
-    updateTest(e) {
+    updateTest(e, id) {
+      this.selectedShipment = {}
+      this.selectedShipment[id] = e.target.children[e.target.selectedIndex].dataset.status;
+    },
+    updateShipmentCode(e) {
+      this.selectedShipment = e.target.value
+    },
+    updateAddressOne(e) {
+      this.selectedAddressOne = e.target.value
+    },
+    updateAddressTwo(e) {
+      this.selectedAddressTwo = e.target.value
+    },
+    updateOrder() {
+      axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+        shipment_code: this.selectedStatus
+      })
+        .then(response => {
+            this.$props.rowData.test_list.forEach(e => {
+              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${e.test_id}`, {
+                status: ""
+              })
+              .then(resp => {
 
+              })
+            })
+        })
     }
   },
   computed: {

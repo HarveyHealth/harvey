@@ -69,7 +69,8 @@
         <div>
             <div class="inline-centered">
                 <button class="button"
-                @click="prevStep()"
+                @click="createLabOrder()"
+                :disabled="!selectedDoctor || !selectedClient || !micronutrient || !masterTracking || !address1 || !address2 || !city || !zip || !state"
                 >Mark as Shipped</button>
             </div>
         </div>
@@ -81,6 +82,7 @@
 <script>
 import Flyout from '../../../commons/Flyout.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
+import axios from 'axios'
 export default {
   name: 'AddLabOrders',
   components: {
@@ -117,9 +119,19 @@ export default {
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
+      this.step = 1
     },
-    markedAsShipped() {
-      
+    createLabOrder() {
+        axios.post(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+          practitioner_id: this.selectedDoctor,
+          patient_id: this.selectedClient,
+          status: "shipped",
+          shipment_code: this.masterTracking
+        })
+        .then(response => {
+            this.handleFlyoutClose()
+            // Add to data table
+        })
     }
   },
   computed: {

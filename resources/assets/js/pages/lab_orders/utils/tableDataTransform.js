@@ -23,7 +23,6 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             shipment_code: obj.attributes.shipment_code,
             completed_at: obj.attributes.completed_at ? 'Complete' : 'Pending',
             tests_status: {},
-            tests_ids: {},
             sku_ids: {},
             result_urls: {},
             shipment_codes: {},
@@ -37,9 +36,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             if (test.attributes.lab_order_id == obj.id) {
                 data.number_of_tests = data.number_of_tests ?
                     data.number_of_tests + 1 : 1
-                data.sku_ids[test.attributes.lab_order_id] = test.attributes.sku_id
+                data.sku_ids[test.attributes.sku_id] = test.included
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status
-                data.tests_ids[test.attributes.lab_order_id] = test.id
                 data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
@@ -47,7 +45,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
                     item_type: test.included.attributes.item_type,
                     price: test.included.attributes.price,
                     name: test.included.attributes.name,
-                    status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status)))
+                    status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
+                    test_id: test.id,
+                    sku: test.included
                 })
             }
         })
