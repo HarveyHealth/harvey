@@ -103,4 +103,14 @@ class LabTestsController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function information()
+    {
+
+        return 'Ok';
+    }
+
 }
