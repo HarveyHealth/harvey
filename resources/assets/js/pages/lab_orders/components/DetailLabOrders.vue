@@ -161,7 +161,7 @@ export default {
     },
     testList() {
       this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true, status: 'No Order'}] : this.$props.rowData.test_list
-      if ( this.$props.rowData && this.$props.rowData.test_list.length == 0) return this.$props.rowData.test_list
+      if (this.$props.rowData && this.$props.rowData.test_list.cancel) return this.$props.rowData.test_list
       this.$props.rowData.test_list.map(e => {
         let arr = _.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(e.status))
         let array = [capitalize(e.status)].concat(arr)
