@@ -13,12 +13,12 @@
       <div class="signup-form-container">
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required'" />
+          <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required|alpha'" />
           <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name')}}</span>
         </div>
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required'" />
+          <input class="form-input form-input_text" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required|alpha'" />
           <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
         </div>
 
@@ -96,9 +96,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.processing = true;
       // Validate the form
       this.$validator.validateAll().then(() => {
+        this.processing = true;
 
           // create the account
           axios.post('api/v1/users', {
@@ -129,9 +129,11 @@ export default {
 
             // remove local storage items on sign up
             // needed if you decide to sign up multiple acounts on one browser
-            localStorage.removeItem('sign up zip');
             localStorage.removeItem('sign up email');
+            localStorage.removeItem('sign up first_name');
+            localStorage.removeItem('sign up last_name');
             localStorage.removeItem('sign up password');
+            localStorage.removeItem('sign up zip');
 
           })
           .catch(error => {
