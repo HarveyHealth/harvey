@@ -3,11 +3,32 @@
     <!-- <svg><use xlink:href="#apple" /></svg> -->
 
     <div class="signup-wrapper">
+
       <aside class="signup-quotes">
-        <blockquote v-for="obj in quotes" :key="obj.source">
-          <p v-html="obj.quote"></p>
-          <footer v-html="obj.source"></footer>
-        </blockquote>
+          <div class="quotes-icons">
+            <div class="quotes-icons-top">
+              <div><svg><use xlink:href="#apple" /></svg></div>
+              <div><svg><use xlink:href="#stethoscope" /></svg></div>
+              <div><svg><use xlink:href="#labs" /></svg></div>
+              <div><svg class="smaller"><use xlink:href="#doctor" /></svg></div>
+              <div class="show-xl"><svg><use xlink:href="#carrot" /></svg></div>
+              <div class="show-xl"><svg class="with-stroke"><use xlink:href="#wellness" /></svg></div>
+            </div>
+            <div class="quotes-text">
+              <blockquote v-for="obj in quotes" :key="obj.source">
+                <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
+                <footer v-html="'&ndash; ' + obj.source" class="font-base font-medium-gray"></footer>
+              </blockquote>
+            </div>
+            <div class="quotes-icons-bottom">
+              <div><svg><use xlink:href="#heart" /></svg></div>
+              <div><svg class="smaller"><use xlink:href="#bottle" /></svg></div>
+              <div><svg><use xlink:href="#baby" /></svg></div>
+              <div><svg><use xlink:href="#scale" /></svg></div>
+              <div class="show-xl"><svg class="smaller"><use xlink:href="#yogo" /></svg></div>
+              <div class="show-xl"><svg><use xlink:href="#medicine" /></svg></div>
+            </div>
+          </div>
       </aside>
 
       <div class="container small signup-form-inputs">
