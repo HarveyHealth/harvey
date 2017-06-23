@@ -8,18 +8,6 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-<<<<<<< HEAD
-            "version": "3.29.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e6c57795d2900c900dc273de36e4dddd1027fd8c",
-                "reference": "e6c57795d2900c900dc273de36e4dddd1027fd8c",
-=======
             "version": "3.29.6",
             "source": {
                 "type": "git",
@@ -30,7 +18,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f09876b949e51110c3385f71fb3ad21880f85ded",
                 "reference": "f09876b949e51110c3385f71fb3ad21880f85ded",
->>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
                 "shasum": ""
             },
             "require": {
@@ -97,11 +84,7 @@
                 "s3",
                 "sdk"
             ],
-<<<<<<< HEAD
-            "time": "2017-06-08T20:17:11+00:00"
-=======
             "time": "2017-06-15T21:00:24+00:00"
->>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1713,18 +1696,6 @@
         },
         {
             "name": "laravel/framework",
-<<<<<<< HEAD
-            "version": "v5.4.25",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
-                "reference": "6bcc9b1f542b3deed16d51f6aa1fe318ab407c2a",
-=======
             "version": "v5.4.27",
             "source": {
                 "type": "git",
@@ -1735,7 +1706,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/66f5e1b37cbd66e730ea18850ded6dc0ad570404",
                 "reference": "66f5e1b37cbd66e730ea18850ded6dc0ad570404",
->>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
                 "shasum": ""
             },
             "require": {
@@ -1851,11 +1821,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-            "time": "2017-06-07T13:35:12+00:00"
-=======
             "time": "2017-06-15T19:08:25+00:00"
->>>>>>> 9e1b7df060484f2d7557568a774be87e5925ebae
         },
         {
             "name": "laravel/homestead",

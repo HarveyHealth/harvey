@@ -1,10 +1,6 @@
 .DS_Store
 .env
 .env.dev
-.DS_Store
-/public/mix-manifest.json
-/public/build/*
-/ngrok
 .env.dusk.local
 .env.staging
 .env.testing

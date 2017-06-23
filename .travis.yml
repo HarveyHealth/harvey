@@ -1,5 +1,3 @@
-dist: trusty
-sudo: required
 git:
   depth: 3
 language: php
@@ -9,28 +7,17 @@ cache:
   yarn: true
   directories:
   - "$HOME/.composer/cache"
-  - "$HOME/node_modules"
 before_install:
 - nvm install 7
 - nvm use 7
 - npm cache clean
 - npm install
-- touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
-- cp .env.dusk.travis .env
 before_script:
-- export DB_CONNECTION=sqlite
-- export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
+- touch /home/travis/build/HomeHero/harvey/harvey.sqlite
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
-- export DISPLAY=:99.0
-- /usr/bin/Xvfb :99 -ac -screen 0 2560x1440x24 &
-- ./vendor/laravel/dusk/bin/chromedriver-linux --silent &
 script:
-- php artisan migrate --seed
-- php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
-- php artisan dusk
-- sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
 services:
 - elasticsearch
@@ -38,8 +25,7 @@ branches:
   only:
   - master
   - develop
-  - dusk
-  - current-release
+  - /-release$/
 notifications:
   email: false
   slack:

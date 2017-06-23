@@ -60,7 +60,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
         'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
         },
-        'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id
+        'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
     ];
 });
 
