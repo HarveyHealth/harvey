@@ -314,3 +314,35 @@ button:focus {
 .addeventatc_dropdown .copyx em {
   display: none !important;
 }
+
+$signup-grid: (
+  columns: 12,
+  gutter: 25px
+);
+
+// New grid layout
+.signup-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@include query(lg) {
+  .signup-wrapper {
+    margin-top: 100px;
+  }
+  .signup-form-container {
+    @include padding(30px);
+  }
+  .signup-quotes {
+    @include grid-column(7, $signup-grid);
+  }
+  .signup-form-inputs {
+    @include grid-column(5, $signup-grid);
+  }
+}
+
+@include query(xl) {
+  .signup-form-container {
+    @include padding(50px 90px);
+  }
+}
