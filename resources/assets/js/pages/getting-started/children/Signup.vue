@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit" :class="animClasses">
+    <!-- <svg><use xlink:href="#apple" /></svg> -->
     <div class="container small">
       <img src="/images/signup/tree.png" class="registration-tree" alt="">
 

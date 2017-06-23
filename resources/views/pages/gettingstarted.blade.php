@@ -43,6 +43,8 @@
     </head>
     <body>
 
+      @include('_includes.svgs')
+
       <div class="header nav" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
           <div class="container">
               <div class="nav-left">
