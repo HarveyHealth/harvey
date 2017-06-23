@@ -12,13 +12,17 @@
   @include margin(30px auto);
   max-width: 510px;
   @include padding(30px);
-  @media (min-width: 850px) { @include padding(50px 90px); }
+  @include query(md) {
+    @include padding(50px 90px);
+  }
   text-align: left;
 
   &.large {
     max-width: 775px;
     @include padding(30px);
-    @media (min-width: 850px) { @include padding(60px 75px); }
+    @include query(md) {
+      @include padding(60px 75px);
+    }
   }
 }
 

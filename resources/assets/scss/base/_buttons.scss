@@ -24,7 +24,8 @@ input[type="submit"] {
     @include border-color($harvey-tertiary);
     background-color: transparent;
     @include padding(9px 16px);
-    border: 1px solid;
+    border: 2px solid;
+    font-weight: 600;
     &:hover,
     &:focus{
       color: $harvey-tertiary;
@@ -46,6 +47,23 @@ input[type="submit"] {
     &:hover {
       background-color: $green;
     }
+  }
+}
+
+.button--blue {
+  background-color: $harvey-tertiary;
+  color: $white;
+  &:focus,
+  &:hover {
+    background-color: lighten($harvey-tertiary, 4%);
+  }
+}
+button.button--blue:disabled {
+  background-color: darken($harvey-tertiary, 35%);
+  color: rgba(black, 0.5);
+  opacity: 1;
+  &:hover {
+    background-color: darken($harvey-tertiary, 40%);
   }
 }
 

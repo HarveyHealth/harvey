@@ -2,9 +2,8 @@
   <form @submit.prevent="onSubmit" :class="animClasses">
     <!-- <svg><use xlink:href="#apple" /></svg> -->
     <div class="container small">
-      <img src="/images/signup/tree.png" class="registration-tree" alt="">
 
-      <strong><h1 class="header-xlarge" v-html="title"></h1></strong>
+      <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
       <p class="large">{{ subtitle }}</p>
 
       <div class="error-container" v-show="responseErrors.length > 0">
@@ -14,33 +13,33 @@
       <div class="signup-form-container">
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required|alpha'" />
+          <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required|alpha'" />
           <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name')}}</span>
         </div>
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required|alpha'" />
+          <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required|alpha'" />
           <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
         </div>
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('email', email)" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
+          <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', email)" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
           <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
         </div>
 
         <div class="input-wrap">
-          <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+          <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
           <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
         </div>
 
         <div class="input-wrap">
-          <input class="form-input form-input_text" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+          <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
           <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
         </div>
 
-        <div class="input-wrap">
+        <div class="input-wrap last">
           <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'">
-          <label class="form-label form-label_checkbox" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
+          <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
           <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
         </div>
 
@@ -49,10 +48,10 @@
           <label class="form-label form-label_checkbox" for="checkbox">I would like to receive the Harvey newsletter.</label>
         </div> -->
 
-        <p class="text-centered">Start your health journey today.</p>
+        <p class="text-centered" style="margin-top: 30px;">Start your health journey today.</p>
 
         <div class="text-centered">
-          <button class="button" style="width: 160px" :disabled="processing">
+          <button class="button button--blue" style="width: 160px" :disabled="processing">
             <span v-if="!processing">Sign Up</span>
             <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
             <i v-else-if="isComplete" class="fa fa-check"></i>

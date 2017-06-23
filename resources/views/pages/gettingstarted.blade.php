@@ -45,7 +45,7 @@
 
       @include('_includes.svgs')
 
-      <div class="header nav" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
+      <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
           <div class="container">
               <div class="nav-left">
                   <a href="/" class="nav-item">
