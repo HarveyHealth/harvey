@@ -16,8 +16,8 @@ class Geocoder extends BaseClient
 
     public function geocode($query)
     {
-        $query = $query . ', US';
-        
+        // $query = $query . ', US';
+
         $response = $this->get('', ['query' => $query]);
 
         if ($response->getStatusCode() != 200) {
