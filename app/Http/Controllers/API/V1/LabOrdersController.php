@@ -48,7 +48,7 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to view this LabOrder.");
         }
 
-        return $this->baseTransformItem($labOrder)->respond();
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**
