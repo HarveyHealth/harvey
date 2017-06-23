@@ -103,9 +103,11 @@ export default {
           // create the account
           axios.post('api/v1/users', {
             email: this.email,
+            first_name: this.firstname,
+            last_name: this.lastname,
             password: this.password,
-            zip: this.zip,
             terms: this.terms,
+            zip: this.zip,
           })
           .then(response => {
             this.login(this.email, this.password);
