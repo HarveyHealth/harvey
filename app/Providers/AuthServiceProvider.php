@@ -2,18 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Appointment;
-use App\Models\Message;
-use App\Models\Patient;
-use App\Models\Practitioner;
-use App\Models\Test;
-use App\Models\User;
-use App\Policies\AppointmentPolicy;
-use App\Policies\MessagePolicy;
-use App\Policies\PatientPolicy;
-use App\Policies\PractitionerPolicy;
-use App\Policies\TestPolicy;
-use App\Policies\UserPolicy;
+use App\Models\{Appointment, LabOrder, LabTest, Message, Patient, Practitioner, Test, User};
+use App\Policies\{AppointmentPolicy, LabTestPolicy, LabOrderPolicy, MessagePolicy, PatientPolicy, PractitionerPolicy, TestPolicy, UserPolicy};
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -27,6 +17,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Appointment::class => AppointmentPolicy::class,
+        LabOrder::class => LabOrderPolicy::class,
+        LabTest::class => LabTestPolicy::class,
         Message::class => MessagePolicy::class,
         Patient::class => PatientPolicy::class,
         Practitioner::class => PractitionerPolicy::class,
