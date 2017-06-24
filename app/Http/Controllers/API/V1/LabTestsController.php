@@ -4,8 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
 use App\Models\{LabTest, LabTestInformation};
-use App\Transformers\V1\LabTestTransformer;
-use App\Transformers\V1\LabTestInformationTransformer;
+use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
