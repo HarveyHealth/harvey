@@ -9,4 +9,9 @@ return [
         'canceled' => 'Canceled',
         'complete' => 'Complete',
     ],
+    'types' => [
+        'appointment' => 'Appointment',
+        'first_appointment' => 'First Appointment',
+        'follow_up' => 'Follow-up',
+    ],
 ];
