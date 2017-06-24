@@ -5,11 +5,13 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Traits\BelongsToPatientAndPractitioner;
+use App\Http\Traits\HasStatusColumn;
 use Lang;
 
 class Appointment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -23,6 +25,10 @@ class Appointment extends Model
     const CANCELED_STATUS_ID = 4;
     const COMPLETE_STATUS_ID = 5;
 
+    const APPOINTMENT_TYPE_ID = 0;
+    const FIRST_APPOINTMENT_TYPE_ID = 1;
+    const FOLOW_UP_TYPE_ID = 2;
+
     protected $dates = [
         'appointment_at',
         'created_at',
@@ -30,7 +36,7 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id', 'type_id'];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -41,6 +47,12 @@ class Appointment extends Model
         self::COMPLETE_STATUS_ID => 'complete',
     ];
 
+    const TYPES = [
+        self::APPOINTMENT_TYPE_ID => 'appointment',
+        self::FIRST_APPOINTMENT_TYPE_ID => 'first_appointment',
+        self::FOLOW_UP_TYPE_ID => 'follow_up',
+    ];
+
     /*
      * Relationships
      */
@@ -49,14 +61,25 @@ class Appointment extends Model
         return $this->hasMany(PatientNote::class);
     }
 
-    public function patient()
+    public function getTypeAttribute()
     {
-        return $this->belongsTo(Patient::class);
+        return empty(self::TYPES[$this->type_id]) ? null : self::TYPES[$this->type_id];
     }
 
-    public function practitioner()
+    public function setTypeAttribute($value)
     {
-        return $this->belongsTo(Practitioner::class);
+        if (false !== ($key = array_search($value, self::TYPES))) {
+            $this->type_id = $key;
+        }
+
+        return $value;
+    }
+
+    public function getTypeFriendlyName()
+    {
+        $tableName = $this->getTable();
+
+        return $this->type ? Lang::get("{$tableName}.types.{$this->type}") : null;
     }
 
     public function isLocked()
@@ -67,6 +90,11 @@ class Appointment extends Model
     public function isNotLocked()
     {
         return !$this->isLocked();
+    }
+
+    public function isFirst()
+    {
+        return self::forPatient($this->patient)->complete()->limit(1)->get()->isEmpty();
     }
 
     public function hoursToStart()
@@ -82,30 +110,6 @@ class Appointment extends Model
     public function practitionerAppointmentAtDate()
     {
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
-    }
-
-    public function getStatusAttribute()
-    {
-        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
-    }
-
-    public function setStatusAttribute($value)
-    {
-        if (false !== ($key = array_search($value, self::STATUSES))) {
-            $this->status_id = $key;
-        }
-
-        return $value;
-    }
-
-    public function getStatusFriendlyName()
-    {
-        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
-    }
-
-    public function isPending()
-    {
-        return $this->status_id == self::PENDING_STATUS_ID;
     }
 
     /*
@@ -155,11 +159,6 @@ class Appointment extends Model
         return $query->where('appointment_at', '>=', $date);
     }
 
-    public function scopePending($query)
-    {
-        return $query->where('status_id', self::PENDING_STATUS_ID);
-    }
-
     public function scopeNoShowPatient($query)
     {
         return $query->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
@@ -173,16 +172,6 @@ class Appointment extends Model
     public function scopeGeneralConflict($query)
     {
         return $query->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
-    }
-
-    public function scopeCanceled($query)
-    {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
-    }
-
-    public function scopeComplete($query)
-    {
-        return $query->where('status_id', self::COMPLETE_STATUS_ID);
     }
 
     public function scopeNot($query, Appointment $appointment)
