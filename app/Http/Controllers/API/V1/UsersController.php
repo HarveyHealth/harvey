@@ -126,7 +126,19 @@ class UsersController extends BaseAPIController
         }
 
         if (auth()->user()->can('update', $user)) {
-            $user->update($request->all());
+            $user->update($request->except([
+                'id',
+                'enabled',
+                'image_url',
+                'email_verified_at',
+                'phone_verified_at',
+                'latitude',
+                'longitude',
+                'terms_accepted_at',
+                'remember_token',
+                'created_at',
+                'updated_at',
+            ]));
 
             return $this->baseTransformItem($user)->respond();
         } else {
