@@ -108,9 +108,7 @@
                     this.$root.$data.global.patientLookUp, 
                     this.$root.$data.global.practitionerLookUp
                 )
-                this.cache.Pending = this.cache.All.filter(e => e.data.completed_at == "Pending")
-                this.cache.Completed = this.cache.All.filter(e => e.data.completed_at == "Completed")
-                return this.cache[this.filters[this.activeFilter]]
+                return this.cache.All
             }
         },
         computed: {
@@ -130,10 +128,7 @@
                     this.$root.$data.global.patientLookUp, 
                     this.$root.$data.global.practitionerLookUp
                 )
-                this.cache.All = data
-                this.cache.Pending = data.filter(e => e.data.completed_at == "Pending")
-                this.cache.Completed = data.filter(e => e.data.completed_at == "Completed")
-                return this.cache[this.filters[this.activeFilter]]
+                return data
             }
         },
         watch: {

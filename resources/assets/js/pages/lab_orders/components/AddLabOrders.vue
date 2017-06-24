@@ -27,14 +27,14 @@
     <div>
           <label class="input__label" for="patient_name">tests</label>
           <span v-for="tests in testNameList" class="fullscreen-left">
-              <input :checked="tests.checked" @click="updateTestSelection($event, tests.id)" class="form-radio" type="radio"> 
+              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="radio"> 
               <label class="radio--text">{{ tests.name }}</label>
           </span>
     </div>
         <div class="inline-centered">
             <button class="button flyout-btn"
             @click="nextStep()"
-            :disabled="!selectedClient || !selectedDoctor">Save &amp; Continue</button>
+            :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Save &amp; Continue</button>
         </div>
   </div>
   <div v-if="step == 2">
@@ -62,7 +62,7 @@
             <input placeholder="Enter city" v-model="city" class="input--text" type="text">
             <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
             <span class="custom-select" style="width: 45%; float:left;">
-                <select @change="updateDoctor($event)">
+                <select>
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
             </span>
@@ -72,7 +72,7 @@
             <div class="inline-centered">
                 <button class="button"
                 @click="createLabOrder()"
-                :disabled="!selectedDoctor || !selectedClient || !micronutrient || !masterTracking || !address1 || !address2 || !city || !zip || !state"
+                :disabled="selectedDoctor == '' || selectedClient == '' || hormones == '' || micronutrient == '' || masterTracking == '' || address1 == '' || address2 == '' || city == '' || zip == '' || state == ''"
                 >Mark as Shipped</button>
             </div>
         </div>
@@ -162,13 +162,12 @@ export default {
     prevStep() {
       this.step--
     },
-    updateTestSelection(e, id) {
-      this.testNameList[id - 1].checked = !this.testNameList[id - 1].checked
-      console.log(this.testNameList)
-      if (this.testNameList[id - 1].checked) {
-        this.selectedTests.push(id)
+    updateTestSelection(e, obj) {
+      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
+      if (this.testNameList[obj.id - 1].checked) {
+        this.selectedTests.push(obj)
       } else {
-        _.pull(this.selectedTests, id)
+        _.pull(this.selectedTests, obj)
       }
     },
     updateClient(e) {
@@ -182,15 +181,18 @@ export default {
       this.step = 1
     },
     createLabOrder() {
-        axios.post(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+        axios.post(`${this.$root.$data.apiUrl}/lab/orders`, {
           practitioner_id: this.selectedDoctor,
-          patient_id: this.selectedClient,
-          status: "shipped",
-          shipment_code: this.masterTracking
+          patient_id: this.selectedClient
         })
         .then(response => {
+          this.selectedTests.forEach(e => {
+            axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
+                lab_order_id: response.data.data.id,
+                sku_id: e.id
+              })
+          })
             this.handleFlyoutClose()
-            // Add to data table
         })
     }
   },
