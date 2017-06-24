@@ -152,7 +152,9 @@ $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'sku_id' => factory(App\Models\SKU::class)->create()->id
+        'sku_id' => function () {
+            return factory(App\Models\SKU::class)->create()->id;
+        },
     ];
 });
 

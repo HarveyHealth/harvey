@@ -53,6 +53,11 @@ class LabTest extends Model
         return $this->belongsTo(SKU::class);
     }
 
+    public function information()
+    {
+        return $this->sku->labTestInformation();
+    }
+
     public function patient()
     {
         return $this->labOrder->patient();
