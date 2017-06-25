@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\LabTest;
-use App\Transformers\V1\LabTestTransformer;
+use App\Models\{LabTest, LabTestInformation};
+use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
@@ -34,7 +34,7 @@ class LabTestsController extends BaseAPIController
             $builder = LabTest::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), new LabTestTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
@@ -103,4 +103,13 @@ class LabTestsController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function information()
+    {
+        return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
+    }
+
 }

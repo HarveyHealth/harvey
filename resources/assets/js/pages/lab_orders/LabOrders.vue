@@ -18,6 +18,12 @@
                     />
                 </div>
             </div>
+            <NotificationPopup
+              :active="notificationActive"
+              :comes-from="notificationDirection"
+              :symbol="notificationSymbol"
+              :text="notificationMessage"
+            />
             <AddLabOrders v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
             <DetailLabOrders :row-data="selectedRowData" />
             <Overlay 
@@ -30,7 +36,7 @@
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
-                :tableRowData="labData"
+                :tableRowData="currentData || labData"
              />
         </div>
     </div>
@@ -64,7 +70,12 @@
                 selectedRowHasUpdated: null,
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
-                cache: {}
+                cache: {},
+                currentData: null,
+                notificationSymbol: '&#10003;',
+                notificationMessage: '',
+                notificationActive: false,
+                notificationDirection: 'top-right'
             }
         },
         methods: {
@@ -85,6 +96,17 @@
             },
             handleFilter(name, index) {
                 this.activeFilter = index;
+                switch (name) {
+                    case "All":
+                        this.currentData = this.cache.All
+                        break;
+                    case "Pending":
+                        this.currentData = this.cache.Pending
+                        break;
+                    case "Completed":
+                        this.currentData = this.cache.Completed
+                        break;
+                }
             },
             $$rowClasses(data, index) {
                 return {
@@ -102,13 +124,21 @@
                 this.detailFlyoutActive = !this.detailFlyoutActive
             },
             setupLabData() {
-                this.cache.All = tableDataTransform(
-                    this.$root.$data.global.labOrders, 
-                    this.$root.$data.global.labTests, 
-                    this.$root.$data.global.patientLookUp, 
-                    this.$root.$data.global.practitionerLookUp
+                let global = this.$root.$data.global
+                let data = tableDataTransform(
+                    global.labOrders, 
+                    global.labTests, 
+                    global.patientLookUp, 
+                    global.practitionerLookUp
                 )
-                return this.cache.All
+                if (data) {
+                    this.cache["All"] = data
+                    this.cache["Pending"] = data.filter(e => e.attributes.status == "Pending")
+                    this.cache["Completed"] = data.filter(e => e.attributes.status == "Completed")
+                    this.currentData = this.cache[this.filters[this.activeFilter]]
+                    return this.currentData
+                }
+                return data
             }
         },
         computed: {
@@ -122,11 +152,12 @@
                 return this.$root.$data.global.loadingLabTests
             },
             labData() {
+                let global = this.$root.$data.global
                 let data = tableDataTransform(
-                    this.$root.$data.global.labOrders, 
-                    this.$root.$data.global.labTests, 
-                    this.$root.$data.global.patientLookUp, 
-                    this.$root.$data.global.practitionerLookUp
+                    global.labOrders, 
+                    global.labTests, 
+                    global.patientLookUp, 
+                    global.practitionerLookUp
                 )
                 return data
             }

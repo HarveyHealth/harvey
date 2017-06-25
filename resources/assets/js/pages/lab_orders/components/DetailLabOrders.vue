@@ -151,10 +151,10 @@ export default {
               axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${e.test_id}`, {
                 status: ""
               })
-              .then(resp => {
-
-              })
             })
+              this.$parent.notificationMessage = "Successfully updated!";
+              this.$parent.notificationActive = true;
+              setTimeout(() => this.$parent.notificationActive = false, 3000);
         })
     }
   },

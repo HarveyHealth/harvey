@@ -27,8 +27,8 @@
     <div>
           <label class="input__label" for="patient_name">tests</label>
           <span v-for="tests in testNameList" class="fullscreen-left">
-              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="radio"> 
-              <label class="radio--text">{{ tests.name }}</label>
+              <input :checked="tests.attributes.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="radio"> 
+              <label class="radio--text">{{ tests.attributes.name }}</label>
           </span>
     </div>
         <div class="inline-centered">
@@ -62,7 +62,7 @@
             <input placeholder="Enter city" v-model="city" class="input--text" type="text">
             <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
             <span class="custom-select" style="width: 45%; float:left;">
-                <select>
+                <select @change="updateState($event)">
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
             </span>
@@ -72,7 +72,7 @@
             <div class="inline-centered">
                 <button class="button"
                 @click="createLabOrder()"
-                :disabled="selectedDoctor == '' || selectedClient == '' || hormones == '' || micronutrient == '' || masterTracking == '' || address1 == '' || address2 == '' || city == '' || zip == '' || state == ''"
+                :disabled="selectedDoctor.length == 0 || selectedClient.length == 0 || hormones.length == 0 || micronutrient.length == 0 || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
                 >Mark as Shipped</button>
             </div>
         </div>
@@ -105,54 +105,7 @@ export default {
       city: '',
       zip: '',
       state: '',
-      selectedTests: [],
-      testNameList: [
-        {
-          name: "Blood Test",
-          id: 1,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 2,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 3,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 4,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 5,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 6,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 7,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 8,
-          checked: false
-        },
-        {
-          name: "Blood Test",
-          id: 9,
-          checked: false
-        }
-      ]
+      selectedTests: []
     }
   },
   methods: {
@@ -163,8 +116,8 @@ export default {
       this.step--
     },
     updateTestSelection(e, obj) {
-      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
-      if (this.testNameList[obj.id - 1].checked) {
+      this.testNameList[obj.id - 1].attributes.checked = !this.testNameList[obj.id - 1].attributes.checked
+      if (this.testNameList[obj.id - 1].attributes.checked) {
         this.selectedTests.push(obj)
       } else {
         _.pull(this.selectedTests, obj)
@@ -172,6 +125,9 @@ export default {
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
+    },
+    updateState(e) {
+      this.state = e.target.value
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
@@ -192,8 +148,11 @@ export default {
                 sku_id: e.id
               })
           })
-            this.handleFlyoutClose()
+          this.$parent.notificationMessage = "Successfully added!";
+          this.$parent.notificationActive = true;
+          setTimeout(() => this.$parent.notificationActive = false, 3000);
         })
+        this.handleFlyoutClose()
     }
   },
   computed: {
@@ -209,6 +168,9 @@ export default {
     },
     stateList() {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
+    },
+    testNameList() {
+      return this.$root.$data.labTests
     }
   }
 }

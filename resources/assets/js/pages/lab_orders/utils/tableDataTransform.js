@@ -28,12 +28,13 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             shipment_codes: {},
             completed_ats: {},
             order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do"),
-            address_1: obj.attributes.address_1,
-            address_2: obj.attributes.address_2,
+            address_1: obj.attributes.address_1 || '',
+            address_2: obj.attributes.address_2 || '',
             test_list: []
         }
         tests.map(test => {
             if (test.attributes.lab_order_id == obj.id) {
+                console.log(`TEST`, test)
                 data.number_of_tests = data.number_of_tests ?
                     data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
@@ -42,9 +43,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
                 data.test_list.push({
-                    item_type: test.included.attributes.item_type,
-                    price: test.included.attributes.price,
-                    name: test.included.attributes.name,
+                    item_type: test.included.attributes.item_type || '',
+                    price: test.included.attributes.price || '',
+                    name: test.included.attributes.name || '',
                     status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: test.id,
                     sku: test.included
@@ -56,8 +57,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup) {
             data,
             values: [
                 data.order_date,
-                patientLookUp[data.patient_id].attributes.name,
-                `Dr. ${practitionerLookup[data.practitioner_id].attributes.name}`,
+                patientLookUp[Number(data.patient_id)].attributes.name,
+                `Dr. ${practitionerLookup[Number(data.practitioner_id)].attributes.name}`,
                 `#${data.id}`,
                 data.number_of_tests,
                 data.completed_at
