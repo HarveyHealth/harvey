@@ -25,7 +25,7 @@
               :text="notificationMessage"
             />
             <AddLabOrders v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
-            <DetailLabOrders :row-data="selectedRowData" />
+            <DetailLabOrders v-if="currentData || labData.length > 0" :row-data="selectedRowData" />
             <Overlay 
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"
@@ -45,6 +45,7 @@
 <script>
     import UserNav from '../../commons/UserNav.vue'
     import Overlay from '../../commons/Overlay.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue'
     import FilterButtons from '../../commons/FilterButtons.vue'
     import LabOrderTable from './components/LabOrderTable.vue'
     import AddLabOrders from './components/AddLabOrders.vue'
@@ -59,7 +60,8 @@
             AddLabOrders,
             Overlay,
             DetailLabOrders,
-            FilterButtons
+            FilterButtons,
+            NotificationPopup
         },
         data() {
             return {

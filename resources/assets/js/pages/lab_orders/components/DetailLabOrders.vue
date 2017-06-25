@@ -160,10 +160,10 @@ export default {
   },
   computed: {
     flyoutHeading() {
-      return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : null
+      return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : ''
     },
     doctorName() {
-      return `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
+      return `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` || ''
     },
     status() {
       return this.$props.rowData.completed_at || ''
@@ -179,6 +179,7 @@ export default {
     },
     doctorList() {
       let data = {}
+      if (!this.$props.rowData) return []
       data.name = `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
       data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id
       data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.user_id
@@ -186,10 +187,12 @@ export default {
       return [data].concat(arr)
     },
     statusList() {
+      if (!this.$props.rowData) return []
       let arr = _.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], this.$props.rowData.completed_at)
       return [this.$props.rowData.completed_at].concat(arr)
     },
     testList() {
+      if (!this.$props.rowData) return []
       this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{name: "No Lab Orders", cancel: true, status: ['No Order']}] : this.$props.rowData.test_list
       return this.$props.rowData.test_list
     }
