@@ -169,8 +169,12 @@ export default {
             localStorage.removeItem('sign up zip');
 
           })
+
+          // The BE checks for invalid zipcodes based on states we know we cannot operate in
+          // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
       }).catch(() => {});

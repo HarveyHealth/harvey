@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'out-of-reach'
+  name: 'out-of-range'
 }
 </script>
