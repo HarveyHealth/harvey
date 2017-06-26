@@ -2,7 +2,7 @@
   <div :class="containerClasses">
     <div class="signup-interstitial-container text-centered">
       <div class="signup-main-icon">
-        <svg class="icon-rocket"><use xlink:href="#rocket" /></svg>
+        <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
       </div>
       <p>You will need to answer a few questions to book a consultation with one of our Naturopathic doctors.</p>
       <p>This process will take about 5 minutes and you will need to have your mobile phone handy.</p>

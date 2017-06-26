@@ -136,7 +136,7 @@ export default {
         // TODO: Check Iggbo coverage
         // If Iggbo coverage accepted: (1) create user, (2) login user, (3) push Welcome component
         // If Iggbo coverage denied: (1) collect lead info, (2) send emails, (3) push OutOfRange component
-        const iggboApproved = true;
+        const iggboApproved = false;
 
         if (iggboApproved) {
           // create the user
@@ -174,6 +174,11 @@ export default {
           .catch(error => {
             this.responseErrors = error.response.data.errors;
           });
+
+        } else {
+          // Submit lead information and send emails
+          // Push to OutOfRange
+          this.$router.push('out-of-range');
         }
 
       }).catch(() => {});

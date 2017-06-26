@@ -37,6 +37,10 @@
     @include margin(50px null null);
     max-width: 550px;
   }
+
+  h2 {
+    font-weight: 600;
+  }
 }
 
 .signup-main-icon {
@@ -51,8 +55,12 @@
     width: 100%;
   }
 
-  .icon-rocket {
+  .icon-rocket,
+  .icon-globe {
     height: 80px;
+  }
+
+  .interstitial-icon {
     @include query(md) {
       height: auto;
     }
