@@ -5,7 +5,6 @@ use App\Lib\ZipCodeValidator;
 use App\Models\Appointment;
 use App\Models\Practitioner;
 
-
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
 });
