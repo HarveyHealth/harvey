@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'welcome',
+  name: 'out-of-range',
   data() {
     return {
       containerClasses: {

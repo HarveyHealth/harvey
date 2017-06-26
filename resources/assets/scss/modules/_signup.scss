@@ -34,7 +34,6 @@
   @include query(md) {
     @include padding(50px 90px);
   }
-  // text-align: left;
 
   &.large {
     max-width: 775px;

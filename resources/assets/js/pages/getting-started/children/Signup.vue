@@ -133,14 +133,8 @@ export default {
       this.$validator.validateAll().then(() => {
         this.processing = true;
 
-        // TODO: Check Iggbo coverage
-        // If Iggbo coverage accepted: (1) create user, (2) login user, (3) push Welcome component
-        // If Iggbo coverage denied: (1) collect lead info, (2) send emails, (3) push OutOfRange component
-        const iggboApproved = false;
-
-        if (iggboApproved) {
-          // create the user
-          axios.post('api/v1/users', this.signupData)
+        // create the user
+        axios.post('api/v1/users', this.signupData)
           .then(response => {
             // log the user in
             this.login(this.signupData.email, this.signupData.password);
@@ -171,15 +165,13 @@ export default {
             localStorage.removeItem('sign up zip');
 
           })
+          // The BE checks for invalid zipcodes based on states we know we cannot operate in
+          // and also Iggbo servicing data.
+          // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
-
-        } else {
-          // Submit lead information and send emails
-          // Push to OutOfRange
-          this.$router.push('out-of-range');
-        }
 
       }).catch(() => {});
     },
