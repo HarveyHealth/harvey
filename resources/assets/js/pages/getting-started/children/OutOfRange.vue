@@ -6,7 +6,11 @@
       </div>
       <h2>We&rsquo;re sorry!</h2>
       <p>Unfortunately, we can not service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
-      <button class="button button--blue" @click="$router.push('practitioner')">Continue</button>
+      <div class="social-icon-wrapper">
+        <a v-for="icon in socialIcons" :href="icon.href">
+          <i :class="icon.class"></i>
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -22,6 +26,13 @@ export default {
         'container': true,
         'welcome-container': true,
       },
+      socialIcons: [
+        { class: 'fa fa-medium', href: 'https://blog.goharvey.com/' },
+        { class: 'fa fa-instagram', href: 'https://www.instagram.com/goharveyapp/' },
+        { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp' },
+        { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
+        { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' },
+      ]
     }
   },
   mounted () {

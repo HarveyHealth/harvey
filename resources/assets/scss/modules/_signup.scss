@@ -67,6 +67,17 @@
   }
 }
 
+.social-icon-wrapper a {
+  display: inline-block;
+  font-size: 24px;
+  @include margin(0 10px 10px);
+  @include query(md) {
+    font-size: 34px;
+    @include margin(0 15px 10px);
+  }
+}
+
+
   .message-container-interstitial {
     margin-bottom: 25px;
   }
