@@ -27,14 +27,35 @@
   }
 }
 
-.signup-welcome-container * {
+.signup-welcome-container *:not(:first-child) {
   @include margin(22px null null);
 }
 
 .signup-welcome-container {
+  @include margin(0 auto);
   @include query(md) {
     @include margin(50px null null);
     max-width: 550px;
+  }
+}
+
+.signup-main-icon {
+  @include margin(0 auto);
+  fill: #ddd;
+  width: 70px;
+  @include query(md) {
+    width: 100px;
+  }
+
+  svg {
+    width: 100%;
+  }
+
+  .icon-rocket {
+    height: 80px;
+    @include query(md) {
+      height: auto;
+    }
   }
 }
 
