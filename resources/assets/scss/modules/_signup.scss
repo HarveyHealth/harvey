@@ -6,7 +6,7 @@
 }
 
 .signup-form-container,
-.signup-welcome-container {
+.signup-interstitial-container {
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
@@ -27,12 +27,12 @@
   }
 }
 
-.signup-welcome-container *:not(:first-child) {
+.signup-interstitial-container *:not(:first-child) {
   @include margin(22px null null);
 }
 
-.signup-welcome-container {
-  @include margin(0 auto);
+.signup-interstitial-container {
+  @include margin(3px auto 3px);
   @include query(md) {
     @include margin(50px null null);
     max-width: 550px;
