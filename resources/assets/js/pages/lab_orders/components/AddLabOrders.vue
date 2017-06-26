@@ -169,6 +169,11 @@ export default {
       let labArray = Object.values(this.$root.$data.labTests)
       return labArray
     }
+  },
+  watch: {
+    testNameList(val) {
+      return Object.values(this.$root.$data.labTests)
+    }
   }
 }
 </script>
