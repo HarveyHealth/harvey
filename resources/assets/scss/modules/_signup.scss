@@ -16,6 +16,7 @@
   @include query(md) {
     @include padding(50px 90px);
   }
+
   // text-align: left;
 
   &.large {
@@ -24,6 +25,7 @@
     @include query(md) {
       @include padding(60px 75px);
     }
+
   }
 }
 
