@@ -20,7 +20,6 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
-        'welcome-container': true,
       },
     }
   },

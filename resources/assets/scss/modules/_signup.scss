@@ -5,6 +5,24 @@
   @include margin(null null 60px null);
 }
 
+.signup-container {
+  position: relative;
+}
+.signup-back-button {
+  position: absolute;
+  top: 0;
+  left: 3px;
+  padding: 20px;
+  transition: left 200ms ease-out, opacity 200ms ease-out;
+  opacity: .5;
+
+  &:hover {
+    left: 0;
+    color: $harvey-tertiary;
+    opacity: 1;
+  }
+}
+
 .signup-form-container,
 .signup-interstitial-container {
   background: $white;
