@@ -155,10 +155,9 @@
             }
         },
         watch: {
-            currentData: (newest, old) => {
-                if (!_.isEqual(newest, old)) {
-                    this.currentData = newest
-                    return this.currentData
+            currentData(val) {
+                if (!val) {
+                    this.setupLabData();
                 }
             }
         },

@@ -430,8 +430,9 @@ export default {
           break;
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-            ga('category', 'website');
-            ga('action', 'Comfirm Appointment');
+            ga('send', {
+              hitType: "event", eventCategory: "clicks", eventAction: "Scheduling Appointment", eventLabel: null, eventValue: 50, hitCallback: null, userId: null
+            });
           }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';

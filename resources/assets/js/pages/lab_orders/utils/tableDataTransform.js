@@ -29,13 +29,14 @@ export default function (orders, tests, patientLookUp, practitionerLookup, user,
             shipment_codes: {},
             completed_ats: {},
             order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do"),
-            address_1: obj.attributes.address_1 || '',
-            address_2: obj.attributes.address_2 || '',
+            address_1: obj.included.attributes.address_1,
+            address_2: obj.included.attributes.address_2,
+            state: obj.included.attributes.state,
+            zip: obj.included.attributes.zip,
             test_list: []
         }
         tests.map(test => {
             if (test.attributes.lab_order_id == obj.id) {
-                console.log(`TEST`, test)
                 data.number_of_tests = data.number_of_tests ?
                     data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
