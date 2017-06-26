@@ -103,7 +103,7 @@ const app = new Vue({
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
-        labTests: [],
+        labTests: {},
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
@@ -196,8 +196,10 @@ const app = new Vue({
 
             axios.get(`${this.apiUrl}/lab/tests/information`)
                 .then(response => {
-                    this.labTests = response.data.data
-                    this.labTests.map(e => e.attributes['checked'] = false)
+                    response.data.data.forEach(e => {
+                        this.labTests[e.id] = e
+                        this.labTests[e.id]['checked'] = false
+                    })
                 })
         },
         getUser() {

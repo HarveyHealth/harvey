@@ -39,13 +39,11 @@
   </div>
   <div v-if="step == 2">
     <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-        <div class="input__container">
-            <label class="input__label" for="patient_name">micronutrient</label>
-            <input v-model="micronutrient" class="input--text" type="text">
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">hormones</label>
-            <input v-model="hormones" class="input--text" type="text">
+      <div v-for="test in selectedTests">
+          <div class="input__container">
+              <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
+              <input  class="input--text" type="text">
+          </div>
         </div>
       </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -72,7 +70,7 @@
             <div class="inline-centered">
                 <button class="button"
                 @click="createLabOrder()"
-                :disabled="selectedDoctor.length == 0 || selectedClient.length == 0 || hormones.length == 0 || micronutrient.length == 0 || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
+                :disabled="selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
                 >Mark as Shipped</button>
             </div>
         </div>
@@ -97,8 +95,6 @@ export default {
       selectedDoctor: '',
       selectedClient: '',
       step: 1,
-      hormones: '',
-      micronutrient: '',
       masterTracking: '',
       address1: '',
       address2: '',
@@ -170,7 +166,8 @@ export default {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     },
     testNameList() {
-      return this.$root.$data.labTests
+      let labArray = Object.values(this.$root.$data.labTests)
+      return labArray
     }
   }
 }

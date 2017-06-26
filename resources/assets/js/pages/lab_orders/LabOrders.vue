@@ -72,7 +72,11 @@
                 selectedRowHasUpdated: null,
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
-                cache: {},
+                cache: {
+                    All: [],
+                    Pending: [],
+                    Completed: []
+                },
                 currentData: [],
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
@@ -133,14 +137,16 @@
                     global.patientLookUp, 
                     global.practitionerLookUp
                 )
-                if (data) {
-                    this.cache["All"] = data
-                    this.cache["Pending"] = data.filter(e => e.attributes.status == "Pending")
-                    this.cache["Completed"] = data.filter(e => e.attributes.status == "Completed")
-                    this.currentData = this.cache[this.filters[this.activeFilter]]
-                    return this.currentData
+                console.log(`DATA`, data)
+                let choices = {
+                    0: "All",
+                    1: "Pending",
+                    2: "Completed"
                 }
-                return data
+                this.cache[choices['0']] = data
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Pending")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Completed")
+                this.currentData = data
             }
         },
         computed: {
@@ -152,10 +158,13 @@
             },
             loadingLabTests() {
                 return this.$root.$data.global.loadingLabTests
+            },
+            loadingLabs() {
+                return this.$root.$data.global.loadingLabTests && this.$root.$data.global.loadingLabOrders
             }
         },
         watch: {
-            currentData(val) {
+            loadingLabs(val) {
                 if (!val) {
                     this.setupLabData();
                 }
@@ -163,7 +172,10 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-            this.setupLabData();
+
+            const labOrders = this.$root.$data.global.labOrders
+            const labTests = this.$root.$data.global.labTests
+            if (labOrders.length && labTests.length) this.setupLabData();
         }
     }
 </script>

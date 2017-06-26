@@ -45,9 +45,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, user,
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
                 data.test_list.push({
-                    item_type: test.included.attributes.item_type || '',
-                    price: test.included.attributes.price || '',
-                    name: test.included.attributes.name || '',
+                    item_type: test.included ? test.included.attributes.item_type : '',
+                    price: test.included ? test.included.attributes.price : '',
+                    name: test.included ? test.included.attributes.name : '',
                     status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: test.id,
                     sku: test.included
