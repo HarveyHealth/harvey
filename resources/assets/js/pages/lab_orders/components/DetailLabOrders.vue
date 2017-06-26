@@ -45,7 +45,7 @@
                 <div v-for="test in testList">
                   <label class="input__label" style="color: #737373;">{{ test.name }}</label>
                   <span class="custom-select">
-                      <select @change="updateTest($event, test.test_id)">
+                      <select @change="updateTest($event, test)">
                           <option v-for="current in test.status">{{ current }}</option>
                       </select>
                   </span>
@@ -106,7 +106,7 @@ export default {
     return {
       selectedStatus: null,
       selectedDoctor: null,
-      selectedShipment: null,
+      selectedShipment: {},
       selectedAddressOne: null,
       selectedAddressTwo: null
     }
@@ -118,15 +118,16 @@ export default {
     updateStatus(e) {
         this.selectedStatus = e.target.value;
     },
-    updateTest(e, id) {
-      this.selectedShipment = {}
-      this.selectedShipment[id] = e.target.value;
+    updateTest(e, object) {
+      this.selectedShipment[object.test_id] = e.target.value;
     },
     updateOrder() {
       this.$props.rowData.test_list.forEach(e => {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${e.test_id}`, {
-          status: "pending"
-        })
+        if (this.shipmentCode[e.test_id]) {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${e.test_id}`, {
+            status: this.shipmentCode[e.test_id]
+          })
+        }
       })
       this.$parent.notificationMessage = "Successfully updated!";
       this.$parent.notificationActive = true;
