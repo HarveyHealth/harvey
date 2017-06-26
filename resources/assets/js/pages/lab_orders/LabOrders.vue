@@ -25,7 +25,7 @@
               :text="notificationMessage"
             />
             <AddLabOrders v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
-            <DetailLabOrders v-if="currentData || labData.length > 0" :row-data="selectedRowData" />
+            <DetailLabOrders v-if="currentData" :row-data="selectedRowData" />
             <Overlay 
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"
@@ -36,7 +36,7 @@
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
-                :tableRowData="currentData || labData"
+                :tableRowData="currentData"
              />
         </div>
     </div>
@@ -73,7 +73,7 @@
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
                 cache: {},
-                currentData: null,
+                currentData: [],
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
                 notificationActive: false,
@@ -152,27 +152,19 @@
             },
             loadingLabTests() {
                 return this.$root.$data.global.loadingLabTests
-            },
-            labData() {
-                let global = this.$root.$data.global
-                let data = tableDataTransform(
-                    global.labOrders, 
-                    global.labTests, 
-                    global.patientLookUp, 
-                    global.practitionerLookUp
-                )
-                return data
             }
         },
         watch: {
-            labData(val) {
-                if (!val) {
-                    this.setupLabData()
+            currentData: (newest, old) => {
+                if (!_.isEqual(newest, old)) {
+                    this.currentData = newest
+                    return this.currentData
                 }
             }
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
+            this.setupLabData();
         }
     }
 </script>

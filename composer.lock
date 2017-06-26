@@ -9,14 +9,19 @@
         {
             "name": "aws/aws-sdk-php",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "3.29.6",
+=======
+            "version": "3.30.2",
+>>>>>>> remotes/origin/har-247-lab-tests-details
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f09876b949e51110c3385f71fb3ad21880f85ded"
+                "reference": "20539a38dc643a2700f80ae8647dbd1a05d3f7a9"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f09876b949e51110c3385f71fb3ad21880f85ded",
                 "reference": "f09876b949e51110c3385f71fb3ad21880f85ded",
 =======
@@ -31,6 +36,10 @@
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
                 "reference": "20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
 >>>>>>> remotes/origin/lab-orders-tests-be
+=======
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
+                "reference": "20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
+>>>>>>> remotes/origin/har-247-lab-tests-details
                 "shasum": ""
             },
             "require": {
@@ -98,10 +107,14 @@
                 "sdk"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-06-15T21:00:24+00:00"
 =======
             "time": "2017-06-23T18:54:40+00:00"
 >>>>>>> remotes/origin/lab-orders-tests-be
+=======
+            "time": "2017-06-23T18:54:40+00:00"
+>>>>>>> remotes/origin/har-247-lab-tests-details
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1195,14 +1208,19 @@
         {
             "name": "giggsey/libphonenumber-for-php",
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "8.5.1",
+=======
+            "version": "8.5.2",
+>>>>>>> remotes/origin/har-247-lab-tests-details
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ab23498bb5b787ae108f5fba3e50134ce3635503"
+                "reference": "25e86a18972d349480b5456805c4a61a76667e22"
             },
             "dist": {
                 "type": "zip",
+<<<<<<< HEAD
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ab23498bb5b787ae108f5fba3e50134ce3635503",
                 "reference": "ab23498bb5b787ae108f5fba3e50134ce3635503",
 =======
@@ -1217,6 +1235,10 @@
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/25e86a18972d349480b5456805c4a61a76667e22",
                 "reference": "25e86a18972d349480b5456805c4a61a76667e22",
 >>>>>>> remotes/origin/lab-orders-tests-be
+=======
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/25e86a18972d349480b5456805c4a61a76667e22",
+                "reference": "25e86a18972d349480b5456805c4a61a76667e22",
+>>>>>>> remotes/origin/har-247-lab-tests-details
                 "shasum": ""
             },
             "require": {
@@ -1272,10 +1294,14 @@
                 "validation"
             ],
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-06-06T14:19:18+00:00"
 =======
             "time": "2017-06-20T18:25:02+00:00"
 >>>>>>> remotes/origin/lab-orders-tests-be
+=======
+            "time": "2017-06-20T18:25:02+00:00"
+>>>>>>> remotes/origin/har-247-lab-tests-details
         },
         {
             "name": "giggsey/locale",

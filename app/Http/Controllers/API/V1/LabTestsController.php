@@ -7,6 +7,7 @@ use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use League\Fractal\Serializer\JsonApiSerializer;
 use ResponseCode;
 
 class LabTestsController extends BaseAPIController
@@ -109,6 +110,8 @@ class LabTestsController extends BaseAPIController
      */
     public function information()
     {
+        $this->serializer = new JsonApiSerializer();
+        
         return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 

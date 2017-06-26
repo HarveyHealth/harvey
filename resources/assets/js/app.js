@@ -176,9 +176,12 @@ const app = new Vue({
             }
         },
         getLabData() {
-            axios.get(`${this.apiUrl}/lab/orders`)
+            axios.get(`${this.apiUrl}/lab/orders?include=user`)
                 .then(response => {
-                    this.global.labOrders = response.data.data
+                    this.global.labOrders = response.data.data.map((e, i) => {
+                        e['included'] = response.data.included[i]
+                        return e;
+                    })
                     this.global.loadingLabOrders = false
                 })
 

@@ -13,7 +13,7 @@ const PENDING_STATUS_ID = 4;
 const PROCESSING_STATUS_ID = 5;
 const RECEIVED_STATUS_ID = 6;
 
-export default function (orders, tests, patientLookUp, practitionerLookup) {
+export default function (orders, tests, patientLookUp, practitionerLookup, user, userList) {
     if (orders.length == 0 || tests.length == 0 || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup)) return []
     return orders.map(obj => {
         let data = {

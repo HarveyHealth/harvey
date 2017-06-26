@@ -16,9 +16,6 @@ class LabOrderTransformer extends TransformerAbstract
     public function transform(LabOrder $labOrder)
     {
         return [
-
-            'address_1' => $labOrder->patient->user->address_1,
-            'address_2' => $labOrder->patient->user->address_2,
             'completed_at' => $labOrder->completed_at,
             'created_at' => $labOrder->created_at,
             'id' => (string) $labOrder->id,
