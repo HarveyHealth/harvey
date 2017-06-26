@@ -33,7 +33,7 @@
         localStorage.removeItem('new_registration');
         this.$router.push({ name: 'welcome', path: '/welcome' });
       } else if (this.signed_in) {
-        window.location.href = '/dashboard';
+        // window.location.href = '/dashboard';
       } else {
         this.$router.push({ name: 'sign-up', path: '/signup' });
       }
