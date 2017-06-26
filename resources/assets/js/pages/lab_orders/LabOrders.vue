@@ -137,7 +137,6 @@
                     global.patientLookUp, 
                     global.practitionerLookUp
                 )
-                console.log(`DATA`, data)
                 let choices = {
                     0: "All",
                     1: "Pending",
@@ -160,14 +159,12 @@
                 return this.$root.$data.global.loadingLabTests
             },
             loadingLabs() {
-                return this.$root.$data.global.loadingLabTests && this.$root.$data.global.loadingLabOrders
+                return this.$root.$data.global.loadingLabTests || this.$root.$data.global.loadingLabOrders
             }
         },
         watch: {
             loadingLabs(val) {
-                if (!val) {
-                    this.setupLabData();
-                }
+                this.setupLabData();
             }
         },
         mounted() {
