@@ -124,7 +124,7 @@
           ga('send', {
             hitType: "event", 
             eventCategory: "clicks", 
-            eventAction: "Sign-up For Account", 
+            eventAction: "Confirm Appointment", 
             eventLabel: null,
               eventValue: 50, 
               hitCallback: null, 
