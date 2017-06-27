@@ -96,6 +96,14 @@ const app = new Vue({
             unreadMessages: [],
             user: {},
         },
+        signup: {
+          availability: [],
+          data: {
+            appointment_at: null,
+            reason_for_visit: 'First appointment',
+            practitioner_id: null,
+          }
+        },
         initialAppointment: {},
         initialAppointmentComplete: false,
         timezone: moment.tz.guess(),
