@@ -120,6 +120,15 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
         });
+        ga('send', {
+            hitType: "event", 
+            eventCategory: "clicks", 
+            eventAction: "Sign-up For Account", 
+            eventLabel: null,
+              eventValue: 50, 
+              hitCallback: null, 
+              userId: null
+          });
       }
     }
   }
