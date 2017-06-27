@@ -208,6 +208,28 @@ $practitioner-grid: (
   }
 }
 
+.stage-nav-link {
+  background: #ddd;
+  border-radius: 50%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  @include margin(0 4px 10px);
+  transition: background 300 ease-in-out;
+
+  &:hover {
+    background: darken(#ddd, 15%);
+  }
+}
+span.stage-nav-link {
+  &.current-stage {
+    background-color: $harvey-tertiary !important;
+  }
+  &:not(.current-stage) {
+    background-color: #ddd !important;
+  }
+}
+
 
   .message-container-interstitial {
     margin-bottom: 25px;

@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses">
     <div class="signup-stage-instructions">
-      <div>Dots</div>
+      <StagesNav :current="'practitioner'" />
       <h2>First, choose your practitioner...</h2>
       <p>We have <strong>2 doctors</strong> available who are licensed and certified to work with patients in your state. Please select the doctor you prefer.</p>
     </div>
@@ -39,12 +39,14 @@
 
 <script>
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'practitioner',
   components: {
     LoadingBubbles,
+    StagesNav,
   },
   data() {
     return {
