@@ -98,6 +98,7 @@ const app = new Vue({
         },
         signup: {
           availability: [],
+          phone: '',
           data: {
             appointment_at: null,
             reason_for_visit: 'First appointment',

@@ -103,12 +103,22 @@ export default {
       // axios.get(`/api/v1/practitioner/${id}?include=availability`).then(response => {
       setTimeout(() => {
         // this.selected.availability = transformAvailability(response.data.meta.availability, Laravel.user.userType);
-        this.store.signup.availability = [];
+        this.store.signup.availability = [{
+          date: '2017-06-29',
+          day: 'Thursday',
+          times: [
+            {
+              stored: '2017-06-29 17:00:00',
+              local: {},
+              utc: {}
+            }
+          ]
+        }];
         if (!this.store.signup.availability.length) {
           this.errorText = 'Unfortunately we don\'t have any availability for that practitioner in the next 4 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.';
           this.processing = false;
         } else {
-          this.$router.push({ name: 'schedule', path: '/schedule' });
+          this.$router.push({ name: 'phone', path: '/phone' });
         }
       }, 1000);
     },

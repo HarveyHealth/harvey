@@ -78,6 +78,10 @@
     height: 80px;
   }
 
+  .icon-phone {
+    height: 70px;
+  }
+
   .interstitial-icon {
     @include query(md) {
       height: auto;
