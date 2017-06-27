@@ -27,7 +27,7 @@ class AppointmentScopeTest extends TestCase
         $practitioner->user->enabled = false;
         $practitioner->user->save();
 
-        $this->assertCount(0, Appointment::all());    	
+        $this->assertCount(0, Appointment::all());
     }
 
     public function test_it_only_returns_appointments_with_enabled_patients()
@@ -45,6 +45,6 @@ class AppointmentScopeTest extends TestCase
         $patient->user->enabled = false;
         $patient->user->save();
 
-        $this->assertCount(0, Appointment::all());      
+        $this->assertCount(0, Appointment::all());
     }
 }
