@@ -1,8 +1,0 @@
-[
-    {
-        "level": "WARNING",
-        "message": "http:\/\/harvey.app\/js\/app.js 55249:34 \"Pusher : Couldn't get auth info from your webapp : 0\"",
-        "source": "console-api",
-        "timestamp": 1497402406831
-    }
-]

@@ -44,7 +44,7 @@ class signUpFlowTest extends DuskTestCase
                       ->click('@practitioner')
                       ->pause(1000)
                       ->press('@continuePract')
-                      ->pause(1000)
+                      ->pause(3000)
                       ->type('first_name', $user->first_name)
                       ->type('last_name', $user->last_name)
                       ->type('phone_number', $user->phone)

@@ -86,13 +86,13 @@ class HomepageTest extends DuskTestCase
         });
      }
 
-     public function test_if_blog_button_works_in_footer()
-     {
-         $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->blogFooter();
-         });
-      }
+    //  public function test_if_blog_button_works_in_footer()
+    //  {
+    //      $this->browse(function ($browser) {
+    //          $browser->visit(new HomePage)
+    //                  ->blogFooter();
+    //      });
+    //   }
 
       public function test_if_FAQ_button_works_in_footer()
       {
