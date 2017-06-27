@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses">
-    <div class="signup-interstitial-container text-centered">
+    <div class="signup-container signup-interstitial-container text-centered">
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
       </div>

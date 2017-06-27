@@ -6,7 +6,11 @@
 }
 
 .signup-container {
+  background: $white;
+  border-bottom: 1px solid $light-gray;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
   position: relative;
+  @include padding(30px 25px);
 }
 .signup-back-button {
   position: absolute;
@@ -25,11 +29,8 @@
 
 .signup-form-container,
 .signup-interstitial-container {
-  background: $white;
-  border-bottom: 1px solid $light-gray;
-  box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  @include margin(30px auto);
   max-width: 510px;
+  @include margin(30px auto);
   @include padding(30px);
   @include query(md) {
     @include padding(50px 90px);
@@ -92,6 +93,12 @@
     font-size: 34px;
     @include margin(0 15px 10px);
   }
+}
+
+.signup-stage-container {
+  max-width: 740px;
+  @include margin(0 auto);
+  @include padding($space-sm);
 }
 
 

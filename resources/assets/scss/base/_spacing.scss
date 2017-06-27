@@ -1,0 +1,10 @@
+$space-sm: 15px;
+$space-md: 22px;
+$space-lg: 30px;
+$space-xl: 50px;
+
+.cf:after {
+  display: table;
+  content: '';
+  clear: both;
+}
