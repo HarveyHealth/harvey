@@ -1,0 +1,26 @@
+[
+    {
+        "level": "WARNING",
+        "message": "http:\/\/harvey.app\/login - This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https:\/\/goo.gl\/zmWq3m.",
+        "source": "other",
+        "timestamp": 1497402555422
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/harvey.app\/js\/app.js 23497:14 \"[Vue warn]: The computed property \\\"appointments\\\" is already defined in data.\\n\\nfound in\\n\\n---> \\u003CDashboard> at \/Users\/alexv\/code\/harvey\/resources\/assets\/js\/pages\/dashboard\/Dashboard.vue\\n       \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1497402557713
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/harvey.app\/js\/app.js 23497:14 \"[Vue warn]: Property or method \\\"trackPhoneNumber\\\" is not defined on the instance but referenced during render. Make sure to declare reactive data properties in the data option.\\n\\nfound in\\n\\n---> \\u003CDashboard> at \/Users\/alexv\/code\/harvey\/resources\/assets\/js\/pages\/dashboard\/Dashboard.vue\\n       \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1497402557717
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/harvey.app\/js\/app.js 23497:14 \"[Vue warn]: Invalid handler for event \\\"click\\\": got undefined\\n\\nfound in\\n\\n---> \\u003CDashboard> at \/Users\/alexv\/code\/harvey\/resources\/assets\/js\/pages\/dashboard\/Dashboard.vue\\n       \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1497402557726
+    }
+]

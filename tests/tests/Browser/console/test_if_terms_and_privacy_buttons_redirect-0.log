@@ -1,0 +1,14 @@
+[
+    {
+        "level": "WARNING",
+        "message": "http:\/\/harvey.app\/signup#\/ - This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https:\/\/goo.gl\/zmWq3m.",
+        "source": "other",
+        "timestamp": 1497402490995
+    },
+    {
+        "level": "WARNING",
+        "message": "http:\/\/harvey.app\/signup#\/ - This page includes a password or credit card input in a non-secure context. A warning has been added to the URL bar. For more information, see https:\/\/goo.gl\/zmWq3m.",
+        "source": "other",
+        "timestamp": 1497402492702
+    }
+]

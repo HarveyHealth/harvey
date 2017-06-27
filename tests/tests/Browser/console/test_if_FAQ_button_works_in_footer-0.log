@@ -1,0 +1,8 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "https:\/\/cdn-static-1.medium.com\/_\/fp\/gen-js\/main-base.bundle.KdVk5W3AoKMgnelw9RFc6w.js 2165:453 \"[LightStep:ERROR Tue Jun 13 2017 18:07:10 GMT-0700 (PDT)] Error in report: status code = 0\"",
+        "source": "console-api",
+        "timestamp": 1497402430232
+    }
+]

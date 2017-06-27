@@ -79,7 +79,7 @@ class LoginPage extends BasePage
             '@forgotPassword' => '#login > p.control.is-clearfix > a',
             '@signUpButton' => '#app > div > section > div > div > footer > div > a',
             '@logoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
-            '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout'
+            '@logout' => '#app > div.main-container > div.nav-bar > nav > a.admin-nav-link.logout > div'
         ];
     }
 }
