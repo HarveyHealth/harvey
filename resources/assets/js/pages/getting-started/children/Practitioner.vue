@@ -1,29 +1,31 @@
 <template>
   <div :class="containerClasses">
     <div class="signup-stage-instructions">
-      <p>Dots</p>
+      <div>Dots</div>
       <h2>First, choose your practitioner...</h2>
       <p>We have <strong>2 doctors</strong> available who are licensed and certified to work with patients in your state. Please select the doctor you prefer.</p>
     </div>
     <div class="signup-container signup-stage-container">
       <div class="signup-practitioner-wrapper cf">
-        <div class="practitioner-wrapper" v-for="dr in practitioners">
-          <div class="practitioner-bg" :style="{ height: '120px', backgroundImage: 'url(' + dr.bg + ')' }"></div>
+        <div class="practitioner-wrapper" v-for="dr in practitioners" tabindex="-1">
+          <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + dr.bg + ')' }"></div>
           <img class="practitioner-avatar" :src="dr.avatar" />
-          <h3>Dr. {{ dr.name }}, {{ dr.type }}</h3>
-          <p>License {{ dr.license }} {{ dr.state }}</p>
-          <p>{{ dr.description }}</p>
-          <hr class="practitioner-divider" />
-          <ul class="practitioner-info">
-            <li><span>Graduated:</span> {{ dr.graduated }}</li>
-            <li><span>Degree:</span> {{ dr.degree }}</li>
-            <li><span>Specialties:</span> {{ dr.specialties }}</li>
-          </ul>
-          <hr class="practitioner-divider" />
-          <p class="practitioner-rate"><span>${{ dr.rate }}</span>/hour</p>
+          <h3 class="practitioner-name text-centered">Dr. {{ dr.name }}, {{ dr.type }}</h3>
+          <p class="practitioner-license text-centered">License {{ dr.license }} {{ dr.state }}</p>
+          <div class="practitioner-info-wrapper">
+            <p>{{ dr.description }}</p>
+            <hr class="practitioner-divider" />
+            <ul class="practitioner-info">
+              <li><span>Graduated:</span> {{ dr.graduated }}</li>
+              <li><span>Degree:</span> {{ dr.degree }}</li>
+              <li><span>Specialties:</span> {{ dr.specialties }}</li>
+            </ul>
+            <hr class="practitioner-divider" />
+            <p class="practitioner-rate text-centered"><span>${{ dr.rate }}</span>/hour</p>
+          </div>
         </div>
       </div>
-      <p>Error text</p>
+      <p class="error-text">Error text</p>
       <div class="text-centered">
         <button class="button button--blue" style="width: 160px" :disabled="processing">
           <span v-if="!processing">Continue</span>
