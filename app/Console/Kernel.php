@@ -18,7 +18,9 @@ class Kernel extends ConsoleKernel
         Commands\MakeComponentCommand::class,
         Commands\MakeRepositoryCommand::class,
         Commands\SetNginxConfigCommand::class,
-        Commands\GetPassportKeysCommand::class
+        Commands\GetPassportKeysCommand::class,
+        Commands\PractitionerCreateCommand::class,
+        Commands\AdminCreateCommand::class
     ];
 
     /**

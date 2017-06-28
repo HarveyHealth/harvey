@@ -66,4 +66,8 @@ return [
         ]
     ],
 
+    'timezonedb' => [
+        'key' => env('TIMEZONEDB_KEY'),
+    ],
+
 ];

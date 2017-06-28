@@ -120,6 +120,7 @@
           this.$root.getConfirmedUsers();
         },
         destroyed() {
+            let userId = this.$root.$data.global.user.id
             axios.get(`${this.$root.$data.apiUrl}/messages`)
               .then(response => {
                 let data = {};

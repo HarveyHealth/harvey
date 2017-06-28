@@ -43,3 +43,5 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
 Route::get('/signup', 'SignupController@index')->name('signup');
+
+Route::get('/getting-started', 'GettingStartedController@index')->name('gettingstarted');

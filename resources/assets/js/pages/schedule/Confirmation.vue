@@ -121,22 +121,8 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
+          ga('Website', 'Sign-up For Account')
         }
-
-        axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
-            first_name: this.$root.global.user.attributes.first_name,
-            last_name: this.$root.global.user.attributes.last_name,
-            phone: this.$root.global.user.attributes.phone
-          })
-          .then(response => {
-              // phone, firstname, lastname updated
-              this.$root.getUser();
-              this.$root.getAppointments();
-              this.$root.getPractitioners();
-          })
-          .catch(error => {
-            this.responseErrors = error.response.data.errors;
-          });
 
         // From https://www.addevent.com/buttons/add-to-calendar
         // Has to be added on component mount because it needs to be able to find

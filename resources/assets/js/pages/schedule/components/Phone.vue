@@ -72,7 +72,27 @@
           this.$parent.firstname = this.firstname
           this.$parent.lastname = this.lastname
           this.$parent.phone = this.phone
-          this.$parent.next();
+
+          // Update the user's information first, then on response run the initial
+          // functions to get main data
+          axios.patch(`api/v1/users/${this.$root.global.user.id}`, {
+            first_name: this.$root.global.user.attributes.first_name,
+            last_name: this.$root.global.user.attributes.last_name,
+            phone: this.$root.global.user.attributes.phone
+          })
+          .then(response => {
+            // phone, firstname, lastname updated
+            this.$root.getUser();
+            this.$root.getAppointments();
+            this.$root.getPractitioners();
+            this.$parent.next();
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              ga('Website', 'Click Phone Number')
+            }
+          })
+          .catch(error => {
+            this.responseErrors = error.response.data.errors;
+          });
         }).catch(() => {});
       },
       lastStep() {
