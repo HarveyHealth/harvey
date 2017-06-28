@@ -38,7 +38,7 @@ branches:
   only:
   - master
   - develop
-  - dusk
+  - dusk-testing
   - /^release\//
 notifications:
   email: false
