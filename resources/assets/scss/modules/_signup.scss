@@ -11,6 +11,7 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   position: relative;
   @include padding(30px 25px);
+  @include margin(0 0 2px);
 }
 .signup-back-button {
   position: absolute;
@@ -78,8 +79,14 @@
     height: 80px;
   }
 
+  .icon-phone-sms {
+    height: 100px;
+    left: 15px;
+    position: relative;
+  }
+
   .icon-phone {
-    height: 70px;
+    height: 100px;
   }
 
   .interstitial-icon {
