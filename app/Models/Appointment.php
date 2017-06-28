@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use Lang;
 
 class Appointment extends Model
@@ -44,6 +43,11 @@ class Appointment extends Model
     /*
      * Relationships
      */
+    public function reminders()
+    {
+        return $this->hasMany(AppointmentReminder::class);
+    }
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
@@ -108,86 +112,106 @@ class Appointment extends Model
         return $this->status_id == self::PENDING_STATUS_ID;
     }
 
+    public function wasPatientReminderEmailSent()
+    {
+        return (bool) $this->reminders()->emailType()->toRecipient($this->patient->user)->count();
+    }
+
+    public function setPatientReminderEmailSent()
+    {
+        $reminder = AppointmentReminder::make([
+            'recipient_user_id' => $this->patient->user->id,
+            'type_id' => AppointmentReminder::EMAIL_NOTIFICATION_ID,
+            'sent_at' => Carbon::now(),
+        ]);
+
+        return $this->reminders()->save($reminder);
+    }
+
     /*
      * SCOPES
      */
-    public function scopeUpcoming($query, $weeks = 2)
+    public function scopeUpcoming(Builder $builder, $weeks = 2)
     {
         $end_date = Carbon::now()->addWeeks($weeks);
 
-        return $query->where('appointment_at', '>', Carbon::now())
+        return $builder->where('appointment_at', '>', Carbon::now())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
                     ->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeRecent($query)
+    public function scopeRecent(Builder $builder)
     {
-        return $query->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
+        return $builder->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
     }
 
-    public function scopeForPractitioner($query, Practitioner $practitioner)
+    public function scopeForPractitioner(Builder $builder, Practitioner $practitioner)
     {
-        return $query->where('practitioner_id', '=', $practitioner->id);
+        return $builder->where('practitioner_id', '=', $practitioner->id);
     }
 
-    public function scopeForPatient($query, Patient $patient)
+    public function scopeForPatient(Builder $builder, Patient $patient)
     {
-        return $query->where('patient_id', '=', $patient->id);
+        return $builder->where('patient_id', '=', $patient->id);
     }
 
-    public function scopeWithinDateRange($query, Carbon $startDate, Carbon $endDate)
+    public function scopeWithinDateRange(Builder $builder, Carbon $startDate, Carbon $endDate)
     {
-        return $query->afterThan($startDate)->beforeThan($endDate);
+        return $builder->afterThan($startDate)->beforeThan($endDate);
     }
 
-    public function scopeByAppointmentAtAsc($query)
+    public function scopeByAppointmentAtAsc(Builder $builder)
     {
-        $query->orderBy('appointment_at', 'ASC');
+        $builder->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeBeforeThan($query, Carbon $date)
+    public function scopeBeforeThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '<=', $date);
+        return $builder->where('appointment_at', '<=', $date);
     }
 
-    public function scopeAfterThan($query, Carbon $date)
+    public function scopeAfterThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '>=', $date);
+        return $builder->where('appointment_at', '>=', $date);
     }
 
-    public function scopePending($query)
+    public function scopePending(Builder $builder)
     {
-        return $query->where('status_id', self::PENDING_STATUS_ID);
+        return $builder->where('status_id', self::PENDING_STATUS_ID);
     }
 
-    public function scopeNoShowPatient($query)
+    public function scopeNoShowPatient(Builder $builder)
     {
-        return $query->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+        return $builder->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
     }
 
-    public function scopeNoShowDoctor($query)
+    public function scopeNoShowDoctor(Builder $builder)
     {
-        return $query->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
+        return $builder->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
     }
 
-    public function scopeGeneralConflict($query)
+    public function scopeGeneralConflict(Builder $builder)
     {
-        return $query->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
+        return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
     }
 
-    public function scopeCanceled($query)
+    public function scopeCanceled(Builder $builder)
     {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
+        return $builder->where('status_id', self::CANCELED_STATUS_ID);
     }
 
-    public function scopeComplete($query)
+    public function scopeComplete(Builder $builder)
     {
-        return $query->where('status_id', self::COMPLETE_STATUS_ID);
+        return $builder->where('status_id', self::COMPLETE_STATUS_ID);
     }
 
-    public function scopeNot($query, Appointment $appointment)
+    public function scopeNot(Builder $builder, Appointment $appointment)
     {
-        return $query->where('appointments.id', '!=', $appointment->id);
+        return $builder->where('appointments.id', '!=', $appointment->id);
     }
 
+    public function scopePendingInTheNext24hs(Builder $builder)
+    {
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
+    }
 }

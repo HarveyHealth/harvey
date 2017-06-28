@@ -60,6 +60,7 @@ return [
                     'canceled' => 1687742,
                     'new' => 1492142,
                     'updated' => 1929884,
+                    'reminder' => 1497642,
                 ],
                 'welcome' => 1450461,
             ],

@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         Commands\SetNginxConfigCommand::class,
         Commands\GetPassportKeysCommand::class,
         Commands\PractitionerCreateCommand::class,
-        Commands\AdminCreateCommand::class
+        Commands\AdminCreateCommand::class,
+        Commands\SendAppointmentsRemindersCommand::class,
     ];
 
     /**
