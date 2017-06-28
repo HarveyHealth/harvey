@@ -131,27 +131,27 @@ class Appointment extends Model
         return $this->status_id == self::PENDING_STATUS_ID;
     }
 
-    public function wasPatientReminderEmailSent()
+    public function wasPatientReminderEmail24HsSent()
     {
-        return (bool) $this->reminders()->emailType()->toRecipient($this->patient->user)->count();
+        return (bool) $this->reminders()->email24HsType()->toRecipient($this->patient->user)->count();
     }
 
-    public function setPatientReminderEmailSent()
+    public function setPatientReminderEmail24HsSent()
     {
         $reminder = AppointmentReminder::make([
             'recipient_user_id' => $this->patient->user->id,
-            'type_id' => AppointmentReminder::EMAIL_NOTIFICATION_ID,
+            'type_id' => AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID,
             'sent_at' => Carbon::now(),
         ]);
 
         return $this->reminders()->save($reminder);
     }
 
-    public function sendPatientReminderEmail()
+    public function sendPatientReminderEmail24Hs()
     {
         $recipient = $this->patient->user;
 
-        if ($this->wasPatientReminderEmailSent()) {
+        if ($this->wasPatientReminderEmail24HsSent()) {
             Log::info("User #{$recipient->id} was already email notified about Appointment #{$this->id}. Skipping.");
             return false;
         } else {
@@ -171,7 +171,7 @@ class Appointment extends Model
 
             dispatch($sendTransactionalEmail);
 
-            $this->setPatientReminderEmailSent();
+            $this->setPatientReminderEmail24HsSent();
             return true;
         }
     }

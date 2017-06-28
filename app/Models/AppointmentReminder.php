@@ -20,12 +20,14 @@ class AppointmentReminder extends Model
 
     protected $guarded = ['created_at', 'deleted_at', 'updated_at'];
 
-    const EMAIL_NOTIFICATION_ID = 0;
-    const SMS_NOTIFICATION_ID = 1;
+    const EMAIL_24_HS_NOTIFICATION_ID = 0;
+    const EMAIL_3_HS_NOTIFICATION_ID = 1;
+    const SMS_2_HS_NOTIFICATION_ID = 2;
 
     const TYPES = [
-        self::EMAIL_NOTIFICATION_ID => 'email',
-        self::SMS_NOTIFICATION_ID => 'sms',
+        self::EMAIL_24_HS_NOTIFICATION_ID => 'email_24hs',
+        self::EMAIL_3_HS_NOTIFICATION_ID => 'email_3hs',
+        self::SMS_2_HS_NOTIFICATION_ID => 'sms_2hs',
     ];
 
     public function recipient()
@@ -47,9 +49,9 @@ class AppointmentReminder extends Model
         return $value;
     }
 
-    public function scopeEmailType(Builder $builder)
+    public function scopeEmail24HsType(Builder $builder)
     {
-        return $builder->where('type_id', self::EMAIL_NOTIFICATION_ID);
+        return $builder->where('type_id', self::EMAIL_24_HS_NOTIFICATION_ID);
     }
 
     public function scopeToRecipient(Builder $builder, User $user)

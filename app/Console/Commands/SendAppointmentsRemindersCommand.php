@@ -38,7 +38,7 @@ class SendAppointmentsRemindersCommand extends Command
             $this->info("Found {$appointments->count()} Appointments.");
             $this->info('Processing Appointments...');
 
-            $totalSent = $appointments->map->sendPatientReminderEmail()->filter()->count();
+            $totalSent = $appointments->map->sendPatientReminderEmail24Hs()->filter()->count();
         }
 
         $this->info("Done. [$totalSent Appointments reminders sent.]");
