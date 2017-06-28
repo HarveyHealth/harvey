@@ -44,18 +44,18 @@ class SendAppointmentsRemindersCommand extends Command
         $appointments = Appointment::pendingInTheNext24hs()->get();
 
         if (empty($appointments)) {
-            return true;
+            $this->info('No Appointments found.');
         } else {
-            $this->info("Found {$appointments->count()} Appointment" . (1 == $appointments->count() ? '.' : 's.'));
+            $this->info("Found {$appointments->count()} Appointments.");
+
+            $this->info('Processing Appointments...');
+
+            foreach ($appointments as $appointment) {
+                $this->sendPatientReminderEmail($appointment);
+            }
         }
 
-        $this->info('Processing Appointments...');
-
-        foreach ($appointments as $appointment) {
-            $this->sendPatientReminderEmail($appointment);
-        }
-
-        $this->info("Done. [{$this->totalSent} Appointment" . (1 == $this->totalSent ? '' : 's') . ' reminder sent.]');
+        $this->info("Done. [{$this->totalSent} Appointments reminders sent.]");
     }
 
     protected function sendPatientReminderEmail(Appointment $appointment)
