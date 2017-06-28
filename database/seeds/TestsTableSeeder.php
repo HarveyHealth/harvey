@@ -1,8 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Patient;
-use App\Models\Practitioner;
+use App\Models\{Patient, Practitioner, SKU};
 
 class TestsTableSeeder extends Seeder
 {
@@ -13,13 +12,14 @@ class TestsTableSeeder extends Seeder
      */
     public function run()
     {
-        // create some records with specific users
         factory(App\Models\Test::class, 3)->create([
             'patient_id' => Patient::first()->id,
-            'practitioner_id' => Practitioner::first()->id
+            'practitioner_id' => Practitioner::first()->id,
+            'sku_id' => SKU::all()->random()->id,
         ]);
 
-        // then create some random ones
-        factory(App\Models\Test::class, 3)->create();
+        factory(App\Models\Test::class, 3)->create([
+            'sku_id' => SKU::all()->random()->id,
+        ]);
     }
 }
