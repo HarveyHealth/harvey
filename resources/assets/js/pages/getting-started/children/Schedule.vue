@@ -36,11 +36,11 @@
             <li class="available">11p</li>
             <li class="available">11:30p</li>
           </ol>
-          <p class="schedule-timezone"></p>
+          <p class="schedule-timezone">Time Zone: {{ $root.addTimezone() }}</p>
         </div>
       </div>
 
-      <p class="text-centered">Please note, all times are listed in PST. Please allow 60 minutes or longer for appointments.</p>
+      <p class="text-centered">Please note, all times are listed in <strong>{{ $root.addTimezone() }}</strong>. Please allow 60 minutes or longer for appointments.</p>
 
       <button class="button button--blue" style="width: 160px" :disabled="processing">
         <span v-if="!processing">Continue</span>
