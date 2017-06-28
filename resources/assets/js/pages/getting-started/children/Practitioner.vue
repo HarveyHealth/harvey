@@ -102,7 +102,6 @@ export default {
       // Faking the api call since it's not in current-release yet
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
       // setTimeout(() => {
-      console.log(response.data.meta.availability);
         this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.userType);
         // this.store.signup.availability = [{
         //   date: '2017-06-29',

@@ -1,0 +1,37 @@
+.signup-schedule-container {
+  @include padding($space-xl $space-md);
+
+  & > *:not(a) {
+    @include margin($space-lg null null);
+  }
+}
+
+.schedule-section {
+  background-color: $light-gray;
+  @include padding($space-sm);
+  font-size: 14px;
+  text-align: left;
+
+  h3 {
+    font-size: 18px;
+    text-align: center;
+  }
+
+  ol {
+    list-style: none;
+    @include padding(0);
+  }
+  ol li {
+    font-size: 12px;
+  }
+}
+
+.schedule-week-info {
+  border-bottom: 1px solid #ddd;
+
+  .dates {
+    float: right;
+    color: $gray;
+    font-size: 12px;
+  }
+}
