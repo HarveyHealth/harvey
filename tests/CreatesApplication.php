@@ -21,6 +21,8 @@ trait CreatesApplication
 
         $app->make(Kernel::class)->bootstrap();
 
+        $app['env'] = 'testing';
+
         $this->mockSendTransactionalEmail();
 
         return $app;
