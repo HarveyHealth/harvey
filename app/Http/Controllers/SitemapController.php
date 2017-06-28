@@ -78,11 +78,9 @@ class SitemapController extends Controller
 
     private function users()
     {
-        $users = $this->users->enabled();
-
         $map = new SitemapGenerator(url(config('app.url')));
 
-        foreach ($users as $user) {
+        foreach ($this->users as $user) {
             $map->addPath('users/' . $user->id);
         }
 
