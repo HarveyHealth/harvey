@@ -16,12 +16,13 @@ class LabOrderTransformer extends TransformerAbstract
     public function transform(LabOrder $labOrder)
     {
         return [
+            'completed_at' => $labOrder->completed_at,
+            'created_at' => $labOrder->created_at,
             'id' => (string) $labOrder->id,
             'patient_id' => (string) $labOrder->patient_id,
             'practitioner_id' => (string) $labOrder->practitioner_id,
-            'status' => $labOrder->status,
             'shipment_code' => (string) $labOrder->shipment_code,
-            'completed_at' => $labOrder->completed_at,
+            'status' => $labOrder->status,
         ];
     }
 
@@ -31,7 +32,13 @@ class LabOrderTransformer extends TransformerAbstract
      */
     public function includePatient(LabOrder $labOrder)
     {
-        return $this->item($labOrder->patient, new PatientTransformer())->setResourceKey('patients');
+        $transformer = new PatientTransformer();
+
+        if (in_array('user', $this->getCurrentScope()->getManager()->getRequestedIncludes())) {
+            $transformer->setDefaultIncludes(['user']);
+        }
+
+        return $this->item($labOrder->patient, $transformer, 'patients');
     }
 
     /**
@@ -40,7 +47,13 @@ class LabOrderTransformer extends TransformerAbstract
      */
     public function includePractitioner(LabOrder $labOrder)
     {
-        return $this->item($labOrder->practitioner, new PractitionerTransformer())->setResourceKey('practitioners');
+        $transformer = new PractitionerTransformer();
+
+        if (in_array('user', $this->getCurrentScope()->getManager()->getRequestedIncludes())) {
+            $transformer->setDefaultIncludes(['user']);
+        }
+
+        return $this->item($labOrder->practitioner, $transformer, 'practitioners');
     }
 
     /**
@@ -49,6 +62,6 @@ class LabOrderTransformer extends TransformerAbstract
      */
     public function includeLabTests(LabOrder $labOrder)
     {
-        return $this->collection($labOrder->labTests, new LabTestTransformer())->setResourceKey('lab_tests');
+        return $this->collection($labOrder->labTests, new LabTestTransformer(), 'lab_tests');
     }
 }

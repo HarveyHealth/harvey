@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\HasStatusColumn;
-use App\Models\LabOrder;
+use App\Models\{LabOrder, SKU};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -46,6 +46,16 @@ class LabTest extends Model
     public function labOrder()
     {
         return $this->belongsTo(LabOrder::class);
+    }
+
+    public function sku()
+    {
+        return $this->belongsTo(SKU::class);
+    }
+
+    public function information()
+    {
+        return $this->sku->labTestInformation();
     }
 
     public function patient()
