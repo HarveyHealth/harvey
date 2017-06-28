@@ -128,6 +128,8 @@ export default {
     }
   },
   mounted () {
+    this.$root.$data.signup.visistedStages.push('practitioner');
+    console.log(this.$root.$data.signup.visistedStages)
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {

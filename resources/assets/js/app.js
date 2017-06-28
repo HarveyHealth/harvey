@@ -100,6 +100,7 @@ const app = new Vue({
           availability: [],
           code: null,
           codeConfirmed: false,
+          visistedStages: [],
           phone: '',
           phonePending: false,
           phoneConfirmed: false,

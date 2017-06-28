@@ -1,8 +1,11 @@
 <template>
   <div class="signup-stages-nav">
     <template v-for="(stage, index) in stages">
-      <router-link class="stage-nav-link" v-if="index < currentIndex" :to="stage" />
-      <span :class="{ 'stage-nav-link': true, 'current-stage': index === currentIndex }" v-else></span>
+      <template v-if="$root.$data.signup.visistedStages.indexOf(stage.name) > -1">
+        <span class="stage-nav-link current-stage" v-if="index === currentIndex"></span>
+        <router-link class="stage-nav-link" v-else :to="stage" />
+      </template>
+      <span class="stage-nav-link" v-else></span>
     </template>
   </div>
 </template>

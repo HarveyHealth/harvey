@@ -103,6 +103,11 @@ export default {
     },
     processConfirmation(code) {
       this.invalidCode = false;
+
+      if (this.$root.$data.signup.codeConfirmed) {
+        this.$router.push({ name: 'schedule', path: '/schedule' });
+      }
+
       if (code.length < 5) {
         this.invalidCode = true;
       } else {
@@ -158,6 +163,7 @@ export default {
   },
   mounted () {
     // this.$root.$data.signup.phonePending = true;
+    this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {
