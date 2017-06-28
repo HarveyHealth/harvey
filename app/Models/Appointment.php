@@ -40,6 +40,23 @@ class Appointment extends Model
         self::COMPLETE_STATUS_ID => 'complete',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
+            return $builder->whereHas('practitioner.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+
+        static::addGlobalScope('enabledPatient', function (Builder $builder) {
+            return $builder->whereHas('patient.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+    }
+
     /*
      * Relationships
      */
