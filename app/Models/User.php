@@ -135,6 +135,11 @@ class User extends Authenticatable implements Mailable
         return $this->admin != null;
     }
 
+    public function isNotAdmin()
+    {
+        return !$this->isAdmin();
+    }
+
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
