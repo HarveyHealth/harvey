@@ -33,6 +33,7 @@
             type="phone"
             placeholder="Phone Number"
             v-phonemask="phone"
+            v-on:click="trackingPhoneNumber"
             v-validate="{ required: true, regex: /\(\d{3}\) \d{3}-\d{4}/ }"
             data-vv-validate-on="blur"
           />
@@ -97,6 +98,19 @@
         this.$parent.lastname = this.lastname
         this.$parent.phone = this.phone
         this.$parent.previous();
+      },
+      trackingPhoneNumber() {
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            ga('send', {
+              hitType: "event", 
+              eventCategory: "clicks", 
+              eventAction: "Click Phone Number", 
+              eventLabel: null,
+                eventValue: 50, 
+                hitCallback: null, 
+                userId: null
+            });
+          }
       }
     },
     name: 'Phone',

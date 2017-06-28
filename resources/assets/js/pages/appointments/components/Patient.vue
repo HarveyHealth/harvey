@@ -46,8 +46,15 @@ export default {
     },
     trackPhoneCall() {
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-        ga('category', 'website');
-        ga('action', 'Click Phone Number');
+        ga('send', {
+            hitType: "event", 
+            eventCategory: "clicks", 
+            eventAction: "Click Phone Number", 
+            eventLabel: null,
+              eventValue: 50, 
+              hitCallback: null, 
+              userId: null
+          });
       }
     }
   },

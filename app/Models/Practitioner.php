@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Lib\PractitionerAvailability;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon\Carbon;
 
 class Practitioner extends Model
@@ -36,9 +35,9 @@ class Practitioner extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('enabled', function (Builder $builder) {
-            $builder->whereHas('user', function (Builder $builder) {
-                $builder->where('users.enabled', true);
+        static::addGlobalScope('enabledUser', function (Builder $builder) {
+            return $builder->whereHas('user', function (Builder $query){
+                $query->where('users.enabled', true);
             });
         });
     }

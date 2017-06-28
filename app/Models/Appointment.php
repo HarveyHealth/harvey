@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Model, Builder, SoftDeletes};
 use App\Http\Traits\BelongsToPatientAndPractitioner;
 use App\Http\Traits\HasStatusColumn;
 use Lang;
@@ -52,6 +51,23 @@ class Appointment extends Model
         self::FIRST_APPOINTMENT_TYPE_ID => 'first_appointment',
         self::FOLOW_UP_TYPE_ID => 'follow_up',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
+            return $builder->whereHas('practitioner.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+
+        static::addGlobalScope('enabledPatient', function (Builder $builder) {
+            return $builder->whereHas('patient.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+    }
 
     /*
      * Relationships
