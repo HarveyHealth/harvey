@@ -152,7 +152,9 @@ $factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(App\Models\Patient::class)->create()->id,
         'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'sku_id' => factory(App\Models\SKU::class)->create()->id
+        'sku_id' => function () {
+            return factory(App\Models\SKU::class)->create()->id;
+        },
     ];
 });
 
@@ -199,4 +201,28 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
     $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
 
     return $output;
+});
+
+$factory->define(App\Models\LabOrder::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => function () {
+            return factory(App\Models\Patient::class)->create()->id;
+        },
+        'practitioner_id' => function () {
+            return factory(App\Models\Practitioner::class)->create()->id;
+        },
+        'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(App\Models\LabTest::class, function (Faker\Generator $faker) {
+    return [
+        'lab_order_id' => function () {
+            return factory(App\Models\LabOrder::class)->create()->id;
+        },
+        'sku_id' => function () {
+            return factory(App\Models\SKU::class)->create()->id;
+        },
+        'shipment_code' => $faker->isbn13,
+    ];
 });

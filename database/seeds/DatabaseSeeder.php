@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
+            $this->call(LabOrdersSeeder::class);
             $this->call(MessagesSeeder::class);
 
             $this->command->getOutput()->writeln('Seeding Successful!');
@@ -29,7 +30,7 @@ class DatabaseSeeder extends Seeder
             $this->command->getOutput()->writeln('<info>All user passwords:</info> secret');
             $this->command->getOutput()->writeln('<info>Oauth Password Client Name:</info> Postman');
             $this->command->getOutput()->writeln('<info>Oauth Password Client ID:</info> 1');
-            $this->command->getOutput()->writeln('<info>Oauth Password Client Secret:</info> bHdnJqfTV7QtKC8JTifFenxBcCW4TlUVXQPk63In');
+            $this->command->getOutput()->writeln('<info>Oauth Password Client Secret:</info> ' . OauthClientSeeder::SECRET);
         }
     }
 }
