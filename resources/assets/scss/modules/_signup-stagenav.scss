@@ -14,7 +14,7 @@
 
 span.stage-nav-link {
   &.current-stage {
-    background-color: $harvey-tertiary !important;
+    background-color: darken($harvey-tertiary, 15%) !important;
   }
   &:not(.current-stage) {
     background-color: #ddd !important;

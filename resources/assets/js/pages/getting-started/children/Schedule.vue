@@ -8,7 +8,7 @@
     <div class="signup-container signup-stage-container signup-schedule-container">
       <router-link class="signup-back-button" :to="{ name: 'phone', path: '/phone' }"><i class="fa fa-arrow-left"></i> Phone</router-link>
 
-      <div class="signup-schedule-wrapper">
+      <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
           <h3>Choose date</h3>
           <div class="schedule-week">
@@ -20,8 +20,8 @@
               <li>Mon</li>
               <li>Tue</li>
               <li>Wed</li>
-              <li>Thu</li>
-              <li>Fri</li>
+              <li class="available">Thu</li>
+              <li class="selected">Fri</li>
               <li>Sat</li>
               <li>Sun</li>
             </ol>
@@ -30,7 +30,11 @@
         <div class="schedule-section schedule-times">
           <h3>Choose time</h3>
           <ol>
-            <li></li>
+            <li class="available">9a</li>
+            <li class="available">10a</li>
+            <li class="available">10:30a</li>
+            <li class="available">11p</li>
+            <li class="available">11:30p</li>
           </ol>
           <p class="schedule-timezone"></p>
         </div>
@@ -65,6 +69,9 @@ export default {
       },
       processing: false,
     }
+  },
+  methods: {
+
   },
   mounted () {
     this.$root.$data.signup.visistedStages.push('schedule');
