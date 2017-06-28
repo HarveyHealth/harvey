@@ -42,7 +42,7 @@
       <div v-for="test in selectedTests">
           <div class="input__container">
               <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
-              <input  class="input--text" type="text">
+              <input v-model="shippingCodes[test.id]" class="input--text" type="text">
           </div>
         </div>
       </div>
@@ -101,7 +101,8 @@ export default {
       city: '',
       zip: '',
       state: '',
-      selectedTests: []
+      selectedTests: [],
+      shippingCodes: {}
     }
   },
   methods: {
@@ -133,15 +134,21 @@ export default {
       this.step = 1
     },
     createLabOrder() {
+        this.selectedTests.map(e => {
+          e.shipping_code = this.shippingCodes[e.id]
+          return e
+        })
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, {
           practitioner_id: this.selectedDoctor,
-          patient_id: this.selectedClient
+          patient_id: this.selectedClient,
+          shipment_code: this.masterTracking
         })
         .then(response => {
           this.selectedTests.forEach(e => {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: response.data.data.id,
-                sku_id: e.id
+                sku_id: e.id,
+                shipment_code: e.shipment_code
               })
           })
           this.$parent.notificationMessage = "Successfully added!";

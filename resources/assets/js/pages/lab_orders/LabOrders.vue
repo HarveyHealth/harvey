@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
+            <AddLabOrders v-if="$root.$data.labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" />
             <Overlay 
                 :active="addFlyoutActive"
