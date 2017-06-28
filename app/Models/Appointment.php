@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use App\Jobs\SendTransactionalEmail;
 use Lang;
+use Log;
 
 class Appointment extends Model
 {
@@ -143,6 +145,35 @@ class Appointment extends Model
         ]);
 
         return $this->reminders()->save($reminder);
+    }
+
+    public function sendPatientReminderEmail()
+    {
+        $recipient = $this->patient->user;
+
+        if ($this->wasPatientReminderEmailSent()) {
+            Log::info("User #{$recipient->id} was already email notified about Appointment #{$this->id}. Skipping.");
+            return false;
+        } else {
+            Log::info("Sending {$recipient->type} reminder to User #{$recipient->id} about Appointment #{$this->id}.");
+
+            $sendTransactionalEmail = (new SendTransactionalEmail())
+                ->setTo($recipient->email)
+                ->setTemplate('patient.appointment.reminder')
+                ->setTemplateModel([
+                    'practitioner_name' => $this->practitioner->user->fullName(),
+                    'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
+                    'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
+                    'harvey_id' => $recipient->id,
+                    'patient_name' => $recipient->first_name,
+                    'patient_phone' => $recipient->phone,
+            ]);
+
+            dispatch($sendTransactionalEmail);
+
+            $this->setPatientReminderEmailSent();
+            return true;
+        }
     }
 
     /*
