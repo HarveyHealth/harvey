@@ -123,9 +123,9 @@ export default {
     },
     updateOrder() {
       this.$props.rowData.test_list.forEach(e => {
-        if (this.shipmentCode[e.test_id]) {
-          axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${e.test_id}`, {
-            status: this.shipmentCode[e.test_id]
+        if (this.selectedShipment[Number(e.test_id)] != undefined) {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+            status: this.selectedShipment[Number(e.test_id)].toLowerCase()
           })
         }
       })
