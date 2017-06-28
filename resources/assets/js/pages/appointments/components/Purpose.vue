@@ -7,7 +7,7 @@
       v-else
       class="input--textarea"
       :value="textValue"
-      @input="$$count > 0 ? onInput($event.target.value) : false"
+      @input="$$count > -1 ? onInput($event) : false"
     ></textarea>
   </div>
 </template>

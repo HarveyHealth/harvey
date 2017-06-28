@@ -4,7 +4,7 @@
         <UserNav />
         <div class="main-content">
             <div class="main-header">
-                <div class="container">
+                <div class="container container-backoffice">
                     <h1 class="title header-xlarge"><span class="text">Details</span></h1>
                 </div>
             </div>

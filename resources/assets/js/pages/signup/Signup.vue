@@ -99,8 +99,15 @@
                     currency: 'USD',
                     properties: { laravel_object: Laravel.user }
                 });
-                ga('category', 'website');
-                ga('action', 'Sign Up For Account');
+                ga('send', {
+                    hitType: "event", 
+                    eventCategory: "clicks", 
+                    eventAction: "Sign-up For Account", 
+                    eventLabel: null,
+                    eventValue: 50, 
+                    hitCallback: null, 
+                    userId: null
+                });
               }
 
               // remove local storage items on sign up

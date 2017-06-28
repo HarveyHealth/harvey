@@ -10,6 +10,7 @@
             "name": "aws/aws-sdk-php",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "3.29.6",
 =======
             "version": "3.30.2",
@@ -40,6 +41,18 @@
                 "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
                 "reference": "20539a38dc643a2700f80ae8647dbd1a05d3f7a9",
 >>>>>>> remotes/origin/har-247-lab-tests-details
+=======
+            "version": "3.30.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "2208af5a13082a0e5c1b7a8f4f7336a7e8805966"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2208af5a13082a0e5c1b7a8f4f7336a7e8805966",
+                "reference": "2208af5a13082a0e5c1b7a8f4f7336a7e8805966",
+>>>>>>> remotes/origin/current-release
                 "shasum": ""
             },
             "require": {
@@ -108,6 +121,7 @@
             ],
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-06-15T21:00:24+00:00"
 =======
             "time": "2017-06-23T18:54:40+00:00"
@@ -115,6 +129,9 @@
 =======
             "time": "2017-06-23T18:54:40+00:00"
 >>>>>>> remotes/origin/har-247-lab-tests-details
+=======
+            "time": "2017-06-27T22:53:36+00:00"
+>>>>>>> remotes/origin/current-release
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1209,6 +1226,7 @@
             "name": "giggsey/libphonenumber-for-php",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             "version": "8.5.1",
 =======
             "version": "8.5.2",
@@ -1224,6 +1242,8 @@
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ab23498bb5b787ae108f5fba3e50134ce3635503",
                 "reference": "ab23498bb5b787ae108f5fba3e50134ce3635503",
 =======
+=======
+>>>>>>> remotes/origin/current-release
             "version": "8.5.2",
             "source": {
                 "type": "git",
@@ -1234,11 +1254,14 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/25e86a18972d349480b5456805c4a61a76667e22",
                 "reference": "25e86a18972d349480b5456805c4a61a76667e22",
+<<<<<<< HEAD
 >>>>>>> remotes/origin/lab-orders-tests-be
 =======
                 "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/25e86a18972d349480b5456805c4a61a76667e22",
                 "reference": "25e86a18972d349480b5456805c4a61a76667e22",
 >>>>>>> remotes/origin/har-247-lab-tests-details
+=======
+>>>>>>> remotes/origin/current-release
                 "shasum": ""
             },
             "require": {
@@ -1295,6 +1318,7 @@
             ],
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             "time": "2017-06-06T14:19:18+00:00"
 =======
             "time": "2017-06-20T18:25:02+00:00"
@@ -1302,6 +1326,9 @@
 =======
             "time": "2017-06-20T18:25:02+00:00"
 >>>>>>> remotes/origin/har-247-lab-tests-details
+=======
+            "time": "2017-06-20T18:25:02+00:00"
+>>>>>>> remotes/origin/current-release
         },
         {
             "name": "giggsey/locale",
@@ -3376,16 +3403,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.7",
+            "version": "v0.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50"
+                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
-                "reference": "be969b9dc89dcaefdb9a3117fa91fa38bca19f50",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
+                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
                 "shasum": ""
             },
             "require": {
@@ -3445,7 +3472,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-06-20T12:51:31+00:00"
+            "time": "2017-06-24T06:16:19+00:00"
         },
         {
             "name": "pusher/pusher-php-server",

@@ -17,6 +17,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
+  font-size: .85em;
   max-width: 450px;
   @include padding(35px);
   transform: translate(-50%, -50%);
@@ -25,7 +26,6 @@
   width: 90%;
 
   p {
-    font-size: 1.15em;
     font-weight: 300;
     @include margin(null null 1rem null);
     line-height: 1rem;
@@ -39,18 +39,27 @@
     @include margin(null null 30px null);
   }
   .modal-button-container {
-    @include margin(30px null null null);
+    // @include margin(30px null null null);
     p {
       font-style: italic;
       line-height: 1.5;
       @include margin(1em null null null);
     }
+    button {
+      width: 100%;
+      display: inline-block;
+      margin: 10px 0;
+    }
   }
+
+.appointment-modal .button--cancel {
+  margin-top: 15px;
+}
 
 .appointment-modal .modal {
   color: darken($gray, 15%);
   max-width: 35em;
-  top: 40%;
+  // top: 40%;
   .modal-header {
     font-size: 1.5em;
   }
@@ -58,5 +67,19 @@
     font-size: 1em;
     font-weight: 300;
     @include margin(null null 1em null);
+  }
+}
+
+@include query(lg) {
+  .modal {
+    font-size: 1em;
+  }
+  .modal-button-container {
+    button {
+      width: auto;
+    }
+  }
+  .appointment-modal .button--cancel {
+    @include margin(0 0 0 15px);
   }
 }

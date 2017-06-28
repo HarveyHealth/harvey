@@ -23,7 +23,6 @@ class LabOrderTransformer extends TransformerAbstract
             'practitioner_id' => (string) $labOrder->practitioner_id,
             'shipment_code' => (string) $labOrder->shipment_code,
             'status' => $labOrder->status,
-
         ];
     }
 
