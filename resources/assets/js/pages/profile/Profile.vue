@@ -1,6 +1,12 @@
 <template>
     <div class="main-container">
         <div class="main-content">
+            <NotificationPopup
+                    :active="notificationActive"
+                    :comes-from="notificationDirection"
+                    :symbol="notificationSymbol"
+                    :text="notificationMessage"
+            />
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
@@ -14,11 +20,17 @@
                 </div>
                 <div class="card-content-container">
                     <div class="card-content-wrap">
+
+                        <div class="error-text">
+                            <p v-for="error in errorMessages">{{ error.detail }} </p>
+                        </div>
+
                         <form action="#" method="POST" class="form" id="user_form">
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <label for="first_name">First Name</label>
                                     <input v-model="user.attributes.first_name" type="text" name="first_name"/>
+
                                     <br/>
                                     <label for="last_name">Last Name</label>
                                     <input v-model="user.attributes.last_name" type="text" name="last_name"/>
@@ -31,10 +43,9 @@
                                     <input v-model="user.attributes.phone" type="number" name="phone"/>
                                     <br/>
                                     <label for="timezone">Timezone</label>
-                                    <select v-model="user.attributes.timezone">
+                                    <select name="timezone" v-model="user.attributes.timezone">
                                         <option v-for="timezone in timezones" >{{ timezone }}</option>
                                     </select>
-                                    <!--<input v-model="user.attributes.timezone" type="text" name="timezone"/>-->
                                 </div>
                                 <div class="formgroup">
                                     <label for="address_1">Mailing Address</label>
@@ -68,9 +79,13 @@
     import diff from 'object-diff';
     import _ from 'lodash';
     import timezones from '../../../../../public/timezones.json';
+    import NotificationPopup from '../../commons/NotificationPopup.vue'
 
     export default {
         name: 'profile',
+        components: {
+            NotificationPopup
+        },
         data() {
             return {
                 user: {
@@ -87,19 +102,36 @@
                         zip: '',
                     }
                 },
-                timezones: timezones
+                timezones: timezones,
+                notificationSymbol: '&#10003;',
+                notificationMessage: 'Changes Saved',
+                notificationActive: false,
+                notificationDirection: 'top-right',
+                errorMessages: null,
             }
         },
         methods: {
+            flashSuccess() {
+                this.notificationActive = true;
+                setTimeout(() => this.notificationActive = false, 2000);
+            },
+            resetErrorMessages() {
+                this.errorMessages = null;
+            },
             submit() {
                 if(_.isEmpty(this.updates))
                     return;
 
+                this.resetErrorMessages();
+
                 axios.patch(`/api/v1/users/${this.user.id}`, this.updates)
                     .then(response => {
                         this.$root.$data.global.user = response.data.data;
+                        this.flashSuccess();
                     })
-                    .catch(err => {console.log(err);});
+                    .catch(err => {
+                        this.errorMessages = err.response.data.errors;
+                    });
             },
             getUser() {
                 axios.get(`/api/v1/users/${Laravel.user.id}`)
@@ -130,6 +162,7 @@
 <style>
     input, label {
         display:block;
+        width: 80%;
     }
 
     .formgroups {
