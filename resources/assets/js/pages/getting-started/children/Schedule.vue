@@ -21,7 +21,7 @@
               <li v-for="(dayObj, key) in week.days"
                   v-text="key"
                   @click="handleSelectDay(i, key, dayObj)"
-                  :class="{ 'available': dayObj !== null, 'selected': selectedWeek === i && selectedDay === key }"
+                  :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
               ></li>
             </ol>
           </div>
@@ -44,7 +44,9 @@
 
       <p class="text-centered">Please note, all times are listed in <strong>{{ $root.addTimezone() }}</strong>. Please allow 60 minutes or longer for appointments.</p>
 
-      <button class="button button--blue" style="width: 160px" :disabled="processing">
+      <p class="error-text" v-html="errorText" v-show="errorText" style="display:block"></p>
+
+      <button class="button button--blue" style="width: 160px" :disabled="processing" @click="checkAppointment">
         <span v-if="!processing">Continue</span>
         <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
       </button>
@@ -72,6 +74,7 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
       },
+      errorText: null,
       processing: false,
       selectedWeek: null,
       selectedDate: null,
@@ -86,8 +89,7 @@ export default {
       return moment(value).format('dddd, MMMM Do');
     },
     timeDisplay(value) {
-      return moment.utc(value)
-        .local()
+      return moment(value)
         .format('h:mm a')
         .replace(/[m ]*/g,'')
         .replace(/:00/,'');
@@ -118,6 +120,15 @@ export default {
     }
   },
   methods: {
+    checkAppointment() {
+      this.errorText = null;
+      if (this.selectedTime === null) {
+        this.errorText = 'Please select a valid date and time.';
+        return;
+      }
+      this.processing = true;
+      this.$router.push({ name: 'confirmation', path: 'confirmation' });
+    },
     createWeek(start) {
       return {
         start: start.add(1, 'days').format('YYYY-MM-DD'),
@@ -129,14 +140,19 @@ export default {
       return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
     },
     handleSelectDay(index, day, dayObj) {
-      this.selectedWeek = index;
-      this.selectedDate = dayObj.date;
-      this.selectedDay = day;
-      this.availableTimes = dayObj.times;
+      this.selectedTime = null;
+      this.selectedDate = null;
+      if (dayObj && dayObj.times.length) {
+        this.selectedWeek = index;
+        this.selectedDate = dayObj.date;
+        this.selectedDay = day;
+        this.availableTimes = dayObj.times;
+      }
     },
     handleSelectTime(time, index) {
       this.selectedTime = index;
-      this.$root.$data.signup.data.appointment_at = moment(time).format('YYYY-MM-DD HH:mm:ss');
+      this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
+      // console.log(JSON.stringify(this.$root.$data.signup.data, null, 2));
     },
     weekReference(index) {
       switch (index) {

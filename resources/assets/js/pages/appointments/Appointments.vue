@@ -398,7 +398,7 @@ export default {
           .filter(obj => obj.times.length)
           // Transform into a format the TableData component can consume
           .map(obj => {
-            return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
+            return { value: moment.utc(obj.date).format('dddd, MMMM Do'), data: obj };
           });
         // if no availabilty, show warning message
         if (!list.filter(obj => obj.times.length).length) {
@@ -431,12 +431,12 @@ export default {
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
             ga('send', {
-              hitType: "event", 
-              eventCategory: "clicks", 
-              eventAction: "Comfirm Appointment", 
+              hitType: "event",
+              eventCategory: "clicks",
+              eventAction: "Comfirm Appointment",
               eventLabel: null,
-               eventValue: 50, 
-               hitCallback: null, 
+               eventValue: 50,
+               hitCallback: null,
                userId: null
             });
           }
@@ -765,7 +765,7 @@ export default {
 
     setTime(timeObj) {
       if (timeObj) {
-        this.appointment.time = this.$root.addTimezone(toLocal(timeObj.stored, 'h:mm a'));
+        this.appointment.time = this.$root.addTimezone(moment(timeObj.stored).format('h:mm a'));
         this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
       } else {
         this.appointment.time = '';
