@@ -18,10 +18,10 @@
               <span class="dates">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
-              <li v-for="(times, key) in week.days"
+              <li v-for="(dayObj, key) in week.days"
                   v-text="key"
-                  @click="handleSelectDay(i, key, times)"
-                  :class="{ 'available': times !== null, 'selected': selectedWeek === i && selectedDay === key }"
+                  @click="handleSelectDay(i, key, dayObj)"
+                  :class="{ 'available': dayObj !== null, 'selected': selectedWeek === i && selectedDay === key }"
               ></li>
             </ol>
           </div>
@@ -29,6 +29,7 @@
         </div>
         <div class="schedule-section schedule-times">
           <h3>Choose time</h3>
+          <p class="schedule-info-text" v-show="selectedDay">{{ selectedDate | fullDate }}</p>
 
           <ol>
             <li v-for="(time, j) in availableTimes"
@@ -37,7 +38,7 @@
             >{{ time | timeDisplay }}</li>
           </ol>
 
-          <p class="schedule-timezone">Time Zone: {{ $root.addTimezone() }}</p>
+          <p class="schedule-info-text">Time Zone: {{ $root.addTimezone() }}</p>
         </div>
       </div>
 
@@ -73,6 +74,7 @@ export default {
       },
       processing: false,
       selectedWeek: null,
+      selectedDate: null,
       selectedDay: null,
       selectedTime: null,
       weeks: 4,
@@ -80,6 +82,9 @@ export default {
     }
   },
   filters: {
+    fullDate(value) {
+      return moment(value).format('dddd, MMMM Do');
+    },
     timeDisplay(value) {
       return moment.utc(value)
         .local()
@@ -102,7 +107,10 @@ export default {
         // Cycle through week objects and compare with date
         weeks.forEach(weekObj => {
           if (this.dayWithWeek(dayObj.date, weekObj.start)) {
-            weekObj.days[dayObj.day.substring(0,3)] = dayObj.times.map(t => t.stored)
+            weekObj.days[dayObj.day.substring(0,3)] = {
+              date: dayObj.date,
+              times: dayObj.times.map(t => t.stored)
+            }
           }
         })
       })
@@ -120,10 +128,11 @@ export default {
     dayWithWeek(date, start) {
       return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
     },
-    handleSelectDay(index, day, times) {
+    handleSelectDay(index, day, dayObj) {
       this.selectedWeek = index;
+      this.selectedDate = dayObj.date;
       this.selectedDay = day;
-      this.availableTimes = times;
+      this.availableTimes = dayObj.times;
     },
     handleSelectTime(time, index) {
       this.selectedTime = index;
