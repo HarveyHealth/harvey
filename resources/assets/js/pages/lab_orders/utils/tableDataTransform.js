@@ -29,10 +29,10 @@ export default function (orders, tests, patientLookUp, practitionerLookup, user,
             shipment_codes: {},
             completed_ats: {},
             order_date: moment(obj.attributes.created_at.date).format("ddd MMM Do"),
-            address_1: obj.included.attributes.address_1,
-            address_2: obj.included.attributes.address_2,
-            state: obj.included.attributes.state,
-            zip: obj.included.attributes.zip,
+            address_1: obj.attributes.address_1,
+            address_2: obj.attributes.address_2,
+            state: obj.attributes.state,
+            zip: obj.attributes.zip,
             test_list: []
         }
         tests.map(test => {

@@ -61,8 +61,11 @@
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">shipping address</label>
-                <span class="input--text">{{ addressOne }}</span>
-                <span class="input--text">{{ addressTwo }}</span>
+                <input :placeholder="addressOne || 'Enter address 1'" v-model="addressOne" class="input--text" type="text">
+                <input :placeholder="addressTwo || 'Enter address 2'" v-model="addressTwo" class="input--text" type="text">
+                <input :placeholder="city || 'Enter city'" v-model="city" class="input--text" type="text">
+                <input :placeholder="state || 'Enter state'" v-model="state" class="input--text" type="text"style="width: 45%; float:left; margin-right: 5%;">
+                <input :placeholder="zip || 'Enter zip'" v-model="zip" class="input--text" type="text"  style="width: 50%; float: left;">
             </div>
           </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -153,6 +156,15 @@ export default {
     },
     addressTwo() {
       return this.$props.rowData ? this.$props.rowData.address_2 : ''
+    },
+    city() {
+      return this.$props.rowData ? this.$props.rowData.city : ''
+    },
+    state() {
+      return this.$props.rowData ? this.$props.rowData.state : ''
+    },
+    zip() {
+      return this.$props.rowData ? this.$props.rowData.zip : ''
     },
     doctorList() {
       let data = {}

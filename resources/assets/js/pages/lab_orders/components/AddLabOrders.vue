@@ -140,20 +140,20 @@ export default {
           return e
         })
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, {
-          practitioner_id: this.selectedDoctor,
-          patient_id: this.selectedClient,
+          practitioner_id: Number(this.selectedDoctor),
+          patient_id: Number(this.selectedClient),
           shipment_code: this.masterTracking,
           address_1: this.address1,
           address_2: this.address2,
           city: this.city,
           state: this.state,
-          zip: this.zip
+          zip: Number(this.zip)
         })
         .then(response => {
           this.selectedTests.forEach(e => {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
-                lab_order_id: response.data.data.id,
-                sku_id: e.id,
+                lab_order_id: Number(response.data.data.id),
+                sku_id: Number(e.id),
                 shipment_code: e.shipment_code
               })
           })
