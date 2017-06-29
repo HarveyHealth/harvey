@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.29.6",
+            "version": "3.30.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "f09876b949e51110c3385f71fb3ad21880f85ded"
+                "reference": "2208af5a13082a0e5c1b7a8f4f7336a7e8805966"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/f09876b949e51110c3385f71fb3ad21880f85ded",
-                "reference": "f09876b949e51110c3385f71fb3ad21880f85ded",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/2208af5a13082a0e5c1b7a8f4f7336a7e8805966",
+                "reference": "2208af5a13082a0e5c1b7a8f4f7336a7e8805966",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-06-15T21:00:24+00:00"
+            "time": "2017-06-27T22:53:36+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -207,16 +207,16 @@
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a"
+                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/e8aee99936694bae40d0d7713afeeb882b11383a",
-                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
+                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
                 "shasum": ""
             },
             "require": {
@@ -234,7 +234,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -262,7 +262,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-04-06T17:24:56+00:00"
+            "time": "2017-06-29T11:08:57+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
@@ -1177,16 +1177,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.5.1",
+            "version": "8.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ab23498bb5b787ae108f5fba3e50134ce3635503"
+                "reference": "25e86a18972d349480b5456805c4a61a76667e22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ab23498bb5b787ae108f5fba3e50134ce3635503",
-                "reference": "ab23498bb5b787ae108f5fba3e50134ce3635503",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/25e86a18972d349480b5456805c4a61a76667e22",
+                "reference": "25e86a18972d349480b5456805c4a61a76667e22",
                 "shasum": ""
             },
             "require": {
@@ -1241,7 +1241,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-06-06T14:19:18+00:00"
+            "time": "2017-06-20T18:25:02+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1294,16 +1294,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.2.3",
+            "version": "6.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006"
+                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/8d6c6cc55186db87b7dc5009827429ba4e9dc006",
-                "reference": "8d6c6cc55186db87b7dc5009827429ba4e9dc006",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/f4db5a78a5ea468d4831de7f0bf9d9415e348699",
+                "reference": "f4db5a78a5ea468d4831de7f0bf9d9415e348699",
                 "shasum": ""
             },
             "require": {
@@ -1313,8 +1313,11 @@
             },
             "require-dev": {
                 "ext-curl": "*",
-                "phpunit/phpunit": "^4.0",
+                "phpunit/phpunit": "^4.0 || ^5.0",
                 "psr/log": "^1.0"
+            },
+            "suggest": {
+                "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
             "extra": {
@@ -1352,7 +1355,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-02-28T22:50:30+00:00"
+            "time": "2017-06-22T18:50:49+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -2682,16 +2685,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "1.22.1",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
+                "reference": "fd8c787753b3a2ad11bc60c063cff1358a32a3b4",
                 "shasum": ""
             },
             "require": {
@@ -2712,7 +2715,7 @@
                 "phpunit/phpunit-mock-objects": "2.3.0",
                 "ruflin/elastica": ">=0.90 <3.0",
                 "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
@@ -2756,7 +2759,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2017-03-13T07:08:03+00:00"
+            "time": "2017-06-19T01:22:40+00:00"
         },
         {
             "name": "mtdowling/cron-expression",
@@ -2912,16 +2915,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "2b9e2f71b722f7c53918ab0c25f7646c2013f17d"
+                "reference": "0808939f81c1347a3c8a82a5925385a08074b0f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/2b9e2f71b722f7c53918ab0c25f7646c2013f17d",
-                "reference": "2b9e2f71b722f7c53918ab0c25f7646c2013f17d",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0808939f81c1347a3c8a82a5925385a08074b0f1",
+                "reference": "0808939f81c1347a3c8a82a5925385a08074b0f1",
                 "shasum": ""
             },
             "require": {
@@ -2959,7 +2962,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-03-05T18:23:57+00:00"
+            "time": "2017-06-28T20:53:48+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -3313,16 +3316,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.6",
+            "version": "v0.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d"
+                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/7028d6d525fb183d50b249b7c07598e3d386b27d",
-                "reference": "7028d6d525fb183d50b249b7c07598e3d386b27d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
+                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
                 "shasum": ""
             },
             "require": {
@@ -3382,7 +3385,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-06-04T10:34:20+00:00"
+            "time": "2017-06-24T06:16:19+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -3621,16 +3624,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v4.12.0",
+            "version": "v4.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "a4d64ebe8fff63e9c490674cd3bf6d773e3db1df"
+                "reference": "834681b9cdfa68d88a27e36ec9e356b598a5f0e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a4d64ebe8fff63e9c490674cd3bf6d773e3db1df",
-                "reference": "a4d64ebe8fff63e9c490674cd3bf6d773e3db1df",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/834681b9cdfa68d88a27e36ec9e356b598a5f0e6",
+                "reference": "834681b9cdfa68d88a27e36ec9e356b598a5f0e6",
                 "shasum": ""
             },
             "require": {
@@ -3672,7 +3675,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2017-06-06T00:06:25+00:00"
+            "time": "2017-06-20T01:39:06+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5560,16 +5563,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.7.20",
+            "version": "5.7.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b"
+                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
-                "reference": "3cb94a5f8c07a03c8b7527ed7468a2926203f58b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3b91adfb64264ddec5a2dee9851f354aa66327db",
+                "reference": "3b91adfb64264ddec5a2dee9851f354aa66327db",
                 "shasum": ""
             },
             "require": {
@@ -5638,7 +5641,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-05-22T07:42:55+00:00"
+            "time": "2017-06-21T08:11:54+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
