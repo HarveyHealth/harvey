@@ -71,7 +71,7 @@
             <div class="inline-centered">
                 <button class="button"
                 @click="createLabOrder()"
-                :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
+                :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
                 >Mark as Shipped</button>
             </div>
         </div>
