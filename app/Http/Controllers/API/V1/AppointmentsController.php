@@ -10,7 +10,6 @@ use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
 use Carbon;
 use ResponseCode;
-use Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -64,16 +63,12 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        $validator = Validator::make($inputData, [
+        $validator = StrictValidator::make($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available',
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
