@@ -254,16 +254,16 @@
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.5.0",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a"
+                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/e8aee99936694bae40d0d7713afeeb882b11383a",
-                "reference": "e8aee99936694bae40d0d7713afeeb882b11383a",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
+                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
                 "shasum": ""
             },
             "require": {
@@ -281,7 +281,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -309,7 +309,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-04-06T17:24:56+00:00"
+            "time": "2017-06-29T11:08:57+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
@@ -3002,16 +3002,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.0.5",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "2b9e2f71b722f7c53918ab0c25f7646c2013f17d"
+                "reference": "0808939f81c1347a3c8a82a5925385a08074b0f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/2b9e2f71b722f7c53918ab0c25f7646c2013f17d",
-                "reference": "2b9e2f71b722f7c53918ab0c25f7646c2013f17d",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/0808939f81c1347a3c8a82a5925385a08074b0f1",
+                "reference": "0808939f81c1347a3c8a82a5925385a08074b0f1",
                 "shasum": ""
             },
             "require": {
@@ -3049,7 +3049,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-03-05T18:23:57+00:00"
+            "time": "2017-06-28T20:53:48+00:00"
         },
         {
             "name": "paragonie/random_compat",
