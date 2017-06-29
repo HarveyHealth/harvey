@@ -31,7 +31,10 @@
                                     <input v-model="user.attributes.phone" type="number" name="phone"/>
                                     <br/>
                                     <label for="timezone">Timezone</label>
-                                    <input v-model="user.attributes.timezone" type="text" name="timezone"/>
+                                    <select v-model="user.attributes.timezone">
+                                        <option v-for="timezone in timezones" >{{ timezone }}</option>
+                                    </select>
+                                    <!--<input v-model="user.attributes.timezone" type="text" name="timezone"/>-->
                                 </div>
                                 <div class="formgroup">
                                     <label for="address_1">Mailing Address</label>
@@ -64,6 +67,7 @@
 <script>
     import diff from 'object-diff';
     import _ from 'lodash';
+    import timezones from '../../../../../public/timezones.json';
 
     export default {
         name: 'profile',
@@ -82,7 +86,8 @@
                         state: '',
                         zip: '',
                     }
-                }
+                },
+                timezones: timezones
             }
         },
         methods: {
@@ -108,7 +113,7 @@
             this.$root.$data.global.currentPage = 'profile';
         },
         created() {
-            if(this.$root.$data.global.user) {
+            if(this.$root.$data.global.user.id) {
                 this.user =_.cloneDeep(this.$root.$data.global.user);
             } else {
                 this.getUser();
