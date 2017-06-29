@@ -64,13 +64,14 @@
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
             </span>
+            <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
           </div>
         </div> 
         <div>
             <div class="inline-centered">
                 <button class="button"
                 @click="createLabOrder()"
-                :disabled="selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
+                :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || address2.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
                 >Mark as Shipped</button>
             </div>
         </div>
@@ -175,6 +176,13 @@ export default {
     testNameList() {
       let labArray = Object.values(this.$root.$data.labTests)
       return labArray
+    },
+    validZip() {
+      if (this.zip != '') {
+        return this.zip.split('').filter(e => Number(e) == e).length > 0
+      } else {
+        return true
+      }
     }
   },
   watch: {
