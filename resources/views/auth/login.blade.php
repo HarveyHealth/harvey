@@ -3,13 +3,12 @@
 @section('page_title','Log in')
 
 @section('main_content')
-<section class="section login">
-    <div class="container">
-        <header class="content has-text-centered">
-            <h2 class="title is-3">Log in</h2>
-        </header>
-        <div class="card">
-            <div class="card-content">
+<section class="signup-content" style="background-color: rgba(119,119,116, 0.08); width: 100%; height: 100%;">
+    <div class="container small">'
+        <img src="/images/signup/tree.png" class="registration-tree">
+        <h2 class="theader-xlarge">Log in</h2>
+            <div class="card">
+                <div class="card-section">
                 <form
                     id="login"
                     role="form"
@@ -21,8 +20,7 @@
                 >
                     {{ csrf_field() }}
 
-                    <label class="label">Email</label>
-                    <p class="control has-icon">
+                    <div class="input-wrap">
                         <input
                             v-model="login.form.email"
                             name="email"
@@ -39,10 +37,9 @@
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
                             <span class="help is-danger" v-text="login.form.errors.get('email')"></span>
                         </template>
-                    </p>
+                    </div>
 
-                    <label class="label">Password</label>
-                    <p class="control has-icon">
+                    <div class="input-wrap">
                         <input
                             v-model="login.form.password"
                             name="password"
@@ -59,7 +56,7 @@
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
                             <span class="help is-danger" v-text="login.form.errors.get('password')"></span>
                         </template>
-                    </p>
+                    </div>
 
                     <p class="control">
                         <label class="checkbox">
