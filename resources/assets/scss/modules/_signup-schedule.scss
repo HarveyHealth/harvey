@@ -65,7 +65,7 @@
     }
 
     &.selected {
-      background: $harvey-tertiary;
+      background: $harvey-tertiary !important;
       color: $white;
     }
   }

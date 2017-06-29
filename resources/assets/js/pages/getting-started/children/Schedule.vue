@@ -11,31 +11,32 @@
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
           <h3>Choose date</h3>
-          <div class="schedule-week">
+
+          <div v-for="(week, i) in weekData" class="schedule-week">
             <div class="schedule-week-info">
-              <span class="week">This week</span>
-              <span class="dates">June 26 - June 30</span>
+              <span class="week">{{ weekReference(i) }}</span>
+              <span class="dates">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
-              <li>Mon</li>
-              <li>Tue</li>
-              <li>Wed</li>
-              <li class="available">Thu</li>
-              <li class="selected">Fri</li>
-              <li>Sat</li>
-              <li>Sun</li>
+              <li v-for="(times, key) in week.days"
+                  v-text="key"
+                  @click="handleSelectDay(i, key, times)"
+                  :class="{ 'available': times !== null, 'selected': selectedWeek === i && selectedDay === key }"
+              ></li>
             </ol>
           </div>
+
         </div>
         <div class="schedule-section schedule-times">
           <h3>Choose time</h3>
+
           <ol>
-            <li class="available">9a</li>
-            <li class="available">10a</li>
-            <li class="available">10:30a</li>
-            <li class="available">11p</li>
-            <li class="available">11:30p</li>
+            <li v-for="(time, j) in availableTimes"
+                :class="{ 'available': true, 'selected': selectedTime === j }"
+                @click="handleSelectTime(time, j)"
+            >{{ time | timeDisplay }}</li>
           </ol>
+
           <p class="schedule-timezone">Time Zone: {{ $root.addTimezone() }}</p>
         </div>
       </div>
@@ -48,7 +49,6 @@
       </button>
 
     </div>
-    <div :data-test="JSON.stringify(this.availability, null, 2)"></div>
   </div>
 </template>
 
@@ -65,18 +65,34 @@ export default {
   },
   data() {
     return {
+      availableTimes: [],
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
       },
       processing: false,
+      selectedWeek: null,
+      selectedDay: null,
+      selectedTime: null,
       weeks: 4,
       weekStart: moment().startOf('week')
     }
   },
+  filters: {
+    timeDisplay(value) {
+      return moment.utc(value)
+        .local()
+        .format('h:mm a')
+        .replace(/[m ]*/g,'')
+        .replace(/:00/,'');
+    },
+    weekDay(value) {
+      return moment.utc(value).local().format('MMM D');
+    }
+  },
   computed: {
-    availability() {
+    weekData() {
       const list = this.$root.$data.signup.availability;
       const weeks = [];
       for (let i = 1; i <= this.weeks; i++) {
@@ -103,6 +119,27 @@ export default {
     },
     dayWithWeek(date, start) {
       return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
+    },
+    handleSelectDay(index, day, times) {
+      this.selectedWeek = index;
+      this.selectedDay = day;
+      this.availableTimes = times;
+    },
+    handleSelectTime(time, index) {
+      this.selectedTime = index;
+      this.$root.$data.signup.data.appointment_at = moment(time).format('YYYY-MM-DD HH:mm:ss');
+    },
+    weekReference(index) {
+      switch (index) {
+        case 0:
+          return 'This week';
+        case 1:
+          return 'Next week';
+        case 2:
+          return 'In two weeks';
+        case 3:
+          return 'In thee weeks';
+      }
     }
   },
   mounted () {
