@@ -36,6 +36,7 @@ class signUpFlowTest extends DuskTestCase
         $schedule = factory(PractitionerSchedule::class)->create(['day_of_week' => 'Tuesday', 'start_time' => '08:00:00', 'stop_time' => '12:00:00']);
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
+                      ->pause(3000)
                       ->addUser($user)
                       ->pause(3000)
                       ->click('@letsgo')

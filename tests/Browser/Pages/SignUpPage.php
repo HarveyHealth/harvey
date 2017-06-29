@@ -73,6 +73,7 @@ class SignUpPage extends BasePage
         return [
             '@element' => '#selector',
             '@signUp' => '#app > div > form > div.text-centered > input',
+            '@page' => '#app > div:nth-child(2) > form > div > div > div.guide-block',
             '@terms' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
             '@privacy' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
             '@checkbox' => '#checkbox',
