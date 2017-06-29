@@ -5,12 +5,14 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Jobs\SendTransactionalEmail;
+use App\Http\Traits\BelongsToPatientAndPractitioner;
+use App\Http\Traits\HasStatusColumn;
 use Lang;
 use Log;
 
 class Appointment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -72,16 +74,6 @@ class Appointment extends Model
         return $this->hasMany(PatientNote::class);
     }
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function practitioner()
-    {
-        return $this->belongsTo(Practitioner::class);
-    }
-
     public function isLocked()
     {
         return $this->hoursToStart() <= self::CANCEL_LOCK;
@@ -105,30 +97,6 @@ class Appointment extends Model
     public function practitionerAppointmentAtDate()
     {
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
-    }
-
-    public function getStatusAttribute()
-    {
-        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
-    }
-
-    public function setStatusAttribute($value)
-    {
-        if (false !== ($key = array_search($value, self::STATUSES))) {
-            $this->status_id = $key;
-        }
-
-        return $value;
-    }
-
-    public function getStatusFriendlyName()
-    {
-        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
-    }
-
-    public function isPending()
-    {
-        return $this->status_id == self::PENDING_STATUS_ID;
     }
 
     public function wasPatientReminderEmail24HsSent()
