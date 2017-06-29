@@ -69,7 +69,6 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($patient->user->email);
         $this->assertEmailTemplateNameWas('patient.welcome');
         $this->assertEmailTemplateDataWas([
-            'name' => $patient->user->fullName(),
             'action_url' => $patient->user->emailVerificationURL(),
         ]);
     }
