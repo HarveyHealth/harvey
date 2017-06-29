@@ -28,6 +28,7 @@ before_script:
 - ./vendor/laravel/dusk/bin/chromedriver-linux --silent &
 script:
 - php artisan migrate --seed
+- php artisan passport:install 
 - php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
 - php artisan dusk
 - sudo killall -s SIGKILL Xvfb chromedriver-linux php
