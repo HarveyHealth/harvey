@@ -142,7 +142,12 @@ export default {
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, {
           practitioner_id: this.selectedDoctor,
           patient_id: this.selectedClient,
-          shipment_code: this.masterTracking
+          shipment_code: this.masterTracking,
+          address_1: this.address1,
+          address_2: this.address2,
+          city: this.city,
+          state: this.state,
+          zip: this.zip
         })
         .then(response => {
           this.selectedTests.forEach(e => {
