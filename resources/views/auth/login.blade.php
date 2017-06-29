@@ -4,10 +4,10 @@
 
 @section('main_content')
 <section class="signup-content" style="background-color: rgba(119,119,116, 0.08); width: 100%; height: 100%;">
-    <div class="container small">'
+    <div class="container small" style="width: 600px;">
         <img src="/images/signup/tree.png" class="registration-tree">
-        <h2 class="theader-xlarge">Log in</h2>
-            <div class="card">
+        <h1 class="header-xlarge" style="font-size: 32px; font-weight: 500; text-align: center; color: #777777; line-height: 1.3; margin-bottom: 15px;">Log in</h1>
+            <div class="card" style="padding: 50px 90px;">
                 <div class="card-section">
                 <form
                     id="login"
