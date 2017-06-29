@@ -212,6 +212,10 @@ $factory->define(App\Models\LabOrder::class, function (Faker\Generator $faker) {
             return factory(App\Models\Practitioner::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+        'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
+        'city' => $faker->city,
+        'state' => 'CA',
+        'zip' => $faker->postcode,
     ];
 });
 

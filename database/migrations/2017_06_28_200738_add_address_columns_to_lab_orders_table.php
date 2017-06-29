@@ -14,11 +14,11 @@ class AddAddressColumnsToLabOrdersTable extends Migration
     public function up()
     {
         Schema::table('lab_orders', function (Blueprint $table) {
-            $table->string('address_1', 100)->nullable();
-            $table->string('address_2', 100)->nullable();
-            $table->string('city', 100)->nullable();
-            $table->string('state', 2)->nullable();
-            $table->string('zip', 10)->nullable();
+            $table->string('zip', 10)->after('shipment_code')->nullable();
+            $table->string('state', 2)->after('shipment_code')->nullable();
+            $table->string('city', 100)->after('shipment_code')->nullable();
+            $table->string('address_2', 100)->after('shipment_code')->nullable();
+            $table->string('address_1', 100)->after('shipment_code')->nullable();
         });
     }
 
