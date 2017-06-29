@@ -210,35 +210,35 @@ body {
 // Margin
 
 .is-margin {
-  @include margin(1rem !important);
+  @include margin(1rem);
 }
 
 .is-margin-top {
-  @include margin(1rem null null null !important);
+  @include margin(1rem null null null);
 }
 
 .is-margin-left {
-  @include margin(null null null 1rem !important);
+  @include margin(null null null 1rem);
 }
 
 .is-margin-bottom {
-  @include margin(null null 1rem null !important);
+  @include margin(null null 1rem null);
 }
 
 .is-marginless {
-  @include margin(0 !important);
+  @include margin(0);
 }
 
 .is-marginless-top {
-  @include margin(0 null null null !important);
+  @include margin(0 null null null);
 }
 
 .is-marginless-left {
-  @include margin(null null null 0 !important);
+  @include margin(null null null 0);
 }
 
 .is-marginless-bottom {
-  @include margin(null null 0 null !important);
+  @include margin(null null 0 null);
 }
 
 // Margin/Padding (Negative)
@@ -248,31 +248,31 @@ body {
 }
 
 .is-padding-top {
-  @include padding(1rem null null null !important);
+  @include padding(1rem null null null);
 }
 
 .is-padding-left {
-  @include padding(null null null 1rem !important);
+  @include padding(null null null 1rem);
 }
 
 .is-padding-bottom {
-  @include padding(null null 1rem null !important);
+  @include padding(null null 1rem null);
 }
 
 .is-paddingless {
-  @include padding(0 !important);
+  @include padding(0);
 }
 
 .is-paddingless-top {
-  @include padding(0 null null null !important);
+  @include padding(0 null null null);
 }
 
 .is-paddingless-left {
-  @include padding(null null null 0 !important);
+  @include padding(null null null 0);
 }
 
 .is-paddingless-bottom {
-  @include padding(null null 0 null !important);
+  @include padding(null null 0 null);
 }
 
 // Opacity
@@ -386,4 +386,9 @@ body {
 .page-content{
   width: 100%;
   height: 100%;
+}
+
+.video-title {
+  font-weight: 500;
+  font-size: 1.25rem;
 }
