@@ -48,12 +48,15 @@
       </button>
 
     </div>
+    <div :data-test="JSON.stringify(this.availability, null, 2)"></div>
   </div>
 </template>
 
 <script>
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import StagesNav from '../util/StagesNav.vue';
+
+import moment from 'moment';
 
 export default {
   name: 'schedule',
@@ -68,10 +71,39 @@ export default {
         'container': true,
       },
       processing: false,
+      weeks: 4,
+      weekStart: moment().startOf('week')
+    }
+  },
+  computed: {
+    availability() {
+      const list = this.$root.$data.signup.availability;
+      const weeks = [];
+      for (let i = 1; i <= this.weeks; i++) {
+        weeks.push(this.createWeek(this.weekStart));
+      }
+      list.forEach(dayObj => {
+        // Cycle through week objects and compare with date
+        weeks.forEach(weekObj => {
+          if (this.dayWithWeek(dayObj.date, weekObj.start)) {
+            weekObj.days[dayObj.day.substring(0,3)] = dayObj.times.map(t => t.stored)
+          }
+        })
+      })
+      return weeks;
     }
   },
   methods: {
-
+    createWeek(start) {
+      return {
+        start: start.add(1, 'days').format('YYYY-MM-DD'),
+        end: start.add(6, 'days').format('YYYY-MM-DD'),
+        days: { Mon: null, Tue: null, Wed: null, Thu: null, Fri: null, Sat: null, Sun: null }
+      };
+    },
+    dayWithWeek(date, start) {
+      return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
+    }
   },
   mounted () {
     this.$root.$data.signup.visistedStages.push('schedule');

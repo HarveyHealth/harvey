@@ -114,7 +114,6 @@ export default {
         this.phoneConfirming = true;
         // Send code off to the Twilio API
         setTimeout(() => {
-          console.log(code);
           // pretend it passes or fails
           const confirmation = true;
           if (confirmation) {
