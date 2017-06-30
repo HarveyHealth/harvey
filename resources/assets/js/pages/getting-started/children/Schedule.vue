@@ -90,7 +90,7 @@ export default {
         .replace(/:00/,'');
     },
     weekDay(value) {
-      return moment.utc(value).local().format('MMM D');
+      return moment(value).format('MMM D');
     }
   },
   computed: {
