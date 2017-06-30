@@ -512,3 +512,7 @@ body {
 .help {
   @include margin(-15px null 20px null);
 }
+.fourButton {
+  right: 30%;
+  @include margin(20px null null null);
+}
