@@ -3,10 +3,9 @@
 @section('page_title','Log in')
 
 @section('main_content')
-<section class="signup-content">
-    <div class="container small login-width">
-        <img src="/images/signup/tree.png" class="registration-tree">
-        <h1 class="header-xlarge login-heading">Log in</h1>
+<section class="signup-content grey_bg">
+    <div class="container login-width large-top-margin">
+        <h1 class="header-xlarge login-heading">Log in to your account</h1>
                 <form
                     id="login"
                     role="form"
@@ -75,11 +74,11 @@
         </div>
         <footer class="card-footer">
             <div class="card-footer-item level">
+                <a href="/signup"><button href="/signup" class="button is-pulled-right login-buttons">Sign Up</button></a>
                 <button
                     type="submit"
-                    class="button is-primary is-pulled-right login-buttons"
+                    class="button is-primary login-buttons"
                 >Log In</button>
-                <a href="/signup"><button href="/signup" class="button login-buttons signup-color">Sign Up</button></a>
             </div>
         </footer>
        </form>

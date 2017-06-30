@@ -3,13 +3,12 @@
 @section('page_title','Reset Password')
 
 @section('content')
-<section class="section">
-    <div class="container">
-        <header class="content has-text-centered">
-            <h2 class="title is-3">Reset Password</h2>
-        </header>
-        <div class="card">
-            <div class="card-content">
+<section class="signup-content">
+    <div class="container small login-width">
+        <img src="/images/signup/tree.png" class="registration-tree">
+        <h1 class="header-xlarge login-heading">Reset Password</h1>
+        <div class="card card-padding">
+            <div class="card-section">
                 <form role="form" method="POST" action="/password/reset">
                     {{ csrf_field() }}
 
