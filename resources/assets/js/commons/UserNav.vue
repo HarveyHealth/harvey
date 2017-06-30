@@ -27,12 +27,12 @@
         <div class="text">Appointments</div>
       </router-link>
 
-      <!--
-      <router-link class="admin-nav-link" to="/lab_orders" title="Lab Orders">
+      <router-link to="/lab_orders" title="Lab Orders"
+        :class="currentPageCheck('lab-orders')"
+        @click.native="handleMenu(false, 'lab-orders')">
         <i class="fa fa-eyedropper icon icon-nav-bar"></i>
         <div class="text">Lab Orders</div>
       </router-link>
-      -->
 
       <router-link to="/messages" title="Messages"
         :class="currentPageCheck('messages', unread)"

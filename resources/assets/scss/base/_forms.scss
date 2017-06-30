@@ -30,6 +30,11 @@
   }
 }
 
+.form-radio {
+  float: left;
+  width: 10%;
+}
+
 .form-label {
 
   text-align: left;
@@ -59,6 +64,12 @@
   & > * {
     @include margin(0.5em null null null);
   }
+}
+.radio--text {
+  color: darken($gray, 15%);
+  font-family: inherit;
+  width: 90%;
+  float: left;
 }
 .input__item,
 .input--text,
@@ -107,6 +118,18 @@
 .input__linkcta {
   display: inline-block;
   @include margin(1.5em null null null);
+}
+.fullscreen-left {
+  margin: 5px;
+  width: 100%;
+  float: left;
+  height: 25px;
+}
+.flyout-btn {
+  margin: 2rem;
+}
+.input--text {
+  height: 37px;
 }
 
 // Placeholders

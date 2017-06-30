@@ -118,10 +118,6 @@ class LabOrderTest extends TestCase
         $parameters = [
             'practitioner_id' => $practitioner->id,
             'patient_id' => $patient->id,
-            'address_1' => 'Test Address 1234',
-            'city' => 'Los Angeles',
-            'zip' => '90401',
-            'state' => 'CA',
         ];
 
         $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
@@ -286,10 +282,10 @@ class LabOrderTest extends TestCase
 
     public function test_a_lab_order_is_set_as_complete_after_lab_tests_are_complete()
     {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
+        $labOrder = factory(LabOrder::class)->create(['status' => 'pending']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
 
-        $this->assertEquals('recommended', $labOrder->status);
+        $this->assertEquals('pending', $labOrder->status);
 
         $labOrder->labTests->every->markAsComplete();
 
@@ -298,130 +294,13 @@ class LabOrderTest extends TestCase
 
     public function test_a_lab_order_is_set_as_canceled_after_lab_tests_are_canceled()
     {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
+        $labOrder = factory(LabOrder::class)->create(['status' => 'pending']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
 
-        $this->assertEquals('recommended', $labOrder->status);
+        $this->assertEquals('pending', $labOrder->status);
 
         $labOrder->labTests->every->markAsCanceled();
 
         $this->assertEquals('canceled', $labOrder->fresh()->status);
-    }
-
-    public function test_it_allows_an_admin_to_update_the_address_of_a_lab_order()
-    {
-        $labOrder = factory(LabOrder::class)->create();
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'shipment_code' => 'test1234',
-            'address_1' => 'New Address 1234'
-        ];
-
-        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_OK);
-
-        $response->assertJsonFragment($parameters);
-
-        $this->assertDatabaseHas('lab_orders', $parameters);
-    }
-
-    public function test_it_does_not_allows_an_admin_to_update_the_address_of_a_lab_order_if_shipped()
-    {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'shipped']);
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'shipment_code' => 'test1234',
-            'address_1' => 'New Address 1234'
-        ];
-
-        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_state_is_required_when_creating_a_lab_order()
-    {
-        $patient = factory(Patient::class)->create();
-        $practitioner = factory(Practitioner::class)->create();
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'practitioner_id' => $practitioner->id,
-            'patient_id' => $patient->id,
-            'address_1' => 'Test Address 1234',
-            'city' => 'Los Angeles',
-            'zip' => '90401',
-        ];
-
-        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_city_is_required_when_creating_a_lab_order()
-    {
-        $patient = factory(Patient::class)->create();
-        $practitioner = factory(Practitioner::class)->create();
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'practitioner_id' => $practitioner->id,
-            'patient_id' => $patient->id,
-            'address_1' => 'Test Address 1234',
-            'zip' => '90401',
-            'state' => 'CA',
-        ];
-
-        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_zip_is_required_when_creating_a_lab_order()
-    {
-        $patient = factory(Patient::class)->create();
-        $practitioner = factory(Practitioner::class)->create();
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'practitioner_id' => $practitioner->id,
-            'patient_id' => $patient->id,
-            'address_1' => 'Test Address 1234',
-            'city' => 'Los Angeles',
-            'state' => 'CA',
-        ];
-
-        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_address_1_is_required_when_creating_a_lab_order()
-    {
-        $patient = factory(Patient::class)->create();
-        $practitioner = factory(Practitioner::class)->create();
-
-        Passport::actingAs(factory(Admin::class)->create()->user);
-
-        $parameters = [
-            'practitioner_id' => $practitioner->id,
-            'patient_id' => $patient->id,
-            'address_2' => 'Test Address 1234',
-            'city' => 'Los Angeles',
-            'zip' => '90401',
-            'state' => 'CA',
-        ];
-
-        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
     }
 }
