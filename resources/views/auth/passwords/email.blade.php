@@ -31,7 +31,7 @@
             <div class="card card-padding">
                 <div class="card-section">
                     @if (session('status'))
-                        <div class="notification is-success">
+                        <div class="notification green-color">
                             <button class="delete"></button>
                             {{ session('status') }}
                         </div>
@@ -39,18 +39,18 @@
 
                         {{ csrf_field() }}
 
+                        <p class="reset-p">Enter your email below and we will send you a link to reset your password.</p>
+
                         <div class="input-wrap">
                             <input class="input{{ $errors->has('email') ? ' is-danger' : '' }} input login-input" type="email" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
                             @if ($errors->has('email'))
                                 <span class="help is-danger">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
-
-                        <p class="reset-p">Enter your email below and we will send you a link to reset your password.</p>
     
                     </div>
                 </div>
-                <button type="submit" class="button is-primary login-buttons login-top-margin reset-width">Reset your password</button>               
+                <button type="submit" class="button is-primary login-buttons login-top-margin reset-width">Send Reset Link</button>               
             </form>
         </div>
     </section>
