@@ -31,18 +31,33 @@
       <p class="font-base" v-html="note"></p>
 
       <div class="text-centered mt-lg mt-xl_md">
-        <a @click="dispatchEvent" :href="intakeUrl" class="button button--blue">Start Intake Form</a>
+        <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
         <a href="/dashboard" class="button button--cancel">Go to Dashboard</a>
       </div>
     </div>
+
+    <Overlay :active="showModal" />
+    <Modal :active="showModal" :on-close="() => showModal = false">
+      <h3 class="font-large">You are leaving Harvey!</h3>
+      <p class="fwt-normal lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
+      <p class="fwt-normal lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
+      <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>
+    </Modal>
+
   </div>
 </template>
 
 <script>
+import Modal from '../../../commons/Modal.vue';
+import Overlay from '../../../commons/Overlay.vue';
 import moment from 'moment';
 
 export default {
   name: 'success',
+  components: {
+    Modal,
+    Overlay,
+  },
   data() {
     return {
       containerClasses: {
@@ -50,6 +65,7 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
       },
+      showModal: false,
       title: 'Your appointment is confirmed!',
       note: 'We will send you a few text and email reminders leading up to your appointment. Please note, you must complete our patient intake form (below) <strong>before</strong> talking with your doctor.',
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
@@ -77,7 +93,10 @@ export default {
     }
   },
   methods: {
-    dispatchEvent() {
+    showIntakeModal() {
+      this.showModal = true;
+    },
+    sendToIntake() {
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
           this.$ma.trackEvent({
             action: 'IntakeQ Form Initiated',
