@@ -488,3 +488,21 @@ body {
   background-color: #B4E6B8;
   color: $white;
 }
+.noscript {
+    z-index: 9999;
+    width: 510px;
+    position: absolute;
+    top: 12.5%;
+    left: 30%;
+    height: 125px;
+    background-color: #82BEF2;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+.noscript-header {
+  font-size: 20px;
+  font-family: "proxima-nova";
+  font-weight: 300;
+  line-height: 1.5;
+}
