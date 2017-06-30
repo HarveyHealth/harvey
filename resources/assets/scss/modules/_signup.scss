@@ -5,8 +5,7 @@
   @include margin(null null 60px null);
 }
 
-.signup-form-container,
-.signup-interstitial-container {
+.signup-form-container {
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
@@ -16,47 +15,13 @@
   @include query(md) {
     @include padding(50px 90px);
   }
-
-  // text-align: left;
+  text-align: left;
 
   &.large {
     max-width: 775px;
     @include padding(30px);
     @include query(md) {
       @include padding(60px 75px);
-    }
-
-  }
-}
-
-.signup-interstitial-container *:not(:first-child) {
-  @include margin(22px null null);
-}
-
-.signup-interstitial-container {
-  @include margin(3px auto 3px);
-  @include query(md) {
-    @include margin(50px null null);
-    max-width: 550px;
-  }
-}
-
-.signup-main-icon {
-  @include margin(0 auto);
-  fill: #ddd;
-  width: 70px;
-  @include query(md) {
-    width: 100px;
-  }
-
-  svg {
-    width: 100%;
-  }
-
-  .icon-rocket {
-    height: 80px;
-    @include query(md) {
-      height: auto;
     }
   }
 }

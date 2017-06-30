@@ -54,7 +54,6 @@ if (context === 'getting-started' && loggedIn) {
       name: 'success',
       component: require('./pages/getting-started/children/Success.vue') }
   ]
-
 } else if (context === 'getting-started') {
   rootRoute.children.push({
     path: 'out-of-range',

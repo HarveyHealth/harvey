@@ -38,32 +38,32 @@
         <div class="signup-form-container">
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha'" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', firstname)" name="first_name" type="text" placeholder="First Name" v-model="firstname" v-validate="'required|alpha'" />
             <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name')}}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha'" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', lastname)" name="last_name" type="text" placeholder="Last Name" v-model="lastname" v-validate="'required|alpha'" />
             <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', signupData.email)" name="email" type="email" placeholder="Personal Email" v-model="signupData.email" v-validate="'required|email'" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', email)" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
             <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+            <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', signupData.password)" name="password" type="password" placeholder="Create Password" v-model="signupData.password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
             <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
           </div>
 
           <div class="input-wrap last">
-            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="signupData.terms" v-validate="'required'">
+            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="terms" v-validate="'required'">
             <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>
@@ -105,25 +105,23 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
       },
+      email: localStorage.getItem('sign up email') || '',
       env: this.$root.$data.environment,
+      firstname: localStorage.getItem('sign up first_name') || '',
       isComplete: false,
+      lastname: localStorage.getItem('sign up last_name') || '',
       newsletter: false,
+      password: localStorage.getItem('sign up password') || '',
       processing: false,
       quotes: [
         { quote: 'I can say without a shadow of doubt, my naturopathic doctor gave me my life back.',
           source: 'Jordan Yorn (battling Lupus)' }
       ],
       responseErrors: [],
-      signupData: {
-        email: localStorage.getItem('sign up email') || '',
-        first_name: localStorage.getItem('sign up first_name') || '',
-        last_name: localStorage.getItem('sign up last_name') || '',
-        password: localStorage.getItem('sign up password') || '',
-        terms: false,
-        zip: localStorage.getItem('sign up zip') || '',
-      },
       subtitle: '',
+      terms: false,
       title: 'Let&rsquo;s get acquainted.',
+      zip: localStorage.getItem('sign up zip') || '',
       zipInRange: false,
     }
   },
@@ -133,51 +131,51 @@ export default {
       this.$validator.validateAll().then(() => {
         this.processing = true;
 
-        // TODO: Check Iggbo coverage
-        // If Iggbo coverage accepted: (1) create user, (2) login user, (3) push Welcome component
-        // If Iggbo coverage denied: (1) collect lead info, (2) send emails, (3) push OutOfRange component
-        const iggboApproved = true;
+          // create the account
+          axios.post('api/v1/users', {
+            email: this.email,
+            first_name: this.firstname,
+            last_name: this.lastname,
+            password: this.password,
+            terms: this.terms,
+            zip: this.zip,
+          })
+          .then(response => {
+            this.login(this.email, this.password);
+            // the form is complete
+            this.isComplete = true;
+            this.zipInRange = true;
 
-        if (iggboApproved) {
-          // create the user
-          axios.post('api/v1/users', this.signupData)
-            .then(response => {
-              // log the user in
-              this.login(this.signupData.email, this.signupData.password);
-              this.isComplete = true;
-              this.zipInRange = true;
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              this.$ma.trackEvent({
+                  fb_event: 'CompleteRegistration',
+                  type: 'product',
+                  action: 'Completed Signup',
+                  category: 'clicks',
+                  value: 50.00,
+                  currency: 'USD',
+                  properties: { laravel_object: Laravel.user }
+              });
+              ga('category', 'website');
+              ga('action', 'Sign Up For Account');
+            }
 
-              // Track successful signup
-              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-                this.$ma.trackEvent({
-                    fb_event: 'CompleteRegistration',
-                    type: 'product',
-                    action: 'Completed Signup',
-                    category: 'clicks',
-                    value: 50.00,
-                    currency: 'USD',
-                    properties: { laravel_object: Laravel.user }
-                });
-                ga('category', 'website');
-                ga('action', 'Sign Up For Account');
-              }
+            // remove local storage items on sign up
+            // needed if you decide to sign up multiple acounts on one browser
+            localStorage.removeItem('sign up email');
+            localStorage.removeItem('sign up first_name');
+            localStorage.removeItem('sign up last_name');
+            localStorage.removeItem('sign up password');
+            localStorage.removeItem('sign up zip');
 
-              // remove local storage items on sign up
-              // needed if you decide to sign up multiple acounts on one browser
-              localStorage.removeItem('sign up email');
-              localStorage.removeItem('sign up first_name');
-              localStorage.removeItem('sign up last_name');
-              localStorage.removeItem('sign up password');
-              localStorage.removeItem('sign up zip');
+          })
 
-            })
-            // The BE checks for invalid zipcodes based on states we know we cannot operate in
-            // If such a zipcode is entered, the users api will return a 400
-            .catch(error => {
-              this.responseErrors = error.response.data.errors;
-              this.$router.push({name: 'out-of-range', path: '/out-of-range'});
-            });
-        }
+          // The BE checks for invalid zipcodes based on states we know we cannot operate in
+          // If such a zipcode is entered, the users api will return a 400
+          .catch(error => {
+            this.responseErrors = error.response.data.errors;
+            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
+          });
 
       }).catch(() => {});
     },
