@@ -78,7 +78,7 @@
           <div class="text-centered">
             <button class="button button--blue" style="width: 160px" :disabled="processing">
               <span v-if="!processing">Sign Up</span>
-              <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
+              <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
               <i v-else-if="isComplete" class="fa fa-check"></i>
             </button>
           </div>

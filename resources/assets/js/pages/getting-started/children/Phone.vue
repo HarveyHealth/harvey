@@ -27,7 +27,7 @@
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="phoneProcessing" @click="processPhone(phone)">
           <span v-if="!phoneProcessing">Send Text</span>
-          <LoadingBubbles v-else-if="phoneProcessing" :style="{ width: '16px', fill: 'white' }" />
+          <LoadingBubbles v-else-if="phoneProcessing" :style="{ width: '12px', fill: 'white' }" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -45,7 +45,7 @@
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="phoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
           <span v-else-if="!phoneConfirming">Confirm Code</span>
-          <LoadingBubbles v-else :style="{ width: '16px', fill: 'white' }" />
+          <LoadingBubbles v-else :style="{ width: '12px', fill: 'white' }" />
         </button>
       </div>
 

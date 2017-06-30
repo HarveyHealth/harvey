@@ -15,7 +15,7 @@
       <p>Let&rsquo;s start a journey together.</p>
       <button class="button button--blue" style="width: 180px" :disabled="processing" @click="confirmSignup">
         <span v-if="!processing">Confirm Booking</span>
-        <LoadingBubbles v-else-if="processing" :style="{ width: '14px', fill: 'white' }" />
+        <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
       </button>
     </div>
   </div>

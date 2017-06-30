@@ -26,10 +26,10 @@
         </div>
       </div>
       <p class="error-text" v-html="errorText" v-show="errorText"></p>
-      <div class="text-centered">
+      <div class="text-centered" ref="button">
         <button class="button button--blue" style="width: 160px" :disabled="processing" @click="getAvailability(store.signup.data.practitioner_id)">
           <span v-if="!processing">Continue</span>
-          <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
+          <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -96,6 +96,7 @@ export default {
       });
     },
     select(dr) {
+      this.$refs.button.scrollIntoView();
       this.store.signup.data.practitioner_id = dr.id;
       this.store.signup.practitionerName = dr.info.name;
       this.store.signup.practitionerState = dr.info.license_state;

@@ -48,7 +48,7 @@
 
       <button class="button button--blue" style="width: 160px" :disabled="processing" @click="checkAppointment">
         <span v-if="!processing">Continue</span>
-        <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
+        <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
       </button>
 
     </div>
@@ -155,7 +155,7 @@ export default {
         this.$root.$data.signup.selectedTime = null;
         this.$root.$data.signup.selectedDate = null;
 
-        this.$refs.timeBox.scrollIntoView();
+        if (window.outerWidth < 641) this.$refs.timeBox.scrollIntoView();
 
         this.$root.$data.signup.selectedWeek = index;
         this.$root.$data.signup.selectedDate = dayObj.date;
