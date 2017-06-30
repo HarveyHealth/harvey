@@ -27,7 +27,7 @@
           </div>
 
         </div>
-        <div class="schedule-section schedule-times">
+        <div class="schedule-section schedule-times" ref="timeBox">
           <h3>Choose time</h3>
           <p class="schedule-info-text" v-show="selectedDate">{{ selectedDate | fullDate }}</p>
 
@@ -154,7 +154,9 @@ export default {
         // reset
         this.$root.$data.signup.selectedTime = null;
         this.$root.$data.signup.selectedDate = null;
-        
+
+        this.$refs.timeBox.scrollIntoView();
+
         this.$root.$data.signup.selectedWeek = index;
         this.$root.$data.signup.selectedDate = dayObj.date;
         this.$root.$data.signup.selectedDay = day;
