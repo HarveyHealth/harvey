@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Events\OutOfServiceZipCodeRegistered;
 use App\Events\UserRegistered;
+use App\Lib\Validation\StrictValidator;
 use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
@@ -111,34 +112,18 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'max:100',
-            'last_name' => 'max:100',
-            'email' => 'email|max:150|unique:users',
-            'zip' => 'digits:5|serviceable',
-            'phone' => 'unique:users'
-        ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
-        ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
-
         if (auth()->user()->can('update', $user)) {
-            $user->update($request->except([
-                'id',
-                'enabled',
-                'image_url',
-                'email_verified_at',
-                'phone_verified_at',
-                'latitude',
-                'longitude',
-                'terms_accepted_at',
-                'remember_token',
-                'created_at',
-                'updated_at',
-            ]));
+            StrictValidator::checkUpdate($request->all(), [
+                'first_name' => 'max:100',
+                'last_name' => 'max:100',
+                'email' => 'email|max:150|unique:users',
+                'zip' => 'digits:5|serviceable',
+                'phone' => 'unique:users'
+            ], [
+                'serviceable' => 'Sorry, we do not service this :attribute.'
+            ]);
+            
+            $user->update($request->all());
 
             return $this->baseTransformItem($user)->respond();
         } else {
