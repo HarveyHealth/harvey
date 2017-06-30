@@ -139,7 +139,8 @@
                     global.labOrders, 
                     global.labTests, 
                     global.patientLookUp, 
-                    global.practitionerLookUp
+                    global.practitionerLookUp,
+                    this.$root.$data.labTests
                 )
                 let choices = {
                     0: "All",

@@ -13,7 +13,7 @@ const PENDING_STATUS_ID = 4;
 const PROCESSING_STATUS_ID = 5;
 const RECEIVED_STATUS_ID = 6;
 
-export default function (orders, tests, patientLookUp, practitionerLookup, user, userList) {
+export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
     if (orders.length == 0 || tests.length == 0 || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup)) return []
     return orders.map(obj => {
         let data = {
@@ -33,6 +33,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, user,
             address_2: obj.attributes.address_2,
             state: obj.attributes.state,
             zip: obj.attributes.zip,
+            city: obj.attributes.city,
             test_list: []
         }
         tests.map(test => {
@@ -45,12 +46,12 @@ export default function (orders, tests, patientLookUp, practitionerLookup, user,
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
                 data.test_list.push({
-                    item_type: test.included ? test.included.attributes.item_type : '',
-                    price: test.included ? test.included.attributes.price : '',
-                    name: test.included ? test.included.attributes.name : '',
+                    item_type: testList[test.id].attributes.item_type,
+                    price: testList[test.id].attributes.price,
+                    name: testList[test.id].attributes.name,
                     status: [capitalize(test.attributes.status)].concat(_.pull(['Pending', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: test.id,
-                    sku: test.included
+                    sku: testList[test.id]
                 })
             }
         })

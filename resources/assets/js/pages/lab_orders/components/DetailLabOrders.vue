@@ -63,9 +63,8 @@
                 <label class="input__label" for="patient_name">shipping address</label>
                 <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
                 <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
-                <label class="input__label" style="color: #737373;">{{ city }}</label>
-                <label class="input__label" style="color: #737373; width: 45%; float:left; margin-right: 5%;">{{ state }}</label>
-                <label class="input__label" style="color: #737373; width: 50%; float: left;">{{ zip }}</label>
+                <label class="input__label" style="color: #737373;">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
+                <label class="input__label" style="color: #737373;">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
             </div>
           </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
