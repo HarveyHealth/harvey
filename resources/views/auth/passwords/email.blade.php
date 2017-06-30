@@ -3,8 +3,8 @@
 @section('page_title','Request Password Reset')
 
 @section('content')
-<div class="fullscreen">
-    <div class="header nav" :class="{'is-inverted': navIsInverted}">
+<div class="window-size grey_bg">
+    <div class="header nav">
           <div class="container">
               <div class="nav-left">
                   <a href="/" class="nav-item">
@@ -24,9 +24,9 @@
               </div>
           </div>
       </div>
-    <section class="signup-content grey_bg">
-        <div class="container small login-width large-top-margin">
-            <h1 class="header-xlarge login-heading">Reset Password</h1>
+    <section class="signup-content">
+        <div class="container login-width large-top-margin">
+            <h1 class="header-xlarge login-heading">Reset your password</h1>
             <form role="form" method="POST" action="{{ url('/password/email') }}">
             <div class="card card-padding">
                 <div class="card-section">
@@ -45,10 +45,12 @@
                                 <span class="help is-danger">{{ $errors->first('email') }}</span>
                             @endif
                         </div>
+
+                        <p class="reset-p">Enter your email below and we will send you a link to reset your password.</p>
     
                     </div>
                 </div>
-                <button type="submit" class="button is-primary login-buttons login-width login-top-margin">Send Password Reset Link</button>               
+                <button type="submit" class="button is-primary login-buttons login-top-margin reset-width">Reset your password</button>               
             </form>
         </div>
     </section>
