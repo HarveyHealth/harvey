@@ -16,7 +16,7 @@ before_install:
 - npm cache clean
 - npm install
 - touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
-- cp .env.dusk.travis .env
+- cp .env.dusk.travis .env.dusk.local
 before_script:
 - export DB_CONNECTION=sqlite
 - export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
