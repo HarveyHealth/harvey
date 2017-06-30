@@ -41,6 +41,8 @@
 
         <button class="phone-process-button" @click="sendConfirmation" :disabled="$root.$data.signup.codeConfirmed">Text Me Again</button>
 
+        <button class="phone-process-button" @click="newPhoneNumber">Edit Phone Number</button>
+
         <p class="error-text" v-show="invalidCode">Invalid code entered.</p>
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="phoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
@@ -98,6 +100,15 @@ export default {
     }
   },
   methods: {
+    newPhoneNumber() {
+      this.phoneProcessing = false;
+      this.phone = '';
+      this.code = '';
+      this.$root.$data.signup.phone = '';
+      this.$root.$data.signup.phonePending = false;
+      this.$root.$data.signup.codeConfirmed = false;
+      this.$root.$data.signup.code = '';
+    },
     storeCode(value) {
       this.code = value;
     },
@@ -138,6 +149,7 @@ export default {
         // This is where we send the number to the Twilio API once it's setup
         setTimeout(() => {
           this.$root.$data.signup.phonePending = true;
+          Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
         }, 1000);
       })
       .catch(error => {
