@@ -68,7 +68,6 @@ export default {
   },
   data() {
     return {
-      availableTimes: [],
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -76,10 +75,6 @@ export default {
       },
       errorText: null,
       processing: false,
-      selectedWeek: null,
-      selectedDate: null,
-      selectedDay: null,
-      selectedTime: null,
       weeks: 4,
       weekStart: moment().startOf('week')
     }
@@ -99,6 +94,21 @@ export default {
     }
   },
   computed: {
+    availableTimes() {
+      return this.$root.$data.signup.availableTimes;
+    },
+    selectedWeek() {
+      return this.$root.$data.signup.selectedWeek;
+    },
+    selectedDate() {
+      return this.$root.$data.signup.selectedDate;
+    },
+    selectedDay() {
+      return this.$root.$data.signup.selectedDay;
+    },
+    selectedTime() {
+      return this.$root.$data.signup.selectedTime;
+    },
     weekData() {
       const list = this.$root.$data.signup.availability;
       const weeks = [];
@@ -140,17 +150,17 @@ export default {
       return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
     },
     handleSelectDay(index, day, dayObj) {
-      this.selectedTime = null;
-      this.selectedDate = null;
+      this.$root.$data.signup.selectedTime = null;
+      this.$root.$data.signup.selectedDate = null;
       if (dayObj && dayObj.times.length) {
-        this.selectedWeek = index;
-        this.selectedDate = dayObj.date;
-        this.selectedDay = day;
-        this.availableTimes = dayObj.times;
+        this.$root.$data.signup.selectedWeek = index;
+        this.$root.$data.signup.selectedDate = dayObj.date;
+        this.$root.$data.signup.selectedDay = day;
+        this.$root.$data.signup.availableTimes = dayObj.times;
       }
     },
     handleSelectTime(time, index) {
-      this.selectedTime = index;
+      this.$root.$data.signup.selectedTime = index;
       this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
       // console.log(JSON.stringify(this.$root.$data.signup.data, null, 2));
     },

@@ -7,7 +7,7 @@
     </div>
     <div class="signup-container signup-stage-container">
       <div class="signup-practitioner-wrapper cf">
-        <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr.id)">
+        <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr)">
           <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + 'https://placeimg.com/400/100/people' + ')' }"></div>
           <img class="practitioner-avatar" :src="dr.info.picture_url || 'https://placeimg.com/90/90/people'" />
           <h3 class="practitioner-name text-centered">Dr. {{ dr.name }}, {{ dr.info.type_name }}</h3>
@@ -95,8 +95,10 @@ export default {
         }
       });
     },
-    select(id) {
-      this.store.signup.data.practitioner_id = id;
+    select(dr) {
+      this.store.signup.data.practitioner_id = dr.id;
+      this.store.signup.practitionerName = dr.info.name;
+      this.store.signup.practitionerState = dr.info.license_state;
       this.errorText = null;
     }
   },

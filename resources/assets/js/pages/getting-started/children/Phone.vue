@@ -131,6 +131,7 @@ export default {
     processPhone(number) {
       this.$validator.validateAll().then(() => {
         this.phoneProcessing = true;
+        this.$root.$data.signup.phone = number;
         // This is where we send the number to the Twilio API once it's setup
         setTimeout(() => {
           this.$root.$data.signup.phonePending = true;
