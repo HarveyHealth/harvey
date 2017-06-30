@@ -120,6 +120,9 @@ export default {
             this.$root.$data.signup.codeConfirmed = true;
             this.$root.$data.signup.code = this.code;
             this.phoneConfirming = false;
+            setTimeout(() => {
+              this.$router.push({ name: 'schedule', path: '/schedule' });
+            }, 500);
           } else {
             this.phoneConfirming = false;
             this.invalidCode = true;
