@@ -5,24 +5,6 @@
   @include margin(null null 60px null);
 }
 
-.signup-container {
-  position: relative;
-}
-.signup-back-button {
-  position: absolute;
-  top: 0;
-  left: 3px;
-  padding: 20px;
-  transition: left 200ms ease-out, opacity 200ms ease-out;
-  opacity: .5;
-
-  &:hover {
-    left: 0;
-    color: $harvey-tertiary;
-    opacity: 1;
-  }
-}
-
 .signup-form-container,
 .signup-interstitial-container {
   background: $white;
@@ -35,12 +17,15 @@
     @include padding(50px 90px);
   }
 
+  // text-align: left;
+
   &.large {
     max-width: 775px;
     @include padding(30px);
     @include query(md) {
       @include padding(60px 75px);
     }
+
   }
 }
 
@@ -53,10 +38,6 @@
   @include query(md) {
     @include margin(50px null null);
     max-width: 550px;
-  }
-
-  h2 {
-    font-weight: 600;
   }
 }
 
@@ -72,28 +53,13 @@
     width: 100%;
   }
 
-  .icon-rocket,
-  .icon-globe {
+  .icon-rocket {
     height: 80px;
-  }
-
-  .interstitial-icon {
     @include query(md) {
       height: auto;
     }
   }
 }
-
-.social-icon-wrapper a {
-  display: inline-block;
-  font-size: 24px;
-  @include margin(0 10px 10px);
-  @include query(md) {
-    font-size: 34px;
-    @include margin(0 15px 10px);
-  }
-}
-
 
   .message-container-interstitial {
     margin-bottom: 25px;

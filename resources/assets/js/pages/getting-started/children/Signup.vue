@@ -133,45 +133,51 @@ export default {
       this.$validator.validateAll().then(() => {
         this.processing = true;
 
-        // create the user
-        axios.post('api/v1/users', this.signupData)
-          .then(response => {
-            // log the user in
-            this.login(this.signupData.email, this.signupData.password);
-            this.isComplete = true;
-            this.zipInRange = true;
+        // TODO: Check Iggbo coverage
+        // If Iggbo coverage accepted: (1) create user, (2) login user, (3) push Welcome component
+        // If Iggbo coverage denied: (1) collect lead info, (2) send emails, (3) push OutOfRange component
+        const iggboApproved = true;
 
-            // Track successful signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              this.$ma.trackEvent({
-                  fb_event: 'CompleteRegistration',
-                  type: 'product',
-                  action: 'Completed Signup',
-                  category: 'clicks',
-                  value: 50.00,
-                  currency: 'USD',
-                  properties: { laravel_object: Laravel.user }
-              });
-              ga('category', 'website');
-              ga('action', 'Sign Up For Account');
-            }
+        if (iggboApproved) {
+          // create the user
+          axios.post('api/v1/users', this.signupData)
+            .then(response => {
+              // log the user in
+              this.login(this.signupData.email, this.signupData.password);
+              this.isComplete = true;
+              this.zipInRange = true;
 
-            // remove local storage items on sign up
-            // needed if you decide to sign up multiple acounts on one browser
-            localStorage.removeItem('sign up email');
-            localStorage.removeItem('sign up first_name');
-            localStorage.removeItem('sign up last_name');
-            localStorage.removeItem('sign up password');
-            localStorage.removeItem('sign up zip');
+              // Track successful signup
+              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+                this.$ma.trackEvent({
+                    fb_event: 'CompleteRegistration',
+                    type: 'product',
+                    action: 'Completed Signup',
+                    category: 'clicks',
+                    value: 50.00,
+                    currency: 'USD',
+                    properties: { laravel_object: Laravel.user }
+                });
+                ga('category', 'website');
+                ga('action', 'Sign Up For Account');
+              }
 
-          })
-          // The BE checks for invalid zipcodes based on states we know we cannot operate in
-          // and also Iggbo servicing data.
-          // If such a zipcode is entered, the users api will return a 400
-          .catch(error => {
-            this.responseErrors = error.response.data.errors;
-            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
-          });
+              // remove local storage items on sign up
+              // needed if you decide to sign up multiple acounts on one browser
+              localStorage.removeItem('sign up email');
+              localStorage.removeItem('sign up first_name');
+              localStorage.removeItem('sign up last_name');
+              localStorage.removeItem('sign up password');
+              localStorage.removeItem('sign up zip');
+
+            })
+            // The BE checks for invalid zipcodes based on states we know we cannot operate in
+            // If such a zipcode is entered, the users api will return a 400
+            .catch(error => {
+              this.responseErrors = error.response.data.errors;
+              this.$router.push({name: 'out-of-range', path: '/out-of-range'});
+            });
+        }
 
       }).catch(() => {});
     },
