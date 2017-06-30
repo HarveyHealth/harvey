@@ -100,15 +100,17 @@ const app = new Vue({
           availability: [],
           code: null,
           codeConfirmed: false,
-          visistedStages: [],
-          phone: '',
-          phonePending: false,
-          phoneConfirmed: false,
+          cost: null,
           data: {
             appointment_at: null,
             reason_for_visit: 'First appointment',
             practitioner_id: null,
-          }
+          },
+          phone: '',
+          phonePending: false,
+          phoneConfirmed: false,
+          practitionerName: null,
+          visistedStages: [],
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -157,18 +159,26 @@ const app = new Vue({
         },
         getPractitioners() {
             if (Laravel.user.userType !== 'practitioner') {
-                axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
+                axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.map(dr => {
-                        return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
+                        return {
+                          info: dr.attributes,
+                          name: `Dr. ${dr.attributes.name}`,
+                          id: dr.id,
+                          user_id: dr.attributes.user_id }
                     });
                     this.global.loadingPractitioners = false;
                 })
             } else {
-                axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
+                axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
                         return dr.attributes.name === Laravel.user.fullName;
                     }).map(obj => {
-                        return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
+                        return {
+                          info: obj.attributes,
+                          name: `Dr. ${obj.attributes.name}`,
+                          id: obj.id,
+                          user_id: obj.attributes.user_id };
                     });
                     this.global.loadingPractitioners = false;
                 })
@@ -210,6 +220,13 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+        },
+        setup() {
+          this.getUser()
+          this.getAppointments();
+          this.getPractitioners();
+          this.getMessages();
+          if (Laravel.user.userType !== 'patient') this.getPatients();
         }
     },
     mounted() {
@@ -217,13 +234,7 @@ const app = new Vue({
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests
-        if (Laravel.user.signedIn) {
-            this.getUser()
-            this.getAppointments();
-            this.getPractitioners();
-            this.getMessages();
-            if (Laravel.user.userType !== 'patient') this.getPatients();
-        }
+        if (Laravel.user.signedIn) this.setup();
 
         // Event handlers
         this.$eventHub.$on('mixpanel', (event) => {

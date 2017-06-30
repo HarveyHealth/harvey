@@ -24,6 +24,7 @@ export default {
     }
   },
   mounted () {
+    this.$root.setup();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {

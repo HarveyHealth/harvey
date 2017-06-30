@@ -8,20 +8,20 @@
     <div class="signup-container signup-stage-container">
       <div class="signup-practitioner-wrapper cf">
         <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr.id)">
-          <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + dr.bg + ')' }"></div>
-          <img class="practitioner-avatar" :src="dr.avatar" />
-          <h3 class="practitioner-name text-centered">Dr. {{ dr.name }}, {{ dr.type }}</h3>
-          <p class="practitioner-license text-centered">License {{ dr.license }} {{ dr.state }}</p>
+          <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + 'https://placeimg.com/400/100/people' + ')' }"></div>
+          <img class="practitioner-avatar" :src="dr.info.picture_url || 'https://placeimg.com/90/90/people'" />
+          <h3 class="practitioner-name text-centered">Dr. {{ dr.name }}, {{ dr.info.type_name }}</h3>
+          <p class="practitioner-license text-centered">License {{ dr.info.license_number }} {{ dr.info.license_state }}</p>
           <div class="practitioner-info-wrapper">
-            <p>{{ dr.description }}</p>
+            <p>{{ dr.info.description }}</p>
             <hr class="practitioner-divider" />
             <ul class="practitioner-info">
-              <li><span>Graduated:</span> {{ dr.graduated }}</li>
-              <li><span>Degree:</span> {{ dr.degree }}</li>
-              <li><span>Specialties:</span> {{ dr.specialties }}</li>
+              <li><span>Graduated:</span> {{ dr.info.graduated_at.date | year }}</li>
+              <li><span>Degree:</span> {{ dr.info.school }}</li>
+              <li><span>Specialties:</span> {{ dr.info.specialty | specialty }}</li>
             </ul>
             <hr class="practitioner-divider" />
-            <p class="practitioner-rate text-centered"><span>${{ dr.rate }}</span>/hour</p>
+            <p class="practitioner-rate text-centered"><span>$150</span>/hour</p>
           </div>
         </div>
       </div>
@@ -40,6 +40,7 @@
 <script>
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import StagesNav from '../util/StagesNav.vue';
+import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
@@ -56,39 +57,24 @@ export default {
         'container': true,
       },
       errorText: null,
-      // Dummy data until the API updates are merged into current-release
-      practitioners: [
-        {
-          avatar: 'https://placeimg.com/90/90/people',
-          bg: 'https://placeimg.com/400/100/people',
-          degree: 'Northeast College of Naturopathic Medicine',
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam et arcu posuere ornare. Vestibulum vitae sapien risus. Donec tempus congue augue quis facilisis. Nunc ac hendrerit quam. Nulla viverra porttitor dui sit amet sagittis. In vel felis at sapien aliquet interdum. Pellentesque rutrum velit purus, ut tempor purus iaculis vel.',
-          graduated: '2005',
-          id: 1,
-          license: 'ND-382',
-          name: 'Stu Waters',
-          rate: '320',
-          specialties: 'diabetes, COPD, migraines, gut, Lupus',
-          state: 'NJ',
-          type: 'N.D.',
-        },
-        {
-          avatar: 'https://placeimg.com/80/80/people',
-          bg: 'https://placeimg.com/500/150/people',
-          degree: 'Southwest College of Naturopathic Medicine',
-          description: 'Praesent elit turpis, sagittis quis congue id, tincidunt at magna. Nullam volutpat nisl risus. In a justo quis dui tincidunt cursus. Etiam ut rhoncus nunc. Donec eu arcu vulputate, placerat mi eget, vehicula risus. Maecenas elementum hendrerit risus nec ultrices. Fusce pulvinar pellentesque porttitor. Integer at molestie nibh.',
-          graduated: '2009',
-          id: 2,
-          license: 'ND-432',
-          name: 'Patricia Powers',
-          rate: '180',
-          specialties: 'craving management, sleep deprivation, pecans',
-          state: 'CA',
-          type: 'N.D.',
-        },
-      ],
       processing: false,
       store: this.$root.$data,
+    }
+  },
+  filters: {
+    specialty(value) {
+      return value.replace(/[\[\]"]*/g, '');
+    },
+    year(value) {
+      return moment(value).format('YYYY');
+    }
+  },
+  computed: {
+    // Grab the first two practitioners for now
+    practitioners() {
+      return this.store.global.practitioners.length
+        ? [this.store.global.practitioners[0], this.store.global.practitioners[1]]
+        : [];
     }
   },
   methods: {
