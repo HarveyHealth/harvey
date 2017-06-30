@@ -15,6 +15,7 @@
                     <input type="hidden" name="token" value="{{ $token }}">
 
                     <div class="input-wrap">
+                        <label :class="{typed: reset.form.email}" class="hoverInput">Email</label>
                         <input class="login-input input{{ $errors->has('email') ? ' is-danger' : '' }}" type="email" placeholder="Email" name="email" value="{{ $email or old('email') }}" required{{ !isset($errors) || count($errors) == 0 || $errors->has('email') ? ' autofocus' : '' }}>
                         @if ($errors->has('email'))
                             <span class="help is-danger">{{ $errors->first('email') }}</span>
@@ -22,10 +23,12 @@
                     </div>
 
                     <div class="input-wrap">
+                        <label :class="{typed: reset.form.password}" class="hoverInput">Password</label>
                         <input class="login-input input{{ $errors->has('password') ? ' is-danger' : '' }}" type="password" placeholder="Password" name="password" required{{ $errors->has('password') ? ' autofocus' : '' }}>
                     </div>
 
                     <div class="input-wrap">
+                        <label :class="{typed: reset.form.password_confirmation}" class="hoverInput">Confirm Password</label>
                         <input class="login-input input{{ $errors->has('password') ? ' is-danger' : '' }}" type="password" placeholder="Confirm Password" name="password_confirmation"  required{{ $errors->has('password') ? ' autofocus' : '' }}>
                         @if ($errors->has('password'))
                             <span class="help is-danger">{{ $errors->first('password') }}</span>

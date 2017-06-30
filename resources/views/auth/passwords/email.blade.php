@@ -42,6 +42,7 @@
                         <p class="reset-p">Enter your email below and we will send you a link to reset your password.</p>
 
                         <div class="input-wrap">
+                            <label :class="{typed: email.form.email}" class="hoverInput">Email</label>
                             <input class="input{{ $errors->has('email') ? ' is-danger' : '' }} input login-input" type="email" placeholder="Email" name="email" value="{{ old('email') }}" required autofocus>
                             @if ($errors->has('email'))
                                 <span class="help is-danger">{{ $errors->first('email') }}</span>
