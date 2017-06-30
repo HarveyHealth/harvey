@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClasses">
+  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
       <h2>Final confirmation...</h2>
@@ -13,9 +13,9 @@
       <p>You are about to book a ~60 minute consultation appointment with <strong>Dr. {{ this.doctor }}</strong>, a licensed Naturopathic Doctor from {{ this.state }}.</p>
       <p>{{ firstName }} will call you on <strong>{{ dateDisplay }}</strong> at <strong>{{ timeDisplay }}</strong> at <strong>{{ phoneDisplay }}</strong>. The cost for this consultation will be $150, which will be charged to your AMEX on file after the first appointment.</p>
       <p>Let&rsquo;s start a journey together.</p>
-      <button class="button button--blue" style="width: 180px" :disabled="processing">
+      <button class="button button--blue" style="width: 180px" :disabled="processing" @click="confirmSignup">
         <span v-if="!processing">Confirm Booking</span>
-        <LoadingBubbles v-else-if="processing" :style="{ width: '16px', fill: 'white' }" />
+        <LoadingBubbles v-else-if="processing" :style="{ width: '14px', fill: 'white' }" />
       </button>
     </div>
   </div>
@@ -29,6 +29,7 @@ import moment from 'moment';
 export default {
   name: 'confirmation',
   components: {
+    LoadingBubbles,
     StagesNav,
   },
   data() {
@@ -59,7 +60,17 @@ export default {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     }
   },
+  methods: {
+    confirmSignup() {
+      this.processing = true;
+      axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
+        this.processing = false;
+        this.$router.push({ name: 'success', path: 'success' });
+      });
+    }
+  },
   mounted () {
+    this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('confirmation');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
