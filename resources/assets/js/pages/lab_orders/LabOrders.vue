@@ -172,7 +172,9 @@
         },
         watch: {
             loadingLabs(val) {
-                this.setupLabData();
+                if (!val) {
+                    this.setupLabData();
+                }
             }
         },
         mounted() {
