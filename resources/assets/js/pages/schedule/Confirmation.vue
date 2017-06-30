@@ -121,7 +121,15 @@
             currency: 'USD',
             properties: { laravel_object: Laravel.user }
           });
-          ga('Website', 'Sign-up For Account')
+          ga('send', {
+            hitType: "event", 
+            eventCategory: "clicks", 
+            eventAction: "Confirm Appointment", 
+            eventLabel: null,
+              eventValue: 50, 
+              hitCallback: null, 
+              userId: null
+          });
         }
 
         // From https://www.addevent.com/buttons/add-to-calendar
