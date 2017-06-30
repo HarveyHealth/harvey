@@ -157,7 +157,6 @@ export default {
               patient_id: this.selectedClient,
               shipment_code: this.masterTracking,
               address_1: this.address1,
-              address_2: this.address2,
               city: this.city,
               state: this.state,
               zip: Number(this.zip)
