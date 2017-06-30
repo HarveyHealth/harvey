@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="onSubmit" :class="animClasses">
+  <form @submit.prevent="onSubmit" :class="animClasses" v-if="!$root.$data.signup.completedSignup">
     <!-- <svg><use xlink:href="#apple" /></svg> -->
 
     <div class="signup-wrapper">
@@ -195,6 +195,7 @@ export default {
     },
   },
   mounted () {
+    this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
       this.$ma.trackEvent({

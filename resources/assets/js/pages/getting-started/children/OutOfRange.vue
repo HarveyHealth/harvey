@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClasses">
+  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-container signup-interstitial-container text-centered">
       <a class="signup-back-button" href="/"><i class="fa fa-arrow-left"></i></a>
       <div class="signup-main-icon">
@@ -36,6 +36,7 @@ export default {
     }
   },
   mounted () {
+    this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClasses">
+  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-container signup-interstitial-container text-centered">
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
@@ -24,6 +24,7 @@ export default {
     }
   },
   mounted () {
+    this.$root.toDashboard();
     this.$root.setup();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },

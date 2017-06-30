@@ -59,8 +59,8 @@ export default {
       env: this.$root.$data.environment,
       calendarVisible: false,
       calendarSummary: `Appointment with ${this.$root.$data.signup.practitionerName}`,
-      calendarStart: moment.utc(this.appointmentDate).local().format('MM/DD/YYYY hh:mm A'),
-      calendarEnd: moment.utc(this.appointmentDate).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
+      calendarStart: moment.utc(this.$root.$data.signup.data.appointment_at).local().format('MM/DD/YYYY hh:mm A'),
+      calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
       calendarZone: '',
       calendarLocation: '',
       calendarDescription: '',
@@ -97,6 +97,7 @@ export default {
     }
   },
   mounted () {
+    this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.
     // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair

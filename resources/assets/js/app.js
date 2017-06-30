@@ -100,6 +100,7 @@ const app = new Vue({
           availability: [],
           availableTimes: [],
           code: '',
+          completedSignup: false,
           codeConfirmed: false,
           cost: '',
           data: {
@@ -233,6 +234,11 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           if (Laravel.user.userType !== 'patient') this.getPatients();
+        },
+        toDashboard() {
+          if (this.signup.completedSignup) {
+            window.location.href = '/dashboard';
+          }
         }
     },
     mounted() {

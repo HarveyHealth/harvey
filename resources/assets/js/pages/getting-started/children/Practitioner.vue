@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClasses">
+  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'practitioner'" />
       <h2>First, choose your practitioner...</h2>
@@ -103,6 +103,7 @@ export default {
     }
   },
   mounted () {
+    this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('practitioner');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
