@@ -506,3 +506,9 @@ body {
   font-weight: 300;
   line-height: 1.5;
 }
+.reset-top {
+  @include padding(75px null null null);
+}
+.help {
+  @include margin(-15px null 20px null);
+}

@@ -31,7 +31,7 @@
             <div class="card card-padding">
                 <div class="card-section">
                     @if (session('status'))
-                        <div class="notification /* is-success */ green-color">
+                        <div class="notification green-color">
                             <button class="delete"></button>
                             {{ session('status') }}
                         </div>
