@@ -20,6 +20,7 @@
                     {{ csrf_field() }}
 
                     <div class="input-wrap">
+                        <label :class="{typed: login.form.email}" class="hoverInput">Email</label>
                         <input
                             v-model="login.form.email"
                             name="email"
@@ -38,6 +39,7 @@
                     </div>
 
                     <div class="input-wrap">
+                        <label :class="{typed: login.form.password}" class="hoverInput">Password</label>
                         <input
                             v-model="login.form.password"
                             name="password"

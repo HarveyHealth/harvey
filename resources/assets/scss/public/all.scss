@@ -516,3 +516,20 @@ body {
   right: 30%;
   @include margin(20px null null null);
 }
+.hoverInput {
+  color: $primary;
+  position: absolute;
+  left: 0;
+  top: 8px;
+  opacity: 0;
+  font-size: 18px;
+  transform-origin: left top;
+  transition: $primary 200ms ease, transform 200ms ease;
+  will-change: transform;
+  pointer-events: none;
+}
+.typed {
+    opacity: 1;
+    transform: translateY(-27px) scale(0.78);
+    margin: 50px 90px;
+}
