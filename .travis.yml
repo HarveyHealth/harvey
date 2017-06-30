@@ -33,6 +33,7 @@ script:
 - php artisan dusk
 - sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
+- rm .env
 services:
 - elasticsearch
 branches:
