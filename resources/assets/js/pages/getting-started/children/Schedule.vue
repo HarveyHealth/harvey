@@ -29,7 +29,7 @@
         </div>
         <div class="schedule-section schedule-times">
           <h3>Choose time</h3>
-          <p class="schedule-info-text" v-show="selectedDay">{{ selectedDate | fullDate }}</p>
+          <p class="schedule-info-text" v-show="selectedDate">{{ selectedDate | fullDate }}</p>
 
           <ol>
             <li v-for="(time, j) in availableTimes"
@@ -150,9 +150,11 @@ export default {
       return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
     },
     handleSelectDay(index, day, dayObj) {
-      this.$root.$data.signup.selectedTime = null;
-      this.$root.$data.signup.selectedDate = null;
       if (dayObj && dayObj.times.length) {
+        // reset
+        this.$root.$data.signup.selectedTime = null;
+        this.$root.$data.signup.selectedDate = null;
+        
         this.$root.$data.signup.selectedWeek = index;
         this.$root.$data.signup.selectedDate = dayObj.date;
         this.$root.$data.signup.selectedDay = day;
