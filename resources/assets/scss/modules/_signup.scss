@@ -396,7 +396,7 @@ button:focus {
   font-family: $sans !important;
   font-size: 16px !important;
   color: #888 !important;
-  @include border-color( #EFEFEF !important);
+  @include border-color( #ccc !important);
   font-weight: 400 !important;
   @include margin(null null 20px null !important);
   transition: opacity 200ms ease-in !important;
@@ -406,9 +406,6 @@ button:focus {
   &.isVisible {
     opacity: 1 !important;
   }
-}
-.addeventatc_icon {
-  background-image: url(/images/signup/calendar-add.png) !important;
 }
 .addeventatc_dropdown .copyx {
   height: 8px !important;

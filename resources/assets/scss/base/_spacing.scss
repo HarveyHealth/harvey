@@ -3,6 +3,25 @@ $space-md: 22px;
 $space-lg: 30px;
 $space-xl: 50px;
 
+.mt-sm {
+  @include margin($space-sm null null);
+}
+.mt-md {
+  @include margin($space-md null null);
+}
+.mt-lg {
+  @include margin($space-lg null null);
+}
+.mt-xl {
+  @include margin($space-xl null null);
+  @include query(md) {
+    &_md { @include margin($space-xl null null); }
+  }
+  @include query-height(lg) {
+    &_lgH { @include margin($space-xl null null); }
+  }
+}
+
 .cf:after {
   display: table;
   content: '';

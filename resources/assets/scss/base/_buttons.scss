@@ -68,12 +68,12 @@ button.button--blue:disabled {
 }
 
 .button--cancel {
-  background-color: lighten($gray, 10%);
+  background-color: lighten($gray, 18%);
   @include margin(null null null 1em);
 
   &:hover,
   &:focus {
-    background-color: $dark-gray;
+    background-color: lighten($gray, 23%);
   }
 }
 
