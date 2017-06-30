@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!isEmpty($root.$data.labTests) && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
+            <AddLabOrders v-if="labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -164,7 +164,8 @@
                 return this.$root.$data.global.loadingLabTests
             },
             loadingLabs() {
-                return this.$root.$data.global.loadingLabTests || this.$root.$data.global.loadingLabOrders
+                const global = this.$root.$data.global
+                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests
             },
             labTests() {
                 return this.$root.$data.labTests
