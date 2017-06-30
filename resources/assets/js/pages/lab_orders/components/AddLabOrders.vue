@@ -11,7 +11,7 @@
           <label class="input__label" for="patient_name">client</label>
           <span class="custom-select">
               <select @change="updateClient($event)">
-                  <option v-for="client in clientList" :data-id="client.user_id">{{ client.name }}</option>
+                  <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
               </select>
           </span>
       </div>
@@ -19,7 +19,7 @@
           <label class="input__label" for="patient_name">doctor</label>
           <span class="custom-select">
               <select @change="updateDoctor($event)">
-                  <option v-for="doctor in doctorList" :data-id="doctor.user_id">{{ doctor.name }}</option>
+                  <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
               </select>
           </span>
       </div>
@@ -139,16 +139,31 @@ export default {
           e.shipping_code = this.shippingCodes[e.id]
           return e
         })
-        axios.post(`${this.$root.$data.apiUrl}/lab/orders`, {
-          practitioner_id: Number(this.selectedDoctor),
-          patient_id: Number(this.selectedClient),
-          shipment_code: this.masterTracking,
-          address_1: this.address1,
-          address_2: this.address2,
-          city: this.city,
-          state: this.state,
-          zip: Number(this.zip)
-        })
+        let data = null
+        if (this.address2.length > 0) {
+          data = {
+              practitioner_id: this.selectedDoctor,
+              patient_id: this.selectedClient,
+              shipment_code: this.masterTracking,
+              address_1: this.address1,
+              address_2: this.address2,
+              city: this.city,
+              state: this.state,
+              zip: Number(this.zip)
+            }
+          } else {
+            data = {
+              practitioner_id: this.selectedDoctor,
+              patient_id: this.selectedClient,
+              shipment_code: this.masterTracking,
+              address_1: this.address1,
+              address_2: this.address2,
+              city: this.city,
+              state: this.state,
+              zip: Number(this.zip)
+            }
+          }
+        axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
           this.selectedTests.forEach(e => {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
