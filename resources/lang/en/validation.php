@@ -64,6 +64,7 @@ return [
     ],
     'not_in'               => 'The selected :attribute is invalid.',
     'numeric'              => 'The :attribute must be a number.',
+    'order_was_not_shipped' => ":attribute can't be updated since order was shipped",
     'practitioner_is_available' => 'Practitioner is not available at that time.',
     'present'              => 'The :attribute field must be present.',
     'regex'                => 'The :attribute format is invalid.',
@@ -123,6 +124,8 @@ return [
 
     'attributes' => [
         'appointment_at' => 'appointment time',
+        'address_1' => 'address_1 key',
+        'address_2' => 'address_2 key',
     ],
 
 ];

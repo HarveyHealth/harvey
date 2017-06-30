@@ -72,4 +72,14 @@ trait HasStatusColumn
     {
         return !$this->isPending();
     }
+
+    public function wasShipped()
+    {
+        return $this->status_id >= self::SHIPPED_STATUS_ID;
+    }
+
+    public function wasNotShipped()
+    {
+        return !$this->wasShipped();
+    }
 }
