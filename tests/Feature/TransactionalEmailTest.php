@@ -22,11 +22,11 @@ class TransactionalEmailTest extends TestCase
         Log::shouldNotHaveReceived(['error', 'warning']);
     }
 
-    public function test_an_error_is_raised_if_to_value_is_null()
+    public function test_an_error_is_raised_if_to_value_is_empty()
     {
         Log::spy();
 
-        dispatch(new SendTransactionalEmail(null, 'patient.welcome', ['data' => 'valid']));
+        dispatch(new SendTransactionalEmail('', 'patient.welcome', ['data' => 'valid']));
 
         Log::shouldHaveReceived('error')->once();
     }
