@@ -183,7 +183,7 @@ class LabTestTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function test_it_doesn_not_allows_an_admin_to_update_if_lab_order_is_complete()
+    public function test_it_allows_an_admin_to_update_if_lab_order_is_complete()
     {
         $labTest = factory(LabTest::class)->create(['status' => 'complete']);
 
@@ -192,7 +192,7 @@ class LabTestTest extends TestCase
         Passport::actingAs(factory(Admin::class)->create()->user);
 
         $parameters = [
-            'status' => 'pending',
+            'status' => 'recommended',
         ];
 
         $response = $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
