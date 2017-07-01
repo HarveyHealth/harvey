@@ -3,9 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Stripe\Stripe;
 
-class StripeServiceProvider extends ServiceProvider
+class SMSServiceProvider extends ServiceProvider
 {
     protected $defer = true;
 
@@ -16,7 +15,7 @@ class StripeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
+        //
     }
 
     /**
@@ -26,5 +25,8 @@ class StripeServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('sms', function ($app) {
+            return $app->make('\App\Lib\SMS');
+        });
     }
 }

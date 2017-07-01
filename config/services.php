@@ -70,4 +70,10 @@ return [
         'key' => env('TIMEZONEDB_KEY'),
     ],
 
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'sms_number' => env('TWILIO_SMS_NUMBER'),
+    ],
+
 ];

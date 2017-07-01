@@ -10,13 +10,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
+use App\Http\Traits\Textable;
+
 use Carbon;
 use Log;
 use Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable;
+    use HasApiTokens, Notifiable, Searchable, Textable;
 
     public $asYouType = true;
 
