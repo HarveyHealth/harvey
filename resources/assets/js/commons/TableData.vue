@@ -33,6 +33,8 @@
 
 <script>
 export default {
+  name: 'TableData',
+  data() {return {}},
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {
