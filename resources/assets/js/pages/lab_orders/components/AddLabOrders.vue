@@ -86,6 +86,7 @@ import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
 export default {
+  props: ['reset'],
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -174,7 +175,24 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-        })
+          axios.get(`${this.apiUrl}/lab/orders?include=patient,user`)
+            .then(response => {
+                this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
+                    e['included'] = response.data.included[i]
+                    return e;
+                })
+                this.$root.$data.global.loadingLabOrders = false
+                axios.get(`${this.apiUrl}/lab/tests?include=sku`)
+                    .then(response => {
+                        this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                            e['included'] = response.data.included[i]
+                            return e;
+                        })
+                        this.$root.$data.global.loadingLabTests = false
+                        this.$props.reset();
+                    })
+                })
+            })
         this.handleFlyoutClose()
     }
   },
