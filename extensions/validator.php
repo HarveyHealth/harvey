@@ -1,9 +1,7 @@
 <?php
 
-use App\Lib\TimeslotManager;
-use App\Lib\ZipCodeValidator;
-use App\Models\Appointment;
-use App\Models\Practitioner;
+use App\Lib\{TimeslotManager, ZipCodeValidator};
+use App\Models\{Appointment, Practitioner, LabOrder};
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
@@ -34,4 +32,15 @@ Validator::extend('practitioner_is_available', function ($attribute, $value, $pa
     }
 
     return $practitioner->availability()->canScheduleAt(Carbon::parse($value, 'UTC'), $appointmentEditing ?? null);
+});
+
+
+Validator::extend('order_was_not_shipped', function ($attribute, $value, $parameters, $validator) {
+    if (empty($parameters)) {
+        return false;
+    }
+
+    $labOrder = LabOrder::find($parameters[0]);
+
+    return $labOrder->wasNotShipped();
 });

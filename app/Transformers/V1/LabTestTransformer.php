@@ -7,6 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class LabTestTransformer extends TransformerAbstract
 {
+
     protected $availableIncludes = ['patient', 'practitioner', 'lab_order', 'sku'];
 
     /**

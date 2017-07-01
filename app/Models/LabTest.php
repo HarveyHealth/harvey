@@ -11,13 +11,14 @@ class LabTest extends Model
 {
     use SoftDeletes, HasStatusColumn;
 
-    const SHIPPED_STATUS_ID = 0;
+    const SHIPPED_STATUS_ID = 3;
     const CANCELED_STATUS_ID = 1;
-    const COMPLETE_STATUS_ID = 2;
-    const MAILED_STATUS_ID = 3;
-    const PENDING_STATUS_ID = 4;
-    const PROCESSING_STATUS_ID = 5;
-    const RECEIVED_STATUS_ID = 6;
+    const COMPLETE_STATUS_ID = 7;
+    const MAILED_STATUS_ID = 5;
+    const PROCESSING_STATUS_ID = 6;
+    const RECEIVED_STATUS_ID = 4;
+    const CONFIRMED_STATUS_ID = 2;
+    const RECOMMENDED_STATUS_ID = 0;
 
     protected $dates = [
         'completed_at',
@@ -36,10 +37,11 @@ class LabTest extends Model
     const STATUSES = [
         self::CANCELED_STATUS_ID => 'canceled',
         self::COMPLETE_STATUS_ID => 'complete',
+        self::CONFIRMED_STATUS_ID => 'confirmed',
         self::MAILED_STATUS_ID => 'mailed',
-        self::PENDING_STATUS_ID => 'pending',
         self::PROCESSING_STATUS_ID => 'processing',
         self::RECEIVED_STATUS_ID => 'received',
+        self::RECOMMENDED_STATUS_ID => 'recommended',
         self::SHIPPED_STATUS_ID => 'shipped',
     ];
 
@@ -66,11 +68,6 @@ class LabTest extends Model
     public function practitioner()
     {
         return $this->labOrder->practitioner();
-    }
-
-    public function isLocked()
-    {
-        return $this->labOrder->isComplete();
     }
 
     public function scopePatientOrPractitioner($query, User $user)
