@@ -99,6 +99,10 @@
                 if (data) {
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                } else {
+                    this.selectedRowData = null;
+                    this.selectedRowIndex = null;
+                    this.flyoutActive = false;
                 }
             },
             isEmpty(obj) {
@@ -130,6 +134,7 @@
                 this.addFlyoutActive = !this.addFlyoutActive
             },
             detailsFlyoutActive() {
+                if (this.selectedRowData != null) this.selectedRowData = null;
                 this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
             },

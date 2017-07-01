@@ -115,6 +115,7 @@ export default {
   },
   methods: {
     handleFlyoutClose() {
+      this.$parent.selectedRowData = null;
       this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
     },
     updateStatus(e) {
@@ -133,6 +134,7 @@ export default {
       })
       this.$parent.notificationMessage = "Successfully updated!";
       this.$parent.notificationActive = true;
+      this.$parent.selectedRowData = null;
       setTimeout(() => this.$parent.notificationActive = false, 3000);
       this.handleFlyoutClose()
     }
