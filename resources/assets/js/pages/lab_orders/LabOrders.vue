@@ -24,8 +24,9 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" />
-            <DetailLabOrders v-if="currentData" :row-data="selectedRowData" />
+            <AddLabOrders v-if="labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            :reset="setupLabData" />
+            <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
                 :onClick="addingFlyoutActive"
@@ -154,7 +155,7 @@
                 }
                 this.cache[choices['0']] = data
                 this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Pending")
-                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Completed")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data
             }
         },
