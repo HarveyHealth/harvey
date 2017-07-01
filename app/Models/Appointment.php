@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Jobs\SendTransactionalEmail;
-use App\Http\Traits\BelongsToPatientAndPractitioner;
-use App\Http\Traits\HasStatusColumn;
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Lib\TransactionalEmail;
 use Lang;
 use Log;
 
@@ -125,19 +124,20 @@ class Appointment extends Model
         } else {
             Log::info("Sending {$recipient->type} reminder to User #{$recipient->id} about Appointment #{$this->id}.");
 
-            $sendTransactionalEmail = (new SendTransactionalEmail())
-                ->setTo($recipient->email)
-                ->setTemplate('patient.appointment.reminder')
-                ->setTemplateModel([
+            $transactionalEmailJob = TransactionalEmail::createJob(
+                $recipient->email,
+                'patient.appointment.reminder',
+                [
                     'practitioner_name' => $this->practitioner->user->fullName(),
                     'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
                     'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
                     'harvey_id' => $recipient->id,
                     'patient_name' => $recipient->first_name,
                     'patient_phone' => $recipient->phone,
-            ]);
+                ]
+            );
 
-            dispatch($sendTransactionalEmail);
+            dispatch($transactionalEmailJob);
 
             $this->setPatientReminderEmail24HsSent();
             return true;

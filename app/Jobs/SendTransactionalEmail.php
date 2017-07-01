@@ -27,20 +27,20 @@ class SendTransactionalEmail implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($to = '', $template = '', Array $template_model = [])
+    public function __construct(string $to = '', string $template = '', Array $template_model = [])
     {
         $this->to = $to;
         $this->template = $template;
         $this->template_model = $template_model;
     }
 
-    public function setTo($value = '')
+    public function setTo(string $value = '')
     {
         $this->to = $value;
         return $this;
     }
 
-    public function setTemplate($value = '')
+    public function setTemplate(string $value = '')
     {
         $this->template = $value;
         return $this;
