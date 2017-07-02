@@ -7,17 +7,9 @@ use App\Models\User;
 
 class UserObserver
 {
-    // public function updated(User $user)
-    // {
-    //     // the phone is being update
-    //     if ($user->isDirty('phone')) {
-    //         event(new PhoneNumberChanged($user, $user->getOriginal('phone')));
-    //     }
-    // }
-
     public function updating(User $user)
     {
-        // the phone is being update
+        // the phone is being updated
         if ($user->isDirty('phone')) {
             $user->phone_verified_at = null;
         }
@@ -25,9 +17,11 @@ class UserObserver
 
     public function saved(User $user)
     {
-        // the phone is being update
+        // the phone is being updated
         if ($user->isDirty('phone')) {
-            event(new PhoneNumberChanged($user, $user->getOriginal('phone')));
+            if (!empty($user->phone)) {
+                event(new PhoneNumberChanged($user, $user->getOriginal('phone')));
+            }
         }
     }
 }
