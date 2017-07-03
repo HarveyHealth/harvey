@@ -10,7 +10,7 @@
     background: #FFF;
     .container {
         height: 60px;
-        // max-width: 1152px;
+        max-width: 1152px;
         @include margin(0 auto);
         @media (max-width:768px) {
             @include padding(0 20px);
@@ -23,10 +23,9 @@
                 svg {
                     width: 150px;
                     @include margin(8px null null null);
-                    .harvey-text {
-                        display: none;
-                        @include query(md) {
-                          display: inline-block;
+                    @media (max-width:768px) {
+                        .harvey-text {
+                            display: none;
                         }
                     }
                     &.harvey-mark{
@@ -52,10 +51,6 @@
             }
         }
     }
-}
-
-.header--signup {
-  box-shadow: 0 1px 1px rgba(0,0,0,.1);
 }
 
 .header_phone-number {

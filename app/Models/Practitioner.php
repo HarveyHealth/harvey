@@ -18,7 +18,6 @@ class Practitioner extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'graduated_at',
     ];
 
     protected $guarded = [
@@ -44,7 +43,7 @@ class Practitioner extends Model
 
     public function getAvailabilityAttribute()
     {
-        return $this->availability()->availabilityAsCollection();
+        return $this->availability()->availability();
     }
 
     public function getTimezoneAttribute()
@@ -112,10 +111,5 @@ class Practitioner extends Model
     public function test()
     {
         return $this->hasMany(Test::class, 'practitioner_id', 'id');
-    }
-
-    public function license()
-    {
-        return $this->hasOne(License::class, 'id', 'license_id');
     }
 }
