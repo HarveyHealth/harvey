@@ -149,7 +149,6 @@
                 } else {
                     patient = global.patientLookUp
                 }
-                console.log(`PATIENT`, patient)
                 let data = tableDataTransform(
                     global.labOrders, 
                     global.labTests, 
