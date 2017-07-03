@@ -142,7 +142,7 @@
             setupLabData() {
                 let global = this.$root.$data.global
                 let patient = null
-                if (global.user.attributes.user_type == 'patient') {
+                if (global.user.attributes && global.user.attributes.user_type == 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -188,7 +188,7 @@
         watch: {
             loadingLabs(val, old) {
                 if (!val) {
-                    setTimeout(() => this.setupLabData(), 1200)
+                    setTimeout(() => this.setupLabData(), 1500)
                 }
             }
         },
