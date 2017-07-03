@@ -111,7 +111,6 @@ class LabTestsController extends BaseAPIController
     public function information()
     {
         $this->serializer = new JsonApiSerializer();
-
         return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
