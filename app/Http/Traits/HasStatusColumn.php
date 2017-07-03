@@ -91,4 +91,14 @@ trait HasStatusColumn
     {
         return $query->where('status_id', self::COMPLETE_STATUS_ID);
     }
+
+    public function wasShipped()
+    {
+        return $query->where('status_id', self::CANCELED_STATUS_ID);
+    }
+
+    public function wasNotShipped()
+    {
+        return !$this->wasShipped();
+    }
 }

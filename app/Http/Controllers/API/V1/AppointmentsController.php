@@ -63,7 +63,7 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        $validator = Validator::make($inputData, [
+        $validator = StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
