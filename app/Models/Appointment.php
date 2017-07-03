@@ -71,7 +71,6 @@ class Appointment extends Model
         return $this->hasMany(PatientNote::class);
     }
 
-<<<<<<< HEAD
     public function getTypeAttribute()
     {
         return empty(self::TYPES[$this->type_id]) ? null : self::TYPES[$this->type_id];
@@ -91,16 +90,6 @@ class Appointment extends Model
         $tableName = $this->getTable();
 
         return $this->type ? Lang::get("{$tableName}.types.{$this->type}") : null;
-=======
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
-    public function practitioner()
-    {
-        return $this->belongsTo(Practitioner::class);
->>>>>>> current-release
     }
 
     public function isLocked()
@@ -113,14 +102,11 @@ class Appointment extends Model
         return !$this->isLocked();
     }
 
-<<<<<<< HEAD
     public function isFirst()
     {
         return self::forPatient($this->patient)->complete()->limit(1)->get()->isEmpty();
     }
 
-=======
->>>>>>> current-release
     public function hoursToStart()
     {
         return Carbon::now()->diffInHours($this->appointment_at, false);
