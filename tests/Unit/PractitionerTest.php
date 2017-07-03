@@ -17,7 +17,7 @@ class PractitionerTest extends TestCase
     {
         $practitioner = factory(Practitioner::class)->create();
 
-        $this->assertEquals(['week 1' => [], 'week 2' => []], $practitioner->availability);
+        $this->assertEquals(collect([]), $practitioner->availability);
     }
 
     public function test_it_shows_the_correct_availability_if_schedules_are_set()
@@ -40,18 +40,20 @@ class PractitionerTest extends TestCase
         $user->save();
         $practitioner->save();
 
-        $expected_result = [
-            'week 1' => [
-                'Wednesday 15:00',
-                'Wednesday 15:30',
-                'Wednesday 16:00'
-            ],
-            'week 2' => [
-                'Wednesday 15:00',
-                'Wednesday 15:30',
-                'Wednesday 16:00'
-            ]
-        ];
+        $expected_result = collect([
+            '2017-04-19T15:00:00+00:00',
+            '2017-04-19T15:30:00+00:00',
+            '2017-04-19T16:00:00+00:00',
+            '2017-04-26T15:00:00+00:00',
+            '2017-04-26T15:30:00+00:00',
+            '2017-04-26T16:00:00+00:00',
+            '2017-05-03T15:00:00+00:00',
+            '2017-05-03T15:30:00+00:00',
+            '2017-05-03T16:00:00+00:00',
+            '2017-05-10T15:00:00+00:00',
+            '2017-05-10T15:30:00+00:00',
+            '2017-05-10T16:00:00+00:00',
+        ]);
 
         $this->assertEquals($expected_result, $practitioner->availability);
         Carbon::setTestNow(Carbon::now());
@@ -85,14 +87,17 @@ class PractitionerTest extends TestCase
         $user->save();
         $practitioner->save();
 
-        $expected_result = [
-            'week 1' => [
-                'Wednesday 15:00',
-                'Wednesday 15:30',
-                'Wednesday 16:00'
-            ],
-            'week 2' => []
-        ];
+        $expected_result = collect([
+            '2017-04-19T15:00:00+00:00',
+            '2017-04-19T15:30:00+00:00',
+            '2017-04-19T16:00:00+00:00',
+            '2017-05-03T15:00:00+00:00',
+            '2017-05-03T15:30:00+00:00',
+            '2017-05-03T16:00:00+00:00',
+            '2017-05-10T15:00:00+00:00',
+            '2017-05-10T15:30:00+00:00',
+            '2017-05-10T16:00:00+00:00',
+        ]);
 
         $this->assertEquals($expected_result, $practitioner->availability);
         Carbon::setTestNow(Carbon::now());
