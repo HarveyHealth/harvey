@@ -9,19 +9,6 @@ use App\Models\Appointment;
 class AppointmentObserver
 {
     /**
-     * Listen to the Appointment creating event.
-     *
-     * @param  Appointment $appointment
-     * @return void
-     */
-    public function creating(Appointment $appointment)
-    {
-        if ($appointment->isFirst()) {
-            $appointment->type_id = Appointment::FIRST_APPOINTMENT_TYPE_ID;
-        }
-    }
-
-    /**
      * Listen to the Appointment updating event.
      *
      * @param  Appointment $appointment
