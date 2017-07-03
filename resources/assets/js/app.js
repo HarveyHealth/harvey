@@ -204,7 +204,9 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
                 .then(response => {
                     let data = response.data.data
-                    data.included = response.data.included[0];
+                    if (response.data.included[0]) {
+                        data.included = response.data.included[0];
+                    }
                     this.global.user = data;
                 })
                 .catch(error => this.global.user = {});

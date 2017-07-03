@@ -186,9 +186,9 @@
             }
         },
         watch: {
-            loadingLabs(val) {
+            loadingLabs(val, old) {
                 if (!val) {
-                    this.setupLabData();
+                    setTimeout(() => this.setupLabData(), 1200)
                 }
             }
         },
