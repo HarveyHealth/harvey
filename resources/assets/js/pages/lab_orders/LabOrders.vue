@@ -67,7 +67,7 @@
         },
         data() {
             return {
-                filters: ['All', 'Completed'],
+                filters: ['All', 'Pending', 'Completed'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -115,6 +115,9 @@
                     case "All":
                         this.currentData = this.cache.All
                         break;
+                    case "Pending":
+                        this.currentData = this.cache.Pending
+                        break;
                     case "Completed":
                         this.currentData = this.cache.Completed
                         break;
@@ -138,19 +141,29 @@
             },
             setupLabData() {
                 let global = this.$root.$data.global
+                let patient = null
+                if (global.user.attributes.user_type == 'patient') {
+                    patient = {}
+                    patient[global.user.included.id] = global.user.included
+                    patient[global.user.included.id].attributes.id = global.user.included.id
+                } else {
+                    patient = global.patientLookUp
+                }
                 let data = tableDataTransform(
                     global.labOrders, 
                     global.labTests, 
-                    global.patientLookUp, 
+                    patient, 
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
                 let choices = {
                     0: "All",
-                    1: "Completed"
+                    1: "Pending",
+                    2: "Completed"
                 }
                 this.cache[choices['0']] = data
-                this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Complete")
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data
             }
         },
