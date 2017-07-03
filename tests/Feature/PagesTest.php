@@ -3,13 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\{WithoutMiddleware, DatabaseMigrations, DatabaseTransactions};
 use ResponseCode;
 
 class PagesTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function test_if_home_returns_ok()
     {
         $response = $this->get('/');

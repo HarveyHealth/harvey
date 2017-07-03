@@ -86,6 +86,7 @@ import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
 export default {
+  props: ['reset'],
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -174,7 +175,24 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-        })
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+            .then(response => {
+                this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
+                    e['included'] = response.data.included[i]
+                    return e;
+                })
+                this.$root.$data.global.loadingLabOrders = false
+                axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
+                    .then(response => {
+                        this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                            e['included'] = response.data.included[i]
+                            return e;
+                        })
+                        this.$root.$data.global.loadingLabTests = false
+                        this.$props.reset();
+                    })
+                })
+            })
         this.handleFlyoutClose()
     }
   },
@@ -193,8 +211,11 @@ export default {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     },
     testNameList() {
-      let labArray = Object.values(this.$root.$data.labTests)
-      return labArray
+      let labArray = Object.values(this.$root.$data.labTests).map(e => {
+        e.attributes.checked = false
+        return e
+      })
+      return labArray.sort((a,b) => a.id - b.id)
     },
     validZip() {
       if (this.zip != '') {
@@ -206,7 +227,7 @@ export default {
   },
   watch: {
     testNameList(val) {
-      return Object.values(this.$root.$data.labTests)
+      return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
     }
   }
 }

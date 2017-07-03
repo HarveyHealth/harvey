@@ -44,11 +44,13 @@
                 <label class="input__label" for="patient_name">lab tests</label>
                 <div v-for="test in testList">
                   <label class="input__label" style="color: #737373;">{{ test.name }}</label>
-                  <span class="custom-select">
+                  <!-- <span v-if="test.status[0] != 'Complete'" class="custom-select"> -->
+                  <span class="custom-select"> 
                       <select @change="updateTest($event, test)">
                           <option v-for="current in test.status">{{ current }}</option>
                       </select>
                   </span>
+                  <!-- <span v-if="test.status[0] == 'Complete'" class="input--text">Completed</span> -->
                 </div>
             </div>
           </div>
@@ -99,7 +101,7 @@ import {capitalize} from '../../../utils/filters/textformat'
 import axios from 'axios'
 export default {
   name: 'DetailLabOrders',
-  props: ['row-data'],
+  props: ['row-data', 'reset'],
   components: {
     Flyout,
     SelectOptions
@@ -115,6 +117,7 @@ export default {
   },
   methods: {
     handleFlyoutClose() {
+      this.$parent.selectedRowData = null;
       this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
     },
     updateStatus(e) {
@@ -131,8 +134,26 @@ export default {
           })
         }
       })
+      axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+        .then(response => {
+            this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
+                e['included'] = response.data.included[i]
+                return e;
+            })
+            this.$root.$data.global.loadingLabOrders = false
+            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
+            .then(response => {
+                this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                    e['included'] = response.data.included[i]
+                    return e;
+                })
+                this.$root.$data.global.loadingLabTests = false
+                this.$props.reset();
+            })
+        })
       this.$parent.notificationMessage = "Successfully updated!";
       this.$parent.notificationActive = true;
+      this.$parent.selectedRowData = null;
       setTimeout(() => this.$parent.notificationActive = false, 3000);
       this.handleFlyoutClose()
     }
