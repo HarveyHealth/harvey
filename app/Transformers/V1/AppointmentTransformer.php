@@ -25,7 +25,6 @@ class AppointmentTransformer extends TransformerAbstract
             'practitioner_name' => (string) $appointment->practitioner->user->fullName(),
             'reason_for_visit' => (string) $appointment->reason_for_visit,
             'status' => $appointment->status,
-            'type' => $appointment->type,
         ];
     }
 
