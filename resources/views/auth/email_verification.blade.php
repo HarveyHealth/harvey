@@ -3,7 +3,7 @@
 @section('page_title','Email Verified')
 
 @section('main_content')
-<section class="section">
+<section class="signup-content">
         <div class="container">
             <div class="content">
                 <h2>Thank you for verifying your email.</h2>

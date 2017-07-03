@@ -2,10 +2,14 @@
 @section('page_title','404')
 
 @section('main_content')
-    <section class="section">
+    <section class="section grey_bg">
         <div class="container has-text-centered">
-            <h3 class='title is-3'>Whoops! Seems you're lost!</h3>
-            <a href="/" class="nav-item">Take me home</a>
+            <div class="card noscript">
+                <div class="card-section">
+                    <h1 class="noscript-header">Whoops! Seems you're lost!</h1>
+                    <a href="/"><button class="button is-pulled-right login-buttons fourButton">Take me home</button></a>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
