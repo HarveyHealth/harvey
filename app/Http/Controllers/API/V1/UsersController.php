@@ -98,7 +98,7 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return $this->baseTransformItem($user)->respond();
+            return $this->baseTransformItem($user, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }
