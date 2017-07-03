@@ -10,19 +10,11 @@ class TestController extends Controller
 {
     public function index()
     {
-        $practitioner = \App\Models\Practitioner::findOrFail(1);
-        //
-        // print_r($practitioner->schedule);
+        $geo = new \App\Lib\Clients\Geocoder;
+        $res = $geo->geocode('15344 mystic rock drive, carmel');
 
-        $availability = new \App\Lib\PractitionerAvailability($practitioner);
-        dd($availability->availability());
+        print_r($res);
 
-        $year = 2017;
-        $week_of_year = \Carbon::now()->weekOfYear;
 
-        $start_date = \Carbon::createFromTimestamp(strtotime("{$year}W{$week_of_year}"));
-        $start_date->addDays(date('N', strtotime('Tuesday') - 1));
-
-        echo $start_date->toDateTimeString();
     }
 }
