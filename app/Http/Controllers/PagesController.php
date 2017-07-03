@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
+use App\Models\LabTestInformation;
 
 /*
  * A light controller to display mostly static pages, like the homepage
@@ -28,6 +29,6 @@ class PagesController extends Controller
 
     public function getLabTests()
     {
-        return view('legacy.pages.lab_tests');
+        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::allFromCache()]);
     }
 }

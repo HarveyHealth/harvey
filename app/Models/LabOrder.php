@@ -12,9 +12,14 @@ class LabOrder extends Model
 {
     use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
 
-    const PENDING_STATUS_ID = 0;
     const CANCELED_STATUS_ID = 1;
-    const COMPLETE_STATUS_ID = 2;
+    const COMPLETE_STATUS_ID = 7;
+    const SHIPPED_STATUS_ID = 3;
+    const CONFIRMED_STATUS_ID = 2;
+    const MAILED_STATUS_ID = 5;
+    const PROCESSING_STATUS_ID = 6;
+    const RECEIVED_STATUS_ID = 4;
+    const RECOMMENDED_STATUS_ID = 0;
 
     protected $dates = [
         'completed_at',
@@ -33,7 +38,12 @@ class LabOrder extends Model
     const STATUSES = [
         self::CANCELED_STATUS_ID => 'canceled',
         self::COMPLETE_STATUS_ID => 'complete',
-        self::PENDING_STATUS_ID => 'pending',
+        self::CONFIRMED_STATUS_ID => 'confirmed',
+        self::MAILED_STATUS_ID => 'mailed',
+        self::PROCESSING_STATUS_ID => 'processing',
+        self::RECEIVED_STATUS_ID => 'received',
+        self::RECOMMENDED_STATUS_ID => 'recommended',
+        self::SHIPPED_STATUS_ID => 'shipped',
     ];
 
     public function labTests()
