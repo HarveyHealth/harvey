@@ -30,7 +30,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
-        Route::patch('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
+        Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
 
         Route::get('patients', 'PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
