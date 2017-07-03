@@ -131,7 +131,7 @@ class Appointment extends Model
                     'doctor_name' => $this->practitioner->user->fullName(),
                     'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
                     'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
-                    'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+                    'appointment_time_zone' => $this->patientAppointmentAtDate()->format('T'),
                     'harvey_id' => $recipient->id,
                     'patient_first_name' => $recipient->first_name,
                     'phone_number' => $recipient->phone,
