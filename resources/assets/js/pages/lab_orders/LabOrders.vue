@@ -67,7 +67,7 @@
         },
         data() {
             return {
-                filters: ['All', 'Completed'],
+                filters: ['All', 'Pending', 'Completed'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -115,6 +115,9 @@
                     case "All":
                         this.currentData = this.cache.All
                         break;
+                    case "Pending":
+                        this.currentData = this.cache.Pending
+                        break;
                     case "Completed":
                         this.currentData = this.cache.Completed
                         break;
@@ -147,10 +150,12 @@
                 )
                 let choices = {
                     0: "All",
-                    1: "Completed"
+                    1: "Pending",
+                    2: "Completed"
                 }
                 this.cache[choices['0']] = data
-                this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Complete")
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data
             }
         },
