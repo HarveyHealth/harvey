@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomepageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
 
     public function test_if_homepage_is_up()
     {

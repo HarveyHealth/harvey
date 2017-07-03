@@ -9,6 +9,7 @@ use Tests\Browser\Pages\LabTestPage;
 
 class labTestsPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
