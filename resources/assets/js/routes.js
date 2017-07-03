@@ -96,6 +96,8 @@ let routes = [
 
     {
         path: '/appointments',
+        name: 'appointments',
+        props: true,
         component: require('./pages/appointments/Appointments.vue'),
     },
     {
