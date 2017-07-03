@@ -23,15 +23,11 @@ class PractitionerAvailability
     public function availability()
     {
         $practitioner_timezone = $this->practitioner->timezone;
-
         $now = Carbon::now($practitioner_timezone);
-        $current_week = clone $now;
-
         $weeks = [];
 
         for ($w = 0; $w <= 3; $w++) {
-            $current_week->startOfWeek();
-            $current_week->addWeeks($w);
+            $current_week = $now->copy()->startOfWeek()->addWeeks($w);
 
             $availability = $this->validAvailabilitySlotsForWeek($current_week);
 
@@ -49,7 +45,7 @@ class PractitionerAvailability
                     $days_to_add = 0;
                 }
 
-                $date = clone $current_week;
+                $date = $current_week->copy();
                 $date->startOfWeek();
                 $date->addDays($days_to_add);
                 $date->hour = date('H', strtotime($time));
