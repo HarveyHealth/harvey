@@ -71,6 +71,16 @@
                     </div>
                 </div>
             </div>
+            <div class="card card-info">
+                <div class="card-heading-container">
+                    <h2 class="card-header">Practitioner Info (Public)</h2>
+                </div>
+                <div class="card-content-container">
+                    <div class="card-content-wrap">
+                        <ImageUpload :type="'header'"></ImageUpload>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -79,11 +89,13 @@
     import diff from 'object-diff';
     import _ from 'lodash';
     import timezones from '../../../../../public/timezones.json';
-    import NotificationPopup from '../../commons/NotificationPopup.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue';
+    import ImageUpload from '../../commons/ImageUpload.vue';
 
     export default {
         name: 'profile',
         components: {
+            ImageUpload,
             NotificationPopup
         },
         data() {

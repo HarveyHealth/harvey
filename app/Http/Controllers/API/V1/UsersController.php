@@ -11,6 +11,7 @@ use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
 use Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends BaseAPIController
 {
@@ -129,5 +130,32 @@ class UsersController extends BaseAPIController
         } else {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
+    }
+    
+    public function imageUpload(Request $request, User $user)
+    {
+        if (auth()->user()->cant('update', $user)) {
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+        }
+        
+        try{
+            $image = $request->file('image');
+            $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
+            $s3 = Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
+        } catch (\Exception $exception) {
+            return $this->respondWithError('Unable to upload image. Please try again later');
+        }
+        
+        if($request->get('type') == 'header') {
+            $user->update([
+                'background_image_url' => Storage::cloud()->url($imagePath)
+            ]);
+        } else {
+            $user->update([
+                'picture_url' => Storage::cloud()->url($imagePath)
+            ]);
+        }
+    
+        return $this->baseTransformItem($user)->respond();
     }
 }
