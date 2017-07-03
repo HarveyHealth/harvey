@@ -154,7 +154,7 @@
                     2: "Completed"
                 }
                 this.cache[choices['0']] = data
-                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete")
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
                 this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data
             }

@@ -22,7 +22,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
-            completed_at: capitalize(obj.attributes.status),
+            completed_at: obj.attributes.completed_at ? "Complete" : capitalize(obj.attributes.status),
             tests_status: {},
             sku_ids: {},
             result_urls: {},
