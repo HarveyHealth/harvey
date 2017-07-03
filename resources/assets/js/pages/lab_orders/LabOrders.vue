@@ -141,10 +141,19 @@
             },
             setupLabData() {
                 let global = this.$root.$data.global
+                let patient = null
+                if (global.user.attributes.user_type == 'patient') {
+                    patient = {}
+                    patient[global.user.included.id] = global.user.included
+                    patient[global.user.included.id].attributes.id = global.user.included.id
+                } else {
+                    patient = global.patientLookUp
+                }
+                console.log(`PATIENT`, patient)
                 let data = tableDataTransform(
                     global.labOrders, 
                     global.labTests, 
-                    global.patientLookUp, 
+                    patient, 
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
