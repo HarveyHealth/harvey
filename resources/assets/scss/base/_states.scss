@@ -1,9 +1,0 @@
-.hide {
-  display: none;
-  &-md {
-    @include query(md) { display: none; }
-  }
-  &-lg {
-    @include query(lg) { display: none; }
-  }
-}

@@ -70,4 +70,7 @@ return [
         'key' => env('TIMEZONEDB_KEY'),
     ],
 
+    'google_geocoder' => [
+        'api_key' => env('GOOGLE_GEOCODER_API_KEY')
+    ],
 ];
