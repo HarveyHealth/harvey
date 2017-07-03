@@ -10,7 +10,6 @@ use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
 use Carbon;
 use ResponseCode;
-use Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -70,10 +69,6 @@ class AppointmentsController extends BaseAPIController
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;

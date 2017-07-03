@@ -1,22 +1,18 @@
 <?php
-
 namespace App\Models;
-
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\{Model, Builder, SoftDeletes};
-use App\Http\Traits\BelongsToPatientAndPractitioner;
-use App\Http\Traits\HasStatusColumn;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Lang;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
-
+    use SoftDeletes;
     /**
      * An appointment will lock when less than 4 hours away.
      */
     const CANCEL_LOCK = 4;
-
     const PENDING_STATUS_ID = 0;
     const NO_SHOW_PATIENT_STATUS_ID = 1;
     const NO_SHOW_DOCTOR_STATUS_ID = 2;
@@ -55,13 +51,11 @@ class Appointment extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
             return $builder->whereHas('practitioner.user', function ($query){
                 $query->where('enabled', true);
             });
         });
-
         static::addGlobalScope('enabledPatient', function (Builder $builder) {
             return $builder->whereHas('patient.user', function ($query){
                 $query->where('enabled', true);
@@ -77,6 +71,7 @@ class Appointment extends Model
         return $this->hasMany(PatientNote::class);
     }
 
+<<<<<<< HEAD
     public function getTypeAttribute()
     {
         return empty(self::TYPES[$this->type_id]) ? null : self::TYPES[$this->type_id];
@@ -96,6 +91,16 @@ class Appointment extends Model
         $tableName = $this->getTable();
 
         return $this->type ? Lang::get("{$tableName}.types.{$this->type}") : null;
+=======
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
+
+    public function practitioner()
+    {
+        return $this->belongsTo(Practitioner::class);
+>>>>>>> current-release
     }
 
     public function isLocked()
@@ -108,11 +113,14 @@ class Appointment extends Model
         return !$this->isLocked();
     }
 
+<<<<<<< HEAD
     public function isFirst()
     {
         return self::forPatient($this->patient)->complete()->limit(1)->get()->isEmpty();
     }
 
+=======
+>>>>>>> current-release
     public function hoursToStart()
     {
         return Carbon::now()->diffInHours($this->appointment_at, false);
@@ -128,13 +136,34 @@ class Appointment extends Model
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
+    public function getStatusAttribute()
+    {
+        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
+    }
+
+    public function setStatusAttribute($value)
+    {
+        if (false !== ($key = array_search($value, self::STATUSES))) {
+            $this->status_id = $key;
+        }
+        return $value;
+    }
+
+    public function getStatusFriendlyName()
+    {
+        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
+    }
+
+    public function isPending()
+    {
+        return $this->status_id == self::PENDING_STATUS_ID;
+    }
     /*
      * SCOPES
      */
     public function scopeUpcoming($query, $weeks = 2)
     {
         $end_date = Carbon::now()->addWeeks($weeks);
-
         return $query->where('appointment_at', '>', Carbon::now())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
                     ->orderBy('appointment_at', 'ASC');
