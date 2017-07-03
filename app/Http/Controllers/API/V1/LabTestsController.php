@@ -75,7 +75,7 @@ class LabTestsController extends BaseAPIController
 
     public function update(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('update', $labTest) || $labTest->isLocked()) {
+        if (currentUser()->cant('update', $labTest)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
@@ -111,7 +111,7 @@ class LabTestsController extends BaseAPIController
     public function information()
     {
         $this->serializer = new JsonApiSerializer();
-        
+
         return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
