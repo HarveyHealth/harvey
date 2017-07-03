@@ -134,14 +134,14 @@ export default {
           })
         }
       })
-      axios.get(`${this.apiUrl}/lab/orders?include=patient,user`)
+      axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
         .then(response => {
             this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                 e['included'] = response.data.included[i]
                 return e;
             })
             this.$root.$data.global.loadingLabOrders = false
-            axios.get(`${this.apiUrl}/lab/tests?include=sku`)
+            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
             .then(response => {
                 this.$root.$data.global.labTests = response.data.data.map((e, i) => {
                     e['included'] = response.data.included[i]
