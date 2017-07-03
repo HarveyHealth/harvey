@@ -434,4 +434,70 @@ class AppointmentTest extends TestCase
             ]
         ]);
     }
+
+    public function test_first_appointment_is_marked_as_first()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'first_appointment']);
+    }
+
+    public function test_second_appointment_is_marked_as_first_if_first_one_was_not_completed()
+    {
+        $appointment = factory(Appointment::class)->create();
+        $appointment->markAsCanceled();
+
+        $patient = $appointment->patient;
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'first_appointment']);
+    }
+
+    public function test_if_patient_has_a_completed_appointment_then_new_one_is_not_marked_as_appointment()
+    {
+        $appointment = factory(Appointment::class)->create();
+        $appointment->markAsComplete();
+
+        $patient = $appointment->patient;
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'appointment']);
+    }
 }
