@@ -26,9 +26,9 @@
     </div>
     <div>
           <label class="input__label" for="patient_name">tests</label>
-          <span v-for="tests in testNameList" class="fullscreen-left">
-              <input :checked="tests.attributes.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="radio"> 
-              <label class="radio--text">{{ tests.attributes.name }}</label>
+          <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
+              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
+              <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
           </span>
     </div>
         <div class="inline-centered">
@@ -104,7 +104,9 @@ export default {
       zip: '',
       state: '',
       selectedTests: [],
-      shippingCodes: {}
+      shippingCodes: {},
+      prevDoctor: '',
+      prevClient: ''
     }
   },
   methods: {
@@ -115,8 +117,8 @@ export default {
       this.step--
     },
     updateTestSelection(e, obj) {
-      this.testNameList[obj.id - 1].attributes.checked = !this.testNameList[obj.id - 1].attributes.checked
-      if (this.testNameList[obj.id - 1].attributes.checked) {
+      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
+      if (this.testNameList[obj.id - 1].checked) {
         this.selectedTests.push(obj)
       } else {
         _.pull(this.selectedTests, obj)
@@ -124,12 +126,14 @@ export default {
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
+        this.prevClient = e.target.value
     },
     updateState(e) {
       this.state = e.target.value
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
+        this.prevDoctor = e.target.value
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
@@ -211,11 +215,7 @@ export default {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     },
     testNameList() {
-      let labArray = Object.values(this.$root.$data.labTests).map(e => {
-        e.attributes.checked = false
-        return e
-      })
-      return labArray.sort((a,b) => a.id - b.id)
+      return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
     },
     validZip() {
       if (this.zip != '') {
@@ -227,7 +227,9 @@ export default {
   },
   watch: {
     testNameList(val) {
-      return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
+      if (val) {
+        return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
+      }
     }
   }
 }

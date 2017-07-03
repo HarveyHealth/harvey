@@ -113,10 +113,11 @@
   @include margin(1.5em null null null);
 }
 .fullscreen-left {
-  margin: 5px;
+  @include margin(5px);
   width: 100%;
   float: left;
   height: 25px;
+  @include padding(5px);
 }
 .flyout-btn {
   margin: 2rem;
