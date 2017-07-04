@@ -62,7 +62,7 @@ class LabTestsController extends BaseAPIController
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
-        $validator = StrictValidator::check($request->all(), [
+        StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
