@@ -179,7 +179,7 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests
+                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests && this.$root.$data.labTests
             },
             labTests() {
                 return this.$root.$data.labTests
@@ -188,7 +188,7 @@
         watch: {
             loadingLabs(val, old) {
                 if (!val) {
-                    setTimeout(() => this.setupLabData(), 1500)
+                    setTimeout(() => this.setupLabData(), 3000)
                 }
             }
         },
