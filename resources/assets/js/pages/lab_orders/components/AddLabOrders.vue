@@ -106,12 +106,20 @@ export default {
       selectedTests: [],
       shippingCodes: {},
       prevDoctor: '',
-      prevClient: ''
+      prevClient: '',
+      doctorList: [''].concat(this.$root.$data.global.practitioners),
+      clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
   methods: {
     nextStep() {
       this.step++
+      let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+      let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+      this.doctorList = [doctorsFind].concat(doctors),
+      this.clientList = [patientsFind].concat(patients)
     },
     prevStep() {
       this.step--
@@ -126,14 +134,12 @@ export default {
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
-        this.prevClient = e.target.value
     },
     updateState(e) {
       this.state = e.target.value
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
-        this.prevDoctor = e.target.value
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
@@ -201,12 +207,6 @@ export default {
     }
   },
   computed: {
-    doctorList() {
-      return [''].concat(this.$root.$data.global.practitioners)
-    },
-    clientList() {
-      return [''].concat(this.$root.$data.global.patients)
-    },
     flyoutHeading() {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"

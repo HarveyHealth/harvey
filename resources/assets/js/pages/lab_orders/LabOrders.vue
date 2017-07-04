@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="Object.values(tests).length > 0 && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            <AddLabOrders v-if="Object.values(tests).length > 0 && $root.$data.global.patients.length > 0 && $root.$data.global.practitioners.length > 0 && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
