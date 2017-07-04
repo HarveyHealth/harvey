@@ -142,7 +142,7 @@
             setupLabData() {
                 let global = this.$root.$data.global
                 let patient = null
-                if (global.user.attributes.user_type == 'patient') {
+                if (global.user.attributes && global.user.attributes.user_type == 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -179,16 +179,16 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests
+                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests && this.$root.$data.labTests
             },
             labTests() {
                 return this.$root.$data.labTests
             }
         },
         watch: {
-            loadingLabs(val) {
+            loadingLabs(val, old) {
                 if (!val) {
-                    this.setupLabData();
+                    setTimeout(() => this.setupLabData(), 1800)
                 }
             }
         },
