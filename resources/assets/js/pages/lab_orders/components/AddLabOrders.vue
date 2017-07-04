@@ -86,7 +86,7 @@ import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
 export default {
-  props: ['reset'],
+  props: ['reset', 'labTests'],
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -215,7 +215,7 @@ export default {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     },
     testNameList() {
-      return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
+      return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
     },
     validZip() {
       if (this.zip != '') {
@@ -228,7 +228,7 @@ export default {
   watch: {
     testNameList(val) {
       if (val) {
-        return Object.values(this.$root.$data.labTests).sort((a,b) => a.id - b.id)
+        return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
       }
     }
   }
