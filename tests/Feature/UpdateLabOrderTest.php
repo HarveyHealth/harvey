@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Patient, Practitioner, LabTest, LabOrder};
+use App\Models\{Admin, Patient, Practitioner, LabTest};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
