@@ -188,7 +188,7 @@
         watch: {
             loadingLabs(val, old) {
                 if (!val) {
-                    setTimeout(() => this.setupLabData(), 3000)
+                    setTimeout(() => this.setupLabData(), 1800)
                 }
             }
         },
