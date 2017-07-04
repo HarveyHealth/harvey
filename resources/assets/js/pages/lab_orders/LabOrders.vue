@@ -24,8 +24,8 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
-            :reset="setupLabData" />
+            <AddLabOrders v-if="Object.values(tests).length > 0 && $root.$data.global.patients.length > 0 && $root.$data.global.practitioners.length > 0 && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -79,6 +79,7 @@
                     Pending: [],
                     Completed: []
                 },
+                tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
@@ -142,7 +143,7 @@
             setupLabData() {
                 let global = this.$root.$data.global
                 let patient = null
-                if (global.user.attributes.user_type == 'patient') {
+                if (global.user.attributes && global.user.attributes.user_type == 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -165,6 +166,9 @@
                 this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
                 this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data
+            },
+            getLabTests() {
+                this.tests = this.$root.$data.labTests
             }
         },
         computed: {
@@ -179,16 +183,22 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests
+                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests && this.$root.$data.labTests
             },
             labTests() {
-                return this.$root.$data.labTests
+                this.tests = this.$root.$data.labTests
+                return this.$root.$data.labTests.length > 0
             }
         },
         watch: {
-            loadingLabs(val) {
+            loadingLabs(val, old) {
                 if (!val) {
-                    this.setupLabData();
+                    setTimeout(() => this.setupLabData(), 1800)
+                }
+            },
+            labTests(val) {
+                if (!val) {
+                    setTimeout(() => this.getLabTests(), 500)
                 }
             }
         },

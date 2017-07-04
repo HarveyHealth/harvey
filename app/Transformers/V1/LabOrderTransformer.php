@@ -27,7 +27,7 @@ class LabOrderTransformer extends TransformerAbstract
             'shipment_code' => (string) $labOrder->shipment_code,
             'state' => $labOrder->state,
             'status' => $labOrder->status,
-            'zip' => $labOrder->zip,
+            'zip' => (string) $labOrder->zip,
         ];
     }
 

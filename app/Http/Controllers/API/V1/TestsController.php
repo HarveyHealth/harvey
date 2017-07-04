@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Lib\Validation\StrictValidator;
 use App\Models\Test;
 use App\Transformers\V1\TestTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use \Validator;
 
 class TestsController extends BaseAPIController
 {
@@ -42,13 +42,9 @@ class TestsController extends BaseAPIController
      */
     public function results(Test $test, Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = StrictValidator::check($request->all(), [
             'file' => 'required'
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         $relative_path = "$test->patient_id/$test->id";
 
