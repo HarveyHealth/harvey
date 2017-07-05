@@ -41,7 +41,9 @@ class UserEventSubscriber
      */
     public function onUserLogout($event)
     {
-        \Log::info('User ' . $event->user->id . ' has logged out.');
+        if ($event->user) {
+            \Log::info('User ' . $event->user->id . ' has logged out.');
+        }
     }
 
     /**

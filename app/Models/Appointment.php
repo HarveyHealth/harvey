@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Lib\TransactionalEmail;
 use Lang;
+use Log;
 
 class Appointment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -22,6 +25,10 @@ class Appointment extends Model
     const CANCELED_STATUS_ID = 4;
     const COMPLETE_STATUS_ID = 5;
 
+    const APPOINTMENT_TYPE_ID = 0;
+    const FIRST_APPOINTMENT_TYPE_ID = 1;
+    const FOLOW_UP_TYPE_ID = 2;
+
     protected $dates = [
         'appointment_at',
         'created_at',
@@ -29,7 +36,7 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id', 'type_id'];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -40,22 +47,61 @@ class Appointment extends Model
         self::COMPLETE_STATUS_ID => 'complete',
     ];
 
+    const TYPES = [
+        self::APPOINTMENT_TYPE_ID => 'appointment',
+        self::FIRST_APPOINTMENT_TYPE_ID => 'first_appointment',
+        self::FOLOW_UP_TYPE_ID => 'follow_up',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
+            return $builder->whereHas('practitioner.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+
+        static::addGlobalScope('enabledPatient', function (Builder $builder) {
+            return $builder->whereHas('patient.user', function ($query){
+                $query->where('enabled', true);
+            });
+        });
+    }
+
     /*
      * Relationships
      */
+    public function reminders()
+    {
+        return $this->hasMany(AppointmentReminder::class);
+    }
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
     }
 
-    public function patient()
+    public function getTypeAttribute()
     {
-        return $this->belongsTo(Patient::class);
+        return empty(self::TYPES[$this->type_id]) ? null : self::TYPES[$this->type_id];
     }
 
-    public function practitioner()
+    public function setTypeAttribute($value)
     {
-        return $this->belongsTo(Practitioner::class);
+        if (false !== ($key = array_search($value, self::TYPES))) {
+            $this->type_id = $key;
+        }
+
+        return $value;
+    }
+
+    public function getTypeFriendlyName()
+    {
+        $tableName = $this->getTable();
+
+        return $this->type ? Lang::get("{$tableName}.types.{$this->type}") : null;
     }
 
     public function isLocked()
@@ -66,6 +112,11 @@ class Appointment extends Model
     public function isNotLocked()
     {
         return !$this->isLocked();
+    }
+
+    public function isFirst()
+    {
+        return self::forPatient($this->patient)->complete()->limit(1)->get()->isEmpty();
     }
 
     public function hoursToStart()
@@ -83,111 +134,108 @@ class Appointment extends Model
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
-    public function getStatusAttribute()
+    public function wasPatientReminderEmail24HsSent()
     {
-        return empty(self::STATUSES[$this->status_id]) ? null : self::STATUSES[$this->status_id];
+        return (bool) $this->reminders()->email24HsType()->toRecipient($this->patient->user)->count();
     }
 
-    public function setStatusAttribute($value)
+    public function setPatientReminderEmail24HsSent()
     {
-        if (false !== ($key = array_search($value, self::STATUSES))) {
-            $this->status_id = $key;
+        $reminder = AppointmentReminder::make([
+            'recipient_user_id' => $this->patient->user->id,
+            'type_id' => AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID,
+            'sent_at' => Carbon::now(),
+        ]);
+
+        return $this->reminders()->save($reminder);
+    }
+
+    public function sendPatientReminderEmail24Hs()
+    {
+        $recipient = $this->patient->user;
+
+        if ($this->wasPatientReminderEmail24HsSent()) {
+            Log::info("User #{$recipient->id} was already email notified about Appointment #{$this->id}. Skipping.");
+            return false;
+        } else {
+            Log::info("Sending {$recipient->type} reminder to User #{$recipient->id} about Appointment #{$this->id}.");
+
+            $transactionalEmailJob = TransactionalEmail::createJob(
+                $recipient->email,
+                'patient.appointment.reminder',
+                [
+                    'doctor_name' => $this->practitioner->user->fullName(),
+                    'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
+                    'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
+                    'appointment_time_zone' => $this->patientAppointmentAtDate()->format('T'),
+                    'harvey_id' => $recipient->id,
+                    'patient_first_name' => $recipient->first_name,
+                    'phone_number' => $recipient->phone,
+                ]
+            );
+
+            dispatch($transactionalEmailJob);
+
+            $this->setPatientReminderEmail24HsSent();
+            return true;
         }
-
-        return $value;
-    }
-
-    public function getStatusFriendlyName()
-    {
-        return $this->status ? Lang::get("appointments.status.{$this->status}") : null;
-    }
-
-    public function isPending()
-    {
-        return $this->status_id == self::PENDING_STATUS_ID;
     }
 
     /*
      * SCOPES
      */
-    public function scopeUpcoming(Builder $query, int $weeks = 4)
+    public function scopeUpcoming(Builder $builder, int $weeks = 4)
     {
-        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
+        return $builder->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
     }
 
-    public function scopeRecent($query)
+    public function scopeRecent(Builder $builder)
     {
-        return $query->where('appointment_at', '<', Carbon::now())->byAppointmentAtDesc();
+        return $builder->where('appointment_at', '<', Carbon::now())->byAppointmentAtDesc();
     }
 
-    public function scopeForPractitioner($query, Practitioner $practitioner)
+    public function scopeForPractitioner(Builder $builder, Practitioner $practitioner)
     {
-        return $query->where('practitioner_id', '=', $practitioner->id);
+        return $builder->where('practitioner_id', '=', $practitioner->id);
     }
 
-    public function scopeForPatient($query, Patient $patient)
+    public function scopeForPatient(Builder $builder, Patient $patient)
     {
-        return $query->where('patient_id', '=', $patient->id);
+        return $builder->where('patient_id', '=', $patient->id);
     }
 
-    public function scopeWithinDateRange($query, Carbon $startDate, Carbon $endDate)
+    public function scopeWithinDateRange(Builder $builder, Carbon $startDate, Carbon $endDate)
     {
-        return $query->afterThan($startDate)->beforeThan($endDate);
+        return $builder->afterThan($startDate)->beforeThan($endDate);
     }
 
-    public function scopeByAppointmentAtAsc($query)
+    public function scopeByAppointmentAtAsc(Builder $builder)
     {
-        $query->orderBy('appointment_at', 'ASC');
+        $builder->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeByAppointmentAtDesc($query)
+    public function scopeByAppointmentAtDesc(Builder $builder)
     {
-        $query->orderBy('appointment_at', 'DESC');
+        $builder->orderBy('appointment_at', 'DESC');
     }
 
-    public function scopeBeforeThan($query, Carbon $date)
+    public function scopeBeforeThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '<=', $date);
+        return $builder->where('appointment_at', '<=', $date);
     }
 
-    public function scopeAfterThan($query, Carbon $date)
+    public function scopeAfterThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '>=', $date);
+        return $builder->where('appointment_at', '>=', $date);
     }
 
-    public function scopePending($query)
+    public function scopeNot(Builder $builder, Appointment $appointment)
     {
-        return $query->where('status_id', self::PENDING_STATUS_ID);
+        return $builder->where('appointments.id', '!=', $appointment->id);
     }
 
-    public function scopeNoShowPatient($query)
+    public function scopePendingInTheNext24hs(Builder $builder)
     {
-        return $query->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
     }
-
-    public function scopeNoShowDoctor($query)
-    {
-        return $query->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
-    }
-
-    public function scopeGeneralConflict($query)
-    {
-        return $query->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
-    }
-
-    public function scopeCanceled($query)
-    {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
-    }
-
-    public function scopeComplete($query)
-    {
-        return $query->where('status_id', self::COMPLETE_STATUS_ID);
-    }
-
-    public function scopeNot($query, Appointment $appointment)
-    {
-        return $query->where('appointments.id', '!=', $appointment->id);
-    }
-
 }

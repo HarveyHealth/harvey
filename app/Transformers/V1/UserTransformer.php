@@ -20,6 +20,8 @@ class UserTransformer extends TransformerAbstract
 
         return [
             'id' => (string) $user->id,
+            'address_1' => $user->address_1,
+            'address_2' => $user->address_2,
             'city' => $user->city,
             'created_at' => $user->created_at,
             'doctor_name' => $appointment->practitioner->user->full_name ?? null,

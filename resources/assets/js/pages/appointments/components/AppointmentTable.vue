@@ -24,11 +24,11 @@ import tableSort from '../../../utils/methods/tableSort';
 export default {
   data() {
     return {
-      tableColumns,
+      tableColumns
     }
   },
   components: {
-    TableData,
+    TableData
   },
   computed: {
     // Needs to be computed to respond to global state change
