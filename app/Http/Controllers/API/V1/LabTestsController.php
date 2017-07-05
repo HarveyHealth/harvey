@@ -7,6 +7,7 @@ use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use League\Fractal\Serializer\JsonApiSerializer;
 use ResponseCode;
 
 class LabTestsController extends BaseAPIController
@@ -61,7 +62,7 @@ class LabTestsController extends BaseAPIController
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
-        $validator = StrictValidator::check($request->all(), [
+        StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
@@ -74,7 +75,7 @@ class LabTestsController extends BaseAPIController
 
     public function update(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('update', $labTest) || $labTest->isLocked()) {
+        if (currentUser()->cant('update', $labTest)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
@@ -109,6 +110,7 @@ class LabTestsController extends BaseAPIController
      */
     public function information()
     {
+        $this->serializer = new JsonApiSerializer();
         return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 

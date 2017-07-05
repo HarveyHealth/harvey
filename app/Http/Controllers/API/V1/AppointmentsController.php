@@ -4,13 +4,12 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentScheduled;
 use App\Lib\Validation\StrictValidator;
-use App\Models\Appointment;
-use App\Models\Patient;
+use App\Models\{Appointment, Patient};
 use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Carbon;
 use ResponseCode;
-use Validator;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -64,16 +63,14 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        $validator = Validator::make($inputData, [
+
+        StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available',
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
@@ -94,7 +91,7 @@ class AppointmentsController extends BaseAPIController
             StrictValidator::checkUpdate($request->all(), [
                 'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:2 weeks|practitioner_is_available:{$appointment->id}",
                 'reason_for_visit' => 'filled',
-                'status' => 'filled',
+                'status' => ['filled', Rule::in(Appointment::STATUSES)],
             ]);
 
             $appointment->update($request->all());

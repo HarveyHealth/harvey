@@ -37,15 +37,9 @@ Route::get('privacy', 'LegalController@privacy');
 Route::get('sitemap.xml', 'SitemapController@index');
 Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
-if (App::environment('local')) {
-    Route::get('test', 'TestController@index');
-}
-
 // basic public pages
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup page
 Route::get('/signup', 'SignupController@index')->name('signup');
-
-Route::get('/getting-started', 'GettingStartedController@index')->name('gettingstarted');
