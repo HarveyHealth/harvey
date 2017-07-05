@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\{Model, Builder, SoftDeletes};
-use App\Http\Traits\BelongsToPatientAndPractitioner;
-use App\Http\Traits\HasStatusColumn;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Lib\TransactionalEmail;
 use Lang;
+use Log;
 
 class Appointment extends Model
 {
@@ -72,6 +73,11 @@ class Appointment extends Model
     /*
      * Relationships
      */
+    public function reminders()
+    {
+        return $this->hasMany(AppointmentReminder::class);
+    }
+
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
@@ -128,71 +134,107 @@ class Appointment extends Model
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
+    public function wasPatientReminderEmail24HsSent()
+    {
+        return (bool) $this->reminders()->email24HsType()->toRecipient($this->patient->user)->count();
+    }
+
+    public function setPatientReminderEmail24HsSent()
+    {
+        $reminder = AppointmentReminder::make([
+            'recipient_user_id' => $this->patient->user->id,
+            'type_id' => AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID,
+            'sent_at' => Carbon::now(),
+        ]);
+
+        return $this->reminders()->save($reminder);
+    }
+
+    public function sendPatientReminderEmail24Hs()
+    {
+        $recipient = $this->patient->user;
+
+        if ($this->wasPatientReminderEmail24HsSent()) {
+            Log::info("User #{$recipient->id} was already email notified about Appointment #{$this->id}. Skipping.");
+            return false;
+        } else {
+            Log::info("Sending {$recipient->type} reminder to User #{$recipient->id} about Appointment #{$this->id}.");
+
+            $transactionalEmailJob = TransactionalEmail::createJob(
+                $recipient->email,
+                'patient.appointment.reminder',
+                [
+                    'doctor_name' => $this->practitioner->user->fullName(),
+                    'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
+                    'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
+                    'appointment_time_zone' => $this->patientAppointmentAtDate()->format('T'),
+                    'harvey_id' => $recipient->id,
+                    'patient_first_name' => $recipient->first_name,
+                    'phone_number' => $recipient->phone,
+                ]
+            );
+
+            dispatch($transactionalEmailJob);
+
+            $this->setPatientReminderEmail24HsSent();
+            return true;
+        }
+    }
+
     /*
      * SCOPES
      */
-    public function scopeUpcoming($query, $weeks = 2)
+    public function scopeUpcoming(Builder $builder, $weeks = 2)
     {
         $end_date = Carbon::now()->addWeeks($weeks);
 
-        return $query->where('appointment_at', '>', Carbon::now())
+        return $builder->where('appointment_at', '>', Carbon::now())
                     ->where('appointment_at', '<=', $end_date->toDateTimeString())
                     ->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeRecent($query)
+    public function scopeRecent(Builder $builder)
     {
-        return $query->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
+        return $builder->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
     }
 
-    public function scopeForPractitioner($query, Practitioner $practitioner)
+    public function scopeForPractitioner(Builder $builder, Practitioner $practitioner)
     {
-        return $query->where('practitioner_id', '=', $practitioner->id);
+        return $builder->where('practitioner_id', '=', $practitioner->id);
     }
 
-    public function scopeForPatient($query, Patient $patient)
+    public function scopeForPatient(Builder $builder, Patient $patient)
     {
-        return $query->where('patient_id', '=', $patient->id);
+        return $builder->where('patient_id', '=', $patient->id);
     }
 
-    public function scopeWithinDateRange($query, Carbon $startDate, Carbon $endDate)
+    public function scopeWithinDateRange(Builder $builder, Carbon $startDate, Carbon $endDate)
     {
-        return $query->afterThan($startDate)->beforeThan($endDate);
+        return $builder->afterThan($startDate)->beforeThan($endDate);
     }
 
-    public function scopeByAppointmentAtAsc($query)
+    public function scopeByAppointmentAtAsc(Builder $builder)
     {
-        $query->orderBy('appointment_at', 'ASC');
+        $builder->orderBy('appointment_at', 'ASC');
     }
 
-    public function scopeBeforeThan($query, Carbon $date)
+    public function scopeBeforeThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '<=', $date);
+        return $builder->where('appointment_at', '<=', $date);
     }
 
-    public function scopeAfterThan($query, Carbon $date)
+    public function scopeAfterThan(Builder $builder, Carbon $date)
     {
-        return $query->where('appointment_at', '>=', $date);
+        return $builder->where('appointment_at', '>=', $date);
     }
 
-    public function scopeNoShowPatient($query)
+    public function scopeNot(Builder $builder, Appointment $appointment)
     {
-        return $query->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+        return $builder->where('appointments.id', '!=', $appointment->id);
     }
 
-    public function scopeNoShowDoctor($query)
+    public function scopePendingInTheNext24hs(Builder $builder)
     {
-        return $query->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
     }
-
-    public function scopeGeneralConflict($query)
-    {
-        return $query->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
-    }
-
-    public function scopeNot($query, Appointment $appointment)
-    {
-        return $query->where('appointments.id', '!=', $appointment->id);
-    }
-
 }
