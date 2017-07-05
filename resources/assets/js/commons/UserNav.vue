@@ -40,6 +40,15 @@
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
+      
+      <router-link 
+        v-if="user && user.user_type === 'admin'" 
+        to="/clients" title="Recent Clients"
+        :class="currentPageCheck('clients')"
+        @click.native="handleMenu(false, 'clients')">
+        <i class="fa fa-users icon icon-nav-bar"></i>
+        <div class="text">Clients</div>
+      </router-link>
 
       <div class="release">©2017 Harvey, Inc.</div>
 
@@ -68,6 +77,9 @@
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
+      },
+      user() {
+        return this.$root.$data.global.user.attributes
       }
     },
     methods: {
