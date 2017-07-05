@@ -43,7 +43,11 @@ class VueHelperViewComposer
             return ['signedIn' => false];
         }
 
-        $fractal = fractal()->item($user)->parseIncludes('extra')->transformWith(new UserTransformer)->serializeWith(new JsonApiSerializer)->toArray();
+        $fractal = fractal()->item($user)
+            ->parseIncludes('extra')
+            ->transformWith(new UserTransformer)
+            ->serializeWith(new JsonApiSerializer)
+            ->toArray();
 
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
