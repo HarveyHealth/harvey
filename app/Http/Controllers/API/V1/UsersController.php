@@ -149,4 +149,12 @@ class UsersController extends BaseAPIController
 
         return response(['verified' => $verified]);
     }
+
+    public function sendVerificationCode(Request $request, User $user)
+    {
+        $verifier = new PhoneNumberVerifier($user);
+        $verifier->sendVerificationCode();
+
+        return response(['status' => 'Verification code sent.']);
+    }
 }
