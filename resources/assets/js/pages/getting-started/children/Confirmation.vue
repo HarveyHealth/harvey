@@ -64,6 +64,7 @@ export default {
     confirmSignup() {
       this.processing = true;
       axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
+        window.onbeforeunload = null;
         this.processing = false;
         this.$router.push({ name: 'success', path: 'success' });
       });
