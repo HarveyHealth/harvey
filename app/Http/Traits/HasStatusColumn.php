@@ -2,9 +2,8 @@
 
 namespace App\Http\Traits;
 
-use Carbon;
-use Lang;
-use Schema;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon, Lang, Schema;
 
 trait HasStatusColumn
 {
@@ -77,19 +76,19 @@ trait HasStatusColumn
         return !$this->isPending();
     }
 
-    public function scopePending($query)
+    public function scopePending(Builder $builder)
     {
-        return $query->where('status_id', self::PENDING_STATUS_ID);
+        return $builder->where('status_id', self::PENDING_STATUS_ID);
     }
 
-    public function scopeCanceled($query)
+    public function scopeCanceled(Builder $builder)
     {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
+        return $builder->where('status_id', self::CANCELED_STATUS_ID);
     }
 
-    public function scopeComplete($query)
+    public function scopeComplete(Builder $builder)
     {
-        return $query->where('status_id', self::COMPLETE_STATUS_ID);
+        return $builder->where('status_id', self::COMPLETE_STATUS_ID);
     }
 
     public function wasShipped()
@@ -100,5 +99,20 @@ trait HasStatusColumn
     public function wasNotShipped()
     {
         return !$this->wasShipped();
+    }
+
+    public function scopeNoShowPatient(Builder $builder)
+    {
+        return $builder->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+    }
+
+    public function scopeNoShowDoctor(Builder $builder)
+    {
+        return $builder->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
+    }
+
+    public function scopeGeneralConflict(Builder $builder)
+    {
+        return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
     }
 }

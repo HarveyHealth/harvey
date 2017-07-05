@@ -99,12 +99,13 @@
                 this.detailFlyoutActive = !this.detailFlyoutActive
 
                 if (data) {
+                    this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
-                    this.flyoutActive = false;
+                    this.detailFlyoutActive = false;
                 }
             },
             isEmpty(obj) {

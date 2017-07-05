@@ -2,9 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Models\Practitioner;
+use App\Models\{Appointment, Patient, Practitioner};
 use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

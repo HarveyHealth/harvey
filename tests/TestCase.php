@@ -2,6 +2,10 @@
 
 namespace Tests;
 
+use Illuminate\Contracts\Console\Kernel;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -23,4 +27,14 @@ abstract class TestCase extends BaseTestCase
         $this->assertNotEmpty($this->emailMock->shouldHaveReceived('setTemplateModel')->with($templateData));
     }
 
+    protected function getCommandOutput(string $command)
+    {
+        $kernel = $this->app->make(Kernel::class);
+        $input = new ArrayInput(['command' => $command]);
+        $output = new BufferedOutput;
+
+        $status = $kernel->handle($input, $output);
+
+        return explode("\n", $output->fetch());
+    }
 }

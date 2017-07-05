@@ -12,6 +12,15 @@
     <div class="admin-content">
       <div id="app" :class="{ 'menu-open': global.menuOpen }">
         {{-- Alert component for handling success/error messages --}}
+
+        <noscript>
+            <div class="card noscript">
+                <div class="card-section">
+                    <h1 class="noscript-header">You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</h1>
+                </div>
+            </div>
+        </noscript>
+
         <alert></alert>
 
         <usernav></usernav>
