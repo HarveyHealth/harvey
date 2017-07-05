@@ -70,7 +70,10 @@ return [
         'key' => env('TIMEZONEDB_KEY'),
     ],
 
-    'google_geocoder' => [
-        'api_key' => env('GOOGLE_GEOCODER_API_KEY')
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'sms_number' => env('TWILIO_SMS_NUMBER'),
     ],
+
 ];

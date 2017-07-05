@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Appointment;
 use App\Models\LabTest;
 use App\Models\Message;
+use App\Models\User;
 use App\Observers\AppointmentObserver;
 use App\Observers\LabTestObserver;
 use App\Observers\MessageObserver;
+use App\Observers\UserObserver;
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Validator;
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Appointment::observe(AppointmentObserver::class);
         LabTest::observe(LabTestObserver::class);
         Message::observe(MessageObserver::class);
+        User::observe(UserObserver::class);
     }
 
     /**

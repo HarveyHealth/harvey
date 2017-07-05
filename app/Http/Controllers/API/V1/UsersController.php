@@ -10,6 +10,7 @@ use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
 use Validator;
+use App\Lib\PhoneNumberVerifier;
 
 class UsersController extends BaseAPIController
 {
@@ -132,5 +133,20 @@ class UsersController extends BaseAPIController
         } else {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
+    }
+
+    public function verifyPhone(Request $request, User $user)
+    {
+        $code = $request->get('code');
+
+        $verifier = new PhoneNumberVerifier($user);
+
+        $verfied = false;
+
+        if ($verifier->isValid($code)) {
+            $verified = true;
+        }
+
+        return response(['verified' => $verified]);
     }
 }
