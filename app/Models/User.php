@@ -64,6 +64,11 @@ class User extends Authenticatable implements Mailable
         return $this->userType();
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->fullName();
+    }
+
     public function patient()
     {
         return $this->hasOne(Patient::class);
@@ -133,6 +138,11 @@ class User extends Authenticatable implements Mailable
     public function isAdmin()
     {
         return $this->admin != null;
+    }
+
+    public function isNotAdmin()
+    {
+        return !$this->isAdmin();
     }
 
     public function isAdminOrPractitioner()

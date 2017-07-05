@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use Lang;
 
 class Appointment extends Model
@@ -111,18 +110,14 @@ class Appointment extends Model
     /*
      * SCOPES
      */
-    public function scopeUpcoming($query, $weeks = 2)
+    public function scopeUpcoming(Builder $query, int $weeks = 4)
     {
-        $end_date = Carbon::now()->addWeeks($weeks);
-
-        return $query->where('appointment_at', '>', Carbon::now())
-                    ->where('appointment_at', '<=', $end_date->toDateTimeString())
-                    ->orderBy('appointment_at', 'ASC');
+        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
     }
 
     public function scopeRecent($query)
     {
-        return $query->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
+        return $query->where('appointment_at', '<', Carbon::now())->byAppointmentAtDesc();
     }
 
     public function scopeForPractitioner($query, Practitioner $practitioner)
@@ -143,6 +138,11 @@ class Appointment extends Model
     public function scopeByAppointmentAtAsc($query)
     {
         $query->orderBy('appointment_at', 'ASC');
+    }
+
+    public function scopeByAppointmentAtDesc($query)
+    {
+        $query->orderBy('appointment_at', 'DESC');
     }
 
     public function scopeBeforeThan($query, Carbon $date)
