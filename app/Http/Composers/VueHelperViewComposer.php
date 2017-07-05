@@ -2,8 +2,10 @@
 
 namespace App\Http\Composers;
 
+use App\Transformers\V1\UserTransformer;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use League\Fractal\Serializer\JsonApiSerializer;
 use Config;
 
 class VueHelperViewComposer
@@ -37,20 +39,18 @@ class VueHelperViewComposer
     {
         $user = Auth::user();
 
-        $data = [
-            'signedIn' => false,
-        ];
-
-        if ($user) {
-            $data['id'] = $user->id;
-            $data['signedIn'] = true;
-            $data['firstName'] = $user->first_name;
-            $data['lastName'] = $user->last_name;
-            $data['fullName'] = $user->fullName();
-            $data['userType'] = $user->type;
+        if (empty($user)) {
+            return ['signedIn' => false];
         }
 
-        return $data;
+        $fractal = fractal()->item($user)->parseIncludes('extra')->transformWith(new UserTransformer)->serializeWith(new JsonApiSerializer)->toArray();
+
+        $output = ['signedIn' => true];
+        $output += ['id' => $fractal['data']['id']];
+        $output += $fractal['data']['attributes'];
+        $output += $fractal['included'][0]['attributes'];
+
+        return $output;
     }
 
     protected function servicesData()
