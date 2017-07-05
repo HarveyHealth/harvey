@@ -55,7 +55,7 @@ class UsersController extends BaseAPIController
         }
 
         if (in_array($order[0], $query->getModel()->allowedSortBy)) {
-            $query = $query->orderBy('created_at', $order[1] ?? false);
+            $query = $query->orderBy('created_at', $order[1] ?? null);
         }
 
         return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
