@@ -109,17 +109,17 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        StrictValidator::check($request->all(), [
-            'first_name' => 'max:100',
-            'last_name' => 'max:100',
-            'email' => 'email|max:150|unique:users',
-            'zip' => 'digits:5|serviceable',
-            'phone' => 'unique:users'
-        ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
-        ]);
-
         if (auth()->user()->can('update', $user)) {
+            StrictValidator::checkUpdate($request->all(), [
+                'first_name' => 'max:100',
+                'last_name' => 'max:100',
+                'email' => 'email|max:150|unique:users',
+                'zip' => 'digits:5|serviceable',
+                'phone' => 'unique:users'
+            ], [
+                'serviceable' => 'Sorry, we do not service this :attribute.'
+            ]);
+            
             $user->update($request->all());
 
             return $this->baseTransformItem($user)->respond();
