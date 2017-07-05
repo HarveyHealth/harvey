@@ -30,29 +30,29 @@ class UsersController extends BaseAPIController
      */
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
-            $term = request('term');
-            $type = request('type');
-            $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
-
-            if ($term && !$indexed) {
-                $query = User::matching($term);
-            } elseif ($term) {
-                $query = User::search($term);
-            } else {
-                $query = User::make();
-            }
-
-            if (in_array($type, ['patient', 'practitioner', 'admin'])) {
-                $typePlural = str_plural($type);
-                // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
-                $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
-            }
-
-            return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        if (auth()->user()->isNotAdmin()) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
-        return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        $term = request('term');
+        $type = request('type');
+        $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
+
+        if ($term && !$indexed) {
+            $query = User::matching($term);
+        } elseif ($term) {
+            $query = User::search($term);
+        } else {
+            $query = User::make();
+        }
+
+        if (in_array($type, ['patient', 'practitioner', 'admin'])) {
+            $typePlural = str_plural($type);
+            // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
+            $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
+        }
+
+        return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
     }
 
     public function create(Request $request)
@@ -98,7 +98,7 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return $this->baseTransformItem($user)->respond();
+            return $this->baseTransformItem($user, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }

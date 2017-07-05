@@ -64,6 +64,11 @@ class User extends Authenticatable implements Mailable
         return $this->userType();
     }
 
+    public function getFullNameAttribute()
+    {
+        return $this->fullName();
+    }
+
     public function patient()
     {
         return $this->hasOne(Patient::class);
