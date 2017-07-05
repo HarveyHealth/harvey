@@ -40,7 +40,14 @@
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
         <div class="text">Messages</div>
       </router-link>
-      
+
+      <router-link to="/profile" title="Profile"
+        :class="currentPageCheck('profile')"
+        @click.native="handleMenu(false, 'profile')">
+        <i class="fa fa-user icon icon-nav-bar"></i>
+        <div class="text">Profile</div>
+      </router-link>
+
       <router-link 
         v-if="user && user.user_type === 'admin'" 
         to="/clients" title="Recent Clients"
@@ -48,13 +55,6 @@
         @click.native="handleMenu(false, 'clients')">
         <i class="fa fa-users icon icon-nav-bar"></i>
         <div class="text">Clients</div>
-      </router-link>
-
-      <router-link to="/profile" title="Profile"
-        :class="currentPageCheck('profile')"
-        @click.native="handleMenu(false, 'profile')">
-        <i class="fa fa-user icon icon-nav-bar"></i>
-        <div class="text">Profile</div>
       </router-link>
 
       <div class="release">©2017 Harvey, Inc.</div>
