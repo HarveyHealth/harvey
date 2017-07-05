@@ -25,6 +25,9 @@
 
     },
     created() {
+      window.onbeforeunload = () => {
+        return 'All your information will be reset.';
+      }
       // If new_registration exists, it means the user has just signed up and may go
       // through the signup funnel for one session only. If they refresh the page they
       // will be redirected to /dashboard

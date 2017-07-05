@@ -24,9 +24,6 @@ export default {
     }
   },
   mounted () {
-    window.onbeforeunload = () => {
-      return 'All your information will be reset.';
-    }
     this.$root.toDashboard();
     this.$root.setup();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
