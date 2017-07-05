@@ -47,6 +47,12 @@ class Geocoder extends BaseClient
 
         $obj = json_decode($response->getBody());
 
+        $types = $obj->results[0]->address_components[0]->types ?? [];
+
+        if (!in_array('postal_code', $types)) {
+            return false;
+        }
+
         $result = $obj->results[0];
 
         $city = '';
