@@ -18,16 +18,6 @@ export default {
   },
   data() {
     return {
-      stages: [
-        { name: 'practitioner',
-          path: '/practitioner' },
-        { name: 'phone',
-          path: '/phone' },
-        { name: 'schedule',
-          path: '/schedule' },
-        { name: 'confirmation',
-          path: '/confirmation' },
-      ]
     }
   },
   computed: {
@@ -39,6 +29,26 @@ export default {
         }
       })
       return index;
+    },
+    stages() {
+      if (this.$root.$data.global.user.attributes) {
+        const stages = [
+          { name: 'practitioner',
+            path: '/practitioner' },
+          { name: 'phone',
+            path: '/phone' },
+          { name: 'schedule',
+            path: '/schedule' },
+          { name: 'confirmation',
+            path: '/confirmation' },
+        ];
+        if (this.$root.$data.global.user.attributes.phone) {
+          stages.splice(1,1);
+        }
+        return stages;
+      } else {
+        return [];
+      }
     }
   }
 }

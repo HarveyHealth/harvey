@@ -75,6 +75,13 @@ export default {
       return this.store.global.practitioners.length
         ? [this.store.global.practitioners[0], this.store.global.practitioners[1]]
         : [];
+    },
+    nextStage() {
+      if (this.store.global.user.attributes) {
+        return this.store.global.user.attributes.phone
+          ? 'schedule'
+          : 'phone';
+      }
     }
   },
   methods: {
@@ -91,7 +98,7 @@ export default {
           this.errorText = 'Unfortunately we don\'t have any availability for that practitioner in the next 4 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.';
           this.processing = false;
         } else {
-          this.$router.push({ name: 'phone', path: '/phone' });
+          this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
         }
       });
     },

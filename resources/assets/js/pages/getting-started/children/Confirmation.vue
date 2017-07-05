@@ -41,7 +41,7 @@ export default {
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, N.D`,
-      phone: this.$root.$data.signup.phone,
+      phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
       processing: false,
       state: this.$root.$data.signup.practitionerState
     }
