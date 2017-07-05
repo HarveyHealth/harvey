@@ -14,7 +14,10 @@
     </div>
     <div class="appointment_right">
       <div class="box">
-        <p class="appointment_date">{{ localAppointmentTime }}</p>
+        <router-link
+          class="appointment_date"
+          :to="{ name: 'appointments', params: { appt_id: appointment.id } }"
+        >{{ localAppointmentTime }}</router-link>
       </div>
     </div>
   </div>
