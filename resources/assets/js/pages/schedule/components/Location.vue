@@ -17,6 +17,7 @@
           <img class="map" src="/images/signup/location.png" alt="">
         </div>
         <div class="input-wrap">
+          <label :class="{typed: zip}" class="hoverInput">Zip Code</label>
           <input class="form-input form-input_text error" name="zipcode" type="text" placeholder="Zip Code" v-model="zip">
           <span class="error-text">Please enter a valid zipcode</span>
         </div>

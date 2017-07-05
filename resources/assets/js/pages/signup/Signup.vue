@@ -14,16 +14,19 @@
         <div class="signup-form-container">
 
           <div class="input-wrap">
+            <label :class="{typed: zip}" class="hoverInput">Zip Code</label>
             <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
             <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
           </div>
 
           <div class="input-wrap">
+            <label :class="{typed: email}" class="hoverInput">Email</label>
             <input class="form-input form-input_text" v-on:change="persistTextFields('email', email)" name="email" type="email" placeholder="Personal Email" v-model="email" v-validate="'required|email'" data-vv-validate-on="blur" />
             <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
           </div>
 
           <div class="input-wrap">
+            <label :class="{typed: password}" class="hoverInput">Password</label>
             <input class="form-input form-input_text" v-on:change="persistTextFields('password', password)" name="password" type="password" placeholder="Create Password" v-model="password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
             <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
           </div>

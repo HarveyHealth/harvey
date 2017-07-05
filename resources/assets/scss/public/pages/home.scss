@@ -358,7 +358,7 @@ body.home {
                 }
             }
             .title {
-                @include margin(0 0 1rem !important);
+                @include margin(0 0 1rem);
             }
         }
         em {
