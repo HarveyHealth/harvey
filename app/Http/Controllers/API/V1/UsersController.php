@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use ResponseCode;
 use Validator;
 use App\Lib\PhoneNumberVerifier;
+use Carbon\Carbon;
 
 class UsersController extends BaseAPIController
 {
@@ -145,6 +146,9 @@ class UsersController extends BaseAPIController
 
         if ($verifier->isValid($code)) {
             $verified = true;
+
+            $user->phone_verified_at = Carbon::now()->toDateTimeString();
+            $user->save();
         }
 
         return response(['verified' => $verified]);
