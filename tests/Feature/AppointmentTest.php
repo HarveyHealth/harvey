@@ -2,11 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Models\Practitioner;
-use App\Models\PractitionerSchedule;
+use App\Models\{Admin, Appointment, Patient, Practitioner, PractitionerSchedule};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Carbon;
@@ -16,6 +12,11 @@ use Tests\TestCase;
 class AppointmentTest extends TestCase
 {
     use DatabaseMigrations;
+
+    protected function getRemindersCommandOutput()
+    {
+        return $this->getCommandOutput('appointments:reminders');
+    }
 
     protected function createScheduleAndGetValidAppointmentAt(Practitioner $practitioner)
     {
@@ -45,6 +46,71 @@ class AppointmentTest extends TestCase
         }
 
         return $appointmentAt->format('Y-m-d H:i:s');
+    }
+
+    public function test_it_finds_appointments_24hs_before_start_time()
+    {
+        foreach ([-1, 22, 23, 24, 25, 26] as $hoursFromNow) {
+            factory(Appointment::class)->create([
+                'appointment_at' => Carbon::parse("{$hoursFromNow} hours"),
+                'status' => 'pending'
+            ]);
+        }
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 3 Appointments.', $output[1]);
+    }
+
+    public function test_not_pending_appointments_are_excluded_from_reminders()
+    {
+        foreach ([-1, 22, 23, 24, 25, 26] as $hoursFromNow) {
+            factory(Appointment::class)->create([
+                'appointment_at' => Carbon::parse("{$hoursFromNow} hours"),
+                'status' => collect(Appointment::STATUSES)->diff('pending')->random(),
+            ]);
+        }
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 0 Appointments.', $output[1]);
+    }
+
+    public function test_it_marks_the_reminder_as_sent_after_sending()
+    {
+        $this->test_it_finds_appointments_24hs_before_start_time();
+
+        // Run command again (Reminders were already sent)
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Done. [0 Appointments reminders sent.]', $output[3]);
+    }
+
+    public function test_email_reminder_is_filled_properly()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment = factory(Appointment::class)->create([
+            'appointment_at' => Carbon::parse("2 hours"),
+            'patient_id' => $patient->id,
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 1 Appointments.', $output[1]);
+
+        $this->assertEmailWasSentTo($patient->user->email);
+        $this->assertEmailTemplateNameWas('patient.appointment.reminder');
+        $this->assertEmailTemplateDataWas([
+            'doctor_name' => $practitioner->user->fullName(),
+            'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
+            'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'harvey_id' => $patient->user->id,
+            'patient_first_name' => $patient->user->first_name,
+            'phone_number' => $patient->user->phone,
+        ]);
     }
 
     public function test_it_allows_a_patient_to_view_their_own_appointments()
@@ -433,5 +499,71 @@ class AppointmentTest extends TestCase
                 ],
             ]
         ]);
+    }
+
+    public function test_first_appointment_is_marked_as_first()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'first_appointment']);
+    }
+
+    public function test_second_appointment_is_marked_as_first_if_first_one_was_not_completed()
+    {
+        $appointment = factory(Appointment::class)->create();
+        $appointment->markAsCanceled();
+
+        $patient = $appointment->patient;
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'first_appointment']);
+    }
+
+    public function test_if_patient_has_a_completed_appointment_then_new_one_is_not_marked_as_appointment()
+    {
+        $appointment = factory(Appointment::class)->create();
+        $appointment->markAsComplete();
+
+        $patient = $appointment->patient;
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['type' => 'appointment']);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
 use App\Models\User;
 
@@ -18,6 +18,23 @@ class Message extends Model
     ];
 
     protected $guarded = ['id', 'created_at', 'updated_at', 'read_at', 'is_admin', 'sender_user_id'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledSender', function (Builder $builder) {
+            return $builder->whereHas('sender', function (Builder $query){
+                $query->where('users.enabled', true);
+            });
+        });
+
+        static::addGlobalScope('enabledRecipient', function (Builder $builder) {
+            return $builder->whereHas('recipient', function (Builder $query){
+                $query->where('users.enabled', true);
+            });
+        });
+    }
 
     /*
      * Relationships

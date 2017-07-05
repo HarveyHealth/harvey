@@ -2,14 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Events\AppointmentCanceled;
-use App\Events\AppointmentScheduled;
-use App\Events\AppointmentUpdated;
-use App\Events\UserRegistered;
+use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated, UserRegistered};
 use App\Jobs\SendTransactionalEmail;
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Models\User;
+use App\Models\{Appointment,Patient,User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Log;
@@ -27,11 +22,11 @@ class TransactionalEmailTest extends TestCase
         Log::shouldNotHaveReceived(['error', 'warning']);
     }
 
-    public function test_an_error_is_raised_if_to_value_is_null()
+    public function test_an_error_is_raised_if_to_value_is_empty()
     {
         Log::spy();
 
-        dispatch(new SendTransactionalEmail(null, 'patient.welcome', ['data' => 'valid']));
+        dispatch(new SendTransactionalEmail('', 'patient.welcome', ['data' => 'valid']));
 
         Log::shouldHaveReceived('error')->once();
     }
