@@ -44,7 +44,6 @@ class VueHelperViewComposer
         }
 
         $fractal = fractal()->item($user)
-            ->parseIncludes('extra')
             ->transformWith(new UserTransformer)
             ->serializeWith(new JsonApiSerializer)
             ->toArray();
@@ -52,7 +51,6 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
-        $output += $fractal['included'][0]['attributes'];
 
         return $output;
     }
