@@ -46,7 +46,13 @@
 
 <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
 
-    <noscript>You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</noscript>
+    <noscript>
+        <div class="card noscript">
+            <div class="card-section">
+                <h1 class="noscript-header">You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</h1>
+            </div>
+        </div>
+    </noscript>
 
 
     <div id="app">

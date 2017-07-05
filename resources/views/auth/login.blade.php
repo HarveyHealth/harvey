@@ -3,13 +3,9 @@
 @section('page_title','Log in')
 
 @section('main_content')
-<section class="section login">
-    <div class="container">
-        <header class="content has-text-centered">
-            <h2 class="title is-3">Log in</h2>
-        </header>
-        <div class="card">
-            <div class="card-content">
+<section class="signup-content grey_bg">
+    <div class="container login-width large-top-margin">
+        <h1 class="header-xlarge login-heading">Log in to your account</h1>
                 <form
                     id="login"
                     role="form"
@@ -19,14 +15,16 @@
                     @submit.prevent.self="onSubmit"
                     @keydown="login.form.errors.clear($event.target.name)"
                 >
+                <div class="card card-padding">
+                <div class="card-section">
                     {{ csrf_field() }}
 
-                    <label class="label">Email</label>
-                    <p class="control has-icon">
+                    <div class="input-wrap">
+                        <label :class="{typed: login.form.email}" class="hoverInput">Email</label>
                         <input
                             v-model="login.form.email"
                             name="email"
-                            class="input"
+                            class="input login-input"
                             :class="{'is-danger' : login.form.errors.has('email')}"
                             type="email"
                             placeholder="Email"
@@ -34,19 +32,18 @@
                             :autofocus="!login.form.errors.length || login.form.errors.has('email')"
                             @change="login.form.errors.clear()"
                         >
-                        <span class="icon is-small"><i class="fa fa-envelope"></i></span>
                         <template v-if="login.form.errors.has('email')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
                             <span class="help is-danger" v-text="login.form.errors.get('email')"></span>
                         </template>
-                    </p>
+                    </div>
 
-                    <label class="label">Password</label>
-                    <p class="control has-icon">
+                    <div class="input-wrap">
+                        <label :class="{typed: login.form.password}" class="hoverInput">Password</label>
                         <input
                             v-model="login.form.password"
                             name="password"
-                            class="input"
+                            class="input login-input"
                             :class="{'is-danger' : login.form.errors.has('password')}"
                             type="password"
                             placeholder="Password"
@@ -54,12 +51,11 @@
                             :autofocus="login.form.errors.has('password')"
                             @change="login.form.errors.clear()"
                         >
-                        <span class="icon is-small"><i class="fa fa-lock"></i></span>
                         <template v-if="login.form.errors.has('password')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
                             <span class="help is-danger" v-text="login.form.errors.get('password')"></span>
                         </template>
-                    </p>
+                    </div>
 
                     <p class="control">
                         <label class="checkbox">
@@ -72,23 +68,22 @@
                     </p>
 
                     <p class="control is-clearfix">
-                        <button
-                            type="submit"
-                            class="button is-primary is-pulled-right"
-                        >Log In</button>
                         <a class="button is-link" href="/password/reset">
                             Forgot Your Password?
                         </a>
                     </p>
-                </form>
             </div>
-            <footer class="card-footer">
-                <div class="card-footer-item level">
-                    <p>Don't have an account?</p>
-                    <a href="/signup" class="level-right button">Sign Up</a>
-                </div>
-            </footer>
         </div>
+        <footer class="card-footer">
+            <div class="card-footer-item level">
+                <a href="/signup"><button class="button is-pulled-right login-buttons">Sign Up</button></a>
+                <button
+                    type="submit"
+                    class="button is-primary login-buttons"
+                >Log In</button>
+            </div>
+        </footer>
+       </form>
     </div>
 </section>
 @endsection

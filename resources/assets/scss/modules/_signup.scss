@@ -290,9 +290,9 @@ button:focus {
   font-family: $sans !important;
   font-size: 16px !important;
   color: #888 !important;
-  @include border-color( #EFEFEF !important);
+  @include border-color( #EFEFEF);
   font-weight: 400 !important;
-  @include margin(null null 20px null !important);
+  @include margin(null null 20px null);
   transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;

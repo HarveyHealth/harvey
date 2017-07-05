@@ -144,21 +144,21 @@
                     <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/jill.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Jill's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
                     <p>Jill used specialized lab testing to find the root cause of her anxiety, insomnia and other hair, skin and nail issues.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/layne.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Layne's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne's Story</strong></p>
                     <p>Layne became frustrated with his primary doctors due to their limited knowledge in nutrition and limited access to advanced lab testing.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/lauren.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Lauren's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lauren's Story</strong></p>
                     <p class="is-6">Lauren found the root cause of her health issues was a thyroid disorder and hormonal imbalance.</p>
                 </div>
             </div>
@@ -167,21 +167,21 @@
                     <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/scott.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Scott's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
                     <p>Scott attributes his amazing recovery after a motorcycle accident to his nutrition and healthy habits.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/jamie.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Jamie's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
                     <p>Jamie suffered from a severe unknown illness for many years until an integrative doctor saved her life.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/bruce.jpg" alt="">
                     </a>
-                    <p class="title is-5 is-marginless-bottom"><strong>Bruce's Story</strong></p>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Bruce's Story</strong></p>
                     <p>Bruce controlled his diabetes by going vegan and giving up animal-based products.</p>
                 </div>
             </div>

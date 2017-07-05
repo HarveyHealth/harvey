@@ -141,3 +141,23 @@
   color: $medium-gray;
   opacity: 1;
 }
+
+.hoverInput {
+  color: $harvey-primary;
+  position: relative;
+  left: 0;
+  top: 30px;
+  opacity: 0;
+  font-size: 18px;
+  transform-origin: left top;
+  transition: top 300ms ease-in-out;
+  pointer-events: none;
+  font-family: $sans;
+  font-weight: 300;
+}
+.typed {
+    opacity: 1;
+    top: 0;
+    transform: translateY(-27px) scale(0.78);
+    @include margin(null null 20px null);
+}

@@ -6,7 +6,7 @@
 @endpush
 
 @section('main_content')
-    <section class="section">
+    <section class="section bottom-padding-terms">
         <div class="container">
             <h1 class="title has-text-centered">{{$page_title}}</h1>
             <div class="content">
