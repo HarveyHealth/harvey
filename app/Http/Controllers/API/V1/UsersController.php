@@ -135,7 +135,7 @@ class UsersController extends BaseAPIController
         }
     }
 
-    public function verifyPhone(Request $request, User $user)
+    public function phoneVerify(Request $request, User $user)
     {
         $code = $request->get('code');
 

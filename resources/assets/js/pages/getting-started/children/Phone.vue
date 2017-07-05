@@ -124,10 +124,8 @@ export default {
       } else {
         this.phoneConfirming = true;
         // Send code off to the Twilio API
-        setTimeout(() => {
-          // pretend it passes or fails
-          const confirmation = true;
-          if (confirmation) {
+        axios.get(`/api/v1/users/${Laravel.user.id}/phone/verify?code=${code}`).then(response => {
+          if (response.data.verified) {
             this.$root.$data.signup.codeConfirmed = true;
             this.$root.$data.signup.code = this.code;
             this.phoneConfirming = false;
@@ -138,7 +136,13 @@ export default {
             this.phoneConfirming = false;
             this.invalidCode = true;
           }
-        }, 1000)
+        }).catch(error => {
+          Object.keys(this.confirmInputComponent.$refs).forEach(i => {
+            this.confirmInputComponent.$refs[i].value = '';
+          })
+          this.phoneConfirming = false;
+          this.invalidCode = true;
+        })
       }
 
     },
@@ -146,11 +150,11 @@ export default {
       this.$validator.validateAll().then(() => {
         this.phoneProcessing = true;
         this.$root.$data.signup.phone = number;
-        // This is where we send the number to the Twilio API once it's setup
-        setTimeout(() => {
+        // User PATCH triggers the Twilio code send on the BE
+        axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
           this.$root.$data.signup.phonePending = true;
           Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
-        }, 1000);
+        });
       })
       .catch(error => {
 
