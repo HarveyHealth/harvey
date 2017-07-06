@@ -235,7 +235,7 @@ export default {
       ],
       userAction: '',
       userActionTitle: '',
-      userType: Laravel.user.userType
+      userType: Laravel.user.user_type
     }
   },
 

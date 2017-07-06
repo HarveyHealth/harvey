@@ -177,7 +177,7 @@ const app = new Vue({
             });
         },
         getPractitioners() {
-            if (Laravel.user.userType !== 'practitioner') {
+            if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.map(dr => {
                         return {
@@ -278,7 +278,7 @@ const app = new Vue({
           this.getAppointments();
           this.getPractitioners();
           this.getMessages();
-          if (Laravel.user.userType !== 'patient') this.getPatients();
+          if (Laravel.user.user_type !== 'patient') this.getPatients();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
