@@ -194,6 +194,9 @@ import transformAvailability from '../../utils/methods/transformAvailability';
 import toLocal from '../../utils/methods/toLocal';
 
 export default {
+  props: {
+    appt_id: String
+  },
   data() {
     return {
       activeFilter: 0,
@@ -431,12 +434,12 @@ export default {
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
             ga('send', {
-              hitType: "event", 
-              eventCategory: "clicks", 
-              eventAction: "Comfirm Appointment", 
+              hitType: "event",
+              eventCategory: "clicks",
+              eventAction: "Comfirm Appointment",
               eventLabel: null,
-               eventValue: 50, 
-               hitCallback: null, 
+               eventValue: 50,
+               hitCallback: null,
                userId: null
             });
           }
@@ -726,6 +729,17 @@ export default {
         : this.activeFilter === 1
           ? this.cache.upcoming
           : this.cache.completed;
+
+      if (this.appt_id) {
+        let appt, index;
+        this.appointments.forEach((obj, i) => {
+          if (obj.data._appointmentId === this.appt_id) {
+            index = i;
+            appt = obj;
+          }
+        })
+        this.handleRowClick(appt, index);
+      }
 
       Vue.nextTick(() => {
         this.checkTableData();

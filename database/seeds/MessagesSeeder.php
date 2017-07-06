@@ -14,6 +14,8 @@ class MessagesSeeder extends Seeder
      */
     public function run()
     {
+        Message::flushEventListeners();
+
         factory(Message::class, 6)->create();
 
         $patient = factory(Patient::class)->create();

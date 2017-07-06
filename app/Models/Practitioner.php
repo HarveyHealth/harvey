@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Lib\PractitionerAvailability;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon\Carbon;
 
 class Practitioner extends Model
@@ -29,6 +29,17 @@ class Practitioner extends Model
         'updated_at',
         'doctor_state_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledUser', function (Builder $builder) {
+            return $builder->whereHas('user', function (Builder $query){
+                $query->where('users.enabled', true);
+            });
+        });
+    }
 
     public function getAvailabilityAttribute()
     {

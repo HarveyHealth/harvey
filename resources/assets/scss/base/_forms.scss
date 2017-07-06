@@ -27,6 +27,11 @@
   }
 }
 
+.form-radio {
+  float: left;
+  width: 10%;
+}
+
 .form-label {
 
   &_checkbox {
@@ -52,6 +57,12 @@
   & > * {
     @include margin(0.5em null null null);
   }
+}
+.radio--text {
+  color: darken($gray, 15%);
+  font-family: inherit;
+  width: 90%;
+  float: left;
 }
 .input__item,
 .input--text,
@@ -100,6 +111,35 @@
 .input__linkcta {
   display: inline-block;
   @include margin(1.5em null null null);
+}
+.fullscreen-left {
+  @include margin(5px);
+  width: 100%;
+  float: left;
+  height: 25px;
+  @include padding(5px);
+}
+.flyout-btn {
+  margin: 2rem;
+}
+.input--text {
+  height: 37px;
+}
+
+// Placeholders
+::-webkit-input-placeholder { /* Chrome */
+  color: $medium-gray;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color: $medium-gray;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: $medium-gray;
+  opacity: 1;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+  color: $medium-gray;
+  opacity: 1;
 }
 
 .hoverInput {

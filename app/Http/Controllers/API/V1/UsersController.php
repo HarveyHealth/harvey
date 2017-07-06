@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Events\OutOfServiceZipCodeRegistered;
-use App\Events\UserRegistered;
-use App\Models\Patient;
-use App\Models\User;
+use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
+use App\Lib\Validation\StrictValidator;
+use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
-use Validator;
 
 class UsersController extends BaseAPIController
 {
@@ -57,7 +55,7 @@ class UsersController extends BaseAPIController
 
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = StrictValidator::make($request->all(), [
             'first_name' => 'max:100',
             'last_name' => 'max:100',
             'email' => 'required|email|max:150|unique:users',
@@ -98,7 +96,7 @@ class UsersController extends BaseAPIController
     public function show(User $user)
     {
         if (auth()->user()->can('view', $user)) {
-            return $this->baseTransformItem($user)->respond();
+            return $this->baseTransformItem($user, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
         }
@@ -111,7 +109,7 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
+        StrictValidator::check($request->all(), [
             'first_name' => 'max:100',
             'last_name' => 'max:100',
             'email' => 'email|max:150|unique:users',
@@ -120,10 +118,6 @@ class UsersController extends BaseAPIController
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         if (auth()->user()->can('update', $user)) {
             $user->update($request->all());
