@@ -77,11 +77,9 @@ export default {
         : [];
     },
     nextStage() {
-      if (this.store.global.user.attributes) {
-        return this.store.global.user.attributes.phone
-          ? 'schedule'
-          : 'phone';
-      }
+      return Laravel.user.phone_verified_at
+        ? 'schedule'
+        : 'phone';
     }
   },
   methods: {

@@ -98,13 +98,9 @@ export default {
       return this.$root.$data.signup.availableTimes;
     },
     prevStage() {
-      if (this.$root.$data.global.user.attributes) {
-        return this.$root.$data.global.user.attributes.phone
-          ? { name: 'practitioner', display: 'Practitioner' }
-          : { name: 'phone', display: 'Phone' };
-      } else {
-        return '';
-      }
+      return Laravel.user.phone_verified_at
+        ? { name: 'practitioner', display: 'Practitioner' }
+        : { name: 'phone', display: 'Phone' };
     },
     selectedWeek() {
       return this.$root.$data.signup.selectedWeek;
