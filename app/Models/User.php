@@ -22,12 +22,34 @@ class User extends Authenticatable implements Mailable
 
     public $asYouType = true;
 
-    protected $guarded = ['id', 'enabled', 'password', 'remember_token',
-                            'terms_accepted_at', 'phone_verified_at',
-                            'email_verified_at', 'created_at', 'updated_at'];
+    public $allowedSortBy = [
+        'id',
+        'created_at',
+        'email',
+        'first_name',
+        'last_name',
+        'terms_accepted_at',
+    ];
 
-    protected $dates = ['created_at','updated_at','terms_accepted_at',
-                        'phone_verified_at','email_verified_at'];
+    protected $guarded = [
+        'id',
+        'enabled',
+        'password',
+        'remember_token',
+        'terms_accepted_at',
+        'phone_verified_at',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'terms_accepted_at',
+        'phone_verified_at',
+        'email_verified_at',
+    ];
 
     protected $hidden = ['password', 'remember_token'];
 
