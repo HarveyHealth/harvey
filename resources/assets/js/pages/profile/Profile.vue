@@ -28,44 +28,57 @@
                         <form action="#" method="POST" class="form" id="user_form">
                             <div class="formgroups">
                                 <div class="formgroup">
-                                    <label for="first_name">First Name</label>
-                                    <input v-model="user.attributes.first_name" type="text" name="first_name"/>
-
-                                    <br/>
-                                    <label for="last_name">Last Name</label>
-                                    <input v-model="user.attributes.last_name" type="text" name="last_name"/>
-                                    <br/>
-                                    <label for="email">Email</label>
-                                    <input v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
-                                    <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
-                                    <br/>
-                                    <label for="phone">Phone Number</label>
-                                    <input v-model="user.attributes.phone" type="number" name="phone"/>
-                                    <br/>
-                                    <label for="timezone">Timezone</label>
-                                    <select name="timezone" v-model="user.attributes.timezone">
-                                        <option v-for="timezone in timezones" >{{ timezone }}</option>
-                                    </select>
+                                    <div class="input__container">
+                                        <label class="input__label" for="first_name">First Name</label>
+                                        <input class="input--text" v-model="user.attributes.first_name" type="text" name="first_name"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label  class="input__label" for="last_name">Last Name</label>
+                                        <input class="input--text" v-model="user.attributes.last_name" type="text" name="last_name"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label  class="input__label" for="email">Email</label>
+                                        <input class="input--text" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
+                                        <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                                    </div>
+                                    <div class="input__container">
+                                        <label  class="input__label" for="phone">Phone Number</label>
+                                        <input class="input--text" v-model="user.attributes.phone" type="number" name="phone"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label  class="input__label" for="timezone">Timezone</label>
+                                        <span  class="custom-select">
+                                            <select name="timezone" v-model="user.attributes.timezone">
+                                                <option v-for="timezone in timezones" >{{ timezone }}</option>
+                                            </select>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="formgroup">
-                                    <label for="address_1">Mailing Address</label>
-                                    <input v-model="user.attributes.address_1" type="text" name="address_1"/>
-                                    <br/>
-                                    <label for="address_2">Apt/Unit #</label>
-                                    <input v-model="user.attributes.address_2" type="text" name="address_2"/>
-                                    <br/>
-                                    <label for="city">City</label>
-                                    <input v-model="user.attributes.city" type="text" name="city"/>
-                                    <br/>
-                                    <label for="state">State</label>
-                                    <input v-model="user.attributes.state" type="text" name="state"/>
-                                    <br/>
-                                    <label for="zip">Zip Code</label>
-                                    <input v-model="user.attributes.zip" type="text" name="zip"/>
+                                    <div class="input__container">
+                                        <label class="input__label" for="address_1">Mailing Address</label>
+                                        <input class="input--text" v-model="user.attributes.address_1" type="text" name="address_1"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label class="input__label" for="address_2">Apt/Unit #</label>
+                                        <input class="input--text" v-model="user.attributes.address_2" type="text" name="address_2"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label class="input__label" for="city">City</label>
+                                        <input class="input--text" v-model="user.attributes.city" type="text" name="city"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label class="input__label" for="state">State</label>
+                                        <input class="input--text" v-model="user.attributes.state" type="text" name="state"/>
+                                    </div>
+                                    <div class="input__container">
+                                        <label class="input__label" for="zip">Zip Code</label>
+                                        <input class="input--text" v-model="user.attributes.zip" type="text" name="zip"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="submit">
-                                <button v-on:click.prevent="submit" >Save Changes</button>
+                            <div class="submit inline-centered">
+                                <button class="button" v-on:click.prevent="submit" >Save Changes</button>
                             </div>
                         </form>
                     </div>
@@ -171,6 +184,7 @@
 
     .formgroup {
         flex: 1;
+        padding: 0 20px;
     }
 
     .submit {
