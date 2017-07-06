@@ -43,12 +43,12 @@ export default [
     width: '12%',
     sort: tableSort.byString('doctor')
   },
-  {
-    key: 'intake',
-    name: 'Intake Form',
-    width: '5%',
-    sort: tableSort.byString('intake')
-  },
+  // {
+  //   key: 'intake',
+  //   name: 'Intake Form',
+  //   width: '5%',
+  //   sort: tableSort.byString('intake')
+  // },
   {
     key: 'done',
     name: 'Appt Done',

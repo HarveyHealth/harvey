@@ -61,6 +61,7 @@
         :class="currentPageCheck('clients')"
         @click.native="handleMenu(false, 'clients')">
         <i class="fa fa-users icon icon-nav-bar"></i>
+        <span class="admin-tab-left" style="">Admin</span>
         <div class="text">Clients</div>
       </router-link>
 
@@ -143,3 +144,14 @@
     }
   }
 </script>
+
+<style lang="scss">
+  .admin-tab-left {
+    left: 47px;
+    position: relative; 
+    font-weight: 300;
+    color: #EDA1A6;
+    font-size: 13px;
+    top: 5px;
+  }
+</style>
