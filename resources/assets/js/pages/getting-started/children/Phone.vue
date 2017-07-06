@@ -150,7 +150,7 @@ export default {
         this.phoneProcessing = true;
         this.$root.$data.signup.phone = number;
 
-        // If a user returning to the flow already has a number stored and it
+        // If a user returning to the flow already has a number stored and
         // they did not change it, just send the confirmation code again
         if (Laravel.user.phone === number) {
           setTimeout(this.sendConfirmation, 400);
@@ -158,6 +158,7 @@ export default {
         // Else, patch the user's phone which triggers the code confirmation send
           axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
             this.$root.$data.signup.phonePending = true;
+            Laravel.user.phone = number;
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
           }).catch(error => console.log(error));
         }
