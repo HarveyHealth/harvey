@@ -264,8 +264,8 @@ const app = new Vue({
             this.getPractitioners();
             this.getMessages();
             this.getLabData();
-            if (Laravel.user.userType === 'admin')this.getClientList();
-            if (Laravel.user.userType !== 'patient') this.getPatients();
+            if (Laravel.user.user_type === 'admin') this.getClientList();
+            if (Laravel.user.user_type !== 'patient') this.getPatients();
         }
 
         // Event handlers

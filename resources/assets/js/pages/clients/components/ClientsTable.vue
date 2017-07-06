@@ -2,9 +2,9 @@
     <div>
         <TableData
             :columns="tableColumns"
-            :empty-msg="'No appointments found.'"
+            :empty-msg="'No clients found.'"
             :loading="loading"
-            :loading-msg="'Loading your appointments...'"
+            :loading-msg="'Loading your clients...'"
             :on-row-click="handleRowClick"
             :row-data="tableData"
             :selected-row="selectedRow"
