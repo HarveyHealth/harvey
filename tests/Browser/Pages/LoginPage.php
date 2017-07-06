@@ -9,7 +9,7 @@ class LoginPage extends BasePage
 {
 
   public $signupPage = "Your journey starts here";
-  public $forgotPasswordPage = "Reset Password";
+  public $forgotPasswordPage = "Reset your password";
   public $homepage = "Hi. We're Harvey. We specialize in complex health conditions.";
 
     /**
@@ -76,7 +76,7 @@ class LoginPage extends BasePage
         return [
             '@login' => '#login > p.control.is-clearfix > button',
             '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@forgotPassword' => '#login > p.control.is-clearfix > a',
+            '@forgotPassword' => '#login > div > div > p.control.is-clearfix > a',
             '@signUpButton' => '#app > div > section > div > div > footer > div > a',
             '@logoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
             '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout'
