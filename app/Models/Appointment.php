@@ -164,7 +164,7 @@ class Appointment extends Model
                 $recipient->email,
                 'patient.appointment.reminder',
                 [
-                    'doctor_name' => $this->practitioner->user->fullName(),
+                    'doctor_name' => $this->practitioner->user->full_name,
                     'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
                     'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
                     'appointment_time_zone' => $this->patientAppointmentAtDate()->format('T'),

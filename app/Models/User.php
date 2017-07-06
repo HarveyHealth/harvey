@@ -26,7 +26,6 @@ class User extends Authenticatable implements Mailable
         'email',
         'first_name',
         'last_name',
-        'terms_accepted_at',
     ];
 
     protected $guarded = [
@@ -69,10 +68,11 @@ class User extends Authenticatable implements Mailable
     {
         return [
             'id' => $this->id,
+            'created_at' => $this->created_at,
             'email' => $this->email,
             'first_name' => $this->first_name,
+            'full_name' => $this->full_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->fullName(),
         ];
     }
 
@@ -83,12 +83,22 @@ class User extends Authenticatable implements Mailable
 
     public function getTypeAttribute()
     {
-        return $this->userType();
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        } else {
+            throw new \Exception("Unable to determine user's type.");
+        }
     }
 
     public function getFullNameAttribute()
     {
-        return $this->fullName();
+        $fullName = trim("{$this->first_name} {$this->last_name}");
+
+        return empty($fullName) ? null : $fullName;
     }
 
     public function patient()
@@ -134,19 +144,6 @@ class User extends Authenticatable implements Mailable
         }
     }
 
-    public function userType()
-    {
-        if ($this->isPatient()) {
-            return 'patient';
-        } elseif ($this->isPractitioner()) {
-            return 'practitioner';
-        } elseif ($this->isAdmin()) {
-            return 'admin';
-        } else {
-            throw new \Exception("Unable to determine user's type.");
-        }
-    }
-
     public function isPatient()
     {
         return $this->patient != null;
@@ -170,13 +167,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function fullName()
-    {
-        $fullName = trim($this->first_name . ' ' . $this->last_name);
-
-        return  empty($fullName) ? null : $fullName;
     }
 
     public function passwordSet()
