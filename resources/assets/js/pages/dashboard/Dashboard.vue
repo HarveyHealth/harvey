@@ -63,7 +63,7 @@
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
               <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
               </h3>
             </div>
             <div class="card-content-wrap">
