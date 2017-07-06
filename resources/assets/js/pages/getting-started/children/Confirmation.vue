@@ -11,7 +11,7 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
       <p>You are about to book a ~60 minute consultation appointment with <strong>Dr. {{ this.doctor }}</strong>, a licensed Naturopathic Doctor from {{ this.state }}.</p>
-      <p>{{ firstName }} will call you on <strong>{{ dateDisplay }}</strong> at <strong>{{ timeDisplay }}</strong> at <strong>{{ phoneDisplay }}</strong>. The cost for this consultation will be $150, which will be charged to your AMEX on file after the first appointment.</p>
+      <p>{{ firstName }} will call you on <strong>{{ dateDisplay }}</strong> at <strong>{{ timeDisplay }}</strong> at <strong>{{ phoneDisplay }}</strong>. The cost for this consultation will be $150.</p>
       <p>Let&rsquo;s start a journey together.</p>
       <button class="button button--blue" style="width: 180px" :disabled="processing" @click="confirmSignup">
         <span v-if="!processing">Confirm Booking</span>
