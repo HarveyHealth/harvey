@@ -130,7 +130,8 @@
       :on-close="handleModalClose"
     >
       <h3 class="modal-header">{{ userActionTitle }}</h3>
-      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0">
+      <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
           <td><p>{{ appointment.patientName }}</p></td>
@@ -152,7 +153,7 @@
           <td><p>{{ appointment.purpose }}</p></td>
         </tr>
       </table>
-      <div class="modal-button-container">
+      <div class="modal-button-container" v-show="!bookingConflict">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
         <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
@@ -199,6 +200,7 @@ export default {
       activeFilter: 0,
       appointment: this.resetAppointment(),
       appointments: [],
+      bookingConflict: false,
       cache: {
         all: [],
         upcoming: [],
@@ -480,6 +482,7 @@ export default {
         this.appointment.status = this.appointment.currentStatus;
       }
       this.modalActive = false;
+      this.bookingConflict = false;
     },
 
 
@@ -511,6 +514,7 @@ export default {
       this.flyoutActive = false;
       this.flyoutMode = null;
       this.overlayActive = false;
+      this.modalActive = false;
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
@@ -665,7 +669,14 @@ export default {
             })
           })
         });
-      }).catch(err => console.error(err.response));
+      }).catch(error => {
+        this.selectedRowUpdating = null;
+        if (this.userAction === 'update' || this.userAction === 'new') {
+          this.modalActive = true;
+          this.bookingConflict = true;
+          this.userActionTitle = 'Booking Conflict';
+        }
+      });
 
       this.selectedRowData = null;
       this.flyoutActive = false;
