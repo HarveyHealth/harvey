@@ -103,7 +103,7 @@ class AppointmentTest extends TestCase
         $this->assertEmailWasSentTo($patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.reminder');
         $this->assertEmailTemplateDataWas([
-            'doctor_name' => $practitioner->user->fullName(),
+            'doctor_name' => $practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),

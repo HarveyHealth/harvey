@@ -42,7 +42,7 @@ class PaymentFailed extends Notification
                 ->error()
                 ->content('Payment Failed')
                 ->attachment(function ($attachment) use ($data) {
-                    $attachment->title($data['user']->fullName(), config('app.url') . '/users/' . $data['user']->id)
+                    $attachment->title($data['user']->full_name, config('app.url') . '/users/' . $data['user']->id)
                                ->fields([
                                     'Title' => 'Amount',
                                     'Amount' => number_format($data['amount'] / 100, 2),
