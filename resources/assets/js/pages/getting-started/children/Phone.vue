@@ -8,13 +8,14 @@
     <div class="signup-container signup-phone-container text-centered">
       <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-arrow-left"></i> Practitioner</router-link>
 
-      <div class="phone-input-container" v-if="!$root.$data.signup.phonePending">
+      <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
         <div class="signup-main-icon">
           <svg class="interstitial-icon icon-phone"><use xlink:href="#phone" /></svg>
         </div>
         <div class="input-wrap">
           <input class="form-input form-input_text"
             name="phone_number"
+            ref="phoneInput"
             type="phone"
             placeholder="Mobile Number"
             v-phonemask="phone"
@@ -32,14 +33,14 @@
         </button>
       </div>
 
-      <div class="phone-input-container" v-else-if="$root.$data.signup.phonePending">
+      <div class="phone-input-container" v-show="$root.$data.signup.phonePending">
         <div class="signup-main-icon">
           <svg class="interstitial-icon icon-phone-sms"><use xlink:href="#phone-sms" /></svg>
         </div>
 
         <ConfirmInput :get-value="storeCode" :disabled="$root.$data.signup.codeConfirmed" :stored="code" />
 
-        <button class="phone-process-button" @click="sendConfirmation" :disabled="$root.$data.signup.codeConfirmed">Text Me Again</button>
+        <button class="phone-process-button" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">Text Me Again</button>
 
         <button class="phone-process-button" @click="newPhoneNumber">Edit Phone Number</button>
 
@@ -102,9 +103,7 @@ export default {
   methods: {
     newPhoneNumber() {
       this.phoneProcessing = false;
-      this.phone = '';
       this.code = '';
-      this.$root.$data.signup.phone = '';
       this.$root.$data.signup.phonePending = false;
       this.$root.$data.signup.codeConfirmed = false;
       this.$root.$data.signup.code = '';
@@ -150,21 +149,34 @@ export default {
       this.$validator.validateAll().then(() => {
         this.phoneProcessing = true;
         this.$root.$data.signup.phone = number;
-        // User PATCH triggers the Twilio code send on the BE
-        axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
-          this.$root.$data.signup.phonePending = true;
-          Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
-        });
+
+        // If a user returning to the flow already has a number stored and it
+        // they did not change it, just send the confirmation code again
+        if (Laravel.user.phone === number) {
+          setTimeout(this.sendConfirmation, 400);
+        } else {
+        // Else, patch the user's phone which triggers the code confirmation send
+          axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
+            this.$root.$data.signup.phonePending = true;
+            Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+          }).catch(error => console.log(error));
+        }
       })
       .catch(error => {
-
+        console.log(error);
       });
     },
-    sendConfirmation(number) {
+    handleNewSend() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
         this.confirmInputComponent.$refs[i].value = '';
       })
-      console.log(`Sending number (${this.$root.$data.signup.phone} to Twilio API`);
+      this.sendConfirmation();
+    },
+    sendConfirmation() {
+      axios.post(`api/v1/users/${Laravel.user.id}/phone/sendverificationcode`);
+      this.invalidCode = false;
+      this.$root.$data.signup.phonePending = true;
+      Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
     },
     trackingPhoneNumber() {
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
@@ -181,7 +193,10 @@ export default {
     }
   },
   mounted () {
-    // this.$root.$data.signup.phonePending = true;
+    if (Laravel.user.phone) {
+      this.phone = Laravel.user.phone;
+      this.$refs.phoneInput.value = Laravel.user.phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    }
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
