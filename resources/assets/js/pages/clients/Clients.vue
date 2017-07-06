@@ -72,7 +72,9 @@ export default {
   },
   mounted() {
       this.$root.$data.global.currentPage = 'clients';
-      this.setupLabData();
+
+      const clientList = this.$root.$data.clientList
+      if (clientList.length) this.setupLabData();
   } 
 }
 </script>
