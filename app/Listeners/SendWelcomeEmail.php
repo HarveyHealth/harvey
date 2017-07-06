@@ -4,29 +4,22 @@ namespace App\Listeners;
 
 use App\Events\UserRegistered;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Jobs\SendTransactionalEmail;
+use App\Lib\TransactionalEmail;
 
 class SendWelcomeEmail implements ShouldQueue
 {
-    protected $sendTransactionalEmail;
-
-    public function __construct(SendTransactionalEmail $sendTransactionalEmail)
-    {
-        $this->sendTransactionalEmail = $sendTransactionalEmail;
-    }
-
     /**
      * @param UserRegistered $event
      */
     public function handle(UserRegistered $event)
     {
-        $this->sendTransactionalEmail
+        $transactionalEmailJob = TransactionalEmail::createJob()
             ->setTo($event->user->email)
             ->setTemplate('patient.welcome')
             ->setTemplateModel([
                 'action_url' => $event->user->emailVerificationURL(),
             ]);
 
-        dispatch($this->sendTransactionalEmail);
+        dispatch($transactionalEmailJob);
     }
 }
