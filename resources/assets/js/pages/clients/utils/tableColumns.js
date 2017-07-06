@@ -49,10 +49,10 @@ export default [
   //   width: '5%',
   //   sort: tableSort.byString('intake')
   // },
-  {
-    key: 'done',
-    name: 'Appt Done',
-    width: '30%',
-    sort: tableSort.byString('done')
-  }
+  // {
+  //   key: 'done',
+  //   name: 'Appt Done',
+  //   width: '30%',
+  //   sort: tableSort.byString('done')
+  // }
 ]
