@@ -81,7 +81,7 @@
           }
         },
         watch: {
-          messageList(val, old) {
+          messageList() {
             return this.$root.$data.global.messages
           }
         },
