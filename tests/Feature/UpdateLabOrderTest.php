@@ -8,7 +8,7 @@ use Laravel\Passport\Passport;
 use Tests\TestCase;
 use ResponseCode;
 
-class LabOrderTest extends TestCase
+class UpdateLabOrderTest extends TestCase
 {
     use DatabaseMigrations;
 
