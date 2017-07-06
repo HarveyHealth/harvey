@@ -59,11 +59,11 @@ input[type="submit"] {
   }
 }
 button.button--blue:disabled {
-  background-color: darken($harvey-tertiary, 35%);
+  background-color: lighten($harvey-tertiary, 4%);
   color: rgba(black, 0.5);
   opacity: 1;
   &:hover {
-    background-color: darken($harvey-tertiary, 40%);
+    background-color: lighten($harvey-tertiary, 4%);
   }
 }
 
