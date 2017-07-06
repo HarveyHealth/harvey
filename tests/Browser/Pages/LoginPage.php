@@ -74,7 +74,7 @@ class LoginPage extends BasePage
     public function elements()
     {
         return [
-            '@login' => '#login > p.control.is-clearfix > button',
+            '@login' => '#login > footer > div > button',
             '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
             '@forgotPassword' => '#login > div > div > p.control.is-clearfix > a',
             '@signUpButton' => '#login > footer > div > a',

@@ -82,9 +82,10 @@ class SignUpPage extends BasePage
             '@practitioner' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > label > div',
             '@continuePract' => '#app > div:nth-child(3) > form > div > div.container.large > div > div:nth-child(4) > button',
             '@continueDeta' => '#app > div:nth-child(3) > form > div > div > div.signup-form-container > div.text-centered > a',
-            '@weekday' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button',
-            '@time' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(5) > button',
-            '@confirmTime' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.text-centered > input'
+            '@weekday' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button',
+            '@time' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(3) > button',
+            '@confirmTime' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.text-centered > input',
+            '@dashboard' => '#app > div:nth-child(3) > div:nth-child(2) > div > div > div.text-centered > a.button.is-outlined.dashboard'
         ];
     }
 

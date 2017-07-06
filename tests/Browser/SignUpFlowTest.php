@@ -47,7 +47,10 @@ class signUpFlowTest extends DuskTestCase
                       ->click('@time')
                       ->click('@confirmTime')
                       ->waitForText('Your appointment is confirmed!')
-                      ->assertSee('Your appointment is confirmed!');
+                      ->assertSee('Your appointment is confirmed!')
+                      ->click('@dashboard')
+                      ->waitForText('Your Dashboard')
+                      ->assertSee('Your Dashboard');
 
                     });
               $this->assertDatabaseHas('users', ['email' => $user->email]);
