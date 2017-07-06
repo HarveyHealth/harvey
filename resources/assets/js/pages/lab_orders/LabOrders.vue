@@ -205,11 +205,11 @@
             this.$root.$data.global.currentPage = 'lab-orders';
 
             const global = this.$root.$data.global
-            if (global.loadingLabTests || 
-                global.loadingLabOrders || 
-                global.loadingPatients || 
-                global.loadingPractitioners || 
-                global.loadingLabTests) {
+            if (!global.loadingLabTests && 
+                !global.loadingLabOrders && 
+                !global.loadingPatients && 
+                !global.loadingPractitioners && 
+                !global.loadingLabTests) {
                     this.setupLabData();
                 }
         }

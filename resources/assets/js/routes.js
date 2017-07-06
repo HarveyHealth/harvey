@@ -53,6 +53,10 @@ let routes = [
         component: require('./pages/profile/Profile.vue')
     },
     {
+        path: '/records',
+        component: require('./pages/records/Records.vue')
+    },
+    {
         path: '*',
         redirect:  '/'
     }
