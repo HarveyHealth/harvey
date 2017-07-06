@@ -1,4 +1,6 @@
 import _ from 'lodash'
+import moment from 'moment'
+
 
 export default function(clientList) {
     return clientList.map(e => {
@@ -7,7 +9,7 @@ export default function(clientList) {
             data: data,
             values: [
                 `${data.first_name} ${data.last_name}`,
-                data.created_at ? 'Yes' : 'No',
+                data.created_at ? moment(data.created_at.date).format('M/D/YYYY') : 'No',
                 data.phone,
                 data.email,
                 `${data.city}, ${data.state}`,
