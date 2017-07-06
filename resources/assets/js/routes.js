@@ -67,28 +67,6 @@ rootRoute.children.push({
   component: require('./pages/getting-started/children/Signup.vue')
 })
 
-// This code is to manage the current funnel which uses localStorage to save information
-// if (!window.TestGettingStarted) {
-//   const signingUp = localStorage.getItem('signing up');
-//   const signedUp = localStorage.getItem('signed up');
-//   if (signingUp) {
-//     rootRoute.name = 'signup';
-//     rootRoute.component = require('./pages/signup/Signup.vue');
-//   } else {
-//     if (signedUp) {
-//       rootRoute.name = 'schedule';
-//       rootRoute.component = require('./pages/schedule/Schedule.vue');
-//       rootRoute.children = [
-//         { path: 'confirmation',
-//           component: require('./pages/schedule/Confirmation.vue') }
-//       ]
-//     } else {
-//       rootRoute.name = 'dashboard';
-//       rootRoute.component = require('./pages/dashboard/Dashboard.vue');
-//     }
-//   }
-// }
-
 let routes = [
 
     rootRoute,
