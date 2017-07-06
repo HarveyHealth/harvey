@@ -85,6 +85,7 @@ const app = new Vue({
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
+            loadingTestTypes: true,
             menuOpen: false,
             patients: [],
             practitioners: [],
@@ -144,10 +145,10 @@ const app = new Vue({
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
-                this.global.loadingPatients = false;
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e
                 })
+                this.global.loadingPatients = false;
             });
         },
         getPractitioners() {
@@ -156,10 +157,10 @@ const app = new Vue({
                     this.global.practitioners = response.data.data.map(dr => {
                         return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
                     })
+                    this.global.loadingPractitioners = false;
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
@@ -168,10 +169,10 @@ const app = new Vue({
                     }).map(obj => {
                         return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
                     })
+                    this.global.loadingPractitioners = false;
                 })
             }
         },
@@ -200,6 +201,7 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
+                    this.global.loadingTestTypes = false
                 })
         },
         getUser() {

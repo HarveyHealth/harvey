@@ -7,15 +7,15 @@ export default function(clientList) {
             data: data,
             values: [
                 `${data.first_name} ${data.last_name}`,
-                true,  // data.created_at ? 'Yes' : 'No',
+                `Yes`,  // data.created_at ? 'Yes' : 'No',
                 data.phone,
                 data.email,
                 `${data.city}, ${data.state}`,
-                true,  // data.has_an_appointment ? 'Yes' : 'No',
+                `Yes`,  // data.has_an_appointment ? 'Yes' : 'No',
                `Dr. Amanda Frick`,  // `Dr. ${data.doctor_name}`,
-                true,  // data.intake_form ? 'Yes' : 'No',
-                true,  // data.phone_verified_at ? 'Yes' : 'No',
-                true  // data.has_an_appointment ? 'Yes' : 'No',
+                `Yes`,  // data.intake_form ? 'Yes' : 'No',
+                `Yes`,  // data.phone_verified_at ? 'Yes' : 'No',
+                `Yes`  // data.has_an_appointment ? 'Yes' : 'No',
             ]
         }
     })
