@@ -31,7 +31,7 @@
           <h3>Choose time</h3>
           <p class="schedule-info-text" v-show="selectedDate">{{ selectedDate | fullDate }}</p>
 
-          <ol>
+          <ol v-show="selectedDate">
             <li v-for="(time, j) in availableTimes"
                 :class="{ 'available': true, 'selected': selectedTime === j }"
                 @click="handleSelectTime(time, j)"

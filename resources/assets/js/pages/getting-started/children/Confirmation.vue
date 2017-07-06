@@ -18,22 +18,39 @@
         <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
       </button>
     </div>
+
+    <Overlay :active="showModal" />
+    <Modal :active="showModal" :on-close="() => showModal = false">
+      <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
+        <span v-if="!backProcessing">Back to Schedule</span>
+        <LoadingBubbles v-else-if="backProcessing" :style="{ width: '12px', fill: 'white' }" />
+      </button>
+    </Modal>
+
   </div>
 </template>
 
 <script>
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import Modal from '../../../commons/Modal.vue';
+import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
+
 import moment from 'moment';
+import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'confirmation',
   components: {
     LoadingBubbles,
+    Modal,
+    Overlay,
     StagesNav,
   },
   data() {
     return {
+      backProcessing: false,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -43,6 +60,7 @@ export default {
       doctor: `${this.$root.$data.signup.practitionerName}, N.D`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
       processing: false,
+      showModal: false,
       state: this.$root.$data.signup.practitionerState
     }
   },
@@ -67,8 +85,25 @@ export default {
         window.onbeforeunload = null;
         this.processing = false;
         this.$router.push({ name: 'success', path: 'success' });
+      })
+      .catch(error => {
+        // 400 Bad request means the time was booked just before the signup user confirmed but after they
+        // loaded availability for their selected practitioner.
+        this.showModal = true;
+      })
+    },
+    handleNewAvailability() {
+      this.backProcessing = true;
+      this.$root.getAvailability(this.$root.$data.signup.data.practitioner_id, response => {
+        this.$root.$data.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
+        this.$root.$data.signup.selectedWeek = null;
+        this.$root.$data.signup.selectedDay = null;
+        this.$root.$data.signup.selectedTime = null;
+        this.$root.$data.signup.selectedDate = null;
+        this.backProcessing = false;
+        this.$router.push({ name: 'schedule', path: '/schedule' });
       });
-    }
+    },
   },
   mounted () {
     this.$root.toDashboard();

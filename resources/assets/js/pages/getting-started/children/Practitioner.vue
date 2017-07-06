@@ -90,7 +90,7 @@ export default {
         this.processing = false;
         return;
       }
-      axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
+      this.$root.getAvailability(id, response => {
         this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
         if (!this.store.signup.availability.length) {
           this.errorText = 'Unfortunately we don\'t have any availability for that practitioner in the next 4 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.';
