@@ -19,12 +19,13 @@
         <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
           window.Laravel = {!! $vue_data !!}
-          window.TestGettingStarted = true; // only until the signup page is no longer used
           window.$$context = 'getting-started';
-          if (Laravel.user.signedIn && !localStorage.getItem('new_registration')) {
-            // window.location.href = '/dashboard';
-          } else if (!Laravel.user.signedIn) {
-            // window.location.hash = '/signup';
+          if (!Laravel.user.signedIn) {
+            window.location.hash = '/signup';
+          } else if (Laravel.user.has_an_appointment) {
+            window.location.href = '/dashboard';
+          } else {
+            window.location.hash = '/welcome';
           }
         </script>
 

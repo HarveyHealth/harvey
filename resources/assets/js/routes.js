@@ -9,6 +9,9 @@ Vue.use(VeeValidate);
 //    /dashboard -> user backoffice
 const loggedIn = Laravel.user.signedIn;
 const context = window.$$context;
+const rootRedirect = context === 'getting-started'
+  ? loggedIn ? '/welcome' : '/signup'
+  : '/';
 
 let rootRoute = {
   path: '/',
@@ -25,10 +28,6 @@ rootRoute.name = context !== 'getting-started'
 rootRoute.component = context !== 'getting-started'
   ? require('./pages/dashboard/Dashboard.vue')
   : require('./pages/getting-started/GettingStarted.vue');
-
-if (context === 'getting-started' && !loggedIn) {
-  rootRoute.redirect = '/signup';
-}
 
 if (context === 'getting-started' && loggedIn) {
   rootRoute.children = [
@@ -69,26 +68,26 @@ rootRoute.children.push({
 })
 
 // This code is to manage the current funnel which uses localStorage to save information
-if (!window.TestGettingStarted) {
-  const signingUp = localStorage.getItem('signing up');
-  const signedUp = localStorage.getItem('signed up');
-  if (signingUp) {
-    rootRoute.name = 'signup';
-    rootRoute.component = require('./pages/signup/Signup.vue');
-  } else {
-    if (signedUp) {
-      rootRoute.name = 'schedule';
-      rootRoute.component = require('./pages/schedule/Schedule.vue');
-      rootRoute.children = [
-        { path: 'confirmation',
-          component: require('./pages/schedule/Confirmation.vue') }
-      ]
-    } else {
-      rootRoute.name = 'dashboard';
-      rootRoute.component = require('./pages/dashboard/Dashboard.vue');
-    }
-  }
-}
+// if (!window.TestGettingStarted) {
+//   const signingUp = localStorage.getItem('signing up');
+//   const signedUp = localStorage.getItem('signed up');
+//   if (signingUp) {
+//     rootRoute.name = 'signup';
+//     rootRoute.component = require('./pages/signup/Signup.vue');
+//   } else {
+//     if (signedUp) {
+//       rootRoute.name = 'schedule';
+//       rootRoute.component = require('./pages/schedule/Schedule.vue');
+//       rootRoute.children = [
+//         { path: 'confirmation',
+//           component: require('./pages/schedule/Confirmation.vue') }
+//       ]
+//     } else {
+//       rootRoute.name = 'dashboard';
+//       rootRoute.component = require('./pages/dashboard/Dashboard.vue');
+//     }
+//   }
+// }
 
 let routes = [
 
@@ -114,7 +113,7 @@ let routes = [
     },
     {
         path: '*',
-        redirect:  '/'
+        redirect:  rootRedirect
     }
 ];
 
