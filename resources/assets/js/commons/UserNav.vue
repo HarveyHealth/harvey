@@ -48,6 +48,13 @@
         <div class="text">Profile</div>
       </router-link>
 
+      <router-link to="/records" title="Records"
+        :class="currentPageCheck('records')"
+        @click.native="handleMenu(false, 'records')">
+        <i class="fa fa-files-o icon icon-nav-bar"></i>
+        <div class="text">Records</div>
+      </router-link>
+
       <router-link 
         v-if="user && user.user_type === 'admin'" 
         to="/clients" title="Recent Clients"

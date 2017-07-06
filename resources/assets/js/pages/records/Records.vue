@@ -35,7 +35,7 @@ export default {
 
     },
     mounted() {
-        
+        this.$root.$data.global.currentPage = 'records';
     }
 }
 </script>
