@@ -22,20 +22,23 @@
       Welcome,
     },
     methods: {
-
+      setBeforeUnload() {
+        window.onbeforeunload = () => {
+          return 'All your information will be reset.';
+        }
+      }
     },
     created() {
-      window.onbeforeunload = () => {
-        return 'All your information will be reset.';
-      }
       // If new_registration exists, it means the user has just signed up and may go
       // through the signup funnel for one session only. If they refresh the page they
       // will be redirected to /dashboard
       if (this.new_registration) {
         this.new_registration = false;
+        this.setBeforeUnload();
         localStorage.removeItem('new_registration');
         this.$router.push({ name: 'welcome', path: '/welcome' });
       } else if (this.signed_in) {
+        this.setBeforeUnload();
         // window.location.href = '/dashboard';
       } else {
         this.$router.push({ name: 'sign-up', path: '/signup' });
