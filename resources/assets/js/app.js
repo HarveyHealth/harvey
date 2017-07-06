@@ -80,6 +80,7 @@ const app = new Vue({
             appointments: [],
             currentPage: '',
             loadingAppointments: true,
+            loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
             loadingLabOrders: true,
@@ -99,6 +100,7 @@ const app = new Vue({
             practitionerLookUp: {},
             user: {}
         },
+        clientList: [],
         initialAppointment: {},
         initialAppointmentComplete: false,
         labTests: {},
@@ -240,6 +242,13 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+        },
+        getClientList() {
+            axios.get(`${this.apiUrl}/users?type=patient`)
+                .then(response => {
+                    this.clientList = response.data.data
+                    this.global.loadingClients = false
+                })
         }
     },
     mounted() {
@@ -253,6 +262,7 @@ const app = new Vue({
             this.getPractitioners();
             this.getMessages();
             this.getLabData();
+            if (Laravel.user.userType === 'admin')this.getClientList();
             if (Laravel.user.userType !== 'patient') this.getPatients();
         }
 
