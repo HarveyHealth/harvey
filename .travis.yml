@@ -17,7 +17,6 @@ before_install:
 - npm install
 - touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - cp .env.dusk.travis .env
-- cat .env
 before_script:
 - export DB_CONNECTION=sqlite
 - export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
@@ -35,7 +34,6 @@ script:
 - sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
 - rm .env
-- cat .env
 services:
 - elasticsearch
 branches:
