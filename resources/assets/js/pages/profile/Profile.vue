@@ -166,8 +166,8 @@
         },
         computed: {
             updates() {
-                return diff(this.$root.$data.global.user.attributes, this.user.attributes);
-            }
+                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at');
+            },
         }
     }
 </script>
