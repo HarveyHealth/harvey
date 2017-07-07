@@ -52,7 +52,7 @@ $font-family: "proxima-nova";
   }
 
   &:not(.is-simple) {
-    background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 50%);
+    background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 40%);
 
     .content,
     a.nav-item {
@@ -191,11 +191,13 @@ body {
   min-height: 100vh;
   overflow: hidden;
 }
+
 .footer {
-  position: absolute;
+  // position: absolute;
   left: 0;
   width: 100%;
 }
+
 .logo-wrapper {
   .no-svg & {
     background: url('/images/logos/mobile-logo.png') no-repeat center center;
@@ -204,6 +206,7 @@ body {
     }
   }
 }
+
 .page-title {
   &, &.title {
     font-weight: 500;
@@ -410,15 +413,13 @@ body[class*="password-reset"]{
   top: 200px;
 }
 
-.login-width {
-  width: 510px !important;
-}
-
 .reset-width {
   left: 30%;
 }
 
-.container {
+.login-width {
+
+  width: 510px !important;
 
   form {
     margin-bottom: 60px;
