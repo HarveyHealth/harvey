@@ -54,7 +54,7 @@ class PatientsController extends BaseAPIController
     public function update(Request $request, Patient $patient)
     {
         if (auth()->user()->can('update', $patient)) {
-            StrictValidator::check($request->all(), [
+            StrictValidator::checkUpdate($request->all(), [
                 'birthdate' => 'date',
                 'height_inches' => 'integer',
                 'height_feet' => 'integer',
