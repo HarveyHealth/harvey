@@ -30,7 +30,7 @@ class NotifyAppointmentUpdatedSlackChannel implements ShouldQueue
         $appointment_at->timezone = $slackTimezone;
         $original_appointment_at->timezone = $slackTimezone;
 
-        $message = "*[Appointment Updated]* Patient: *{$patient->user->fullName()}* with {$practitioner->user->fullName()},";
+        $message = "*[Appointment Updated]* Patient: *{$patient->user->full_name}* with {$practitioner->user->full_name},";
         $message .= " new appointment on {$appointment_at->format('M j')} at {$appointment_at->format('g:ia')}";
         $message .= " (original was {$original_appointment_at->format('M j')} at {$original_appointment_at->format('g:ia')}).";
 

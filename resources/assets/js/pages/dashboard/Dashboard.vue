@@ -131,6 +131,8 @@
       dashboardTitle() {
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
+        } else if (this.userType === 'practitioner') {
+          return 'Practitioner Dashboard';
         } else {
           return 'Your Dashboard';
         }
