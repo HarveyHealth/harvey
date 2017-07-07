@@ -24,9 +24,9 @@
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
-          <div v-if="j !== 2 && j !== 3" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
-          <a :href="'tel:'+val" v-if="j === 2" class="cell-wrap" :data-column="columns[j].name">{{ `${val[0] + val[1] + val[2]}-${val[3] + val[4] + val[5]}-${val[6] + val[7] + val[8] + val[9]}` }}</a>
-          <a :href="'mailto:'+val" v-if="j === 3" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a>
+          <div v-if="j !== 4 && j !== 5" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
+          <a :href="'tel:'+val" v-if="j === 5" class="cell-wrap" :data-column="columns[j].name">{{ `${val[0] + val[1] + val[2]}-${val[3] + val[4] + val[5]}-${val[6] + val[7] + val[8] + val[9]}` }}</a>
+          <a :href="'mailto:'+val" v-if="j === 4" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a>
         </td>
       </tr>
     </tbody>
