@@ -4,19 +4,19 @@ export default [
   {
     key: 'client',
     name: 'Client',
-    width: '13%',
+    width: '12%',
     sort: tableSort.byDate('client')
   },
   {
     key: 'signup',
     name: 'Date',
-    width: '13%',
+    width: '12%',
     sort: tableSort.byTime('signup')
   },
   {
     key: 'location',
     name: 'Location',
-    width: '13%',
+    width: '12%',
     sort: tableSort.byString('location')
   },
   {
@@ -24,6 +24,12 @@ export default [
     name: 'Booked',
     width: '5%',
     sort: tableSort.byString('booked')
+  },
+  {
+    key: 'done',
+    name: 'Appt Done',
+    width: '5%',
+    sort: tableSort.byString('done')
   },
   {
     key: 'doctor',
@@ -34,13 +40,13 @@ export default [
   {
     key: 'email',
     name: 'Email',
-    width: '13%',
+    width: '12%',
     sort: tableSort.byString('email')
   },
   {
     key: 'phone',
     name: 'Phone',
-    width: '13%',
+    width: '12%',
     sort: tableSort.byString('phone')
   }
   // {
@@ -48,11 +54,5 @@ export default [
   //   name: 'Intake Form',
   //   width: '5%',
   //   sort: tableSort.byString('intake')
-  // },
-  // {
-  //   key: 'done',
-  //   name: 'Appt Done',
-  //   width: '30%',
-  //   sort: tableSort.byString('done')
   // }
 ]

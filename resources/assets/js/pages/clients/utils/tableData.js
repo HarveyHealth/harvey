@@ -14,6 +14,7 @@ export default function(clientList) {
                 data.created_at ? moment(data.created_at.date).format('ddd, MMM Do YYYY') : 'No',
                 `${data.city}, ${data.state}`,
                 data.has_an_appointment ? 'Yes' : 'No',
+                data.has_completed_an_appointment ? 'Yes' : 'No',
                 data.doctor_name ? `Dr. ${data.doctor_name}`: 'ND',
                 data.email,
                 data.phone
