@@ -22,7 +22,7 @@
           window.$$context = 'getting-started';
           if (!Laravel.user.signedIn) {
             window.location.hash = '/signup';
-          } else if (Laravel.user.has_an_appointment) {
+          } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
             window.location.href = '/dashboard';
           } else {
             window.location.hash = '/welcome';
