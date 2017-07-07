@@ -5,8 +5,8 @@ import moment from 'moment'
 export default function(clientList) {
     return clientList.map(e => {
         let data = e.attributes
-        data['email_hyperlink'] = 5
-        data['phone_hyperlink'] = 6
+        data['email_hyperlink'] = 6
+        data['phone_hyperlink'] = 7
         return {
             data: data,
             values: [

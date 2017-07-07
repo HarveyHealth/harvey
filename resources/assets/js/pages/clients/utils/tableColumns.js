@@ -34,19 +34,19 @@ export default [
   {
     key: 'doctor',
     name: 'Practitioner',
-    width: '30%',
+    width: '12%',
     sort: tableSort.byString('doctor')
   },
   {
     key: 'email',
     name: 'Email',
-    width: '12%',
+    width: '21%',
     sort: tableSort.byString('email')
   },
   {
     key: 'phone',
     name: 'Phone',
-    width: '12%',
+    width: '21%',
     sort: tableSort.byString('phone')
   }
   // {
