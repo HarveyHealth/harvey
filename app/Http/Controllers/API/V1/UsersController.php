@@ -121,12 +121,12 @@ class UsersController extends BaseAPIController
                 'last_name' => 'max:100',
                 'email' => 'email|max:150|unique:users',
                 'zip' => 'digits:5|serviceable',
-                'phone' => 'unique:users',
-                'address_1' => 'filled',
-                'address_2' => 'filled',
-                'city' => 'filled',
-                'state' => 'filled',
-                'timezone' => 'filled',
+                'phone' => 'max:10|unique:users',
+                'address_1' => 'max:100',
+                'address_2' => 'max:100',
+                'city' => 'max:100',
+                'state' => 'max:2',
+                'timezone' => 'max:75',
             ], [
                 'serviceable' => 'Sorry, we do not service this :attribute.'
             ]);
