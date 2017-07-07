@@ -20,7 +20,8 @@ class Kernel extends ConsoleKernel
         Commands\SetNginxConfigCommand::class,
         Commands\GetPassportKeysCommand::class,
         Commands\PractitionerCreateCommand::class,
-        Commands\AdminCreateCommand::class
+        Commands\AdminCreateCommand::class,
+        Commands\SendAppointmentsRemindersCommand::class,
     ];
 
     /**
@@ -31,8 +32,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('appointments:reminders')->hourly();
     }
 
     /**

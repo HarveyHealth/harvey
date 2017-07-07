@@ -5,16 +5,10 @@ namespace App\Listeners;
 use App\Events\AppointmentCanceled;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use App\Jobs\SendTransactionalEmail;
+use App\Lib\TransactionalEmail;
 
 class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
 {
-    protected $sendTransactionalEmail;
-
-    public function __construct(SendTransactionalEmail $sendTransactionalEmail)
-    {
-        $this->sendTransactionalEmail = $sendTransactionalEmail;
-    }
 
     public function handle(AppointmentCanceled $event)
     {
@@ -22,7 +16,7 @@ class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
 
-        $this->sendTransactionalEmail
+        $transactionalEmailJob = TransactionalEmail::createJob()
             ->setTo($practitioner->user->email)
             ->setTemplate('practitioner.appointment.canceled')
             ->setTemplateModel([
@@ -34,6 +28,6 @@ class SendPractitionerAppointmentCanceledEmail implements ShouldQueue
             'doctor_state' => $practitioner->doctor_state,
         ]);
 
-        dispatch($this->sendTransactionalEmail);
+        dispatch($transactionalEmailJob);
     }
 }

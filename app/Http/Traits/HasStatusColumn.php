@@ -2,9 +2,8 @@
 
 namespace App\Http\Traits;
 
-use Carbon;
-use Lang;
-use Schema;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon, Lang, Schema;
 
 trait HasStatusColumn
 {
@@ -77,19 +76,19 @@ trait HasStatusColumn
         return !$this->isPending();
     }
 
-    public function scopePending($query)
+    public function scopePending(Builder $builder)
     {
-        return $query->where('status_id', self::PENDING_STATUS_ID);
+        return $builder->where('status_id', self::PENDING_STATUS_ID);
     }
 
-    public function scopeCanceled($query)
+    public function scopeCanceled(Builder $builder)
     {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
+        return $builder->where('status_id', self::CANCELED_STATUS_ID);
     }
 
-    public function scopeComplete($query)
+    public function scopeComplete(Builder $builder)
     {
-        return $query->where('status_id', self::COMPLETE_STATUS_ID);
+        return $builder->where('status_id', self::COMPLETE_STATUS_ID);
     }
 
     public function wasShipped()

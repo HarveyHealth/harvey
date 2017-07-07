@@ -195,6 +195,9 @@ import transformAvailability from '../../utils/methods/transformAvailability';
 import toLocal from '../../utils/methods/toLocal';
 
 export default {
+  props: {
+    appt_id: String
+  },
   data() {
     return {
       activeFilter: 0,
@@ -737,6 +740,17 @@ export default {
         : this.activeFilter === 1
           ? this.cache.upcoming
           : this.cache.completed;
+
+      if (this.appt_id) {
+        let appt, index;
+        this.appointments.forEach((obj, i) => {
+          if (obj.data._appointmentId === this.appt_id) {
+            index = i;
+            appt = obj;
+          }
+        })
+        this.handleRowClick(appt, index);
+      }
 
       Vue.nextTick(() => {
         this.checkTableData();

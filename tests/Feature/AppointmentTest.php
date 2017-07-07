@@ -2,11 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use App\Models\Appointment;
-use App\Models\Patient;
-use App\Models\Practitioner;
-use App\Models\PractitionerSchedule;
+use App\Models\{Admin, Appointment, Patient, Practitioner, PractitionerSchedule};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Carbon;
@@ -17,6 +13,11 @@ class AppointmentTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected function getRemindersCommandOutput()
+    {
+        return $this->getCommandOutput('appointments:reminders');
+    }
+
     protected function createScheduleAndGetValidAppointmentAt(Practitioner $practitioner)
     {
         PractitionerSchedule::where('practitioner_id', $practitioner->id)->delete();
@@ -26,6 +27,71 @@ class AppointmentTest extends TestCase
         ]);
 
         return Carbon::parse($practitionerSchedule->practitioner->availability->random())->format('Y-m-d H:i:s');
+    }
+
+    public function test_it_finds_appointments_24hs_before_start_time()
+    {
+        foreach ([-1, 22, 23, 24, 25, 26] as $hoursFromNow) {
+            factory(Appointment::class)->create([
+                'appointment_at' => Carbon::parse("{$hoursFromNow} hours"),
+                'status' => 'pending'
+            ]);
+        }
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 3 Appointments.', $output[1]);
+    }
+
+    public function test_not_pending_appointments_are_excluded_from_reminders()
+    {
+        foreach ([-1, 22, 23, 24, 25, 26] as $hoursFromNow) {
+            factory(Appointment::class)->create([
+                'appointment_at' => Carbon::parse("{$hoursFromNow} hours"),
+                'status' => collect(Appointment::STATUSES)->diff('pending')->random(),
+            ]);
+        }
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 0 Appointments.', $output[1]);
+    }
+
+    public function test_it_marks_the_reminder_as_sent_after_sending()
+    {
+        $this->test_it_finds_appointments_24hs_before_start_time();
+
+        // Run command again (Reminders were already sent)
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Done. [0 Appointments reminders sent.]', $output[3]);
+    }
+
+    public function test_email_reminder_is_filled_properly()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment = factory(Appointment::class)->create([
+            'appointment_at' => Carbon::parse("2 hours"),
+            'patient_id' => $patient->id,
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('Found 1 Appointments.', $output[1]);
+
+        $this->assertEmailWasSentTo($patient->user->email);
+        $this->assertEmailTemplateNameWas('patient.appointment.reminder');
+        $this->assertEmailTemplateDataWas([
+            'doctor_name' => $practitioner->user->fullName(),
+            'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
+            'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'harvey_id' => $patient->user->id,
+            'patient_first_name' => $patient->user->first_name,
+            'phone_number' => $patient->user->phone,
+        ]);
     }
 
     public function test_it_allows_a_patient_to_view_their_own_appointments()

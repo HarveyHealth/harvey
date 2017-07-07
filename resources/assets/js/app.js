@@ -240,9 +240,13 @@ const app = new Vue({
                 })
         },
         getUser() {
-            axios.get(`${this.apiUrl}/users/${Laravel.user.id}`)
+            axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
                 .then(response => {
-                    this.global.user = response.data.data;
+                    let data = response.data.data
+                    if (response.data.included) {
+                        data.included = response.data.included[0];
+                    }
+                    this.global.user = data;
                 })
                 .catch(error => this.global.user = {});
         },

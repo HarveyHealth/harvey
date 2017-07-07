@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use Illuminate\Http\Request;
+use App\Lib\Validation\StrictValidator;
 
 class PractitionerScheduleController extends BaseAPIController
 {
@@ -28,16 +29,12 @@ class PractitionerScheduleController extends BaseAPIController
      */
     public function update(Request $request, Practitioner $practitioner)
     {
-        $validator = Validator::make($request->all(), [
+        StrictValidator::check($request->all(), [
             'birthdate' => 'date',
             'height_inches' => 'integer',
             'height_feet' => 'integer',
             'weight' => 'integer'
         ]);
-
-        if ($validator->fails()) {
-            return $this->respondBadRequest($validator->errors()->first());
-        }
 
         if (auth()->user()->can('update', $practitioner)) {
         } else {

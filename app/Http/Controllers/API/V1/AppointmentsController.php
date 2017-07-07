@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Events\AppointmentScheduled;
 use App\Lib\Validation\StrictValidator;
-use App\Models\Appointment;
-use App\Models\Patient;
+use App\Models\{Appointment, Patient};
 use App\Transformers\V1\AppointmentTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Carbon;
 use ResponseCode;
 
@@ -68,6 +68,7 @@ class AppointmentsController extends BaseAPIController
             'reason_for_visit' => 'required',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
         ]);
 
         if (currentUser()->isPatient()) {
@@ -89,7 +90,7 @@ class AppointmentsController extends BaseAPIController
             StrictValidator::checkUpdate($request->all(), [
                 'appointment_at' => "date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available:{$appointment->id}",
                 'reason_for_visit' => 'filled',
-                'status' => 'filled',
+                'status' => ['filled', Rule::in(Appointment::STATUSES)],
             ]);
 
             $appointment->update($request->all());
