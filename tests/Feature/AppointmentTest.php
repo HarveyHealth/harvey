@@ -26,26 +26,7 @@ class AppointmentTest extends TestCase
             'practitioner_id' => $practitioner->id,
         ]);
 
-        $availabilitySlots = $practitionerSchedule->practitioner->availability;
-
-        if (empty($availabilitySlots['week 1']) && empty($availabilitySlots['week 2'])) {
-            return false;
-        } elseif (empty($availabilitySlots['week 1'])) {
-            $pickFromWeek = 2;
-        } elseif (empty($availabilitySlots['week 2'])) {
-            $pickFromWeek = 1;
-        } else {
-            $pickFromWeek = rand(1, 2);
-        }
-
-        $randomSlot = collect($availabilitySlots["week {$pickFromWeek}"])->random();
-        $appointmentAt = Carbon::parse($randomSlot, 'UTC');
-
-        if (2 == $pickFromWeek) {
-            $appointmentAt->addWeek();
-        }
-
-        return $appointmentAt->format('Y-m-d H:i:s');
+        return Carbon::parse($practitionerSchedule->practitioner->availability->random())->format('Y-m-d H:i:s');
     }
 
     public function test_it_finds_appointments_24hs_before_start_time()

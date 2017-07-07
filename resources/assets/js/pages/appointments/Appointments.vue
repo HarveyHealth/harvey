@@ -434,12 +434,12 @@ export default {
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
             ga('send', {
-              hitType: "event",
-              eventCategory: "clicks",
-              eventAction: "Comfirm Appointment",
+              hitType: "event", 
+              eventCategory: "clicks", 
+              eventAction: "Comfirm Appointment", 
               eventLabel: null,
-               eventValue: 50,
-               hitCallback: null,
+               eventValue: 50, 
+               hitCallback: null, 
                userId: null
             });
           }

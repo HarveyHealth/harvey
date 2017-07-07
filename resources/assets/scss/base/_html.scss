@@ -4,3 +4,9 @@ html {
 *, *:before, *:after {
   box-sizing: border-box;
 }
+
+%clearfix:after {
+  display: table;
+  content: '';
+  clear: both;
+}

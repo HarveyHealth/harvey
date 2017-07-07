@@ -1,6 +1,9 @@
 .input-wrap {
-  &:not(:last-child) {
+  &:not(.last) {
     @include margin(null null 30px null);
+  }
+  &.last {
+    @include margin(null null 15px null);
   }
 }
 
@@ -18,10 +21,10 @@
     border: none;
     border-bottom: 1px solid $gray;
     @include padding(0 0 10px 0);
-    font-size: 18px;
   }
   &_checkbox {
     @include margin(null 10px null null);
+    float: left;
     font-size: 15px;
     width: auto;
   }
@@ -34,10 +37,14 @@
 
 .form-label {
 
+  text-align: left;
+
   &_checkbox {
-    color: $gray;
     display: inline-block;
     font-size: 15px;
+    width: calc(100% - 30px);
+    position: relative;
+    top: -2px;
   }
 }
 
