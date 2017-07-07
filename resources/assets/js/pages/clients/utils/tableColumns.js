@@ -9,7 +9,7 @@ export default [
   },
   {
     key: 'signup',
-    name: 'Signup',
+    name: 'Date',
     width: '13%',
     sort: tableSort.byTime('signup')
   },
@@ -21,9 +21,15 @@ export default [
   },
   {
     key: 'booked',
-    name: 'Appt Booked',
+    name: 'Booked',
     width: '5%',
     sort: tableSort.byString('booked')
+  },
+  {
+    key: 'doctor',
+    name: 'Practitioner',
+    width: '30%',
+    sort: tableSort.byString('doctor')
   },
   {
     key: 'email',
@@ -36,12 +42,6 @@ export default [
     name: 'Phone',
     width: '13%',
     sort: tableSort.byString('phone')
-  },
-  {
-    key: 'doctor',
-    name: 'Practitioner',
-    width: '30%',
-    sort: tableSort.byString('doctor')
   }
   // {
   //   key: 'intake',
