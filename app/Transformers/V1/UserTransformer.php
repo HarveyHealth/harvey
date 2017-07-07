@@ -16,7 +16,7 @@ class UserTransformer extends TransformerAbstract
      */
     public function transform(User $user)
     {
-        $appointment = $user->appointments()->ByAppointmentAtDesc()->first();
+        $appointment = $user->appointments()->withTrashed()->ByAppointmentAtDesc()->first();
 
         return [
             'id' => (string) $user->id,
@@ -29,7 +29,8 @@ class UserTransformer extends TransformerAbstract
             'email_verified_at' => $user->email_verified_at,
             'first_name' => $user->first_name,
             'gender' => $user->gender,
-            'has_an_appointment' => (bool) $appointment,
+            'has_booked_an_appointment' => (bool) $appointment,
+            'has_completed_an_appointment' => $user->appointments()->complete()->limit(1)->get()->isNotEmpty(),
             'image_url' => $user->image_url,
             'last_name' => $user->last_name,
             'phone' => $user->phone,
