@@ -40,13 +40,13 @@ export default [
   {
     key: 'email',
     name: 'Email',
-    width: '21%',
+    width: '14%',
     sort: tableSort.byString('email')
   },
   {
     key: 'phone',
     name: 'Phone',
-    width: '21%',
+    width: '28%',
     sort: tableSort.byString('phone')
   }
   // {

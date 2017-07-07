@@ -18,8 +18,7 @@ export default function(clientList) {
                 data.doctor_name ? `Dr. ${data.doctor_name}`: 'ND',
                 data.email,
                 data.phone
-                // `Yes`,  // data.intake_form ? 'Yes' : 'No',
-                // `Yes`  // data.has_an_appointment ? 'Yes' : 'No',
+                // `Yes`,  // data.intake_form ? 'Yes' : 'No'
             ]
         }
     })
