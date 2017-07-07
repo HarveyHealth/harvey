@@ -384,7 +384,7 @@
                     <img src="/images/home/empty.png" class="is-opaque-75" alt="">
                     <p class="title is-5 is-marginless-bottom"><strong>Maybe you? Join our team.</strong></p>
                     <em>Looking for Naturopathic Doctors</em>
-                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you!</p>
+                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call today!</p>
                 </div>
             </div>
         </div>
