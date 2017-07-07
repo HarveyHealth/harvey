@@ -120,7 +120,7 @@ class UpdateLabOrderTest extends TestCase
             'patient_id' => $patient->id,
         ];
 
-        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
+        $response = $this->json('POST', 'api/v1/lab/orders?address_1=1630&city=Glendale&state=CA&zip=91202', $parameters);
 
         $response->assertStatus(ResponseCode::HTTP_OK);
 
@@ -282,10 +282,9 @@ class UpdateLabOrderTest extends TestCase
 
     public function test_a_lab_order_is_set_as_complete_after_lab_tests_are_complete()
     {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'pending']);
+        $labOrder = factory(LabOrder::class)->create(['status' => 'Recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
 
-        $this->assertEquals('pending', $labOrder->status);
 
         $labOrder->labTests->every->markAsComplete();
 
@@ -294,10 +293,9 @@ class UpdateLabOrderTest extends TestCase
 
     public function test_a_lab_order_is_set_as_canceled_after_lab_tests_are_canceled()
     {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'pending']);
+        $labOrder = factory(LabOrder::class)->create(['status' => 'Recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
 
-        $this->assertEquals('pending', $labOrder->status);
 
         $labOrder->labTests->every->markAsCanceled();
 
