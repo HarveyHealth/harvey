@@ -20,7 +20,7 @@
                             </div>
                             <div class="column is-6-desktop is-8-tablet is-paddingless-left">
                                 <p class="title is-5 is-marginless"><strong>Dr. Amanda Frick, ND</strong></p>
-                                <p class="subtitle is-6">Meet our lead naturopathic doctor and learn why integrative medicine is people's lives for the better.</p>
+                                <p class="subtitle is-6">Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.</p>
                             </div>
                         </div>
                     </div>
