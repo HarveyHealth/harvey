@@ -15,7 +15,7 @@ class SendPatientAppointmentEmail implements ShouldQueue
             ->setTo($event->appointment->patient->user->email)
             ->setTemplate('patient.appointment.new')
             ->setTemplateModel([
-            'practitioner_name' => $event->appointment->practitioner->user->fullName(),
+            'practitioner_name' => $event->appointment->practitioner->user->full_name,
             'appointment_date' => $event->appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $event->appointment->patientAppointmentAtDate()->format('h:i A'),
             'harvey_id' => $event->appointment->patient->user->id,

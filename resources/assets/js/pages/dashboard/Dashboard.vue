@@ -63,7 +63,7 @@
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
               <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}
               </h3>
             </div>
             <div class="card-content-wrap">
@@ -131,6 +131,8 @@
       dashboardTitle() {
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
+        } else if (this.userType === 'practitioner') {
+          return 'Practitioner Dashboard';
         } else {
           return 'Your Dashboard';
         }
