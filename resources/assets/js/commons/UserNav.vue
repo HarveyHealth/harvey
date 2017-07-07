@@ -41,12 +41,12 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!--<router-link to="/profile" title="Profile"
-        :class="currentPageCheck('profile')"
-        @click.native="handleMenu(false, 'profile')">
+      <router-link to="/profile" title="Profile"
+                   :class="currentPageCheck('profile')"
+                   @click.native="handleMenu(false, 'profile')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Profile</div>
-      </router-link>-->
+      </router-link>
 
       <!--<router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
@@ -55,8 +55,8 @@
         <div class="text">Records</div>
       </router-link>-->
 
-      <router-link 
-        v-if="user && user.user_type === 'admin'" 
+      <router-link
+        v-if="user && user.user_type === 'admin'"
         to="/clients" title="Recent Clients"
         :class="currentPageCheck('clients')"
         @click.native="handleMenu(false, 'clients')">
@@ -148,7 +148,7 @@
 <style lang="scss">
   .admin-tab-left {
     left: 47px;
-    position: relative; 
+    position: relative;
     font-weight: 300;
     color: #EDA1A6;
     font-size: 13px;

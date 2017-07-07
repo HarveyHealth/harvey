@@ -91,7 +91,7 @@
 <script>
     import diff from 'object-diff';
     import _ from 'lodash';
-    // import timezones from '../../../../../public/timezones.json';
+    import timezones from '../../../../../public/timezones.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue'
 
     export default {
