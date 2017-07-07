@@ -115,7 +115,7 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        StrictValidator::check($request->all(), [
+        StrictValidator::checkUpdate($request->all(), [
             'first_name' => 'max:100',
             'last_name' => 'max:100',
             'email' => 'email|max:150|unique:users',
