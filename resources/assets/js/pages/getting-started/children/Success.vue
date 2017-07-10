@@ -48,9 +48,10 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
-import moment from 'moment';
 
 export default {
   name: 'success',

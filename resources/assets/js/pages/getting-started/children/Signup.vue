@@ -91,7 +91,6 @@
 </template>
 
 <script>
-
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 
 export default {

@@ -38,9 +38,10 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import StagesNav from '../util/StagesNav.vue';
-import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
