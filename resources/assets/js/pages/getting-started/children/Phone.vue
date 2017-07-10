@@ -134,15 +134,13 @@ export default {
               this.$router.push({ name: 'schedule', path: '/schedule' });
             }, 500);
           } else {
-            this.isPhoneConfirming = false;
-            this.isInvalidCode = true;
+            this.setInvalidCode();
           }
         }).catch(error => {
           Object.keys(this.confirmInputComponent.$refs).forEach(i => {
             this.confirmInputComponent.$refs[i].value = '';
           })
-          this.isPhoneConfirming = false;
-          this.isInvalidCode = true;
+          this.setInvalidCode();
         })
       }
 
@@ -178,6 +176,10 @@ export default {
       this.isInvalidCode = false;
       this.$root.$data.signup.phonePending = true;
       Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+    },
+    setInvalidCode() {
+      this.isPhoneConfirming = false;
+      this.isInvalidCode = true;
     },
     trackingPhoneNumber() {
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {

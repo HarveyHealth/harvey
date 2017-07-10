@@ -46,10 +46,7 @@
 
       <p class="error-text" v-html="errorText" v-show="errorText" style="display:block"></p>
 
-      <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="checkAppointment">
-        <span v-if="!isProcessing">Continue</span>
-        <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
-      </button>
+      <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
 
     </div>
   </div>
@@ -57,8 +54,6 @@
 
 <script>
 import moment from 'moment';
-
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
@@ -171,7 +166,6 @@ export default {
     handleSelectTime(time, index) {
       this.$root.$data.signup.selectedTime = index;
       this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
-      // console.log(JSON.stringify(this.$root.$data.signup.data, null, 2));
     },
     weekReference(index) {
       switch (index) {

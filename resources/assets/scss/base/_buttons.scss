@@ -9,7 +9,6 @@ input[type="submit"] {
   cursor: pointer;
   display: inline-block;
   font-size: 17px;
-  -webkit-font-smoothing: antialiased;
   line-height: 1;
   @include padding(10px 25px);
   text-align: center;
@@ -18,6 +17,7 @@ input[type="submit"] {
   user-select: none;
   vertical-align: middle;
   width: auto;
+  -webkit-font-smoothing: antialiased;
 
   &.is-outlined {
     color: $harvey-tertiary;
@@ -53,6 +53,7 @@ input[type="submit"] {
 .button--blue {
   background-color: $harvey-tertiary;
   color: $white;
+
   &:focus,
   &:hover {
     background-color: lighten($harvey-tertiary, 4%);
@@ -62,6 +63,7 @@ button.button--blue:disabled {
   background-color: lighten($harvey-tertiary, 4%);
   color: rgba(black, 0.5);
   opacity: 1;
+  
   &:hover {
     background-color: lighten($harvey-tertiary, 4%);
   }

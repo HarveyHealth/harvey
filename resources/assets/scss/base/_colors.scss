@@ -11,7 +11,6 @@ $darkest-gray: #444444;
 $color--grey: #E4EAEC;
 
 // Brand
-
 $harvey-primary: #82BEF2;
 $harvey-secondary: #5F7278;
 $harvey-tertiary: #82BEF2;
@@ -27,7 +26,6 @@ $slategrey: #5F7278;
 $green: #BDCEBE;
 $red: #FF0000;
 
-
 .bg-tertiary {
   background-color: $harvey-tertiary;
 }
@@ -35,6 +33,7 @@ $red: #FF0000;
 .color-tertiary {
   color: $harvey-tertiary;
 }
+
 .color-white {
   color: $white;
 }
@@ -42,9 +41,11 @@ $red: #FF0000;
 .font-medium-gray {
   color: $medium-gray;
 }
+
 .font-dark-gray {
   color: $dark-gray;
 }
+
 .font-darkest-gray {
   color: $darkest-gray;
 }

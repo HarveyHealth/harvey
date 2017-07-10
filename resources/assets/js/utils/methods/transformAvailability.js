@@ -11,21 +11,17 @@ export default function(fetchedAvailability, userType) {
   const buffer = moment().add(bufferHours, 'hours');
   const today = moment();
 
-  const makeTimeObj = iso => {
-    return {
-      stored: moment(iso).format('YYYY-MM-DD HH:mm:ss'),
-      utc: moment.utc(iso),
-      local: moment.utc(iso).local(),
-    }
-  }
+  const makeTimeObj = iso => ({
+    stored: moment(iso).format('YYYY-MM-DD HH:mm:ss'),
+    utc: moment.utc(iso),
+    local: moment.utc(iso).local(),
+  });
 
-  const makeDayObj = iso => {
-    return {
-      date: moment.utc(iso).format('YYYY-MM-DD'),
-      day: moment.utc(iso).format('dddd'),
-      times: []
-    }
-  }
+  const makeDayObj = iso => ({
+    date: moment.utc(iso).format('YYYY-MM-DD'),
+    day: moment.utc(iso).format('dddd'),
+    times: []
+  });
 
   let day = '';
   let dayObj = null;

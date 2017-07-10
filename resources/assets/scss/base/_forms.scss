@@ -1,7 +1,5 @@
 .input-wrap {
-  &:not(.last) {
-    @include margin(null null 30px null);
-  }
+  @include margin(null null 30px null);
   &.last {
     @include margin(null null 15px null);
   }
@@ -22,12 +20,14 @@
     border-bottom: 1px solid $gray;
     @include padding(0 0 10px 0);
   }
+
   &_checkbox {
     @include margin(null 10px null null);
     float: left;
     font-size: 15px;
     width: auto;
   }
+
 }
 
 .form-radio {
@@ -65,21 +65,25 @@
     @include margin(0.5em null null null);
   }
 }
+
 .radio--text {
   color: darken($gray, 15%);
   font-family: inherit;
   width: 90%;
   float: left;
 }
+
 .input__item,
 .input--text,
 .input--textarea {
   color: darken($gray, 15%);
   font-family: inherit;
 }
+
 .input__item.patient-display {
   font-weight: 500;
 }
+
 .input__label {
   color: lighten($gray, 15%);
   display: block;
@@ -89,6 +93,7 @@
   @include margin(null null 0.5em null);
   text-transform: uppercase;
 }
+
 .input--text,
 .input--textarea {
   border: 1px solid $color--grey;
@@ -98,23 +103,28 @@
   @include padding(0.6em 0.8em 0.5em 0.8em);
   width: 100%;
 }
+
 .input--text[readonly="readonly"] {
   border: none;
   @include padding(0.3em 0);
 }
+
 .input--textarea {
   line-height: 1.4;
   min-height: 7em;
 }
+
 .input--warning {
   line-height: 1.45rem;
   color: $red;
 }
-  .charcount {
-    right: 0;
-    position: absolute;
-    top: -0.5em;
-  }
+
+.charcount {
+  right: 0;
+  position: absolute;
+  top: -0.5em;
+}
+
 .input__linkcta {
   display: inline-block;
   @include margin(1.5em null null null);
@@ -127,9 +137,11 @@
   height: 25px;
   @include padding(5px);
 }
+
 .flyout-btn {
   margin: 2rem;
 }
+
 .input--text {
   height: 37px;
 }
@@ -163,9 +175,10 @@
   font-family: $sans;
   font-weight: 300;
 }
+
 .typed {
-    opacity: 1;
-    top: 0;
-    transform: translateY(-27px) scale(0.78);
-    @include margin(null null 20px null);
+  opacity: 1;
+  top: 0;
+  transform: translateY(-27px) scale(0.78);
+  @include margin(null null 20px null);
 }
