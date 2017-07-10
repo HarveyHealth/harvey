@@ -70,5 +70,4 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');Route::post('users', 'UsersController@create')->name('users.create');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
-    Route::get('licenses/list', 'LicensesController@list')->name('licenses.list');
 });
