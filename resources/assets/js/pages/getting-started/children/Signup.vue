@@ -1,34 +1,33 @@
 <template>
   <form @submit.prevent="onSubmit" :class="animClasses" v-if="!$root.$data.signup.completedSignup">
-    <!-- <svg><use xlink:href="#apple" /></svg> -->
 
     <div class="signup-wrapper">
 
       <aside class="signup-quotes">
-          <div class="quotes-icons">
-            <div class="quotes-icons-top">
-              <div><svg><use xlink:href="#apple" /></svg></div>
-              <div><svg><use xlink:href="#stethoscope" /></svg></div>
-              <div><svg><use xlink:href="#labs" /></svg></div>
-              <div><svg class="smaller"><use xlink:href="#doctor" /></svg></div>
-              <div class="show-xl"><svg><use xlink:href="#carrot" /></svg></div>
-              <div class="show-xl"><svg class="with-stroke"><use xlink:href="#wellness" /></svg></div>
-            </div>
-            <div class="quotes-text">
-              <blockquote v-for="obj in quotes" :key="obj.source">
-                <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
-                <footer v-html="'&ndash; ' + obj.source" class="font-base font-medium-gray"></footer>
-              </blockquote>
-            </div>
-            <div class="quotes-icons-bottom">
-              <div><svg><use xlink:href="#heart" /></svg></div>
-              <div><svg class="smaller"><use xlink:href="#bottle" /></svg></div>
-              <div><svg><use xlink:href="#baby" /></svg></div>
-              <div><svg><use xlink:href="#scale" /></svg></div>
-              <div class="show-xl"><svg class="smaller"><use xlink:href="#yogo" /></svg></div>
-              <div class="show-xl"><svg><use xlink:href="#medicine" /></svg></div>
-            </div>
+        <div class="quotes-icons">
+          <div class="quotes-icons-top">
+            <div><svg><use xlink:href="#apple" /></svg></div>
+            <div><svg><use xlink:href="#stethoscope" /></svg></div>
+            <div><svg><use xlink:href="#labs" /></svg></div>
+            <div><svg class="smaller"><use xlink:href="#doctor" /></svg></div>
+            <div class="show-xl"><svg><use xlink:href="#carrot" /></svg></div>
+            <div class="show-xl"><svg class="with-stroke"><use xlink:href="#wellness" /></svg></div>
           </div>
+          <div class="quotes-text">
+            <blockquote v-for="obj in quotes" :key="obj.source">
+              <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
+              <footer v-html="'&ndash; ' + obj.source" class="font-base font-medium-gray"></footer>
+            </blockquote>
+          </div>
+          <div class="quotes-icons-bottom">
+            <div><svg><use xlink:href="#heart" /></svg></div>
+            <div><svg class="smaller"><use xlink:href="#bottle" /></svg></div>
+            <div><svg><use xlink:href="#baby" /></svg></div>
+            <div><svg><use xlink:href="#scale" /></svg></div>
+            <div class="show-xl"><svg class="smaller"><use xlink:href="#yogo" /></svg></div>
+            <div class="show-xl"><svg><use xlink:href="#medicine" /></svg></div>
+          </div>
+        </div>
       </aside>
 
       <div class="container small signup-form-inputs">
@@ -53,8 +52,8 @@
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zipcode" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
-            <span v-show="errors.has('zipcode')" class="error-text">{{ errors.first('zipcode') }}</span>
+            <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zip" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+            <span v-show="errors.has('zip')" class="error-text">{{ errors.first('zip') }}</span>
           </div>
 
           <div class="input-wrap">
@@ -63,7 +62,7 @@
           </div>
 
           <div class="input-wrap last">
-            <input class="form-input form-input_checkbox" name="terms" type="checkbox" id="checkbox" v-model="signupData.terms" v-validate="'required'">
+            <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
             <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>
@@ -118,18 +117,20 @@ export default {
         first_name: localStorage.getItem('sign up first_name') || '',
         last_name: localStorage.getItem('sign up last_name') || '',
         password: localStorage.getItem('sign up password') || '',
-        terms: false,
+        terms: '',
         zip: localStorage.getItem('sign up zip') || '',
       },
       subtitle: '',
+      terms: false,
       title: 'Let&rsquo;s get acquainted.',
       zipInRange: false,
     }
   },
   methods: {
     onSubmit() {
+      this.signupData.terms = this.terms ? true : '';
       // Validate the form
-      this.$validator.validateAll().then(() => {
+      this.$validator.validateAll(this.signupData).then(response => {
         this.isProcessing = true;
 
         // create the user
@@ -172,7 +173,7 @@ export default {
             this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
-      }).catch(() => {});
+      })
     },
     login(email, password) {
       axios.post('login', {
