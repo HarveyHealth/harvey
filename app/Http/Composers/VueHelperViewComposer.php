@@ -48,6 +48,9 @@ class VueHelperViewComposer
             $data['lastName'] = $user->last_name;
             $data['fullName'] = $user->fullName();
             $data['userType'] = $user->type;
+            if($user->isPractitioner()) {
+                $data['practitionerId'] = $user->practitioner->id;
+            }
         }
 
         return $data;

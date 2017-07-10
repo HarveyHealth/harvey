@@ -139,21 +139,15 @@ class UsersController extends BaseAPIController
         try{
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
-            $s3 = Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
+            Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
         } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload image. Please try again later');
         }
-        
-        if($request->get('type') == 'header') {
-            $user->update([
-                'background_image_url' => Storage::cloud()->url($imagePath)
-            ]);
-        } else {
-            $user->update([
-                'picture_url' => Storage::cloud()->url($imagePath)
-            ]);
-        }
     
+        $user->update([
+            'image_url;' => Storage::cloud()->url($imagePath)
+        ]);
+        
         return $this->baseTransformItem($user)->respond();
     }
 }

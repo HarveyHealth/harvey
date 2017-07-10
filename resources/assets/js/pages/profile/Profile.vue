@@ -71,16 +71,9 @@
                     </div>
                 </div>
             </div>
-            <div class="card card-info">
-                <div class="card-heading-container">
-                    <h2 class="card-header">Practitioner Info (Public)</h2>
-                </div>
-                <div class="card-content-container">
-                    <div class="card-content-wrap">
-                        <ImageUpload :type="'header'"></ImageUpload>
-                    </div>
-                </div>
-            </div>
+            <PractitionerProfile
+                    v-show="isPractitioner"
+            />
         </div>
     </div>
 </template>
@@ -91,12 +84,14 @@
     import timezones from '../../../../../public/timezones.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import ImageUpload from '../../commons/ImageUpload.vue';
+    import PractitionerProfile from './components/PractitionerProfile.vue'
 
     export default {
         name: 'profile',
         components: {
             ImageUpload,
-            NotificationPopup
+            NotificationPopup,
+            PractitionerProfile
         },
         data() {
             return {
@@ -166,6 +161,9 @@
         computed: {
             updates() {
                 return diff(this.$root.$data.global.user.attributes, this.user.attributes);
+            },
+            isPractitioner() {
+                return Laravel.user.userType === 'practitioner';
             }
         }
     }
@@ -173,7 +171,7 @@
 
 <style>
     input, label {
-        display:block;
+        display: block;
         width: 80%;
     }
 

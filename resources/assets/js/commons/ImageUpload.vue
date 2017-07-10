@@ -12,13 +12,13 @@
 <script>
     export default {
         name: 'image-upload',
-        props: ['type'],
+        props: ['type', 'model', 'model_id'],
         methods: {
             upload() {
                 const send = new Promise((resolve, reject) => {
                     const formData = new FormData(document.getElementById('file-form'));
                     let request = new XMLHttpRequest();
-                    request.open('POST', `api/v1/users/${Laravel.user.id}/image?type=` + this.type);
+                    request.open('POST', `api/v1/${this.model}/${this.model_id}/image?type=${this.type}`);
                     request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
                     request.send(formData);
                 });
