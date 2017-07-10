@@ -3,8 +3,7 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\{SerializesModels, InteractsWithQueue};
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Lib\SMS;
@@ -21,7 +20,7 @@ class SendSMSMessage implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($number, $message)
+    public function __construct($number, string $message)
     {
         $this->number = $number;
         $this->message = $message;
@@ -34,7 +33,6 @@ class SendSMSMessage implements ShouldQueue
      */
     public function handle()
     {
-        $sms = new SMS;
-        $sms->sendMessageToNumber($this->number, $this->message);
+        return \App::make(SMS::class)->sendMessageToNumber($this->number, $this->message);
     }
 }

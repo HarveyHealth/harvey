@@ -2,10 +2,12 @@
 
 namespace App\Http\Traits;
 
+use App\Jobs\SendSMSMessage;
+
 trait Textable
 {
-    public function sendText($message)
+    public function sendText(string $message)
     {
-        dispatch(new \App\Jobs\SendSMSMessage($this->phone, $message));
+        return dispatch(new SendSMSMessage($this->phone, $message));
     }
 }

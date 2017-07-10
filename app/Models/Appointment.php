@@ -73,14 +73,14 @@ class Appointment extends Model
     /*
      * Relationships
      */
-    public function notes()
-    {
-        return $this->hasMany(PatientNote::class);
-    }
-
     public function reminders()
     {
         return $this->hasMany(AppointmentReminder::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(PatientNote::class);
     }
 
     public function getTypeAttribute()
@@ -134,14 +134,6 @@ class Appointment extends Model
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
-    /*
-     * SCOPES
-     */
-    public function scopeUpcoming(Builder $query, int $weeks = 4)
-    {
-        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
-    }
-
     public function wasPatientReminderEmail24HsSent()
     {
         return (bool) $this->reminders()->email24HsType()->toRecipient($this->patient->user)->count();
@@ -149,7 +141,13 @@ class Appointment extends Model
 
     public function setPatientReminderEmail24HsSent()
     {
-        return $query->where('appointment_at', '<', Carbon::now())->byAppointmentAtDesc();
+        $reminder = AppointmentReminder::make([
+            'recipient_user_id' => $this->patient->user->id,
+            'type_id' => AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID,
+            'sent_at' => Carbon::now(),
+        ]);
+
+        return $this->reminders()->save($reminder);
     }
 
     public function sendPatientReminderEmail24Hs()
@@ -186,6 +184,11 @@ class Appointment extends Model
     /*
      * SCOPES
      */
+    public function scopeUpcoming(Builder $query, int $weeks = 4)
+    {
+        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
+    }
+
     public function scopeRecent(Builder $builder)
     {
         return $builder->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');

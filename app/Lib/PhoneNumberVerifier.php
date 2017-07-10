@@ -3,51 +3,34 @@
 namespace App\Lib;
 
 use App\Models\User;
+use App\Lib\TimeInterval;
+use Redis;
 
 class PhoneNumberVerifier
 {
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
-    public function sendVerificationCode()
+    public static function sendVerificationCode(User $user)
     {
         // generate a 5 digit code
-        $code = str_pad(rand(0,99999),5,0);
+        $code = str_pad(rand(0, 99999), 5, 0);
 
         // associate this phone number and code
         // in redis
-        $key = $this->key();
+        $key = static::key($user);
 
-        \Redis::set($key, $code);
-        \Redis::expire($key, \App\Lib\TimeInterval::days(7)->toSeconds());
+        Redis::set($key, $code);
+        Redis::expire($key, TimeInterval::days(7)->toSeconds());
 
-        // send a phone number validation message
-        $message = "Your Harvey phone verification code is $code";
-
-        $this->user->sendText($message);
+        return $user->sendText("Your Harvey phone verification code is {$code}");
     }
 
-    public function isValid($code)
+    public static function isValid(User $user, $code)
     {
-        $key = $this->key();
-
-        $value = \Redis::get($key);
-
-        if ($value == $code) {
-            return true;
-        }
-
-        return false;
+        return Redis::get(static::key($user)) == $code;
     }
 
-    protected function key()
+    protected static function key(User $user)
     {
-        $key = "phone_validation:{$this->user->id}:{$this->user->phone}";
-        return $key;
+        return "phone_validation:{$user->id}:{$user->phone}";
     }
 
 }

@@ -18,10 +18,8 @@ class UserObserver
     public function saved(User $user)
     {
         // the phone is being updated
-        if ($user->isDirty('phone')) {
-            if (!empty($user->phone)) {
+        if ($user->isDirty('phone') && !empty($user->phone)) {
                 event(new PhoneNumberChanged($user, $user->getOriginal('phone')));
-            }
         }
     }
 }

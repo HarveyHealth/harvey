@@ -2,27 +2,28 @@
 
 namespace App\Lib;
 
+use App\Models\User;
 use Twilio\Rest\Client as Twilio;
+use Log;
 
 class SMS
 {
     protected $twilio;
 
-    function __construct() {
-
-        $this->twilio = new Twilio(config('services.twilio.sid'), config('services.twilio.token'));
+    public function __construct(Twilio $twilio)
+    {
+        $this->twilio = $twilio;
     }
 
-    function sendMessageToUser($user, $message) {
-        $phone = $user->phone;
-        $this->sendMessageToNumber($phone, $message);
+    public function sendMessageToUser(User $user, string $message)
+    {
+        return $this->sendMessageToNumber($user->phone, $message);
     }
 
-    function sendMessageToNumber($number, $message) {
-
+    public function sendMessageToNumber($number, string $message)
+    {
         if (!app()->environment(['production','staging'])) {
-            \Log::info('Faking sending text message to ' . $number . ' with message: ' . $message);
-            return;
+            return Log::info("Faking sending text message to {$number} with message: {$message}");
         }
 
         $this->twilio->messages->create(
