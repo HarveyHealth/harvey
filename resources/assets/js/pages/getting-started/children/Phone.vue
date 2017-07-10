@@ -25,6 +25,7 @@
           />
 
           <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
+          <span v-show="isUserPatchError" class="error-text">There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.</span>
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
           <span v-if="!isPhoneProcessing">Send Text</span>
@@ -81,6 +82,7 @@ export default {
       phone: this.$root.$data.signup.phone || '',
       isPhoneConfirming: false,
       isPhoneProcessing: false,
+      isUserPatchError: false,
     }
   },
   computed: {
@@ -148,6 +150,7 @@ export default {
     processPhone(number) {
       this.$validator.validateAll().then(() => {
         this.isPhoneProcessing = true;
+        this.isUserPatchError = false;
         this.$root.$data.signup.phone = number;
 
         // If a user returning to the flow already has a number stored and
@@ -160,12 +163,9 @@ export default {
             this.$root.$data.signup.phonePending = true;
             Laravel.user.phone = number;
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
-          }).catch(error => console.log(error));
+          }).catch(error => this.isUserPatchError = true);
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
     },
     handleNewSend() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
