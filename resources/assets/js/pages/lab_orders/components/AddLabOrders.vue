@@ -26,9 +26,9 @@
     </div>
     <div>
           <label class="input__label" for="patient_name">tests</label>
-          <span v-for="tests in testNameList" class="fullscreen-left">
-              <input :checked="tests.attributes.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="radio"> 
-              <label class="radio--text">{{ tests.attributes.name }}</label>
+          <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
+              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
+              <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
           </span>
     </div>
         <div class="inline-centered">
@@ -86,7 +86,7 @@ import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
 export default {
-  props: ['reset'],
+  props: ['reset', 'labTests'],
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -104,19 +104,29 @@ export default {
       zip: '',
       state: '',
       selectedTests: [],
-      shippingCodes: {}
+      shippingCodes: {},
+      prevDoctor: '',
+      prevClient: '',
+      doctorList: [''].concat(this.$root.$data.global.practitioners),
+      clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
   methods: {
     nextStep() {
       this.step++
+      let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+      let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+      this.doctorList = [doctorsFind].concat(doctors),
+      this.clientList = [patientsFind].concat(patients)
     },
     prevStep() {
       this.step--
     },
     updateTestSelection(e, obj) {
-      this.testNameList[obj.id - 1].attributes.checked = !this.testNameList[obj.id - 1].attributes.checked
-      if (this.testNameList[obj.id - 1].attributes.checked) {
+      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
+      if (this.testNameList[obj.id - 1].checked) {
         this.selectedTests.push(obj)
       } else {
         _.pull(this.selectedTests, obj)
@@ -175,14 +185,14 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-          axios.get(`${this.apiUrl}/lab/orders?include=patient,user`)
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
             .then(response => {
                 this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                     e['included'] = response.data.included[i]
                     return e;
                 })
                 this.$root.$data.global.loadingLabOrders = false
-                axios.get(`${this.apiUrl}/lab/tests?include=sku`)
+                axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                     .then(response => {
                         this.$root.$data.global.labTests = response.data.data.map((e, i) => {
                             e['included'] = response.data.included[i]
@@ -197,12 +207,6 @@ export default {
     }
   },
   computed: {
-    doctorList() {
-      return [''].concat(this.$root.$data.global.practitioners)
-    },
-    clientList() {
-      return [''].concat(this.$root.$data.global.patients)
-    },
     flyoutHeading() {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"
@@ -211,8 +215,7 @@ export default {
       return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
     },
     testNameList() {
-      let labArray = Object.values(this.$root.$data.labTests)
-      return labArray
+      return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
     },
     validZip() {
       if (this.zip != '') {
@@ -224,7 +227,9 @@ export default {
   },
   watch: {
     testNameList(val) {
-      return Object.values(this.$root.$data.labTests)
+      if (val) {
+        return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
+      }
     }
   }
 }

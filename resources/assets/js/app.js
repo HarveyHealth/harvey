@@ -78,21 +78,16 @@ const app = new Vue({
         guest: false,
         global: {
             appointments: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
             currentPage: '',
-            detailMessages: {},
             loadingAppointments: true,
             loadingPatients: true,
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
             menuOpen: false,
-            messages: [],
             patients: [],
             practitioners: [],
             recent_appointments: [],
-            signed_in: Laravel.user.signedIn,
             test_results: [],
             upcoming_appointments: [],
             unreadMessages: [],
@@ -206,9 +201,13 @@ const app = new Vue({
                 })
         },
         getUser() {
-            axios.get(`${this.apiUrl}/users/${Laravel.user.id}`)
+            axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
                 .then(response => {
-                    this.global.user = response.data.data;
+                    let data = response.data.data
+                    if (response.data.included) {
+                        data.included = response.data.included[0];
+                    }
+                    this.global.user = data;
                 })
                 .catch(error => this.global.user = {});
         },

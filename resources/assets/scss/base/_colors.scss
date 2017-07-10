@@ -12,11 +12,11 @@ $color--grey: #E4EAEC;
 
 // Brand
 
-// $harvey-primary: #B4E7A0;
 $harvey-primary: #82BEF2;
 $harvey-secondary: #5F7278;
 $harvey-tertiary: #82BEF2;
 
+$harvey-green: #B4E7A0;
 $fiord: #4C586F;
 $lime: #E3EAA7;
 $pink: #EDA1A6;
@@ -26,25 +26,3 @@ $turquoise: #82BEF2;
 $slategrey: #5F7278;
 $green: #BDCEBE;
 $red: #FF0000;
-
-
-.bg-tertiary {
-  background-color: $harvey-tertiary;
-}
-
-.color-tertiary {
-  color: $harvey-tertiary;
-}
-.color-white {
-  color: $white;
-}
-
-.font-medium-gray {
-  color: $medium-gray;
-}
-.font-dark-gray {
-  color: $dark-gray;
-}
-.font-darkest-gray {
-  color: $darkest-gray;
-}

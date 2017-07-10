@@ -134,7 +134,9 @@
         axios.get(`api/v1/practitioners/${this.$root.initialAppointment.practitioner_id}?include=availability`)
           .then(response => {
             this.$parent.practitioner_availability = response.data.meta.availability;
-            this.$parent._availability = transformAvailability(response.data.meta.availability);
+            // The signup funnel will only be completed by patients, so we're passing that in directly to ensure
+            // the 4-hour buffer time slots are eliminated
+            this.$parent._availability = transformAvailability(response.data.meta.availability, 'patient');
 
             // Check if all day objects have empty times arrays
             const hasAvailability = this.$parent._availability.reduce((acc, dayObj) => acc.concat(dayObj.times), []).length;

@@ -122,12 +122,12 @@
             properties: { laravel_object: Laravel.user }
           });
           ga('send', {
-            hitType: "event", 
-            eventCategory: "clicks", 
-            eventAction: "Confirm Appointment", 
+            hitType: "event",
+            eventCategory: "clicks",
+            eventAction: "Confirm Appointment",
             eventLabel: null,
-              eventValue: 50, 
-              hitCallback: null, 
+              eventValue: 50,
+              hitCallback: null,
               userId: null
           });
         }

@@ -196,7 +196,6 @@ return [
         App\Providers\SlackServiceProvider::class,
         App\Providers\StripeServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
-
     ],
 
     /*

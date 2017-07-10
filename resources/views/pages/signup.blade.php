@@ -33,6 +33,14 @@
     </head>
     <body>
 
+    <noscript>
+        <div class="card noscript">
+            <div class="card-section">
+                <h1 class="noscript-header">You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</h1>
+            </div>
+        </div>
+    </noscript>
+
       <div class="header nav" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
           <div class="container">
               <div class="nav-left">

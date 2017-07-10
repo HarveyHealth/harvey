@@ -61,7 +61,7 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
-        $validator = StrictValidator::check($request->all(), [
+        StrictValidator::check($request->all(), [
             'address_1' => 'required|max:100',
             'address_2' => 'filled|max:100',
             'city' => 'required|max:100',

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Patient;
 use App\Transformers\V1\PatientTransformer;
+use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
-use Validator;
 
 class PatientsController extends BaseAPIController
 {
@@ -54,16 +54,12 @@ class PatientsController extends BaseAPIController
     public function update(Request $request, Patient $patient)
     {
         if (auth()->user()->can('update', $patient)) {
-            $validator = Validator::make($request->all(), [
+            StrictValidator::check($request->all(), [
                 'birthdate' => 'date',
                 'height_inches' => 'integer',
                 'height_feet' => 'integer',
                 'weight' => 'integer'
             ]);
-
-            if ($validator->fails()) {
-                return $this->respondBadRequest($validator->errors()->first());
-            }
 
             $patient->update($request->all());
             return $this->baseTransformItem($patient)->respond();

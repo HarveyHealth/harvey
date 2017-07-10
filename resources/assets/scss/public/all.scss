@@ -20,6 +20,8 @@
   font-weight: 400;
 }
 
+$font-family: "proxima-nova";
+
 .button {
   &.is-link {
     @include padding(null null null 0);
@@ -104,7 +106,8 @@
 }
 
 .icon {
-  vertical-align: middle !important; // rewrite bulma
+  vertical-align: middle !important; 
+  // rewrite bulma
   &.has-border-circle {
     border: 2px solid;
     border-radius: 50%;
@@ -132,7 +135,7 @@
 }
 
 .card-footer-item {
-  @include padding(1.5rem);
+  @include padding(1.7rem 4.5rem);
 }
 
 .panel-block {
@@ -186,11 +189,11 @@ em {
 body {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
 }
 .footer {
   position: absolute;
   left: 0;
-  bottom: 0;
   width: 100%;
 }
 .logo-wrapper {
@@ -210,35 +213,35 @@ body {
 // Margin
 
 .is-margin {
-  @include margin(1rem !important);
+  @include margin(1rem);
 }
 
 .is-margin-top {
-  @include margin(1rem null null null !important);
+  @include margin(1rem null null null);
 }
 
 .is-margin-left {
-  @include margin(null null null 1rem !important);
+  @include margin(null null null 1rem);
 }
 
 .is-margin-bottom {
-  @include margin(null null 1rem null !important);
+  @include margin(null null 1rem null);
 }
 
 .is-marginless {
-  @include margin(0 !important);
+  @include margin(0);
 }
 
 .is-marginless-top {
-  @include margin(0 null null null !important);
+  @include margin(0 null null null);
 }
 
 .is-marginless-left {
-  @include margin(null null null 0 !important);
+  @include margin(null null null 0);
 }
 
 .is-marginless-bottom {
-  @include margin(null null 0 null !important);
+  @include margin(null null 0 null);
 }
 
 // Margin/Padding (Negative)
@@ -248,31 +251,31 @@ body {
 }
 
 .is-padding-top {
-  @include padding(1rem null null null !important);
+  @include padding(1rem null null null);
 }
 
 .is-padding-left {
-  @include padding(null null null 1rem !important);
+  @include padding(null null null 1rem);
 }
 
 .is-padding-bottom {
-  @include padding(null null 1rem null !important);
+  @include padding(null null 1rem null);
 }
 
 .is-paddingless {
-  @include padding(0 !important);
+  @include padding(0);
 }
 
 .is-paddingless-top {
-  @include padding(0 null null null !important);
+  @include padding(0 null null null);
 }
 
 .is-paddingless-left {
-  @include padding(null null null 0 !important);
+  @include padding(null null null 0);
 }
 
 .is-paddingless-bottom {
-  @include padding(null null 0 null !important);
+  @include padding(null null 0 null);
 }
 
 // Opacity
@@ -369,4 +372,191 @@ body {
   font-size: 19px;
   letter-spacing: 1px;
   line-height: 56px;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+}
+
+.login {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.page-content{
+  width: 100%;
+  height: 100%;
+}
+
+.video-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+// Login & Forgot Pages
+
+body[class*="login"],
+body[class*="password-reset"]{
+  background: #F9F9F9;
+  .header{
+    display:none;
+  }
+}
+
+.large-top-margin {
+  top: 200px;
+}
+
+.login-width {
+  width: 510px !important;
+}
+
+.reset-width {
+  left: 30%;
+}
+
+.container {
+
+  form {
+    margin-bottom: 60px;
+  }
+
+  .card-padding {
+    padding: 30px 80px 60px;
+  }
+
+  .logo-wrapper {
+    max-width: 230px;
+    margin: 0 auto 30px;
+  }
+
+  .login-buttons {
+    width: 160px;
+  }
+
+  .login-input {
+    font-family: "proxima-nova";
+    border: none;
+    border-bottom: 1px solid #DEDEDE;
+    padding: 0 0 5px;
+    font-size: 17px;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .remember-me {
+    margin: 25px 0 0 0;
+    display: inline-block;
+    width: 49%;
+    label {
+      font-size: 15px;
+      color: #999;
+    }
+  }
+
+  .forgot-password {
+    margin: 25px 0 0 0;
+    display: inline-block;
+    text-align: right;
+    width: 49%;
+    a.button:not(.is-primary) {
+      font-size: 15px;
+      text-decoration: none;
+      color: $harvey-turquoise;
+      height: 22px;
+    }
+    a.button:focus,a.button:active {
+      outline: none;
+      text-decoration: none;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .signup-color {
+    background-color: rgb(165, 225, 255);
+    border-color: transparent;
+    color: $white;
+    &:hover {
+      border-color: transparent;
+      color: $white;
+      background-color: rgb(155, 215, 245);
+    }
+  }
+
+  .green-color {
+    background-color: #B4E6B8;
+    color: $white;
+  }
+
+}
+
+// Screen Size
+
+.fullscreen {
+  width: 100%;
+  height: 100%;
+}
+
+.window-size {
+  width: 100vw;
+  height: 100vh;
+}
+
+// No Script
+
+.noscript {
+    z-index: 9999;
+    width: 510px;
+    position: absolute;
+    top: 12.5%;
+    left: 30%;
+    height: 125px;
+    background-color: #82BEF2;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.noscript-header {
+  font-size: 20px;
+  font-family: $font-family;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.help {
+  @include margin(-15px null 20px null);
+}
+
+.fourButton {
+  right: 30%;
+  @include margin(20px null null null);
+}
+
+// Animation
+
+.hoverInput {
+  color: $primary;
+  position: relative;
+  left: 0;
+  top: 30px;
+  opacity: 0;
+  font-size: 15px;
+  transform-origin: left top;
+  transition: top 300ms ease-in-out;
+  pointer-events: none;
+  font-family: $font-family;
+  font-weight: 300;
+}
+
+.typed {
+    opacity: 1;
+    top: 5px;
+    transform: translateY(-27px) scale(0.78);
+    @include margin(null null 20px null);
 }
