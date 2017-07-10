@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\{Channel, InteractsWithSockets, PresenceChannel, PrivateChannel};
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Models\User;
 
 class PhoneNumberChanged
 {
@@ -22,7 +20,7 @@ class PhoneNumberChanged
      *
      * @return void
      */
-    public function __construct(\App\Models\User $user, $old_phone)
+    public function __construct(User $user, $old_phone)
     {
         $this->user = $user;
         $this->old_phone = $old_phone;

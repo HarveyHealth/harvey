@@ -93,11 +93,26 @@ trait HasStatusColumn
 
     public function wasShipped()
     {
-        return $query->where('status_id', self::CANCELED_STATUS_ID);
+        return $this->status_id >= self::SHIPPED_STATUS_ID;
     }
 
     public function wasNotShipped()
     {
         return !$this->wasShipped();
+    }
+
+    public function scopeNoShowPatient(Builder $builder)
+    {
+        return $builder->where('status_id', self::NO_SHOW_PATIENT_STATUS_ID);
+    }
+
+    public function scopeNoShowDoctor(Builder $builder)
+    {
+        return $builder->where('status_id', self::NO_SHOW_DOCTOR_STATUS_ID);
+    }
+
+    public function scopeGeneralConflict(Builder $builder)
+    {
+        return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
     }
 }

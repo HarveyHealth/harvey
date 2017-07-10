@@ -10,16 +10,6 @@ use App\Events\PhoneNumberChanged;
 class SendPhoneNumberValidationCode
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  PhoneNumberChanged  $event
@@ -27,9 +17,6 @@ class SendPhoneNumberValidationCode
      */
     public function handle(PhoneNumberChanged $event)
     {
-        $user = $event->user;
-
-        $verifier = new PhoneNumberVerifier($user);
-        $verifier->sendVerificationCode();
+        return PhoneNumberVerifier::sendVerificationCode($event->user);
     }
 }
