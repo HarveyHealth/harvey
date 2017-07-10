@@ -2,7 +2,8 @@
 
 namespace App\Http\Traits;
 
-use App\Models\{Builder, Patient, Practitioner, User};
+use App\Models\{Patient, Practitioner, User};
+use Illuminate\Database\Eloquent\Builder;
 
 trait BelongsToPatientAndPractitioner
 {
