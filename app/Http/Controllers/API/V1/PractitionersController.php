@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Lib\PractitionerAvailability;
 use App\Models\Practitioner;
 use App\Transformers\V1\PractitionerAvailabilityTransformer;
 use App\Transformers\V1\PractitionerTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
-class PractitionerController extends BaseAPIController
+class PractitionersController extends BaseAPIController
 {
     protected $resource_name = 'practitioner';
 
@@ -47,8 +47,7 @@ class PractitionerController extends BaseAPIController
     public function update(Request $request, User $user)
     {
         StrictValidator::check($request->all(), [
-            'description' => 'max:100',
-            'last_name' => 'max:100',
+            'description' => 'max:255',
             'email' => 'email|max:150|unique:users',
             'zip' => 'digits:5|serviceable',
             'phone' => 'unique:users'
@@ -65,30 +64,31 @@ class PractitionerController extends BaseAPIController
         }
     }
     
-    public function imageUpload(Request $request, User $user)
+    public function imageUpload(Request $request, Practitioner $practitioner)
     {
-//        if (auth()->user()->cant('update', $user)) {
-//            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
-//        }
-//
-//        try{
-//            $image = $request->file('image');
-//            $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
-//            $s3 = Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-//        } catch (\Exception $exception) {
-//            return $this->respondWithError('Unable to upload image. Please try again later');
-//        }
-//
-//        if($request->get('type') == 'header') {
-//            $user->update([
-//                'background_image_url' => Storage::cloud()->url($imagePath)
-//            ]);
-//        } else {
-//            $user->update([
-//                'picture_url' => Storage::cloud()->url($imagePath)
-//            ]);
-//        }
-//
-//        return $this->baseTransformItem($user)->respond();
+        if (auth()->user()->cant('update', $practitioner)) {
+            return $this->respondNotAuthorized("You do not have access to modify the practitioner with id {$practitioner->id}.");
+        }
+
+        try{
+            $image = $request->file('image');
+            $imageDir = $request->get('type') == 'header' ? 'header/' : 'practitioner-profile/';
+            $imagePath = $imageDir . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
+            Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
+        } catch (\Exception $exception) {
+            return $this->respondWithError('Unable to upload image. Please try again later');
+        }
+
+        if($request->get('type') == 'header') {
+            $practitioner->update([
+                'background_picture_url' => Storage::cloud()->url($imagePath)
+            ]);
+        } else {
+            $practitioner->update([
+                'picture_url' => Storage::cloud()->url($imagePath)
+            ]);
+        }
+
+        return $this->baseTransformItem($practitioner)->respond();
     }
 }

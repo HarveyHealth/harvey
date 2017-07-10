@@ -9,30 +9,44 @@
                 <form action="#" method="POST" class="form" id="practitioner_form">
                     <div class="formgroups">
                         <div class="formgroup">
-                            <label for="school">School</label>
-                            <input type="text" name="school"/>
-                            <label for="graduated_at">Graduation</label>
-                            <input type="text" name="graduated_at"/>
-                            <label for="license_number">License #</label>
-                            <input type="text" name="license_number"/>
-                            <label for="license_title">License Type</label>
-                            <input type="text" name="license_title"/>
+                            <div class="input__container">
+                                <label for="school">School</label>
+                                <input v-model="practitioner.school" type="text" name="school"/>
+                            </div>
+                            <div class="input__container">
+                                <label for="graduated_at">Graduation</label>
+                                <input v-model="practitioner.graduated_at" type="text" name="graduated_at"/>
+                            </div>
+                            <div class="input__container">
+                                <label for="license_number">License #</label>
+                                <input v-model="practitioner.license_number" type="text" name="license_number"/>
+                            </div>
+                            <div class="input__container">
+                                <label for="license_title">License Type</label>
+                                <select disabled>
+                                    <option v-for="license_type in license_types" name="license_title" v-bind:value="practitioner.license_title">
+                                        {{ license_type }}
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                         <div class="formgroup">
                             <div class="image-upload-buttons">
                                 <ImageUpload
                                         :model="'practitioner'"
                                         :model_id="this.practitioner_id"
-                                        :type="'picture'">
+                                        :type="'profile'">
                                 </ImageUpload>
                                 <ImageUpload
                                         :model="'practitioner'"
                                         :model_id="this.practitioner_id"
-                                        :type="'background_picture'">
+                                        :type="'header'">
                                 </ImageUpload>
                             </div>
-                            <label for="description">Description</label>
-                            <textarea name="description" id="description"></textarea>
+                            <div class="input__container">
+                                <label for="description">Description</label>
+                                <textarea name="description" id="description">{{ practitioner.description }}</textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="submit">
@@ -46,7 +60,6 @@
 </template>
 
 <script>
-    import axios from 'axios';
     import _ from 'lodash';
     import ImageUpload from '../../../commons/ImageUpload.vue';
 
@@ -55,7 +68,8 @@
         data() {
             return {
                 practitioner_id: Laravel.user.practitionerId,
-                practitioner: {}
+                practitioner: {},
+                license_types: Laravel.app.licenseTypes,
             }
         },
         components: {

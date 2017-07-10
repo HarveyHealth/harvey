@@ -40,8 +40,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
 
-        Route::get('practitioners', 'PractitionerController@index')->name('practitioner.index');
-        Route::get('practitioners/{practitioner}', 'PractitionerController@show')->name('practitioner.show');
+        Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
+        Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
         Route::post('practitioners/{practitioner}/image', 'PractitionersController@imageUpload')->name('practitioners.image-upload');
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
@@ -70,4 +70,5 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');Route::post('users', 'UsersController@create')->name('users.create');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+    Route::get('licenses/list', 'LicensesController@list')->name('licenses.list');
 });

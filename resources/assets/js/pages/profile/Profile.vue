@@ -85,7 +85,7 @@
                 </div>
             </div>
             <PractitionerProfile
-                    v-show="isPractitioner"
+                    v-if="isPractitioner"
             />
         </div>
     </div>
@@ -176,7 +176,7 @@
                 return diff(this.$root.$data.global.user.attributes, this.user.attributes);
             },
             isPractitioner() {
-                return Laravel.user.userType === 'practitioner';
+                return Laravel.user.practitionerId;
             }
         }
     }

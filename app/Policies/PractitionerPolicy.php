@@ -29,4 +29,9 @@ class PractitionerPolicy
     {
         return $practitioner->enabled;
     }
+    
+    public function update(User $user, Practitioner $practitioner)
+    {
+        return $user->practitioner->id == $practitioner->id;
+    }
 }

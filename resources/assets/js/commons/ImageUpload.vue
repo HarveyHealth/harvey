@@ -1,11 +1,11 @@
 <template>
-    <form id="file-form" method="POST">
-        <label for="file-select">
+    <form :id="type" method="POST">
+        <label :for="'file-select' + type">
             <div class="button">
                 Upload Image
             </div>
         </label>
-        <input @change="upload" type="file" id="file-select" name="image" accept=".jpg, .jpeg, .png" hidden/>
+        <input @change="upload" type="file" :id="'file-select' + type" name="image" accept=".jpg, .jpeg, .png" hidden/>
     </form>
 </template>
 
@@ -16,9 +16,9 @@
         methods: {
             upload() {
                 const send = new Promise((resolve, reject) => {
-                    const formData = new FormData(document.getElementById('file-form'));
+                    const formData = new FormData(document.getElementById(this.type));
                     let request = new XMLHttpRequest();
-                    request.open('POST', `api/v1/${this.model}/${this.model_id}/image?type=${this.type}`);
+                    request.open('POST', `api/v1/${this.model}s/${this.model_id}/image?type=${this.type}`);
                     request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
                     request.send(formData);
                 });

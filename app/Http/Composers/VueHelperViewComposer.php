@@ -3,6 +3,7 @@
 namespace App\Http\Composers;
 
 use App\Transformers\V1\UserTransformer;
+use App\Models\License;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use League\Fractal\Serializer\JsonApiSerializer;
@@ -29,7 +30,8 @@ class VueHelperViewComposer
     protected function appData()
     {
         $data = [
-            'csrfToken' => csrf_token()
+            'csrfToken' => csrf_token(),
+            'licenseTypes' => License::all()->pluck('title')->unique(),
         ];
 
         return $data;
@@ -51,6 +53,10 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
+    
+        if($user->isPractitioner()) {
+            $output += ['practitionerId' => $user->practitioner->id];
+        }
 
         return $output;
     }
