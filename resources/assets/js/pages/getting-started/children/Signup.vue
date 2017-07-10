@@ -76,9 +76,9 @@
           <p class="text-centered" style="margin-top: 30px;">Start your health journey today.</p>
 
           <div class="text-centered">
-            <button class="button button--blue" style="width: 160px" :disabled="processing">
-              <span v-if="!processing">Sign Up</span>
-              <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
+            <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
+              <span v-if="!isProcessing">Sign Up</span>
+              <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
               <i v-else-if="isComplete" class="fa fa-check"></i>
             </button>
           </div>
@@ -108,7 +108,7 @@ export default {
       env: this.$root.$data.environment,
       isComplete: false,
       newsletter: false,
-      processing: false,
+      isProcessing: false,
       quotes: [
         { quote: 'I can say without a shadow of doubt, my naturopathic doctor gave me my life back.',
           source: 'Jordan Yorn (battling Lupus)' }
@@ -131,7 +131,7 @@ export default {
     onSubmit() {
       // Validate the form
       this.$validator.validateAll().then(() => {
-        this.processing = true;
+        this.isProcessing = true;
 
         // create the user
         axios.post('api/v1/users', this.signupData)

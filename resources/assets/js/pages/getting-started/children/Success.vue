@@ -71,7 +71,6 @@ export default {
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
       appointmentDate: this.$root.$data.signup.data.appointment_at,
       appointmentInformation: this.$root.$data.signup.data,
-      validDate: false,
       env: this.$root.$data.environment,
       calendarVisible: false,
       calendarSummary: `Appointment with ${this.$root.$data.signup.practitionerName}`,

@@ -26,9 +26,9 @@
 
           <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
         </div>
-        <button class="button button--blue" style="width: 160px" :disabled="phoneProcessing" @click="processPhone(phone)">
-          <span v-if="!phoneProcessing">Send Text</span>
-          <LoadingBubbles v-else-if="phoneProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
+          <span v-if="!isPhoneProcessing">Send Text</span>
+          <LoadingBubbles v-else-if="isPhoneProcessing" :style="{ width: '12px', fill: 'white' }" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -44,10 +44,10 @@
 
         <button class="phone-process-button" @click="newPhoneNumber">Edit Phone Number</button>
 
-        <p class="error-text" v-show="invalidCode">Invalid code entered.</p>
-        <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="phoneConfirming" @click="processConfirmation(code)">
+        <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
+        <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
-          <span v-else-if="!phoneConfirming">Confirm Code</span>
+          <span v-else-if="!isPhoneConfirming">Confirm Code</span>
           <LoadingBubbles v-else :style="{ width: '12px', fill: 'white' }" />
         </button>
       </div>
@@ -77,10 +77,10 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
       },
-      invalidCode: false,
+      isInvalidCode: false,
       phone: this.$root.$data.signup.phone || '',
-      phoneConfirming: false,
-      phoneProcessing: false,
+      isPhoneConfirming: false,
+      isPhoneProcessing: false,
     }
   },
   computed: {
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     newPhoneNumber() {
-      this.phoneProcessing = false;
+      this.isPhoneProcessing = false;
       this.code = '';
       this.$root.$data.signup.phonePending = false;
       this.$root.$data.signup.codeConfirmed = false;
@@ -112,42 +112,42 @@ export default {
       this.code = value;
     },
     processConfirmation(code) {
-      this.invalidCode = false;
+      this.isInvalidCode = false;
 
       if (this.$root.$data.signup.codeConfirmed) {
         this.$router.push({ name: 'schedule', path: '/schedule' });
       }
 
       if (code.length < 5) {
-        this.invalidCode = true;
+        this.isInvalidCode = true;
       } else {
-        this.phoneConfirming = true;
+        this.isPhoneConfirming = true;
         // Send code off to the Twilio API
         axios.get(`/api/v1/users/${Laravel.user.id}/phone/verify?code=${code}`).then(response => {
           if (response.data.verified) {
             this.$root.$data.signup.codeConfirmed = true;
             this.$root.$data.signup.code = this.code;
-            this.phoneConfirming = false;
+            this.isPhoneConfirming = false;
             setTimeout(() => {
               this.$router.push({ name: 'schedule', path: '/schedule' });
             }, 500);
           } else {
-            this.phoneConfirming = false;
-            this.invalidCode = true;
+            this.isPhoneConfirming = false;
+            this.isInvalidCode = true;
           }
         }).catch(error => {
           Object.keys(this.confirmInputComponent.$refs).forEach(i => {
             this.confirmInputComponent.$refs[i].value = '';
           })
-          this.phoneConfirming = false;
-          this.invalidCode = true;
+          this.isPhoneConfirming = false;
+          this.isInvalidCode = true;
         })
       }
 
     },
     processPhone(number) {
       this.$validator.validateAll().then(() => {
-        this.phoneProcessing = true;
+        this.isPhoneProcessing = true;
         this.$root.$data.signup.phone = number;
 
         // If a user returning to the flow already has a number stored and
@@ -175,7 +175,7 @@ export default {
     },
     sendConfirmation() {
       axios.post(`api/v1/users/${Laravel.user.id}/phone/sendverificationcode`);
-      this.invalidCode = false;
+      this.isInvalidCode = false;
       this.$root.$data.signup.phonePending = true;
       Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
     },

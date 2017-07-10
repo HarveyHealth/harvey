@@ -46,9 +46,9 @@
 
       <p class="error-text" v-html="errorText" v-show="errorText" style="display:block"></p>
 
-      <button class="button button--blue" style="width: 160px" :disabled="processing" @click="checkAppointment">
-        <span v-if="!processing">Continue</span>
-        <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
+      <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="checkAppointment">
+        <span v-if="!isProcessing">Continue</span>
+        <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
 
     </div>
@@ -74,7 +74,7 @@ export default {
         'container': true,
       },
       errorText: null,
-      processing: false,
+      isProcessing: false,
       weeks: 4,
       weekStart: moment().startOf('week')
     }
@@ -141,7 +141,7 @@ export default {
         this.errorText = 'Please select a valid date and time.';
         return;
       }
-      this.processing = true;
+      this.isProcessing = true;
       this.$router.push({ name: 'confirmation', path: 'confirmation' });
     },
     createWeek(start) {

@@ -13,9 +13,9 @@
       <p>You are about to book a ~60 minute consultation appointment with <strong>Dr. {{ this.doctor }}</strong>, a licensed Naturopathic Doctor from {{ this.state }}.</p>
       <p>{{ firstName }} will call you on <strong>{{ dateDisplay }}</strong> at <strong>{{ timeDisplay }}</strong> at <strong>{{ phoneDisplay }}</strong>. The cost for this consultation will be $150.</p>
       <p>Let&rsquo;s start a journey together.</p>
-      <button class="button button--blue" style="width: 180px" :disabled="processing" @click="confirmSignup">
-        <span v-if="!processing">Confirm Booking</span>
-        <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
+      <button class="button button--blue" style="width: 180px" :disabled="isProcessing" @click="confirmSignup">
+        <span v-if="!isProcessing">Confirm Booking</span>
+        <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
     </div>
 
@@ -23,8 +23,8 @@
     <Modal :active="showModal" :on-close="() => showModal = false">
       <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
-        <span v-if="!backProcessing">Back to Schedule</span>
-        <LoadingBubbles v-else-if="backProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <span v-if="!isBackProcessing">Back to Schedule</span>
+        <LoadingBubbles v-else-if="isBackProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
     </Modal>
 
@@ -50,7 +50,7 @@ export default {
   },
   data() {
     return {
-      backProcessing: false,
+      isBackProcessing: false,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -59,7 +59,7 @@ export default {
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, N.D`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
-      processing: false,
+      isProcessing: false,
       showModal: false,
       state: this.$root.$data.signup.practitionerState
     }
@@ -80,10 +80,10 @@ export default {
   },
   methods: {
     confirmSignup() {
-      this.processing = true;
+      this.isProcessing = true;
       axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
         window.onbeforeunload = null;
-        this.processing = false;
+        this.isProcessing = false;
         this.$router.push({ name: 'success', path: 'success' });
       })
       .catch(error => {
@@ -93,14 +93,14 @@ export default {
       })
     },
     handleNewAvailability() {
-      this.backProcessing = true;
+      this.isBackProcessing = true;
       this.$root.getAvailability(this.$root.$data.signup.data.practitioner_id, response => {
         this.$root.$data.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
         this.$root.$data.signup.selectedWeek = null;
         this.$root.$data.signup.selectedDay = null;
         this.$root.$data.signup.selectedTime = null;
         this.$root.$data.signup.selectedDate = null;
-        this.backProcessing = false;
+        this.isBackProcessing = false;
         this.$router.push({ name: 'schedule', path: '/schedule' });
       });
     },

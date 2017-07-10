@@ -27,9 +27,9 @@
       </div>
       <p class="error-text" v-html="errorText" v-show="errorText"></p>
       <div class="text-centered" ref="button">
-        <button class="button button--blue" style="width: 160px" :disabled="processing" @click="getAvailability(store.signup.data.practitioner_id)">
-          <span v-if="!processing">Continue</span>
-          <LoadingBubbles v-else-if="processing" :style="{ width: '12px', fill: 'white' }" />
+        <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
+          <span v-if="!isProcessing">Continue</span>
+          <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -57,7 +57,7 @@ export default {
         'container': true,
       },
       errorText: null,
-      processing: false,
+      isProcessing: false,
       store: this.$root.$data,
     }
   },
@@ -84,17 +84,17 @@ export default {
   },
   methods: {
     getAvailability(id) {
-      this.processing = true;
+      this.isProcessing = true;
       if (!this.store.signup.data.practitioner_id) {
         this.errorText = 'Please select a practitioner by clicking their box.';
-        this.processing = false;
+        this.isProcessing = false;
         return;
       }
       this.$root.getAvailability(id, response => {
         this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
         if (!this.store.signup.availability.length) {
           this.errorText = 'Unfortunately we don\'t have any availability for that practitioner in the next 4 weeks. Please call us at <a href="tel:8006909989">800-690-9989</a> to book an appointment.';
-          this.processing = false;
+          this.isProcessing = false;
         } else {
           this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
         }
