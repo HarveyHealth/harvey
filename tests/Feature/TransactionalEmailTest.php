@@ -77,7 +77,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.new');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
+            'practitioner_name' => $appointment->practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'harvey_id' => $appointment->patient->user->id,
@@ -99,7 +99,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailTemplateDataWas([
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
-            'patient_name' => $appointment->patient->user->fullName(),
+            'patient_name' => $appointment->patient->user->full_name,
             'patient_phone' => $appointment->patient->user->phone,
             'practitioner_name' => $appointment->practitioner->user->first_name,
             'doctor_state' => $appointment->practitioner->doctor_state,
@@ -115,7 +115,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.canceled');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
+            'practitioner_name' => $appointment->practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
@@ -133,7 +133,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->practitioner->user->email);
         $this->assertEmailTemplateNameWas('practitioner.appointment.canceled');
         $this->assertEmailTemplateDataWas([
-            'patient_name' => $appointment->patient->user->fullName(),
+            'patient_name' => $appointment->patient->user->full_name,
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
@@ -151,7 +151,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.updated');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
+            'practitioner_name' => $appointment->practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
@@ -169,7 +169,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->practitioner->user->email);
         $this->assertEmailTemplateNameWas('practitioner.appointment.updated');
         $this->assertEmailTemplateDataWas([
-            'patient_name' => $appointment->patient->user->fullName(),
+            'patient_name' => $appointment->patient->user->full_name,
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
