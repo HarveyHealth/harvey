@@ -22,7 +22,7 @@ class loginTest extends DuskTestCase
     public function test_if_a_patient_can_login_and_see_dashboard()
     {
 
-        //creates the patiend user modelfactory
+        //creates the patient user modelfactory
         $user = factory(Patient::class)->create();
         //grabs email from the users table
         $patient = DB::table('users')->where('id', $user['id'])->value('email');
@@ -41,7 +41,7 @@ class loginTest extends DuskTestCase
     public function test_if_a_practitioner_can_login_and_see_dashboard()
     {
 
-        //creates the patiend user modelfactory
+        //creates the practitioner user modelfactory
         $user = factory(Practitioner::class)->create();
         //grabs email from the users table
         $practitioner = DB::table('users')->where('id', $user['id'])->value('email');
@@ -60,7 +60,7 @@ class loginTest extends DuskTestCase
     public function test_if_a_admin_can_login_and_see_dashboard()
     {
 
-        //creates the patiend user modelfactory
+        //creates the admin user modelfactory
         $user = factory(Admin::class)->create();
         //grabs email from the users table
         $admin = DB::table('users')->where('id', $user['id'])->value('email');
