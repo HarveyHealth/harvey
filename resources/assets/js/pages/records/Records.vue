@@ -50,7 +50,7 @@ export default {
         return {
           step: 1,
           results: [],
-          value: 'ruby'
+          value: ''
         }
     },
     methods: {
