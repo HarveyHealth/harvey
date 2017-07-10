@@ -7,9 +7,8 @@ use App\Lib\PhoneNumberVerifier;
 use App\Lib\Validation\StrictValidator;
 use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use ResponseCode, Validator;
+use ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -35,27 +34,27 @@ class UsersController extends BaseAPIController
         }
 
         $term = request('term');
-        $type = request('type');
+        $type = empty(array_intersect([request('type')], ['patient', 'practitioner', 'admin'])) ? null : request('type');
         $order = explode('|', request('order'));
 
         $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
 
-        if ($term && !$indexed) {
-            $query = User::matching($term);
-        } elseif ($term) {
-            $query = User::search($term);
+        if ($indexed) {
+            $query = empty($term) ? User::make() : User::search($term);
+            $model = $query->model;
         } else {
-            $query = User::make();
+            $query = empty($term) ? User::make() : User::matching($term);
+            $model = $query->getModel();
         }
 
-        if (in_array($type, ['patient', 'practitioner', 'admin'])) {
+        if ($type) {
             $typePlural = str_plural($type);
             // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
             $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
         }
 
-        if (in_array($order[0], $query->getModel()->allowedSortBy)) {
-            $query = $query->orderBy('created_at', $order[1] ?? null);
+        if (in_array($order[0], $model->allowedSortBy)) {
+            $query = $query->orderBy('created_at', $order[1] ?? false);
         }
 
         return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
