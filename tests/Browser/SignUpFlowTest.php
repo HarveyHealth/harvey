@@ -25,7 +25,16 @@ class signUpFlowTest extends DuskTestCase
     public function test_if_user_can_get_through_the_sign_up_flow()
     {
         $user = factory(User::class)->make();
-        $schedule = factory(PractitionerSchedule::class)->create(['day_of_week' => 'Tuesday', 'start_time' => '08:00:00', 'stop_time' => '17:00:00']);
+        $schedule = factory(PractitionerSchedule::class)
+                  ->create(
+                    [
+
+                      'day_of_week' => 'Tuesday',
+                      'start_time' => '08:00:00',
+                      'stop_time' => '17:00:00'
+
+                   ]);
+
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
                       ->pause(3000)
