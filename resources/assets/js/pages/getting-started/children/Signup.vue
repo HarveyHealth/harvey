@@ -144,7 +144,12 @@ export default {
             // Track successful signup
             if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
 
-              analytics.track("Account Created");
+              // Segment tracking
+              analytics.track("Account Created", {
+                location: 'sign up funnel',
+                type: 'success',
+              });
+
 
               // this.$ma.trackEvent({
               //     fb_event: 'CompleteRegistration',
