@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Signup | Harvey</title>
+        <title>Getting Started | Harvey</title>
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -13,7 +13,21 @@
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+
+        <!-- Handles one-time logged-in rendering of geting-started funnel -->
+        <script>
+          window.Laravel = {!! $vue_data !!}
+          window.$$context = 'getting-started';
+          if (!Laravel.user.signedIn) {
+            window.location.hash = '/signup';
+          } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
+            window.location.href = '/dashboard';
+          } else {
+            window.location.hash = '/welcome';
+          }
+        </script>
 
         <!-- Typekit -->
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
@@ -33,15 +47,9 @@
     </head>
     <body>
 
-    <noscript>
-        <div class="card noscript">
-            <div class="card-section">
-                <h1 class="noscript-header">You must enable JavaScript for this site to work properly. You can do this using your browser's settings.</h1>
-            </div>
-        </div>
-    </noscript>
+      @include('_includes.svgs')
 
-      <div class="header nav" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
+      <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
           <div class="container">
               <div class="nav-left">
                   <a href="/" class="nav-item">
@@ -53,7 +61,6 @@
               <div class="nav-right">
                   <span class="nav-item">
                       <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
-                      <a href="/login" class="button is-primary is-outlined is-hidden-mobile">Log In</a>
                   </span>
               </div>
           </div>
@@ -64,11 +71,6 @@
           <router-view />
         </div>
       </main>
-
-      <script>
-        window.Laravel = {!! $vue_data !!}
-        localStorage.setItem('signing up', 'true')
-      </script>
 
       <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

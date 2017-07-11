@@ -10,6 +10,8 @@ cache:
   directories:
   - "$HOME/.composer/cache"
   - "$HOME/node_modules"
+services:
+  - redis-server
 before_install:
 - nvm install 7
 - nvm use 7

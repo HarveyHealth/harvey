@@ -184,13 +184,9 @@ class Appointment extends Model
     /*
      * SCOPES
      */
-    public function scopeUpcoming(Builder $builder, $weeks = 2)
+    public function scopeUpcoming(Builder $query, int $weeks = 4)
     {
-        $end_date = Carbon::now()->addWeeks($weeks);
-
-        return $builder->where('appointment_at', '>', Carbon::now())
-                    ->where('appointment_at', '<=', $end_date->toDateTimeString())
-                    ->orderBy('appointment_at', 'ASC');
+        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
     }
 
     public function scopeRecent(Builder $builder)
@@ -201,6 +197,11 @@ class Appointment extends Model
     public function scopeForPractitioner(Builder $builder, Practitioner $practitioner)
     {
         return $builder->where('practitioner_id', '=', $practitioner->id);
+    }
+
+    public function scopeByAppointmentAtDesc($query)
+    {
+        $query->orderBy('appointment_at', 'DESC');
     }
 
     public function scopeForPatient(Builder $builder, Patient $patient)

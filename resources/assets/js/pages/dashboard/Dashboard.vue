@@ -163,7 +163,7 @@
         return this.user.id || '';
       },
       userType() {
-        return Laravel.user.userType;
+        return Laravel.user.user_type;
       },
       viewableIntakeAlert() {
         return !this.$root.$data.global.loadingAppointments &&
@@ -188,12 +188,12 @@
       if (localStorage.getItem('signed up')) return null;
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
               ga('send', {
-                hitType: "event", 
-                eventCategory: "clicks", 
-                eventAction: "Dashboard", 
+                hitType: "event",
+                eventCategory: "clicks",
+                eventAction: "Dashboard",
                 eventLabel: null,
-                  eventValue: 50, 
-                  hitCallback: null, 
+                  eventValue: 50,
+                  hitCallback: null,
                   userId: null
               });
             }

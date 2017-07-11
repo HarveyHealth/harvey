@@ -106,7 +106,7 @@ $font-family: "proxima-nova";
 }
 
 .icon {
-  vertical-align: middle !important; 
+  vertical-align: middle !important;
   // rewrite bulma
   &.has-border-circle {
     border: 2px solid;
@@ -429,7 +429,7 @@ body[class*="password-reset"]{
     padding: 30px 80px 60px;
   }
 
-  .logo-wrapper {
+  .login & .logo-wrapper {
     max-width: 230px;
     margin: 0 auto 30px;
   }

@@ -25,7 +25,10 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected function redirectTo()
+    {
+      return (app('request')->is('/getting-started*') ? '/getting-started' : '/dashboard');
+    }
 
     /**
      * Create a new controller instance.

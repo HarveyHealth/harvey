@@ -26,6 +26,46 @@ h6 {
   font-size: 10px;
 }
 
+.font-small {
+  font-size: 14px;
+}
+.font-base {
+  font-size: 16px;
+}
+.font-medium {
+  font-size: 20px;
+  &_md {
+    @include query(md) {
+      font-size: 20px;
+    }
+  }
+}
+.font-large {
+  font-size: 28px;
+}
+.font-xlarge {
+  font-size: 32px;
+  &_md {
+    @include query(md) {
+      font-size: 32px;
+    }
+  }
+}
+
+.fwt-bold {
+  font-weight: 600;
+}
+.fwt-normal {
+  font-weight: 400;
+}
+.fwt-thin {
+  font-weight: 300;
+}
+
+.lh-base {
+  line-height: 1.4;
+}
+
 p {
   font-size: 16px;
   line-height: 1.4;
