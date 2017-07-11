@@ -2,6 +2,15 @@
 
 @section('page_title', 'Dashboard')
 
+<script>
+  window.Laravel = {!! $vue_data !!}
+  if ( Laravel.user.signedIn &&
+      !Laravel.user.has_an_appointment &&
+       Laravel.user.user_type === 'patient' ) {
+    window.location.href = '/getting-started';
+  }
+</script>
+
 @push('stylesheets')
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 @endpush
@@ -40,9 +49,7 @@
     @stack('square')
 
     {{-- To add data here, see the VueHelperViewComposer --}}
-    <script>
-      window.Laravel = {!! $vue_data !!}
-    </script>
+
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

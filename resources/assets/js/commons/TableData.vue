@@ -23,7 +23,7 @@
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
-          <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
+          <LoadingBubbles class="loading" v-if="j === 0 && updatingRow === i" />
           <div class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
         </td>
       </tr>
@@ -32,9 +32,11 @@
 </template>
 
 <script>
+import LoadingBubbles from './LoadingBubbles.vue';
 export default {
   name: 'TableData',
   data() {return {}},
+  components: { LoadingBubbles },
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {

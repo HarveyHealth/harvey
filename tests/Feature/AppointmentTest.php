@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Appointment, Patient, Practitioner, PractitionerSchedule};
+use App\Models\{Admin, Appointment, AppointmentReminder, Patient, Practitioner, PractitionerSchedule};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Carbon;
@@ -26,26 +26,7 @@ class AppointmentTest extends TestCase
             'practitioner_id' => $practitioner->id,
         ]);
 
-        $availabilitySlots = $practitionerSchedule->practitioner->availability;
-
-        if (empty($availabilitySlots['week 1']) && empty($availabilitySlots['week 2'])) {
-            return false;
-        } elseif (empty($availabilitySlots['week 1'])) {
-            $pickFromWeek = 2;
-        } elseif (empty($availabilitySlots['week 2'])) {
-            $pickFromWeek = 1;
-        } else {
-            $pickFromWeek = rand(1, 2);
-        }
-
-        $randomSlot = collect($availabilitySlots["week {$pickFromWeek}"])->random();
-        $appointmentAt = Carbon::parse($randomSlot, 'UTC');
-
-        if (2 == $pickFromWeek) {
-            $appointmentAt->addWeek();
-        }
-
-        return $appointmentAt->format('Y-m-d H:i:s');
+        return Carbon::parse($practitionerSchedule->practitioner->availability->random())->format('Y-m-d H:i:s');
     }
 
     public function test_it_finds_appointments_24hs_before_start_time()
@@ -111,6 +92,22 @@ class AppointmentTest extends TestCase
             'patient_first_name' => $patient->user->first_name,
             'phone_number' => $patient->user->phone,
         ]);
+    }
+
+    public function test_appointment_reminder_type_is_set_properly()
+    {
+        $appointment = factory(Appointment::class)->create();
+
+        $reminder = AppointmentReminder::create([
+            'appointment_id' => $appointment->id,
+            'recipient_user_id' => $appointment->patient->user->id,
+            'type' => AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID],
+            'sent_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID, $reminder->type_id);
+        $this->assertEquals(AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID], $reminder->type);
+        $this->assertEquals($appointment->patient->user->id, $reminder->recipient->id);
     }
 
     public function test_it_allows_a_patient_to_view_their_own_appointments()
