@@ -72,6 +72,11 @@ let routes = [
     rootRoute,
 
     {
+        path: '/intake',
+        name: 'intake',
+        component: require('./pages/intake/Intake.vue'),
+    },
+    {
         path: '/appointments',
         name: 'appointments',
         props: true,
