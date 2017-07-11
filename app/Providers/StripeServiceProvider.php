@@ -7,6 +7,7 @@ use Stripe\Stripe;
 
 class StripeServiceProvider extends ServiceProvider
 {
+    protected $defer = true;
 
     /**
      * Bootstrap the application services.

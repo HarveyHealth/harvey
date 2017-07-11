@@ -1,0 +1,43 @@
+// New signup icons
+.quotes-icons {
+  border-collapse: separate;
+  display: table;
+  width: 100%;
+  height: inherit;
+}
+.quotes-icons-top,
+.quotes-icons-bottom {
+  display: table-row;
+  & > * {
+    display: table-cell;
+    &.show-xl {
+      display: none;
+      @include query(xl) { display: table-cell; }
+    }
+  }
+  svg {
+    width: 100%;
+    max-width: 82px;
+    fill: #ddd;
+    &.smaller {
+      max-width: 56px;
+    }
+    &.with-stroke {
+      stroke: #ddd;
+    }
+  }
+}
+.quotes-text {
+  position: absolute;
+  width: 100%;
+  height: inherit;
+  top: 50%;
+  transform: translate(0, -18%);
+  & > blockquote {
+    width: 62%;
+    margin: 0 auto;
+  }
+  footer {
+    margin-top: 22px;
+  }
+}

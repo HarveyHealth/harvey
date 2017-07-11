@@ -1,5 +1,5 @@
 <template>
-  <div @click="onClick" :class="{ overlay:true, isactive: active }"></div>
+  <div @click="onClick ? onClick() : false" :class="{ overlay:true, isactive: active }"></div>
 </template>
 
 <script>

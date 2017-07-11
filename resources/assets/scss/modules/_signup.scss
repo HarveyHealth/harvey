@@ -5,22 +5,128 @@
   @include margin(null null 60px null);
 }
 
-.signup-form-container {
+.signup-container {
   background: $white;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  @include margin(30px auto);
+  position: relative;
+  @include padding(30px 25px);
+  @include margin(0 0 2px);
+}
+.signup-back-button {
+  position: absolute;
+  top: 0;
+  left: 3px;
+  padding: 20px;
+  transition: left 200ms ease-out, opacity 200ms ease-out;
+  opacity: .5;
+
+  &:hover {
+    left: 0;
+    color: $harvey-tertiary;
+    opacity: 1;
+  }
+}
+
+.signup-form-container,
+.signup-interstitial-container {
   max-width: 510px;
+  @include margin(30px auto);
   @include padding(30px);
-  @media (min-width: 850px) { @include padding(50px 90px); }
-  text-align: left;
+  @include query(md) {
+    @include padding(50px 90px);
+  }
 
   &.large {
     max-width: 775px;
     @include padding(30px);
-    @media (min-width: 850px) { @include padding(60px 75px); }
+    @include query(md) {
+      @include padding(60px 75px);
+    }
   }
 }
+
+.signup-interstitial-container *:not(:first-child) {
+  @include margin(22px null null);
+}
+
+.signup-interstitial-container {
+  @include margin(3px auto 3px);
+  @include query(md) {
+    @include margin(50px null null);
+    max-width: 550px;
+  }
+
+  h2 {
+    font-weight: 600;
+  }
+}
+
+.signup-main-icon {
+  @include margin(0 auto);
+  fill: #ddd;
+  width: 70px;
+  @include query(md) {
+    width: 100px;
+  }
+
+  svg {
+    width: 100%;
+  }
+
+  .icon-rocket,
+  .icon-globe {
+    height: 80px;
+  }
+
+  .icon-phone-sms {
+    height: 100px;
+    left: 15px;
+    position: relative;
+  }
+
+  .icon-phone {
+    height: 100px;
+  }
+
+  .interstitial-icon {
+    @include query(md) {
+      height: auto;
+    }
+  }
+}
+
+.social-icon-wrapper a {
+  display: inline-block;
+  font-size: 24px;
+  @include margin(0 10px 10px);
+  @include query(md) {
+    font-size: 34px;
+    @include margin(0 15px 10px);
+  }
+}
+
+.signup-stage-container {
+  max-width: 740px;
+  @include margin(0 auto 2px);
+  @include padding($space-sm $space-sm $space-lg);
+
+  .error-text {
+    width: 80%;
+    line-height: 1.4;
+    @include padding(10px);
+  }
+}
+.signup-stage-instructions {
+  max-width: 540px;
+  @include margin(0 auto);
+
+  p {
+    @include margin(15px 0 30px);
+  }
+}
+
+// =============== old
 
   .message-container-interstitial {
     margin-bottom: 25px;
@@ -290,7 +396,7 @@ button:focus {
   font-family: $sans !important;
   font-size: 16px !important;
   color: #888 !important;
-  @include border-color( #EFEFEF);
+  @include border-color( #ccc);
   font-weight: 400 !important;
   @include margin(null null 20px null);
   transition: opacity 200ms ease-in !important;
@@ -301,12 +407,52 @@ button:focus {
     opacity: 1 !important;
   }
 }
-.addeventatc_icon {
-  background-image: url(/images/signup/calendar-add.png) !important;
-}
 .addeventatc_dropdown .copyx {
   height: 8px !important;
 }
 .addeventatc_dropdown .copyx em {
   display: none !important;
+}
+
+// New grid layout
+$signup-grid: (
+  columns: 12,
+  gutter: 25px
+);
+
+.signup-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  @extend %clearfix;
+}
+.signup-quotes {
+  display: none;
+}
+
+@include query(lg) {
+  .signup-wrapper {
+    // If desktop, give margin. Otherwise, tablets shouldn't get margin-top
+    @media (min-height: 780px) {
+        margin-top: 100px;
+    }
+  }
+  .signup-form-container {
+    @include padding(30px);
+  }
+  .signup-quotes {
+    @include grid-column(7, $signup-grid);
+    display: block;
+    position: relative;
+    top: 60px;
+    height: 600px;
+  }
+  .signup-form-inputs {
+    @include grid-column(5, $signup-grid);
+  }
+}
+
+@include query(xl) {
+  .signup-form-container {
+    @include padding(50px 90px);
+  }
 }
