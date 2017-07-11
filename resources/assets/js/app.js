@@ -39,28 +39,28 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
-let gaConfig = {
-    appName: 'Harvey', // Mandatory
-    appVersion: '0.1', // Mandatory
-    trackingId: 'UA-89414173-1', // Mandatory
-    debug: true, // Whether or not display console logs debugs (optional)
-}
+// let gaConfig = {
+//     appName: 'Harvey', // Mandatory
+//     appVersion: '0.1', // Mandatory
+//     trackingId: 'UA-89414173-1', // Mandatory
+//     debug: true, // Whether or not display console logs debugs (optional)
+// }
+//
+// let mixpanelConfig = {
+//     token: '03bfcdd448c2ec06b61e442bc6eeef79'
+// }
+//
+// let facebookConfig = {
+//     token: '170447220119877'
+// }
 
-let mixpanelConfig = {
-    token: '03bfcdd448c2ec06b61e442bc6eeef79'
-}
-
-let facebookConfig = {
-    token: '170447220119877'
-}
-
-Vue.use(VueMultianalytics, {
-    modules: {
-        ga: gaConfig,
-        mixpanel: mixpanelConfig,
-        facebook: facebookConfig
-    }
-})
+// Vue.use(VueMultianalytics, {
+//     modules: {
+//         ga: gaConfig,
+//         mixpanel: mixpanelConfig,
+//         facebook: facebookConfig
+//     }
+// })
 
 const app = new Vue({
     router,
@@ -301,44 +301,37 @@ const app = new Vue({
         if (Laravel.user.signedIn) this.setup();
 
         // Event handlers
-        this.$eventHub.$on('mixpanel', (event) => {
-            if (typeof mixpanel !== 'undefined') mixpanel.track(event);
-        });
+        // this.$eventHub.$on('mixpanel', (event) => {
+        //     if (typeof mixpanel !== 'undefined') mixpanel.track(event);
+        // });
 
         // Google Analytics
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-89414173-1', 'auto');
-        ga('require', 'GTM-T732G62');
-        ga('send', 'pageview');
-
-        (function(a, s, y, n, c, h, i, d, e) {
-            s.className += ' ' + y;
-            h.start = 1 * new Date;
-            h.end = i = function() { s.className = s.className.replace(RegExp(' ?' + y), '') };
-            (a[n] = a[n] || []).hide = h;
-            setTimeout(function() {
-                i();
-                h.end = null
-            }, c);
-            h.timeout = c;
-        })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, { 'GTM-T732G62': true });
-
-        // Segment Analytics
-        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
-        analytics.load("LY9dLmxpEcuqz1pM6nu3g3mdXo7WpIOK");
-        analytics.page();
-        }}();
-
+        // (function(i, s, o, g, r, a, m) {
+        //     i['GoogleAnalyticsObject'] = r;
+        //     i[r] = i[r] || function() {
+        //         (i[r].q = i[r].q || []).push(arguments)
+        //     }, i[r].l = 1 * new Date();
+        //     a = s.createElement(o),
+        //         m = s.getElementsByTagName(o)[0];
+        //     a.async = 1;
+        //     a.src = g;
+        //     m.parentNode.insertBefore(a, m)
+        // })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        //
+        // ga('create', 'UA-89414173-1', 'auto');
+        // ga('require', 'GTM-T732G62');
+        // ga('send', 'pageview');
+        //
+        // (function(a, s, y, n, c, h, i, d, e) {
+        //     s.className += ' ' + y;
+        //     h.start = 1 * new Date;
+        //     h.end = i = function() { s.className = s.className.replace(RegExp(' ?' + y), '') };
+        //     (a[n] = a[n] || []).hide = h;
+        //     setTimeout(function() {
+        //         i();
+        //         h.end = null
+        //     }, c);
+        //     h.timeout = c;
+        // })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, { 'GTM-T732G62': true });
     }
 }).$mount('#app');
