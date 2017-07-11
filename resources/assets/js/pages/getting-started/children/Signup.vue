@@ -143,6 +143,14 @@ export default {
 
             // Track successful signup
             if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              // collect response information
+              const userData = response.data.data.attributes;
+
+              const userId = response.data.data.id;
+              const firstName = userData.first_name;
+              const lastName = userData.last_name;
+              const email = userData.email;
+              const zip = userData.zip;
 
               // Segment tracking
               analytics.track("Account Created", {
@@ -150,6 +158,13 @@ export default {
                 type: 'success',
               });
 
+              // Segment Identify
+              analytics.identify(userId, {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                zip: zip,
+              });
 
               // this.$ma.trackEvent({
               //     fb_event: 'CompleteRegistration',
@@ -206,9 +221,8 @@ export default {
     this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    analytics.page("Signup");
-
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      analytics.page("Signup");
 
       // analytics.track("Account Created", {
       //   plan: "Pro Annual",
