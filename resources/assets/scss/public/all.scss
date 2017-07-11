@@ -560,3 +560,13 @@ body[class*="password-reset"]{
     transform: translateY(-27px) scale(0.78);
     @include margin(null null 20px null);
 }
+
+.height-600 {
+  height: 550px;
+}
+
+.tab {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
