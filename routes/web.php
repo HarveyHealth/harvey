@@ -44,4 +44,5 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 // signup funnel
 Route::get('/getting-started', 'GettingStartedController@index')->name('gettingstarted');
 
-// 
+// INTAKE
+Route::get('/intake', 'IntakeController@index')->name('intake');

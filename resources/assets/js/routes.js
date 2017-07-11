@@ -6,9 +6,11 @@ Vue.use(VeeValidate);
 
 // Logic for managing root components based on the root URL
 //    /getting-started -> signup funnel
+//    /intake -> intake form
 //    /dashboard -> user backoffice
 const loggedIn = Laravel.user.signedIn;
 const context = window.$$context;
+
 const rootRedirect = context === 'getting-started'
   ? loggedIn ? '/welcome' : '/signup'
   : '/';
@@ -21,13 +23,30 @@ let rootRoute = {
 };
 
 // This is the basic logic once the new getting-started components are up
-rootRoute.name = context !== 'getting-started'
-  ? 'dashboard'
-  : 'getting-started';
+// rootRoute.name = context !== 'getting-started'
+//   ? 'dashboard' || 'intake'
+//   : 'getting-started';
 
-rootRoute.component = context !== 'getting-started'
-  ? require('./pages/dashboard/Dashboard.vue')
-  : require('./pages/getting-started/GettingStarted.vue');
+// rootRoute.component = context !== 'getting-started'
+//   ? require('./pages/dashboard/Dashboard.vue')
+//   : require('./pages/getting-started/GettingStarted.vue');
+
+if (context === 'getting-started' || context === 'intake' || context === 'dashboard') {
+  rootRoute.name = context;
+} else {
+  rootRoute.name = 'getting-started';
+}
+
+if (context === 'getting-started') {
+  rootRoute.component = require('./pages/getting-started/GettingStarted.vue');
+} else if (context === 'intake') {
+  rootRoute.component = require('./pages/intake/Intake.vue');
+} else if (context === 'dashboard') {
+  rootRoute.component = require('./pages/dashboard/Dashboard.vue');
+} else {
+  // just default to Getting Started
+  rootRoute.component = require('./pages/getting-started/GettingStarted.vue');
+}
 
 if (context === 'getting-started' && loggedIn) {
   rootRoute.children = [
@@ -59,6 +78,12 @@ if (context === 'getting-started' && loggedIn) {
     name: 'out-of-range',
     component: require('./pages/getting-started/children/OutOfRange.vue')
   });
+} else if (context === 'intake' && loggedIn) {
+  rootRoute.children.push({
+    path: '/intake',
+    name: 'intake',
+    component: require('./pages/intake/Intake.vue'),
+  })
 }
 
 rootRoute.children.push({
@@ -71,11 +96,6 @@ let routes = [
 
     rootRoute,
 
-    {
-        path: '/intake',
-        name: 'intake',
-        component: require('./pages/intake/Intake.vue'),
-    },
     {
         path: '/appointments',
         name: 'appointments',
