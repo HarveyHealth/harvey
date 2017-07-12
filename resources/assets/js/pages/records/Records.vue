@@ -2,7 +2,7 @@
   <div class="main-container">
     <UserNav />
 
-      <div v-if="$root.$data.global.user.attributes.user_type !== 'client'">
+      <div v-if="$root.$data.global.user.attributes.user_type !== 'patient'">
         <div v-if="step == 1">
           <div class="main-content">
             <form class="form">
@@ -12,7 +12,7 @@
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
                 <h1>HIPAA Warning</h1>
-                <p>You are about to access personal health information for client {{ selectPatient.search_name }}. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
+                <p>You are about to access personal health information for client {{ name }}. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
                 <button @click="nextStep" class="button">Yes, I agree</button>
               </div>
             </Modal>
@@ -33,11 +33,12 @@
               </h1>
             </div>
           </div>
+          
 
         </div>
       </div>
 
-      <div v-if="$root.$data.global.user.attributes.user_type === 'client'">
+      <div v-if="$root.$data.global.user.attributes.user_type === 'patient'">
         <div class="main-content">
           <div class="main-header">
             <div class="container container-backoffice">
@@ -45,6 +46,17 @@
                 <span class="text">Records</span>
               </h1>
             </div>
+          </div>
+
+          <div class="card">
+              <div class="card-heading-container">
+                  <div class="card-header ">
+                    Records
+                  </div>
+              </div>
+              <div style="height: 600px;">  
+                  
+              </div>
           </div>
 
         </div>
@@ -71,14 +83,14 @@ export default {
           results: [],
           search: '',
           selectedPatient: null,
-          activeModal: false
+          activeModal: false,
+          name: ''
         }
     },
     methods: {
       updateInput(e) {
-        this.search = e.target.value
         let array = this.$root.$data.global.patients
-        let matcher = new RegExp(this.value, 'ig')
+        let matcher = new RegExp(e.target.value, 'ig')
         this.results = array.filter(ele => {
           return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
@@ -87,6 +99,7 @@ export default {
       },
       selectPatient(patient) {
         this.selectedPatient = patient
+        this.name = patient.search_name
         this.activeModal = true
       },
       nextStep() {
