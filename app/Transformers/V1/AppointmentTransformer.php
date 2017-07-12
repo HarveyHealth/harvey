@@ -18,14 +18,13 @@ class AppointmentTransformer extends TransformerAbstract
     public function transform(Appointment $appointment)
     {
         return [
-            'appointment_at' => $appointment->appointment_at,
             'id' => (string) $appointment->id,
+            'appointment_at' => $appointment->appointment_at,
             'patient_id' => (string) $appointment->patient_id,
             'practitioner_id' => (string) $appointment->practitioner_id,
             'practitioner_name' => (string) $appointment->practitioner->user->full_name,
             'reason_for_visit' => (string) $appointment->reason_for_visit,
             'status' => $appointment->status,
-            'type' => $appointment->type,
         ];
     }
 
