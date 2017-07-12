@@ -97,7 +97,25 @@
           </div>
 
           <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
-
+            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+              <div class="input__container">
+                  <label class="input__label" for="patient_name">lab notes</label>
+                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
+                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
+              </div>
+            </div>
+            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+              <div class="input__container">
+                  <label class="input__label" for="patient_name">appointments</label>
+                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
+                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
+              </div>
+            </div>
+            <div class="input__container">
+                <label class="input__label" for="patient_name">lab tests</label>
+                <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Micronutrients</span>
+                <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
+            </div>
           </Flyout>
 
         </div>
