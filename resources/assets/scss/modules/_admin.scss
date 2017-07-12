@@ -10,6 +10,14 @@
 
 // Left Nav Bar
 
+.admin-tab-left {
+  left: 50px;
+  position: relative; 
+  font-weight: 300;
+  color: #EDA1A6;
+  font-size: 13px;
+}
+
 .nav-bar {
   width: 150px;
   background: $white;

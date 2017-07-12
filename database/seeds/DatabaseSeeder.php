@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
         if (app()->environment(['staging', 'production'])) {
             $this->call(InitialDatabaseSeeder::class);
         } else {
-            $this->call(PractitionerTypesSeeder::class);
             $this->call(UserSeeder::class);
             $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);

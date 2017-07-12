@@ -18,8 +18,17 @@ class PractitionerTransformer extends TransformerAbstract
     {
         return [
             'id' => (string) $practitioner->id,
+            'background_picture_url' => $practitioner->background_picture_url,
+            'description' => $practitioner->description,
+            'graduated_year' => $practitioner->graduated_year,
+            'license_number' => (string) $practitioner->license_number,
+            'license_state' => $practitioner->license_state,
+            'license_title' => $practitioner->license_title,
             'name' => $practitioner->user->full_name,
-            'type_name' => $practitioner->type->name,
+            'picture_url' => $practitioner->picture_url,
+            'rate' => (string) $practitioner->rate,
+            'school' => $practitioner->school,
+            'specialty' => $practitioner->specialty,
             'user_id' => (string) $practitioner->user_id,
         ];
     }
