@@ -18,7 +18,6 @@ class Practitioner extends Model
         'id',
         'enabled',
         'user_id',
-        'practitioner_type',
         'created_at',
         'updated_at',
         'doctor_state_id',
@@ -56,11 +55,6 @@ class Practitioner extends Model
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
-    public function type()
-    {
-        return $this->hasOne(PractitionerType::class, 'id', 'practitioner_type');
     }
 
     public function notes()

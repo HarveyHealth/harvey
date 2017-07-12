@@ -115,37 +115,27 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
+        if (auth()->user()->cant('update', $user)) {
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+        }
+
         StrictValidator::checkUpdate($request->all(), [
             'first_name' => 'max:100',
             'last_name' => 'max:100',
             'email' => 'email|max:150|unique:users',
             'zip' => 'digits:5|serviceable',
-            'phone' => 'unique:users'
+            'phone' => 'max:10|unique:users',
+            'address_1' => 'max:100',
+            'address_2' => 'max:100',
+            'city' => 'max:100',
+            'state' => 'max:2',
+            'timezone' => 'max:75',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
 
-        if (auth()->user()->can('update', $user)) {
-            StrictValidator::checkUpdate($request->all(), [
-                'first_name' => 'max:100',
-                'last_name' => 'max:100',
-                'email' => 'email|max:150|unique:users',
-                'zip' => 'digits:5|serviceable',
-                'phone' => 'max:10|unique:users',
-                'address_1' => 'max:100',
-                'address_2' => 'max:100',
-                'city' => 'max:100',
-                'state' => 'max:2',
-                'timezone' => 'max:75',
-            ], [
-                'serviceable' => 'Sorry, we do not service this :attribute.'
-            ]);
-            
-            $user->update($request->all());
+        $user->update($request->all());
 
-            return $this->baseTransformItem($user)->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
-        }
+        return $this->baseTransformItem($user)->respond();
     }
 }
