@@ -81,7 +81,7 @@
               </div>
           </div>
 
-          <Flyout :active="true" :onClose="null" style="width: 20%; z-index: 0;">
+          <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
 
           </Flyout>
 
