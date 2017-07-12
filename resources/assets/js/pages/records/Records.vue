@@ -7,7 +7,7 @@
           <div class="main-content">
             <form class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
@@ -36,7 +36,7 @@
           
           <div class="card">
               <div class="card-heading-container">
-                  <div class="card-header ">
+                  <div class="card-header">
                     Records
                   </div>
               </div>
@@ -64,8 +64,19 @@
                     Records
                   </div>
               </div>
-              <div style="height: 600px;">  
-                  
+              <div style="height: 600px; padding: 10px;">  
+                  <div style="float: left; height: 400px; width: 50%; position: relative; top: 15px;">
+                    <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
+                    <p style="margin: 15px; padding: 5px;">
+                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                        <br>
+                        <br>
+                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+                        <br>
+                        <br>
+                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+                    </p>
+                  </div>
               </div>
           </div>
 
