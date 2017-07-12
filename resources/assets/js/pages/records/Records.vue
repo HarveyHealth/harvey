@@ -58,13 +58,14 @@
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" style="width: 67%;">
               <div class="card-heading-container">
                   <div class="card-header ">
                     Records
                   </div>
               </div>
-              <div style="height: 600px; padding: 10px;">  
+
+              <div style="height: 600px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
                   <div style="float: left; height: 400px; width: 50%; position: relative; top: 15px;">
                     <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
                     <p style="margin: 15px; padding: 5px;">
@@ -80,6 +81,10 @@
               </div>
           </div>
 
+          <Flyout :active="true" :onClose="null">
+
+          </Flyout>
+
         </div>
       </div>
 
@@ -91,12 +96,14 @@
 <script>
 import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
+import Flyout from '../../commons/Flyout.vue'
 
 export default {
     name: 'Records',
     components: {
         UserNav,
-        Modal
+        Modal,
+        Flyout
     },
     data() {
         return {
