@@ -58,7 +58,7 @@
             </div>
           </div>
 
-          <div class="card" style="width: 67%;">
+          <div class="card" style="width: 76%;">
               <div class="card-heading-container">
                   <div class="card-header ">
                     Records
@@ -81,7 +81,7 @@
               </div>
           </div>
 
-          <Flyout :active="true" :onClose="null">
+          <Flyout :active="true" :onClose="null" style="width: 20%; z-index: 0;">
 
           </Flyout>
 
