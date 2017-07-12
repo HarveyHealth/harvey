@@ -60,8 +60,8 @@
 
           <div class="card" style="width: 76%;">
               <div class="card-heading-container">
-                  <div class="card-header ">
-                    Records
+                  <div>
+                    {{ $root.$data.global.user.attributes.doctor_name }} with {{ $root.$data.global.user.attributes.first_name }} {{ $root.$data.global.user.attributes.last_name }}
                   </div>
               </div>
 
