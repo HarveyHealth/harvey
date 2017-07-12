@@ -26,26 +26,17 @@
           </div>
         </div>
         <div v-if="step == 2" class="main-content">
-          <div class="main-header">
-            <div class="container container-backoffice">
-              <h1 class="title header-xlarge">
-                <span class="text">Records</span>
-              </h1>
-            </div>
-          </div>
-          
-          <div class="card">
-              <div class="card-heading-container">
-                  <div class="card-header">
-                    Records
-                  </div>
-              </div>
-              
+           <div>
+            <form class="form">
+              <i class="fa fa-search search-icon"></i>
+              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+            </form>
+
               <div style="height: 600px;">  
                 <div class="card" style="width: 76%;">
                   <div class="card-heading-container">
                       <div>
-                        {{ $root.$data.global.user.attributes.doctor_name }} with {{ $root.$data.global.user.attributes.first_name }} {{ $root.$data.global.user.attributes.last_name }}
+                        Doctor with Patient
                       </div>
                   </div>
 
@@ -79,6 +70,23 @@
                     </div>
                 </div>
                 <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
+                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+                    <div class="input__container">
+                        <label class="input__label" for="patient_name">name</label>
+                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">image</span>
+                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">email</span>
+                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">phone</span>
+                    </div>
+                  </div>
+                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+                    <div class="input__container">
+                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">ID</span>
+                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">JOINED</span>
+                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">DOB</span>
+                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">CITY</span>
+                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">STATE</span>
+                    </div>
+                  </div>
                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
                     <div class="input__container">
                         <label class="input__label" for="patient_name">lab notes</label>
