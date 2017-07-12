@@ -145,7 +145,8 @@ $font-family: "proxima-nova";
 }
 
 .page-content {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   .nav {
     z-index: 1;
   }
