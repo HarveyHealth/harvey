@@ -81,13 +81,13 @@
                   <div style="float: left; height: 400px; width: 35%; position: relative; top: 15px;">
                     <div style="padding: 10px;">
                       <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
-                      <div class="inline-centered" style="background-color: #ccc; height: 100px;">
+                      <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
                         <button class="button" style="margin: 33px auto;">Intake Form</button>
                       </div>
                     </div>
                     <div style="padding: 10px;">
                       <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescriptions</h7>
-                      <div class="inline-centered" style="background-color: #ccc; height: 100px;">
+                      <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
                         <button class="button" style="margin: 33px auto;">Prescriptions</button>
                       </div>
                     </div>
