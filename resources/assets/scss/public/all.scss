@@ -563,7 +563,22 @@ body[class*="password-reset"]{
 }
 
 .height-600 {
-  height: 550px;
+  height: 700px;
+}
+
+.column {
+    border: 1px solid rgb(204, 204, 204);
+    padding: 20px !important;
+}
+
+.menu-list {
+  li {
+    border-bottom: 1px solid rgb(204, 204, 204);
+  }
+}
+
+.bg-white {
+  background-color: white;
 }
 
 .tab {
