@@ -34,6 +34,6 @@ class NotifyAppointmentUpdatedSlackChannel implements ShouldQueue
         $message .= " new appointment on {$appointment_at->format('M j')} at {$appointment_at->format('g:ia')}";
         $message .= " (original was {$original_appointment_at->format('M j')} at {$original_appointment_at->format('g:ia')}).";
 
-        (new Slack())->notify(new SlackNotification($message, 'operations'));
+        (new Slack())->notify(new SlackNotification($message, 'practitioners'));
     }
 }
