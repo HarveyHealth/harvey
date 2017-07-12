@@ -26,6 +26,6 @@ class NotifyAppointmentCanceledSlackChannel implements ShouldQueue
 
         $message = "*[Appointment Canceled]*: Patient: *{$patient->user->full_name}* with {$practitioner->user->full_name} on {$appointment_at->format('M j')} at {$appointment_at->format('g:ia')}";
 
-        (new Slack())->notify(new SlackNotification($message, 'operations'));
+        (new Slack())->notify(new SlackNotification($message, 'practitioners'));
     }
 }

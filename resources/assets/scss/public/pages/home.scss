@@ -30,6 +30,7 @@ body.home {
     }
     .subtitle {
         line-height: 1.5;
+        font-weight: 500;
     }
     figure {
         @include margin(null 0 null null);
@@ -250,13 +251,16 @@ body.home {
         }
     }
     .copy-has-max-width + .columns {
-        @include margin($size-3 null null null);
+        @include margin($size-3 null $size-3 null);
     }
     .disclaimer {
         font-size: 1.125em;
         max-width: 380px;
         @include margin(null null null auto);
         @include margin(null auto null null null);
+    }
+    .label:not(:last-child){
+        margin-bottom: 0;
     }
     .symptoms-selector-wrapper {
         li + li {
@@ -338,6 +342,11 @@ body.home {
     }
 
     #how-it-works {
+        
+        .instructions{
+            margin-bottom: 1rem;
+        }
+
         @include from($desktop) {
             text-align: center;
             .column.columns {
@@ -374,7 +383,7 @@ body.home {
         }
         .column {
             p {
-                @include margin(10px null null null);
+                @include margin(10px null 0 null);
             }
         }
     }
