@@ -76,7 +76,6 @@ class PractitionerCreateCommand extends Command
         $this->info('Creating practitioner object...');
         $practitioner = new \App\Models\Practitioner;
         $practitioner->user_id = $user->id;
-        $practitioner->practitioner_type = 1;
         $practitioner->save();
     }
 }

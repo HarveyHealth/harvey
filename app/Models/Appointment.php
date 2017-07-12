@@ -25,10 +25,6 @@ class Appointment extends Model
     const CANCELED_STATUS_ID = 4;
     const COMPLETE_STATUS_ID = 5;
 
-    const APPOINTMENT_TYPE_ID = 0;
-    const FIRST_APPOINTMENT_TYPE_ID = 1;
-    const FOLOW_UP_TYPE_ID = 2;
-
     protected $dates = [
         'appointment_at',
         'created_at',
@@ -45,12 +41,6 @@ class Appointment extends Model
         self::GENERAL_CONFLICT_STATUS_ID => 'general_conflict',
         self::CANCELED_STATUS_ID => 'canceled',
         self::COMPLETE_STATUS_ID => 'complete',
-    ];
-
-    const TYPES = [
-        self::APPOINTMENT_TYPE_ID => 'appointment',
-        self::FIRST_APPOINTMENT_TYPE_ID => 'first_appointment',
-        self::FOLOW_UP_TYPE_ID => 'follow_up',
     ];
 
     protected static function boot()
@@ -81,27 +71,6 @@ class Appointment extends Model
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
-    }
-
-    public function getTypeAttribute()
-    {
-        return empty(self::TYPES[$this->type_id]) ? null : self::TYPES[$this->type_id];
-    }
-
-    public function setTypeAttribute($value)
-    {
-        if (false !== ($key = array_search($value, self::TYPES))) {
-            $this->type_id = $key;
-        }
-
-        return $value;
-    }
-
-    public function getTypeFriendlyName()
-    {
-        $tableName = $this->getTable();
-
-        return $this->type ? Lang::get("{$tableName}.types.{$this->type}") : null;
     }
 
     public function isLocked()

@@ -34,7 +34,7 @@ class PractitionerTest extends TestCase
         $response = $this->json('GET', "api/v1/practitioners/{$practitioner->id}");
 
         $response->assertJsonFragment(['name' => $practitioner->user->full_name]);
-        $response->assertJsonFragment(['type_name' => $practitioner->type->name]);
+        $response->assertJsonFragment(['rate' => (string) $practitioner->rate]);
         $response->assertJsonFragment(['user_id' => (string) $practitioner->user_id]);
         $response->assertStatus(200);
     }
