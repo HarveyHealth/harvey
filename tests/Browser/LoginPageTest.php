@@ -14,13 +14,7 @@ class LoginPageTest extends DuskTestCase
      *
      * @return void
      */
-    public function test_if_book_now_is_working_in_header()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(new LoginPage)
-                    ->bookNowHeader();
-        });
-    }
+  
 
     public function test_if_forgot_your_password_routes_to_page()
     {

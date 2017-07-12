@@ -9,7 +9,7 @@ class SignUpPage extends BasePage
 {
     public function url()
     {
-        return '/signup';
+        return '/getting-started';
     }
 
 
@@ -57,13 +57,15 @@ class SignUpPage extends BasePage
 
     public function addUser(Browser $browser, $user)
     {
-      $browser->type('zipcode', '91202')
-              ->type('email', $user->email)
+      $browser->type('first_name', $user->first_name)
+              ->type('last_name' , $user->last_name)
+              ->type('email' , $user->email)
+              ->type('zip', '91202')
               ->type('password', bcrypt('secret'))
               ->checkTerms()
               ->clickSignUp()
-              ->waitForText("Success! Let's get started.")
-              ->assertSee("Success! Let's get started.");
+              ->waitForText("You will need to answer a few questions")
+              ->assertSee("You will need to answer a few questions");
 
 
     }
@@ -72,20 +74,8 @@ class SignUpPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#app > div > form > div.text-centered > input',
-            '@page' => '#app > div:nth-child(2) > form > div > div > div.guide-block',
-            '@terms' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
-            '@privacy' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
-            '@checkbox' => '#checkbox',
-            '@letsgo' => '#app > div > div > div.text-centered > a',
-            '@clickpage' => '#app > div > div > div.container.small.message-container > div > h1',
-            '@practitioner' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > label > div',
-            '@continuePract' => '#app > div:nth-child(3) > form > div > div.container.large > div > div:nth-child(4) > button',
-            '@continueDeta' => '#app > div:nth-child(3) > form > div > div > div.signup-form-container > div.text-centered > a',
-            '@weekday' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button',
-            '@time' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(3) > button',
-            '@confirmTime' => '#app > div:nth-child(3) > form > div > div.container.large > div > div.text-centered > input',
-            '@dashboard' => '#app > div:nth-child(3) > div:nth-child(2) > div > div > div.text-centered > a.button.is-outlined.dashboard'
+            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button'
+
         ];
     }
 

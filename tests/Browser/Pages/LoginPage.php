@@ -8,8 +8,8 @@ use Laravel\Dusk\Page as BasePage;
 class LoginPage extends BasePage
 {
 
-  public $signupPage = "Your journey starts here";
-  public $forgotPasswordPage = "Reset your password";
+  public $signupPage = "Let’s get acquainted.";
+  public $forgotPasswordPage = "Enter your email address below and we will send you a link to reset your password.";
   public $homepage = "Hi. We're Harvey. We specialize in complex health conditions.";
 
     /**
@@ -76,10 +76,11 @@ class LoginPage extends BasePage
         return [
             '@login' => '#login > footer > div > button',
             '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@forgotPassword' => '#login > div > div > p.control.is-clearfix > a',
+            '@forgotPassword' => '#login > div > div > div:nth-child(4) > p.control.forgot-password.is-clearfix > a',
             '@signUpButton' => '#login > footer > div > a',
-            '@logoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
-            '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout'
+            '@logoHeader' => '#app > div.page-content > section > div > div > a > svg',
+            '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout',
+            '@login' => '#login > footer > div > button'
         ];
     }
 }
