@@ -74,7 +74,10 @@ class SignUpPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button'
+            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button',
+            '@continue' => '#app > div > div > div > button',
+            '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div.practitioner-wrapper.active',
+            '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button'
 
         ];
     }

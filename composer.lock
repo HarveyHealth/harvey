@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.31.2",
+            "version": "3.31.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "582e7764e0fa389c3248450cd6db2564dd656d99"
+                "reference": "0b3b64ce80d3381aa25c7bab69411a4a8297b6cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/582e7764e0fa389c3248450cd6db2564dd656d99",
-                "reference": "582e7764e0fa389c3248450cd6db2564dd656d99",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/0b3b64ce80d3381aa25c7bab69411a4a8297b6cb",
+                "reference": "0b3b64ce80d3381aa25c7bab69411a4a8297b6cb",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-07-06T21:11:49+00:00"
+            "time": "2017-07-12T18:22:23+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -2015,16 +2015,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v3.0.5",
+            "version": "v3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0"
+                "reference": "b899432186096dacc90700d5320d95cc3db1efe1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
-                "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/b899432186096dacc90700d5320d95cc3db1efe1",
+                "reference": "b899432186096dacc90700d5320d95cc3db1efe1",
                 "shasum": ""
             },
             "require": {
@@ -2048,6 +2048,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Scout\\ScoutServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -2071,7 +2076,7 @@
                 "laravel",
                 "search"
             ],
-            "time": "2017-06-01T13:21:09+00:00"
+            "time": "2017-07-12T18:42:43+00:00"
         },
         {
             "name": "laravel/tinker",

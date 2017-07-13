@@ -17,7 +17,7 @@ class PasswordResetTest extends DuskTestCase
 
         $this->browse(function ($browser) use ($user) {
             $browser->visit(new ForgotPasswordPage)
-                ->waitForText('Reset your password')
+                ->waitForText('Enter your email address below and we will send you a link to reset your password.')
                 ->type('email', $user['email'])
                 ->press('Send Reset Link')
                 ->waitForText('We have e-mailed your password reset link!')
