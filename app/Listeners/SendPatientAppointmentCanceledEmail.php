@@ -19,7 +19,7 @@ class SendPatientAppointmentCanceledEmail implements ShouldQueue
             ->setTo($patient->user->email)
             ->setTemplate('patient.appointment.canceled')
             ->setTemplateModel([
-            'practitioner_name' => $practitioner->user->fullName(),
+            'practitioner_name' => $practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),

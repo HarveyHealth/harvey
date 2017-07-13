@@ -28,29 +28,35 @@ class UsersController extends BaseAPIController
      */
     public function index()
     {
-        if (auth()->user()->isAdmin()) {
-            $term = request('term');
-            $type = request('type');
-            $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
-
-            if ($term && !$indexed) {
-                $query = User::matching($term);
-            } elseif ($term) {
-                $query = User::search($term);
-            } else {
-                $query = User::make();
-            }
-
-            if (in_array($type, ['patient', 'practitioner', 'admin'])) {
-                $typePlural = str_plural($type);
-                // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
-                $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
-            }
-
-            return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        if (auth()->user()->isNotAdmin()) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
-        return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        $term = request('term');
+        $type = empty(array_intersect([request('type')], ['patient', 'practitioner', 'admin'])) ? null : request('type');
+        $order = explode('|', request('order'));
+
+        $indexed = filter_var(request('indexed'), FILTER_VALIDATE_BOOLEAN);
+
+        if ($indexed) {
+            $query = empty($term) ? User::make() : User::search($term);
+            $model = $query->model;
+        } else {
+            $query = empty($term) ? User::make() : User::matching($term);
+            $model = $query->getModel();
+        }
+
+        if ($type) {
+            $typePlural = str_plural($type);
+            // Scout\Builder (indexed search) doesn't support query scopes :( such as $query->practitioners().
+            $query = $indexed ? $query->where('type', $type) : $query->$typePlural();
+        }
+
+        if (in_array($order[0], $model->allowedSortBy)) {
+            $query = $query->orderBy('created_at', $order[1] ?? false);
+        }
+
+        return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
     }
 
     public function create(Request $request)
@@ -109,22 +115,27 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        StrictValidator::check($request->all(), [
+        if (auth()->user()->cant('update', $user)) {
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
             'first_name' => 'max:100',
             'last_name' => 'max:100',
             'email' => 'email|max:150|unique:users',
             'zip' => 'digits:5|serviceable',
-            'phone' => 'unique:users'
+            'phone' => 'max:10|unique:users',
+            'address_1' => 'max:100',
+            'address_2' => 'max:100',
+            'city' => 'max:100',
+            'state' => 'max:2',
+            'timezone' => 'max:75',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
 
-        if (auth()->user()->can('update', $user)) {
-            $user->update($request->all());
+        $user->update($request->all());
 
-            return $this->baseTransformItem($user)->respond();
-        } else {
-            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
-        }
+        return $this->baseTransformItem($user)->respond();
     }
 }

@@ -52,8 +52,8 @@ class TestOrdered extends Notification
             ->attachment(function ($attachment) use ($url) {
                 $attachment->title($this->test->name)
                            ->fields([
-                                'Patient' => $patient->fullName(),
-                                'Practitioner' => $test->practitioner->fullName(),
+                                'Patient' => $patient->full_name,
+                                'Practitioner' => $test->practitioner->full_name,
                                 'Address' => $address
                             ]);
             });

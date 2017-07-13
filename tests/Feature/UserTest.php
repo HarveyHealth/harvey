@@ -100,14 +100,13 @@ class UserTest extends TestCase
         // And parameters with guarded property
         $parameters = ['enabled' => false];
 
-        // When the user attempts updating their account with a guarded property
+        // User attempts updating their account with a guarded property
         Passport::actingAs($user);
         $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
 
-        // Then is is successful
-        $response->assertStatus(ResponseCode::HTTP_OK);
+        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
 
-        // But the property will remain unchanged
+        // Property will remain unchanged
         $this->assertDatabaseHas('users', [
             'id' => "{$user->id}",
             'enabled' => true

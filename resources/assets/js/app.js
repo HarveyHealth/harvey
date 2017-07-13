@@ -80,10 +80,12 @@ const app = new Vue({
             appointments: [],
             currentPage: '',
             loadingAppointments: true,
+            loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
+            loadingTestTypes: true,
             menuOpen: false,
             patients: [],
             practitioners: [],
@@ -99,6 +101,7 @@ const app = new Vue({
             practitionerLookUp: {},
             user: {}
         },
+        clientList: [],
         initialAppointment: {},
         initialAppointmentComplete: false,
         labTests: {},
@@ -142,10 +145,10 @@ const app = new Vue({
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
-                this.global.loadingPatients = false;
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e
                 })
+                this.global.loadingPatients = false;
             });
         },
         getPractitioners() {
@@ -154,10 +157,10 @@ const app = new Vue({
                     this.global.practitioners = response.data.data.map(dr => {
                         return { name: `Dr. ${dr.attributes.name}`, id: dr.id, user_id: dr.attributes.user_id }
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
                     })
+                    this.global.loadingPractitioners = false;
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=availability`).then(response => {
@@ -166,10 +169,10 @@ const app = new Vue({
                     }).map(obj => {
                         return { name: `Dr. ${obj.attributes.name}`, id: obj.id, user_id: obj.attributes.user_id };
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
                     })
+                    this.global.loadingPractitioners = false;
                 })
             }
         },
@@ -198,12 +201,13 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
+                    this.global.loadingTestTypes = false
                 })
         },
         getUser() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
                 .then(response => {
-                    let data = response.data.data
+                    let data = response.data.data;
                     if (response.data.included) {
                         data.included = response.data.included[0];
                     }
@@ -240,6 +244,13 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+        },
+        getClientList() {
+            axios.get(`${this.apiUrl}/users?type=patient`)
+                .then(response => {
+                    this.clientList = response.data.data
+                    this.global.loadingClients = false
+                })
         }
     },
     mounted() {
@@ -253,7 +264,8 @@ const app = new Vue({
             this.getPractitioners();
             this.getMessages();
             this.getLabData();
-            if (Laravel.user.userType !== 'patient') this.getPatients();
+            if (Laravel.user.user_type === 'admin') this.getClientList();
+            if (Laravel.user.user_type !== 'patient') this.getPatients();
         }
 
         // Event handlers
