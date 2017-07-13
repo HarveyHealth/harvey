@@ -10,8 +10,8 @@
 import './bootstrap';
 
 // TRACKING
-import VueMultianalytics from 'vue-multianalytics';
-import initTracking from './vendors/tracking';
+// import VueMultianalytics from 'vue-multianalytics';
+// import initTracking from './vendors/tracking';
 
 // HELPERS
 import {throttle, debounce} from 'lodash';
@@ -142,7 +142,7 @@ const app = new Vue({
             location.href = redirectUrl;
 
             if (formId == 'register') {
-                if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
+                // if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },
         // Symptoms selector
