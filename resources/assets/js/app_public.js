@@ -9,10 +9,6 @@
 
 import './bootstrap';
 
-// TRACKING
-// import VueMultianalytics from 'vue-multianalytics';
-// import initTracking from './vendors/tracking';
-
 // HELPERS
 import {throttle, debounce} from 'lodash';
 

@@ -1,7 +1,5 @@
 import './bootstrap';
 import router from './routes';
-// import VueMultianalytics from 'vue-multianalytics';
-// import initTracking from './vendors/tracking';
 
 // FILTERS
 import filter_datetime from './utils/filters/datetime';
