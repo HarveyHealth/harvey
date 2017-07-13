@@ -126,7 +126,8 @@ export default {
       zipInRange: false,
     }
   },
-  // These are necessary because VeeValidate's custom messages is not working
+  // These are necessary because VeeValidate's custom messages are just not working
+  // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
   computed: {
     firstNameError() {
       if (this.errors.has('first_name')) {
