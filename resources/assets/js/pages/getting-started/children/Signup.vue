@@ -146,11 +146,11 @@ export default {
               // collect response information
               const userData = response.data.data.attributes;
 
-              const userId = response.data.data.id;
-              const firstName = userData.first_name;
-              const lastName = userData.last_name;
-              const email = userData.email;
-              const zip = userData.zip;
+              const userId = response.data.data.id || '';
+              const firstName = userData.first_name || '';
+              const lastName = userData.last_name || '';
+              const email = userData.email || '';
+              const zip = userData.zip || '';
 
               // Segment tracking
               analytics.track("Account Created", {
@@ -165,18 +165,6 @@ export default {
                 email: email,
                 zip: zip,
               });
-
-              // this.$ma.trackEvent({
-              //     fb_event: 'CompleteRegistration',
-              //     type: 'product',
-              //     action: 'Completed Signup',
-              //     category: 'clicks',
-              //     value: 50.00,
-              //     currency: 'USD',
-              //     properties: { laravel_object: Laravel.user }
-              // });
-              // ga('category', 'website');
-              // ga('action', 'Sign Up For Account');
             }
 
             // remove local storage items on sign up
@@ -223,27 +211,6 @@ export default {
 
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
       analytics.page("Signup");
-
-      // analytics.track("Account Created", {
-      //   plan: "Pro Annual",
-      //   accountType: "Facebook"
-      // });
-
-      // this.$ma.trackEvent({
-      //     fb_event: 'PageView',
-      //     type: 'product',
-      //     category: 'clicks',
-      //     properties: { laravel_object: Laravel.user }
-      // });
-      // this.$ma.trackEvent({
-      //     fb_event: 'InitiateCheckout',
-      //     type: 'product',
-      //     action: 'Start Signup',
-      //     category: 'clicks',
-      //     value: 50.00,
-      //     currency: 'USD',
-      //     properties: { laravel_object: Laravel.user }
-      // });
     }
   },
   beforeDestroy() {
