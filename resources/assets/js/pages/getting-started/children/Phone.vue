@@ -161,6 +161,19 @@ export default {
             this.$root.$data.signup.phonePending = true;
             Laravel.user.phone = number;
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+
+            // track the number patch
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+
+              // collect response information
+              const userData = response.data.data.attributes;
+              const userId = response.data.data.id || '';
+
+              // Segment Identify update
+              analytics.identify(userId, {
+                phone: number,
+              });
+            }
           }).catch(error => this.isUserPatchError = true);
         }
       })
@@ -181,19 +194,6 @@ export default {
       this.isPhoneConfirming = false;
       this.isInvalidCode = true;
     },
-    trackingPhoneNumber() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-        ga('send', {
-          hitType: "event",
-          eventCategory: "clicks",
-          eventAction: "Click Phone Number",
-          eventLabel: null,
-            eventValue: 50,
-            hitCallback: null,
-            userId: null
-        });
-      }
-    }
   },
   mounted () {
     if (Laravel.user.phone) {
