@@ -153,10 +153,7 @@ export default {
               const zip = userData.zip || '';
 
               // Segment tracking
-              analytics.track("Account Created", {
-                location: 'sign up funnel',
-                type: 'success',
-              });
+              analytics.track("Account Created");
 
               // Segment Identify
               analytics.identify(userId, {
