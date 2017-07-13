@@ -19,7 +19,6 @@
             type="phone"
             placeholder="Mobile Number"
             v-phonemask="phone"
-            v-on:click="trackingPhoneNumber"
             v-validate="{ required: true, regex: /\(\d{3}\) \d{3}-\d{4}/ }"
             data-vv-validate-on="blur"
           />
@@ -164,7 +163,6 @@ export default {
 
             // track the number patch
             if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-
               // collect response information
               const userData = response.data.data.attributes;
               const userId = response.data.data.id || '';
