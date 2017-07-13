@@ -1,8 +1,5 @@
 import VueRouter from 'vue-router';
-import VeeValidate from 'vee-validate';
-
 Vue.use(VueRouter);
-Vue.use(VeeValidate);
 
 // Logic for managing root components based on the root URL
 //    /getting-started -> signup funnel

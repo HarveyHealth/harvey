@@ -1,6 +1,8 @@
 import './bootstrap';
 import router from './routes';
 import VueMultianalytics from 'vue-multianalytics';
+import VeeValidate from 'vee-validate';
+// import Validator from 'vee-validate';
 
 // FILTERS
 import filter_datetime from './utils/filters/datetime';
@@ -24,6 +26,22 @@ import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
+Vue.use(VeeValidate);
+
+// Tried to get this to work, but it just doesn't
+// http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
+// VeeValidate.Validator.updateDictionary({
+//   en: {
+//     custom: {
+//       first_name: {
+//         required: () => 'First name is required'
+//       },
+//       email: {
+//         required: 'Email is required'
+//       }
+//     }
+//   }
+// })
 
 const env = require('get-env')();
 
