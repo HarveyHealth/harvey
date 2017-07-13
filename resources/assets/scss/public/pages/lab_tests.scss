@@ -1,14 +1,15 @@
 body.lab-tests {
-    .logo-wrapper {
-        .harvey-text {
-            fill: white;
-        }
-    }
+    overflow-x: hidden;
+    overflow-y: scroll;
     .hero {
         background-color: transparent;
-        .title,
+        .title {
+            color: #fff;
+            font-size: 34px;
+        }
         .subtitle {
             color: #fff;
+            font-size: 23px;
         }
     }
     .section {
@@ -26,7 +27,8 @@ body.lab-tests {
         color: $grey-dark;
     }
     #app {
-        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 40%);
+        padding: 0;
+        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 60%);
         &:before {
             position: absolute;
             top: 0;
