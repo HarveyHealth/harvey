@@ -29,7 +29,7 @@ class PractitionerScheduleController extends BaseAPIController
      */
     public function update(Request $request, Practitioner $practitioner)
     {
-        StrictValidator::check($request->all(), [
+        StrictValidator::checkUpdate($request->all(), [
             'birthdate' => 'date',
             'height_inches' => 'integer',
             'height_feet' => 'integer',

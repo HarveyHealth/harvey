@@ -26,6 +26,6 @@ class NotifyAppointmentSlackChannel implements ShouldQueue
 
         $message = '*[New Appointment]* Patient: *' . $patient->user->full_name . '* with ' . $practitioner->user->full_name . ' on ' . $time->format('M j') . ' at ' . $time->format('g:ia');
 
-        (new Slack())->notify(new SlackNotification($message, 'operations'));
+        (new Slack())->notify(new SlackNotification($message, 'practitioners'));
     }
 }

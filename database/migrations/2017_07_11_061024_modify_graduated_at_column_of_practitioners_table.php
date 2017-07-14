@@ -21,6 +21,15 @@ class ModifyGraduatedAtColumnOfPractitionersTable extends Migration
         });
 
         Schema::table('practitioners', function (Blueprint $table) {
+            $table->string('graduated_year')->nullable()->change();
+        });
+
+        Practitioner::all()->each(function ($item, $key) {
+            $item->graduated_year = Carbon::parse($item->graduated_year)->format('Y');
+            $item->save();
+        });
+
+        Schema::table('practitioners', function (Blueprint $table) {
             $table->integer('graduated_year')->unsigned()->nullable()->change();
         });
     }
