@@ -41,7 +41,7 @@
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
-        :name="appointment.patientName"
+        :name="patientDisplay"
         :phone="appointment.patientPhone"
         :set-patient="setPatientInfo"
         :visible="visiblePatient"
@@ -224,6 +224,7 @@ export default {
       notificationMessage: '',
       notificationSymbol: '&#10003;',
       overlayActive: false,
+      patientDisplay: '',
       patientList: [],
       practitionerList: [],
       purposeCharLimit: 180,
@@ -547,6 +548,7 @@ export default {
         this.appointment.patientName = `${data._patientLast}, ${data._patientFirst}`;
         this.appointment.patientPhone = data._patientPhone;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
+        this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -701,6 +703,7 @@ export default {
       // this.selectedRowData = null;
       // this.selectedRowIndex = null;
       this.noAvailability = false;
+      this.patientDisplay = '';
       return {
         availableTimes: [],
         date: '',
@@ -736,6 +739,7 @@ export default {
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
+      this.patientDisplay = `${data.name} (${data.email})`;
     },
 
     setupAppointments(list) {
@@ -775,7 +779,10 @@ export default {
 
     setupPatientList(list) {
       this.patientList = list.map(item => {
-        return { value: item.name, data: item };
+        const display = this.userType === 'patient'
+          ? item.name
+          : `${item.name} (${item.email})`
+        return { value: display, data: item };
       });
     },
 
