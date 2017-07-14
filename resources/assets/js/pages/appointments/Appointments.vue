@@ -552,6 +552,7 @@ export default {
         this.appointment.patientName = `${data._patientLast}, ${data._patientFirst}`;
         this.appointment.patientPhone = data._patientPhone;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
+        this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -682,6 +683,7 @@ export default {
       // this.selectedRowData = null;
       // this.selectedRowIndex = null;
       this.noAvailability = false;
+      this.patientDisplay = '';
       return {
         availableTimes: [],
         date: '',
