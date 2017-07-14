@@ -2,17 +2,18 @@
 
 namespace Tests\Browser;
 
-use App\Models\{User, PractitionerSchedule, Practitioner, PractitionerType};
+use App\Models\{User, PractitionerSchedule, Practitioner, PractitionerType, Patient};
 use Tests\Browser\Pages\SignUpPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\DB;
 //Artisan::call('migrate:refresh', ['--seed' => true]);
 
 class signUpFlowTest extends DuskTestCase
 {
     use DatabaseMigrations;
-
 
 
     /**
@@ -23,8 +24,15 @@ class signUpFlowTest extends DuskTestCase
 
     public function test_if_user_can_get_through_the_sign_up_flow()
     {
+                factory(User::class)->make();
+        $user = factory(User::class)->create();
 
-        $user = factory(User::class)->make();
+
+
+
+        // $patient = factory(Patient::class)->create();
+        // $user = $patient->user;
+
         $schedule = factory(PractitionerSchedule::class)
                   ->create(
                     [
@@ -42,57 +50,36 @@ class signUpFlowTest extends DuskTestCase
 
 
 
+
+
+
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
                       ->addUser($user)
                       ->waitFor('@continue')
-                      ->click('@continue');
-
-                      // ->assertSee('First, choose your practitioner...')
-                      // ->click('@practitioner')
-                      // ->pause(1000)
-                      // ->press('@continuePract')
-                      // ->pause(3000)
-                      // ->click('@continueDeta')
-                      // ->pause(1000)
-                      // ->click('@weekday')
-                      // ->click('@time')
-                      // ->click('@confirmTime')
-                      // ->waitForText('Your appointment is confirmed!')
-                      // ->assertSee('Your appointment is confirmed!')
-                      // ->click('@dashboard')
-                      // ->waitForText('Your Dashboard')
-                      // ->assertSee('Your Dashboard');
-
+                      ->click('@continue')
+                      ->waitFor('@practitioner')
+                      ->click('@practitioner')
+                      ->waitFor('@continuePract')
+                      ->click('@continuePract')
+                      ->waitFor('@phone_number')
+                      ->type('phone_number', $user->phone)
+                      ->click('@sendText');
                     });
 
+
+                $code = Redis::get("phone_validation:{$user->id}:{$user->phone}");
+                dd($code);
+                $this->assertDatabaseHas('users', ['email' => $user->email]);
+                $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
+
                     $this->browse(function ($browser) use ($user) {
-                        $browser->waitForText('First, choose your practitioner...')
-                                ->assertSee('First, choose your practitioner...');
-                                // ->addUser($user)
-                                // ->waitFor('@continue')
-                                // ->click('@continue')
-                                // ->waitForText('First, choose your practitioner...')
-                                // -
-                                // ->click('@practitioner')
-                                // ->pause(1000)
-                                // ->press('@continuePract')
-                                // ->pause(3000)
-                                // ->click('@continueDeta')
-                                // ->pause(1000)
-                                // ->click('@weekday')
-                                // ->click('@time')
-                                // ->click('@confirmTime')
-                                // ->waitForText('Your appointment is confirmed!')
-                                // ->assertSee('Your appointment is confirmed!')
-                                // ->click('@dashboard')
-                                // ->waitForText('Your Dashboard')
-                                // ->assertSee('Your Dashboard');
+                        $browser->waitForText('First, choose your practitioner...');
+
 
                               });
 
-              $this->assertDatabaseHas('users', ['email' => $user->email]);
-              $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
+
     }
 
     // public function test_if_succesfull_signup_page_loads_and_next_step()

@@ -59,7 +59,7 @@ class SignUpPage extends BasePage
     {
       $browser->type('first_name', $user->first_name)
               ->type('last_name' , $user->last_name)
-              ->type('email' , $user->email)
+              ->type('email' , 'alex@gmail.com')
               ->type('zip', '91202')
               ->type('password', bcrypt('secret'))
               ->checkTerms()
@@ -76,8 +76,10 @@ class SignUpPage extends BasePage
             '@element' => '#selector',
             '@signUp' => '#app > div > form > div > div > div > div.text-centered > button',
             '@continue' => '#app > div > div > div > button',
-            '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div.practitioner-wrapper.active',
-            '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button'
+            '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div:nth-child(1)',
+            '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button',
+            '@phone_number' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > div.input-wrap > input',
+            '@sendText' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > button'
 
         ];
     }

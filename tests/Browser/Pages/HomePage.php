@@ -63,7 +63,7 @@ class HomePage extends Page
     public function bookAppOne(Browser $browser)
     {
         $browser->mouseover('@labTesting')
-                ->pause(3000)
+                ->waitFor('@bbookAppOne')
                 ->click('@bookAppOne')
                 ->assertSee($this->signupText);
     }
