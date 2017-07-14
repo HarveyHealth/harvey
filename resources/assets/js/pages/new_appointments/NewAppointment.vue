@@ -124,7 +124,7 @@
                 this.form.submit('post', 'api/appointments', this.onSuccess);
             },
             onSuccess() {
-                this.$eventHub.$emit('mixpanel', "New Appointment Created");
+                // this.$eventHub.$emit('mixpanel', "New Appointment Created");
             }
         },
         computed: {
