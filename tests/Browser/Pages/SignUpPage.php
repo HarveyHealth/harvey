@@ -59,7 +59,7 @@ class SignUpPage extends BasePage
     {
       $browser->type('first_name', $user->first_name)
               ->type('last_name' , $user->last_name)
-              ->type('email' , 'alex@gmail.com')
+              ->type('email' , $user->email)
               ->type('zip', '91202')
               ->type('password', bcrypt('secret'))
               ->checkTerms()

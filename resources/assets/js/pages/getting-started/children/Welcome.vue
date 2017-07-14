@@ -4,9 +4,9 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
       </div>
-      <p>You will need to answer a few questions to book a consultation with one of our Naturopathic doctors.</p>
-      <p>This process will take about 5 minutes and you will need to have your mobile phone handy.</p>
-      <button class="button button--blue" @click="$router.push('practitioner')">Continue</button>
+      <p>You will need to answer a few basic questions before you can book a consultation with a Naturopathic Doctor.</p>
+      <p>This process will take 3-5 minutes. You will need to have your mobile phone ready to validate your phone number. After booking a consultation, we will ask you to fill out a more detailed client intake form for your doctor.</p>
+      <button class="button button--blue" @click="$router.push('practitioner')">Ok, Continue</button>
     </div>
   </div>
 </template>

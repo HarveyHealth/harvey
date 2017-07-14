@@ -4,6 +4,7 @@
   display: table;
   width: 100%;
   height: inherit;
+  padding: 0 35px;
 }
 .quotes-icons-top,
 .quotes-icons-bottom {
@@ -17,10 +18,10 @@
   }
   svg {
     width: 100%;
-    max-width: 82px;
+    max-width: 60px;
     fill: #ddd;
     &.smaller {
-      max-width: 56px;
+      max-width: 45px;
     }
     &.with-stroke {
       stroke: #ddd;

@@ -24,8 +24,8 @@ class signUpFlowTest extends DuskTestCase
 
     public function test_if_user_can_get_through_the_sign_up_flow()
     {
-                factory(User::class)->make();
-        $user = factory(User::class)->create();
+
+        $user = factory(User::class)->make();
 
 
 
@@ -64,11 +64,12 @@ class signUpFlowTest extends DuskTestCase
                       ->click('@continuePract')
                       ->waitFor('@phone_number')
                       ->type('phone_number', $user->phone)
-                      ->click('@sendText');
+                      ->click('@sendText')
+                      ->pause(3000);
                     });
 
-
-                $code = Redis::get("phone_validation:{$user->id}:{$user->phone}");
+                $userId = 3;
+                $code = Redis::get("phone_validation:{$userId}:{$user->phone}");
                 dd($code);
                 $this->assertDatabaseHas('users', ['email' => $user->email]);
                 $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
