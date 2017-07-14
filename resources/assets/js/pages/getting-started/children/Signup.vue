@@ -136,17 +136,25 @@ export default {
 
             // Track successful signup
             if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              this.$ma.trackEvent({
-                  fb_event: 'CompleteRegistration',
-                  type: 'product',
-                  action: 'Completed Signup',
-                  category: 'clicks',
-                  value: 50.00,
-                  currency: 'USD',
-                  properties: { laravel_object: Laravel.user }
+              // collect response information
+              const userData = response.data.data.attributes;
+
+              const userId = response.data.data.id || '';
+              const firstName = userData.first_name || '';
+              const lastName = userData.last_name || '';
+              const email = userData.email || '';
+              const zip = userData.zip || '';
+
+              // Segment tracking
+              analytics.track("Account Created");
+
+              // Segment Identify
+              analytics.identify(userId, {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                zip: zip,
               });
-              ga('category', 'website');
-              ga('action', 'Sign Up For Account');
             }
 
             // remove local storage items on sign up
@@ -190,22 +198,9 @@ export default {
   mounted () {
     this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
+
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-      this.$ma.trackEvent({
-          fb_event: 'PageView',
-          type: 'product',
-          category: 'clicks',
-          properties: { laravel_object: Laravel.user }
-      });
-      this.$ma.trackEvent({
-          fb_event: 'InitiateCheckout',
-          type: 'product',
-          action: 'Start Signup',
-          category: 'clicks',
-          value: 50.00,
-          currency: 'USD',
-          properties: { laravel_object: Laravel.user }
-      });
+      analytics.page("Signup");
     }
   },
   beforeDestroy() {

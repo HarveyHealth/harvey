@@ -435,15 +435,7 @@ export default {
           break;
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-            ga('send', {
-              hitType: "event",
-              eventCategory: "clicks",
-              eventAction: "Comfirm Appointment",
-              eventLabel: null,
-               eventValue: 50,
-               hitCallback: null,
-               userId: null
-            });
+            // Add "Confirm Appointment" tracking here
           }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';
@@ -609,11 +601,18 @@ export default {
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
+      // collect data for tracking later
+      const appointmentStatus = this.appointment.status;
+      const appointmentDate = data.appointment_at;
+
       // api constraints
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
-      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+      if (this.userType !== 'patient' &&
+          this.userAction === 'update' &&
+          this.appointment.currentStatus !== this.appointment.status) {
+
         delete data.appointment_at;
       }
       if (this.userAction !== 'new') {
@@ -637,6 +636,16 @@ export default {
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
+
+        // track the event
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+            analytics.track('Consultation Complete', {
+              date: appointmentDate,
+            });
+          }
+        }
+
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             this.selectedRowIndex = null;
