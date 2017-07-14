@@ -269,13 +269,11 @@
                 </div>
             </div>
 
-
             <div class="has-text-centered">
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/getting-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
-
 
         </div>
     </section>
