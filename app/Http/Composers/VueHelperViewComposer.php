@@ -29,7 +29,7 @@ class VueHelperViewComposer
     protected function appData()
     {
         $data = [
-            'csrfToken' => csrf_token()
+            'csrfToken' => csrf_token(),
         ];
 
         return $data;
@@ -51,6 +51,10 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
+    
+        if($user->isPractitioner()) {
+            $output += ['practitionerId' => $user->practitioner->id];
+        }
 
         return $output;
     }

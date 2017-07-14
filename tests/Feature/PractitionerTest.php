@@ -47,7 +47,11 @@ class PractitionerTest extends TestCase
         $response->assertJsonFragment(['picture_url' => $practitioner->picture_url]);
         $response->assertJsonFragment(['rate' => (string) $practitioner->rate]);
         $response->assertJsonFragment(['school' => $practitioner->school]);
-        $response->assertJsonFragment(['specialty' => $practitioner->specialty]);
+        $response->assertJsonFragment(['specialty_1' => $practitioner->specialty_1]);
+        $response->assertJsonFragment(['specialty_2' => $practitioner->specialty_2]);
+        $response->assertJsonFragment(['specialty_3' => $practitioner->specialty_3]);
+        $response->assertJsonFragment(['specialty_4' => $practitioner->specialty_4]);
+        $response->assertJsonFragment(['specialty_5' => $practitioner->specialty_5]);
         $response->assertJsonFragment(['user_id' => (string) $practitioner->user_id]);
     }
 

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.31.1",
+            "version": "3.31.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "551865464a2779b9038aa871094a24bb9e254e24"
+                "reference": "785dbe7d78c60e9478770dc42db5495e521dd668"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/551865464a2779b9038aa871094a24bb9e254e24",
-                "reference": "551865464a2779b9038aa871094a24bb9e254e24",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/785dbe7d78c60e9478770dc42db5495e521dd668",
+                "reference": "785dbe7d78c60e9478770dc42db5495e521dd668",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-07-05T17:26:26+00:00"
+            "time": "2017-07-13T19:06:25+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1097,16 +1097,16 @@
         },
         {
             "name": "fideloper/proxy",
-            "version": "3.3.3",
+            "version": "3.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fideloper/TrustedProxy.git",
-                "reference": "985eac8f966c03b4d9503cad9b5e5a51d41ce477"
+                "reference": "9cdf6f118af58d89764249bbcc7bb260c132924f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/985eac8f966c03b4d9503cad9b5e5a51d41ce477",
-                "reference": "985eac8f966c03b4d9503cad9b5e5a51d41ce477",
+                "url": "https://api.github.com/repos/fideloper/TrustedProxy/zipball/9cdf6f118af58d89764249bbcc7bb260c132924f",
+                "reference": "9cdf6f118af58d89764249bbcc7bb260c132924f",
                 "shasum": ""
             },
             "require": {
@@ -1122,6 +1122,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.3-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Fideloper\\Proxy\\TrustedProxyServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -1145,7 +1150,7 @@
                 "proxy",
                 "trusted proxy"
             ],
-            "time": "2017-05-31T12:50:41+00:00"
+            "time": "2017-06-15T17:19:42+00:00"
         },
         {
             "name": "firebase/php-jwt",
@@ -2010,16 +2015,16 @@
         },
         {
             "name": "laravel/scout",
-            "version": "v3.0.5",
+            "version": "v3.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/scout.git",
-                "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0"
+                "reference": "b899432186096dacc90700d5320d95cc3db1efe1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/scout/zipball/547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
-                "reference": "547ff55530a16e31b3b1142dd4dfdb654ad2bae0",
+                "url": "https://api.github.com/repos/laravel/scout/zipball/b899432186096dacc90700d5320d95cc3db1efe1",
+                "reference": "b899432186096dacc90700d5320d95cc3db1efe1",
                 "shasum": ""
             },
             "require": {
@@ -2043,6 +2048,11 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "3.0-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Scout\\ScoutServiceProvider"
+                    ]
                 }
             },
             "autoload": {
@@ -2066,7 +2076,7 @@
                 "laravel",
                 "search"
             ],
-            "time": "2017-06-01T13:21:09+00:00"
+            "time": "2017-07-12T18:42:43+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -2503,16 +2513,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "5.1.4",
+            "version": "5.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "26889abdd3dc04b7b9d633991e807159f6d410f9"
+                "reference": "8e5df6d6286d0010861a708b70f00345d074bce9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/26889abdd3dc04b7b9d633991e807159f6d410f9",
-                "reference": "26889abdd3dc04b7b9d633991e807159f6d410f9",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/8e5df6d6286d0010861a708b70f00345d074bce9",
+                "reference": "8e5df6d6286d0010861a708b70f00345d074bce9",
                 "shasum": ""
             },
             "require": {
@@ -2576,7 +2586,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2017-07-01T17:37:54+00:00"
+            "time": "2017-07-11T06:31:36+00:00"
         },
         {
             "name": "lob/lob-php",
@@ -3380,16 +3390,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.8",
+            "version": "v0.8.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e"
+                "reference": "58a31cc4404c8f632d8c557bc72056af2d3a83db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
-                "reference": "fe65c30cbc55c71e61ba3a38b5a581149be31b8e",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/58a31cc4404c8f632d8c557bc72056af2d3a83db",
+                "reference": "58a31cc4404c8f632d8c557bc72056af2d3a83db",
                 "shasum": ""
             },
             "require": {
@@ -3449,7 +3459,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-06-24T06:16:19+00:00"
+            "time": "2017-07-06T14:53:52+00:00"
         },
         {
             "name": "pusher/pusher-php-server",
@@ -4722,16 +4732,16 @@
         },
         {
             "name": "teamtnt/tntsearch",
-            "version": "v1.0.5",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamtnt/tntsearch.git",
-                "reference": "a85bfcc54745591455dc9b59c3889025456a9aba"
+                "reference": "a6bb8803806783cd2b56a39823d2d7ac7b7878e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/a85bfcc54745591455dc9b59c3889025456a9aba",
-                "reference": "a85bfcc54745591455dc9b59c3889025456a9aba",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/a6bb8803806783cd2b56a39823d2d7ac7b7878e0",
+                "reference": "a6bb8803806783cd2b56a39823d2d7ac7b7878e0",
                 "shasum": ""
             },
             "require": {
@@ -4774,7 +4784,7 @@
                 "teamtnt",
                 "tntsearch"
             ],
-            "time": "2017-06-11T22:54:11+00:00"
+            "time": "2017-07-07T00:14:46+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

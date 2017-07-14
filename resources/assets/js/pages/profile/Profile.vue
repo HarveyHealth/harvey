@@ -84,6 +84,10 @@
                     </div>
                 </div>
             </div>
+            <PractitionerProfile
+                    v-if="isPractitioner"
+                    :flashSuccess="flashSuccess"
+            />
         </div>
     </div>
 </template>
@@ -93,11 +97,15 @@
     import _ from 'lodash';
     import timezones from '../../../../../public/timezones.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue'
+    import ImageUpload from '../../commons/ImageUpload.vue';
+    import PractitionerProfile from './components/PractitionerProfile.vue'
 
     export default {
         name: 'profile',
         components: {
-            NotificationPopup
+            ImageUpload,
+            NotificationPopup,
+            PractitionerProfile
         },
         data() {
             return {
@@ -168,6 +176,9 @@
             updates() {
                 return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at');
             },
+            isPractitioner() {
+                return Laravel.user.practitionerId;
+            }
         }
     }
 </script>
