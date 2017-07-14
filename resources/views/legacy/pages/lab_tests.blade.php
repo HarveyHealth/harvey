@@ -11,10 +11,10 @@
     </div>
 </section>
 <section class="section check-load" :class="{'is-loaded': appLoaded}">
-    <div class="container">
+    <div class="container bg-white">
         <vertical-tabs>
             @foreach ($lab_tests as $lab_test)
-                <vertical-tab label="{{ $lab_test->sku->name }}">
+                <vertical-tab class="tab" label="{{ $lab_test->sku->name }}">
                     <header class="level">
                         <div class="media-left is-pulled-left">
                             <img src="{{ $lab_test->image }}" alt="">
@@ -36,4 +36,5 @@
         </vertical-tabs>
     </div>
 </section>
+
 @endsection
