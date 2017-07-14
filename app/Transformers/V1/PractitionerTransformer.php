@@ -28,7 +28,11 @@ class PractitionerTransformer extends TransformerAbstract
             'picture_url' => $practitioner->picture_url,
             'rate' => (string) $practitioner->rate,
             'school' => $practitioner->school,
-            'specialty' => $practitioner->specialty,
+            'specialty_1' => $practitioner->specialty_1,
+            'specialty_2' => $practitioner->specialty_2,
+            'specialty_3' => $practitioner->specialty_3,
+            'specialty_4' => $practitioner->specialty_4,
+            'specialty_5' => $practitioner->specialty_5,
             'user_id' => (string) $practitioner->user_id,
         ];
     }

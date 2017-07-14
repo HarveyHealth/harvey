@@ -74,8 +74,13 @@ $factory->define(Practitioner::class, function (Faker\Generator $faker) {
         'license_number' => $faker->randomNumber(3),
         'license_state' => $faker->randomElement(['California', 'Nevada', 'Arizona']),
         'license_title' => array_random(['ND', 'DO', 'MD']),
+        'rate' => 150.00,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",
-        'specialty' => json_encode([$faker->word, $faker->jobTitle]),
+        'specialty_1' => $faker->jobTitle,
+        'specialty_2' => $faker->jobTitle,
+        'specialty_3' => $faker->jobTitle,
+        'specialty_4' => $faker->jobTitle,
+        'specialty_5' => $faker->jobTitle,
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },

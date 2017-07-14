@@ -86,6 +86,7 @@
             </div>
             <PractitionerProfile
                     v-if="isPractitioner"
+                    :flashSuccess="flashSuccess"
             />
         </div>
     </div>

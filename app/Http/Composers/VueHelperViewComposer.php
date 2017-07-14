@@ -3,7 +3,6 @@
 namespace App\Http\Composers;
 
 use App\Transformers\V1\UserTransformer;
-use App\Models\License;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use League\Fractal\Serializer\JsonApiSerializer;
@@ -31,7 +30,6 @@ class VueHelperViewComposer
     {
         $data = [
             'csrfToken' => csrf_token(),
-            'licenseTypes' => License::all()->pluck('title')->unique(),
         ];
 
         return $data;

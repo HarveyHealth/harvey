@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
         Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
         Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
+        Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
         Route::post('practitioners/{practitioner}/image', 'PractitionersController@imageUpload')->name('practitioners.image-upload');
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Lib\Validation\StrictValidator;
 use App\Models\Practitioner;
 use App\Transformers\V1\PractitionerAvailabilityTransformer;
 use App\Transformers\V1\PractitionerTransformer;
@@ -44,23 +45,28 @@ class PractitionersController extends BaseAPIController
         return $data->respond();
     }
     
-    public function update(Request $request, User $user)
+    public function update(Request $request, Practitioner $practitioner)
     {
-        StrictValidator::check($request->all(), [
-            'description' => 'max:255',
-            'email' => 'email|max:150|unique:users',
-            'zip' => 'digits:5|serviceable',
-            'phone' => 'unique:users'
-        ], [
-            'serviceable' => 'Sorry, we do not service this :attribute.'
+        StrictValidator::check($request->except(['name']), [
+            'description' => 'max:300',
+            'license_title' => 'max:3',
+            'license_number' => 'max:10',
+            'license_state' => 'max:20',
+            'school' => 'max:255',
+            'graduated_year' => 'max:10',
+            'specialty_1' => 'max:255',
+            'specialty_2' => 'max:255',
+            'specialty_3' => 'max:255',
+            'specialty_4' => 'max:255',
+            'specialty_5' => 'max:255'
         ]);
         
-        if (auth()->user()->can('update', $user)) {
-            $user->update($request->all());
+        if (auth()->user()->can('update', $practitioner)) {
+            $practitioner->update($request->except(['name', 'rate', 'user_id']));
             
-            return $this->baseTransformItem($user)->respond();
+            return $this->baseTransformItem($practitioner)->respond();
         } else {
-            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+            return $this->respondNotAuthorized("You do not have access to modify the practitioner with id {$practitioner->id}.");
         }
     }
     
