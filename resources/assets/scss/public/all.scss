@@ -11,7 +11,8 @@
 // Google Analytics
 .async-hide { opacity: 0 !important}
 
-// rewrite bulma styles
+// Rewrite bulma styles
+
 .nav-left {
   overflow-x: hidden;
 }
@@ -20,7 +21,11 @@
   font-weight: 400;
 }
 
+// Fonts
+
 $font-family: "proxima-nova";
+
+// Buttons
 
 .button {
   &.is-link {
@@ -61,14 +66,16 @@ $font-family: "proxima-nova";
   }
 }
 
-//hide before font loads
+// Hide before font loads
+
 .wf-loading {
   h1, h2, h3, h4, h5, h6, a, p, label, span, div {
     visibility: hidden;
   }
 }
 
-// new global styles
+// New global styles
+
 [tabindex="-1"] {
   outline: 0px solid transparent;
 }
@@ -145,7 +152,6 @@ $font-family: "proxima-nova";
 }
 
 .page-content {
-  overflow: hidden;
   .nav {
     z-index: 1;
   }
@@ -167,7 +173,8 @@ em {
   font-size: 0.85em;
 }
 
-// modify animations
+// Animation
+
 .animated {
   &.notification {
     &.fadeOut {
@@ -182,8 +189,60 @@ em {
   }
 }
 
+// Public Pages
+
 #app {
-  @include padding(null null 300px null);
+    padding: 0;
+    @include margin(null null 0 null);
+}
+
+body.home .header,
+body.lab-tests .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 101;
+    height: 60px;
+    background-color: rgba(#fff, $opacity-dark);
+    &,
+    .button {
+        transition: all 0.2s ease;
+    }
+    .button {
+        &:not(.is-outlined) {
+            background-color: $tertiary;
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: darken($tertiary, 2.5%);
+            }
+        }
+        &.is-outlined {
+            color: $tertiary;
+            @include border-color($tertiary);
+            &:hover,
+            &:active,
+            &:focus {
+                color: darken($tertiary, 5%);
+                @include border-color(darken($tertiary, 5%));
+                background-color: transparent;
+            }
+        }
+    }
+    &.is-inverted {
+      .logo-wrapper {
+        .harvey-text {
+            fill: #fff !important;
+          }
+        }
+    }
+}
+
+
+
+.section:not(:last-of-type) {
+    @include padding(null null 1rem null);
 }
 
 body {
@@ -193,7 +252,6 @@ body {
 }
 
 .footer {
-  // position: absolute;
   left: 0;
   width: 100%;
 }
@@ -305,8 +363,6 @@ body {
   pointer-events: none;
 }
 
-// Should match _header.scss, we need to combine
-
 .header {
   box-shadow: 0 1px $grey-lighter;
   top: 0;
@@ -375,12 +431,6 @@ body {
   font-size: 19px;
   letter-spacing: 1px;
   line-height: 56px;
-}
-
-#app {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
 }
 
 .login {
@@ -560,4 +610,18 @@ body[class*="password-reset"]{
     top: 5px;
     transform: translateY(-27px) scale(0.78);
     @include margin(null null 20px null);
+}
+
+.height-600 {
+  height: 700px;
+}
+
+.column {
+    padding: 20px;
+}
+
+.tab {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

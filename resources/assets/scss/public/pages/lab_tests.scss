@@ -1,20 +1,33 @@
 body.lab-tests {
-    .logo-wrapper {
-        .harvey-text {
-            fill: white;
-        }
+    
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    #app {
+        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 60%);
     }
+
     .hero {
         background-color: transparent;
-        .title,
+        .title {
+            color: #fff;
+            font-size: 34px;
+        }
         .subtitle {
             color: #fff;
+            font-size: 23px;
         }
     }
     .section {
         @include padding(0);
         @include margin(null null 60px null);
         background-color: transparent;
+        header.level {
+            padding: 10px 25px 0;
+        }
+        .content {
+            padding: 0 25px 50px;
+        }
     }
     .tab {
         .title {
@@ -24,20 +37,5 @@ body.lab-tests {
     blockquote {
         font-size: $size-6;
         color: $grey-dark;
-    }
-    #app {
-        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 40%);
-        &:before {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            content: ' ';
-            display: block;
-            @include from($desktop) {
-                display: none;
-            }
-        }
     }
 }
