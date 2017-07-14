@@ -175,12 +175,27 @@ export default {
           }
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
-          this.selectedTests.forEach(e => {
+          this.selectedTests.forEach((e, i)=> {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
                 sku_id: Number(e.id),
                 shipment_code: e.shipment_code
               })
+              if (i == this.selectedTests.length - 1) {
+                this.selectedClient = ''
+                this.step = 1
+                this.masterTracking = ''
+                this.address1 = ''
+                this.selectedDoctor = ''
+                this.address2 = ''
+                this.city = ''
+                this.zip = ''
+                this.state = ''
+                this.selectedTests = []
+                this.shippingCodes = {}
+                this.prevDoctor = ''
+                this.prevClient = ''
+              }
           })
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
