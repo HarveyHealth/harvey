@@ -1,12 +1,12 @@
 <template>
     <div id="vertical-tabs" class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
-            <aside class="menu">
-                <ul class="menu-list">  
-                    <li class="menu-label">Choose Topic</li>
-                    <li v-for="tabData in tabList">
+            <aside>
+                <ul class="menu-list">
+                    <li class="menu-list__title">Choose Topic</li>
+                    <li class="menu-list__label" v-for="tabData in tabList">
                         <a
-                            :class="{'is-active': tabData.id === activeTab}"
+                            :class="{'menu-list__link--active': tabData.id === activeTab, 'menu-list__link': true}"
                             @click="setActiveTab(tabData)"
                         >{{ tabData.label }}</a>
                     </li>

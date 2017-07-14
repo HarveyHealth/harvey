@@ -1,41 +1,87 @@
 body.lab-tests {
-    
-    overflow-x: hidden;
-    overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 
-    #app {
-        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 60%);
+  #app {
+    background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 60%);
+  }
+
+  .hero {
+    background-color: transparent;
+
+    .title {
+      color: #fff;
+      font-size: 34px;
     }
 
-    .hero {
-        background-color: transparent;
-        .title {
-            color: #fff;
-            font-size: 34px;
-        }
-        .subtitle {
-            color: #fff;
-            font-size: 23px;
-        }
+    .subtitle {
+      color: #fff;
+      font-size: 23px;
     }
-    .section {
-        @include padding(0);
-        @include margin(null null 60px null);
-        background-color: transparent;
-        header.level {
-            padding: 10px 25px 0;
-        }
-        .content {
-            padding: 0 25px 50px;
-        }
+  }
+
+  .section {
+    @include padding(0);
+    @include margin(null null 60px null);
+    background-color: transparent;
+
+    header.level {
+      padding: 10px 25px 0;
     }
-    .tab {
-        .title {
-            @include margin(null null 0 null);
-        }
+
+    .content {
+      padding: 0 25px 50px;
     }
-    blockquote {
-        font-size: $size-6;
-        color: $grey-dark;
+  }
+
+  .tab {
+    .title {
+      @include margin(null null 0 null);
     }
+  }
+
+  blockquote {
+    color: $grey-dark;
+    font-size: $size-6;
+  }
+}
+
+.menu {
+  font-size: $size-normal;
+}
+
+.menu-list {
+  line-height: 1.25;
+
+  &__link {
+    border-radius: $radius-small;
+    color: $text;
+    display: block;
+    padding: 0.5em 0.75em;
+
+    &:hover {
+      background-color: $background;
+      color: $link;
+    }
+
+    &--active {
+      background-color: $link;
+      color: $link-invert;
+    }
+  }
+
+  &__title {
+    color: $text-light;
+    font-size: 0.8em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    &:not(:first-child) {
+      margin-top: 1em;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 1em;
+    }
+  }
 }
