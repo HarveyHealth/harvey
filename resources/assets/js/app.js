@@ -63,6 +63,7 @@ const app = new Vue({
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
+            loadingTestTypes: true,
             menuOpen: false,
             messages: [],
             patients: [],
@@ -149,10 +150,10 @@ const app = new Vue({
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
-                this.global.loadingPatients = false;
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e
-                })
+                });
+                this.global.loadingPatients = false;
             });
         },
         getPractitioners() {
@@ -165,10 +166,10 @@ const app = new Vue({
                           id: dr.id,
                           user_id: dr.attributes.user_id }
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
-                    })
+                    });
+                    this.global.loadingPractitioners = false;
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
@@ -181,10 +182,10 @@ const app = new Vue({
                           id: obj.id,
                           user_id: obj.attributes.user_id };
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
-                    })
+                    });
+                    this.global.loadingPractitioners = false;
                 })
             }
         },
@@ -213,6 +214,7 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
+                    this.global.loadingTestTypes = false
                 })
         },
         getUser() {
@@ -261,6 +263,7 @@ const app = new Vue({
           this.getAppointments();
           this.getPractitioners();
           this.getMessages();
+          this.getLabData();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
         },
         toDashboard() {
