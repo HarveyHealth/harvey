@@ -32,9 +32,9 @@
 
       <div class="container small signup-form-inputs">
 
-        <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
-
         <div class="signup-container signup-form-container">
+
+          <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha'" />
@@ -66,13 +66,6 @@
             <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
           </div>
-
-          <!-- <div class="input-wrap" style="margin-top: -20px;">
-            <input class="form-input form-input_checkbox" name="newsletter" type="checkbox" id="newsletter" v-model="newsletter">
-            <label class="form-label form-label_checkbox" for="checkbox">I would like to receive the Harvey newsletter.</label>
-          </div> -->
-
-          <p class="text-centered" style="margin-top: 30px;">Start your health journey today.</p>
 
           <div class="text-centered">
             <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
@@ -109,7 +102,7 @@ export default {
       isProcessing: false,
       quotes: [
         { quote: 'I can say without a shadow of doubt, my naturopathic doctor gave me my life back.',
-          source: 'Jordan Yorn (battling Lupus)' }
+          source: 'Elizabeth Yorn (battling Lupus)' }
       ],
       responseErrors: [],
       signupData: {
@@ -122,7 +115,7 @@ export default {
       },
       subtitle: '',
       terms: false,
-      title: 'Let&rsquo;s get acquainted.',
+      title: 'Your health journey starts here.',
       zipInRange: false,
     }
   },
