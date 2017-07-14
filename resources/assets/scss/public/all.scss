@@ -48,6 +48,13 @@ $font-family: "proxima-nova";
   color: #fff;
 }
 
+// Footer
+
+.footer-logo {
+  max-width: 170px;
+  padding-bottom: 10px;
+}
+
 .footer {
   @include padding(null null 4rem null);
 
