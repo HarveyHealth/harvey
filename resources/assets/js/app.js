@@ -1,6 +1,7 @@
 import './bootstrap';
 import router from './routes';
 import VueMultianalytics from 'vue-multianalytics';
+import VeeValidate from 'vee-validate';
 
 // FILTERS
 import filter_datetime from './utils/filters/datetime';
@@ -24,6 +25,7 @@ import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
+Vue.use(VeeValidate);
 
 const env = require('get-env')();
 
