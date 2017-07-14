@@ -73,18 +73,18 @@
                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
                     <div class="input__container">
                         <label class="input__label" for="patient_name">name</label>
-                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">image</span>
-                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">email</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">phone</span>
+                        <div style="color: #82BEF2; position: relative; bottom: 30px; float: right; width: 125px; height: 125px;" class="input__label" for="patient_name">image</div>
+                        <div style="color: #82BEF2; width: 100%;" class="input__label" for="patient_name">email</div>
+                        <div style="color: #82BEF2;" class="input__label" for="patient_name">phone</div>
                     </div>
                   </div>
                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
                     <div class="input__container">
-                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">ID</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">JOINED</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">DOB</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">CITY</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">STATE</span>
+                        <div style="color: #82BEF2; float: left; width: 50%;" class="input__label" for="patient_name">ID</div>
+                        <div style="color: #82BEF2; float: left; width: 50%;" class="input__label" for="patient_name">JOINED</div>
+                        <div style="color: #82BEF2; float: left; width: 50%;" class="input__label" for="patient_name">DOB</div>
+                        <div style="color: #82BEF2; float: left; width: 50%;" class="input__label" for="patient_name">CITY</div>
+                        <div style="color: #82BEF2; float: left; width: 100%;" class="input__label" for="patient_name">STATE</div>
                     </div>
                   </div>
                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
