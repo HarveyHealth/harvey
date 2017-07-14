@@ -2,11 +2,11 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 // Logic for managing root components based on the root URL
-//    /getting-started -> signup funnel
+//    /get-started -> signup funnel
 //    /dashboard -> user backoffice
 const loggedIn = Laravel.user.signedIn;
 const context = window.$$context;
-const rootRedirect = context === 'getting-started'
+const rootRedirect = context === 'get-started'
   ? loggedIn ? '/welcome' : '/signup'
   : '/';
 
@@ -18,50 +18,50 @@ let rootRoute = {
 };
 
 // This is the basic logic once the new getting-started components are up
-rootRoute.name = context !== 'getting-started'
+rootRoute.name = context !== 'get-started'
   ? 'dashboard'
-  : 'getting-started';
+  : 'get-started';
 
-rootRoute.component = context !== 'getting-started'
+rootRoute.component = context !== 'get-started'
   ? require('./pages/dashboard/Dashboard.vue')
-  : require('./pages/getting-started/GettingStarted.vue');
+  : require('./pages/get-started/GetStarted.vue');
 
-if (context === 'getting-started' && loggedIn) {
+if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
     { path: 'welcome',
       name: 'welcome',
-      component: require('./pages/getting-started/children/Welcome.vue') },
+      component: require('./pages/get-started/children/Welcome.vue') },
     { path: 'out-of-range',
       name: 'out-of-range',
-      component: require('./pages/getting-started/children/OutOfRange.vue') },
+      component: require('./pages/get-started/children/OutOfRange.vue') },
     { path: 'practitioner',
       name: 'practitioner',
-      component: require('./pages/getting-started/children/Practitioner.vue') },
+      component: require('./pages/get-started/children/Practitioner.vue') },
     { path: 'phone',
       name: 'phone',
-      component: require('./pages/getting-started/children/Phone.vue') },
+      component: require('./pages/get-started/children/Phone.vue') },
     { path: 'schedule',
       name: 'schedule',
-      component: require('./pages/getting-started/children/Schedule.vue') },
+      component: require('./pages/get-started/children/Schedule.vue') },
     { path: 'confirmation',
       name: 'confirmation',
-      component: require('./pages/getting-started/children/Confirmation.vue') },
+      component: require('./pages/get-started/children/Confirmation.vue') },
     { path: 'success',
       name: 'success',
-      component: require('./pages/getting-started/children/Success.vue') }
+      component: require('./pages/get-started/children/Success.vue') }
   ];
-} else if (context === 'getting-started') {
+} else if (context === 'get-started') {
   rootRoute.children.push({
     path: 'out-of-range',
     name: 'out-of-range',
-    component: require('./pages/getting-started/children/OutOfRange.vue')
+    component: require('./pages/get-started/children/OutOfRange.vue')
   });
 }
 
 rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
-  component: require('./pages/getting-started/children/Signup.vue')
+  component: require('./pages/get-started/children/Signup.vue')
 })
 
 let routes = [

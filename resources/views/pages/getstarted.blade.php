@@ -19,7 +19,7 @@
         <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
           window.Laravel = {!! $vue_data !!}
-          window.$$context = 'getting-started';
+          window.$$context = 'get-started';
           if (!Laravel.user.signedIn) {
             window.location.hash = '/signup';
           } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
