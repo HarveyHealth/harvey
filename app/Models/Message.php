@@ -24,14 +24,14 @@ class Message extends Model
         parent::boot();
 
         static::addGlobalScope('enabledSender', function (Builder $builder) {
-            return $builder->whereHas('sender', function (Builder $query){
-                $query->where('users.enabled', true);
+            return $builder->whereHas('sender', function (Builder $builder){
+                $builder->where('users.enabled', true);
             });
         });
 
         static::addGlobalScope('enabledRecipient', function (Builder $builder) {
-            return $builder->whereHas('recipient', function (Builder $query){
-                $query->where('users.enabled', true);
+            return $builder->whereHas('recipient', function (Builder $builder){
+                $builder->where('users.enabled', true);
             });
         });
     }
@@ -87,36 +87,40 @@ class Message extends Model
     /*
      * Scopes
      */
-    public function scopeFrom($query, User $user)
+    public function scopeFrom(Builder $builder, User $user)
     {
         $userId = $user ? $user->id : 0;
-        return $query->where('sender_user_id', $userId);
+        return $builder->where('sender_user_id', $userId);
     }
 
-    public function scopeTo($query, User $user)
+    public function scopeTo(Builder $builder, User $user)
     {
         $userId = $user ? $user->id : 0;
-        return $query->where('recipient_user_id', $userId);
+        return $builder->where('recipient_user_id', $userId);
     }
 
-    public function scopeSenderOrRecipient($query, User $user)
+    public function scopeSenderOrRecipient(Builder $builder, User $user)
     {
         $userId = $user ? $user->id : 0;
-        return $query->where(function ($query) use ($userId)
+        return $builder->where(function (Builder $builder) use ($userId)
             {
-                $query->where('recipient_user_id', $userId)
+                $builder->where('recipient_user_id', $userId)
                       ->orWhere('sender_user_id', $userId);
             });
     }
 
-    public function scopeUnread($query)
+    public function scopeUnread(Builder $builder)
     {
-        return $query->whereNull('read_at');
+        return $builder->whereNull('read_at');
     }
 
-    public function scopeCreatedAfter($query, Carbon $date)
+    public function scopeCreatedAfter(Builder $builder, Carbon $date)
     {
-        return $query->where('created_at', '>', $date);
+        return $builder->where('created_at', '>', $date);
     }
 
+    public function scopeIdGreaterThan(Builder $builder, int $id)
+    {
+        return $builder->where('id', '>', $id);
+    }
 }
