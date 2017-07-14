@@ -505,7 +505,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/getting-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
         </div>
