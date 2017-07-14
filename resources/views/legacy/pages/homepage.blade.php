@@ -259,7 +259,7 @@
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
                         <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative and specialty lab tests are not reimbursable. However, you may be able to use an HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would have to pay at other in-person clinics.</p>       
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would have to pay at other in-person clinics.</p>
                     </div>
                 </div>
                 <div class="column is-8 is-auto-tablet has-text-right">
@@ -272,7 +272,7 @@
 
             <div class="has-text-centered">
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
 
@@ -507,7 +507,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
         </div>

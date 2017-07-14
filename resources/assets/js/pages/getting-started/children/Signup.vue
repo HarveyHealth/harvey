@@ -230,7 +230,7 @@ export default {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
-        window.location.href = '/getting-started';
+        window.location.href = '/get-started';
       })
       .catch(error => {
         // TODO: catch error
