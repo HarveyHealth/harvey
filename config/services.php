@@ -65,7 +65,7 @@ return [
                 'welcome' => 1450461,
             ],
             'message' => [
-                'new' => 2495382,
+                'unread' => 2495382,
             ],
         ],
     ],
