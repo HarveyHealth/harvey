@@ -11,14 +11,12 @@ class Practitioner extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'graduated_at',
     ];
 
     protected $guarded = [
         'id',
         'enabled',
         'user_id',
-        'practitioner_type',
         'created_at',
         'updated_at',
         'doctor_state_id',
@@ -58,11 +56,6 @@ class Practitioner extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function type()
-    {
-        return $this->hasOne(PractitionerType::class, 'id', 'practitioner_type');
-    }
-
     public function notes()
     {
         return $this->hasMany(PatientNote::class, 'practitioner_id', 'id');
@@ -86,10 +79,5 @@ class Practitioner extends Model
     public function test()
     {
         return $this->hasMany(Test::class, 'practitioner_id', 'id');
-    }
-
-    public function license()
-    {
-        return $this->hasOne(License::class, 'id', 'license_id');
     }
 }
