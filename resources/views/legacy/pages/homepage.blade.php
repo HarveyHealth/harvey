@@ -268,15 +268,11 @@
                     </figure>
                 </div>
             </div>
-
-
             <div class="has-text-centered">
                 <div class="button-wrapper">
                     <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
-
-
         </div>
     </section>
 

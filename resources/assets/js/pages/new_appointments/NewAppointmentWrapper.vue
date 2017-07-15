@@ -236,7 +236,7 @@
                                     important: false,
                                     text: 'Your appointment is created successfully.'
                                 });
-                                this.$eventHub.$emit('mixpanel', "Payment Method Submitted");
+                                // this.$eventHub.$emit('mixpanel', "Payment Method Submitted");
                                 this.$router.push('/');
                             })
                             .catch((error) => {

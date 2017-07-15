@@ -1,12 +1,12 @@
 @extends('legacy._layouts.public')
-@section('page_title','Lab Tests & Pricing')
+@section('page_title','Lab Tests')
 
 @section('main_content')
 <section class="hero">
     <div class="hero-body container">
         <header class="content has-text-centered">
-            <h1 class="title is-3 page-title">Lab Tests &amp; Pricing</h1>
-            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatments.</p>
+            <h1 class="title is-3 page-title">Lab Tests</h1>
+            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatment plans.</p>
         </header>
     </div>
 </section>

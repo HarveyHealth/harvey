@@ -1,7 +1,7 @@
 .input-wrap {
   @include margin(null null 30px null);
   &.last {
-    @include margin(null null 15px null);
+    @include margin(null null 25px null);
   }
 }
 

@@ -41,7 +41,7 @@
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
-        :name="appointment.patientName"
+        :name="patientDisplay"
         :phone="appointment.patientPhone"
         :set-patient="setPatientInfo"
         :visible="visiblePatient"
@@ -224,6 +224,7 @@ export default {
       notificationMessage: '',
       notificationSymbol: '&#10003;',
       overlayActive: false,
+      patientDisplay: '',
       patientList: [],
       practitionerList: [],
       purposeCharLimit: 180,
@@ -435,15 +436,7 @@ export default {
           break;
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-            ga('send', {
-              hitType: "event",
-              eventCategory: "clicks",
-              eventAction: "Comfirm Appointment",
-              eventLabel: null,
-               eventValue: 50,
-               hitCallback: null,
-               userId: null
-            });
+            // Add "Confirm Appointment" tracking here
           }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';
@@ -555,6 +548,7 @@ export default {
         this.appointment.patientName = `${data._patientLast}, ${data._patientFirst}`;
         this.appointment.patientPhone = data._patientPhone;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
+        this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -609,11 +603,18 @@ export default {
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
+      // collect data for tracking later
+      const appointmentStatus = this.appointment.status;
+      const appointmentDate = data.appointment_at;
+
       // api constraints
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
-      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+      if (this.userType !== 'patient' &&
+          this.userAction === 'update' &&
+          this.appointment.currentStatus !== this.appointment.status) {
+
         delete data.appointment_at;
       }
       if (this.userAction !== 'new') {
@@ -637,6 +638,16 @@ export default {
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
+
+        // track the event
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+            analytics.track('Consultation Complete', {
+              date: appointmentDate,
+            });
+          }
+        }
+
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             this.selectedRowIndex = null;
@@ -692,6 +703,7 @@ export default {
       // this.selectedRowData = null;
       // this.selectedRowIndex = null;
       this.noAvailability = false;
+      this.patientDisplay = '';
       return {
         availableTimes: [],
         date: '',
@@ -727,6 +739,7 @@ export default {
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
+      this.patientDisplay = `${data.name} (${data.email})`;
     },
 
     setupAppointments(list) {
@@ -766,7 +779,10 @@ export default {
 
     setupPatientList(list) {
       this.patientList = list.map(item => {
-        return { value: item.name, data: item };
+        const display = this.userType === 'patient'
+          ? item.name
+          : `${item.name} (${item.email})`
+        return { value: display, data: item };
       });
     },
 

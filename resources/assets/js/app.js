@@ -1,7 +1,5 @@
 import './bootstrap';
 import router from './routes';
-import VueMultianalytics from 'vue-multianalytics';
-import VeeValidate from 'vee-validate';
 
 // FILTERS
 import filter_datetime from './utils/filters/datetime';
@@ -41,29 +39,6 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
-let gaConfig = {
-    appName: 'Harvey', // Mandatory
-    appVersion: '0.1', // Mandatory
-    trackingId: 'UA-89414173-1', // Mandatory
-    debug: true, // Whether or not display console logs debugs (optional)
-}
-
-let mixpanelConfig = {
-    token: '03bfcdd448c2ec06b61e442bc6eeef79'
-}
-
-let facebookConfig = {
-    token: '170447220119877'
-}
-
-Vue.use(VueMultianalytics, {
-    modules: {
-        ga: gaConfig,
-        mixpanel: mixpanelConfig,
-        facebook: facebookConfig
-    }
-})
-
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -89,6 +64,7 @@ const app = new Vue({
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
+            loadingTestTypes: true,
             menuOpen: false,
             messages: [],
             patients: [],
@@ -175,10 +151,10 @@ const app = new Vue({
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
-                this.global.loadingPatients = false;
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e
-                })
+                });
+                this.global.loadingPatients = false;
             });
         },
         getPractitioners() {
@@ -191,10 +167,10 @@ const app = new Vue({
                           id: dr.id,
                           user_id: dr.attributes.user_id }
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
-                    })
+                    });
+                    this.global.loadingPractitioners = false;
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
@@ -207,10 +183,10 @@ const app = new Vue({
                           id: obj.id,
                           user_id: obj.attributes.user_id };
                     });
-                    this.global.loadingPractitioners = false;
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
-                    })
+                    });
+                    this.global.loadingPractitioners = false;
                 })
             }
         },
@@ -239,6 +215,7 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
+                    this.global.loadingTestTypes = false
                 })
         },
         getUser() {
@@ -287,6 +264,7 @@ const app = new Vue({
           this.getAppointments();
           this.getPractitioners();
           this.getMessages();
+          this.getLabData();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
         },
         toDashboard() {
@@ -301,40 +279,5 @@ const app = new Vue({
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
-
-        // Event handlers
-        this.$eventHub.$on('mixpanel', (event) => {
-            if (typeof mixpanel !== 'undefined') mixpanel.track(event);
-        });
-
-        // Google Analytics
-        (function(i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function() {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-        ga('create', 'UA-89414173-1', 'auto');
-        ga('require', 'GTM-T732G62');
-        ga('send', 'pageview');
-
-        (function(a, s, y, n, c, h, i, d, e) {
-            s.className += ' ' + y;
-            h.start = 1 * new Date;
-            h.end = i = function() { s.className = s.className.replace(RegExp(' ?' + y), '') };
-            (a[n] = a[n] || []).hide = h;
-            setTimeout(function() {
-                i();
-                h.end = null
-            }, c);
-            h.timeout = c;
-        })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, { 'GTM-T732G62': true });
-
     }
 }).$mount('#app');

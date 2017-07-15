@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="Object.values(tests).length > 0 && $root.$data.global.patients.length > 0 && $root.$data.global.practitioners.length > 0 && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
@@ -33,7 +33,7 @@
             />
             <LabOrderTable
                 :handle-row-click="handleRowClick"
-                :loading="$root.$data.global.loadingLabOrders && $root.$data.global.loadingLabTests"
+                :loading="loadingLabs"
                 :selected-row="selectedRowData"
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
@@ -53,7 +53,6 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
-
     export default {
         name: 'LabOrders',
         components: {
@@ -95,9 +94,7 @@
                 } else {
                     data = null;
                 }
-
                 this.detailFlyoutActive = !this.detailFlyoutActive
-
                 if (data) {
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
@@ -154,7 +151,7 @@
                 let data = tableDataTransform(
                     global.labOrders, 
                     global.labTests, 
-                    patient, 
+                    patient,
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
@@ -176,15 +173,13 @@
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
             },
-            loadingLabOrders() {
-                return this.$root.$data.global.loadingLabOrders
-            },
-            loadingLabTests() {
-                return this.$root.$data.global.loadingLabTests
-            },
             loadingLabs() {
                 const global = this.$root.$data.global
-                return global.loadingLabTests && global.loadingLabOrders && global.labOrders && global.labTests && this.$root.$data.labTests
+                return global.loadingLabTests || 
+                global.loadingLabOrders || 
+                global.loadingPatients || 
+                global.loadingPractitioners || 
+                global.loadingLabTests
             },
             labTests() {
                 this.tests = this.$root.$data.labTests
@@ -194,7 +189,7 @@
         watch: {
             loadingLabs(val, old) {
                 if (!val) {
-                    setTimeout(() => this.setupLabData(), 1800)
+                    this.setupLabData()
                 }
             },
             labTests(val) {
@@ -205,10 +200,14 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-
-            const labOrders = this.$root.$data.global.labOrders
-            const labTests = this.$root.$data.global.labTests
-            if (labOrders.length && labTests.length) this.setupLabData();
+            const global = this.$root.$data.global
+            if (!global.loadingLabTests && 
+                !global.loadingLabOrders && 
+                !global.loadingPatients && 
+                !global.loadingPractitioners && 
+                !global.loadingLabTests) {
+                    this.setupLabData();
+                }
         }
     }
 </script>
