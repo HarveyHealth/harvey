@@ -19,26 +19,20 @@ body.lab-tests {
       font-size: $size-normal
     }
     .page-content {
-
         .section{
-
             max-width: 1152px;
             margin: 0 auto 70px;
             overflow: hidden;
             padding: 0;
-
             .container.bg-white {
                 border: 1px solid #eee;
                 min-height: 500px;
                 max-width: 1152px;
             }
-
             .tabs-navigation {
-
                 .menu-list {
                     line-height: 1.25;
                     border-right: 1px solid #eee;
-
                     li {
                         border-bottom: 1px solid #eee;
                         &.menu-label{
@@ -47,13 +41,15 @@ body.lab-tests {
                             color: #ddd;
                             padding-left: 12px;
                             font-size: 13px;
+                            margin-bottom: 0;
+                            letter-spacing: 0.1em;
                         }
                     }
-
                     a {
                         color: $text;
                         display: block;
                         padding: 0.5em 0.75em;
+                        border-radius: 0;
                         &:hover {
                             background-color: $background;
                             color: $link;
@@ -64,24 +60,18 @@ body.lab-tests {
                         }
                     }
                 }
-
             }
-
             .tabs-content {
-
                 .copy-has-max-width {
                     max-width: 700px;
                 }
-
                 h3.title {
                     margin-bottom: 0;
                 }
-
                 blockquote {
                     font-size: 15px;
                     color: #888;
                 }
-
                 @include from($mobile) {
                     .tab {
                         margin: 30px 20px;
@@ -92,13 +82,11 @@ body.lab-tests {
                         }
                     }
                 }
-
                 @include from($tablet) {
                     .tab {
                         margin: 40px 30px;
                     }
                 }
-
                 @include from($desktop) {
                     .tab {
                         margin: 50px auto;
@@ -108,5 +96,4 @@ body.lab-tests {
             }
         }
     }
-
 }
