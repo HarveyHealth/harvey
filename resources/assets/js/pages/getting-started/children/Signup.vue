@@ -101,7 +101,7 @@ export default {
       newsletter: false,
       isProcessing: false,
       quotes: [
-        { quote: 'I can say without a shadow of doubt, my naturopathic doctor gave me my life back.',
+        { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
           source: 'Elizabeth Yorn (battling Lupus)' }
       ],
       responseErrors: [],
