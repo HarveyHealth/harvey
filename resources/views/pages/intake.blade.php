@@ -34,6 +34,9 @@
 
   </head>
   <body>
+
+    @include('_includes.svgs')
+
     <main>
       <div id="app">
         <router-view />
