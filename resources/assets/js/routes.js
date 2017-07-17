@@ -63,13 +63,6 @@ if (context === 'getting-started' && loggedIn) {
     component: require('./pages/getting-started/children/OutOfRange.vue')
   });
 }
-// } else if (context === 'intake') {
-//   rootRoute.children.push({
-//     path: '/intake',
-//     name: 'intake',
-//     component: require('./pages/intake/Intake.vue'),
-//   })
-// }
 
 rootRoute.children.push({
   path: 'signup',

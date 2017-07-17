@@ -18,7 +18,7 @@
     <script type="text/javascript">
       window.Laravel = {!! $vue_data !!}
       window.$$context = 'intake';
-      /*
+
       if (!Laravel.user.signedIn) {
         window.location.hash = '/signup';
       } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
@@ -26,7 +26,7 @@
       } else {
         window.location.hash = '/welcome';
       }
-      */
+
     </script>
 
     <!-- Typekit -->
