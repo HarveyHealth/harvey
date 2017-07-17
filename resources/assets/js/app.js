@@ -6,6 +6,7 @@ import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
 import phonemask from './utils/directives/phonemask';
+import VeeValidate from 'vee-validate';
 
 // MIXINS
 import TopNav from './utils/mixins/TopNav';
