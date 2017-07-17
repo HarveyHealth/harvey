@@ -47,6 +47,11 @@ export default function(fetchedAvailability, userType) {
       } else if (!userType || userType !== 'patient') {
         dayObj.times.push(makeTimeObj(iso));
       }
+
+      if (dayObj && index === fetchedAvailability.length - 1) {
+        availabilityTransformed.push(dayObj);
+      }
+
     }
   })
 

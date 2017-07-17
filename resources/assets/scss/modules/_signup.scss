@@ -1,6 +1,6 @@
 // Global signup styles
 .signup-content {
-  @include padding(25px null null null);
+  @include padding(50px null null null);
   text-align: center;
   @include margin(null null 60px null);
 }
@@ -440,9 +440,7 @@ $signup-grid: (
         margin-top: 100px;
     }
   }
-  .signup-form-container {
-    @include padding(30px);
-  }
+
   .signup-quotes {
     @include grid-column(6, $signup-grid);
     display: block;

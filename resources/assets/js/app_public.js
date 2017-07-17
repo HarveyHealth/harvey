@@ -178,9 +178,6 @@ const app = new Vue({
                 if (!this.navIsInverted) this.navIsInverted = true;
             }
         },
-        onPageScroll() {
-            window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
-        },
         onIframeClick() {
             if(document.activeElement === document.querySelector('iframe')) {
                 setTimeout(() => {
@@ -198,6 +195,7 @@ const app = new Vue({
          this.$nextTick(() => {
             this.appLoaded = true;
         });
+        window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
     },
     destroyed() {
         if (this.isHomePage) {

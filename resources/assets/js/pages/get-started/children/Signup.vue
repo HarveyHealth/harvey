@@ -38,33 +38,33 @@
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha'" />
-            <span v-show="errors.has('first_name')" class="error-text">{{ errors.first('first_name')}}</span>
+            <span v-show="errors.has('first_name')" class="error-text">{{ firstNameError }}</span>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha'" />
-            <span v-show="errors.has('last_name')" class="error-text">{{ errors.first('last_name') }}</span>
+            <span v-show="errors.has('last_name')" class="error-text">{{ lastNameError }}</span>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', signupData.email)" name="email" type="email" placeholder="Personal Email" v-model="signupData.email" v-validate="'required|email'" data-vv-validate-on="blur" />
-            <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
+            <span v-show="errors.has('email')" class="error-text">{{ emailError }}</span>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zip" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
-            <span v-show="errors.has('zip')" class="error-text">{{ errors.first('zip') }}</span>
+            <span v-show="errors.has('zip')" class="error-text">{{ zipError }}</span>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', signupData.password)" name="password" type="password" placeholder="Create Password" v-model="signupData.password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
-            <span v-show="errors.has('password')" class="error-text">{{ errors.first('password') }}</span>
+            <span v-show="errors.has('password')" class="error-text">{{ passwordError }}</span>
           </div>
 
           <div class="input-wrap last">
             <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
             <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
-            <span v-show="errors.has('terms')" class="error-text">{{ errors.first('terms') }}</span>
+            <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
           <div class="text-centered">
@@ -117,6 +117,52 @@ export default {
       terms: false,
       title: 'Your health journey starts here.',
       zipInRange: false,
+    }
+  },
+  // These are necessary because VeeValidate's custom messages are just not working
+  // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
+  computed: {
+    firstNameError() {
+      if (this.errors.has('first_name')) {
+        return this.errors.firstByRule('first_name', 'required')
+          ? 'First name is required'
+          : 'First name only takes alphabetic characters'
+      }
+    },
+    lastNameError() {
+      if (this.errors.has('last_name')) {
+        return this.errors.firstByRule('last_name', 'required')
+          ? 'Last name is required'
+          : 'Last name only takes alphabetic characters'
+      }
+    },
+    emailError() {
+      if (this.errors.has('email')) {
+        return this.errors.firstByRule('email', 'required')
+          ? 'Email is required'
+          : 'Not a valid email address'
+      }
+    },
+    zipError() {
+      if (this.errors.has('zip')) {
+        return this.errors.firstByRule('zip', 'required')
+          ? 'Zipcode is required'
+          : 'Zipcode must contain 5 numeric characters'
+      }
+    },
+    passwordError() {
+      if (this.errors.has('password')) {
+        return this.errors.firstByRule('password', 'required')
+          ? 'Password is required'
+          : 'Password needs minimum of 6 characters'
+      }
+    },
+    termsError() {
+      if (this.errors.has('terms')) {
+        return this.errors.firstByRule('terms', 'required')
+          ? 'Please check terms and conditions'
+          : ''
+      }
     }
   },
   methods: {
@@ -185,7 +231,7 @@ export default {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
-        window.location.href = '/getting-started';
+        window.location.href = '/get-started';
       })
       .catch(error => {
         // TODO: catch error
@@ -197,6 +243,7 @@ export default {
   },
   mounted () {
     this.$root.toDashboard();
+
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
     if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
