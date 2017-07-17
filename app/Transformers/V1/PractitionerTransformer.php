@@ -17,6 +17,9 @@ class PractitionerTransformer extends TransformerAbstract
     public function transform(Practitioner $practitioner)
     {
         return [
+            'background_picture_url' => $practitioner->background_picture_url,
+            'description' => $practitioner->description,
+            'graduated_at' => $practitioner->graduated_at,
             'id' => (string) $practitioner->id,
             'background_picture_url' => $practitioner->background_picture_url,
             'description' => $practitioner->description,

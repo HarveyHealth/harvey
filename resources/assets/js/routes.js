@@ -1,34 +1,78 @@
 import VueRouter from 'vue-router';
-import VeeValidate from 'vee-validate';
-
 Vue.use(VueRouter);
-Vue.use(VeeValidate);
+
+// Logic for managing root components based on the root URL
+//    /get-started -> signup funnel
+//    /dashboard -> user backoffice
+const loggedIn = Laravel.user.signedIn;
+const context = window.$$context;
+const rootRedirect = context === 'get-started'
+  ? loggedIn ? '/welcome' : '/signup'
+  : '/';
+
+let rootRoute = {
+  path: '/',
+  name: null,
+  component: null,
+  children: []
+};
+
+// This is the basic logic once the new getting-started components are up
+rootRoute.name = context !== 'get-started'
+  ? 'dashboard'
+  : 'get-started';
+
+rootRoute.component = context !== 'get-started'
+  ? require('./pages/dashboard/Dashboard.vue')
+  : require('./pages/get-started/GetStarted.vue');
+
+if (context === 'get-started' && loggedIn) {
+  rootRoute.children = [
+    { path: 'welcome',
+      name: 'welcome',
+      component: require('./pages/get-started/children/Welcome.vue') },
+    { path: 'out-of-range',
+      name: 'out-of-range',
+      component: require('./pages/get-started/children/OutOfRange.vue') },
+    { path: 'practitioner',
+      name: 'practitioner',
+      component: require('./pages/get-started/children/Practitioner.vue') },
+    { path: 'phone',
+      name: 'phone',
+      component: require('./pages/get-started/children/Phone.vue') },
+    { path: 'schedule',
+      name: 'schedule',
+      component: require('./pages/get-started/children/Schedule.vue') },
+    { path: 'confirmation',
+      name: 'confirmation',
+      component: require('./pages/get-started/children/Confirmation.vue') },
+    { path: 'success',
+      name: 'success',
+      component: require('./pages/get-started/children/Success.vue') }
+  ];
+} else if (context === 'get-started') {
+  rootRoute.children.push({
+    path: 'out-of-range',
+    name: 'out-of-range',
+    component: require('./pages/get-started/children/OutOfRange.vue')
+  });
+}
+
+rootRoute.children.push({
+  path: 'signup',
+  name: 'sign-up',
+  component: require('./pages/get-started/children/Signup.vue')
+})
 
 let routes = [
+
+    rootRoute,
+
     {
         path: '/appointments',
         name: 'appointments',
         props: true,
         component: require('./pages/appointments/Appointments.vue'),
-    },
-    {
-        path: '/',
-        name: localStorage.getItem('signing up') ?
-            'signup' : localStorage.getItem('signed up') ?
-              'schedule' : 'dashboard',
-        component: localStorage.getItem('signing up') ?
-            require('./pages/signup/Signup.vue') : localStorage.getItem('signed up') ?
-              require('./pages/schedule/Schedule.vue') : require('./pages/dashboard/Dashboard.vue'),
-        children: [
-            {
-                path: 'confirmation',
-                component: require('./pages/schedule/Confirmation.vue')
-            }
-        ]
-    },
-    {
-        path: '/new-appointments',
-        component: require('./pages/new_appointments/NewAppointmentWrapper.vue')
     },
     {
         path: '/messages',
@@ -58,7 +102,7 @@ let routes = [
     // },
     {
         path: '*',
-        redirect:  '/'
+        redirect:  rootRedirect
     }
 ];
 

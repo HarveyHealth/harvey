@@ -58,7 +58,7 @@ class PractitionerTest extends TestCase
         foreach ([Patient::class, Admin::class, Practitioner::class] as $userClass) {
             Passport::actingAs(factory($userClass)->make()->user);
             $response = $this->json('GET', 'api/v1/practitioners/'.Practitioner::first()->id.'?include=availability');
-            $response->assertJsonFragment(['meta' => ['availability' => [[],[]]]]);
+            $response->assertJsonFragment(['meta' => ['availability' => []]]);
             $response->assertStatus(200);
         }
     }

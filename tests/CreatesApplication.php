@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use Illuminate\Contracts\Console\Kernel;
 use App\Jobs\SendTransactionalEmail;
+use Illuminate\Contracts\Console\Kernel;
+use Twilio\Rest\Client as Twilio;
 use Mockery;
 
 trait CreatesApplication
@@ -22,6 +23,8 @@ trait CreatesApplication
         $app->make(Kernel::class)->bootstrap();
 
         $app['env'] = 'testing';
+
+        app()->instance(Twilio::class, Mockery::mock(Twilio::class));
 
         $this->mockSendTransactionalEmail();
 

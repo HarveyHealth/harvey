@@ -2,6 +2,15 @@
 
 @section('page_title', 'Dashboard')
 
+<script>
+  window.Laravel = {!! $vue_data !!}
+  if ( Laravel.user.signedIn &&
+      !Laravel.user.has_an_appointment &&
+       Laravel.user.user_type === 'patient' ) {
+    window.location.href = '/get-started';
+  }
+</script>
+
 @push('stylesheets')
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 @endpush
@@ -40,18 +49,6 @@
     @stack('square')
 
     {{-- To add data here, see the VueHelperViewComposer --}}
-    <script>
-      window.Laravel = {!! $vue_data !!}
-    </script>
-
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-89414173-1', 'auto');
-        ga('send', 'pageview');
-    </script>
 
     <!-- Stripe -->
     <script type="text/javascript" src="https://js.stripe.com/v2"></script>

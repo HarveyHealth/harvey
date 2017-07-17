@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
+use App\Lib\PhoneNumberVerifier;
 use App\Lib\Validation\StrictValidator;
 use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
@@ -28,7 +29,7 @@ class UsersController extends BaseAPIController
      */
     public function index()
     {
-        if (auth()->user()->isNotAdmin()) {
+        if (currentUser()->isNotAdmin()) {
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
@@ -101,7 +102,7 @@ class UsersController extends BaseAPIController
      */
     public function show(User $user)
     {
-        if (auth()->user()->can('view', $user)) {
+        if (currentUser()->can('view', $user)) {
             return $this->baseTransformItem($user, request('include'))->respond();
         } else {
             return $this->respondNotAuthorized("You do not have access to view the user with id {$user->id}.");
@@ -115,7 +116,7 @@ class UsersController extends BaseAPIController
      */
     public function update(Request $request, User $user)
     {
-        if (auth()->user()->cant('update', $user)) {
+        if (currentUser()->cant('update', $user)) {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
 
@@ -137,5 +138,29 @@ class UsersController extends BaseAPIController
         $user->update($request->all());
 
         return $this->baseTransformItem($user)->respond();
+    }
+
+    public function phoneVerify(Request $request, User $user)
+    {
+        StrictValidator::check($request->all(), [
+            'code' => 'digits:5',
+        ]);
+
+        if ($verified = PhoneNumberVerifier::isValid($user, request('code'))) {
+            $user->markPhoneAsVerified();
+        }
+
+        return response(compact('verified'));
+    }
+
+    public function sendVerificationCode(Request $request, User $user)
+    {
+        if (currentUser()->id != $user->id && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => 'Verification code not sent.'], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        $user->sendVerificationCode();
+
+        return response()->json(['status' => 'Verification code sent.']);
     }
 }

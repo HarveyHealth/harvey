@@ -16,23 +16,31 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UserRegistered' => [
             'App\Listeners\SendWelcomeEmail',
         ],
+        
         'App\Events\AppointmentScheduled' => [
             'App\Listeners\SendPatientAppointmentEmail',
             'App\Listeners\SendPractitionerAppointmentEmail',
             'App\Listeners\NotifyAppointmentSlackChannel',
         ],
+
         'App\Events\AppointmentCanceled' => [
             'App\Listeners\SendPatientAppointmentCanceledEmail',
             'App\Listeners\SendPractitionerAppointmentCanceledEmail',
             'App\Listeners\NotifyAppointmentCanceledSlackChannel',
         ],
+
         'App\Events\AppointmentUpdated' => [
             'App\Listeners\SendPatientAppointmentUpdatedEmail',
             'App\Listeners\SendPractitionerAppointmentUpdatedEmail',
             'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
         ],
+
         'App\Events\OutOfServiceZipCodeRegistered' => [
             'App\Listeners\CreateLead',
+        ],
+
+        'App\Events\PhoneNumberChanged' => [
+            'App\Listeners\SendPhoneNumberValidationCode',
         ],
     ];
 
