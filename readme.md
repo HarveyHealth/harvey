@@ -80,3 +80,9 @@ Database Seeding will provide you with these accounts:
 
 # Nginx
 - Procfile calls the nginx.conf file in the project root.
+
+# Testing / Get Confirmation Number for Phone Number
+
+* Before testing locally make sure you composer update, delete all DB tables, and php artisan migrate:refresh --seed
+
+* To observe the faked Twilio text message with confirmation code locally, make sure you are running `php artisan queue:listen` as well as `php artisan log:tail`. Check the log after you've clicked to send text message and you should see the confirmation code.
