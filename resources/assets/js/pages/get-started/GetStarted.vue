@@ -10,7 +10,7 @@
   import Welcome from './children/Welcome.vue';
 
   export default {
-    name: 'getting-started',
+    name: 'get-started',
     components: {
       Signup,
       Welcome,

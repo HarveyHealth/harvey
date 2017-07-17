@@ -176,7 +176,7 @@ export default {
         case 2:
           return 'In two weeks';
         case 3:
-          return 'In thee weeks';
+          return 'In three weeks';
       }
     }
   },
