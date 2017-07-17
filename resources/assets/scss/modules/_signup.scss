@@ -1,6 +1,6 @@
 // Global signup styles
 .signup-content {
-  @include padding(25px null null null);
+  @include padding(50px null null null);
   text-align: center;
   @include margin(null null 60px null);
 }
@@ -31,12 +31,13 @@
 .signup-form-container,
 .signup-interstitial-container {
   max-width: 510px;
-  @include margin(30px auto);
-  @include padding(30px);
-  @include query(md) {
-    @include padding(50px 90px);
+  h1 {
+    font-size: 32px;
+    padding-bottom: 20px;
   }
-
+  @include query(md) {
+    @include padding(40px 70px);
+  }
   &.large {
     max-width: 775px;
     @include padding(30px);
@@ -414,6 +415,8 @@ button:focus {
   display: none !important;
 }
 
+
+
 // New grid layout
 $signup-grid: (
   columns: 12,
@@ -423,6 +426,7 @@ $signup-grid: (
 .signup-wrapper {
   max-width: 1400px;
   margin: 0 auto;
+  overflow: hidden;
   @extend %clearfix;
 }
 .signup-quotes {
@@ -436,18 +440,16 @@ $signup-grid: (
         margin-top: 100px;
     }
   }
-  .signup-form-container {
-    @include padding(30px);
-  }
+
   .signup-quotes {
-    @include grid-column(7, $signup-grid);
+    @include grid-column(6, $signup-grid);
     display: block;
     position: relative;
     top: 60px;
     height: 600px;
   }
   .signup-form-inputs {
-    @include grid-column(5, $signup-grid);
+    @include grid-column(6, $signup-grid);
   }
 }
 

@@ -13,14 +13,14 @@
                         <h1 class="title is-1">Hi. We're Harvey. We specialize in complex health conditions.</h1>
                         <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer virtual consultations with functional and naturopathic doctors, in-home lab testing and natural therapies to help optimize your health and wellness.</p>
                         <div class="columns">
-                            <div class="column is-4 is-6-tablet">
+                            <div class="column is-4 is-5-tablet">
                                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                                     <img src="/images/home/amanda.jpg" alt="">
                                 </a>
                             </div>
                             <div class="column is-6-desktop is-8-tablet is-paddingless-left">
                                 <p class="title is-5 is-marginless"><strong>Dr. Amanda Frick, ND</strong></p>
-                                <p class="subtitle is-6">Meet our lead naturopathic doctor and learn why integrative medicine is better medicine.</p>
+                                <p class="subtitle is-6">Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.</p>
                             </div>
                         </div>
                     </div>
@@ -195,14 +195,14 @@
     <section class="section" id="how-it-works">
         <div class="container has-text-centered">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">We will connect you with an integrative doctor over the phone and give you access to a wide variety of in-home lab testing and treatments to help you heal more naturally.</p>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">We will connect you with an integrative doctor over the phone and give you access to a wide variety of in-home lab testing and treatments to help you optimize your health and heal more naturally.</p>
             <div class="columns is-multiline">
                 <div class="column is-half-tablet is-auto-desktop">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
                         <span class="icon icon_steps_1"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
-                        <p class="title is-5"><strong>1. Consultation</strong></p>
+                        <p class="title instructions is-5"><strong>1. Consultation</strong></p>
                         <p>Your doctor will learn everything they can about you during a 1-2 hour phone intake process.</p>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                         <span class="icon icon_steps_2"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
-                        <p class="title is-5"><strong>2. Lab Testing</strong></p>
+                        <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
                         <p>We will mail you a custom lab kit and, if necessary, send a mobile phlebotomist to your home for a blood draw.</p>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                         <span class="icon icon_steps_3"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
-                        <p class="title is-5"><strong>3. Analysis</strong></p>
+                        <p class="title instructions is-5"><strong>3. Analysis</strong></p>
                         <p>You can review your results and biomarkers with your doctor and begin to identify the root causes of your symptoms.</p>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
                         <span class="icon icon_steps_4"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
-                        <p class="title is-5"><strong>4. Treatment</strong></p>
+                        <p class="title instructions is-5"><strong>4. Treatment</strong></p>
                         <p>Your doctor will create for you a treatment plan that may include diet, nutrition, supplements or lifestyle changes.</p>
                     </div>
                 </div>
@@ -269,13 +269,11 @@
                 </div>
             </div>
 
-
             <div class="has-text-centered">
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/getting-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
-
 
         </div>
     </section>
@@ -283,7 +281,7 @@
     <section class="section" id="tests">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Lab Testing</span></h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">We partner with the top laboratories and testing centers to give you access to a broad inventory of specialized lab tests that you won't find in most primary care clinics.</p>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">We partner with the top laboratories and testing centers to give you access to a broad inventory of specialized lab tests that you won't find in hospitals or most primary care clinics.</p>
             <div class="columns is-narrow">
                 <div class="column has-content-vertical-aligned">
                     <div class="content">
@@ -371,7 +369,6 @@
                     <p class="title is-5 is-marginless-bottom"><strong>Dr. Rachel West, D.O.</strong></p>
                     <em>Chief Medical Officer</em>
                     <p>Rachel is a board certified Integrative Family Medicine Physician and Osteopath in Los Angeles. Her work and professional experience has put her at the forefront of integrative and functional medicine.</p>
-                    <a href="//www.drrachelwest.com/" target="_blank">Visit Website</a>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -380,14 +377,12 @@
                     <p class="title is-5 is-marginless-bottom"><strong>Dr. Amanda Frick, N.D., LAc</strong></p>
                     <em>Lead Naturopathic Doctor</em>
                     <p>Amanda is has a Naturopathic Family Practice in Los Angeles. She specializes in nutrition, hormone balancing and digestive disorders. She is passionate about bringing the best aspects of modern and traditional medicine together to benefit her patients.</p>
-                    <a href="//dramandafrick.com/" target="_blank">Visit Website</a>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop is-hidden-mobile">
                     <img src="/images/home/empty.png" class="is-opaque-75" alt="">
                     <p class="title is-5 is-marginless-bottom"><strong>Maybe you? Join our team.</strong></p>
-                    <em>Looking for Integrative/Naturopathic Doctors</em>
-                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you!</p>
-                    <a href="mailto:support@goharvey.com?Subject=Practitioner%20Inquiry" target="_blank">Contact Us</a>
+                    <em>Looking for Naturopathic Doctors</em>
+                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call today!</p>
                 </div>
             </div>
         </div>
@@ -510,7 +505,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/signup" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/getting-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                 </div>
             </div>
         </div>

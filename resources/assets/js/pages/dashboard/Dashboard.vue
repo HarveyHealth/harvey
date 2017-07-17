@@ -124,7 +124,7 @@
     },
     methods: {
       viewAppointmentPage() {
-        this.$eventHub.$emit('mixpanel', "View New Appointment Page");
+        // add tracking for Appointments Page view here
       }
     },
     computed: {
@@ -187,16 +187,8 @@
       this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              ga('send', {
-                hitType: "event",
-                eventCategory: "clicks",
-                eventAction: "Dashboard",
-                eventLabel: null,
-                  eventValue: 50,
-                  hitCallback: null,
-                  userId: null
-              });
-            }
+        // Add tracking for Dashboard here
+      }
     }
   }
 </script>
