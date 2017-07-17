@@ -78,7 +78,7 @@
 
             <footer class="card-footer">
                 <div class="card-footer-item level">
-                    <a href="/getting-started" class="button is-pulled-right login-buttons">Sign Up</a>
+                    <a href="/get-started" class="button is-pulled-right login-buttons">Sign Up</a>
                     <button type="submit" class="button is-primary login-buttons">Log In</button>
                 </div>
             </footer>
