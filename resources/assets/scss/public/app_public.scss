@@ -197,13 +197,4 @@ body {
             }
         }
     }
-    &.lab-tests {
-        .header.is-inverted {
-            position: absolute;
-            width: 100%;
-        }
-        .page-content {
-            @include padding(56px null null null);
-        }
-    }
 }

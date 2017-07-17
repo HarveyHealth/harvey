@@ -23,16 +23,11 @@ class PractitionerAvailability
     public function availability()
     {
         $practitioner_timezone = $this->practitioner->timezone;
-
         $now = Carbon::now($practitioner_timezone);
-        $current_week = clone $now;
-
-        // a place to store the data
         $weeks = [];
 
-        for ($w = 0; $w <= 1; $w++) {
-            $current_week->startOfWeek();
-            $current_week->addWeeks($w);
+        for ($w = 0; $w <= 3; $w++) {
+            $current_week = $now->copy()->startOfWeek()->addWeeks($w);
 
             $availability = $this->validAvailabilitySlotsForWeek($current_week);
 
@@ -50,7 +45,7 @@ class PractitionerAvailability
                     $days_to_add = 0;
                 }
 
-                $date = clone $current_week;
+                $date = $current_week->copy();
                 $date->startOfWeek();
                 $date->addDays($days_to_add);
                 $date->hour = date('H', strtotime($time));
@@ -72,6 +67,32 @@ class PractitionerAvailability
         }
 
         return $weeks;
+    }
+
+    public function availabilityAsCollection()
+    {
+        $startOfCurrentWeek = Carbon::now()->startOfWeek();
+        $output = [];
+
+        foreach ($this->availability() as $key => $slots) {
+            $weekNumber = substr($key, 5) - 1;
+
+            $startOfWeekProcessing = $startOfCurrentWeek->copy()->addWeek($weekNumber);
+
+            foreach ($slots as $slot) {
+                $dayAndTime = explode(' ', $slot);
+                $dayNumber = date('N', strtotime($dayAndTime[0])) - 1;
+                $hourAndMinutes = explode(':', $dayAndTime[1]);
+
+                $output[] = $startOfWeekProcessing->copy()
+                    ->addDays($dayNumber)
+                    ->addHours($hourAndMinutes[0])
+                    ->addMinutes($hourAndMinutes[1])
+                    ->toW3cString();
+            }
+        }
+
+        return collect($output);
     }
 
     /**

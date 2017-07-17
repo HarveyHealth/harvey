@@ -41,5 +41,5 @@ Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
-// signup page
-Route::get('/signup', 'SignupController@index')->name('signup');
+// signup funnel
+Route::get('/get-started', 'GetStartedController@index')->name('getstarted');

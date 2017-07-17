@@ -53,7 +53,6 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
-
     export default {
         name: 'LabOrders',
         components: {
@@ -95,9 +94,7 @@
                 } else {
                     data = null;
                 }
-
                 this.detailFlyoutActive = !this.detailFlyoutActive
-
                 if (data) {
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
@@ -203,7 +200,6 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-
             const global = this.$root.$data.global
             if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 

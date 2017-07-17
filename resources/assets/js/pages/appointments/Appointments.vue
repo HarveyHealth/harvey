@@ -130,7 +130,8 @@
       :on-close="handleModalClose"
     >
       <h3 class="modal-header">{{ userActionTitle }}</h3>
-      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0">
+      <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
           <td><p>{{ appointment.patientName }}</p></td>
@@ -152,7 +153,7 @@
           <td><p>{{ appointment.purpose }}</p></td>
         </tr>
       </table>
-      <div class="modal-button-container">
+      <div class="modal-button-container" v-show="!bookingConflict">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
         <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
@@ -202,6 +203,7 @@ export default {
       activeFilter: 0,
       appointment: this.resetAppointment(),
       appointments: [],
+      bookingConflict: false,
       cache: {
         all: [],
         upcoming: [],
@@ -239,7 +241,7 @@ export default {
       ],
       userAction: '',
       userActionTitle: '',
-      userType: Laravel.user.userType
+      userType: Laravel.user.user_type
     }
   },
 
@@ -402,7 +404,7 @@ export default {
           .filter(obj => obj.times.length)
           // Transform into a format the TableData component can consume
           .map(obj => {
-            return { value: moment(obj.date).format('dddd, MMMM Do'), data: obj };
+            return { value: moment.utc(obj.date).format('dddd, MMMM Do'), data: obj };
           });
         // if no availabilty, show warning message
         if (!list.filter(obj => obj.times.length).length) {
@@ -434,15 +436,7 @@ export default {
           break;
         case 'new':
           if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-            ga('send', {
-              hitType: "event",
-              eventCategory: "clicks",
-              eventAction: "Comfirm Appointment",
-              eventLabel: null,
-               eventValue: 50,
-               hitCallback: null,
-               userId: null
-            });
+            // Add "Confirm Appointment" tracking here
           }
           this.userActionTitle = 'Confirm Appointment';
           this.appointment.status = 'pending';
@@ -484,6 +478,7 @@ export default {
         this.appointment.status = this.appointment.currentStatus;
       }
       this.modalActive = false;
+      this.bookingConflict = false;
     },
 
 
@@ -515,6 +510,7 @@ export default {
       this.flyoutActive = false;
       this.flyoutMode = null;
       this.overlayActive = false;
+      this.modalActive = false;
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
@@ -607,11 +603,18 @@ export default {
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
+      // collect data for tracking later
+      const appointmentStatus = this.appointment.status;
+      const appointmentDate = data.appointment_at;
+
       // api constraints
       if (this.userType === 'patient' || this.userAction === 'update') {
         delete data.patient_id;
       }
-      if (this.userType !== 'patient' && this.userAction === 'update' && !this.checkPastAppointment()) {
+      if (this.userType !== 'patient' &&
+          this.userAction === 'update' &&
+          this.appointment.currentStatus !== this.appointment.status) {
+
         delete data.appointment_at;
       }
       if (this.userAction !== 'new') {
@@ -635,6 +638,16 @@ export default {
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
+
+        // track the event
+        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+            analytics.track('Consultation Complete', {
+              date: appointmentDate,
+            });
+          }
+        }
+
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             this.selectedRowIndex = null;
@@ -670,7 +683,14 @@ export default {
             })
           })
         });
-      }).catch(err => console.error(err.response));
+      }).catch(error => {
+        this.selectedRowUpdating = null;
+        if (this.userAction === 'update' || this.userAction === 'new') {
+          this.modalActive = true;
+          this.bookingConflict = true;
+          this.userActionTitle = 'Booking Conflict';
+        }
+      });
 
       this.selectedRowData = null;
       this.flyoutActive = false;
@@ -786,7 +806,7 @@ export default {
 
     setTime(timeObj) {
       if (timeObj) {
-        this.appointment.time = this.$root.addTimezone(toLocal(timeObj.stored, 'h:mm a'));
+        this.appointment.time = this.$root.addTimezone(moment(timeObj.stored).format('h:mm a'));
         this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
       } else {
         this.appointment.time = '';
