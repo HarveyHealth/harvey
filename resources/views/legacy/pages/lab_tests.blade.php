@@ -12,7 +12,7 @@
 </section>
 <section class="section check-load" :class="{'is-loaded': appLoaded}">
     <div class="container bg-white">
-        <vertical-tabs class="height-600">
+        <vertical-tabs>
             @foreach ($lab_tests as $lab_test)
                 <vertical-tab class="tab" label="{{ $lab_test->sku->name }}">
                     <header class="level">
