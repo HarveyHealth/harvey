@@ -50,7 +50,6 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
         $messages = $builder->get();
 
         foreach ($messages as $message) {
-
             $timezone = $message->recipient->timezone;
             $createdAt = $message->created_at->timezone($timezone);
 
