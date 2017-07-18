@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            <AddLabOrders v-if="!loadingLabs && !$root.$data.labTests && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
@@ -175,13 +175,20 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                return global.loadingLabTests || 
-                global.loadingLabOrders || 
-                global.loadingPatients || 
-                global.loadingPractitioners || 
-                global.loadingLabTests
+                let user_type = this.$root.$data.global.user.attributes.user_type
+                if (user_type !== 'patient') {
+                    return global.loadingLabTests || 
+                    global.loadingLabOrders || 
+                    global.loadingPatients || 
+                    global.loadingPractitioners
+                } else {
+                    return global.loadingLabTests || 
+                    global.loadingLabOrders || 
+                    global.loadingPractitioners
+                }
             },
             labTests() {
+                let user_type = this.$root.$data.global.user.attributes.user_type
                 this.tests = this.$root.$data.labTests
                 return this.$root.$data.labTests.length > 0
             }
@@ -194,7 +201,7 @@
             },
             labTests(val) {
                 if (!val) {
-                    setTimeout(() => this.getLabTests(), 500)
+                    this.getLabTests()
                 }
             }
         },
@@ -204,8 +211,7 @@
             if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 
                 !global.loadingPatients && 
-                !global.loadingPractitioners && 
-                !global.loadingLabTests) {
+                !global.loadingPractitioners) {
                     this.setupLabData();
                 }
         }
