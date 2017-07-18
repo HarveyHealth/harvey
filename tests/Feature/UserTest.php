@@ -2,15 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use App\Models\Patient;
-use App\Models\Practitioner;
-use App\Models\User;
+use App\Models\{Admin, Patient, Practitioner, User};
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
-use ResponseCode;
 use Tests\TestCase;
+use Carbon, ResponseCode;
 
 class UserTest extends TestCase
 {
@@ -232,5 +229,24 @@ class UserTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
         $response->assertSee('You are not authorized to access this resource.');
+    }
+
+    public function test_email_verified_at_is_set_to_null_after_user_modify_their_email()
+    {
+        $now = Carbon::now();
+        $user = factory(User::class)->create(['email_verified_at' => $now]);
+        factory(Patient::class)->create(['user_id' => $user->id]);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'email_verified_at' => $now->toDateTimeString()]);
+
+        $parameters = ['email' => Faker::create()->email];
+
+        Passport::actingAs($user);
+        $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['email_verified_at' => null]);
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'email_verified_at' => null]);
     }
 }
