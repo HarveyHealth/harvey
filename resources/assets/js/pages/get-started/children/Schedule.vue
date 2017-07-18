@@ -3,7 +3,7 @@
     <div class="signup-stage-instructions">
       <StagesNav :current="'schedule'" />
       <h2>Choose date and time...</h2>
-      <p>Tell us the best date and time you would like to schedule a phone consultation with your doctor. Remember, this is a <strong>virtual</strong> meeting.</p>
+      <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now or in 4 weeks.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
       <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ this.prevStage.display }}</span></router-link>
@@ -31,22 +31,17 @@
         <div class="schedule-section schedule-times" ref="timeBox">
           <h3>Choose time</h3>
           <p class="schedule-info-text" v-show="selectedDate">{{ selectedDate | fullDate }}</p>
-
+          <p class="time-zone">Time Zone: {{ $root.addTimezone() }}</p>
           <ol v-show="selectedDate">
             <li v-for="(time, j) in availableTimes"
                 :class="{ 'available': true, 'selected': selectedTime === j }"
                 @click="handleSelectTime(time, j)"
             >{{ time | timeDisplay }}</li>
           </ol>
-
-          <p class="schedule-info-text">Time Zone: {{ $root.addTimezone() }}</p>
         </div>
       </div>
 
-      <p class="text-centered">Please note, all times are listed in <strong>{{ $root.addTimezone() }}</strong>. Please allow 60 minutes or longer for appointments.</p>
-
       <p class="error-text" v-html="errorText" v-show="errorText" style="display:block"></p>
-
       <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
 
     </div>
