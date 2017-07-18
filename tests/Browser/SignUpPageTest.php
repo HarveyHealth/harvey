@@ -34,7 +34,7 @@ class LoginPageTest extends DuskTestCase
       });
     }
 
-    public function test_if_pass_is_validated_for_being_shorter_then_6_digits()
+    public function test_if_password_is_validated_for_being_shorter_then_6_digits()
     {
       $this->browse(function (Browser $browser){
          $browser->visit(new SignUpPage)
@@ -43,6 +43,14 @@ class LoginPageTest extends DuskTestCase
       });
     }
 
+    public function test_if_user_is_sent_back_to_intial_form_after_zipcode_error_page()
+    {
+      $this->browse(function (Browser $browser){
+         $browser->visit(new SignUpPage)
+                 ->wrongZip();
+
+      });
+    }
 
 
 }

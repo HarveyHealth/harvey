@@ -31,19 +31,17 @@ class SignUpPage extends BasePage
         $browser->assertPathIs($this->url());
     }
 
-    public function submitForm(Browser $browser, $temp_user)
+
+    public function wrongZip(Browser $browser, $temp_user)
     {
-        $browser->type('first_name', $temp_user->first_name)
-              ->type('last_name', $temp_user->last_name)
-              ->type('email', $temp_user->email)
-              ->type('phone', $temp_user->phone)
-              ->type('password', bcrypt('secret'))
-              ->check('terms')
-              ->press('Sign Up')
-              ->pause(2000)
-              ->waitForText('Pick a date')
-              ->assertSee('Pick a date')
-              ->assertSee('Details');
+        $browser->type('first_name', 'Alex')
+                ->type('last_name', "vaz")
+                ->type('email', 'Alex')
+                ->type('zip', '99999')
+                ->type('password', 'secret')
+                ->check('terms')
+                ->press('Sign Up')
+                ->pause(2000);
     }
 
     public function clickSignUp(Browser $browser)
@@ -118,7 +116,7 @@ class SignUpPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button',
+            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button > span',
             '@continue' => '#app > div > div > div > button',
             '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div:nth-child(1)',
             '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button',
