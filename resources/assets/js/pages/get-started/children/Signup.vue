@@ -212,6 +212,7 @@ export default {
             localStorage.removeItem('sign up zip');
 
           })
+          // Error catch for user patch
           // The BE checks for invalid zipcodes based on states we know we cannot operate in
           // and also Iggbo servicing data.
           // If such a zipcode is entered, the users api will return a 400
@@ -220,7 +221,10 @@ export default {
             this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
-      })
+      // Error catch for vee-validate of signup form fields
+      }).catch(error => {
+        console.error('There are errors in the signup form fields.');
+      });
     },
     login(email, password) {
       axios.post('login', {
