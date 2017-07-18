@@ -6,7 +6,7 @@
       <p v-html="subtext"></p>
     </div>
     <div class="signup-container signup-phone-container text-centered">
-      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-arrow-left"></i> Practitioner</router-link>
+      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-long-arrow-left"></i><span>Practitioner</span></router-link>
 
       <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
         <div class="signup-main-icon">
@@ -172,7 +172,10 @@ export default {
                 phone: number,
               });
             }
-          }).catch(error => this.isUserPatchError = true);
+          }).catch(error => {
+            this.isUserPatchError = true;
+            this.isPhoneProcessing = false;
+          });
         }
       })
     },

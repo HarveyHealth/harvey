@@ -37,12 +37,12 @@
           <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha'" data-vv-as="First name" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
             <span v-show="errors.has('first_name')" class="error-text">{{ firstNameError }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha'" data-vv-as="Last name" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
             <span v-show="errors.has('last_name')" class="error-text">{{ lastNameError }}</span>
           </div>
 
@@ -170,6 +170,9 @@ export default {
       this.signupData.terms = this.terms ? true : '';
       // Validate the form
       this.$validator.validateAll(this.signupData).then(response => {
+
+        if (!response) return;
+
         this.isProcessing = true;
 
         // create the user
@@ -212,6 +215,7 @@ export default {
             localStorage.removeItem('sign up zip');
 
           })
+          // Error catch for user patch
           // The BE checks for invalid zipcodes based on states we know we cannot operate in
           // and also Iggbo servicing data.
           // If such a zipcode is entered, the users api will return a 400
@@ -220,7 +224,10 @@ export default {
             this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
-      })
+      // Error catch for vee-validate of signup form fields
+      }).catch(error => {
+        console.error('There are errors in the signup form fields.');
+      });
     },
     login(email, password) {
       axios.post('login', {

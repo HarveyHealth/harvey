@@ -33,19 +33,15 @@
           </div>
           <div class="card-content-container">
 
-            <div class="card-content-wrap" v-if="upcoming_appointments.length > 0">
+            <div class="card-content-wrap">
               <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ upcoming_appointments[0].attributes.practitioner_name }}
-              </h3>
-            </div>
-
-            <div class="card-content-wrap" v-else>
-              <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg> Dr. Amanda Frick, N.D.
+                <img class="card-avatar" :src="practitioner.avatar">
+                {{ practitioner.name }}
               </h3>
             </div>
 
             <div class="card-content-wrap">
+              <p class="appointment_doctor">{{ practitioner.description }}</p>
 <!--          <h4 class="card-contact-sublabel" v-if="email">Email</h4>
               <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
               <h4 class="card-contact-sublabel" v-if="phone">Phone</h4>
@@ -147,6 +143,31 @@
       },
       phone() {
         return this.user.attributes ? phone(this.user.attributes.phone) : '';
+      },
+      practitioner() {
+        if (this.$root.$data.global.practitioners.length) {
+          const name = Laravel.user.doctor_name;
+          return this.$root.$data.global.practitioners.filter(dr => {
+            return dr.info.name === name;
+          }).map(dr => {
+            const typeAbbr = dr.info.type_name
+              .split(' ')
+              .map(part => part.charAt(0))
+              .join('');
+            return {
+              avatar: dr.info.picture_url,
+              description: dr.info.description,
+              name: `${dr.name}, ${typeAbbr}`
+            }
+          })[0];
+        } else {
+          return {
+            avatar: '#',
+            description: 'Loading practitioner information',
+            name: ''
+          }
+        }
+
       },
       recent_appointments() {
         return this.$root.$data.global.recent_appointments || [];
