@@ -6,7 +6,7 @@
       <p>Please confirm that the information below is correct. If it is not, click back to edit any previous information.</p>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }"><i class="fa fa-arrow-left"></i> Schedule</router-link>
+      <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }"><i class="fa fa-long-arrow-left"></i><span>Schedule</span></router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>

@@ -6,7 +6,7 @@
       <p>Tell us the best date and time you would like to schedule a phone consultation with your doctor. Remember, this is a <strong>virtual</strong> meeting.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
-      <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-arrow-left"></i> {{ this.prevStage.display }}</router-link>
+      <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ this.prevStage.display }}</span></router-link>
 
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">

@@ -37,12 +37,12 @@
           <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha'" data-vv-as="First name" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
             <span v-show="errors.has('first_name')" class="error-text">{{ firstNameError }}</span>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha'" data-vv-as="Last name" />
+            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
             <span v-show="errors.has('last_name')" class="error-text">{{ lastNameError }}</span>
           </div>
 
