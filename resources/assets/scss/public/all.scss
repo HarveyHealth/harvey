@@ -482,6 +482,11 @@ body[class*="password-reset"]{
       margin-bottom: 60px;
     }
 
+    .button {
+      line-height: 2;
+      display: inline-block;
+    }
+
     .card-padding {
       padding: 30px 80px 60px;
     }
@@ -489,6 +494,9 @@ body[class*="password-reset"]{
     .logo-wrapper {
       max-width: 230px;
       margin: 0 auto 20px;
+      svg.logo {
+        max-width: 230px;
+      }
     }
 
     .login-buttons {
