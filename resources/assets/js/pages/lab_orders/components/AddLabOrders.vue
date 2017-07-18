@@ -181,6 +181,21 @@ export default {
                 sku_id: Number(e.id),
                 shipment_code: e.shipment_code
               })
+              if (i == this.selectedTests.length - 1) {
+                this.selectedClient = ''
+                this.step = 1
+                this.masterTracking = ''
+                this.address1 = ''
+                this.selectedDoctor = ''
+                this.address2 = ''
+                this.city = ''
+                this.zip = ''
+                this.state = ''
+                this.selectedTests = []
+                this.shippingCodes = {}
+                this.prevDoctor = ''
+                this.prevClient = ''
+              }
           })
 
           this.selectedClient = ''

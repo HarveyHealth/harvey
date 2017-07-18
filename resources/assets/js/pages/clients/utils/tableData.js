@@ -5,8 +5,8 @@ import moment from 'moment'
 export default function(clientList) {
     return clientList.map(e => {
         let data = e.attributes
-        data['email_hyperlink'] = 5
-        data['phone_hyperlink'] = 6
+        data['email_hyperlink'] = 6
+        data['phone_hyperlink'] = 7
         return {
             data: data,
             values: [
@@ -14,11 +14,11 @@ export default function(clientList) {
                 data.created_at ? moment(data.created_at.date).format('ddd, MMM Do YYYY') : 'No',
                 `${data.city}, ${data.state}`,
                 data.has_an_appointment ? 'Yes' : 'No',
+                data.has_completed_an_appointment ? 'Yes' : 'No',
                 data.doctor_name ? `Dr. ${data.doctor_name}`: 'ND',
                 data.email,
                 data.phone
-                // `Yes`,  // data.intake_form ? 'Yes' : 'No',
-                // `Yes`  // data.has_an_appointment ? 'Yes' : 'No',
+                // `Yes`,  // data.intake_form ? 'Yes' : 'No'
             ]
         }
     })

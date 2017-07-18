@@ -3,7 +3,7 @@
     <button v-if="back" style="float: left; right: 0; left: 1em; color: #999999;" class="button--close flyout-close" @click="back">
       <i class="fa fa-arrow-left" aria-hidden="true"></i>
     </button>
-    <button class="button--close flyout-close" @click="onClose">
+    <button v-if="onClose != null" class="button--close flyout-close" @click="onClose">
       <svg><use xlink:href="#close" /></svg>
     </button>
     <h2 class="title" v-html="heading"></h2>
