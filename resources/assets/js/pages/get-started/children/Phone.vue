@@ -93,7 +93,7 @@ export default {
     subtext() {
       return this.$root.$data.signup.phonePending
         ? 'Please enter the Harvey confirmation code that was just sent to you via text message. We can send it again if you didn&rsquo;t receive it.'
-        : 'Please validate your phone number. Your doctor needs a phone number on file as a backup for video conferencing. We will also send you occasional text notification reminders before appointments. ';
+        : 'Please validate your phone number. Your doctor needs this on file to provide you with better care. We will also send you text reminders before each appointment.';
     },
     confirmInputComponent() {
       return this.$children.filter(child => {
