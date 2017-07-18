@@ -14,9 +14,9 @@ class SignUpTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function test_if_getting_started_returns_ok()
+    public function test_if_get_started_returns_ok()
     {
-        $response = $this->get('/getting-started');
+        $response = $this->get('/get-started');
         $response->assertStatus(ResponseCode::HTTP_OK);
     }
 
