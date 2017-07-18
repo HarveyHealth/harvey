@@ -127,7 +127,6 @@ export default {
           }
         })
       })
-      console.log(weeks);
       return weeks;
     }
   },
