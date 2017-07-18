@@ -9,7 +9,7 @@ class SignUpPage extends BasePage
 {
     public function url()
     {
-        return '/getting-started';
+        return '/get-started';
     }
 
 
@@ -63,9 +63,7 @@ class SignUpPage extends BasePage
               ->type('zip', '91202')
               ->type('password', bcrypt('secret'))
               ->checkTerms()
-              ->clickSignUp()
-              ->waitForText("You will need to answer a few questions")
-              ->assertSee("You will need to answer a few questions");
+              ->clickSignUp();
 
 
     }

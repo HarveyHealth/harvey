@@ -65,17 +65,18 @@ class signUpFlowTest extends DuskTestCase
                       ->waitFor('@phone_number')
                       ->type('phone_number', $user->phone)
                       ->click('@sendText')
-                      ->pause(2000);
+                      ->pause(4000);
                     });
 
                   $userId = DB::table('users')->where('email', $user['email'])->value('id');
-                  
 
 
-                 $code = Redis::get("phone_validation:{$userId}:{$user->phone}");
-                dd($code);
-                $this->assertDatabaseHas('users', ['email' => $user->email]);
-                $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
+
+                  $code = Redis::get("phone_validation:{$userId}:{$user->phone}");
+                  dd($userId,$code,$user->phone, Redis::get("*"));
+
+                  $this->assertDatabaseHas('users', ['email' => $user->email]);
+                  $this->assertDatabaseHas('users', ['first_name' => $user->first_name]);
 
                     $this->browse(function ($browser) use ($user) {
                         //$browser->waitForText('First, choose your practitioner...');
