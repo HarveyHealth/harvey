@@ -87,13 +87,13 @@ export default {
   computed: {
     title() {
       return this.$root.$data.signup.phonePending
-        ? 'Enter confirmation code...'
-        : 'Provide phone number...';
+        ? 'Enter Confirmation Code'
+        : 'Enter Phone Number';
     },
     subtext() {
       return this.$root.$data.signup.phonePending
         ? 'Please enter the Harvey confirmation code that was just sent to you via text message. We can send it again if you didn&rsquo;t receive it.'
-        : 'Your doctor will need to call you on a <strong>mobile</strong> phone number with text message capabilities. Please validate your mobile number. We will only call you with issues concerning your account.';
+        : 'Please validate your phone number. Your doctor needs a phone number on file as a backup for video conferencing. We will also send you occasional text notification reminders before appointments. ';
     },
     confirmInputComponent() {
       return this.$children.filter(child => {

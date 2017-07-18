@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
-      <h2>Final confirmation...</h2>
+      <h2>Final Confirmation</h2>
       <p>Please confirm that the information below is correct. If it is not, click back to edit any previous information.</p>
     </div>
     <div class="signup-container signup-interstitial-container">

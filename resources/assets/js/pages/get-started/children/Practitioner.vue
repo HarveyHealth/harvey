@@ -2,15 +2,15 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'practitioner'" />
-      <h2>First, choose your practitioner...</h2>
-      <p>We have <strong>2 doctors</strong> available who are licensed and certified to work with patients in your state. Please select the doctor you prefer.</p>
+      <h2>Choose Your Practitioner</h2>
+      <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
     </div>
     <div class="signup-container signup-stage-container">
       <div class="signup-practitioner-wrapper cf">
         <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr)">
           <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + dr.info.background_picture_url + ')' }"></div>
           <img class="practitioner-avatar" :src="dr.info.picture_url" />
-          <h3 class="practitioner-name text-centered">{{ dr.name }}, {{ dr.info.type_name }}</h3>
+          <h3 class="practitioner-name text-centered">{{ dr.name }}, ND<!--{{ dr.info.type_name }}--></h3>
           <p class="practitioner-license text-centered">License {{ dr.info.license_number }} {{ dr.info.license_state }}</p>
           <div class="practitioner-info-wrapper">
             <p>{{ dr.info.description }}</p>
