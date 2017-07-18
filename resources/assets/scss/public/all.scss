@@ -11,7 +11,8 @@
 // Google Analytics
 .async-hide { opacity: 0 !important}
 
-// rewrite bulma styles
+// Rewrite bulma styles
+
 .nav-left {
   overflow-x: hidden;
 }
@@ -20,7 +21,11 @@
   font-weight: 400;
 }
 
+// Fonts
+
 $font-family: "proxima-nova";
+
+// Buttons
 
 .button {
   &.is-link {
@@ -43,6 +48,13 @@ $font-family: "proxima-nova";
   color: #fff;
 }
 
+// Footer
+
+.footer-logo {
+  max-width: 170px;
+  padding-bottom: 10px;
+}
+
 .footer {
   @include padding(null null 4rem null);
 
@@ -52,7 +64,7 @@ $font-family: "proxima-nova";
   }
 
   &:not(.is-simple) {
-    background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 50%);
+    background-image: linear-gradient(120deg, #FFFFFF 0%, $harvey-brown 40%);
 
     .content,
     a.nav-item {
@@ -61,14 +73,16 @@ $font-family: "proxima-nova";
   }
 }
 
-//hide before font loads
+// Hide before font loads
+
 .wf-loading {
   h1, h2, h3, h4, h5, h6, a, p, label, span, div {
     visibility: hidden;
   }
 }
 
-// new global styles
+// New global styles
+
 [tabindex="-1"] {
   outline: 0px solid transparent;
 }
@@ -106,7 +120,7 @@ $font-family: "proxima-nova";
 }
 
 .icon {
-  vertical-align: middle !important; 
+  vertical-align: middle !important;
   // rewrite bulma
   &.has-border-circle {
     border: 2px solid;
@@ -135,7 +149,7 @@ $font-family: "proxima-nova";
 }
 
 .card-footer-item {
-  @include padding(1.5rem);
+  @include padding(1.7rem 4.5rem);
 }
 
 .panel-block {
@@ -145,7 +159,6 @@ $font-family: "proxima-nova";
 }
 
 .page-content {
-  overflow: hidden;
   .nav {
     z-index: 1;
   }
@@ -167,7 +180,8 @@ em {
   font-size: 0.85em;
 }
 
-// modify animations
+// Animation
+
 .animated {
   &.notification {
     &.fadeOut {
@@ -182,19 +196,73 @@ em {
   }
 }
 
+// Public Pages
+
 #app {
-  @include padding(null null 300px null);
+    padding: 0;
+    @include margin(null null 0 null);
+}
+
+body.home .header,
+body.lab-tests .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 101;
+    height: 60px;
+    background-color: rgba(#fff, $opacity-dark);
+    &,
+    .button {
+        transition: all 0.2s ease;
+    }
+    .button {
+        &:not(.is-outlined) {
+            background-color: $tertiary;
+            &:hover,
+            &:active,
+            &:focus {
+                background-color: darken($tertiary, 2.5%);
+            }
+        }
+        &.is-outlined {
+            color: $tertiary;
+            @include border-color($tertiary);
+            &:hover,
+            &:active,
+            &:focus {
+                color: darken($tertiary, 5%);
+                @include border-color(darken($tertiary, 5%));
+                background-color: transparent;
+            }
+        }
+    }
+    &.is-inverted {
+      .logo-wrapper {
+        .harvey-text {
+            fill: #fff !important;
+          }
+        }
+    }
+}
+
+
+
+.section:not(:last-of-type) {
+    @include padding(null null 1rem null);
 }
 
 body {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
 }
+
 .footer {
-  position: absolute;
   left: 0;
   width: 100%;
 }
+
 .logo-wrapper {
   .no-svg & {
     background: url('/images/logos/mobile-logo.png') no-repeat center center;
@@ -203,6 +271,7 @@ body {
     }
   }
 }
+
 .page-title {
   &, &.title {
     font-weight: 500;
@@ -301,8 +370,6 @@ body {
   pointer-events: none;
 }
 
-// Should match _header.scss, we need to combine
-
 .header {
   box-shadow: 0 1px $grey-lighter;
   top: 0;
@@ -373,12 +440,6 @@ body {
   line-height: 56px;
 }
 
-#app {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-}
-
 .login {
   width: 100%;
   height: 100%;
@@ -395,101 +456,118 @@ body {
   font-size: 1.25rem;
 }
 
-.login-input {
-  -webkit-appearance: textfield;
-  background-color: white;
-  -webkit-rtl-ordering: logical;
-  user-select: text;
-  cursor: auto;
-  text-rendering: auto;
-  color: initial;
-  letter-spacing: normal;
-  word-spacing: normal;
-  text-transform: none;
-  text-indent: 0px;
-  text-shadow: none;
-  display: inline-block;
-  font: 11px system-ui;
-  text-align: start;
-  -webkit-writing-mode: horizontal-tb;
-  font-family: $font-family;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.3;
-  width: 100%;
-  border: none;
-  border-bottom: 1px solid #999999;
-  padding: 0 0 10px;
-  font-size: 18px;
-  box-shadow: none;
-  margin-bottom: 30px;
-}
-.card-padding {
-  padding: 50px 90px;
-}
-.login-heading {
-  font-size: 32px; 
-  font-weight: 500; 
-  text-align: center; 
-  color: #777777; 
-  line-height: 1.3; 
-  margin-bottom: 15px;
-}
-.grey_bg {
-  background-color: rgba(119,119,116, 0.04);
-   width: 100%;
-   height: 100%;
-}
-.login-width {
-  width: 510px !important;
-}
-.login-buttons {
-  width: 200px;
-}
-.reset-width {
-  left: 30%;
-}
-.signup-color {
-  background-color: rgb(165, 225, 255);
-  border-color: transparent;
-  color: $white;
-  &:hover {
+// Login & Forgot Pages
+
+body[class*="login"],
+body[class*="password-reset"]{
+
+  background: #F9F9F9;
+
+  .header{
+    display:none;
+  }
+
+  .large-top-margin {
+    top: 130px;
+  }
+
+  .reset-width {
+    left: 30%;
+  }
+
+  .login-width {
+    width: 510px !important;
+
+    form {
+      margin-bottom: 60px;
+    }
+
+    .card-padding {
+      padding: 30px 80px 60px;
+    }
+
+    .logo-wrapper {
+      max-width: 230px;
+      margin: 0 auto 20px;
+    }
+
+    .login-buttons {
+      width: 160px;
+    }
+
+    .login-input {
+      font-family: "proxima-nova";
+      border: none;
+      border-bottom: 1px solid #DEDEDE;
+      padding: 0 0 5px;
+      font-size: 17px;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .remember-me {
+      margin: 25px 0 0 0;
+      display: inline-block;
+      width: 49%;
+      label {
+        font-size: 15px;
+        color: #999;
+      }
+    }
+
+    .forgot-password {
+      margin: 25px 0 0 0;
+      display: inline-block;
+      text-align: right;
+      width: 49%;
+      a.button:not(.is-primary) {
+        font-size: 15px;
+        text-decoration: none;
+        color: $harvey-turquoise;
+        height: 22px;
+      }
+      a.button:focus,a.button:active {
+        outline: none;
+        text-decoration: none;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+    }
+  }
+
+  .signup-color {
+    background-color: rgb(165, 225, 255);
     border-color: transparent;
     color: $white;
-    background-color: rgb(155, 215, 245);
+    &:hover {
+      border-color: transparent;
+      color: $white;
+      background-color: rgb(155, 215, 245);
+    }
   }
+
+  .green-color {
+    background-color: #B4E6B8;
+    color: $white;
+  }
+
 }
-.login-top-margin {
-  @include margin(35px null null null);
-}
-.large-top-margin {
-  top: 210px;
-}
+
+// Screen Size
+
 .fullscreen {
   width: 100%;
   height: 100%;
 }
-.password-reset {
-  width: 100%;
-  height: 100%;
-}
+
 .window-size {
   width: 100vw;
   height: 100vh;
 }
-.reset-p {
-  text-align: center;
-  font-family: $font-family;
-  color: #5F7278;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  margin-bottom: 30px;
-}
-.green-color {
-  background-color: #B4E6B8;
-  color: $white;
-}
+
+// No Script
+
 .noscript {
     z-index: 9999;
     width: 510px;
@@ -502,38 +580,56 @@ body {
     text-align: center;
     padding: 20px;
 }
+
 .noscript-header {
   font-size: 20px;
   font-family: $font-family;
   font-weight: 300;
   line-height: 1.5;
 }
-.reset-top {
-  @include padding(75px null null null);
-}
+
 .help {
   @include margin(-15px null 20px null);
 }
+
 .fourButton {
   right: 30%;
   @include margin(20px null null null);
 }
+
+// Animation
+
 .hoverInput {
   color: $primary;
   position: relative;
   left: 0;
   top: 30px;
   opacity: 0;
-  font-size: 18px;
+  font-size: 15px;
   transform-origin: left top;
   transition: top 300ms ease-in-out;
   pointer-events: none;
   font-family: $font-family;
   font-weight: 300;
 }
+
 .typed {
     opacity: 1;
-    top: 0;
+    top: 5px;
     transform: translateY(-27px) scale(0.78);
     @include margin(null null 20px null);
+}
+
+.height-600 {
+  height: 700px;
+}
+
+.column {
+    padding: 20px;
+}
+
+.tab {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

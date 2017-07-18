@@ -197,6 +197,24 @@ export default {
                 this.prevClient = ''
               }
           })
+
+          this.selectedClient = ''
+          this.step = 1
+          this.masterTracking = ''
+          this.address1 = ''
+          this.selectedDoctor = ''
+          this.address2 = ''
+          this.city = ''
+          this.zip = ''
+          this.state = ''
+          this.selectedTests = []
+          this.shippingCodes = {}
+          this.prevDoctor = ''
+          this.prevClient = ''
+          this.doctorList = [''].concat(this.$root.$data.global.practitioners)
+          this.clientList = [''].concat(this.$root.$data.global.patients)
+          Object.values(this.$props.labTests).map(e => e.checked = false)
+          
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);

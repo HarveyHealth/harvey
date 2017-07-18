@@ -1,24 +1,27 @@
 @extends('legacy._layouts.public')
-
-@section('page_title','Log in')
-
+@section('page_title','Log In')
 @section('main_content')
-<section class="signup-content grey_bg">
+
+<section class="signup-content">
     <div class="container login-width large-top-margin">
-        <h1 class="header-xlarge login-heading">Log in to your account</h1>
-                <form
-                    id="login"
-                    role="form"
-                    method="post"
-                    action="/login"
-                    redirect-url="/#/"
-                    @submit.prevent.self="onSubmit"
-                    @keydown="login.form.errors.clear($event.target.name)"
-                >
-                <div class="card card-padding">
+        <div class="logo-wrapper">
+            <a href="/">
+                {!! $svgImages['logo'] !!}
+            </a>
+        </div>
+        <form
+            id="login"
+            role="form"
+            method="post"
+            action="/login"
+            redirect-url="/#/"
+            @submit.prevent.self="onSubmit"
+            @keydown="login.form.errors.clear($event.target.name)"
+        >
+
+            <div class="card card-padding">
                 <div class="card-section">
                     {{ csrf_field() }}
-
                     <div class="input-wrap">
                         <label :class="{typed: login.form.email}" class="hoverInput">Email</label>
                         <input
@@ -37,7 +40,6 @@
                             <span class="help is-danger" v-text="login.form.errors.get('email')"></span>
                         </template>
                     </div>
-
                     <div class="input-wrap">
                         <label :class="{typed: login.form.password}" class="hoverInput">Password</label>
                         <input
@@ -56,33 +58,31 @@
                             <span class="help is-danger" v-text="login.form.errors.get('password')"></span>
                         </template>
                     </div>
-
-                    <p class="control">
-                        <label class="checkbox">
-                            <input
-                                v-model="login.form.remember"
-                                type="checkbox"
-                            >
-                            Remember me
-                        </label>
-                    </p>
-
-                    <p class="control is-clearfix">
-                        <a class="button is-link" href="/password/reset">
-                            Forgot Your Password?
-                        </a>
-                    </p>
+                    <div class="input-wrap">
+                        <p class="control remember-me">
+                            <label class="checkbox">
+                                <input
+                                    v-model="login.form.remember"
+                                    type="checkbox"
+                                >Remember me
+                            </label>
+                        </p>
+                        <p class="control forgot-password is-clearfix">
+                            <a class="button is-link" href="/password/reset">
+                                Forgot Your Password?
+                            </a>
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <footer class="card-footer">
-            <div class="card-footer-item level">
-                <a class="button is-pulled-right login-buttons" href="/signup">Sign Up</a>
-                <button
-                    type="submit"
-                    class="button is-primary login-buttons"
-                >Log In</button>
-            </div>
-        </footer>
+
+            <footer class="card-footer">
+                <div class="card-footer-item level">
+                    <a href="/get-started" class="button is-pulled-right login-buttons">Sign Up</a>
+                    <button type="submit" class="button is-primary login-buttons">Log In</button>
+                </div>
+            </footer>
+
        </form>
     </div>
 </section>

@@ -91,16 +91,12 @@ class UserTest extends TestCase
 
     public function test_a_user_cannot_modify_guarded_properties_of_their_account()
     {
-        // Given a user
         $user = factory(User::class)->create();
-
-        // With a type
         factory(Patient::class)->create(['user_id' => $user->id]);
 
-        // And parameters with guarded property
+        // Parameters with guarded property
         $parameters = ['enabled' => false];
 
-        // User attempts updating their account with a guarded property
         Passport::actingAs($user);
         $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
 

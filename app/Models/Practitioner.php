@@ -36,7 +36,7 @@ class Practitioner extends Model
 
     public function getAvailabilityAttribute()
     {
-        return $this->availability()->availability();
+        return $this->availability()->availabilityAsCollection();
     }
 
     public function getTimezoneAttribute()

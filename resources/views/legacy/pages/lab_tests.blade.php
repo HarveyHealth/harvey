@@ -1,20 +1,20 @@
 @extends('legacy._layouts.public')
-@section('page_title','Lab Tests & Pricing')
+@section('page_title','Lab Tests')
 
 @section('main_content')
 <section class="hero">
     <div class="hero-body container">
         <header class="content has-text-centered">
-            <h1 class="title is-3 page-title">Lab Tests &amp; Pricing</h1>
-            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatments.</p>
+            <h1 class="title is-3 page-title">Lab Tests</h1>
+            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatment plans.</p>
         </header>
     </div>
 </section>
 <section class="section check-load" :class="{'is-loaded': appLoaded}">
-    <div class="container">
+    <div class="container bg-white">
         <vertical-tabs>
             @foreach ($lab_tests as $lab_test)
-                <vertical-tab label="{{ $lab_test->sku->name }}">
+                <vertical-tab class="tab" label="{{ $lab_test->sku->name }}">
                     <header class="level">
                         <div class="media-left is-pulled-left">
                             <img src="{{ $lab_test->image }}" alt="">
@@ -36,4 +36,5 @@
         </vertical-tabs>
     </div>
 </section>
+
 @endsection

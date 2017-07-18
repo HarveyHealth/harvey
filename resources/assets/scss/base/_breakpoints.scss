@@ -11,3 +11,17 @@ $breakpoints: (
     @content;
   }
 }
+
+$breakpoints-height: (
+  xs: 0px,
+  sm: 320px, // iphone 5 landscape
+  md: 560px, // iphone 5 portrait
+  lg: 768px, // ipad landscape
+  xl: 1024px // ipad portrait
+);
+
+@mixin query-height($bp) {
+  @media screen and (min-height: map-get($breakpoints-height, $bp)) {
+    @content;
+  }
+}

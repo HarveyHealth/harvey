@@ -9,10 +9,6 @@
 
 import './bootstrap';
 
-// TRACKING
-import VueMultianalytics from 'vue-multianalytics';
-import initTracking from './vendors/tracking';
-
 // HELPERS
 import {throttle, debounce} from 'lodash';
 
@@ -142,7 +138,7 @@ const app = new Vue({
             location.href = redirectUrl;
 
             if (formId == 'register') {
-                if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
+                // if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },
         // Symptoms selector
@@ -182,9 +178,6 @@ const app = new Vue({
                 if (!this.navIsInverted) this.navIsInverted = true;
             }
         },
-        onPageScroll() {
-            window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
-        },
         onIframeClick() {
             if(document.activeElement === document.querySelector('iframe')) {
                 setTimeout(() => {
@@ -202,46 +195,7 @@ const app = new Vue({
          this.$nextTick(() => {
             this.appLoaded = true;
         });
-
-        if (typeof mixpanel !== 'undefined') mixpanel.track("View Homepage");
-            this.onPageScroll();
-            if (env === 'production' || env === 'prod') {
-                initTracking();
-                this.$ma.trackEvent({
-                    fb_event: 'PageView',
-                    type: 'product',
-                    category: 'clicks',
-                    properties: { laravel_object: Laravel.user }
-                });
-                this.$ma.trackEvent({
-                    action: 'Homepage',
-                    fb_event: 'ViewContent',
-                    type: 'product',
-                    properties: { laravel_object: Laravel.user },
-                });
-            }
-
-        if (this.checkWhichPage('signup', 'register')) {
-            if (typeof mixpanel !== 'undefined') mixpanel.track("View Sign Up Page");
-            window.focus();
-            window.addEventListener('blur', this.onIframeClick);
-        }
-
-        // Google Analytics
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-89414173-1', 'auto');
-        ga('require', 'GTM-T732G62');
-        ga('send', 'pageview');
-
-        (function(a,s,y,n,c,h,i,d,e){s.className+=' '+y;h.start=1*new Date;
-        h.end=i=function(){s.className=s.className.replace(RegExp(' ?'+y),'')};
-        (a[n]=a[n]||[]).hide=h;setTimeout(function(){i();h.end=null},c);h.timeout=c;
-        })(window,document.documentElement,'async-hide','dataLayer',4000,
-        {'GTM-T732G62':true});
+        window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
     },
     destroyed() {
         if (this.isHomePage) {
