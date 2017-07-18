@@ -48,6 +48,13 @@ $font-family: "proxima-nova";
   color: #fff;
 }
 
+// Footer
+
+.footer-logo {
+  max-width: 170px;
+  padding-bottom: 10px;
+}
+
 .footer {
   @include padding(null null 4rem null);
 
@@ -113,7 +120,7 @@ $font-family: "proxima-nova";
 }
 
 .icon {
-  vertical-align: middle !important; 
+  vertical-align: middle !important;
   // rewrite bulma
   &.has-border-circle {
     border: 2px solid;
@@ -453,78 +460,79 @@ body {
 
 body[class*="login"],
 body[class*="password-reset"]{
+
   background: #F9F9F9;
+
   .header{
     display:none;
   }
-}
 
-.large-top-margin {
-  top: 200px;
-}
-
-.reset-width {
-  left: 30%;
-}
-
-.login-width {
-
-  width: 510px !important;
-
-  form {
-    margin-bottom: 60px;
+  .large-top-margin {
+    top: 130px;
   }
 
-  .card-padding {
-    padding: 30px 80px 60px;
+  .reset-width {
+    left: 30%;
   }
 
-  .logo-wrapper {
-    max-width: 230px;
-    margin: 0 auto 30px;
-  }
+  .login-width {
+    width: 510px !important;
 
-  .login-buttons {
-    width: 160px;
-  }
-
-  .login-input {
-    font-family: "proxima-nova";
-    border: none;
-    border-bottom: 1px solid #DEDEDE;
-    padding: 0 0 5px;
-    font-size: 17px;
-    box-shadow: none;
-    border-radius: 0;
-  }
-
-  .remember-me {
-    margin: 25px 0 0 0;
-    display: inline-block;
-    width: 49%;
-    label {
-      font-size: 15px;
-      color: #999;
+    form {
+      margin-bottom: 60px;
     }
-  }
 
-  .forgot-password {
-    margin: 25px 0 0 0;
-    display: inline-block;
-    text-align: right;
-    width: 49%;
-    a.button:not(.is-primary) {
-      font-size: 15px;
-      text-decoration: none;
-      color: $harvey-turquoise;
-      height: 22px;
+    .card-padding {
+      padding: 30px 80px 60px;
     }
-    a.button:focus,a.button:active {
-      outline: none;
-      text-decoration: none;
-      background: none;
+
+    .logo-wrapper {
+      max-width: 230px;
+      margin: 0 auto 20px;
+    }
+
+    .login-buttons {
+      width: 160px;
+    }
+
+    .login-input {
+      font-family: "proxima-nova";
       border: none;
+      border-bottom: 1px solid #DEDEDE;
+      padding: 0 0 5px;
+      font-size: 17px;
       box-shadow: none;
+      border-radius: 0;
+    }
+
+    .remember-me {
+      margin: 25px 0 0 0;
+      display: inline-block;
+      width: 49%;
+      label {
+        font-size: 15px;
+        color: #999;
+      }
+    }
+
+    .forgot-password {
+      margin: 25px 0 0 0;
+      display: inline-block;
+      text-align: right;
+      width: 49%;
+      a.button:not(.is-primary) {
+        font-size: 15px;
+        text-decoration: none;
+        color: $harvey-turquoise;
+        height: 22px;
+      }
+      a.button:focus,a.button:active {
+        outline: none;
+        text-decoration: none;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
     }
   }
 

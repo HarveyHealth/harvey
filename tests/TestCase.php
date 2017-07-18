@@ -37,4 +37,9 @@ abstract class TestCase extends BaseTestCase
 
         return explode("\n", $output->fetch());
     }
+
+    protected function getRandomValidPhone()
+    {
+        return array_random(['626','323','818']) . rand(1111111, 9999999);
+    }
 }

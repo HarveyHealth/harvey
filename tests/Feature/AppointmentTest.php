@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Appointment, Patient, Practitioner, PractitionerSchedule};
+use App\Models\{Admin, Appointment, AppointmentReminder, Patient, Practitioner, PractitionerSchedule};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Carbon;
@@ -26,26 +26,7 @@ class AppointmentTest extends TestCase
             'practitioner_id' => $practitioner->id,
         ]);
 
-        $availabilitySlots = $practitionerSchedule->practitioner->availability;
-
-        if (empty($availabilitySlots['week 1']) && empty($availabilitySlots['week 2'])) {
-            return false;
-        } elseif (empty($availabilitySlots['week 1'])) {
-            $pickFromWeek = 2;
-        } elseif (empty($availabilitySlots['week 2'])) {
-            $pickFromWeek = 1;
-        } else {
-            $pickFromWeek = rand(1, 2);
-        }
-
-        $randomSlot = collect($availabilitySlots["week {$pickFromWeek}"])->random();
-        $appointmentAt = Carbon::parse($randomSlot, 'UTC');
-
-        if (2 == $pickFromWeek) {
-            $appointmentAt->addWeek();
-        }
-
-        return $appointmentAt->format('Y-m-d H:i:s');
+        return Carbon::parse($practitionerSchedule->practitioner->availability->random())->format('Y-m-d H:i:s');
     }
 
     public function test_it_finds_appointments_24hs_before_start_time()
@@ -103,7 +84,7 @@ class AppointmentTest extends TestCase
         $this->assertEmailWasSentTo($patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.reminder');
         $this->assertEmailTemplateDataWas([
-            'doctor_name' => $practitioner->user->fullName(),
+            'doctor_name' => $practitioner->user->full_name,
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
@@ -111,6 +92,22 @@ class AppointmentTest extends TestCase
             'patient_first_name' => $patient->user->first_name,
             'phone_number' => $patient->user->phone,
         ]);
+    }
+
+    public function test_appointment_reminder_type_is_set_properly()
+    {
+        $appointment = factory(Appointment::class)->create();
+
+        $reminder = AppointmentReminder::create([
+            'appointment_id' => $appointment->id,
+            'recipient_user_id' => $appointment->patient->user->id,
+            'type' => AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID],
+            'sent_at' => Carbon::now(),
+        ]);
+
+        $this->assertEquals(AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID, $reminder->type_id);
+        $this->assertEquals(AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID], $reminder->type);
+        $this->assertEquals($appointment->patient->user->id, $reminder->recipient->id);
     }
 
     public function test_it_allows_a_patient_to_view_their_own_appointments()
@@ -484,7 +481,6 @@ class AppointmentTest extends TestCase
         $response->assertJsonFragment(['reason_for_visit' => 'some reason.']);
         $response->assertJsonStructure([
             'data' => [
-                'type',
                 'id',
                 'attributes',
                 'links',
@@ -492,78 +488,11 @@ class AppointmentTest extends TestCase
             ],
             'included' => [
                 '*' => [
-                    'type',
                     'id',
                     'attributes',
                     'links',
                 ],
             ]
         ]);
-    }
-
-    public function test_first_appointment_is_marked_as_first()
-    {
-        $patient = factory(Patient::class)->create();
-        $practitioner = factory(Practitioner::class)->create();
-        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
-
-        $parameters = [
-            'appointment_at' => $appointment_at,
-            'reason_for_visit' => 'Some reason.',
-            'practitioner_id' => $practitioner->id
-        ];
-
-        Passport::actingAs($patient->user);
-        $response = $this->json('POST', 'api/v1/appointments', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_OK);
-
-        $response->assertJsonFragment(['type' => 'first_appointment']);
-    }
-
-    public function test_second_appointment_is_marked_as_first_if_first_one_was_not_completed()
-    {
-        $appointment = factory(Appointment::class)->create();
-        $appointment->markAsCanceled();
-
-        $patient = $appointment->patient;
-        $practitioner = factory(Practitioner::class)->create();
-        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
-
-        $parameters = [
-            'appointment_at' => $appointment_at,
-            'reason_for_visit' => 'Some reason.',
-            'practitioner_id' => $practitioner->id
-        ];
-
-        Passport::actingAs($patient->user);
-        $response = $this->json('POST', 'api/v1/appointments', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_OK);
-
-        $response->assertJsonFragment(['type' => 'first_appointment']);
-    }
-
-    public function test_if_patient_has_a_completed_appointment_then_new_one_is_not_marked_as_appointment()
-    {
-        $appointment = factory(Appointment::class)->create();
-        $appointment->markAsComplete();
-
-        $patient = $appointment->patient;
-        $practitioner = factory(Practitioner::class)->create();
-        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
-
-        $parameters = [
-            'appointment_at' => $appointment_at,
-            'reason_for_visit' => 'Some reason.',
-            'practitioner_id' => $practitioner->id
-        ];
-
-        Passport::actingAs($patient->user);
-        $response = $this->json('POST', 'api/v1/appointments', $parameters);
-
-        $response->assertStatus(ResponseCode::HTTP_OK);
-
-        $response->assertJsonFragment(['type' => 'appointment']);
     }
 }

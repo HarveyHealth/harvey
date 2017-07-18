@@ -27,16 +27,28 @@ class PractitionerTest extends TestCase
 
     public function test_transformer_includes_expected_keys()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $practitioner = factory(Practitioner::class)->create([
+            'rate' => 150,
+        ]);
 
         Passport::actingAs($practitioner->user);
 
         $response = $this->json('GET', "api/v1/practitioners/{$practitioner->id}");
 
-        $response->assertJsonFragment(['name' => $practitioner->user->fullName()]);
-        $response->assertJsonFragment(['type_name' => $practitioner->type->name]);
-        $response->assertJsonFragment(['user_id' => (string) $practitioner->user_id]);
         $response->assertStatus(200);
+
+        $response->assertJsonFragment(['background_picture_url' => $practitioner->background_picture_url]);
+        $response->assertJsonFragment(['description' => $practitioner->description]);
+        $response->assertJsonFragment(['graduated_year' => (string) $practitioner->graduated_year]);
+        $response->assertJsonFragment(['license_number' => (string) $practitioner->license_number]);
+        $response->assertJsonFragment(['license_state' => $practitioner->license_state]);
+        $response->assertJsonFragment(['license_title' => $practitioner->license_title]);
+        $response->assertJsonFragment(['name' => $practitioner->user->full_name]);
+        $response->assertJsonFragment(['picture_url' => $practitioner->picture_url]);
+        $response->assertJsonFragment(['rate' => (string) $practitioner->rate]);
+        $response->assertJsonFragment(['school' => $practitioner->school]);
+        $response->assertJsonFragment(['specialty' => $practitioner->specialty]);
+        $response->assertJsonFragment(['user_id' => (string) $practitioner->user_id]);
     }
 
     public function test_anyone_can_view_practitioner_availability()
@@ -46,7 +58,7 @@ class PractitionerTest extends TestCase
         foreach ([Patient::class, Admin::class, Practitioner::class] as $userClass) {
             Passport::actingAs(factory($userClass)->make()->user);
             $response = $this->json('GET', 'api/v1/practitioners/'.Practitioner::first()->id.'?include=availability');
-            $response->assertJsonFragment(['meta' => ['availability' => [[],[]]]]);
+            $response->assertJsonFragment(['meta' => ['availability' => []]]);
             $response->assertStatus(200);
         }
     }

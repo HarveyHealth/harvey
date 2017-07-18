@@ -63,7 +63,7 @@
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
               <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ patientName }}
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}
               </h3>
             </div>
             <div class="card-content-wrap">
@@ -124,13 +124,15 @@
     },
     methods: {
       viewAppointmentPage() {
-        this.$eventHub.$emit('mixpanel', "View New Appointment Page");
+        // add tracking for Appointments Page view here
       }
     },
     computed: {
       dashboardTitle() {
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
+        } else if (this.userType === 'practitioner') {
+          return 'Practitioner Dashboard';
         } else {
           return 'Your Dashboard';
         }
@@ -163,7 +165,7 @@
         return this.user.id || '';
       },
       userType() {
-        return Laravel.user.userType;
+        return Laravel.user.user_type;
       },
       viewableIntakeAlert() {
         return !this.$root.$data.global.loadingAppointments &&
@@ -187,16 +189,8 @@
       this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
       if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              ga('send', {
-                hitType: "event", 
-                eventCategory: "clicks", 
-                eventAction: "Dashboard", 
-                eventLabel: null,
-                  eventValue: 50, 
-                  hitCallback: null, 
-                  userId: null
-              });
-            }
+        // Add tracking for Dashboard here
+      }
     }
   }
 </script>

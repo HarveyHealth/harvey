@@ -80,6 +80,11 @@
             return this.$root.$data.global.messages
           }
         },
+        watch: {
+          messageList() {
+            return this.$root.$data.global.messages
+          }
+        },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage

@@ -2,6 +2,20 @@
   border: none;
   padding: 14px;
   width: 100%;
+  @include query(lg) {
+    position: relative;
+  }
+
+  .loading {
+    width: 20px;
+    fill: darken($color--grey, 65%);
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    @include query(lg) {
+      top: auto;
+    }
+  }
 
   td {
     background: $white;
@@ -11,9 +25,12 @@
     display: block;
     font-size: 14px;
     font-weight: 300;
-    position: relative;
     transition: color 200ms;
     width: 100%;
+    position: relative;
+    @include query(lg) {
+      position: static;
+    }
 
     &:first-child {
       border-top: 1px solid $color--grey;
@@ -24,6 +41,10 @@
       @include margin(null null 16px null);
       @include padding(null null 1.5em null);
     }
+  }
+
+  tr {
+    position: relative;
   }
 
   th {
@@ -37,6 +58,7 @@
 
   th, td {
     text-align: left;
+    transition: background 100ms ease-in-out;
     @include padding(15px);
   }
 
@@ -60,7 +82,6 @@
   tr.is-updating td {
     background: $color--grey;
     color: darken($color--grey, 15%);
-    font-weight: bold;
 
     & i {
       color: darken($color--grey, 65%);
@@ -71,12 +92,13 @@
   }
 
   tr.has-updated td {
-    border-color: darken($color--grey, 65%);
+    // border-color: darken($color--grey, 65%);
+    background: $color--grey;
     color: darken($color--grey, 65%);
     // font-weight: bold;
-    @include query(lg) {
-      border-top: 1px solid;
-    }
+    // @include query(lg) {
+    //   border-top: 1px solid;
+    // }
   }
 
   .cell-wrap:before {

@@ -3,29 +3,51 @@
 namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
+use App\Http\Traits\Textable;
+use App\Lib\PhoneNumberVerifier;
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-use Carbon;
-use Log;
-use Mail;
+
+use Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable;
+    use HasApiTokens, Notifiable, Searchable, Textable;
 
     public $asYouType = true;
 
-    protected $guarded = ['id', 'enabled', 'password', 'remember_token',
-                            'terms_accepted_at', 'phone_verified_at',
-                            'email_verified_at', 'created_at', 'updated_at'];
+    public $allowedSortBy = [
+        'id',
+        'created_at',
+        'email',
+        'first_name',
+        'last_name',
+    ];
 
-    protected $dates = ['created_at','updated_at','terms_accepted_at',
-                        'phone_verified_at','email_verified_at'];
+    protected $guarded = [
+        'id',
+        'enabled',
+        'password',
+        'remember_token',
+        'terms_accepted_at',
+        'phone_verified_at',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'terms_accepted_at',
+        'phone_verified_at',
+        'email_verified_at',
+    ];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -47,10 +69,11 @@ class User extends Authenticatable implements Mailable
     {
         return [
             'id' => $this->id,
+            'created_at' => $this->created_at,
             'email' => $this->email,
             'first_name' => $this->first_name,
+            'full_name' => $this->full_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->fullName(),
         ];
     }
 
@@ -61,7 +84,22 @@ class User extends Authenticatable implements Mailable
 
     public function getTypeAttribute()
     {
-        return $this->userType();
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        } else {
+            throw new \Exception("Unable to determine user's type.");
+        }
+    }
+
+    public function getFullNameAttribute()
+    {
+        $fullName = trim("{$this->first_name} {$this->last_name}");
+
+        return empty($fullName) ? null : $fullName;
     }
 
     public function patient()
@@ -107,19 +145,6 @@ class User extends Authenticatable implements Mailable
         }
     }
 
-    public function userType()
-    {
-        if ($this->isPatient()) {
-            return 'patient';
-        } elseif ($this->isPractitioner()) {
-            return 'practitioner';
-        } elseif ($this->isAdmin()) {
-            return 'admin';
-        } else {
-            throw new \Exception("Unable to determine user's type.");
-        }
-    }
-
     public function isPatient()
     {
         return $this->patient != null;
@@ -145,13 +170,6 @@ class User extends Authenticatable implements Mailable
         return $this->isAdmin() || $this->isPractitioner();
     }
 
-    public function fullName()
-    {
-        $fullName = trim($this->first_name . ' ' . $this->last_name);
-
-        return  empty($fullName) ? null : $fullName;
-    }
-
     public function passwordSet()
     {
         return isset($this->password);
@@ -170,6 +188,17 @@ class User extends Authenticatable implements Mailable
     public function sendVerificationEmail()
     {
         Mail::to($this)->send(new VerifyEmailAddress($this));
+    }
+
+    public function sendVerificationCode()
+    {
+        return PhoneNumberVerifier::sendVerificationCode($this);
+    }
+
+    public function markPhoneAsVerified()
+    {
+        $this->phone_verified_at = Carbon::now();
+        return $this->save();
     }
 
     /* Mailable Interface Methods */
