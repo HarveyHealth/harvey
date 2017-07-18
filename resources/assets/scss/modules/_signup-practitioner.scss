@@ -25,7 +25,8 @@ $practitioner-grid: (
   }
 
   &:hover {
-    border-color: #bbb;
+    border-color: #CCC;
+    opacity: .9;
   }
 
   &.active,
@@ -58,6 +59,7 @@ $practitioner-grid: (
 }
 .practitioner-license {
   font-size: 12px;
+  color: #BBB;
   @include margin(null null 20px);
 }
 .practitioner-info-wrapper {
