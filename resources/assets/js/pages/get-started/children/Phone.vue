@@ -172,7 +172,10 @@ export default {
                 phone: number,
               });
             }
-          }).catch(error => this.isUserPatchError = true);
+          }).catch(error => {
+            this.isUserPatchError = true;
+            this.isPhoneProcessing = false;
+          });
         }
       })
     },
