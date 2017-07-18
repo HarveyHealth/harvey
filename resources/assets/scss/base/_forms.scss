@@ -23,7 +23,7 @@
   }
 
   &_checkbox {
-    @include margin(null 10px null null);
+    @include margin(null 5px null null);
     font-size: 15px;
     width: auto;
   }
@@ -46,6 +46,12 @@
     position: relative;
     &:hover{
       cursor: pointer;
+    }
+    .is-hidden-mobile{
+      display: none;
+      @include query(md) {
+        display: inline-block;
+      }
     }
   }
 }

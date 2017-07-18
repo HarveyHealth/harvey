@@ -31,8 +31,8 @@
       <p class="font-base" v-html="note"></p>
 
       <div class="text-centered mt-lg">
-        <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
         <a href="/dashboard" class="button button--cancel">Dashboard</a>
+        <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
       </div>
     </div>
 
