@@ -60,6 +60,13 @@ class LoginPage extends BasePage
                ->assertSee($this->homepage);
     }
 
+    public function errorMessages(Browser $browser)
+    {
+      $browser->click('@first_name')
+              ->click('@last_name');
+
+    }
+
 
 
 
@@ -81,6 +88,7 @@ class LoginPage extends BasePage
             '@logoHeader' => '#app > div.page-content > section > div > div > a > svg',
             '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout',
             '@login' => '#login > footer > div > button'
+
         ];
     }
 }
