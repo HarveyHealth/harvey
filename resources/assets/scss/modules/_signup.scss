@@ -19,7 +19,15 @@
   left: 3px;
   padding: 20px;
   transition: left 200ms ease-out, opacity 200ms ease-out;
-  opacity: .5;
+  opacity: .7;
+
+  span {
+    font-size: 14px;
+    display: inline-block;
+    margin-left: 10px;
+    position: relative;
+    bottom: 1px;
+  }
 
   &:hover {
     left: 0;

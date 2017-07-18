@@ -10,3 +10,7 @@ html {
   content: '';
   clear: both;
 }
+
+[v-cloak] {
+  display: none;
+}
