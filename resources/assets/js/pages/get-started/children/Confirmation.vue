@@ -9,7 +9,7 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. The cost for my consultation will be $150. The cost for the consultation will be $150, due to Harvey after its completion.</p>
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150, due to Harvey after its completion.</p>
       <button class="button button--blue" style="width: 180px" :disabled="isProcessing" @click="confirmSignup">
         <span v-if="!isProcessing">Confirm Booking</span>
         <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
@@ -29,13 +29,14 @@
 </template>
 
 <script>
+import getState from '../../../utils/methods/getState';
+import moment from 'moment';
+import transformAvailability from '../../../utils/methods/transformAvailability';
+
 import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
-
-import moment from 'moment';
-import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'confirmation',
@@ -54,7 +55,7 @@ export default {
         'container': true,
       },
       date: this.$root.$data.signup.data.appointment_at,
-      doctor: `${this.$root.$data.signup.practitionerName}, N.D`,
+      doctor: `${this.$root.$data.signup.practitionerName}, ND`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
       isProcessing: false,
       showModal: false,
@@ -74,6 +75,9 @@ export default {
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     }
+  },
+  filters: {
+    getState,
   },
   methods: {
     confirmSignup() {
