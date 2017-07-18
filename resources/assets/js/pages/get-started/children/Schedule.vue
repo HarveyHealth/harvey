@@ -12,13 +12,14 @@
         <div class="schedule-section schedule-days">
           <h3>Choose date</h3>
 
-          <div v-for="(week, i) in weekData" class="schedule-week">
+          <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
             <div class="schedule-week-info">
               <span class="week">{{ weekReference(i) }}</span>
               <span class="dates">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
               <li v-for="(dayObj, key) in week.days"
+                  v-show="dayObj !== null"
                   v-text="key"
                   @click="handleSelectDay(i, key, dayObj)"
                   :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
@@ -126,6 +127,7 @@ export default {
           }
         })
       })
+      console.log(weeks);
       return weeks;
     }
   },
@@ -166,6 +168,13 @@ export default {
     handleSelectTime(time, index) {
       this.$root.$data.signup.selectedTime = index;
       this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
+    },
+    hasAvailableDays(days) {
+      let pass = false;
+      for (let day in days) {
+        if (days[day] !== null) pass = true;
+      }
+      return pass;
     },
     weekReference(index) {
       switch (index) {
