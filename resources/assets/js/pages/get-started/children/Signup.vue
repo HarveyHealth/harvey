@@ -14,6 +14,9 @@
             <div class="show-xl"><svg class="with-stroke"><use xlink:href="#wellness" /></svg></div>
           </div>
           <div class="quotes-text">
+            <div class="quotes-imgs">
+              <svg class="harvey"><use xlink:href="#harvey-logo" /></svg>
+            </div>
             <blockquote v-for="obj in quotes" :key="obj.source">
               <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
               <footer v-html="'&ndash; ' + obj.source" class="font-base font-medium-gray"></footer>
@@ -63,7 +66,7 @@
 
           <div class="input-wrap last">
             <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to Harvey's <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
@@ -101,8 +104,8 @@ export default {
       newsletter: false,
       isProcessing: false,
       quotes: [
-        { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-          source: 'Elizabeth Yorn (battling Lupus)' }
+        { quote: 'I can say without a shadow of a doubt, my Harvey Naturopathic Doctor gave me my life back.',
+          source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
       ],
       responseErrors: [],
       signupData: {
