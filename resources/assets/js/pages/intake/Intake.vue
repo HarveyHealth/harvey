@@ -4,7 +4,7 @@
 
       <div class="close-bar">
         <div class="icon-container">
-          <a href="/dashboard" class="button--close flyout-close button--close-large" aria-label="Close">
+          <a href="/dashboard" class="button--close button--close-large flyout-close page-close" aria-label="Close">
             <svg aria-hidden="true"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use></svg>
           </a>
         </div>
@@ -20,14 +20,29 @@
   .close-bar {
     text-align: right;
     padding: 2em 0;
+    position: relative;
+    vertical-align: middle;
   }
 
   .icon-container {
     display: inline-block;
     height: 40px;
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     width: 40px;
   }
+    .icon-container .page-close {
+      height: 0;
+      left: 50%;
+      padding: 1em;
+      position: absolute;
+      right: auto;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+    }
 </style>
 
 <script>
@@ -39,7 +54,7 @@
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false,
         },
-        typeformUrl: `https://kyleahill.typeform.com/to/XGnCna?harveyID=${Laravel.user.id}`
+        typeformUrl: `https://kyleahill.typeform.com/to/XGnCna?harveyid=${Laravel.user.id}`
       }
     },
     mounted() {
