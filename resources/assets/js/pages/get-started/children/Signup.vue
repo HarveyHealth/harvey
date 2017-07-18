@@ -15,7 +15,7 @@
           </div>
           <div class="quotes-text">
             <div class="quotes-imgs">
-              <svg class="harvey"><use xlink:href="#harvey-logo" /></svg>
+              <a href="/"><svg class="harvey"><use xlink:href="#harvey-logo" /></svg></a>
             </div>
             <blockquote v-for="obj in quotes" :key="obj.source">
               <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
@@ -66,7 +66,7 @@
 
           <div class="input-wrap last">
             <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to Harvey's <a href="/terms">terms</a> and <a href="/privacy">privacy policy</a>.</label>
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to Harvey's <a href="/terms">terms</a> and <a href="/privacy">policies</a>.</label>
             <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
@@ -104,7 +104,7 @@ export default {
       newsletter: false,
       isProcessing: false,
       quotes: [
-        { quote: 'I can say without a shadow of a doubt, my Harvey Naturopathic Doctor gave me my life back.',
+        { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
           source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
       ],
       responseErrors: [],
@@ -118,7 +118,7 @@ export default {
       },
       subtitle: '',
       terms: false,
-      title: 'Your health journey starts here.',
+      title: 'Your health journey starts with us.',
       zipInRange: false,
     }
   },
@@ -163,7 +163,7 @@ export default {
     termsError() {
       if (this.errors.has('terms')) {
         return this.errors.firstByRule('terms', 'required')
-          ? 'Please check terms and conditions'
+          ? 'Please agree to terms and privacy policy'
           : ''
       }
     }

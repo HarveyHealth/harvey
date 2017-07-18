@@ -6,7 +6,7 @@
       <p v-html="subtext"></p>
     </div>
     <div class="signup-container signup-phone-container text-centered">
-      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-arrow-left"></i> Practitioner</router-link>
+      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-long-arrow-left"></i> Practitioner</router-link>
 
       <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
         <div class="signup-main-icon">
@@ -40,9 +40,12 @@
 
         <ConfirmInput :get-value="storeCode" :disabled="$root.$data.signup.codeConfirmed" :stored="code" />
 
-        <button class="phone-process-button" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">Text Me Again</button>
+        <button class="phone-process-button text-again" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">
+          <i class="fa fa-repeat" aria-hidden="true"></i>
+          Text Me Again
+        </button>
 
-        <button class="phone-process-button" @click="newPhoneNumber">Edit Phone Number</button>
+        <button class="phone-process-button edit-phone" @click="newPhoneNumber">Re-Enter Phone</button>
 
         <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
@@ -88,12 +91,12 @@ export default {
     title() {
       return this.$root.$data.signup.phonePending
         ? 'Enter Confirmation Code'
-        : 'Enter Phone Number';
+        : 'Validate Phone Number';
     },
     subtext() {
       return this.$root.$data.signup.phonePending
-        ? 'Please enter the Harvey confirmation code that was just sent to you via text message. We can send it again if you didn&rsquo;t receive it.'
-        : 'Please validate your phone number. Your doctor needs this on file to provide you with better care. We will also send you text reminders before each appointment.';
+        ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
+        : 'Our doctors require a valid phone number on file for every pateint. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
     },
     confirmInputComponent() {
       return this.$children.filter(child => {

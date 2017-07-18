@@ -74,6 +74,7 @@
   width: 70px;
   @include query(md) {
     width: 100px;
+    margin-top: 0 !important;
   }
 
   svg {
@@ -378,6 +379,11 @@ button:focus {
       @include margin(null null 30px null);
     }
 
+    .font-base {
+      font-size: 16px;
+      padding: 0 10%;
+    }
+
     .button.dashboard {
       color: #888;
       border: 1px solid #EFEFEF;
@@ -450,7 +456,7 @@ $signup-grid: (
     @include grid-column(6, $signup-grid);
     display: block;
     position: relative;
-    top: 60px;
+    top: 45px;
     height: 600px;
   }
   .signup-form-inputs {
@@ -461,5 +467,13 @@ $signup-grid: (
 @include query(xl) {
   .signup-form-container {
     @include padding(50px 90px);
+    .input-wrap {
+      margin-bottom: 15px;
+      line-height: 40px;
+      .font-base{
+        line-height: 30px;
+        padding: 0 3%;
+      }
+    }
   }
 }

@@ -30,9 +30,9 @@
 
       <p class="font-base" v-html="note"></p>
 
-      <div class="text-centered mt-lg mt-xl_md">
+      <div class="text-centered mt-lg">
         <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
-        <a href="/dashboard" class="button button--cancel">Go to Dashboard</a>
+        <a href="/dashboard" class="button button--cancel">Dashboard</a>
       </div>
     </div>
 
@@ -68,7 +68,7 @@ export default {
       },
       showModal: false,
       title: 'Your appointment is confirmed!',
-      note: 'We will send you a few text and email reminders leading up to your appointment. Please note, you must complete our patient intake form (below) <strong>before</strong> talking with your doctor.',
+      note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you both text and email reminder 24 hours and 1 hour before your. Chat with us on this screen if you have any questions.',
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
       appointmentDate: this.$root.$data.signup.data.appointment_at,
       appointmentInformation: this.$root.$data.signup.data,

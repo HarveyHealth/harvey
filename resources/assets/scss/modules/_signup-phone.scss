@@ -43,6 +43,7 @@
   font-size: 22px;
   font-family: monospace;
   margin: 0 2px;
+  color: #555;
 
   &:disabled {
     opacity: 0.5;
@@ -58,7 +59,11 @@
   color: $harvey-tertiary;
   cursor: pointer;
   transition: color 100ms ease-in;
-  @include margin(null auto);
+  @include margin(25px auto 0);
+
+  &.edit-phone{
+    margin-top: 8px;
+  }
 
   &:hover {
     color: $dark-gray;
