@@ -42,7 +42,7 @@ Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
 // signup funnel
-Route::get('/getting-started', 'GettingStartedController@index')->name('gettingstarted');
+Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE
 Route::get('/intake', 'IntakeController@index')->name('intake');

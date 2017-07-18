@@ -6,6 +6,7 @@ import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
 import phonemask from './utils/directives/phonemask';
+import VeeValidate from 'vee-validate';
 
 // MIXINS
 import TopNav from './utils/mixins/TopNav';
@@ -23,6 +24,7 @@ import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.directive('phonemask', phonemask);
+Vue.use(VeeValidate);
 
 const env = require('get-env')();
 

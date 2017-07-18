@@ -6,19 +6,20 @@
       <p>Tell us the best date and time you would like to schedule a phone consultation with your doctor. Remember, this is a <strong>virtual</strong> meeting.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
-      <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-arrow-left"></i> {{ this.prevStage.display }}</router-link>
+      <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ this.prevStage.display }}</span></router-link>
 
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
           <h3>Choose date</h3>
 
-          <div v-for="(week, i) in weekData" class="schedule-week">
+          <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
             <div class="schedule-week-info">
               <span class="week">{{ weekReference(i) }}</span>
               <span class="dates">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
               <li v-for="(dayObj, key) in week.days"
+                  v-show="dayObj !== null"
                   v-text="key"
                   @click="handleSelectDay(i, key, dayObj)"
                   :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
@@ -167,6 +168,13 @@ export default {
       this.$root.$data.signup.selectedTime = index;
       this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
     },
+    hasAvailableDays(days) {
+      let pass = false;
+      for (let day in days) {
+        if (days[day] !== null) pass = true;
+      }
+      return pass;
+    },
     weekReference(index) {
       switch (index) {
         case 0:
@@ -176,7 +184,7 @@ export default {
         case 2:
           return 'In two weeks';
         case 3:
-          return 'In thee weeks';
+          return 'In three weeks';
       }
     }
   },

@@ -11,7 +11,7 @@
           {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
         </span>
 
-        <div title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible, 'mt-sm': true}">
+        <div v-cloak title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible, 'mt-sm': true}">
           Add to Calendar
           <span class="start">{{ calendarStart }}</span>
           <span class="end">{{ calendarEnd }}</span>

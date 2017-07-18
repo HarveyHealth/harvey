@@ -1,7 +1,9 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-container signup-interstitial-container text-centered">
-      <a class="signup-back-button" href="/"><i class="fa fa-arrow-left"></i></a>
+      <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
+        <i class="fa fa-long-arrow-left"></i>
+      </router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
       </div>

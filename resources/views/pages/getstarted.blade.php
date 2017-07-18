@@ -19,7 +19,7 @@
         <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
           window.Laravel = {!! $vue_data !!}
-          window.$$context = 'getting-started';
+          window.$$context = 'get-started';
           if (!Laravel.user.signedIn) {
             window.location.hash = '/signup';
           } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
@@ -40,7 +40,7 @@
       <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
           <div class="container">
               <div class="nav-left">
-                  <a href="/" class="nav-item">
+                  <a href="/logout" class="nav-item">
                       <div class="logo-wrapper">
                           {!! $svgImages['logo'] !!}
                       </div>
