@@ -170,6 +170,9 @@ export default {
       this.signupData.terms = this.terms ? true : '';
       // Validate the form
       this.$validator.validateAll(this.signupData).then(response => {
+
+        if (!response) return;
+
         this.isProcessing = true;
 
         // create the user
