@@ -9,7 +9,7 @@ use Tests\TestCase;
 use Carbon, Redis, ResponseCode;
 
 
-class AppointmentTest extends TestCase
+class UnreadMessageEmailNotificationsTest extends TestCase
 {
     use DatabaseMigrations;
 
