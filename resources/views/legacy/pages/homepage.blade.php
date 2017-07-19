@@ -10,8 +10,8 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-6-desktop is-8-tablet">
-                        <h1 class="title is-1">Hi. We're Harvey. We specialize in complex health conditions.</h1>
-                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer virtual consultations with functional and naturopathic doctors, in-home lab testing and natural therapies to help optimize your health and wellness.</p>
+                        <h1 class="title is-3">Maximize your healthspan with a personalized, holistic and integrative approach to medicine.</h1>
+                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer video consultations with Naturopathic Doctors, in-home lab testing and natural therapies to help people like you be healthier for longer.</p>
                         <div class="columns">
                             <div class="column is-4 is-5-tablet">
                                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -22,6 +22,9 @@
                                 <p class="title is-5 is-marginless"><strong>Dr. Amanda Frick, ND</strong></p>
                                 <p class="subtitle is-6">Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.</p>
                             </div>
+                        </div>
+                        <div class="button-wrapper">
+                            <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
                         </div>
                     </div>
                 </div>
@@ -254,15 +257,15 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Simple Pricing</span></h2>
             <div class="columns is-narrow is-marginless-top">
-                <div class="column is-5 has-content-vertical-aligned is-paddingless">
+                <div class="column is-6 is-offset-1 has-content-vertical-aligned is-paddingless">
                     <div class="content">
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative and specialty lab tests are not reimbursable. However, you may be able to use an HSA/FSA account to pay for our services.</p>
+                        <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative healthcare and specialty lab tests are not reimbursable under most plans. However, you may be able to use your HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would have to pay at other in-person clinics.</p>
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would pay at other in-person clinics.</p>
                     </div>
                 </div>
-                <div class="column is-8 is-auto-tablet has-text-right">
+                <div class="column is-6 is-auto-tablet">
                     <figure>
                         <img src="/images/home/pricing.png" alt="">
                     </figure>
@@ -380,7 +383,7 @@
                     <img src="/images/home/empty.png" class="is-opaque-75" alt="">
                     <p class="title is-5 is-marginless-bottom"><strong>Maybe you? Join our team.</strong></p>
                     <em>Looking for Naturopathic Doctors</em>
-                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call today!</p>
+                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call!</p>
                 </div>
             </div>
         </div>

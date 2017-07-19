@@ -55,8 +55,9 @@ body.home {
         .hero-background {
             width: 100%;
             // background-image: gradient;
-            background: lighten(#EFEFEF, 90%) url('/images/home/hero_lg.jpg') no-repeat center top;
+            background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
             background-size: cover;
+            background-position: 75%;
             &, &:after {
                 position: absolute;
                 top: 0;
@@ -70,10 +71,14 @@ body.home {
                 background-color: rgba(darken(#EFEFEF, 90%), $opacity-light);
             }
             @include from($tablet) {
-                background-image: url('/images/home/hero_lg.jpg');
+                background-image: url('/images/home/hero_new.jpg');
+                background-size: cover;
+                background-position: 75%;
             }
             @include from($megascreen) {
-                background-image: url('/images/home/hero_lg.jpg');
+                background-image: url('/images/home/hero_new.jpg');
+                background-size: cover;
+                background-position: 75%;
             }
         }
         @include from($megascreen) {
