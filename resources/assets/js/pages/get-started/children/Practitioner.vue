@@ -1,9 +1,9 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <h1 v-if="$root.$data.global.loadingPractitioners" class="text-centered">
+    <h3 v-if="$root.$data.global.loadingPractitioners" class="text-centered">
       <LoadingBubbles :style="{ width: '26px', fill: '#555' }" />
-      <div>Loading practitioners</div>
-    </h1>
+      <div>Loading Practitioners...</div>
+    </h3>
     <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" :style="{ 'max-width': '500px', 'margin': '0 auto' }">
       <i class="fa fa-error"></i>
       <p class="error-text">Oops! Sorry, it looks like there was a problem getting practitioner data. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.</p>
