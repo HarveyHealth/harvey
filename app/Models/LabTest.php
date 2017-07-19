@@ -11,14 +11,14 @@ class LabTest extends Model
 {
     use SoftDeletes, HasStatusColumn;
 
-    const SHIPPED_STATUS_ID = 3;
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
+    const CONFIRMED_STATUS_ID = 2;
     const MAILED_STATUS_ID = 5;
     const PROCESSING_STATUS_ID = 6;
     const RECEIVED_STATUS_ID = 4;
-    const CONFIRMED_STATUS_ID = 2;
     const RECOMMENDED_STATUS_ID = 0;
+    const SHIPPED_STATUS_ID = 3;
 
     protected $dates = [
         'completed_at',
