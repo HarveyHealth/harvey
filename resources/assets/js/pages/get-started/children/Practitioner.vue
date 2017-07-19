@@ -19,8 +19,8 @@
           <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr)">
             <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + dr.info.background_picture_url + ')' }"></div>
             <img v-if="dr.info.picture_url" class="practitioner-avatar" :src="dr.info.picture_url" />
-            <h3 v-if="dr.name" class="practitioner-name text-centered">{{ dr.name }}, ND<!--{{ dr.info.type_name }}--></h3>
-            <p v-if="dr.info.license_number" class="practitioner-license text-centered">License {{ dr.info.license_number }} {{ dr.info.license_state }}</p>
+            <h3 v-if="dr.name" class="practitioner-name text-centered">{{ dr.name }}, ND</h3>
+            <p v-if="dr.info.license_number" class="practitioner-license text-centered">License {{ dr.info.license_number }}</p>
             <div class="practitioner-info-wrapper">
               <p v-if="dr.info.description">{{ dr.info.description }}</p>
               <hr class="practitioner-divider" />
