@@ -5,10 +5,10 @@
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
-                    <span class="text">Lab Orders</span>
-                    <button v-if="!isEmpty($root.$data.labTests) && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
-                        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                    </button>
+                        <span class="text">Lab Orders</span>
+                        <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                        </button>
                     </h1>
                     <FilterButtons
                         :active-filter="activeFilter"
@@ -53,6 +53,7 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
+    
     export default {
         name: 'LabOrders',
         components: {
