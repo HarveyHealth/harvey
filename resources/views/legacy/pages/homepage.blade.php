@@ -10,8 +10,8 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-6-desktop is-8-tablet">
-                        <h1 class="title is-1">Hi. We're Harvey. We specialize in complex health conditions.</h1>
-                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer virtual consultations with functional and naturopathic doctors, in-home lab testing and natural therapies to help optimize your health and wellness.</p>
+                        <h1 class="title is-3">Maximize your healthspan with a personalized, holistic and integrative approach to medicine.</h1>
+                        <p class="subtitle is-5">Harvey is the leading telehealth provider of integrative medicine. We offer video consultations with Naturopathic Doctors, in-home lab testing and natural therapies to help people like you be healthier for longer.</p>
                         <div class="columns">
                             <div class="column is-4 is-5-tablet">
                                 <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -23,6 +23,9 @@
                                 <p class="subtitle is-6">Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.</p>
                             </div>
                         </div>
+                        <div class="button-wrapper">
+                            <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -31,105 +34,10 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Your health is our focus.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">Harvey's doctors take a more personalized, preventative and holistic approach to medicine to help you find the root cause of your chronic health conditions and prevent risk of disease.</p>
+            <h2 class="title is-3">Our doctors work for you.</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">Harvey's doctors take a more preventative and relationship-driven approach to medicine to help you find the root cause of your chronic health conditions and reduce your risk for serious disease.</p>
             <div class="button-wrapper">
                 <a href="#scroll-here" class="button is-secondary is-outlined is-medium has-arrow">Patient Stories</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="integrative-medicine">
-        <div class="container">
-            <h2 class="title is-4 section-header"><span>Integrative Medicine</span></h2>
-            <div class="introduction columns is-narrow is-marginless-top">
-                <div class="column is-paddingless">
-                    <figure class="image is-margin is-padding">
-                        <img src="/images/home/venn-diagram.png" alt="">
-                    </figure>
-                </div>
-                <div class="column has-content-vertical-aligned">
-                    <div class="content">
-                        <h2 class="title is-4">An evolution in medicine.</h2>
-                        <p class="subtitle is-6">Integrative medicine combines traditional healing, prevention and natural self-healing philosophies of Eastern medicine with advanced evidence-based research of Western medicine to treat the whole person, not just a set of isolated symptoms.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="columns is-multiline is-narrow">
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
-                        <span class="icon icon_medicine_1"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>Holistic approach</strong></p>
-                        <p class="subtitle is-6">We emphasize prevention and self-healing through evidence-based natural therapies.</p>
-                    </div>
-                </div>
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
-                        <span class="icon icon_medicine_2"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>Medical school</strong></p>
-                        <p class="subtitle is-6">100% of our doctors graduated from an accredited four-year residential medical school.</p>
-                    </div>
-                </div>
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
-                        <span class="icon icon_medicine_3"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctors passed a medical board exam and received a state medical license.</p>
-                    </div>
-                </div>
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
-                        <span class="icon icon_medicine_4"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>Backed by science</strong></p>
-                        <p class="subtitle is-6">We rely heavily on specialized clinical laboratory tests to validate any proposed treatments.</p>
-                    </div>
-                </div>
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
-                        <span class="icon icon_medicine_6"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>Multiple practitioners</strong></p>
-                        <p class="subtitle is-6">Integrative doctors may include Naturopathic Doctors (NDs), Doctors of Osteopathy (DOs) or Functional Medical Doctors (MDs).</p>
-                    </div>
-                </div>
-                <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
-                        <span class="icon icon_medicine_5"></span>
-                    </figure>
-                    <div class="column is-paddingless-top">
-                        <p class="title is-5 is-marginless"><strong>Natural remedies</strong></p>
-                        <p class="subtitle is-6">Our unique treatment plans may include diet, nutrition, supplementation or lifestyle changes.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="western-medicine">
-        <div class="container">
-            <div class="columns is-narrow is-multiline">
-                <figure class="image image-has-max-height">
-                    <picture>
-                        <img class="hero-thumbnail" src="/images/home/stomach_md.jpg">
-                    </picture>
-                </figure>
-                <div class="column is-6-desktop is-offset-1-desktop has-content-vertical-aligned">
-                    <div class="content">
-                        <h2 class="title is-4 is-3-widescreen is-padding-top"><strong>"Why do I feel this way?"</strong></h2>
-                        <p>If you're feeling crummy, you may be part of the <strong>48% of adults</strong> who are battling a chronic health condition.</p>
-                        <p>Why are Americans so sick? One reason is doctors in traditional medical practices spend on average less than 13 minutes with their patients and prescribe drugs over 80% of the time.</p>
-                        <p>These patients are often failed by doctors who lack the time, education or financial incentives to heal their patients naturally. Without preventative treatment, these health issues can lead to more serious and costly diseases.</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -250,19 +158,114 @@
         </div>
     </section>
 
+<section class="section" id="integrative-medicine">
+        <div class="container">
+            <h2 class="title is-4 section-header"><span>Integrative Medicine</span></h2>
+            <div class="introduction columns is-narrow is-marginless-top">
+                <div class="column is-paddingless">
+                    <figure class="image is-margin is-padding">
+                        <img src="/images/home/venn-diagram.png" alt="">
+                    </figure>
+                </div>
+                <div class="column has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-4">An evolution in medicine.</h2>
+                        <p class="subtitle is-6">Integrative medicine combines traditional healing, prevention and natural self-healing philosophies of Eastern medicine with advanced evidence-based research of Western medicine to treat the whole person, not just a set of isolated symptoms.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns is-multiline is-narrow">
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
+                        <span class="icon icon_medicine_1"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Holistic approach</strong></p>
+                        <p class="subtitle is-6">We emphasize prevention and self-healing through evidence-based natural therapies.</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
+                        <span class="icon icon_medicine_2"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Medical school</strong></p>
+                        <p class="subtitle is-6">100% of our doctors graduated from an accredited four-year residential medical school.</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
+                        <span class="icon icon_medicine_3"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
+                        <p class="subtitle is-6">100% of our doctors passed a medical board exam and received a state medical license.</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
+                        <span class="icon icon_medicine_4"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Backed by science</strong></p>
+                        <p class="subtitle is-6">We rely heavily on specialized clinical laboratory tests to validate any proposed treatments.</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
+                        <span class="icon icon_medicine_6"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Multiple practitioners</strong></p>
+                        <p class="subtitle is-6">Integrative doctors may include Naturopathic Doctors (NDs), Doctors of Osteopathy (DOs) or Functional Medical Doctors (MDs).</p>
+                    </div>
+                </div>
+                <div class="column is-half columns is-mobile">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
+                        <span class="icon icon_medicine_5"></span>
+                    </figure>
+                    <div class="column is-paddingless-top">
+                        <p class="title is-5 is-marginless"><strong>Natural remedies</strong></p>
+                        <p class="subtitle is-6">Our unique treatment plans may include diet, nutrition, supplementation or lifestyle changes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="western-medicine">
+        <div class="container">
+            <div class="columns is-narrow is-multiline">
+                <figure class="image image-has-max-height">
+                    <picture>
+                        <img class="hero-thumbnail" src="/images/home/stomach_md.jpg">
+                    </picture>
+                </figure>
+                <div class="column is-6-desktop is-offset-1-desktop has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-4 is-3-widescreen is-padding-top"><strong>"Why do I feel this way?"</strong></h2>
+                        <p>If you're feeling crummy, you may be part of the <strong>48% of adults</strong> who are battling a chronic health condition.</p>
+                        <p>Why are Americans so sick? One reason is doctors in traditional medical practices spend on average less than 13 minutes with their patients and prescribe drugs over 80% of the time.</p>
+                        <p>These patients are often failed by doctors who lack the time, education or financial incentives to heal their patients naturally. Without preventative treatment, these health issues can lead to more serious and costly diseases.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section" id="pricing">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Simple Pricing</span></h2>
             <div class="columns is-narrow is-marginless-top">
-                <div class="column is-5 has-content-vertical-aligned is-paddingless">
+                <div class="column is-6 is-offset-1 has-content-vertical-aligned is-paddingless">
                     <div class="content">
                         <h2 class="title is-4 is-marginless-bottom"><strong>Do you take insurance?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative and specialty lab tests are not reimbursable. However, you may be able to use an HSA/FSA account to pay for our services.</p>
+                        <p class="is-6 is-margin is-marginless-left">We are not currently contracted with any insurance providers, as most preventative healthcare and specialty lab tests are not reimbursable under most plans. However, you may be able to use your HSA/FSA account to pay for our services.</p>
                         <h2 class="title is-4 is-marginless-bottom"><strong>How much are lab tests?</strong></h2>
-                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would have to pay at other in-person clinics.</p>
+                        <p class="is-6 is-margin is-marginless-left">While most clinics mark up the prices of their lab tests, we take little to no margin. <a href="lab-tests" alt="Lab Tests">Lab prices</a> are comparable to the out-of-pocket co-pays and deductibles you would pay at other in-person clinics.</p>
                     </div>
                 </div>
-                <div class="column is-8 is-auto-tablet has-text-right">
+                <div class="column is-6 is-auto-tablet">
                     <figure>
                         <img src="/images/home/pricing.png" alt="">
                     </figure>
@@ -380,7 +383,7 @@
                     <img src="/images/home/empty.png" class="is-opaque-75" alt="">
                     <p class="title is-5 is-marginless-bottom"><strong>Maybe you? Join our team.</strong></p>
                     <em>Looking for Naturopathic Doctors</em>
-                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call today!</p>
+                    <p class="is-6">Are you an integrative or naturopathic doctor with 5+ years of experience and a passion for holistic health and wellness? We are growing our clinical team at Harvey and would love to meet you. Give us a call!</p>
                 </div>
             </div>
         </div>
