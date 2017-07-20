@@ -51,6 +51,7 @@ const app = new Vue({
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
+        clientList: [],
         environment: env,
         flyoutActive: false,
         guest: false,
@@ -61,6 +62,7 @@ const app = new Vue({
             currentPage: '',
             detailMessages: {},
             loadingAppointments: true,
+            loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
             loadingLabOrders: true,
@@ -259,6 +261,13 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+        },
+        getClientList() {
+            axios.get(`${this.apiUrl}/users?type=patient`)
+                .then(response => {
+                    this.clientList = response.data.data
+                    this.global.loadingClients = false
+                })
         },
         setup() {
           this.getUser()
