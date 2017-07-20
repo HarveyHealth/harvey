@@ -175,8 +175,8 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                let user_type = this.$root.$data.global.user.attributes.user_type
-                if (user_type !== 'patient') {
+                let attributes = this.$root.$data.global.user.attributes
+                if (attributes && attributes.user_type !== 'patient') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients || 
@@ -188,7 +188,6 @@
                 }
             },
             labTests() {
-                let user_type = this.$root.$data.global.user.attributes.user_type
                 this.tests = this.$root.$data.labTests
                 return this.$root.$data.labTests.length > 0
             }
@@ -208,20 +207,12 @@
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
             const global = this.$root.$data.global
-            let user_type = this.$root.$data.global.user.attributes.user_type
+            let attributes = this.$root.$data.global.user.attributes
 
-            if (user_type === 'patient' &&
-                !global.loadingLabTests && 
+            if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 
-                !global.loadingPractitioners) {
-                    this.setupLabData();
-                } else if (
-                    user_type !== 'patient' &&
-                    !global.loadingLabTests && 
-                    !global.loadingLabOrders && 
-                    !global.loadingPatients && 
-                    !global.loadingPractitioners
-                ) {
+                !global.loadingPractitioners &&
+                (!global.loadingPatients || (attributes && attributes.user_type === 'patient'))) {
                     this.setupLabData();
                 }
         }
