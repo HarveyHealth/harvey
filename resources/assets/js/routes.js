@@ -93,6 +93,10 @@ let routes = [
         component: require('./pages/clients/Clients.vue')
     },
     {
+        path: '/records',
+        component: require('./pages/records/Records.vue')
+    },
+    {
         path: '*',
         redirect:  rootRedirect
     }
