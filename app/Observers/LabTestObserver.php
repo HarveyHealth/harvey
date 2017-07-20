@@ -36,6 +36,10 @@ class LabTestObserver
         if ($labTest->labOrder->labTests->every($sameStatus)) {
             $methodName = 'markAs' . ucfirst($labTest->status);
             $labTest->labOrder->$methodName();
+        } else {
+            $weakestStatusId = $labTest->labOrder->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
+            $labTest->labOrder->status_id = $weakestStatusId;
+            $labTest->labOrder->save();
         }
     }
 }
