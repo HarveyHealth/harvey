@@ -15,16 +15,14 @@
 <script>
     export default {
         name: 'image-upload',
-        props: ['label', 'type', 'model', 'model_id'],
+        props: ['label', 'type', 'route'],
         methods: {
             upload() {
-                // We can run file size checker if needed:
-                console.log('File Size', document.getElementById(`file-select${this.type}`).files[0].size);
-
+                this.$emit('uploading');
                 const send = new Promise((resolve, reject) => {
                     const formData = new FormData(document.getElementById(this.type));
                     let request = new XMLHttpRequest();
-                    request.open('POST', `api/v1/${this.model}s/${this.model_id}/image?type=${this.type}`);
+                    request.open('POST', this.route);
                     request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
                     request.send(formData);
                     request.onreadystatechange = function() {
@@ -37,8 +35,11 @@
                 send.then(data => {
                     this.$emit('uploaded', data);
                 })
-                .catch(err => console.log(err));
-            }
+                .catch(err => {
+                    this.$emit('uploaded', null);
+                    console.log(err)
+                });
+            },
         },
     }
 </script>

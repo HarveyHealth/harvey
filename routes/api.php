@@ -28,7 +28,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
-        Route::post('users/{user}/image', 'UsersController@imageUpload')->name('users.image-upload');
+        Route::post('users/{user}/image', 'UsersController@profileImageUpload')->name('users.profile-image-upload');
 
         Route::get('patients', 'PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
@@ -43,7 +43,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
         Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
-        Route::post('practitioners/{practitioner}/image', 'PractitionersController@imageUpload')->name('practitioners.image-upload');
+        Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
+        Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');

@@ -28,5 +28,7 @@ mix.options({processCssUrls: false})
 if (mix.config.inProduction) {
     mix.version();
 } else {
-    mix.browserSync();
+    mix.browserSync({
+        proxy: "harvey.app"
+    });
 }

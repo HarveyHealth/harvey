@@ -101,18 +101,18 @@
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
+                                        v-on:uploading="uploadingProfileImage"
                                         v-on:uploaded="uploadedProfileImage"
                                         label="Headshot"
-                                        model="practitioner"
-                                        :model_id="this.practitioner_id"
+                                        :route="`api/v1/practitioners/${this.practitioner_id}/profile-image/`"
                                         type="profile">
                                 </ImageUpload>
 
                                 <ImageUpload
+                                        v-on:uploading="uploadingBackgroundImage"
                                         v-on:uploaded="uploadedBackgroundImage"
                                         label="Background"
-                                        model="practitioner"
-                                        :model_id="this.practitioner_id"
+                                        :route="`api/v1/practitioners/${this.practitioner_id}/bg-image/`"
                                         type="header">
                                 </ImageUpload>
                             </div>
@@ -151,6 +151,8 @@
                 practitioner: {},
                 license_types: Object.keys(LicenseTypes),
                 license_names: LicenseTypes,
+                previousProfileImage: null,
+                previousBackgroundImage: null,
             }
         },
         components: {
@@ -164,13 +166,30 @@
                         this.flashSuccess();
                     });
             },
+            uploadingProfileImage() {
+              this.previousProfileImage = this.practitioner.picture_url;
+              this.practitioner.picture_url = '/images/loading.gif';
+            },
             uploadedProfileImage(response) {
-                this.practitioner.picture_url = JSON.parse(response).data.attributes.picture_url;
-                this.flashSuccess();
+                if(response) {
+                    const updatedImage = JSON.parse(response).data.attributes.picture_url;
+                    this.practitioner.picture_url = updatedImage;
+                    this.flashSuccess();
+                } else {
+                    this.practitioner.picture_url = this.previousProfileImage;
+                }
+            },
+            uploadingBackgroundImage() {
+                this.previousBackgroundImage = this.practitioner.background_picture_url;
+                this.practitioner.background_picture_url = '';
             },
             uploadedBackgroundImage(response) {
-                this.practitioner.background_picture_url = JSON.parse(response).data.attributes.background_picture_url;
-                this.flashSuccess();
+                if(response) {
+                    this.practitioner.background_picture_url = JSON.parse(response).data.attributes.background_picture_url;
+                    this.flashSuccess();
+                } else {
+                    this.practitioner.background_picture_url = this.previousBackgroundImage;
+                }
             },
         },
         created() {
@@ -187,7 +206,6 @@
             practitioner_background_image() {
                 return this.practitioner.background_picture_url ? this.practitioner.background_picture_url : '';
             }
-
         },
         props: {
             flashSuccess: {

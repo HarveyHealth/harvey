@@ -8,7 +8,6 @@ use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use ResponseCode;
-use Validator;
 use Illuminate\Support\Facades\Storage;
 
 class UsersController extends BaseAPIController
@@ -141,11 +140,15 @@ class UsersController extends BaseAPIController
         return $this->baseTransformItem($user)->respond();
     }
     
-    public function imageUpload(Request $request, User $user)
+    public function profileImageUpload(Request $request, User $user)
     {
         if (auth()->user()->cant('update', $user)) {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
+    
+        StrictValidator::check($request->only('image'), [
+            'image' => 'required|dimensions:ratio=1/1,max_width=300,max_height=300',
+        ]);
         
         try{
             $image = $request->file('image');
@@ -155,9 +158,7 @@ class UsersController extends BaseAPIController
             return $this->respondWithError('Unable to upload image. Please try again later');
         }
     
-        $user->update([
-            'image_url;' => Storage::cloud()->url($imagePath)
-        ]);
+        $user->update(['image_url;' => Storage::cloud()->url($imagePath)]);
         
         return $this->baseTransformItem($user)->respond();
     }
