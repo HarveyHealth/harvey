@@ -41,12 +41,21 @@
         <div class="text">Messages</div>
       </router-link>
 
+      <!-- LEAVE THESE COMMENTS HERE -->
+
        <!-- <router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
       </router-link>  -->
+
+      <!-- <router-link to="/settings" title="Settings"
+        :class="currentPageCheck('settings')"
+        @click.native="handleMenu(false, 'settings')">
+        <i class="fa fa-cog icon icon-nav-bar"></i>
+        <div class="text">Settings</div>
+      </router-link> -->
 
       <router-link
         v-if="user && user.user_type === 'admin'"
