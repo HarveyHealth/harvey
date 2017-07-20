@@ -278,6 +278,7 @@ const app = new Vue({
           this.getMessages();
           this.getLabData();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
+          if (Laravel.user.user_type === 'admin') this.getClientList();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
