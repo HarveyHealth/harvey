@@ -8,7 +8,7 @@
         <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
       </div>
       <h2>We&rsquo;re sorry!</h2>
-      <p>Unfortunately, we can not service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
+      <p>Unfortunately, we are unnable to service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
       <div class="social-icon-wrapper">
         <a v-for="icon in socialIcons" :href="icon.href">
           <i :class="icon.class"></i>

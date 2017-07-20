@@ -28,31 +28,9 @@ trait HasStatusColumn
         return $this->status ? Lang::get("{$tableName}.status.{$this->status}") : null;
     }
 
-    public function isCanceled()
-    {
-        return $this->status_id == self::CANCELED_STATUS_ID;
-    }
-
-    public function isNotCanceled()
-    {
-        return !$this->isCanceled();
-    }
-
-    public function markAsCanceled()
-    {
-        $this->status_id = self::CANCELED_STATUS_ID;
-
-        return $this->save();
-    }
-
     public function isComplete()
     {
         return self::COMPLETE_STATUS_ID == $this->status_id;
-    }
-
-    public function isNotComplete()
-    {
-        return !$this->isComplete();
     }
 
     public function markAsComplete()
@@ -114,5 +92,18 @@ trait HasStatusColumn
     public function scopeGeneralConflict(Builder $builder)
     {
         return $builder->where('status_id', self::GENERAL_CONFLICT_STATUS_ID);
+    }
+
+    public function __call($method, $args)
+    {
+        if (starts_with($method, 'markAs')) {
+            $status = strtolower(substr($method, 6));
+            if (false !== ($key = array_search($status, self::STATUSES))) {
+                $this->status_id = $key;
+                return $this->save();
+            }
+        }
+
+        return parent::__call($method, $args);
     }
 }

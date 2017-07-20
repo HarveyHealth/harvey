@@ -29,10 +29,17 @@ class LabTestObserver
      */
     public function updated(LabTest $labTest)
     {
-        if (LabTest::COMPLETE_STATUS_ID == $labTest->status_id && $labTest->labOrder->labTests->every->isComplete()) {
-            $labTest->labOrder->markAsComplete();
-        } elseif (LabTest::CANCELED_STATUS_ID == $labTest->status_id && $labTest->labOrder->labTests->every->isCanceled()) {
-            $labTest->labOrder->markAsCanceled();
+        $status_id = $labTest->status_id;
+
+        $sameStatus = function ($value, $key) use ($status_id) { return $value->status_id == $status_id; };
+
+        if ($labTest->labOrder->labTests->every($sameStatus)) {
+            $methodName = 'markAs' . ucfirst($labTest->status);
+            $labTest->labOrder->$methodName();
+        } else {
+            $weakestStatusId = $labTest->labOrder->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
+            $labTest->labOrder->status_id = $weakestStatusId;
+            $labTest->labOrder->save();
         }
     }
 }

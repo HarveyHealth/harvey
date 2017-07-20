@@ -55,7 +55,7 @@ class SendTransactionalEmail implements ShouldQueue
     protected function checkForEmptyKeys()
     {
         foreach ($this->template_model as $key => $value) {
-            if (empty($value) && !in_array($value, self::ALLOWED_EMPTY_KEYS)) {
+            if (empty($value) && !in_array($key, self::ALLOWED_EMPTY_KEYS)) {
                 $message = "Found empty value for key '{$key}' when sending email to '{$this->to}' with template '{$this->template}'.";
                 Log::warning($message);
             }
