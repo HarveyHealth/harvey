@@ -70,6 +70,19 @@
                                     </div>
                                 </div>
                                 <div class="formgroup">
+                                    <div class="profile-img-container">
+                                        <ImageUpload
+                                                class="profile-img-container__button"
+                                                v-on:uploading="uploadingProfileImage"
+                                                v-on:uploaded="uploadedProfileImage"
+                                                label="Picture"
+                                                :route="`api/v1/users/${this.user.id}/profile-image/`"
+                                                type="profile">
+                                        </ImageUpload>
+                                        <div class="profile-img-container__img">
+                                            <img :src="this.user.attributes.image_url" />
+                                        </div>
+                                    </div>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
                                         <input class="input--text" v-model="user.attributes.address_1" type="text" name="address_1"/>
@@ -107,12 +120,14 @@
     import diff from 'object-diff';
     import _ from 'lodash';
     import timezones from '../../../../../public/timezones.json';
-    import NotificationPopup from '../../commons/NotificationPopup.vue'
+    import NotificationPopup from '../../commons/NotificationPopup.vue';
+    import ImageUpload from '../../commons/ImageUpload.vue';
 
     export default {
         name: 'profile',
         components: {
-            NotificationPopup
+            NotificationPopup,
+            ImageUpload,
         },
         data() {
             return {
@@ -171,6 +186,12 @@
                     })
                     .catch(error => this.user = {});
             },
+            uploadingProfileImage() {
+                //
+            },
+            uploadedProfileImage() {
+                //
+            },
         },
         mounted() {
             this.$root.$data.global.currentPage = 'profile';
@@ -190,7 +211,7 @@
     }
 </script>
 
-<style>
+<style lang="scss">
     input, label {
         display:block;
         width: 80%;
@@ -221,6 +242,22 @@
 
     .gender-options {
         display: flex;
-        text-align: left;
+    }
+
+    .profile-img-container {
+        display: flex;
+        justify-content: space-between;
+
+        &__button {
+            flex: 1;
+        }
+
+        &__img {
+            flex: 1;
+            img {
+                width: 100px;
+                border-radius: 50%;
+            }
+        }
     }
 </style>
