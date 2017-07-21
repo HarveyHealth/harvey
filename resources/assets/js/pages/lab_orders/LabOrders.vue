@@ -53,6 +53,7 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
+
     export default {
         name: 'LabOrders',
         components: {
@@ -66,7 +67,7 @@
         },
         data() {
             return {
-                filters: ['All', 'Pending', 'Completed'],
+                filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -74,9 +75,13 @@
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
                 cache: {
-                    All: [],
-                    Pending: [],
-                    Completed: []
+                    Recommended: [],
+                    Confirmed: [],
+                    Shipped: [],
+                    Received: [],
+                    Mailed: [],
+                    Processing: [],
+                    Complete: []
                 },
                 tests: null,
                 currentData: [],
@@ -105,20 +110,29 @@
                     this.detailFlyoutActive = false;
                 }
             },
-            isEmpty(obj) {
-                return _.isEmpty(obj)
-            },
             handleFilter(name, index) {
                 this.activeFilter = index;
                 switch (name) {
-                    case "All":
-                        this.currentData = this.cache.All
+                    case "Recommended":
+                        this.currentData = this.cache.Recommended
                         break;
-                    case "Pending":
-                        this.currentData = this.cache.Pending
+                    case "Confirmed":
+                        this.currentData = this.cache.Confirmed
                         break;
-                    case "Completed":
-                        this.currentData = this.cache.Completed
+                    case "Shipped":
+                        this.currentData = this.cache.Shipped
+                        break;
+                    case "Received":
+                        this.currentData = this.cache.Received
+                        break;
+                    case "Mailed":
+                        this.currentData = this.cache.Mailed
+                        break;
+                    case "Processing":
+                        this.currentData = this.cache.Processing
+                        break;
+                    case "Complete":
+                        this.currentData = this.cache.Complete
                         break;
                 }
             },
@@ -156,14 +170,22 @@
                     this.$root.$data.labTests
                 )
                 let choices = {
-                    0: "All",
-                    1: "Pending",
-                    2: "Completed"
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
                 }
-                this.cache[choices['0']] = data
-                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
-                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
-                this.currentData = data
+                this.cache[choices['0']] = data.filter(e => e.data.completed_at == "Recommended")
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Confirmed")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Shipped")
+                this.cache[choices['3']] = data.filter(e => e.data.completed_at == "Received")
+                this.cache[choices['4']] = data.filter(e => e.data.completed_at == "Mailed")
+                this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
+                this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
+                this.currentData = data.filter(e => e.data.completed_at == "Recommended")
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests

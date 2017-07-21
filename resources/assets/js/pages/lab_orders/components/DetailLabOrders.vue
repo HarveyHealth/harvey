@@ -149,13 +149,14 @@ export default {
                 })
                 this.$root.$data.global.loadingLabTests = false
                 this.$props.reset();
+                this.$parent.setupLabData();
             })
         })
       this.$parent.notificationMessage = "Successfully updated!";
       this.$parent.notificationActive = true;
       this.$parent.selectedRowData = null;
       setTimeout(() => this.$parent.notificationActive = false, 3000);
-      this.handleFlyoutClose()
+      this.handleFlyoutClose();
     }
   },
   computed: {

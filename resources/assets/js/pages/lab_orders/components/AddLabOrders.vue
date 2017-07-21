@@ -218,10 +218,11 @@ export default {
                         })
                         this.$root.$data.global.loadingLabTests = false
                         this.$props.reset();
+                        this.$parent.setupLabData();
                     })
                 })
             })
-        this.handleFlyoutClose()
+        this.handleFlyoutClose();
     }
   },
   computed: {
