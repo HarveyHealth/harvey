@@ -18,7 +18,7 @@
                 <div class="card-heading-container">
                     <h2 class="card-header">Contact Info</h2>
                 </div>
-                <div class="card-content-container">
+                <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
 
                         <div class="error-text">
@@ -34,20 +34,20 @@
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
                                         <label class="input__label" for="first_name">First Name</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.first_name" type="text" name="first_name"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.first_name" type="text" name="first_name"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="last_name">Last Name</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.last_name" type="text" name="last_name"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.last_name" type="text" name="last_name"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="email">Email</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
+                                        <input class="form-input form-input_text input-styles" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
                                         <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="phone">Phone Number</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.phone" type="number" name="phone"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.phone" type="number" name="phone"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="timezone">Timezone</label>
@@ -89,15 +89,15 @@
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.address_1" type="text" name="address_1"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.address_1" type="text" name="address_1"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="address_2">Apt/Unit #</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.address_2" type="text" name="address_2"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.address_2" type="text" name="address_2"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="city">City</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.city" type="text" name="city"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.city" type="text" name="city"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="state">State</label>
@@ -109,7 +109,7 @@
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="zip">Zip Code</label>
-                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.zip" type="text" name="zip"/>
+                                        <input class="form-input form-input_text input-styles" v-model="user.attributes.zip" type="text" name="zip"/>
                                     </div>
                                 </div>
                             </div>
@@ -247,6 +247,11 @@
         display: flex;
     }
 
+    .input-styles {
+        color: #777777; 
+        border-bottom: 1px solid #ccc;
+    }
+
     .formgroup {
         flex: 1;
         padding: 0 20px;
@@ -260,6 +265,10 @@
 
     .card-info {
         width: 75%;
+    }
+
+    .topPadding {
+        padding: 20px;
     }
 
     .gender-options {
