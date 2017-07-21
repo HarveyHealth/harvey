@@ -26,7 +26,7 @@ class UserDashboardTest extends DuskTestCase
        $appointment = factory(Appointment::class)->create();
        //dd($appointment->practitioner_id);
 
-        $userId = DB::table('practitioners')->where('id', $appointment->practitioner_id)->value('user_id');
+       $userId = DB::table('practitioners')->where('id', $appointment->practitioner_id)->value('user_id');
        // $this->assertDatabaseHas('users', ['email' => $user->email]);
        $first_name = DB::table('users')->where('id', $userId)->value('first_name');
        $last_name = DB::table('users')->where('id', $userId)->value('last_name');
@@ -37,13 +37,9 @@ class UserDashboardTest extends DuskTestCase
            $browser->loginAs(Patient::find(1))
                    ->visit(new DashboardPage)
                    ->assertSee('Your Dashboard')
-                   // ->pause(3000)
-                   // ->waitFor('@appointment')
-                   // ->click('@appointment')
+                   ->pause(3000)
                    ->waitForText($practitioner)
                    ->assertSee($practitioner);
-                   // ->assertSee('Update Appointment')
-                   // ->assertSee('Wednesday, July 12th');
 
        });
 

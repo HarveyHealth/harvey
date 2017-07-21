@@ -8,9 +8,9 @@ use Laravel\Dusk\Page as BasePage;
 class LoginPage extends BasePage
 {
 
-  public $signupPage = "Let’s get acquainted.";
+  public $signupPage = "Your health journey starts with us.";
   public $forgotPasswordPage = "Enter your email address below and we will send you a link to reset your password.";
-  public $homepage = "Hi. We're Harvey. We specialize in complex health conditions.";
+  public $homepage = "Maximize your healthspan with a personalized, holistic and integrative approach to medicine.";
 
     /**
      * Get the URL for the page.
