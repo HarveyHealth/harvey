@@ -8,7 +8,7 @@
                     </h1>
                 </div>
             </div>
-            <div class="card" style="width: 500px;">
+            <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
                 </div>
@@ -19,7 +19,7 @@
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
-                        <div class="input__container">
+                        <div class="input__container" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
                             <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
                         </div>

@@ -149,7 +149,6 @@ export default {
                 })
                 this.$root.$data.global.loadingLabTests = false
                 this.$props.reset();
-                this.$parent.setupLabData();
             })
         })
       this.$parent.notificationMessage = "Successfully updated!";
