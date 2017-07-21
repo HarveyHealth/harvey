@@ -19,14 +19,14 @@ class PractitionerTransformer extends TransformerAbstract
         return [
             'background_picture_url' => $practitioner->background_picture_url,
             'description' => $practitioner->description,
-            'graduated_at' => $practitioner->graduated_at,
+            'graduated_year' => $practitioner->graduated_year,
             'id' => (string) $practitioner->id,
             'license_number' => $practitioner->license->number,
             'license_state' => $practitioner->license->state,
             'name' => $practitioner->user->fullName(),
             'picture_url' => $practitioner->picture_url,
             'school' => $practitioner->school,
-            'specialty' => $practitioner->specialty,
+            'specialty' => json_decode($practitioner->specialty),
             'type_name' => $practitioner->type->name,
             'user_id' => (string) $practitioner->user_id,
         ];

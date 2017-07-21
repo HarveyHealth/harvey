@@ -120,6 +120,10 @@
                     </div>
                 </div>
             </div>
+            <PractitionerProfile
+                    v-if="isPractitioner"
+                    :flashSuccess="flashSuccess"
+            />
         </div>
     </div>
 </template>
@@ -132,6 +136,7 @@
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import ImageUpload from '../../commons/ImageUpload.vue';
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+    import PractitionerProfile from './components/PractitionerProfile.vue';
 
 
     export default {
@@ -140,6 +145,7 @@
             NotificationPopup,
             ImageUpload,
             ClipLoader,
+            PractitionerProfile,
         },
         data() {
             return {
@@ -233,6 +239,9 @@
         computed: {
             updates() {
                 return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name');
+            },
+            isPractitioner() {
+                return Laravel.user.practitionerId;
             },
         }
     }
