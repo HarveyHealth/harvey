@@ -232,7 +232,7 @@
         },
         computed: {
             updates() {
-                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at');
+                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name');
             },
         }
     }
