@@ -30,10 +30,8 @@
                     request.onreadystatechange = function() {
                         if (request.readyState === 4) {
                             if (request.status === 200) {
-                                console.log('success', request.response);
                                 resolve(request.response);
                             } else {
-                                console.log('fail', request.response);
                                 reject(request.response)
                             }
                         }
