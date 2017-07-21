@@ -57,7 +57,7 @@ class PractitionersController extends BaseAPIController
             'license_number' => 'max:10',
             'license_state' => 'max:20',
             'school' => 'max:255',
-            'graduated_year' => 'max:10',
+            'graduated_year' => 'digits:4',
             'specialty' => 'array',
         ]);
         

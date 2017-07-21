@@ -6,6 +6,11 @@
         <div class="card-content-container">
             <div class="card-content-wrap">
                 <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
+
+                <div class="error-text">
+                    <p v-for="error in errorMessages">{{ error.detail }} </p>
+                </div>
+
                 <form action="#" method="POST" class="form" id="practitioner_form" v-show="!loading">
                     <div class="formgroups">
                         <div class="formgroup">
@@ -14,8 +19,8 @@
                                 <input class="form-input form-input_text font-darkest-gray" maxlength="50" v-model="practitioner.school" type="text" name="school"/>
                             </div>
                             <div class="input__container input-wrap">
-                                <label class="input__label" for="graduated_year">Graduation</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.graduated_year" type="text" name="graduated_year"/>
+                                <label class="input__label" for="graduated_year">Graduation Year</label>
+                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.graduated_year" type="number" name="graduated_year" maxlength="4"/>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_number">License #</label>
@@ -88,7 +93,7 @@
                         </div>
                     </div>
                     <div class="submit inline-centered">
-                        <button class="button" v-on:click.prevent="submit" >Save Changes</button>
+                        <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button>
                     </div>
                 </form>
 
@@ -122,6 +127,8 @@
                 states: states,
                 uploading_bg_image: false,
                 uploading_profile_image: false,
+                errorMessages: null,
+                submitting: false,
             }
         },
         components: {
@@ -130,12 +137,22 @@
         },
         methods: {
             submit() {
+                this.submitting = true;
+                this.resetErrors();
                 const payload =  _.omit(this.practitioner, 'type_name', 'background_picture_url', 'picture_url',);
                 axios.patch(`/api/v1/practitioners/${this.practitioner_id}`, payload)
                     .then(response => {
                         this.practitioner = response.data.data.attributes;
+                        this.submitting = false;
                         this.flashSuccess();
+                    })
+                    .catch((err) => {
+                        this.submitting = false;
+                        this.errorMessages = err.response.data.errors;
                     });
+            },
+            resetErrors() {
+              this.errorMessages = null;
             },
             uploadingProfileImage() {
                 this.uploading_profile_image = true;
