@@ -37,6 +37,6 @@ class PractitionerPolicy
      */
     public function update(User $user, Practitioner $practitioner)
     {
-        return $user->id == $practitioner->user->id;
+        return $user->is($practitioner->user);
     }
 }
