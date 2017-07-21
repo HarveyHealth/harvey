@@ -32,26 +32,26 @@
                         <form action="#" method="POST" class="form" id="user_form">
                             <div class="formgroups">
                                 <div class="formgroup">
-                                    <div class="input__container">
+                                    <div class="input__container input-wrap">
                                         <label class="input__label" for="first_name">First Name</label>
-                                        <input class="input--text" v-model="user.attributes.first_name" type="text" name="first_name"/>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.first_name" type="text" name="first_name"/>
                                     </div>
                                     <div class="input__container">
-                                        <label  class="input__label" for="last_name">Last Name</label>
-                                        <input class="input--text" v-model="user.attributes.last_name" type="text" name="last_name"/>
+                                        <label class="input__label" for="last_name">Last Name</label>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.last_name" type="text" name="last_name"/>
                                     </div>
                                     <div class="input__container">
-                                        <label  class="input__label" for="email">Email</label>
-                                        <input class="input--text" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
+                                        <label class="input__label" for="email">Email</label>
+                                        <input class="form-input form-input_text font-darkest-gray" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
                                         <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
                                     </div>
                                     <div class="input__container">
-                                        <label  class="input__label" for="phone">Phone Number</label>
-                                        <input class="input--text" v-model="user.attributes.phone" type="number" name="phone"/>
+                                        <label class="input__label" for="phone">Phone Number</label>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.phone" type="number" name="phone"/>
                                     </div>
                                     <div class="input__container">
-                                        <label  class="input__label" for="timezone">Timezone</label>
-                                        <span  class="custom-select">
+                                        <label class="input__label" for="timezone">Timezone</label>
+                                        <span class="custom-select">
                                             <select name="timezone" v-model="user.attributes.timezone">
                                                 <option v-for="timezone in timezones" >{{ timezone }}</option>
                                             </select>
@@ -60,12 +60,14 @@
                                     <div class="input__container">
                                         <label  class="input__label" for="gender">Gender</label>
                                         <div class="gender-options">
-                                            <input type="radio" name="gender" id="male" v-model="user.attributes.gender" v-bind:value="'male'">
-                                            <label for="male">Male</label>
-                                            <input type="radio" name="gender" id="female" v-model="user.attributes.gender" v-bind:value="'female'" value="female">
-                                            <label for="female">Female</label>
-                                            <input type="radio" name="gender" id="other" v-model="user.attributes.gender" v-bind:value="'other'" value="other">
-                                            <label for="other">Other</label>
+                                            <div class="gender-options__option">
+                                                <input type="radio" name="gender" id="male" v-model="user.attributes.gender" v-bind:value="'male'">
+                                                <label for="male">Male</label>
+                                            </div>
+                                            <div class="gender-options__option">
+                                                <input type="radio" name="gender" id="female" v-model="user.attributes.gender" v-bind:value="'female'">
+                                                <label for="female">Female</label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -75,38 +77,44 @@
                                                 class="profile-img-container__button"
                                                 v-on:uploading="uploadingProfileImage"
                                                 v-on:uploaded="uploadedProfileImage"
+                                                v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${this.user.id}/profile-image/`"
+                                                :route="`api/v1/users/${this.user.id}/image/`"
                                                 type="profile">
                                         </ImageUpload>
-                                        <div class="profile-img-container__img">
+                                        <div v-show="!loadingProfileImage" class="profile-img-container__img">
                                             <img :src="this.user.attributes.image_url" />
                                         </div>
+                                        <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
-                                        <input class="input--text" v-model="user.attributes.address_1" type="text" name="address_1"/>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.address_1" type="text" name="address_1"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="address_2">Apt/Unit #</label>
-                                        <input class="input--text" v-model="user.attributes.address_2" type="text" name="address_2"/>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.address_2" type="text" name="address_2"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="city">City</label>
-                                        <input class="input--text" v-model="user.attributes.city" type="text" name="city"/>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.city" type="text" name="city"/>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="state">State</label>
-                                        <input class="input--text" v-model="user.attributes.state" type="text" name="state"/>
+                                        <span class="custom-select">
+                                            <select name="state" v-model="user.attributes.state">
+                                                <option v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
+                                            </select>
+                                        </span>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="zip">Zip Code</label>
-                                        <input class="input--text" v-model="user.attributes.zip" type="text" name="zip"/>
+                                        <input class="form-input form-input_text font-darkest-gray" v-model="user.attributes.zip" type="text" name="zip"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="submit inline-centered">
-                                <button class="button" v-on:click.prevent="submit" >Save Changes</button>
+                                <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button><br/>
                             </div>
                         </form>
                     </div>
@@ -120,18 +128,24 @@
     import diff from 'object-diff';
     import _ from 'lodash';
     import timezones from '../../../../../public/timezones.json';
+    import states from '../../../../../public/states.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import ImageUpload from '../../commons/ImageUpload.vue';
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+
 
     export default {
         name: 'profile',
         components: {
             NotificationPopup,
             ImageUpload,
+            ClipLoader,
         },
         data() {
             return {
-                loading: true,
+                loading: true, // initial loading of the profile page
+                loadingProfileImage: false, // loading of the image on image upload
+                previousProfileImage: '',
                 user: {
                     attributes: {
                         first_name: '',
@@ -148,11 +162,13 @@
                     }
                 },
                 timezones: timezones,
+                states: states,
                 notificationSymbol: '&#10003;',
                 notificationMessage: 'Changes Saved',
                 notificationActive: false,
                 notificationDirection: 'top-right',
                 errorMessages: null,
+                submitting: false,
             }
         },
         methods: {
@@ -169,13 +185,16 @@
 
                 this.resetErrorMessages();
 
+                this.submitting = true;
                 axios.patch(`/api/v1/users/${this.user.id}`, this.updates)
                     .then(response => {
                         this.$root.$data.global.user = response.data.data;
                         this.flashSuccess();
+                        this.submitting = false;
                     })
                     .catch(err => {
                         this.errorMessages = err.response.data.errors;
+                        this.submitting = false;
                     });
             },
             getUser() {
@@ -187,11 +206,19 @@
                     .catch(error => this.user = {});
             },
             uploadingProfileImage() {
-                //
+                this.previousProfileImage = this.user.attributes.image_url;
+                this.loadingProfileImage = true;
             },
-            uploadedProfileImage() {
-                //
+            uploadedProfileImage(response) {
+                this.user.attributes.image_url = response.data.attributes.image_url;
+                this.loadingProfileImage = false;
+                this.flashSuccess();
             },
+            uploadError(err) {
+                this.user.attributes.image_url = this.previousProfileImage;
+                this.loadingProfileImage = false;
+                this.errorMessages = err.errors;
+            }
         },
         mounted() {
             this.$root.$data.global.currentPage = 'profile';
@@ -212,13 +239,8 @@
 </script>
 
 <style lang="scss">
-    input, label {
-        display:block;
+    .input__container {
         width: 80%;
-    }
-
-    input[type="radio"] {
-        width: 20%;
     }
 
     .formgroups {
@@ -242,11 +264,17 @@
 
     .gender-options {
         display: flex;
+
+        &__option {
+            margin-right: 30px;
+        }
     }
 
     .profile-img-container {
         display: flex;
+        height: 100px;
         justify-content: space-between;
+        padding-bottom: 20px;
 
         &__button {
             flex: 1;
@@ -259,5 +287,10 @@
                 border-radius: 50%;
             }
         }
+    }
+
+    .v-spinner {
+        align-self: center;
+        text-align: left !important;
     }
 </style>

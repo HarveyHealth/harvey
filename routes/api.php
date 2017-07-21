@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
+        Route::post('users/{user}/image', 'UsersController@profileImageUpload')->name('users.profile-image-upload');
         Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
         Route::post('users/{user}/phone/sendverificationcode', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
 

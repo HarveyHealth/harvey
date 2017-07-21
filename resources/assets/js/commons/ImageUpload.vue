@@ -1,15 +1,17 @@
 <template>
-    <form :id="type" method="POST">
-        <div class="button-label">
-            {{ label }}
-        </div>
-        <label :for="'file-select' + type">
-            <div class="button">
-                Upload Image
+    <div>
+        <form :id="type" method="POST">
+            <div class="input__label">
+                {{ label }}
             </div>
-        </label>
-        <input @change="upload" type="file" :id="'file-select' + type" name="image" accept=".jpg, .jpeg, .png" hidden/>
-    </form>
+            <label :for="'file-select-' + type">
+                <div class="button">
+                    Upload Image
+                </div>
+            </label>
+            <input @change="upload" type="file" :id="'file-select-' + type" name="image" accept=".jpg, .jpeg, .png" hidden/>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -27,17 +29,22 @@
                     request.send(formData);
                     request.onreadystatechange = function() {
                         if (request.readyState === 4) {
-                            resolve(request.response);
+                            if (request.status === 200) {
+                                console.log('success', request.response);
+                                resolve(request.response);
+                            } else {
+                                console.log('fail', request.response);
+                                reject(request.response)
+                            }
                         }
                     }
                 });
 
                 send.then(data => {
-                    this.$emit('uploaded', data);
+                    this.$emit('uploaded', JSON.parse(data));
                 })
                 .catch(err => {
-                    this.$emit('uploaded', null);
-                    console.log(err)
+                    this.$emit('uploadError', JSON.parse(err));
                 });
             },
         },

@@ -8,6 +8,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use ResponseCode;
 
 class UsersController extends BaseAPIController
@@ -163,5 +164,28 @@ class UsersController extends BaseAPIController
         $user->sendVerificationCode();
 
         return response()->json(['status' => 'Verification code sent.']);
+    }
+    
+    public function profileImageUpload(Request $request, User $user)
+    {
+        if (auth()->user()->cant('update', $user)) {
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+        }
+        
+        StrictValidator::check($request->only('image'), [
+            'image' => 'required|dimensions:max_width=300,max_height=300',
+        ]);
+        
+        try{
+            $image = $request->file('image');
+            $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
+            Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
+        } catch (\Exception $exception) {
+            return $this->respondWithError('Unable to upload profile image. Please try again later');
+        }
+        
+        $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
+        
+        return $this->baseTransformItem($user)->respond();
     }
 }
