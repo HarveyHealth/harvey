@@ -57,6 +57,17 @@
                                             </select>
                                         </span>
                                     </div>
+                                    <div class="input__container">
+                                        <label  class="input__label" for="gender">Gender</label>
+                                        <div class="gender-options">
+                                            <input type="radio" name="gender" id="male" v-model="user.attributes.gender" v-bind:value="'male'">
+                                            <label for="male">Male</label>
+                                            <input type="radio" name="gender" id="female" v-model="user.attributes.gender" v-bind:value="'female'" value="female">
+                                            <label for="female">Female</label>
+                                            <input type="radio" name="gender" id="other" v-model="user.attributes.gender" v-bind:value="'other'" value="other">
+                                            <label for="other">Other</label>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="formgroup">
                                     <div class="input__container">
@@ -111,6 +122,7 @@
                         first_name: '',
                         last_name: '',
                         email: '',
+                        gender: '',
                         phone: '',
                         timezone: '',
                         address_1: '',
@@ -172,8 +184,8 @@
         },
         computed: {
             updates() {
-                return diff(this.$root.$data.global.user.attributes, this.user.attributes);
-            }
+                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at');
+            },
         }
     }
 </script>
@@ -182,6 +194,10 @@
     input, label {
         display:block;
         width: 80%;
+    }
+
+    input[type="radio"] {
+        width: 20%;
     }
 
     .formgroups {
@@ -201,5 +217,10 @@
 
     .card-info {
         width: 75%;
+    }
+
+    .gender-options {
+        display: flex;
+        text-align: left;
     }
 </style>

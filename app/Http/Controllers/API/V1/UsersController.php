@@ -121,16 +121,17 @@ class UsersController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'first_name' => 'max:100',
-            'last_name' => 'max:100',
-            'email' => 'email|max:150|unique:users',
-            'zip' => 'digits:5|serviceable',
-            'phone' => 'max:10|unique:users',
             'address_1' => 'max:100',
             'address_2' => 'max:100',
             'city' => 'max:100',
+            'email' => 'email|max:150|unique:users',
+            'gender' => 'max:255',
+            'first_name' => 'max:100',
+            'last_name' => 'max:100',
+            'phone' => 'max:10|unique:users',
             'state' => 'max:2',
             'timezone' => 'max:75',
+            'zip' => 'digits:5|serviceable',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
