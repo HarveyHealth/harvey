@@ -101,6 +101,10 @@ let routes = [
         component: require('./pages/settings/Settings.vue')
     },
     {
+        path: '/profile',
+        component: require('./pages/profile/Profile.vue')
+    },
+    {
         path: '*',
         redirect:  rootRedirect
     }

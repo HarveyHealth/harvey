@@ -10,6 +10,7 @@ use App\Models\Patient;
 use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use ResponseCode;
 
 class UsersController extends BaseAPIController
@@ -123,16 +124,17 @@ class UsersController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'first_name' => 'max:100',
-            'last_name' => 'max:100',
-            'email' => 'email|max:150|unique:users',
-            'zip' => 'digits:5|serviceable',
-            'phone' => 'max:10|unique:users',
             'address_1' => 'max:100',
             'address_2' => 'max:100',
             'city' => 'max:100',
+            'email' => 'email|max:150|unique:users',
+            'gender' => 'max:255',
+            'first_name' => 'max:100',
+            'last_name' => 'max:100',
+            'phone' => 'max:10|unique:users',
             'state' => 'max:2',
             'timezone' => 'max:75',
+            'zip' => 'digits:5|serviceable',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
@@ -164,5 +166,28 @@ class UsersController extends BaseAPIController
         $user->sendVerificationCode();
 
         return response()->json(['status' => 'Verification code sent.']);
+    }
+    
+    public function profileImageUpload(Request $request, User $user)
+    {
+        if (auth()->user()->cant('update', $user)) {
+            return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
+        }
+        
+        StrictValidator::check($request->only('image'), [
+            'image' => 'required|dimensions:max_width=300,max_height=300',
+        ]);
+        
+        try{
+            $image = $request->file('image');
+            $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
+            Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
+        } catch (\Exception $exception) {
+            return $this->respondWithError('Unable to upload profile image. Please try again later');
+        }
+        
+        $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
+        
+        return $this->baseTransformItem($user)->respond();
     }
 }
