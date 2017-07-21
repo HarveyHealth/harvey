@@ -32,7 +32,7 @@ class SignUpPage extends BasePage
     }
 
 
-    public function wrongZip(Browser $browser, $temp_user)
+    public function wrongZip(Browser $browser)
     {
         $browser->type('first_name', 'Alex')
                 ->type('last_name', "vaz")
@@ -40,8 +40,8 @@ class SignUpPage extends BasePage
                 ->type('zip', '99999')
                 ->type('password', 'secret')
                 ->check('terms')
-                ->press('Sign Up')
-                ->pause(2000);
+                ->press('Sign Up');
+
     }
 
     public function clickSignUp(Browser $browser)

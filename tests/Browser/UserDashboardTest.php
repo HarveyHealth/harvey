@@ -18,7 +18,7 @@ class UserDashboardTest extends DuskTestCase
      *
      * @return void
      */
-    public function test_if_appointments_links_to_appointment_on_appointment_page()
+    public function test_if_old_appointment_does_not_show_up_in_dashboard()
     {
         //factory(Patient::class)->create();
         $appointment = factory(Appointment::class)->create(
@@ -32,13 +32,17 @@ class UserDashboardTest extends DuskTestCase
             $browser->loginAs(Patient::find(1))
                     ->visit(new DashboardPage)
                     ->assertSee('Your Dashboard')
-                    ->waitFor('@appointment')
-                    ->click('@appointment')
-                    ->waitForText('Your Appointments')
-                    ->assertSee('Your Appointments')
-                    ->assertSee('Update Appointment')
-                    ->assertSee('Wednesday, July 12th');
+                    // ->pause(3000)
+                    // ->waitFor('@appointment')
+                    // ->click('@appointment')
+                    ->waitForText('You have no upcoming appointments.')
+                    ->assertSee('You have no upcoming appointments.');
+                    // ->assertSee('Update Appointment')
+                    // ->assertSee('Wednesday, July 12th');
 
         });
     }
+
+    // $userId = DB::table('appointment')->where('email', $user['email'])->value('id');
+    // $this->assertDatabaseHas('users', ['email' => $user->email]);
 }
