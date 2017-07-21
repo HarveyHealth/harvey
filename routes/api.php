@@ -45,8 +45,11 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
 
-        Route::get('practitioners', 'PractitionerController@index')->name('practitioner.index');
-        Route::get('practitioners/{practitioner}', 'PractitionerController@show')->name('practitioner.show');
+        Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
+        Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
+        Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
+        Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
+        Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
 
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
