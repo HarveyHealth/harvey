@@ -25,6 +25,10 @@
                             <p v-for="error in errorMessages">{{ error.detail }} </p>
                         </div>
 
+                        <div class="input__container" v-if="loading">
+                            Loading...
+                        </div>
+
                         <form action="#" method="POST" class="form" id="user_form">
                             <div class="formgroups">
                                 <div class="formgroup">
@@ -101,6 +105,7 @@
         },
         data() {
             return {
+                loading: true,
                 user: {
                     attributes: {
                         first_name: '',
@@ -149,6 +154,7 @@
             getUser() {
                 axios.get(`/api/v1/users/${Laravel.user.id}`)
                     .then(response => {
+                        this.loading = false;
                         this.user = response.data.data;
                     })
                     .catch(error => this.user = {});
