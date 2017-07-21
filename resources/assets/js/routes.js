@@ -89,6 +89,18 @@ let routes = [
         component: require('./pages/lab_orders/LabOrders.vue')
     },
     {
+        path: '/clients',
+        component: require('./pages/clients/Clients.vue')
+    },
+    {
+        path: '/records',
+        component: require('./pages/records/Records.vue')
+    },
+    {
+        path: '/settings',
+        component: require('./pages/settings/Settings.vue')
+    },
+    {
         path: '/profile',
         component: require('./pages/profile/Profile.vue')
     },
