@@ -10,8 +10,8 @@ class HomePage extends Page
 {
 
 
-    public $signupText = 'I agree to terms and privacy policy.';
-    public $coverTitle = "Hi. We're Harvey. We specialize in complex health conditions.";
+    public $signupText = "I agree to Harvey's terms and policies.";
+    public $coverTitle = "Maximize your healthspan with a personalized, holistic and integrative approach to medicine.";
     public $labsPage = 'Micronutrients Test';
     public $faqPage =  'Advice and answers from the Harvey Team';
 

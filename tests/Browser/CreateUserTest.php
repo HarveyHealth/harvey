@@ -24,7 +24,8 @@ class CreateUserTest extends DuskTestCase
 
           $this->browse(function ($browser) use ($user) {
               $browser->visit(new SignUpPage)
-                      ->addUser($user);
+                      ->addUser($user)
+                      ->pause(2000);
 
                     });
 

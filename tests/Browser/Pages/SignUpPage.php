@@ -68,7 +68,8 @@ class SignUpPage extends BasePage
 
     public function addUser(Browser $browser, $user)
     {
-      $browser->type('first_name', $user->first_name)
+      $browser->waitFor('@first_name')
+              ->type('@first_name', $user->first_name)
               ->type('last_name' , $user->last_name)
               ->type('email' , $user->email)
               ->type('zip', '91202')
