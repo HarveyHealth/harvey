@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="sender_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="recipient_full_name" :header="subject" :id="user_id" />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -53,7 +53,7 @@
     import socket from './websocket'
     import _ from 'lodash'
     export default {
-        props: ['sender_id', 'subject', 'recipient_id', 'sender_name'],
+        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name'],
         name: 'messages',
         components: {
           Preview,
