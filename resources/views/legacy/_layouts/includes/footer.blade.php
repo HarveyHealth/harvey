@@ -33,6 +33,7 @@
             </div>
             <p class="nav-center">
                 <a href="/" class="nav-item">Home</a>
+                <a href="/lab-tests" class="nav-item">About</a>
                 <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="//blog.goharvey.com" class="nav-item">Blog</a>
                 <a href="//help.goharvey.com" class="nav-item">Help</a>

@@ -1,4 +1,4 @@
-body.home {
+body.home, body.about, body.lab-tests {
     
     // General
 
@@ -54,7 +54,6 @@ body.home {
         }
         .hero-background {
             width: 100%;
-            // background-image: gradient;
             background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
             background-size: cover;
             background-position: 75%;
@@ -84,8 +83,7 @@ body.home {
         @include from($megascreen) {
             min-height: initial;
             .hero-body {
-                @include padding(9rem null null null);
-                @include padding(null null 9rem null);
+                @include padding(8rem null 7rem null);
             }
         }
     }
@@ -209,35 +207,6 @@ body.home {
         }
     }
 
-    #integrative-medicine {
-        @include margin(null null 1em null);
-        .icon-wrapper {
-            &.icon-wrapper-has-background {
-                width: 80px;
-                height: 80px;
-                padding-top: 16px;
-            }
-        }
-        .introduction {
-            @include margin(null null 2rem null);
-            img {
-                max-width: 470px;
-            }
-        }
-        figure.has-margin {
-            @include margin(2rem 3rem);
-            @include margin(null null 3.5rem null);
-        }
-        .columns {
-            @include padding(0 20px 15px 0);
-            transform: translateX(1.5rem);
-        }
-        @include until($tablet) {
-            @include padding(null null null 0);
-        }
-
-    }
-
     #western-medicine, #labs {
         @include padding(null null 5rem null);
         .columns {
@@ -335,14 +304,7 @@ body.home {
         }
     }
 
-    #symptoms {
-        @include margin(null null 4rem null);
-        .circle img{
-            border-radius: 100%;
-            max-width: 70%;
-            @include padding(5px 0 0);
-        }
-    }
+    // Sub-Footer
 
     #get-started {
         background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
@@ -353,6 +315,23 @@ body.home {
         p {
             color: $tertiary;
             font-size: 1.2rem;
+        }
+    }
+
+    #pricing {
+        .container {
+            .section-header {
+                @include margin(null null 1em null);
+            }
+        }
+    }
+
+    #symptoms {
+        @include margin(null null 4rem null);
+        .circle img{
+            border-radius: 100%;
+            max-width: 70%;
+            @include padding(5px 0 0);
         }
     }
 
@@ -392,8 +371,7 @@ body.home {
         &:active {
             outline: none;
         }
-    }  
-
+    }
 
     // Media
 
