@@ -158,16 +158,11 @@ body.home {
     .icon-wrapper {
         text-align: center;
         &.icon-wrapper-has-background {
-            width: 68px;
-            height: 68px;
-            @include padding(10px null null null);
+            width: 100px;
+            height: 100px;
+            @include padding(20px null null null);
             border-radius: 50%;
             display: inline-block;
-            @include from($desktop) {
-                width: 80px;
-                height: 80px;
-                @include padding(16px null null null);
-            }
             &.is-lime {
                 @include background-gradient($harvey-lime);
             }
@@ -216,6 +211,13 @@ body.home {
 
     #integrative-medicine {
         @include margin(null null 1em null);
+        .icon-wrapper {
+            &.icon-wrapper-has-background {
+                width: 80px;
+                height: 80px;
+                padding-top: 16px;
+            }
+        }
         .introduction {
             @include margin(null null 2rem null);
             img {
@@ -325,6 +327,10 @@ body.home {
         .column {
             p {
                 @include margin(10px null 0 null);
+            }
+            em {
+                font-size: 16px;
+                color: #AAA;
             }
         }
     }
