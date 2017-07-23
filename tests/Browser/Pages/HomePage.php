@@ -11,7 +11,7 @@ class HomePage extends Page
 
 
     public $signupText = "I agree to Harvey's terms and policies.";
-    public $coverTitle = "Maximize your healthspan with a personalized, holistic and integrative approach to medicine.";
+    public $coverTitle = "Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.";
     public $labsPage = 'Micronutrients Test';
     public $faqPage =  'Advice and answers from the Harvey Team';
 
@@ -23,7 +23,10 @@ class HomePage extends Page
 
     public function assertCoverTitle(Browser $browser)
     {
-      $browser->assertSee($this->coverTitle);
+      $browser->pause(2000)
+              ->waitFor($this->coverTitle)
+
+              ->assertSee($this->coverTitle);
     }
 
     public function assert(Browser $browser)
