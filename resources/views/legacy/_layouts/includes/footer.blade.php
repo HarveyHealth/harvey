@@ -36,8 +36,8 @@
                 <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="//blog.goharvey.com" class="nav-item">Blog</a>
                 <a href="//help.goharvey.com" class="nav-item">Help</a>
-                <a href="//help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>
-                <a href="//help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
+                <a href="http://help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>
+                <a href="http://help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
             </p>
             <div id="mc_embed_signup" class="is-hidden-mobile is-hidden-tablet">
                 <form action="//goharvey.us15.list-manage.com/subscribe/post?u=dc828d195bee3640b849c2838&amp;id=93440a985d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
