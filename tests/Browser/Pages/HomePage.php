@@ -24,8 +24,6 @@ class HomePage extends Page
     public function assertCoverTitle(Browser $browser)
     {
       $browser->pause(2000)
-              ->waitFor($this->coverTitle)
-
               ->assertSee($this->coverTitle);
     }
 
