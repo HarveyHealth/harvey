@@ -20,7 +20,7 @@
                             </div>
                             <div class="column is-6-desktop is-8-tablet is-paddingless-left">
                                 <p class="title is-5 is-marginless"><strong>Start your health journey</strong></p>
-                                <p class="subtitle is-6">Learn what makes Harvey unique from other medical practices.</p>
+                                <p class="subtitle is-6">Harvey's whole-body approach to medicine makes it very unique from other medical practices.</p>
                             </div>
                         </div>
                         <div class="button-wrapper">
@@ -35,7 +35,7 @@
     <section class="section">
         <div class="container has-text-centered">
             <h2 class="title is-3">Your health is our focus.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">Harvey's doctors take a preventative, nutritional and relationship-driven approach to medicine to help you find the root cause of your chronic health conditions and reduce your risk of serious disease.</p>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
             </div>
@@ -47,7 +47,7 @@
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
             <div class="columns is-multiline">
                 <div class="column is-half-tablet is-auto-desktop">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
                         <span class="icon icon_steps_1"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="column is-half-tablet is-auto-desktop">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
                         <span class="icon icon_steps_2"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="column is-half-tablet is-auto-desktop">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
                         <span class="icon icon_steps_3"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="column is-half-tablet is-auto-desktop">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <span class="icon icon_steps_4"></span>
                     </figure>
                     <div class="column is-paddingless-bottom">

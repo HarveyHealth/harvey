@@ -6,8 +6,8 @@
         <div class="hero-background"></div>
         <div class="hero-body container">
             <header class="content has-text-centered">
-                <h1 class="title is-3 page-title">About</h1>
-                <p class="copy-has-max-width subtitle is-5 ">Our physicians rely heavily on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatment plans.</p>
+                <h1 class="title is-3 page-title">About Us</h1>
+                <p class="copy-has-max-width subtitle is-5 ">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as prevention and natural self-healing, to treat the whole person, not just a set of isolated symptoms.</p>
             </header>
         </div>
     </section>
@@ -15,22 +15,9 @@
     <section class="section" id="integrative-medicine">
         <div class="container">
             <h2 class="title is-4 section-header"><span>Integrative Approach</span></h2>
-            <div class="introduction columns is-narrow is-marginless-top">
-                <div class="column is-paddingless">
-                    <figure class="image is-margin is-padding">
-                        <img src="/images/home/venn-diagram.png" alt="">
-                    </figure>
-                </div>
-                <div class="column has-content-vertical-aligned">
-                    <div class="content">
-                        <h2 class="title is-3">An evolution in medicine.</h2>
-                        <p class="subtitle is-6">Integrative medicine combines traditional healing, prevention and natural self-healing philosophies of Eastern medicine with advanced evidence-based research of Western medicine to treat the whole person, not just a set of isolated symptoms.</p>
-                    </div>
-                </div>
-            </div>
             <div class="columns is-multiline is-narrow">
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-lime image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-lime">
                         <span class="icon icon_medicine_1"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -39,7 +26,7 @@
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-pink image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
                         <span class="icon icon_medicine_2"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -48,7 +35,7 @@
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-brown image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-brown">
                         <span class="icon icon_medicine_3"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -57,7 +44,7 @@
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-purple image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple">
                         <span class="icon icon_medicine_4"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -66,7 +53,7 @@
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
                         <span class="icon icon_medicine_6"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -75,7 +62,7 @@
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-green image">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <span class="icon icon_medicine_5"></span>
                     </figure>
                     <div class="column is-paddingless-top">
@@ -168,7 +155,7 @@
     <section class="section" id="symptoms">
         <div class="section-wrapper">
             <div class="container content">
-                <h2 class="title is-4 section-header"><span>Where We Can Help</span></h2>
+                <h2 class="title is-4 section-header"><span>Specialities</span></h2>
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile has-text-centered">Our physicians have experience treating patients suffering from a wide range of small and complex health issues.</p>
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
@@ -256,7 +243,7 @@
                             <img src="/images/home/square-4.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
-                            <label class="label">Reproductive</label>
+                            <label class="label">Fertility/Reproductive</label>
                             <label class="symptoms-selector-description">Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.</label>
                         </div>
                     </div>

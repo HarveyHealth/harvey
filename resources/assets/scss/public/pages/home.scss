@@ -1,4 +1,4 @@
-body.home, body.about, body.lab-tests {
+body.home, body.about, body.lab-tests { // Eventually combine into a single Vue template
     
     // General
 
@@ -44,7 +44,7 @@ body.home, body.about, body.lab-tests {
         @include margin(null auto null null);
     }
 
-    // Hero
+    // Hero Images
 
     .hero {
         position: relative;
@@ -87,6 +87,7 @@ body.home, body.about, body.lab-tests {
             }
         }
     }
+
     .has-content-vertical-aligned {
         @include from($desktop) {
             position: relative;
@@ -116,7 +117,7 @@ body.home, body.about, body.lab-tests {
         text-align: center;
         @include margin(null null 2em null);
         span {
-            font-weight: 500;
+            font-weight: 300;
         }
         @include from($tablet) {
             display: table;
@@ -153,6 +154,9 @@ body.home, body.about, body.lab-tests {
         @include margin($space-xsmall null null null);
         @include margin(null null $size-2 null);
     }
+
+    // Icons
+
     .icon-wrapper {
         text-align: center;
         &.icon-wrapper-has-background {
@@ -195,11 +199,6 @@ body.home, body.about, body.lab-tests {
     }
     .label:not(:last-child){
         margin-bottom: 0;
-    }
-    .symptoms-selector-wrapper {
-        li + li {
-            @include margin(0 null null null);
-        }
     }
     .is-3-widescreen {
         @include from($widescreen) {
@@ -326,12 +325,28 @@ body.home, body.about, body.lab-tests {
         }
     }
 
+    // Symptoms
+
     #symptoms {
-        @include margin(null null 4rem null);
+        @include margin(null null 3rem null);
+        .symptoms-selector-wrapper {
+            li + li {
+                @include margin(0 null null null);
+            }
+        }
         .circle img{
             border-radius: 100%;
             max-width: 70%;
             @include padding(5px 0 0);
+        }
+        @include from($desktop) {
+            .columns {
+                text-align: left;
+                @include margin(null null 10px null);
+            }
+        }
+        .label {
+            font-weight: 500;
         }
     }
 
@@ -380,13 +395,6 @@ body.home, body.about, body.lab-tests {
             &.is-1,
             &.is-2 {
                 font-size: 2rem;
-            }
-        }
-    }
-    @include from($desktop) {
-        #symptoms {
-            .columns {
-                text-align: left;
             }
         }
     }

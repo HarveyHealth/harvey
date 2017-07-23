@@ -8,9 +8,6 @@
 @import '~bulma/bulma';
 @import '~animate.css/animate';
 
-// Google Analytics
-.async-hide { opacity: 0 !important}
-
 // Rewrite bulma styles
 
 .nav-left {
@@ -175,10 +172,6 @@ $font-family: "proxima-nova";
   }
 }
 
-em {
-  font-size: 0.85em;
-}
-
 // Animation
 
 .animated {
@@ -202,174 +195,9 @@ em {
     @include margin(null null 0 null);
 }
 
-body.home .header,
-body.about .header,
-body.lab-tests .header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 101;
-    height: 60px;
-    background-color: rgba(#fff, $opacity-dark);
-    &,
-    .button {
-        transition: all 0.2s ease;
-    }
-    .button {
-        &:not(.is-outlined) {
-            background-color: $tertiary;
-            &:hover,
-            &:active,
-            &:focus {
-                background-color: darken($tertiary, 2.5%);
-            }
-        }
-        &.is-outlined {
-            color: $tertiary;
-            @include border-color($tertiary);
-            &:hover,
-            &:active,
-            &:focus {
-                color: darken($tertiary, 5%);
-                @include border-color(darken($tertiary, 5%));
-                background-color: transparent;
-            }
-        }
-    }
-    &.is-inverted {
-      .logo-wrapper {
-        .harvey-text {
-            fill: #fff !important;
-          }
-        }
-    }
-}
-
-.section:not(:last-of-type) {
-    @include padding(null null 1rem null);
-}
-
-body {
-  position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-}
-
-.footer {
-  left: 0;
-  width: 100%;
-}
-
-.logo-wrapper {
-  .no-svg & {
-    background: url('/images/logos/mobile-logo.png') no-repeat center center;
-    @include from($mobile) {
-      background-image: url('/images/logos/main-logo.png');
-    }
-  }
-}
-
-.page-title {
-  &, &.title {
-    font-weight: 500;
-  }
-}
-
-// Margin
-
-.is-margin {
-  @include margin(1rem);
-}
-
-.is-margin-top {
-  @include margin(1rem null null null);
-}
-
-.is-margin-left {
-  @include margin(null null null 1rem);
-}
-
-.is-margin-bottom {
-  @include margin(null null 1rem null);
-}
-
-.is-marginless {
-  @include margin(0);
-}
-
-.is-marginless-top {
-  @include margin(0 null null null);
-}
-
-.is-marginless-left {
-  @include margin(null null null 0);
-}
-
-.is-marginless-bottom {
-  @include margin(null null 0 null);
-}
-
-// Margin/Padding (Negative)
-
-.is-padding {
-  @include padding(1rem);
-}
-
-.is-padding-top {
-  @include padding(1rem null null null);
-}
-
-.is-padding-left {
-  @include padding(null null null 1rem);
-}
-
-.is-padding-bottom {
-  @include padding(null null 1rem null);
-}
-
-.is-paddingless {
-  @include padding(0);
-}
-
-.is-paddingless-top {
-  @include padding(0 null null null);
-}
-
-.is-paddingless-left {
-  @include padding(null null null 0);
-}
-
-.is-paddingless-bottom {
-  @include padding(null null 0 null);
-}
-
-// Opacity
-
-.is-opaque-25 {
-  opacity: 0.25;
-}
-
-.is-opaque-50 {
-  opacity: 0.5;
-}
-
-.is-opaque-75 {
-  opacity: 0.75;
-}
-
-// Other
-
-.is-unselectable {
-  @include unselectable;
-}
-
-.is-disabled {
-  pointer-events: none;
-}
+// Header
 
 .header {
-  box-shadow: 0 1px $grey-lighter;
   top: 0;
   left: 0;
   width: 100%;
@@ -377,6 +205,41 @@ body {
   height: 60px;
   overflow: hidden;
   background: #FFF;
+  position: fixed;
+  box-shadow: 0 1px $grey-lighter;
+  background-color: rgba(#fff, $opacity-dark);
+  .button {
+      transition: all 0.2s ease;
+  }
+  .button {
+      &:not(.is-outlined) {
+          background-color: $tertiary;
+          &:hover,
+          &:active,
+          &:focus {
+              background-color: darken($tertiary, 2.5%);
+          }
+      }
+      &.is-outlined {
+          color: $tertiary;
+          @include border-color($tertiary);
+          &:hover,
+          &:active,
+          &:focus {
+              color: darken($tertiary, 5%);
+              @include border-color(darken($tertiary, 5%));
+              background-color: transparent;
+          }
+      }
+  }
+  &.is-inverted {
+    .logo-wrapper {
+      .harvey-text {
+          fill: #fff !important;
+        }
+      }
+  }
+
   .container {
     height: 60px;
     max-width: 1152px;
@@ -460,6 +323,132 @@ body {
 .video-title {
   font-weight: 500;
   font-size: 1.25rem;
+}
+
+.section:not(:last-of-type) {
+    @include padding(null null 1rem null);
+}
+
+body {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.footer {
+  left: 0;
+  width: 100%;
+}
+
+.logo-wrapper {
+  .no-svg & {
+    background: url('/images/logos/mobile-logo.png') no-repeat center center;
+    @include from($mobile) {
+      background-image: url('/images/logos/main-logo.png');
+    }
+  }
+}
+
+.page-title {
+  &, &.title {
+    font-weight: 500;
+  }
+}
+
+// Margin
+
+.is-margin {
+  @include margin(1rem);
+}
+
+.is-margin-top {
+  @include margin(1rem null null null);
+}
+
+.is-margin-left {
+  @include margin(null null null 1rem);
+}
+
+.is-margin-bottom {
+  @include margin(null null 1rem null);
+}
+
+.is-marginless {
+  @include margin(0);
+}
+
+.is-marginless-top {
+  @include margin(0 null null null);
+}
+
+.is-marginless-left {
+  @include margin(null null null 0);
+}
+
+.is-marginless-bottom {
+  @include margin(null null 0 null);
+}
+
+// Margin/Padding
+
+.is-padding {
+  @include padding(1rem);
+}
+
+.is-padding-top {
+  @include padding(1rem null null null);
+}
+
+.is-padding-left {
+  @include padding(null null null 1rem);
+}
+
+.is-padding-bottom {
+  @include padding(null null 1rem null);
+}
+
+.is-paddingless {
+  @include padding(0);
+}
+
+.is-paddingless-top {
+  @include padding(0 null null null);
+}
+
+.is-paddingless-left {
+  @include padding(null null null 0);
+}
+
+.is-paddingless-bottom {
+  @include padding(null null 0 null);
+}
+
+// Opacity
+
+.is-opaque-25 {
+  opacity: 0.25;
+}
+
+.is-opaque-50 {
+  opacity: 0.5;
+}
+
+.is-opaque-75 {
+  opacity: 0.75;
+}
+
+// Other
+
+.is-unselectable {
+  @include unselectable;
+}
+
+.is-disabled {
+  pointer-events: none;
+}
+
+em {
+  font-size: 0.85em;
 }
 
 // Login & Forgot Pages
