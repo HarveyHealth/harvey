@@ -64,6 +64,7 @@ class SitemapController extends Controller
             '',
             'login',
             'signup',
+            'about',
             'terms',
             'privacy',
         ];
