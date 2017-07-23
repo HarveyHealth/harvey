@@ -93,8 +93,8 @@ class loginTest extends DuskTestCase
                     ->type('email', $patient)
                     ->type('password', 'secret')
                     ->click('@login')
-                    ->waitForText('You will need to answer a few questions')
-                    ->assertSee('You will need to answer a few questions');
+                    ->waitForText('You will need to answer a few basic questions')
+                    ->assertSee('You will need to answer a few basic questions');
 
         });
     }
