@@ -79,54 +79,54 @@
             <h2 class="title is-4 section-header"><span>Leadership</span></h2>
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/jill.jpg" alt="">
+                    <a href="//www.youtube.com/watch?v=ZyTK8qn_GAI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img src="/images/about/kyle.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Kyle Hill</p>
                     <em>Founder & CEO</em>
-                    <p>Rachel is a board certified Integrative Family Medicine Physician and Osteopath in Los Angeles. Her work and professional experience has put her at the forefront of integrative and functional medicine.</p>
+                    <p>Kyle has a finance and design background with 10+ years of experience building disruptive tech companies, including CEO at HomeHero, a home care marketplace. Kyle is a TEDx speaker and made Forbes “30 Under 30” list in healthcare in 2016.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/layne.jpg" alt="">
+                    <a href="//www.youtube.com/watch?v=DBjYDaecNgM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img src="/images/about/mike.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Mike Townsend</p>
                     <em>Founder & COO</em>
-                    <p>Rachel is a board certified Integrative Family Medicine Physician and Osteopath in Los Angeles. Her work and professional experience has put her at the forefront of integrative and functional medicine.</p>
+                    <p>Mike is a serial entrepreneur with an extensive background in healthcare and engineering. Mike was also a founder at HomeHero and named to Forbes 30/30 in healthcare. He has a passion for science and evidence-based medicine.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ch1GOHj5VOQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/rachel.jpg" alt="">
+                        <img src="/images/about/rachel.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Rachel West, D.O.</p>
                     <em>Chief Medical Officer</em>
-                    <p>Rachel is a board certified Integrative Family Medicine Physician and Osteopath in Los Angeles. Her work and professional experience has put her at the forefront of integrative and functional medicine.</p>
+                    <p>Dr. West is a board-certified integrative family medicine physician and osteopath in Los Angeles. Her work and professional experience have put her at the forefront of integrative, functional and preventative medicine.</p>
                 </div>
             </div>
             <div class="columns is-narrow is-hidden-mobile">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/amanda.jpg" alt="">
+                        <img src="/images/about/amanda.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Amanda Frick, N.D., LAc</p>
                     <em>Lead Naturopathic Doctor</em>
-                    <p>Amanda has a Naturopathic Family Practice in Los Angeles. She specializes in nutrition, hormone balancing and digestive disorders. She is passionate about bringing the best aspects of modern and traditional medicine together to benefit her patients.</p>
+                    <p>Dr. Frick is a licensed Naturopathic Doctor from San Diego. She specializes in nutrition, hormone balancing and digestive disorders. She is passionate about bringing the best aspects of modern and traditional medicine together to benefit her patients.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/layne.jpg" alt="">
+                        <img src="/images/about/layne.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne Thrasher</strong></p>
                     <em>VP of Finance/Operations</em>
-                    <p>Sandra is an Operations Managers on the Harvey team. She have a passion for nutrition, holistic medicine and helping people on their journey to better health.</p>
+                    <p>Layne has a diverse background that includes finance, accounting, operations and marketing. He has trusted integrative physicians to keep him healthy for many years. He believes nutrition, active lifestyle and advanced lab testing are critical to maximizing your healthspan.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/sandra.jpg" alt="">
+                        <img src="/images/about/sandra.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Sandra Walker</p>
                     <em>Senior Operations Manager</em>
-                    <p>Sandra is an Operations Managers on the Harvey team. She have a passion for nutrition, holistic medicine and helping people on their journey to better health.</p>
+                    <p>Sandra is the soul of our Operations team at Harvey, making sure every client has an amazing experience. She has a passion for nutrition, holistic medicine, plant-based diets and helping patients on their journey to better health.</p>
                 </div>
             </div>
         </div>
