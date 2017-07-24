@@ -51,6 +51,10 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
+    
+        if($user->isPractitioner()) {
+            $output += ['practitionerId' => $user->practitioner->id];
+        }
 
         return $output;
     }
