@@ -29,7 +29,8 @@
                         subject: chat.attributes.subject,
                         sender_id : chat.attributes.sender_user_id,
                         recipient_id : chat.attributes.recipient_user_id,
-                        sender_name: chat.attributes.sender_full_name
+                        sender_name: chat.attributes.sender_full_name,
+                        recipient_full_name: chat.attributes.recipient_full_name
                       }
                     }">
                     <MessagePost

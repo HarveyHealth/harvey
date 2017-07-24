@@ -4,6 +4,7 @@
 .env.dusk.local
 .env.staging
 .env.testing
+*.swp
 /.idea
 /.vagrant
 /.vscode/*

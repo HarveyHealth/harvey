@@ -66,7 +66,7 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
         'specialty' => json_encode([$faker->word, $faker->jobTitle]),
         'description' => $faker->text,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",
-        'graduated_at' => Carbon::parse('-5 year')->hour(0)->minute(0)->second(0),
+        'graduated_year' => $faker->numberBetween(2000, 2015),
     ];
 });
 

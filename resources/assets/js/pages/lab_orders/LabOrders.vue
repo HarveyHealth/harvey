@@ -6,7 +6,7 @@
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-if="!isEmpty($root.$data.labTests) && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
@@ -175,8 +175,8 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                let user_type = this.$root.$data.global.user.attributes.user_type
-                if (user_type !== 'patient') {
+                let attributes = this.$root.$data.global.user.attributes
+                if (attributes && attributes.user_type !== 'patient') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients || 
@@ -188,7 +188,6 @@
                 }
             },
             labTests() {
-                let user_type = this.$root.$data.global.user.attributes.user_type
                 this.tests = this.$root.$data.labTests
                 return this.$root.$data.labTests.length > 0
             }
@@ -208,10 +207,12 @@
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
             const global = this.$root.$data.global
+            let attributes = this.$root.$data.global.user.attributes
+
             if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 
-                !global.loadingPatients && 
-                !global.loadingPractitioners) {
+                !global.loadingPractitioners &&
+                (!global.loadingPatients || (attributes && attributes.user_type === 'patient'))) {
                     this.setupLabData();
                 }
         }

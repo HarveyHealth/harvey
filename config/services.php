@@ -64,7 +64,10 @@ return [
                 ],
                 'welcome' => 1450461,
             ],
-        ]
+            'message' => [
+                'unread' => 2495382,
+            ],
+        ],
     ],
 
     'timezonedb' => [
