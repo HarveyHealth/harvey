@@ -1,7 +1,7 @@
 // Global signup styles
 .signup-content {
-  @include padding(50px null null null);
   text-align: center;
+  @include padding(50px null null null);
   @include margin(null null 60px null);
   h2 {
     font-size: 30px;
