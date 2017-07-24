@@ -1,33 +1,31 @@
 body.lab-tests {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    #app {
-        background-image: linear-gradient(180deg, $harvey-slategrey 0%, #FFFFFF 60%);
-    }
     .hero {
-        background-color: transparent;
-        .title {
-            color: #fff;
-            font-size: 34px;
+        .hero-background {
+            background: url('/images/lab_tests/blood-draw.jpg') no-repeat center top;
+            background-size: cover;
+            background-position: 0 52%;
         }
-        .subtitle {
-            color: #fff;
-            font-size: 26px;
+        .hero-body {
+            .title {
+                color: #fff;
+                font-size: 34px;
+            }
+            .subtitle {
+                color: #fff;
+                font-size: 26px;
+            }
         }
-    }
-    .menu {
-      font-size: $size-normal
     }
     .page-content {
         .section{
-            max-width: 1152px;
-            margin: 0 auto 70px;
             overflow: hidden;
-            padding: 0;
-            .container.bg-white {
-                border: 1px solid #eee;
-                min-height: 500px;
-                max-width: 1152px;
+            .container{
+                &.bg-white {
+                    border: 1px solid #eee;
+                    min-height: 500px;
+                    max-width: 1152px;
+                    @include margin(null null 3rem null);
+                }
             }
             .tabs-navigation {
                 .menu-list {
@@ -92,7 +90,6 @@ body.lab-tests {
                         margin: 50px auto;
                     }
                 }
-
             }
         }
     }

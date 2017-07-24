@@ -1,4 +1,4 @@
-body.home {
+body.home, body.about, body.lab-tests { // Eventually combine into a single Vue template
     
     // General
 
@@ -44,7 +44,7 @@ body.home {
         @include margin(null auto null null);
     }
 
-    // Hero
+    // Hero Images
 
     .hero {
         position: relative;
@@ -54,7 +54,6 @@ body.home {
         }
         .hero-background {
             width: 100%;
-            // background-image: gradient;
             background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
             background-size: cover;
             background-position: 75%;
@@ -84,11 +83,11 @@ body.home {
         @include from($megascreen) {
             min-height: initial;
             .hero-body {
-                @include padding(9rem null null null);
-                @include padding(null null 9rem null);
+                @include padding(8rem null 7rem null);
             }
         }
     }
+
     .has-content-vertical-aligned {
         @include from($desktop) {
             position: relative;
@@ -118,7 +117,7 @@ body.home {
         text-align: center;
         @include margin(null null 2em null);
         span {
-            font-weight: 500;
+            font-weight: 300;
         }
         @include from($tablet) {
             display: table;
@@ -155,19 +154,17 @@ body.home {
         @include margin($space-xsmall null null null);
         @include margin(null null $size-2 null);
     }
+
+    // Icons
+
     .icon-wrapper {
         text-align: center;
         &.icon-wrapper-has-background {
-            width: 68px;
-            height: 68px;
-            @include padding(10px null null null);
+            width: 100px;
+            height: 100px;
+            @include padding(20px null null null);
             border-radius: 50%;
             display: inline-block;
-            @include from($desktop) {
-                width: 80px;
-                height: 80px;
-                @include padding(16px null null null);
-            }
             &.is-lime {
                 @include background-gradient($harvey-lime);
             }
@@ -203,37 +200,10 @@ body.home {
     .label:not(:last-child){
         margin-bottom: 0;
     }
-    .symptoms-selector-wrapper {
-        li + li {
-            @include margin(0 null null null);
-        }
-    }
     .is-3-widescreen {
         @include from($widescreen) {
             font-size: $size-3;
         }
-    }
-
-    #integrative-medicine {
-        @include margin(null null 1em null);
-        .introduction {
-            @include margin(null null 2rem null);
-            img {
-                max-width: 470px;
-            }
-        }
-        figure.has-margin {
-            @include margin(2rem 3rem);
-            @include margin(null null 3.5rem null);
-        }
-        .columns {
-            @include padding(0 20px 15px 0);
-            transform: translateX(1.5rem);
-        }
-        @include until($tablet) {
-            @include padding(null null null 0);
-        }
-
     }
 
     #western-medicine, #labs {
@@ -273,6 +243,52 @@ body.home {
         }
     }
 
+    #email-capture {
+        width: 100%;
+        background-image: linear-gradient(180deg, #4C586F -20%, white 100%);
+        // background: lighten(#EFEFEF, 90%) url('/images/home/veggies.png') no-repeat center top;
+        // background-size: cover;
+        // background-position: 100%;
+        // background-attachment: fixed;
+        h2.title,
+        p.subtitle{
+            color: #FFF;
+        }
+        form {
+            @include margin(null null 3rem null);
+            input{
+                width: 30%;
+                @include padding(.7em 1em .7em 1em);
+                @include margin(null null null null);
+                border-radius: 3px;
+                box-shadow: none;
+                border-style: solid;
+                border: 1px solid #eee;
+                background: #f9f9f9;
+                color: #444;
+                font-size: 1rem;
+                opacity: .7;
+            }
+            button{
+                line-height: .1em;
+                @include margin(null null null .5rem);
+                @include padding(1.3em 2em);
+            }
+            input:focus,
+            select:focus,
+            textarea:focus,
+            button:focus {
+                outline: none;
+            }
+        }
+    }
+
+    // Social Feed
+
+    #social-feed{
+        opacity: .7;
+    }
+
     #social-feed, #symptoms {
         .social-feed {
             @include margin(40px null null null);
@@ -281,6 +297,8 @@ body.home {
             }
         }
     }
+
+    // How it Works
 
     #how-it-works {
         
@@ -316,6 +334,8 @@ body.home {
         }
     }
 
+    // Patient Stories
+
     #stories, #advisors {
         a {
             &:focus {
@@ -326,17 +346,14 @@ body.home {
             p {
                 @include margin(10px null 0 null);
             }
+            em {
+                font-size: 16px;
+                color: #AAA;
+            }
         }
     }
 
-    #symptoms {
-        @include margin(null null 4rem null);
-        .circle img{
-            border-radius: 100%;
-            max-width: 70%;
-            @include padding(5px 0 0);
-        }
-    }
+    // Sub-Footer
 
     #get-started {
         background: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 50%);
@@ -347,6 +364,39 @@ body.home {
         p {
             color: $tertiary;
             font-size: 1.2rem;
+        }
+    }
+
+    #pricing {
+        .container {
+            .section-header {
+                @include margin(null null 1em null);
+            }
+        }
+    }
+
+    // Symptoms
+
+    #symptoms {
+        @include margin(null null 3rem null);
+        .symptoms-selector-wrapper {
+            li + li {
+                @include margin(0 null null null);
+            }
+        }
+        .circle img{
+            border-radius: 100%;
+            max-width: 70%;
+            @include padding(5px 0 0);
+        }
+        @include from($desktop) {
+            .columns {
+                text-align: left;
+                @include margin(null null 10px null);
+            }
+        }
+        .label {
+            font-weight: 500;
         }
     }
 
@@ -386,8 +436,7 @@ body.home {
         &:active {
             outline: none;
         }
-    }  
-
+    }
 
     // Media
 
@@ -396,13 +445,6 @@ body.home {
             &.is-1,
             &.is-2 {
                 font-size: 2rem;
-            }
-        }
-    }
-    @include from($desktop) {
-        #symptoms {
-            .columns {
-                text-align: left;
             }
         }
     }
