@@ -160,10 +160,19 @@
 
     <section class="section is-paddingless is-marginless" id="social-feed">
         <ul class="juicer-feed" data-feed-id="goharveyapp" data-per="15"></ul>
-        <div class="button-wrapper has-text-centered social-feed">
-            <a href="//www.instagram.com/goharveyapp" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
-                <img src="/images/home/instagram.png"> Follow Instagram</a>
-        </div>
+        <section class="section" id="email-capture">
+            <div class="container">
+                <div class="has-text-centered">
+                    <h2 class="copy-has-max-width title has-text-centered">Join the Discussion</h2>
+                    <p class="copy-has-max-width subtitle">About once a month, we send our subscribers discounts, company updates, health news and incredible patients stories. Never spam, we promise.</p>
+                    <form method="POST" action="https://formspree.io/mvzdryqm" target="_blank">
+                        <input type="text" name="_gotcha" style="display: none"> 
+                        <input type="email" name="email" class="" placeholder="Personal Email">
+                        <button type="submit" class="button is-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </section>
 
     <section class="section" id="stories">

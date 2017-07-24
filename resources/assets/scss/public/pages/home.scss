@@ -243,6 +243,52 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
         }
     }
 
+    #email-capture {
+        width: 100%;
+        background-image: linear-gradient(180deg, #4C586F -20%, white 100%);
+        // background: lighten(#EFEFEF, 90%) url('/images/home/veggies.png') no-repeat center top;
+        // background-size: cover;
+        // background-position: 100%;
+        // background-attachment: fixed;
+        h2.title,
+        p.subtitle{
+            color: #FFF;
+        }
+        form {
+            @include margin(null null 3rem null);
+            input{
+                width: 30%;
+                @include padding(.7em 1em .7em 1em);
+                @include margin(null null null null);
+                border-radius: 3px;
+                box-shadow: none;
+                border-style: solid;
+                border: 1px solid #eee;
+                background: #f9f9f9;
+                color: #444;
+                font-size: 1rem;
+                opacity: .7;
+            }
+            button{
+                line-height: .1em;
+                @include margin(null null null .5rem);
+                @include padding(1.3em 2em);
+            }
+            input:focus,
+            select:focus,
+            textarea:focus,
+            button:focus {
+                outline: none;
+            }
+        }
+    }
+
+    // Social Feed
+
+    #social-feed{
+        opacity: .7;
+    }
+
     #social-feed, #symptoms {
         .social-feed {
             @include margin(40px null null null);
@@ -251,6 +297,8 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
             }
         }
     }
+
+    // How it Works
 
     #how-it-works {
         
@@ -285,6 +333,8 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
             @include margin(10px 0);
         }
     }
+
+    // Patient Stories
 
     #stories, #advisors {
         a {
