@@ -43,6 +43,38 @@ class Practitioner extends Model
         return $this->user->timezone;
     }
 
+    public function getLicenseStateAttribute()
+    {
+        return $this->licenses->first()->state;
+    }
+
+    public function getLicenseNumberAttribute()
+    {
+        return "{$this->licenses->first()->title}-{$this->licenses->first()->number}";
+    }
+
+    public function setLicenseStateAttribute($value)
+    {
+        return $this->licenses->first()->state = $value;
+    }
+
+    public function setLicenseNumberAttribute($value)
+    {
+        $pieces = empty($value) ? [null, null] : array_filter(explode('-', $value));
+
+        if (2 == count($pieces)) {
+            $this->licenses->first()->title = strtoupper($pieces[0]);
+            $this->licenses->first()->number = $pieces[1];
+        }
+
+        return $pieces;
+    }
+
+    public function setSpecialtyAttribute(array $value)
+    {
+        return $this->attributes['specialty'] = json_encode(array_values(array_filter($value)));
+    }
+
     public function availability()
     {
         return new PractitionerAvailability($this);

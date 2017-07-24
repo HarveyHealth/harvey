@@ -53,32 +53,16 @@ class PractitionersController extends BaseAPIController
 
         StrictValidator::check($request->except(['name']), [
             'description' => 'max:1000',
-            'license_title' => 'max:3',
-            'license_number' => 'max:9',
+            'license_number' => 'max:10',
             'license_state' => 'max:2',
             'school' => 'max:255',
             'graduated_year' => 'digits:4',
             'specialty' => 'array',
         ]);
 
-        $practitioner->update($request->except(['name', 'rate', 'user_id', 'specialty', 'license_number', 'license_state']));
+        $practitioner->update($request->except(['name', 'rate', 'user_id']));
 
-        if($request->has('specialty')) {
-            $practitioner->specialty = json_encode($request->get('specialty'));
-            $practitioner->save();
-        }
-
-        if($request->has('license_number')) {
-            $practitioner->licenses->first()->update([
-                'number' => $request->get('license_number')
-            ]);
-        }
-
-        if($request->has('license_state')) {
-            $practitioner->licenses->first()->update([
-                'state' => $request->get('license_state')
-            ]);
-        }
+        $practitioner->push();
 
         return $this->baseTransformItem($practitioner)->respond();
     }

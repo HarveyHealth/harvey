@@ -24,13 +24,14 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_number">License #</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.license_number" type="text" name="license_number" max="10"/>
+                                <input class="form-input form-input_text font-darkest-gray" style="text-transform:uppercase" v-model="practitioner.license_number" type="text" name="license_number" max="10" v-validate="{ max: 10, regex: /^[a-zA-Z]{2,3}-\d{3,6}$/ }"/>
+                                <span v-show="errors.has('license_number')" class="error-text">Invalid license format.</span>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
                                 <span class="custom-select isdisabled">
-                                    <select disabled>
-                                        <option v-for="license_type in license_types" name="license_title" v-model="practitioner.license_title">
+                                    <select v-model="practitioner.license_number.split('-')[0]" disabled>
+                                        <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
                                     </select>
@@ -93,7 +94,7 @@
                         </div>
                     </div>
                     <div class="submit inline-centered">
-                        <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button>
+                        <button class="button" v-on:click.prevent="submit" :disabled="submitting || errors.any()">Save Changes</button>
                     </div>
                 </form>
 
