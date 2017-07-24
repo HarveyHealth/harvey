@@ -30,16 +30,16 @@ class LabTestPage extends BasePage
 
     public function testMicronutrients(Browser $browser)
     {
-        $browser->waitForText('Micronutrient Test')
-                ->assertSee('Micronutrient Test')
+        $browser->waitForText('Micronutrients Test')
+                ->assertSee('Micronutrients Test')
                 ->assertSee('$299');
     }
 
     public function testHormones(Browser $browser)
     {
         $browser->click('@hormones')
-                ->waitForText('Hormone Test')
-                ->assertSee('Hormone Test')
+                ->waitForText('Hormones Test')
+                ->assertSee('Hormones Test')
                 ->assertSee('$99');
     }
 

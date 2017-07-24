@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomepageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
 
     public function test_if_homepage_is_up()
     {
@@ -86,13 +87,13 @@ class HomepageTest extends DuskTestCase
         });
      }
 
-     public function test_if_blog_button_works_in_footer()
-     {
-         $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->blogFooter();
-         });
-      }
+    //  public function test_if_blog_button_works_in_footer()
+    //  {
+    //      $this->browse(function ($browser) {
+    //          $browser->visit(new HomePage)
+    //                  ->blogFooter();
+    //      });
+    //   }
 
       public function test_if_FAQ_button_works_in_footer()
       {

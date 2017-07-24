@@ -7,9 +7,22 @@ use Laravel\Dusk\Page as BasePage;
 
 class SignUpPage extends BasePage
 {
+    public $errorMessages = [
+      'first_name' => 'First name is required',
+      'last_name' => 'Last name is required',
+      'email' => 'Email is required' ,
+      'emailnotvalid' => 'Not a valid email address',
+      'zipcode' => 'Zipcode is required',
+      'nopass' => 'Password is required' ,
+      'passshort' => 'Password needs minimum of 6 characters'
+
+    ];
+
+
+
     public function url()
     {
-        return '/signup';
+        return '/get-started';
     }
 
 
@@ -18,19 +31,17 @@ class SignUpPage extends BasePage
         $browser->assertPathIs($this->url());
     }
 
-    public function submitForm(Browser $browser, $temp_user)
+
+    public function wrongZip(Browser $browser)
     {
-        $browser->type('first_name', $temp_user->first_name)
-              ->type('last_name', $temp_user->last_name)
-              ->type('email', $temp_user->email)
-              ->type('phone', $temp_user->phone)
-              ->type('password', bcrypt('secret'))
-              ->check('terms')
-              ->press('Sign Up')
-              ->pause(2000)
-              ->waitForText('Pick a date')
-              ->assertSee('Pick a date')
-              ->assertSee('Details');
+        $browser->type('first_name', 'Alex')
+                ->type('last_name', "vaz")
+                ->type('email', 'Alex')
+                ->type('zip', '99999')
+                ->type('password', 'secret')
+                ->check('terms')
+                ->press('Sign Up');
+
     }
 
     public function clickSignUp(Browser $browser)
@@ -57,33 +68,66 @@ class SignUpPage extends BasePage
 
     public function addUser(Browser $browser, $user)
     {
-      $browser->type('zipcode', '91202')
-              ->type('email', $user->email)
+      $browser->waitFor('@first_name')
+              ->type('@first_name', $user->first_name)
+              ->type('last_name' , $user->last_name)
+              ->type('email' , $user->email)
+              ->type('zip', '91202')
               ->type('password', bcrypt('secret'))
               ->checkTerms()
-              ->clickSignUp()
-              ->waitForText("Success! Let's get started.")
-              ->assertSee("Success! Let's get started.");
+              ->clickSignUp();
 
 
+    }
+
+    public function mandatoryFieldCheck(Browser $browser)
+    {
+      $browser->click('@first_name')
+              ->click('@last_name')
+              ->assert($this->errorMessages['first_name'])
+              ->click('@email')
+              ->assertSee($this->errorMessages['last_name'])
+              ->click('@zipcode')
+              ->assertSee($this->errorMessages['email'])
+              ->click('@password')
+              ->assertSee($this->errorMessages['zipcode'])
+              ->click('@terms&conditions')
+              ->assertSee($this->errorMessages['nopass']);
+
+
+    }
+
+    public function emailNotValid(Browser $browser)
+    {
+      $browser->type('email', 'qwe')
+              ->click('@password')
+              ->assertSee($this->errorMessages['emailnotvalid']);
+    }
+
+    public function shortPassword(Browser $browser)
+    {
+      $browser->type('password', 'asdf')
+              ->click('@last_name')
+              ->assertSee($this->errorMessages['passshort']);
     }
 
     public function elements()
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#app > div > form > div.text-centered > input',
-            '@terms' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(1)',
-            '@privacy' => '#app > div > form > div.container.small > div.signup-form-container > div.input-wrap.text-centered > label > a:nth-child(2)',
-            '@checkbox' => '#checkbox',
-            '@letsgo' => '#app > div > div > div.text-centered > a',
-            '@clickpage' => '#app > div > div > div.container.small.message-container > div > h1',
-            '@practitioner' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > label',
-            '@continuePract' => '#app > div:nth-child(2) > form > div > div.container.large > div > div:nth-child(4) > button',
-            '@continueDeta' => '#app > div:nth-child(2) > form > div > div > div.signup-form-container > div.text-centered > a',
-            '@weekday' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(1) > div > div:nth-child(3) > ul > li:nth-child(2) > button',
-            '@time' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.flex-wrapper > div:nth-child(2) > div > div > ul > li:nth-child(5) > button',
-            '@confirmTime' => '#app > div:nth-child(2) > form > div > div.container.large > div > div.text-centered > input'
+            '@signUp' => '#app > div > form > div > div > div > div.text-centered > button > span',
+            '@continue' => '#app > div > div > div > button',
+            '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div:nth-child(1)',
+            '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button',
+            '@phone_number' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > div.input-wrap > input',
+            '@sendText' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > button',
+            '@first_name' => '#app > div > form > div > div > div > div:nth-child(2) > input',
+            '@last_name' => '#app > div > form > div > div > div > div:nth-child(3) > input',
+            '@email' => '#app > div > form > div > div > div > div:nth-child(4) > input',
+            '@zipcode' => '#app > div > form > div > div > div > div:nth-child(5) > input',
+            '@password' => '#app > div > form > div > div > div > div:nth-child(6) > input',
+            '@terms&conditions' => '#app > div > form > div > div > div > div.input-wrap.last'
+
         ];
     }
 
