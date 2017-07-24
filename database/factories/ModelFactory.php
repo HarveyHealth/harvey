@@ -136,6 +136,7 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     $start_time->second = 0;
 
     return [
+        'duration_in_minutes' => $faker->randomElement([null, 30, 60]);
         'patient_id' => function () {
             return factory(App\Models\Patient::class)->create()->id;
         },

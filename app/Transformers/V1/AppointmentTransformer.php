@@ -18,8 +18,9 @@ class AppointmentTransformer extends TransformerAbstract
     public function transform(Appointment $appointment)
     {
         return [
-            'appointment_at' => $appointment->appointment_at,
             'id' => (string) $appointment->id,
+            'appointment_at' => $appointment->appointment_at,
+            'duration_in_minutes' => is_null($appointment->duration_in_minutes) ? null : (string) $appointment->duration_in_minutes,
             'patient_id' => (string) $appointment->patient_id,
             'practitioner_id' => (string) $appointment->practitioner_id,
             'practitioner_name' => (string) $appointment->practitioner->user->fullName(),
