@@ -21,7 +21,7 @@
                     <div v-if="details" style="padding: 20px;">
                         <div class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
-                            <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
+                            <input placeholder="Enter card number" v-validate="validateCardNumber" v-model="cardNumber" class="input--text" type="text">
                         </div>
                         <div class="input__container length">
                             <label class="input__label" for="patient_name">name on card</label>
@@ -36,7 +36,7 @@
                         <div class="input__container length" style="padding-top: 25px;">
                             <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
                             <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
-                            <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
+                            <input placeholder="CVV" style="width: 48%; float: left;" v-validate="validateCardCVC" v-model="cardCvc" class="input--text" type="text">
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
@@ -51,8 +51,6 @@
 </template>
 
 <script>
-import Stripe from 'stripe'
-
 export default {
     name: 'settings',
     components: {
@@ -67,7 +65,9 @@ export default {
             cardNumber: '',
             cardExpiry: '',
             cardCvc: '',
-            postalCode: ''
+            postalCode: '',
+            validateCardNumber: Stripe.card.validateCardNumber,
+            validateCardCVC: Stripe.card.validateCVC
         }
     },
     methods: {
@@ -78,25 +78,17 @@ export default {
             this.details = false
         },
         submitNewCard() {
-            const stripe = Stripe(process.env.STRIPE_KEY)
-            let elements = stripe.elements()
-            let card = elements.create('card', {
-                cardNumber: this.cardNumber,
-                cardExpiry: `${this.month}/${this.year}`,
-                cardCvc: this.cardCvc,
-                postalCode: this.postalCode
-            })
-            stripe.createToken(card, {
-                address_line1: $root.$data.global.user.attributes.address_1,
-                address_line2: $root.$data.global.user.attributes.address_2,
-                address_city: $root.$data.global.user.attributes.city,
-                address_state: $root.$data.global.user.attributes.state,
-                address_zip: $root.$data.global.user.attributes.zip,
-                address_country: 'US',
+            Stripe.setPublishableKey(process.env.STRIPE_KEY)
+            let card = Stripe.card.createToken({
+                number: this.cardNumber,
+                exp_month: this.month,
+                exp_year: this.year,
+                cvc: this.cardCvc,
+                address_zip: this.postalCode,
                 name: `${this.firstName} ${this.lastName}`
-            })
-            .then(result => {
-                
+            }, (status, response) => {
+                console.log(`STATUS`, status)
+                console.log(`RESPONSE`, response)
             })
         }
     },
