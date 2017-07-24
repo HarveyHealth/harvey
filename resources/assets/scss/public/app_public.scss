@@ -132,24 +132,19 @@ body {
         }
     }
     &.login,
-    &.signup,
-    &[class^="password-reset"] {
+    &.signup:not(.widget),
+    &[class*="password-reset"] {
         .page-content + .footer {
             display: none;
         }
-    }
-    &.login,
-    &.signup:not(.widget),
-    &[class^="password-reset"] {
         &.hero {
             justify-content: flex-start;
         }
         .page-content {
             .container {
-                @include from(400px) {
-                    @include margin(0 auto);
-                    width: 340px;
-                }
+                @include margin(0 auto);
+                width: 100%;
+                max-width: 510px;
             }
         }
         .section {
