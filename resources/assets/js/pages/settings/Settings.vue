@@ -36,8 +36,8 @@
                         <div class="input__container length" style="padding-top: 25px;">
                             <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
                             <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
-                            <input placeholder="CVV" style="width: 48%; float: left;" v-model="securityCode" class="input--text" type="text">
-                            <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="zipCode" class="input--text" type="text">
+                            <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
+                            <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
                             <button @click="updateCard" class="button" style="margin-top: 35px;">Update</button>
@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import Stripe from 'stripe'
+
 export default {
     name: 'settings',
     components: {
@@ -58,13 +60,14 @@ export default {
     data() {
         return {
             details: false,
-            cardNumber: '',
             firstName: '',
             lastName: '',
             month: '',
             year: '',
-            securityCode: '',
-            zipCode: ''
+            cardNumber: '',
+            cardExpiry: '',
+            cardCvc: '',
+            postalCode: ''
         }
     },
     methods: {
@@ -73,6 +76,28 @@ export default {
         },
         updateCard() {
             this.details = false
+        },
+        submitNewCard() {
+            const stripe = Stripe(process.env.STRIPE_KEY)
+            let elements = stripe.elements()
+            let card = elements.create('card', {
+                cardNumber: this.cardNumber,
+                cardExpiry: `${this.month}/${this.year}`,
+                cardCvc: this.cardCvc,
+                postalCode: this.postalCode
+            })
+            stripe.createToken(card, {
+                address_line1: $root.$data.global.user.attributes.address_1,
+                address_line2: $root.$data.global.user.attributes.address_2,
+                address_city: $root.$data.global.user.attributes.city,
+                address_state: $root.$data.global.user.attributes.state,
+                address_zip: $root.$data.global.user.attributes.zip,
+                address_country: 'US',
+                name: `${this.firstName} ${this.lastName}`
+            })
+            .then(result => {
+                
+            })
         }
     },
     mounted() {
