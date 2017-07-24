@@ -15,13 +15,19 @@ class AddTitleColumnToLicensesTable extends Migration
     public function up()
     {
         Schema::table('licenses', function (Blueprint $table) {
-            $table->string('title')->after('id')->nullable();
+            $table->string('title', 3)->after('id')->nullable();
         });
 
         License::all()->each(function ($item, $key) {
             list($item->title, $item->number) = explode('-', $item->number);
             $item->save();
         });
+
+        if (License::all()->every(function ($value, $key) { return !empty($value->title); })) {
+            Schema::table('licenses', function (Blueprint $table) {
+                $table->string('title')->nullable(false)->change();
+            });
+        }
 
         if (License::all()->every(function ($value, $key) { return is_numeric($value->number); })) {
             Schema::table('licenses', function (Blueprint $table) {
@@ -32,12 +38,6 @@ class AddTitleColumnToLicensesTable extends Migration
         if (License::all()->every(function ($value, $key) { return !empty($value->state); })) {
             Schema::table('licenses', function (Blueprint $table) {
                 $table->string('state', 2)->nullable(false)->change();
-            });
-        }
-
-        if (License::all()->every(function ($value, $key) { return !empty($value->title); })) {
-            Schema::table('licenses', function (Blueprint $table) {
-                $table->string('title')->nullable(false)->change();
             });
         }
     }

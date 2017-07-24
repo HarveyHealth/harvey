@@ -11,7 +11,6 @@ class Practitioner extends Model
     protected $dates = [
         'created_at',
         'updated_at',
-        'graduated_at',
     ];
 
     protected $guarded = [

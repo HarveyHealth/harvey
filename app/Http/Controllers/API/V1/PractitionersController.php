@@ -44,55 +44,55 @@ class PractitionersController extends BaseAPIController
 
         return $data->respond();
     }
-    
+
     public function update(Request $request, Practitioner $practitioner)
     {
         if (auth()->user()->cant('update', $practitioner)) {
             return $this->respondNotAuthorized("You do not have access to modify the practitioner with id {$practitioner->id}.");
         }
-        
+
         StrictValidator::check($request->except(['name']), [
             'description' => 'max:1000',
             'license_title' => 'max:3',
-            'license_number' => 'max:10',
-            'license_state' => 'max:20',
+            'license_number' => 'max:9',
+            'license_state' => 'max:2',
             'school' => 'max:255',
             'graduated_year' => 'digits:4',
             'specialty' => 'array',
         ]);
-        
+
         $practitioner->update($request->except(['name', 'rate', 'user_id', 'specialty', 'license_number', 'license_state']));
-        
+
         if($request->has('specialty')) {
             $practitioner->specialty = json_encode($request->get('specialty'));
             $practitioner->save();
         }
-        
+
         if($request->has('license_number')) {
-            $practitioner->license->update([
+            $practitioner->licenses->first()->update([
                 'number' => $request->get('license_number')
             ]);
         }
-    
+
         if($request->has('license_state')) {
-            $practitioner->license->update([
+            $practitioner->licenses->first()->update([
                 'state' => $request->get('license_state')
             ]);
         }
-        
+
         return $this->baseTransformItem($practitioner)->respond();
     }
-    
+
     public function profileImageUpload(Request $request, Practitioner $practitioner)
     {
         if (auth()->user()->cant('update', $practitioner)) {
             return $this->respondNotAuthorized("You do not have access to modify the practitioner with id {$practitioner->id}.");
         }
-        
+
         StrictValidator::check($request->only('image'), [
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
-        
+
         try {
             $image = $request->file('image');
             $imageDir = 'practitioner-profile/';
@@ -101,22 +101,22 @@ class PractitionersController extends BaseAPIController
         } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
-        
+
         $practitioner->update(['picture_url' => Storage::cloud()->url($imagePath)]);
-        
+
         return $this->baseTransformItem($practitioner)->respond();
     }
-    
+
     public function backgroundImageUpload(Request $request, Practitioner $practitioner)
     {
         if (auth()->user()->cant('update', $practitioner)) {
             return $this->respondNotAuthorized("You do not have access to modify the practitioner with id {$practitioner->id}.");
         }
-        
+
         StrictValidator::check($request->only('image'), [
             'image' => 'required|dimensions:ratio=4/1,max_width=400,max_height=100',
         ]);
-        
+
         try {
             $image = $request->file('image');
             $imageDir = 'header/';
@@ -125,9 +125,9 @@ class PractitionersController extends BaseAPIController
         } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload background image. Please try again later');
         }
-        
+
         $practitioner->update(['background_picture_url' => Storage::cloud()->url($imagePath)]);
-        
+
         return $this->baseTransformItem($practitioner)->respond();
     }
 }
