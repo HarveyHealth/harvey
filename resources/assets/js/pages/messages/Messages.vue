@@ -18,6 +18,9 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
+            <div class="card" v-if="messageList.length == 0" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
+              <p style="font-style: italic;">No Messages Found</p>
+            </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
