@@ -8,9 +8,9 @@ use Laravel\Dusk\Page as BasePage;
 class LoginPage extends BasePage
 {
 
-  public $signupPage = "Your journey starts here";
-  public $forgotPasswordPage = "Reset Password";
-  public $homepage = "Hi. We're Harvey. We specialize in complex health conditions.";
+  public $signupPage = "Your health journey starts with us.";
+  public $forgotPasswordPage = "Enter your email address below and we will send you a link to reset your password.";
+  public $homepage = "Maximize your healthspan with a personalized, holistic and integrative approach to medicine.";
 
     /**
      * Get the URL for the page.
@@ -60,6 +60,13 @@ class LoginPage extends BasePage
                ->assertSee($this->homepage);
     }
 
+    public function errorMessages(Browser $browser)
+    {
+      $browser->click('@first_name')
+              ->click('@last_name');
+
+    }
+
 
 
 
@@ -74,12 +81,14 @@ class LoginPage extends BasePage
     public function elements()
     {
         return [
-            '@login' => '#login > p.control.is-clearfix > button',
+            '@login' => '#login > footer > div > button',
             '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@forgotPassword' => '#login > p.control.is-clearfix > a',
-            '@signUpButton' => '#app > div > section > div > div > footer > div > a',
-            '@logoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
-            '@logout' => '#app > div.main-container > div.nav-bar > nav > a.admin-nav-link.logout > div'
+            '@forgotPassword' => '#login > div > div > div:nth-child(4) > p.control.forgot-password.is-clearfix > a',
+            '@signUpButton' => '#login > footer > div > a',
+            '@logoHeader' => '#app > div.page-content > section > div > div > a > svg',
+            '@logout' => '#app > div.nav-bar > nav > a.admin-nav-link.logout',
+            '@login' => '#login > footer > div > button'
+
         ];
     }
 }

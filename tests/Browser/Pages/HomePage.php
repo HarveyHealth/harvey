@@ -10,9 +10,9 @@ class HomePage extends Page
 {
 
 
-    public $signupText = 'I agree to terms and privacy policy.';
-    public $coverTitle = "Hi. We're Harvey. We specialize in complex health conditions.";
-    public $labsPage = 'Micronutrient Test';
+    public $signupText = "I agree to Harvey's terms and policies.";
+    public $coverTitle = "Meet our lead Naturopathic Doctor and learn how a more preventative approach to medicine is changing people's lives for the better.";
+    public $labsPage = 'Micronutrients Test';
     public $faqPage =  'Advice and answers from the Harvey Team';
 
 
@@ -23,7 +23,8 @@ class HomePage extends Page
 
     public function assertCoverTitle(Browser $browser)
     {
-      $browser->assertSee($this->coverTitle);
+      $browser->pause(2000)
+              ->assertSee($this->coverTitle);
     }
 
     public function assert(Browser $browser)
@@ -71,7 +72,7 @@ class HomePage extends Page
     public function bookAppTwo(Browser $browser)
     {
         $browser->mouseover('@footer')
-                ->pause(2000)
+                ->pause(3000)
                 ->click('@bookAppTwo')
                 ->assertSee($this->signupText);
     }
