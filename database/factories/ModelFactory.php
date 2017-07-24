@@ -59,9 +59,6 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
         'user_id' => function () {
             return factory(App\Models\User::class)->create()->id;
         },
-        'license_id'  => function () {
-            return factory(App\Models\License::class)->create()->id;
-        },
         'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
         'specialty' => json_encode([$faker->word, $faker->jobTitle]),
         'description' => $faker->text,
@@ -72,7 +69,6 @@ $factory->define(App\Models\Practitioner::class, function (Faker\Generator $fake
 
 $factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
         'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
@@ -121,8 +117,12 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Models\License::class, function (Faker\Generator $faker) {
     return [
-        'number' => $faker->regexify('[A-Z]{2}-[0-9]{4}'),
+        'title' => $faker->randomElement(['ND', 'MD', 'DO']),
+        'number' => $faker->randomNumber(4),
         'state' => $faker->randomElement(['CA', 'NV', 'AZ']),
+        'user_id' => function () {
+            return factory(App\Models\User::class)->create()->id;
+        },
     ];
 });
 
