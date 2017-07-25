@@ -31,10 +31,16 @@ $card-text-color: rgba(255,255,255,0.6);
     background: rgba(#ccc, 0.9);
     border-radius: 2px;
     height: 1.8em;
+    padding: 0 8px;
     position: absolute;
     top: 1em;
     right: 1em;
     width: 3em;
+
+    svg {
+      height: inherit;
+      width: 100%;
+    }
 
     .isInactive & {
       display: none;
@@ -72,6 +78,7 @@ $card-text-color: rgba(255,255,255,0.6);
     right: 1.9em;
     position: absolute;
     top: 10em;
+    width: 3em;
 
     &::before {
       color: rgba($card-text-color, 0.2);

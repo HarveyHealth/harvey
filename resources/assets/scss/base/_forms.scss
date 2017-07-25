@@ -20,6 +20,10 @@
     border-bottom: 1px solid $gray;
     @include padding(0 0 10px 0);
     color: #444;
+
+    &:disabled {
+      color: rgba(#444, 0.5);
+    }
   }
 
   &_checkbox {
