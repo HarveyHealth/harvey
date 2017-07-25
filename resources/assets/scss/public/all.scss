@@ -144,16 +144,6 @@ $font-family: "proxima-nova";
   color: inherit;
 }
 
-.card-footer-item {
-  width: 100%;
-  max-width: 510px;
-  @include padding(1.7rem 4.5rem);
-  @include until($tablet) {
-    @include padding(1.7rem 3rem);
-
-  }
-}
-
 .panel-block {
   > .media {
     flex: 1;
@@ -460,7 +450,8 @@ em {
 // Login & Forgot Pages
 
 body[class*="login"],
-body[class*="password-reset"]{
+body[class*="password-reset"],
+body[class*="404"]{
 
   background: #F9F9F9;
 
@@ -496,6 +487,31 @@ body[class*="password-reset"]{
         padding: 30px 60px 60px; // Desktop/Tablet
         @include until($tablet) {
           padding: 30px 30px 60px; // Mobile
+        }
+        .card-section{
+          h1{
+            font-size: 2rem;
+            @include margin(null null .5rem null);
+          }
+          h2{
+            font-size: 1.3rem;
+            color: #777;
+            @include margin(null null .7rem null);
+          }
+          p{
+            font-size: 1rem;
+            color: #343434;
+          }
+        }
+      }
+
+      .card-footer-item {
+        width: 100%;
+        max-width: 510px;
+        @include padding(1.7rem 4.5rem);
+        @include until($tablet) {
+          @include padding(1.7rem 3rem);
+
         }
       }
 

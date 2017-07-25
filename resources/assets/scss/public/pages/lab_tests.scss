@@ -25,6 +25,7 @@ body.lab-tests {
                     min-height: 500px;
                     max-width: 1152px;
                     @include margin(null null 3rem null);
+                    overflow: hidden;
                 }
             }
             .tabs-navigation {

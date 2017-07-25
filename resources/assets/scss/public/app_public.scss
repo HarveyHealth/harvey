@@ -133,7 +133,8 @@ body {
     }
     &.login,
     &.signup:not(.widget),
-    &[class*="password-reset"] {
+    &[class*="password-reset"],
+    &[class*="404"] {
         .page-content + .footer {
             display: none;
         }
@@ -156,7 +157,8 @@ body {
     }
     &.home,
     &.about,
-    &.lab-tests {
+    &.lab-tests,
+    &.404 {
         .header.is-inverted {
             background-color: transparent;
             box-shadow: none;
