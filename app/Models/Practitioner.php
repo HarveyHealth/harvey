@@ -43,31 +43,34 @@ class Practitioner extends Model
         return $this->user->timezone;
     }
 
-    public function getLicenseStateAttribute()
+    public function getLicensesAttribute()
     {
-        return $this->licenses->first()->state;
+        $mapFunction = function ($item) {
+            $item->number = "{$item->title}-{$item->number}";
+            unset($item->title);
+            return $item;
+        };
+
+        return $this->licenses()->get()->map($mapFunction);
     }
 
-    public function getLicenseNumberAttribute()
+    public function setLicensesAttribute(array $licenses)
     {
-        return "{$this->licenses->first()->title}-{$this->licenses->first()->number}";
-    }
+        $this->licenses()->delete();
 
-    public function setLicenseStateAttribute($value)
-    {
-        return $this->licenses->first()->state = $value;
-    }
+        foreach ($licenses as $license) {
+            $pieces = array_filter(explode('-', $license['number']));
 
-    public function setLicenseNumberAttribute($value)
-    {
-        $pieces = empty($value) ? [null, null] : array_filter(explode('-', $value));
-
-        if (2 == count($pieces)) {
-            $this->licenses->first()->title = strtoupper($pieces[0]);
-            $this->licenses->first()->number = $pieces[1];
+            if (2 == count($pieces) && !empty($license['state'])) {
+                $this->licenses()->create([
+                    'state' => $license['state'],
+                    'title' => strtoupper($pieces[0]),
+                    'number' => $pieces[1],
+                ]);
+            }
         }
 
-        return $pieces;
+        return $licenses;
     }
 
     public function setSpecialtyAttribute(array $value)
