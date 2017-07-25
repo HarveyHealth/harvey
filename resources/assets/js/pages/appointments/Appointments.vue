@@ -304,7 +304,7 @@ export default {
       return this.checkPastAppointment();
     },
     editableStatus() {
-      return this.userType !== 'patient';
+      return this.userType !== 'patient' && this.appointment.currentStatus === 'pending';
     },
     editablePatient() {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
@@ -346,7 +346,7 @@ export default {
     },
     visibleUpdateButtons() {
       return this.flyoutMode === 'update' &&
-        (this.userType !== 'patient') ||
+        (this.userType !== 'patient' && this.appointment.currentStatus === 'pending') ||
         (this.userType === 'patient' && this.checkPastAppointment()) &&
         (this.userType === 'patient' && this.appointment.status === 'pending')
     },
@@ -450,6 +450,7 @@ export default {
     // one of these copies to appointments to re-render TableData
     handleFilter(name, index) {
       this.activeFilter = index;
+      this.handleRowClick();
       switch(name) {
         case 'Upcoming':
           this.appointments = this.cache.upcoming;
