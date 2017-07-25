@@ -77,7 +77,7 @@ $factory->define(Practitioner::class, function (Faker\Generator $faker) {
             return factory(User::class)->create()->id;
         },
         'practitioner_type' => factory(PractitionerType::class)->create()->id,
-        'specialty' => json_encode([$faker->word, $faker->jobTitle]),
+        'specialty' => [$faker->word, $faker->jobTitle],
         'description' => $faker->text,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",
         'graduated_year' => $faker->numberBetween(2000, 2015),
