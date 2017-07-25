@@ -7,9 +7,9 @@
       <div class="credit-card">
         <div class="credit-card__chip"></div>
         <div class="credit-card__brand"></div>
-        <div class="credit-card__number"></div>
-        <div class="credit-card__name"></div>
-        <div class="credit-card__date"></div>
+        <div class="credit-card__number">7364 1239 6735 9755</div>
+        <div class="credit-card__name">JONATHAN MCGILLICU</div>
+        <div class="credit-card__date">05/20</div>
       </div>
     </div>
     <div class="signup-container signup-phone-container text-centered">

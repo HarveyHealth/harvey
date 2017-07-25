@@ -1,14 +1,130 @@
+$card-bg: #50897B;
+$card-text-color: rgba(255,255,255,0.6);
+
 .credit-card {
-  background: #00897B;
-  border-right: 1px solid darken(#00897B, 15%);
-  border-bottom: 1px solid darken(#00897B, 15%);
-  border-radius: 5px;
-  color: rgba(255,255,255,0.65);
+  background-image:
+    linear-gradient(
+      to bottom right,
+      $card-bg 10%,
+      rgba($card-bg, 0.7) 30%,
+      $card-bg 60%
+    );
+  border-radius: 7px;
+  color: $card-text-color;
   font-family: monospace;
-  height: 150px;
+  font-size: 1em;
+  height: 10em;
   margin: 20px auto;
-  padding: 15px 15px 20px 20px;
+  padding: 0.9em 0.9em 1.1em 1.1em;
+  position: relative;
   text-align: left;
-  text-shadow: 1px 1px rgba(0,0,0,0.4);
-  width: 300px;
+  text-shadow: 1px 1px rgba(50,50,50,0.3);
+  width: 18em;
+
+  &.isInactive {
+    background: #d3d3d3;
+    color: rgba(white, 0.8);
+    text-shadow: none;
+  }
+
+  &__brand {
+    background: rgba(#ccc, 0.9);
+    border-radius: 2px;
+    height: 1.8em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 3em;
+
+    .isInactive & {
+      display: none;
+    }
+  }
+
+  &__chip {
+    background: rgba(#ccc, 0.9);
+    border-radius: 4px;
+    height: 1.9em;
+    left: 1.5em;
+    position: absolute;
+    top: 2em;
+    width: 2.8em;
+
+    .isInactive & {
+      background: #bbb;
+    }
+
+    &::after {
+      background: rgba(#dfdfdf, 0.8);
+      border-radius: 0 4px 4px 0;
+      content: "";
+      height: 1.1em;
+      left: 0;
+      position: absolute;
+      top: 50%;
+      transform: translate(0, -50%);
+      width: 1.9em;
+    }
+  }
+
+  &__date {
+    font-size: 0.8em;
+    right: 1.9em;
+    position: absolute;
+    top: 10em;
+
+    &::before {
+      color: rgba($card-text-color, 0.2);
+      content: "VALID THRU";
+      display: none;
+      font-size: 0.4em;
+      left: -3.65em;
+      line-height: 0.9;
+      position: absolute;
+      text-align: right;
+      width: 3em;
+    }
+
+    &::after {
+      color: rgba($card-text-color, 0.2);
+      content: "MM/YY";
+      display: none;
+      font-size: 0.4em;
+      left: 0.3em;
+      line-height: 0.9;
+      position: absolute;
+      top: -1.2em;
+    }
+  }
+
+  &__name {
+    font-size: 0.8em;
+    left: 1.9em;
+    letter-spacing: 0.5px;
+    position: absolute;
+    top: 10em;
+  }
+
+  &__number {
+    font-size: 1.3em;
+    left: 1.1em;
+    position: absolute;
+    top: 3.8em;
+  }
+}
+
+@include query(sm) {
+  .credit-card {
+    font-size: 1.2em;
+  }
+}
+
+@include query(md) {
+  .credit-card {
+    font-size: 1.4em;
+  }
+  .credit-card__date::before,
+  .credit-card__date::after {
+    display: block;
+  }
 }
