@@ -24,22 +24,24 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_number">License #</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.license_number" type="text" name="license_number" max="10"/>
+                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.licenses[0].number" type="text" name="licenses[0]" max="10" v-validate="{ max: 10, regex: /^[a-zA-Z]{2,3}-\d{3,6}$/ }"/>
+                                <span v-show="errors.has('licenses[0]')" class="error-text">Invalid license format.</span>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
                                 <span class="custom-select isdisabled">
-                                    <select disabled>
-                                        <option v-for="license_type in license_types" name="license_title" v-model="practitioner.license_title">
+                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]" disabled>
+                                        <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
                                     </select>
                                 </span>
                             </div>
                             <div class="input__container input-wrap">
-                                <label class="input__label" for="state">License State</label>
+                                <label class="input__label" for="license_state">License State</label>
                                 <span class="custom-select">
-                                    <select name="state" v-model="practitioner.license_state">
+                                    <select name="license_state" v-model="practitioner.licenses[0].state">
+                                        <option value=""></option>
                                         <option v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
                                     </select>
                                 </span>
@@ -93,7 +95,7 @@
                         </div>
                     </div>
                     <div class="submit inline-centered">
-                        <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button>
+                        <button class="button" v-on:click.prevent="submit" :disabled="submitting || errors.any()">Save Changes</button>
                     </div>
                 </form>
 
@@ -116,6 +118,7 @@
                 loading: true,
                 practitioner_id: Laravel.user.practitionerId,
                 practitioner: {
+                    licenses: [{'number': '', 'state': ''}],
                     picture_url : '/images/default_user_image.png',
                     background_picture_url: '',
                     specialty: []
@@ -175,6 +178,7 @@
             axios.get(`/api/v1/practitioners/${Laravel.user.practitionerId}`)
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
+                    this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': ''};
                     this.loading = false;
                 })
                 .catch(error => this.practitioner = {});
