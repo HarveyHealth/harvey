@@ -40,16 +40,6 @@
           window.location.href = '/'; // home for now
         }
       }
-    },
-    mounted() {
-      if (this.$root.isOnProduction()) {
-        this.$ma.trackEvent({
-            fb_event: 'PageView',
-            type: 'product',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
-        });
-      }
     }
   }
 </script>

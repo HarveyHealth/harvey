@@ -104,32 +104,6 @@
       if (flag) {
         localStorage.removeItem('signed up')
       }
-      if (this.$root.isOnProduction()) {
-        this.$ma.trackEvent({
-            fb_event: 'PageView',
-            type: 'product',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
-        });
-        this.$ma.trackEvent({
-            fb_event: 'InitiateCheckout',
-            type: 'product',
-            action: 'Scheduling Appointment',
-            category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
-            properties: { laravel_object: Laravel.user }
-        });
-        ga('send', {
-            hitType: "event",
-            eventCategory: "clicks",
-            eventAction: "Sign-up For Account",
-            eventLabel: null,
-              eventValue: 50,
-              hitCallback: null,
-              userId: null
-          });
-      }
     }
   }
 </script>

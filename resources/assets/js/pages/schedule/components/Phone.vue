@@ -102,19 +102,7 @@
         this.$parent.phone = this.phone
         this.$parent.previous();
       },
-      trackingPhoneNumber() {
-        if (this.$root.isOnProduction()) {
-            ga('send', {
-              hitType: "event",
-              eventCategory: "clicks",
-              eventAction: "Click Phone Number",
-              eventLabel: null,
-                eventValue: 50,
-                hitCallback: null,
-                userId: null
-            });
-          }
-      }
+      trackingPhoneNumber() {}
     },
     name: 'Phone',
     mounted() {

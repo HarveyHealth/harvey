@@ -99,13 +99,5 @@
       }
     },
     name: 'Modal',
-    mounted() {
-      if (this.$root.isOnProduction()) {
-        this.$ma.trackEvent({
-            value: 'PageView',
-            fb_event: 'ViewContent',
-        })
-      }
-    }
   }
 </script>
