@@ -5,7 +5,11 @@
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
       <div class="credit-card">
-
+        <div class="credit-card__chip"></div>
+        <div class="credit-card__brand"></div>
+        <div class="credit-card__number"></div>
+        <div class="credit-card__name"></div>
+        <div class="credit-card__date"></div>
       </div>
     </div>
     <div class="signup-container signup-phone-container text-centered">
