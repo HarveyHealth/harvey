@@ -76,7 +76,7 @@
     },
     methods: {
       dispatchEvent() {
-        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        if (this.$root.isOnProduction()) {
             this.$ma.trackEvent({
               action: 'IntakeQ Form Initiated',
               fb_event: 'ViewContent',
@@ -105,7 +105,7 @@
 
         // A purchase event is typically associated with a specified product or product_group.
         // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        if (this.$root.isOnProduction()) {
           this.$ma.trackEvent({
               fb_event: 'PageView',
               type: 'product',
@@ -122,12 +122,12 @@
             properties: { laravel_object: Laravel.user }
           });
           ga('send', {
-            hitType: "event", 
-            eventCategory: "clicks", 
-            eventAction: "Confirm Appointment", 
+            hitType: "event",
+            eventCategory: "clicks",
+            eventAction: "Confirm Appointment",
             eventLabel: null,
-              eventValue: 50, 
-              hitCallback: null, 
+              eventValue: 50,
+              hitCallback: null,
               userId: null
           });
         }

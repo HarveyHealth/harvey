@@ -92,7 +92,7 @@
               this.isComplete = true;
               this.zipInRange = true;
 
-              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              if (this.$root.isOnProduction()) {
                 this.$ma.trackEvent({
                     fb_event: 'CompleteRegistration',
                     type: 'product',
@@ -103,12 +103,12 @@
                     properties: { laravel_object: Laravel.user }
                 });
                 ga('send', {
-                    hitType: "event", 
-                    eventCategory: "clicks", 
-                    eventAction: "Sign-up For Account", 
+                    hitType: "event",
+                    eventCategory: "clicks",
+                    eventAction: "Sign-up For Account",
                     eventLabel: null,
-                    eventValue: 50, 
-                    hitCallback: null, 
+                    eventValue: 50,
+                    hitCallback: null,
                     userId: null
                 });
               }
@@ -143,7 +143,7 @@
     },
     mounted () {
       localStorage.removeItem('signing up')
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         this.$ma.trackEvent({
             fb_event: 'PageView',
             type: 'product',

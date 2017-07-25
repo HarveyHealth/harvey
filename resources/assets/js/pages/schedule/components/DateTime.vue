@@ -163,7 +163,7 @@
     mounted() {
       this.$eventHub.$on('datetime-change', this.onDateTimeChange);
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300)
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         this.$ma.trackEvent({
                 fb_event: 'PageView',
                 type: 'product',
