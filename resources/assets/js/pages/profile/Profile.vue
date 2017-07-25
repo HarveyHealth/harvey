@@ -21,10 +21,6 @@
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
 
-                        <div class="error-text">
-                            <p v-for="error in errorMessages">{{ error.detail }} </p>
-                        </div>
-
                         <div class="input__container" v-if="loading">
                             Loading...
                         </div>
@@ -43,7 +39,7 @@
                                     <div class="input__container">
                                         <label class="input__label" for="email">Email</label>
                                         <input class="form-input form-input_text input-styles" v-validate="'required|email'" v-model="user.attributes.email" type="text" name="email"/>
-                                        <span v-show="errors.has('email')">{{ errors.first('email') }}</span>
+                                        <span v-show="errors.has('email')" class="error-text">{{ errors.first('email') }}</span>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="phone">Phone Number</label>
@@ -53,7 +49,7 @@
                                         <label class="input__label" for="timezone">Timezone</label>
                                         <span class="custom-select">
                                             <select name="timezone" v-model="user.attributes.timezone">
-                                                <option v-for="timezone in timezones" >{{ timezone }}</option>
+                                                <option v-for="timezone in timezones">{{ timezone }}</option>
                                             </select>
                                         </span>
                                     </div>
@@ -112,6 +108,9 @@
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.zip" type="text" name="zip"/>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="error-text">
+                                <p v-for="error in errorMessages">{{ error.detail }} </p>
                             </div>
                             <div class="submit inline-centered">
                                 <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button><br/>
@@ -261,6 +260,11 @@
         border-bottom: 1px solid #ccc;
     }
 
+    .form-input_text {
+      padding: 0 0 5px;
+      border-bottom: 1px solid #ddd;
+    }
+
     .formgroup {
         flex: 1;
         padding: 0 20px;
@@ -282,9 +286,21 @@
 
     .gender-options {
         display: flex;
+        width: 100%;
+
+        input {
+            margin: 0 10px 10px 0;
+            max-width: 18px;
+            float: left;
+        }
+
+        label {
+            max-width: 80px;
+            float: left;
+        }
 
         &__option {
-            margin-right: 30px;
+            width: 38%;
         }
     }
 
@@ -301,10 +317,19 @@
         &__img {
             flex: 1;
             img {
-                width: 100px;
+                width: 80px;
                 border-radius: 50%;
+                margin-top: -5px;
             }
         }
+        .button {
+            padding: 10px 17px;
+        }
+    }
+
+    .error-text {
+        width: 100%;
+        text-align: center;
     }
 
     .v-spinner {
