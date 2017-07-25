@@ -224,6 +224,18 @@ export default {
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+
+            // track the failed signup
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              const email = this.signupData.email;
+              const zip = this.signupData.zip;
+
+              analytics.track("Account Failed", {
+                email: email,
+                zip: zip,
+              });
+            }
+
             this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 

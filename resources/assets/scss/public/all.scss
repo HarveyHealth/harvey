@@ -8,9 +8,6 @@
 @import '~bulma/bulma';
 @import '~animate.css/animate';
 
-// Google Analytics
-.async-hide { opacity: 0 !important}
-
 // Rewrite bulma styles
 
 .nav-left {
@@ -31,7 +28,6 @@ $font-family: "proxima-nova";
   &.is-link {
     @include padding(null null null 0);
     @include padding(null 0 null null);
-
     &:hover {
       background-color: transparent;
     }
@@ -176,10 +172,6 @@ $font-family: "proxima-nova";
   }
 }
 
-em {
-  font-size: 0.85em;
-}
-
 // Animation
 
 .animated {
@@ -203,50 +195,135 @@ em {
     @include margin(null null 0 null);
 }
 
-body.home .header,
-body.lab-tests .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 101;
+// Header
+
+.header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
+  height: 60px;
+  overflow: hidden;
+  background: #FFF;
+  position: fixed;
+  box-shadow: 0 1px $grey-lighter;
+  background-color: rgba(#fff, $opacity-dark);
+  .button {
+      transition: all 0.2s ease;
+  }
+  .button {
+      &:not(.is-outlined) {
+          background-color: $tertiary;
+          &:hover,
+          &:active,
+          &:focus {
+              background-color: darken($tertiary, 2.5%);
+          }
+      }
+      &.is-outlined {
+          color: $tertiary;
+          @include border-color($tertiary);
+          &:hover,
+          &:active,
+          &:focus {
+              color: darken($tertiary, 5%);
+              @include border-color(darken($tertiary, 5%));
+              background-color: transparent;
+          }
+      }
+  }
+  &.is-inverted {
+    .logo-wrapper {
+      .harvey-text {
+          fill: #fff !important;
+        }
+      }
+  }
+
+  .container {
     height: 60px;
-    background-color: rgba(#fff, $opacity-dark);
-    &,
-    .button {
-        transition: all 0.2s ease;
+    max-width: 1152px;
+    @include margin(0 auto);
+    + mobile, + tablet {
+      @include padding(0 20px);
     }
-    .button {
-        &:not(.is-outlined) {
-            background-color: $tertiary;
-            &:hover,
-            &:active,
-            &:focus {
-                background-color: darken($tertiary, 2.5%);
-            }
-        }
-        &.is-outlined {
-            color: $tertiary;
-            @include border-color($tertiary);
-            &:hover,
-            &:active,
-            &:focus {
-                color: darken($tertiary, 5%);
-                @include border-color(darken($tertiary, 5%));
-                background-color: transparent;
-            }
-        }
-    }
-    &.is-inverted {
+    .nav-left {
+      float: left;
+      width: 30%;
       .logo-wrapper {
-        .harvey-text {
-            fill: #fff !important;
+        float: left;
+        svg {
+          width: 150px;
+          @include mobile {
+            .harvey-text {
+              display: none;
+            }
+          }
+          &.harvey-mark {
+            width: 150px;
+            @include margin(2px null null null);
+            height: 43px;
           }
         }
+      }
     }
+    .nav-right {
+      float: right;
+      width: 70%;
+      .nav-item {
+        float: right;
+        font-size: 16px;
+        @include margin(0 null null null);
+        display: flex;
+        a {
+          font-size: 17px;
+          @include margin(null null null 10px);
+          &.link {
+            color: $harvey-turquoise;
+            font-size: 19px;
+            @include padding(10px 10px 10px 10px);
+          }
+          &.separator {
+            // @include margin(null null null null);
+          }
+        }
+      }
+    }
+  }
+  &.is-inverted {
+    .container {
+      .nav-item{
+        a.link {
+          color: #fff;
+        }
+      }
+    }
+  }
 }
 
+.header_phone-number {
+  color: #999;
+  float: right;
+  font-size: 19px;
+  letter-spacing: 1px;
+  line-height: 56px;
+}
 
+.login {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.page-content{
+  width: 100%;
+  height: 100%;
+}
+
+.video-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
 
 .section:not(:last-of-type) {
     @include padding(null null 1rem null);
@@ -312,7 +389,7 @@ body {
   @include margin(null null 0 null);
 }
 
-// Margin/Padding (Negative)
+// Margin/Padding
 
 .is-padding {
   @include padding(1rem);
@@ -370,90 +447,8 @@ body {
   pointer-events: none;
 }
 
-.header {
-  box-shadow: 0 1px $grey-lighter;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 101;
-  height: 60px;
-  overflow: hidden;
-  background: #FFF;
-
-  .container {
-    height: 60px;
-    max-width: 1152px;
-    @include margin(0 auto);
-
-    + mobile, + tablet {
-      @include padding(0 20px);
-    }
-
-    .nav-left {
-      float: left;
-      width: 30%;
-
-      .logo-wrapper {
-        float: left;
-
-        svg {
-          width: 150px;
-          @include mobile {
-            .harvey-text {
-              display: none;
-            }
-          }
-
-          &.harvey-mark {
-            width: 150px;
-            @include margin(2px null null null);
-            height: 43px;
-          }
-        }
-      }
-    }
-
-    .nav-right {
-      float: right;
-      width: 70%;
-
-      .nav-item {
-        float: right;
-        font-size: 16px;
-        @include margin(0 null null null);
-        display: flex;
-
-        a {
-          font-size: 16px;
-          @include margin(null null null 10px);
-        }
-      }
-    }
-  }
-}
-
-.header_phone-number {
-  color: #999;
-  float: right;
-  font-size: 19px;
-  letter-spacing: 1px;
-  line-height: 56px;
-}
-
-.login {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-.page-content{
-  width: 100%;
-  height: 100%;
-}
-
-.video-title {
-  font-weight: 500;
-  font-size: 1.25rem;
+em {
+  font-size: 0.85em;
 }
 
 // Login & Forgot Pages
