@@ -4,12 +4,12 @@
       <StagesNav :current="'billing'" />
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
-      <div class="credit-card">
+      <div :class="{ 'credit-card': true, 'isInactive': cardInactive }">
         <div class="credit-card__chip"></div>
         <div class="credit-card__brand"></div>
-        <div class="credit-card__number">7364 1239 6735 9755</div>
-        <div class="credit-card__name">JONATHAN MCGILLICU</div>
-        <div class="credit-card__date">05/20</div>
+        <div class="credit-card__number">{{ cardNumber | cardNumberFilter }}</div>
+        <div class="credit-card__name">{{ cardName | cardNameFilter }}</div>
+        <div class="credit-card__date">{{ cardExpiration | cardExpirationFilter }}</div>
       </div>
     </div>
     <div class="signup-container signup-phone-container text-centered">
@@ -20,30 +20,30 @@
           <!-- CARD NUMBER -->
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray"
-                   name="card_number" type="text" placeholder="Card Number" maxlength="16"
-                  v-validate="{ required: true, digits: 16 }" data-vv-as="Card Number" data-vv-validate-on="blur" />
+                   name="card_number" type="text" placeholder="Card Number" maxlength="16" v-model="cardNumber"
+                   v-validate="{ required: true, digits: 16 }" data-vv-as="Card Number" data-vv-validate-on="blur" />
             <span v-show="errors.has('card_number')" class="error-text">{{ errors.first('card_number') }}</span>
           </div>
           <!-- CARD NAME -->
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray"
-                   name="card_name" type="text" placeholder="Name on Card"
-                  v-validate="'required|alpha_spaces'" data-vv-as="Name on Card" data-vv-validate-on="blur" />
+                   name="card_name" type="text" placeholder="Name on Card" v-model="cardName"
+                   v-validate="'required|alpha_spaces'" data-vv-as="Name on Card" data-vv-validate-on="blur" />
             <span v-show="errors.has('card_name')" class="error-text">{{ errors.first('card_name') }}</span>
           </div>
           <div>
             <!-- CARD EXPIRATION DATE -->
             <div class="input-wrap input-half--sm">
               <input class="form-input form-input_text font-base font-darkest-gray"
-                     name="card_expiration" type="text" placeholder="MMYY" maxlength="4"
-                    v-validate="{ required: true, digits: 4 }" data-vv-as="Card Expiration" data-vv-validate-on="blur" />
+                     name="card_expiration" type="text" placeholder="MMYY" maxlength="4" v-model="cardExpiration"
+                     v-validate="{ required: true, digits: 4 }" data-vv-as="Card Expiration" data-vv-validate-on="blur" />
               <span v-show="errors.has('card_expiration')" class="error-text">{{ errors.first('card_expiration') }}</span>
             </div>
             <!-- CARD CVC NUMBER -->
             <div class="input-wrap input-half--sm last">
               <input class="form-input form-input_text font-base font-darkest-gray"
-                     name="card_cvc" type="text" placeholder="CVC" maxlength="3"
-                    v-validate="{ required: true, digits: 3 }" data-vv-as="Card CVC" data-vv-validate-on="blur" />
+                     name="card_cvc" type="text" placeholder="CVC" maxlength="3" v-model="cardCvc"
+                     v-validate="{ required: true, digits: 3 }" data-vv-as="Card CVC" data-vv-validate-on="blur" />
               <span v-show="errors.has('card_cvc')" class="error-text">{{ errors.first('card_cvc') }}</span>
             </div>
           </div>
@@ -74,8 +74,10 @@ export default {
   },
   data() {
     return {
-      code: this.$root.$data.signup.code || '',
-      codeDigits: 5,
+      cardCvc: '',
+      cardExpiration: '',
+      cardName: '',
+      cardNumber: '',
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -86,7 +88,26 @@ export default {
       title: 'Enter Payment Method',
     }
   },
+  filters: {
+    cardExpirationFilter(value) {
+      let exp = value.split('');
+      exp.splice(2, 0, '/');
+      return value.length ? exp.join('') : 'MM/YY';
+    },
+    cardNameFilter(value) {
+      return value.toUpperCase().substring(0,18) || 'FULL NAME';
+    },
+    cardNumberFilter(value) {
+      return value
+        .split('')
+        .map((num, i) => (i + 1) % 4 === 0 ? `${num} ` : num)
+        .join('') || '•••• •••• •••• ••••';
+    }
+  },
   computed: {
+    cardInactive() {
+      return !this.cardCvc && !this.cardExpiration && !this.cardName && !this.cardNumber;
+    }
   },
   methods: {
   },
