@@ -22,7 +22,7 @@
                     <div class="card-content-wrap">
 
                         <div class="input__container" v-if="loading">
-                            Loading...
+                            <span class="loading">Loading...</span>
                         </div>
 
                         <form action="#" method="POST" class="form" id="user_form">
@@ -83,6 +83,7 @@
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
+                                    <p class="warning">Image must be square and max 300px.</p>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.address_1" type="text" name="address_1"/>
@@ -278,6 +279,7 @@
 
     .card-info {
         width: 75%;
+        max-width: 970px;
     }
 
     .topPadding {
@@ -310,6 +312,10 @@
         justify-content: space-between;
         padding-bottom: 20px;
 
+        &__wrapper {
+            width: 100%;
+        }
+
         &__button {
             flex: 1;
         }
@@ -319,12 +325,29 @@
             img {
                 width: 80px;
                 border-radius: 50%;
-                margin-top: -5px;
+                margin-top: -7px;
             }
         }
         .button {
             padding: 10px 17px;
+            font-size: 13px;
+            background: #DDD;
+            color: #444;
+            border: 1px solid #CCC;
+            margin-top: 5px;
         }
+    }
+
+    .warning {
+        font-size: 12px;
+        margin: -20px 0 20px;
+        color: #DDD;
+        font-style: italic;
+    }
+
+    .loading {
+        margin-left: 20px; 
+        color: #AAA;
     }
 
     .error-text {
