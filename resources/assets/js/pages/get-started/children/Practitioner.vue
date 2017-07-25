@@ -73,8 +73,8 @@ export default {
     }
   },
   filters: {
-    specialty(value) {
-      return value.replace(/[\[\]"]*/g, '');
+    specialty(list) {
+      return list.join(', ');
     },
     year(value) {
       return moment(value).format('YYYY');

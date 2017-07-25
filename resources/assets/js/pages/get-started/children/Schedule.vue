@@ -133,7 +133,10 @@ export default {
         return;
       }
       this.isProcessing = true;
-      this.$router.push({ name: 'confirmation', path: 'confirmation' });
+      const next = this.$root.$data.signup.billingConfirmed
+        ? { name: 'confirmation', path: '/confirmation' }
+        : { name: 'billing', path: '/billing' };
+      this.$router.push(next);
     },
     createWeek(start) {
       return {

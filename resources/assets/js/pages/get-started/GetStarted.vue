@@ -23,7 +23,7 @@
       }
     },
     mounted() {
-      if (Laravel.user.signedIn) this.setBeforeUnload();
+      // if (Laravel.user.signedIn) this.setBeforeUnload();
     }
   }
 </script>

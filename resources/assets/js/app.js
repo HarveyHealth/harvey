@@ -88,6 +88,7 @@ const app = new Vue({
         signup: {
           availability: [],
           availableTimes: [],
+          billingConfirmed: false,
           code: '',
           completedSignup: false,
           codeConfirmed: false,
