@@ -73,8 +73,6 @@
         <div class="text">Profile</div>
       </router-link>
 
-      <div class="release">©2017 Harvey, Inc.</div>
-
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
         <div class="text">Logout</div>

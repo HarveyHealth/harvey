@@ -155,9 +155,9 @@
   }
 }
 
-
 // Appointments Table
 .tabledata.appointments-table .cell-wrap {
+  font-size: 14px;
   @include margin(null null null 90px);
 }
 @include query(lg) {

@@ -55,7 +55,6 @@
                         <div class="formgroup right">
                             <div class="input__container input-wrap">
                                 <label class="input__label">Pictures</label>
-
                                 <div class="practitioner-profile-images">
                                     <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
                                     <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
@@ -76,7 +75,6 @@
                                     :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
                                     type="practitioner-profile">
                                 </ImageUpload>
-
                                 <ImageUpload
                                     class="upload-button"
                                     v-on:uploading="uploadingBackgroundImage"
