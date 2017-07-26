@@ -1,16 +1,11 @@
 <template>
     <div class="card card-info">
         <div class="card-heading-container">
-            <h2 class="card-header">Practitioner Info (Public)</h2>
+            <h2 class="card-header">Practitioner Info</h2>
         </div>
-        <div class="card-content-container">
+        <div class="card-content-container topPadding">
             <div class="card-content-wrap">
                 <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
-
-                <div class="error-text">
-                    <p v-for="error in errorMessages">{{ error.detail }} </p>
-                </div>
-
                 <form action="#" method="POST" class="form" id="practitioner_form" v-show="!loading">
                     <div class="formgroups">
                         <div class="formgroup">
@@ -23,7 +18,7 @@
                                 <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.graduated_year" type="number" name="graduated_year" maxlength="4"/>
                             </div>
                             <div class="input__container input-wrap">
-                                <label class="input__label" for="license_number">License #</label>
+                                <label class="input__label" for="license_number">Medical License #</label>
                                 <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.license_number" type="text" name="license_number" max="10"/>
                             </div>
                             <div class="input__container input-wrap">
@@ -45,7 +40,7 @@
                                 </span>
                             </div>
                             <div class="input__container input-wrap">
-                                <label class="input__label">Specialties</label>
+                                <label class="input__label">Specialties <span>(Enter 5)</span></label>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[0]"/>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[1]"/>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[2]"/>
@@ -54,7 +49,7 @@
 
                             </div>
                         </div>
-                        <div class="formgroup">
+                        <div class="formgroup right">
                             <div class="practitioner-profile-images">
                                 <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
                                 <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
@@ -63,23 +58,25 @@
                                 <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
                             </div>
                             <div class="profile-title">
-                                <h3>Dr. {{ practitioner.name }}, N.D.</h3>
+                                <h4>Dr. {{ practitioner.name }}, N.D.</h4>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
-                                        v-on:uploading="uploadingProfileImage"
-                                        v-on:uploaded="uploadedProfileImage"
-                                        label="Headshot"
-                                        :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
-                                        type="practitioner-profile">
+                                    class="upload-button"
+                                    v-on:uploading="uploadingProfileImage"
+                                    v-on:uploaded="uploadedProfileImage"
+                                    label="Headshot"
+                                    :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
+                                    type="practitioner-profile">
                                 </ImageUpload>
 
                                 <ImageUpload
-                                        v-on:uploading="uploadingBackgroundImage"
-                                        v-on:uploaded="uploadedBackgroundImage"
-                                        label="Background"
-                                        :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
-                                        type="header">
+                                    class="upload-button"
+                                    v-on:uploading="uploadingBackgroundImage"
+                                    v-on:uploaded="uploadedBackgroundImage"
+                                    label="Background"
+                                    :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
+                                    type="header">
                                 </ImageUpload>
                             </div>
                             <div class="input__container input-wrap">
@@ -88,9 +85,12 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label">Schedule</label>
-                                <em>Please message us in Slack to make changes to your weekly availability.</em>
+                                <em>Please contact us in our "Practitioners" Slack channel to make any changes to your weekly schedule avalability.</em>
                             </div>
                         </div>
+                    </div>
+                    <div class="error-text">
+                        <p v-for="error in errorMessages">{{ error.detail }} </p>
                     </div>
                     <div class="submit inline-centered">
                         <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button>
@@ -188,14 +188,43 @@
 </script>
 
 <style lang="scss">
+
+    .card-info {
+        width: 870px;
+    }
+
     input, label {
         display: block;
         width: 80%;
     }
 
+    .input {
+        &__label{
+            span {
+                color: #eee;
+            }
+        }
+    }
+
+    #header,
+    #practitioner-profile{
+        .button {
+            padding: 10px 17px;
+            font-size: 13px;
+            background: #DDD;
+            color: #444;
+            border: 1px solid #CCC;
+            margin-top: 5px;
+            width: 130px;
+        }
+    }
+
     textarea#description {
         width: 100%;
         height: 200px;
+        border: 1px solid #eee;
+        padding: 10px;
+        color: #777;
     }
 
     .formgroups {
@@ -204,6 +233,11 @@
 
     .formgroup {
         flex: 1;
+        &.right {
+            .input__container {
+                width: 90%;
+            }
+        }
     }
 
     .submit {
@@ -212,34 +246,46 @@
         justify-content: center;
     }
 
-    .card-info {
-        width: 75%;
-    }
-
     .image-upload-buttons {
         display: flex;
         justify-content: space-around;
+        .upload-button {
+            width: 50%;
+        }
     }
 
     .practitioner-profile-images {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 90%;
 
         &__profile {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            margin-top: -65px;
+            margin: -60px auto 10px;
+            display: flex;
             z-index: 3;
         }
 
         &__background {
-            width: 400px;
-            height: 120px;
+            width: 325px;
             background-color: #FBFBFB;
             z-index: 1;
         }
+    }
+
+    .input__container {
+        em {
+            color: #777;
+            font-size: 14px;
+            line-height: 18px;
+        }
+    }
+
+    .form-input {
+        color: #777;
     }
 
     .profile-title {

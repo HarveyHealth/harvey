@@ -20,12 +20,8 @@
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
-
-                        <div class="input__container" v-if="loading">
-                            <span class="loading">Loading...</span>
-                        </div>
-
-                        <form action="#" method="POST" class="form" id="user_form">
+                        <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
+                        <form action="#" method="POST" class="form" id="user_form" v-show="!loading">
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
@@ -121,8 +117,8 @@
                 </div>
             </div>
             <PractitionerProfile
-                    v-if="isPractitioner"
-                    :flashSuccess="flashSuccess"
+                v-if="isPractitioner"
+                :flashSuccess="flashSuccess"
             />
         </div>
     </div>
@@ -248,6 +244,11 @@
 </script>
 
 <style lang="scss">
+
+    .card-info {
+        width: 870px;
+    }
+
     .input__container {
         width: 80%;
     }
@@ -275,11 +276,6 @@
         padding-top: 20px;
         display: flex;
         justify-content: center;
-    }
-
-    .card-info {
-        width: 75%;
-        max-width: 970px;
     }
 
     .topPadding {
@@ -335,6 +331,7 @@
             color: #444;
             border: 1px solid #CCC;
             margin-top: 5px;
+            width: 130px;
         }
     }
 
