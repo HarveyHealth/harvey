@@ -80,6 +80,7 @@
                                     :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
                                     type="header">
                                 </ImageUpload>
+                                <p class="warning">We recommend a rectangle image with max width 300px.</p>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="description">Description</label>
