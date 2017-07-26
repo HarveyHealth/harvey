@@ -17,16 +17,15 @@ class PractitionerTransformer extends TransformerAbstract
     public function transform(Practitioner $practitioner)
     {
         return [
+            'id' => (string) $practitioner->id,
             'background_picture_url' => $practitioner->background_picture_url,
             'description' => $practitioner->description,
-            'graduated_at' => $practitioner->graduated_at,
-            'id' => (string) $practitioner->id,
-            'license_number' => $practitioner->license->number,
-            'license_state' => $practitioner->license->state,
+            'graduated_year' => $practitioner->graduated_year,
+            'licenses' => $practitioner->licenses,
             'name' => $practitioner->user->fullName(),
             'picture_url' => $practitioner->picture_url,
             'school' => $practitioner->school,
-            'specialty' => $practitioner->specialty,
+            'specialty' => json_decode($practitioner->specialty),
             'type_name' => $practitioner->type->name,
             'user_id' => (string) $practitioner->user_id,
         ];
