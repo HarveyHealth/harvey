@@ -209,7 +209,7 @@ export default {
         upcoming: [],
         completed: []
       },
-      filters: ['All', 'Upcoming', 'Completed'],
+      filters: ['Upcoming', 'Past', 'Cancelled'],
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
@@ -304,7 +304,7 @@ export default {
       return this.checkPastAppointment();
     },
     editableStatus() {
-      return this.userType !== 'patient';
+      return this.userType !== 'patient' && this.appointment.currentStatus === 'pending';
     },
     editablePatient() {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
@@ -346,7 +346,7 @@ export default {
     },
     visibleUpdateButtons() {
       return this.flyoutMode === 'update' &&
-        (this.userType !== 'patient') ||
+        (this.userType !== 'patient' && this.appointment.currentStatus === 'pending') ||
         (this.userType === 'patient' && this.checkPastAppointment()) &&
         (this.userType === 'patient' && this.appointment.status === 'pending')
     },
@@ -450,15 +450,16 @@ export default {
     // one of these copies to appointments to re-render TableData
     handleFilter(name, index) {
       this.activeFilter = index;
+      this.handleRowClick();
       switch(name) {
-        case 'All':
-          this.appointments = this.cache.all;
-          break;
         case 'Upcoming':
           this.appointments = this.cache.upcoming;
           break;
-        case 'Completed':
-          this.appointments = this.cache.completed;
+        case 'Past':
+          this.appointments = this.cache.past;
+          break;
+        case 'Cancelled':
+          this.appointments = this.cache.cancelled;
           break;
       }
       this.checkTableData();
@@ -744,15 +745,15 @@ export default {
 
     setupAppointments(list) {
       const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
-      this.cache.all = appts;
-      this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
-      this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
+      this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0);
+      this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
+      this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');
 
       this.appointments = this.activeFilter === 0
-        ? this.cache.all
+        ? this.cache.upcoming
         : this.activeFilter === 1
-          ? this.cache.upcoming
-          : this.cache.completed;
+          ? this.cache.past
+          : this.cache.cancelled;
 
       if (this.appt_id) {
         let appt, index;
