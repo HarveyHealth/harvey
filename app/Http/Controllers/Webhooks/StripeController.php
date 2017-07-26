@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use Illuminate\Http\Request;
 use App\Lib\Slack;
 use App\Notifications\SlackNotification;
+use Illuminate\Http\Request;
+use Log;
 
 class StripeController extends BaseWebhookController
 {
@@ -12,32 +13,30 @@ class StripeController extends BaseWebhookController
     {
         $payload = request()->all();
 
-        \Log::info("\n\n\n");
-        \Log::info($payload['type']);
-        \Log::info($payload);
+        Log::info('New payload received on stripe webhook endpoint.');
+
+        Log::info($payload);
 
         $method_name = $this->methodForEventName($payload['type']);
 
         if (method_exists($this, $method_name)) {
             $this->$method_name();
         } else {
-            $message = 'Stripe webhook method not handled: ' . $payload['type'];
+            $message = "Stripe webhook method not handled: {$payload['type']}";
 
-            // log it
-            \Log::info($message);
+            Log::info($message);
 
-            // slack it
             (new Slack)->notify(new SlackNotification($message, 'engineering'));
         }
 
-        return 'A-OK!';
+        return response('OK!');
     }
 
     public function handleChargeSucceeded()
     {
         $payload = request()->all();
 
-        \Log::info('Stripe charge succeeded: ' . $payload['data']['object']['id']);
+        Log::info('Stripe charge succeeded: ' . $payload['data']['object']['id']);
     }
 
     public function handleChargeFailed()
@@ -47,7 +46,7 @@ class StripeController extends BaseWebhookController
         $message = 'Stripe charge failed: ' . $payload['data']['object']['id'];
 
         // log it
-        \Log::info($message);
+        Log::info($message);
 
         // slack it
         (new Slack)->notify(new SlackNotification($message, 'operations'));
@@ -59,12 +58,12 @@ class StripeController extends BaseWebhookController
 
     public function handleCustomerCreated()
     {
-        \Log::info('Stripe customer created.');
+        Log::info('Stripe customer created.');
     }
 
     public function handleCustomerSourceCreated()
     {
-        \Log::info('Stripe customer payment source created.');
+        Log::info('Stripe customer payment source created.');
     }
 
     public function methodForEventName($event_name)
