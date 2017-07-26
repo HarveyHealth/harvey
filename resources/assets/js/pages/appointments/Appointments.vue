@@ -329,7 +329,7 @@ export default {
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
-      if (this.userType === 'patient' && this.appointment.status !== 'pending') return false;
+      if (this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
     emptyTableMsg() {
@@ -555,6 +555,8 @@ export default {
       this.appointment.date = '';
       this.appointment.currentDate = '';
       this.appointment.availableTimes = [];
+      this.appointment.currentDuration = '';
+      this.appointment.duration = { data: '', value: '' };
 
       if (data) {
         this.selectedRowData = data;
