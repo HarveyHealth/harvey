@@ -58,7 +58,6 @@
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
         <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
-        <div class="input--warning" v-if="currentDateUnavailable">Previous time unavailable. Please select a new day and time.</div>
       </div>
 
       <Days
@@ -286,30 +285,25 @@ export default {
   },
 
   computed: {
-    currentDateUnavailable() {
-      if (this.appointment.currentStatus !== 'pending') {
-        return this.appointment.practitionerAvailability.filter(dayObj => {
-          return dayObj.data.times.filter(timeObj => timeObj.stored === this.appointment.currentDate).length;
-        }).length === 0;
-      } else {
-        return false;
-      }
-    },
     disabledFilters() {
       return this.$root.$data.global.loadingAppointments || this.selectedRowUpdating !== null;
     },
     disabledNewButton() {
       return this.flyoutMode === 'new' &&
+        // If no date was set or no patient was selected by admin/practitioner
         (!this.appointment.date || (!this.appointment.patientId && this.userType !== 'patient'));
     },
     disableUpdateButton() {
-      return this.flyoutMode === 'update'
-        && (this.currentDateUnavailable && !this.appointment.date) ||
-           (
-             (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
-             (this.appointment.purpose === this.appointment.currentPurpose) &&
-             (this.appointment.status === this.appointment.currentStatus)
-           )
+      return this.flyoutMode === 'update' &&
+        // If status is being marked complete but duration has not yet been selected
+        (this.appointment.status === 'complete' && !this.appointment.duration.value) ||
+        // or if none of information has actually been updated
+        (
+          (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
+          (this.appointment.purpose === this.appointment.currentPurpose) &&
+          (this.appointment.status === this.appointment.currentStatus)
+        )
+
     },
     editableDays() {
       if (this.flyoutMode === 'new') return true;
