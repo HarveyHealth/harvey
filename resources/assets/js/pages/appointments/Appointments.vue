@@ -580,9 +580,12 @@ export default {
         this.appointment.status = convertStatus(data.status);
 
         // set duration
-        if (data.status === 'Complete') {
-          this.appointment.currentDuration = data.duration;
-          this.appointment.duration = { data: data._duration, value: data.duration };
+        if (data.status === 'Complete' && data._duration) {
+          this.appointment.currentDuration = `${data._duration} minutes`;
+          this.appointment.duration = {
+            data: data._duration,
+            value: this.appointment.currentDuration
+          };
         }
 
         // Availability
