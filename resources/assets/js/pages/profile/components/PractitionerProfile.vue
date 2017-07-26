@@ -1,17 +1,13 @@
 <template>
     <div class="card card-info">
         <div class="card-heading-container">
-            <h2 class="card-header">Practitioner Info (Public)</h2>
+            <h2 class="card-header">Practitioner Profile</h2>
         </div>
-        <div class="card-content-container">
+        <div class="card-content-container topPadding">
             <div class="card-content-wrap">
                 <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
-
-                <div class="error-text">
-                    <p v-for="error in errorMessages">{{ error.detail }} </p>
-                </div>
-
                 <form action="#" method="POST" class="form" id="practitioner_form" v-show="!loading">
+                    <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:sandra@goharvey.com">sandra@goharvey.com</a> or post a message in the private Harvey Slack channel called <em>Practitioners</em>.</p>
                     <div class="formgroups">
                         <div class="formgroup">
                             <div class="input__container input-wrap">
@@ -29,8 +25,8 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
-                                <span class="custom-select isdisabled">
-                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]" disabled>
+                                <span class="custom-select">
+                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]">
                                         <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
@@ -47,7 +43,7 @@
                                 </span>
                             </div>
                             <div class="input__container input-wrap">
-                                <label class="input__label">Specialties</label>
+                                <label class="input__label">Specialties <span>(Enter 5)</span></label>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[0]"/>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[1]"/>
                                 <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[2]"/>
@@ -56,43 +52,49 @@
 
                             </div>
                         </div>
-                        <div class="formgroup">
-                            <div class="practitioner-profile-images">
-                                <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
-                                <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
-                                <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
-                                <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
-                                <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
+                        <div class="formgroup right">
+                            <div class="input__container input-wrap">
+                                <label class="input__label">Pictures</label>
+
+                                <div class="practitioner-profile-images">
+                                    <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
+                                    <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
+                                    <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
+                                    <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
+                                </div>
                             </div>
                             <div class="profile-title">
-                                <h3>Dr. {{ practitioner.name }}, N.D.</h3>
+                                <h4>Dr. {{ practitioner.name }}, N.D.</h4>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
-                                        v-on:uploading="uploadingProfileImage"
-                                        v-on:uploaded="uploadedProfileImage"
-                                        label="Headshot"
-                                        :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
-                                        type="practitioner-profile">
+                                    class="upload-button"
+                                    v-on:uploading="uploadingProfileImage"
+                                    v-on:uploaded="uploadedProfileImage"
+                                    label="Headshot"
+                                    :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
+                                    type="practitioner-profile">
                                 </ImageUpload>
 
                                 <ImageUpload
-                                        v-on:uploading="uploadingBackgroundImage"
-                                        v-on:uploaded="uploadedBackgroundImage"
-                                        label="Background"
-                                        :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
-                                        type="header">
+                                    class="upload-button"
+                                    v-on:uploading="uploadingBackgroundImage"
+                                    v-on:uploaded="uploadedBackgroundImage"
+                                    label="Background"
+                                    :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
+                                    type="header">
                                 </ImageUpload>
                             </div>
+                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 300x100 for the background.</p>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="description">Description</label>
                                 <textarea v-model="practitioner.description" maxlength="300" name="description" id="description" placeholder="Enter a brief description."></textarea>
                             </div>
-                            <div class="input__container input-wrap">
-                                <label class="input__label">Schedule</label>
-                                <em>Please message us in Slack to make changes to your weekly availability.</em>
-                            </div>
                         </div>
+                    </div>
+                    <div class="error-text">
+                        <p v-for="error in errorMessages">{{ error.detail }} </p>
                     </div>
                     <div class="submit inline-centered">
                         <button class="button" v-on:click.prevent="submit" :disabled="submitting || errors.any()">Save Changes</button>
@@ -192,14 +194,48 @@
 </script>
 
 <style lang="scss">
+
+    .card-info {
+        width: 870px;
+    }
+
     input, label {
         display: block;
         width: 80%;
     }
 
+    .input {
+        &__label{
+            span {
+                color: #eee;
+            }
+        }
+    }
+
+    #header,
+    #practitioner-profile{
+        .button {
+            padding: 10px 17px;
+            font-size: 13px;
+            background: #DDD;
+            color: #444;
+            border: 1px solid #CCC;
+            margin-top: 5px;
+            width: 130px;
+        }
+    }
+
+    .practitioner-intro {
+        font-size: 15px;
+        padding: 0 0 20px 20px;
+    }
+
     textarea#description {
         width: 100%;
         height: 200px;
+        border: 1px solid #eee;
+        padding: 10px;
+        color: #777;
     }
 
     .formgroups {
@@ -208,6 +244,11 @@
 
     .formgroup {
         flex: 1;
+        &.right {
+            .input__container {
+                width: 90%;
+            }
+        }
     }
 
     .submit {
@@ -216,41 +257,58 @@
         justify-content: center;
     }
 
-    .card-info {
-        width: 75%;
-    }
-
     .image-upload-buttons {
         display: flex;
         justify-content: space-around;
+        .upload-button {
+            width: 50%;
+        }
     }
 
     .practitioner-profile-images {
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: 90%;
+        margin: 15px 0 -40px 17px;
 
         &__profile {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            margin-top: -65px;
+            margin: -60px auto 10px;
+            display: flex;
             z-index: 3;
         }
 
         &__background {
-            width: 400px;
-            height: 120px;
+            width: 315px;
             background-color: #FBFBFB;
             z-index: 1;
         }
+    }
+
+    .input__container {
+        em {
+            color: #777;
+            font-size: 14px;
+            line-height: 18px;
+        }
+    }
+
+    .form-input {
+        color: #777;
     }
 
     .profile-title {
         display: flex;
         justify-content: center;
         font-size: 1.5em;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    .warning.prac {
+        margin-top: -7px;
     }
 
     .bg-loader {

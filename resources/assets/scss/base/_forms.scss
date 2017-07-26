@@ -23,9 +23,10 @@
   }
 
   &_checkbox {
-    @include margin(null 5px null null);
+    @include margin(15px 10px 0 0);
     font-size: 15px;
     width: auto;
+    float: left;
   }
 
 }
