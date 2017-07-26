@@ -155,6 +155,10 @@
           <td width="25%"><p><strong>Status:</strong></p></td>
           <td><p>{{ appointment.status | confirmStatus }}</p></td>
         </tr>
+        <tr v-if="appointment.status === 'complete'">
+          <td width="25%"><p><strong>Duration:</strong></p></td>
+          <td><p>{{ appointment.duration.value }}</p></td>
+        </tr>
         <tr>
           <td width="25%"><p><strong>Purpose:</strong></p></td>
           <td><p>{{ appointment.purpose }}</p></td>
