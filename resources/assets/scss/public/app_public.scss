@@ -132,24 +132,20 @@ body {
         }
     }
     &.login,
-    &.signup,
-    &[class^="password-reset"] {
+    &.signup:not(.widget),
+    &[class*="password-reset"],
+    &[class*="404"] {
         .page-content + .footer {
             display: none;
         }
-    }
-    &.login,
-    &.signup:not(.widget),
-    &[class^="password-reset"] {
         &.hero {
             justify-content: flex-start;
         }
         .page-content {
             .container {
-                @include from(400px) {
-                    @include margin(0 auto);
-                    width: 340px;
-                }
+                @include margin(0 auto);
+                width: 100%;
+                max-width: 510px;
             }
         }
         .section {
@@ -161,7 +157,8 @@ body {
     }
     &.home,
     &.about,
-    &.lab-tests {
+    &.lab-tests,
+    &.404 {
         .header.is-inverted {
             background-color: transparent;
             box-shadow: none;

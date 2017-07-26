@@ -144,10 +144,6 @@ $font-family: "proxima-nova";
   color: inherit;
 }
 
-.card-footer-item {
-  @include padding(1.7rem 4.5rem);
-}
-
 .panel-block {
   > .media {
     flex: 1;
@@ -454,7 +450,8 @@ em {
 // Login & Forgot Pages
 
 body[class*="login"],
-body[class*="password-reset"]{
+body[class*="password-reset"],
+body[class*="404"]{
 
   background: #F9F9F9;
 
@@ -462,82 +459,119 @@ body[class*="password-reset"]{
     display:none;
   }
 
-  .large-top-margin {
-    top: 130px;
+  .container{
+    &.login-width{
+      &.large-top-margin{
+        margin-top: 10%;
+      }
+    }
   }
 
   .reset-width {
     left: 30%;
   }
 
-  .login-width {
-    width: 510px !important;
+  .container{
+    &.login-width {
 
-    form {
-      margin-bottom: 60px;
-    }
+      form {
+        margin-bottom: 60px;
+      }
 
-    .button {
-      line-height: 2;
-      display: inline-block;
-    }
+      .button {
+        line-height: 2;
+        display: inline-block;
+      }
 
-    .card-padding {
-      padding: 30px 80px 60px;
-    }
+      .card-padding {
+        padding: 30px 60px 60px; // Desktop/Tablet
+        @include until($tablet) {
+          padding: 30px 30px 60px; // Mobile
+        }
+        .card-section{
+          h1{
+            font-size: 2rem;
+            @include margin(null null .5rem null);
+          }
+          h2{
+            font-size: 1.3rem;
+            color: #777;
+            @include margin(null null .7rem null);
+          }
+          p{
+            font-size: 1rem;
+            color: #343434;
+          }
+        }
+      }
 
-    .logo-wrapper {
-      max-width: 230px;
-      margin: 0 auto 20px;
-      svg.logo {
+      .card-footer-item {
+        width: 100%;
+        max-width: 510px;
+        @include padding(1.7rem 4.5rem);
+        @include until($tablet) {
+          @include padding(1.7rem 3rem);
+
+        }
+      }
+
+      .logo-wrapper {
         max-width: 230px;
+        margin: 0 auto 20px;
+        svg.logo {
+          max-width: 230px;
+        }
       }
-    }
 
-    .login-buttons {
-      width: 160px;
-    }
-
-    .login-input {
-      font-family: "proxima-nova";
-      border: none;
-      border-bottom: 1px solid #DEDEDE;
-      padding: 0 0 5px;
-      font-size: 17px;
-      box-shadow: none;
-      border-radius: 0;
-    }
-
-    .remember-me {
-      margin: 25px 0 0 0;
-      display: inline-block;
-      width: 49%;
-      label {
-        font-size: 15px;
-        color: #999;
+      .login-buttons {
+        width: 160px;
+        margin: 0 10px;
       }
-    }
 
-    .forgot-password {
-      margin: 25px 0 0 0;
-      display: inline-block;
-      text-align: right;
-      width: 49%;
-      a.button:not(.is-primary) {
-        font-size: 15px;
-        text-decoration: none;
-        color: $harvey-turquoise;
-        height: 22px;
-      }
-      a.button:focus,a.button:active {
-        outline: none;
-        text-decoration: none;
-        background: none;
+      .login-input {
+        font-family: "proxima-nova";
         border: none;
+        border-bottom: 1px solid #DEDEDE;
+        padding: 0 0 5px;
+        font-size: 17px;
         box-shadow: none;
+        border-radius: 0;
+      }
+
+      .remember-me {
+        margin: 25px 0 0 0;
+        display: inline-block;
+        width: 49%;
+        label {
+          font-size: 15px;
+          color: #999;
+        }
+      }
+
+      .forgot-password {
+        margin: 25px 0 0 0;
+        display: inline-block;
+        text-align: right;
+        @include until($tablet) {
+          text-align: left;
+        }
+        width: 49%;
+        a.button:not(.is-primary) {
+          font-size: 15px;
+          text-decoration: none;
+          color: $harvey-turquoise;
+          height: 22px;
+        }
+        a.button:focus,a.button:active {
+          outline: none;
+          text-decoration: none;
+          background: none;
+          border: none;
+          box-shadow: none;
+        }
       }
     }
-  }
+  } // End container
 
   .signup-color {
     background-color: rgb(165, 225, 255);
@@ -555,7 +589,11 @@ body[class*="password-reset"]{
     color: $white;
   }
 
-}
+  @include from($mobile) {
+    
+  }
+
+} // End Login & Forgot Pages
 
 // Screen Size
 
@@ -581,7 +619,7 @@ body[class*="password-reset"]{
     background-color: #82BEF2;
     color: white;
     text-align: center;
-    padding: 20px;
+    @include padding(20px);
 }
 
 .noscript-header {

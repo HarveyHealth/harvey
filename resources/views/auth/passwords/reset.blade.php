@@ -2,7 +2,7 @@
 @section('page_title','Reset Password')
 @section('content')
 
-<section class="signup-content">
+<section class="page-content">
     <div class="container login-width large-top-margin">
         <div class="logo-wrapper">
             <a href="/">
@@ -36,7 +36,7 @@
             </div>
             <footer class="card-footer">
               <div class="card-footer-item level">
-                  <a href="/login"><button type="button" class="button is-pulled-right login-buttons">Cancel</button></a>
+                  <a href="/login" class="button login-buttons">Cancel</button></a>
                   <button type="submit" class="button is-primary login-buttons">Reset Password</button>
               </div>
             </footer>
