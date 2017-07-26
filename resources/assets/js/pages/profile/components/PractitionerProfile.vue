@@ -20,13 +20,13 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_number">License #</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.licenses[0].number" type="text" name="licenses[0]" max="10" v-validate="{ max: 10, regex: /^[a-zA-Z]{2,3}-\d{3,6}$/ }"/>
-                                <span v-show="errors.has('licenses[0]')" class="error-text">Invalid license format.</span>
+                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.licenses[0].number" type="text" name="licenses[]" max="10"/>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
                                 <span class="custom-select">
-                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]">
+                                    <select v-model="practitioner.licenses[0].title">
+                                        <option value=""></option>
                                         <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
@@ -120,7 +120,7 @@
                 loading: true,
                 practitioner_id: Laravel.user.practitionerId,
                 practitioner: {
-                    licenses: [{'number': '', 'state': ''}],
+                    licenses: [{'number': '', 'state': '', 'title': ''}],
                     picture_url : '/images/default_user_image.png',
                     background_picture_url: '',
                     specialty: []
@@ -148,6 +148,7 @@
                 axios.patch(`/api/v1/practitioners/${this.practitioner_id}`, payload)
                     .then(response => {
                         this.practitioner = response.data.data.attributes;
+                        this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
                         this.submitting = false;
                         this.flashSuccess();
                     })
@@ -180,7 +181,7 @@
             axios.get(`/api/v1/practitioners/${Laravel.user.practitionerId}`)
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
-                    this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': ''};
+                    this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
                     this.loading = false;
                 })
                 .catch(error => this.practitioner = {});

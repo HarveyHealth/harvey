@@ -43,31 +43,19 @@ class Practitioner extends Model
         return $this->user->timezone;
     }
 
-    public function getLicensesAttribute()
-    {
-        $mapFunction = function ($item) {
-            $item->number = "{$item->title}-{$item->number}";
-            unset($item->title);
-            return $item;
-        };
-
-        return $this->licenses()->get()->map($mapFunction);
-    }
-
     public function setLicensesAttribute(array $licenses)
     {
         $this->licenses()->delete();
 
         foreach ($licenses as $license) {
-            $pieces = array_filter(explode('-', $license['number']));
-
-            if (2 == count($pieces) && !empty($license['state'])) {
-                $this->licenses()->create([
-                    'state' => $license['state'],
-                    'title' => strtoupper($pieces[0]),
-                    'number' => $pieces[1],
-                ]);
+            if (empty($license['number']) || empty($license['title']) || empty($license['state'])) {
+                continue;
             }
+            $this->licenses()->create([
+                'number' => $license['number'],
+                'state' => $license['state'],
+                'title' => $license['title'],
+            ]);
         }
 
         return $licenses;
