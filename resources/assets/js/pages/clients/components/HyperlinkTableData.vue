@@ -25,7 +25,7 @@
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
-          <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ `${val[0] + val[1] + val[2]}-${val[3] + val[4] + val[5]}-${val[6] + val[7] + val[8] + val[9]}` }}</a>
+          <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val | phone }}</a>
           <a :href="'mailto:'+val" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a>
         </td>
       </tr>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { phone } from '../../../utils/filters/textformat';
+
 export default {
   name: 'TableData',
   data() {return {}},
@@ -45,6 +47,9 @@ export default {
         [`${this.tableClass}`]: true,
       }
     }
+  },
+  filters: {
+    phone
   },
   methods: {
     // This is a method so it can freshly render and respond to the index
