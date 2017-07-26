@@ -25,8 +25,8 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
-                                <span class="custom-select isdisabled">
-                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]" disabled>
+                                <span class="custom-select">
+                                    <select v-model="practitioner.licenses[0].number.toUpperCase().split('-')[0]">
                                         <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
