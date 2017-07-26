@@ -3,33 +3,18 @@
 namespace App\Http\Controllers\Webhooks;
 
 use App\Lib\Slack;
-use App\Notifications\SlackNotification;
 use Illuminate\Http\Request;
-use Log;
+use Log, ResponseCode;
 
 class StripeController extends BaseWebhookController
 {
     public function handle()
     {
-        $payload = request()->all();
+        Log::info('New incoming payload on Stripe webhook endpoint.');
 
-        Log::info('New payload received on stripe webhook endpoint.');
+        $this->handlePayload(request()->all());
 
-        Log::info($payload);
-
-        $method_name = $this->methodForEventName($payload['type']);
-
-        if (method_exists($this, $method_name)) {
-            $this->$method_name();
-        } else {
-            $message = "Stripe webhook method not handled: {$payload['type']}";
-
-            Log::info($message);
-
-            (new Slack)->notify(new SlackNotification($message, 'engineering'));
-        }
-
-        return response('OK!');
+        return response('A-OK!', ResponseCode::HTTP_OK);
     }
 
     public function handleChargeSucceeded()
@@ -66,8 +51,15 @@ class StripeController extends BaseWebhookController
         Log::info('Stripe customer payment source created.');
     }
 
-    public function methodForEventName($event_name)
+    public function handlePayload(array $payload)
     {
-        return 'handle' . studly_case(str_replace('.', '_', $event_name));
+        $methodName = 'handle' . studly_case(str_replace('.', '_', $payload['type']));
+
+        if (!method_exists($this, $methodName)) {
+            Slack::it("Stripe webhook method not handled: '{$payload['type']}'", 'engineering');
+            return false;
+        }
+
+        return $this->$methodName();
     }
 }
