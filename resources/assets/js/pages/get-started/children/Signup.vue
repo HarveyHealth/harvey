@@ -65,8 +65,9 @@
           </div>
 
           <div class="input-wrap last">
-            <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.</label>
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
+              <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
+            </label>
             <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
@@ -187,7 +188,7 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if (this.$root.isOnProduction()) {
               // collect response information
               const userData = response.data.data.attributes;
 
@@ -226,7 +227,7 @@ export default {
             this.responseErrors = error.response.data.errors;
 
             // track the failed signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if (this.$root.isOnProduction()) {
               const email = this.signupData.email;
               const zip = this.signupData.zip;
 
@@ -268,7 +269,7 @@ export default {
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+    if (this.$root.isOnProduction()) {
       analytics.page("Signup");
     }
   },

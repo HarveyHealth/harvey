@@ -75,7 +75,7 @@
 }
 .card-content-wrap {
   border-bottom: 1px solid $color--grey;
-  @include padding(20px 30px);
+    @include padding(20px 30px);
 
   &:last-of-type {
     border-bottom: none;
@@ -132,13 +132,12 @@
     display: flex;
   }
 
-  .card-appointments {
+  .card-panel {
     width: 100%;
     @include margin(25px);
   }
 
-  .is-patient .card-appointments,
-  .is-patient .card-info,
+  .is-patient .card-panel,
   .card.smaller {
     width: 50%;
     @include margin(25px);

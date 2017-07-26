@@ -289,6 +289,9 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
+        },
+        isOnProduction() {
+          return env === 'production' || env === 'prod';
         }
     },
     mounted() {

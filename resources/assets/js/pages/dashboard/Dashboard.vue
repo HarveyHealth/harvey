@@ -21,13 +21,13 @@
 
       <div class="card-wrapper">
 
-        <div class="card card-appointments">
+        <div class="card card-panel">
           <DashboardAppointments :user-type="userType"
             :recent-appointments="recent_appointments"
             :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
 
-        <div class="card card-info" v-if="userType === 'patient'">
+        <div class="card card-panel" v-if="userType === 'patient'">
           <div class="card-heading-container">
             <h2 class="card-header">Your Doctor</h2>
           </div>
@@ -207,7 +207,7 @@
     mounted() {
       this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         // Add tracking for Dashboard here
       }
     }
