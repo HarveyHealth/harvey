@@ -54,7 +54,7 @@ class PractitionersController extends BaseAPIController
         StrictValidator::check($request->except(['name']), [
             'description' => 'max:1000',
             'licenses' => 'array',
-            'licenses.*.number' => 'max:10|required_with:licenses.*.state,licenses.*.title',
+            'licenses.*.number' => 'max:10|required_with:licenses.*.state,licenses.*.title|alpha_num',
             'licenses.*.state' => 'max:2|required_with:licenses.*.title,licenses.*.number',
             'licenses.*.title' => 'max:3|required_with:licenses.*.number,licenses.*.state',
             'school' => 'max:255',
