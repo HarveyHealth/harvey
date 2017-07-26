@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.31.8",
+            "version": "3.31.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "9829a8183016df800110148b467179d67c434f90"
+                "reference": "5de0d53a7f49596e9a7fa02b3e589dfcfaebcdf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9829a8183016df800110148b467179d67c434f90",
-                "reference": "9829a8183016df800110148b467179d67c434f90",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/5de0d53a7f49596e9a7fa02b3e589dfcfaebcdf3",
+                "reference": "5de0d53a7f49596e9a7fa02b3e589dfcfaebcdf3",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-07-20T22:22:05+00:00"
+            "time": "2017-07-25T22:25:14+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -4657,16 +4657,16 @@
         },
         {
             "name": "teamtnt/laravel-scout-tntsearch-driver",
-            "version": "v3.0.0",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamtnt/laravel-scout-tntsearch-driver.git",
-                "reference": "a0fb306ff8391008381f6730f883ff8428defa20"
+                "reference": "4720643cc3cc9a3569ea8fa32a63fb12204ca6d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamtnt/laravel-scout-tntsearch-driver/zipball/a0fb306ff8391008381f6730f883ff8428defa20",
-                "reference": "a0fb306ff8391008381f6730f883ff8428defa20",
+                "url": "https://api.github.com/repos/teamtnt/laravel-scout-tntsearch-driver/zipball/4720643cc3cc9a3569ea8fa32a63fb12204ca6d4",
+                "reference": "4720643cc3cc9a3569ea8fa32a63fb12204ca6d4",
                 "shasum": ""
             },
             "require": {
@@ -4715,7 +4715,7 @@
                 "search",
                 "tntsearch"
             ],
-            "time": "2017-04-26T13:16:28+00:00"
+            "time": "2017-07-25T21:04:18+00:00"
         },
         {
             "name": "teamtnt/tntsearch",

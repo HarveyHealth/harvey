@@ -75,7 +75,7 @@
 }
 .card-content-wrap {
   border-bottom: 1px solid $color--grey;
-  @include padding(20px 30px);
+    @include padding(20px 30px);
 
   &:last-of-type {
     border-bottom: none;

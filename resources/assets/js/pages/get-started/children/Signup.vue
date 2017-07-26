@@ -65,8 +65,9 @@
           </div>
 
           <div class="input-wrap last">
-            <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.</label>
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
+              <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
+            </label>
             <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
