@@ -200,41 +200,92 @@ $font-family: "proxima-nova";
   z-index: 101;
   height: 60px;
   overflow: hidden;
-  background: #FFF;
   position: fixed;
   box-shadow: 0 1px $grey-lighter;
   background-color: rgba(#fff, $opacity-dark);
-  .button {
-      transition: all 0.2s ease;
-  }
-  .button {
-      &:not(.is-outlined) {
-          background-color: $tertiary;
-          &:hover,
-          &:active,
-          &:focus {
-              background-color: darken($tertiary, 2.5%);
-          }
+
+  &.is-inverted {    
+    background-color: transparent;
+    box-shadow: none;
+
+    .button {
+
+      // Inverted, outlined
+
+      &.is-outlined {
+        color: #fff;
+        background-color: transparent;
+        @include border-color(#fff);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: transparent;
+          @include border-color(#fff);
+          opacity: .7;
+        }
       }
+
+      // Inverted, not outlined
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: darken($tertiary, 5%);
+          @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+
+    .logo-wrapper {
+      .harvey-text {
+        fill: #fff !important;
+      }
+    }
+
+  } // End inverted
+
+  &:not(.is-inverted) {
+
+    .button {
+
+      // Outlined, not inverted
+
       &.is-outlined {
           color: $tertiary;
+          background-color: transparent;
           @include border-color($tertiary);
           &:hover,
           &:active,
           &:focus {
-              color: darken($tertiary, 5%);
-              @include border-color(darken($tertiary, 5%));
-              background-color: transparent;
+            color: darken($tertiary, 5%);
+            background-color: transparent;
+            @include border-color(darken($tertiary, 5%));
+            opacity: .6;
           }
       }
-  }
-  &.is-inverted {
-    .logo-wrapper {
-      .harvey-text {
-          fill: #fff !important;
+
+      // Not outlined, not inverted
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+            color: #fff;
+            background-color: darken($tertiary, 5%);
+            @include border-color(darken($tertiary, 5%));
         }
       }
-  }
+    }
+  } // End not inverted
 
   .container {
     height: 60px;
@@ -271,6 +322,10 @@ $font-family: "proxima-nova";
         font-size: 16px;
         @include margin(0 null null null);
         display: flex;
+        @include until($tablet) {
+          min-width: 315px;
+          padding-right: 50px; 
+        }
         a {
           font-size: 17px;
           @include margin(null null null 10px);
@@ -278,6 +333,13 @@ $font-family: "proxima-nova";
             color: $harvey-turquoise;
             font-size: 19px;
             @include padding(10px 10px 10px 10px);
+            @include until($tablet) {
+              font-size: 17px;
+              @include padding(10px 7px 10px 7px);
+            }
+            &:hover{
+              opacity: .7;
+            }
           }
           &.separator {
             // @include margin(null null null null);
@@ -291,6 +353,9 @@ $font-family: "proxima-nova";
       .nav-item{
         a.link {
           color: #fff;
+          &:hover {
+            opacity: .7;
+          }
         }
       }
     }

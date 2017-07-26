@@ -78,7 +78,7 @@ class PractitionersController extends BaseAPIController
 
         try {
             $image = $request->file('image');
-            $imageDir = 'practitioner-profile/';
+            $imageDir = 'practitioner-images/';
             $imagePath = $imageDir . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
         } catch (\Exception $exception) {
