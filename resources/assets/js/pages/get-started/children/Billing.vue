@@ -4,7 +4,7 @@
       <StagesNav :current="'billing'" />
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
-      <div class="credit-card" v-show="!isComplete"></div>
+      <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
     </div>
     <div class="signup-container signup-phone-container text-centered">
       <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }">
@@ -89,12 +89,12 @@ export default {
       }
     },
     subtext() {
-      return this.isComplete
+      return this.$root.$data.signup.billingConfirmed
         ? ''
         : 'Please enter a credit or debit card to save on file. We will not charge your card until after your first consultation is complete.';
     },
     title() {
-      return this.isComplete
+      return this.$root.$data.signup.billingConfirmed
         ? 'Payment Method Confirmed!'
         : 'Enter Payment Method';
     }
@@ -129,12 +129,13 @@ export default {
           // on callback
           setTimeout(() => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
+            this.$root.$data.signup.billingConfirmed = true;
           }, 500);
         }
       });
     },
     markComplete() {
-      this.$root.$data.signup.billingConfirmed = true;
+      this.isComplete = true;
       this.$root.$data.signup.cardCvc = this.cardCvc;
       this.$root.$data.signup.cardExpiration = this.cardExpiration;
       this.$root.$data.signup.cardName = this.cardName;
