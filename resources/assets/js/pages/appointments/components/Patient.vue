@@ -45,7 +45,7 @@ export default {
       this.setPatient(this.list[e.target.selectedIndex - 1].data);
     },
     trackPhoneCall() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         // add "Click Phone Number" tracking here
       }
     }

@@ -435,7 +435,7 @@ export default {
           }
           break;
         case 'new':
-          if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+          if (this.$root.isOnProduction()) {
             // Add "Confirm Appointment" tracking here
           }
           this.userActionTitle = 'Confirm Appointment';
@@ -640,7 +640,7 @@ export default {
       axios[action](api, data).then(response => {
 
         // track the event
-        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+        if (this.$root.isOnProduction()) {
           if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
