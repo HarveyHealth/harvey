@@ -37,5 +37,8 @@
     "vue-spinner": "^1.0.2",
     "webpack": "2.2.1",
     "webpack-spritesmith": "^0.3.3"
+  },
+  "devDependencies": {
+    "card": "^2.3.0"
   }
 }
