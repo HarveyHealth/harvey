@@ -237,7 +237,7 @@
         },
         computed: {
             updates() {
-                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name');
+                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
             },
             isPractitioner() {
                 return Laravel.user.practitionerId;
@@ -256,7 +256,7 @@
     }
 
     .input-styles {
-        color: #777777; 
+        color: #777777;
         border-bottom: 1px solid #ccc;
     }
 
