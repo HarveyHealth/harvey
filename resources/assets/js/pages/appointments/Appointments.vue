@@ -641,7 +641,7 @@ export default {
       }
       if (this.userType !== 'patient' &&
           this.userAction === 'update' &&
-          this.appointment.currentStatus !== this.appointment.status) {
+          this.appointment.date === this.appointment.currentDate) {
 
         delete data.appointment_at;
       }
@@ -651,6 +651,9 @@ export default {
       if (this.userAction === 'cancel') {
         delete data.appointment_at;
         delete data.patient_id;
+      }
+      if (this.appointment.status === 'complete') {
+        data.duration_in_minutes = this.appointment.duration.data;
       }
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
