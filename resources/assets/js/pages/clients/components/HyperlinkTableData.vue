@@ -25,6 +25,8 @@
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
+          <!-- <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val | phone }}</a>
+          <a :href="'mailto:'+val" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a> -->
         </td>
       </tr>
     </tbody>
