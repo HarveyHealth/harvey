@@ -81,6 +81,14 @@
         :time="appointment.time"
       />
 
+      <Duration
+        :duration="appointment.duration.value"
+        :editable="editableDuration"
+        :list="durationList"
+        :set-duration="setDuration"
+        :visible="visibleDuration"
+      />
+
       <Status
         :editable="editableStatus"
         :list="statuses"
@@ -174,6 +182,7 @@
 // components
 import AppointmentTable from './components/AppointmentTable.vue';
 import Days from './components/Days.vue';
+import Duration from './components/Duration.vue';
 import FilterButtons from '../../commons/FilterButtons.vue';
 import Flyout from '../../commons/Flyout.vue';
 import Modal from '../../commons/Modal.vue';
@@ -209,6 +218,10 @@ export default {
         upcoming: [],
         completed: []
       },
+      durationList: [
+        { data: 30, value: '30 minutes' },
+        { data: 60, value: '60 minutes' },
+      ],
       filters: ['Upcoming', 'Past', 'Cancelled'],
       flyoutActive: false,
       flyoutHeading: '',
@@ -250,6 +263,7 @@ export default {
   components: {
     AppointmentTable,
     Days,
+    Duration,
     FilterButtons,
     Flyout,
     Modal,
@@ -303,6 +317,9 @@ export default {
       if (this.appointment.status !== 'pending') return false;
       return this.checkPastAppointment();
     },
+    editableDuration() {
+      return this.userType !== 'patient' && !this.appointment.currentDuration;
+    },
     editableStatus() {
       return this.userType !== 'patient' && this.appointment.currentStatus === 'pending';
     },
@@ -331,6 +348,9 @@ export default {
     },
     visibleCancelButton() {
       return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
+    },
+    visibleDuration() {
+      return this.appointment.status === 'complete';
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
@@ -554,10 +574,16 @@ export default {
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
         this.appointment.currentPurpose = data.purpose;
-        this.appointment.currentStatus = convertStatus(data.status);
 
         // set status
+        this.appointment.currentStatus = convertStatus(data.status);
         this.appointment.status = convertStatus(data.status);
+
+        // set duration
+        if (data.status === 'Complete') {
+          this.appointment.currentDuration = data.duration;
+          this.appointment.duration = { data: data._duration, value: data.duration };
+        }
 
         // Availability
         if (!this.editableDays) this.loadingDays = false;
@@ -709,7 +735,9 @@ export default {
         availableTimes: [],
         date: '',
         day: '',
+        duration: { data: '', value: ''},
         currentDate: '',
+        currentDuration: '',
         currentPurpose: '',
         currentStatus: '',
         id: '',
@@ -734,6 +762,10 @@ export default {
         : [];
     },
 
+    setDuration(obj) {
+      this.appointment.duration = obj;
+    },
+
     // Set patient info with data from list object
     setPatientInfo(data) {
       this.appointment.patientEmail = data.email;
@@ -741,6 +773,32 @@ export default {
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
       this.patientDisplay = `${data.name} (${data.email})`;
+    },
+
+    // Set practitioner info with data from list object
+    setPractitionerInfo(data) {
+      this.appointment.practitionerId = data.id;
+      this.appointment.practitionerName = data.name;
+      this.getAvailability(this.appointment.practitionerId);
+    },
+
+    setStatus(status) {
+      this.appointment.status = status.data;
+      if (status.data !== 'pending') {
+        this.appointment.date = '';
+      } else {
+
+      }
+    },
+
+    setTime(timeObj) {
+      if (timeObj) {
+        this.appointment.time = this.$root.addTimezone(moment(timeObj.stored).format('h:mm a'));
+        this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
+      } else {
+        this.appointment.time = '';
+        this.appointment.date = '';
+      }
     },
 
     setupAppointments(list) {
@@ -771,13 +829,6 @@ export default {
       })
     },
 
-    // Set practitioner info with data from list object
-    setPractitionerInfo(data) {
-      this.appointment.practitionerId = data.id;
-      this.appointment.practitionerName = data.name;
-      this.getAvailability(this.appointment.practitionerId);
-    },
-
     setupPatientList(list) {
       this.patientList = list.map(item => {
         const display = this.userType === 'patient'
@@ -795,25 +846,6 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
     },
-
-    setStatus(status) {
-      this.appointment.status = status.data;
-      if (status.data !== 'pending') {
-        this.appointment.date = '';
-      } else {
-
-      }
-    },
-
-    setTime(timeObj) {
-      if (timeObj) {
-        this.appointment.time = this.$root.addTimezone(moment(timeObj.stored).format('h:mm a'));
-        this.appointment.date = timeObj.utc.format('YYYY-MM-DD HH:mm:ss');
-      } else {
-        this.appointment.time = '';
-        this.appointment.date = '';
-      }
-    }
 
   },
 
