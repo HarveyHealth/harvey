@@ -792,8 +792,6 @@ export default {
       this.appointment.status = status.data;
       if (status.data !== 'pending') {
         this.appointment.date = '';
-      } else {
-
       }
     },
 
