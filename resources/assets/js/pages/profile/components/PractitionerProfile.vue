@@ -1,12 +1,13 @@
 <template>
     <div class="card card-info">
         <div class="card-heading-container">
-            <h2 class="card-header">Practitioner Info</h2>
+            <h2 class="card-header">Practitioner Profile</h2>
         </div>
         <div class="card-content-container topPadding">
             <div class="card-content-wrap">
                 <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
                 <form action="#" method="POST" class="form" id="practitioner_form" v-show="!loading">
+                    <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:sandra@goharvey.com">sandra@goharvey.com</a> or post a message in the private Harvey Slack channel called <em>Practitioners</em>.</p>
                     <div class="formgroups">
                         <div class="formgroup">
                             <div class="input__container input-wrap">
@@ -52,12 +53,16 @@
                             </div>
                         </div>
                         <div class="formgroup right">
-                            <div class="practitioner-profile-images">
-                                <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
-                                <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
-                                <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
-                                <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
-                                <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
+                            <div class="input__container input-wrap">
+                                <label class="input__label">Pictures</label>
+
+                                <div class="practitioner-profile-images">
+                                    <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
+                                    <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
+                                    <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
+                                    <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
+                                </div>
                             </div>
                             <div class="profile-title">
                                 <h4>Dr. {{ practitioner.name }}, N.D.</h4>
@@ -80,15 +85,11 @@
                                     :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
                                     type="header">
                                 </ImageUpload>
-                                <p class="warning">We recommend a rectangle image with max width 300px.</p>
                             </div>
+                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 300x100 for the background.</p>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="description">Description</label>
                                 <textarea v-model="practitioner.description" maxlength="300" name="description" id="description" placeholder="Enter a brief description."></textarea>
-                            </div>
-                            <div class="input__container input-wrap">
-                                <label class="input__label">Schedule</label>
-                                <em>Please contact us in our "Practitioners" Slack channel to make any changes to your weekly schedule avalability.</em>
                             </div>
                         </div>
                     </div>
@@ -224,6 +225,11 @@
         }
     }
 
+    .practitioner-intro {
+        font-size: 15px;
+        padding: 0 0 20px 20px;
+    }
+
     textarea#description {
         width: 100%;
         height: 200px;
@@ -264,6 +270,7 @@
         flex-direction: column;
         align-items: center;
         width: 90%;
+        margin: 15px 0 -40px 17px;
 
         &__profile {
             width: 100px;
@@ -275,7 +282,7 @@
         }
 
         &__background {
-            width: 325px;
+            width: 315px;
             background-color: #FBFBFB;
             z-index: 1;
         }
@@ -297,7 +304,11 @@
         display: flex;
         justify-content: center;
         font-size: 1.5em;
-        padding-bottom: 20px;
+        padding-bottom: 10px;
+    }
+
+    .warning.prac {
+        margin-top: -7px;
     }
 
     .bg-loader {
