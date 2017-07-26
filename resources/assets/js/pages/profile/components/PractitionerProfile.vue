@@ -86,7 +86,7 @@
                                     type="header">
                                 </ImageUpload>
                             </div>
-                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 300x100 for the background.</p>
+                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 400x120 for the background.</p>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="description">Description</label>
                                 <textarea v-model="practitioner.description" maxlength="300" name="description" id="description" placeholder="Enter a brief description."></textarea>
