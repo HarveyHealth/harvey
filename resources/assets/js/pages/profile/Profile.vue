@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container">
+    <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
                     :active="notificationActive"
@@ -249,7 +249,7 @@
         width: 870px;
     }
 
-    .input__container {
+    .profile-page .input__container {
         width: 80%;
     }
 
@@ -343,7 +343,7 @@
     }
 
     .loading {
-        margin-left: 20px; 
+        margin-left: 20px;
         color: #AAA;
     }
 
