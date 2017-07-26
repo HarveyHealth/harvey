@@ -1,6 +1,23 @@
 <?php
 
 use Carbon\Carbon;
+use Laravel\Passport\Client;
+use App\Models\{
+    Admin,
+    Appointment,
+    LabOrder,
+    LabTest,
+    License,
+    Message,
+    Patient,
+    PatientNote,
+    Practitioner,
+    PractitionerSchedule,
+    PractitionerType,
+    SKU,
+    Test,
+    User
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +30,7 @@ use Carbon\Carbon;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
 
     return [
@@ -36,11 +53,11 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
+$factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
         'user_id' => function () {
-            return factory(App\Models\User::class)->create()->id;
+            return factory(User::class)->create()->id;
         },
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
@@ -54,31 +71,27 @@ $factory->define(App\Models\Patient::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Practitioner::class, function (Faker\Generator $faker) {
+$factory->define(Practitioner::class, function (Faker\Generator $faker) {
     return [
         'user_id' => function () {
-            return factory(App\Models\User::class)->create()->id;
+            return factory(User::class)->create()->id;
         },
-        'license_id'  => function () {
-            return factory(App\Models\License::class)->create()->id;
-        },
-        'practitioner_type' => factory(App\Models\PractitionerType::class)->create()->id,
-        'specialty' => json_encode([$faker->word, $faker->jobTitle]),
+        'practitioner_type' => factory(PractitionerType::class)->create()->id,
+        'specialty' => [$faker->word, $faker->jobTitle],
         'description' => $faker->text,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",
         'graduated_year' => $faker->numberBetween(2000, 2015),
     ];
 });
 
-$factory->define(App\Models\PractitionerType::class, function (Faker\Generator $faker) {
+$factory->define(PractitionerType::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
         'name' => $faker->jobTitle,
         'rate' => $faker->numberBetween(100, 300)
     ];
 });
 
-$factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generator $faker) {
+$factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) {
     $workableDays = collect();
 
     for ($i = 0; $i < 5; $i++) {
@@ -94,7 +107,7 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
 
     return [
         'practitioner_id' => function () {
-            return factory(App\Models\Practitioner::class)->create()->id;
+            return factory(Practitioner::class)->create()->id;
         },
         'day_of_week' => $workableDays->random(),
         'start_time' => $start_time,
@@ -102,16 +115,16 @@ $factory->define(App\Models\PractitionerSchedule::class, function (Faker\Generat
     ];
 });
 
-$factory->define(App\Models\Admin::class, function (Faker\Generator $faker) {
+$factory->define(Admin::class, function (Faker\Generator $faker) {
     return [
         'enabled' => true,
         'user_id' => function () {
-            return factory(App\Models\User::class)->create()->id;
+            return factory(User::class)->create()->id;
         },
     ];
 });
 
-$factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
+$factory->define(SKU::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->word,
         'item_type' => $faker->randomElement(['test', 'product', 'service']),
@@ -119,14 +132,18 @@ $factory->define(App\Models\SKU::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\License::class, function (Faker\Generator $faker) {
+$factory->define(License::class, function (Faker\Generator $faker) {
     return [
-        'number' => $faker->regexify('[A-Z]{2}-[0-9]{4}'),
+        'title' => $faker->randomElement(['ND', 'MD', 'DO']),
+        'number' => $faker->randomNumber(4),
         'state' => $faker->randomElement(['CA', 'NV', 'AZ']),
+        'user_id' => function () {
+            return factory(User::class)->create()->id;
+        },
     ];
 });
 
-$factory->define(App\Models\Appointment::class, function (Faker\Generator $faker) {
+$factory->define(Appointment::class, function (Faker\Generator $faker) {
     // Create an appointment start time that begins at the top of the hour
     // or 30 minutes into the hour
     $start_time = Carbon::instance(
@@ -136,18 +153,19 @@ $factory->define(App\Models\Appointment::class, function (Faker\Generator $faker
     $start_time->second = 0;
 
     return [
+        'duration_in_minutes' => $faker->randomElement([null, 30, 60]);
         'patient_id' => function () {
-            return factory(App\Models\Patient::class)->create()->id;
+            return factory(Patient::class)->create()->id;
         },
         'practitioner_id' => function () {
-            return factory(App\Models\Practitioner::class)->create()->id;
+            return factory(Practitioner::class)->create()->id;
         },
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
     ];
 });
 
-$factory->state(App\Models\Appointment::class, 'past', function ($faker) {
+$factory->state(Appointment::class, 'past', function ($faker) {
     $start_time = Carbon::instance($faker->dateTimeBetween(
         $startDate = '-3 days', $endDate = '-1 days', 'UTC')
     );
@@ -157,30 +175,30 @@ $factory->state(App\Models\Appointment::class, 'past', function ($faker) {
     return ['appointment_at' => $start_time->toDateTimeString()];
 });
 
-$factory->state(App\Models\Appointment::class, 'soon', function ($faker) {
+$factory->state(Appointment::class, 'soon', function ($faker) {
     return ['appointment_at' => Carbon::now()->addMinutes(30)];
 });
 
-$factory->define(App\Models\Test::class, function (Faker\Generator $faker) {
+$factory->define(Test::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(App\Models\Patient::class)->create()->id,
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
+        'patient_id' => factory(Patient::class)->create()->id,
+        'practitioner_id' => factory(Practitioner::class)->create()->id,
         'sku_id' => function () {
-            return factory(App\Models\SKU::class)->create()->id;
+            return factory(SKU::class)->create()->id;
         },
     ];
 });
 
-$factory->define(App\Models\PatientNote::class, function (Faker\Generator $faker) {
+$factory->define(PatientNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(App\Models\Patient::class)->create()->id,
-        'practitioner_id' => factory(App\Models\Practitioner::class)->create()->id,
-        'appointment_id' => factory(App\Models\Appointment::class)->create()->id,
+        'patient_id' => factory(Patient::class)->create()->id,
+        'practitioner_id' => factory(Practitioner::class)->create()->id,
+        'appointment_id' => factory(Appointment::class)->create()->id,
         'note' => $faker->sentence
     ];
 });
 
-$factory->define(Laravel\Passport\Client::class, function (Faker\Generator $faker) {
+$factory->define(Client::class, function (Faker\Generator $faker) {
     return [
         'secret' => str_random(40),
         'redirect' => 'http://localhost',
@@ -191,11 +209,11 @@ $factory->define(Laravel\Passport\Client::class, function (Faker\Generator $fake
     ];
 });
 
-$factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
+$factory->define(Message::class, function (Faker\Generator $faker) {
     $classesNames = collect([
-        App\Models\Practitioner::class,
-        App\Models\Patient::class,
-        App\Models\Admin::class,
+        Practitioner::class,
+        Patient::class,
+        Admin::class,
     ]);
     $classesNames = $classesNames->shuffle();
 
@@ -210,19 +228,19 @@ $factory->define(App\Models\Message::class, function (Faker\Generator $faker) {
     };
     $output['message'] = $faker->text;
     $output['subject'] = $faker->sentence;
-    $output['is_admin'] = App\Models\Admin::class == $senderClassName;
+    $output['is_admin'] = Admin::class == $senderClassName;
     $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
 
     return $output;
 });
 
-$factory->define(App\Models\LabOrder::class, function (Faker\Generator $faker) {
+$factory->define(LabOrder::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => function () {
-            return factory(App\Models\Patient::class)->create()->id;
+            return factory(Patient::class)->create()->id;
         },
         'practitioner_id' => function () {
-            return factory(App\Models\Practitioner::class)->create()->id;
+            return factory(Practitioner::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
@@ -232,13 +250,13 @@ $factory->define(App\Models\LabOrder::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\LabTest::class, function (Faker\Generator $faker) {
+$factory->define(LabTest::class, function (Faker\Generator $faker) {
     return [
         'lab_order_id' => function () {
-            return factory(App\Models\LabOrder::class)->create()->id;
+            return factory(LabOrder::class)->create()->id;
         },
         'sku_id' => function () {
-            return factory(App\Models\SKU::class)->create()->id;
+            return factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
     ];
