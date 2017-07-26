@@ -119,6 +119,7 @@
     @include margin(0);
     .title {
       min-height: 48px;
+      margin-bottom: 0;
       .text {
         float: left;
       }

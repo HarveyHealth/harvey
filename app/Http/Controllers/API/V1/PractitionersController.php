@@ -54,8 +54,9 @@ class PractitionersController extends BaseAPIController
         StrictValidator::check($request->except(['name']), [
             'description' => 'max:1000',
             'licenses' => 'array',
-            'licenses.*.number' => 'max:10|required_with:licenses.*.state',
-            'licenses.*.state' => 'max:2|required_with:licenses.*.number',
+            'licenses.*.number' => 'max:10|required_with:licenses.*.state,licenses.*.title|alpha_num',
+            'licenses.*.state' => 'max:2|required_with:licenses.*.title,licenses.*.number',
+            'licenses.*.title' => 'max:3|required_with:licenses.*.number,licenses.*.state',
             'school' => 'max:255',
             'graduated_year' => 'digits:4',
             'specialty' => 'array',
@@ -78,7 +79,7 @@ class PractitionersController extends BaseAPIController
 
         try {
             $image = $request->file('image');
-            $imageDir = 'practitioner-profile/';
+            $imageDir = 'practitioner-images/';
             $imagePath = $imageDir . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
         } catch (\Exception $exception) {
@@ -97,7 +98,7 @@ class PractitionersController extends BaseAPIController
         }
 
         StrictValidator::check($request->only('image'), [
-            'image' => 'required|dimensions:ratio=4/1,max_width=400,max_height=100',
+            'image' => 'required|dimensions:max_width=400,max_height=120',
         ]);
 
         try {

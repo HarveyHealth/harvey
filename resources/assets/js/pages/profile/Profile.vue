@@ -20,12 +20,8 @@
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
-
-                        <div class="input__container" v-if="loading">
-                            Loading...
-                        </div>
-
-                        <form action="#" method="POST" class="form" id="user_form">
+                        <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
+                        <form action="#" method="POST" class="form" id="user_form" v-show="!loading">
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
@@ -83,6 +79,7 @@
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
+                                    <p class="warning">Image must be square and max 300px.</p>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.address_1" type="text" name="address_1"/>
@@ -120,8 +117,8 @@
                 </div>
             </div>
             <PractitionerProfile
-                    v-if="isPractitioner"
-                    :flashSuccess="flashSuccess"
+                v-if="isPractitioner"
+                :flashSuccess="flashSuccess"
             />
         </div>
     </div>
@@ -237,7 +234,7 @@
         },
         computed: {
             updates() {
-                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name');
+                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
             },
             isPractitioner() {
                 return Laravel.user.practitionerId;
@@ -247,6 +244,11 @@
 </script>
 
 <style lang="scss">
+
+    .card-info {
+        width: 870px;
+    }
+
     .input__container {
         width: 80%;
     }
@@ -256,7 +258,7 @@
     }
 
     .input-styles {
-        color: #777777; 
+        color: #777777;
         border-bottom: 1px solid #ccc;
     }
 
@@ -274,10 +276,6 @@
         padding-top: 20px;
         display: flex;
         justify-content: center;
-    }
-
-    .card-info {
-        width: 75%;
     }
 
     .topPadding {
@@ -310,6 +308,10 @@
         justify-content: space-between;
         padding-bottom: 20px;
 
+        &__wrapper {
+            width: 100%;
+        }
+
         &__button {
             flex: 1;
         }
@@ -319,12 +321,30 @@
             img {
                 width: 80px;
                 border-radius: 50%;
-                margin-top: -5px;
+                margin-top: -7px;
             }
         }
         .button {
             padding: 10px 17px;
+            font-size: 13px;
+            background: #DDD;
+            color: #444;
+            border: 1px solid #CCC;
+            margin-top: 5px;
+            width: 130px;
         }
+    }
+
+    .warning {
+        font-size: 12px;
+        margin: -20px 0 20px;
+        color: #DDD;
+        font-style: italic;
+    }
+
+    .loading {
+        margin-left: 20px; 
+        color: #AAA;
     }
 
     .error-text {
