@@ -46,8 +46,8 @@ export default {
       stages = stages.filter(stage => {
         if (stage.name === 'phone' && Laravel.user.phone_verified_at) {
           return false;
-        } else if (stage.name === 'billing') {
-          return true;
+        } else if (stage.name === 'billing' && Laravel.user.has_a_card) {
+          return false;
         } else {
           return true;
         }
