@@ -194,21 +194,28 @@ class UsersController extends BaseAPIController
 
     public function addCard(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id || empty($user->email)) {
+        if (currentUser()->id != $user->id) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
+
+        StrictValidator::check($request->all(), [
+            'token' => 'required|regex:/^tok_.*/',
+        ]);
+
+        $cardTokenId = request('id');
 
         if (empty($user->stripe_id)) {
             $customer = Customer::create([
                 'email' => $user->email,
-                'source' => request('id'),
+                'source' => $cardTokenId,
                 'metadata' => ['harvey_id' => $user->id],
             ]);
+            $user->stripe_id = $customer->id;
         } else {
             $customer = Customer::retrieve($user->stripe_id);
+            $customer->sources->create(['source' => $cardTokenId]);
         }
 
-        $user->stripe_id = $customer->id;
         $defaultCard = $customer->sources->retrieve($customer->default_source);
 
         $user->card_last_four = $defaultCard->last4;
@@ -223,6 +230,10 @@ class UsersController extends BaseAPIController
         if (currentUser()->id != $user->id || empty($user->stripe_id)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
 
         Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
 
