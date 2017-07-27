@@ -18,6 +18,9 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
+            <div class="card" v-show="messageList.length == 0" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
+              <p style="font-style: italic;">No Messages Found</p>
+            </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
@@ -38,6 +41,7 @@
                         :image="chat.attributes.sender_image_url"
                         :day="chat.attributes.created_at.date"
                         :time="chat.attributes.created_at.date"
+                        :timezone="chat.attributes.created_at.timezone"
                         :header="chat.attributes.subject"
                         :message="chat.attributes.message"
                         :id="chat.id"
