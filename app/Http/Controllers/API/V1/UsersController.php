@@ -11,7 +11,8 @@ use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use ResponseCode;
+use Stripe\{Customer, Stripe};
+use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -23,6 +24,7 @@ class UsersController extends BaseAPIController
      */
     public function __construct(UserTransformer $transformer)
     {
+        Stripe::setApiKey(config('services.stripe.secret'));
         parent::__construct();
         $this->transformer = $transformer;
     }
@@ -94,7 +96,7 @@ class UsersController extends BaseAPIController
             $user->patient()->save(new Patient());
 
             return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -167,27 +169,99 @@ class UsersController extends BaseAPIController
 
         return response()->json(['status' => 'Verification code sent.']);
     }
-    
+
     public function profileImageUpload(Request $request, User $user)
     {
         if (auth()->user()->cant('update', $user)) {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
-        
+
         StrictValidator::check($request->only('image'), [
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
-        
+
         try{
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
-        
+
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
-        
+
         return $this->baseTransformItem($user)->respond();
+    }
+
+    public function addCard(Request $request, User $user)
+    {
+        if (currentUser()->id != $user->id) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check($request->all(), [
+            'id' => 'required|regex:/^tok_.*/',
+        ]);
+
+        $cardTokenId = request('id');
+
+        try {
+            if (empty($user->stripe_id)) {
+                $customer = Customer::create([
+                    'email' => $user->email,
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $user->id],
+                ]);
+                $user->stripe_id = $customer->id;
+            } else {
+                $customer = Customer::retrieve($user->stripe_id);
+                $customer->sources->create(['source' => $cardTokenId]);
+            }
+            $defaultCard = $customer->sources->retrieve($customer->default_source);
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to add card. Please try again later');
+        }
+
+        $user->card_last_four = $defaultCard->last4;
+        $user->card_brand = $defaultCard->brand;
+        $user->save();
+
+        return response()->json(['status' => 'OK!']);
+    }
+
+    public function deleteCard(Request $request, User $user, string $cardId)
+    {
+        if (currentUser()->id != $user->id || empty($user->stripe_id)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        try {
+            Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to delete card. Please try again later');
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    public function getCards(Request $request, User $user)
+    {
+        if (currentUser()->id != $user->id) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        } elseif (empty($user->stripe_id)) {
+            return response()->json(['cards' => []]);
+        }
+
+        try {
+            $cards = Customer::retrieve($user->stripe_id)->sources->all(['object' => 'card'])->data;
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to list cards. Please try again later');
+        }
+
+        return response()->json(['cards' => $cards]);
     }
 }
