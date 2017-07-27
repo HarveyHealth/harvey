@@ -458,7 +458,7 @@ export default {
           }
           break;
         case 'new':
-          if (!this.billingConfirmed) {
+          if (!this.billingConfirmed && this.userType === 'patient') {
             this.showBillingError = true;
             return;
           }
