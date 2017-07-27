@@ -103,6 +103,8 @@
         :text-value="appointment.purpose"
       />
 
+      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the <router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link> page before booking an appointment.</p>
+
       <div class="inline-centered">
 
         <button
@@ -215,6 +217,7 @@ export default {
       activeFilter: 0,
       appointment: this.resetAppointment(),
       appointments: [],
+      billingConfirmed: Laravel.user.has_a_card,
       bookingConflict: false,
       cache: {
         all: [],
@@ -248,6 +251,7 @@ export default {
       selectedRowHasUpdated: null,
       selectedRowIndex: null,
       selectedRowUpdating: null,
+      showBillingError: false,
       statuses: [
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
@@ -438,6 +442,7 @@ export default {
     // When user clicks the CTA in the flyout for updating, canceling, or creating an appointment.
     // This is the initial setup before the api call is actually made.
     handleConfirmationModal(action) {
+
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
       switch(action) {
@@ -453,6 +458,10 @@ export default {
           }
           break;
         case 'new':
+          if (!this.billingConfirmed) {
+            this.showBillingError = true;
+            return;
+          }
           if (this.$root.isOnProduction()) {
             // Add "Confirm Appointment" tracking here
           }
