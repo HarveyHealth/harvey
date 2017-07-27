@@ -37,16 +37,4 @@ export default [
     width: '10%',
     sort: tableSort.byString('done')
   }
-  // {
-  //   key: 'phone',
-  //   name: 'Phone',
-  //   width: '28%',
-  //   sort: tableSort.byString('phone')
-  // }
-  // {
-  //   key: 'intake',
-  //   name: 'Intake Form',
-  //   width: '5%',
-  //   sort: tableSort.byString('intake')
-  // }
 ]
