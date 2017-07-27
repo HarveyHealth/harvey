@@ -99,13 +99,5 @@
       }
     },
     name: 'Modal',
-    mounted() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-        this.$ma.trackEvent({
-            value: 'PageView',
-            fb_event: 'ViewContent',
-        })
-      }
-    }
   }
 </script>

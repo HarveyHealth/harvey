@@ -57,10 +57,9 @@
     border: none;
     color: $harvey-secondary;
     cursor: pointer;
-    right: -52px;
+    right: -40px;
     position: absolute;
-
-    @include padding(16px);
+    @include padding(13px);
   }
 
   .menu-open & {

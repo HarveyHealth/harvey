@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('appointments:reminders')->hourly()->withoutOverlapping();
-        $schedule->command('messages:email')->cron('*/15 * * * * *')->withoutOverlapping();
+        $schedule->command('messages:send-unread-messages-notifications')->cron('*/15 * * * * *')->withoutOverlapping();
     }
 
     /**

@@ -14,12 +14,23 @@ class AddTitleColumnToLicensesTable extends Migration
      */
     public function up()
     {
-        Schema::table('licenses', function (Blueprint $table) {
-            $table->string('title', 3)->after('id')->nullable();
-        });
+        if (!Schema::hasColumn('licenses', 'title')) {
+            Schema::table('licenses', function (Blueprint $table) {
+                $table->string('title', 3)->after('id')->nullable();
+            });
+        }
 
         License::all()->each(function ($item, $key) {
-            list($item->title, $item->number) = explode('-', $item->number);
+            $pieces = explode('-', $item->number);
+
+            if (2 == count($pieces)) {
+                $item->title = $pieces[0];
+                $item->number = $pieces[1];
+            } else {
+                $item->number = empty($pieces[0]) ? '00000' : $pieces[0];
+                $item->title = 'XX';
+            }
+
             $item->save();
         });
 

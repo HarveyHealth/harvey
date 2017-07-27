@@ -188,7 +188,7 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if (this.$root.isOnProduction()) {
               // collect response information
               const userData = response.data.data.attributes;
 
@@ -227,7 +227,7 @@ export default {
             this.responseErrors = error.response.data.errors;
 
             // track the failed signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if (this.$root.isOnProduction()) {
               const email = this.signupData.email;
               const zip = this.signupData.zip;
 
@@ -269,7 +269,7 @@ export default {
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+    if (this.$root.isOnProduction()) {
       analytics.page("Signup");
     }
   },

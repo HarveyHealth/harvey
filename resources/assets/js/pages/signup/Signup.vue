@@ -92,27 +92,6 @@
               this.isComplete = true;
               this.zipInRange = true;
 
-              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-                this.$ma.trackEvent({
-                    fb_event: 'CompleteRegistration',
-                    type: 'product',
-                    action: 'Completed Signup',
-                    category: 'clicks',
-                    value: 50.00,
-                    currency: 'USD',
-                    properties: { laravel_object: Laravel.user }
-                });
-                ga('send', {
-                    hitType: "event", 
-                    eventCategory: "clicks", 
-                    eventAction: "Sign-up For Account", 
-                    eventLabel: null,
-                    eventValue: 50, 
-                    hitCallback: null, 
-                    userId: null
-                });
-              }
-
               // remove local storage items on sign up
               // needed if you decide to sign up multiple acounts on one browser
               localStorage.removeItem('sign up zip');
@@ -143,23 +122,6 @@
     },
     mounted () {
       localStorage.removeItem('signing up')
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-        this.$ma.trackEvent({
-            fb_event: 'PageView',
-            type: 'product',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
-        });
-        this.$ma.trackEvent({
-            fb_event: 'InitiateCheckout',
-            type: 'product',
-            action: 'Start Signup',
-            category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
-            properties: { laravel_object: Laravel.user }
-        });
-      }
     }
   }
 </script>

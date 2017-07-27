@@ -331,7 +331,7 @@ $font-family: "proxima-nova";
           @include margin(null null null 10px);
           &.link {
             color: $harvey-turquoise;
-            font-size: 19px;
+            font-size: 18px;
             @include padding(10px 10px 10px 10px);
             @include until($tablet) {
               font-size: 17px;
