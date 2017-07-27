@@ -121,6 +121,7 @@
                 :flashSuccess="flashSuccess"
             />
         </div>
+        {{ _user }}
     </div>
 </template>
 
@@ -198,6 +199,7 @@
                         this.submitting = false;
                     });
             },
+<<<<<<< HEAD
             getUser() {
                 axios.get(`/api/v1/users/${Laravel.user.id}`)
                     .then(response => {
@@ -206,6 +208,8 @@
                     })
                     .catch(error => this.user = {});
             },
+=======
+>>>>>>> 0783711167348e83b74d058c3f50720f0eea36ec
             uploadingProfileImage() {
                 this.previousProfileImage = this.user.attributes.image_url;
                 this.loadingProfileImage = true;
@@ -224,14 +228,19 @@
         mounted() {
             this.$root.$data.global.currentPage = 'profile';
         },
-        created() {
-            if(this.$root.$data.global.user.id) {
-                this.user =_.cloneDeep(this.$root.$data.global.user);
-            } else {
-                this.getUser();
-            }
-        },
         computed: {
+            // loading is connected to global state since that's where the main user api call is made
+            loading() {
+                return this.$root.$data.global.loadingUser;
+            },
+            // This computed property is used solely to populate this.user once the api call
+            // from app.js is finished running. Sort of like a watch for parent components
+            _user() {
+                if (!this.$root.$data.global.loadingUser) {
+                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                }
+                return '';
+            },
             updates() {
                 return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
             },
@@ -342,7 +351,7 @@
     }
 
     .loading {
-        margin-left: 20px; 
+        margin-left: 20px;
         color: #AAA;
     }
 
