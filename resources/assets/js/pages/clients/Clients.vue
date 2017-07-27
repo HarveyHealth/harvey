@@ -10,7 +10,7 @@
         </div>
       </div>
 
-      <TableData
+      <ClientsTable
           :handle-row-click="handleRowClick"
           :loading="loadingClients"
           :selected-row="null"
@@ -24,13 +24,13 @@
 </template>
 
 <script>
-import TableData from '../../commons/TableData.vue'
+import ClientsTable from './components/ClientsTable.vue'
 import UserNav from '../../commons/UserNav.vue'
 import tableDataTransform from './utils/tableData'
 export default {
     name: 'Clients',
     components: {
-      TableData,
+      ClientsTable,
       UserNav
     },
     data() {
