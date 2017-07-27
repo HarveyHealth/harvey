@@ -4,23 +4,23 @@
 @section('main_content')
 
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
-    <section class="hero is-fullheight is-primary">
+    <section class="hero is-primary">
         <div class="hero-background"></div>
         <div class="hero-body">
             <div class="container">
                 <div class="columns">
-                    <div class="column is-6-desktop is-8-tablet">
+                    <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Improve your healthspan with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p> 
                         <div class="columns">
-                            <div class="column is-4 is-5-tablet">
+                            <div class="column is-5">
                                 <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                                     <img src="/images/home/clinic.jpg" alt="">
                                 </a>
                             </div>
-                            <div class="column is-6-desktop is-8-tablet is-paddingless-left">
+                            <div class="column is-7 is-paddingless-left">
                                 <p class="title is-5 is-marginless"><strong>Start your health journey</strong></p>
-                                <p class="subtitle is-6">Harvey's whole-body approach to medicine makes it very unique from other medical practices.</p>
+                                <p class="subtitle is-6">Learn how Harvey's whole-body approach to medicine makes it very unique from other practices.</p>
                             </div>
                         </div>
                         <div class="button-wrapper">
@@ -35,7 +35,7 @@
     <section class="section">
         <div class="container has-text-centered">
             <h2 class="title is-3">Your health is our focus.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-tablet is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
             </div>
@@ -137,7 +137,7 @@
         </div>
     </section>
 
-    <section class="section" id="labs">
+    <section class="section" id="feature">
         <div class="container">
             <div class="columns is-narrow is-multiline">
                 <figure class="image">
