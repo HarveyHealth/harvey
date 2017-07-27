@@ -12,7 +12,10 @@ body.lab-tests {
             }
             .subtitle {
                 color: #fff;
-                font-size: 26px;
+                font-size: 1.5em;
+                @include until($tablet) {
+                    font-size: 1.2em;
+                }
             }
         }
     }
@@ -81,9 +84,9 @@ body.lab-tests {
                         }
                     }
                 }
-                @include from($tablet) {
+                @include until($tablet) {
                     .tab {
-                        margin: 40px 30px;
+                        margin: 20px 15px;
                     }
                 }
                 @include from($desktop) {

@@ -12,7 +12,10 @@ body.about {
             }
             .subtitle {
                 color: #fff;
-                font-size: 26px;
+                font-size: 1.5em;
+                @include until($tablet) {
+                    font-size: 1.2em;
+                }
             }
         }
     }

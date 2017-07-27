@@ -10,14 +10,14 @@ use Carbon, Redis;
 class SendUnreadMessageEmailNotificationsCommand extends Command
 {
     const UNREAD_OLDER_THAN_MINUTES = 15;
-    const LAST_PROCESSED_ID_REDIS_KEY = 'messages:email:last_processed_id';
+    const LAST_PROCESSED_ID_REDIS_KEY = 'messages:send-unread-messages-notifications:last_processed_id';
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'messages:email';
+    protected $signature = 'messages:send-unread-messages-notifications';
 
     /**
      * The console command description.
