@@ -91,7 +91,7 @@ export default {
     nextStage() {
       return Laravel.user.has_a_card
         ? 'confirmation'
-        : 'billing';
+        : 'payment';
     },
     prevStage() {
       return Laravel.user.phone_verified_at

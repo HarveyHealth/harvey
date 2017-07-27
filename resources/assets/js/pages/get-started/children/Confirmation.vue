@@ -9,7 +9,7 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150, due to Harvey after its completion.</p>
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
       <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       isBackProcessing: false,
+      cardBrand: this.$root.$data.signup.cardBrand,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -72,13 +73,18 @@ export default {
     timeDisplay() {
       return this.$root.addTimezone(moment.utc(this.date).local().format('h:mm a'));
     },
+    paymentStatement() {
+      return this.cardBrand
+        ? `The cost for this consultation will be $150, which will be charged to your ${this.cardBrand} after the consultation is complete.`
+        : 'The cost for this consultation will be $150, which will be charged to your card after the consultation is complete.';
+    },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     },
     prevStage() {
       return Laravel.user.has_a_card
         ? { name: 'schedule', display: 'Schedule' }
-        : { name: 'billing', display: 'Billing' };
+        : { name: 'payment', display: 'Payment' };
     },
   },
   filters: {

@@ -38,15 +38,15 @@ export default {
           path: '/phone' },
         { name: 'schedule',
           path: '/schedule' },
-        { name: 'billing',
-          path: '/billing' },
+        { name: 'payment',
+          path: '/payment' },
         { name: 'confirmation',
           path: '/confirmation' },
       ];
       stages = stages.filter(stage => {
         if (stage.name === 'phone' && Laravel.user.phone_verified_at) {
           return false;
-        } else if (stage.name === 'billing' && Laravel.user.has_a_card) {
+        } else if (stage.name === 'payment' && Laravel.user.has_a_card) {
           return false;
         } else {
           return true;

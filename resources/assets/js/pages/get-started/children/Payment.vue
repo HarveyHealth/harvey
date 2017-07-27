@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
-      <StagesNav :current="'billing'" />
+      <StagesNav :current="'payment'" />
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
@@ -54,7 +54,7 @@ import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
-  name: 'billing',
+  name: 'payment',
   components: {
     LoadingBubbles,
     StagesNav,
@@ -118,6 +118,8 @@ export default {
           this.setStripeError(response.error.message)
         } else {
           this.markComplete();
+          this.$root.$data.signup.cardBrand = response.card.brand;
+          this.$root.$data.signup.cardLastFour = response.card.last4;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.$root.$data.signup.billingConfirmed = true;
@@ -152,7 +154,7 @@ export default {
   mounted () {
     this.$root.toDashboard();
     Stripe.setPublishableKey(this.stripeKey);
-    this.$root.$data.signup.visistedStages.push('billing');
+    this.$root.$data.signup.visistedStages.push('payment');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
     // Card.js - https://github.com/jessepollak/card
