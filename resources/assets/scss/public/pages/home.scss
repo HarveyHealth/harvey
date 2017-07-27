@@ -48,10 +48,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
 
     .hero {
         position: relative;
-        @include until($desktop) {
-            min-height: initial;
-            @include padding(3.5rem null null null);
-        }
+        @include padding(3.5rem null 2.5rem null);
         .hero-background {
             width: 100%;
             background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
@@ -78,12 +75,6 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
                 background-image: url('/images/home/hero_new.jpg');
                 background-size: cover;
                 background-position: 75%;
-            }
-        }
-        @include from($megascreen) {
-            min-height: initial;
-            .hero-body {
-                @include padding(8rem null 7rem null);
             }
         }
     }
