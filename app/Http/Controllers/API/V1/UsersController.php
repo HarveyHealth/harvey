@@ -198,15 +198,21 @@ class UsersController extends BaseAPIController
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        $customer = Customer::create([
-            'email' => $user->email,
-            'source' => request('id'),
-            'metadata' => ['harvey_id' => $user->id],
-        ]);
+        if (empty($user->stripe_id)) {
+            $customer = Customer::create([
+                'email' => $user->email,
+                'source' => request('id'),
+                'metadata' => ['harvey_id' => $user->id],
+            ]);
+        } else {
+            $customer = Customer::retrieve($user->stripe_id);
+        }
 
         $user->stripe_id = $customer->id;
-        $user->card_last_four = $customer->sources->data[0]->last4;
-        $user->card_brand = $customer->sources->data[0]->brand;
+        $defaultCard = $customer->sources->retrieve($customer->default_source);
+
+        $user->card_last_four = $defaultCard->last4
+        $user->card_brand = $defaultCard->brand;
         $user->save();
 
         return response()->json(['status' => 'OK!']);
@@ -214,11 +220,23 @@ class UsersController extends BaseAPIController
 
     public function deleteCard(Request $request, User $user, string $cardId)
     {
-        return 'Not implemented yet.'
+        if (currentUser()->id != $user->id || empty($user->stripe_id)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
     public function getCards(Request $request, User $user)
     {
-        return 'Not implemented yet.'
+        if (currentUser()->id != $user->id || empty($user->stripe_id)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        $cards = Customer::retrieve($user->stripe_id)->sources->all(['object' => 'card']);
+
+        return response()->json(['cards' => $cards]);
     }
 }
