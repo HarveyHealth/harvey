@@ -64,6 +64,7 @@ const app = new Vue({
             loadingAppointments: true,
             loadingClients: true,
             loadingPatients: true,
+            loadingProfile: true,
             loadingPractitioners: true,
             loadingLabOrders: true,
             loadingLabTests: true,
@@ -231,6 +232,7 @@ const app = new Vue({
                         data.included = response.data.included[0];
                     }
                     this.global.user = data;
+                    this.global.loadingProfile = false;
                 })
                 .catch(error => this.global.user = {});
         },

@@ -20,8 +20,8 @@
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
-                        <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
-                        <form action="#" method="POST" class="form" id="user_form" v-show="!loading">
+                        <ClipLoader :color="'#82BEF2'" :loading="$root.$data.global.loadingProfile"></ClipLoader>
+                        <form action="#" method="POST" class="form" id="user_form" v-show="!$root.$data.global.loadingProfile">
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
@@ -145,7 +145,6 @@
         },
         data() {
             return {
-                loading: true, // initial loading of the profile page
                 loadingProfileImage: false, // loading of the image on image upload
                 previousProfileImage: '',
                 user: {
@@ -202,7 +201,7 @@
             getUser() {
                 axios.get(`/api/v1/users/${Laravel.user.id}`)
                     .then(response => {
-                        this.loading = false;
+                        this.$root.$data.global.loadingPatients = false;
                         this.user = response.data.data;
                     })
                     .catch(error => this.user = {});
