@@ -65,6 +65,7 @@ const app = new Vue({
             loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
+            practitionerProfileLoading: true,
             loadingLabOrders: true,
             loadingLabTests: true,
             loadingTestTypes: true,

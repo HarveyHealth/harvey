@@ -1,6 +1,5 @@
 .tabledata {
   border: none;
-  padding: 14px;
   width: 100%;
   @include query(lg) {
     position: relative;
@@ -33,7 +32,7 @@
     }
 
     &:first-child {
-      border-top: 1px solid $color--grey;
+      //border-top: 1px solid $color--grey;
       @include padding(1.5em null null null);
     }
     &:last-child {
@@ -155,9 +154,9 @@
   }
 }
 
-
 // Appointments Table
 .tabledata.appointments-table .cell-wrap {
+  font-size: 14px;
   @include margin(null null null 90px);
 }
 @include query(lg) {
