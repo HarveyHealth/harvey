@@ -1,7 +1,7 @@
 // Global signup styles
 .signup-content {
-  @include padding(50px null null null);
   text-align: center;
+  @include padding(50px null null null);
   @include margin(null null 60px null);
   h2 {
     font-size: 30px;
@@ -473,7 +473,7 @@ $signup-grid: (
 .signup-form-container {
   @include padding(60px 12%);
   .input-wrap {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     line-height: 40px;
     .font-base{
       line-height: 30px;

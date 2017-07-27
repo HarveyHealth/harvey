@@ -41,7 +41,37 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <div class="release">©2017 Harvey, Inc.</div>
+      <!-- LEAVE THESE COMMENTS HERE -->
+
+       <!-- <router-link to="/records" title="Records"
+        :class="currentPageCheck('records')"
+        @click.native="handleMenu(false, 'records')">
+        <i class="fa fa-files-o icon icon-nav-bar"></i>
+        <div class="text">Records</div>
+      </router-link>  -->
+
+      <!-- <router-link to="/settings" title="Settings"
+        :class="currentPageCheck('settings')"
+        @click.native="handleMenu(false, 'settings')">
+        <i class="fa fa-cog icon icon-nav-bar"></i>
+        <div class="text">Settings</div>
+      </router-link> -->
+
+      <router-link
+        v-if="user && user.user_type === 'admin'"
+        to="/clients" title="Recent Clients"
+        :class="currentPageCheck('clients')"
+        @click.native="handleMenu(false, 'clients')">
+        <i class="fa fa-users icon icon-nav-bar"></i>
+        <div class="text">Clients</div>
+      </router-link>
+
+      <router-link to="/profile" title="Profile"
+                   :class="currentPageCheck('profile')"
+                   @click.native="handleMenu(false, 'profile')">
+        <i class="fa fa-user icon icon-nav-bar"></i>
+        <div class="text">Profile</div>
+      </router-link>
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
@@ -68,6 +98,9 @@
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
+      },
+      user() {
+        return this.$root.$data.global.user.attributes
       }
     },
     methods: {

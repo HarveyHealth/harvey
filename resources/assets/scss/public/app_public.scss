@@ -4,6 +4,7 @@
 @import "pages/home.scss";
 @import "pages/signup.scss";
 @import "pages/lab_tests.scss";
+@import "pages/about.scss";
 //
  @include sprites($spritesheet-sprites);
  @include retina-sprites($retina-groups);
@@ -131,24 +132,20 @@ body {
         }
     }
     &.login,
-    &.signup,
-    &[class^="password-reset"] {
+    &.signup:not(.widget),
+    &[class*="password-reset"],
+    &[class*="404"] {
         .page-content + .footer {
             display: none;
         }
-    }
-    &.login,
-    &.signup:not(.widget),
-    &[class^="password-reset"] {
         &.hero {
             justify-content: flex-start;
         }
         .page-content {
             .container {
-                @include from(400px) {
-                    @include margin(0 auto);
-                    width: 340px;
-                }
+                @include margin(0 auto);
+                width: 100%;
+                max-width: 510px;
             }
         }
         .section {
@@ -159,7 +156,9 @@ body {
         }
     }
     &.home,
-    &.lab-tests {
+    &.about,
+    &.lab-tests,
+    &.404 {
         .header.is-inverted {
             background-color: transparent;
             box-shadow: none;

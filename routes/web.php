@@ -19,6 +19,7 @@ Route::get('logout', 'Auth\LoginController@logout');
 // Additional routing to not use Laravel's built-in "register" route
 // Route::get('signup', 'Auth\RegisterController@showRegistrationForm')->name('signup');
 // Route::post('signup', 'Auth\RegisterController@register');
+
 Route::get('verify/{user_id}/{token}', 'Auth\EmailVerificationController@verify');
 Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPassword');
 
@@ -37,9 +38,10 @@ Route::get('privacy', 'LegalController@privacy');
 Route::get('sitemap.xml', 'SitemapController@index');
 Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
-// basic public pages
+// PUBLIC PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
+Route::get('about', 'PagesController@getAbout');
 Route::get('lab-tests', 'PagesController@getLabTests');
 
-// signup funnel
+// SIGNUP FUNNEL
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');

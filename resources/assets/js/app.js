@@ -51,6 +51,7 @@ const app = new Vue({
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
+        clientList: [],
         environment: env,
         flyoutActive: false,
         guest: false,
@@ -61,11 +62,14 @@ const app = new Vue({
             currentPage: '',
             detailMessages: {},
             loadingAppointments: true,
+            loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
+            practitionerProfileLoading: true,
             loadingLabOrders: true,
             loadingLabTests: true,
             loadingTestTypes: true,
+            loadingUser: true,
             menuOpen: false,
             messages: [],
             patients: [],
@@ -148,7 +152,9 @@ const app = new Vue({
                         name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
                         email: include[i].attributes.email,
                         phone: include[i].attributes.phone,
-                        user_id: obj.attributes.user_id
+                        user_id: obj.attributes.user_id,
+                        search_name: `${include[i].attributes.first_name} ${include[i].attributes.last_name}`,
+                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY")
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
@@ -222,11 +228,12 @@ const app = new Vue({
         getUser() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
                 .then(response => {
-                    let data = response.data.data
+                    let data = response.data.data;
                     if (response.data.included) {
                         data.included = response.data.included[0];
                     }
                     this.global.user = data;
+                    this.global.loadingUser = false;
                 })
                 .catch(error => this.global.user = {});
         },
@@ -260,6 +267,13 @@ const app = new Vue({
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
         },
+        getClientList() {
+            axios.get(`${this.apiUrl}/users?type=patient`)
+                .then(response => {
+                    this.clientList = response.data.data
+                    this.global.loadingClients = false
+                })
+        },
         setup() {
           this.getUser()
           this.getAppointments();
@@ -267,6 +281,7 @@ const app = new Vue({
           this.getMessages();
           this.getLabData();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
+          if (Laravel.user.user_type === 'admin') this.getClientList();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
