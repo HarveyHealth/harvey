@@ -103,7 +103,7 @@
                     <p>Dr. West is a board-certified integrative family medicine physician and osteopath in Los Angeles. Her work and professional experience have put her at the forefront of integrative, functional and preventative medicine.</p>
                 </div>
             </div>
-            <div class="columns is-narrow is-hidden-mobile">
+            <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/about/amanda.jpg" alt="">

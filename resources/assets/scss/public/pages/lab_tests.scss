@@ -84,9 +84,9 @@ body.lab-tests {
                         }
                     }
                 }
-                @include from($tablet) {
+                @include until($tablet) {
                     .tab {
-                        margin: 40px 30px;
+                        margin: 20px 15px;
                     }
                 }
                 @include from($desktop) {
