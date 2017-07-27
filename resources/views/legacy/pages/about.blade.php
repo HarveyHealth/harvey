@@ -65,9 +65,26 @@
                     <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <span class="icon icon_medicine_5"></span>
                     </figure>
-                    <div class="column is-paddingless-top">
+                    <div class="column">
                         <p class="title is-5 is-marginless"><strong>Natural remedies</strong></p>
                         <p class="subtitle is-6">Our unique treatment plans may include diet, nutrition, supplementation or lifestyle changes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section western is-paddingless-top" id="feature">
+        <div class="container">
+            <div class="columns is-narrow is-multiline">
+                <figure class="image">
+                    <img src="/images/about/diabetes.gif" alt="">
+                </figure>
+                <div class="column is-5-desktop is-12-tablet has-content-vertical-aligned">
+                    <div class="content">
+                        <h2 class="title is-3"><strong>Our healthcare system is not meant to keep you healthy.</strong></h2>
+                        <p>According to the CDC, <strong>48% of adults</strong> are battling one or more chronic health conditions. One reason is medical doctors spend on average less than 13 minutes with their patients and prescribe drugs over 80% of the time.</p>
+                        <p>Fortunately, Harvey doctors have the time, education and financial incentives to provide you with proper preventative treatments and help you heal naturally.</p>
                     </div>
                 </div>
             </div>
@@ -127,26 +144,6 @@
                     <p class="video-title is-5 is-marginless-bottom">Sandra Walker</p>
                     <em>Senior Operations Manager</em>
                     <p>Sandra is the soul of our Operations team at Harvey, making sure every client has an amazing experience. She has a passion for nutrition, holistic medicine, plant-based diets and helping patients on their journey to better health.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="western-medicine">
-        <div class="container">
-            <div class="columns is-narrow is-multiline">
-                <figure class="image image-has-max-height">
-                    <picture>
-                        <img class="hero-thumbnail" src="/images/home/stomach_md.jpg">
-                    </picture>
-                </figure>
-                <div class="column is-6-desktop is-offset-1-desktop has-content-vertical-aligned">
-                    <div class="content">
-                        <h2 class="title is-4 is-3-widescreen is-padding-top"><strong>"Why do I feel this way?"</strong></h2>
-                        <p>If you're feeling crummy, you may be part of the <strong>48% of adults</strong> who are battling a chronic health condition.</p>
-                        <p>Why are Americans so sick? One reason is doctors in traditional medical practices spend on average less than 13 minutes with their patients and prescribe drugs over 80% of the time.</p>
-                        <p>These patients are often failed by doctors who lack the time, education or financial incentives to heal their patients naturally. Without preventative treatment, these health issues can lead to more serious and costly diseases.</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -260,22 +257,6 @@
             </div>
         </div>
     </section>
-
-<!--     <section class="section" id="how-it-works">
-        <div class="container is-margin-top is-margin-bottom">
-            <div class="columns">
-                <div class="column is-4-desktop is-offset-2-desktop is-5-tablet is-offset-1-tablet">
-                    <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/sandra.jpg" alt="">
-                    </a>
-                </div>
-                <div class="column is-4-desktop is-6-tablet has-text-left">
-                    <p class="title is-3 is-marginless-left is-margin-top"><em><strong>We're all here to help.</strong></em></p>
-                    <p>I'm one of the Operations Managers on the Harvey team. I have a passion for nutrition, holistic medicine and helping people on their journey to better health.</p>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <section class="section" id="get-started">
         <div class="container">

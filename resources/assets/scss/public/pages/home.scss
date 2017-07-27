@@ -5,9 +5,6 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
-    .title.is-1 { // Override
-        font-size: 3rem;
-    }
     .watch-video {
         &:focus {
             outline: 0;
@@ -66,17 +63,24 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
                 display: block;
                 background-color: rgba(darken(#EFEFEF, 90%), $opacity-light);
             }
-            @include from($tablet) {
-                background-image: url('/images/home/hero_new.jpg');
-                background-size: cover;
-                background-position: 75%;
-            }
-            @include from($megascreen) {
-                background-image: url('/images/home/hero_new.jpg');
-                background-size: cover;
-                background-position: 75%;
+        }
+
+        .title.is-1 { // Override
+            font-size: 2.8rem;
+        }
+
+        .subtitle{
+            @include until(1192px) {
+                font-size: 17px;
+                &.is-5{
+                    font-size: 17px;
+                }
+                &.is-6{
+                    font-size: 16px;
+                }
             }
         }
+
     }
 
     .has-content-vertical-aligned {
@@ -197,18 +201,27 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
         }
     }
 
-    #western-medicine, #labs {
+    #feature{
+        &.western{
+            background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
+            .image {
+                img {
+                    width: 100%;
+                    margin: 0 auto;
+                    @include padding(35px);
+                    @include until($tablet) {
+                        @include padding(0);
+                    }
+                }
+                @include from($desktop) {
+                    max-width: 530px;
+                }
+            }
+        }
         @include padding(null null 5rem null);
         .columns {
             background-color: #fff;
         }
-    }
-
-    #western-medicine{
-        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
-    }
-
-    #labs{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
         .button {
             @include margin(null null 20px null);
