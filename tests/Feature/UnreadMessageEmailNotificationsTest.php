@@ -15,7 +15,7 @@ class UnreadMessageEmailNotificationsTest extends TestCase
 
     protected function getMessageEmailCommandOutput()
     {
-        return $this->getCommandOutput('messages:email');
+        return $this->getCommandOutput('messages:send-unread-messages-notifications');
     }
 
     public function test_it_finds_unread_messages_in_the_last_15_minutes_if_no_redis_key()
