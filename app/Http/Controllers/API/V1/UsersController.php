@@ -11,8 +11,8 @@ use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Stripe\Customer;
-use ResponseCode;
+use Stripe\{Customer, Stripe};
+use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -24,6 +24,7 @@ class UsersController extends BaseAPIController
      */
     public function __construct(UserTransformer $transformer)
     {
+        Stripe::setApiKey(config('services.stripe.secret'));
         parent::__construct();
         $this->transformer = $transformer;
     }
@@ -95,7 +96,7 @@ class UsersController extends BaseAPIController
             $user->patient()->save(new Patient());
 
             return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -183,7 +184,7 @@ class UsersController extends BaseAPIController
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
 
@@ -199,24 +200,27 @@ class UsersController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
-            'token' => 'required|regex:/^tok_.*/',
+            'id' => 'required|regex:/^tok_.*/',
         ]);
 
         $cardTokenId = request('id');
 
-        if (empty($user->stripe_id)) {
-            $customer = Customer::create([
-                'email' => $user->email,
-                'source' => $cardTokenId,
-                'metadata' => ['harvey_id' => $user->id],
-            ]);
-            $user->stripe_id = $customer->id;
-        } else {
-            $customer = Customer::retrieve($user->stripe_id);
-            $customer->sources->create(['source' => $cardTokenId]);
+        try {
+            if (empty($user->stripe_id)) {
+                $customer = Customer::create([
+                    'email' => $user->email,
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $user->id],
+                ]);
+                $user->stripe_id = $customer->id;
+            } else {
+                $customer = Customer::retrieve($user->stripe_id);
+                $customer->sources->create(['source' => $cardTokenId]);
+            }
+            $defaultCard = $customer->sources->retrieve($customer->default_source);
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to add card. Please try again later');
         }
-
-        $defaultCard = $customer->sources->retrieve($customer->default_source);
 
         $user->card_last_four = $defaultCard->last4;
         $user->card_brand = $defaultCard->brand;
@@ -235,18 +239,28 @@ class UsersController extends BaseAPIController
             'card_id' => 'required|regex:/^card_.*/',
         ]);
 
-        Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
+        try {
+            Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to delete card. Please try again later');
+        }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
     public function getCards(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id || empty($user->stripe_id)) {
+        if (currentUser()->id != $user->id) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        } elseif (empty($user->stripe_id)) {
+            return response()->json(['cards' => []]);
         }
 
-        $cards = Customer::retrieve($user->stripe_id)->sources->all(['object' => 'card']);
+        try {
+            $cards = Customer::retrieve($user->stripe_id)->sources->all(['object' => 'card'])->data;
+        } catch (Exception $exception) {
+            return $this->respondWithError('Unable to list cards. Please try again later');
+        }
 
         return response()->json(['cards' => $cards]);
     }
