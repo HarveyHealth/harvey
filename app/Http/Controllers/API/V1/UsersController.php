@@ -211,7 +211,7 @@ class UsersController extends BaseAPIController
         $user->stripe_id = $customer->id;
         $defaultCard = $customer->sources->retrieve($customer->default_source);
 
-        $user->card_last_four = $defaultCard->last4
+        $user->card_last_four = $defaultCard->last4;
         $user->card_brand = $defaultCard->brand;
         $user->save();
 
