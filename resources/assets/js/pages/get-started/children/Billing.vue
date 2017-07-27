@@ -112,25 +112,16 @@ export default {
       }
 
       // Setup stripe and create user token
+      // Send user token up the wire for storage
       Stripe.card.createToken(this.cardData, (status, response) => {
         if (response.error) {
           this.setStripeError(response.error.message)
         } else {
           this.markComplete();
-          const stripeData = {
-            stripe_brand: response.card.brand,
-            stripe_customer_id: response.id,
-            stripe_expiry_month: response.card.exp_month,
-            stripe_expiry_year: response.card.exp_year,
-            stripe_last_four: response.card.last4
-          }
-          // Todo: path user data
-          console.log('Patch user data with stripe information here');
-          // on callback
-          setTimeout(() => {
+          axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.$root.$data.signup.billingConfirmed = true;
-          }, 500);
+          }).catch(error => {});
         }
       });
     },
