@@ -199,7 +199,6 @@
                         this.submitting = false;
                     });
             },
-<<<<<<< HEAD
             getUser() {
                 axios.get(`/api/v1/users/${Laravel.user.id}`)
                     .then(response => {
@@ -208,8 +207,6 @@
                     })
                     .catch(error => this.user = {});
             },
-=======
->>>>>>> 0783711167348e83b74d058c3f50720f0eea36ec
             uploadingProfileImage() {
                 this.previousProfileImage = this.user.attributes.image_url;
                 this.loadingProfileImage = true;
