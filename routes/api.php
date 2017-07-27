@@ -34,7 +34,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('users/{user}/image', 'UsersController@profileImageUpload')->name('users.profile-image-upload');
         Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
         Route::post('users/{user}/phone/sendverificationcode', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
-
+        Route::post('users/{user}/card', 'UsersController@addCard')->name('users.add-card');
         Route::get('patients', 'PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');

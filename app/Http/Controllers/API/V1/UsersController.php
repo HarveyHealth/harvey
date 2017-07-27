@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Transformers\V1\UserTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Stripe\Customer;
 use ResponseCode;
 
 class UsersController extends BaseAPIController
@@ -167,17 +168,17 @@ class UsersController extends BaseAPIController
 
         return response()->json(['status' => 'Verification code sent.']);
     }
-    
+
     public function profileImageUpload(Request $request, User $user)
     {
         if (auth()->user()->cant('update', $user)) {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
-        
+
         StrictValidator::check($request->only('image'), [
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
-        
+
         try{
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
@@ -185,9 +186,28 @@ class UsersController extends BaseAPIController
         } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
-        
+
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
-        
+
         return $this->baseTransformItem($user)->respond();
+    }
+
+    public function addCard(Request $request, User $user)
+    {
+        if (currentUser()->id != $user->id || empty($user->email)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        $customer = Customer::create([
+            'email' => $user->email,
+            'source'  => request('id'),
+        ]);
+
+        $user->stripe_id = $customer->id;
+        $user->card_last_four = $customer->sources->data[0]->last4;
+        $user->card_brand = $customer->sources->data[0]->brand;
+        $user->save();
+
+        return response()->json(['status' => 'OK!']);
     }
 }
