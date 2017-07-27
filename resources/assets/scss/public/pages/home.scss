@@ -5,9 +5,6 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
-    .title.is-1 { // Override
-        font-size: 3rem;
-    }
     .watch-video {
         &:focus {
             outline: 0;
@@ -48,10 +45,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
 
     .hero {
         position: relative;
-        @include until($desktop) {
-            min-height: initial;
-            @include padding(3.5rem null null null);
-        }
+        @include padding(3.5rem null 2.5rem null);
         .hero-background {
             width: 100%;
             background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
@@ -69,23 +63,24 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
                 display: block;
                 background-color: rgba(darken(#EFEFEF, 90%), $opacity-light);
             }
-            @include from($tablet) {
-                background-image: url('/images/home/hero_new.jpg');
-                background-size: cover;
-                background-position: 75%;
-            }
-            @include from($megascreen) {
-                background-image: url('/images/home/hero_new.jpg');
-                background-size: cover;
-                background-position: 75%;
+        }
+
+        .title.is-1 { // Override
+            font-size: 2.8rem;
+        }
+
+        .subtitle{
+            @include until(1192px) {
+                font-size: 17px;
+                &.is-5{
+                    font-size: 17px;
+                }
+                &.is-6{
+                    font-size: 16px;
+                }
             }
         }
-        @include from($megascreen) {
-            min-height: initial;
-            .hero-body {
-                @include padding(8rem null 7rem null);
-            }
-        }
+
     }
 
     .has-content-vertical-aligned {
@@ -206,18 +201,27 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
         }
     }
 
-    #western-medicine, #labs {
+    #feature{
+        &.western{
+            background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
+            .image {
+                img {
+                    width: 100%;
+                    margin: 0 auto;
+                    @include padding(35px);
+                    @include until($tablet) {
+                        @include padding(0);
+                    }
+                }
+                @include from($desktop) {
+                    max-width: 530px;
+                }
+            }
+        }
         @include padding(null null 5rem null);
         .columns {
             background-color: #fff;
         }
-    }
-
-    #western-medicine{
-        background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-green 100%);
-    }
-
-    #labs{
         background-image: linear-gradient(180deg, #FFFFFF 10%, $harvey-purple 100%);
         .button {
             @include margin(null null 20px null);
@@ -245,7 +249,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
 
     #email-capture {
         width: 100%;
-        background-image: linear-gradient(180deg, #4C586F -20%, white 100%);
+        background-image: linear-gradient(180deg, #4C586F 20%, white 100%);
         // background: lighten(#EFEFEF, 90%) url('/images/home/veggies.png') no-repeat center top;
         // background-size: cover;
         // background-position: 100%;
@@ -267,7 +271,6 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
                 background: #f9f9f9;
                 color: #444;
                 font-size: 1rem;
-                opacity: .7;
             }
             button{
                 line-height: .1em;

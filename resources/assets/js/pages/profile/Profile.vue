@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container">
+    <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
                     :active="notificationActive"
@@ -20,8 +20,9 @@
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
-                        <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
-                        <form action="#" method="POST" class="form" id="user_form" v-show="!loading">
+                        <!-- Using v-if here because we don't want the rest to register until user data is up -->
+                        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+                        <form action="#" method="POST" class="form" id="user_form" v-else>
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
@@ -121,6 +122,7 @@
                 :flashSuccess="flashSuccess"
             />
         </div>
+        {{ _user }}
     </div>
 </template>
 
@@ -145,7 +147,6 @@
         },
         data() {
             return {
-                loading: true, // initial loading of the profile page
                 loadingProfileImage: false, // loading of the image on image upload
                 previousProfileImage: '',
                 user: {
@@ -199,14 +200,6 @@
                         this.submitting = false;
                     });
             },
-            getUser() {
-                axios.get(`/api/v1/users/${Laravel.user.id}`)
-                    .then(response => {
-                        this.loading = false;
-                        this.user = response.data.data;
-                    })
-                    .catch(error => this.user = {});
-            },
             uploadingProfileImage() {
                 this.previousProfileImage = this.user.attributes.image_url;
                 this.loadingProfileImage = true;
@@ -225,14 +218,19 @@
         mounted() {
             this.$root.$data.global.currentPage = 'profile';
         },
-        created() {
-            if(this.$root.$data.global.user.id) {
-                this.user =_.cloneDeep(this.$root.$data.global.user);
-            } else {
-                this.getUser();
-            }
-        },
         computed: {
+            // loading is connected to global state since that's where the main user api call is made
+            loading() {
+                return this.$root.$data.global.loadingUser;
+            },
+            // This computed property is used solely to populate this.user once the api call
+            // from app.js is finished running. Sort of like a watch for parent components
+            _user() {
+                if (!this.$root.$data.global.loadingUser) {
+                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                }
+                return '';
+            },
             updates() {
                 return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
             },
@@ -249,7 +247,7 @@
         width: 870px;
     }
 
-    .input__container {
+    .profile-page .input__container {
         width: 80%;
     }
 
@@ -343,7 +341,7 @@
     }
 
     .loading {
-        margin-left: 20px; 
+        margin-left: 20px;
         color: #AAA;
     }
 
