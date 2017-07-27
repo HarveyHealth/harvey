@@ -5,8 +5,8 @@
         </div>
         <div class="card-content-container topPadding">
             <div class="card-content-wrap">
-                <ClipLoader :color="'#82BEF2'" :loading="loading"></ClipLoader>
-                <form action="#" method="POST" class="form" id="practitioner_form" v-show="!loading">
+                <ClipLoader :color="'#82BEF2'" :loading="$root.$data.global.practitionerProfileLoading"></ClipLoader>
+                <form action="#" method="POST" class="form" id="practitioner_form" v-show="!$root.$data.global.practitionerProfileLoading">
                     <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:sandra@goharvey.com">sandra@goharvey.com</a> or post a message in the private Harvey Slack channel called <em>Practitioners</em>.</p>
                     <div class="formgroups">
                         <div class="formgroup">
@@ -55,7 +55,6 @@
                         <div class="formgroup right">
                             <div class="input__container input-wrap">
                                 <label class="input__label">Pictures</label>
-
                                 <div class="practitioner-profile-images">
                                     <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
                                     <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
@@ -76,7 +75,6 @@
                                     :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
                                     type="practitioner-profile">
                                 </ImageUpload>
-
                                 <ImageUpload
                                     class="upload-button"
                                     v-on:uploading="uploadingBackgroundImage"
@@ -86,7 +84,7 @@
                                     type="header">
                                 </ImageUpload>
                             </div>
-                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 300x100 for the background.</p>
+                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 400x100 for the background.</p>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="description">Description</label>
                                 <textarea v-model="practitioner.description" maxlength="300" name="description" id="description" placeholder="Enter a brief description."></textarea>
@@ -117,7 +115,6 @@
         name: 'practitioner-profile',
         data() {
             return {
-                loading: true,
                 practitioner_id: Laravel.user.practitionerId,
                 practitioner: {
                     licenses: [{'number': '', 'state': '', 'title': ''}],
@@ -182,7 +179,7 @@
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
-                    this.loading = false;
+                    this.$root.$data.practitionerProfileLoading = false;
                 })
                 .catch(error => this.practitioner = {});
         },

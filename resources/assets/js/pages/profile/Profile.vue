@@ -20,9 +20,8 @@
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
-                        <!-- Using v-if here because we don't want the rest to register until user data is up -->
-                        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
-                        <form action="#" method="POST" class="form" id="user_form" v-else>
+                        <ClipLoader :color="'#82BEF2'" :loading="$root.$data.global.loadingProfile"></ClipLoader>
+                        <form action="#" method="POST" class="form" id="user_form" v-show="!$root.$data.global.loadingProfile">
                             <div class="formgroups">
                                 <div class="formgroup">
                                     <div class="input__container input-wrap">
@@ -199,6 +198,14 @@
                         this.errorMessages = err.response.data.errors;
                         this.submitting = false;
                     });
+            },
+            getUser() {
+                axios.get(`/api/v1/users/${Laravel.user.id}`)
+                    .then(response => {
+                        this.$root.$data.global.loadingPatients = false;
+                        this.user = response.data.data;
+                    })
+                    .catch(error => this.user = {});
             },
             uploadingProfileImage() {
                 this.previousProfileImage = this.user.attributes.image_url;
