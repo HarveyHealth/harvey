@@ -200,7 +200,8 @@ class UsersController extends BaseAPIController
 
         $customer = Customer::create([
             'email' => $user->email,
-            'source'  => request('id'),
+            'source' => request('id'),
+            'metadata' => ['harvey_id' => $user->id],
         ]);
 
         $user->stripe_id = $customer->id;
@@ -209,5 +210,15 @@ class UsersController extends BaseAPIController
         $user->save();
 
         return response()->json(['status' => 'OK!']);
+    }
+
+    public function deleteCard(Request $request, User $user, string $cardId)
+    {
+        return 'Not implemented yet.'
+    }
+
+    public function getCards(Request $request, User $user)
+    {
+        return 'Not implemented yet.'
     }
 }
