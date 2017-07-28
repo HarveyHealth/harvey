@@ -37,7 +37,7 @@
                         >
                         <template v-if="login.form.errors.has('email')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                            <span class="help is-danger" v-text="login.form.errors.get('email')"></span>
+                            <span class="help is-danger" v-text="login.form.errors.errors.email"></span>
                         </template>
                     </div>
                     <div class="input-wrap">
@@ -55,7 +55,7 @@
                         >
                         <template v-if="login.form.errors.has('password')">
                             <span class="icon is-small align-right is-danger"><i class="fa fa-warning"></i></span>
-                            <span class="help is-danger" v-text="login.form.errors.get('password')"></span>
+                            <span class="help is-danger" v-text="login.form.errors.errors.password"></span>
                         </template>
                     </div>
                     <div class="input-wrap">
