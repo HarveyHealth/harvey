@@ -317,7 +317,9 @@ class User extends Authenticatable implements Mailable
 
         $this->clearHasACardCache();
 
+        return true;
     }
+
     public function hasACard()
     {
         return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
@@ -329,5 +331,4 @@ class User extends Authenticatable implements Mailable
     {
         return Cache::forget("has-a-card-user-id-{$this->id}");
     }
-
 }
