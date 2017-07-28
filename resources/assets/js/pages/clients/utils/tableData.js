@@ -4,7 +4,7 @@ import moment from 'moment'
 
 export default function(clientList) {
     return clientList
-    .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date)
+    .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
     .map(e => {
         let data = e.attributes
         data['email_hyperlink'] = 0
