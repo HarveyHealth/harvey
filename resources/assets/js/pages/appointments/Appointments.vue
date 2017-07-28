@@ -96,6 +96,13 @@
         :visible="visibleStatus"
       />
 
+      <div class="input__container" v-if="appointment.currentStatus === 'complete'">
+        <label class="input__label">billing info</label>
+        <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
+        <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
+        <div class="input__item">Charged: $150</div>
+      </div>
+
       <Purpose
         :character-limit="purposeCharLimit"
         :editable="editablePurpose"
@@ -215,6 +222,10 @@ export default {
       activeFilter: 0,
       appointment: this.resetAppointment(),
       appointments: [],
+      billing: {
+        brand: Laravel.user.card_brand,
+        last4: Laravel.user.card_last4
+      },
       bookingConflict: false,
       cache: {
         all: [],
