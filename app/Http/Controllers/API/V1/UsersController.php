@@ -203,37 +203,14 @@ class UsersController extends BaseAPIController
             'id' => 'required|regex:/^tok_.*/',
         ]);
 
-        $cardTokenId = request('id');
+        $responseCode = $user->addCard(request('id')) ? ResponseCode::HTTP_CREATED : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
 
-        try {
-            if (empty($user->stripe_id)) {
-                $customer = Customer::create([
-                    'email' => $user->email,
-                    'source' => $cardTokenId,
-                    'metadata' => ['harvey_id' => $user->id],
-                ]);
-                $user->stripe_id = $customer->id;
-            } else {
-                $customer = Customer::retrieve($user->stripe_id);
-                $customer->sources->create(['source' => $cardTokenId]);
-            }
-            $defaultCard = $customer->sources->retrieve($customer->default_source);
-        } catch (Exception $exception) {
-            return $this->respondWithError('Unable to add card. Please try again later');
-        }
-
-        $user->card_last_four = $defaultCard->last4;
-        $user->card_brand = $defaultCard->brand;
-        $user->save();
-
-        $user->clearHasACardCache();
-
-        return response()->json(['status' => 'OK!']);
+        return response()->json([], $responseCode);
     }
 
     public function deleteCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->id != $user->id || empty($user->stripe_id)) {
+        if (currentUser()->id != $user->id) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -241,15 +218,10 @@ class UsersController extends BaseAPIController
             'card_id' => 'required|regex:/^card_.*/',
         ]);
 
-        try {
-            Customer::retrieve($user->stripe_id)->sources->retrieve($cardId)->delete();
-        } catch (Exception $exception) {
-            return $this->respondWithError('Unable to delete card. Please try again later');
-        }
+        $responseCode = $user->deleteCard($cardId) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
 
-        $user->clearHasACardCache();
+        return response()->json([], $responseCode);
 
-        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
     public function getCards(Request $request, User $user)

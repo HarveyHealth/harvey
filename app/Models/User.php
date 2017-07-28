@@ -277,6 +277,47 @@ class User extends Authenticatable implements Mailable
         return $cards;
     }
 
+    public function deleteCard(string $cardId)
+    {
+        try {
+            Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
+        } catch (Exception $exception) {
+            Log::error("Unable to delete card #{$cardId} for User #{$this->id}");
+            return false;
+        }
+
+        $this->clearHasACardCache();
+
+        return true;
+    }
+
+    public function addCard(string $cardTokenId)
+    {
+        try {
+            if (empty($this->stripe_id)) {
+                $customer = Customer::create([
+                    'email' => $this->email,
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $this->id],
+                ]);
+                $this->stripe_id = $customer->id;
+            } else {
+                $customer = Customer::retrieve($this->stripe_id);
+                $customer->sources->create(['source' => $cardTokenId]);
+            }
+            $defaultCard = $customer->sources->retrieve($customer->default_source);
+        } catch (Exception $exception) {
+            Log::error("Unable to add card #{$cardTokenId} for User #{$this->id}");
+            return false;
+        }
+
+        $this->card_last_four = $defaultCard->last4;
+        $this->card_brand = $defaultCard->brand;
+        $this->save();
+
+        $this->clearHasACardCache();
+
+    }
     public function hasACard()
     {
         return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
