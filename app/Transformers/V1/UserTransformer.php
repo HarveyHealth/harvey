@@ -33,7 +33,7 @@ class UserTransformer extends TransformerAbstract
             'email_verified_at' => $user->email_verified_at,
             'first_name' => $user->first_name,
             'gender' => $user->gender,
-            'has_a_card' => (bool) $user->card_last_four,
+            'has_a_card' => $user->hasACard(),
             'has_an_appointment' => (bool) $appointment,
             'image_url' => $user->image_url,
             'last_name' => $user->last_name,
