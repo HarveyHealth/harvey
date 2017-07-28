@@ -359,7 +359,7 @@ export default {
       return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
     },
     visibleDuration() {
-      return this.appointment.status === 'complete';
+      return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
