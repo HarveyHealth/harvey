@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\Textable;
-use App\Lib\PhoneNumberVerifier;
+use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-
+use Stripe\{Customer, Stripe};
 use Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
@@ -260,4 +260,33 @@ class User extends Authenticatable implements Mailable
     {
         return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
+
+    public function getCards()
+    {
+        if (empty($this->stripe_id)) {
+            return [];
+        }
+
+        try {
+            $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
+        } catch (Exception $exception) {
+            Log::error("Unable to list cards for User #{$this->id}");
+            return [];
+        }
+
+        return $cards;
+    }
+
+    public function hasACard()
+    {
+        return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
+            return !empty($this->getCards());
+        });
+    }
+
+    public function clearHasACardCache()
+    {
+        return Cache::forget("has-a-card-user-id-{$this->id}");
+    }
+
 }

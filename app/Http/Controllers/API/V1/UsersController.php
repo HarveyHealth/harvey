@@ -226,6 +226,8 @@ class UsersController extends BaseAPIController
         $user->card_brand = $defaultCard->brand;
         $user->save();
 
+        $user->clearHasACardCache();
+
         return response()->json(['status' => 'OK!']);
     }
 
@@ -245,6 +247,8 @@ class UsersController extends BaseAPIController
             return $this->respondWithError('Unable to delete card. Please try again later');
         }
 
+        $user->clearHasACardCache();
+
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
@@ -252,16 +256,8 @@ class UsersController extends BaseAPIController
     {
         if (currentUser()->id != $user->id) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        } elseif (empty($user->stripe_id)) {
-            return response()->json(['cards' => []]);
         }
 
-        try {
-            $cards = Customer::retrieve($user->stripe_id)->sources->all(['object' => 'card'])->data;
-        } catch (Exception $exception) {
-            return $this->respondWithError('Unable to list cards. Please try again later');
-        }
-
-        return response()->json(['cards' => $cards]);
+        return response()->json(['cards' => $user->getCards()]);
     }
 }
