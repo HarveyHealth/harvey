@@ -208,17 +208,17 @@ class UsersController extends BaseAPIController
         return response()->json([], $responseCode);
     }
 
-    public function deleteCard(Request $request, User $user, string $cardId)
+    public function deleteCard(Request $request, User $user)
     {
         if (currentUser()->id != $user->id) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        StrictValidator::check(['card_id' => $cardId], [
+        StrictValidator::check($request->all(), [
             'card_id' => 'required|regex:/^card_.*/',
         ]);
 
-        $responseCode = $user->deleteCard($cardId) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+        $responseCode = $user->deleteCard($request->only('card_id')) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
 
         return response()->json([], $responseCode);
 
