@@ -53,6 +53,7 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
+    
     export default {
         name: 'LabOrders',
         components: {
