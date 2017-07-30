@@ -7,7 +7,7 @@ use App\Http\Traits\Textable;
 use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -331,4 +331,10 @@ class User extends Authenticatable implements Mailable
     {
         return Cache::forget("has-a-card-user-id-{$this->id}");
     }
+
+    public function isNot(Model $model)
+    {
+        return !$this->is($model);
+    }
+
 }

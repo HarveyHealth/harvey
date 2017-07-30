@@ -161,7 +161,7 @@ class UsersController extends BaseAPIController
 
     public function sendVerificationCode(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => 'Verification code not sent.'], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -195,7 +195,7 @@ class UsersController extends BaseAPIController
 
     public function addCard(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id) {
+        if (currentUser()->isNot($user)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -210,7 +210,7 @@ class UsersController extends BaseAPIController
 
     public function deleteCard(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id) {
+        if (currentUser()->isNot($user)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -226,7 +226,7 @@ class UsersController extends BaseAPIController
 
     public function getCards(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id) {
+        if (currentUser()->isNot($user)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
