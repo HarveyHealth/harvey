@@ -63,7 +63,7 @@
                 })
                 .then(response => {
                     this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
-                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
                     this.$parent.messageList = this.$root.$data.global.messages
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);

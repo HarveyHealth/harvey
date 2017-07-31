@@ -4,7 +4,7 @@ import { capitalize } from '../../../utils/filters/textformat';
 
 export default function(appointments, zone) {
   return appointments
-  .sort((a, b) => b.attributes.appointment_at.date - a.attributes.appointment_at.date)
+  .sort((a, b) => new Date(b.attributes.appointment_at.date) - new Date(a.attributes.appointment_at.date))
   .map(obj => {
     const data = {
       date: toLocal(obj.attributes.appointment_at.date, 'dddd, MMMM Do'),

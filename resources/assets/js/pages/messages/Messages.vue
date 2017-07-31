@@ -82,7 +82,7 @@
         },
         computed: {
           messageList() {
-            return this.$root.$data.global.messages.sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date)
+            return this.$root.$data.global.messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
           }
         },
         methods: {
@@ -120,7 +120,7 @@
             this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .map(e => e[e.length - 1])
-              .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date)
+              .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
               .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
           })
           this.$root.getConfirmedUsers();
