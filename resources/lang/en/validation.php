@@ -109,6 +109,12 @@ return [
         'email' => [
             'unique' => 'This email address is already in use.',
         ],
+        'licenses.*.number' => [
+            'required_with' => 'Please specify the License number.',
+        ],
+        'licenses.*.state' => [
+            'required_with' => 'Please specify the License state.',
+        ],
     ],
 
     /*

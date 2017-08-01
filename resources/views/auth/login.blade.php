@@ -59,7 +59,7 @@
                         </template>
                     </div>
                     <div class="input-wrap">
-                        <p class="control remember-me">
+                        <p class="control remember-me is-hidden-mobile">
                             <label class="checkbox">
                                 <input
                                     v-model="login.form.remember"
@@ -78,7 +78,7 @@
 
             <footer class="card-footer">
                 <div class="card-footer-item level">
-                    <a href="/get-started" class="button is-pulled-right login-buttons">Sign Up</a>
+                    <a href="/get-started" class="button login-buttons">Sign Up</a>
                     <button type="submit" class="button is-primary login-buttons">Log In</button>
                 </div>
             </footer>

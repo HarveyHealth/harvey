@@ -5,7 +5,7 @@
             <img :src="image" alt="avatar">
         </div>
         <h3 class="message-post-name emphasis">{{ name }}</h3>
-        <h3 class="message-post-time subtle">{{ moment(day).format("M/D/YYYY") }}, {{ moment.utc(time).local().format("h:mm a") }}</h3>
+        <h3 class="message-post-time subtle" style="font-weight: 500; font-size: 15px;">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time, timezone).format("h:mm a z") }}</h3>
       </div>
       <div class="message-post-body">
         <p class="message-post-message subtle">{{ message }}</p>
@@ -17,7 +17,7 @@
     import moment from 'moment'
     import _ from 'lodash'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone'],
         name: 'MessagingPost',
         data() {
             return {

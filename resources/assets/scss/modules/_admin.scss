@@ -36,7 +36,7 @@
     border-bottom: 1px solid $color--grey;
     color: lighten($harvey-secondary, 20%);
     display: block;
-    height: 60px;
+    height: 52px;
     position: relative;
     width: 100%;
 
@@ -106,19 +106,19 @@
 
 .main-content {
   flex-grow: 1;
-  @include margin(null null null 150px);
 }
 
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
-  @include padding(40px 50px 20px);
+  @include padding(25px);
   .container{
     max-width: 1090px;
     @include padding(0 55px 0 15px);
     @include margin(0);
     .title {
       min-height: 48px;
+      margin-bottom: 0;
       .text {
         float: left;
       }

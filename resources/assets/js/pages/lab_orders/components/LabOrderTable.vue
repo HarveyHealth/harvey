@@ -1,9 +1,9 @@
 <template>
   <TableData 
       :columns="tableColumns"
-      :empty-msg="'No lab orders found.'"
+      :empty-msg="'Sorry, no lab orders were found.'"
       :loading="loading"
-      :loading-msg="'Loading your lab tests...'"
+      :loading-msg="'Loading your lab orders...'"
       :on-row-click="handleRowClick"
       :row-data="tableData"
       :selected-row="selectedRow"
