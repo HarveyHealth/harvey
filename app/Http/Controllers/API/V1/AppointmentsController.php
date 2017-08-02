@@ -80,8 +80,6 @@ class AppointmentsController extends BaseAPIController
 
         $appointment = Appointment::create($inputData);
 
-        event(new AppointmentScheduled($appointment));
-
         return $this->baseTransformItem($appointment->fresh())->respond();
     }
 

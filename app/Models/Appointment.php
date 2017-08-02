@@ -5,7 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
-use App\Lib\TransactionalEmail;
+use App\Lib\{GoogleCalendar, TransactionalEmail};
 use Lang;
 use Log;
 
@@ -143,6 +143,38 @@ class Appointment extends Model
             $this->setPatientReminderEmail24HsSent();
             return true;
         }
+    }
+
+    public function addToCalendar()
+    {
+        $eventParams = [
+            'summary' => "Consultation with patient {$this->patient->user->fullName()}.",
+            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'start' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'end' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->addHour()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'attendees' => [
+                ['email' => $this->practitioner->user->email],
+                ['email' => $this->patient->user->email],
+            ],
+            'reminders' => [
+                'useDefault' => true,
+            ],
+            'visibility' => 'private',
+            'status' => 'confirmed',
+        ];
+
+        $event = GoogleCalendar::addEvent($eventParams);
+
+        $this->google_calendar_event_id = $event->id;
+        $this->save();
+
+        return $event;
     }
 
     /*

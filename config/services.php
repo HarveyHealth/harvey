@@ -79,4 +79,10 @@ return [
         'token' => env('TWILIO_AUTH_TOKEN'),
         'sms_number' => env('TWILIO_SMS_NUMBER'),
     ],
+
+    'google_calendar' => [
+        'client_secret_file' => storage_path('calendar_api/client_secret.json'),
+        'access_token_file' => storage_path('calendar_api/access_token.json'),
+        'calendar_id' => 'goharvey.com_bfg97p33qthpp72t8g2c7ic8bk@group.calendar.google.com',
+    ],
 ];

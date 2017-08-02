@@ -9,6 +9,17 @@ use App\Models\Appointment;
 class AppointmentObserver
 {
     /**
+     * Listen to the Appointment delete event.
+     *
+     * @param  Appointment $appointment
+     * @return void
+     */
+    public function created(Appointment $appointment)
+    {
+        event(new AppointmentScheduled($appointment));
+    }
+
+    /**
      * Listen to the Appointment updating event.
      *
      * @param  Appointment $appointment
