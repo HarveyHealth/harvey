@@ -251,6 +251,7 @@ const app = new Vue({
                         this.global.detailMessages = data;
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
+                            .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date)
                             .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) &&
                                 (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id) ? 1 : -1));
                         this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
@@ -259,10 +260,10 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'pending')
+                .filter(e => e.attributes.status === 'complete')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
             this.global.confirmedPatients = this.global.appointments
-                .filter(e => e.attributes.status === 'pending')
+                .filter(e => e.attributes.status === 'complete')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
