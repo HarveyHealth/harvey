@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Events\OutOfServiceZipCodeRegistered;
-use App\Events\UserRegistered;
-use App\Lib\PhoneNumberVerifier;
-use App\Lib\Validation\StrictValidator;
-use App\Models\Patient;
-use App\Models\User;
+use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
+use App\Lib\{PhoneNumberVerifier, Validation\StrictValidator, ZipCodeValidator};
+use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use ResponseCode;
@@ -21,10 +19,11 @@ class UsersController extends BaseAPIController
      * UsersController constructor.
      * @param UserTransformer $transformer
      */
-    public function __construct(UserTransformer $transformer)
+    public function __construct(UserTransformer $transformer, ZipCodeValidator $zipCodeValidator)
     {
         parent::__construct();
         $this->transformer = $transformer;
+        $this->zipCodeValidator = $zipCodeValidator;
     }
 
     /**
@@ -79,7 +78,21 @@ class UsersController extends BaseAPIController
         if ($validator->fails()) {
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
+
+                $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST);
+                $this->zipCodeValidator->setZip(request('zip'));
+
+                $problem = new ApiProblem('Bad Request.');
+                $output = $problem->asArray();
+                $output['detail'] = [
+                    'message' => $validator->errors()->first(),
+                    'city' => $this->zipCodeValidator->getCity(),
+                    'state' => $this->zipCodeValidator->getState(),
+                ];
+
+                return response()->apiproblem($output, $this->getStatusCode());
             }
+
             return $this->respondBadRequest($validator->errors()->first());
         }
 
@@ -167,17 +180,17 @@ class UsersController extends BaseAPIController
 
         return response()->json(['status' => 'Verification code sent.']);
     }
-    
+
     public function profileImageUpload(Request $request, User $user)
     {
         if (auth()->user()->cant('update', $user)) {
             return $this->respondNotAuthorized("You do not have access to modify the user with id {$user->id}.");
         }
-        
+
         StrictValidator::check($request->only('image'), [
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
-        
+
         try{
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
@@ -185,9 +198,9 @@ class UsersController extends BaseAPIController
         } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
-        
+
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
-        
+
         return $this->baseTransformItem($user)->respond();
     }
 }

@@ -3,12 +3,12 @@
 namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
+use Cache;
 
 class ZipCodeValidator
 {
-    protected $geocoder;
-    protected $zip;
-    protected $state = null;
+    protected $city, $geocoder, $zip, $state = null;
+
     protected $unserviceable_states = ['AL', 'FL', 'NY', 'SC', 'TN'];
 
     public function __construct(Geocoder $geocoder)
@@ -32,6 +32,12 @@ class ZipCodeValidator
         return "{$this->getZip()} USA";
     }
 
+    public function getCity()
+    {
+        $this->callGeocoder();
+        return $this->city;
+    }
+
     public function getState()
     {
         $this->callGeocoder();
@@ -40,8 +46,16 @@ class ZipCodeValidator
 
     protected function callGeocoder()
     {
-        $result = $this->geocoder->geocode($this->usaQuery());
-        return $this->state = $result['address']['state'];
+        $query = $this->usaQuery();
+
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::weeks(1)->toMinutes(), function () use ($query) {
+            return $this->geocoder->geocode($query);
+        });
+
+        $this->state = $result['address']['state'];
+        $this->city = $result['address']['city'];
+
+        return $result;
     }
 
     public function isServiceable()
