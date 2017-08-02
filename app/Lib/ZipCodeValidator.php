@@ -9,10 +9,7 @@ class ZipCodeValidator
     protected $geocoder;
     protected $zip;
     protected $state = null;
-    protected $unserviceable_states = [
-        'AL', 'FL', 'NY', 'SC', 'TN', 'AK', 'HI', 'OR', 'AZ', 'CO', 'MT',
-        'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
-    ];
+    protected $unserviceable_states = ['AL', 'FL', 'NY', 'SC', 'TN'];
 
     public function __construct(Geocoder $geocoder)
     {
