@@ -9,8 +9,8 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
-      <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup">
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}, a licensed Naturopathic Doctor from {{ state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+      <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
@@ -49,6 +49,7 @@ export default {
   data() {
     return {
       isBackProcessing: false,
+      isProcessing: false,
       cardBrand: this.$root.$data.signup.cardBrand,
       containerClasses: {
         'anim-fade-slideup': true,
@@ -57,8 +58,8 @@ export default {
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,
+      paymentStatement: `The cost for this consultation will be $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation is complete.`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
-      isProcessing: false,
       showModal: false,
       state: this.$root.$data.signup.practitionerState
     }
@@ -72,11 +73,6 @@ export default {
     },
     timeDisplay() {
       return this.$root.addTimezone(moment.utc(this.date).local().format('h:mm a'));
-    },
-    paymentStatement() {
-      return this.cardBrand
-        ? `The cost for this consultation will be $150, which will be charged to your ${this.cardBrand} after the consultation is complete.`
-        : 'The cost for this consultation will be $150, which will be charged to your card after the consultation is complete.';
     },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
