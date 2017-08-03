@@ -3,13 +3,20 @@
 namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
+use App\Models\License;
 use Cache;
 
 class ZipCodeValidator
 {
     protected $city, $geocoder, $zip, $state = null;
 
-    protected $unserviceable_states = ['AL', 'FL', 'NY', 'SC', 'TN'];
+    protected $unserviceableStates = [
+        'AL', 'FL', 'NY', 'SC', 'TN'
+    ];
+    protected $regulatedStates = [
+        'AK', 'HI', 'OR', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN',
+        'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+    ];
 
     public function __construct(Geocoder $geocoder)
     {
@@ -70,7 +77,13 @@ class ZipCodeValidator
 
     protected function stateIsUnserviceable($state)
     {
-        // If the state is in the unserviceable list or if no state is returned
-        return in_array($state, $this->unserviceable_states) || empty($state);
+        if (
+        empty($state) ||
+        in_array($state, $this->unserviceableStates) ||
+        (in_array($state, $this->regulatedStates) && !License::all()->pluck('state')->contains($state))) {
+            return true;
+        }
+
+        return false;
     }
 }
