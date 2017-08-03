@@ -96,6 +96,13 @@
         :visible="visibleStatus"
       />
 
+      <div class="input__container" v-if="appointment.currentStatus === 'complete'">
+        <label class="input__label">billing info</label>
+        <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
+        <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
+        <div class="input__item">Charged: $150</div>
+      </div>
+
       <Purpose
         :character-limit="purposeCharLimit"
         :editable="editablePurpose"
@@ -218,6 +225,10 @@ export default {
       appointment: this.resetAppointment(),
       appointments: [],
       billingConfirmed: Laravel.user.has_a_card,
+      billing: {
+        brand: Laravel.user.card_brand,
+        last4: Laravel.user.card_last4
+      },
       bookingConflict: false,
       cache: {
         all: [],
@@ -352,7 +363,7 @@ export default {
       return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
     },
     visibleDuration() {
-      return this.appointment.status === 'complete';
+      return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';

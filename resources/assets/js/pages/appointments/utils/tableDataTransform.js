@@ -3,7 +3,9 @@ import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
 export default function(appointments, zone) {
-  return appointments.map(obj => {
+  return appointments
+  .sort((a, b) => b.attributes.appointment_at.date - a.attributes.appointment_at.date)
+  .map(obj => {
     const data = {
       date: toLocal(obj.attributes.appointment_at.date, 'dddd, MMMM Do'),
       time: `${toLocal(obj.attributes.appointment_at.date, 'h:mm a')} (${zone})`,

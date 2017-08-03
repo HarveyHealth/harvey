@@ -4,16 +4,16 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\Textable;
-use App\Lib\PhoneNumberVerifier;
+use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\{Builder, Model};
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-
-use Carbon, Log, Mail;
+use Stripe\{Customer, Stripe};
+use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
@@ -260,4 +260,81 @@ class User extends Authenticatable implements Mailable
     {
         return $query->join('admins', 'admins.user_id', 'users.id')->select('users.*');
     }
+
+    public function getCards()
+    {
+        if (empty($this->stripe_id)) {
+            return [];
+        }
+
+        try {
+            $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
+        } catch (Exception $exception) {
+            Log::error("Unable to list cards for User #{$this->id}");
+            return [];
+        }
+
+        return $cards;
+    }
+
+    public function deleteCard(string $cardId)
+    {
+        try {
+            Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
+        } catch (Exception $exception) {
+            Log::error("Unable to delete card #{$cardId} for User #{$this->id}");
+            return false;
+        }
+
+        $this->clearHasACardCache();
+
+        return true;
+    }
+
+    public function addCard(string $cardTokenId)
+    {
+        try {
+            if (empty($this->stripe_id)) {
+                $customer = Customer::create([
+                    'email' => $this->email,
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $this->id],
+                ]);
+                $this->stripe_id = $customer->id;
+            } else {
+                $customer = Customer::retrieve($this->stripe_id);
+                $customer->sources->create(['source' => $cardTokenId]);
+            }
+            $defaultCard = $customer->sources->retrieve($customer->default_source);
+        } catch (Exception $exception) {
+            Log::error("Unable to add card #{$cardTokenId} for User #{$this->id}");
+            return false;
+        }
+
+        $this->card_last_four = $defaultCard->last4;
+        $this->card_brand = $defaultCard->brand;
+        $this->save();
+
+        $this->clearHasACardCache();
+
+        return true;
+    }
+
+    public function hasACard()
+    {
+        return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
+            return !empty($this->getCards());
+        });
+    }
+
+    public function clearHasACardCache()
+    {
+        return Cache::forget("has-a-card-user-id-{$this->id}");
+    }
+
+    public function isNot(Model $model)
+    {
+        return !$this->is($model);
+    }
+
 }

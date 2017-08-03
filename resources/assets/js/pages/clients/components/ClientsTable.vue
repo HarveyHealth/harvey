@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TableData from '../../../commons/TableData.vue'
+import TableData from './CustomHyperlinkTableData.vue'
 import tableColumns from '../utils/tableColumns';
 export default {
     data() {
