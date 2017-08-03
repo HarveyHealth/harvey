@@ -142,9 +142,14 @@ export default {
     },
     emailError() {
       if (this.errors.has('email')) {
-        return this.errors.firstByRule('email', 'required')
-          ? 'Email is required'
-          : 'Not a valid email address'
+
+        if (this.errors.firstByRule('email', 'inuse')) {
+          return this.errors.firstByRule('email', 'inuse');
+        } else {
+          return this.errors.firstByRule('email', 'required')
+            ? 'Email is required'
+            : 'Not a valid email address'
+        }
       }
     },
     zipError() {
@@ -225,23 +230,38 @@ export default {
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+            const errorMessage = this.responseErrors[0].detail;
 
-            // track the failed signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              const firstName = this.signupData.first_name || '';
-              const lastName = this.signupData.last_name || '';
-              const email = this.signupData.email || '';
-              const zip = this.signupData.zip || '';
+            return;
 
-              analytics.track("Account Failed", {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                zip: zip,
-              });
+            // add email address in-use error
+            // TODO: check against error type instead of message
+            if(typeof errorMessage === 'string' && errorMessage.indexOf('email') >= -1) {
+              this.errors.add('email', 'Email address is already in use', 'inuse');
+              this.errors.first('email:inuse');
+
+            } else {
+
+              // this is an out-of-range situation
+              // track the failed signup
+              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+                const firstName = this.signupData.first_name || '';
+                const lastName = this.signupData.last_name || '';
+                const email = this.signupData.email || '';
+                const zip = this.signupData.zip || '';
+
+                const outOfRangeState = this.responseErrors[0].detail.state;
+
+                analytics.track("Account Failed", {
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  zip: zip,
+                });
+              }
+
+              this.$router.push({name: 'out-of-range', path: '/out-of-range'});
             }
-
-            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
       // Error catch for vee-validate of signup form fields
