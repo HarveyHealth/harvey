@@ -235,19 +235,19 @@ export default {
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
-            const errorMessage = this.responseErrors[0].detail;
+            const errorDetail = this.responseErrors[0].detail;
 
             // add email address in-use error
             // TODO: check against error type instead of message
-            if(errorMessage.message.indexOf('email') > -1) {
-              this.errors.add('email', errorMessage.message, 'inuse');
+            if(errorDetail.message.indexOf('email') > -1) {
+              this.errors.add('email', errorDetail.message, 'inuse');
               this.errors.first('email:inuse');
 
               // reset the submission to allow for another attempt
               this.isProcessing = false;
               this.isComplete = false;
 
-            } else if(errorMessage.message.indexOf('zip') > -1) {
+            } else if(errorDetail.message.indexOf('zip') > -1) {
               // this is an out-of-range situation
               // track the failed signup
               if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
@@ -256,7 +256,7 @@ export default {
                 const email = this.signupData.email || '';
                 const zip = this.signupData.zip || '';
 
-                const outOfRangeState = errorMessage.state;
+                const outOfRangeState = errorDetail.state;
 
                 analytics.track("Account Failed", {
                   firstName: firstName,
