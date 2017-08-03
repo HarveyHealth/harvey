@@ -236,6 +236,7 @@ export default {
           .catch(error => {
             this.responseErrors = error.response.data.errors;
             const errorDetail = this.responseErrors[0].detail;
+            const errorType = this.responseErrors[0].type;
 
             // add email address in-use error
             // TODO: check against error type instead of message
@@ -247,7 +248,7 @@ export default {
               this.isProcessing = false;
               this.isComplete = false;
 
-            } else if(errorDetail.message.indexOf('zip') > -1) {
+            } else if(errorType === 'out-of-range') {
               // this is an out-of-range situation
               // track the failed signup
               if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
