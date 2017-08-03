@@ -73,7 +73,7 @@ export default {
       },
       isComplete: this.$root.$data.signup.billingConfirmed,
       isProcessing: false,
-      stripeKey: 'pk_test_P1CltTCM3UIMzka8O1p7J2MT',
+      stripeKey: Laravel.services.stripe.key,
       stripeError: '',
     }
   },
