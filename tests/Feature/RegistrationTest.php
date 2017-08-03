@@ -21,12 +21,12 @@ class RegistrationTest extends TestCase
             'email' => 'jsmith@yahoo.com',
             'password' => 'password',
             'terms' => true,
-            'zip' => 12345
+            'zip' => 91106,
         ];
 
         // When a request is made to create a new user
         $response = $this->post(route('users.create'), $parameters);
-dd($response);
+
         // It is successful
         $response->assertStatus(ResponseCode::HTTP_CREATED);
 
