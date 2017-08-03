@@ -187,6 +187,7 @@ export default {
         // create the user
         axios.post('api/v1/users', this.signupData)
           .then(response => {
+
             // log the user in
             this.login(this.signupData.email, this.signupData.password);
             this.isComplete = true;
@@ -202,6 +203,8 @@ export default {
               const lastName = userData.last_name || '';
               const email = userData.email || '';
               const zip = userData.zip || '';
+              const city = userData.city || '';
+              const state = userData.state || '';
 
               // Segment tracking
               analytics.track("Account Created");
@@ -211,6 +214,8 @@ export default {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
+                city: city,
+                state: state,
                 zip: zip,
               });
             }
