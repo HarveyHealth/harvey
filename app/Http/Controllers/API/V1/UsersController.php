@@ -75,19 +75,23 @@ class UsersController extends BaseAPIController
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
 
+        $this->zipCodeValidator->setZip(request('zip'));
+        $city = $this->zipCodeValidator->getCity();
+        $state = $this->zipCodeValidator->getState();
+
         if ($validator->fails()) {
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
 
                 $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST);
-                $this->zipCodeValidator->setZip(request('zip'));
 
                 $problem = new ApiProblem('Bad Request.');
+                $problem->setType('out-of-range');
                 $output = $problem->asArray();
                 $output['detail'] = [
                     'message' => $validator->errors()->first(),
-                    'city' => $this->zipCodeValidator->getCity(),
-                    'state' => $this->zipCodeValidator->getState(),
+                    'city' => $city,
+                    'state' => $state,
                 ];
 
                 return response()->apiproblem($output, $this->getStatusCode());
@@ -98,7 +102,7 @@ class UsersController extends BaseAPIController
 
         try {
             $user = new User(
-                $request->only(['first_name', 'last_name', 'email', 'zip'])
+                $request->only(['first_name', 'last_name', 'email', 'zip']) + compact('city', 'state')
             );
 
             $user->password = bcrypt($request->password);
