@@ -237,6 +237,8 @@ export default {
             if(errorMessage.message.indexOf('email') > -1) {
               this.errors.add('email', errorMessage.message, 'inuse');
               this.errors.first('email:inuse');
+
+              // reset the submission to allow for another attempt
               this.isProcessing = false;
               this.isComplete = false;
 
@@ -249,7 +251,7 @@ export default {
                 const email = this.signupData.email || '';
                 const zip = this.signupData.zip || '';
 
-                const outOfRangeState = this.responseErrors[0].detail.state;
+                const outOfRangeState = errorMessage.state;
 
                 analytics.track("Account Failed", {
                   firstName: firstName,
