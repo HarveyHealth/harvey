@@ -232,16 +232,15 @@ export default {
             this.responseErrors = error.response.data.errors;
             const errorMessage = this.responseErrors[0].detail;
 
-            return;
-
             // add email address in-use error
             // TODO: check against error type instead of message
-            if(typeof errorMessage === 'string' && errorMessage.indexOf('email') >= -1) {
-              this.errors.add('email', 'Email address is already in use', 'inuse');
+            if(errorMessage.message.indexOf('email') > -1) {
+              this.errors.add('email', errorMessage.message, 'inuse');
               this.errors.first('email:inuse');
+              this.isProcessing = false;
+              this.isComplete = false;
 
-            } else {
-
+            } else if(errorMessage.message.indexOf('zip') > -1) {
               // this is an out-of-range situation
               // track the failed signup
               if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
