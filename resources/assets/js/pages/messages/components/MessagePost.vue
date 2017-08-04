@@ -5,7 +5,7 @@
               <img :src="image" alt="avatar">
           </div>
           <h3 class="message-post-name emphasis">{{ name }}</h3>
-          <h3 class="message-post-time subtle" style="font-weight: 500; font-size: 15px;">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time, timezone).local().format("h:mm a z") }}</h3>
+          <h3 class="message-post-time subtle" style="font-weight: 500; font-size: 15px;">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).local().format("h:mm a") }}{{ moment.tz(moment.tz.guess()).format('z') }}</h3>
         </div>
         <div class="message-post-body">
           <h2 class="message-post-subject emphasis">{{ subjects }}</h2>
