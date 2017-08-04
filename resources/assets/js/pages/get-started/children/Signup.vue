@@ -228,10 +228,14 @@ export default {
 
             // track the failed signup
             if (this.$root.isOnProduction()) {
-              const email = this.signupData.email;
-              const zip = this.signupData.zip;
+              const firstName = this.signupData.first_name || '';
+              const lastName = this.signupData.last_name || '';
+              const email = this.signupData.email || '';
+              const zip = this.signupData.zip || '';
 
               analytics.track("Account Failed", {
+                firstName: firstName,
+                lastName: lastName,
                 email: email,
                 zip: zip,
               });
