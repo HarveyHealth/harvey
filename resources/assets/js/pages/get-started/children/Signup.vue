@@ -256,16 +256,19 @@ export default {
                 const email = this.signupData.email || '';
                 const zip = this.signupData.zip || '';
 
-                const outOfRangeState = errorDetail.state;
+                const outOfRangeState = errorDetail.state || '';
+                const outOfRangeCity = errorDetail.city || '';
 
                 analytics.track("Account Failed", {
                   firstName: firstName,
                   lastName: lastName,
                   email: email,
+                  city: outOfRangeCity,
+                  state: outOfRangeState,
                   zip: zip,
                 });
               }
-
+              
               this.$router.push({name: 'out-of-range', path: '/out-of-range'});
             }
           });
