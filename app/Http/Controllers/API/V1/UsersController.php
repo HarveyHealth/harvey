@@ -80,14 +80,15 @@ class UsersController extends BaseAPIController
         $state = $this->zipCodeValidator->getState();
 
         if ($validator->fails()) {
+            $this->setApiProblemType($validator);
+
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
 
                 $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST);
+                $this->apiProblem->setTitle('Bad Request.');
+                $output = $this->apiProblem->asArray();
 
-                $problem = new ApiProblem('Bad Request.');
-                $problem->setType('out-of-range');
-                $output = $problem->asArray();
                 $output['detail'] = [
                     'message' => $validator->errors()->first(),
                     'city' => $city,
