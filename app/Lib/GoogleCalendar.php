@@ -24,20 +24,9 @@ class GoogleCalendar
         return static::getService()->events->get(static::getCalendarId(), $eventId);
     }
 
-    public static function updateEventStartAndEndTime(string $eventId, Carbon $startTime, Carbon $endTime)
+    public static function updateEvent(string $eventId, array $eventParams)
     {
-        $eventStartTime = new Google_Service_Calendar_EventDateTime;
-        $eventStartTime->setDateTime($startTime->toW3cString());
-        $eventStartTime->setTimeZone($startTime->format('e'));
-
-        $eventEndTime = new Google_Service_Calendar_EventDateTime;
-        $eventEndTime->setDateTime($endTime->toW3cString());
-        $eventEndTime->setTimeZone($endTime->format('e'));
-
-        $event = static::getEvent($eventId);
-
-        $event->setStart($eventStartTime);
-        $event->setEnd($eventEndTime);
+        $event = new Google_Service_Calendar_Event($eventParams);
 
         return static::getService()->events->update(static::getCalendarId(), $eventId, $event);
     }

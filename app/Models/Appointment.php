@@ -32,7 +32,13 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'status_id'
+    ];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -151,8 +157,18 @@ class Appointment extends Model
             return false;
         }
 
-        $eventParams = [
-            'summary' => "Consultation with patient {$this->patient->user->fullName()}.",
+        $event = GoogleCalendar::addEvent($this->getEventParams());
+
+        $this->google_calendar_event_id = $event->id;
+        $this->save();
+
+        return $event;
+    }
+
+    public function getEventParams()
+    {
+        return [
+            'summary' => "Consultation with patient {$this->patient->user->full_name}.",
             'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
@@ -172,13 +188,6 @@ class Appointment extends Model
             'visibility' => 'private',
             'status' => 'confirmed',
         ];
-
-        $event = GoogleCalendar::addEvent($eventParams);
-
-        $this->google_calendar_event_id = $event->id;
-        $this->save();
-
-        return $event;
     }
 
     public function deleteFromCalendar()
@@ -191,6 +200,17 @@ class Appointment extends Model
 
         $this->google_calendar_event_id = null;
         $this->save();
+
+        return true;
+    }
+
+    public function updateOnCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return $this->addToCalendar();
+        }
+
+        GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
 
         return true;
     }
