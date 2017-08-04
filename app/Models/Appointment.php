@@ -147,6 +147,10 @@ class Appointment extends Model
 
     public function addToCalendar()
     {
+        if (!empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
         $eventParams = [
             'summary' => "Consultation with patient {$this->patient->user->fullName()}.",
             'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
@@ -175,6 +179,20 @@ class Appointment extends Model
         $this->save();
 
         return $event;
+    }
+
+    public function deleteFromCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
+        GoogleCalendar::deleteEvent($this->google_calendar_event_id);
+
+        $this->google_calendar_event_id = null;
+        $this->save();
+
+        return true;
     }
 
     /*

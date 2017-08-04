@@ -3,7 +3,7 @@
 namespace App\Lib;
 
 use App\Models\Appointment;
-use Google_Client, Google_Service_Calendar, Google_Service_Calendar_Event;
+use Carbon, Google_Client, Google_Service_Calendar, Google_Service_Calendar_Event, Google_Service_Calendar_EventDateTime;
 
 class GoogleCalendar
 {
@@ -14,9 +14,37 @@ class GoogleCalendar
         return static::getService()->events->insert(static::getCalendarId(), $event);
     }
 
+    public static function deleteEvent(string $eventId)
+    {
+        return static::getService()->events->delete(static::getCalendarId(), $eventId);
+    }
+
+    public static function getEvent(string $eventId)
+    {
+        return static::getService()->events->get(static::getCalendarId(), $eventId);
+    }
+
+    public static function updateEventStartAndEndTime(string $eventId, Carbon $startTime, Carbon $endTime)
+    {
+        $eventStartTime = new Google_Service_Calendar_EventDateTime;
+        $eventStartTime->setDateTime($startTime->toW3cString());
+        $eventStartTime->setTimeZone($startTime->format('e'));
+
+        $eventEndTime = new Google_Service_Calendar_EventDateTime;
+        $eventEndTime->setDateTime($endTime->toW3cString());
+        $eventEndTime->setTimeZone($endTime->format('e'));
+
+        $event = static::getEvent($eventId);
+
+        $event->setStart($eventStartTime);
+        $event->setEnd($eventEndTime);
+
+        return static::getService()->events->update(static::getCalendarId(), $eventId, $event);
+    }
+
     public static function getCalendarId()
     {
-        return config('services.calendar_api.calendar_id');
+        return config('services.google_calendar.calendar_id');
     }
 
     public static function getService()
