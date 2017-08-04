@@ -65,8 +65,9 @@
           </div>
 
           <div class="input-wrap last">
-            <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.</label>
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
+              <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
+            </label>
             <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
           </div>
 
@@ -224,6 +225,18 @@ export default {
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+
+            // track the failed signup
+            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              const email = this.signupData.email;
+              const zip = this.signupData.zip;
+
+              analytics.track("Account Failed", {
+                email: email,
+                zip: zip,
+              });
+            }
+
             this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 

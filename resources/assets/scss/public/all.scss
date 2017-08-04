@@ -8,9 +8,6 @@
 @import '~bulma/bulma';
 @import '~animate.css/animate';
 
-// Google Analytics
-.async-hide { opacity: 0 !important}
-
 // Rewrite bulma styles
 
 .nav-left {
@@ -31,7 +28,6 @@ $font-family: "proxima-nova";
   &.is-link {
     @include padding(null null null 0);
     @include padding(null 0 null null);
-
     &:hover {
       background-color: transparent;
     }
@@ -148,10 +144,6 @@ $font-family: "proxima-nova";
   color: inherit;
 }
 
-.card-footer-item {
-  @include padding(1.7rem 4.5rem);
-}
-
 .panel-block {
   > .media {
     flex: 1;
@@ -174,10 +166,6 @@ $font-family: "proxima-nova";
     @include margin(null null null auto);
     @include margin(null auto null null);
   }
-}
-
-em {
-  font-size: 0.85em;
 }
 
 // Animation
@@ -203,50 +191,200 @@ em {
     @include margin(null null 0 null);
 }
 
-body.home .header,
-body.lab-tests .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 101;
+// Header
+
+.header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
+  height: 60px;
+  overflow: hidden;
+  position: fixed;
+  box-shadow: 0 1px $grey-lighter;
+  background-color: rgba(#fff, $opacity-dark);
+
+  &.is-inverted {    
+    background-color: transparent;
+    box-shadow: none;
+
+    .button {
+
+      // Inverted, outlined
+
+      &.is-outlined {
+        color: #fff;
+        background-color: transparent;
+        @include border-color(#fff);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: transparent;
+          @include border-color(#fff);
+          opacity: .7;
+        }
+      }
+
+      // Inverted, not outlined
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: darken($tertiary, 5%);
+          @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+
+    .logo-wrapper {
+      .harvey-text {
+        fill: #fff !important;
+      }
+    }
+
+  } // End inverted
+
+  &:not(.is-inverted) {
+
+    .button {
+
+      // Outlined, not inverted
+
+      &.is-outlined {
+          color: $tertiary;
+          background-color: transparent;
+          @include border-color($tertiary);
+          &:hover,
+          &:active,
+          &:focus {
+            color: darken($tertiary, 5%);
+            background-color: transparent;
+            @include border-color(darken($tertiary, 5%));
+            opacity: .6;
+          }
+      }
+
+      // Not outlined, not inverted
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+            color: #fff;
+            background-color: darken($tertiary, 5%);
+            @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+  } // End not inverted
+
+  .container {
     height: 60px;
-    background-color: rgba(#fff, $opacity-dark);
-    &,
-    .button {
-        transition: all 0.2s ease;
+    max-width: 1152px;
+    @include margin(0 auto);
+    + mobile, + tablet {
+      @include padding(0 20px);
     }
-    .button {
-        &:not(.is-outlined) {
-            background-color: $tertiary;
-            &:hover,
-            &:active,
-            &:focus {
-                background-color: darken($tertiary, 2.5%);
-            }
-        }
-        &.is-outlined {
-            color: $tertiary;
-            @include border-color($tertiary);
-            &:hover,
-            &:active,
-            &:focus {
-                color: darken($tertiary, 5%);
-                @include border-color(darken($tertiary, 5%));
-                background-color: transparent;
-            }
-        }
-    }
-    &.is-inverted {
+    .nav-left {
+      float: left;
+      width: 30%;
       .logo-wrapper {
-        .harvey-text {
-            fill: #fff !important;
+        float: left;
+        svg {
+          width: 150px;
+          @include mobile {
+            .harvey-text {
+              display: none;
+            }
+          }
+          &.harvey-mark {
+            width: 150px;
+            @include margin(2px null null null);
+            height: 43px;
           }
         }
+      }
     }
+    .nav-right {
+      float: right;
+      width: 70%;
+      .nav-item {
+        float: right;
+        font-size: 16px;
+        @include margin(0 null null null);
+        display: flex;
+        @include until($tablet) {
+          min-width: 315px;
+          padding-right: 50px; 
+        }
+        a {
+          font-size: 17px;
+          @include margin(null null null 10px);
+          &.link {
+            color: $harvey-turquoise;
+            font-size: 18px;
+            @include padding(10px 10px 10px 10px);
+            @include until($tablet) {
+              font-size: 17px;
+              @include padding(10px 7px 10px 7px);
+            }
+            &:hover{
+              opacity: .7;
+            }
+          }
+          &.separator {
+            // @include margin(null null null null);
+          }
+        }
+      }
+    }
+  }
+  &.is-inverted {
+    .container {
+      .nav-item{
+        a.link {
+          color: #fff;
+          &:hover {
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
 }
 
+.header_phone-number {
+  color: #999;
+  float: right;
+  font-size: 19px;
+  letter-spacing: 1px;
+  line-height: 56px;
+}
 
+.login {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.page-content{
+  width: 100%;
+  height: 100%;
+}
+
+.video-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
 
 .section:not(:last-of-type) {
     @include padding(null null 1rem null);
@@ -312,7 +450,7 @@ body {
   @include margin(null null 0 null);
 }
 
-// Margin/Padding (Negative)
+// Margin/Padding
 
 .is-padding {
   @include padding(1rem);
@@ -370,96 +508,15 @@ body {
   pointer-events: none;
 }
 
-.header {
-  box-shadow: 0 1px $grey-lighter;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 101;
-  height: 60px;
-  overflow: hidden;
-  background: #FFF;
-
-  .container {
-    height: 60px;
-    max-width: 1152px;
-    @include margin(0 auto);
-
-    + mobile, + tablet {
-      @include padding(0 20px);
-    }
-
-    .nav-left {
-      float: left;
-      width: 30%;
-
-      .logo-wrapper {
-        float: left;
-
-        svg {
-          width: 150px;
-          @include mobile {
-            .harvey-text {
-              display: none;
-            }
-          }
-
-          &.harvey-mark {
-            width: 150px;
-            @include margin(2px null null null);
-            height: 43px;
-          }
-        }
-      }
-    }
-
-    .nav-right {
-      float: right;
-      width: 70%;
-
-      .nav-item {
-        float: right;
-        font-size: 16px;
-        @include margin(0 null null null);
-        display: flex;
-
-        a {
-          font-size: 16px;
-          @include margin(null null null 10px);
-        }
-      }
-    }
-  }
-}
-
-.header_phone-number {
-  color: #999;
-  float: right;
-  font-size: 19px;
-  letter-spacing: 1px;
-  line-height: 56px;
-}
-
-.login {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-}
-
-.page-content{
-  width: 100%;
-  height: 100%;
-}
-
-.video-title {
-  font-weight: 500;
-  font-size: 1.25rem;
+em {
+  font-size: 0.85em;
 }
 
 // Login & Forgot Pages
 
 body[class*="login"],
-body[class*="password-reset"]{
+body[class*="password-reset"],
+body[class*="404"]{
 
   background: #F9F9F9;
 
@@ -467,82 +524,119 @@ body[class*="password-reset"]{
     display:none;
   }
 
-  .large-top-margin {
-    top: 130px;
+  .container{
+    &.login-width{
+      &.large-top-margin{
+        margin-top: 10%;
+      }
+    }
   }
 
   .reset-width {
     left: 30%;
   }
 
-  .login-width {
-    width: 510px !important;
+  .container{
+    &.login-width {
 
-    form {
-      margin-bottom: 60px;
-    }
+      form {
+        margin-bottom: 60px;
+      }
 
-    .button {
-      line-height: 2;
-      display: inline-block;
-    }
+      .button {
+        line-height: 2;
+        display: inline-block;
+      }
 
-    .card-padding {
-      padding: 30px 80px 60px;
-    }
+      .card-padding {
+        padding: 30px 60px 60px; // Desktop/Tablet
+        @include until($tablet) {
+          padding: 30px 30px 60px; // Mobile
+        }
+        .card-section{
+          h1{
+            font-size: 2rem;
+            @include margin(null null .5rem null);
+          }
+          h2{
+            font-size: 1.3rem;
+            color: #777;
+            @include margin(null null .7rem null);
+          }
+          p{
+            font-size: 1rem;
+            color: #343434;
+          }
+        }
+      }
 
-    .logo-wrapper {
-      max-width: 230px;
-      margin: 0 auto 20px;
-      svg.logo {
+      .card-footer-item {
+        width: 100%;
+        max-width: 510px;
+        @include padding(1.7rem 4.5rem);
+        @include until($tablet) {
+          @include padding(1.7rem 3rem);
+
+        }
+      }
+
+      .logo-wrapper {
         max-width: 230px;
+        margin: 0 auto 20px;
+        svg.logo {
+          max-width: 230px;
+        }
       }
-    }
 
-    .login-buttons {
-      width: 160px;
-    }
-
-    .login-input {
-      font-family: "proxima-nova";
-      border: none;
-      border-bottom: 1px solid #DEDEDE;
-      padding: 0 0 5px;
-      font-size: 17px;
-      box-shadow: none;
-      border-radius: 0;
-    }
-
-    .remember-me {
-      margin: 25px 0 0 0;
-      display: inline-block;
-      width: 49%;
-      label {
-        font-size: 15px;
-        color: #999;
+      .login-buttons {
+        width: 160px;
+        margin: 0 10px;
       }
-    }
 
-    .forgot-password {
-      margin: 25px 0 0 0;
-      display: inline-block;
-      text-align: right;
-      width: 49%;
-      a.button:not(.is-primary) {
-        font-size: 15px;
-        text-decoration: none;
-        color: $harvey-turquoise;
-        height: 22px;
-      }
-      a.button:focus,a.button:active {
-        outline: none;
-        text-decoration: none;
-        background: none;
+      .login-input {
+        font-family: "proxima-nova";
         border: none;
+        border-bottom: 1px solid #DEDEDE;
+        padding: 0 0 5px;
+        font-size: 17px;
         box-shadow: none;
+        border-radius: 0;
+      }
+
+      .remember-me {
+        margin: 25px 0 0 0;
+        display: inline-block;
+        width: 49%;
+        label {
+          font-size: 15px;
+          color: #999;
+        }
+      }
+
+      .forgot-password {
+        margin: 25px 0 0 0;
+        display: inline-block;
+        text-align: right;
+        @include until($tablet) {
+          text-align: left;
+        }
+        width: 49%;
+        a.button:not(.is-primary) {
+          font-size: 15px;
+          text-decoration: none;
+          color: $harvey-turquoise;
+          height: 22px;
+        }
+        a.button:focus,a.button:active {
+          outline: none;
+          text-decoration: none;
+          background: none;
+          border: none;
+          box-shadow: none;
+        }
       }
     }
-  }
+  } // End container
 
   .signup-color {
     background-color: rgb(165, 225, 255);
@@ -560,7 +654,11 @@ body[class*="password-reset"]{
     color: $white;
   }
 
-}
+  @include from($mobile) {
+    
+  }
+
+} // End Login & Forgot Pages
 
 // Screen Size
 
@@ -586,7 +684,7 @@ body[class*="password-reset"]{
     background-color: #82BEF2;
     color: white;
     text-align: center;
-    padding: 20px;
+    @include padding(20px);
 }
 
 .noscript-header {

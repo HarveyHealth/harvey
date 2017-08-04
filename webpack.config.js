@@ -374,6 +374,7 @@ if (Mix.browserSync) {
             Object.assign({
                 host: 'localhost',
                 port: 3000,
+                open: false,
                 proxy: 'app.dev',
                 files: [
                     'app/**/*.php',

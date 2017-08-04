@@ -34,7 +34,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             state: obj.attributes.state,
             zip: obj.attributes.zip,
             city: obj.attributes.city,
-            test_list: []
+            test_list: [],
+            date: obj.attributes.created_at.date
         }
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id) {

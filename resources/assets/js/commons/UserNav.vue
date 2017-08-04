@@ -50,6 +50,7 @@
         <div class="text">Records</div>
       </router-link>  -->
 
+<<<<<<< HEAD
       <router-link to="/profile" title="Profile"
         :class="currentPageCheck('profile')"
         @click.native="handleMenu(false, 'profile')">
@@ -58,11 +59,18 @@
       </router-link>
 
       <router-link to="/settings" title="Settings"
+=======
+      <!-- <router-link to="/settings" title="Settings"
+>>>>>>> fcb8d476cb423bfa780c92ab6eff04fe9d9f2517
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
         <i class="fa fa-cog icon icon-nav-bar"></i>
         <div class="text">Settings</div>
+<<<<<<< HEAD
       </router-link>
+=======
+      </router-link> -->
+>>>>>>> fcb8d476cb423bfa780c92ab6eff04fe9d9f2517
 
       <router-link
         v-if="user && user.user_type === 'admin'"
@@ -70,11 +78,15 @@
         :class="currentPageCheck('clients')"
         @click.native="handleMenu(false, 'clients')">
         <i class="fa fa-users icon icon-nav-bar"></i>
-        <span class="admin-tab-left" style="">Admin</span>
         <div class="text">Clients</div>
       </router-link>
 
-      <div class="release">©2017 Harvey, Inc.</div>
+      <router-link to="/profile" title="Profile"
+                   :class="currentPageCheck('profile')"
+                   @click.native="handleMenu(false, 'profile')">
+        <i class="fa fa-user icon icon-nav-bar"></i>
+        <div class="text">Profile</div>
+      </router-link>
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>

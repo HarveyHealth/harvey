@@ -66,6 +66,11 @@ class TimeInterval
         return $ti->addDays($days);
     }
 
+    public static function day()
+    {
+        return static::days(1);
+    }
+
     /**
      * Sets the number of weeks for the time interval
      * @param  float $weeks the number of weeks

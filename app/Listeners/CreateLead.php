@@ -10,11 +10,18 @@ class CreateLead
     public function handle(OutOfServiceZipCodeRegistered $event)
     {
         try {
-            $lead = new Lead($event->request->only(['first_name', 'last_name', 'email', 'zip']));
-            $lead->notes = $event->notes ?? null;
-            $lead->save();
+            $lead = Lead::firstOrCreate($event->request->only('email'));
+            $lead->update(
+                array_merge(
+                    $event->request->only(['first_name', 'last_name', 'zip']),
+                    ['notes' => $event->notes ?? null]
+                )
+            );
         } catch (\Exception $exception) {
-            \Log::error('Unable to create lead with request: ', [$event->request, $exception->getMessage()]);
+            \Log::error(
+                'Unable to create lead with request: ',
+                [$event->request, $exception->getMessage()]
+            );
         }
     }
 }

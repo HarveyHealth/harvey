@@ -53,7 +53,11 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> fcb8d476cb423bfa780c92ab6eff04fe9d9f2517
     export default {
         name: 'LabOrders',
         components: {
@@ -178,6 +182,7 @@
                     5: "Processing",
                     6: "Complete"
                 }
+<<<<<<< HEAD
                 this.cache[choices['0']] = data.filter(e => e.data.completed_at == "Recommended")
                 this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Confirmed")
                 this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Shipped")
@@ -186,6 +191,13 @@
                 this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
                 this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data.filter(e => e.data.completed_at == "Recommended")
+=======
+                data.sort((a,b) => new Date(b.data.date) - new Date(a.data.date))
+                this.cache[choices['0']] = data
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
+                this.currentData = data
+>>>>>>> fcb8d476cb423bfa780c92ab6eff04fe9d9f2517
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests

@@ -2,7 +2,7 @@
     <div>
         <TableData
             :columns="tableColumns"
-            :empty-msg="'No clients found.'"
+            :empty-msg="'Sorry, no clients were found.'"
             :loading="loading"
             :loading-msg="'Loading your clients...'"
             :on-row-click="handleRowClick"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TableData from './HyperlinkTableData.vue'
+import TableData from './CustomHyperlinkTableData.vue'
 import tableColumns from '../utils/tableColumns';
 export default {
     data() {
