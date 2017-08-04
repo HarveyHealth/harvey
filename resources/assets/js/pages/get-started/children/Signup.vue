@@ -250,7 +250,7 @@ export default {
             } else if(errorType === 'out-of-range') {
               // this is an out-of-range situation
               // track the failed signup
-              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              // if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
                 const firstName = this.signupData.first_name || '';
                 const lastName = this.signupData.last_name || '';
                 const email = this.signupData.email || '';
@@ -264,10 +264,15 @@ export default {
                   email: email,
                   zip: zip,
                 });
-              }
 
+                // Group the failed signup
+                analytics.group('Test', {
+                  state: outOfRangeState,
+                });
+              }
+              return;
               this.$router.push({name: 'out-of-range', path: '/out-of-range'});
-            }
+            // }
           });
 
       // Error catch for vee-validate of signup form fields
