@@ -81,8 +81,8 @@ return [
     ],
 
     'google_calendar' => [
-        'client_secret_file' => storage_path('calendar_api/client_secret.json'),
-        'access_token_file' => storage_path('calendar_api/access_token.json'),
-        'calendar_id' => 'goharvey.com_l6hee9sjegfi86pik8mu0gu51o@group.calendar.google.com',
+        'client_secret_file' => env('GCALENDAR_SECRET_FILE', storage_path('calendar_api/client_secret.json')),
+        'access_token_file' => env('GCALENDAR_TOKEN_FILE', storage_path('calendar_api/access_token.json')),
+        'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_l6hee9sjegfi86pik8mu0gu51o@group.calendar.google.com'),
     ],
 ];
