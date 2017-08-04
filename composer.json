@@ -70,6 +70,7 @@
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
             "php artisan passport:getkeys",
+            "php artisan calendar:get_credentials",
             "npm run production"
         ],
         "post-update-cmd": [
