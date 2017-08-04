@@ -36,7 +36,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             city: obj.attributes.city,
             test_list: []
         }
-        tests.map(test => {
+        tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id) {
                 data.number_of_tests = data.number_of_tests ?
                     data.number_of_tests + 1 : 1
