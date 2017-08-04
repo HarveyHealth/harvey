@@ -240,7 +240,7 @@ export default {
 
             // add email address in-use error
             // TODO: check against error type instead of message
-            if(errorDetail.message.indexOf('email') > -1) {
+            if(errorType === 'email-in-use') {
               this.errors.add('email', errorDetail.message, 'inuse');
               this.errors.first('email:inuse');
 
