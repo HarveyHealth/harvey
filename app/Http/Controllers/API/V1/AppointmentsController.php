@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Events\AppointmentScheduled;
 use App\Lib\Validation\StrictValidator;
 use App\Models\{Appointment, Patient};
 use App\Transformers\V1\AppointmentTransformer;
