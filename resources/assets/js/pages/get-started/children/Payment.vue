@@ -118,7 +118,6 @@ export default {
           this.setStripeError(response.error.message)
         } else {
           this.markComplete();
-          console.log(response.card);
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
