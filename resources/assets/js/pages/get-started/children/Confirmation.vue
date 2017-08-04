@@ -5,12 +5,12 @@
       <h2>Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }"><i class="fa fa-long-arrow-left"></i><span>Schedule</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ prevStage.display }}</span></router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150, due to Harvey after its completion.</p>
-      <button class="button button--blue" style="width: 180px" :disabled="isProcessing" @click="confirmSignup">
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}, a licensed Naturopathic Doctor from {{ state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+      <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
@@ -49,6 +49,8 @@ export default {
   data() {
     return {
       isBackProcessing: false,
+      isProcessing: false,
+      cardBrand: this.$root.$data.signup.cardBrand,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -56,8 +58,8 @@ export default {
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,
+      paymentStatement: `The cost for this consultation will be $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation is complete.`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
-      isProcessing: false,
       showModal: false,
       state: this.$root.$data.signup.practitionerState
     }
@@ -74,7 +76,12 @@ export default {
     },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    }
+    },
+    prevStage() {
+      return Laravel.user.has_a_card
+        ? { name: 'schedule', display: 'Schedule' }
+        : { name: 'payment', display: 'Payment' };
+    },
   },
   filters: {
     getState,

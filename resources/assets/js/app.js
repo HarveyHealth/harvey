@@ -90,6 +90,13 @@ const app = new Vue({
         signup: {
           availability: [],
           availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
