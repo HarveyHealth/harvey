@@ -238,8 +238,7 @@ export default {
             const errorDetail = this.responseErrors[0].detail;
             const errorType = this.responseErrors[0].type;
 
-            // add email address in-use error
-            // TODO: check against error type instead of message
+            // check for different error type responses
             if(errorType === 'email-in-use') {
               this.errors.add('email', errorDetail.message, 'inuse');
               this.errors.first('email:inuse');
