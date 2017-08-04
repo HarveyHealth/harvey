@@ -1,7 +1,7 @@
 import Pusher from 'pusher-js';
 
 
-const socket = new Pusher(process.env.PUSHER_APP_KEY, {
+const socket = new Pusher(env(PUSHER_APP_KEY), {
   cluster: 'mt1',
   enabledTransports: ['ws', 'xhr_streaming'],
   disabledTransports: ['xhr_streaming'],

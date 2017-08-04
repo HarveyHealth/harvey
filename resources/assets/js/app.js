@@ -60,6 +60,7 @@ const app = new Vue({
             confirmedDoctors: [],
             confirmedPatients: [],
             currentPage: '',
+            creditCardTokens: {},
             detailMessages: {},
             loadingAppointments: true,
             loadingClients: true,
@@ -254,6 +255,14 @@ const app = new Vue({
                     }
                 })
         },
+        getCreditCards() {
+            axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
+            .then(response => {
+                response.forEach(e => {
+                    this.global.creditCardTokens[e.last4] = e
+                })
+            })
+        },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'pending')
@@ -277,6 +286,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
+          this.getCreditCards();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
         },

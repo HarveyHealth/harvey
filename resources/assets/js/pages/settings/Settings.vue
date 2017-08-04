@@ -40,7 +40,7 @@
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
-                            <button @click="updateCard" class="button" style="margin-top: 35px;">Update</button>
+                            <button @click="updateCard" class="button" style="margin-top: 35px;">Create Card</button>
                         </div>
                     </div>
     
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'settings',
     components: {
@@ -76,9 +77,12 @@ export default {
         },
         updateCard() {
             this.details = false
+            if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
+                this.submitNewCard()
+            }
         },
         submitNewCard() {
-            Stripe.setPublishableKey(process.env.STRIPE_KEY)
+            Stripe.setPublishableKey(env(STRIPE_KEY))
             let card = Stripe.card.createToken({
                 number: this.cardNumber,
                 exp_month: this.month,
@@ -87,8 +91,10 @@ export default {
                 address_zip: this.postalCode,
                 name: `${this.firstName} ${this.lastName}`
             }, (status, response) => {
-                console.log(`STATUS`, status)
-                console.log(`RESPONSE`, response)
+                axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {id: response.id})
+                .then(resp => {
+                    this.$root.$data.global.creditCardTokens[resp.last4] = resp
+                })
             })
         }
     },
