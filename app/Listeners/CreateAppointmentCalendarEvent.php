@@ -15,7 +15,10 @@ class CreateAppointmentCalendarEvent implements ShouldQueue
      */
     public function handle(AppointmentScheduled $event)
     {
+        if (isNotStgOrProd()) {
+            return false;
+        }
 
-        return 'Ok!';
+        return $event->appointment->addToCalendar();
     }
 }
