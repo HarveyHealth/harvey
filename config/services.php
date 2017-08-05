@@ -53,6 +53,7 @@ return [
                     'canceled' => 1692581,
                     'new' => 1529541,
                     'updated' => 1929883,
+                    'reminder' => 2550321,
                 ],
             ],
             'patient' => [
