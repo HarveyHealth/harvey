@@ -15,10 +15,6 @@ class UpdateAppointmentCalendarEvent implements ShouldQueue
      */
     public function handle(AppointmentUpdated $event)
     {
-        if (isNotStgOrProd()) {
-            return false;
-        }
-
         return $event->appointment->updateOnCalendar();
     }
 }

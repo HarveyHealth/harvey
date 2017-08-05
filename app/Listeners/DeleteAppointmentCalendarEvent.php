@@ -15,10 +15,6 @@ class DeleteAppointmentCalendarEvent implements ShouldQueue
      */
     public function handle(AppointmentCanceled $event)
     {
-        if (isNotStgOrProd()) {
-            return false;
-        }
-
         return $event->appointment->deleteFromCalendar();
     }
 }
