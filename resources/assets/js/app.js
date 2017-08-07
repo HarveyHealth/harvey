@@ -269,7 +269,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                response.forEach(e => {
+                response.data.cards.forEach(e => {
                     this.global.creditCardTokens[e.last4] = e
                 })
             })
