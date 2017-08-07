@@ -4,6 +4,10 @@ $practitioner-grid: (
   gutter: $space-md
 );
 
+.selected-practitioner {
+  color: $pink;
+}
+
 .signup-practitioner-wrapper {
   @include query(md) {
     display: flex;

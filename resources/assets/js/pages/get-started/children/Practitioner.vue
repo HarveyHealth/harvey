@@ -27,7 +27,7 @@
           </div>
 
           <div class="practitioner-wrapper">
-            <div v-if="selected !== null">
+            <div v-if="hasSelection">
               <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + practitioners[selected].info.background_picture_url + ')' }"></div>
               <img v-if="practitioners[selected].info.picture_url" class="practitioner-avatar" :src="practitioners[selected].info.picture_url" />
               <h3 v-if="practitioners[selected].name" class="practitioner-name text-centered">{{ practitioners[selected].name }}, ND</h3>
@@ -48,6 +48,7 @@
 
         </div>
         <p class="error-text" v-html="errorText" v-show="errorText"></p>
+        <p class="text-centered" v-if="hasSelection">Your choice is <span class="selected-practitioner">{{ practitioners[selected].name }}, ND</span></p>
         <div class="text-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>
@@ -94,6 +95,9 @@ export default {
     }
   },
   computed: {
+    hasSelection() {
+      return this.selected !== null;
+    },
     // Grab up to 8 practitioners
     practitioners() {
       return this.store.global.practitioners.slice(0, 8);
