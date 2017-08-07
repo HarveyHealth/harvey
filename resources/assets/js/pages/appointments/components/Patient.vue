@@ -12,6 +12,7 @@
     <span v-else class="input__item patient-display">{{ name }}</span>
     <div><a :href="'mailto:' + email">{{ email }}</a></div>
     <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
+    <p v-if="editable && address" v-html="address"></p>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   props: {
+    address: [String, Boolean],
     // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
     // If a name is given from a selected row

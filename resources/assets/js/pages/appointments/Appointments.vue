@@ -38,6 +38,7 @@
     >
 
       <Patient
+        :address="appointment.patientAddress"
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
@@ -55,7 +56,7 @@
         :visible="visiblePractitioner"
       />
 
-      <div class="input__container" v-if="appointment.patientAddress">
+      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
         <label class="input__label">Mailing Address</label>
         <p class="input__item" v-html="appointment.patientAddress"></p>
       </div>
@@ -556,14 +557,7 @@ export default {
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
         // patient address
-        let address = '';
-        if (data._address_1) address += data._address_1;
-        if (data._address_2) address += ` ${data._address_2}`;
-        if (data._address_1 && data._city) address += '<br>';
-        if (data._city) address += data._city;
-        if (data._state) address += ` ${data._state}`;
-        if (data._zip) address += `, ${data._zip}`;
-        this.appointment.patientAddress = data._city && data._state ? address : false;
+        this.appointment.patientAddress = this.setPatientAddress(data);
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -749,8 +743,20 @@ export default {
         : [];
     },
 
+    setPatientAddress(data) {
+      let address = '';
+      if (data.address_1) address += data.address_1;
+      if (data.address_2) address += ` ${data.address_2}`;
+      if (data.address_1 && data.city) address += '<br>';
+      if (data.city) address += data.city;
+      if (data.state) address += ` ${data.state}`;
+      if (data.zip) address += `, ${data.zip}`;
+      return data.city && data.state ? address : false;
+    },
+
     // Set patient info with data from list object
     setPatientInfo(data) {
+      this.appointment.patientAddress = this.setPatientAddress(data);
       this.appointment.patientEmail = data.email;
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
