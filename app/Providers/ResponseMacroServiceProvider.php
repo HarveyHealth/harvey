@@ -15,12 +15,9 @@ class ResponseMacroServiceProvider extends ServiceProvider
     public function boot()
     {
         Response::macro('apiproblem', function ($apiproblem, $status = 404, $headers = []) {
-            if (!is_array($apiproblem)) {
-                $apiproblem = [$apiproblem];
-            }
-            
+
             return response()->json([
-                'errors' => [$apiproblem]
+                'errors' => [(array) $apiproblem]
             ], $status);
         });
     }
