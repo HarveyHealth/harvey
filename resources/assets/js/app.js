@@ -91,6 +91,13 @@ const app = new Vue({
         signup: {
           availability: [],
           availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
@@ -298,6 +305,9 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
+        },
+        isOnProduction() {
+          return env === 'production' || env === 'prod';
         }
     },
     mounted() {

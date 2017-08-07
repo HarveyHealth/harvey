@@ -21,7 +21,8 @@ export default function(appointments, zone) {
       _patientLast: obj.patientData.last_name,
       _doctorId: obj.attributes.practitioner_id,
       _appointmentId: obj.id,
-      _date: obj.attributes.appointment_at.date
+      _date: obj.attributes.appointment_at.date,
+      _duration: obj.attributes.duration_in_minutes,
     }
     return {
       data,

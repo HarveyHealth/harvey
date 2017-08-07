@@ -9,7 +9,8 @@ use App\Transformers\V1\UserTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use ResponseCode;
+use Stripe\{Customer, Stripe};
+use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -21,6 +22,7 @@ class UsersController extends BaseAPIController
      */
     public function __construct(UserTransformer $transformer, ZipCodeValidator $zipCodeValidator)
     {
+        Stripe::setApiKey(config('services.stripe.secret'));
         parent::__construct();
         $this->transformer = $transformer;
         $this->zipCodeValidator = $zipCodeValidator;
@@ -112,7 +114,7 @@ class UsersController extends BaseAPIController
             $user->patient()->save(new Patient());
 
             return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -177,7 +179,7 @@ class UsersController extends BaseAPIController
 
     public function sendVerificationCode(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => 'Verification code not sent.'], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -200,12 +202,52 @@ class UsersController extends BaseAPIController
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
 
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
 
         return $this->baseTransformItem($user)->respond();
+    }
+
+    public function addCard(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check($request->all(), [
+            'id' => 'required|regex:/^tok_.*/',
+        ]);
+
+        $responseCode = $user->addCard(request('id')) ? ResponseCode::HTTP_CREATED : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+
+        return response()->json([], $responseCode);
+    }
+
+    public function deleteCard(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check($request->all(), [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        $responseCode = $user->deleteCard($request->only('card_id')) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+
+        return response()->json([], $responseCode);
+
+    }
+
+    public function getCards(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        return response()->json(['cards' => $user->getCards()]);
     }
 }

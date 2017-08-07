@@ -97,7 +97,7 @@ export default {
       this.showModal = true;
     },
     sendToIntake() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         // place intake tracking here
       }
     }
@@ -115,7 +115,7 @@ export default {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.
     // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-    if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+    if (this.$root.isOnProduction()) {
       // place view tracking here
       // Segment tracking
       analytics.track("Consultation Confirmed");
