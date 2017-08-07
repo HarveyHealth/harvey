@@ -55,9 +55,9 @@
         :visible="visiblePractitioner"
       />
 
-      <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
+      <div class="input__container" v-if="appointment.patientAddress">
         <label class="input__label">Mailing Address</label>
-        <span class="input__item">foo</span>
+        <p class="input__item" v-html="appointment.patientAddress"></p>
       </div>
 
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
@@ -555,6 +555,16 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
+        // patient address
+        let address = '';
+        if (data._address_1) address += data._address_1;
+        if (data._address_2) address += ` ${data._address_2}`;
+        if (data._address_1 && data._city) address += '<br>';
+        if (data._city) address += data._city;
+        if (data._state) address += ` ${data._state}`;
+        if (data._zip) address += `, ${data._zip}`;
+        this.appointment.patientAddress = data._city && data._state ? address : false;
+
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
         this.appointment.currentPurpose = data.purpose;
@@ -718,15 +728,11 @@ export default {
         currentStatus: '',
         id: '',
         status: '',
-        patientAddress1: '',
-        patientAddress2: '',
-        patientCity: '',
+        patientAddress: '',
         patientEmail: '',
         patientId: '',
         patientName: '',
         patientPhone: '',
-        patientState: '',
-        patientZip: '',
         practitionerAvailability: [],
         practitionerId: '',
         practitionerName: '',
