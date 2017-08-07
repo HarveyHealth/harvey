@@ -142,9 +142,14 @@ export default {
     },
     emailError() {
       if (this.errors.has('email')) {
-        return this.errors.firstByRule('email', 'required')
-          ? 'Email is required'
-          : 'Not a valid email address'
+
+        if (this.errors.firstByRule('email', 'inuse')) {
+          return this.errors.firstByRule('email', 'inuse');
+        } else {
+          return this.errors.firstByRule('email', 'required')
+            ? 'Email is required'
+            : 'Not a valid email address'
+        }
       }
     },
     zipError() {
@@ -182,6 +187,7 @@ export default {
         // create the user
         axios.post('api/v1/users', this.signupData)
           .then(response => {
+
             // log the user in
             this.login(this.signupData.email, this.signupData.password);
             this.isComplete = true;
@@ -197,6 +203,8 @@ export default {
               const lastName = userData.last_name || '';
               const email = userData.email || '';
               const zip = userData.zip || '';
+              const city = userData.city || '';
+              const state = userData.state || '';
 
               // Segment tracking
               analytics.track("Account Created");
@@ -206,6 +214,8 @@ export default {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
+                city: city,
+                state: state,
                 zip: zip,
               });
             }
@@ -225,19 +235,42 @@ export default {
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
             this.responseErrors = error.response.data.errors;
+            const errorDetail = this.responseErrors[0].detail;
+            const errorType = this.responseErrors[0].type;
 
-            // track the failed signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-              const email = this.signupData.email;
-              const zip = this.signupData.zip;
+            // check for different error type responses
+            if(errorType === 'email-in-use') {
+              this.errors.add('email', errorDetail.message, 'inuse');
+              this.errors.first('email:inuse');
 
-              analytics.track("Account Failed", {
-                email: email,
-                zip: zip,
-              });
+              // reset the submission to allow for another attempt
+              this.isProcessing = false;
+              this.isComplete = false;
+
+            } else if(errorType === 'out-of-range') {
+              // this is an out-of-range situation
+              // track the failed signup
+              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+                const firstName = this.signupData.first_name || '';
+                const lastName = this.signupData.last_name || '';
+                const email = this.signupData.email || '';
+                const zip = this.signupData.zip || '';
+
+                const outOfRangeState = errorDetail.state || '';
+                const outOfRangeCity = errorDetail.city || '';
+
+                analytics.track("Account Failed", {
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                  city: outOfRangeCity,
+                  state: outOfRangeState,
+                  zip: zip,
+                });
+              }
+              
+              this.$router.push({name: 'out-of-range', path: '/out-of-range'});
             }
-
-            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
           });
 
       // Error catch for vee-validate of signup form fields

@@ -35,12 +35,21 @@ class SendAppointmentsRemindersCommand extends Command
         if (empty($appointments)) {
             $this->info('No Appointments found.');
         } else {
-            $this->info("Found {$appointments->count()} Appointments.");
+            $this->info("[Found {$appointments->count()} Appointments.]");
+            $this->info('');
             $this->info('Processing Appointments...');
 
-            $totalSent = $appointments->map->sendPatientReminderEmail24Hs()->filter()->count();
+            $totalClientEmailSent = $appointments->map->sendClientReminderEmail24Hs()->filter()->count();
+            $totalDoctorEmailSent = $appointments->map->sendDoctorReminderEmail24Hs()->filter()->count();
+            $totalClientSmsSent = $appointments->map->sendClientReminderSms24Hs()->filter()->count();
+            $totalDoctorSmsSent = $appointments->map->sendDoctorReminderSms24Hs()->filter()->count();
         }
 
-        $this->info("Done. [$totalSent Appointments reminders sent.]");
+        $this->info("Done.");
+        $this->info('');
+        $this->info("[{$totalClientEmailSent} Client Email appointments 24hs reminders sent.]");
+        $this->info("[{$totalDoctorEmailSent} Doctor Email appointments 24hs reminders sent.]");
+        $this->info("[{$totalClientSmsSent} Client SMS Appointments 24hs reminders sent.]");
+        $this->info("[{$totalDoctorSmsSent} Doctor SMS Appointments 24hs reminders sent.]");
     }
 }
