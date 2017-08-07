@@ -56,6 +56,11 @@
       />
 
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
+        <label class="input__label">Mailing Address</label>
+        <span class="input__item">foo</span>
+      </div>
+
+      <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
         <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
         <div class="input--warning" v-if="currentDateUnavailable">Previous time unavailable. Please select a new day and time.</div>
