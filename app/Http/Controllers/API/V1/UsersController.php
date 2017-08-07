@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Events\OutOfServiceZipCodeRegistered;
-use App\Events\UserRegistered;
-use App\Lib\PhoneNumberVerifier;
-use App\Lib\Validation\StrictValidator;
-use App\Models\Patient;
-use App\Models\User;
+use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
+use App\Lib\{PhoneNumberVerifier, Validation\StrictValidator, ZipCodeValidator};
+use App\Models\{Patient, User};
 use App\Transformers\V1\UserTransformer;
+use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Stripe\{Customer, Stripe};
@@ -22,11 +20,12 @@ class UsersController extends BaseAPIController
      * UsersController constructor.
      * @param UserTransformer $transformer
      */
-    public function __construct(UserTransformer $transformer)
+    public function __construct(UserTransformer $transformer, ZipCodeValidator $zipCodeValidator)
     {
         Stripe::setApiKey(config('services.stripe.secret'));
         parent::__construct();
         $this->transformer = $transformer;
+        $this->zipCodeValidator = $zipCodeValidator;
     }
 
     /**
@@ -78,16 +77,35 @@ class UsersController extends BaseAPIController
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
 
+        $this->zipCodeValidator->setZip(request('zip'));
+        $city = $this->zipCodeValidator->getCity();
+        $state = $this->zipCodeValidator->getState();
+
         if ($validator->fails()) {
+            $this->setApiProblemType($validator);
+
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
+
+                $this->setStatusCode(ResponseCode::HTTP_BAD_REQUEST);
+                $this->apiProblem->setTitle('Bad Request.');
+                $output = $this->apiProblem->asArray();
+
+                $output['detail'] = [
+                    'message' => $validator->errors()->first(),
+                    'city' => $city,
+                    'state' => $state,
+                ];
+
+                return response()->apiproblem($output, $this->getStatusCode());
             }
+
             return $this->respondBadRequest($validator->errors()->first());
         }
 
         try {
             $user = new User(
-                $request->only(['first_name', 'last_name', 'email', 'zip'])
+                $request->only(['first_name', 'last_name', 'email', 'zip']) + compact('city', 'state')
             );
 
             $user->password = bcrypt($request->password);

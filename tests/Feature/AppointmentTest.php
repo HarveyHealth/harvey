@@ -40,7 +40,12 @@ class AppointmentTest extends TestCase
 
         $output = $this->getRemindersCommandOutput();
 
-        $this->assertEquals('Found 3 Appointments.', $output[1]);
+        $this->assertEquals('[Found 3 Appointments.]', $output[1]);
+
+        $this->assertEquals('[3 Client Email appointments 24hs reminders sent.]', $output[6]);
+        $this->assertEquals('[3 Doctor Email appointments 24hs reminders sent.]', $output[7]);
+        $this->assertEquals('[3 Client SMS Appointments 24hs reminders sent.]', $output[8]);
+        $this->assertEquals('[3 Doctor SMS Appointments 24hs reminders sent.]', $output[9]);
     }
 
     public function test_not_pending_appointments_are_excluded_from_reminders()
@@ -54,7 +59,7 @@ class AppointmentTest extends TestCase
 
         $output = $this->getRemindersCommandOutput();
 
-        $this->assertEquals('Found 0 Appointments.', $output[1]);
+        $this->assertEquals('[Found 0 Appointments.]', $output[1]);
     }
 
     public function test_it_marks_the_reminder_as_sent_after_sending()
@@ -64,10 +69,15 @@ class AppointmentTest extends TestCase
         // Run command again (Reminders were already sent)
         $output = $this->getRemindersCommandOutput();
 
-        $this->assertEquals('Done. [0 Appointments reminders sent.]', $output[3]);
+        $this->assertEquals('[Found 3 Appointments.]', $output[1]);
+
+        $this->assertEquals('[0 Client Email appointments 24hs reminders sent.]', $output[6]);
+        $this->assertEquals('[0 Doctor Email appointments 24hs reminders sent.]', $output[7]);
+        $this->assertEquals('[0 Client SMS Appointments 24hs reminders sent.]', $output[8]);
+        $this->assertEquals('[0 Doctor SMS Appointments 24hs reminders sent.]', $output[9]);
     }
 
-    public function test_email_reminder_is_filled_properly()
+    public function test_patient_email_24hs_reminder_is_filled_properly()
     {
         $patient = factory(Patient::class)->create();
         $practitioner = factory(Practitioner::class)->create();
@@ -80,18 +90,45 @@ class AppointmentTest extends TestCase
 
         $output = $this->getRemindersCommandOutput();
 
-        $this->assertEquals('Found 1 Appointments.', $output[1]);
+        $this->assertEquals('[Found 1 Appointments.]', $output[1]);
 
         $this->assertEmailWasSentTo($patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.reminder');
         $this->assertEmailTemplateDataWas([
-            'doctor_name' => $practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
-            'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
-            'harvey_id' => $patient->user->id,
-            'patient_first_name' => $patient->user->first_name,
-            'phone_number' => $patient->user->phone,
+            'appointment_timezone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
+        ]);
+    }
+
+    public function test_practitioner_email_24hs_reminder_is_filled_properly()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment = factory(Appointment::class)->create([
+            'appointment_at' => Carbon::parse("2 hours"),
+            'patient_id' => $patient->id,
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        $output = $this->getRemindersCommandOutput();
+
+        $this->assertEquals('[Found 1 Appointments.]', $output[1]);
+
+        $this->assertEmailWasSentTo($practitioner->user->email);
+        $this->assertEmailTemplateNameWas('practitioner.appointment.reminder');
+        $this->assertEmailTemplateDataWas([
+            'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
+            'appointment_timezone' => $appointment->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
         ]);
     }
 
@@ -102,12 +139,12 @@ class AppointmentTest extends TestCase
         $reminder = AppointmentReminder::create([
             'appointment_id' => $appointment->id,
             'recipient_user_id' => $appointment->patient->user->id,
-            'type' => AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID],
+            'type' => AppointmentReminder::TYPES[AppointmentReminder::SMS_24_HS_NOTIFICATION_ID],
             'sent_at' => Carbon::now(),
         ]);
 
-        $this->assertEquals(AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID, $reminder->type_id);
-        $this->assertEquals(AppointmentReminder::TYPES[AppointmentReminder::EMAIL_3_HS_NOTIFICATION_ID], $reminder->type);
+        $this->assertEquals(AppointmentReminder::SMS_24_HS_NOTIFICATION_ID, $reminder->type_id);
+        $this->assertEquals(AppointmentReminder::TYPES[AppointmentReminder::SMS_24_HS_NOTIFICATION_ID], $reminder->type);
         $this->assertEquals($appointment->patient->user->id, $reminder->recipient->id);
     }
 
