@@ -82,7 +82,7 @@ export default {
             }
         },
         submitNewCard() {
-            Stripe.setPublishableKey(env(STRIPE_KEY))
+            Stripe.setPublishableKey(window.Laravel.services.stripe.key)
             let card = Stripe.card.createToken({
                 number: this.cardNumber,
                 exp_month: this.month,
