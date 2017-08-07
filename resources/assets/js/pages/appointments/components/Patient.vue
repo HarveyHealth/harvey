@@ -1,6 +1,6 @@
 <template>
   <div class="input__container" v-if="visible">
-    <label class="input__label">client</label>
+    <label class="input__label first">client</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select patient'"
       :is-loading="$root.$data.global.loadingPatients"
