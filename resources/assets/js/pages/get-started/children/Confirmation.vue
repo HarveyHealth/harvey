@@ -9,7 +9,7 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}, a licensed Naturopathic Doctor from {{ this.state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150, due to Harvey after its completion.</p>
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150.</p>
       <button class="button button--blue" style="width: 180px" :disabled="isProcessing" @click="confirmSignup">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />

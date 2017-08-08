@@ -5,92 +5,73 @@
     :on-close="handleFlyoutClose"
   >
     <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'admin'">
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">lab tests</label>
-              <label v-for="test in testList" class="input__label" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
-          </div>
+      <div class="input__container">
+        <span class="input__label first">lab tests</span>
+        <div v-for="test in testList" style="color: #737373;">
+          {{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a>
         </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">doctor</label>
-              <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
-          </div>
-        </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
-              <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
-          </div>
-        </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">order tracking</label>
-              <label class="input__label" style="color: #737373;">{{ shipmentCode }}</label>
-          </div>
-        </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">order status</label>
-              <label class="input__label" style="color: #737373;">{{ status }}</label>
-          </div>
-        </div>
+      </div>
+      <div class="input__container">
+        <span class="input__label">doctor</span>
+        <span style="color: #737373;">{{ doctorName }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">shipping address</span>
+        <span style="color: #737373;">{{ addressOne }}</span>
+        <span style="color: #737373;">{{ addressTwo }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order tracking</span>
+        <span style="color: #737373;">{{ shipmentCode }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order status</span>
+        <span style="color: #737373;">{{ status }}</span>
       </div>
     </div>
-  <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'">
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-            <div class="input__container">
-                <label class="input__label" for="patient_name">lab tests</label>
-                <div v-for="test in testList">
-                  <label class="input__label" style="color: #737373;">{{ test.name }}</label>
-                  <!-- <span v-if="test.status[0] != 'Complete'" class="custom-select"> -->
-                  <span class="custom-select"> 
-                      <select @change="updateTest($event, test)">
-                          <option v-for="current in test.status">{{ current }}</option>
-                      </select>
-                  </span>
-                  <!-- <span v-if="test.status[0] == 'Complete'" class="input--text">Completed</span> -->
-                </div>
-            </div>
-          </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-            <div class="input__container">
-                <label class="input__label" for="patient_name">doctor</label>
-                <span class="input--text">{{ doctorName }}</span>
-            </div>
-          </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-            <div class="input__container">
-                <label class="input__label" for="patient_name">shipping address</label>
-                <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
-                <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
-                <label class="input__label" style="color: #737373;">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-                <label class="input__label" style="color: #737373;">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
-            </div>
-          </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-            <div class="input__container">
-                <label class="input__label" for="patient_name">order tracking</label>
-                <span class="input--text">{{ shipmentCode }}</span>
-            </div>
-          </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-            <div class="input__container">
-          <label class="input__label" for="patient_name">order status</label>
-          <span class="input--text">{{ status }}</span>
-      </div>
-          </div>
-          <div>
-            <div class="inline-centered">
-                <button class="button"
-                @click="updateOrder()"
-                >Update Shipment</button>
-            </div>
-        </div>
-        </div>
-      </div>
 
+    <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'">
+      <div class="input__container">
+        <span class="input__label first">lab tests</span>
+        <div v-for="test in testList" style="margin-top: 1em;">
+          <div style="color: #737373; margin-bottom: 0.5em;">{{ test.name }}</div>
+          <span class="custom-select">
+            <select @change="updateTest($event, test)">
+                <option v-for="current in test.status">{{ current }}</option>
+            </select>
+          </span>
+        </div>
+      </div>
+      <div class="input__container">
+        <span class="input__label">doctor</span>
+        <span class="input--text">{{ doctorName }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">shipping address</span>
+        <p style="color: #737373;">
+          {{ addressOne }} {{ addressTwo }}
+          <br>
+          {{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}
+          {{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}
+        </p>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order tracking</span>
+        <span class="input--text">{{ shipmentCode }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order status</span>
+        <span class="input--text">{{ status }}</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="inline-centered">
+        <button class="button"
+          @click="updateOrder()"
+        >Update Shipment</button>
+      </div>
+    </div>
   </Flyout>
 </template>
 
