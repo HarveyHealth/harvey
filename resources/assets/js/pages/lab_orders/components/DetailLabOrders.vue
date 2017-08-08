@@ -35,13 +35,11 @@
         <span class="input__label first" for="patient_name">lab tests</span>
         <div v-for="test in testList" style="margin-top: 1em;">
           <div style="color: #737373; margin-bottom: 0.5em;">{{ test.name }}</div>
-          <!-- <span v-if="test.status[0] != 'Complete'" class="custom-select"> -->
           <span class="custom-select">
             <select @change="updateTest($event, test)">
                 <option v-for="current in test.status">{{ current }}</option>
             </select>
           </span>
-          <!-- <span v-if="test.status[0] == 'Complete'" class="input--text">Completed</span> -->
         </div>
       </div>
       <div class="input__container">
