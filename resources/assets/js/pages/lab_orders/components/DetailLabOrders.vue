@@ -6,33 +6,33 @@
   >
     <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'admin'">
       <div class="input__container">
-        <span class="input__label first" for="patient_name">lab tests</span>
+        <span class="input__label first">lab tests</span>
         <div v-for="test in testList" style="color: #737373;">
           {{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a>
         </div>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">doctor</span>
+        <span class="input__label">doctor</span>
         <span style="color: #737373;">{{ doctorName }}</span>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">shipping address</span>
+        <span class="input__label">shipping address</span>
         <span style="color: #737373;">{{ addressOne }}</span>
         <span style="color: #737373;">{{ addressTwo }}</span>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">order tracking</span>
+        <span class="input__label">order tracking</span>
         <span style="color: #737373;">{{ shipmentCode }}</span>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">order status</span>
+        <span class="input__label">order status</span>
         <span style="color: #737373;">{{ status }}</span>
       </div>
     </div>
 
     <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'">
       <div class="input__container">
-        <span class="input__label first" for="patient_name">lab tests</span>
+        <span class="input__label first">lab tests</span>
         <div v-for="test in testList" style="margin-top: 1em;">
           <div style="color: #737373; margin-bottom: 0.5em;">{{ test.name }}</div>
           <span class="custom-select">
@@ -43,11 +43,11 @@
         </div>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">doctor</span>
+        <span class="input__label">doctor</span>
         <span class="input--text">{{ doctorName }}</span>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">shipping address</span>
+        <span class="input__label">shipping address</span>
         <p style="color: #737373;">
           {{ addressOne }} {{ addressTwo }}
           <br>
@@ -56,11 +56,11 @@
         </p>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">order tracking</span>
+        <span class="input__label">order tracking</span>
         <span class="input--text">{{ shipmentCode }}</span>
       </div>
       <div class="input__container">
-        <span class="input__label" for="patient_name">order status</span>
+        <span class="input__label">order status</span>
         <span class="input--text">{{ status }}</span>
       </div>
     </div>
