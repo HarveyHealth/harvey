@@ -105,6 +105,11 @@ let routes = [
         component: require('./pages/profile/Profile.vue')
     },
     {
+        path: '/profile/:id',
+        props: true,
+        component: require('./pages/admin/profile/Profile.vue')
+    },
+    {
         path: '*',
         redirect:  rootRedirect
     }

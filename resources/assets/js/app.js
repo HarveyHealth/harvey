@@ -70,6 +70,7 @@ const app = new Vue({
             loadingLabTests: true,
             loadingTestTypes: true,
             loadingUser: true,
+            loadingUserEditing: true,
             menuOpen: false,
             messages: [],
             patients: [],
@@ -85,7 +86,8 @@ const app = new Vue({
             labTests: [],
             patientLookUp: {},
             practitionerLookUp: {},
-            user: {}
+            user: {},
+            user_editing: {}
         },
         signup: {
           availability: [],
