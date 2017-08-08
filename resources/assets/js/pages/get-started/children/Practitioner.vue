@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <h3 v-if="$root.$data.global.loadingPractitioners" class="text-centered">
-      <LoadingBubbles :style="{ width: '26px', fill: '#555' }" />
+      <LoadingGraphic :size="26" :fill="'#555'" />
       <div>Loading Practitioners...</div>
     </h3>
     <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" :style="{ 'max-width': '500px', 'margin': '0 auto' }">
@@ -38,7 +38,7 @@
         <div class="text-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>
-            <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+            <LoadingGraphic v-else-if="isProcessing" :size="12" />
             <i v-else-if="isComplete" class="fa fa-check"></i>
           </button>
         </div>
@@ -50,14 +50,14 @@
 <script>
 import moment from 'moment';
 
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'practitioner',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
