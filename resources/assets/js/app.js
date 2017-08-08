@@ -106,6 +106,7 @@ const app = new Vue({
           practitionerState: '',
           selectedDate: null,
           selectedDay: null,
+          selectedPractitioner: null,
           selectedWeek: null,
           selectedTime: null,
           visistedStages: [],
