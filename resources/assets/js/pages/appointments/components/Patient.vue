@@ -1,6 +1,6 @@
 <template>
   <div class="input__container" v-if="visible">
-    <label class="input__label">client</label>
+    <label class="input__label first">client</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select patient'"
       :is-loading="$root.$data.global.loadingPatients"
@@ -12,6 +12,7 @@
     <span v-else class="input__item patient-display">{{ name }}</span>
     <div><a :href="'mailto:' + email">{{ email }}</a></div>
     <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
+    <p v-if="editable && address" v-html="address"></p>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   props: {
+    address: String,
     // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
     // If a name is given from a selected row
