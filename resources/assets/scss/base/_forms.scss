@@ -97,16 +97,19 @@
 }
 
 .input__label {
-  border-top: 1px solid #eee;
   color: lighten($gray, 15%);
   display: block;
   font-size: 0.85em;
   font-weight: 500;
   letter-spacing: 1px;
-  padding-top: 2.2em;
   @include margin(null null 0.5em null);
   text-transform: uppercase;
   width: 100%;
+
+  .flyout & {
+    border-top: 1px solid #eee;
+    padding-top: 2.2em;
+  }
 
   &.first {
     padding-top: 0;

@@ -22,7 +22,7 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   props: {
-    address: [String, Boolean],
+    address: String,
     // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
     // If a name is given from a selected row

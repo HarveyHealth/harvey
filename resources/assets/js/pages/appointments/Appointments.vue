@@ -709,8 +709,6 @@ export default {
     },
 
     resetAppointment() {
-      // this.selectedRowData = null;
-      // this.selectedRowIndex = null;
       this.noAvailability = false;
       this.patientDisplay = '';
       return {
@@ -744,6 +742,7 @@ export default {
     },
 
     setPatientAddress(data) {
+      // We only want to add information to the address if it exists
       let address = '';
       if (data.address_1) address += data.address_1;
       if (data.address_2) address += ` ${data.address_2}`;
@@ -751,7 +750,9 @@ export default {
       if (data.city) address += data.city;
       if (data.state) address += ` ${data.state}`;
       if (data.zip) address += `, ${data.zip}`;
-      return data.city && data.state ? address : false;
+
+      // At the very least, we need to have city and state to display an address
+      return data.city && data.state ? address : '';
     },
 
     // Set patient info with data from list object
