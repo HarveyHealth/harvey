@@ -30,19 +30,19 @@
 
       <p class="font-base" v-html="note"></p>
 
-      <div class="text-centered mt-lg">
-        <a href="/dashboard" class="button button--cancel">Dashboard</a>
-        <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
+      <div class="text-centered mt-lg mt-xl_md">
+        <a href="/intake" class="button button--blue">Start Intake Form</a>
+        <a href="/dashboard" class="button button--cancel">Go to Dashboard</a>
       </div>
     </div>
 
-    <Overlay :active="showModal" />
-    <Modal :active="showModal" :on-close="() => showModal = false">
+    <!-- <Overlay :active="showModal" /> -->
+    <!-- <Modal :active="showModal" :on-close="() => showModal = false">
       <h3 class="font-large">You are leaving Harvey!</h3>
       <p class="fwt-normal lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
       <p class="fwt-normal lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
       <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>
-    </Modal>
+    </Modal> -->
 
   </div>
 </template>
@@ -68,8 +68,8 @@ export default {
       },
       showModal: false,
       title: 'Your appointment is confirmed!',
-      note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. Chat with us on this screen if you have any questions.',
-      intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
+      note: 'We will send you a few text and email reminders leading up to your appointment. Please note, you must complete our patient intake form (below) <strong>before</strong> talking with your doctor.',
+      intakeUrl: '/intake',
       appointmentDate: this.$root.$data.signup.data.appointment_at,
       appointmentInformation: this.$root.$data.signup.data,
       env: this.$root.$data.environment,
