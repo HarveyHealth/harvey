@@ -2,10 +2,11 @@
     <div class="main-container">
         <div class="main-content">
             <NotificationPopup
-                    :active="notificationActive"
-                    :comes-from="notificationDirection"
-                    :symbol="notificationSymbol"
-                    :text="notificationMessage"
+                :as-error="notificationError"
+                :active="notificationActive"
+                :comes-from="notificationDirection"
+                :symbol="notificationSymbol"
+                :text="notificationMessage"
             />
             <div class="main-header">
                 <div class="container container-backoffice">
@@ -168,6 +169,11 @@
                 user_id: this.$route.params.id,
                 timezones: timezones,
                 states: states,
+                errorSymbol: '&#9888;',
+                errorMessage: 'Error retrieving data',
+                successSymbol: '&#10003;',
+                successMessage: 'Changes Saved',
+                notificationError: false,
                 notificationSymbol: '&#10003;',
                 notificationMessage: 'Changes Saved',
                 notificationActive: false,
@@ -177,12 +183,24 @@
             }
         },
         methods: {
-            flashSuccess() {
+            flashNotification() {
                 this.notificationActive = true;
-                setTimeout(() => this.notificationActive = false, 2000);
+                setTimeout(() => this.notificationActive = false, 3000);
             },
             resetErrorMessages() {
                 this.errorMessages = null;
+            },
+            callErrorNotification(msg) {
+                this.notificationError = true;
+                this.notificationSymbol = this.errorSymbol;
+                this.notificationMessage = msg || this.errorMessage;
+                this.flashNotification();
+            },
+            callSuccessNotification() {
+              this.notificationError = false;
+              this.notificationSymbol = this.successSymbol;
+              this.notificationMessage = this.successMessage;
+              this.flashNotification();
             },
             submit() {
                 if(_.isEmpty(this.updates))
@@ -199,7 +217,7 @@
                         } else {
                             this.$root.$data.global.user = response.data.data;
                         }
-                        this.flashSuccess();
+                        this.callSuccessNotification('Error updating data');
                         this.submitting = false;
                     })
                     .catch(err => {
@@ -214,7 +232,7 @@
             uploadedProfileImage(response) {
                 this.user.attributes.image_url = response.data.attributes.image_url;
                 this.loadingProfileImage = false;
-                this.flashSuccess();
+                this.callSuccessNotification();
             },
             uploadError(err) {
                 this.user.attributes.image_url = this.previousProfileImage;
@@ -234,6 +252,8 @@
                     .catch(error => {
                         this.$router.push('/profile');
                         this.user_id = null;
+                        this.$root.$data.global.loadingUser = false;
+                        this.callErrorNotification();
                     });
             }
         },
@@ -260,7 +280,7 @@
         },
         computed: {
             canEditUsers() {
-                return this.user_id && Laravel.user.user_type === 'admin';
+                return this._user_id && Laravel.user.user_type === 'admin';
             },
             isPractitioner() {
                 return Laravel.user.practitionerId;
