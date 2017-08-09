@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
-use Stripe\{Customer, Stripe};
+use Stripe\Customer;
 use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
