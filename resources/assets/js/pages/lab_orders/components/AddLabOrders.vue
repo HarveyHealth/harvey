@@ -70,18 +70,32 @@
         <div>
             <div class="inline-centered">
                 <button class="button"
-                @click="createLabOrder()"
+                @click="openModal()"
                 :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
                 >Mark as Shipped</button>
             </div>
         </div>
       </div>
     </div>
+    <Modal :active="activeModal" :onClose="modalClose">
+      <div class="inline-centered">
+        <h1>Create Lab Order</h1>
+        <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
+        <br>
+        <ul>
+          <li v-for="test in selectedTests">{{ test.name }}</li>
+        </ul>
+        <div class="inline-centered">
+            <button @click="createLabOrder" class="button">Yes, Confirm</button>
+        </div>
+      </div>
+    </Modal>
   </Flyout>
 </template>
 
 <script>
 import Flyout from '../../../commons/Flyout.vue'
+import Modal from '../../../commons/Modal.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
@@ -90,10 +104,12 @@ export default {
   name: 'AddLabOrders',
   components: {
     Flyout,
+    Modal,
     SelectOptions
   },
   data() {
     return {
+      activeModal: false,
       selectedDoctor: '',
       selectedClient: '',
       step: 1,
@@ -107,6 +123,9 @@ export default {
       shippingCodes: {},
       prevDoctor: '',
       prevClient: '',
+      testNamesInList: [],
+      selectedClientName: '',
+      selectedDoctorName: '',
       doctorList: [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
     }
@@ -124,6 +143,12 @@ export default {
     prevStep() {
       this.step--
     },
+    modalClose() {
+      this.activeModal = false
+    },
+    openModal() {
+      this.activeModal = true
+    },
     updateTestSelection(e, obj) {
       this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
       if (this.testNameList[obj.id - 1].checked) {
@@ -134,12 +159,14 @@ export default {
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
+        this.selectedClientName = e.target.value.name;
     },
     updateState(e) {
       this.state = e.target.value
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
+        this.selectedDoctorName = e.target.value.name;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
