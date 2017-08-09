@@ -25,7 +25,7 @@ class SlackNotification extends Notification
     public function __construct($message, $channel, $level = 'info')
     {
         $this->message = $message;
-        $this->channel = app()->environment(['staging', 'production']) ? $channel : config('services.slack.testing_channel');
+        $this->channel = isStgOrProd() ? $channel : config('services.slack.testing_channel');
         $this->level = $level;
     }
 
