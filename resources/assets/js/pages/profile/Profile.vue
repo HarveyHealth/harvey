@@ -237,7 +237,9 @@
         },
         mounted() {
             if (this.canEditUsers) {
-              this.user_id = this.$route.params.id;
+                this.user_id = this.$route.params.id;
+            } else if (this._user_id) {
+                this.$router.push('/profile');
             }
             this.$root.$data.global.currentPage = 'profile';
         },
@@ -245,9 +247,11 @@
         // with new user data corresponding to the id
         watch: {
             _user_id(id) {
-                if (id) {
+                if (id && this.canEditUsers) {
                     this.user_id = id;
                     this.getData(this.user_id);
+                } else {
+                    this.$router.push('/profile')
                 }
             }
         },
