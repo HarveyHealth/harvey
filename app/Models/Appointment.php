@@ -5,8 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
-use App\Lib\{GoogleCalendar, TransactionalEmail};
-use Lang, Log, View;
+use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
+use Cache, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -76,6 +76,17 @@ class Appointment extends Model
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
+    }
+
+    public function getGoogleMeetLinkAttribute()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return null;
+        }
+
+        return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
+            return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+        });
     }
 
     public function isLocked()
