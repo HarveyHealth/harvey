@@ -70,6 +70,16 @@ function currentUser()
     return auth()->user();
 }
 
+function isStgOrProd()
+{
+    return app()->environment(['staging', 'production']);
+}
+
+function isNotStgOrProd()
+{
+    return !isStgOrProd();
+}
+
 function ops_message($level, $alert, $message, $channels = 'engineering')
 {
     if (is_string($channels)) {

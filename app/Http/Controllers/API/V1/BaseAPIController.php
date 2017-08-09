@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
 use Crell\ApiProblem\ApiProblem;
+use Illuminate\Validation\Validator;
 use League\Fractal\Serializer\JsonApiSerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use ResponseCode;
@@ -19,8 +20,7 @@ class BaseAPIController extends Controller
     /**
      * @var JsonApiSerializer
      */
-    protected $serializer;
-    protected $transformer;
+    protected $apiProblem, $serializer, $transformer;
 
     /**
      * BaseAPIController constructor.
@@ -28,6 +28,7 @@ class BaseAPIController extends Controller
     public function __construct()
     {
         $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
+        $this->apiProblem = new ApiProblem;
     }
 
     /**
@@ -53,10 +54,10 @@ class BaseAPIController extends Controller
     {
         $this->setStatusCode($code);
 
-        $problem = new ApiProblem($title);
-        $problem->setDetail($message);
+        $this->apiProblem->setTitle($title);
+        $this->apiProblem->setDetail($message);
 
-        return response()->apiproblem($problem->asArray(), $this->getStatusCode());
+        return response()->apiproblem($this->apiProblem->asArray(), $this->getStatusCode());
     }
 
     public function respondBadRequest($message)
@@ -135,5 +136,18 @@ class BaseAPIController extends Controller
         }
 
         return $this->baseTransformCollection($collection, $include, $transformer, $paginationAdapter);
+    }
+
+    public function setApiProblemType(Validator $validator)
+    {
+        if (isset($validator->failed()['email']['Unique'])) {
+            $type = 'email-in-use';
+        } elseif (isset($validator->failed()['zip']['Serviceable'])) {
+            $type = 'out-of-range';
+        } else {
+            $type = 'about:blank';
+        }
+
+        return $this->apiProblem->setType($type);
     }
 }

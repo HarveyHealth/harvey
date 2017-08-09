@@ -7,7 +7,7 @@
 
       <p class="font-base font-medium_md">
         <span class="confirmation_day">
-          Dr. {{ $root.$data.signup.practitionerName }}, N.D.<br>
+          Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
           {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
         </span>
 

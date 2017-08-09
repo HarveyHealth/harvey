@@ -65,9 +65,13 @@
 }
 
 .input__container {
-  @include margin(null null 2.5em null);
+  @include margin(null null 2.2em null);
   position: relative;
   width: 100%;
+
+  .flyout & {
+    width: 100% !important;
+  }
 
   & > * {
     @include margin(0.5em null null null);
@@ -100,6 +104,17 @@
   letter-spacing: 1px;
   @include margin(null null 0.5em null);
   text-transform: uppercase;
+  width: 100%;
+
+  .flyout & {
+    border-top: 1px solid #eee;
+    padding-top: 2.2em;
+  }
+
+  &.first {
+    padding-top: 0;
+    border: none;
+  }
 }
 
 .input--text,
@@ -130,7 +145,7 @@
 .charcount {
   right: 0;
   position: absolute;
-  top: -0.5em;
+  top: 1.3em;
 }
 
 .input__linkcta {

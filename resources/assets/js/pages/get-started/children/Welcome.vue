@@ -4,6 +4,7 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
       </div>
+      <h2>Welcome to Harvey</h2>
       <p>You will need to answer a few basic questions before you can book a consultation with a Naturopathic Doctor.</p>
       <p>This process will take 3-5 minutes. You will need to have your mobile phone ready to validate your phone number. After booking a consultation, we will ask you to fill out a more detailed client intake form for your doctor.</p>
       <button class="button button--blue" @click="$router.push('practitioner')">Let's Go!</button>
