@@ -164,6 +164,8 @@
                         zip: '',
                     }
                 },
+                user_data: null,
+                user_id: this.$route.params.id,
                 timezones: timezones,
                 states: states,
                 notificationSymbol: '&#10003;',
@@ -189,9 +191,14 @@
                 this.resetErrorMessages();
 
                 this.submitting = true;
-                axios.patch(`/api/v1/users/${this.user.id}`, this.updates)
+
+                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
                     .then(response => {
-                        this.$root.$data.global.user = response.data.data;
+                        if (this.canEditUsers) {
+                            this.user_data = response.data.data;
+                        } else {
+                            this.$root.$data.global.user = response.data.data;
+                        }
                         this.flashSuccess();
                         this.submitting = false;
                     })
@@ -213,30 +220,66 @@
                 this.user.attributes.image_url = this.previousProfileImage;
                 this.loadingProfileImage = false;
                 this.errorMessages = err.errors;
+            },
+            getData(userId) {
+                this.$root.$data.global.loadingUser = true;
+                axios.get(`${this.$root.$data.apiUrl}/users/${userId}?include=patient,practitioner`)
+                    .then(response => {
+                        this.$root.$data.global.loadingUser = false;
+                        this.user_data = response.data.data;
+                        this.user = _.cloneDeep(response.data.data);
+                    })
+                    .catch(error => {
+                        this.$router.push('/profile');
+                        this.user_id = null;
+                    });
             }
         },
         mounted() {
+            if (this.canEditUsers) {
+              this.user_id = this.$route.params.id;
+            }
             this.$root.$data.global.currentPage = 'profile';
         },
-        computed: {
-            // loading is connected to global state since that's where the main user api call is made
-            loading() {
-                return this.$root.$data.global.loadingUser;
-            },
-            // This computed property is used solely to populate this.user once the api call
-            // from app.js is finished running. Sort of like a watch for parent components
-            _user() {
-                if (!this.$root.$data.global.loadingUser) {
-                    this.user = _.cloneDeep(this.$root.$data.global.user);
+        // If the user id parameter changes in the URL we want to trigger getData to populate fields
+        // with new user data corresponding to the id
+        watch: {
+            _user_id(id) {
+                if (id) {
+                    this.user_id = id;
+                    this.getData(this.user_id);
                 }
-                return '';
-            },
-            updates() {
-                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
+            }
+        },
+        computed: {
+            canEditUsers() {
+                return this.user_id && Laravel.user.user_type === 'admin';
             },
             isPractitioner() {
                 return Laravel.user.practitionerId;
             },
+            // loading is connected to global state since that's where the main user api call is made
+            loading() {
+                return this.$root.$data.global.loadingUser;
+            },
+            updates() {
+                const oldUserAttributes = this.canEditUsers ? this.user_data.attributes : this.$root.$data.global.user.attributes;
+                return _.omit(diff(oldUserAttributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
+            },
+            // This computed property is used solely to populate this.user once the api call
+            // from app.js is finished running. Sort of like a watch for parent components.
+            _user() {
+                if (this.canEditUsers) {
+                    this.getData(this.user_id);
+                } else if (!this.$root.$data.global.loadingUser) {
+                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                }
+                return '';
+            },
+            // We set the user_id as a computed property for when the parameter changes
+            _user_id() {
+                return this.$route.params.id;
+            }
         }
     }
 </script>

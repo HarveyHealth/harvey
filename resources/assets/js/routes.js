@@ -107,7 +107,7 @@ let routes = [
     {
         path: '/profile/:id',
         props: true,
-        component: require('./pages/admin/profile/Profile.vue')
+        component: require('./pages/profile/Profile.vue')
     },
     {
         path: '*',
