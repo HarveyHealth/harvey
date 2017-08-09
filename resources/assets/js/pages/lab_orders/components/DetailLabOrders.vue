@@ -40,7 +40,7 @@
           <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
               <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
-              <label class="input__label" style="color: #737373;">{{`Charged: ${price}`}}</label>
+              <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
           </div>
         </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -71,6 +71,12 @@
                 <span class="input--text">{{ doctorName }}</span>
             </div>
           </div>
+          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div v-for="val in samples" class="input__container">
+                <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
+                <label class="input__label" style="color: #737373;">Required</label>
+            </div>
+        </div>
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">shipping address</label>
@@ -88,9 +94,9 @@
           </div>
           <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
-                <label class="input__label" for="patient_name">billing info</label>
-                <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
-                <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
+              <label class="input__label" for="patient_name">billing info</label>
+              <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+              <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
             </div>
           </div>
           <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -117,6 +123,7 @@ import Flyout from '../../../commons/Flyout.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
 import {capitalize} from '../../../utils/filters/textformat'
 import axios from 'axios'
+import _ from 'lodash'
 export default {
   name: 'DetailLabOrders',
   props: ['row-data', 'reset'],
@@ -130,7 +137,8 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       selectedAddressOne: null,
-      selectedAddressTwo: null
+      selectedAddressTwo: null,
+      capitalize: _.capitalize
     }
   },
   methods: {

@@ -45,7 +45,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         }
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id) {
-                data.total_price += testList[Number(test.attributes.sku_id)].attributes.price
+                data.total_price += Number(testList[Number(test.attributes.sku_id)].attributes.price)
                 data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] = data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] ?
                     data.samples[testList[Number(test.attributes.sku_id)].attributes.sample]++ : 1
                 data.number_of_tests = data.number_of_tests ?
