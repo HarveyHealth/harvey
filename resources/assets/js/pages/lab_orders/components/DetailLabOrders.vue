@@ -16,18 +16,31 @@
               <label class="input__label" for="patient_name">doctor</label>
               <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
           </div>
-        </div>
+      </div>
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div v-for="val in samples" class="input__container">
+              <label class="input__label" for="patient_name">{{ val }}</label>
+              <label class="input__label" style="color: #737373;">Required</label>
+          </div>
+      </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
-              <label class="input__label" style="color: #737373;">{{`Charged: ${price}`}}</label>
+              <label class="input__label" style="color: #737373;">{{ address_1 }} {{ address_2 }}</label>
+              <label class="input__label" style="color: #737373;">{{ city }}, {{ state }} {{ zip }}</label>
           </div>
         </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">order tracking</label>
               <label class="input__label" style="color: #737373;">{{ shipmentCode }}</label>
+          </div>
+        </div>
+       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div class="input__container">
+              <label class="input__label" for="patient_name">billing info</label>
+              <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+              <label class="input__label" style="color: #737373;">{{`Charged: ${price}`}}</label>
           </div>
         </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -192,10 +205,13 @@ export default {
       return this.$props.rowData ? this.$props.rowData.zip : ''
     },
     card() {
-      return this.$props.rowData ? this.$props.rowData.card : ''
+      return this.$props.rowData ? this.$props.rowData.total_price : ''
     },
     price() {
       return this.$props.rowData ? this.$props.rowData.total_price : ''
+    },
+    samples() {
+      return this.$props.rowData ? Object.keys(this.$props.rowData.samples) : []
     },
     doctorList() {
       let data = {}
