@@ -225,6 +225,8 @@
                 this.$root.$data.global.loadingUser = true;
                 axios.get(`${this.$root.$data.apiUrl}/users/${userId}?include=patient,practitioner`)
                     .then(response => {
+                        // this.user_data persists the data retrieved from the server
+                        // so we can diff against it on PATCH
                         this.$root.$data.global.loadingUser = false;
                         this.user_data = response.data.data;
                         this.user = _.cloneDeep(response.data.data);
@@ -236,6 +238,7 @@
             }
         },
         mounted() {
+            // We need to bar non admins from hitting profile/:id
             if (this.canEditUsers) {
                 this.user_id = this.$route.params.id;
             } else if (this._user_id) {
@@ -267,6 +270,7 @@
                 return this.$root.$data.global.loadingUser;
             },
             updates() {
+                // We want to diff against the correct user attributes
                 const oldUserAttributes = this.canEditUsers ? this.user_data.attributes : this.$root.$data.global.user.attributes;
                 return _.omit(diff(oldUserAttributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
             },
@@ -280,7 +284,7 @@
                 }
                 return '';
             },
-            // We set the user_id as a computed property for when the parameter changes
+            // We set the user_id as a computed property so we can set a watch on it for when the url changes
             _user_id() {
                 return this.$route.params.id;
             }
