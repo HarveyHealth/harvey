@@ -20,8 +20,8 @@
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
-              <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
+              <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+              <label class="input__label" style="color: #737373;">{{`Charged: ${price}`}}</label>
           </div>
         </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
@@ -44,13 +44,11 @@
                 <label class="input__label" for="patient_name">lab tests</label>
                 <div v-for="test in testList">
                   <label class="input__label" style="color: #737373;">{{ test.name }}</label>
-                  <!-- <span v-if="test.status[0] != 'Complete'" class="custom-select"> -->
                   <span class="custom-select"> 
                       <select @change="updateTest($event, test)">
                           <option v-for="current in test.status">{{ current }}</option>
                       </select>
                   </span>
-                  <!-- <span v-if="test.status[0] == 'Complete'" class="input--text">Completed</span> -->
                 </div>
             </div>
           </div>
@@ -69,17 +67,24 @@
                 <label class="input__label" style="color: #737373;">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
             </div>
           </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">order tracking</label>
                 <span class="input--text">{{ shipmentCode }}</span>
             </div>
           </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
-          <label class="input__label" for="patient_name">order status</label>
-          <span class="input--text">{{ status }}</span>
-      </div>
+                <label class="input__label" for="patient_name">billing info</label>
+                <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
+                <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
+            </div>
+          </div>
+          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+            <div class="input__container">
+              <label class="input__label" for="patient_name">order status</label>
+              <span class="input--text">{{ status }}</span>
+          </div>
           </div>
           <div>
             <div class="inline-centered">
@@ -185,6 +190,12 @@ export default {
     },
     zip() {
       return this.$props.rowData ? this.$props.rowData.zip : ''
+    },
+    card() {
+      return this.$props.rowData ? this.$props.rowData.card : ''
+    },
+    price() {
+      return this.$props.rowData ? this.$props.rowData.total_price : ''
     },
     doctorList() {
       let data = {}

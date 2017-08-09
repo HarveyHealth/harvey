@@ -35,10 +35,16 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             zip: obj.attributes.zip,
             city: obj.attributes.city,
             test_list: [],
-            date: obj.attributes.created_at.date
+            date: obj.attributes.created_at.date,
+            total_price: 0,
+            card: {
+                brand: obj.included.attributes.card_brand,
+                last4: obj.included.attributes.card_last4
+            }
         }
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id) {
+                data.total_price += testList[Number(test.attributes.sku_id)].attributes.price
                 data.number_of_tests = data.number_of_tests ?
                     data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included

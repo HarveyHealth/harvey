@@ -12,10 +12,19 @@
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
                 </div>
-                <div :style="{height: details ? '460px' : '125px'}">
+
+                <div>
+
+                    <div v-for="card in cards">
+                        <div style="height: 40px; margin: 20px auto;">
+                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
+                            <span style="margin: 0 10px; float: left;"><a>edit</a></span>
+                            <span style="margin: 0 10px; float: left;"><a>delete</a></span>
+                        </div>
+                    </div>
 
                     <div v-if="!details" class="inline-centered">
-                        <button @click="addCard" class="button" style="margin-top: 35px;">Add Card</button>
+                        <button @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
@@ -66,7 +75,8 @@ export default {
             cardNumber: '',
             cardExpiry: '',
             cardCvc: '',
-            postalCode: ''
+            postalCode: '',
+            cards: Object.values(this.$root.$data.global.creditCardTokens)
         }
     },
     methods: {
