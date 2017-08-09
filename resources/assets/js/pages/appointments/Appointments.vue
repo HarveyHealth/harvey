@@ -641,7 +641,7 @@ export default {
 
         // track the event
         if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
             });
