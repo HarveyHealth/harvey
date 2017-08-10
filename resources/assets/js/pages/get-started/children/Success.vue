@@ -79,7 +79,7 @@ export default {
       calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
       calendarZone: '',
       calendarLocation: '',
-      calendarDescription: `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}`,
+      calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : '',
     }
   },
   computed: {
