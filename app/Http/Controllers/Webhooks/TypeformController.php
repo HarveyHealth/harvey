@@ -13,7 +13,7 @@ class TypeformController extends BaseWebhookController
 {
     public function handle()
     {
-        $eventType = request('event_type');
+        $eventType = request('event_type') ?? 'Unknown';
         $formResponse = request('form_response');
 
         if ('form_response' != $eventType) {
@@ -25,10 +25,10 @@ class TypeformController extends BaseWebhookController
         } else {
             if (empty($user->intake_completed_at)
                 && !empty($formResponse['definition']['fields'])
-                && !empty($formResponse['answers'])
-                && count($formResponse['definition']['fields']) == count($formResponse['answers'])) {
-                    $user->intake_completed_at = Carbon::now();
-                    $user->save();
+                    && !empty($formResponse['answers'])
+                        && count($formResponse['definition']['fields']) == count($formResponse['answers'])) {
+                            $user->intake_completed_at = Carbon::now();
+                            $user->save();
             }
             return response("Thanks!", ResponseCode::HTTP_OK);
         }
