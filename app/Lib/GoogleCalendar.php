@@ -36,6 +36,13 @@ class GoogleCalendar
         return config('services.google_calendar.calendar_id');
     }
 
+    public static function flushCalendar()
+    {
+        foreach (static::getService()->events->listEvents(static::getCalendarId()) as $event) {
+            static::deleteEvent($event->id);
+        }
+    }
+
     public static function getService()
     {
         $client = new Google_Client();
