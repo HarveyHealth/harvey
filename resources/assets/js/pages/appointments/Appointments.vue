@@ -675,6 +675,7 @@ export default {
                 if (succesPopup) this.handleNotificationInit();
                 window.scrollTo(0, 0);
               }
+
               while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
                 oldAppointments.splice(0, 1);
                 if (!oldAppointments.length) {
