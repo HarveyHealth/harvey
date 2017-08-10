@@ -23,9 +23,12 @@ class TypeformController extends BaseWebhookController
         } elseif (empty($user = User::find($userId))) {
             ops_warning('TypeformController', "Can't find User #{$userId} when handling event '{$eventType}'.");
         } else {
-            if (empty($user->intake_completed_at)) {
-                $user->intake_completed_at = Carbon::now();
-                $user->save();
+            if (empty($user->intake_completed_at)
+                && !empty($formResponse['definition']['fields'])
+                && !empty($formResponse['answers'])
+                && count($formResponse['definition']['fields']) == count($formResponse['answers'])) {
+                    $user->intake_completed_at = Carbon::now();
+                    $user->save();
             }
             return response("Thanks!", ResponseCode::HTTP_OK);
         }
