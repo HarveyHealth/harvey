@@ -34,9 +34,10 @@ class Appointment extends Model
     protected $guarded = [
         'id',
         'created_at',
-        'updated_at',
         'deleted_at',
-        'status_id'
+        'google_calendar_event_id',
+        'status_id',
+        'updated_at',
     ];
 
     const STATUSES = [
