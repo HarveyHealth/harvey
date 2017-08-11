@@ -74,6 +74,7 @@
                 selectedRowHasUpdated: null,
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
+                addActiveModal: false,
                 cache: {
                     Recommended: [],
                     Confirmed: [],

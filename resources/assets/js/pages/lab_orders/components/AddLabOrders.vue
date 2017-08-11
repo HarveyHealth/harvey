@@ -77,13 +77,13 @@
         </div>
       </div>
     </div>
-    <Modal :active="activeModal" :onClose="modalClose">
+    <Modal :active="$parent.addActiveModal" :onClose="modalClose">
       <div class="inline-centered">
         <h1>Create Lab Order</h1>
         <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
         <br>
         <ul>
-          <li v-for="test in selectedTests">{{ test.name }}</li>
+          <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
         </ul>
         <div class="inline-centered">
             <button @click="createLabOrder" class="button">Yes, Confirm</button>
@@ -144,10 +144,10 @@ export default {
       this.step--
     },
     modalClose() {
-      this.activeModal = false
+      this.$parent.addActiveModal = false
     },
     openModal() {
-      this.activeModal = true
+      this.$parent.addActiveModal = true
     },
     updateTestSelection(e, obj) {
       this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
@@ -170,6 +170,7 @@ export default {
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
+      this.$parent.addActiveModal = false
       this.step = 1
     },
     createLabOrder() {
@@ -249,6 +250,7 @@ export default {
                 })
             })
         this.handleFlyoutClose();
+        this.modalClose();
     }
   },
   computed: {
