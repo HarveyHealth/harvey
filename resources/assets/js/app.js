@@ -99,6 +99,7 @@ const app = new Vue({
             reason_for_visit: 'First appointment',
             practitioner_id: null,
           },
+          googleMeetLink: '',
           phone: '',
           phonePending: false,
           phoneConfirmed: false,
