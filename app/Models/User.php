@@ -32,22 +32,24 @@ class User extends Authenticatable implements Mailable
 
     protected $guarded = [
         'id',
+        'created_at',
+        'email_verified_at',
         'enabled',
+        'intake_completed_at',
         'password',
+        'phone_verified_at',
         'remember_token',
         'terms_accepted_at',
-        'phone_verified_at',
-        'email_verified_at',
-        'created_at',
         'updated_at',
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'terms_accepted_at',
-        'phone_verified_at',
         'email_verified_at',
+        'intake_completed_at',
+        'phone_verified_at',
+        'terms_accepted_at',
+        'updated_at',
     ];
 
     protected $hidden = ['password', 'remember_token'];
