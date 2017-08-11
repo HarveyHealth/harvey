@@ -100,9 +100,6 @@ export default {
                 name: `${this.firstName} ${this.lastName}`
             }, (status, response) => {
                 axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {id: response.id})
-                .then(resp => {
-                    this.$root.$data.global.creditCardTokens[resp.last4] = resp
-                })
             })
         }
     },
