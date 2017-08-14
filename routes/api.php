@@ -22,6 +22,7 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
+    Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email')->middleware(['session', 'csrf']);
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
 
     Route::group(['middleware' => 'auth:api'], function () {
