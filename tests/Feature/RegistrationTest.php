@@ -21,7 +21,7 @@ class RegistrationTest extends TestCase
             'email' => 'jsmith@yahoo.com',
             'password' => 'password',
             'terms' => true,
-            'zip' => 91106
+            'zip' => 91106,
         ];
 
         // When a request is made to create a new user
@@ -49,20 +49,51 @@ class RegistrationTest extends TestCase
             'terms' => true,
             'zip' => 11111
         ];
-        
+
         // When a request is made to create a new user
         $response = $this->post(route('users.create'), $parameters);
-    
+
         // It returns a bad request response
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-        
+
         // And an appropriate message will be displayed
-        $response->assertJsonFragment(["detail" => "Sorry, we do not service this zip."]);
+        $response->assertJsonFragment([
+            "detail" => [
+                'message' => 'Sorry, we do not service this zip.',
+                'city' => null,
+                'state' => null,
+            ]
+        ]);
 
         // And no new user is created
         $this->assertDatabaseMissing('users', ['first_name' => 'Albus']);
-        
+
         // But a lead is created
         $this->assertDatabaseHas('leads', ['email' => 'headmaster@hogwarts.co.uk', 'zip' => 11111]);
+    }
+
+    public function test_it_includes_state_and_zip_on_error_response_when_zip_code_is_not_serviceable()
+    {
+        // Given invalid user data
+        $parameters = [
+            'first_name' => 'Albus',
+            'last_name' => 'Dumbledore',
+            'email' => 'headmaster@hogwarts.co.uk',
+            'password' => 'password',
+            'terms' => true,
+            'zip' => 10029
+        ];
+
+        $response = $this->post(route('users.create'), $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
+
+        $response->assertJsonFragment([
+            "detail" => [
+                'message' => 'Sorry, we do not service this zip.',
+                'city' => 'New York',
+                'state' => 'NY',
+            ]
+        ]);
     }
 }
