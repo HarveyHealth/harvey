@@ -28,7 +28,7 @@
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
           <span v-if="!isPhoneProcessing">Send Text</span>
-          <LoadingBubbles v-else-if="isPhoneProcessing" :style="{ width: '12px', fill: 'white' }" />
+          <LoadingGraphic v-else-if="isPhoneProcessing" :size="12" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -51,7 +51,7 @@
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
           <span v-else-if="!isPhoneConfirming">Confirm Code</span>
-          <LoadingBubbles v-else :style="{ width: '12px', fill: 'white' }" />
+          <LoadingGraphic v-else :size="12" />
         </button>
       </div>
 
@@ -61,14 +61,14 @@
 
 <script>
 import ConfirmInput from '../util/ConfirmInput.vue';
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'phone',
   components: {
     ConfirmInput,
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {

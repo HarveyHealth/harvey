@@ -106,6 +106,7 @@ const app = new Vue({
           practitionerState: '',
           selectedDate: null,
           selectedDay: null,
+          selectedPractitioner: null,
           selectedWeek: null,
           selectedTime: null,
           visistedStages: [],
@@ -147,14 +148,20 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
                 const include = response.data.included;
                 response.data.data.forEach((obj, i) => {
-                    this.global.patients.push({
+                    const includeData = include[i].attributes;
+                      this.global.patients.push({
+                        address_1: includeData.address_1,
+                        address_2: includeData.address_2,
+                        city: includeData.city,
+                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
+                        email: includeData.email,
                         id: obj.id,
-                        name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
-                        email: include[i].attributes.email,
-                        phone: include[i].attributes.phone,
+                        name: `${includeData.last_name}, ${includeData.first_name}`,
+                        phone: includeData.phone,
+                        search_name: `${includeData.first_name} ${includeData.last_name}`,
+                        state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        search_name: `${include[i].attributes.first_name} ${include[i].attributes.last_name}`,
-                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY")
+                        zip: includeData.zip,
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);

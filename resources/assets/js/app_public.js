@@ -22,6 +22,7 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
+import loadinggraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
@@ -32,6 +33,7 @@ const env = require('get-env')();
 const app = new Vue({
     mixins: [TopNav],
     components: {
+        loadinggraphic,
         Symptoms,
         VerticalTab,
         VerticalTabs
@@ -39,6 +41,7 @@ const app = new Vue({
     data: {
         guest: true,
         appLoaded: false,
+        isProcessing: false,
         login: {
             form: new Form({
                 email: '',
@@ -126,13 +129,16 @@ const app = new Vue({
         // Passed as props to log in and register forms
         // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
         onSubmit(e) {
+            this.isProcessing = true;
             let target = e.target,
                 formId = target.id,
                 formMethod = target.method,
                 formAction = target.action,
                 formRedirectUrl = target.getAttribute('redirect-url');
 
-            this[formId].form.submit(formMethod, formAction, this.onSuccess.bind(null, formRedirectUrl));
+            const cancelProcessing = () => this.isProcessing = false;
+
+            this[formId].form.submit(formMethod, formAction, this.onSuccess.bind(null, formRedirectUrl), cancelProcessing);
         },
         onSuccess(redirectUrl) {
             location.href = redirectUrl;
