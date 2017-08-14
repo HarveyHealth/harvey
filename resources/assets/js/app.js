@@ -311,7 +311,7 @@ const app = new Vue({
         }
     },
     mounted() {
-        Stripe.setPublishableKey(Laravel.services.stripe.key);
+        Stripe(Laravel.services.stripe.key);
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests
