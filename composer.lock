@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.32.3",
+            "version": "3.32.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d34a5779803ae7bc3efd3c6cab6e4e6f3b7409dd"
+                "reference": "9e2ad0ee0a1269190e411b7409e9b64361626e0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d34a5779803ae7bc3efd3c6cab6e4e6f3b7409dd",
-                "reference": "d34a5779803ae7bc3efd3c6cab6e4e6f3b7409dd",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/9e2ad0ee0a1269190e411b7409e9b64361626e0a",
+                "reference": "9e2ad0ee0a1269190e411b7409e9b64361626e0a",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-08-01T21:51:56+00:00"
+            "time": "2017-08-11T21:16:28+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -137,16 +137,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.5.1",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a"
+                "reference": "b074a15a2659fa32d9032a40f8be55824476997d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/4df7153905c3676fff119167ca6f30a25bb9698a",
-                "reference": "4df7153905c3676fff119167ca6f30a25bb9698a",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/b074a15a2659fa32d9032a40f8be55824476997d",
+                "reference": "b074a15a2659fa32d9032a40f8be55824476997d",
                 "shasum": ""
             },
             "require": {
@@ -162,7 +162,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "3.5-dev"
                 }
             },
             "autoload": {
@@ -190,20 +190,20 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-06-07T23:48:45+00:00"
+            "time": "2017-08-10T23:23:03+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.6.0",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6"
+                "reference": "8063d801036c4dde88afa03b96cf3ae94dcb05b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
-                "reference": "4a5ea4212aa76ccdc89af28c09f69bb90779b4d6",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/8063d801036c4dde88afa03b96cf3ae94dcb05b1",
+                "reference": "8063d801036c4dde88afa03b96cf3ae94dcb05b1",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-06-29T11:08:57+00:00"
+            "time": "2017-08-10T22:35:34+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
@@ -2194,16 +2194,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.15.5",
+            "version": "0.15.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "1162ff74f8ab66593d62c58142310101b415cd2a"
+                "reference": "91742543c25fecedc84a4883d2919213e04a73b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/1162ff74f8ab66593d62c58142310101b415cd2a",
-                "reference": "1162ff74f8ab66593d62c58142310101b415cd2a",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/91742543c25fecedc84a4883d2919213e04a73b7",
+                "reference": "91742543c25fecedc84a4883d2919213e04a73b7",
                 "shasum": ""
             },
             "require": {
@@ -2259,7 +2259,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2017-08-05T19:40:59+00:00"
+            "time": "2017-08-08T11:47:33+00:00"
         },
         {
             "name": "league/event",
@@ -4828,16 +4828,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.13.0",
+            "version": "5.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "8ed4f1793e4880594559272c3da4d51e54b0781e"
+                "reference": "f9d388ff24b0767eff91551d8d26fbd2bd1c7387"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/8ed4f1793e4880594559272c3da4d51e54b0781e",
-                "reference": "8ed4f1793e4880594559272c3da4d51e54b0781e",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/f9d388ff24b0767eff91551d8d26fbd2bd1c7387",
+                "reference": "f9d388ff24b0767eff91551d8d26fbd2bd1c7387",
                 "shasum": ""
             },
             "require": {
@@ -4870,7 +4870,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-07-27T20:09:57+00:00"
+            "time": "2017-08-10T18:43:03+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5272,16 +5272,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "183824db76118b9dddffc7e522b91fa175f75119"
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/183824db76118b9dddffc7e522b91fa175f75119",
-                "reference": "183824db76118b9dddffc7e522b91fa175f75119",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/4aada1f93c72c35e22fb1383b47fee43b8f1d157",
+                "reference": "4aada1f93c72c35e22fb1383b47fee43b8f1d157",
                 "shasum": ""
             },
             "require": {
@@ -5313,7 +5313,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-08-04T20:55:59+00:00"
+            "time": "2017-08-08T06:39:58+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
