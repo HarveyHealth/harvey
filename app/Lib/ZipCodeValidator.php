@@ -14,8 +14,10 @@ class ZipCodeValidator
         'AL', 'FL', 'NY', 'SC', 'TN'
     ];
     protected $regulatedStates = [
-        'AK', 'HI', 'OR', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN',
-        'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+      'AK', 'CA', 'HI', 'OR', 'WA',
+      'AZ', 'CO', 'MT', 'UT', 'KS',
+      'MN', 'ND', 'CT', 'ME', 'MD',
+      'MA', 'NH', 'PA', 'VT', 'DC'
     ];
 
     public function __construct(Geocoder $geocoder)

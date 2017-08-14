@@ -94,6 +94,14 @@ export default {
       return moment(value).format('YYYY');
     }
   },
+  // This is for when the component loads before the practitioner list has finished loading
+  watch: {
+    practitioners(list) {
+      if (list.length) {
+        this.select(list[0], 0, true);
+      }
+    }
+  },
   computed: {
     hasSelection() {
       return this.selected !== null;
@@ -129,8 +137,11 @@ export default {
         }
       });
     },
-    select(dr, index) {
-      this.$refs.button.scrollIntoView();
+    select(dr, index, noScroll) {
+      // We've added noScroll for the initial selection of the first practitioner.
+      // The ref hasn't registered yet so it throws a console error
+      const shouldScroll = !noScroll || false;
+      if (shouldScroll) this.$refs.button.scrollIntoView();
       this.store.signup.selectedPractitioner = index;
       this.store.signup.data.practitioner_id = dr.id;
       this.store.signup.practitionerName = dr.info.name;
@@ -141,6 +152,8 @@ export default {
   mounted () {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('practitioner');
+    // This is for when the component loads after the practitioners had loaded
+    if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {
