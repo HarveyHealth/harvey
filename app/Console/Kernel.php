@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\AdminCreateCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
+        Commands\UtilityCommand::class,
     ];
 
     /**
