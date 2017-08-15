@@ -9,3 +9,4 @@
 
 Route::post('stripe', 'Webhooks\StripeController@handle');
 Route::any('intakeq', 'Webhooks\IntakeQController@handle');
+Route::match(['post', 'put'], 'typeform', 'Webhooks\TypeformController@handle');
