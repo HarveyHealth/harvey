@@ -70,6 +70,7 @@ const app = new Vue({
             loadingLabTests: true,
             loadingTestTypes: true,
             loadingUser: true,
+            loadingUserEditing: true,
             menuOpen: false,
             messages: [],
             patients: [],
@@ -85,7 +86,8 @@ const app = new Vue({
             labTests: [],
             patientLookUp: {},
             practitionerLookUp: {},
-            user: {}
+            user: {},
+            user_editing: {}
         },
         signup: {
           availability: [],
@@ -99,6 +101,7 @@ const app = new Vue({
             reason_for_visit: 'First appointment',
             practitioner_id: null,
           },
+          googleMeetLink: '',
           phone: '',
           phonePending: false,
           phoneConfirmed: false,
@@ -106,7 +109,7 @@ const app = new Vue({
           practitionerState: '',
           selectedDate: null,
           selectedDay: null,
-          selectedPractitioner: null,
+          selectedPractitioner: 0,
           selectedWeek: null,
           selectedTime: null,
           visistedStages: [],
@@ -288,6 +291,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
+          this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
         },

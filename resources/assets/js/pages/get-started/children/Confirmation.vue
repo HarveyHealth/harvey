@@ -83,6 +83,7 @@ export default {
     confirmSignup() {
       this.isProcessing = true;
       axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
+        this.$root.$data.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
         window.onbeforeunload = null;
         this.isProcessing = false;
         this.$router.push({ name: 'success', path: 'success' });

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Cache, Lang, Log, View;
+use Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -34,9 +34,10 @@ class Appointment extends Model
     protected $guarded = [
         'id',
         'created_at',
-        'updated_at',
         'deleted_at',
-        'status_id'
+        'google_calendar_event_id',
+        'status_id',
+        'updated_at',
     ];
 
     const STATUSES = [
@@ -221,7 +222,12 @@ class Appointment extends Model
             return false;
         }
 
-        $event = GoogleCalendar::addEvent($this->getEventParams());
+        try {
+            $event = GoogleCalendar::addEvent($this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            return false;
+        }
 
         $this->google_calendar_event_id = $event->id;
         $this->save();
@@ -260,7 +266,12 @@ class Appointment extends Model
             return false;
         }
 
-        GoogleCalendar::deleteEvent($this->google_calendar_event_id);
+        try {
+            GoogleCalendar::deleteEvent($this->google_calendar_event_id);
+        } catch (Exception $e) {
+            ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
+            return false;
+        }
 
         $this->google_calendar_event_id = null;
         $this->save();
@@ -274,7 +285,12 @@ class Appointment extends Model
             return $this->addToCalendar();
         }
 
-        GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
+        try {
+            GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
+            return false;
+        }
 
         return true;
     }

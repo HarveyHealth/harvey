@@ -3,9 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentScheduled;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CreateAppointmentCalendarEvent implements ShouldQueue
+class CreateAppointmentCalendarEvent
 {
     /**
      * Handle the event.

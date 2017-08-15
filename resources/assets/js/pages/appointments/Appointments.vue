@@ -650,7 +650,7 @@ export default {
 
         // track the event
         if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
             });
@@ -675,6 +675,7 @@ export default {
                 if (succesPopup) this.handleNotificationInit();
                 window.scrollTo(0, 0);
               }
+
               while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
                 oldAppointments.splice(0, 1);
                 if (!oldAppointments.length) {
