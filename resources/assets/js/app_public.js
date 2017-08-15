@@ -120,6 +120,7 @@ const app = new Vue({
         navScrollThreshold: 56,
         showSignupContent: true,
         guestEmail: '',
+        emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
           'error-text': true,
           'is-visible': false
@@ -135,8 +136,20 @@ const app = new Vue({
           this.emailCaptureClasses['is-visible'] = false;
           const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
           if (passes) {
-            // axios.post('/api/v1/')
+            const visitorData = {
+              to: this.guestEmail,
+              template: 'pdf',
+              _token: Laravel.app.csrfToken
+            }
+            axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
+              console.log(response)
+            }).catch(error => {
+              console.log(error.response)
+              this.emailCaptureError = 'Error in email send. Please try again or contact support.';
+              this.emailCaptureClasses['is-visible'] = true;
+            })
           } else {
+            this.emailCaptureError = 'Not a valid email address';
             this.emailCaptureClasses['is-visible'] = true;
           }
         },

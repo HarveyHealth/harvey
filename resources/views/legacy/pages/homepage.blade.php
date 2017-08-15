@@ -169,7 +169,7 @@
                         <input type="text" name="_gotcha" style="display: none">
                         <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email">
                         <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit">Subscribe</button>
-                        <div :class="emailCaptureClasses">Not a valid email address</div>
+                        <div :class="emailCaptureClasses" v-text="emailCaptureError"></div>
                     </form>
                 </div>
             </div>
