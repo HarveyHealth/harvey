@@ -74,7 +74,7 @@
           <div class="text-centered">
             <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
               <span v-if="!isProcessing">Sign Up</span>
-              <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+              <LoadingGraphic v-else-if="isProcessing" :size="12" />
               <i v-else-if="isComplete" class="fa fa-check"></i>
             </button>
           </div>
@@ -87,12 +87,12 @@
 </template>
 
 <script>
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
-    LoadingBubbles
+    LoadingGraphic
   },
   data() {
     return {
@@ -268,7 +268,7 @@ export default {
                   zip: zip,
                 });
               }
-              
+
               this.$router.push({name: 'out-of-range', path: '/out-of-range'});
             }
           });

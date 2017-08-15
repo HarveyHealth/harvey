@@ -5,8 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
-use App\Lib\TransactionalEmail;
-use Lang, Log, View;
+use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
+use Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -31,7 +31,14 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = [
+        'id',
+        'created_at',
+        'deleted_at',
+        'google_calendar_event_id',
+        'status_id',
+        'updated_at',
+    ];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -70,6 +77,17 @@ class Appointment extends Model
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
+    }
+
+    public function getGoogleMeetLinkAttribute()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return null;
+        }
+
+        return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
+            return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+        });
     }
 
     public function isLocked()
@@ -194,6 +212,85 @@ class Appointment extends Model
         dispatch($transactionalEmailJob);
 
         $this->setReminderSent($user, AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID);
+
+        return true;
+    }
+
+    public function addToCalendar()
+    {
+        if (!empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
+        try {
+            $event = GoogleCalendar::addEvent($this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            return false;
+        }
+
+        $this->google_calendar_event_id = $event->id;
+        $this->save();
+
+        return $event;
+    }
+
+    public function getEventParams()
+    {
+        return [
+            'summary' => "Consultation with patient {$this->patient->user->full_name}.",
+            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'start' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'end' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->addHour()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'attendees' => [
+                ['email' => $this->practitioner->user->email],
+                ['email' => $this->patient->user->email],
+            ],
+            'reminders' => [
+                'useDefault' => true,
+            ],
+            'visibility' => 'private',
+            'status' => 'confirmed',
+        ];
+    }
+
+    public function deleteFromCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
+        try {
+            GoogleCalendar::deleteEvent($this->google_calendar_event_id);
+        } catch (Exception $e) {
+            ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
+            return false;
+        }
+
+        $this->google_calendar_event_id = null;
+        $this->save();
+
+        return true;
+    }
+
+    public function updateOnCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return $this->addToCalendar();
+        }
+
+        try {
+            GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
+            return false;
+        }
 
         return true;
     }

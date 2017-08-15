@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <h3 v-if="$root.$data.global.loadingPractitioners" class="text-centered">
-      <LoadingBubbles :style="{ width: '26px', fill: '#555' }" />
+      <LoadingGraphic :size="26" :fill="'#555'" />
       <div>Loading Practitioners...</div>
     </h3>
     <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" :style="{ 'max-width': '500px', 'margin': '0 auto' }">
@@ -52,7 +52,7 @@
         <div class="text-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>
-            <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+            <LoadingGraphic v-else-if="isProcessing" :size="12" />
             <i v-else-if="isComplete" class="fa fa-check"></i>
           </button>
         </div>
@@ -64,14 +64,14 @@
 <script>
 import moment from 'moment';
 
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'practitioner',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
@@ -92,6 +92,14 @@ export default {
     },
     year(value) {
       return moment(value).format('YYYY');
+    }
+  },
+  // This is for when the component loads before the practitioner list has finished loading
+  watch: {
+    practitioners(list) {
+      if (list.length) {
+        this.select(list[0], 0, true);
+      }
     }
   },
   computed: {
@@ -129,8 +137,11 @@ export default {
         }
       });
     },
-    select(dr, index) {
-      this.$refs.button.scrollIntoView();
+    select(dr, index, noScroll) {
+      // We've added noScroll for the initial selection of the first practitioner.
+      // The ref hasn't registered yet so it throws a console error
+      const shouldScroll = !noScroll || false;
+      if (shouldScroll) this.$refs.button.scrollIntoView();
       this.store.signup.selectedPractitioner = index;
       this.store.signup.data.practitioner_id = dr.id;
       this.store.signup.practitionerName = dr.info.name;
@@ -141,6 +152,8 @@ export default {
   mounted () {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('practitioner');
+    // This is for when the component loads after the practitioners had loaded
+    if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {
