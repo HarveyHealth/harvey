@@ -90,6 +90,9 @@
             this.renderNewMessage = !this.renderNewMessage
           }
         },
+        beforeMount() {
+          this.$root.setup();
+        },
         mounted() {
           this.$root.$data.global.currentPage = 'messages';
 

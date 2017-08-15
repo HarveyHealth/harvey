@@ -291,6 +291,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
+          this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
         },
