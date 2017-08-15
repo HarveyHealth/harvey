@@ -118,7 +118,12 @@ const app = new Vue({
         isLoginPage: false,
         wait: 400,
         navScrollThreshold: 56,
-        showSignupContent: true
+        showSignupContent: true,
+        guestEmail: '',
+        emailCaptureClasses: {
+          'error-text': true,
+          'is-visible': false
+        }
     },
     computed: {
         bodyClassNames() {
@@ -126,6 +131,15 @@ const app = new Vue({
         }
     },
     methods: {
+        onEmailCaptureSubmit(e) {
+          this.emailCaptureClasses['is-visible'] = false;
+          const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
+          if (passes) {
+            // axios.post('/api/v1/')
+          } else {
+            this.emailCaptureClasses['is-visible'] = true;
+          }
+        },
         // Passed as props to log in and register forms
         // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
         onSubmit(e) {
