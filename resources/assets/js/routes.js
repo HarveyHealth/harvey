@@ -2,10 +2,12 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 // Logic for managing root components based on the root URL
-//    /get-started -> signup funnel
+//    /getting-started -> signup funnel
+//    /intake -> intake form
 //    /dashboard -> user backoffice
 const loggedIn = Laravel.user.signedIn;
 const context = window.$$context;
+
 const rootRedirect = context === 'get-started'
   ? loggedIn ? '/welcome' : '/signup'
   : '/';
@@ -17,14 +19,15 @@ let rootRoute = {
   children: []
 };
 
-// This is the basic logic once the new getting-started components are up
-rootRoute.name = context !== 'get-started'
-  ? 'dashboard'
-  : 'get-started';
+rootRoute.name = context === 'get-started'
+  ? 'get-started' : context === 'intake'
+  ? 'intake' : context !== 'get-started' || context !== 'intake'
+  ? 'dashboard' : 'get-started';
 
-rootRoute.component = context !== 'get-started'
-  ? require('./pages/dashboard/Dashboard.vue')
-  : require('./pages/get-started/GetStarted.vue');
+rootRoute.component = context === 'getting-started'
+  ? require('./pages/get-started/GetStarted.vue') : context === 'intake'
+  ? require('./pages/intake/Intake.vue') : context !== 'get-started' || context !== 'intake'
+  ? require('./pages/dashboard/Dashboard.vue') : require('./pages/get-started/GetStarted.vue');
 
 if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
@@ -102,6 +105,11 @@ let routes = [
     },
     {
         path: '/profile',
+        component: require('./pages/profile/Profile.vue')
+    },
+    {
+        path: '/profile/:id',
+        props: true,
         component: require('./pages/profile/Profile.vue')
     },
     {

@@ -136,7 +136,7 @@ class Appointment extends Model
         $time = $this->patientAppointmentAtDate()->format('h:i A');
         $timezone = $this->patientAppointmentAtDate()->format('T');
 
-        return $this->sendReminderSms24Hs($this->patient->user, 'client_reminder_24_hs', compact('time', 'timezone'));
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', compact('time', 'timezone'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendDoctorReminderSms24Hs()
@@ -145,7 +145,7 @@ class Appointment extends Model
         $timezone = $this->practitionerAppointmentAtDate()->format('T');
         $patientName = $this->patient->user->full_name;
 
-        return $this->sendReminderSms24Hs($this->practitioner->user, 'doctor_reminder_24_hs', compact('time', 'timezone', 'patientName'));
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', compact('time', 'timezone', 'patientName'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendClientReminderEmail24Hs()
@@ -178,21 +178,30 @@ class Appointment extends Model
         return $this->sendReminderEmail24Hs($this->practitioner->user, $templateData);
     }
 
-    public function sendReminderSms24Hs(User $user, string $templateName, array $templateData)
+    public function sendClientIntakeReminderSms12Hs()
     {
-        if ($this->wasReminderSent($user, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID)) {
-            Log::info("User #{$user->id} was already SMS notified about Appointment #{$this->id}. Skipping.");
-            return false;
-        }
-
+        $doctor_name = $this->practitioner->user->full_name;
+        $intake_link = route('intake');
         $time = $this->patientAppointmentAtDate()->format('h:i A');
         $timezone = $this->patientAppointmentAtDate()->format('T');
+
+        $templateData = compact('time', 'timezone', 'doctor_name', 'intake_link');
+
+        return $this->sendReminderSms($this->patient->user, 'client_intake_reminder_12_hs', $templateData, AppointmentReminder::INTAKE_SMS_12_HS_NOTIFICATION_ID);
+    }
+
+    public function sendReminderSms(User $user, string $templateName, array $templateData, int $typeId)
+    {
+        if ($this->wasReminderSent($user, $typeId)) {
+            Log::info("User #{$user->id} was already SMS notified about Appointment #{$this->id} using Template #{$templateName}. Skipping.");
+            return false;
+        }
 
         $message = View::make("sms/{$templateName}")->with($templateData)->render();
 
         $user->sendText($message);
 
-        $this->setReminderSent($user, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+        $this->setReminderSent($user, $typeId);
 
         return true;
     }
@@ -351,5 +360,17 @@ class Appointment extends Model
     public function scopePendingInTheNext24hs(Builder $builder)
     {
         return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
+    }
+
+    public function scopePendingInTheNext12hs(Builder $builder)
+    {
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addHours(12));
+    }
+
+    public function scopeEmptyPatientIntake(Builder $builder)
+    {
+        return $builder->whereHas('patient.user', function ($query) {
+                $query->whereNull('intake_completed_at');
+            });
     }
 }

@@ -63,7 +63,7 @@ button.button--blue:disabled {
   background-color: lighten($harvey-tertiary, 4%);
   color: rgba(black, 0.5);
   opacity: 1;
-  
+
   &:hover {
     background-color: lighten($harvey-tertiary, 4%);
   }
@@ -95,6 +95,13 @@ button.button--blue:disabled {
   background: none;
   border: none;
   @include padding(8px 10px);
+
+  &.button--close-large {
+    svg {
+      height: 1.5em;
+      width: 1.5em;
+    }
+  }
 
   & svg {
     height: 1em;
