@@ -48,6 +48,9 @@ return [
         'token' => env('POSTMARK_TOKEN', 'POSTMARK_API_TEST'),
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
         'templates' => [
+            'visitor' => [
+                'pdf' => 2861223,
+            ],
             'practitioner' => [
                 'appointment' => [
                     'canceled' => 1692581,

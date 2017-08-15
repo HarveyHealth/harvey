@@ -38,9 +38,14 @@ class GoogleCalendar
 
     public static function flushCalendar()
     {
+        $totalDeleted = 0;
+
         foreach (static::getService()->events->listEvents(static::getCalendarId()) as $event) {
             static::deleteEvent($event->id);
+            $totalDeleted++;
         }
+
+        return $totalDeleted;
     }
 
     public static function getService()
