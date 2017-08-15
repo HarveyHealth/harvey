@@ -124,7 +124,8 @@ const app = new Vue({
         emailCaptureClasses: {
           'error-text': true,
           'is-visible': false
-        }
+        },
+        emailCaptureSuccess: false
     },
     computed: {
         bodyClassNames() {
@@ -142,10 +143,13 @@ const app = new Vue({
               _token: Laravel.app.csrfToken
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
-              console.log(response)
+              this.emailCaptureSuccess = true;
             }).catch(error => {
-              console.log(error.response)
-              this.emailCaptureError = 'Error in email send. Please try again or contact support.';
+              if (error.response.status === 429) {
+                this.emailCaptureError = 'We\'ve already registered that email address today';
+              } else {
+                this.emailCaptureError = 'Error in email send. Please try again or contact support.';
+              }
               this.emailCaptureClasses['is-visible'] = true;
             })
           } else {

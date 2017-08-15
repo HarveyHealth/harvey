@@ -167,9 +167,10 @@
                     <p class="copy-has-max-width subtitle">About once a month, we send our subscribers discounts, company updates, health news and incredible patients stories. Never spam, we promise.</p>
                     <form>
                         <input type="text" name="_gotcha" style="display: none">
-                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email">
-                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit">Subscribe</button>
-                        <div :class="emailCaptureClasses" v-text="emailCaptureError"></div>
+                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
+                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Subscribe</button>
+                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
+                        <div v-if="emailCaptureSuccess" class="success-text">Submission successful!</div>
                     </form>
                 </div>
             </div>
