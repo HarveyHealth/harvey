@@ -144,6 +144,11 @@ const app = new Vue({
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
+              if (env === 'production' || env === 'prod') {
+                analytics.group('Email Capture', {
+                  email: this.guestEmail
+                });
+              }
             }).catch(error => {
               if (error.response.status === 429) {
                 this.emailCaptureError = 'We\'ve already registered that email address today';
