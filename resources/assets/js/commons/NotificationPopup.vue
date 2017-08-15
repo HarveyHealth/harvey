@@ -1,5 +1,6 @@
 <template>
   <div :class="{
+    'error': asError,
     'notification': true,
     [`from-${comesFrom}`]: true,
     'isactive': active
@@ -20,6 +21,10 @@ export default {
     active: {
       type: Boolean,
       required: true
+    },
+    // Changes the background for error indication
+    asError: {
+      type: Boolean,
     },
     // Linked to CSS classes for various starting positions
     // and transition positions
