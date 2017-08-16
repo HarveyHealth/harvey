@@ -244,8 +244,16 @@ const app = new Vue({
         });
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
 
-        if (this.isHomePage && this.shouldTrack()) {
-          analytics.page('Homepage');
+        // This is a temporary solution until we refactor how analytics is loaded
+        // on public pages
+        if (this.shouldTrack()) {
+          if(this.isHomePage) {
+            analytics.page('Homepage');
+          } else if (window.location.pathname === '/about') {
+            analytics.page('About');
+          } else if (window.location.pathname === '/lab-tests') {
+            analytics.page('Lab Tests');
+          }
         }
     },
     destroyed() {
