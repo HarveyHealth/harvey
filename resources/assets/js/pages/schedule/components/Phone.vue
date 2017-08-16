@@ -103,17 +103,9 @@
         this.$parent.previous();
       },
       trackingPhoneNumber() {
-        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-            ga('send', {
-              hitType: "event", 
-              eventCategory: "clicks", 
-              eventAction: "Click Phone Number", 
-              eventLabel: null,
-                eventValue: 50, 
-                hitCallback: null, 
-                userId: null
-            });
-          }
+        if(this.$root.shouldTrack()) {
+          // track phone number addition here
+        }
       }
     },
     name: 'Phone',

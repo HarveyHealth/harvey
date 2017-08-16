@@ -194,7 +194,7 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if(this.$root.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
 
@@ -250,7 +250,7 @@ export default {
             } else if(errorType === 'out-of-range') {
               // this is an out-of-range situation
               // track the failed signup
-              if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+              if(this.$root.shouldTrack()) {
                 const firstName = this.signupData.first_name || '';
                 const lastName = this.signupData.last_name || '';
                 const email = this.signupData.email || '';
@@ -302,7 +302,7 @@ export default {
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+    if(this.$root.shouldTrack()) {
       analytics.page("Signup");
     }
   },

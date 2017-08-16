@@ -42,13 +42,8 @@
       }
     },
     mounted() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-        this.$ma.trackEvent({
-            fb_event: 'PageView',
-            type: 'product',
-            category: 'clicks',
-            properties: { laravel_object: Laravel.user }
-        });
+      if(this.$root.shouldTrack()) {
+        // track view of Interstitial step
       }
     }
   }

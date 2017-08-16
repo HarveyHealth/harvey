@@ -165,7 +165,7 @@ export default {
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
             // track the number patch
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if(this.$root.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
               const userId = response.data.data.id || '';
