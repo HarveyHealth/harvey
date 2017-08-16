@@ -247,7 +247,7 @@ class Appointment extends Model
     public function getEventParams()
     {
         return [
-            'summary' => "Consultation with patient {$this->patient->user->full_name}.",
+            'summary' => $this->patient->user->full_name,
             'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),

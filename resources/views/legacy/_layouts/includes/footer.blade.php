@@ -9,6 +9,20 @@
                     <img src="/images/logos/main-logo.png" class="footer-logo" alt="Harvey Logo">
                 @endif
             </a>
+
+            <section class="email-capture--footer">
+                <div class="has-text-centered">
+                    <form>
+                      <h2 class="copy-has-max-width title has-text-centered">Join the Discussion</h2>
+                        <input type="text" name="_gotcha" style="display: none">
+                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
+                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Subscribe</button>
+                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
+                        <div v-if="emailCaptureSuccess" class="success-text">Submission successful!</div>
+                    </form>
+                </div>
+            </section>
+
             <div id="social-icons">
                 <!-- Facebook -->
                 <a href="https://www.facebook.com/goharveyapp" target="_blank">
