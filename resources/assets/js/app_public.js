@@ -128,10 +128,10 @@ const app = new Vue({
     },
     computed: {
         bodyClassNames() {
-            return document.getElementsByTagName('body')[0].classList;
+          return document.getElementsByTagName('body')[0].classList;
         },
         isHomePage() {
-            return location.pathname === '/';
+          return window.location.pathname === '/';
         }
     },
     methods: {
