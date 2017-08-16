@@ -24,7 +24,7 @@ rootRoute.name = context === 'get-started'
   ? 'intake' : context !== 'get-started' || context !== 'intake'
   ? 'dashboard' : 'get-started';
 
-rootRoute.component = context === 'getting-started'
+rootRoute.component = context === 'get-started'
   ? require('./pages/get-started/GetStarted.vue') : context === 'intake'
   ? require('./pages/intake/Intake.vue') : context !== 'get-started' || context !== 'intake'
   ? require('./pages/dashboard/Dashboard.vue') : require('./pages/get-started/GetStarted.vue');
