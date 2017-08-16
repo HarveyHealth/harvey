@@ -123,6 +123,20 @@ blockquote {
     }
 }
 
+.error-text {
+  color: red;
+  margin-top: 1em;
+  opacity: 0;
+
+  &.is-visible {
+    opacity: 1;
+  }
+}
+
+.success-text {
+  margin-top: 1em;
+}
+
 // page specific styles
 body {
     &.signup,
@@ -195,5 +209,32 @@ body {
                 }
             }
         }
+    }
+}
+
+.email-capture--footer form {
+    @include margin(1rem null 1rem null);
+    input{
+        width: 30%;
+        @include padding(.7em 1em .7em 1em);
+        @include margin(null null null null);
+        border-radius: 3px;
+        box-shadow: none;
+        border-style: solid;
+        border: 1px solid #eee;
+        background: #f9f9f9;
+        color: #444;
+        font-size: 1rem;
+    }
+    button{
+        line-height: .1em;
+        @include margin(null null null .5rem);
+        @include padding(1.3em 2em);
+    }
+    input:focus,
+    select:focus,
+    textarea:focus,
+    button:focus {
+        outline: none;
     }
 }

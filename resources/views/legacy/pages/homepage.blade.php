@@ -11,7 +11,7 @@
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p> 
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
                         <div class="columns">
                             <div class="column is-5">
                                 <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -165,10 +165,12 @@
                 <div class="has-text-centered">
                     <h2 class="copy-has-max-width title has-text-centered">Join the Discussion</h2>
                     <p class="copy-has-max-width subtitle">About once a month, we send our subscribers discounts, company updates, health news and incredible patients stories. Never spam, we promise.</p>
-                    <form method="POST" action="https://formspree.io/mvzdryqm" target="_blank">
-                        <input type="text" name="_gotcha" style="display: none"> 
-                        <input type="email" name="email" class="" placeholder="Personal Email">
-                        <button type="submit" class="button is-primary">Subscribe</button>
+                    <form>
+                        <input type="text" name="_gotcha" style="display: none">
+                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
+                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Subscribe</button>
+                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
+                        <div v-if="emailCaptureSuccess" class="success-text">Submission successful!</div>
                     </form>
                 </div>
             </div>
