@@ -145,20 +145,20 @@ const app = new Vue({
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
               if (env === 'production' || env === 'prod') {
-                analytics.group('Email Capture', {
+                analytics.identify({ 
                   email: this.guestEmail
                 });
               }
             }).catch(error => {
               if (error.response.status === 429) {
-                this.emailCaptureError = 'We\'ve already registered that email address today';
+                this.emailCaptureError = 'Oops, we\'ve already registered that email.';
               } else {
-                this.emailCaptureError = 'Error in email send. Please try again or contact support.';
+                this.emailCaptureError = 'Oops, error sending email. Please contact support.';
               }
               this.emailCaptureClasses['is-visible'] = true;
             })
           } else {
-            this.emailCaptureError = 'Not a valid email address';
+            this.emailCaptureError = 'Oops, that is not a valid email address.';
             this.emailCaptureClasses['is-visible'] = true;
           }
         },
