@@ -30,7 +30,7 @@ export default {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
     if(this.$root.shouldTrack()) {
-      analytics.track('Welcome');
+      analytics.page('Welcome');
     }
   },
   beforeDestroy() {

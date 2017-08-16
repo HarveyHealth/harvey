@@ -119,6 +119,7 @@ export default {
       // place view tracking here
       // Segment tracking
       analytics.track("Consultation Confirmed");
+      analytics.page('Success');
     }
 
     // From https://www.addevent.com/buttons/add-to-calendar
