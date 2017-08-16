@@ -4,8 +4,11 @@ $practitioner-grid: (
   gutter: $space-md
 );
 
-.selected-practitioner {
-  color: $pink;
+.practitioner-selection{
+  padding: 1rem 0;
+  .selected-practitioner {
+    font-weight: 600;
+  }
 }
 
 .signup-practitioner-wrapper {
