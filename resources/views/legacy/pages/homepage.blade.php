@@ -163,14 +163,17 @@
         <section class="section" id="email-capture">
             <div class="container">
                 <div class="has-text-centered">
-                    <h2 class="copy-has-max-width title has-text-centered">Join the Discussion</h2>
-                    <p class="copy-has-max-width subtitle">About once a month, we send our subscribers discounts, company updates, health news and incredible patients stories. Never spam, we promise.</p>
+                    <h2 class="copy-has-max-width title has-text-centered">
+                        <div id="ebook-wrapper">
+                            <img src="/images/home/ebook.png">
+                        </div> Download the Harvey eBook</h2>
+                    <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
                     <form>
                         <input type="text" name="_gotcha" style="display: none">
                         <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
-                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Subscribe</button>
+                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Send Now</button>
                         <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
-                        <div v-if="emailCaptureSuccess" class="success-text">Submission successful!</div>
+                        <div v-if="emailCaptureSuccess" class="success-text">Success! Check your email to download.</div>
                     </form>
                 </div>
             </div>

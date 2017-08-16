@@ -324,7 +324,7 @@ $font-family: "proxima-nova";
         display: flex;
         @include until($tablet) {
           min-width: 315px;
-          padding-right: 50px;
+          padding-right: 10px;
         }
         a {
           font-size: 17px;
@@ -509,7 +509,7 @@ body {
 }
 
 em {
-  font-size: 0.85em;
+  font-size: 1em;
 }
 
 // Login & Forgot Pages
