@@ -111,6 +111,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('confirmation');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Confirmation');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

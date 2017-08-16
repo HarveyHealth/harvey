@@ -207,7 +207,7 @@
     mounted() {
       this.$root.$data.global.currentPage = 'dashboard';
       if (localStorage.getItem('signed up')) return null;
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
       }
     }

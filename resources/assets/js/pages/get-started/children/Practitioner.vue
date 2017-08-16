@@ -155,6 +155,10 @@ export default {
     // This is for when the component loads after the practitioners had loaded
     if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Practitioner');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
