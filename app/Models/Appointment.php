@@ -5,9 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
-use App\Lib\TransactionalEmail;
-use Lang;
-use Log;
+use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
+use Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -32,7 +31,14 @@ class Appointment extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at', 'status_id'];
+    protected $guarded = [
+        'id',
+        'created_at',
+        'deleted_at',
+        'google_calendar_event_id',
+        'status_id',
+        'updated_at',
+    ];
 
     const STATUSES = [
         self::PENDING_STATUS_ID => 'pending',
@@ -48,13 +54,13 @@ class Appointment extends Model
         parent::boot();
 
         static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
-            return $builder->whereHas('practitioner.user', function ($query){
+            return $builder->whereHas('practitioner.user', function ($query) {
                 $query->where('enabled', true);
             });
         });
 
         static::addGlobalScope('enabledPatient', function (Builder $builder) {
-            return $builder->whereHas('patient.user', function ($query){
+            return $builder->whereHas('patient.user', function ($query) {
                 $query->where('enabled', true);
             });
         });
@@ -71,6 +77,17 @@ class Appointment extends Model
     public function notes()
     {
         return $this->hasMany(PatientNote::class);
+    }
+
+    public function getGoogleMeetLinkAttribute()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return null;
+        }
+
+        return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
+            return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+        });
     }
 
     public function isLocked()
@@ -98,64 +115,230 @@ class Appointment extends Model
         return $this->appointment_at->timezone($this->practitioner->user->timezone);
     }
 
-    public function wasPatientReminderEmail24HsSent()
+    public function wasReminderSent(User $user, int $typeId)
     {
-        return (bool) $this->reminders()->email24HsType()->toRecipient($this->patient->user)->count();
+        return (bool) $this->reminders()->where('type_id', $typeId)->toRecipient($user)->first();
     }
 
-    public function setPatientReminderEmail24HsSent()
+    public function setReminderSent(User $user, int $typeId)
     {
         $reminder = AppointmentReminder::make([
-            'recipient_user_id' => $this->patient->user->id,
-            'type_id' => AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID,
+            'recipient_user_id' => $user->id,
+            'type_id' => $typeId,
             'sent_at' => Carbon::now(),
         ]);
 
         return $this->reminders()->save($reminder);
     }
 
-    public function sendPatientReminderEmail24Hs()
+    public function sendClientReminderSms24Hs()
     {
-        $recipient = $this->patient->user;
+        $time = $this->patientAppointmentAtDate()->format('h:i A');
+        $timezone = $this->patientAppointmentAtDate()->format('T');
 
-        if ($this->wasPatientReminderEmail24HsSent()) {
-            Log::info("User #{$recipient->id} was already email notified about Appointment #{$this->id}. Skipping.");
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', compact('time', 'timezone'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+    }
+
+    public function sendDoctorReminderSms24Hs()
+    {
+        $time = $this->practitionerAppointmentAtDate()->format('h:i A');
+        $timezone = $this->practitionerAppointmentAtDate()->format('T');
+        $patientName = $this->patient->user->full_name;
+
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', compact('time', 'timezone', 'patientName'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+    }
+
+    public function sendClientReminderEmail24Hs()
+    {
+        $templateData = [
+            'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'appointment_timezone' => $this->patientAppointmentAtDate()->format('T'),
+            'patient_name' => $this->patient->user->full_name,
+            'patient_state' => $this->patient->user->state,
+            'practitioner_name' => $this->practitioner->user->full_name,
+            'practitioner_state' => $this->practitioner->user->state,
+        ];
+
+        return $this->sendReminderEmail24Hs($this->patient->user, $templateData);
+    }
+
+    public function sendDoctorReminderEmail24Hs()
+    {
+        $templateData = [
+            'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'appointment_timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $this->patient->user->full_name,
+            'patient_state' => $this->patient->user->state,
+            'practitioner_name' => $this->practitioner->user->full_name,
+            'practitioner_state' => $this->practitioner->user->state,
+        ];
+
+        return $this->sendReminderEmail24Hs($this->practitioner->user, $templateData);
+    }
+
+    public function sendClientIntakeReminderSms12Hs()
+    {
+        $templateData = [
+            'doctor_name' => $this->practitioner->user->full_name,
+            'intake_link' => route('intake'),
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
+
+        return $this->sendReminderSms($this->patient->user, 'client_intake_reminder_12_hs', $templateData, AppointmentReminder::INTAKE_SMS_12_HS_NOTIFICATION_ID);
+    }
+
+    public function sendClientReminderSms1Hs()
+    {
+        $templateData = [
+            'meet_link' => $this->google_meet_link,
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
+
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_1_hs', $templateData, AppointmentReminder::SMS_1_HS_NOTIFICATION_ID);
+    }
+
+    public function sendDoctorReminderSms1Hs()
+    {
+        $templateData = [
+            'patient_name' => $this->patient->user->full_name,
+            'patient_phone' => $this->patient->user->phone,
+            'meet_link' => $this->google_meet_link,
+            'time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+        ];
+
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_1_hs', $templateData, AppointmentReminder::SMS_1_HS_NOTIFICATION_ID);
+    }
+
+    public function sendReminderSms(User $user, string $templateName, array $templateData, int $typeId)
+    {
+        if ($this->wasReminderSent($user, $typeId)) {
+            Log::info("User #{$user->id} was already SMS notified about Appointment #{$this->id} using Template #{$templateName}. Skipping.");
             return false;
-        } else {
-            Log::info("Sending {$recipient->type} reminder to User #{$recipient->id} about Appointment #{$this->id}.");
-
-            $transactionalEmailJob = TransactionalEmail::createJob(
-                $recipient->email,
-                'patient.appointment.reminder',
-                [
-                    'doctor_name' => $this->practitioner->user->fullName(),
-                    'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
-                    'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
-                    'appointment_time_zone' => $this->patientAppointmentAtDate()->format('T'),
-                    'harvey_id' => $recipient->id,
-                    'patient_first_name' => $recipient->first_name,
-                    'phone_number' => $recipient->phone,
-                ]
-            );
-
-            dispatch($transactionalEmailJob);
-
-            $this->setPatientReminderEmail24HsSent();
-            return true;
         }
+
+        $message = View::make("sms/{$templateName}")->with($templateData)->render();
+
+        $user->sendText($message);
+
+        $this->setReminderSent($user, $typeId);
+
+        return true;
+    }
+
+    public function sendReminderEmail24Hs(User $user, array $templateData)
+    {
+        if ($this->wasReminderSent($user, AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID)) {
+            Log::info("User #{$user->id} was already email notified about Appointment #{$this->id}. Skipping.");
+            return false;
+        }
+
+        $transactionalEmailJob = TransactionalEmail::createJob()
+            ->setTo($user->email)
+            ->setTemplate("{$user->type}.appointment.reminder")
+            ->setTemplateModel($templateData);
+
+        dispatch($transactionalEmailJob);
+
+        $this->setReminderSent($user, AppointmentReminder::EMAIL_24_HS_NOTIFICATION_ID);
+
+        return true;
+    }
+
+    public function addToCalendar()
+    {
+        if (!empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
+        try {
+            $event = GoogleCalendar::addEvent($this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            return false;
+        }
+
+        $this->google_calendar_event_id = $event->id;
+        $this->save();
+
+        return $event;
+    }
+
+    public function getEventParams()
+    {
+        return [
+            'summary' => $this->patient->user->full_name,
+            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'start' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'end' => [
+                'dateTime' => $this->practitionerAppointmentAtDate()->addHour()->toW3cString(),
+                'timeZone' => $this->practitioner->timezone,
+            ],
+            'attendees' => [
+                ['email' => $this->practitioner->user->email],
+                ['email' => $this->patient->user->email],
+            ],
+            'reminders' => [
+                'useDefault' => true,
+            ],
+            'visibility' => 'private',
+            'status' => 'confirmed',
+        ];
+    }
+
+    public function deleteFromCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return false;
+        }
+
+        try {
+            GoogleCalendar::deleteEvent($this->google_calendar_event_id);
+        } catch (Exception $e) {
+            ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
+            return false;
+        }
+
+        $this->google_calendar_event_id = null;
+        $this->save();
+
+        return true;
+    }
+
+    public function updateOnCalendar()
+    {
+        if (empty($this->google_calendar_event_id)) {
+            return $this->addToCalendar();
+        }
+
+        try {
+            GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
+        } catch (Exception $e) {
+            ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
+            return false;
+        }
+
+        return true;
     }
 
     /*
      * SCOPES
      */
-    public function scopeUpcoming(Builder $query, int $weeks = 4)
+    public function scopeUpcoming(Builder $builder, int $weeks = 4)
     {
-        return $query->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
+        return $builder->afterThan(Carbon::now())->beforeThan(Carbon::now()->addWeeks($weeks))->byAppointmentAtAsc();
     }
 
     public function scopeRecent(Builder $builder)
     {
-        return $builder->where('appointment_at', '<', Carbon::now())->orderBy('appointment_at', 'DESC');
+        return $builder->where('appointment_at', '<', Carbon::now())->byAppointmentAtDesc();
     }
 
     public function scopeForPractitioner(Builder $builder, Practitioner $practitioner)
@@ -163,9 +346,9 @@ class Appointment extends Model
         return $builder->where('practitioner_id', '=', $practitioner->id);
     }
 
-    public function scopeByAppointmentAtDesc($query)
+    public function scopeByAppointmentAtDesc(Builder $builder)
     {
-        $query->orderBy('appointment_at', 'DESC');
+        $builder->orderBy('appointment_at', 'DESC');
     }
 
     public function scopeForPatient(Builder $builder, Patient $patient)
@@ -201,5 +384,22 @@ class Appointment extends Model
     public function scopePendingInTheNext24hs(Builder $builder)
     {
         return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
+    }
+
+    public function scopePendingInTheNext12hs(Builder $builder)
+    {
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addHours(12));
+    }
+
+    public function scopePendingInTheNextHour(Builder $builder)
+    {
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addHour());
+    }
+
+    public function scopeEmptyPatientIntake(Builder $builder)
+    {
+        return $builder->whereHas('patient.user', function ($query) {
+                $query->whereNull('intake_completed_at');
+            });
     }
 }

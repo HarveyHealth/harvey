@@ -22,6 +22,7 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
+import loadinggraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
@@ -32,6 +33,7 @@ const env = require('get-env')();
 const app = new Vue({
     mixins: [TopNav],
     components: {
+        loadinggraphic,
         Symptoms,
         VerticalTab,
         VerticalTabs
@@ -39,6 +41,7 @@ const app = new Vue({
     data: {
         guest: true,
         appLoaded: false,
+        isProcessing: false,
         login: {
             form: new Form({
                 email: '',
@@ -115,7 +118,14 @@ const app = new Vue({
         isLoginPage: false,
         wait: 400,
         navScrollThreshold: 56,
-        showSignupContent: true
+        showSignupContent: true,
+        guestEmail: '',
+        emailCaptureError: 'Not a valid email address',
+        emailCaptureClasses: {
+          'error-text': true,
+          'is-visible': false
+        },
+        emailCaptureSuccess: false
     },
     computed: {
         bodyClassNames() {
@@ -123,16 +133,48 @@ const app = new Vue({
         }
     },
     methods: {
+        onEmailCaptureSubmit(e) {
+          this.emailCaptureClasses['is-visible'] = false;
+          const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
+          if (passes) {
+            const visitorData = {
+              to: this.guestEmail,
+              template: 'subscribe',
+              _token: Laravel.app.csrfToken
+            }
+            axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
+              this.emailCaptureSuccess = true;
+              if (env === 'production' || env === 'prod') {
+                analytics.group('Email Capture', {
+                  email: this.guestEmail
+                });
+              }
+            }).catch(error => {
+              if (error.response.status === 429) {
+                this.emailCaptureError = 'We\'ve already registered that email address today';
+              } else {
+                this.emailCaptureError = 'Error in email send. Please try again or contact support.';
+              }
+              this.emailCaptureClasses['is-visible'] = true;
+            })
+          } else {
+            this.emailCaptureError = 'Not a valid email address';
+            this.emailCaptureClasses['is-visible'] = true;
+          }
+        },
         // Passed as props to log in and register forms
         // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
         onSubmit(e) {
+            this.isProcessing = true;
             let target = e.target,
                 formId = target.id,
                 formMethod = target.method,
                 formAction = target.action,
                 formRedirectUrl = target.getAttribute('redirect-url');
 
-            this[formId].form.submit(formMethod, formAction, this.onSuccess.bind(null, formRedirectUrl));
+            const cancelProcessing = () => this.isProcessing = false;
+
+            this[formId].form.submit(formMethod, formAction, this.onSuccess.bind(null, formRedirectUrl), cancelProcessing);
         },
         onSuccess(redirectUrl) {
             location.href = redirectUrl;

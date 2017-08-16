@@ -7,7 +7,7 @@
 
       <p class="font-base font-medium_md">
         <span class="confirmation_day">
-          Dr. {{ $root.$data.signup.practitionerName }}, N.D.<br>
+          Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
           {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
         </span>
 
@@ -31,8 +31,8 @@
       <p class="font-base" v-html="note"></p>
 
       <div class="text-centered mt-lg">
-        <a href="/dashboard" class="button button--cancel">Dashboard</a>
         <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
+        <a href="/dashboard" class="button button--cancel">Dashboard</a>
       </div>
     </div>
 
@@ -79,7 +79,7 @@ export default {
       calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
       calendarZone: '',
       calendarLocation: '',
-      calendarDescription: '',
+      calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : '',
     }
   },
   computed: {

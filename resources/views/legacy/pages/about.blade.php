@@ -127,7 +127,7 @@
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Amanda Frick, N.D., LAc</p>
                     <em>Lead Naturopathic Doctor</em>
-                    <p>Dr. Frick is a licensed Naturopathic Doctor from San Diego. She specializes in nutrition, hormone balancing and digestive disorders. She is passionate about bringing the best aspects of modern and traditional medicine together to benefit her patients.</p>
+                    <p>Dr. Frick is a licensed Naturopathic Doctor from Santa Monica, CA. She specializes in nutrition, hormone balancing and digestive disorders. She is passionate about bringing the best aspects of modern and traditional medicine together to benefit her patients.</p>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>

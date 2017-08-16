@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <h3 v-if="$root.$data.global.loadingPractitioners" class="text-centered">
-      <LoadingBubbles :style="{ width: '26px', fill: '#555' }" />
+      <LoadingGraphic :size="26" :fill="'#555'" />
       <div>Loading Practitioners...</div>
     </h3>
     <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" :style="{ 'max-width': '500px', 'margin': '0 auto' }">
@@ -16,29 +16,43 @@
       </div>
       <div class="signup-container signup-stage-container">
         <div class="signup-practitioner-wrapper cf">
-          <div :class="{ 'practitioner-wrapper': true, active: dr.id === store.signup.data.practitioner_id }" v-for="dr in practitioners" tabindex="0" @click="select(dr)">
-            <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + dr.info.background_picture_url + ')' }"></div>
-            <img v-if="dr.info.picture_url" class="practitioner-avatar" :src="dr.info.picture_url" />
-            <h3 v-if="dr.name" class="practitioner-name text-centered">{{ dr.name }}, ND</h3>
-            <p v-if="dr.info.license_number" class="practitioner-license text-centered">License {{ dr.info.license_number }}</p>
-            <div class="practitioner-info-wrapper">
-              <p v-if="dr.info.description">{{ dr.info.description }}</p>
-              <hr class="practitioner-divider" />
-              <ul class="practitioner-info">
-                <li v-if="dr.info.graduated_at"><span>Graduated:</span> {{ dr.info.graduated_at.date | year }}</li>
-                <li v-if="dr.info.school"><span>Degree:</span> {{ dr.info.school }}</li>
-                <li v-if="dr.info.specialty"><span>Specialties:</span> {{ dr.info.specialty | specialty }}</li>
-              </ul>
-              <hr class="practitioner-divider" />
-              <p class="practitioner-rate text-centered"><span>$150</span>/hour</p>
+
+          <div class="practitioner-wrapper">
+            <h3 class="signup-section-header">Available Doctors</h3>
+            <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
+              <button :class="{ 'signup-practitioner-selector': true, 'active': index === selected }" @click="select(dr, index)">
+                <img :src="dr.info.picture_url" v-if="dr.info.picture_url" />
+              </button>
             </div>
           </div>
+
+          <div class="practitioner-wrapper">
+            <div v-if="hasSelection">
+              <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + practitioners[selected].info.background_picture_url + ')' }"></div>
+              <img v-if="practitioners[selected].info.picture_url" class="practitioner-avatar" :src="practitioners[selected].info.picture_url" />
+              <h3 v-if="practitioners[selected].name" class="practitioner-name text-centered">{{ practitioners[selected].name }}, ND</h3>
+              <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
+              <div class="practitioner-info-wrapper">
+                <p v-if="practitioners[selected].info.description">{{ practitioners[selected].info.description }}</p>
+                <hr class="practitioner-divider" />
+                <ul class="practitioner-info">
+                  <li v-if="practitioners[selected].info.graduated_at"><span>Graduated:</span> {{ practitioners[selected].info.graduated_at.date | year }}</li>
+                  <li v-if="practitioners[selected].info.school"><span>Degree:</span> {{ practitioners[selected].info.school }}</li>
+                  <li v-if="practitioners[selected].info.specialty"><span>Specialties:</span> {{ practitioners[selected].info.specialty | specialty }}</li>
+                </ul>
+                <hr class="practitioner-divider" />
+                <p class="practitioner-rate text-centered"><span>$150</span>/hour</p>
+              </div>
+            </div>
+          </div>
+
         </div>
         <p class="error-text" v-html="errorText" v-show="errorText"></p>
+        <p class="practitioner-selection text-centered" v-if="hasSelection">Your selection is <span class="selected-practitioner">{{ practitioners[selected].name }}, ND</span>.</p>
         <div class="text-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>
-            <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+            <LoadingGraphic v-else-if="isProcessing" :size="12" />
             <i v-else-if="isComplete" class="fa fa-check"></i>
           </button>
         </div>
@@ -50,14 +64,14 @@
 <script>
 import moment from 'moment';
 
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
 export default {
   name: 'practitioner',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
@@ -80,12 +94,24 @@ export default {
       return moment(value).format('YYYY');
     }
   },
+  // This is for when the component loads before the practitioner list has finished loading
+  watch: {
+    practitioners(list) {
+      if (list.length) {
+        this.select(list[0], 0, true);
+      }
+    }
+  },
   computed: {
-    // Grab the first two practitioners for now
+    hasSelection() {
+      return this.selected !== null;
+    },
+    // Grab up to 8 practitioners
     practitioners() {
-      return this.store.global.practitioners.length
-        ? [this.store.global.practitioners[0], this.store.global.practitioners[1]]
-        : [];
+      return this.store.global.practitioners.slice(0, 8);
+    },
+    selected() {
+      return this.store.signup.selectedPractitioner;
     },
     nextStage() {
       return Laravel.user.phone_verified_at
@@ -111,8 +137,12 @@ export default {
         }
       });
     },
-    select(dr) {
-      this.$refs.button.scrollIntoView();
+    select(dr, index, noScroll) {
+      // We've added noScroll for the initial selection of the first practitioner.
+      // The ref hasn't registered yet so it throws a console error
+      const shouldScroll = !noScroll || false;
+      if (shouldScroll) this.$refs.button.scrollIntoView();
+      this.store.signup.selectedPractitioner = index;
       this.store.signup.data.practitioner_id = dr.id;
       this.store.signup.practitionerName = dr.info.name;
       this.store.signup.practitionerState = dr.info.license_state;
@@ -122,6 +152,8 @@ export default {
   mounted () {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('practitioner');
+    // This is for when the component loads after the practitioners had loaded
+    if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
   },
   beforeDestroy() {

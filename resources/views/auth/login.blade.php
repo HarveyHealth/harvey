@@ -79,7 +79,10 @@
             <footer class="card-footer">
                 <div class="card-footer-item level">
                     <a href="/get-started" class="button login-buttons">Sign Up</a>
-                    <button type="submit" class="button is-primary login-buttons">Log In</button>
+                    <button type="submit" class="button is-primary login-buttons">
+                      <span v-if="!isProcessing">Log In</span>
+                      <LoadingGraphic v-else :size="12" />
+                    </button>
                 </div>
             </footer>
 

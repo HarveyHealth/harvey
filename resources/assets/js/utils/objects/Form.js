@@ -27,10 +27,10 @@ export default class Form {
         }
     }
 
-    submit(requestType, url, successCallback) {
+    submit(requestType, url, successCallback, failCallback) {
         axios[requestType]( url, this.data() )
             .then( this.onSuccess.bind(this, successCallback) )
-            .catch( this.onFail.bind(this) );
+            .catch(error => this.onFail(error, failCallback));
     }
 
     onSuccess(successCallback) {
@@ -41,9 +41,10 @@ export default class Form {
         }
     }
 
-    onFail(error) {
+    onFail(error, failCallback) {
         if (error.response && error.response.data) {
             this.errors.record(error.response.data);
         }
+        if (failCallback) failCallback();
     }
 }

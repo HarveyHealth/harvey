@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use App\Models\Patient;
-use App\Models\Practitioner;
-use App\Models\User;
+use App\Models\{Admin, License, Patient, Practitioner, User};
 use Faker\Factory as Faker;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
@@ -136,6 +133,8 @@ class UserTest extends TestCase
             'terms' => true,
             'zip' => 90401,
         ];
+
+        factory(License::class)->create(['state' => 'CA']);
 
         $response = $this->json('POST', 'api/v1/users', $parameters);
 
