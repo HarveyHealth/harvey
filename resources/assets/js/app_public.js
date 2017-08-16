@@ -244,6 +244,8 @@ const app = new Vue({
         });
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
 
+        // This is a temporary solution until we refactor how analytics is loaded
+        // on public pages
         if (this.shouldTrack()) {
           if(this.isHomePage) {
             analytics.page('Homepage');
