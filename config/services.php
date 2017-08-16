@@ -49,7 +49,7 @@ return [
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
         'templates' => [
             'visitor' => [
-                'pdf' => 2861223,
+                'subscribe' => 2861223,
             ],
             'practitioner' => [
                 'appointment' => [
