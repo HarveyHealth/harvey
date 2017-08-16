@@ -114,7 +114,6 @@ const app = new Vue({
             }
         },
         navIsInverted: true,
-        isHomePage: false,
         isLoginPage: false,
         wait: 400,
         navScrollThreshold: 56,
@@ -129,7 +128,10 @@ const app = new Vue({
     },
     computed: {
         bodyClassNames() {
-            return document.getElementsByTagName('body')[0].classList;
+          return document.getElementsByTagName('body')[0].classList;
+        },
+        isHomePage() {
+          return window.location.pathname === '/';
         }
     },
     methods: {
@@ -144,7 +146,7 @@ const app = new Vue({
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
-              if (env === 'production' || env === 'prod') {
+              if (this.shouldTrack()) {
                 analytics.group('Email Capture', {
                   email: this.guestEmail
                 });
@@ -231,13 +233,28 @@ const app = new Vue({
                 }, 500);
                 window.removeEventListener('blur', this.onIframeClick);
             }
+        },
+        shouldTrack() {
+          return env === 'production' || env === 'prod';
         }
     },
     mounted() {
-         this.$nextTick(() => {
-            this.appLoaded = true;
+        this.$nextTick(() => {
+          this.appLoaded = true;
         });
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
+
+        // This is a temporary solution until we refactor how analytics is loaded
+        // on public pages
+        if (this.shouldTrack()) {
+          if(this.isHomePage) {
+            analytics.page('Homepage');
+          } else if (window.location.pathname === '/about') {
+            analytics.page('About');
+          } else if (window.location.pathname === '/lab-tests') {
+            analytics.page('Lab Tests');
+          }
+        }
     },
     destroyed() {
         if (this.isHomePage) {

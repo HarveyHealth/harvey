@@ -165,7 +165,7 @@ export default {
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
             // track the number patch
-            if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+            if(this.$root.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
               const userId = response.data.data.id || '';
@@ -207,6 +207,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Phone');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
