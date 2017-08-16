@@ -42,10 +42,10 @@ class AppointmentTest extends TestCase
 
         $this->assertEquals('[Found 3 Appointments.]', $output[1]);
 
-        $this->assertEquals('[3 Client Email appointments 24hs reminders sent.]', $output[10]);
-        $this->assertEquals('[3 Doctor Email appointments 24hs reminders sent.]', $output[11]);
-        $this->assertEquals('[3 Client SMS Appointments 24hs reminders sent.]', $output[12]);
-        $this->assertEquals('[3 Doctor SMS Appointments 24hs reminders sent.]', $output[13]);
+        $this->assertEquals('[3 Client Email appointments 24hs reminders sent.]', $output[14]);
+        $this->assertEquals('[3 Doctor Email appointments 24hs reminders sent.]', $output[15]);
+        $this->assertEquals('[3 Client SMS Appointments 24hs reminders sent.]', $output[16]);
+        $this->assertEquals('[3 Doctor SMS Appointments 24hs reminders sent.]', $output[17]);
     }
 
     public function test_not_pending_appointments_are_excluded_from_reminders()
@@ -71,10 +71,10 @@ class AppointmentTest extends TestCase
 
         $this->assertEquals('[Found 3 Appointments.]', $output[1]);
 
-        $this->assertEquals('[0 Client Email appointments 24hs reminders sent.]', $output[10]);
-        $this->assertEquals('[0 Doctor Email appointments 24hs reminders sent.]', $output[11]);
-        $this->assertEquals('[0 Client SMS Appointments 24hs reminders sent.]', $output[12]);
-        $this->assertEquals('[0 Doctor SMS Appointments 24hs reminders sent.]', $output[13]);
+        $this->assertEquals('[0 Client Email appointments 24hs reminders sent.]', $output[14]);
+        $this->assertEquals('[0 Doctor Email appointments 24hs reminders sent.]', $output[15]);
+        $this->assertEquals('[0 Client SMS Appointments 24hs reminders sent.]', $output[16]);
+        $this->assertEquals('[0 Doctor SMS Appointments 24hs reminders sent.]', $output[17]);
     }
 
     public function test_patient_email_24hs_reminder_is_filled_properly()

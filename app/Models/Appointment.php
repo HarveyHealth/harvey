@@ -166,13 +166,13 @@ class Appointment extends Model
     public function sendDoctorReminderEmail24Hs()
     {
         $templateData = [
-                    'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
-                    'appointment_time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
-                    'appointment_timezone' => $this->practitionerAppointmentAtDate()->format('T'),
-                    'patient_name' => $this->patient->user->full_name,
-                    'patient_state' => $this->patient->user->state,
-                    'practitioner_name' => $this->practitioner->user->full_name,
-                    'practitioner_state' => $this->practitioner->user->state,
+            'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
+            'appointment_time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'appointment_timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $this->patient->user->full_name,
+            'patient_state' => $this->patient->user->state,
+            'practitioner_name' => $this->practitioner->user->full_name,
+            'practitioner_state' => $this->practitioner->user->state,
         ];
 
         return $this->sendReminderEmail24Hs($this->practitioner->user, $templateData);
@@ -180,14 +180,38 @@ class Appointment extends Model
 
     public function sendClientIntakeReminderSms12Hs()
     {
-        $doctor_name = $this->practitioner->user->full_name;
-        $intake_link = route('intake');
-        $time = $this->patientAppointmentAtDate()->format('h:i A');
-        $timezone = $this->patientAppointmentAtDate()->format('T');
-
-        $templateData = compact('time', 'timezone', 'doctor_name', 'intake_link');
+        $templateData = [
+            'doctor_name' => $this->practitioner->user->full_name,
+            'intake_link' => route('intake'),
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
 
         return $this->sendReminderSms($this->patient->user, 'client_intake_reminder_12_hs', $templateData, AppointmentReminder::INTAKE_SMS_12_HS_NOTIFICATION_ID);
+    }
+
+    public function sendClientReminderSms1Hs()
+    {
+        $templateData = [
+            'meet_link' => $this->google_meet_link,
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
+
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_1_hs', $templateData, AppointmentReminder::SMS_1_HS_NOTIFICATION_ID);
+    }
+
+    public function sendDoctorReminderSms1Hs()
+    {
+        $templateData = [
+            'patient_name' => $this->patient->user->full_name,
+            'patient_phone' => $this->patient->user->phone,
+            'meet_link' => $this->google_meet_link,
+            'time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+        ];
+
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_1_hs', $templateData, AppointmentReminder::SMS_1_HS_NOTIFICATION_ID);
     }
 
     public function sendReminderSms(User $user, string $templateName, array $templateData, int $typeId)
@@ -365,6 +389,11 @@ class Appointment extends Model
     public function scopePendingInTheNext12hs(Builder $builder)
     {
         return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addHours(12));
+    }
+
+    public function scopePendingInTheNextHour(Builder $builder)
+    {
+        return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addHour());
     }
 
     public function scopeEmptyPatientIntake(Builder $builder)

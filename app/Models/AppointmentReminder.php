@@ -23,11 +23,13 @@ class AppointmentReminder extends Model
     const EMAIL_24_HS_NOTIFICATION_ID = 0;
     const SMS_24_HS_NOTIFICATION_ID = 1;
     const INTAKE_SMS_12_HS_NOTIFICATION_ID = 2;
+    const SMS_1_HS_NOTIFICATION_ID = 3;
 
     const TYPES = [
         self::EMAIL_24_HS_NOTIFICATION_ID => 'email_24hs',
         self::SMS_24_HS_NOTIFICATION_ID => 'sms_24hs',
         self::INTAKE_SMS_12_HS_NOTIFICATION_ID => 'intake_sms_12hs',
+        self::SMS_1_HS_NOTIFICATION_ID => 'sms_1hs',
     ];
 
     public function recipient()
