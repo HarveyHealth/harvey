@@ -48,7 +48,7 @@
 
         </div>
         <p class="error-text" v-html="errorText" v-show="errorText"></p>
-        <p class="text-centered" v-if="hasSelection">Your choice is <span class="selected-practitioner">{{ practitioners[selected].name }}, ND</span></p>
+        <p class="practitioner-selection text-centered" v-if="hasSelection">Your selection is <span class="selected-practitioner">{{ practitioners[selected].name }}, ND</span>.</p>
         <div class="text-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>
