@@ -139,7 +139,7 @@ const app = new Vue({
           if (passes) {
             const visitorData = {
               to: this.guestEmail,
-              template: 'pdf',
+              template: 'subscribe',
               _token: Laravel.app.csrfToken
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
