@@ -133,19 +133,24 @@ class Appointment extends Model
 
     public function sendClientReminderSms24Hs()
     {
-        $time = $this->patientAppointmentAtDate()->format('h:i A');
-        $timezone = $this->patientAppointmentAtDate()->format('T');
+        $templateData = [
+            'doctor_name' => $this->practitioner->user->full_name,
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
 
-        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', compact('time', 'timezone'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', $templateData, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendDoctorReminderSms24Hs()
     {
-        $time = $this->practitionerAppointmentAtDate()->format('h:i A');
-        $timezone = $this->practitionerAppointmentAtDate()->format('T');
-        $patientName = $this->patient->user->full_name;
+        $templateData = [
+            'time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $this->patient->user->full_name,
+        ];
 
-        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', compact('time', 'timezone', 'patientName'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', $templateData, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendClientReminderEmail24Hs()
