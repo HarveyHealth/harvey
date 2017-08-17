@@ -1,1 +1,2 @@
-Your appointment with {{ $patient_name }} starts in 1 hour at {{ $time }} {{ $timezone }}. The link to your video conference is below. We recommend entering the meeting now for a few seconds to make sure it works. As backup, the client’s phone number is {{ $patient_phone }}. {{ $meet_link}}
+Your appointment with {{ $patient_name }} starts in 1 hour at {{ $time }} {{ $timezone }}. The link to your video conference is below. You can call your client at {{ $patient_phone }} if they are not in the video chat.
+{{ $meet_link}}
