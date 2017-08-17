@@ -1,2 +1,2 @@
-This is Harvey with a reminder to complete your Intake form before your first appointment with {{ $doctor_name }} at {{ $time }} {{ $timezone }}.
-Please take 5-7 minutes and follow this link {{ $intake_link }} in order to complete your Intake form. Thank you!.
+This is Harvey with a reminder to complete your intake form before your appointment with {{ $doctor_name }} at {{ $time }} {{ $timezone }}.
+Please take 5-7 minutes and follow this link {{ $intake_link }} to complete your intake form. Thank you!
