@@ -276,7 +276,7 @@ class Appointment extends Model
     public function getEventParams()
     {
         return [
-            'summary' => $this->patient->user->full_name,
+            'summary' => "{$this->patient->user->full_name} {$this->patient->user->email}",
             'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
@@ -288,7 +288,6 @@ class Appointment extends Model
             ],
             'attendees' => [
                 ['email' => $this->practitioner->user->email],
-                ['email' => $this->patient->user->email],
             ],
             'reminders' => [
                 'useDefault' => true,
