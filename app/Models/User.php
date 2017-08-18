@@ -94,6 +94,8 @@ class User extends Authenticatable implements Mailable
     {
         if (!empty($this->attributes['state'])) {
             return $this->attributes['state'];
+        } elseif (empty($this->zip)) {
+            return null;
         }
 
         $query = "{$this->zip} USA";
