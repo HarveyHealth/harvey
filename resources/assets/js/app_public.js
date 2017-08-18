@@ -146,7 +146,7 @@ const app = new Vue({
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
-              if (env === 'production' || env === 'prod') {
+              if (this.shouldTrack()) {
                 analytics.identify({ 
                   email: this.guestEmail
                 });
