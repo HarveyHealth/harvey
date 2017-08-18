@@ -275,9 +275,13 @@ class Appointment extends Model
 
     public function getEventParams()
     {
+        $description = !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified";
+        $description = trim($description, '.');
+        $description .= ". Patient email: \"{$this->patient->user->email}\".";
+
         return [
-            'summary' => "{$this->patient->user->full_name} {$this->patient->user->email}",
-            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'summary' => $this->patient->user->full_name,
+            'description' => $description,
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
                 'timeZone' => $this->practitioner->timezone,
@@ -292,7 +296,6 @@ class Appointment extends Model
             'reminders' => [
                 'useDefault' => true,
             ],
-            'visibility' => 'private',
             'status' => 'confirmed',
         ];
     }
