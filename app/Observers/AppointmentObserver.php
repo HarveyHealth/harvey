@@ -2,10 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\AppointmentCanceled;
-use App\Events\AppointmentUpdated;
-use App\Events\AppointmentComplete;
-use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated};
+use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated, AppointmentComplete};
 use App\Models\Appointment;
 
 class AppointmentObserver

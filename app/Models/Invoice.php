@@ -12,7 +12,7 @@ class Invoice extends Model
 	const PENDING_STATUS = 'pending';
 	const CANCELLED_STATUS = 'cancelled';
 
-	public static function invoiceForData($invoice_data)
+	public static function newInvoiceWithData($invoice_data)
 	{
 		$invoice = new Invoice;
 		$discount_code = DiscountCode::withValidCode($invoice_data['discount_code']);

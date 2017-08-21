@@ -11,7 +11,7 @@ class Cashier
 	{
 		$invoice_data = $invoiceable->dataForInvoice();
 
-        $invoice = Invoice::invoiceWithData($invoice_data);
+        $invoice = Invoice::newInvoiceWithData($invoice_data);
         $invoice->patient_id = $invoiceable->patient_id;
         $invoice->calculateTotals();
 
@@ -20,6 +20,6 @@ class Cashier
 
 	public function chargePatientForInvoice(Invoice $invoice)
 	{
-
+		
 	}
 }

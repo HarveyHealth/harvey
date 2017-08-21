@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Cache, Exception, Lang, Log, View;
 
