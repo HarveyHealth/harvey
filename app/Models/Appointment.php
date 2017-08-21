@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Cache, Exception, Lang, Log, View;
+use Bugsnag, Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -263,6 +263,7 @@ class Appointment extends Model
         try {
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar. {$e->getMessage()}");
             return false;
         }
@@ -309,6 +310,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::deleteEvent($this->google_calendar_event_id);
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
             return false;
         }
@@ -328,6 +330,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
             return false;
         }
