@@ -22,26 +22,12 @@ class Geocoder extends BaseClient
         try {
             $response = $this->get('geocode/json', ['address' => $query]);
         } catch (Exception $e) {
-            $message = 'Exception processing geocoding: ' . $query;
-
-            // log it
-            \Log::warning($message);
-
-            // slack it
-            ops_error($message);
-
+            ops_error("Exception processing geocoding: {$query}");
             return false;
         }
 
         if ($response->getStatusCode() != 200) {
-            $message = 'Could not process geocoding: ' . $query;
-
-            // log it
-            \Log::warning($message);
-
-            // slack it
-            ops_error($message);
-
+            ops_error("Could not process geocoding: {$query} / API Response status code: {$response->getStatusCode()}");
             return false;
         }
 

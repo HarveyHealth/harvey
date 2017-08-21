@@ -28,6 +28,10 @@ export default {
     this.$root.toDashboard();
     this.$root.setup();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Welcome');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

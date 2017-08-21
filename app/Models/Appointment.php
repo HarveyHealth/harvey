@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Cache, Exception, Lang, Log, View;
+use Bugsnag, Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -133,19 +133,24 @@ class Appointment extends Model
 
     public function sendClientReminderSms24Hs()
     {
-        $time = $this->patientAppointmentAtDate()->format('h:i A');
-        $timezone = $this->patientAppointmentAtDate()->format('T');
+        $templateData = [
+            'doctor_name' => $this->practitioner->user->full_name,
+            'time' => $this->patientAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->patientAppointmentAtDate()->format('T'),
+        ];
 
-        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', compact('time', 'timezone'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+        return $this->sendReminderSms($this->patient->user, 'client_reminder_24_hs', $templateData, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendDoctorReminderSms24Hs()
     {
-        $time = $this->practitionerAppointmentAtDate()->format('h:i A');
-        $timezone = $this->practitionerAppointmentAtDate()->format('T');
-        $patientName = $this->patient->user->full_name;
+        $templateData = [
+            'time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
+            'timezone' => $this->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $this->patient->user->full_name,
+        ];
 
-        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', compact('time', 'timezone', 'patientName'), AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
+        return $this->sendReminderSms($this->practitioner->user, 'doctor_reminder_24_hs', $templateData, AppointmentReminder::SMS_24_HS_NOTIFICATION_ID);
     }
 
     public function sendClientReminderEmail24Hs()
@@ -182,7 +187,7 @@ class Appointment extends Model
     {
         $templateData = [
             'doctor_name' => $this->practitioner->user->full_name,
-            'intake_link' => route('intake'),
+            'intake_link' => "https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID={$this->patient->user->id}",
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
             'timezone' => $this->patientAppointmentAtDate()->format('T'),
         ];
@@ -258,7 +263,8 @@ class Appointment extends Model
         try {
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
-            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            Bugsnag::notifyException($e);
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar. {$e->getMessage()}");
             return false;
         }
 
@@ -270,9 +276,13 @@ class Appointment extends Model
 
     public function getEventParams()
     {
+        $description = !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified";
+        $description = trim($description, '.');
+        $description .= ".\n{$this->patient->user->email}";
+
         return [
             'summary' => $this->patient->user->full_name,
-            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'description' => $description,
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
                 'timeZone' => $this->practitioner->timezone,
@@ -283,12 +293,10 @@ class Appointment extends Model
             ],
             'attendees' => [
                 ['email' => $this->practitioner->user->email],
-                ['email' => $this->patient->user->email],
             ],
             'reminders' => [
                 'useDefault' => true,
             ],
-            'visibility' => 'private',
             'status' => 'confirmed',
         ];
     }
@@ -302,6 +310,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::deleteEvent($this->google_calendar_event_id);
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
             return false;
         }
@@ -321,6 +330,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
             return false;
         }

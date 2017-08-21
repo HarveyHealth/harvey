@@ -299,6 +299,10 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
+        },
+        // Helper to determine if tracking scripts should run
+        shouldTrack() {
+          return env === 'production' || env === 'prod';
         }
     },
     mounted() {

@@ -10,7 +10,7 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
       <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150.</p>
-      <button class="button button--blue" style="width: 180px" :disabled="isProcessing" @click="confirmSignup">
+      <button class="button button--blue" style="width: 195px" :disabled="isProcessing" @click="confirmSignup">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
@@ -111,6 +111,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('confirmation');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Confirmation');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
