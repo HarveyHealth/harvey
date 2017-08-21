@@ -19,7 +19,7 @@
                         <div style="height: 40px; margin: 20px auto;">
                             <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
                             <a @click="pressEdit(card)" style="margin: 0 10px; float: left;">edit</a>
-                            <a style="margin: 0 10px; float: left;">delete</a>
+                            <a @click="deleteCard(card)" style="margin: 0 10px; float: left;">delete</a>
                         </div>
                     </div>
 
@@ -94,6 +94,11 @@ export default {
                 this.submitNewCard()
             }
         },
+        deleteCard(card) {
+            axios.delete(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
+                card_id: card.id
+            })
+        },
         submitUpdateCard() {
             this.details = false
             this.edit = false
@@ -103,7 +108,7 @@ export default {
         },
         updateCard() {
             axios.patch(`${this.$root.$data.apiUrl}/`, {
-                card_id: this.currentCard.card_id,
+                card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
                 address_country: this.currentCard.address_country,
                 address_line1: this.currentCard.address_line1,
