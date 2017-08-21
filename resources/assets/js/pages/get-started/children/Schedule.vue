@@ -192,6 +192,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('schedule');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Schedule');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

@@ -9,10 +9,11 @@
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}, a licensed Naturopathic Doctor from {{ state | getState }}. {{ firstName }} will call you on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+
+      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
       <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
-        <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
     </div>
 
@@ -21,7 +22,7 @@
       <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
         <span v-if="!isBackProcessing">Back to Schedule</span>
-        <LoadingBubbles v-else-if="isBackProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <LoadingGraphic v-else-if="isBackProcessing" :size="12" />
       </button>
     </Modal>
 
@@ -33,7 +34,7 @@ import getState from '../../../utils/methods/getState';
 import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
@@ -41,7 +42,7 @@ import StagesNav from '../util/StagesNav.vue';
 export default {
   name: 'confirmation',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     Modal,
     Overlay,
     StagesNav,
@@ -90,6 +91,7 @@ export default {
     confirmSignup() {
       this.isProcessing = true;
       axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
+        this.$root.$data.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
         window.onbeforeunload = null;
         this.isProcessing = false;
         this.$router.push({ name: 'success', path: 'success' });
@@ -117,6 +119,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('confirmation');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Confirmation');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

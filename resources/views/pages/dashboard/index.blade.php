@@ -2,21 +2,21 @@
 
 @section('page_title', 'Dashboard')
 
-<script>
-  window.Laravel = {!! $vue_data !!}
-  if ( Laravel.user.signedIn &&
-      !Laravel.user.has_an_appointment &&
-       Laravel.user.user_type === 'patient' ) {
-    window.location.href = '/get-started';
-  }
-</script>
-
 @push('stylesheets')
     <link rel="stylesheet" href="{{ mix('css/application.css') }}">
 @endpush
 
 @section('content')
     @include('_includes.svgs')
+
+    <script>
+    window.Laravel = {!! $vue_data !!}
+    if ( Laravel.user.signedIn &&
+        !Laravel.user.has_an_appointment &&
+        Laravel.user.user_type === 'patient' ) {
+        window.location.href = '/get-started';
+    }
+    </script>
 
     <div class="admin-content">
       <div id="app" :class="{ 'menu-open': global.menuOpen }">

@@ -6,6 +6,10 @@
   @include padding(1em 1.7em 1em 1.2em);
   position: fixed;
   z-index: 9999;
+
+  &.error {
+    background: $pink;
+  }
 }
 
 .notify-color {

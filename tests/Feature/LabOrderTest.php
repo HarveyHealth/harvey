@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Patient, Practitioner, LabTest, LabOrder};
+use App\Models\{Admin, License, Patient, Practitioner, LabTest, LabOrder};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -123,6 +123,8 @@ class LabOrderTest extends TestCase
             'zip' => '90401',
             'state' => 'CA',
         ];
+
+        factory(License::class)->create(['state' => 'CA']);
 
         $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
 

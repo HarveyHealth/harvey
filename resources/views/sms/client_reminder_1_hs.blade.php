@@ -1,0 +1,2 @@
+Your appointment starts in 1 hour at {{ $time }} {{ $timezone }}. You doctor will meet you in the video conference meeting room below, which should work on desktop, mobile or tablet. We recommend entering the meeting now for a few seconds to make sure it works.
+{{ $meet_link}}

@@ -29,27 +29,57 @@ class SendAppointmentsRemindersCommand extends Command
      */
      public function handle()
      {
-        $this->info('Looking for pending Appointments in the next 24hs...');
+        $this->info('Step 1/3: Looking for pending Appointments in the next 24hs...');
         $appointments = Appointment::pendingInTheNext24hs()->get();
 
         if (empty($appointments)) {
             $this->info('No Appointments found.');
         } else {
             $this->info("[Found {$appointments->count()} Appointments.]");
-            $this->info('');
             $this->info('Processing Appointments...');
+            $this->info('');
 
-            $totalClientEmailSent = $appointments->map->sendClientReminderEmail24Hs()->filter()->count();
-            $totalDoctorEmailSent = $appointments->map->sendDoctorReminderEmail24Hs()->filter()->count();
-            $totalClientSmsSent = $appointments->map->sendClientReminderSms24Hs()->filter()->count();
-            $totalDoctorSmsSent = $appointments->map->sendDoctorReminderSms24Hs()->filter()->count();
+            $totalClientEmail24hsSent = $appointments->map->sendClientReminderEmail24Hs()->filter()->count();
+            $totalDoctorEmail24hsSent = $appointments->map->sendDoctorReminderEmail24Hs()->filter()->count();
+            $totalClientSms24hsSent = $appointments->map->sendClientReminderSms24Hs()->filter()->count();
+            $totalDoctorSms24hsSent = $appointments->map->sendDoctorReminderSms24Hs()->filter()->count();
+        }
+
+        $this->info("Step 2/3: Looking for pending Appointments in the next 12hs belonging to Patients who didn't completed the Intake form...");
+        $appointments = Appointment::pendingInTheNext12hs()->emptyPatientIntake()->get();
+
+        if (empty($appointments)) {
+            $this->info('No Appointments found.');
+        } else {
+            $this->info("[Found {$appointments->count()} Appointments.]");
+            $this->info('Processing Appointments...');
+            $this->info('');
+
+            $totalIntakeSmsSent = $appointments->map->sendClientIntakeReminderSms12Hs()->filter()->count();
+        }
+
+        $this->info("Step 3/3: Looking for pending Appointments in the next hour...");
+        $appointments = Appointment::pendingInTheNextHour()->get();
+
+        if (empty($appointments)) {
+            $this->info('No Appointments found.');
+        } else {
+            $this->info("[Found {$appointments->count()} Appointments.]");
+            $this->info('Processing Appointments...');
+            $this->info('');
+
+            $totalClientSms1hsSent = $appointments->map->sendClientReminderSms1Hs()->filter()->count();
+            $totalDoctorSms1hsSent = $appointments->map->sendDoctorReminderSms1Hs()->filter()->count();
         }
 
         $this->info("Done.");
         $this->info('');
-        $this->info("[{$totalClientEmailSent} Client Email appointments 24hs reminders sent.]");
-        $this->info("[{$totalDoctorEmailSent} Doctor Email appointments 24hs reminders sent.]");
-        $this->info("[{$totalClientSmsSent} Client SMS Appointments 24hs reminders sent.]");
-        $this->info("[{$totalDoctorSmsSent} Doctor SMS Appointments 24hs reminders sent.]");
+        $this->info("[{$totalClientEmail24hsSent} Client Email appointments 24hs reminders sent.]");
+        $this->info("[{$totalDoctorEmail24hsSent} Doctor Email appointments 24hs reminders sent.]");
+        $this->info("[{$totalClientSms24hsSent} Client SMS Appointments 24hs reminders sent.]");
+        $this->info("[{$totalDoctorSms24hsSent} Doctor SMS Appointments 24hs reminders sent.]");
+        $this->info("[{$totalIntakeSmsSent} Intake SMS Appointments 12hs reminders sent.]");
+        $this->info("[{$totalClientSms1hsSent} Client SMS Appointments 1hs reminders sent.]");
+        $this->info("[{$totalDoctorSms1hsSent} Doctor SMS Appointments 1hs reminders sent.]");
     }
 }

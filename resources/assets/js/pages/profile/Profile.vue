@@ -2,10 +2,11 @@
     <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
-                    :active="notificationActive"
-                    :comes-from="notificationDirection"
-                    :symbol="notificationSymbol"
-                    :text="notificationMessage"
+                :as-error="notificationError"
+                :active="notificationActive"
+                :comes-from="notificationDirection"
+                :symbol="notificationSymbol"
+                :text="notificationMessage"
             />
             <div class="main-header">
                 <div class="container container-backoffice">
@@ -164,8 +165,15 @@
                         zip: '',
                     }
                 },
+                user_data: null,
+                user_id: this.$route.params.id,
                 timezones: timezones,
                 states: states,
+                errorSymbol: '&#9888;',
+                errorMessage: 'Error retrieving data',
+                successSymbol: '&#10003;',
+                successMessage: 'Changes Saved',
+                notificationError: false,
                 notificationSymbol: '&#10003;',
                 notificationMessage: 'Changes Saved',
                 notificationActive: false,
@@ -175,12 +183,24 @@
             }
         },
         methods: {
-            flashSuccess() {
+            flashNotification() {
                 this.notificationActive = true;
-                setTimeout(() => this.notificationActive = false, 2000);
+                setTimeout(() => this.notificationActive = false, 3000);
             },
             resetErrorMessages() {
                 this.errorMessages = null;
+            },
+            callErrorNotification(msg) {
+                this.notificationError = true;
+                this.notificationSymbol = this.errorSymbol;
+                this.notificationMessage = msg || this.errorMessage;
+                this.flashNotification();
+            },
+            callSuccessNotification() {
+              this.notificationError = false;
+              this.notificationSymbol = this.successSymbol;
+              this.notificationMessage = this.successMessage;
+              this.flashNotification();
             },
             submit() {
                 if(_.isEmpty(this.updates))
@@ -189,10 +209,15 @@
                 this.resetErrorMessages();
 
                 this.submitting = true;
-                axios.patch(`/api/v1/users/${this.user.id}`, this.updates)
+
+                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
                     .then(response => {
-                        this.$root.$data.global.user = response.data.data;
-                        this.flashSuccess();
+                        if (this.canEditUsers) {
+                            this.user_data = response.data.data;
+                        } else {
+                            this.$root.$data.global.user = response.data.data;
+                        }
+                        this.callSuccessNotification('Error updating data');
                         this.submitting = false;
                     })
                     .catch(err => {
@@ -207,36 +232,82 @@
             uploadedProfileImage(response) {
                 this.user.attributes.image_url = response.data.attributes.image_url;
                 this.loadingProfileImage = false;
-                this.flashSuccess();
+                this.callSuccessNotification();
             },
             uploadError(err) {
                 this.user.attributes.image_url = this.previousProfileImage;
                 this.loadingProfileImage = false;
                 this.errorMessages = err.errors;
+            },
+            getData(userId) {
+                this.$root.$data.global.loadingUser = true;
+                axios.get(`${this.$root.$data.apiUrl}/users/${userId}?include=patient,practitioner`)
+                    .then(response => {
+                        // this.user_data persists the data retrieved from the server
+                        // so we can diff against it on PATCH
+                        this.$root.$data.global.loadingUser = false;
+                        this.user_data = response.data.data;
+                        this.user = _.cloneDeep(response.data.data);
+                    })
+                    .catch(error => {
+                        this.$router.push('/profile');
+                        this.user_id = null;
+                        this.$root.$data.global.loadingUser = false;
+                        this.callErrorNotification();
+                    });
             }
         },
         mounted() {
+            // We need to bar non admins from hitting profile/:id
+            if (this.canEditUsers) {
+                this.user_id = this.$route.params.id;
+            } else if (this._user_id) {
+                this.$router.push('/profile');
+            }
             this.$root.$data.global.currentPage = 'profile';
         },
-        computed: {
-            // loading is connected to global state since that's where the main user api call is made
-            loading() {
-                return this.$root.$data.global.loadingUser;
-            },
-            // This computed property is used solely to populate this.user once the api call
-            // from app.js is finished running. Sort of like a watch for parent components
-            _user() {
-                if (!this.$root.$data.global.loadingUser) {
-                    this.user = _.cloneDeep(this.$root.$data.global.user);
+        // If the user id parameter changes in the URL we want to trigger getData to populate fields
+        // with new user data corresponding to the id
+        watch: {
+            _user_id(id) {
+                if (id && this.canEditUsers) {
+                    this.user_id = id;
+                    this.getData(this.user_id);
+                } else {
+                    this.$router.push('/profile')
                 }
-                return '';
-            },
-            updates() {
-                return _.omit(diff(this.$root.$data.global.user.attributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
+            }
+        },
+        computed: {
+            canEditUsers() {
+                return this._user_id && Laravel.user.user_type === 'admin';
             },
             isPractitioner() {
                 return Laravel.user.practitionerId;
             },
+            // loading is connected to global state since that's where the main user api call is made
+            loading() {
+                return this.$root.$data.global.loadingUser;
+            },
+            updates() {
+                // We want to diff against the correct user attributes
+                const oldUserAttributes = this.canEditUsers ? this.user_data.attributes : this.$root.$data.global.user.attributes;
+                return _.omit(diff(oldUserAttributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
+            },
+            // This computed property is used solely to populate this.user once the api call
+            // from app.js is finished running. Sort of like a watch for parent components.
+            _user() {
+                if (this.canEditUsers) {
+                    this.getData(this.user_id);
+                } else if (!this.$root.$data.global.loadingUser) {
+                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                }
+                return '';
+            },
+            // We set the user_id as a computed property so we can set a watch on it for when the url changes
+            _user_id() {
+                return this.$route.params.id;
+            }
         }
     }
 </script>

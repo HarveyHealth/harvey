@@ -19,7 +19,7 @@
               :text="notificationMessage"
             />
             <div class="card" v-show="messageList.length == 0" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
-              <p style="font-style: italic;">No Messages Found</p>
+              <p style="font-style: italic;">Sorry, you don't have any messages.</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
@@ -89,6 +89,9 @@
           close() {
             this.renderNewMessage = !this.renderNewMessage
           }
+        },
+        beforeMount() {
+          this.$root.setup();
         },
         mounted() {
           this.$root.$data.global.currentPage = 'messages';

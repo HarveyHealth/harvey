@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\Textable;
+use App\Lib\Clients\Geocoder;
 use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
@@ -37,6 +38,7 @@ class User extends Authenticatable implements Mailable
         'created_at',
         'email_verified_at',
         'enabled',
+        'intake_completed_at',
         'password',
         'phone_verified_at',
         'remember_token',
@@ -49,9 +51,8 @@ class User extends Authenticatable implements Mailable
     protected $dates = [
         'created_at',
         'email_verified_at',
+        'intake_completed_at',
         'phone_verified_at',
-        'terms_accepted_at',
-        'trial_ends_at',
         'updated_at',
     ];
 
@@ -90,6 +91,24 @@ class User extends Authenticatable implements Mailable
     public function getTypeAttribute()
     {
         return $this->userType();
+    }
+
+    public function getStateAttribute()
+    {
+        if (!empty($this->attributes['state'])) {
+            return $this->attributes['state'];
+        } elseif (empty($this->zip)) {
+            return null;
+        }
+
+        $query = "{$this->zip} USA";
+
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
+            $geocoder = new Geocoder;
+            return $geocoder->geocode($query);
+        });
+
+        return $result['address']['state'] ?? null;
     }
 
     public function getFullNameAttribute()

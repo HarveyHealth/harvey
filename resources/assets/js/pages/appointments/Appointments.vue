@@ -38,6 +38,7 @@
     >
 
       <Patient
+        :address="appointment.patientAddress"
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
@@ -54,6 +55,11 @@
         :set-practitioner="setPractitionerInfo"
         :visible="visiblePractitioner"
       />
+
+      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
+        <label class="input__label">Mailing Address</label>
+        <p class="input__item" v-html="appointment.patientAddress"></p>
+      </div>
 
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
@@ -473,7 +479,7 @@ export default {
             this.showBillingError = true;
             return;
           }
-          if (this.$root.isOnProduction()) {
+          if (this.$root.shouldTrack()) {
             // Add "Confirm Appointment" tracking here
           }
           this.userActionTitle = 'Confirm Appointment';
@@ -591,6 +597,9 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
+        // patient address
+        this.appointment.patientAddress = this.setPatientAddress(data);
+
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
         this.appointment.currentPurpose = data.purpose;
@@ -693,8 +702,8 @@ export default {
       axios[action](api, data).then(response => {
 
         // track the event
-        if (this.$root.isOnProduction()) {
-          if(this.userType === 'practitioner' && appointmentStatus === 'complete') {
+        if(this.$root.shouldTrack()) {
+          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
             });
@@ -719,6 +728,7 @@ export default {
                 if (succesPopup) this.handleNotificationInit();
                 window.scrollTo(0, 0);
               }
+
               while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
                 oldAppointments.splice(0, 1);
                 if (!oldAppointments.length) {
@@ -753,8 +763,6 @@ export default {
     },
 
     resetAppointment() {
-      // this.selectedRowData = null;
-      // this.selectedRowIndex = null;
       this.noAvailability = false;
       this.patientDisplay = '';
       return {
@@ -768,6 +776,7 @@ export default {
         currentStatus: '',
         id: '',
         status: '',
+        patientAddress: '',
         patientEmail: '',
         patientId: '',
         patientName: '',
@@ -792,8 +801,23 @@ export default {
       this.appointment.duration = obj;
     },
 
+    setPatientAddress(data) {
+      // We only want to add information to the address if it exists
+      let address = '';
+      if (data.address_1) address += data.address_1;
+      if (data.address_2) address += ` ${data.address_2}`;
+      if (data.address_1 && data.city) address += '<br>';
+      if (data.city) address += data.city;
+      if (data.state) address += ` ${data.state}`;
+      if (data.zip) address += `, ${data.zip}`;
+
+      // At the very least, we need to have city and state to display an address
+      return data.city && data.state ? address : '';
+    },
+
     // Set patient info with data from list object
     setPatientInfo(data) {
+      this.appointment.patientAddress = this.setPatientAddress(data);
       this.appointment.patientEmail = data.email;
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;

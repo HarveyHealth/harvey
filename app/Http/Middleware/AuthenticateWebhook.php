@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Middleware;
@@ -9,6 +10,8 @@ use Closure, ResponseCode;
 
 class AuthenticateWebhook
 {
+    protected $except = ['/webhook/typeform'];
+
     /**
      * Handle an incoming request.
      *

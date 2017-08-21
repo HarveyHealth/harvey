@@ -74,7 +74,7 @@
           <div class="text-centered">
             <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
               <span v-if="!isProcessing">Sign Up</span>
-              <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+              <LoadingGraphic v-else-if="isProcessing" :size="12" />
               <i v-else-if="isComplete" class="fa fa-check"></i>
             </button>
           </div>
@@ -87,12 +87,12 @@
 </template>
 
 <script>
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
-    LoadingBubbles
+    LoadingGraphic
   },
   data() {
     return {
@@ -194,7 +194,7 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if (this.$root.isOnProduction()) {
+            if(this.$root.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
 
@@ -250,7 +250,7 @@ export default {
             } else if(errorType === 'out-of-range') {
               // this is an out-of-range situation
               // track the failed signup
-              if (this.$root.isOnProduction()) {
+              if(this.$root.shouldTrack()) {
                 const firstName = this.signupData.first_name || '';
                 const lastName = this.signupData.last_name || '';
                 const email = this.signupData.email || '';
@@ -302,7 +302,7 @@ export default {
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (this.$root.isOnProduction()) {
+    if(this.$root.shouldTrack()) {
       analytics.page("Signup");
     }
   },
