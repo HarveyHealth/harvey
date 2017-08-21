@@ -50,7 +50,9 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link to="/settings" title="Settings"
+       <router-link 
+       v-if="user && user.user_type === 'patient'"
+       to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
         <i class="fa fa-cog icon icon-nav-bar"></i>
