@@ -27,10 +27,15 @@ export default function(appointmentData) {
       const relatedUser = _included.map((item) => {
           // needed since the data types are different
           if (item.type === 'users' && item.id === patientData.user_id.toString()) {
+              patientData.address_1 = item.attributes.address_1;
+              patientData.address_2 = item.attributes.address_2;
+              patientData.city = item.attributes.city;
+              patientData.email = item.attributes.email;
               patientData.first_name = item.attributes.first_name;
               patientData.last_name = item.attributes.last_name;
-              patientData.email = item.attributes.email;
+              patientData.state = item.attributes.state;
               patientData.phone = item.attributes.phone;
+              patientData.zip = item.attributes.zip;
           }
       });
 

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\Textable;
-use App\Lib\PhoneNumberVerifier;
+use App\Lib\Clients\Geocoder;
+use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 
-use Carbon, Log, Mail;
+use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
@@ -32,22 +33,24 @@ class User extends Authenticatable implements Mailable
 
     protected $guarded = [
         'id',
+        'created_at',
+        'email_verified_at',
         'enabled',
+        'intake_completed_at',
         'password',
+        'phone_verified_at',
         'remember_token',
         'terms_accepted_at',
-        'phone_verified_at',
-        'email_verified_at',
-        'created_at',
         'updated_at',
     ];
 
     protected $dates = [
         'created_at',
-        'updated_at',
-        'terms_accepted_at',
-        'phone_verified_at',
         'email_verified_at',
+        'intake_completed_at',
+        'phone_verified_at',
+        'terms_accepted_at',
+        'updated_at',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -85,6 +88,24 @@ class User extends Authenticatable implements Mailable
     public function getTypeAttribute()
     {
         return $this->userType();
+    }
+
+    public function getStateAttribute()
+    {
+        if (!empty($this->attributes['state'])) {
+            return $this->attributes['state'];
+        } elseif (empty($this->zip)) {
+            return null;
+        }
+
+        $query = "{$this->zip} USA";
+
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
+            $geocoder = new Geocoder;
+            return $geocoder->geocode($query);
+        });
+
+        return $result['address']['state'] ?? null;
     }
 
     public function getFullNameAttribute()

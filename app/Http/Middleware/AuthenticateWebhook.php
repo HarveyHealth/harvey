@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Middleware;
@@ -6,6 +7,8 @@ use Closure;
 
 class AuthenticateWebhook
 {
+    protected $except = ['/webhook/typeform'];
+
     /**
      * Handle an incoming request.
      *
@@ -17,7 +20,7 @@ class AuthenticateWebhook
     {
         $key = $request->input('key');
 
-        if (empty($key) || $key != config('webhook.key')) {
+        if ((empty($key) || $key != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
             abort(403, 'Not authorized');
         }
 

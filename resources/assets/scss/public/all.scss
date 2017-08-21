@@ -136,7 +136,7 @@ $font-family: "proxima-nova";
   }
   & + span {
     vertical-align: middle;
-    @include margin(null null null 5px);
+    @include margin(null null null 25px);
   }
 }
 
@@ -204,7 +204,7 @@ $font-family: "proxima-nova";
   box-shadow: 0 1px $grey-lighter;
   background-color: rgba(#fff, $opacity-dark);
 
-  &.is-inverted {    
+  &.is-inverted {
     background-color: transparent;
     box-shadow: none;
 
@@ -324,7 +324,7 @@ $font-family: "proxima-nova";
         display: flex;
         @include until($tablet) {
           min-width: 315px;
-          padding-right: 50px; 
+          padding-right: 10px;
         }
         a {
           font-size: 17px;
@@ -509,7 +509,7 @@ body {
 }
 
 em {
-  font-size: 0.85em;
+  font-size: 1em;
 }
 
 // Login & Forgot Pages
@@ -565,7 +565,7 @@ body[class*="404"]{
           }
           p{
             font-size: 1rem;
-            color: #343434;
+            color: #555;
           }
         }
       }
@@ -655,7 +655,7 @@ body[class*="404"]{
   }
 
   @include from($mobile) {
-    
+
   }
 
 } // End Login & Forgot Pages
@@ -695,7 +695,7 @@ body[class*="404"]{
 }
 
 .help {
-  @include margin(-15px null 20px null);
+  @include margin(-20px null 20px null);
 }
 
 .fourButton {

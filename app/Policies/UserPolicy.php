@@ -8,7 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class UserPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * @param User $user
      * @param      $ability
@@ -20,17 +20,17 @@ class UserPolicy
             return true;
         }
     }
-    
+
     /**
      * @param User $user
-     * @param User $target_user
+     * @param User $targetUser
      * @return bool
      */
-    public function view(User $user, User $target_user)
+    public function view(User $user, User $targetUser)
     {
-        return $user->id == $target_user->id;
+        return $user->is($targetUser);
     }
-    
+
     /**
      * @param User $user
      * @return bool
@@ -39,14 +39,14 @@ class UserPolicy
     {
         return false;
     }
-    
+
     /**
      * @param User $user
-     * @param User $target_user
+     * @param User $targetUser
      * @return bool
      */
-    public function update(User $user, User $target_user)
+    public function update(User $user, User $targetUser)
     {
-        return $user->id == $target_user->id;
+        return $user->is($targetUser);
     }
 }

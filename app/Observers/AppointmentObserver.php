@@ -5,10 +5,22 @@ namespace App\Observers;
 use App\Events\AppointmentCanceled;
 use App\Events\AppointmentUpdated;
 use App\Events\AppointmentComplete;
+use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated};
 use App\Models\Appointment;
 
 class AppointmentObserver
 {
+    /**
+     * Listen to the Appointment delete event.
+     *
+     * @param  Appointment $appointment
+     * @return void
+     */
+    public function created(Appointment $appointment)
+    {
+        event(new AppointmentScheduled($appointment));
+    }
+
     /**
      * Listen to the Appointment updating event.
      *

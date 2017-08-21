@@ -103,33 +103,8 @@
         this.validDate = true;
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-in', true, 300);
 
-        // A purchase event is typically associated with a specified product or product_group.
-        // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-        if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
-          this.$ma.trackEvent({
-              fb_event: 'PageView',
-              type: 'product',
-              category: 'clicks',
-              properties: { laravel_object: Laravel.user }
-          });
-          this.$ma.trackEvent({
-            fb_event: 'Purchase',
-            type: 'product',
-            action: 'Complete Purchase',
-            category: 'clicks',
-            value: 50.00,
-            currency: 'USD',
-            properties: { laravel_object: Laravel.user }
-          });
-          ga('send', {
-            hitType: "event", 
-            eventCategory: "clicks", 
-            eventAction: "Confirm Appointment", 
-            eventLabel: null,
-              eventValue: 50, 
-              hitCallback: null, 
-              userId: null
-          });
+        if(this.$root.shouldTrack()) {
+          // Track arrival to Confirmation step
         }
 
         // From https://www.addevent.com/buttons/add-to-calendar

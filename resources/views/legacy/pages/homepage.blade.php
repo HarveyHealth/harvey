@@ -11,7 +11,7 @@
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p> 
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
                         <div class="columns">
                             <div class="column is-5">
                                 <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
@@ -163,12 +163,17 @@
         <section class="section" id="email-capture">
             <div class="container">
                 <div class="has-text-centered">
-                    <h2 class="copy-has-max-width title has-text-centered">Join the Discussion</h2>
-                    <p class="copy-has-max-width subtitle">About once a month, we send our subscribers discounts, company updates, health news and incredible patients stories. Never spam, we promise.</p>
-                    <form method="POST" action="https://formspree.io/mvzdryqm" target="_blank">
-                        <input type="text" name="_gotcha" style="display: none"> 
-                        <input type="email" name="email" class="" placeholder="Personal Email">
-                        <button type="submit" class="button is-primary">Subscribe</button>
+                    <h2 class="copy-has-max-width title has-text-centered">
+                        <div id="ebook-wrapper">
+                            <img src="/images/home/ebook.png">
+                        </div> Download the Harvey eBook</h2>
+                    <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
+                    <form>
+                        <input type="text" name="_gotcha" style="display: none">
+                        <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
+                        <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Send Now</button>
+                        <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
+                        <div v-if="emailCaptureSuccess" class="success-text">Success! Check your email to download.</div>
                     </form>
                 </div>
             </div>
@@ -262,7 +267,6 @@
             </div>
         </div>
     </section>
-
 </div>
 
 @endsection
