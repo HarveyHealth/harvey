@@ -263,7 +263,7 @@ class Appointment extends Model
         try {
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
-            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar. {$e->getMessage()}");
             return false;
         }
 
@@ -277,7 +277,7 @@ class Appointment extends Model
     {
         $description = !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified";
         $description = trim($description, '.');
-        $description .= ". Patient email: \"{$this->patient->user->email}\".";
+        $description .= ".\n{$this->patient->user->email}";
 
         return [
             'summary' => $this->patient->user->full_name,
