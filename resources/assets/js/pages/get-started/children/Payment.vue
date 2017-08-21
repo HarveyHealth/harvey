@@ -50,7 +50,7 @@
 
 <script>
 import card from 'card';
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingBubbles from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
