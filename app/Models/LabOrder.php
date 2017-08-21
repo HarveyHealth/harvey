@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Http\Traits\BelongsToPatientAndPractitioner;
-use App\Http\Traits\HasStatusColumn;
+use App\Http\Traits\{HasStatusColumn, Invoiceable};
 use App\Models\LabTest;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LabOrder extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -49,5 +49,33 @@ class LabOrder extends Model
     public function labTests()
     {
         return $this->hasMany(LabTest::class);
+    }
+
+    public function dataForInvoice()
+    {
+        $items = $this->labTests;
+
+        if (empty($items))
+            return [];
+
+        $invoice_data = [
+            'discount_code' => $this->discount_code,
+            'invoice_items' => [],
+            'description' => 'Lab Tests order #' . $this->id . ' on ' . date('n/j/Y'),
+        ];
+
+        foreach ($items as $item) {
+            $data = [
+                'item_id' => $item->id,
+                'item_class' => get_class($item),
+                'amount' => $item->sku->price,
+                'description' => $item->sku->name . ' Test',
+            ];
+
+            $invoice_data['invoice_items'][] = $data;
+        }
+
+
+        return $invoice_data;
     }
 }

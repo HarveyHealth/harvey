@@ -45,3 +45,7 @@ Route::get('lab-tests', 'PagesController@getLabTests');
 
 // SIGNUP FUNNEL
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
+
+if (\App::environment(['local'])) {
+	Route::get('test', 'TestController@index');
+}

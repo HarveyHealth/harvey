@@ -25,5 +25,8 @@ class LabOrderApproved
     public function __construct(LabOrder $lab_order)
     {
         $this->lab_order = $lab_order;
+
+        $invoice = $this->lab_order->generateInvoice();
+
     }
 }

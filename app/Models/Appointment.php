@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\TransactionalEmail;
 use Lang;
 use Log;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -201,5 +201,24 @@ class Appointment extends Model
     public function scopePendingInTheNext24hs(Builder $builder)
     {
         return $builder->pending()->withinDateRange(Carbon::now(), Carbon::now()->addDay());
+    }
+
+    // Invoiceable trait
+    public function dataForInvoice() {
+
+        $description = 'Consulation #' . $this->id . ' with ' . $this->practitioner->user->fullName() . ' on ' . date('n/j/Y', strtotime($this->appointment_at));
+
+        $invoice_data = [
+            'description' => $description,
+            'discount_code' => $this->discount_code,
+            'invoice_items' => [
+                'item_id' => $this->id,
+                'item_class' => get_class($this),
+                'description' => $description,
+                'amount' => 150,
+            ],
+        ];
+
+        return $invoice_data;
     }
 }

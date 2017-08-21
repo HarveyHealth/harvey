@@ -35,6 +35,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\NotifyAppointmentUpdatedSlackChannel',
         ],
 
+        'App\Events\AppointmentComplete' => [
+            'App\Listeners\ChargeUserForCompleteAppointment',
+        ],
+
+        'App\Events\LabOrderApproved' => [
+            'App\Listeners\ChargeUserForLabOrder',
+        ],
+
         'App\Events\OutOfServiceZipCodeRegistered' => [
             'App\Listeners\CreateLead',
         ],
