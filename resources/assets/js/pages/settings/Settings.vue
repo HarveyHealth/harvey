@@ -15,16 +15,16 @@
 
                 <div>
 
-                    <div v-for="card in cards">
+                    <div v-for="card in cards" v-if="!details">
                         <div style="height: 40px; margin: 20px auto;">
                             <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
-                            <span style="margin: 0 10px; float: left;"><a>edit</a></span>
-                            <span style="margin: 0 10px; float: left;"><a>delete</a></span>
+                            <a @click="pressEdit(card)" style="margin: 0 10px; float: left;">edit</a>
+                            <a style="margin: 0 10px; float: left;">delete</a>
                         </div>
                     </div>
 
                     <div v-if="!details" class="inline-centered">
-                        <button @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
+                        <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
@@ -49,7 +49,8 @@
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
-                            <button @click="updateCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <button v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <button v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                         </div>
                     </div>
     
@@ -76,18 +77,43 @@ export default {
             cardExpiry: '',
             cardCvc: '',
             postalCode: '',
+            edit: false,
+            currentCard: null,
             cards: Object.values(this.$root.$data.global.creditCardTokens)
         }
     },
     methods: {
         addCard() {
             this.details = true
+            this.edit = false
         },
-        updateCard() {
+        submitAddCard() {
             this.details = false
+            this.edit = false
             if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
                 this.submitNewCard()
             }
+        },
+        submitUpdateCard() {
+            this.details = false
+            this.edit = false
+            if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
+                this.updateCard()
+            }
+        },
+        updateCard() {
+            axios.patch(`${this.$root.$data.apiUrl}/`, {
+                card_id: this.currentCard.card_id,
+                address_city: this.currentCard.address_city,
+                address_country: this.currentCard.address_country,
+                address_line1: this.currentCard.address_line1,
+                address_line2: this.currentCard.address_line2,
+                address_state: this.currentCard.address_state,
+                address_zip: this.postalCode || this.currentCard.address_zip,
+                exp_month: this.month || this.currentCard.exp_month,
+                exp_year: this.year || this.currentCard.exp_year,
+                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
+            })
         },
         submitNewCard() {
             Stripe(window.Laravel.services.stripe.key)
@@ -101,6 +127,19 @@ export default {
             }, (status, response) => {
                 axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {id: response.id})
             })
+        },
+        pressEdit(card) {
+            let tokens = this.$root.$data.global.creditCardTokens
+            let names = tokens[card.last4].name
+            let nameArray = names.split(' ')
+            this.firstName = nameArray[0]
+            this.lastName = nameArray[nameArray.length - 1]
+            this.month = tokens[card.last4].exp_month
+            this.year = tokens[card.last4].exp_year
+            this.postalCode = tokens[card.last4].address_zip
+            this.currentCard = tokens[card.last4]
+            this.edit = true
+            this.details = true
         }
     },
     mounted() {
