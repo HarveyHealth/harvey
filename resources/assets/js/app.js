@@ -67,6 +67,7 @@ const app = new Vue({
             loadingPractitioners: true,
             practitionerProfileLoading: true,
             loadingLabOrders: true,
+            loadingMessages: true,
             loadingLabTests: true,
             loadingTestTypes: true,
             loadingUser: true,
@@ -266,6 +267,7 @@ const app = new Vue({
                                 (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id) ? 1 : -1));
                         this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
                     }
+                    this.global.loadingMessages = false
                 })
         },
         getConfirmedUsers() {
