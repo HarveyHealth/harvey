@@ -264,21 +264,37 @@ class Appointment extends Model
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
-            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar. {$e->getMessage()}");
+            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
             return false;
         }
 
         $this->google_calendar_event_id = $event->id;
         $this->save();
 
-        return $event;
+        Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () use ($event) {
+            return $event->hangoutLink;
+        });
+
+        try {
+            $update = GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams($event->hangoutLink));
+        } catch (Exception $e) {
+            Bugsnag::notifyException($e);
+            ops_warning('Appointment@addToCalendar', "Can't add Meet link into event description to Appointment #{$this->id}.");
+            return false;
+        }
+
+        return $update;
     }
 
-    public function getEventParams()
+    public function getEventParams(string $hangoutLink = '')
     {
-        $description = !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified";
-        $description = trim($description, '.');
-        $description .= ".\n{$this->patient->user->email}";
+        $description = empty($this->reason_for_visit) ? "Reason for visit not specified" : $this->reason_for_visit;
+        $description = trim($description, '.').'.';
+        $description .= "\n{$this->patient->user->email}";
+
+        if (!empty($hangoutLink)) {
+            $description .= "\n{$hangoutLink}";
+        }
 
         return [
             'summary' => $this->patient->user->full_name,
