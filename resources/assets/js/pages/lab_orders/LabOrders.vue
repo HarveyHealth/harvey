@@ -6,7 +6,7 @@
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient'"
+            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes.user_type != 'patient'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
@@ -89,7 +89,8 @@
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
                 notificationActive: false,
-                notificationDirection: 'top-right'
+                notificationDirection: 'top-right',
+                userType: null
             }
         },
         methods: {
@@ -200,12 +201,16 @@
             loadingLabs() {
                 const global = this.$root.$data.global
                 let attributes = this.$root.$data.global.user.attributes
-                if (attributes && attributes.user_type !== 'patient') {
+                if (attributes && attributes.user_type === 'admin') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients || 
                     global.loadingPractitioners
-                } else {
+                } else if (attributes && attributes.user_type === 'practitioner') {
+                    return global.loadingLabTests || 
+                    global.loadingLabOrders || 
+                    global.loadingPatients
+                } else if (attributes && attributes.user_type === 'patient') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPractitioners
@@ -239,6 +244,7 @@
                 (!global.loadingPatients || (attributes && attributes.user_type === 'patient'))) {
                     this.setupLabData();
                 }
+            
         }
     }
 </script>
