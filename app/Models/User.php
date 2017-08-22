@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
-use App\Http\Traits\Textable;
+use App\Http\Traits\{IsNot, Textable};
 use App\Lib\Clients\Geocoder;
 use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
@@ -18,7 +18,7 @@ use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, Textable;
+    use HasApiTokens, Notifiable, Searchable, isNot, Textable;
 
     public $asYouType = true;
 
@@ -182,11 +182,6 @@ class User extends Authenticatable implements Mailable
     public function isAdmin()
     {
         return $this->admin != null;
-    }
-
-    public function isNotAdmin()
-    {
-        return !$this->isAdmin();
     }
 
     public function isAdminOrPractitioner()
