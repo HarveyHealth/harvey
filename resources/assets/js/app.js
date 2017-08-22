@@ -86,7 +86,8 @@ const app = new Vue({
             labTests: [],
             patientLookUp: {},
             practitionerLookUp: {},
-            user: {}
+            user: {},
+            selfPractitionerInfo: null
         },
         signup: {
           availability: [],
@@ -202,6 +203,7 @@ const app = new Vue({
                         this.global.practitionerLookUp[e.id] = e
                     });
                     this.global.loadingPractitioners = false;
+                    this.getSelfPractitionerInfo();
                 })
             }
         },
@@ -283,6 +285,15 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+        },
+        getSelfPractitionerInfo() {
+            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0]
+            this.global.selfPractitionerInfo = {
+                id: self.id,
+                name: `Dr. ${self.attributes.name}`,
+                info: self.attributes,
+                user_id: self.attributes.user_id
+            }
         },
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
