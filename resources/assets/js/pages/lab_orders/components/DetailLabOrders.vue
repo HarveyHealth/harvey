@@ -26,7 +26,7 @@
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{ address_1 }} {{ address_2 }}</label>
+              <label class="input__label" style="color: #737373;">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
               <label class="input__label" style="color: #737373;">{{ city }}, {{ state }} {{ zip }}</label>
           </div>
         </div>
@@ -82,7 +82,7 @@
               <label class="input__label" style="color: #737373;">{{ status }}</label>
           </div>
           <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'" class="inline-centered">
-            <button @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
+            <button :disabled="!hasCard && (!cardCvc || !cardNumber || !month || !year || !postalCode || !firstName || !lastName)" @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
           </div>
         </div>
       </div>
@@ -202,7 +202,36 @@ export default {
     },
     updateLabOrder() {
       if (!this.hasCard) {
-
+        Stripe(window.Laravel.services.stripe.key)
+        let card = Stripe.card.createToken({
+            number: this.cardNumber,
+            exp_month: this.month,
+            exp_year: this.year,
+            cvc: this.cardCvc,
+            address_zip: this.postalCode,
+            name: `${this.firstName} ${this.lastName}`
+        }, (status, response) => {
+            axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {id: response.id})
+            .then(resp => {
+              axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+                shipment_code: this.$props.rowData.shipment_code,
+                address_1: this.$props.rowData.address_1,
+                address_2: this.$props.rowData.address_2,
+                city: this.$props.rowData.city,
+                state: this.$props.rowData.state,
+                zip: this.$props.rowData.zip
+              })
+            })
+        })
+      } else {
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+          shipment_code: this.$props.rowData.shipment_code,
+          address_1: this.$props.rowData.address_1,
+          address_2: this.$props.rowData.address_2,
+          city: this.$props.rowData.city,
+          state: this.$props.rowData.state,
+          zip: this.$props.rowData.zip
+        })
       }
     },
     updateOrder() {
