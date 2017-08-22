@@ -4,6 +4,7 @@
       <StagesNav :current="'payment'" />
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
+
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
     </div>
     <div class="signup-container signup-phone-container text-centered">
@@ -39,9 +40,10 @@
 
         <button class="button button--blue" style="width: 180px" :disabled="isProcessing || isComplete" @click="onSubmit($event)">
           <span v-if="!isProcessing && !isComplete">Save &amp; Continue</span>
-          <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+          <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
+        <button class="button button--cancel" v-show="isComplete" @click="resetCardData">Edit Card</button>
       </div>
 
     </div>
@@ -50,13 +52,13 @@
 
 <script>
 import card from 'card';
-import LoadingBubbles from '../../../commons/LoadingGraphic.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'payment',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
@@ -117,23 +119,37 @@ export default {
         if (response.error) {
           this.setStripeError(response.error.message)
         } else {
-          this.markComplete();
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
-            this.$root.$data.signup.billingConfirmed = true;
+            this.markComplete();
           }).catch(error => {});
         }
       });
     },
     markComplete() {
       this.isComplete = true;
+      this.$root.$data.signup.billingConfirmed = true;
       this.$root.$data.signup.cardCvc = this.cardCvc;
       this.$root.$data.signup.cardExpiration = this.cardExpiration;
       this.$root.$data.signup.cardName = this.cardName;
       this.$root.$data.signup.cardNumber = this.cardNumber;
       this.isProcessing = false;
+    },
+    resetCardData() {
+      this.$root.$data.signup.cardCvc = '';
+      this.$root.$data.signup.cardExpiration = '';
+      this.$root.$data.signup.cardName = '';
+      this.$root.$data.signup.cardNumber = '';
+      this.$root.$data.signup.cardBrand = '';
+      this.$root.$data.signup.cardLastFour = '';
+      this.cardCvc = '';
+      this.cardExpiration = '';
+      this.cardName = '';
+      this.cardNumber = '';
+      this.$root.$data.signup.billingConfirmed = false;
+      this.isComplete = false;
     },
     setStripeError(msg) {
       this.toggleProcessing();

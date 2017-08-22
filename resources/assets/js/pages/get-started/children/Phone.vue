@@ -133,6 +133,7 @@ export default {
             this.$root.$data.signup.code = this.code;
             this.isPhoneConfirming = false;
             setTimeout(() => {
+              this.$root.$data.signup.phoneConfirmed = true;
               this.$router.push({ name: 'schedule', path: '/schedule' });
             }, 500);
           } else {
