@@ -95,7 +95,7 @@ export default {
             }
         },
         deleteCard(card) {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
+            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: card.id
             })
         },
@@ -107,7 +107,7 @@ export default {
             }
         },
         updateCard() {
-            axios.patch(`${this.$root.$data.apiUrl}/`, {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
                 address_country: this.currentCard.address_country,
@@ -130,19 +130,19 @@ export default {
                 address_zip: this.postalCode,
                 name: `${this.firstName} ${this.lastName}`
             }, (status, response) => {
-                axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {id: response.id})
+                axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
             })
         },
         pressEdit(card) {
             let tokens = this.$root.$data.global.creditCardTokens
-            let names = tokens[card.last4].name
+            let names = tokens.name
             let nameArray = names.split(' ')
             this.firstName = nameArray[0]
             this.lastName = nameArray[nameArray.length - 1]
-            this.month = tokens[card.last4].exp_month
-            this.year = tokens[card.last4].exp_year
-            this.postalCode = tokens[card.last4].address_zip
-            this.currentCard = tokens[card.last4]
+            this.month = tokens.exp_month
+            this.year = tokens.exp_year
+            this.postalCode = tokens.address_zip
+            this.currentCard = tokens
             this.edit = true
             this.details = true
         }

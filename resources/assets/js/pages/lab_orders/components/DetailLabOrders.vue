@@ -221,6 +221,13 @@ export default {
                 state: this.$props.rowData.state,
                 zip: this.$props.rowData.zip
               })
+              .then(respond => {
+                this.$parent.notificationMessage = "Successfully updated!";
+                this.$parent.notificationActive = true;
+                this.$parent.selectedRowData = null;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
+                this.handleFlyoutClose()
+              })
             })
         })
       } else {
@@ -231,6 +238,13 @@ export default {
           city: this.$props.rowData.city,
           state: this.$props.rowData.state,
           zip: this.$props.rowData.zip
+        })
+        .then(respond => {
+          this.$parent.notificationMessage = "Successfully updated!";
+          this.$parent.notificationActive = true;
+          this.$parent.selectedRowData = null;
+          setTimeout(() => this.$parent.notificationActive = false, 3000);
+          this.handleFlyoutClose()
         })
       }
     },
