@@ -134,11 +134,13 @@ export default {
     nextStep() {
       this.step++
       let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
-      let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
       let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
-      let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-      this.doctorList = [doctorsFind].concat(doctors),
       this.clientList = [patientsFind].concat(patients)
+      if (window.Laravel.user.user_type == 'admin') {
+        let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+        let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+        this.doctorList = [doctorsFind].concat(doctors)
+      }
     },
     prevStep() {
       this.step--
