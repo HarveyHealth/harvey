@@ -11,6 +11,7 @@
                     </button>
                     </h1>
                     <FilterButtons
+                        v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
                         :loading="disabledFilters"
@@ -189,6 +190,9 @@
                 this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
                 this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data.filter(e => e.data.completed_at == "Recommended")
+                if (this.$root.$data.global.user.attributes && this.$root.$data.global.user.attributes.user_type === 'patient') {
+                    this.currentData = data
+                }
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests

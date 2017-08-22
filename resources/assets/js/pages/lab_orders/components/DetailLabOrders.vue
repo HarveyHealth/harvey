@@ -39,8 +39,16 @@
        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
-              <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
-              <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+              <div v-if="status !== 'Recommended'">
+                <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+                <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+              </div>
+              <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'practitioner'">
+                <label class="input__label" style="color: #737373;">not paid yet</label>
+              </div>
+             <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'">
+                <label class="input__label" style="color: #737373;">BILLING</label>
+              </div>
           </div>
         </div>
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
