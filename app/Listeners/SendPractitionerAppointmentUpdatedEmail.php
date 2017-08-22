@@ -20,6 +20,7 @@ class SendPractitionerAppointmentUpdatedEmail implements ShouldQueue
             ->setTemplate('practitioner.appointment.updated')
             ->setTemplateModel([
             'patient_name' => $patient->user->fullName(),
+            'patient_phone' => $appointment->patient->user->phone,
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),

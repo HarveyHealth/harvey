@@ -120,7 +120,8 @@
             </div>
             <PractitionerProfile
                 v-if="isPractitioner"
-                :flashSuccess="flashSuccess"
+                :flashSuccess="flashNotification"
+                :practitionerIdEditing="user.relationships.practitioner.data.id"
             />
         </div>
         {{ _user }}
@@ -136,7 +137,6 @@
     import ImageUpload from '../../commons/ImageUpload.vue';
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
     import PractitionerProfile from './components/PractitionerProfile.vue';
-
 
     export default {
         name: 'profile',
@@ -283,7 +283,7 @@
                 return this._user_id && Laravel.user.user_type === 'admin';
             },
             isPractitioner() {
-                return Laravel.user.practitionerId;
+                return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
             },
             // loading is connected to global state since that's where the main user api call is made
             loading() {

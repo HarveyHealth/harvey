@@ -18,6 +18,7 @@ class SendPatientAppointmentEmail implements ShouldQueue
             'practitioner_name' => $event->appointment->practitioner->user->fullName(),
             'appointment_date' => $event->appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $event->appointment->patientAppointmentAtDate()->format('h:i A'),
+            'appointment_time_zone' => $event->appointment->patientAppointmentAtDate()->format('T'),
             'harvey_id' => $event->appointment->patient->user->id,
             'phone_number' => $event->appointment->patient->user->phone,
             'patient_name' => $event->appointment->patient->user->first_name,
