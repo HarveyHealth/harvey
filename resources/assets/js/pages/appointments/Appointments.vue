@@ -790,9 +790,12 @@ export default {
     },
 
     setAvailableTimes(value, index) {
+      // If the day is changed, reset time and date values
+      this.setTime(null);
       this.appointment.day = value;
       this.appointment.availableTimes = [];
       this.appointment.availableTimes = this.appointment.day
+        // The practitioner index is minus 1 to account for the empty space in the dropdown list
         ? this.appointment.practitionerAvailability[index - 1].data.times
         : [];
     },
