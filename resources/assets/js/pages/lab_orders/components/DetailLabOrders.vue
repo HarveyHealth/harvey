@@ -81,9 +81,9 @@
               <label class="input__label" for="patient_name">order status</label>
               <label class="input__label" style="color: #737373;">{{ status }}</label>
           </div>
-        </div>
-        <div class="inline-centered">
+          <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'" class="inline-centered">
             <button @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
+          </div>
         </div>
       </div>
     </div>
@@ -201,8 +201,8 @@ export default {
       this.selectedShipment[object.test_id] = e.target.value;
     },
     updateLabOrder() {
-      if (!hasCard) {
-        
+      if (!this.hasCard) {
+
       }
     },
     updateOrder() {
@@ -266,7 +266,7 @@ export default {
       return this.$props.rowData ? this.$props.rowData.zip : ''
     },
     card() {
-      if (this.$props.rowData.card) {
+      if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
         this.hasCard = true
       }
       return this.$props.rowData ? this.$props.rowData.card : ''
