@@ -77,6 +77,12 @@ const app = new Vue({
             patients: [],
             practitioners: [],
             recent_appointments: [],
+            // Updated: 08/22/2017
+            // This is a hotfix and should be included in the backend logic when determining which
+            // practitioners to send to the frontend
+            regulatedStates: [
+              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+            ],
             signed_in: Laravel.user.signedIn,
             test_results: [],
             upcoming_appointments: [],
@@ -178,12 +184,24 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data.map(dr => {
-                        return {
-                          info: dr.attributes,
-                          name: `Dr. ${dr.attributes.name}`,
-                          id: dr.id,
-                          user_id: dr.attributes.user_id }
+                    this.global.practitioners = response.data.data
+                        .filter(dr => {
+                          // We only filter by regulation if the user is a patient
+                          if (Laravel.user.user_type !== 'patient') return true;
+                          const userState = Laravel.user.state;
+                          // First check if the user's state is regulated or not
+                          const userRegulatedState = this.global.regulatedStates.indexOf(userState) > -1;
+                          // If the user's state is regulated, filter dr list for drs with licenses in that state
+                          return userRegulatedState
+                            ? dr.attributes.licenses.filter(lic => lic.state === userState).length
+                            : true
+                        })
+                        .map(dr => {
+                          return {
+                            info: dr.attributes,
+                            name: `Dr. ${dr.attributes.name}`,
+                            id: dr.id,
+                            user_id: dr.attributes.user_id }
                     });
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
