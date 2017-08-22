@@ -278,6 +278,13 @@ export default {
         return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
       }
     }
+  },
+  mounted() {
+    let selfPractitioner = this.$root.$data.global.selfPractitionerInfo
+    if (selfPractitioner) {
+      this.selectedDoctor = selfPractitioner.id
+      this.selectedDoctorName = selfPractitioner.name
+    }
   }
 }
 </script>
