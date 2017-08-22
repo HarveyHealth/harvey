@@ -47,15 +47,43 @@
                 <label class="input__label" style="color: #737373;">not paid yet</label>
               </div>
              <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'">
-                <label class="input__label" style="color: #737373;">BILLING</label>
+               <div v-if="card.last4 && card.brand">
+                  <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+                  <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+                </div>
+                <div v-if="!card.last4 && !card.brand" style="padding-top: 5px;">
+                  <div class="input__container length" style="margin-bottom: 1.5em; font-size: 0.9em;">
+                      <label class="input__label" for="patient_name">card number</label>
+                      <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
+                  </div>
+                  <div class="input__container length" style="font-size: 0.9em;">
+                      <label class="input__label" for="patient_name">name on card</label>
+                      <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
+                      <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
+                  </div>
+                  <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+                      <label class="input__label" for="patient_name">expiry date</label>
+                      <input placeholder="Month" style="width: 48%; float: left;" v-model="month" class="input--text" type="text">
+                      <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
+                  </div>
+                  <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+                      <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
+                      <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
+                      <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
+                      <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
+                  </div>
+                </div>
               </div>
           </div>
         </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px; padding-top: 35px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">order status</label>
               <label class="input__label" style="color: #737373;">{{ status }}</label>
           </div>
+        </div>
+        <div class="inline-centered">
+            <button @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
         </div>
       </div>
     </div>
@@ -149,6 +177,15 @@ export default {
       selectedShipment: {},
       selectedAddressOne: null,
       selectedAddressTwo: null,
+      firstName: '',
+      lastName: '',
+      month: '',
+      year: '',
+      cardNumber: '',
+      cardExpiry: '',
+      cardCvc: '',
+      postalCode: '',
+      hasCard: false,
       capitalize: _.capitalize
     }
   },
@@ -162,6 +199,11 @@ export default {
     },
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
+    },
+    updateLabOrder() {
+      if (!hasCard) {
+        
+      }
     },
     updateOrder() {
       this.$props.rowData.test_list.forEach(e => {
@@ -224,7 +266,10 @@ export default {
       return this.$props.rowData ? this.$props.rowData.zip : ''
     },
     card() {
-      return this.$props.rowData ? this.$props.rowData.total_price : ''
+      if (this.$props.rowData.card) {
+        this.hasCard = true
+      }
+      return this.$props.rowData ? this.$props.rowData.card : ''
     },
     price() {
       return this.$props.rowData ? this.$props.rowData.total_price : ''
