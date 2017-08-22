@@ -211,7 +211,7 @@ const app = new Vue({
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
-                        return dr.attributes.name === Laravel.user.fullName;
+                        return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
                         return {
                           info: obj.attributes,
