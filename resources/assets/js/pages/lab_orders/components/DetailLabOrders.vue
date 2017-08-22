@@ -186,40 +186,40 @@ export default {
   },
   computed: {
     flyoutHeading() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? `Lab Order #${this.$props.rowData.id}` : ''
+      return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : ''
     },
     doctorName() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` : ''
+      return this.$props.rowData ? `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` : ''
     },
     status() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.completed_at : ''
+      return this.$props.rowData ? this.$props.rowData.completed_at : ''
     },
     shipmentCode() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.shipment_code : ''
+      return this.$props.rowData ? this.$props.rowData.shipment_code : ''
     },
     addressOne() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.address_1 : ''
+      return this.$props.rowData ? this.$props.rowData.address_1 : ''
     },
     addressTwo() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.address_2 : ''
+      return this.$props.rowData ? this.$props.rowData.address_2 : ''
     },
     city() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.city : ''
+      return this.$props.rowData ? this.$props.rowData.city : ''
     },
     state() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.state : ''
+      return this.$props.rowData ? this.$props.rowData.state : ''
     },
     zip() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.zip : ''
+      return this.$props.rowData ? this.$props.rowData.zip : ''
     },
     card() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.total_price : ''
+      return this.$props.rowData ? this.$props.rowData.total_price : ''
     },
     price() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? this.$props.rowData.total_price : ''
+      return this.$props.rowData ? this.$props.rowData.total_price : ''
     },
     samples() {
-      return this.$props.rowData && this.$props.rowData.length > 0 ? Object.keys(this.$props.rowData.samples) : []
+      return this.$props.rowData ? Object.keys(this.$props.rowData.samples) : []
     },
     doctorList() {
       let data = {}
