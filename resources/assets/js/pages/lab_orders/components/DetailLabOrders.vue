@@ -202,7 +202,6 @@ export default {
     },
     updateLabOrder() {
       if (!this.hasCard) {
-        Stripe(window.Laravel.services.stripe.key)
         let card = Stripe.card.createToken({
             number: this.cardNumber,
             exp_month: this.month,

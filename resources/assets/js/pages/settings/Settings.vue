@@ -15,11 +15,11 @@
 
                 <div>
 
-                    <div v-for="card in cards" v-if="!details">
+                    <div v-if="!details">
                         <div style="height: 40px; margin: 20px auto;">
-                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
-                            <a @click="pressEdit(card)" style="margin: 0 10px; float: left;">edit</a>
-                            <a @click="deleteCard(card)" style="margin: 0 10px; float: left;">delete</a>
+                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
+                            <a @click="pressEdit(cards)" style="margin: 0 10px; float: left;">edit</a>
+                            <a @click="deleteCard(cards)" style="margin: 0 10px; float: left;">delete</a>
                         </div>
                     </div>
 
@@ -79,7 +79,7 @@ export default {
             postalCode: '',
             edit: false,
             currentCard: null,
-            cards: Object.values(this.$root.$data.global.creditCardTokens)
+            cards: this.$root.$data.global.creditCardTokens
         }
     },
     methods: {
@@ -121,7 +121,6 @@ export default {
             })
         },
         submitNewCard() {
-            Stripe(window.Laravel.services.stripe.key)
             let card = Stripe.card.createToken({
                 number: this.cardNumber,
                 exp_month: this.month,
