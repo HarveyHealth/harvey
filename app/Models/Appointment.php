@@ -413,18 +413,29 @@ class Appointment extends Model
     // Invoiceable trait
     public function dataForInvoice() {
 
-        $description = 'Consulation #' . $this->id . ' with ' . $this->practitioner->user->fullName() . ' on ' . date('n/j/Y', strtotime($this->appointment_at));
+        $minutes = $this->duration_in_minutes;
+        $minutes = ($minutes == 30 ? 30 : 60);
+
+        $sku = SKU::findBySlug($minutes . '-minute-consultation');
+
+        $description = $sku->name . ' #' . $this->id . ' with ' . $this->practitioner->user->fullName() . ' on ' . date('n/j/Y', strtotime($this->appointment_at));
 
         $invoice_data = [
+            'patient_id' => $this->patient_id,
+            'practitioner_id' => $this->practitioner_id,
             'description' => $description,
-            'discount_code' => $this->discount_code,
-            'invoice_items' => [
+            'discount_code_id' => $this->discount_code_id,
+            'invoice_items' => [],
+        ];
+
+        // only one item on a consultation
+        $invoice_data['invoice_items'][] = [
                 'item_id' => $this->id,
                 'item_class' => get_class($this),
                 'description' => $description,
-                'amount' => 150,
-            ],
-        ];
+                'amount' => $sku->price,
+                'sku_id' => $sku->id,
+            ];
 
         return $invoice_data;
     }

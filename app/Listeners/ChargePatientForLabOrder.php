@@ -5,9 +5,10 @@ namespace App\Listeners;
 use App\Events\LabOrderApproved;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Stripe\Stripe;
+use App\Lib\Cashier;
+use App\Jobs\ChargePatientForInvoice;
 
-class ChargeUserForLabOrder implements ShouldQueue
+class ChargePatientForLabOrder implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -27,7 +28,21 @@ class ChargeUserForLabOrder implements ShouldQueue
      */
     public function handle(LabOrderApproved $event)
     {
+        \Log::info('CHARGING FOR LAB ORDER');
+
         $lab_order = $event->lab_order;
         $user = $lab_order->patient->user;
+
+        // make sure not to charge them again
+        if (!empty($lab_order->invoice_id))
+            return;
+
+        // generate the invoice
+        $cashier = new Cashier;
+        $invoice = $cashier->generatePatientInvoiceForInvoiceable($lab_order);
+
+        // queue up the charge
+        $job = (new ChargePatientForInvoice($invoice));
+        dispatch($job);
     }
 }

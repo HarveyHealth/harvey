@@ -17,8 +17,6 @@ class CreateTransactionsTable extends Migration
             $table->increments('id');
             $table->integer('patient_id')->unsigned();
             $table->foreign('patient_id')->references('id')->on('patients');
-            $table->integer('invoice_id')->unsigned();
-            $table->foreign('invoice_id')->references('id')->on('invoices');
             $table->decimal('amount');
             $table->string('gateway')->default('stripe');
             $table->string('transaction_id');

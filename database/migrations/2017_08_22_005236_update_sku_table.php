@@ -19,7 +19,35 @@ class UpdateSkuTable extends Migration
 
         Schema::table('skus', function (Blueprint $table) {
             $table->string('item_type')->default('lab-test');
+            $table->string('slug')->unique()->nullable()->after('item_type');
         });
+
+        // update all SKUs with slugs
+        foreach (\App\Models\SKU::all() as $sku) {
+            $sku->save();
+        }
+
+        // add consultations
+        $items = [30, 60];
+        foreach ($items as $item) {
+            $sku = new \App\Models\SKU;
+            $sku->name = $item . ' Minute Consultation';
+            $sku->price = ($item == 30 ? 75.00 : 150.00);
+            $sku->item_type = 'consultation';
+            $sku->save();
+        }
+
+        $sku = new \App\Models\SKU;
+        $sku->name = 'Processing Fee';
+        $sku->price = 0.00;
+        $sku->item_type = 'service-fee';
+        $sku->save();
+
+        $sku = new \App\Models\SKU;
+        $sku->name = 'Shipping';
+        $sku->price = 0.00
+        $sku->item_type = 'service-fee';
+        $sku->save();
     }
 
     /**

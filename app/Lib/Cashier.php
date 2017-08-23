@@ -11,13 +11,18 @@ class Cashier
 {
 	public function generatePatientInvoiceForInvoiceable($invoiceable)
 	{
+                if (!in_array('App\Http\Traits\Invoiceable', class_uses($invoiceable)))
+                        throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait. ');
+
 		$invoice_data = $invoiceable->dataForInvoice();
 
-        $invoice = Invoice::newInvoiceWithData($invoice_data);
-        $invoice->patient_id = $invoiceable->patient_id;
-        $invoice->calculateTotals();
+                $invoice = Invoice::newInvoiceWithData($invoice_data);
 
-        return $invoice;
+                // record the invoice ID
+                $invoiceable->invoice_id = $invoice->id;
+                $invoiceable->save();
+
+                return $invoice;
 	}
 
 	public function chargePatientForInvoice(Invoice $invoice)
@@ -26,38 +31,40 @@ class Cashier
 		if ($invoice->isPaid())
 			return;
 
+                \Log::info("CHARGING PATIENT FOR INVOICE " . $invoice->id);
+                return;
+
 		// calculate the subtotals, if needed
-        $invoice->calculateTotals();
+                $invoice->calculateTotals();
 
-        // no need to charge if there's no balance
-        if ($invoice->amount > 0) {
+                // no need to charge if there's no balance
+                if ($invoice->amount > 0) {
 
-        	// convert for stripe
-        	$amount = $amount * 100;
+                	// convert for stripe
+                	$amount = $amount * 100;
 
-        	$data = [
-        		'source' => $invoice->patient->stripe_customer_id,
-        		'amount' => $amount,
-        		'currency' => 'usd',
-        		'description' => $invoice->description
-        	];
+                	$data = [
+                		'source' => $invoice->patient->stripe_customer_id,
+                		'amount' => $amount,
+                		'currency' => 'usd',
+                		'description' => $invoice->description
+                	];
 
-        	try {
+                	try {
 
-        		$charge = \Stripe\Charge::create($data);
-        		
-        	} catch (Exception $e) {
-        		
-        		ops_error('Stripe Exception','Could not change for Invoice ' . $invoice->id . ': ' . $exception->getMessage());
-        		event(new ChargeFailed($invoice));
-        	}
+                		$charge = \Stripe\Charge::create($data);
+                		
+                	} catch (Exception $e) {
+                		
+                		ops_error('Stripe Exception','Could not change for Invoice ' . $invoice->id . ': ' . $exception->getMessage());
+                		event(new ChargeFailed($invoice));
+                	}
 
-        } else {
+                } else {
 
-        }
+                }
 
-        $invoice->paid_on = date('Y-m-d H:i:s');
-        $invoice->save();
-
+                $invoice->paid_on = date('Y-m-d H:i:s');
+                $invoice->save();
 	}
 }

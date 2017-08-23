@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\{Appointment, LabTest, Message, User, LabOrder};
-use App\Observers\{AppointmentObserver, LabTestObserver, MessageObserver, UserObserver};
+use App\Observers\{AppointmentObserver, LabTestObserver, MessageObserver, UserObserver, LabOrderObserver};
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Validator;

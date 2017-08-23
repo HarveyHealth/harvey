@@ -110,3 +110,15 @@ function ops_success($alert, $message, $channels = 'engineering')
 {
     ops_message('success', $alert, $message, $channels);
 }
+
+
+
+function log_mark()
+{
+    static $log_mark = 0;
+    
+    $log_letters = range('a','z');
+    $marker = $log_letters[$log_mark];
+    \Log::info($marker);
+    $log_mark++;
+}

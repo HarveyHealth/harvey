@@ -39,11 +39,11 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\AppointmentComplete' => [
-            'App\Listeners\ChargeUserForCompleteAppointment',
+            'App\Listeners\ChargePatientForCompletedAppointment',
         ],
 
         'App\Events\LabOrderApproved' => [
-            'App\Listeners\ChargeUserForLabOrder',
+            'App\Listeners\ChargePatientForLabOrder',
         ],
 
         'App\Events\OutOfServiceZipCodeRegistered' => [

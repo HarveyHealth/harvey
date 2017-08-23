@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\LabOrderApproved
+use App\Events\LabOrderApproved;
 use App\Models\LabOrder;
 
 class LabOrderObserver

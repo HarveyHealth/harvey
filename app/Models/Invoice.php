@@ -15,20 +15,34 @@ class Invoice extends Model
 	public static function newInvoiceWithData($invoice_data)
 	{
 		$invoice = new Invoice;
-		$discount_code = DiscountCode::withValidCode($invoice_data['discount_code']);
+		$discount_code = DiscountCode::find($invoice_data['discount_code_id']);
 
         if ($discount_code)
         	$invoice->discount_code_id = $discount_code->id;
 
+        $invoice->description = $invoice_data['description'];
+        $invoice->patient_id = $invoice_data['patient_id'];
+
+        $invoice->save();
+
         foreach ($invoice_data['invoice_items'] as $item) {
 
         	$invoice_item = new InvoiceItem;
+            $invoice_item->description = $item['description'];
+            $invoice_item->item_class = $item['item_class'];
+            $invoice_item->item_id = $item['item_id'];
+            $invoice_item->sku_id = $item['sku_id'];
+            $invoice_item->amount = $item['amount'];
+            $invoice_item->invoice_id = $invoice->id;
+            $invoice_item->save();
         }
+
+        $invoice->calculateTotals();
 
         return $invoice;
 	}
 
-    public funcion isPaid()
+    public function isPaid()
     {
         return !empty($this->paid_on);
     }
@@ -50,7 +64,12 @@ class Invoice extends Model
 
     public function discountCode()
     {
-    	return $this->hasOne(DiscountCode::class);
+    	return $this->belongsTo(DiscountCode::class);
+    }
+
+    public function invoiceItems()
+    {
+        return $this->hasMany(InvoiceItem::class);
     }
 
     public function calculateTotals($reset = false)

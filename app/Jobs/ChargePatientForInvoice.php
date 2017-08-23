@@ -35,5 +35,6 @@ class ChargePatientForInvoice implements ShouldQueue
     public function handle()
     {
         $cashier = new Cashier;
+        $cashier->chargePatientForInvoice($this->invoice);
     }
 }

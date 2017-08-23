@@ -11,7 +11,6 @@ class TestController extends Controller
     	$order = \App\Models\LabOrder::findOrFail(1);
         print_r($order->dataForInvoice());
 
-
         $appointment = \App\Models\Appointment::findOrFail(6);
         print_r($appointment->dataForInvoice());
     }

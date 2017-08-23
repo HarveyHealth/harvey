@@ -59,7 +59,9 @@ class LabOrder extends Model
             return [];
 
         $invoice_data = [
-            'discount_code' => $this->discount_code,
+            'patient_id' => $this->patient_id,
+            'practitioner_id' => $this->practitioner_id,
+            'discount_code_id' => $this->discount_code_id,
             'invoice_items' => [],
             'description' => 'Lab Tests order #' . $this->id . ' on ' . date('n/j/Y'),
         ];
@@ -70,6 +72,7 @@ class LabOrder extends Model
                 'item_class' => get_class($item),
                 'amount' => $item->sku->price,
                 'description' => $item->sku->name . ' Test',
+                'sku_id' => $item->sku->id,
             ];
 
             $invoice_data['invoice_items'][] = $data;

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscountCode extends Model
 {
-    public static function withValidCode($code)
+    public static function forValidCode($code)
     {
     	return DiscountCode::withCode($code)->enabled()->notExpired()->first();
     }

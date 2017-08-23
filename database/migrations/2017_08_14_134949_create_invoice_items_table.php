@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReceiptItemsTable extends Migration
+class CreateInvoiceItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -17,8 +17,8 @@ class CreateReceiptItemsTable extends Migration
             $table->increments('id');
             $table->integer('invoice_id')->unsigned();
             $table->foreign('invoice_id')->references('id')->on('invoices');
-            $table->integer('item_id')->unsigned();
-            $table->text('item_class');
+            $table->integer('item_id')->unsigned()->nullable();
+            $table->text('item_class')->nullable();
             $table->decimal('amount');
             $table->text('description');
             $table->timestamps();
