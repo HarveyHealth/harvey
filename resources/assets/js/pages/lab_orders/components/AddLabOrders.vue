@@ -6,7 +6,7 @@
     :back="step == 2 ? prevStep : null"
   >
   <div v-if="step == 1">
-    <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+    <div>
       <div class="input__container">
           <label class="input__label" for="patient_name">client</label>
           <span class="custom-select">
@@ -38,7 +38,7 @@
         </div>
   </div>
   <div v-if="step == 2">
-    <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+    <div>
       <div v-for="test in selectedTests">
           <div class="input__container">
               <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
@@ -46,13 +46,13 @@
           </div>
         </div>
       </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
         <div class="input__container">
             <label class="input__label" for="patient_name">master tracking</label>
             <input v-model="masterTracking" class="input--text" type="text">
         </div>
       </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
         <div class="input__container">
             <label class="input__label" for="patient_name">mailing address</label>
             <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
