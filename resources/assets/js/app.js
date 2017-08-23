@@ -53,6 +53,7 @@ const app = new Vue({
         appointmentData: null,
         clientList: [],
         environment: env,
+        permissions: Laravel.user.user_type,
         flyoutActive: false,
         guest: false,
         global: {
@@ -271,7 +272,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCardTokens = response.data.cards
+                this.global.creditCardTokens = response.data.cards.length ? response.data.cards[0] : null
             })
         },
         getConfirmedUsers() {

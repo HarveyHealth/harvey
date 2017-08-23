@@ -4,7 +4,7 @@
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
   >
-    <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'admin'">
+    <div v-if="$root.$data.permissions !== 'admin'">
       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">lab tests</label>
@@ -43,10 +43,10 @@
                 <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
                 <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
               </div>
-              <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'practitioner'">
+              <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
                 <label class="input__label" style="color: #737373;">not paid yet</label>
               </div>
-             <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'">
+             <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
                <div v-if="card.last4 && card.brand">
                   <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
                   <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
@@ -81,13 +81,13 @@
               <label class="input__label" for="patient_name">order status</label>
               <label class="input__label" style="color: #737373;">{{ status }}</label>
           </div>
-          <div v-if="status === 'Recommended' && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'patient'" class="inline-centered">
+          <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
             <button :disabled="!hasCard && (!cardCvc || !cardNumber || !month || !year || !postalCode || !firstName || !lastName)" @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
           </div>
         </div>
       </div>
     </div>
-  <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'">
+  <div v-if="$root.$data.permissions === 'admin'">
         <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
                 <label class="input__label" for="patient_name">lab tests</label>
@@ -131,11 +131,11 @@
           <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
             <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
-              <div v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient' && status !== 'Recommended'">
+              <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
                 <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
                 <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
               </div>
-              <label v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient' && status === 'Recommended'" class="input__label" style="color: #737373;">Not Paid Yet</label>
+              <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__label" style="color: #737373;">Not Paid Yet</label>
             </div>
           </div>
           <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">

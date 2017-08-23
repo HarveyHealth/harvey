@@ -15,7 +15,7 @@
 
                 <div>
 
-                    <div v-if="!details">
+                    <div v-if="!details && cards">
                         <div style="height: 40px; margin: 20px auto;">
                             <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
                             <a @click="pressEdit(cards)" style="margin: 0 10px; float: left;">edit</a>

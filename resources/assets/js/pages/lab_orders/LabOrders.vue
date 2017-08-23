@@ -6,12 +6,12 @@
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
                     <FilterButtons
-                        v-if="$root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type !== 'patient'"
+                        v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
                         :loading="disabledFilters"
@@ -25,7 +25,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes.user_type != 'patient'"
+            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions != 'patient'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
@@ -190,7 +190,7 @@
                 this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
                 this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data.filter(e => e.data.completed_at == "Recommended")
-                if (this.$root.$data.global.user.attributes && this.$root.$data.global.user.attributes.user_type === 'patient') {
+                if (this.$root.$data.global.user.attributes && this.$root.$data.permissions === 'patient') {
                     this.currentData = data
                 }
             },
