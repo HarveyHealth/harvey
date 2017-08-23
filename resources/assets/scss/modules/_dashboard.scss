@@ -42,7 +42,7 @@
 
 .card {
   background: $white;
-  border: 1px solid $color--grey;
+  border-bottom: 1px solid $color--grey;
   @include margin(15px);
 }
 
@@ -132,13 +132,12 @@
     display: flex;
   }
 
-  .card-appointments {
+  .card-panel {
     width: 100%;
     @include margin(25px);
   }
 
-  .is-patient .card-appointments,
-  .is-patient .card-info,
+  .is-patient .card-panel,
   .card.smaller {
     width: 50%;
     @include margin(25px);

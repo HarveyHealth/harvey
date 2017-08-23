@@ -11,7 +11,7 @@
 // Left Nav Bar
 .admin-tab-left {
   left: 48px;
-  position: relative; 
+  position: relative;
   font-weight: 300;
   color: #EDA1A6;
   font-size: 13px;
@@ -111,10 +111,10 @@
 .main-header {
   background: $white;
   border-bottom: 1px solid $color--grey;
-  @include padding(25px);
+  @include padding(40px 10px 20px);
   .container{
     max-width: 1090px;
-    @include padding(0 55px 0 15px);
+    @include padding(20px 10px 0 15px);
     @include margin(0);
     .title {
       min-height: 48px;

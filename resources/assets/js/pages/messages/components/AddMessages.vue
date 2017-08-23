@@ -3,12 +3,12 @@
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="title">Create Messages</h2>
+        <h2 class="title">New Message</h2>
         <div v-if="userList.length <= 1" class="no-message-banner">
             You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
         </div>
         <div class="input__container">
-            <label class="input__label" for="patient_name">{{ toUserType }}</label>
+            <label class="input__label" style="padding: 0; border: none;" for="patient_name">recipient</label> 
             <span class="custom-select">
                 <select @change="updateUser($event)">
                     <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
@@ -16,18 +16,18 @@
             </span>
         </div>
         <div class="input__container">
-            <label class="input__label" for="patient_name">subject</label>
+            <label class="input__label" style="padding: 0; border: none;" for="patient_name">subject</label>
             <input v-model="subject" class="input--text" type="text">
         </div>
         <div class="input__container">
-            <label class="input__label" for="patient_name">message</label>
+            <label class="input__label" style="padding: 0; border: none;" for="patient_name">message</label>
             <textarea v-model="message" class="input--textarea"></textarea>
         </div>
         <div>
             <div class="inline-centered">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send</button>
+                :disabled="!subject || !selected || userList.length <= 1">Send Message</button>
             </div>
         </div>
     </aside>
@@ -79,13 +79,13 @@
               const store = this.$root.$data.global;
                 if (store.user.attributes.user_type === 'patient') {
                     store.confirmedDoctors = store.appointments
-                        .filter(e => e.attributes.status === 'pending')
+                        .filter(e => e.attributes.status === 'complete')
                         .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
                     store.confirmedDoctors = _.uniq(store.confirmedDoctors)
                     return [''].concat(store.confirmedDoctors);
                 } else if (store.user.attributes.user_type === 'practitioner') {
                     store.confirmedPatients = store.appointments
-                        .filter(e => e.attributes.status === 'pending')
+                        .filter(e => e.attributes.status === 'complete')
                         .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
                     store.confirmedPatients = _.uniq(store.confirmedPatients)
                     return [''].concat(store.confirmedPatients);

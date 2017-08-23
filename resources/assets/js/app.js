@@ -13,7 +13,6 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
-import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
@@ -67,14 +66,22 @@ const app = new Vue({
             loadingPractitioners: true,
             practitionerProfileLoading: true,
             loadingLabOrders: true,
+            loadingMessages: true,
             loadingLabTests: true,
             loadingTestTypes: true,
             loadingUser: true,
+            loadingUserEditing: true,
             menuOpen: false,
             messages: [],
             patients: [],
             practitioners: [],
             recent_appointments: [],
+            // Updated: 08/22/2017
+            // This is a hotfix and should be included in the backend logic when determining which
+            // practitioners to send to the frontend
+            regulatedStates: [
+              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+            ],
             signed_in: Laravel.user.signedIn,
             test_results: [],
             upcoming_appointments: [],
@@ -85,11 +92,19 @@ const app = new Vue({
             labTests: [],
             patientLookUp: {},
             practitionerLookUp: {},
-            user: {}
+            user: {},
+            user_editing: {}
         },
         signup: {
           availability: [],
           availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
@@ -99,6 +114,7 @@ const app = new Vue({
             reason_for_visit: 'First appointment',
             practitioner_id: null,
           },
+          googleMeetLink: '',
           phone: '',
           phonePending: false,
           phoneConfirmed: false,
@@ -106,6 +122,7 @@ const app = new Vue({
           practitionerState: '',
           selectedDate: null,
           selectedDay: null,
+          selectedPractitioner: 0,
           selectedWeek: null,
           selectedTime: null,
           visistedStages: [],
@@ -147,14 +164,20 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
                 const include = response.data.included;
                 response.data.data.forEach((obj, i) => {
-                    this.global.patients.push({
+                    const includeData = include[i].attributes;
+                      this.global.patients.push({
+                        address_1: includeData.address_1,
+                        address_2: includeData.address_2,
+                        city: includeData.city,
+                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
+                        email: includeData.email,
                         id: obj.id,
-                        name: `${include[i].attributes.last_name}, ${include[i].attributes.first_name}`,
-                        email: include[i].attributes.email,
-                        phone: include[i].attributes.phone,
+                        name: `${includeData.last_name}, ${includeData.first_name}`,
+                        phone: includeData.phone,
+                        search_name: `${includeData.first_name} ${includeData.last_name}`,
+                        state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        search_name: `${include[i].attributes.first_name} ${include[i].attributes.last_name}`,
-                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY")
+                        zip: includeData.zip,
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
@@ -167,12 +190,24 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data.map(dr => {
-                        return {
-                          info: dr.attributes,
-                          name: `Dr. ${dr.attributes.name}`,
-                          id: dr.id,
-                          user_id: dr.attributes.user_id }
+                    this.global.practitioners = response.data.data
+                        .filter(dr => {
+                          // We only filter by regulation if the user is a patient
+                          if (Laravel.user.user_type !== 'patient') return true;
+                          const userState = Laravel.user.state;
+                          // First check if the user's state is regulated or not
+                          const userRegulatedState = this.global.regulatedStates.indexOf(userState) > -1;
+                          // If the user's state is regulated, filter dr list for drs with licenses in that state
+                          return userRegulatedState
+                            ? dr.attributes.licenses.filter(lic => lic.state === userState).length
+                            : true
+                        })
+                        .map(dr => {
+                          return {
+                            info: dr.attributes,
+                            name: `Dr. ${dr.attributes.name}`,
+                            id: dr.id,
+                            user_id: dr.attributes.user_id }
                     });
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
@@ -182,7 +217,7 @@ const app = new Vue({
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
-                        return dr.attributes.name === Laravel.user.fullName;
+                        return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
                         return {
                           info: obj.attributes,
@@ -256,6 +291,7 @@ const app = new Vue({
                                 (Laravel.user.id == a.attributes.recipient_user_id || Laravel.user.id == b.attributes.recipient_user_id) ? 1 : -1));
                         this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
                     }
+                    this.global.loadingMessages = false
                 })
         },
         getConfirmedUsers() {
@@ -281,6 +317,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
+          this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
         },
@@ -288,6 +325,9 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
+        },
+        shouldTrack() {
+          return env === 'production' || env === 'prod';
         }
     },
     mounted() {

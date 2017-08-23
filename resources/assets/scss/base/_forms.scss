@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null 15px null);
+  @include margin(null null $space-lg null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -20,6 +20,10 @@
     border-bottom: 1px solid $gray;
     @include padding(0 0 10px 0);
     color: #444;
+
+    &:disabled {
+      color: rgba(#444, 0.5);
+    }
   }
 
   &_checkbox {
@@ -65,9 +69,13 @@
 }
 
 .input__container {
-  @include margin(null null 2.5em null);
+  @include margin(null null 2.2em null);
   position: relative;
   width: 100%;
+
+  .flyout & {
+    width: 100% !important;
+  }
 
   & > * {
     @include margin(0.5em null null null);
@@ -88,6 +96,28 @@
   font-family: inherit;
 }
 
+.input-half {
+  float: left;
+  width: 45%;
+
+  &:first-child {
+    margin-right: 10%;
+  }
+
+  &--sm {
+    @include query(sm) {
+      float: left;
+      width: 45%;
+
+      &:first-child {
+        margin-right: 10%;
+      }
+    }
+  }
+
+
+}
+
 .input__item.patient-display {
   font-weight: 500;
 }
@@ -95,11 +125,22 @@
 .input__label {
   color: lighten($gray, 15%);
   display: block;
-  font-size: 0.85em;
+  font-size: 1em;
   font-weight: 500;
   letter-spacing: 1px;
   @include margin(null null 0.5em null);
   text-transform: uppercase;
+  width: 100%;
+
+  .flyout & {
+    border-top: 1px solid #eee;
+    padding-top: 2.2em;
+  }
+
+  &.first {
+    padding-top: 0;
+    border: none;
+  }
 }
 
 .input--text,
@@ -130,7 +171,7 @@
 .charcount {
   right: 0;
   position: absolute;
-  top: -0.5em;
+  top: 1.3em;
 }
 
 .input__linkcta {

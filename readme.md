@@ -5,7 +5,7 @@
 A web application to provide virtual consultations with state-licensed integrative physicians, in-home lab testing, diagnostics and progressive therapies to help patients address the root cause of their health conditions instead of just treating the symptoms.
 
 ## Requirements
- - PHP >= 7
+ - PHP >= 7.1
  - PHP [mcrypt extension](http://php.net/manual/en/book.mcrypt.php)
  - Node 7
  - MySQL 5.7
@@ -88,8 +88,8 @@ Database Seeding will provide you with these accounts:
 `TWILIO_ACCOUNT_SID=ACe658638bc646f167569d17070b360306`
  `TWILIO_AUTH_TOKEN=***`
  `TWILIO_SMS_NUMBER=3238157876`
- 
- 
+
+
 
 * To observe the faked Twilio text message with confirmation code locally, make sure you are running `php artisan queue:listen` in one terminal windows and in a second run `php artisan log:tail`. Check the log after you've clicked to send text message and you should see the confirmation code.
 

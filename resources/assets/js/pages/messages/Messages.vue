@@ -18,8 +18,11 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card" v-show="messageList.length == 0" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
-              <p style="font-style: italic;">No Messages Found</p>
+            <div class="card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
+              <p style="font-style: italic;">Sorry, you don't have any messages.</p>
+            </div>
+            <div class="card" v-show="$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
+              <p style="font-style: italic;">Your messages are loading.</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
@@ -111,6 +114,7 @@
                     .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
                   this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
                 }
+                this.$root.$data.global.loadingMessages = false
               })
           let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
           channel.bind('App\\Events\\MessageCreated', (data) => {

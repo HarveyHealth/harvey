@@ -22,6 +22,7 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
+    Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
 
     Route::group(['middleware' => 'auth:api'], function () {
@@ -34,6 +35,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('users/{user}/image', 'UsersController@profileImageUpload')->name('users.profile-image-upload');
         Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
         Route::post('users/{user}/phone/sendverificationcode', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
+        Route::delete('users/{user}/cards', 'UsersController@deleteCard')->name('users.delete-card');
+        Route::get('users/{user}/cards', 'UsersController@getCards')->name('users.get-cards');
+        Route::post('users/{user}/cards', 'UsersController@addCard')->name('users.add-card');
 
         Route::get('patients', 'PatientsController@index')->name('patients.index');
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');

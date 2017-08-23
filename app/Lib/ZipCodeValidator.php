@@ -3,13 +3,22 @@
 namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
+use App\Models\License;
+use Cache;
 
 class ZipCodeValidator
 {
-    protected $geocoder;
-    protected $zip;
-    protected $state = null;
-    protected $unserviceable_states = ['AL', 'FL', 'NY', 'SC', 'TN'];
+    protected $city, $geocoder, $zip, $state = null;
+
+    protected $unserviceableStates = [
+        'AL', 'FL', 'NY', 'SC', 'TN'
+    ];
+    // Updated: 08/22/2017
+    // This is a hotfix and should be included in the backend logic when determining which
+    // practitioners to send to the frontend
+    protected $regulatedStates = [
+      'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+    ];
 
     public function __construct(Geocoder $geocoder)
     {
@@ -32,6 +41,12 @@ class ZipCodeValidator
         return "{$this->getZip()} USA";
     }
 
+    public function getCity()
+    {
+        $this->callGeocoder();
+        return $this->city;
+    }
+
     public function getState()
     {
         $this->callGeocoder();
@@ -40,8 +55,16 @@ class ZipCodeValidator
 
     protected function callGeocoder()
     {
-        $result = $this->geocoder->geocode($this->usaQuery());
-        return $this->state = $result['address']['state'];
+        $query = $this->usaQuery();
+
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::weeks(1)->toMinutes(), function () use ($query) {
+            return $this->geocoder->geocode($query);
+        });
+
+        $this->state = $result['address']['state'];
+        $this->city = $result['address']['city'];
+
+        return $result;
     }
 
     public function isServiceable()
@@ -56,7 +79,13 @@ class ZipCodeValidator
 
     protected function stateIsUnserviceable($state)
     {
-        // If the state is in the unserviceable list or if no state is returned
-        return in_array($state, $this->unserviceable_states) || empty($state);
+        if (
+        empty($state) ||
+        in_array($state, $this->unserviceableStates) ||
+        (in_array($state, $this->regulatedStates) && !License::all()->pluck('state')->contains($state))) {
+            return true;
+        }
+
+        return false;
     }
 }

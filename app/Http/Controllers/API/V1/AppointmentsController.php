@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Events\AppointmentScheduled;
 use App\Lib\Validation\StrictValidator;
 use App\Models\{Appointment, Patient};
 use App\Transformers\V1\AppointmentTransformer;
@@ -79,8 +78,6 @@ class AppointmentsController extends BaseAPIController
         }
 
         $appointment = Appointment::create($inputData);
-
-        event(new AppointmentScheduled($appointment));
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }

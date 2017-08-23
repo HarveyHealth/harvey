@@ -73,8 +73,10 @@ $factory->define(Patient::class, function (Faker\Generator $faker) {
 
 $factory->define(Practitioner::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
+        'user_id' => function () use ($faker) {
+            return factory(User::class)->create([
+                'email' => strtolower($faker->firstName.$faker->unique()->lastName).'@goharvey.com',
+            ])->id;
         },
         'practitioner_type' => factory(PractitionerType::class)->create()->id,
         'specialty' => [$faker->word, $faker->jobTitle],
@@ -152,8 +154,12 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
 
+    $durationInMinutes = array_random([null, null, null, 30, 60]);
+    $statusId = $durationInMinutes ? Appointment::COMPLETE_STATUS_ID : array_random(array_diff(array_keys(Appointment::STATUSES), [Appointment::COMPLETE_STATUS_ID]));
+
     return [
-        'duration_in_minutes' => $faker->randomElement([null, 30, 60]),
+        'duration_in_minutes' => $durationInMinutes,
+        'status_id' => $statusId,
         'patient_id' => function () {
             return factory(Patient::class)->create()->id;
         },
