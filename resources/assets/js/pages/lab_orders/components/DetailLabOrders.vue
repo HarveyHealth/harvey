@@ -105,7 +105,7 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
-          <label class="input__item">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+          <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid Yet</label>
@@ -283,7 +283,7 @@
           .brand) {
           this.hasCard = true
         }
-        return this.$props.rowData ? this.$props.rowData.card : ''
+        return this.$props.rowData ? this.$props.rowData.card : {brand: null, last4: null}
       },
       price() {
         return this.$props.rowData ? this.$props.rowData.total_price : ''

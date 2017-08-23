@@ -6,7 +6,6 @@
     :back="step == 2 ? prevStep : null"
   >
   <div v-if="step == 1">
-    <div>
       <div class="input__container">
           <label class="input__label" for="patient_name">client</label>
           <span class="custom-select">
@@ -23,14 +22,13 @@
               </select>
           </span>
       </div>
-    </div>
-    <div>
-          <label class="input__label" for="patient_name">tests</label>
-          <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
-              <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
-          </span>
-    </div>
+      <div>
+            <label class="input__label" for="patient_name">tests</label>
+            <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
+                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
+                <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
+            </span>
+      </div>
         <div class="inline-centered">
             <button class="button flyout-btn"
             @click="nextStep()"
@@ -38,21 +36,16 @@
         </div>
   </div>
   <div v-if="step == 2">
-    <div>
       <div v-for="test in selectedTests">
           <div class="input__container">
               <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
               <input v-model="shippingCodes[test.id]" class="input--text" type="text">
           </div>
         </div>
-      </div>
-      <div>
         <div class="input__container">
             <label class="input__label" for="patient_name">master tracking</label>
             <input v-model="masterTracking" class="input--text" type="text">
         </div>
-      </div>
-      <div>
         <div class="input__container">
             <label class="input__label" for="patient_name">mailing address</label>
             <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
@@ -66,7 +59,6 @@
             </span>
             <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
           </div>
-        </div> 
         <div>
             <div class="inline-centered">
                 <button class="button"
