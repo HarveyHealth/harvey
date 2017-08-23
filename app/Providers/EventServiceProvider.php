@@ -21,7 +21,6 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPatientAppointmentEmail',
             'App\Listeners\SendPractitionerAppointmentEmail',
             'App\Listeners\NotifyAppointmentSlackChannel',
-            'App\Listeners\CreateAppointmentCalendarEvent',
         ],
 
         'App\Events\AppointmentCanceled' => [
