@@ -38,8 +38,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             card: {
-                brand: obj.included.attributes.card_brand,
-                last4: obj.included.attributes.card_last4
+                brand: obj.included && obj.included.attributes ? obj.included.attributes.card_brand : null,
+                last4: obj.included && obj.included.attributes ? obj.included.attributes.card_last4 : null
             },
             samples: {}
         }

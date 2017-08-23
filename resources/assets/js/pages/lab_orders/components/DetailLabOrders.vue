@@ -40,18 +40,18 @@
           <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
               <div v-if="status !== 'Recommended'">
-                <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+                <label class="input__label" style="color: #737373;">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
                 <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
               </div>
               <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
                 <label class="input__label" style="color: #737373;">not paid yet</label>
               </div>
              <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
-               <div v-if="card.last4 && card.brand">
-                  <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+               <div v-if="latestCard">
+                  <label class="input__label" style="color: #737373;">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
                   <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
                 </div>
-                <div v-if="!card.last4 && !card.brand" style="padding-top: 5px;">
+                <div v-if="!latestCard" style="padding-top: 5px;">
                   <div class="input__container length" style="margin-bottom: 1.5em; font-size: 0.9em;">
                       <label class="input__label" for="patient_name">card number</label>
                       <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
@@ -185,8 +185,9 @@ export default {
       cardExpiry: '',
       cardCvc: '',
       postalCode: '',
-      hasCard: false,
-      capitalize: _.capitalize
+      hasCard: this.$root.$data.global.creditCardTokens != null,
+      capitalize: _.capitalize,
+      latestCard: this.$root.$data.global.creditCardTokens
     }
   },
   methods: {
@@ -307,7 +308,7 @@ export default {
     zip() {
       return this.$props.rowData ? this.$props.rowData.zip : ''
     },
-    card() {
+    oldCard() {
       if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
         this.hasCard = true
       }

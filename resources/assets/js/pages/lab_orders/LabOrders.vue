@@ -157,8 +157,9 @@
             },
             setupLabData() {
                 let global = this.$root.$data.global
+                let permissions = this.$root.$data.permissions
                 let patient = null
-                if (global.user.attributes && global.user.attributes.user_type == 'patient') {
+                if (permissions == 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -190,7 +191,7 @@
                 this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
                 this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
                 this.currentData = data.filter(e => e.data.completed_at == "Recommended")
-                if (this.$root.$data.global.user.attributes && this.$root.$data.permissions === 'patient') {
+                if (permissions === 'patient') {
                     this.currentData = data
                 }
             },
@@ -204,21 +205,22 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                let attributes = this.$root.$data.global.user.attributes
-                if (attributes && attributes.user_type === 'admin') {
+                let permissions = this.$root.$data.permissions
+                if (permissions === 'admin') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients || 
                     global.loadingPractitioners
-                } else if (attributes && attributes.user_type === 'practitioner') {
+                } else if (permissions === 'practitioner') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients
-                } else if (attributes && attributes.user_type === 'patient') {
+                } else if (permissions === 'patient') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPractitioners
                 }
+                return false
             },
             labTests() {
                 this.tests = this.$root.$data.labTests
@@ -240,12 +242,12 @@
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
             const global = this.$root.$data.global
-            let attributes = this.$root.$data.global.user.attributes
+            let permissions = this.$root.$data.permissions
 
             if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 
                 !global.loadingPractitioners &&
-                (!global.loadingPatients || (attributes && attributes.user_type === 'patient'))) {
+                (!global.loadingPatients || (permissions === 'patient'))) {
                     this.setupLabData();
                 }
             

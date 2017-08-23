@@ -23,7 +23,7 @@
                         </div>
                     </div>
 
-                    <div v-if="!details" class="inline-centered">
+                    <div v-if="!details && !cards" class="inline-centered">
                         <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
