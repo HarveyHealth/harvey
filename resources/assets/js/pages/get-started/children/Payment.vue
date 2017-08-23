@@ -69,7 +69,7 @@ export default {
       cardExpiration: this.$root.$data.signup.cardExpiration || '',
       cardName: this.$root.$data.signup.cardName || '',
       cardNumber: this.$root.$data.signup.cardNumber || '',
-      cardStored: Laravel.user.has_a_card,
+      hasCardStored: Laravel.user.has_a_card,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -87,7 +87,7 @@ export default {
         submitContinue: this.isComplete,
         submitDisabled: this.isProcessing,
         editButton: this.isComplete,
-        showForm: (this.cardStored && !this.isComplete) || !this.cardStored,
+        showForm: (this.hasCardStored && !this.isComplete) || !this.hasCardStored,
         formProcessing: this.isProcessing && !this.isComplete,
         needSave: !this.isComplete,
       }
