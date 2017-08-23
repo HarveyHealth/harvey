@@ -77,6 +77,7 @@ export default {
       },
       isComplete: this.$root.$data.signup.billingConfirmed,
       isProcessing: false,
+      postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
       stripeKey: Laravel.services.stripe.key,
       stripeError: ''
     }
@@ -141,7 +142,11 @@ export default {
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.markComplete();
-          }).catch(error => {});
+          }).catch(error => {
+            if (error.response) {
+              this.setStripeError(this.postError);
+            }
+          });
         }
       });
     },
