@@ -336,7 +336,11 @@ export default {
       return this.$root.$data.global.loadingPractitioners;
     },
     visibleCancelButton() {
-      return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
+      return (
+        this.appointment.currentStatus === 'pending' &&
+        this.visibleUpdateButtons &&
+        this.userType === 'patient'
+      );
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
