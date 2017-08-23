@@ -58,7 +58,7 @@
   }
 }
 
-.signup-interstitial-container *:not(:first-child) {
+.signup-interstitial-container > *:not(:first-child) {
   @include margin(22px null null);
 }
 
@@ -80,6 +80,7 @@
   width: 70px;
   @include query(md) {
     width: 100px;
+    height: 130px;
     margin-top: 0 !important;
   }
 

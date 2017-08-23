@@ -28,7 +28,7 @@
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
           <span v-if="!isPhoneProcessing">Send Text</span>
-          <LoadingBubbles v-else-if="isPhoneProcessing" :style="{ width: '12px', fill: 'white' }" />
+          <LoadingGraphic v-else-if="isPhoneProcessing" :size="12" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -51,7 +51,7 @@
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
           <span v-else-if="!isPhoneConfirming">Confirm Code</span>
-          <LoadingBubbles v-else :style="{ width: '12px', fill: 'white' }" />
+          <LoadingGraphic v-else :size="12" />
         </button>
       </div>
 
@@ -61,14 +61,14 @@
 
 <script>
 import ConfirmInput from '../util/ConfirmInput.vue';
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'phone',
   components: {
     ConfirmInput,
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
@@ -133,6 +133,7 @@ export default {
             this.$root.$data.signup.code = this.code;
             this.isPhoneConfirming = false;
             setTimeout(() => {
+              this.$root.$data.signup.phoneConfirmed = true;
               this.$router.push({ name: 'schedule', path: '/schedule' });
             }, 500);
           } else {
@@ -165,7 +166,7 @@ export default {
             Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
             // track the number patch
-            if (this.$root.isOnProduction()) {
+            if(this.$root.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
               const userId = response.data.data.id || '';
@@ -207,6 +208,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Phone');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

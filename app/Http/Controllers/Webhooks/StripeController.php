@@ -21,24 +21,18 @@ class StripeController extends BaseWebhookController
     {
         $payload = request()->all();
 
-        Log::info('Stripe charge succeeded: ' . $payload['data']['object']['id']);
+        Log::info("Stripe charge succeeded: {$payload['data']['object']['id']}");
     }
 
     public function handleChargeFailed()
     {
         $payload = request()->all();
 
-        $message = 'Stripe charge failed: ' . $payload['data']['object']['id'];
+        $message = "Stripe charge failed: {$payload['data']['object']['id']}";
 
-        // log it
         Log::info($message);
 
-        // slack it
-        (new Slack)->notify(new SlackNotification($message, 'operations'));
-
-        $data = [
-            'user' => User::userForStripeID($payload['customer'])
-        ];
+        ops_warning('Webhook warning!', $message, 'operations');
     }
 
     public function handleCustomerCreated()
@@ -56,7 +50,7 @@ class StripeController extends BaseWebhookController
         $methodName = 'handle' . studly_case(str_replace('.', '_', $payload['type']));
 
         if (!method_exists($this, $methodName)) {
-            Slack::it("Stripe webhook method not handled: '{$payload['type']}'", 'engineering');
+            ops_warning('Stripe webhook method not handled', "Type: {$payload['type']}", 'engineering');
             return false;
         }
 

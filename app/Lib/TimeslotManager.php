@@ -2,8 +2,7 @@
 
 namespace App\Lib;
 
-use Cache;
-use Storage;
+use Cache, Storage;
 
 class TimeslotManager
 {

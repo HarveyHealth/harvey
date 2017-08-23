@@ -9,7 +9,6 @@ use App\Transformers\V1\UserTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Stripe\{Customer, Stripe};
 use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
@@ -22,7 +21,6 @@ class UsersController extends BaseAPIController
      */
     public function __construct(UserTransformer $transformer, ZipCodeValidator $zipCodeValidator)
     {
-        Stripe::setApiKey(config('services.stripe.secret'));
         parent::__construct();
         $this->transformer = $transformer;
         $this->zipCodeValidator = $zipCodeValidator;

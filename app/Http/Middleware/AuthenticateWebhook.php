@@ -9,6 +9,8 @@ use Closure, ResponseCode;
 
 class AuthenticateWebhook
 {
+    protected $except = ['/webhook/typeform'];
+
     /**
      * Handle an incoming request.
      *
@@ -26,7 +28,7 @@ class AuthenticateWebhook
             } catch(SignatureVerification $e) {
                 abort(ResponseCode::HTTP_BAD_REQUEST, 'Invalid signature.');
             }
-        } elseif (empty(request('key')) || request('key') != config('webhook.key')) {
+        } elseif ((empty(request('key')) || request('key') != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
             abort(ResponseCode::HTTP_UNAUTHORIZED, 'Unathorized.');
         }
 

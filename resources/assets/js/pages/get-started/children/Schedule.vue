@@ -88,11 +88,6 @@ export default {
     availableTimes() {
       return this.$root.$data.signup.availableTimes;
     },
-    nextStage() {
-      return Laravel.user.has_a_card
-        ? 'confirmation'
-        : 'payment';
-    },
     prevStage() {
       return Laravel.user.phone_verified_at
         ? { name: 'practitioner', display: 'Practitioner' }
@@ -138,7 +133,7 @@ export default {
         return;
       }
       this.isProcessing = true;
-      this.$router.push({ name: this.nextStage, path: `/${this.nextStage}`});
+      this.$router.push({ name: 'payment', path: '/payment' });
     },
     createWeek(start) {
       return {
@@ -192,6 +187,10 @@ export default {
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('schedule');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    if(this.$root.shouldTrack()) {
+      analytics.page('Schedule');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

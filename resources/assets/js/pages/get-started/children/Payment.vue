@@ -4,6 +4,7 @@
       <StagesNav :current="'payment'" />
       <h2 v-text="title"></h2>
       <p v-html="subtext"></p>
+
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
     </div>
     <div class="signup-container signup-phone-container text-centered">
@@ -12,7 +13,7 @@
       </router-link>
 
       <div class="phone-input-container">
-        <form id="credit-card-form" class="input-container cf">
+        <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray"
                   :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
@@ -33,15 +34,17 @@
           </div>
         </form>
 
-        <p>We will not charge you. You can confirm your appointment date and time on the next page.</p>
+        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can edit your card information here, or continue on to the confirmation page.</p>
+        <p v-else>We will not charge you. You can confirm your appointment date and time on the next page.</p>
 
         <p class="error-text" v-show="stripeError.length" v-html="stripeError"></p>
 
-        <button class="button button--blue" style="width: 180px" :disabled="isProcessing || isComplete" @click="onSubmit($event)">
-          <span v-if="!isProcessing && !isComplete">Save &amp; Continue</span>
-          <LoadingBubbles v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
-          <i v-else-if="isComplete" class="fa fa-check"></i>
+        <button class="button button--blue" style="width: 180px" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
+          <LoadingGraphic v-if="pageLogic.formProcessing" :size="12" />
+          <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
+          <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
         </button>
+        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">Edit Card</button>
       </div>
 
     </div>
@@ -50,13 +53,13 @@
 
 <script>
 import card from 'card';
-import LoadingBubbles from '../../../commons/LoadingBubbles.vue';
+import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'payment',
   components: {
-    LoadingBubbles,
+    LoadingGraphic,
     StagesNav,
   },
   data() {
@@ -66,6 +69,7 @@ export default {
       cardExpiration: this.$root.$data.signup.cardExpiration || '',
       cardName: this.$root.$data.signup.cardName || '',
       cardNumber: this.$root.$data.signup.cardNumber || '',
+      hasCardStored: Laravel.user.has_a_card,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -74,10 +78,20 @@ export default {
       isComplete: this.$root.$data.signup.billingConfirmed,
       isProcessing: false,
       stripeKey: Laravel.services.stripe.key,
-      stripeError: '',
+      stripeError: ''
     }
   },
   computed: {
+    pageLogic() {
+      return {
+        submitContinue: this.isComplete,
+        submitDisabled: this.isProcessing,
+        editButton: this.isComplete,
+        showForm: (this.hasCardStored && !this.isComplete) || !this.hasCardStored,
+        formProcessing: this.isProcessing && !this.isComplete,
+        needSave: !this.isComplete,
+      }
+    },
     cardData() {
       return {
         number: this.cardNumber,
@@ -105,6 +119,11 @@ export default {
       this.toggleProcessing();
       this.stripeError = '';
 
+      if (this.pageLogic.submitContinue) {
+        this.$router.push({ name: 'confirmation', path: '/confirmation' });
+        return;
+      }
+
       const errors = this.validateCardInputs();
       if (errors) {
         this.setStripeError(errors);
@@ -117,23 +136,38 @@ export default {
         if (response.error) {
           this.setStripeError(response.error.message)
         } else {
-          this.markComplete();
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
-            this.$root.$data.signup.billingConfirmed = true;
+            this.markComplete();
           }).catch(error => {});
         }
       });
     },
     markComplete() {
       this.isComplete = true;
+      this.$root.$data.signup.billingConfirmed = true;
       this.$root.$data.signup.cardCvc = this.cardCvc;
       this.$root.$data.signup.cardExpiration = this.cardExpiration;
       this.$root.$data.signup.cardName = this.cardName;
       this.$root.$data.signup.cardNumber = this.cardNumber;
       this.isProcessing = false;
+    },
+    resetCardData() {
+      this.$root.$data.signup.cardCvc = '';
+      this.$root.$data.signup.cardExpiration = '';
+      this.$root.$data.signup.cardName = '';
+      this.$root.$data.signup.cardNumber = '';
+      this.$root.$data.signup.cardBrand = '';
+      this.$root.$data.signup.cardLastFour = '';
+      this.cardCvc = '';
+      this.cardExpiration = '';
+      this.cardName = '';
+      this.cardNumber = '';
+      this.$root.$data.signup.billingConfirmed = false;
+      this.isComplete = false;
+      Laravel.user.has_a_card = false;
     },
     setStripeError(msg) {
       this.toggleProcessing();

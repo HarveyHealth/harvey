@@ -80,6 +80,7 @@ class TransactionalEmailTest extends TestCase
             'practitioner_name' => $appointment->practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
+            'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'harvey_id' => $appointment->patient->user->id,
             'phone_number' => $appointment->patient->user->phone,
             'patient_name' => $appointment->patient->user->first_name,
@@ -99,6 +100,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailTemplateDataWas([
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
+            'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
             'patient_name' => $appointment->patient->user->fullName(),
             'patient_phone' => $appointment->patient->user->phone,
             'practitioner_name' => $appointment->practitioner->user->first_name,
@@ -170,6 +172,7 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailTemplateNameWas('practitioner.appointment.updated');
         $this->assertEmailTemplateDataWas([
             'patient_name' => $appointment->patient->user->fullName(),
+            'patient_phone' => $appointment->patient->user->phone,
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
