@@ -28,6 +28,11 @@ class Invoice extends Model
         return $invoice;
 	}
 
+    public funcion isPaid()
+    {
+        return !empty($this->paid_on);
+    }
+
 	public function scopeForPatient($query, $patient_id)
 	{
 		return $query->where('patient_id', $patient_id);

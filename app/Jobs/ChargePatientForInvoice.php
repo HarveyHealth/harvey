@@ -25,11 +25,6 @@ class ChargePatientForInvoice implements ShouldQueue
     public function __construct(Invoice $invoice)
     {
         $this->invoice = $invoice;
-
-        $items = $invoice->invoiceItems;
-
-        // calculate the subtotals, if needed
-        $invoice->calculateTotals();
     }
 
     /**

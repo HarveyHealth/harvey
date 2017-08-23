@@ -53,6 +53,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PhoneNumberChanged' => [
             'App\Listeners\SendPhoneNumberValidationCode',
         ],
+
+        'App\Events\ChargeFailed' => [
+            'App\Listeners\NotifyOfFailedCharge',
+        ],
     ];
 
     protected $subscribe = [
