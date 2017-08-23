@@ -13,7 +13,7 @@
       </router-link>
 
       <div class="phone-input-container">
-        <form id="credit-card-form" class="input-container cf">
+        <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray"
                   :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
@@ -34,16 +34,17 @@
           </div>
         </form>
 
-        <p>We will not charge you. You can confirm your appointment date and time on the next page.</p>
+        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can edit your card information here, or continue on to the confirmation page.</p>
+        <p v-else>We will not charge you. You can confirm your appointment date and time on the next page.</p>
 
         <p class="error-text" v-show="stripeError.length" v-html="stripeError"></p>
 
-        <button class="button button--blue" style="width: 180px" :disabled="isProcessing || isComplete" @click="onSubmit($event)">
-          <span v-if="!isProcessing && !isComplete">Save &amp; Continue</span>
-          <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
-          <i v-else-if="isComplete" class="fa fa-check"></i>
+        <button class="button button--blue" style="width: 180px" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
+          <LoadingGraphic v-if="pageLogic.formProcessing" :size="12" />
+          <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
+          <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
         </button>
-        <button class="button button--cancel" v-show="isComplete" @click="resetCardData">Edit Card</button>
+        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">Edit Card</button>
       </div>
 
     </div>
@@ -68,6 +69,7 @@ export default {
       cardExpiration: this.$root.$data.signup.cardExpiration || '',
       cardName: this.$root.$data.signup.cardName || '',
       cardNumber: this.$root.$data.signup.cardNumber || '',
+      cardStored: Laravel.user.has_a_card,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -76,10 +78,20 @@ export default {
       isComplete: this.$root.$data.signup.billingConfirmed,
       isProcessing: false,
       stripeKey: Laravel.services.stripe.key,
-      stripeError: '',
+      stripeError: ''
     }
   },
   computed: {
+    pageLogic() {
+      return {
+        submitContinue: this.isComplete,
+        submitDisabled: this.isProcessing,
+        editButton: this.isComplete,
+        showForm: (this.cardStored && !this.isComplete) || !this.cardStored,
+        formProcessing: this.isProcessing && !this.isComplete,
+        needSave: !this.isComplete,
+      }
+    },
     cardData() {
       return {
         number: this.cardNumber,
@@ -106,6 +118,11 @@ export default {
       e.preventDefault();
       this.toggleProcessing();
       this.stripeError = '';
+
+      if (this.pageLogic.submitContinue) {
+        this.$router.push({ name: 'confirmation', path: '/confirmation' });
+        return;
+      }
 
       const errors = this.validateCardInputs();
       if (errors) {
@@ -150,6 +167,7 @@ export default {
       this.cardNumber = '';
       this.$root.$data.signup.billingConfirmed = false;
       this.isComplete = false;
+      Laravel.user.has_a_card = false;
     },
     setStripeError(msg) {
       this.toggleProcessing();
