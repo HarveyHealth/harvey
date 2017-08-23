@@ -29,7 +29,7 @@
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
-          <label class="input__item">not paid yet</label>
+          <label class="input__item">Not paid yet</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
           <div v-if="latestCard">
