@@ -96,7 +96,7 @@ const app = new Vue({
             patientLookUp: {},
             practitionerLookUp: {},
             user: {},
-            selfPractitionerInfo: null
+            selfPractitionerInfo: null,
             user_editing: {}
         },
         signup: {
