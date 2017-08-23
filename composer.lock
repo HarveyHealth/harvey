@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.33.1",
+            "version": "3.33.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4e680960ae55d29748a60874361a5f3829252fb3"
+                "reference": "586a9c0e52664cfc4d2d91f9dcdf3ea48d143162"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4e680960ae55d29748a60874361a5f3829252fb3",
-                "reference": "4e680960ae55d29748a60874361a5f3829252fb3",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/586a9c0e52664cfc4d2d91f9dcdf3ea48d143162",
+                "reference": "586a9c0e52664cfc4d2d91f9dcdf3ea48d143162",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-08-15T19:11:10+00:00"
+            "time": "2017-08-21T20:34:30+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -194,16 +194,16 @@
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.7.0",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "8063d801036c4dde88afa03b96cf3ae94dcb05b1"
+                "reference": "a1ad4cc1ae630f54ea9388172c3dd8badd89bfe9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/8063d801036c4dde88afa03b96cf3ae94dcb05b1",
-                "reference": "8063d801036c4dde88afa03b96cf3ae94dcb05b1",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/a1ad4cc1ae630f54ea9388172c3dd8badd89bfe9",
+                "reference": "a1ad4cc1ae630f54ea9388172c3dd8badd89bfe9",
                 "shasum": ""
             },
             "require": {
@@ -249,7 +249,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-08-10T22:35:34+00:00"
+            "time": "2017-08-18T22:32:35+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
@@ -1539,16 +1539,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.19",
+            "version": "v0.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "430b7125af4f76f38f786222117a9ac1436e0e28"
+                "reference": "c1a6e6ac716c6563ca6c240120cde69fde49af4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/430b7125af4f76f38f786222117a9ac1436e0e28",
-                "reference": "430b7125af4f76f38f786222117a9ac1436e0e28",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/c1a6e6ac716c6563ca6c240120cde69fde49af4f",
+                "reference": "c1a6e6ac716c6563ca6c240120cde69fde49af4f",
                 "shasum": ""
             },
             "require": {
@@ -1572,7 +1572,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-08-13T00:18:21+00:00"
+            "time": "2017-08-20T00:20:36+00:00"
         },
         {
             "name": "google/auth",
@@ -4544,16 +4544,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
                 "shasum": ""
             },
             "require": {
@@ -4565,7 +4565,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
@@ -4599,7 +4599,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09T14:24:12+00:00"
+            "time": "2017-06-14T15:44:48+00:00"
         },
         {
             "name": "symfony/process",
@@ -5143,16 +5143,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.13.1",
+            "version": "5.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "f9d388ff24b0767eff91551d8d26fbd2bd1c7387"
+                "reference": "d0d2020bfaa925cdd77e30c388462eae6b78fb5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/f9d388ff24b0767eff91551d8d26fbd2bd1c7387",
-                "reference": "f9d388ff24b0767eff91551d8d26fbd2bd1c7387",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/d0d2020bfaa925cdd77e30c388462eae6b78fb5e",
+                "reference": "d0d2020bfaa925cdd77e30c388462eae6b78fb5e",
                 "shasum": ""
             },
             "require": {
@@ -5185,7 +5185,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-08-10T18:43:03+00:00"
+            "time": "2017-08-18T19:15:06+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5273,16 +5273,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "b03f285a333f51e58c95cce54109a4a9ed691436"
+                "reference": "424a840dc3bedcdeea510b42e056c77c2d6c4bef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/b03f285a333f51e58c95cce54109a4a9ed691436",
-                "reference": "b03f285a333f51e58c95cce54109a4a9ed691436",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/424a840dc3bedcdeea510b42e056c77c2d6c4bef",
+                "reference": "424a840dc3bedcdeea510b42e056c77c2d6c4bef",
                 "shasum": ""
             },
             "require": {
@@ -5321,7 +5321,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2017-04-06T16:18:34+00:00"
+            "time": "2017-08-17T21:21:00+00:00"
         }
     ],
     "packages-dev": [
@@ -5942,16 +5942,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "ecb0b2cdaa0add708fe6f329ef65ae0c5225130b"
+                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/ecb0b2cdaa0add708fe6f329ef65ae0c5225130b",
-                "reference": "ecb0b2cdaa0add708fe6f329ef65ae0c5225130b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/9a02332089ac48e704c70f6cefed30c224e3c0b0",
+                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0",
                 "shasum": ""
             },
             "require": {
@@ -5987,7 +5987,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2017-08-03T14:17:41+00:00"
+            "time": "2017-08-20T05:47:52+00:00"
         },
         {
             "name": "phpunit/phpunit",

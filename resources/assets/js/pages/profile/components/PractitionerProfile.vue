@@ -115,7 +115,7 @@
         name: 'practitioner-profile',
         data() {
             return {
-                practitioner_id: Laravel.user.practitionerId,
+                practitioner_id: Laravel.user.practitionerId || this.practitionerIdEditing,
                 practitioner: {
                     licenses: [{'number': '', 'state': '', 'title': ''}],
                     picture_url : '/images/default_user_image.png',
@@ -180,7 +180,7 @@
           }
         },
         mounted() {
-            axios.get(`/api/v1/practitioners/${Laravel.user.practitionerId}`)
+            axios.get(`/api/v1/practitioners/${this.practitioner_id}`)
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
@@ -192,6 +192,10 @@
             flashSuccess: {
                 type: Function,
             },
+            practitionerIdEditing: {
+                type: String,
+                default: null
+            }
         }
     }
 </script>

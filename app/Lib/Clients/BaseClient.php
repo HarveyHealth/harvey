@@ -27,7 +27,7 @@ class BaseClient
     {
         return [
             'timeout' => 10,
-            'exceptions' => false,
+            'http_errors' => false,
         ];
     }
 
