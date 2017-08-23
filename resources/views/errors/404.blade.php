@@ -1,5 +1,6 @@
 @extends('legacy._layouts.public')
 @section('page_title','404 Error')
+@section('body_class','404')
 @section('main_content')
 
 <section class="page-content">

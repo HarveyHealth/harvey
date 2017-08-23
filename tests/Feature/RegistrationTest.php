@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Events\UserRegistered;
-use App\Models\User;
+use App\Models\{License, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use ResponseCode;
@@ -23,6 +23,8 @@ class RegistrationTest extends TestCase
             'terms' => true,
             'zip' => 91106,
         ];
+
+        factory(License::class)->create(['state' => 'CA']);
 
         // When a request is made to create a new user
         $response = $this->post(route('users.create'), $parameters);

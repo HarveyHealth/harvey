@@ -13,16 +13,17 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\AdminCreateCommand::class,
+        Commands\GetAPICalendarCredentialsCommand::class,
+        Commands\GetPassportKeysCommand::class,
         Commands\LogTailCommand::class,
-        Commands\MakeViewCommand::class,
         Commands\MakeComponentCommand::class,
         Commands\MakeRepositoryCommand::class,
-        Commands\SetNginxConfigCommand::class,
-        Commands\GetPassportKeysCommand::class,
+        Commands\MakeViewCommand::class,
         Commands\PractitionerCreateCommand::class,
-        Commands\AdminCreateCommand::class,
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
+        Commands\SetNginxConfigCommand::class,
     ];
 
     /**

@@ -1,6 +1,6 @@
 <template>
   <div class="input__container" v-if="visible">
-    <label class="input__label">doctor</label>
+    <label :class="{ 'input__label': true, 'first': isPatient }">doctor</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select practitioner'"
       :is-loading="$root.$data.global.loadingPractitioners"
@@ -31,6 +31,11 @@ export default {
   },
   components: {
     SelectOptions
+  },
+  computed: {
+    isPatient() {
+      return Laravel.user.user_type === 'patient';
+    }
   },
   methods: {
     handleSelect(e) {

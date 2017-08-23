@@ -82,7 +82,7 @@ class SendTransactionalEmail implements ShouldQueue
 
         $this->checkForEmptyKeys();
 
-        if (!app()->environment(['production','staging'])) {
+        if (isNotStgOrProd()) {
             return Log::info("Faking sending transactional email with Postmark to '{$this->to}' with template '{$this->template}'.");
         }
 

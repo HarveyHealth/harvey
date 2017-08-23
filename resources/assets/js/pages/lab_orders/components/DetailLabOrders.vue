@@ -153,7 +153,36 @@
         </div>
         </div>
       </div>
+      <div class="input__container">
+        <span class="input__label">doctor</span>
+        <span class="input--text">{{ doctorName }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">shipping address</span>
+        <p style="color: #737373;">
+          {{ addressOne }} {{ addressTwo }}
+          <br>
+          {{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}
+          {{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}
+        </p>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order tracking</span>
+        <span class="input--text">{{ shipmentCode }}</span>
+      </div>
+      <div class="input__container">
+        <span class="input__label">order status</span>
+        <span class="input--text">{{ status }}</span>
+      </div>
+    </div>
 
+    <div>
+      <div class="inline-centered">
+        <button class="button"
+          @click="updateOrder()"
+        >Update Shipment</button>
+      </div>
+    </div>
   </Flyout>
 </template>
 
