@@ -19,7 +19,7 @@
                         <div style="height: 40px; margin: 20px auto;">
                             <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
                             <a @click="pressEdit(cards)" style="margin: 0 10px; float: left;">edit</a>
-                            <a @click="deleteCard(cards)" style="margin: 0 10px; float: left;">delete</a>
+                            <a @click="openModal" style="margin: 0 10px; float: left;">delete</a>
                         </div>
                     </div>
 
@@ -54,6 +54,16 @@
                         </div>
                     </div>
     
+                    <Modal :active="deleteModalActive" :onClose="closeModal">
+                        <div class="inline-centered">
+                            <h1>Delete Credit Card</h1>
+                            <p>Are you sure you want to delete this credit card?</p>
+                            <div class="inline-centered">
+                                <button @click="deleteCard" class="button">Yes, Confirm</button>
+                            </div>
+                        </div>
+                    </Modal>
+
                 </div>
             </div>
         </div>
@@ -62,9 +72,11 @@
 
 <script>
 import axios from 'axios'
+import Modal from '../../commons/Modal.vue'
 export default {
     name: 'settings',
     components: {
+        Modal
     },
     data() {
         return {
@@ -78,6 +90,7 @@ export default {
             cardCvc: '',
             postalCode: '',
             edit: false,
+            deleteModalActive: false,
             currentCard: null,
             cards: this.$root.$data.global.creditCardTokens
         }
@@ -86,6 +99,12 @@ export default {
         addCard() {
             this.details = true
             this.edit = false
+        },
+        closeModal() {
+            this.deleteModalActive = false
+        },
+        openModal() {
+            this.deleteModalActive = true
         },
         submitAddCard() {
             this.details = false
@@ -98,6 +117,7 @@ export default {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: card.id
             })
+            this.closeModal()
         },
         submitUpdateCard() {
             this.details = false
