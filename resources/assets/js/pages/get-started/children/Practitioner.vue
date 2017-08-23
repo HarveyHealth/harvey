@@ -82,8 +82,6 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
       },
-      defaultBackgroundImage: '/images/default_background_image.png',
-      defaultUserImage: '/images/default_user_image.png',
       errorText: null,
       isProcessing: false,
       store: this.$root.$data,
