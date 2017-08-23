@@ -147,7 +147,7 @@ const app = new Vue({
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
               if (this.shouldTrack()) {
-                analytics.identify({ 
+                analytics.identify({
                   email: this.guestEmail
                 });
               }
@@ -236,7 +236,19 @@ const app = new Vue({
         },
         shouldTrack() {
           return env === 'production' || env === 'prod';
-        }
+        },
+        getUrlParams() {
+          const url = window.location.search;
+          if (!url) return null;
+
+          return (/^[?#]/.test(url) ? url.slice(1) : url)
+            .split('&')
+            .reduce((params, param) => {
+              let [key, value] = param.split('=');
+              params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+              return params;
+            }, {});
+        },
     },
     mounted() {
         this.$nextTick(() => {
@@ -247,12 +259,23 @@ const app = new Vue({
         // This is a temporary solution until we refactor how analytics is loaded
         // on public pages
         if (this.shouldTrack()) {
+          let currentPage = '';
+
           if(this.isHomePage) {
-            analytics.page('Homepage');
+            currentPage = 'Homepage';
           } else if (window.location.pathname === '/about') {
-            analytics.page('About');
+            currentPage = 'About';
           } else if (window.location.pathname === '/lab-tests') {
-            analytics.page('Lab Tests');
+            currentPage = 'Lab Tests';
+          }
+
+          // send the page event
+          analytics.page(currentPage);
+
+          // indentify and send along any url paramaters if they exist
+          if(this.getUrlParams() !== null) {
+            const parameterObject = this.getUrlParams();
+            analytics.identify(parameterObject);
           }
         }
     },
