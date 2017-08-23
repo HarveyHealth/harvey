@@ -5,7 +5,7 @@
       <h2>Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ prevStage.display }}</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }"><i class="fa fa-long-arrow-left"></i><span>Payment</span></router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
@@ -85,11 +85,6 @@ export default {
     },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    },
-    prevStage() {
-      return Laravel.user.has_a_card
-        ? { name: 'schedule', display: 'Schedule' }
-        : { name: 'payment', display: 'Payment' };
     },
     isBookingAllowed() {
       return (this.$root.$data.signup.billingConfirmed &&
