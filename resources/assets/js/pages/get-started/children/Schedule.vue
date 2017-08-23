@@ -88,11 +88,6 @@ export default {
     availableTimes() {
       return this.$root.$data.signup.availableTimes;
     },
-    nextStage() {
-      return Laravel.user.has_a_card
-        ? 'confirmation'
-        : 'payment';
-    },
     prevStage() {
       return Laravel.user.phone_verified_at
         ? { name: 'practitioner', display: 'Practitioner' }
@@ -138,7 +133,7 @@ export default {
         return;
       }
       this.isProcessing = true;
-      this.$router.push({ name: this.nextStage, path: `/${this.nextStage}`});
+      this.$router.push({ name: 'payment', path: '/payment' });
     },
     createWeek(start) {
       return {
