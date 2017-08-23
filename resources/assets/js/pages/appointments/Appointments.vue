@@ -242,6 +242,7 @@ export default {
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
         { value: 'No-Show-Doctor', data: 'no_show_doctor' },
+        { value: 'General Conflict', data: 'general_conflict' },
         { value: 'Canceled', data: 'canceled' },
         { value: 'Complete', data: 'complete' }
       ],
