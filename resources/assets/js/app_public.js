@@ -273,8 +273,8 @@ const app = new Vue({
           analytics.page(currentPage);
 
           // indentify and send along any url paramaters if they exist
-          if(this.getUrlParams() !== null) {
-            const parameterObject = this.getUrlParams();
+          const parameterObject = this.getUrlParams();
+          if(parameterObject !== null) {
             analytics.identify(parameterObject);
           }
         }
