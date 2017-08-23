@@ -5,51 +5,51 @@
     :on-close="handleFlyoutClose"
   >
     <div v-if="$root.$data.permissions !== 'admin'">
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
           <div class="input__container">
-              <label class="input__label" for="patient_name">lab tests</label>
-              <label v-for="test in testList" class="input__label" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
+              <label class="input__label first" for="patient_name">lab tests</label>
+              <label v-for="test in testList" class="input__item" style="color: #737373;">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
           </div>
         </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+        <div>
           <div class="input__container">
               <label class="input__label" for="patient_name">doctor</label>
-              <label class="input__label" style="color: #737373;">{{ doctorName }}</label>
+              <label class="input__item" style="color: #737373;">{{ doctorName }}</label>
           </div>
       </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
           <div v-for="val in samples" class="input__container">
               <label class="input__label" for="patient_name">{{ val }}</label>
-              <label class="input__label" style="color: #737373;">Required</label>
+              <label class="input__item" style="color: #737373;">Required</label>
           </div>
       </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
           <div class="input__container">
               <label class="input__label" for="patient_name">shipping address</label>
-              <label class="input__label" style="color: #737373;">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-              <label class="input__label" style="color: #737373;">{{ city }}, {{ state }} {{ zip }}</label>
+              <label class="input__item" style="color: #737373;">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
+              <label class="input__item" style="color: #737373;">{{ city }}, {{ state }} {{ zip }}</label>
           </div>
         </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+      <div>
           <div class="input__container">
               <label class="input__label" for="patient_name">order tracking</label>
-              <label class="input__label" style="color: #737373;">{{ shipmentCode }}</label>
+              <label class="input__item" style="color: #737373;">{{ shipmentCode }}</label>
           </div>
         </div>
-       <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+       <div>
           <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
               <div v-if="status !== 'Recommended'">
-                <label class="input__label" style="color: #737373;">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
-                <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+                <label class="input__item" style="color: #737373;">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
+                <label class="input__item" style="color: #737373;">{{`Charged: $${price}`}}</label>
               </div>
               <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
-                <label class="input__label" style="color: #737373;">not paid yet</label>
+                <label class="input__item" style="color: #737373;">not paid yet</label>
               </div>
              <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
                <div v-if="latestCard">
-                  <label class="input__label" style="color: #737373;">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
-                  <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+                  <label class="input__item" style="color: #737373;">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
+                  <label class="input__item" style="color: #737373;">{{`Charged: $${price}`}}</label>
                 </div>
                 <div v-if="!latestCard" style="padding-top: 5px;">
                   <div class="input__container length" style="margin-bottom: 1.5em; font-size: 0.9em;">
@@ -76,10 +76,10 @@
               </div>
           </div>
         </div>
-      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px; padding-top: 35px;">
+      <div style=" padding-top: 35px;">
           <div class="input__container">
               <label class="input__label" for="patient_name">order status</label>
-              <label class="input__label" style="color: #737373;">{{ status }}</label>
+              <label class="input__item" style="color: #737373;">{{ status }}</label>
           </div>
           <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
             <button :disabled="!hasCard && (!cardCvc || !cardNumber || !month || !year || !postalCode || !firstName || !lastName)" @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
@@ -88,7 +88,7 @@
       </div>
     </div>
   <div v-if="$root.$data.permissions === 'admin'">
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+        <div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">lab tests</label>
                 <div v-for="test in testList">
@@ -101,44 +101,44 @@
                 </div>
             </div>
           </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">doctor</label>
                 <span class="input--text">{{ doctorName }}</span>
             </div>
           </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div>
             <div v-for="val in samples" class="input__container">
                 <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
-                <label class="input__label" style="color: #737373;">Required</label>
+                <label class="input__item" style="color: #737373;">Required</label>
             </div>
         </div>
-        <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+        <div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">shipping address</label>
-                <label class="input__label" style="color: #737373;">{{ addressOne }}</label>
-                <label class="input__label" style="color: #737373;">{{ addressTwo }}</label>
-                <label class="input__label" style="color: #737373;">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-                <label class="input__label" style="color: #737373;">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
+                <label class="input__item" style="color: #737373;">{{ addressOne }}</label>
+                <label class="input__item" style="color: #737373;">{{ addressTwo }}</label>
+                <label class="input__item" style="color: #737373;">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
+                <label class="input__item" style="color: #737373;">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
             </div>
           </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">order tracking</label>
                 <span class="input--text">{{ shipmentCode }}</span>
             </div>
           </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div>
             <div class="input__container">
               <label class="input__label" for="patient_name">billing info</label>
               <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
-                <label class="input__label" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
-                <label class="input__label" style="color: #737373;">{{`Charged: $${price}`}}</label>
+                <label class="input__item" style="color: #737373;">{{`Billed to: ${card.brand} ****${card.last4}`}}</label>
+                <label class="input__item" style="color: #737373;">{{`Charged: $${price}`}}</label>
               </div>
               <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__label" style="color: #737373;">Not Paid Yet</label>
             </div>
           </div>
-          <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
+          <div>
             <div class="input__container">
               <label class="input__label" for="patient_name">order status</label>
               <span class="input--text">{{ status }}</span>
