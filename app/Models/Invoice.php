@@ -60,8 +60,13 @@ class Invoice extends Model
 
 	public function scopePending($query)
 	{
-		return $query->where('status',self::PENDING_STATUS);
+		return $query->where('status', self::PENDING_STATUS);
 	}
+
+    public function scopeOutstanding($query)
+    {
+        return $query->where('status', self::PENDING_STATUS);
+    }
 
     public function discountCode()
     {

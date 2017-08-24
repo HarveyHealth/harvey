@@ -34,7 +34,7 @@ class PayOutstandingInvoicesForPatient
         if (!$user->isPatient())
             return;
 
-        $invoices = Invoice::forPatient($user->patient->id)->pending()->get();
+        $invoices = Invoice::forPatient($user->patient->id)->outstanding()->get();
 
         foreach ($invoices as $invoice) {
 
