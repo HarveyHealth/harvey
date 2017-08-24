@@ -18,7 +18,7 @@ class UpdateSkuTable extends Migration
         });
 
         Schema::table('skus', function (Blueprint $table) {
-            $table->string('item_type')->default('lab-test');
+            $table->string('item_type')->default('lab-test')->after('price');
             $table->string('slug')->unique()->nullable()->after('item_type');
         });
 
@@ -39,8 +39,9 @@ class UpdateSkuTable extends Migration
 
         $sku = new \App\Models\SKU;
         $sku->name = 'Processing Fee';
-        $sku->price = 0.00;
+        $sku->price = 20.00;
         $sku->item_type = 'service-fee';
+        $sku->slug = 'processing-fee-self'
         $sku->save();
 
         $sku = new \App\Models\SKU;

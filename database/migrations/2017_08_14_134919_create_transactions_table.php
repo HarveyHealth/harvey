@@ -19,8 +19,8 @@ class CreateTransactionsTable extends Migration
             $table->foreign('patient_id')->references('id')->on('patients');
             $table->decimal('amount');
             $table->string('gateway')->default('stripe');
-            $table->string('transaction_id');
-            $table->datetime('transaction_date');
+            $table->string('transaction_id')->nullable();
+            $table->datetime('transaction_date')->nullable();
             $table->string('response_code')->nullable();
             $table->text('response_text')->nullable();
             $table->boolean('success')->default(false);

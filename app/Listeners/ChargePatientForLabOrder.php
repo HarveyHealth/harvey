@@ -28,14 +28,17 @@ class ChargePatientForLabOrder implements ShouldQueue
      */
     public function handle(LabOrderApproved $event)
     {
-        \Log::info('CHARGING FOR LAB ORDER');
-
         $lab_order = $event->lab_order;
         $user = $lab_order->patient->user;
 
         // make sure not to charge them again
-        if (!empty($lab_order->invoice_id))
-            return;
+        if ($lab_order->invoice_id) {
+            
+            $invoice = $lab_order->invoice;
+
+            if (!$invoice->isOutstanding())
+                return;
+        }
 
         // generate the invoice
         $cashier = new Cashier;

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Traits\BelongsToPatientAndPractitioner;
 use App\Http\Traits\{HasStatusColumn, Invoiceable};
 use App\Models\LabTest;
+use App\Models\SKU;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -77,6 +78,15 @@ class LabOrder extends Model
 
             $invoice_data['invoice_items'][] = $data;
         }
+
+        // lab orders add a processing fee
+        $sku = SKU::findBySlug('processing-fee-self');
+
+        $invoice_data['invoice_items'][] = [
+            'amount' => $sku->price,
+            'description' => $sku->name,
+            'sku_id' => $sku->id,
+        ];
 
 
         return $invoice_data;

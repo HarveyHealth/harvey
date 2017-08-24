@@ -6,6 +6,9 @@ use App\Models\Patient;
 use App\Models\Invoice;
 use App\Events\ChargeFailed;
 use Stripe\Stripe;
+use App\Jobs\ChargePatientForInvoice;
+use Carbon\Carbon;
+use App\Models\Invoice;
 
 class Cashier
 {
@@ -14,13 +17,17 @@ class Cashier
                 if (!in_array('App\Http\Traits\Invoiceable', class_uses($invoiceable)))
                         throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait. ');
 
-		$invoice_data = $invoiceable->dataForInvoice();
+                $invoice = $invoiceable->invoice;
+                if (!$invoice) {
 
-                $invoice = Invoice::newInvoiceWithData($invoice_data);
+                        $invoice_data = $invoiceable->dataForInvoice();
 
-                // record the invoice ID
-                $invoiceable->invoice_id = $invoice->id;
-                $invoiceable->save();
+                        $invoice = Invoice::newInvoiceWithData($invoice_data);
+
+                        // record the invoice ID
+                        $invoiceable->invoice_id = $invoice->id;
+                        $invoiceable->save();
+                }                
 
                 return $invoice;
 	}
@@ -28,7 +35,7 @@ class Cashier
 	public function chargePatientForInvoice(Invoice $invoice)
 	{
 		// make sure invoice hasn't already been processed
-		if ($invoice->isPaid())
+		if ($invoice->isOutstanding())
 			return;
 
 		// calculate the subtotals, if needed
@@ -42,12 +49,13 @@ class Cashier
                         $transaction->amount = $invoice->amount;
                         $transaction->patient_id = $invoice->patient_id;
 
+                        $user = $invoice->patient->user;
+
                 	// convert for stripe
-                	$amount = $amount * 100;
+                	$amount = $invoice->amount * 100;
 
                 	$data = [
-                		'customer' => $invoice->patient->user->stripe_id,
-                                // 'source' => $invoice->patient->stripe_source?
+                		'customer' => $user->stripe_id,
                 		'amount' => $amount,
                 		'currency' => 'usd',
                 		'description' => $invoice->description
@@ -60,22 +68,31 @@ class Cashier
                                 // success!
                                 if ($charge->paid) {
 
-                                        $transaction->transaction = $charge->id;
-                                        $transaction->date = date('Y-m-d H:i:s', $transaction->created);
+                                        $transaction->transaction_id = $charge->id;
+                                        $transaction->transaction_date = date('Y-m-d H:i:s');
                                         $transaction->success = true;
 
-                                        $invoice->paid_on = date('Y-m-d H:i:s');
+                                        $invoice->paid_on = $transaction->transaction_date;
                                         $invoice->transaction_id = $transaction->id;
                                         $invoice->card_brand = $charge->source->brand;
                                         $invoice->card_last_four = $charge->source->last4;
+                                        $invoice->status = Invoice::PAID_STATUS;
+
+                                        // reset any billing error flags
+                                        $user->billing_error = 0;
+
+                                        // fire an event
+                                        event(new ChargeSucceeded($invoice, $transaction));
 
                                 // not success, but would this ever happen?
                                 } else {
 
                                         $transaction->transaction = $charge->id;
                                         $transaction->gateway = 'stripe';
-                                        $transaction->date = date('Y-m-d H:i:s');
+                                        $transaction->transaction_date = date('Y-m-d H:i:s');
                                         $transaction->success = false;
+
+                                        $user->billing_error++;
 
                                         // fire an event
                                         event(new ChargeFailed($invoice, null, $transaction));
@@ -85,18 +102,28 @@ class Cashier
                 	} catch (\Exception $e) {
 
                                 $transaction->gateway = 'stripe';
-                                $transaction->response_message = $e->getMessage();
-                                $transaction->date = date('Y-m-d H:i:s');
+                                $transaction->response_text = $e->getMessage();
+                                $transaction->transaction_date = date('Y-m-d H:i:s');
                                 $transaction->success = false;
                 		
                                 // report it to engineering because it was an exception
-                		ops_error('Stripe Exception','Could not charge for Invoice ' . $invoice->id . ': ' . $exception->getMessage());
+                		ops_error('Stripe Exception','Could not charge for Invoice ' . $invoice->id . ': ' . $e->getMessage());
+
+                                $user->billing_error++;
 
                                 // fire an event
-                                event(new ChargeFailed($invoice, $exception));
+                                event(new ChargeFailed($invoice, $e));
                 	}
 
+                        // if we had a billing error, try again in 24 hours
+                        // but only try for a maximum of 3 times
+                        if ($user->billing_error > 0 && $user->billing_error < 3) {
+                                $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
+                                dispatch($job);
+                        }
+
                         $transaction->save();
+                        $user->save();
 
                 // zero balance just gets a pass, with no transaction
                 } else {

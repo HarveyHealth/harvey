@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\DiscountCode;
 use App\Models\InvoiceItem;
+use App\Models\Patient;
 
 class Invoice extends Model
 {
@@ -29,9 +30,9 @@ class Invoice extends Model
 
         	$invoice_item = new InvoiceItem;
             $invoice_item->description = $item['description'];
-            $invoice_item->item_class = $item['item_class'];
-            $invoice_item->item_id = $item['item_id'];
-            $invoice_item->sku_id = $item['sku_id'];
+            $invoice_item->item_class = $item['item_class'] ?? null;
+            $invoice_item->item_id = $item['item_id'] ?? null;
+            $invoice_item->sku_id = $item['sku_id'] ?? null;
             $invoice_item->amount = $item['amount'];
             $invoice_item->invoice_id = $invoice->id;
             $invoice_item->save();
@@ -42,9 +43,9 @@ class Invoice extends Model
         return $invoice;
 	}
 
-    public function isPaid()
+    public function isOutstanding()
     {
-        return !empty($this->paid_on);
+        return ($this->status == self::PENDING_STATUS);
     }
 
 	public function scopeForPatient($query, $patient_id)
@@ -70,6 +71,11 @@ class Invoice extends Model
     public function invoiceItems()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
     }
 
     public function calculateTotals($reset = false)

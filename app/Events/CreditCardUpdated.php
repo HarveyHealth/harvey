@@ -9,26 +9,23 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\Invoice;
-use App\Models\Transaction;
+use App\Models\User;
 
-class ChargeFailed
+class CreditCardUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $invoice;
-    public $transaction;
-    public $exception;
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Invoice $invoice, $exception = null, $transaction = null)
+    public function __construct(User $user)
     {
-        $this->invoice = $invoice;
-        $this->exception = $exception;
-        $this->transaction = $transaction;
+        $this->user = $user;
+        $this->user->billing_error = 0;
+        $this->user->save();
     }
 }

@@ -12,23 +12,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Models\Invoice;
 use App\Models\Transaction;
 
-class ChargeFailed
+class ChargeSucceeded
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $invoice;
     public $transaction;
-    public $exception;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Invoice $invoice, $exception = null, $transaction = null)
+    public function __construct(Invoice $invoice, Transaction $transaction)
     {
         $this->invoice = $invoice;
-        $this->exception = $exception;
         $this->transaction = $transaction;
     }
 }

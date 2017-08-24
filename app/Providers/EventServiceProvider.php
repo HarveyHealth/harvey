@@ -57,6 +57,14 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ChargeFailed' => [
             'App\Listeners\NotifyOfFailedCharge',
         ],
+
+        'App\Events\ChargeSucceeded' => [
+            'App\Listeners\NotifyOfFailedCharge',
+        ],
+
+        'App\Events\CreditCardUpdated' => [
+            'App\Listeners\PayOutstandingInvoicesForPatient',
+        ],
     ];
 
     protected $subscribe = [
