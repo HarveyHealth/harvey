@@ -34,19 +34,19 @@ class Cashier
 		// calculate the subtotals, if needed
                 $invoice->calculateTotals();
 
-                $transaction = new \App\Models\Transaction;
-                $transaction->invoice_id = $invoice->id;
-                $transaction->amount = $invoice->amount;
-                $transaction->patient_id = $invoice->patient_id;
-
                 // no need to charge if there's no balance
                 if ($invoice->amount > 0) {
+
+                        $transaction = new \App\Models\Transaction;
+                        $transaction->invoice_id = $invoice->id;
+                        $transaction->amount = $invoice->amount;
+                        $transaction->patient_id = $invoice->patient_id;
 
                 	// convert for stripe
                 	$amount = $amount * 100;
 
                 	$data = [
-                		'customer' => $invoice->patient->stripe_customer_id,
+                		'customer' => $invoice->patient->user->stripe_id,
                                 // 'source' => $invoice->patient->stripe_source?
                 		'amount' => $amount,
                 		'currency' => 'usd',
@@ -57,6 +57,7 @@ class Cashier
 
                 		$charge = \Stripe\Charge::create($data);
 
+                                // success!
                                 if ($charge->paid) {
 
                                         $transaction->transaction = $charge->id;
@@ -65,7 +66,10 @@ class Cashier
 
                                         $invoice->paid_on = date('Y-m-d H:i:s');
                                         $invoice->transaction_id = $transaction->id;
+                                        $invoice->card_brand = $charge->source->brand;
+                                        $invoice->card_last_four = $charge->source->last4;
 
+                                // not success, but would this ever happen?
                                 } else {
 
                                         $transaction->transaction = $charge->id;
@@ -77,6 +81,7 @@ class Cashier
                                         event(new ChargeFailed($invoice, null, $transaction));
                                 }
                 		
+                        // exception/failure
                 	} catch (\Exception $e) {
 
                                 $transaction->gateway = 'stripe';
@@ -91,12 +96,14 @@ class Cashier
                                 event(new ChargeFailed($invoice, $exception));
                 	}
 
+                        $transaction->save();
+
+                // zero balance just gets a pass, with no transaction
                 } else {
 
                         $invoice->paid_on = date('Y-m-d H:i:s');
                 }
-
-                $transaction->save();
+                
                 $invoice->save();
 	}
 }

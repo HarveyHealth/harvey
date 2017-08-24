@@ -27,8 +27,8 @@ class TestController extends Controller
 
         	if ($charge->paid) {
 
-        		echo $charge->id;
-        		
+        		echo $charge->source->last4;
+
         	} else {
 
         	}

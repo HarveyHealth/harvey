@@ -8,7 +8,6 @@ use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Stripe\Stripe;
 use Validator;
-use Stripe\Stripe;
 
 class AppServiceProvider extends ServiceProvider
 {
