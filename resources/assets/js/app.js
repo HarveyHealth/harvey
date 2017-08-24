@@ -13,7 +13,6 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
-import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
@@ -99,6 +98,13 @@ const app = new Vue({
         signup: {
           availability: [],
           availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
@@ -320,7 +326,6 @@ const app = new Vue({
             window.location.href = '/dashboard';
           }
         },
-        // Helper to determine if tracking scripts should run
         shouldTrack() {
           return env === 'production' || env === 'prod';
         }

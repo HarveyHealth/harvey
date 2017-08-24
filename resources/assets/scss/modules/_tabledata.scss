@@ -144,7 +144,7 @@
     @include padding(25px);
   }
   td {
-    font-size: 16px;
+    font-size: 14px;
   }
   .cell-wrap {
     @include margin(0);
@@ -159,7 +159,7 @@
   font-size: 14px;
   @include margin(null null null 90px);
 }
-@include query(lg) {
+@include query(md) {
   .tabledata.appointments-table {
     @include normalTableStyles;
   }
