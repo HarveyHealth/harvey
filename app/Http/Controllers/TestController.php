@@ -3,15 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Stripe\Stripe;
 
 class TestController extends Controller
 {
     public function index()
     {
-    	$order = \App\Models\LabOrder::findOrFail(1);
-        print_r($order->dataForInvoice());
+    	$customer_id = 'cus_A4qUQuiPXt1vWV';
 
-        $appointment = \App\Models\Appointment::findOrFail(6);
-        print_r($appointment->dataForInvoice());
-    }
+    	$amount = 15000;
+
+    	$data = [
+            		'customer' => $customer_id,
+            		'amount' => $amount,
+            		'currency' => 'usd',
+            		'description' => 'Because I wanted to, man'
+            	];
+
+        try {
+
+        	$charge = \Stripe\Charge::create($data);
+        	print_r($charge);
+
+        	if ($charge->paid) {
+
+        		echo $charge->id;
+        		
+        	} else {
+
+        	}
+        	
+        } catch (\Exception $e) {
+
+        	print_r($e->getMessage());
+        	exit;
+        }
+        
+	}
 }

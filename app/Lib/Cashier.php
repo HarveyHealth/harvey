@@ -31,11 +31,13 @@ class Cashier
 		if ($invoice->isPaid())
 			return;
 
-                \Log::info("CHARGING PATIENT FOR INVOICE " . $invoice->id);
-                return;
-
 		// calculate the subtotals, if needed
                 $invoice->calculateTotals();
+
+                $transaction = new \App\Models\Transaction;
+                $transaction->invoice_id = $invoice->id;
+                $transaction->amount = $invoice->amount;
+                $transaction->patient_id = $invoice->patient_id;
 
                 // no need to charge if there's no balance
                 if ($invoice->amount > 0) {
@@ -44,7 +46,8 @@ class Cashier
                 	$amount = $amount * 100;
 
                 	$data = [
-                		'source' => $invoice->patient->stripe_customer_id,
+                		'customer' => $invoice->patient->stripe_customer_id,
+                                // 'source' => $invoice->patient->stripe_source?
                 		'amount' => $amount,
                 		'currency' => 'usd',
                 		'description' => $invoice->description
@@ -53,18 +56,47 @@ class Cashier
                 	try {
 
                 		$charge = \Stripe\Charge::create($data);
+
+                                if ($charge->paid) {
+
+                                        $transaction->transaction = $charge->id;
+                                        $transaction->date = date('Y-m-d H:i:s', $transaction->created);
+                                        $transaction->success = true;
+
+                                        $invoice->paid_on = date('Y-m-d H:i:s');
+                                        $invoice->transaction_id = $transaction->id;
+
+                                } else {
+
+                                        $transaction->transaction = $charge->id;
+                                        $transaction->gateway = 'stripe';
+                                        $transaction->date = date('Y-m-d H:i:s');
+                                        $transaction->success = false;
+
+                                        // fire an event
+                                        event(new ChargeFailed($invoice, null, $transaction));
+                                }
                 		
-                	} catch (Exception $e) {
+                	} catch (\Exception $e) {
+
+                                $transaction->gateway = 'stripe';
+                                $transaction->response_message = $e->getMessage();
+                                $transaction->date = date('Y-m-d H:i:s');
+                                $transaction->success = false;
                 		
-                		ops_error('Stripe Exception','Could not change for Invoice ' . $invoice->id . ': ' . $exception->getMessage());
-                		event(new ChargeFailed($invoice));
+                                // report it to engineering because it was an exception
+                		ops_error('Stripe Exception','Could not charge for Invoice ' . $invoice->id . ': ' . $exception->getMessage());
+
+                                // fire an event
+                                event(new ChargeFailed($invoice, $exception));
                 	}
 
                 } else {
 
+                        $invoice->paid_on = date('Y-m-d H:i:s');
                 }
 
-                $invoice->paid_on = date('Y-m-d H:i:s');
+                $transaction->save();
                 $invoice->save();
 	}
 }

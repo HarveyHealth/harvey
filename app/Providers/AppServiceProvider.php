@@ -7,6 +7,7 @@ use App\Observers\{AppointmentObserver, LabTestObserver, MessageObserver, UserOb
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Validator;
+use Stripe\Stripe;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         LabTest::observe(LabTestObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
+
+        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**

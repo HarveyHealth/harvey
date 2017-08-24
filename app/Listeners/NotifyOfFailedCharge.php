@@ -29,8 +29,10 @@ class NotifyOfFailedCharge
         $invoice = $event->invoice;
         $patient_user = $invoice->patient->user;
 
-        $message = 'Invoice ' . $invoice-Lid . ' for ' . $patient_user->truncatedName();
-
+        // send a message to operations
+        $message = 'Invoice #' . $invoice->id . ' for ' . $patient_user->truncatedName();
         ops_warning('Charge Failed', $message, 'operations');
+
+        // we need to fire of an email to the user, but we need copy
     }
 }

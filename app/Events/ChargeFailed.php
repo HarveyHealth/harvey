@@ -16,24 +16,18 @@ class ChargeFailed
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $invoice;
+    public $transaction;
+    public $exception;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Invoice $invoice)
+    public function __construct(Invoice $invoice, $exception = null, $transaction = null)
     {
         $this->invoice = $invoice;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
+        $this->exception = $exception;
+        $this->transaction = $transaction;
     }
 }
