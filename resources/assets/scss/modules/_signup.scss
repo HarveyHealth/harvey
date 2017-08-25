@@ -58,7 +58,7 @@
   }
 }
 
-.signup-interstitial-container *:not(:first-child) {
+.signup-interstitial-container > *:not(:first-child) {
   @include margin(22px null null);
 }
 

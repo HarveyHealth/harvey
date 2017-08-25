@@ -5,13 +5,21 @@
       <h2>Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ prevStage.display }}</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }"><i class="fa fa-long-arrow-left"></i><span>Payment</span></router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
 
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
-      <button class="button button--blue" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
+      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+
+      <div v-show="!isBookingAllowed">
+        <p class="error-text" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
+        <p class="error-text" v-show="!$root.$data.signup.data.appointment_at">Appointment time has not been scheduled</p>
+        <p class="error-text" v-show="!$root.$data.signup.phoneConfirmed">Please confirm phone number before booking an appointment</p>
+        <p class="error-text" v-show="!$root.$data.signup.billingConfirmed">Please confirm billing before booking an appointment</p>
+      </div>
+
+      <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
         <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
       </button>
@@ -78,11 +86,12 @@ export default {
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     },
-    prevStage() {
-      return Laravel.user.has_a_card
-        ? { name: 'schedule', display: 'Schedule' }
-        : { name: 'payment', display: 'Payment' };
-    },
+    isBookingAllowed() {
+      return (this.$root.$data.signup.billingConfirmed &&
+        this.$root.$data.signup.phoneConfirmed &&
+        this.$root.$data.signup.data.appointment_at &&
+        this.$root.$data.signup.data.practitioner_id)
+    }
   },
   filters: {
     getState,

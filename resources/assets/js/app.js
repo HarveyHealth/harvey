@@ -52,6 +52,8 @@ const app = new Vue({
         appointmentData: null,
         clientList: [],
         environment: env,
+        permissions: Laravel.user.user_type,
+        currentUserId: Laravel.user.id,
         flyoutActive: false,
         guest: false,
         global: {
@@ -59,6 +61,7 @@ const app = new Vue({
             confirmedDoctors: [],
             confirmedPatients: [],
             currentPage: '',
+            creditCardTokens: null,
             detailMessages: {},
             loadingAppointments: true,
             loadingClients: true,
@@ -76,6 +79,12 @@ const app = new Vue({
             patients: [],
             practitioners: [],
             recent_appointments: [],
+            // Updated: 08/22/2017
+            // This is a hotfix and should be included in the backend logic when determining which
+            // practitioners to send to the frontend
+            regulatedStates: [
+              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+            ],
             signed_in: Laravel.user.signedIn,
             test_results: [],
             upcoming_appointments: [],
@@ -87,6 +96,7 @@ const app = new Vue({
             patientLookUp: {},
             practitionerLookUp: {},
             user: {},
+            selfPractitionerInfo: null,
             user_editing: {}
         },
         signup: {
@@ -184,12 +194,24 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data.map(dr => {
-                        return {
-                          info: dr.attributes,
-                          name: `Dr. ${dr.attributes.name}`,
-                          id: dr.id,
-                          user_id: dr.attributes.user_id }
+                    this.global.practitioners = response.data.data
+                        .filter(dr => {
+                          // We only filter by regulation if the user is a patient
+                          if (Laravel.user.user_type !== 'patient') return true;
+                          const userState = Laravel.user.state;
+                          // First check if the user's state is regulated or not
+                          const userRegulatedState = this.global.regulatedStates.indexOf(userState) > -1;
+                          // If the user's state is regulated, filter dr list for drs with licenses in that state
+                          return userRegulatedState
+                            ? dr.attributes.licenses.filter(lic => lic.state === userState).length
+                            : true
+                        })
+                        .map(dr => {
+                          return {
+                            info: dr.attributes,
+                            name: `Dr. ${dr.attributes.name}`,
+                            id: dr.id,
+                            user_id: dr.attributes.user_id }
                     });
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
@@ -199,7 +221,7 @@ const app = new Vue({
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
-                        return dr.attributes.name === Laravel.user.fullName;
+                        return dr.id === `${Laravel.user.practitionerId}`;
                     }).map(obj => {
                         return {
                           info: obj.attributes,
@@ -211,6 +233,7 @@ const app = new Vue({
                         this.global.practitionerLookUp[e.id] = e
                     });
                     this.global.loadingPractitioners = false;
+                    this.getSelfPractitionerInfo();
                 })
             }
         },
@@ -276,6 +299,12 @@ const app = new Vue({
                     this.global.loadingMessages = false
                 })
         },
+        getCreditCards() {
+            axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
+            .then(response => {
+                this.global.creditCardTokens = response.data.cards.length ? response.data.cards[0] : null
+            })
+        },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
@@ -286,12 +315,21 @@ const app = new Vue({
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
         },
+        getSelfPractitionerInfo() {
+            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0]
+            this.global.selfPractitionerInfo = {
+                id: self.id,
+                name: `Dr. ${self.attributes.name}`,
+                info: self.attributes,
+                user_id: self.attributes.user_id
+            }
+        },
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
-                .then(response => {
-                    this.clientList = response.data.data
-                    this.global.loadingClients = false
-                })
+            .then(response => {
+                this.clientList = response.data.data
+                this.global.loadingClients = false
+            })
         },
         setup() {
           this.getUser()
@@ -299,6 +337,7 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
+          this.getCreditCards();
           this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
@@ -313,7 +352,8 @@ const app = new Vue({
         }
     },
     mounted() {
-        Stripe.setPublishableKey(Laravel.services.stripe.key);
+        Stripe(Laravel.services.stripe.key);
+        Stripe.setPublishableKey(Laravel.services.stripe.key)
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests

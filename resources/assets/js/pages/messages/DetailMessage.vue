@@ -90,13 +90,13 @@
             this.renderReply = !this.renderReply
           },
           userName() {
-              if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+              if (this.$root.$data.permissions === 'patient') {
                   let arr = this.$root.$data.global.practitioners
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+              } else if (this.$root.$data.permissions === 'practitioner') {
                   let arr = this.$root.$data.global.patients
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+              } else if (this.$root.$data.permissions === 'admin') {
                   let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients)
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }

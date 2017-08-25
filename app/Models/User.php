@@ -305,6 +305,27 @@ class User extends Authenticatable implements Mailable
         return true;
     }
 
+    public function updateCard(array $cardInfo)
+    {
+        $cardId = $cardInfo['card_id'];
+        unset($cardInfo['card_id']);
+
+        try {
+            $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
+
+            foreach ($cardInfo as $key => $value) {
+                $card->$key = $value;
+            }
+
+            $card->save();
+        } catch (Exception $exception) {
+            Log::error("Unable to update card #{$cardId} for User #{$this->id}");
+            return false;
+        }
+
+        return true;
+    }
+
     public function addCard(string $cardTokenId)
     {
         try {
