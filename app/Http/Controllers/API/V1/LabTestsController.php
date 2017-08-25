@@ -4,11 +4,11 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
 use App\Models\{LabTest, LabTestInformation};
-use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
+use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
-use ResponseCode;
+use Exception, ResponseCode;
 
 class LabTestsController extends BaseAPIController
 {
@@ -104,31 +104,52 @@ class LabTestsController extends BaseAPIController
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
+    public function showResults(Request $request, LabTest $labTest)
+    {
+        if (currentUser()->cant('view', $labTest)) {
+            return $this->respondNotAuthorized('You do not have access to view this LabTest results.');
+        }
 
-    public function deleteResults(Request $request, LabTest $labTest, LabTestResult $labTestResult)
+        return $this->baseTransformCollection($labTest->results, request('include'), new LabTestResultTransformer, request('per_page'))->respond();
+    }
+
+
+    public function storeResult(Request $request, LabTest $labTest)
+    {
+        if (currentUser()->cant('update', $labTest)) {
+            return $this->respondNotAuthorized('You do not have access to submit results for this LabTest.');
+        }
+
+        $validator = StrictValidator::check($request->all(), [
+            'file' => 'required|mimes:pdf',
+        ]);
+
+        $relative_path = "{$labTest->patient->user->id}/{$labTest->id}";
+
+        try {
+            Storage::disk('s3')->putFileAs(
+                $relative_path,
+                $request->file('file'),
+                $fileName = "LabTest{$labTest->id}_Result{$labTest->results->count()}.pdf",
+                ['ContentType' => $request->file('file')->getMimeType()]
+            );
+
+            $labTest->key = "{$relative_path}/{$fileName}";
+            $labTest->save();
+
+            return $this->baseTransformItem($labTest)->respond();
+        } catch (Exception $e) {
+            return $this->respondUnprocessable($e->getMessage());
+        }
+    }
+
+    public function deleteResult(Request $request, LabTest $labTest, LabTestResult $labTestResult)
     {
         if (currentUser()->cant('delete', $labTestResult)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTestResult");
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
-    }
-
-    public function storeResults(Request $request, LabTest $labTest)
-    {
-        if (currentUser()->cant('update', $labTest)) {
-            return $this->respondNotAuthorized('You do not have access to submit this LabTest result.');
-        }
-
-
-
-    }
-
-    public function showResults(Request $request, LabTest $labTest)
-    {
-        if (currentUser()->isNotAdmin()) {
-            return $this->respondNotAuthorized('You are not authorized to access this resource.');
-        }
     }
 
     /**
