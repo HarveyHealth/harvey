@@ -92,7 +92,7 @@ class LabTestsController extends BaseAPIController
      * @param LabTest $labTest
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete(LabTest $labTest)
+    public function delete(Request $request, LabTest $labTest)
     {
         if (currentUser()->cant('delete', $labTest)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTest");
@@ -103,6 +103,33 @@ class LabTestsController extends BaseAPIController
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+
+    public function deleteResults(Request $request, LabTest $labTest, LabTestResult $labTestResult)
+    {
+        if (currentUser()->cant('delete', $labTestResult)) {
+            return $this->respondNotAuthorized("You do not have access to delete this LabTestResult");
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    public function storeResults(Request $request, LabTest $labTest)
+    {
+        if (currentUser()->cant('update', $labTest)) {
+            return $this->respondNotAuthorized('You do not have access to submit this LabTest result.');
+        }
+
+
+
+    }
+
+    public function showResults(Request $request, LabTest $labTest)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized('You are not authorized to access this resource.');
+        }
     }
 
     /**

@@ -26,9 +26,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
-        Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
-
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
@@ -66,6 +63,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
+        Route::get('lab/tests/{labTest}/results', 'LabTestsController@showResults')->name('lab-tests.show-results');
+        Route::post('lab/tests/{labTest}/results', 'LabTestsController@storeResults')->name('lab-tests.store-results');
+        Route::delete('lab/tests/{labTest}/results/{labTestResult}', 'LabTestsController@deleteResults')->name('lab-tests.delete-results');
 
         Route::get('lab/orders', 'LabOrdersController@index')->name('lab-orders.index');
         Route::get('lab/orders/{labOrder}', 'LabOrdersController@show')->name('lab-orders.show');
