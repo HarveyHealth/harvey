@@ -66,7 +66,6 @@ class LabTestsController extends BaseAPIController
             'lab_order_id' => 'required|exists:lab_orders,id',
             'sku_id' => 'required|exists:skus,id',
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
-            'results_url' => 'url',
             'shipment_code' => 'string',
         ]);
 
