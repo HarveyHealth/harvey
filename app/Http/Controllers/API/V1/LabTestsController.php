@@ -145,8 +145,12 @@ class LabTestsController extends BaseAPIController
 
     public function deleteResult(Request $request, LabTest $labTest, LabTestResult $labTestResult)
     {
-        if (currentUser()->cant('delete', $labTestResult)) {
-            return $this->respondNotAuthorized("You do not have access to delete this LabTestResult");
+        if (currentUser()->cant('delete', $labTest) || !$labTest->results()->find($labTestResult->id)) {
+            return $this->respondNotAuthorized("You do not have access to delete this LabTest result");
+        }
+
+        if (!$labTestResult->delete()) {
+            return $this->baseTransformItem($labTestResult)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
