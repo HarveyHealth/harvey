@@ -122,6 +122,7 @@ class LabTestsController extends BaseAPIController
 
         $validator = StrictValidator::check($request->all(), [
             'file' => 'required|mimes:pdf',
+            'notes' => 'string|max:1024',
         ]);
 
         $relative_path = "{$labTest->patient->user->id}/{$labTest->id}";
@@ -134,10 +135,12 @@ class LabTestsController extends BaseAPIController
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 
-            $labTest->key = "{$relative_path}/{$fileName}";
-            $labTest->save();
+            $labTest->results()->save([
+                'key' => "{$relative_path}/{$fileName}",
+                'notes' => request('notes'),
+            ]);
 
-            return $this->baseTransformItem($labTest)->respond();
+            return $this->baseTransformItem($labTest->fresh(), 'results')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
