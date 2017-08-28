@@ -79,7 +79,7 @@ class User extends Authenticatable implements Mailable
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->fullName(),
+            'full_name' => $this->full_name,
         ];
     }
 
@@ -113,7 +113,9 @@ class User extends Authenticatable implements Mailable
 
     public function getFullNameAttribute()
     {
-        return $this->fullName();
+        $fullName = trim("{$this->first_name} {$this->last_name}");
+
+        return  empty($fullName) ? null : $fullName;
     }
 
     public function patient()
@@ -190,13 +192,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function fullName()
-    {
-        $fullName = trim($this->first_name . ' ' . $this->last_name);
-
-        return  empty($fullName) ? null : $fullName;
     }
 
     public function passwordSet()
