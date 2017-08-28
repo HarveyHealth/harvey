@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
         } else {
             $this->call(PractitionerTypesSeeder::class);
             $this->call(UserSeeder::class);
-            $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
             $this->call(LabOrdersSeeder::class);

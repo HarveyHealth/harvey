@@ -119,8 +119,9 @@
                 </div>
             </div>
             <PractitionerProfile
-                v-if="isPractitioner"
-                :flashSuccess="flashSuccess"
+                v-if="canEditPractitioners"
+                :flashSuccess="callSuccessNotification"
+                :practitionerIdEditing="practitioner"
             />
         </div>
         {{ _user }}
@@ -136,7 +137,6 @@
     import ImageUpload from '../../commons/ImageUpload.vue';
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
     import PractitionerProfile from './components/PractitionerProfile.vue';
-
 
     export default {
         name: 'profile',
@@ -163,13 +163,14 @@
                         city: '',
                         state: '',
                         zip: '',
-                    }
+                    },
                 },
+                practitioner: `${Laravel.user.practitionerId}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
                 timezones: timezones,
                 states: states,
-                errorSymbol: '&#9888;',
+                errorSymbol: '!',
                 errorMessage: 'Error retrieving data',
                 successSymbol: '&#10003;',
                 successMessage: 'Changes Saved',
@@ -248,12 +249,18 @@
                         this.$root.$data.global.loadingUser = false;
                         this.user_data = response.data.data;
                         this.user = _.cloneDeep(response.data.data);
+                        this.practitioner = response.data.data.relationships.practitioner.data.id;
                     })
                     .catch(error => {
-                        this.$router.push('/profile');
-                        this.user_id = null;
-                        this.$root.$data.global.loadingUser = false;
-                        this.callErrorNotification();
+                        if (error.response) {
+                          if (error.response.status === 404) {
+                            this.errorMessage = 'Not a valid user id';
+                          }
+                          this.$router.push('/profile');
+                          this.user_id = null;
+                          this.$root.$data.global.loadingUser = false;
+                          this.callErrorNotification();
+                        }
                     });
             }
         },
@@ -282,8 +289,8 @@
             canEditUsers() {
                 return this._user_id && Laravel.user.user_type === 'admin';
             },
-            isPractitioner() {
-                return Laravel.user.practitionerId;
+            canEditPractitioners() {
+                return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
             },
             // loading is connected to global state since that's where the main user api call is made
             loading() {

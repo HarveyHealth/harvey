@@ -165,7 +165,7 @@ class UsersController extends BaseAPIController
                     $customer = \Stripe\Customer::create(array(
                       'email' => $user->email,
                       'source' => $token,
-                      'description' => $user->fullName() . ' [' . $user->id . ']',
+                      'description' => $user->full_name . ' [' . $user->id . ']',
                       'metadata' => [
                           'harvey_user_id' => $user->id,
                           ]
