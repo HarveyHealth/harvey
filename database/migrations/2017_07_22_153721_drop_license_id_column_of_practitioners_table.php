@@ -14,22 +14,22 @@ class DropLicenseIdColumnOfPractitionersTable extends Migration
      */
     public function up()
     {
-        Practitioner::all()->each(function ($item, $key) {
-            $license = License::find($item->license_id);
-            $license->user_id = $item->user_id;
-            $license->save();
-        });
+//        Practitioner::all()->each(function ($item, $key) {
+//            $license = License::find($item->license_id);
+//            $license->user_id = $item->user_id;
+//            $license->save();
+//        });
 
         Schema::table('practitioners', function (Blueprint $table) {
             $table->dropForeign(['license_id']);
             $table->dropColumn('license_id');
         });
 
-        if (License::all()->every(function ($value, $key) { return !empty($value->user_id); })) {
-            Schema::table('licenses', function (Blueprint $table) {
-                $table->integer('user_id')->unsigned()->nullable(false)->change();
-            });
-        }
+//        if (License::all()->every(function ($value, $key) { return !empty($value->user_id); })) {
+//            Schema::table('licenses', function (Blueprint $table) {
+//                $table->integer('user_id')->unsigned()->nullable(false)->change();
+//            });
+//        }
     }
 
     /**
