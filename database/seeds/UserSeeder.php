@@ -22,7 +22,9 @@ class UserSeeder extends Seeder
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create([
                 'email' => 'patient@goharvey.com',
-                'phone' => '3101234568'
+                'phone' => '3101234568',
+                'state' => 'CA',
+                'zip' => 90401,
             ])->id
         ]);
 
@@ -33,7 +35,10 @@ class UserSeeder extends Seeder
             ])->id
         ])->each(function ($practitioner) {
             $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make());
-            $practitioner->licenses()->save(factory(License::class)->make());
+            $practitioner->licenses()->save(factory(License::class)->make([
+                'state' => 'CA',
+                ])
+            );
         });
     }
 }
