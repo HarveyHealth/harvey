@@ -80,7 +80,7 @@
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
           <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
-          <span class="custom-select" style="float: left; width: 48%;"> 
+          <span class="custom-select"> 
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
