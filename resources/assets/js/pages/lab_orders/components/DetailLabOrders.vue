@@ -76,7 +76,7 @@
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
           <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
-          <span class="custom-select"> 
+          <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -151,9 +151,9 @@
         cardExpiry: '',
         cardCvc: '',
         postalCode: '',
-        hasCard: this.$root.$data.global.creditCardTokens != null,
+        hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        latestCard: this.$root.$data.global.creditCardTokens
+        latestCard: this.$root.$data.global.creditCards.slice(-1).pop()
       }
     },
     methods: {
