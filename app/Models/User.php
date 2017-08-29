@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
-use App\Http\Traits\Textable;
+use App\Http\Traits\{IsNot, Textable};
 use App\Lib\Clients\Geocoder;
 use App\Lib\{PhoneNumberVerifier, TimeInterval};
 use App\Mail\VerifyEmailAddress;
@@ -18,7 +18,7 @@ use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, Textable;
+    use HasApiTokens, Notifiable, Searchable, isNot, Textable;
 
     public $asYouType = true;
 
@@ -79,7 +79,7 @@ class User extends Authenticatable implements Mailable
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'full_name' => $this->fullName(),
+            'full_name' => $this->full_name,
         ];
     }
 
@@ -113,7 +113,9 @@ class User extends Authenticatable implements Mailable
 
     public function getFullNameAttribute()
     {
-        return $this->fullName();
+        $fullName = trim("{$this->first_name} {$this->last_name}");
+
+        return  empty($fullName) ? null : $fullName;
     }
 
     public function patient()
@@ -187,21 +189,9 @@ class User extends Authenticatable implements Mailable
         return $this->admin != null;
     }
 
-    public function isNotAdmin()
-    {
-        return !$this->isAdmin();
-    }
-
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function fullName()
-    {
-        $fullName = trim($this->first_name . ' ' . $this->last_name);
-
-        return  empty($fullName) ? null : $fullName;
     }
 
     public function passwordSet()
