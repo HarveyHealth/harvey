@@ -57,7 +57,7 @@
       </div>
       <div class="input__container">
         <span class="input__label">order tracking</span>
-        <span class="input--text">{{ shipmentCode }}</span>
+        <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
       </div>
       <div class="input__container">
         <span class="input__label">order status</span>
