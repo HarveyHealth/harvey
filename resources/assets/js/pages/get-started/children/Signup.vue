@@ -18,8 +18,8 @@
               <a href="/"><svg class="harvey"><use xlink:href="#harvey-logo" /></svg></a>
             </div>
             <blockquote v-for="obj in quotes" :key="obj.source">
-              <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="font-medium font-dark-gray"></p>
-              <footer v-html="'&ndash; ' + obj.source" class="font-base font-medium-gray"></footer>
+              <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="copy-main font-lg"></p>
+              <footer v-html="'&ndash; ' + obj.source" class="copy-muted font-italic"></footer>
             </blockquote>
           </div>
           <div class="quotes-icons-bottom">
@@ -37,41 +37,41 @@
 
         <div class="signup-container signup-form-container">
 
-          <h1 class="font-large font-xlarge_md font-dark-gray" v-html="title"></h1>
+          <h1 class="heading-main" v-html="title"></h1>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
-            <span v-show="errors.has('first_name')" class="error-text">{{ firstNameError }}</span>
+            <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
-            <span v-show="errors.has('last_name')" class="error-text">{{ lastNameError }}</span>
+            <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', signupData.email)" name="email" type="email" placeholder="Personal Email" v-model="signupData.email" v-validate="'required|email'" data-vv-validate-on="blur" />
-            <span v-show="errors.has('email')" class="error-text">{{ emailError }}</span>
+            <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zip" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
-            <span v-show="errors.has('zip')" class="error-text">{{ zipError }}</span>
+            <p v-show="errors.has('zip')" class="copy-error">{{ zipError }}</p>
           </div>
 
           <div class="input-wrap">
             <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', signupData.password)" name="password" type="password" placeholder="Create Password" v-model="signupData.password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
-            <span v-show="errors.has('password')" class="error-text">{{ passwordError }}</span>
+            <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
           </div>
 
           <div class="input-wrap last">
             <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
               <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
             </label>
-            <span v-show="errors.has('terms')" class="error-text">{{ termsError }}</span>
+            <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
           </div>
 
-          <div class="text-centered">
+          <div class="font-centered">
             <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
               <span v-if="!isProcessing">Sign Up</span>
               <LoadingGraphic v-else-if="isProcessing" :size="12" />
@@ -119,7 +119,7 @@ export default {
       },
       subtitle: '',
       terms: false,
-      title: 'Your health journey starts with us.',
+      title: 'Your health journey<br>starts with us.',
       zipInRange: false,
     }
   },
