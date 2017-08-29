@@ -6,11 +6,12 @@
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
                     <FilterButtons
+                        v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
                         :loading="disabledFilters"
@@ -24,7 +25,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions != 'patient'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
@@ -53,7 +54,7 @@
     import DetailLabOrders from './components/DetailLabOrders.vue'
     import tableDataTransform from './utils/tableDataTransform'
     import _ from 'lodash'
-    
+
     export default {
         name: 'LabOrders',
         components: {
@@ -67,24 +68,30 @@
         },
         data() {
             return {
-                filters: ['All', 'Pending', 'Completed'],
+                filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
                 selectedRowHasUpdated: null,
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
+                addActiveModal: false,
                 cache: {
-                    All: [],
-                    Pending: [],
-                    Completed: []
+                    Recommended: [],
+                    Confirmed: [],
+                    Shipped: [],
+                    Received: [],
+                    Mailed: [],
+                    Processing: [],
+                    Complete: []
                 },
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
                 notificationActive: false,
-                notificationDirection: 'top-right'
+                notificationDirection: 'top-right',
+                userType: null
             }
         },
         methods: {
@@ -106,20 +113,29 @@
                     this.detailFlyoutActive = false;
                 }
             },
-            isEmpty(obj) {
-                return _.isEmpty(obj)
-            },
             handleFilter(name, index) {
                 this.activeFilter = index;
                 switch (name) {
-                    case "All":
-                        this.currentData = this.cache.All
+                    case "Recommended":
+                        this.currentData = this.cache.Recommended
                         break;
-                    case "Pending":
-                        this.currentData = this.cache.Pending
+                    case "Confirmed":
+                        this.currentData = this.cache.Confirmed
                         break;
-                    case "Completed":
-                        this.currentData = this.cache.Completed
+                    case "Shipped":
+                        this.currentData = this.cache.Shipped
+                        break;
+                    case "Received":
+                        this.currentData = this.cache.Received
+                        break;
+                    case "Mailed":
+                        this.currentData = this.cache.Mailed
+                        break;
+                    case "Processing":
+                        this.currentData = this.cache.Processing
+                        break;
+                    case "Complete":
+                        this.currentData = this.cache.Complete
                         break;
                 }
             },
@@ -141,8 +157,9 @@
             },
             setupLabData() {
                 let global = this.$root.$data.global
+                let permissions = this.$root.$data.permissions
                 let patient = null
-                if (global.user.attributes && global.user.attributes.user_type == 'patient') {
+                if (permissions == 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -157,15 +174,26 @@
                     this.$root.$data.labTests
                 )
                 let choices = {
-                    0: "All",
-                    1: "Pending",
-                    2: "Completed"
+                    0: "Recommended",
+                    1: "Confirmed",
+                    2: "Shipped",
+                    3: "Received",
+                    4: "Mailed",
+                    5: "Processing",
+                    6: "Complete"
                 }
                 data.sort((a,b) => new Date(b.data.date) - new Date(a.data.date))
-                this.cache[choices['0']] = data
-                this.cache[choices['1']] = data.filter(e => e.data.completed_at != "Complete" && e.data.completed_at != "Canceled")
-                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Complete")
-                this.currentData = data
+                this.cache[choices['0']] = data.filter(e => e.data.completed_at == "Recommended")
+                this.cache[choices['1']] = data.filter(e => e.data.completed_at == "Confirmed")
+                this.cache[choices['2']] = data.filter(e => e.data.completed_at == "Shipped")
+                this.cache[choices['3']] = data.filter(e => e.data.completed_at == "Received")
+                this.cache[choices['4']] = data.filter(e => e.data.completed_at == "Mailed")
+                this.cache[choices['5']] = data.filter(e => e.data.completed_at == "Processing")
+                this.cache[choices['6']] = data.filter(e => e.data.completed_at == "Complete")
+                this.currentData = data.filter(e => e.data.completed_at == "Recommended")
+                if (permissions === 'patient') {
+                    this.currentData = data
+                }
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests
@@ -177,17 +205,22 @@
             },
             loadingLabs() {
                 const global = this.$root.$data.global
-                let attributes = this.$root.$data.global.user.attributes
-                if (attributes && attributes.user_type !== 'patient') {
+                let permissions = this.$root.$data.permissions
+                if (permissions === 'admin') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPatients || 
                     global.loadingPractitioners
-                } else {
+                } else if (permissions === 'practitioner') {
+                    return global.loadingLabTests || 
+                    global.loadingLabOrders || 
+                    global.loadingPatients
+                } else if (permissions === 'patient') {
                     return global.loadingLabTests || 
                     global.loadingLabOrders || 
                     global.loadingPractitioners
                 }
+                return false
             },
             labTests() {
                 this.tests = this.$root.$data.labTests
@@ -209,14 +242,15 @@
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
             const global = this.$root.$data.global
-            let attributes = this.$root.$data.global.user.attributes
+            let permissions = this.$root.$data.permissions
 
             if (!global.loadingLabTests && 
                 !global.loadingLabOrders && 
                 !global.loadingPractitioners &&
-                (!global.loadingPatients || (attributes && attributes.user_type === 'patient'))) {
+                (!global.loadingPatients || (permissions === 'patient'))) {
                     this.setupLabData();
                 }
+            
         }
     }
 </script>
