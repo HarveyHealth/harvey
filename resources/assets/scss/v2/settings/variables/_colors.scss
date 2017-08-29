@@ -1,0 +1,51 @@
+////
+/// @group colors
+////
+
+/// Accent color for use in CTAs
+$color-accent:	#82bef2;
+
+/// Dark version of accent
+$color-accent-dark: #54a6ed;
+
+/// Darker version of accent used for hover/active state
+$color-accent-darker: #3486cd;
+
+/// Used for alert boxes that prompt the user with an action
+$color-alert: #6d859a;
+
+/// Used for error messages, cancelation, regression, etc.
+$color-bad:	#fd4146;
+
+/// Default font color defined globally
+$color-copy:	#4f6268;
+
+/// Typically used for subheadings
+$color-copy-muted-1: #8fa2a8;
+
+/// Used for inactive states or subtext comments, etc.
+$color-copy-muted-2:	#b0bcc0;
+
+/// Used for borders that divides sections of the application
+$color-border:	#e4eaec;
+
+/// Used for dark overlays like the Overlay
+$color-fade-dark: rgba(0, 0, 0, 0.3);
+
+/// Used for light overlays or transparent backgrounds
+$color-fade-light: rgba(255, 255, 255, 0.75);
+
+/// Used for muted fonts on darker backgrounds
+$color-fade-light-muted: rgba(255, 255, 255, 0.4);
+
+/// Used for success notifications or positive feedback
+$color-good: #b4e7a0;
+
+/// Used for application background
+$color-gray-1:	#f2f2f2;
+
+/// Used for section heading backgrounds in some contexts
+$color-gray-2:	#fafafa;
+
+/// Used for text on dark backgrounds mostly
+$color-white:	#ffffff;
