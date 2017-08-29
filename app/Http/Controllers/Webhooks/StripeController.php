@@ -2,58 +2,73 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use App\Lib\Slack;
 use Illuminate\Http\Request;
-use Log, ResponseCode;
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
 
 class StripeController extends BaseWebhookController
 {
     public function handle()
     {
-        Log::info('New incoming payload on Stripe webhook endpoint.');
+        $payload = request()->all();
 
-        $this->handlePayload(request()->all());
+        \Log::info("\n\n\n");
+        \Log::info($payload['type']);
+        \Log::info($payload);
 
-        return response('A-OK!', ResponseCode::HTTP_OK);
+        $method_name = $this->methodForEventName($payload['type']);
+
+        if (method_exists($this, $method_name)) {
+            $this->$method_name();
+        } else {
+            $message = 'Stripe webhook method not handled: ' . $payload['type'];
+
+            // log it
+            \Log::info($message);
+
+            // slack it
+            (new Slack)->notify(new SlackNotification($message, 'engineering'));
+        }
+
+        return 'A-OK!';
     }
 
     public function handleChargeSucceeded()
     {
         $payload = request()->all();
 
-        Log::info("Stripe charge succeeded: {$payload['data']['object']['id']}");
+        \Log::info('Stripe charge succeeded: ' . $payload['data']['object']['id']);
     }
 
     public function handleChargeFailed()
     {
         $payload = request()->all();
 
-        $message = "Stripe charge failed: {$payload['data']['object']['id']}";
+        $message = 'Stripe charge failed: ' . $payload['data']['object']['id'];
 
-        Log::info($message);
+        // log it
+        \Log::info($message);
 
-        ops_warning('Webhook warning!', $message, 'operations');
+        // slack it
+        (new Slack)->notify(new SlackNotification($message, 'operations'));
+
+        $data = [
+            'user' => User::userForStripeID($payload['customer'])
+        ];
     }
 
     public function handleCustomerCreated()
     {
-        Log::info('Stripe customer created.');
+        \Log::info('Stripe customer created.');
     }
 
     public function handleCustomerSourceCreated()
     {
-        Log::info('Stripe customer payment source created.');
+        \Log::info('Stripe customer payment source created.');
     }
 
-    public function handlePayload(array $payload)
+    public function methodForEventName($event_name)
     {
-        $methodName = 'handle' . studly_case(str_replace('.', '_', $payload['type']));
-
-        if (!method_exists($this, $methodName)) {
-            ops_warning('Stripe webhook method not handled', "Type: {$payload['type']}", 'engineering');
-            return false;
-        }
-
-        return $this->$methodName();
+        return 'handle' . studly_case(str_replace('.', '_', $event_name));
     }
 }

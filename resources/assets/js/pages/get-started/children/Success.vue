@@ -97,7 +97,7 @@ export default {
       this.showModal = true;
     },
     sendToIntake() {
-      if (this.$root.isOnProduction()) {
+      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
         // place intake tracking here
       }
     }

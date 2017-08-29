@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null $space-lg null);
+  @include margin(null null 15px null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -20,10 +20,6 @@
     border-bottom: 1px solid $gray;
     @include padding(0 0 10px 0);
     color: #444;
-
-    &:disabled {
-      color: rgba(#444, 0.5);
-    }
   }
 
   &_checkbox {
@@ -94,28 +90,6 @@
 .input--textarea {
   color: darken($gray, 15%);
   font-family: inherit;
-}
-
-.input-half {
-  float: left;
-  width: 45%;
-
-  &:first-child {
-    margin-right: 10%;
-  }
-
-  &--sm {
-    @include query(sm) {
-      float: left;
-      width: 45%;
-
-      &:first-child {
-        margin-right: 10%;
-      }
-    }
-  }
-
-
 }
 
 .input__item.patient-display {

@@ -132,12 +132,13 @@
     display: flex;
   }
 
-  .card-panel {
+  .card-appointments {
     width: 100%;
     @include margin(25px);
   }
 
-  .is-patient .card-panel,
+  .is-patient .card-appointments,
+  .is-patient .card-info,
   .card.smaller {
     width: 50%;
     @include margin(25px);

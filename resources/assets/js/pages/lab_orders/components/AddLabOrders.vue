@@ -6,6 +6,7 @@
     :back="step == 2 ? prevStep : null"
   >
   <div v-if="step == 1">
+    <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
       <div class="input__container">
           <label class="input__label" for="patient_name">client</label>
           <span class="custom-select">
@@ -22,13 +23,14 @@
               </select>
           </span>
       </div>
-      <div>
-            <label class="input__label" for="patient_name">tests</label>
-            <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
-                <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
-            </span>
-      </div>
+    </div>
+    <div>
+          <label class="input__label" for="patient_name">tests</label>
+          <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
+              <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
+              <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
+          </span>
+    </div>
         <div class="inline-centered">
             <button class="button flyout-btn"
             @click="nextStep()"
@@ -36,16 +38,21 @@
         </div>
   </div>
   <div v-if="step == 2">
+    <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
       <div v-for="test in selectedTests">
           <div class="input__container">
               <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
               <input v-model="shippingCodes[test.id]" class="input--text" type="text">
           </div>
         </div>
+      </div>
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
         <div class="input__container">
             <label class="input__label" for="patient_name">master tracking</label>
             <input v-model="masterTracking" class="input--text" type="text">
         </div>
+      </div>
+      <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
         <div class="input__container">
             <label class="input__label" for="patient_name">mailing address</label>
             <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
@@ -59,33 +66,22 @@
             </span>
             <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
           </div>
-          <div class="inline-centered" style="padding-top: 50px;">
-              <button class="button"
-              @click="openModal()"
-              :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
-              >Mark as Shipped</button>
-          </div>
-      </div>
-    </div>
-    <Modal :active="$parent.addActiveModal" :onClose="modalClose">
-      <div class="inline-centered">
-        <h1>Create Lab Order</h1>
-        <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
-        <br>
-        <ul style="text-align: left; margin-left: 125px; padding-bottom: 5px;">
-          <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
-        </ul>
-        <div class="inline-centered">
-            <button @click="createLabOrder" class="button">Yes, Confirm</button>
+        </div> 
+        <div>
+            <div class="inline-centered">
+                <button class="button"
+                @click="createLabOrder()"
+                :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
+                >Mark as Shipped</button>
+            </div>
         </div>
       </div>
-    </Modal>
+    </div>
   </Flyout>
 </template>
 
 <script>
 import Flyout from '../../../commons/Flyout.vue'
-import Modal from '../../../commons/Modal.vue'
 import SelectOptions from '../../../commons/SelectOptions.vue'
 import axios from 'axios'
 import _ from 'lodash'
@@ -94,12 +90,10 @@ export default {
   name: 'AddLabOrders',
   components: {
     Flyout,
-    Modal,
     SelectOptions
   },
   data() {
     return {
-      activeModal: false,
       selectedDoctor: '',
       selectedClient: '',
       step: 1,
@@ -113,10 +107,7 @@ export default {
       shippingCodes: {},
       prevDoctor: '',
       prevClient: '',
-      testNamesInList: [],
-      selectedClientName: '',
-      selectedDoctorName: '',
-      doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
+      doctorList: [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
@@ -124,22 +115,14 @@ export default {
     nextStep() {
       this.step++
       let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
       let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
+      let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
+      this.doctorList = [doctorsFind].concat(doctors),
       this.clientList = [patientsFind].concat(patients)
-      if (window.Laravel.user.user_type == 'admin') {
-        let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        this.doctorList = [doctorsFind].concat(doctors)
-      }
     },
     prevStep() {
       this.step--
-    },
-    modalClose() {
-      this.$parent.addActiveModal = false
-    },
-    openModal() {
-      this.$parent.addActiveModal = true
     },
     updateTestSelection(e, obj) {
       this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
@@ -151,18 +134,15 @@ export default {
     },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedClientName = e.target.value.name;
     },
     updateState(e) {
       this.state = e.target.value
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedDoctorName = e.target.value.name;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
-      this.$parent.addActiveModal = false
       this.step = 1
     },
     createLabOrder() {
@@ -241,8 +221,7 @@ export default {
                     })
                 })
             })
-        this.handleFlyoutClose();
-        this.modalClose();
+        this.handleFlyoutClose()
     }
   },
   computed: {
@@ -269,13 +248,6 @@ export default {
       if (val) {
         return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
       }
-    }
-  },
-  mounted() {
-    let selfPractitioner = this.$root.$data.global.selfPractitionerInfo
-    if (selfPractitioner) {
-      this.selectedDoctor = selfPractitioner.id
-      this.selectedDoctorName = selfPractitioner.name
     }
   }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Lib;
 
-use App\Notifications\SlackNotification;
 use Illuminate\Notifications\Notifiable;
 
 /*
@@ -20,10 +19,5 @@ class Slack
     public function routeNotificationForSlack()
     {
         return config('services.slack.webhook_url');
-    }
-
-    public static function it(string $message, string $channel)
-    {
-        return (new Slack)->notify(new SlackNotification($message, $channel));
     }
 }

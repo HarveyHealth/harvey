@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container profile-page">
+    <div class="main-container">
         <div class="main-content">
             <NotificationPopup
                 :as-error="notificationError"
@@ -325,7 +325,7 @@
         width: 870px;
     }
 
-    .profile-page .input__container {
+    .input__container {
         width: 80%;
     }
 

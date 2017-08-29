@@ -2,10 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Stripe\Error\SignatureVerification;
-use Stripe\Webhook as StripeWebhook;
-use UnexpectedValueException;
-use Closure, ResponseCode;
+use Closure;
 
 class AuthenticateWebhook
 {
@@ -20,16 +17,10 @@ class AuthenticateWebhook
      */
     public function handle($request, Closure $next)
     {
-        if (!empty($sigHeader = $request->server->getHeaders()['STRIPE_SIGNATURE'])) {
-            try {
-                StripeWebhook::constructEvent($request->getContent(), $sigHeader, config('services.stripe.webhook_secret'));
-            } catch(UnexpectedValueException $e) {
-                abort(ResponseCode::HTTP_BAD_REQUEST, 'Invalid payload.');
-            } catch(SignatureVerification $e) {
-                abort(ResponseCode::HTTP_BAD_REQUEST, 'Invalid signature.');
-            }
-        } elseif ((empty(request('key')) || request('key') != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
-            abort(ResponseCode::HTTP_UNAUTHORIZED, 'Unathorized.');
+        $key = $request->input('key');
+
+        if ((empty($key) || $key != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
+            abort(403, 'Not authorized');
         }
 
         return $next($request);

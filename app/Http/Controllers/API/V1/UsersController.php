@@ -9,7 +9,7 @@ use App\Transformers\V1\UserTransformer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Exception, ResponseCode;
+use ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -112,7 +112,7 @@ class UsersController extends BaseAPIController
             $user->patient()->save(new Patient());
 
             return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -177,7 +177,7 @@ class UsersController extends BaseAPIController
 
     public function sendVerificationCode(Request $request, User $user)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->id != $user->id && currentUser()->isNotAdmin()) {
             return response()->json(['status' => 'Verification code not sent.'], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -200,76 +200,12 @@ class UsersController extends BaseAPIController
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
 
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
 
         return $this->baseTransformItem($user)->respond();
-    }
-
-    public function addCard(Request $request, User $user)
-    {
-        if (currentUser()->isNot($user)) {
-            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        }
-
-        StrictValidator::check($request->all(), [
-            'id' => 'required|regex:/^tok_.*/',
-        ]);
-
-        $responseCode = $user->addCard(request('id')) ? ResponseCode::HTTP_CREATED : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
-
-        return response()->json([], $responseCode);
-    }
-
-    public function deleteCard(Request $request, User $user)
-    {
-        if (currentUser()->isNot($user)) {
-            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        }
-
-        StrictValidator::check($request->all(), [
-            'card_id' => 'required|regex:/^card_.*/',
-        ]);
-
-        $responseCode = $user->deleteCard($request->only('card_id')) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
-
-        return response()->json([], $responseCode);
-    }
-
-    public function updateCard(Request $request, User $user)
-    {
-        if (currentUser()->isNot($user)) {
-            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        }
-
-        StrictValidator::checkUpdate($request->all(), $validKeys = [
-            'card_id' => 'required|regex:/^card_.*/',
-            'address_city' => 'sometimes',
-            'address_country' => 'sometimes',
-            'address_line1' => 'sometimes',
-            'address_line2' => 'sometimes',
-            'address_state' => 'sometimes',
-            'address_zip' => 'sometimes',
-            'exp_month' => 'sometimes|numeric|between:1,12',
-            'exp_year' => 'sometimes|digits:4',
-            'metadata' => 'sometimes',
-            'name' => 'sometimes',
-        ]);
-
-        $responseCode = $user->updateCard($request->intersect(array_keys($validKeys))) ? ResponseCode::HTTP_OK : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
-
-        return response()->json([], $responseCode);
-    }
-
-    public function getCards(Request $request, User $user)
-    {
-        if (currentUser()->isNot($user)) {
-            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
-        }
-
-        return response()->json(['cards' => $user->getCards()]);
     }
 }

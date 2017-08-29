@@ -1,7 +1,7 @@
 import Pusher from 'pusher-js';
 
 
-const socket = new Pusher(window.Laravel.services.pusher.key, {
+const socket = new Pusher(`${window.Laravel.services.pusher.key}`, {
   cluster: 'mt1',
   enabledTransports: ['ws', 'xhr_streaming'],
   disabledTransports: ['xhr_streaming'],

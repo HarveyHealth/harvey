@@ -13,6 +13,7 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
+import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
@@ -52,8 +53,6 @@ const app = new Vue({
         appointmentData: null,
         clientList: [],
         environment: env,
-        permissions: Laravel.user.user_type,
-        currentUserId: Laravel.user.id,
         flyoutActive: false,
         guest: false,
         global: {
@@ -61,10 +60,8 @@ const app = new Vue({
             confirmedDoctors: [],
             confirmedPatients: [],
             currentPage: '',
-            creditCardTokens: null,
             detailMessages: {},
             loadingAppointments: true,
-            loadingCreditCards: true,
             loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
@@ -97,19 +94,11 @@ const app = new Vue({
             patientLookUp: {},
             practitionerLookUp: {},
             user: {},
-            selfPractitionerInfo: null,
             user_editing: {}
         },
         signup: {
           availability: [],
           availableTimes: [],
-          billingConfirmed: false,
-          cardBrand: '',
-          cardCvc: '',
-          cardExpiration: '',
-          cardName: '',
-          cardNumber: '',
-          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
@@ -234,7 +223,6 @@ const app = new Vue({
                         this.global.practitionerLookUp[e.id] = e
                     });
                     this.global.loadingPractitioners = false;
-                    this.getSelfPractitionerInfo();
                 })
             }
         },
@@ -300,13 +288,6 @@ const app = new Vue({
                     this.global.loadingMessages = false
                 })
         },
-        getCreditCards() {
-            axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
-            .then(response => {
-                this.global.creditCardTokens = response.data.cards.length ? response.data.cards[0] : null
-                this.global.loadingCreditCards = false;
-            })
-        },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
@@ -317,21 +298,12 @@ const app = new Vue({
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
         },
-        getSelfPractitionerInfo() {
-            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0]
-            this.global.selfPractitionerInfo = {
-                id: self.id,
-                name: `Dr. ${self.attributes.name}`,
-                info: self.attributes,
-                user_id: self.attributes.user_id
-            }
-        },
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
-            .then(response => {
-                this.clientList = response.data.data
-                this.global.loadingClients = false
-            })
+                .then(response => {
+                    this.clientList = response.data.data
+                    this.global.loadingClients = false
+                })
         },
         setup() {
           this.getUser()
@@ -339,7 +311,6 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
-          this.getCreditCards();
           this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
@@ -349,13 +320,13 @@ const app = new Vue({
             window.location.href = '/dashboard';
           }
         },
+        // Helper to determine if tracking scripts should run
         shouldTrack() {
           return env === 'production' || env === 'prod';
         }
     },
     mounted() {
-        Stripe(Laravel.services.stripe.key);
-        Stripe.setPublishableKey(Laravel.services.stripe.key)
+        Stripe.setPublishableKey(Laravel.services.stripe.key);
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests

@@ -2,11 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\Models\{Appointment, Practitioner, PractitionerSchedule};
+use App\Models\Appointment;
+use App\Models\Practitioner;
+use App\Models\PractitionerSchedule;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use DateTime;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class PractitionerTest extends TestCase
 {
@@ -60,7 +61,8 @@ class PractitionerTest extends TestCase
 
     public function test_it_will_not_show_availability_if_appointment_overlaps()
     {
-        Carbon::setTestNow(Carbon::create(2017, 4, 17, 12));
+        $knownDate = Carbon::create(2017, 4, 17, 12); // create testing date
+        Carbon::setTestNow($knownDate);
 
         $practitioner = factory(Practitioner::class)->create();
 
@@ -76,8 +78,7 @@ class PractitionerTest extends TestCase
         $overlap->setTime(15, 0, 0);
         $practitioner->appointments()->save(
             factory(Appointment::class)->make([
-                'appointment_at' => $overlap,
-                'status' => 'pending',
+                'appointment_at' => $overlap
             ])
         );
 
@@ -104,7 +105,7 @@ class PractitionerTest extends TestCase
 
     protected function tearDown()
     {
-        Carbon::setTestNow(Carbon::parse((new DateTime('now'))->format('c')));
+        Carbon::setTestNow(Carbon::parse((new \DateTime('now'))->format('c')));
         parent::tearDown();
     }
 }

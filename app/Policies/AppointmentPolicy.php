@@ -43,7 +43,7 @@ class AppointmentPolicy
         $patient = $appointment->patient;
         $practitioner = $appointment->practitioner;
 
-        if ($user->isPatient() && ($appointment->isLocked() || $appointment->isNotPending())) {
+        if ($user->isPatient() && ($appointment->isLocked() || !$appointment->isPending())) {
             return false;
         }
 
