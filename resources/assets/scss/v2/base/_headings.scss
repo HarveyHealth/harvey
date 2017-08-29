@@ -33,6 +33,10 @@
   @extend %font-thin;
 
   color: $color-copy;
+}
+
+.heading-tertiary-expand {
+  @extend .heading-tertiary;
 
   @include query(md) {
     font-size: $font-xl;

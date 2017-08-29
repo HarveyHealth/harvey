@@ -51,17 +51,17 @@ $practitioner-grid: (
 }
 
 .signup-section-header {
-  border-bottom: 1px solid #ddd;
-  font-size: 18px;
+  border-bottom: 1px solid $color-border;
+  // font-size: 18px;
   margin: 0 1.5em 1.5em;
-  text-align: center;
+  // text-align: center;
   padding: 1em 0;
 }
 
 .practitioner-wrapper {
   background: $lightest-gray;
   border-radius: 3px;
-  border: 4px solid #ddd;
+  border: 4px solid $color-border;
   overflow: hidden;
   padding-bottom: 1.5em;
   position: relative;
@@ -92,7 +92,7 @@ $practitioner-grid: (
   transform: translate(-50%, 0);
 }
 .practitioner-name {
-  @include margin(36px 0 3px);
+  @include margin(36px 0 12px);
 }
 .practitioner-license {
   font-size: 12px;
@@ -100,32 +100,32 @@ $practitioner-grid: (
   @include margin(null null 20px);
 }
 .practitioner-info-wrapper {
-  * {
-    font-size: 14px;
-    line-height: 1.4;
-  }
+  // * {
+  //   font-size: 14px;
+  //   line-height: 1.4;
+  // }
   @include padding(0 20px 20px);
 }
 .practitioner-divider {
   width: 80%;
-  @include margin(0 auto);
+  @include margin(18px auto 0);
   border: none;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid $color-border;
 }
 .practitioner-info {
   list-style: none;
   @include padding(0);
   span {
-    font-weight: 600;
-    color: $harvey-tertiary;
+    @extend %font-normal;
+    color: $color-accent-dark;
   }
 }
 .practitioner-rate {
-  font-size: 18px;
+  // font-size: 18px;
   @include margin(15px 0);
   span {
-    font-weight: 600;
-    font-size: 18px;
-    letter-spacing: 1px;
+    // font-weight: 600;
+    // font-size: 18px;
+    // letter-spacing: 1px;
   }
 }

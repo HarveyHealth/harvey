@@ -1,23 +1,35 @@
 .copy-main {
-  @extend %copy-main;
+  &, #{$global-copy-elements} {
+    @extend %copy-main;
+  }
 }
 
 .copy-main-sm {
-  @extend %copy-main-sm;
+  &, #{$global-copy-elements} {
+    @extend %copy-main-sm;
+  }
 }
 
 .copy-muted {
-  @extend %copy-muted;
+  &, #{$global-copy-elements} {
+    @extend %copy-muted;
+  }
 }
 
 .copy-muted-2 {
-  @extend %copy-muted-2;
+  &, #{$global-copy-elements} {
+    @extend %copy-muted-2;
+  }
 }
 
 .copy-link {
-  @extend %copy-link;
+  &, #{$global-copy-elements} {
+    @extend %copy-link;
+  }
 }
 
 .copy-error {
-  @extend %copy-error;
+  &, #{$global-copy-elements} {
+    @extend %copy-error;
+  }
 }

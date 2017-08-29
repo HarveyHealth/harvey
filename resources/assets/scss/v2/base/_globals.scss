@@ -5,7 +5,7 @@ html {
   box-sizing: border-box;
 }
 
-p, span {
+#{$global-copy-elements} {
   @extend %copy-main;
 }
 
@@ -15,4 +15,8 @@ a {
 
 [v-cloak] {
   display: none;
+}
+
+div.v-spinner {
+  text-align: center !important;
 }
