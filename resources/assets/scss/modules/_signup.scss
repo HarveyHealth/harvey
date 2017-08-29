@@ -16,13 +16,18 @@
 .signup-back-button {
   position: absolute;
   top: 0;
-  left: 3px;
+  left: 0;
   padding: 20px;
-  transition: left 200ms ease-out, opacity 200ms ease-out;
   opacity: .7;
+  transition: opacity 200ms ease-out;
+
+  i {
+    left: 3px;
+    position: relative;
+    transition: left 200ms ease-out;
+  }
 
   span {
-    font-size: 14px;
     display: inline-block;
     margin-left: 10px;
     position: relative;
@@ -30,9 +35,12 @@
   }
 
   &:hover {
-    left: 0;
     color: $harvey-tertiary;
     opacity: 1;
+
+    i {
+      left: 0;
+    }
   }
 }
 
@@ -137,12 +145,6 @@
   .message-container-interstitial {
     margin-bottom: 25px;
   }
-
-a:active,
-a:focus,
-a:hover {
-  color: $harvey-secondary;
-}
 
 // Registration specific styles
 .registration-tree, .interstitial {

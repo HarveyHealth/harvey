@@ -77,7 +77,7 @@
 <script>
 import moment from 'moment';
 
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
@@ -143,7 +143,7 @@ export default {
       this.$root.getAvailability(id, response => {
         this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
         if (!this.store.signup.availability.length) {
-          this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a href="tel:8006909989">800-690-9989</a>.';
+          this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
           this.isProcessing = false;
         } else {
           this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
