@@ -242,6 +242,7 @@ export default {
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
         { value: 'No-Show-Doctor', data: 'no_show_doctor' },
+        { value: 'General Conflict', data: 'general_conflict' },
         { value: 'Canceled', data: 'canceled' },
         { value: 'Complete', data: 'complete' }
       ],
@@ -336,7 +337,11 @@ export default {
       return this.$root.$data.global.loadingPractitioners;
     },
     visibleCancelButton() {
-      return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
+      return (
+        this.appointment.currentStatus === 'pending' &&
+        this.visibleUpdateButtons &&
+        this.userType === 'patient'
+      );
     },
     visibleNewButton() {
       return this.flyoutMode === 'new';
@@ -735,9 +740,12 @@ export default {
     },
 
     setAvailableTimes(value, index) {
+      // If the day is changed, reset time and date values
+      this.setTime(null);
       this.appointment.day = value;
       this.appointment.availableTimes = [];
       this.appointment.availableTimes = this.appointment.day
+        // The practitioner index is minus 1 to account for the empty space in the dropdown list
         ? this.appointment.practitionerAvailability[index - 1].data.times
         : [];
     },

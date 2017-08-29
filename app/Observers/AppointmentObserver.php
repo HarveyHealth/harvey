@@ -8,7 +8,18 @@ use App\Models\Appointment;
 class AppointmentObserver
 {
     /**
-     * Listen to the Appointment delete event.
+     * Listen to the Appointment creating event.
+     *
+     * @param  Appointment $appointment
+     * @return void
+     */
+    public function creating(Appointment $appointment)
+    {
+        return $appointment->createCalendarEvent();
+    }
+
+    /**
+     * Listen to the Appointment created event.
      *
      * @param  Appointment $appointment
      * @return void
