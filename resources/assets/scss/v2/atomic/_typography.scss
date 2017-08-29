@@ -1,0 +1,52 @@
+// Sizes
+.font-xs {
+  @extend %font-xs;
+}
+.font-sm {
+  @extend %font-sm;
+}
+.font-md {
+  @extend %font-md;
+}
+.font-lg {
+  @extend %font-lg;
+}
+.font-xl {
+  @extend %font-xl;
+}
+.font-xxl {
+  @extend %font-xxl;
+}
+
+// Weight
+.font-thin {
+  @extend %font-thin;
+}
+.font-normal {
+  @extend %font-normal;
+}
+.font-bold {
+  @extend %font-bold;
+}
+
+// Alignment
+.font-centered {
+  @extend %font-centered;
+}
+.font-right {
+  @extend %font-right;
+}
+.font-left {
+  @extend %font-right;
+}
+
+// Util
+.font-italic {
+  @extend %font-italic;
+}
+.font-spaced {
+  @extend %font-spaced;
+}
+.font-uppercase {
+  @extend %font-uppercase;
+}

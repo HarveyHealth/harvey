@@ -1,0 +1,36 @@
+////
+/// @group typography
+////
+
+/// Main font family
+$font-family-main: "proxima-nova", "sans-serif";
+
+/// Extra small font size
+$font-xs: 12px;
+/// Small font size
+$font-sm: 14px;
+/// Medium font size (base)
+$font-md: 16px;
+/// Large font size
+$font-lg: 17.5px;
+/// Extra large font size
+$font-xl: 24px;
+/// Extra large font size and then some
+$font-xxl: 32px;
+
+/// Thin font
+$font-thin: 300;
+/// Normal font
+$font-normal: 400;
+/// Thick font
+$font-bold: 700;
+
+/// The default size for letter spacing when applied
+$font-letter-spacing: 1px;
+
+/// Small line height (mainly for headings)
+$line-height-sm: 1.2;
+/// Medium line height (default for all copy)
+$line-height-md: 1.4;
+/// Large line height
+$line-height-lg: 1.6;

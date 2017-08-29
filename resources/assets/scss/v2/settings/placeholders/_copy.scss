@@ -1,0 +1,49 @@
+////
+/// @group typography
+////
+
+/// The default styling for all page copy
+%copy-main {
+  @extend %font-md;
+  @extend %font-thin;
+  
+  color: $color-copy;
+  font-family: $font-family-main;
+  line-height: $line-height-md;
+  margin: 0;
+  padding: 0;
+}
+
+%copy-main-sm {
+  @extend %copy-main;
+
+  font-size: $font-sm;
+}
+
+/// Default copy styling with muted color
+%copy-muted {
+  @extend %copy-main;
+
+  color: $color-copy-muted-1;
+}
+
+/// Default copy styling with alternative muted color (used for more subtle headings)
+%copy-muted-2 {
+  @extend %copy-main;
+
+  color: $color-copy-muted-2;
+}
+
+/// Default anchor tag styling
+%copy-link {
+  @extend %copy-main;
+
+  color: $color-accent;
+  font-weight: $font-normal;
+  text-decoration: none;
+  transition: color 150ms ease-in-out;
+
+  &:hover {
+    color: $color-accent-darker;
+  }
+}

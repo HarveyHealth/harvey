@@ -5,8 +5,8 @@
 - settings
   - variables
   - functions
-  - placeholders
   - mixins
+  - placeholders
 - atomic
   - colors
   - borders

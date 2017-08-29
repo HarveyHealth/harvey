@@ -1,0 +1,40 @@
+.heading-main,
+.heading-secondary,
+.heading-tertiary {
+  @extend %font-smooth;
+
+  line-height: $line-height-sm;
+  margin: 0;
+  padding: 0;
+}
+
+.heading-main {
+  @extend %font-xl;
+  @extend %font-thin;
+
+  color: $color-copy;
+
+  @include query(sm) {
+    font-size: $font-xxl;
+  }
+}
+
+.heading-secondary {
+  @extend %font-sm;
+  @extend %font-bold;
+  @extend %font-spaced;
+  @extend %font-uppercase;
+
+  color: $color-copy-muted-1;
+}
+
+.heading-tertiary {
+  @extend %font-lg;
+  @extend %font-thin;
+
+  color: $color-copy;
+
+  @include query(md) {
+    font-size: $font-xl;
+  }
+}
