@@ -15,6 +15,10 @@
 
                 <div>
 
+                    <div v-if="$root.$data.global.loadingCreditCards">
+                        <p style="text-align: center; font-size: 18px; padding: 10px;"><i>Your credit cards are loading.</i></p>
+                    </div>
+
                     <div v-if="!details && cards">
                         <div style="height: 40px; margin: 20px auto;">
                             <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
@@ -23,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div v-if="!details && !cards" class="inline-centered">
+                    <div v-if="!details && !cards && !$root.$data.global.loadingCreditCards" class="inline-centered">
                         <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
@@ -39,7 +43,11 @@
                         </div>
                         <div class="input__container length" style="padding-top: 25px;">
                             <label class="input__label" for="patient_name">expiry date</label>
-                            <input placeholder="Month" style="width: 48%; float: left;" v-model="month" class="input--text" type="text">
+                            <span class="custom-select" style="float: left; width: 48%;"> 
+                                <select @change="updateMonth($event)">
+                                    <option v-for="month in monthList">{{ month }}</option>
+                                </select>
+                            </span>
                             <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
                         </div>
                         <div class="input__container length" style="padding-top: 25px;">
@@ -92,7 +100,8 @@ export default {
             edit: false,
             deleteModalActive: false,
             currentCard: null,
-            cards: this.$root.$data.global.creditCardTokens
+            cards: this.$root.$data.global.creditCardTokens,
+            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
     },
     methods: {
@@ -112,6 +121,9 @@ export default {
             if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
                 this.submitNewCard()
             }
+        },
+        updateMonth(e) {
+            this.month = e.target.value
         },
         deleteCard(card) {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
