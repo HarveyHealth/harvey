@@ -126,9 +126,7 @@ export default {
             this.month = e.target.value
         },
         deleteCard(card) {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
-                card_id: card.id
-            })
+            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${card.id}`)
             this.closeModal()
         },
         submitUpdateCard() {
