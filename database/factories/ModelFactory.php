@@ -33,6 +33,21 @@ use App\Models\{
 $factory->define(User::class, function (Faker\Generator $faker) {
     static $password;
 
+    switch ($state = $faker->randomElement(['CA', 'NV', 'AZ'])) {
+        case 'CA':
+            $zip = $faker->numberBetween(90401, 90411);
+            break;
+        case 'NV':
+            $zip = $faker->numberBetween(89001, 89033);
+            break;
+        case 'AZ':
+            $zip = $faker->numberBetween(85001, 85046);
+            break;
+        default:
+            $zip = null;
+            break;
+    }
+
     return [
         'enabled' => true,
         'first_name' => $faker->firstName,
@@ -42,10 +57,10 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'email_verified_at' => Carbon::now(),
         'phone' => $faker->randomElement(['626','323','818']) . $faker->numberBetween(1111111, 9999999),
         'phone_verified_at' => Carbon::now(),
-        'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
+        'address_1' => "{$faker->buildingNumber} {$faker->streetName}",
         'city' => $faker->city,
-        'state' => 'CA',
-        'zip' => $faker->postcode,
+        'state' => $state,
+        'zip' => $zip,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
         'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York']),
@@ -154,8 +169,12 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
 
+    $durationInMinutes = array_random([null, null, null, 30, 60]);
+    $statusId = $durationInMinutes ? Appointment::COMPLETE_STATUS_ID : array_random(array_diff(array_keys(Appointment::STATUSES), [Appointment::COMPLETE_STATUS_ID]));
+
     return [
-        'duration_in_minutes' => $faker->randomElement([null, 30, 60]),
+        'duration_in_minutes' => $durationInMinutes,
+        'status_id' => $statusId,
         'patient_id' => function () {
             return factory(Patient::class)->create()->id;
         },

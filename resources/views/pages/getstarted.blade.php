@@ -69,6 +69,7 @@
 
       <!-- Stripe -->
       <script type="text/javascript" src="https://js.stripe.com/v2"></script>
+      <script type="text/javascript" src="https://js.stripe.com/v3"></script>
 
       <!-- App.js -->
       <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
