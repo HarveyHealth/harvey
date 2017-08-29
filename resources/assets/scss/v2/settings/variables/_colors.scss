@@ -14,8 +14,8 @@ $color-accent-darker: #3486cd;
 /// Used for alert boxes that prompt the user with an action
 $color-alert: #6d859a;
 
-/// Used for error messages, cancelation, regression, etc.
-$color-bad:	#fd4146;
+/// Used for borders that divides sections of the application
+$color-border:	#e4eaec;
 
 /// Default font color defined globally
 $color-copy:	#4f6268;
@@ -26,8 +26,8 @@ $color-copy-muted-1: #8fa2a8;
 /// Used for inactive states or subtext comments, etc.
 $color-copy-muted-2:	#b0bcc0;
 
-/// Used for borders that divides sections of the application
-$color-border:	#e4eaec;
+/// Used for error messages, cancelation, regression, etc.
+$color-error:	#fd4146;
 
 /// Used for dark overlays like the Overlay
 $color-fade-dark: rgba(0, 0, 0, 0.3);

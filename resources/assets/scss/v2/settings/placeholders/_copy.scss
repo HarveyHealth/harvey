@@ -6,7 +6,7 @@
 %copy-main {
   @extend %font-md;
   @extend %font-thin;
-  
+
   color: $color-copy;
   font-family: $font-family-main;
   line-height: $line-height-md;
@@ -32,6 +32,13 @@
   @extend %copy-main;
 
   color: $color-copy-muted-2;
+}
+
+/// Default styling for error messages
+%copy-error {
+  @extend %copy-main-sm;
+
+  color: $color-error;
 }
 
 /// Default anchor tag styling
