@@ -59,14 +59,12 @@
             </span>
             <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
           </div>
-        <div>
-            <div class="inline-centered">
-                <button class="button"
-                @click="openModal()"
-                :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
-                >Mark as Shipped</button>
-            </div>
-        </div>
+          <div class="inline-centered" style="padding-top: 50px;">
+              <button class="button"
+              @click="openModal()"
+              :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
+              >Mark as Shipped</button>
+          </div>
       </div>
     </div>
     <Modal :active="$parent.addActiveModal" :onClose="modalClose">
@@ -74,7 +72,7 @@
         <h1>Create Lab Order</h1>
         <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
         <br>
-        <ul>
+        <ul style="text-align: left; margin-left: 125px; padding-bottom: 5px;">
           <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
         </ul>
         <div class="inline-centered">
