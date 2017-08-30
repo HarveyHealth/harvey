@@ -41,6 +41,12 @@
   color: $color-copy-muted-2;
 }
 
+%copy-muted-2-xs {
+  @extend %copy-muted-2;
+
+  font-size: $font-xs;
+}
+
 /// Default styling for error messages
 %copy-error {
   @extend %copy-main-sm;
@@ -54,7 +60,6 @@
   @extend %copy-main;
 
   color: $color-accent;
-  font-weight: $font-normal;
   text-decoration: none;
   transition: color 150ms ease-in-out;
 

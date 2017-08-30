@@ -27,6 +27,12 @@
   }
 }
 
+.copy-muted-2-xs {
+  &, #{$global-copy-elements} {
+    @extend %copy-muted-2-xs;
+  }
+}
+
 .copy-link {
   &, #{$global-copy-elements} {
     @extend %copy-link;
