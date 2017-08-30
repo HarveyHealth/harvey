@@ -42,6 +42,7 @@
                                     <div class="input__container">
                                         <label class="input__label" for="phone">Phone Number</label>
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.phone" type="number" name="phone"/>
+                                        <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="timezone">Timezone</label>
@@ -112,7 +113,12 @@
                                 <p v-for="error in errorMessages">{{ error.detail }} </p>
                             </div>
                             <div class="submit inline-centered">
-                                <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button><br/>
+                                <button class="button" v-on:click.prevent="submit" :disabled="submitting" style="width: 160px">
+                                  <div v-if="submitting" style="width: 12px; margin: 0 auto;">
+                                    <ClipLoader :size="'12px'" :color="'#ffffff'" />
+                                  </div>
+                                  <span v-else>Save Changes</span>
+                                </button><br/>
                             </div>
                         </form>
                     </div>
@@ -125,6 +131,32 @@
             />
         </div>
         {{ _user }}
+        <Modal :active="phoneModal" :on-close="() => phoneModal = false">
+          <h2 class="text-centered">Enter Phone Verification Code</h2>
+          <div style="text-align: center;">
+            <!-- confirmation inputs -->
+            <ConfirmInput ref="confirmInputs" :get-value="(val) => this.phoneConfirmation = val" />
+
+            <!-- send text again button -->
+            <button class="phone-process-button text-again" @click="handleTextResend">
+              <i class="fa fa-repeat" aria-hidden="true"></i>
+              Text Me Again
+            </button>
+
+            <!-- error messages -->
+            <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
+
+            <!-- confirm code button -->
+            <button class="button button--blue phone-confirm-button" style="width: 160px; margin-top: 22px"
+                    :disabled="isPhoneConfirming" @click="handleCodeConfirmation">
+              <span v-if="!isPhoneConfirming">Confirm Code</span>
+              <div v-else style="width: 12px; margin: 0 auto;">
+                <ClipLoader :size="'12px'" :color="'#ffffff'" />
+              </div>
+            </button>
+
+          </div>
+        </Modal>
     </div>
 </template>
 
