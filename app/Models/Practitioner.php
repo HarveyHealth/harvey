@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Lib\PractitionerAvailability;
+use App\Lib\{PractitionerAvailability, TimeInterval};
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon\Carbon;
 
@@ -68,7 +68,7 @@ class Practitioner extends Model
 
     public function availability()
     {
-        return new PractitionerAvailability($this);
+        return new PractitionerAvailability($this, TimeInterval::days(2)->toHours());
     }
 
     /*
