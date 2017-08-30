@@ -2,14 +2,15 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'payment'" />
-      <h2 v-text="title"></h2>
+      <h2 class="heading-tertiary-expand" v-text="title"></h2>
       <p v-html="subtext"></p>
 
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
     </div>
-    <div class="signup-container signup-phone-container text-centered">
+    <div class="signup-container signup-phone-container font-centered">
       <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }">
-        <i class="fa fa-long-arrow-left"></i><span>Schedule</span>
+        <i class="fa fa-long-arrow-left"></i>
+        <span class="font-sm">Schedule</span>
       </router-link>
 
       <div class="phone-input-container">
@@ -37,10 +38,10 @@
         <p v-if="!pageLogic.showForm">Your card has been confirmed. You can edit your card information here, or continue on to the confirmation page.</p>
         <p v-else>We will not charge you. You can confirm your appointment date and time on the next page.</p>
 
-        <p class="error-text" v-show="stripeError.length" v-html="stripeError"></p>
+        <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
 
         <button class="button button--blue" style="width: 180px" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
-          <LoadingGraphic v-if="pageLogic.formProcessing" :size="12" />
+          <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
           <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
           <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
         </button>
@@ -53,13 +54,13 @@
 
 <script>
 import card from 'card';
-import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
   name: 'payment',
   components: {
-    LoadingGraphic,
+    ClipLoader,
     StagesNav,
   },
   data() {

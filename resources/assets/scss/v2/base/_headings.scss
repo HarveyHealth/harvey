@@ -30,7 +30,7 @@
 
 .heading-tertiary {
   @extend %font-lg;
-  @extend %font-thin;
+  @extend %font-normal;
 
   color: $color-copy;
 }

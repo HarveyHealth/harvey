@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-tertiary-expand font-normal font-centered">
+    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-tertiary-expand font-centered">
       <div style="width: 22px; margin: 0 auto;">
         <ClipLoader :color="$root.$data.colors.copy" :size="'22px'" />
       </div>
