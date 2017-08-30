@@ -152,7 +152,7 @@ class UsersController extends BaseAPIController
             'phone' => 'max:10|unique:users',
             'state' => 'max:2',
             'timezone' => 'max:75',
-            'zip' => 'digits:5|serviceable',
+            'zip' => $user->isPractitioner() ? 'digits:5' : 'digits:5|serviceable',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
