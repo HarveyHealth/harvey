@@ -245,6 +245,98 @@
               this.notificationMessage = this.successMessage;
               this.flashNotification();
             },
+            handleVerifyClick() {
+              this.phoneModal = true;
+              this.handleTextSend(true);
+            },
+            handleTextSend(force) {
+              // If admin is editing someone else's phone number, do not call confirmation modal
+              if (this.$route.params.id) return;
+
+              const currentPhone = Laravel.user.phone;
+              const updatedPhone = this.updates.phone;
+              const shouldPatch = updatedPhone && (updatedPhone !== currentPhone);
+
+              // If force is true, send text verification no matter what
+              // If it is not true, check to see if verification should be sent
+              if (!force && !updatedPhone) {
+                return;
+              } else if (!force && updatedPhone) {
+                this.phoneModal = true;
+                this.isInvalidCode = false;
+                return;
+              }
+
+              this.phoneModal = true;
+              this.isInvalidCode = false;
+
+              // If phone was changed, patch the user's account to trigger text send
+              if (shouldPatch) {
+                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
+                  .then(response => {
+                    // Update the Laravel object in case the user wants to update phone before refreshing
+                    Laravel.user.phone = updatedPhone;
+                  })
+                  .catch(error => {
+                    if (error.response) {
+                      console.log(error.response);
+                      this.callErrorNotification('Could not update user information');
+                    }
+                  })
+              // If phone is the same, post to send verification text again
+              } else if (!this.phoneVerified) {
+                axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
+                  .catch(error => {
+                    if (error.response) {
+                      console.log(error.response);
+                      if (onError) onError();
+                    }
+                  })
+              }
+            },
+            handleTextResend() {
+              this.isInvalidCode = false;
+              this.resetConfirmInputs();
+              this.handleTextSend(true);
+            },
+            handleCodeConfirmation() {
+              // Simple validation to check if valid inputs
+              const isCodeValid = (/\d{5}/).test(this.phoneConfirmation);
+              if (!isCodeValid) {
+                this.isInvalidCode = true;
+                return;
+              }
+
+              this.isPhoneConfirming = true;
+
+              axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/verify?code=${this.phoneConfirmation}`)
+                .then(response => {
+                  this.isPhoneConfirming = false;
+                  // a successful return object is sent even if verification was unsuccessful
+                  if (response.data.verified) {
+                    this.phoneModal = false;
+                    this.phoneVerified = true;
+                    this.callSuccessNotification();
+                  } else {
+                    this.isInvalidCode = true;
+                    this.resetConfirmInputs();
+                  }
+                })
+                .catch(error => {
+                  if (error.response) {
+                    console.log(error.response)
+                    this.phoneModal = false;
+                    this.callErrorNotification('Verification could not be sent');
+                  }
+                })
+            },
+            resetConfirmInputs() {
+              this.phoneConfirmation = '';
+              Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
+                this.$refs.confirmInputs.$refs[i].value = '';
+              })
+              this.$refs.confirmInputs.$refs[0].focus();
+            },
             submit() {
                 if(_.isEmpty(this.updates))
                     return;
@@ -255,12 +347,13 @@
 
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
                     .then(response => {
+                      this.callSuccessNotification();
+                      this.handleTextSend();
                         if (this.canEditUsers) {
                             this.user_data = response.data.data;
                         } else {
                             this.$root.$data.global.user = response.data.data;
                         }
-                        this.callSuccessNotification('Error updating data');
                         this.submitting = false;
                     })
                     .catch(err => {
@@ -337,6 +430,9 @@
             // loading is connected to global state since that's where the main user api call is made
             loading() {
                 return this.$root.$data.global.loadingUser;
+            },
+            phoneNotVerified() {
+              return !this.$route.params.id && !this.phoneVerified;
             },
             updates() {
                 // We want to diff against the correct user attributes
