@@ -2,20 +2,23 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'schedule'" />
-      <h2>Choose date and time...</h2>
+      <h2 class="heading-tertiary-expand font-normal">Choose date and time...</h2>
       <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now or in 4 weeks.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ prevStage.display }}</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
+        <i class="fa fa-long-arrow-left"></i>
+        <span class="font-sm">{{ prevStage.display }}</span>
+      </router-link>
 
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
-          <h3>Choose date</h3>
+          <h3 class="heading-secondary font-normal font-centered">Choose date</h3>
 
           <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
-            <div class="schedule-week-info">
-              <span class="week">{{ weekReference(i) }}</span>
-              <span class="dates">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
+            <div class="schedule-week-info copy-muted-sm">
+              <span class="week font-xs">{{ weekReference(i) }}</span>
+              <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
               <li v-for="(dayObj, key) in week.days"
@@ -29,9 +32,9 @@
 
         </div>
         <div class="schedule-section schedule-times" ref="timeBox">
-          <h3>Choose time</h3>
-          <p class="schedule-info-text" v-show="selectedDate">{{ selectedDate | fullDate }}</p>
-          <p class="time-zone">Time Zone: {{ $root.addTimezone() }}</p>
+          <h3 class="heading-secondary font-normal font-centered">Choose time</h3>
+          <h4 class="schedule-info-text heading-tertiary font-normal" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
+          <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
           <ol v-show="selectedDate">
             <li v-for="(time, j) in availableTimes"
                 :class="{ 'available': true, 'selected': selectedTime === j }"
@@ -41,7 +44,7 @@
         </div>
       </div>
 
-      <p class="error-text" v-html="errorText" v-show="errorText" style="display:block"></p>
+      <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
       <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
 
     </div>

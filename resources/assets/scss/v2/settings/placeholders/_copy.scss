@@ -31,6 +31,13 @@
   color: $color-copy-muted-1;
 }
 
+/// Smaller size for color-copy
+%copy-muted-sm {
+  @extend %copy-muted;
+
+  font-size: $font-sm;
+}
+
 /// Default copy styling with alternative muted color (used for more subtle headings)
 %copy-muted-2 {
   @extend %copy-main;
