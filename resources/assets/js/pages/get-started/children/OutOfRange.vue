@@ -1,13 +1,13 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-container signup-interstitial-container text-centered">
+    <div class="signup-container signup-interstitial-container font-centered">
       <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
         <i class="fa fa-long-arrow-left"></i>
       </router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
       </div>
-      <h2>We&rsquo;re sorry!</h2>
+      <h2 class="heading-main font-normal">We&rsquo;re sorry!</h2>
       <p>Unfortunately, we are unnable to service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
       <div class="social-icon-wrapper">
         <a v-for="icon in socialIcons" :href="icon.href">
