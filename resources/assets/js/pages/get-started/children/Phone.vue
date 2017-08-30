@@ -204,10 +204,6 @@ export default {
     },
   },
   mounted () {
-    // if (Laravel.user.phone) {
-    //   this.phone = Laravel.user.phone;
-    //   this.$refs.phoneInput.value = Laravel.user.phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    // }
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
