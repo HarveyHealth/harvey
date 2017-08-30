@@ -21,7 +21,6 @@ import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
-Vue.directive('phonemask', phonemask);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
