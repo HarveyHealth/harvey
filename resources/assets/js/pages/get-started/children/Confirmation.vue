@@ -24,13 +24,13 @@
 
       <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
-        <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <ClipLoader v-else-if="isProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
     </div>
 
     <Overlay :active="showModal" />
     <Modal :active="showModal" :on-close="() => showModal = false">
-      <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <p class="copy-error">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
         <span v-if="!isBackProcessing">Back to Schedule</span>
         <ClipLoader v-else-if="isBackProcessing" :color="'#ffffff'" :size="'12px'" />
