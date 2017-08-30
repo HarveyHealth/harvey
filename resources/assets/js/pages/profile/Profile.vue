@@ -169,14 +169,18 @@
     import ImageUpload from '../../commons/ImageUpload.vue';
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
     import PractitionerProfile from './components/PractitionerProfile.vue';
+    import Modal from '../../commons/Modal.vue';
+    import ConfirmInput from '../../commons/ConfirmInput.vue';
 
     export default {
         name: 'profile',
         components: {
-            NotificationPopup,
-            ImageUpload,
-            ClipLoader,
-            PractitionerProfile,
+          NotificationPopup,
+          ImageUpload,
+          ClipLoader,
+          PractitionerProfile,
+          Modal,
+          ConfirmInput
         },
         data() {
             return {
@@ -213,6 +217,12 @@
                 notificationDirection: 'top-right',
                 errorMessages: null,
                 submitting: false,
+                phoneModal: false,
+                phoneConfirmation: '',
+                phoneVerified: Laravel.user.phone_verified_at,
+                currentUserId: Laravel.user.id,
+                isInvalidCode: false,
+                isPhoneConfirming: false,
             }
         },
         methods: {
