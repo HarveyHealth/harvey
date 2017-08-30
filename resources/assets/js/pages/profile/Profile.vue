@@ -289,7 +289,7 @@
                   .catch(error => {
                     if (error.response) {
                       console.log(error.response);
-                      if (onError) onError();
+                      this.callErrorNotification('Error sending verification text message');
                     }
                   })
               }
