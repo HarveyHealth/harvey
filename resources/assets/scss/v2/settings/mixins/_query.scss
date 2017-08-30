@@ -1,5 +1,5 @@
 /// Creates a min-width based media query that wraps other styling.
-/// $param {String} $bp - A breakpoint alias from the $breakpoints map.
+/// @param {String} $bp - A breakpoint alias from the $breakpoints map.
 /// @example scss
 ///   @include query(xl) {
 ///     ... styles
@@ -11,7 +11,7 @@
 }
 
 /// Creates a min-height based media query that wraps other styling.
-/// $param {String} $bp - A breakpoint alias from the $breakpoints-height map.
+/// @param {String} $bp - A breakpoint alias from the $breakpoints-height map.
 /// @example scss
 ///   @include query-height(lg) {
 ///     ... styles
