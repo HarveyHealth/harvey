@@ -48,7 +48,7 @@
             </div>
             <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
               <label class="input__label" for="patient_name">expiry date</label>
-              <span class="custom-select"> 
+              <span class="custom-select">
                   <select @change="updateMonth($event)">
                       <option v-for="month in monthList">{{ month }}</option>
                   </select>
@@ -80,7 +80,7 @@
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
           <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
-          <span class="custom-select"> 
+          <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -155,9 +155,9 @@
         cardExpiry: '',
         cardCvc: '',
         postalCode: '',
-        hasCard: this.$root.$data.global.creditCardTokens != null,
+        hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        latestCard: this.$root.$data.global.creditCardTokens,
+        latestCard: this.$root.$data.global.creditCards.slice(-1).pop(),
         monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
       }
     },
