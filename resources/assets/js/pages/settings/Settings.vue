@@ -12,18 +12,18 @@
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
                 </div>
-
                 <div>
-
-                    <div v-if="!details && cards">
+                    <div v-if="$root.$data.global.loadingCreditCards">
+                        <p style="text-align: center; font-size: 18px; padding: 10px;"><i>Your credit cards are loading.</i></p>
+                    </div>
+                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
                         <div style="height: 40px; margin: 20px auto;">
-                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
-                            <a @click="pressEdit(cards)" style="margin: 0 10px; float: left;">edit</a>
-                            <a @click="openModal" style="margin: 0 10px; float: left;">delete</a>
+                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
+                            <a @click="pressEdit(card)" style="margin: 0 10px; float: left;">Edit</a>
+                            <a @click="openModal(card)" style="margin: 0 10px; float: left;">Delete</a>
                         </div>
                     </div>
-
-                    <div v-if="!details && !cards" class="inline-centered">
+                    <div v-if="!details && !cards.length && !$root.$data.global.loadingCreditCards" class="inline-centered">
                         <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
@@ -39,7 +39,11 @@
                         </div>
                         <div class="input__container length" style="padding-top: 25px;">
                             <label class="input__label" for="patient_name">expiry date</label>
-                            <input placeholder="Month" style="width: 48%; float: left;" v-model="month" class="input--text" type="text">
+                            <span class="custom-select" style="float: left; width: 48%;">
+                                <select @change="updateMonth($event)">
+                                    <option v-for="month in monthList">{{ month }}</option>
+                                </select>
+                            </span>
                             <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
                         </div>
                         <div class="input__container length" style="padding-top: 25px;">
@@ -53,7 +57,7 @@
                             <button v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                         </div>
                     </div>
-    
+
                     <Modal :active="deleteModalActive" :onClose="closeModal">
                         <div class="inline-centered">
                             <h1>Delete Credit Card</h1>
@@ -92,7 +96,8 @@ export default {
             edit: false,
             deleteModalActive: false,
             currentCard: null,
-            cards: this.$root.$data.global.creditCardTokens
+            cards: this.$root.$data.global.creditCards,
+            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
     },
     methods: {
@@ -103,8 +108,9 @@ export default {
         closeModal() {
             this.deleteModalActive = false
         },
-        openModal() {
+        openModal(card) {
             this.deleteModalActive = true
+            this.currentCard = card
         },
         submitAddCard() {
             this.details = false
@@ -113,10 +119,11 @@ export default {
                 this.submitNewCard()
             }
         },
-        deleteCard(card) {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
-                card_id: card.id
-            })
+        updateMonth(e) {
+            this.month = e.target.value
+        },
+        deleteCard() {
+            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
             this.closeModal()
         },
         submitUpdateCard() {
@@ -153,15 +160,14 @@ export default {
             })
         },
         pressEdit(card) {
-            let tokens = this.$root.$data.global.creditCardTokens
-            let names = tokens.name
+            let names = card.name
             let nameArray = names.split(' ')
             this.firstName = nameArray[0]
             this.lastName = nameArray[nameArray.length - 1]
-            this.month = tokens.exp_month
-            this.year = tokens.exp_year
-            this.postalCode = tokens.address_zip
-            this.currentCard = tokens
+            this.month = card.exp_month
+            this.year = card.exp_year
+            this.postalCode = card.address_zip
+            this.currentCard = card
             this.edit = true
             this.details = true
         }

@@ -333,7 +333,10 @@ class User extends Authenticatable implements Mailable
                 $this->stripe_id = $customer->id;
             } else {
                 $customer = Customer::retrieve($this->stripe_id);
-                $customer->sources->create(['source' => $cardTokenId]);
+                $customer->sources->create([
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $this->id],
+                ]);
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $exception) {
