@@ -775,7 +775,8 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
+      const zone = this.$root.addTimezone();
+      const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
       this.cache.all = appts;
       this.cache.upcoming = appts.filter(obj => obj.data.status === 'Pending');
       this.cache.completed = appts.filter(obj => obj.data.status === 'Complete');
