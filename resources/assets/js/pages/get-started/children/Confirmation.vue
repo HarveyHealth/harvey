@@ -2,10 +2,13 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
-      <h2>Final Confirmation</h2>
+      <h2 class="heading-tertiary">Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }"><i class="fa fa-long-arrow-left"></i><span>Payment</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">
+        <i class="fa fa-long-arrow-left"></i>
+        <span class="font-sm">Payment</span>
+      </router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
@@ -13,10 +16,10 @@
       <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
 
       <div v-show="!isBookingAllowed">
-        <p class="error-text" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
-        <p class="error-text" v-show="!$root.$data.signup.data.appointment_at">Appointment time has not been scheduled</p>
-        <p class="error-text" v-show="!$root.$data.signup.phoneConfirmed">Please confirm phone number before booking an appointment</p>
-        <p class="error-text" v-show="!$root.$data.signup.billingConfirmed">Please confirm billing before booking an appointment</p>
+        <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
+        <p class="copy-error" v-show="!$root.$data.signup.data.appointment_at">Appointment time has not been scheduled</p>
+        <p class="copy-error" v-show="!$root.$data.signup.phoneConfirmed">Please confirm phone number before booking an appointment</p>
+        <p class="copy-error" v-show="!$root.$data.signup.billingConfirmed">Please confirm billing before booking an appointment</p>
       </div>
 
       <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
@@ -30,7 +33,7 @@
       <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
         <span v-if="!isBackProcessing">Back to Schedule</span>
-        <LoadingGraphic v-else-if="isBackProcessing" :size="12" />
+        <ClipLoader v-else-if="isBackProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
     </Modal>
 
@@ -42,7 +45,7 @@ import getState from '../../../utils/methods/getState';
 import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
-import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
@@ -50,7 +53,7 @@ import StagesNav from '../util/StagesNav.vue';
 export default {
   name: 'confirmation',
   components: {
-    LoadingGraphic,
+    ClipLoader,
     Modal,
     Overlay,
     StagesNav,

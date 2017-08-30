@@ -47,6 +47,7 @@
 .signup-form-container,
 .signup-interstitial-container {
   max-width: 510px;
+  padding-top: 22px;
   h1 {
     margin-bottom: 22px;
   }
@@ -133,7 +134,7 @@
 }
 .signup-stage-instructions {
   max-width: 540px;
-  @include margin(0 auto);
+  @include margin(0 auto 22px);
 
   p {
     @include margin(15px 0 30px);

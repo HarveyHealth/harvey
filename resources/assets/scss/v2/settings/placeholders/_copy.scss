@@ -4,7 +4,7 @@
 
 /// The default styling for all page copy
 %copy-main {
-  @extend %font-sm;
+  @extend %font-md;
   @extend %font-thin;
 
   color: $color-copy;
@@ -12,10 +12,6 @@
   line-height: $line-height-md;
   margin: 0;
   padding: 0;
-
-  @include query(md) {
-    font-size: $font-md;
-  }
 }
 
 %copy-main-sm {
