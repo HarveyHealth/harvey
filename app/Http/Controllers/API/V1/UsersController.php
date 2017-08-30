@@ -196,7 +196,7 @@ class UsersController extends BaseAPIController
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
 
-        try{
+        try {
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');

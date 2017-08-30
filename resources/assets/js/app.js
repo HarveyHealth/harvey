@@ -64,6 +64,7 @@ const app = new Vue({
             creditCards: [],
             detailMessages: {},
             loadingAppointments: true,
+            loadingCreditCards: true,
             loadingClients: true,
             loadingPatients: true,
             loadingPractitioners: true,
@@ -303,6 +304,7 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
                 this.global.creditCards = response.data.cards
+                this.global.loadingCreditCards = false;
             })
         },
         getConfirmedUsers() {
