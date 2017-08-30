@@ -12,7 +12,6 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
-import Schedule from './pages/schedule/Schedule.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
