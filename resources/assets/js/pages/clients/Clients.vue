@@ -4,9 +4,9 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="title header-xlarge">
+          <h1 class="heading-main">
             <span class="text">Recent Clients</span>
-          </h1>  
+          </h1>
         </div>
       </div>
 
@@ -73,6 +73,6 @@ export default {
       this.$root.$data.global.currentPage = 'clients';
       const clientList = this.$root.$data.clientList
       if (clientList.length) this.setupLabData();
-  } 
+  }
 }
 </script>

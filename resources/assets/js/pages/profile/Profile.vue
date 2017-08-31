@@ -10,7 +10,7 @@
             />
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge">
+                    <h1 class="heading-main">
                         <span class="text">Profile</span>
                     </h1>
                 </div>
