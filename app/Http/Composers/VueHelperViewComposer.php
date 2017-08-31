@@ -51,9 +51,11 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
-    
-        if($user->isPractitioner()) {
+
+        if ($user->isPractitioner()) {
             $output += ['practitionerId' => $user->practitioner->id];
+        } elseif ($user->isPatient()) {
+            $output += ['intake_validation_token' => $user->patient->intake_validation_token];
         }
 
         return $output;

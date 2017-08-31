@@ -33,6 +33,11 @@ class Patient extends Model
         });
     }
 
+    public function getIntakeValidationTokenAttribute()
+    {
+        return sha1("{$this->id}|{$this->created_at}");
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
