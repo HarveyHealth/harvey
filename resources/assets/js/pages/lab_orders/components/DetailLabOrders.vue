@@ -136,6 +136,7 @@
 
 <script>
   import Flyout from '../../../commons/Flyout.vue'
+  import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
     capitalize
@@ -147,7 +148,8 @@
     props: ['row-data', 'reset'],
     components: {
       Flyout,
-      SelectOptions
+      SelectOptions,
+      Modal
     },
     data() {
       return {
