@@ -18,7 +18,7 @@
   &_text {
     border: none;
     border-bottom: 1px solid $color-border;
-    @include padding(0 0 10px 0);
+    @include padding(0 0 6px 0);
 
     &:disabled {
       color: rgba(#444, 0.5);
