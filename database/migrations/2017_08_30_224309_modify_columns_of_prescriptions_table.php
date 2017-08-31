@@ -1,0 +1,54 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class ModifyColumnsOfPrescriptionsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->dropForeign(['sku_id']);
+            $table->dropColumn('sku_id');
+            $table->dropColumn('accepted_at');
+            $table->dropColumn('rejected_at');
+            $table->dropForeign(['practitioner_id']);
+            $table->dropColumn('practitioner_id');
+        });
+
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->integer('created_by_user_id')->unsigned()->after('patient_id');
+            $table->foreign('created_by_user_id')->references('id')->on('users');
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->integer('sku_id')->unsigned();
+            $table->foreign('sku_id')->references('id')->on('skus');
+            $table->datetime('accepted_at')->nullable();
+            $table->datetime('rejected_at')->nullable();
+            $table->integer('practitioner_id')->unsigned();
+            $table->foreign('practitioner_id')->references('id')->on('practitioners');
+        });
+
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->dropForeign(['created_by_user_id']);
+            $table->dropColumn('created_by_user_id');
+            $table->dropSoftDeletes();
+        });
+    }
+}
