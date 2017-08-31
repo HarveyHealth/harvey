@@ -68,6 +68,16 @@
                         </div>
                     </Modal>
 
+                    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+                        <div class="inline-centered">
+                            <h1>Invalid Credit Card</h1>
+                            <p>The credit card you entered is invalid.</p>
+                            <div class="inline-centered">
+                                <button @click="closeInvalidCC" class="button">Try again</button>
+                            </div>
+                        </div>
+                    </Modal>
+
                 </div>
             </div>
         </div>
@@ -94,6 +104,8 @@ export default {
             cardCvc: '',
             postalCode: '',
             edit: false,
+            invalidCC: false,
+            invalidModalActive: false,
             deleteModalActive: false,
             currentCard: null,
             cards: this.$root.$data.global.creditCards,
@@ -107,6 +119,10 @@ export default {
         },
         closeModal() {
             this.deleteModalActive = false
+        },
+        closeInvalidCC() {
+            this.invalidCC = false;
+            this.invalidModalActive = false;
         },
         openModal(card) {
             this.deleteModalActive = true
@@ -165,6 +181,11 @@ export default {
                 address_zip: this.postalCode,
                 name: `${this.firstName} ${this.lastName}`
             }, (status, response) => {
+                if (response.error) {
+                    this.invalidCC = true;
+                    this.invalidModalActive = true;
+                    return;
+                }
                 axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
                     .then(resp => {
                         axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
