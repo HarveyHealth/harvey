@@ -194,6 +194,14 @@ class User extends Authenticatable implements Mailable
         return $this->isAdmin() || $this->isPractitioner();
     }
 
+    public function truncatedName()
+    {
+        $first_initial = substr($this->first_name, 0, 1);
+        $name = $first_initial . '. ' . $this->last_name;
+
+        return $name;
+    }
+
     public function passwordSet()
     {
         return isset($this->password);

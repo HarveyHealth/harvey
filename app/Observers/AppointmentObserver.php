@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated};
+use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated, AppointmentComplete};
 use App\Models\Appointment;
 
 class AppointmentObserver
@@ -37,9 +37,20 @@ class AppointmentObserver
      */
     public function updating(Appointment $appointment)
     {
-        if ($appointment->isDirty('status_id') && Appointment::CANCELED_STATUS_ID == $appointment->status_id) {
-            event(new AppointmentCanceled($appointment));
-        } elseif ($appointment->isDirty('appointment_at')) {
+        if ($appointment->isDirty('status_id')) {
+
+            switch($appointment->status_id) {
+                case Appointment::CANCELED_STATUS_ID:
+                    event(new AppointmentCanceled($appointment));
+                    break;
+
+                case Appointment::COMPLETE_STATUS_ID:
+                    event(new AppointmentComplete($appointment));
+                    break;
+            }
+        }
+
+        if ($appointment->isDirty('appointment_at')) {
             event(new AppointmentUpdated($appointment));
         }
     }

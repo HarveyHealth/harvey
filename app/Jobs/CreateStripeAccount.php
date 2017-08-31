@@ -19,7 +19,7 @@ class CreateStripeAccount implements ShouldQueue
     public function __construct($user, $stripe_token)
     {
         $this->user = $user;
-        $this->stripe_token = $token;
+        $this->stripe_token = $stripe_token;
     }
 
     /**

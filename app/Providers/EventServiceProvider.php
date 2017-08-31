@@ -37,12 +37,32 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UpdateAppointmentCalendarEvent',
         ],
 
+        'App\Events\AppointmentComplete' => [
+            'App\Listeners\ChargePatientForCompletedAppointment',
+        ],
+
+        'App\Events\LabOrderApproved' => [
+            'App\Listeners\ChargePatientForLabOrder',
+        ],
+
         'App\Events\OutOfServiceZipCodeRegistered' => [
             'App\Listeners\CreateLead',
         ],
 
         'App\Events\PhoneNumberChanged' => [
             'App\Listeners\SendPhoneNumberValidationCode',
+        ],
+
+        'App\Events\ChargeFailed' => [
+            'App\Listeners\NotifyOfFailedCharge',
+        ],
+
+        'App\Events\ChargeSucceeded' => [
+            'App\Listeners\NotifyOfFailedCharge',
+        ],
+
+        'App\Events\CreditCardUpdated' => [
+            'App\Listeners\PayOutstandingInvoicesForPatient',
         ],
     ];
 

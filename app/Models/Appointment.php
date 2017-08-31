@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Bugsnag, Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -426,5 +426,35 @@ class Appointment extends Model
         return $builder->whereHas('patient.user', function ($query) {
                 $query->whereNull('intake_completed_at');
             });
+    }
+
+    // Invoiceable trait
+    public function dataForInvoice() {
+
+        $minutes = $this->duration_in_minutes;
+        $minutes = ($minutes == 30 ? 30 : 60);
+
+        $sku = SKU::findBySlug($minutes . '-minute-consultation');
+
+        $description = $sku->name . ' #' . $this->id . ' with ' . $this->practitioner->user->fullName() . ' on ' . date('n/j/Y', strtotime($this->appointment_at));
+
+        $invoice_data = [
+            'patient_id' => $this->patient_id,
+            'practitioner_id' => $this->practitioner_id,
+            'description' => $description,
+            'discount_code_id' => $this->discount_code_id,
+            'invoice_items' => [],
+        ];
+
+        // only one item on a consultation
+        $invoice_data['invoice_items'][] = [
+                'item_id' => $this->id,
+                'item_class' => get_class($this),
+                'description' => $description,
+                'amount' => $sku->price,
+                'sku_id' => $sku->id,
+            ];
+
+        return $invoice_data;
     }
 }
