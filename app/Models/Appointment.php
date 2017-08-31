@@ -254,7 +254,7 @@ class Appointment extends Model
         return true;
     }
 
-    public function addToCalendar()
+    public function createCalendarEvent()
     {
         if (!empty($this->google_calendar_event_id)) {
             return false;
@@ -269,14 +269,13 @@ class Appointment extends Model
         }
 
         $this->google_calendar_event_id = $event->id;
-        $this->save();
 
         Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () use ($event) {
             return $event->hangoutLink;
         });
 
         try {
-            $update = GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams($event->hangoutLink));
+            $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
             ops_warning('Appointment@addToCalendar', "Can't add Meet link into event description to Appointment #{$this->id}.");

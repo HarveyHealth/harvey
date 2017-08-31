@@ -273,6 +273,7 @@ export default {
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
         { value: 'No-Show-Doctor', data: 'no_show_doctor' },
+        { value: 'General Conflict', data: 'general_conflict' },
         { value: 'Canceled', data: 'canceled' },
         { value: 'Complete', data: 'complete' }
       ],
@@ -366,7 +367,11 @@ export default {
       return this.$root.$data.global.loadingPractitioners;
     },
     visibleCancelButton() {
-      return this.appointment.currentStatus === 'pending' && this.visibleUpdateButtons;
+      return (
+        this.appointment.currentStatus === 'pending' &&
+        this.visibleUpdateButtons &&
+        this.userType === 'patient'
+      );
     },
     visibleDuration() {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
@@ -853,7 +858,8 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
+      const zone = this.$root.addTimezone();
+      const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0);
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');

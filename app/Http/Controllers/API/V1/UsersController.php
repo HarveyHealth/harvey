@@ -152,7 +152,7 @@ class UsersController extends BaseAPIController
             'phone' => 'max:10|unique:users',
             'state' => 'max:2',
             'timezone' => 'max:75',
-            'zip' => 'digits:5|serviceable',
+            'zip' => $user->isPractitioner() ? 'digits:5' : 'digits:5|serviceable',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
@@ -196,7 +196,7 @@ class UsersController extends BaseAPIController
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
 
-        try{
+        try {
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
@@ -224,20 +224,44 @@ class UsersController extends BaseAPIController
         return response()->json([], $responseCode);
     }
 
-    public function deleteCard(Request $request, User $user)
+    public function deleteCard(Request $request, User $user, string $cardId)
     {
         if (currentUser()->isNot($user)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        StrictValidator::check($request->all(), [
+        StrictValidator::check(['card_id' => $cardId], [
             'card_id' => 'required|regex:/^card_.*/',
         ]);
 
-        $responseCode = $user->deleteCard($request->only('card_id')) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+        $responseCode = $user->deleteCard($cardId) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
 
         return response()->json([], $responseCode);
+    }
 
+    public function updateCard(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::checkUpdate($request->all(), $validKeys = [
+            'card_id' => 'required|regex:/^card_.*/',
+            'address_city' => 'sometimes',
+            'address_country' => 'sometimes',
+            'address_line1' => 'sometimes',
+            'address_line2' => 'sometimes',
+            'address_state' => 'sometimes',
+            'address_zip' => 'sometimes',
+            'exp_month' => 'sometimes|numeric|between:1,12',
+            'exp_year' => 'sometimes|digits:4',
+            'metadata' => 'sometimes',
+            'name' => 'sometimes',
+        ]);
+
+        $responseCode = $user->updateCard($request->intersect(array_keys($validKeys))) ? ResponseCode::HTTP_OK : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+
+        return response()->json([], $responseCode);
     }
 
     public function getCards(Request $request, User $user)

@@ -21,15 +21,16 @@
             <h3 class="signup-section-header">Available Doctors</h3>
             <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
               <button :class="{ 'signup-practitioner-selector': true, 'active': index === selected }" @click="select(dr, index)">
-                <img :src="dr.info.picture_url" v-if="dr.info.picture_url" />
+                <img :src="determineImage(dr.info.picture_url, 'user')" />
               </button>
+              <small class="signup-practitioner-selector-name">{{ dr.name }}</small>
             </div>
           </div>
 
           <div class="practitioner-wrapper">
             <div v-if="hasSelection">
-              <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + practitioners[selected].info.background_picture_url + ')' }"></div>
-              <img v-if="practitioners[selected].info.picture_url" class="practitioner-avatar" :src="practitioners[selected].info.picture_url" />
+              <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
+              <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
               <h3 v-if="practitioners[selected].name" class="practitioner-name text-centered">{{ practitioners[selected].name }}, ND</h3>
               <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
               <div class="practitioner-info-wrapper">
@@ -120,6 +121,9 @@ export default {
     }
   },
   methods: {
+    determineImage(image, type) {
+      return image ? image : `/images/default_${type}_image.png`;
+    },
     getAvailability(id) {
       this.isProcessing = true;
       if (!this.store.signup.data.practitioner_id) {

@@ -77,15 +77,16 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.new');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
             'harvey_id' => $appointment->patient->user->id,
-            'phone_number' => $appointment->patient->user->phone,
             'patient_name' => $appointment->patient->user->first_name,
             'patient_phone' => $appointment->patient->user->phone,
-            'doctor_state' => $appointment->practitioner->doctor_state,
+            'patient_state' => $appointment->patient->user->state,
+            'phone_number' => $appointment->patient->user->phone,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
         ]);
     }
 
@@ -101,10 +102,11 @@ class TransactionalEmailTest extends TestCase
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
-            'patient_name' => $appointment->patient->user->fullName(),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
             'patient_phone' => $appointment->patient->user->phone,
             'practitioner_name' => $appointment->practitioner->user->first_name,
-            'doctor_state' => $appointment->practitioner->doctor_state,
+            'practitioner_state' => $appointment->practitioner->user->state,
         ]);
     }
 
@@ -117,12 +119,14 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.canceled');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -135,12 +139,14 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->practitioner->user->email);
         $this->assertEmailTemplateNameWas('practitioner.appointment.canceled');
         $this->assertEmailTemplateDataWas([
-            'patient_name' => $appointment->patient->user->fullName(),
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->first_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -153,12 +159,14 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->patient->user->email);
         $this->assertEmailTemplateNameWas('patient.appointment.updated');
         $this->assertEmailTemplateDataWas([
-            'practitioner_name' => $appointment->practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 
@@ -171,13 +179,15 @@ class TransactionalEmailTest extends TestCase
         $this->assertEmailWasSentTo($appointment->practitioner->user->email);
         $this->assertEmailTemplateNameWas('practitioner.appointment.updated');
         $this->assertEmailTemplateDataWas([
-            'patient_name' => $appointment->patient->user->fullName(),
-            'patient_phone' => $appointment->patient->user->phone,
             'appointment_date' => $appointment->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->practitionerAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->practitionerAppointmentAtDate()->format('T'),
+            'patient_name' => $appointment->patient->user->full_name,
+            'patient_phone' => $appointment->patient->user->phone,
+            'patient_state' => $appointment->patient->user->state,
+            'practitioner_name' => $appointment->practitioner->user->full_name,
+            'practitioner_state' => $appointment->practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-            'doctor_state' => $appointment->practitioner->doctor_state,
         ]);
     }
 

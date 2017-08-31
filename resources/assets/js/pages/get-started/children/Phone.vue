@@ -13,17 +13,13 @@
           <svg class="interstitial-icon icon-phone"><use xlink:href="#phone" /></svg>
         </div>
         <div class="input-wrap">
-          <input class="form-input form-input_text"
+          <TheMask class="form-input form-input_text"
             name="phone_number"
-            ref="phoneInput"
             type="phone"
-            placeholder="Mobile Number"
-            v-phonemask="phone"
-            v-validate="{ required: true, regex: /\(\d{3}\) \d{3}-\d{4}/ }"
-            data-vv-validate-on="blur"
-          />
-
-          <span v-show="errors.has('phone_number')" class="error-text">Please supply a valid U.S. phone number.</span>
+            v-model="phone"
+            mask="(###) ###-####"
+            placeholder="Mobile Number" />
+          <span v-show="isInvalidNumber" class="error-text">Please supply a valid U.S. phone number.</span>
           <span v-show="isUserPatchError" class="error-text">There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.</span>
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
@@ -60,9 +56,10 @@
 </template>
 
 <script>
-import ConfirmInput from '../util/ConfirmInput.vue';
+import ConfirmInput from '../../../commons/ConfirmInput.vue';
 import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
+import { TheMask } from 'vue-the-mask';
 
 export default {
   name: 'phone',
@@ -70,6 +67,7 @@ export default {
     ConfirmInput,
     LoadingGraphic,
     StagesNav,
+    TheMask,
   },
   data() {
     return {
@@ -81,7 +79,8 @@ export default {
         'container': true,
       },
       isInvalidCode: false,
-      phone: this.$root.$data.signup.phone || '',
+      isInvalidNumber: false,
+      phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
       isPhoneConfirming: false,
       isPhoneProcessing: false,
       isUserPatchError: false,
@@ -149,39 +148,44 @@ export default {
 
     },
     processPhone(number) {
-      this.$validator.validateAll().then(() => {
-        this.isPhoneProcessing = true;
-        this.isUserPatchError = false;
-        this.$root.$data.signup.phone = number;
+      this.isInvalidNumber = false;
+      const validNumber = (/\d{10}/).test(number);
+      if (!validNumber) {
+        this.isInvalidNumber = true;
+        return;
+      }
 
-        // If a user returning to the flow already has a number stored and
-        // they did not change it, just send the confirmation code again
-        if (Laravel.user.phone === number) {
-          setTimeout(this.sendConfirmation, 400);
-        } else {
-        // Else, patch the user's phone which triggers the code confirmation send
-          axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
-            this.$root.$data.signup.phonePending = true;
-            Laravel.user.phone = number;
-            Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+      this.isPhoneProcessing = true;
+      this.isUserPatchError = false;
+      this.$root.$data.signup.phone = number;
 
-            // track the number patch
-            if(this.$root.shouldTrack()) {
-              // collect response information
-              const userData = response.data.data.attributes;
-              const userId = response.data.data.id || '';
+      // If a user returning to the flow already has a number stored and
+      // they did not change it, just send the confirmation code again
+      if (Laravel.user.phone === number) {
+        setTimeout(this.sendConfirmation, 400);
+      } else {
+      // Else, patch the user's phone which triggers the code confirmation send
+        axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
+          this.$root.$data.signup.phonePending = true;
+          Laravel.user.phone = number;
+          Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
-              // Segment Identify update
-              analytics.identify(userId, {
-                phone: number,
-              });
-            }
-          }).catch(error => {
-            this.isUserPatchError = true;
-            this.isPhoneProcessing = false;
-          });
-        }
-      })
+          // track the number patch
+          if(this.$root.shouldTrack()) {
+            // collect response information
+            const userData = response.data.data.attributes;
+            const userId = response.data.data.id || '';
+
+            // Segment Identify update
+            analytics.identify(userId, {
+              phone: number,
+            });
+          }
+        }).catch(error => {
+          this.isUserPatchError = true;
+          this.isPhoneProcessing = false;
+        });
+      }
     },
     handleNewSend() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
@@ -201,10 +205,6 @@ export default {
     },
   },
   mounted () {
-    if (Laravel.user.phone) {
-      this.phone = Laravel.user.phone;
-      this.$refs.phoneInput.value = Laravel.user.phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    }
     this.$root.toDashboard();
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);

@@ -22,7 +22,7 @@ class PractitionerTransformer extends TransformerAbstract
             'description' => $practitioner->description,
             'graduated_year' => $practitioner->graduated_year,
             'licenses' => $practitioner->licenses,
-            'name' => $practitioner->user->fullName(),
+            'name' => $practitioner->user->full_name,
             'picture_url' => $practitioner->picture_url,
             'school' => $practitioner->school,
             'specialty' => json_decode($practitioner->specialty),

@@ -37,8 +37,14 @@ $practitioner-grid: (
     border-color: $harvey-tertiary;
   }
 
+  &-name {
+    display: block;
+    margin-top: 8px;
+  }
+
   &-wrap {
     margin-bottom: 1.5em;
+    min-height: 130px;
     text-align: center;
     @include grid-column(6, $practitioner-grid);
     @include query(sm) {
