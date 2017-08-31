@@ -122,6 +122,15 @@
         <button class="button" @click="updateOrder()">Update Shipment</button>
       </div>
     </div>
+    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+        <div class="inline-centered">
+            <h1>Invalid Credit Card</h1>
+            <p>The credit card you entered is invalid.</p>
+            <div class="inline-centered">
+                <button @click="closeInvalidCC" class="button">Try again</button>
+            </div>
+        </div>
+    </Modal>
   </Flyout>
 </template>
 
@@ -155,6 +164,8 @@
         cardExpiry: '',
         cardCvc: '',
         postalCode: '',
+        invalidCC: false,
+        invalidModalActive: false,
         hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
         latestCard: this.$root.$data.global.creditCards.slice(-1).pop(),
@@ -172,6 +183,10 @@
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
       },
+      closeInvalidCC() {
+        this.invalidCC = false;
+        this.invalidModalActive = false;
+      },
       updateMonth(e) {
           this.month = e.target.value
       },
@@ -185,6 +200,11 @@
             address_zip: this.postalCode,
             name: `${this.firstName} ${this.lastName}`
           }, (status, response) => {
+            if (response.error) {
+              this.invalidCC = true;
+              this.invalidModalActive = true;
+              return;
+            }
             axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
                 id: response.id
               })

@@ -184,6 +184,7 @@ export default {
                 if (response.error) {
                     this.invalidCC = true;
                     this.invalidModalActive = true;
+                    return;
                 }
                 axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
                     .then(resp => {
