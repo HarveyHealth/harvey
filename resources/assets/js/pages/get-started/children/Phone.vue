@@ -60,8 +60,7 @@
 
 <script>
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
-import ConfirmInput from '../util/ConfirmInput.vue';
-import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
+import ConfirmInput from '../../../commons/ConfirmInput.vue';
 import StagesNav from '../util/StagesNav.vue';
 import { TheMask } from 'vue-the-mask';
 
@@ -70,7 +69,6 @@ export default {
   components: {
     ClipLoader,
     ConfirmInput,
-    LoadingGraphic,
     StagesNav,
     TheMask,
   },
