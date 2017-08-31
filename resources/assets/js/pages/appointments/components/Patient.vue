@@ -13,6 +13,9 @@
     <div><a :href="'mailto:' + email">{{ email }}</a></div>
     <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
     <p v-if="editable && address" v-html="address"></p>
+    <p class="error-text" style="text-align: left;" v-if="shouldShowPaymentError">
+      This client has not confirmed payment and cannot be scheduled for an appointment
+    </p>
   </div>
 </template>
 
@@ -23,6 +26,10 @@ import { phone } from '../../../utils/filters/textformat';
 export default {
   props: {
     address: String,
+    // flyout mode 'new' or 'edit'
+    context: String,
+    // Does the selected patient have a credit card confirmed?
+    hasCard: Boolean,
     // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
     // If a name is given from a selected row
@@ -41,6 +48,11 @@ export default {
   },
   components: {
     SelectOptions
+  },
+  computed: {
+    shouldShowPaymentError() {
+      return this.context === 'new' && this.hasCard === false;
+    }
   },
   methods: {
     handleSelect(e) {
