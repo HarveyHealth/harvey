@@ -379,7 +379,7 @@ export default {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
-      return this.flyoutMode === 'new';
+      return this.flyoutMode === 'new' && this.appointment.patientPayment !== false;
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
