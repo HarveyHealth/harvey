@@ -3,13 +3,13 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="title header-xlarge">
+          <h1 class="heading-main">
             <span class="text">Your Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
-
+          <br>
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"

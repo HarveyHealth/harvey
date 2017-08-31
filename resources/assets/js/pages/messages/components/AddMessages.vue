@@ -3,12 +3,12 @@
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="title">New Message</h2>
+        <h2 class="heading-tertiary-expand">New Message</h2><br>
         <div v-if="userList.length <= 1" class="no-message-banner">
             You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
         </div>
         <div class="input__container">
-            <label class="input__label" style="padding: 0; border: none;" for="patient_name">recipient</label> 
+            <label class="input__label" style="padding: 0; border: none;" for="patient_name">recipient</label>
             <span class="custom-select">
                 <select @change="updateUser($event)">
                     <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>

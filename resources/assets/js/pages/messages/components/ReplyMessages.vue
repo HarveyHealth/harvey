@@ -3,7 +3,7 @@
         <button class="button--close flyout-close" @click="reply()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="title">Reply</h2>
+        <h2 class="heading-tertiary-expand">Reply</h2><br>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">

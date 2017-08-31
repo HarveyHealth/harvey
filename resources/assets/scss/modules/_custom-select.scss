@@ -3,7 +3,7 @@
 /* Container used for styling the custom select, the buttom class below adds the
  * bg gradient, corners, etc. */
 .custom-select {
-  border: 1px solid $color--grey;
+  border: 1px solid $color-border;
   border-radius: 3px;
   display: block;
 	position: relative;
@@ -11,8 +11,10 @@
 .custom-select.show-day-label:before,
 .custom-select.show-time-label:before,
 .custom-select.detached-label:before {
+  @extend %font-sm;
+  color: $color-copy;
   display: block;
-  @include padding(0.6em 0.8em 0.5em 0.8em);
+  padding: 10px $font-xs;
   position: absolute;
   z-index: -10;
 }
@@ -32,8 +34,8 @@
 	width: 100%;
 	@include margin(0);
 	outline: none;
-	@include padding(.6em .8em .5em .8em);
-  color: darken($gray, 15%);
+	padding: 8px;
+  color: $color-copy;
   cursor: pointer;
 
 	/* Prefixed box-sizing rules necessary for older browsers */
@@ -42,7 +44,7 @@
 	box-sizing: border-box;
 
 	/* Font size must be 16px to prevent iOS page zoom on focus */
-	font-size: 16px;
+	font-size: $font-sm;
   font-family: inherit;
   font-weight: inherit;
 }
@@ -62,7 +64,7 @@
 }
 
 .custom-select.isdisabled {
-  color: lighten($gray, 10%);
+  color: $color-copy-muted-2;
   select { cursor: default; }
   &::after {
     content: '' !important;

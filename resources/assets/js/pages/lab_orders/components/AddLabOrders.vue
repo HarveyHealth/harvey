@@ -25,7 +25,7 @@
       <div>
             <label class="input__label" for="patient_name">tests</label>
             <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox"> 
+                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
                 <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
             </span>
       </div>
@@ -219,7 +219,7 @@ export default {
           this.doctorList = [''].concat(this.$root.$data.global.practitioners)
           this.clientList = [''].concat(this.$root.$data.global.patients)
           Object.values(this.$props.labTests).map(e => e.checked = false)
-          
+
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);

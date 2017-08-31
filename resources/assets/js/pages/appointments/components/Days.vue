@@ -1,7 +1,7 @@
 <template>
   <div class="input__container" style="margin-bottom: 0.5em;">
     <label class="input__label">{{ $$label }}</label>
-    <span v-if="isLoading">Loading availability...</span>
+    <p class="copy-main-sm" v-if="isLoading">Loading availability...</p>
     <SelectOptions v-else-if="editable && !noAvailability"
       :detached-label="day ? null : 'Select day'"
       :is-disabled="!list.length"
