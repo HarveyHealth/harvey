@@ -37,6 +37,21 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
 
+        Route::get('patients/{patient}/attachments', 'PatientsController@getAttachments')->name('patient.attachments.get');
+        Route::get('patients/{patient}/attachments/{attachment}', 'PatientsController@getAttachment')->name('patient.attachment.get');
+        Route::post('patients/{patient}/attachments', 'PatientsController@storeAttachment')->name('patient.attachment.store');
+        Route::delete('patients/{patient}/attachments/{attachment}', 'PatientsController@deleteAttachment')->name('patient.attachment.delete');
+
+        Route::get('patients/{patient}/prescriptions', 'PatientsController@getPrescriptions')->name('patient.prescriptions.get');
+        Route::get('patients/{patient}/prescriptions/{prescription}', 'PatientsController@getPrescription')->name('patient.prescription.get');
+        Route::post('patients/{patient}/prescriptions', 'PatientsController@storePrescription')->name('patient.prescription.store');
+        Route::delete('patients/{patient}/prescriptions/{prescription}', 'PatientsController@deletePrescription')->name('patient.prescription.delete');
+
+        Route::get('patients/{patient}/soap_notes', 'PatientsController@getSoap_notes')->name('patient.soap_notes.get');
+        Route::get('patients/{patient}/soap_notes/{soap_note}', 'PatientsController@getSoapNote')->name('patient.soap_note.get');
+        Route::post('patients/{patient}/soap_notes', 'PatientsController@storeSoapNote')->name('patient.soap_note.store');
+        Route::delete('patients/{patient}/soap_notes/{soap_note}', 'PatientsController@deleteSoapNote')->name('patient.soap_note.delete');
+
         Route::get('appointments', 'AppointmentsController@index')->name('appointments.index');
         Route::get('appointments/{appointment}', 'AppointmentsController@show')->name('appointments.show');
         Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
