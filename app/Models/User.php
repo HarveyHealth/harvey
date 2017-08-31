@@ -36,7 +36,6 @@ class User extends Authenticatable implements Mailable
         'created_at',
         'email_verified_at',
         'enabled',
-        'intake_completed_at',
         'password',
         'phone_verified_at',
         'remember_token',
@@ -47,7 +46,6 @@ class User extends Authenticatable implements Mailable
     protected $dates = [
         'created_at',
         'email_verified_at',
-        'intake_completed_at',
         'phone_verified_at',
         'terms_accepted_at',
         'updated_at',
