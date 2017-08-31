@@ -37,7 +37,7 @@ php artisan serve
 
 - For use cases Laravel Mix doesn't cover, we'll need to config directly from `./webpack.config.js`.
 
-- We are using [Sassdoc](http://sassdoc.com/annotations/) to document our Sass codebase. Use `npm run sassdoc` to generate the documentation.
+- We are using [Sassdoc](http://sassdoc.com/annotations/) to document our Sass codebase. Use `npm run sassdoc` to generate the documentation and then review it at [harvey.app/sassdoc](harvey.app/sassdoc).
 
 ### Homestead
 
