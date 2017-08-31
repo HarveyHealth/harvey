@@ -7,7 +7,7 @@
 
   .loading {
     width: 20px;
-    fill: darken($color--grey, 65%);
+    fill: $color-copy;
     left: 50%;
     top: 50%;
     position: absolute;
@@ -18,12 +18,12 @@
 
   td {
     background: $white;
-    border-right: 1px solid $color--grey;
-    border-left: 1px solid $color--grey;
+    border-right: 1px solid $color-border;
+    border-left: 1px solid $color-border;
     cursor: pointer;
     display: block;
-    font-size: 14px;
-    font-weight: 300;
+    font-size: $font-sm;
+    font-weight: $font-thin;
     transition: color 200ms;
     width: 100%;
     position: relative;
@@ -32,11 +32,10 @@
     }
 
     &:first-child {
-      //border-top: 1px solid $color--grey;
       @include padding(1.5em null null null);
     }
     &:last-child {
-      border-bottom: 1px solid $color--grey;
+      border-bottom: 1px solid $color-border;
       @include margin(null null 16px null);
       @include padding(null null 1.5em null);
     }
@@ -47,12 +46,8 @@
   }
 
   th {
-    background: $lightest-gray;
-    color: lighten($gray, 10%);
+    background: $color-gray-1;
     display: none;
-    font-size: 0.85em;
-    font-weight: 500;
-    text-transform: uppercase;
   }
 
   th, td {
