@@ -48,7 +48,7 @@
             </div>
             <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
               <label class="input__label" for="patient_name">expiry date</label>
-              <span class="custom-select">
+              <span class="custom-select" style="float: left; width: 48%;">
                   <select @change="updateMonth($event)">
                       <option v-for="month in monthList">{{ month }}</option>
                   </select>
@@ -205,6 +205,7 @@
             if (response.error) {
               this.invalidCC = true;
               this.invalidModalActive = true;
+              this.handleFlyoutClose();
               return;
             }
             axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
