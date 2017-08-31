@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import ConfirmInput from '../util/ConfirmInput.vue';
+import ConfirmInput from '../../../commons/ConfirmInput.vue';
 import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 import { TheMask } from 'vue-the-mask';
