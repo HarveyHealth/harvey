@@ -124,6 +124,9 @@ export default {
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
+                .then(response => {
+                    this.$root.$data.global.creditCards = null
+                })
             this.closeModal()
         },
         submitUpdateCard() {
