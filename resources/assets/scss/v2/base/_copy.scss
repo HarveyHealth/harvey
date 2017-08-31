@@ -10,6 +10,16 @@
   }
 }
 
+.copy-main-sm-expand {
+  &, #{$global-copy-elements} {
+    @extend %copy-main-sm;
+
+    @include query(md) {
+      font-size: $font-md;
+    }
+  }
+}
+
 .copy-muted {
   &, #{$global-copy-elements} {
     @extend %copy-muted;

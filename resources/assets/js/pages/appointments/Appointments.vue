@@ -151,8 +151,8 @@
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
     >
-      <h3 class="modal-header">{{ userActionTitle }}</h3>
-      <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <h3 class="modal-header heading-tertiary-expand">{{ userActionTitle }}</h3>
+      <p class="copy-error" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>

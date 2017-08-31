@@ -38,7 +38,7 @@
 
     <Overlay :active="showModal" />
     <Modal :active="showModal" :on-close="() => showModal = false">
-      <h3 class="heading-tertiary font-bold">You are leaving Harvey!</h3>
+      <h3 class="heading-tertiary-expand">You are leaving Harvey!</h3>
       <p class="lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
       <p class="lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
       <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>

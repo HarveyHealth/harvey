@@ -11,12 +11,12 @@
     </thead>
     <tbody class="copy-main-sm">
       <tr v-show="loading">
-        <td :colspan="columns.length" class="font-italic">
+        <td :colspan="columns.length" class="font-italic copy-muted-sm">
           {{ loadingMsg }}
         </td>
       </tr>
       <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" class="font-italic">
+        <td :colspan="columns.length" class="font-italic copy-muted-sm">
           {{ emptyMsg }}
         </td>
       </tr>
