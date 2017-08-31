@@ -1,11 +1,11 @@
 .admin-nav {
-  border-top: 1px solid $color--grey;
+  border-top: 1px solid $color-border;
   @include margin(57px null null null);
 }
 
 .admin-nav-link {
-  border-bottom: 1px solid $color--grey;
-  color: lighten($harvey-secondary, 20%);
+  border-bottom: 1px solid $color-border;
+  color: $color-copy-muted-1;
   display: block;
   height: 60px;
   position: relative;
@@ -13,28 +13,30 @@
   .icon {
     left: 15%;
     position: absolute;
-    top: 49%;
+    top: 50%;
     transform: translate(-50%, -50%);
   }
 
   .text {
-    font-size: 14px;
+    font-size: $font-sm;
+    font-weight: $font-normal;
     left: 30%;
     position: absolute;
     top: 36%;
   }
 
   &.current {
-    color: $fiord;
+    color: $color-copy;
   }
 
   &:hover {
+    color: $color-copy;
     cursor: pointer;
   }
 }
 
 .admin-nav-link.logout {
-  border-top: 1px solid $color--grey;
+  border-top: 1px solid $color-border;
   bottom: 0;
   position: absolute;
   width: 100%;
@@ -43,7 +45,7 @@
 
 .nav-bar {
   background: white;
-  border-right: 1px solid $color--grey;
+  border-right: 1px solid $color-border;
   bottom: 0;
   left: -150px;
   position: fixed;
@@ -55,7 +57,7 @@
   .menu-button {
     background: none;
     border: none;
-    color: $harvey-secondary;
+    color: $color-copy;
     cursor: pointer;
     right: -40px;
     position: absolute;
@@ -74,7 +76,7 @@
   position: absolute;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  transition: border-color .25s ease-in-out;
+  transition: border-color 100ms ease-in-out;
   width: 100px;
   &:hover {
     opacity: .9;
