@@ -59,13 +59,13 @@
               </h3>
             </div>
             <div class="card-content-wrap">
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced" v-if="email">Email</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="email">Email</h4>
               <p class="card-contact-info" v-if="email"><a :href="'mailto:'+email">{{ email }}</a></p>
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced" v-if="zip">Zip</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="zip">Zip</h4>
               <p class="card-contact-info" v-if="zip">{{ zip }}</p>
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced" v-if="phone">Phone</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="phone">Phone</h4>
               <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced" v-if="user_id">ID</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user_id">ID</h4>
               <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
             </div>
           </div>
@@ -81,11 +81,11 @@
               </h3>
             </div>
             <div class="card-content-wrap">
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced">Support</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Support</h4>
               <p class="card-contact-info"><a href="mailto:support@goharvey.com">support@goharvey.com</a></p>
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced">Phone</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Phone</h4>
               <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
-              <h4 class="copy-muted-2-xs font-bold font-uppercase font-spaced">Available</h4>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Available</h4>
               <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
             </div>
           </div>

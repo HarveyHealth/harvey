@@ -3,7 +3,7 @@
     <div class="success-wrapper mt-xl_lgH">
       <img class="success-icon" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="heading-main font-normal mt-md">{{ title }}</h1>
+      <h1 class="heading-main font-normal mt-md">{{ title }}</h1><br>
 
       <p>
         <span class="confirmation_day">

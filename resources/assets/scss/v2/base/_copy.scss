@@ -4,42 +4,15 @@
   }
 }
 
-.copy-main-sm {
-  &, #{$global-copy-elements} {
-    @extend %copy-main-sm;
-  }
-}
-
-.copy-main-sm-expand {
-  &, #{$global-copy-elements} {
-    @extend %copy-main-sm;
-
-    @include query(md) {
-      font-size: $font-md;
-    }
-  }
-}
-
 .copy-muted {
   &, #{$global-copy-elements} {
     @extend %copy-muted;
-  }
-}
-.copy-muted-sm {
-  &, #{$global-copy-elements} {
-    @extend %copy-muted-sm;
   }
 }
 
 .copy-muted-2 {
   &, #{$global-copy-elements} {
     @extend %copy-muted-2;
-  }
-}
-
-.copy-muted-2-xs {
-  &, #{$global-copy-elements} {
-    @extend %copy-muted-2-xs;
   }
 }
 

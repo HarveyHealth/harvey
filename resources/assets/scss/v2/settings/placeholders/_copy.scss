@@ -4,7 +4,6 @@
 
 /// The default styling for all page copy
 %copy-main {
-  @extend %font-md;
   @extend %font-thin;
 
   color: $color-copy;
@@ -14,24 +13,11 @@
   padding: 0;
 }
 
-%copy-main-sm {
-  @extend %copy-main;
-
-  font-size: $font-sm;
-}
-
 /// Default copy styling with muted color
 %copy-muted {
   @extend %copy-main;
 
   color: $color-copy-muted-1;
-}
-
-/// Smaller size for color-copy
-%copy-muted-sm {
-  @extend %copy-muted;
-
-  font-size: $font-sm;
 }
 
 /// Default copy styling with alternative muted color (used for more subtle headings)
@@ -41,15 +27,10 @@
   color: $color-copy-muted-2;
 }
 
-%copy-muted-2-xs {
-  @extend %copy-muted-2;
-
-  font-size: $font-xs;
-}
-
 /// Default styling for error messages
 %copy-error {
-  @extend %copy-main-sm;
+  @extend %copy-main;
+  @extend %font-sm;
 
   color: $color-error;
   font-weight: $font-normal;

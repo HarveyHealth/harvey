@@ -9,14 +9,14 @@
         >{{ col.name }}</th>
       </tr>
     </thead>
-    <tbody class="copy-main-sm">
+    <tbody class="copy-main">
       <tr v-show="loading">
-        <td :colspan="columns.length" class="font-italic copy-muted-sm">
+        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
           {{ loadingMsg }}
         </td>
       </tr>
       <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" class="font-italic copy-muted-sm">
+        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
           {{ emptyMsg }}
         </td>
       </tr>

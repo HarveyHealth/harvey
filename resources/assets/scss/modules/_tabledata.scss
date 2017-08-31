@@ -22,8 +22,6 @@
     border-left: 1px solid $color-border;
     cursor: pointer;
     display: block;
-    font-size: $font-sm;
-    font-weight: $font-thin;
     transition: color 200ms;
     width: 100%;
     position: relative;
@@ -69,7 +67,6 @@
     }
     td {
         background: lighten($harvey-primary,15%);
-        color: darken($gray, 10%);
       }
   }
 
@@ -78,7 +75,7 @@
     color: darken($color--grey, 15%);
 
     & i {
-      color: darken($color--grey, 65%);
+      color: $color-copy;
       font-size: 22px;
       left: 50%;
       position: absolute;
@@ -86,13 +83,7 @@
   }
 
   tr.has-updated td {
-    // border-color: darken($color--grey, 65%);
     background: $color--grey;
-    color: darken($color--grey, 65%);
-    // font-weight: bold;
-    // @include query(lg) {
-    //   border-top: 1px solid;
-    // }
   }
 
   .cell-wrap:before {
@@ -133,7 +124,7 @@
   }
   th, td {
     border: none;
-    border-bottom: 1px solid $color--grey;
+    border-bottom: 1px solid $color-border;
     display: table-cell;
     width: auto;
     @include padding(25px);

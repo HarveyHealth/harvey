@@ -40,32 +40,32 @@
           <h1 class="heading-main" v-html="title"></h1>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
             <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('last_name', signupData.last_name)" name="last_name" type="text" placeholder="Last Name" v-model="signupData.last_name" v-validate="'required|alpha_spaces'" data-vv-as="Last name" />
             <p v-show="errors.has('last_name')" class="copy-error">{{ lastNameError }}</p>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('email', signupData.email)" name="email" type="email" placeholder="Personal Email" v-model="signupData.email" v-validate="'required|email'" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('email', signupData.email)" name="email" type="email" placeholder="Personal Email" v-model="signupData.email" v-validate="'required|email'" data-vv-validate-on="blur" />
             <p v-show="errors.has('email')" class="copy-error">{{ emailError }}</p>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray error" v-on:change="persistTextFields('zip', signupData.zip)" name="zip" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
+            <input class="form-input form-input_text error" v-on:change="persistTextFields('zip', signupData.zip)" name="zip" type="text" placeholder="Zip Code" v-model="signupData.zip" v-validate="{ required: true, digits: 5 }" data-vv-validate-on="blur" maxlength="5"/>
             <p v-show="errors.has('zip')" class="copy-error">{{ zipError }}</p>
           </div>
 
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray" v-on:change="persistTextFields('password', signupData.password)" name="password" type="password" placeholder="Create Password" v-model="signupData.password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
+            <input class="form-input form-input_text" v-on:change="persistTextFields('password', signupData.password)" name="password" type="password" placeholder="Create Password" v-model="signupData.password" v-validate="{ required: true, min: 6 }" data-vv-validate-on="blur" />
             <p v-show="errors.has('password')" class="copy-error">{{ passwordError }}</p>
           </div>
 
           <div class="input-wrap last">
-            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
+            <label class="form-label form-label_checkbox font-sm" for="checkbox">
               <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
             </label>
             <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>

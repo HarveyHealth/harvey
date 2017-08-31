@@ -16,20 +16,20 @@
       <div class="phone-input-container">
         <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray"
+            <input class="form-input form-input_text"
                   :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
           </div>
           <div class="input-wrap">
-            <input class="form-input form-input_text font-base font-darkest-gray"
+            <input class="form-input form-input_text"
                   :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
           </div>
           <div>
             <div class="input-wrap input-half--sm">
-              <input class="form-input form-input_text font-base font-darkest-gray"
+              <input class="form-input form-input_text"
                     :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
             </div>
             <div class="input-wrap input-half--sm last">
-              <input class="form-input form-input_text font-base font-darkest-gray"
+              <input class="form-input form-input_text"
                     :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
             </div>
           </div>

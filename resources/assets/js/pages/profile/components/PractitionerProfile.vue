@@ -303,10 +303,6 @@
         }
     }
 
-    .form-input {
-        color: #777;
-    }
-
     .profile-title {
         display: flex;
         justify-content: center;

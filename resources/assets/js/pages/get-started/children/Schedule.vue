@@ -16,7 +16,7 @@
           <h3 class="heading-secondary font-normal font-centered">Choose date</h3>
 
           <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
-            <div class="schedule-week-info copy-muted-sm">
+            <div class="schedule-week-info copy-muted">
               <span class="week font-xs">{{ weekReference(i) }}</span>
               <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
