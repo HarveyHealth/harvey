@@ -123,20 +123,20 @@ button.button--blue:disabled {
   background: none;
   border: none;
   border-bottom: 3px solid transparent;
-  color: #aaa;
+  color: $color-copy-muted-2;
   cursor: pointer;
   font-family: inherit;
-  font-size: 1em;
+  font-size: $font-sm;
   @include margin(null 0.5em null null);
   @include padding(0.4em 0.6em);
 
   &.isactive {
-    border-color: $harvey-primary;
+    border-color: $color-accent-dark;
   }
 
   &:hover,
   &.isactive {
-    color: $dark-gray;
+    color: $color-copy;
   }
 
   &:disabled {
