@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
-      <h2 class="heading-tertiary">Final Confirmation</h2>
+      <h2 class="heading-3">Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
       <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">

@@ -1,7 +1,7 @@
 <template>
     <div class="card card-info">
         <div class="card-heading-container">
-            <h2 class="heading-secondary">Practitioner Profile</h2>
+            <h2 class="heading-2">Practitioner Profile</h2>
         </div>
         <div class="card-content-container topPadding">
             <div class="card-content-wrap">
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="profile-title">
-                                <h4 class="heading-tertiary-expand">Dr. {{ practitioner.name }}, N.D.</h4><br>
+                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, N.D.</h4><br>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload

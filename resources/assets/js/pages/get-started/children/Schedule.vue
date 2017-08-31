@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'schedule'" />
-      <h2 class="heading-tertiary-expand">Choose date and time...</h2>
+      <h2 class="heading-3-expand">Choose date and time...</h2>
       <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now or in 4 weeks.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
@@ -13,7 +13,7 @@
 
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
-          <h3 class="heading-secondary font-normal font-centered">Choose date</h3>
+          <h3 class="heading-2 font-normal font-centered">Choose date</h3>
 
           <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
             <div class="schedule-week-info copy-muted">
@@ -32,8 +32,8 @@
 
         </div>
         <div class="schedule-section schedule-times" ref="timeBox">
-          <h3 class="heading-secondary font-normal font-centered">Choose time</h3>
-          <h4 class="schedule-info-text heading-tertiary" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
+          <h3 class="heading-2 font-normal font-centered">Choose time</h3>
+          <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
           <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
           <ol v-show="selectedDate">
             <li v-for="(time, j) in availableTimes"

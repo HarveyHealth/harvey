@@ -37,7 +37,7 @@
 
         <div class="signup-container signup-form-container">
 
-          <h1 class="heading-main" v-html="title"></h1>
+          <h1 class="heading-1" v-html="title"></h1>
 
           <div class="input-wrap">
             <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />

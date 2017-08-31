@@ -50,7 +50,7 @@
         // @include margin(null null 25px);
     }
     &:last-child .container-message {
-        border-bottom: 2px solid $color-border;
+        border-bottom: 2px solid $color-gray-0;
     }
 }
 
@@ -59,7 +59,7 @@
 }
 
 .message-post-avatar {
-    border: 2px solid $color-border;
+    border: 2px solid $color-gray-0;
     border-radius: 50%;
     overflow: hidden;
     img {

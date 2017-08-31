@@ -5,7 +5,7 @@
         <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
-            class="heading-secondary"
+            class="heading-2"
         >{{ col.name }}</th>
       </tr>
     </thead>

@@ -18,8 +18,8 @@
 
   td {
     background: $white;
-    border-right: 1px solid $color-border;
-    border-left: 1px solid $color-border;
+    border-right: 1px solid $color-gray-0;
+    border-left: 1px solid $color-gray-0;
     cursor: pointer;
     display: block;
     transition: color 200ms;
@@ -33,7 +33,7 @@
       @include padding(1.5em null null null);
     }
     &:last-child {
-      border-bottom: 1px solid $color-border;
+      border-bottom: 1px solid $color-gray-0;
       @include margin(null null 16px null);
       @include padding(null null 1.5em null);
     }
@@ -124,7 +124,7 @@
   }
   th, td {
     border: none;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid $color-gray-0;
     display: table-cell;
     width: auto;
     @include padding(25px);

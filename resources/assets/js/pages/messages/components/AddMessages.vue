@@ -3,7 +3,7 @@
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="heading-tertiary-expand">New Message</h2><br>
+        <h2 class="heading-3-expand">New Message</h2><br>
         <div v-if="userList.length <= 1" class="no-message-banner">
             You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
         </div>

@@ -4,7 +4,7 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="heading-main">
+          <h1 class="heading-1">
             <span class="text">Recent Clients</span>
           </h1>
         </div>

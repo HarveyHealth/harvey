@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-tertiary-expand font-centered">
+    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-3-expand font-centered">
       <div style="width: 22px; margin: 0 auto;">
         <ClipLoader :color="$root.$data.colors.copy" :size="'22px'" />
       </div>
@@ -13,14 +13,14 @@
     <template v-else>
       <div class="signup-stage-instructions">
         <StagesNav :current="'practitioner'" />
-        <h2 class="heading-tertiary-expand font-normal">Choose Your Practitioner</h2>
+        <h2 class="heading-3-expand font-normal">Choose Your Practitioner</h2>
         <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
       </div>
       <div class="signup-container signup-stage-container">
         <div class="signup-practitioner-wrapper cf">
 
           <div class="practitioner-wrapper">
-            <h3 class="signup-section-header heading-secondary font-centered">Available Doctors</h3>
+            <h3 class="signup-section-header heading-2 font-centered">Available Doctors</h3>
             <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
               <button :class="{ 'signup-practitioner-selector': true, 'active': index === selected }" @click="select(dr, index)">
                 <img :src="determineImage(dr.info.picture_url, 'user')" />
@@ -33,7 +33,7 @@
             <div v-if="hasSelection">
               <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
               <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
-              <h3 v-if="practitioners[selected].name" class="practitioner-name font-centered font-normal heading-tertiary">{{ practitioners[selected].name }}, ND</h3>
+              <h3 v-if="practitioners[selected].name" class="practitioner-name font-centered font-normal heading-3">{{ practitioners[selected].name }}, ND</h3>
               <p v-if="practitioners[selected].info.license_number" class="practitioner-license text-centered">License {{ practitioners[selected].info.license_number }}</p>
               <div class="practitioner-info-wrapper font-sm">
                 <p v-if="practitioners[selected].info.description">{{ practitioners[selected].info.description }}</p>

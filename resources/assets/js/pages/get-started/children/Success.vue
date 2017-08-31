@@ -3,7 +3,7 @@
     <div class="success-wrapper mt-xl_lgH">
       <img class="success-icon" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="heading-main font-normal mt-md">{{ title }}</h1><br>
+      <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
 
       <p>
         <span class="confirmation_day">
@@ -38,7 +38,7 @@
 
     <Overlay :active="showModal" />
     <Modal :active="showModal" :on-close="() => showModal = false">
-      <h3 class="heading-tertiary-expand">You are leaving Harvey!</h3>
+      <h3 class="heading-3-expand">You are leaving Harvey!</h3>
       <p class="lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
       <p class="lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
       <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>

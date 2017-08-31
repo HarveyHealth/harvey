@@ -4,7 +4,7 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="heading-main">
+                    <h1 class="heading-1">
                     <span class="text">Lab Orders</span>
                     <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>

@@ -10,14 +10,14 @@
             />
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="heading-main">
+                    <h1 class="heading-1">
                         <span class="text">Profile</span>
                     </h1>
                 </div>
             </div>
             <div class="card card-info">
                 <div class="card-heading-container">
-                    <h2 class="heading-secondary">Contact Info</h2>
+                    <h2 class="heading-2">Contact Info</h2>
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">

@@ -14,9 +14,6 @@ $color-accent-darker: #3486cd;
 /// Used for alert boxes that prompt the user with an action
 $color-alert: #6d859a;
 
-/// Used for borders that divides sections of the application
-$color-border:	#e4eaec;
-
 /// Used for calling attention to something (not used often)
 $color-callout: #e0aaa6;
 
@@ -43,6 +40,9 @@ $color-fade-light-muted: rgba(255, 255, 255, 0.4);
 
 /// Used for success notifications or positive feedback
 $color-good: #b4e7a0;
+
+/// Used mostly for borders that divides sections of the application
+$color-gray-0:	#e4eaec;
 
 /// Used for application background
 $color-gray-1:	#f2f2f2;

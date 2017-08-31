@@ -3,14 +3,14 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="heading-main">{{ dashboardTitle }}</h1>
+          <h1 class="heading-1">{{ dashboardTitle }}</h1>
         </div>
       </div>
 
       <div class="card-wrapper alert" v-if="viewableIntakeAlert">
         <div class="card">
           <div class="card-alert-text">
-            <h3 class="heading-secondary">Patient Intake Form</h3>
+            <h3 class="heading-2">Patient Intake Form</h3>
             <p>Please note: You must finish your patient intake form before your first appointment.</p>
           </div>
           <div class="card-alert-button">
@@ -29,12 +29,12 @@
 
         <div class="card card-panel" v-if="userType === 'patient'">
           <div class="card-heading-container">
-            <h2 class="heading-secondary">Your Doctor</h2>
+            <h2 class="heading-2">Your Doctor</h2>
           </div>
           <div class="card-content-container">
 
             <div class="card-content-wrap">
-              <h3 class="heading-tertiary">
+              <h3 class="heading-3">
                 <img class="card-avatar" :src="practitioner.avatar">
                 {{ practitioner.name }}
               </h3>
@@ -50,7 +50,7 @@
       <div class="card-wrapper">
         <div class="card smaller">
           <div class="card-heading-container">
-            <h2 class="heading-secondary">Your Info</h2>
+            <h2 class="heading-2">Your Info</h2>
           </div>
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">
@@ -72,7 +72,7 @@
         </div>
         <div class="card smaller">
           <div class="card-heading-container">
-            <h2 class="heading-secondary">Account Manager</h2>
+            <h2 class="heading-2">Account Manager</h2>
           </div>
           <div class="card-content-container">
             <div class="card-content-wrap" v-if="patientName">

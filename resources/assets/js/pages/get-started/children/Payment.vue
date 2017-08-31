@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'payment'" />
-      <h2 class="heading-tertiary-expand" v-text="title"></h2>
+      <h2 class="heading-3-expand" v-text="title"></h2>
       <p v-html="subtext"></p>
 
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>

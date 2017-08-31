@@ -23,7 +23,7 @@
 
 .schedule-section {
   background-color: $light-gray;
-  border: 2px solid $color-border;
+  border: 2px solid $color-gray-0;
   border-radius: 3px;
   @include padding($space-sm);
   font-size: $font-sm;
@@ -58,7 +58,7 @@
 
     &.available {
       display: inline-block;
-      background: $color-border;
+      background: $color-gray-0;
       color: $color-accent-dark;
       cursor: pointer;
       opacity: 0.75;
@@ -82,7 +82,7 @@
 }
 
 .schedule-week-info {
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid $color-gray-0;
 
   .dates {
     float: right;

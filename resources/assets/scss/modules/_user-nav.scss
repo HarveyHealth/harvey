@@ -1,10 +1,10 @@
 .admin-nav {
-  border-top: 1px solid $color-border;
+  border-top: 1px solid $color-gray-0;
   @include margin(57px null null null);
 }
 
 .admin-nav-link {
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid $color-gray-0;
   color: $color-copy-muted-1;
   display: block;
   height: 60px;
@@ -36,7 +36,7 @@
 }
 
 .admin-nav-link.logout {
-  border-top: 1px solid $color-border;
+  border-top: 1px solid $color-gray-0;
   bottom: 0;
   position: absolute;
   width: 100%;
@@ -45,7 +45,7 @@
 
 .nav-bar {
   background: white;
-  border-right: 1px solid $color-border;
+  border-right: 1px solid $color-gray-0;
   bottom: 0;
   left: -150px;
   position: fixed;

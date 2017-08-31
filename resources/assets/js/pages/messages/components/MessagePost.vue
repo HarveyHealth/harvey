@@ -4,11 +4,11 @@
           <div class="message-post-avatar">
               <img :src="image" alt="avatar">
           </div>
-          <h3 class="heading-secondary">{{ name }}</h3>
+          <h3 class="heading-2">{{ name }}</h3>
           <h3 class="message-post-time font-sm copy-muted-2">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).local().format("h:mm a") }} {{ moment.tz(moment.tz.guess()).format('z') }}</h3>
         </div>
         <div class="message-post-body">
-          <h2 class="heading-tertiary-expand">{{ subjects }}</h2>
+          <h2 class="heading-3-expand">{{ subjects }}</h2>
           <p class="message-post-message copy-muted">{{ messages }}</p>
         </div>
     </div>

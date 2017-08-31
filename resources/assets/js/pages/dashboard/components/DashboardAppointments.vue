@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="card-heading-container">
-        <h2 class="heading-secondary">Upcoming Appointments</h2>
+        <h2 class="heading-2">Upcoming Appointments</h2>
         <a href="/dashboard#/appointments">View Appointments</a>
       </div>
       <div class="card-content-container">
@@ -19,7 +19,7 @@
             <p class="copy-muted-2 font-italic">You have no upcoming appointments.</p>
         </div>
         <div class="card-heading-container">
-            <h2 class="heading-secondary">Recent Appointments</h2>
+            <h2 class="heading-2">Recent Appointments</h2>
             <!-- <a href="/dashboard#/history">View History</a> -->
         </div>
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">

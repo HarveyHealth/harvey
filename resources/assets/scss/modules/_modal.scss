@@ -26,7 +26,7 @@
 }
 
   .modal-header {
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid $color-gray-0;
     @include padding(null null 15px null);
     @include margin(null null 30px null);
   }

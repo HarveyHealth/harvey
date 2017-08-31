@@ -57,17 +57,15 @@ $practitioner-grid: (
 }
 
 .signup-section-header {
-  border-bottom: 1px solid $color-border;
-  // font-size: 18px;
+  border-bottom: 1px solid $color-gray-0;
   margin: 0 1.5em 1.5em;
-  // text-align: center;
   padding: 1em 0;
 }
 
 .practitioner-wrapper {
   background: $lightest-gray;
   border-radius: 3px;
-  border: 4px solid $color-border;
+  border: 4px solid $color-gray-0;
   overflow: hidden;
   padding-bottom: 1.5em;
   position: relative;
@@ -106,17 +104,13 @@ $practitioner-grid: (
   @include margin(null null 20px);
 }
 .practitioner-info-wrapper {
-  // * {
-  //   font-size: 14px;
-  //   line-height: 1.4;
-  // }
   @include padding(0 20px 20px);
 }
 .practitioner-divider {
   width: 80%;
   @include margin(18px auto 0);
   border: none;
-  border-bottom: 2px solid $color-border;
+  border-bottom: 2px solid $color-gray-0;
 }
 .practitioner-info {
   list-style: none;
@@ -127,11 +121,5 @@ $practitioner-grid: (
   }
 }
 .practitioner-rate {
-  // font-size: 18px;
   @include margin(15px 0);
-  span {
-    // font-weight: 600;
-    // font-size: 18px;
-    // letter-spacing: 1px;
-  }
 }

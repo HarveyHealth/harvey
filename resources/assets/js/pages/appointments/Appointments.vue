@@ -3,7 +3,7 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="heading-main">
+          <h1 class="heading-1">
             <span class="text">Your Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
               <svg><use xlink:href="#addition"/></svg>
@@ -151,7 +151,7 @@
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
     >
-      <h3 class="modal-header heading-tertiary-expand">{{ userActionTitle }}</h3>
+      <h3 class="modal-header heading-3-expand">{{ userActionTitle }}</h3>
       <p class="copy-error" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
         <tr v-if="userType !== 'patient'">
