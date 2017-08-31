@@ -124,6 +124,9 @@ export default {
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
+                .then(response => {
+                    this.$root.$data.global.creditCards = null
+                })
             this.closeModal()
         },
         submitUpdateCard() {
@@ -146,6 +149,12 @@ export default {
                 exp_year: this.year || this.currentCard.exp_year,
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
+            .then(response => {
+                axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                    .then(respond => {
+                        this.$root.$data.global.creditCards = respond.data.cards
+                    })
+            })
         },
         submitNewCard() {
             let card = Stripe.card.createToken({
@@ -157,6 +166,12 @@ export default {
                 name: `${this.firstName} ${this.lastName}`
             }, (status, response) => {
                 axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
+                    .then(resp => {
+                        axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                            .then(respond => {
+                                this.$root.$data.global.creditCards = respond.data.cards
+                            })
+                    })
             })
         },
         pressEdit(card) {
