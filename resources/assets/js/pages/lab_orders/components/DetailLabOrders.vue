@@ -22,7 +22,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
-      <div class="input__container">
+      <div class="input__container" style="height: 475px;">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
