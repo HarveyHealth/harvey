@@ -129,6 +129,19 @@ const app = new Vue({
             if (value) return `${value} (${this.timezoneAbbr})`;
             else return this.timezoneAbbr;
         },
+        // If user is an admin, practitioners must be filtered according to licensing logic
+        filterPractitioners(practitioners, state) {
+          return practitioners.filter(practitioner => {
+            // First check if the user's state is regulated or not
+            const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
+            // Get licenses from global list or from appointments page list
+            const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
+            // If the user's state is regulated, filter dr list for drs with licenses in that state
+            return userRegulatedState
+              ? licenses.filter(license => license.state === state).length
+              : true
+          })
+        },
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
@@ -181,29 +194,23 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data
-                        .filter(dr => {
-                          // We only filter by regulation if the user is a patient
-                          if (Laravel.user.user_type !== 'patient') return true;
-                          const userState = Laravel.user.state;
-                          // First check if the user's state is regulated or not
-                          const userRegulatedState = this.global.regulatedStates.indexOf(userState) > -1;
-                          // If the user's state is regulated, filter dr list for drs with licenses in that state
-                          return userRegulatedState
-                            ? dr.attributes.licenses.filter(lic => lic.state === userState).length
-                            : true
-                        })
-                        .map(dr => {
-                          return {
-                            info: dr.attributes,
-                            name: `Dr. ${dr.attributes.name}`,
-                            id: dr.id,
-                            user_id: dr.attributes.user_id }
-                    });
-                    response.data.data.forEach(e => {
-                        this.global.practitionerLookUp[e.id] = e
-                    });
-                    this.global.loadingPractitioners = false;
+                  if (Laravel.user.user_type === 'patient') {
+                    this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
+                  } else {
+                    this.global.practitioners = response.data.data;
+                  }
+                  this.global.practitioners = this.global.practitioners.map(dr => {
+                    return {
+                      id: dr.id,
+                      info: dr.attributes,
+                      name: `Dr. ${dr.attributes.name}`,
+                      user_id: dr.attributes.user_id
+                    }
+                  });
+                  response.data.data.forEach(e => {
+                      this.global.practitionerLookUp[e.id] = e
+                  });
+                  this.global.loadingPractitioners = false;
                 })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {

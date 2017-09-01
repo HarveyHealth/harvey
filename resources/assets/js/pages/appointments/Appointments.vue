@@ -50,6 +50,7 @@
 
       <Practitioner
         :editable="editablePractitioner"
+        :is-disabled="!appointment.patientId"
         :name="appointment.practitionerName"
         :list="practitionerList"
         :set-practitioner="setPractitionerInfo"
@@ -572,6 +573,11 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
+        // If user is admin, filter practitioners by state licensing regulations
+        // First reset the practitioner list
+        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+
         // patient address
         this.appointment.patientAddress = this.setPatientAddress(data);
 
@@ -792,6 +798,11 @@ export default {
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
       this.patientDisplay = `${data.name} (${data.email})`;
+
+      // If user is admin, filter practitioners by state licensing regulations
+      // First reset the practitioner list
+      this.setupPractitionerList(this.$root.$data.global.practitioners);
+      this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
     },
 
     setupAppointments(list) {
