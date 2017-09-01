@@ -704,6 +704,11 @@ export default {
       this.appointment = this.resetAppointment();
       this.isHandlingAction = true;
 
+      // If user is patient and action is cancel, add cancellation_reason to data
+      if (isPatient && isCancel && this.cancellationReason) {
+        data.cancellation_reason = this.cancellationReason;
+      }
+
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
