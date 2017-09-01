@@ -317,7 +317,8 @@ export default {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
     },
     editablePractitioner() {
-      return this.userType !== 'practitioner' && this.flyoutMode === 'new';
+      return (this.flyoutMode === 'new' && this.userType !== 'practitioner') ||
+             (this.flyoutMode === 'update' && this.userType === 'admin' && this.appointment.status === 'pending');
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
@@ -583,6 +584,7 @@ export default {
         // Practitioner info
         this.appointment.practitionerName = data.doctor;
         this.appointment.practitionerId = data._doctorId;
+        this.appointment.currentPractitionerId = data._doctorId;
 
         // Purpose text
         this.appointment.purpose = data.purpose;
@@ -612,8 +614,10 @@ export default {
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
       }
-      const action = this.userAction === 'new' ? 'post' : 'patch';
-      const api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
+
+      let doctorSwitch = false;
+      let action = this.userAction === 'new' ? 'post' : 'patch';
+      let api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
@@ -622,37 +626,59 @@ export default {
       const appointmentDate = data.appointment_at;
 
       // api constraints
-      if (this.userType === 'patient' || this.userAction === 'update') {
-        delete data.patient_id;
-      }
-      if (this.userType !== 'patient' &&
-          this.userAction === 'update' &&
-          this.appointment.currentStatus !== this.appointment.status) {
+      const isPatient = this.userType === 'patient';
+      const isPractitioner = this.userType === 'practitioner';
+      const isAdmin = this.userType === 'admin';
+      const isUpdate = this.userAction === 'update';
+      const isCancel = this.userAction === 'cancel';
+      const isNew = this.userAction === 'new';
+      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
+      const hasStatusSwitch = this.appointment.currentStatus !== this.appointment.status;
+      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
+      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
-        delete data.appointment_at;
-      }
-      if (this.userAction !== 'new') {
+      // Patients don't need to send up their id
+      // Cancellations don't require a patient id
+      // Patient id is only required in an update if an admin is switching a doctor
+      const shouldRemovePatient = isPatient || isCancel || (isUpdate && !isAdmin && !hasDoctorSwitch);
+
+      // Practitioner id is required for new appointment creations
+      // Practitioner id is only required in an update if an admin is switching a doctor
+      const shouldRemovePractitioner = (isUpdate && !adminSwitchesDoctor) || !isNew;
+
+      // Time is not necessary when an admin or practitioner updates appointment status or purpose and not Time
+      // Time should remain if an admin changes a doctor for an existing appointment
+      // Time is not necessary for appointment cancellations
+      // const shouldRemoveTime = (!isPatient && isUpdate && (!hasStatusSwitch && !hasDoctorSwitch)) || isCancel;
+      const shouldRemoveTime = (isUpdate && !hasTimeSwitch) || (isUpdate && isAdmin && !hasDoctorSwitch) || isCancel;
+
+      if (shouldRemovePatient) delete data.patient_id;
+      if (shouldRemoveTime) delete data.appointment_at;
+      if (shouldRemovePractitioner) {
         delete data.practitioner_id;
-      }
-      if (this.userAction === 'cancel') {
-        delete data.appointment_at;
-        delete data.patient_id;
+      } else if (adminSwitchesDoctor) {
+        // If the practitioner_id needs to be sent up, it's because an admin is changing the doctor for
+        // and already existing appointment. In this case we need to cancel the present appointment using
+        // PATCH and then create a new appointment with POST.
+        const patchData = { status: 'canceled' };
+        axios.patch(`/api/v1/appointments/${this.appointment.id}`, patchData).catch(err => console.log(err.response));
+        action = 'post';
+        api = '/api/v1/appointments';
       }
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
       this.appointment = this.resetAppointment();
 
       // If updating, let the table know which row is changing
-      this.selectedRowUpdating = this.userAction !== 'new'
-        ? this.selectedRowIndex
-        : null;
+      // this.selectedRowUpdating = this.userAction !== 'new'
+      //   ? this.selectedRowIndex
+      //   : null;
       // Grab a copy of the old appointments data for comparison after the api call
-      let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+      // let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](api, data).then(response => {
-
         // track the event
         if(this.$root.shouldTrack()) {
           if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
@@ -664,41 +690,46 @@ export default {
 
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
-            this.selectedRowIndex = null;
+            // this.setupAppointments(this.$root.$data.global.appointments);
+            if (succesPopup) this.handleNotificationInit();
+            this.overlayActive = false;
+            this.modalActive = false;
+            // this.selectedRowIndex = null;
             // Cycle through the new appointment list with Array.some so we can break out easily.
             // For each item compare against oldAppointments
             // If no match, splice the first item of oldAppointments
             // If match is found, splice first item of oldAppointments but continue with next appointment object
             // Once oldAppointments is empty you know you have no match
             // The row you ended on is the updated data so mark accordingly
-            this.appointments.some((obj, i) => {
-              // If user is filtered and the updated row is disqualified from that filter
-              // the appointments will be less and we just need to end it immediately
-              // and scroll to the top of the page
-              if (this.appointments.length < oldAppointments.length) {
-                this.selectedRowUpdating = null;
-                if (succesPopup) this.handleNotificationInit();
-                window.scrollTo(0, 0);
-              }
-
-              while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
-                oldAppointments.splice(0, 1);
-                if (!oldAppointments.length) {
-                  this.selectedRowUpdating = i;
-                  if (succesPopup) this.handleNotificationInit();
-                  setTimeout(() => {
-                    this.selectedRowUpdating = null;
-                    this.selectedRowHasUpdated = i;
-                    setTimeout(() => this.selectedRowHasUpdated = null, 1000);
-                  }, 1000);
-                  return true;
-                }
-              }
-              oldAppointments.splice(0, 1);
-            })
+          //   this.appointments.some((obj, i) => {
+          //     // If user is filtered and the updated row is disqualified from that filter
+          //     // the appointments will be less and we just need to end it immediately
+          //     // and scroll to the top of the page
+          //     if (this.appointments.length < oldAppointments.length) {
+          //       this.selectedRowUpdating = null;
+          //       if (succesPopup) this.handleNotificationInit();
+          //       window.scrollTo(0, 0);
+          //     }
+          //
+          //     while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
+          //       oldAppointments.splice(0, 1);
+          //       if (!oldAppointments.length) {
+          //         this.selectedRowUpdating = i;
+          //         if (succesPopup) this.handleNotificationInit();
+          //         setTimeout(() => {
+          //           this.selectedRowUpdating = null;
+          //           this.selectedRowHasUpdated = i;
+          //           setTimeout(() => this.selectedRowHasUpdated = null, 1000);
+          //         }, 1000);
+          //         return true;
+          //       }
+          //     }
+          //     oldAppointments.splice(0, 1);
+          //   })
           })
         });
       }).catch(error => {
+        if (error.response) console.log(error.response)
         this.selectedRowUpdating = null;
         if (this.userAction === 'update' || this.userAction === 'new') {
           this.modalActive = true;
@@ -710,8 +741,6 @@ export default {
       this.selectedRowData = null;
       this.flyoutActive = false;
       this.flyoutMode = null;
-      this.modalActive = false;
-      this.overlayActive = false;
     },
 
     resetAppointment() {
@@ -722,6 +751,7 @@ export default {
         date: '',
         day: '',
         currentDate: '',
+        currentPractitionerId: '',
         currentPurpose: '',
         currentStatus: '',
         id: '',
