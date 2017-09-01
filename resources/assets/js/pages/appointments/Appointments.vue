@@ -134,10 +134,17 @@
       :active="modalActive"
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
+      :hide-close="isHandlingAction"
     >
-      <h3 class="modal-header">{{ userActionTitle }}</h3>
+      <h3 class="modal-header" v-show="!isHandlingAction">{{ userActionTitle }}</h3>
+      <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
+        <p>Updating appointments</p><br>
+        <div style="width: 24px; margin: 0 auto;">
+          <ClipLoader :size="'24px'" :color="'#4f6268'" />
+        </div>
+      </div>
       <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
-      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
+      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
           <td><p>{{ appointment.patientName }}</p></td>
@@ -159,7 +166,7 @@
           <td><p>{{ appointment.purpose }}</p></td>
         </tr>
       </table>
-      <div class="modal-button-container" v-show="!bookingConflict">
+      <div class="modal-button-container" v-show="!bookingConflict && !isHandlingAction">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
         <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
@@ -192,6 +199,7 @@ import Status from './components/Status.vue';
 import Times from './components/Times.vue';
 
 // other
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
 import tableColumns from './utils/tableColumns';
@@ -219,6 +227,7 @@ export default {
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
+      isHandlingAction: false,
       loadingDays: false,
       loadingPatients: !this.$root.$data.global.patients.length,
       loadingTableData: true,
@@ -256,6 +265,7 @@ export default {
 
   components: {
     AppointmentTable,
+    ClipLoader,
     Days,
     FilterButtons,
     Flyout,
@@ -640,11 +650,11 @@ export default {
       // Patients don't need to send up their id
       // Cancellations don't require a patient id
       // Patient id is only required in an update if an admin is switching a doctor
-      const shouldRemovePatient = isPatient || isCancel || (isUpdate && !isAdmin && !hasDoctorSwitch);
+      const shouldRemovePatient = isPatient || isCancel || (isUpdate && (isAdmin && !hasDoctorSwitch));
 
       // Practitioner id is required for new appointment creations
       // Practitioner id is only required in an update if an admin is switching a doctor
-      const shouldRemovePractitioner = (isUpdate && !adminSwitchesDoctor) || !isNew;
+      const shouldKeepPractitioner = isNew || (isUpdate && adminSwitchesDoctor);
 
       // Time is not necessary when an admin or practitioner updates appointment status or purpose and not Time
       // Time should remain if an admin changes a doctor for an existing appointment
@@ -654,7 +664,7 @@ export default {
 
       if (shouldRemovePatient) delete data.patient_id;
       if (shouldRemoveTime) delete data.appointment_at;
-      if (shouldRemovePractitioner) {
+      if (!shouldKeepPractitioner) {
         delete data.practitioner_id;
       } else if (adminSwitchesDoctor) {
         // If the practitioner_id needs to be sent up, it's because an admin is changing the doctor for
@@ -667,14 +677,9 @@ export default {
       }
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
+      const apptId = this.appointment.id;
       this.appointment = this.resetAppointment();
-
-      // If updating, let the table know which row is changing
-      // this.selectedRowUpdating = this.userAction !== 'new'
-      //   ? this.selectedRowIndex
-      //   : null;
-      // Grab a copy of the old appointments data for comparison after the api call
-      // let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+      this.isHandlingAction = true;
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
@@ -694,6 +699,14 @@ export default {
             if (succesPopup) this.handleNotificationInit();
             this.overlayActive = false;
             this.modalActive = false;
+            this.isHandlingAction = false;
+
+            const apptsIds = this.appointments.map(appt => appt.data._appointmentId);
+            console.log(apptsIds)
+            console.log(apptId);
+            console.log(apptsIds.indexOf(apptId))
+            this.selectedRowHasUpdated = apptsIds.indexOf(apptId);
+            setTimeout(() => this.selectedRowHasUpdated = null, 1000);
             // this.selectedRowIndex = null;
             // Cycle through the new appointment list with Array.some so we can break out easily.
             // For each item compare against oldAppointments
@@ -731,6 +744,7 @@ export default {
       }).catch(error => {
         if (error.response) console.log(error.response)
         this.selectedRowUpdating = null;
+        this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
           this.modalActive = true;
           this.bookingConflict = true;
