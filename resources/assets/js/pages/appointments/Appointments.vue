@@ -514,6 +514,11 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
 
+      // If the user is a patient, we want to fill in their id so the practitioner list is enabled
+      if (this.userType === 'patient') {
+        this.appointment.patientId = true;
+      }
+
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
       this.flyoutHeading = 'Book Appointment';
@@ -655,8 +660,9 @@ export default {
 
       // Patients don't need to send up their id
       // Cancellations don't require a patient id
-      // Patient id is only required in an update if an admin is switching a doctor
-      const shouldRemovePatient = isPatient || isCancel || (isUpdate && (isAdmin && !hasDoctorSwitch));
+      // Patient id is required if new appointment made by admin or practitioner
+      // Patient id only required on update if admin switched doctors
+      const shouldKeepPatient = !isPatient && !isCancel && (isNew || adminSwitchesDoctor);
 
       // Practitioner id is required for new appointment creations
       // Practitioner id is only required in an update if an admin is switching a doctor
@@ -665,11 +671,9 @@ export default {
       // Time is not necessary when an admin or practitioner updates appointment status or purpose and not Time
       // Time should remain if an admin changes a doctor for an existing appointment
       // Time is not necessary for appointment cancellations
-      // const shouldRemoveTime = (!isPatient && isUpdate && (!hasStatusSwitch && !hasDoctorSwitch)) || isCancel;
-      const shouldRemoveTime = (isUpdate && !hasTimeSwitch) || (isUpdate && isAdmin && !hasDoctorSwitch) || isCancel;
       const shouldKeepTime = hasTimeSwitch || hasDoctorSwitch;
 
-      if (shouldRemovePatient) delete data.patient_id;
+      if (!shouldKeepPatient) delete data.patient_id;
       if (!shouldKeepTime) delete data.appointment_at;
       if (!shouldKeepPractitioner) {
         delete data.practitioner_id;
@@ -717,7 +721,7 @@ export default {
                 }
               });
             // else if updated existing, find existing
-            } else if (isUpdate) {
+            } else if (!isNew) {
               this.selectedRowHasUpdated = newIds.indexOf(apptId);
             }
             setTimeout(() => this.selectedRowHasUpdated = null, 2000);
