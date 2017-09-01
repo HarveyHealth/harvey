@@ -10,8 +10,8 @@
       :selected="name"
     />
     <span v-else class="input__item patient-display">{{ name }}</span>
-    <div><a :href="'mailto:' + email">{{ email }}</a></div>
-    <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
+    <div class="font-sm"><a :href="'mailto:' + email">{{ email }}</a></div>
+    <div class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
     <p v-if="editable && address" v-html="address"></p>
   </div>
 </template>

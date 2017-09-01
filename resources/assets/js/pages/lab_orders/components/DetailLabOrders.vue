@@ -46,7 +46,7 @@
               <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
               <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
             </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+            <div class="input__container length" style="padding-top: 25px;">
               <label class="input__label" for="patient_name">expiry date</label>
               <span class="custom-select" style="float: left; width: 48%;">
                   <select @change="updateMonth($event)">
@@ -55,7 +55,7 @@
               </span>
               <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
             </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+            <div class="input__container length" style="padding-top: 25px;">
               <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
               <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
               <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
@@ -79,7 +79,7 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
-          <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
+          <label class="input__label" style="border: none; padding-top: 7.5px;">{{ test.name }}</label>
           <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>

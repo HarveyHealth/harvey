@@ -10,14 +10,14 @@
             />
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge">
+                    <h1 class="heading-1">
                         <span class="text">Profile</span>
                     </h1>
                 </div>
             </div>
             <div class="card card-info">
                 <div class="card-heading-container">
-                    <h2 class="card-header">Contact Info</h2>
+                    <h2 class="heading-2">Contact Info</h2>
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
@@ -82,7 +82,7 @@
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
-                                    <p class="warning">Image must be square and max 300px.</p>
+                                    <p class="copy-muted-2 font-italic font-sm font-thin" style="margin:-26px 0 22px;">Image must be square and max 300px.</p>
                                     <div class="input__container">
                                         <label class="input__label" for="address_1">Mailing Address</label>
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.address_1" type="text" name="address_1"/>
@@ -460,7 +460,8 @@
 <style lang="scss">
 
     .card-info {
-        width: 870px;
+        width: 100%;
+        max-width: 870px;
     }
 
     .profile-page .input__container {
@@ -469,16 +470,6 @@
 
     .formgroups {
         display: flex;
-    }
-
-    .input-styles {
-        color: #777777;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .form-input_text {
-      padding: 0 0 5px;
-      border-bottom: 1px solid #ddd;
     }
 
     .formgroup {

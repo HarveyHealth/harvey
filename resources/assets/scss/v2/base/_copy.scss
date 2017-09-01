@@ -1,0 +1,29 @@
+.copy-main {
+  &, #{$global-copy-elements} {
+    @extend %copy-main;
+  }
+}
+
+.copy-muted {
+  &, #{$global-copy-elements} {
+    @extend %copy-muted;
+  }
+}
+
+.copy-muted-2 {
+  &, #{$global-copy-elements} {
+    @extend %copy-muted-2;
+  }
+}
+
+.copy-link {
+  &, #{$global-copy-elements} {
+    @extend %copy-link;
+  }
+}
+
+.copy-error {
+  &, #{$global-copy-elements} {
+    @extend %copy-error;
+  }
+}

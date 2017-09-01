@@ -48,6 +48,9 @@ const app = new Vue({
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
+        colors: {
+          copy: '#4f6268'
+        },
         clientList: [],
         environment: env,
         permissions: Laravel.user.user_type,
