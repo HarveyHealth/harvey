@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\{Sluggable, SluggableScopeHelpers};
+use Schema;
 
 class SKU extends Model
 {
@@ -23,10 +24,14 @@ class SKU extends Model
 
     public function sluggable()
     {
+        if (!Schema::hasColumn($this->table, 'slug')) {
+            return [];
+        }
+
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 }
