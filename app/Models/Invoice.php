@@ -3,23 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\DiscountCode;
-use App\Models\InvoiceItem;
-use App\Models\Patient;
+use App\Models\{DiscountCode, InvoiceItem, Patient};
+use App\Http\Traits\IsNot;
 
 class Invoice extends Model
 {
-	const PAID_STATUS = 'paid';
-	const PENDING_STATUS = 'pending';
-	const CANCELLED_STATUS = 'cancelled';
+    use IsNot;
 
-	public static function newInvoiceWithData($invoice_data)
-	{
-		$invoice = new Invoice;
-		$discount_code = DiscountCode::find($invoice_data['discount_code_id']);
+    const PAID_STATUS = 'paid';
+    const PENDING_STATUS = 'pending';
+    const CANCELLED_STATUS = 'cancelled';
 
-        if ($discount_code)
-        	$invoice->discount_code_id = $discount_code->id;
+    public static function newInvoiceWithData($invoice_data)
+    {
+        $invoice = new Invoice;
+        $discount_code = DiscountCode::find($invoice_data['discount_code_id']);
+
+        if ($discount_code) {
+            $invoice->discount_code_id = $discount_code->id;
+        }
 
         $invoice->description = $invoice_data['description'];
         $invoice->patient_id = $invoice_data['patient_id'];
@@ -27,8 +29,7 @@ class Invoice extends Model
         $invoice->save();
 
         foreach ($invoice_data['invoice_items'] as $item) {
-
-        	$invoice_item = new InvoiceItem;
+            $invoice_item = new InvoiceItem;
             $invoice_item->description = $item['description'];
             $invoice_item->item_class = $item['item_class'] ?? null;
             $invoice_item->item_id = $item['item_id'] ?? null;
@@ -41,27 +42,27 @@ class Invoice extends Model
         $invoice->calculateTotals();
 
         return $invoice;
-	}
+    }
 
     public function isOutstanding()
     {
         return ($this->status == self::PENDING_STATUS);
     }
 
-	public function scopeForPatient($query, $patient_id)
-	{
-		return $query->where('patient_id', $patient_id);
-	}
+    public function scopeForPatient($query, $patient_id)
+    {
+        return $query->where('patient_id', $patient_id);
+    }
 
-	public function scopePaid($query)
-	{
-		return $query->where('status', self::PAID_STATUS);
-	}
+    public function scopePaid($query)
+    {
+        return $query->where('status', self::PAID_STATUS);
+    }
 
-	public function scopePending($query)
-	{
-		return $query->where('status', self::PENDING_STATUS);
-	}
+    public function scopePending($query)
+    {
+        return $query->where('status', self::PENDING_STATUS);
+    }
 
     public function scopeOutstanding($query)
     {
@@ -70,7 +71,7 @@ class Invoice extends Model
 
     public function discountCode()
     {
-    	return $this->belongsTo(DiscountCode::class);
+        return $this->belongsTo(DiscountCode::class);
     }
 
     public function invoiceItems()
@@ -85,30 +86,30 @@ class Invoice extends Model
 
     public function calculateTotals($reset = false)
     {
-    	if (empty($this->amount) || $reset) {
+        if (empty($this->amount) || $reset) {
+            $items = $this->invoiceItems;
 
-    		$items = $this->invoiceItems;
+            $subtotal = 0;
 
-    		$subtotal = 0;
+            foreach ($items as $item) {
+                $subtotal += $item->sku->price;
+            }
 
-    		foreach ($items as $item) {
-    			$subtotal += $item->sku->price;
-    		}
+            $this->subtotal = $subtotal;
 
-    		$this->subtotal = $subtotal;
+            $discount_code = $this->discountCode;
 
-    		$discount_code = $this->discountCode;
+            if ($discount_code) {
+                $this->discount = $discount_code->discountForSubtotal($this->subtotal);
+            }
 
-    		if ($discount_code) {
-    			$this->discount = $discount_code->discountForSubtotal($this->subtotal);
-    		}
+            $this->amount = $this->subtotal - $this->discount;
 
-    		$this->amount = $this->subtotal - $this->discount;
+            if ($this->amount < 0) {
+                $this->amount = 0;
+            }
 
-    		if ($this->amount < 0)
-    			$this->amount = 0;
-
-    		$this->save();
-    	}
+            $this->save();
+        }
     }
 }

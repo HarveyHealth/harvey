@@ -58,7 +58,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\ChargeSucceeded' => [
-            'App\Listeners\NotifyOfFailedCharge',
+            'App\Listeners\NotifyOfSuccessfulCharge',
         ],
 
         'App\Events\CreditCardUpdated' => [

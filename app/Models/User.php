@@ -18,7 +18,7 @@ use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, isNot, Textable;
+    use HasApiTokens, Notifiable, Searchable, IsNot, Textable;
 
     public $asYouType = true;
 
@@ -372,10 +372,4 @@ class User extends Authenticatable implements Mailable
     {
         return Cache::forget("has-a-card-user-id-{$this->id}");
     }
-
-    public function isNot(Model $model)
-    {
-        return !$this->is($model);
-    }
-
 }

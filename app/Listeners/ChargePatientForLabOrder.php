@@ -11,16 +11,6 @@ use App\Jobs\ChargePatientForInvoice;
 class ChargePatientForLabOrder implements ShouldQueue
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  LabOrderApproved  $event
@@ -32,12 +22,8 @@ class ChargePatientForLabOrder implements ShouldQueue
         $user = $lab_order->patient->user;
 
         // make sure not to charge them again
-        if ($lab_order->invoice_id) {
-            
-            $invoice = $lab_order->invoice;
-
-            if (!$invoice->isOutstanding())
-                return;
+        if ($lab_order->invoice_id && $lab_order->invoice->isNotOutstanding()) {
+            return false;
         }
 
         // generate the invoice

@@ -3,19 +3,13 @@
 namespace App\Http\Traits;
 
 use App\Models\Invoice;
-use App\Models\InvoiceItems;
-use App\Models\DiscountCode;
 
 trait Invoiceable
 {
-	protected function dataForInvoice()
-    {
-    	// this is a stub and should be overwritten in the traited class
-    	return [];
-    }
+    public abstract function dataForInvoice();
 
     public function invoice()
     {
-    	return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Invoice::class);
     }
 }

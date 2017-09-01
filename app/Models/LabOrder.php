@@ -54,12 +54,11 @@ class LabOrder extends Model
 
     public function dataForInvoice()
     {
-        $items = $this->labTests;
-
-        if (empty($items))
+        if (empty($labTests = $this->labTests)) {
             return [];
+        }
 
-        $invoice_data = [
+        $invoiceData = [
             'patient_id' => $this->patient_id,
             'practitioner_id' => $this->practitioner_id,
             'discount_code_id' => $this->discount_code_id,
@@ -67,28 +66,25 @@ class LabOrder extends Model
             'description' => 'Lab Tests order #' . $this->id . ' on ' . date('n/j/Y'),
         ];
 
-        foreach ($items as $item) {
-            $data = [
-                'item_id' => $item->id,
-                'item_class' => get_class($item),
-                'amount' => $item->sku->price,
-                'description' => $item->sku->name . ' Test',
-                'sku_id' => $item->sku->id,
+        foreach ($labTests as $labTest) {
+            $invoiceData['invoice_items'][] = [
+                'item_id' => $labTest->id,
+                'item_class' => get_class($labTest),
+                'amount' => $labTest->sku->price,
+                'description' => $labTest->sku->name . ' Test',
+                'sku_id' => $labTest->sku->id,
             ];
-
-            $invoice_data['invoice_items'][] = $data;
         }
 
         // lab orders add a processing fee
-        $sku = SKU::findBySlug('processing-fee-self');
+        $sku = SKU::findBySlugOrFail('processing-fee-self');
 
-        $invoice_data['invoice_items'][] = [
+        $invoiceData['invoice_items'][] = [
             'amount' => $sku->price,
             'description' => $sku->name,
             'sku_id' => $sku->id,
         ];
 
-
-        return $invoice_data;
+        return $invoiceData;
     }
 }
