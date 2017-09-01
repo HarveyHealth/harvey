@@ -129,7 +129,22 @@ const app = new Vue({
             if (value) return `${value} (${this.timezoneAbbr})`;
             else return this.timezoneAbbr;
         },
-        // If user is an admin, practitioners must be filtered according to licensing logic
+        // Filters patient list for practitioners according to state licensing regulations
+        // patients = patient list
+        // states = array of states practitioner is licensed in
+        filterPatients(patients, states) {
+          const stateList = states.map(s => s.state);
+          return patients.filter(patient => {
+            if (this.global.regulatedStates.indexOf(patient.state) > -1) {
+              return stateList.indexOf(patient.state) > -1;
+            } else {
+              return true;
+            }
+          })
+        },
+        // Filters practitioner list by state licensing regulations
+        // practitioners = practitioner list from backend or from appointments page
+        // state = user state to test against
         filterPractitioners(practitioners, state) {
           return practitioners.filter(practitioner => {
             // First check if the user's state is regulated or not
@@ -185,6 +200,9 @@ const app = new Vue({
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);
+                if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
+                  this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                }
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e
                 });
@@ -226,6 +244,9 @@ const app = new Vue({
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e
                     });
+                    if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
+                      this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                    }
                     this.global.loadingPractitioners = false;
                 })
             }
