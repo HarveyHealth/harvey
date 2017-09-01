@@ -40,7 +40,8 @@
         "phpunit/phpunit": "~5.0",
         "phpunit/php-code-coverage": "~4.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*"
+        "symfony/dom-crawler": "3.1.*",
+        "heroku/heroku-buildpack-php": "^122.0"
     },
     "autoload": {
         "classmap": [
