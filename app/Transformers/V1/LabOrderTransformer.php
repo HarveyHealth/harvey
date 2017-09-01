@@ -76,6 +76,8 @@ class LabOrderTransformer extends TransformerAbstract
      */
     public function includeInvoice(LabOrder $labOrder)
     {
-        return $this->item($labOrder->invoice, new InvoiceTransformer(), 'invoices');
+        if ($invoice = $labOrder->invoice) {
+            return $this->item($invoice, new InvoiceTransformer(), 'invoices');
+        }
     }
 }
