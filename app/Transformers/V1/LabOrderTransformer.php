@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class LabOrderTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner', 'lab_tests'];
+    protected $availableIncludes = ['patient', 'practitioner', 'lab_tests', 'invoice'];
 
     /**
      * @param LabOrder $labOrder
@@ -68,5 +68,14 @@ class LabOrderTransformer extends TransformerAbstract
     public function includeLabTests(LabOrder $labOrder)
     {
         return $this->collection($labOrder->labTests, new LabTestTransformer(), 'lab_tests');
+    }
+
+    /**
+     * @param LabOrder $labOrder
+     * @return mixed
+     */
+    public function includeInvoice(LabOrder $labOrder)
+    {
+        return $this->item($labOrder->invoice, new InvoiceTransformer(), 'invoices');
     }
 }

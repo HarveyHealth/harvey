@@ -14,6 +14,12 @@ class Invoice extends Model
     const PENDING_STATUS = 'pending';
     const CANCELLED_STATUS = 'cancelled';
 
+    protected $dates = [
+        'created_at',
+        'deleted_at',
+        'paid_on',
+    ];
+
     public static function newInvoiceWithData($invoice_data)
     {
         $invoice = new Invoice;

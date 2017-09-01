@@ -2,13 +2,11 @@
 
 namespace App\Lib;
 
-use App\Models\Patient;
-use App\Models\Invoice;
+use App\Models\{Invoice, Patient, Transaction};
 use App\Events\ChargeFailed;
-use Stripe\Stripe;
+use Stripe\Charge;
 use App\Jobs\ChargePatientForInvoice;
-use Carbon\Carbon;
-use App\Models\Invoice;
+use Exception, Carbon;
 
 class Cashier
 {
@@ -27,7 +25,7 @@ class Cashier
                         // record the invoice ID
                         $invoiceable->invoice_id = $invoice->id;
                         $invoiceable->save();
-                }                
+                }
 
                 return $invoice;
 	}
@@ -44,7 +42,7 @@ class Cashier
                 // no need to charge if there's no balance
                 if ($invoice->amount > 0) {
 
-                        $transaction = new \App\Models\Transaction;
+                        $transaction = new Transaction;
                         $transaction->invoice_id = $invoice->id;
                         $transaction->amount = $invoice->amount;
                         $transaction->patient_id = $invoice->patient_id;
@@ -63,13 +61,13 @@ class Cashier
 
                 	try {
 
-                		$charge = \Stripe\Charge::create($data);
+                		$charge = Charge::create($data);
 
                                 // success!
                                 if ($charge->paid) {
 
                                         $transaction->transaction_id = $charge->id;
-                                        $transaction->transaction_date = date('Y-m-d H:i:s');
+                                        $transaction->transaction_date = Carbon::now();
                                         $transaction->success = true;
 
                                         $invoice->paid_on = $transaction->transaction_date;
@@ -89,7 +87,7 @@ class Cashier
 
                                         $transaction->transaction = $charge->id;
                                         $transaction->gateway = 'stripe';
-                                        $transaction->transaction_date = date('Y-m-d H:i:s');
+                                        $transaction->transaction_date = Carbon::now();
                                         $transaction->success = false;
 
                                         $user->billing_error++;
@@ -97,15 +95,15 @@ class Cashier
                                         // fire an event
                                         event(new ChargeFailed($invoice, null, $transaction));
                                 }
-                		
+
                         // exception/failure
-                	} catch (\Exception $e) {
+                	} catch (Exception $e) {
 
                                 $transaction->gateway = 'stripe';
                                 $transaction->response_text = $e->getMessage();
-                                $transaction->transaction_date = date('Y-m-d H:i:s');
+                                $transaction->transaction_date = Carbon::now();
                                 $transaction->success = false;
-                		
+
                                 // report it to engineering because it was an exception
                 		ops_error('Stripe Exception','Could not charge for Invoice ' . $invoice->id . ': ' . $e->getMessage());
 
@@ -128,9 +126,9 @@ class Cashier
                 // zero balance just gets a pass, with no transaction
                 } else {
 
-                        $invoice->paid_on = date('Y-m-d H:i:s');
+                        $invoice->paid_on = Carbon::now();
                 }
-                
+
                 $invoice->save();
 	}
 }
