@@ -166,6 +166,16 @@
           <td width="25%"><p><strong>Purpose:</strong></p></td>
           <td><p>{{ appointment.purpose }}</p></td>
         </tr>
+        <tr v-show="userType === 'patient' && appointment.status === 'canceled'">
+          <td width="25%"><p><strong>Reason:</strong></p></td>
+          <td>
+            <textarea v-model="cancellationReason"
+                      class="input--textarea"
+                      maxlength="1024"
+                      placeholder="Reason for cancelling appointment">
+            </textarea>
+          </td>
+        </tr>
       </table>
       <div class="modal-button-container" v-show="!bookingConflict && !isHandlingAction">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
@@ -224,6 +234,7 @@ export default {
         upcoming: [],
         completed: []
       },
+      cancellationReason: '',
       filters: ['All', 'Upcoming', 'Completed'],
       flyoutActive: false,
       flyoutHeading: '',
@@ -750,6 +761,7 @@ export default {
         availableTimes: [],
         date: '',
         day: '',
+        cancellationReason: '',
         currentDate: '',
         currentPractitionerId: '',
         currentPurpose: '',
