@@ -26,6 +26,7 @@ export default function(appointments, zone, userType) {
       city: obj.patientData.city,
       _date: obj.attributes.appointment_at.date,
       _doctorId: obj.attributes.practitioner_id,
+      _google_meet_link: obj.attributes.google_meet_link,
       _patientEmail: obj.patientData.email,
       _patientId: obj.patientData.id,
       _patientFirst: obj.patientData.first_name,

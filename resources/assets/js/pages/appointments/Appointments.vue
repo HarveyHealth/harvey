@@ -87,6 +87,11 @@
         :time="appointment.time"
       />
 
+      <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
+        <label class="input__label">Google Meet Link</label>
+        <a :href="appointment.googleMeet">{{ appointment.googleMeet }}</a>
+      </div>
+
       <Status
         :editable="editableStatus"
         :list="statuses"
@@ -569,6 +574,9 @@ export default {
         this.appointment.currentPurpose = data.purpose;
         this.appointment.currentStatus = convertStatus(data.status);
 
+        // Google Meet
+        this.appointment.googleMeet = data._google_meet_link;
+
         // set status
         this.appointment.status = convertStatus(data.status);
 
@@ -725,6 +733,7 @@ export default {
         currentPurpose: '',
         currentStatus: '',
         id: '',
+        googleMeet: '',
         status: '',
         patientAddress: '',
         patientEmail: '',
