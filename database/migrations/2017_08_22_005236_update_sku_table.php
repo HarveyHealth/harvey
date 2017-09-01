@@ -41,12 +41,12 @@ class UpdateSkuTable extends Migration
         $sku->name = 'Processing Fee';
         $sku->price = 20.00;
         $sku->item_type = 'service-fee';
-        $sku->slug = 'processing-fee-self'
+        $sku->slug = 'processing-fee-self';
         $sku->save();
 
         $sku = new \App\Models\SKU;
         $sku->name = 'Shipping';
-        $sku->price = 0.00
+        $sku->price = 0.00;
         $sku->item_type = 'service-fee';
         $sku->save();
     }
