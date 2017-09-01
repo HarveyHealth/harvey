@@ -661,9 +661,10 @@ export default {
       // Time is not necessary for appointment cancellations
       // const shouldRemoveTime = (!isPatient && isUpdate && (!hasStatusSwitch && !hasDoctorSwitch)) || isCancel;
       const shouldRemoveTime = (isUpdate && !hasTimeSwitch) || (isUpdate && isAdmin && !hasDoctorSwitch) || isCancel;
+      const shouldKeepTime = hasTimeSwitch || hasDoctorSwitch;
 
       if (shouldRemovePatient) delete data.patient_id;
-      if (shouldRemoveTime) delete data.appointment_at;
+      if (!shouldKeepTime) delete data.appointment_at;
       if (!shouldKeepPractitioner) {
         delete data.practitioner_id;
       } else if (adminSwitchesDoctor) {
@@ -678,6 +679,7 @@ export default {
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
       const apptId = this.appointment.id;
+      const oldIds = this.appointments.map(appt => appt.data._appointmentId);
       this.appointment = this.resetAppointment();
       this.isHandlingAction = true;
 
@@ -695,50 +697,24 @@ export default {
 
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
-            // this.setupAppointments(this.$root.$data.global.appointments);
             if (succesPopup) this.handleNotificationInit();
             this.overlayActive = false;
             this.modalActive = false;
             this.isHandlingAction = false;
 
-            const apptsIds = this.appointments.map(appt => appt.data._appointmentId);
-            console.log(apptsIds)
-            console.log(apptId);
-            console.log(apptsIds.indexOf(apptId))
-            this.selectedRowHasUpdated = apptsIds.indexOf(apptId);
-            setTimeout(() => this.selectedRowHasUpdated = null, 1000);
-            // this.selectedRowIndex = null;
-            // Cycle through the new appointment list with Array.some so we can break out easily.
-            // For each item compare against oldAppointments
-            // If no match, splice the first item of oldAppointments
-            // If match is found, splice first item of oldAppointments but continue with next appointment object
-            // Once oldAppointments is empty you know you have no match
-            // The row you ended on is the updated data so mark accordingly
-          //   this.appointments.some((obj, i) => {
-          //     // If user is filtered and the updated row is disqualified from that filter
-          //     // the appointments will be less and we just need to end it immediately
-          //     // and scroll to the top of the page
-          //     if (this.appointments.length < oldAppointments.length) {
-          //       this.selectedRowUpdating = null;
-          //       if (succesPopup) this.handleNotificationInit();
-          //       window.scrollTo(0, 0);
-          //     }
-          //
-          //     while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
-          //       oldAppointments.splice(0, 1);
-          //       if (!oldAppointments.length) {
-          //         this.selectedRowUpdating = i;
-          //         if (succesPopup) this.handleNotificationInit();
-          //         setTimeout(() => {
-          //           this.selectedRowUpdating = null;
-          //           this.selectedRowHasUpdated = i;
-          //           setTimeout(() => this.selectedRowHasUpdated = null, 1000);
-          //         }, 1000);
-          //         return true;
-          //       }
-          //     }
-          //     oldAppointments.splice(0, 1);
-          //   })
+            const newIds = this.appointments.map(appt => appt.data._appointmentId);
+            // if new appointment or doctor switched, find the id that was not in the old ids
+            if (isNew || adminSwitchesDoctor) {
+              newIds.map((id, index) => {
+                if (oldIds.indexOf(id) < 0) {
+                  this.selectedRowHasUpdated = index;
+                }
+              });
+            // else if updated existing, find existing
+            } else if (isUpdate) {
+              this.selectedRowHasUpdated = newIds.indexOf(apptId);
+            }
+            setTimeout(() => this.selectedRowHasUpdated = null, 2000);
           })
         });
       }).catch(error => {
