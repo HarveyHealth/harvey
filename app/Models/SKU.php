@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Cviebrock\EloquentSluggable\Sluggable; 
-use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
+use Cviebrock\EloquentSluggable\{Sluggable, SluggableScopeHelpers};
 
 class SKU extends Model
 {
-	use Sluggable, SluggableScopeHelpers;
+    use Sluggable, SluggableScopeHelpers;
 
     protected $table = 'skus';
 
     public function scopeItemType($query, $type)
     {
-    	return $query->where('item_type', $type);
+        return $query->where('item_type', $type);
     }
 
     public function labTestInformation()
