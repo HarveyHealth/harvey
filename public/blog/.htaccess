@@ -1,10 +1,8 @@
-# BEGIN WordPress
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /blog/
-RewriteRule ^index\.php$ – [L]
+RewriteRule  /blog/wp-admin/ /blog/wp-admin/index\.php [L,P]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /blog/index.php [L]
+RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
-# END WordPress
