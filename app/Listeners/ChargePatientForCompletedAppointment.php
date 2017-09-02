@@ -32,12 +32,12 @@ class ChargePatientForCompletedAppointment implements ShouldQueue
         $appointment = $event->appointment;
 
         // make sure not to charge them again
-        if (!empty($$appointment->invoice_id))
-            return;
+        if ($appointment->invoice_id && $appointment->invoice->isNotOutstanding()) {
+            return false;
+        }
 
         // generate an invoice
-        $cashier = new Cashier;
-        $invoice = $cashier->generatePatientInvoiceForInvoiceable($appointment);
+        $invoice = Cashier::getOrCreateInvoice($appointment);
 
         // queue up the charge
         // delated 15 minutes to avoid weird social issues
