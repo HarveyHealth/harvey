@@ -1,8 +1,10 @@
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteBase /blog/
-RewriteRule  /blog/wp-admin/ /blog/wp-admin/index\.php [L,P]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [L]
+    RewriteCond %{SERVER_PORT} !^443$
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    RewriteEngine On
+    RewriteBase /blog/
+    RewriteRule ^index\.php$ - [L]
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /index.php [L]
 </IfModule>
