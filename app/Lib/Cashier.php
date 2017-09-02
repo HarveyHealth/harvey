@@ -98,9 +98,9 @@ class Cashier
                 $transaction->transaction_date = Carbon::now();
                 $transaction->success = false;
 
-                ops_error('Stripe Exception', 'Could not charge for Invoice ' . $invoice->id . ': ' . $e->getMessage());
-
                 $user->billing_error++;
+
+                ops_error('Stripe Exception', "Could not charge User #{$user->id} for Invoice #{$invoice->id}. _Error:_ '{$e->getMessage()}'");
 
                 event(new ChargeFailed($invoice, $e));
             }
@@ -110,7 +110,7 @@ class Cashier
 
             // if we had a billing error, try again in 24 hours
             // but only try for a maximum of 3 times
-            if ($user->billing_error > 0 && $user->billing_error =< 3) {
+            if ($user->billing_error > 0 && $user->billing_error <= 3) {
                 $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
                 dispatch($job);
                 return false;
