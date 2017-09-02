@@ -6,7 +6,7 @@
       <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now or in 4 weeks.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ prevStage.display }}</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: this.prevStage.name, path: '/' + this.prevStage.name }"><i class="fa fa-long-arrow-left"></i><span>{{ this.prevStage.display }}</span></router-link>
 
       <div class="signup-schedule-wrapper cf">
         <div class="schedule-section schedule-days">
@@ -133,7 +133,7 @@ export default {
         return;
       }
       this.isProcessing = true;
-      this.$router.push({ name: 'payment', path: '/payment' });
+      this.$router.push({ name: 'confirmation', path: 'confirmation' });
     },
     createWeek(start) {
       return {

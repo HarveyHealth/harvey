@@ -5,7 +5,6 @@ import router from './routes';
 import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
-import phonemask from './utils/directives/phonemask';
 import VeeValidate from 'vee-validate';
 
 // MIXINS
@@ -22,7 +21,6 @@ import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
-Vue.directive('phonemask', phonemask);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
@@ -98,13 +96,6 @@ const app = new Vue({
         signup: {
           availability: [],
           availableTimes: [],
-          billingConfirmed: false,
-          cardBrand: '',
-          cardCvc: '',
-          cardExpiration: '',
-          cardName: '',
-          cardNumber: '',
-          cardLastFour: '',
           code: '',
           completedSignup: false,
           codeConfirmed: false,
@@ -326,6 +317,7 @@ const app = new Vue({
             window.location.href = '/dashboard';
           }
         },
+        // Helper to determine if tracking scripts should run
         shouldTrack() {
           return env === 'production' || env === 'prod';
         }

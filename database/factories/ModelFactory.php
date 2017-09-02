@@ -154,12 +154,8 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     $start_time->minute = $faker->randomElement([0, 30]);
     $start_time->second = 0;
 
-    $durationInMinutes = array_random([null, null, null, 30, 60]);
-    $statusId = $durationInMinutes ? Appointment::COMPLETE_STATUS_ID : array_random(array_diff(array_keys(Appointment::STATUSES), [Appointment::COMPLETE_STATUS_ID]));
-
     return [
-        'duration_in_minutes' => $durationInMinutes,
-        'status_id' => $statusId,
+        'duration_in_minutes' => $faker->randomElement([null, 30, 60]),
         'patient_id' => function () {
             return factory(Patient::class)->create()->id;
         },

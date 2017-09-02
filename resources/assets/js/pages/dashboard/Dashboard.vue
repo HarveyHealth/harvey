@@ -21,13 +21,13 @@
 
       <div class="card-wrapper">
 
-        <div class="card card-panel">
+        <div class="card card-appointments">
           <DashboardAppointments :user-type="userType"
             :recent-appointments="recent_appointments"
             :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
         </div>
 
-        <div class="card card-panel" v-if="userType === 'patient'">
+        <div class="card card-info" v-if="userType === 'patient'">
           <div class="card-heading-container">
             <h2 class="card-header">Your Doctor</h2>
           </div>
