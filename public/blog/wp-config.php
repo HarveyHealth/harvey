@@ -18,8 +18,6 @@
  * @package WordPress
  */
 
-define('FORCE_SSL_ADMIN', true);
-
 $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 define("DB_NAME", trim($url["path"], "/"));
 define("DB_USER", trim($url["user"]));
@@ -68,7 +66,6 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false);
-define('FORCE_SSL_ADMIN', true);
 
 /* That's all, stop editing! Happy blogging. */
 

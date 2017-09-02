@@ -6,8 +6,6 @@
     RewriteEngine On
     RewriteBase /
 
-    RewriteCond %{REQUEST_URI} !^/blog [NC]
-
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]

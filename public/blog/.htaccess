@@ -1,10 +1,8 @@
 <IfModule mod_rewrite.c>
-    RewriteCond %{SERVER_PORT} !^443$
-    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
     RewriteEngine On
-    RewriteBase /
+    RewriteBase /blog/
     RewriteRule ^index\.php$ - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule . /index.php [L]
+    RewriteRule . /blog/index.php [L]
 </IfModule>
