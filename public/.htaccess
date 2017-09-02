@@ -4,10 +4,6 @@
     </IfModule>
 
     RewriteEngine On
-
-    RewriteCond %{SERVER_PORT} 80
-    RewriteRule ^(.*)$ https://dev.goharvey.com/$1 [R,L]
-
     RewriteBase /
 
     # Redirect Trailing Slashes If Not A Folder...
