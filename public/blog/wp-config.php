@@ -18,7 +18,7 @@
  * @package WordPress
  */
 
-$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$url = parse_url(getenv("WP_DATABASE_URL"));
 define("DB_NAME", trim($url["path"], "/"));
 define("DB_USER", trim($url["user"]));
 define("DB_PASSWORD", trim($url["pass"]));
