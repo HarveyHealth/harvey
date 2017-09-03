@@ -11,10 +11,12 @@ use Carbon\Carbon;
 class PractitionerAvailability
 {
     protected $practitioner;
+    protected $bufferInHours;
 
-    public function __construct(Practitioner $practitioner)
+    public function __construct(Practitioner $practitioner, int $bufferInHours = 0)
     {
         $this->practitioner = $practitioner;
+        $this->bufferInHours = $bufferInHours;
     }
 
     /**
@@ -92,7 +94,16 @@ class PractitionerAvailability
             }
         }
 
-        return collect($output);
+        if (!empty($this->bufferInHours)) {
+            $startingFrom = Carbon::parse("+{$this->bufferInHours} hours");
+            foreach ($output as $key => $w3cString) {
+                if ($startingFrom->gt(Carbon::parse($w3cString))) {
+                    unset($output[$key]);
+                }
+            }
+        }
+
+        return collect($output)->values();
     }
 
     /**
