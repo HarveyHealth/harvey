@@ -2,135 +2,123 @@
 
 namespace App\Lib;
 
-use App\Models\Patient;
-use App\Models\Invoice;
-use App\Events\ChargeFailed;
-use Stripe\Stripe;
+use App\Events\{ChargeFailed, ChargeSucceeded};
+use App\Http\Traits\Invoiceable;
 use App\Jobs\ChargePatientForInvoice;
-use Carbon\Carbon;
-use App\Models\Invoice;
+use App\Models\{Invoice, Transaction};
+use Carbon, Exception;
+use Stripe\Charge;
 
 class Cashier
 {
-	public function generatePatientInvoiceForInvoiceable($invoiceable)
-	{
-                if (!in_array('App\Http\Traits\Invoiceable', class_uses($invoiceable)))
-                        throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait. ');
+    public static function getOrCreateInvoice($invoiceable)
+    {
+        if (!in_array(Invoiceable::class, class_uses($invoiceable))) {
+            throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait. ');
+        }
 
-                $invoice = $invoiceable->invoice;
-                if (!$invoice) {
+        if (!$invoice = $invoiceable->invoice) {
+            $invoice = Invoice::newInvoiceWithData($invoiceable->dataForInvoice());
+            $invoiceable->invoice_id = $invoice->id;
+            $invoiceable->save();
+        }
 
-                        $invoice_data = $invoiceable->dataForInvoice();
+        return $invoice;
+    }
 
-                        $invoice = Invoice::newInvoiceWithData($invoice_data);
+    public static function chargePatientForInvoice(Invoice $invoice)
+    {
+        // make sure invoice hasn't already been processed
+        if ($invoice->isNotOutstanding()) {
+            return false;
+        }
 
-                        // record the invoice ID
-                        $invoiceable->invoice_id = $invoice->id;
-                        $invoiceable->save();
-                }                
+        // calculate the subtotals, if needed
+        $invoice->calculateTotals();
 
-                return $invoice;
-	}
+        // no need to charge if there's no balance
+        if ($invoice->amount > 0) {
+            $transaction = new Transaction;
+            $transaction->invoice_id = $invoice->id;
+            $transaction->amount = $invoice->amount;
+            $transaction->patient_id = $invoice->patient_id;
+            $transaction->save();
 
-	public function chargePatientForInvoice(Invoice $invoice)
-	{
-		// make sure invoice hasn't already been processed
-		if ($invoice->isOutstanding())
-			return;
+            $user = $invoice->patient->user;
 
-		// calculate the subtotals, if needed
-                $invoice->calculateTotals();
+            // convert for stripe
+            $amount = $invoice->amount * 100;
 
-                // no need to charge if there's no balance
-                if ($invoice->amount > 0) {
+            $data = [
+                'customer' => $user->stripe_id,
+                'amount' => $amount,
+                'currency' => 'usd',
+                'description' => $invoice->description,
+            ];
 
-                        $transaction = new \App\Models\Transaction;
-                        $transaction->invoice_id = $invoice->id;
-                        $transaction->amount = $invoice->amount;
-                        $transaction->patient_id = $invoice->patient_id;
+            try {
+                $charge = Charge::create($data);
 
-                        $user = $invoice->patient->user;
+                // success!
+                if ($charge->paid) {
+                    $transaction->response_code = $charge->getLastResponse()->code;
+                    $transaction->response_text = $charge->outcome->seller_message;
+                    $transaction->success = true;
+                    $transaction->transaction_date = Carbon::now();
+                    $transaction->transaction_id = $charge->id;
 
-                	// convert for stripe
-                	$amount = $invoice->amount * 100;
+                    $invoice->paid_on = $transaction->transaction_date;
+                    $invoice->transaction_id = $transaction->id;
+                    $invoice->card_brand = $charge->source->brand;
+                    $invoice->card_last_four = $charge->source->last4;
+                    $invoice->status = Invoice::PAID_STATUS;
 
-                	$data = [
-                		'customer' => $user->stripe_id,
-                		'amount' => $amount,
-                		'currency' => 'usd',
-                		'description' => $invoice->description
-                	];
+                    // reset any billing error flags
+                    $user->billing_error = 0;
 
-                	try {
+                    event(new ChargeSucceeded($invoice, $transaction));
 
-                		$charge = \Stripe\Charge::create($data);
-
-                                // success!
-                                if ($charge->paid) {
-
-                                        $transaction->transaction_id = $charge->id;
-                                        $transaction->transaction_date = date('Y-m-d H:i:s');
-                                        $transaction->success = true;
-
-                                        $invoice->paid_on = $transaction->transaction_date;
-                                        $invoice->transaction_id = $transaction->id;
-                                        $invoice->card_brand = $charge->source->brand;
-                                        $invoice->card_last_four = $charge->source->last4;
-                                        $invoice->status = Invoice::PAID_STATUS;
-
-                                        // reset any billing error flags
-                                        $user->billing_error = 0;
-
-                                        // fire an event
-                                        event(new ChargeSucceeded($invoice, $transaction));
-
-                                // not success, but would this ever happen?
-                                } else {
-
-                                        $transaction->transaction = $charge->id;
-                                        $transaction->gateway = 'stripe';
-                                        $transaction->transaction_date = date('Y-m-d H:i:s');
-                                        $transaction->success = false;
-
-                                        $user->billing_error++;
-
-                                        // fire an event
-                                        event(new ChargeFailed($invoice, null, $transaction));
-                                }
-                		
-                        // exception/failure
-                	} catch (\Exception $e) {
-
-                                $transaction->gateway = 'stripe';
-                                $transaction->response_text = $e->getMessage();
-                                $transaction->transaction_date = date('Y-m-d H:i:s');
-                                $transaction->success = false;
-                		
-                                // report it to engineering because it was an exception
-                		ops_error('Stripe Exception','Could not charge for Invoice ' . $invoice->id . ': ' . $e->getMessage());
-
-                                $user->billing_error++;
-
-                                // fire an event
-                                event(new ChargeFailed($invoice, $e));
-                	}
-
-                        // if we had a billing error, try again in 24 hours
-                        // but only try for a maximum of 3 times
-                        if ($user->billing_error > 0 && $user->billing_error < 3) {
-                                $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
-                                dispatch($job);
-                        }
-
-                        $transaction->save();
-                        $user->save();
-
-                // zero balance just gets a pass, with no transaction
+                // not success, but would this ever happen?
                 } else {
+                    $transaction->gateway = 'stripe';
+                    $transaction->response_code = $charge->failure_code;
+                    $transaction->response_text = $charge->failure_message;
+                    $transaction->success = false;
+                    $transaction->transaction = $charge->id;
+                    $transaction->transaction_date = Carbon::now();
 
-                        $invoice->paid_on = date('Y-m-d H:i:s');
+                    $user->billing_error++;
+
+                    event(new ChargeFailed($invoice, null, $transaction));
                 }
-                
-                $invoice->save();
-	}
+            } catch (Exception $e) {
+                $transaction->gateway = 'stripe';
+                $transaction->response_code = $e->getCode();
+                $transaction->response_text = $e->getMessage();
+                $transaction->transaction_date = Carbon::now();
+                $transaction->success = false;
+
+                $user->billing_error++;
+
+                ops_error('Stripe Exception', "Could not charge User #{$user->id} for Invoice #{$invoice->id}. _Error:_ '{$e->getMessage()}'");
+
+                event(new ChargeFailed($invoice, $e));
+            }
+
+            $transaction->save();
+            $user->save();
+
+            // if we had a billing error, try again in 24 hours
+            // but only try for a maximum of 3 times
+            if ($user->billing_error > 0 && $user->billing_error <= 3) {
+                $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
+                dispatch($job);
+                return false;
+            }
+        } else {
+            $invoice->paid_on = Carbon::now();
+        }
+
+        return $invoice->save();
+    }
 }

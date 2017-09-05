@@ -27,8 +27,7 @@ class ChargePatientForLabOrder implements ShouldQueue
         }
 
         // generate the invoice
-        $cashier = new Cashier;
-        $invoice = $cashier->generatePatientInvoiceForInvoiceable($lab_order);
+        $invoice = Cashier::getOrCreateInvoice($lab_order);
 
         // queue up the charge
         $job = (new ChargePatientForInvoice($invoice));
