@@ -39,6 +39,8 @@
 
       <Patient
         :address="appointment.patientAddress"
+        :context="flyoutMode"
+        :has-card="appointment.patientPayment"
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
@@ -116,7 +118,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the <router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link> page before booking an appointment.</p>
+      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings<!--<router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link>--> page before booking an appointment.</p>
 
       <div class="inline-centered">
 
@@ -377,7 +379,7 @@ export default {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
-      return this.flyoutMode === 'new';
+      return this.flyoutMode === 'new' && this.appointment.patientPayment !== false;
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
@@ -599,6 +601,7 @@ export default {
         this.appointment.patientEmail = data._patientEmail;
         this.appointment.patientName = `${data._patientLast}, ${data._patientFirst}`;
         this.appointment.patientPhone = data._patientPhone;
+        this.appointment.patientPayment = data._hasCard;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
@@ -782,6 +785,7 @@ export default {
         id: '',
         status: '',
         patientAddress: '',
+        patientPayment: null,
         patientEmail: '',
         patientId: '',
         patientName: '',
@@ -826,6 +830,7 @@ export default {
     // Set patient info with data from list object
     setPatientInfo(data) {
       this.appointment.patientAddress = this.setPatientAddress(data);
+      this.appointment.patientPayment = data.has_a_card;
       this.appointment.patientEmail = data.email;
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;

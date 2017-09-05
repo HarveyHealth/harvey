@@ -22,10 +22,14 @@ export default function(appointments, zone, userType) {
 
       address_1: obj.patientData.address_1,
       address_2: obj.patientData.address_2,
-      _appointmentId: obj.id,
       city: obj.patientData.city,
+      state: obj.patientData.state,
+      zip: obj.patientData.zip,
+
+      _appointmentId: obj.id,
       _date: obj.attributes.appointment_at.date,
       _doctorId: obj.attributes.practitioner_id,
+      _hasCard: obj.patientData.has_a_card,
       _patientEmail: obj.patientData.email,
       _patientId: obj.patientData.id,
       _patientFirst: obj.patientData.first_name,
@@ -35,8 +39,7 @@ export default function(appointments, zone, userType) {
       _date: obj.attributes.appointment_at.date,
       _duration: obj.attributes.duration_in_minutes,
       _patientPhone: obj.patientData.phone,
-      state: obj.patientData.state,
-      zip: obj.patientData.zip,
+
     }
     return {
       data,
