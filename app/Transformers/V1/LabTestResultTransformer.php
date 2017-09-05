@@ -15,7 +15,7 @@ class LabTestResultTransformer extends TransformerAbstract
     {
         return [
             'id' => (string) $labTestResult->id,
-            'key' => $labTestResult->key,
+            'url' => $labTestResult->url,
             'lab_test_id' => (string) $labTestResult->lab_test_id,
             'notes' => $labTestResult->notes,
         ];
