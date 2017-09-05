@@ -78,6 +78,13 @@
                         </div>
                     </Modal>
 
+                    <NotificationPopup
+                        :active="notificationActive"
+                        :comes-from="notificationDirection"
+                        :symbol="notificationSymbol"
+                        :text="notificationMessage"
+                    />
+
                 </div>
             </div>
         </div>
@@ -108,6 +115,10 @@ export default {
             invalidModalActive: false,
             deleteModalActive: false,
             currentCard: null,
+            notificationSymbol: '&#10003;',
+            notificationMessage: '',
+            notificationActive: false,
+            notificationDirection: 'top-right',
             cards: this.$root.$data.global.creditCards,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
@@ -166,6 +177,9 @@ export default {
                 axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.cards
+                        this.notificationMessage = "Successfully updated!";
+                        this.notificationActive = true;
+                        setTimeout(() => this.notificationActive = false, 3000);
                     })
                     .catch(error => {
                         console.log(`GET ISSUE`, error)
@@ -191,6 +205,9 @@ export default {
                 }
                 axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
                     .then(resp => {
+                        this.notificationMessage = "Successfully added!";
+                        this.notificationActive = true;
+                        setTimeout(() => this.notificationActive = false, 3000);
                         axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                             .then(respond => {
                                 this.$root.$data.global.creditCards = respond.data.cards
