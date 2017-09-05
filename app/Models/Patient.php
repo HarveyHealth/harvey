@@ -70,7 +70,7 @@ class Patient extends Model
 
     public function soapNotes()
     {
-        return $this->hasMany(SOAPNote::class, 'patient_id', 'id');
+        return $this->hasMany(SoapNote::class, 'patient_id', 'id');
     }
 
     public function prescriptions()
