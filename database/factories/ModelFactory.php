@@ -58,7 +58,6 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
@@ -122,7 +121,6 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
 
 $factory->define(Admin::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },

@@ -62,8 +62,14 @@ class ModifyColumnsOfPrescriptionsTable extends Migration
         });
 
         Schema::table('prescriptions', function (Blueprint $table) {
-            $table->dropColumn('key');
             $table->dropColumn('notes');
+        });
+
+        Schema::table('prescriptions', function (Blueprint $table) {
+            $table->dropColumn('key');
+        });
+
+        Schema::table('prescriptions', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
 

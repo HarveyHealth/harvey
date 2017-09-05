@@ -24,10 +24,8 @@ class SoapNote extends Model
         parent::boot();
 
         static::addGlobalScope('enabledUser', function (Builder $builder) {
-            return $builder->whereHas('patient', function (Builder $query) {
-                return $builder->whereHas('user', function (Builder $query) {
-                    return $query->where('users.enabled', true);
-                });
+            return $builder->whereHas('patient.user', function ($query) {
+                $query->where('enabled', true);
             });
         });
     }
