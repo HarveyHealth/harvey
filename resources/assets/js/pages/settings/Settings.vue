@@ -156,9 +156,6 @@ export default {
             axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
-                address_country: this.currentCard.address_country,
-                address_line1: this.currentCard.address_line1,
-                address_line2: this.currentCard.address_line2,
                 address_state: this.currentCard.address_state,
                 address_zip: this.postalCode || this.currentCard.address_zip,
                 exp_month: this.month || this.currentCard.exp_month,
@@ -170,6 +167,12 @@ export default {
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.cards
                     })
+                    .catch(error => {
+                        console.log(`GET ISSUE`, error)
+                    })
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error)
             })
         },
         submitNewCard() {
