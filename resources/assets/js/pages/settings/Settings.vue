@@ -94,10 +94,12 @@
 <script>
 import axios from 'axios'
 import Modal from '../../commons/Modal.vue'
+import NotificationPopup from '../../commons/NotificationPopup.vue'
 export default {
     name: 'settings',
     components: {
-        Modal
+        Modal,
+        NotificationPopup
     },
     data() {
         return {
