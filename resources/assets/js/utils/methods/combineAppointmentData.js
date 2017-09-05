@@ -31,6 +31,7 @@ export default function(appointmentData) {
               patientData.address_2 = item.attributes.address_2;
               patientData.city = item.attributes.city;
               patientData.email = item.attributes.email;
+              patientData.has_a_card = item.attributes.has_a_card;
               patientData.first_name = item.attributes.first_name;
               patientData.last_name = item.attributes.last_name;
               patientData.state = item.attributes.state;
