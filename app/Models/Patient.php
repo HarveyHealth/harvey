@@ -48,11 +48,6 @@ class Patient extends Model
         return $this->hasMany(PatientNote::class, 'patient_id', 'id');
     }
 
-    public function chartNotes()
-    {
-        return $this->hasMany(ChartNote::class, 'patient_id', 'id');
-    }
-
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'patient_id', 'id');

@@ -89,11 +89,6 @@ class Practitioner extends Model
         return $this->hasMany(PatientNote::class, 'practitioner_id', 'id');
     }
 
-    public function chartNotes()
-    {
-        return $this->hasMany(ChartNote::class, 'practitioner_id', 'id');
-    }
-
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'practitioner_id', 'id');
