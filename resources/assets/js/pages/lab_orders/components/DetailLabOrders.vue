@@ -310,8 +310,7 @@
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
       oldCard() {
-        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-          .brand) {
+        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
           this.hasCard = true
         }
         return this.$props.rowData ? this.$props.rowData.card : {brand: null, last4: null}
