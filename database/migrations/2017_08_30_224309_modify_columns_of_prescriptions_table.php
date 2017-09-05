@@ -34,6 +34,8 @@ class ModifyColumnsOfPrescriptionsTable extends Migration
         Schema::table('prescriptions', function (Blueprint $table) {
             $table->integer('created_by_user_id')->unsigned()->after('patient_id')->nullable();
             $table->foreign('created_by_user_id')->references('id')->on('users');
+            $table->string('key')->nullable();
+            $table->string('notes')->nullable();
             $table->softDeletes();
         });
     }
@@ -60,6 +62,8 @@ class ModifyColumnsOfPrescriptionsTable extends Migration
         });
 
         Schema::table('prescriptions', function (Blueprint $table) {
+            $table->dropColumn('key');
+            $table->dropColumn('notes');
             $table->dropSoftDeletes();
         });
 

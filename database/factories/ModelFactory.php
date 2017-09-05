@@ -5,6 +5,7 @@ use Laravel\Passport\Client;
 use App\Models\{
     Admin,
     Appointment,
+    Attachment,
     LabOrder,
     LabTest,
     License,
@@ -14,7 +15,9 @@ use App\Models\{
     Practitioner,
     PractitionerSchedule,
     PractitionerType,
+    Prescription,
     SKU,
+    SoapNote,
     Test,
     User
 };
@@ -181,16 +184,6 @@ $factory->state(Appointment::class, 'soon', function ($faker) {
     return ['appointment_at' => Carbon::now()->addMinutes(30)];
 });
 
-$factory->define(Test::class, function (Faker\Generator $faker) {
-    return [
-        'patient_id' => factory(Patient::class)->create()->id,
-        'practitioner_id' => factory(Practitioner::class)->create()->id,
-        'sku_id' => function () {
-            return factory(SKU::class)->create()->id;
-        },
-    ];
-});
-
 $factory->define(PatientNote::class, function (Faker\Generator $faker) {
     return [
         'patient_id' => factory(Patient::class)->create()->id,
@@ -261,5 +254,62 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
             return factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(LabTestResult::class, function (Faker\Generator $faker) {
+    return [
+        'lab_test_id' => function () {
+            return factory(LabTest::class)->create()->id;
+        },
+        'key' => function () {
+            return 'WIP';
+        },
+        'notes' => $faker->text,
+    ];
+});
+
+$factory->define(Attachment::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => function () {
+            return factory(Patient::class)->create()->id;
+        },
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'key' => function () {
+            return 'WIP';
+        },
+        'notes' => $faker->text,
+    ];
+});
+
+$factory->define(SoapNote::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => function () {
+            return factory(Patient::class)->create()->id;
+        },
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'subjective' => $faker->text,
+        'objective' => $faker->text,
+        'assessment' => $faker->text,
+        'plan' => $faker->text,
+    ];
+});
+
+$factory->define(Prescription::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => function () {
+            return factory(Patient::class)->create()->id;
+        },
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'key' => function () {
+            return 'WIP';
+        },
+        'notes' => $faker->text,
     ];
 });

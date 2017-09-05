@@ -1,7 +1,17 @@
 <?php
 
-use App\Models\{Admin, License, Patient, Practitioner, PractitionerSchedule, User};
 use Illuminate\Database\Seeder;
+use App\Models\{
+    Admin,
+    Attachment,
+    License,
+    Patient,
+    Practitioner,
+    PractitionerSchedule,
+    Prescription,
+    SoapNote,
+    User
+};
 
 class UserSeeder extends Seeder
 {
@@ -24,7 +34,11 @@ class UserSeeder extends Seeder
                 'email' => 'patient@goharvey.com',
                 'phone' => '3101234568'
             ])->id
-        ]);
+        ])->each(function ($patient) {
+            $patient->attachments()->saveMany(factory(Attachment::class, 3)->make());
+            $patient->prescriptions()->saveMany(factory(Prescription::class, 3)->make());
+            $patient->soapNotes()->saveMany(factory(SoapNote::class, 3)->make());
+        });
 
         factory(Practitioner::class)->create([
             'user_id' => factory(User::class)->create([

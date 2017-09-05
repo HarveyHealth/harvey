@@ -147,15 +147,6 @@ class User extends Authenticatable implements Mailable
         return count($this->nextUpcomingAppointment()) == 1;
     }
 
-    public function tests()
-    {
-        if ($this->isPatient()) {
-            return $this->hasManyThrough(Test::class, Patient::class);
-        } else {
-            return $this->hasManyThrough(Test::class, Practitioner::class);
-        }
-    }
-
     public function userType()
     {
         if ($this->isPatient()) {
