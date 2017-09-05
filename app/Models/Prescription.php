@@ -12,11 +12,37 @@ class Prescription extends Model
         'updated_at',
     ];
 
-    protected $guarded = ['id', 'created_at', 'updated_at', 'created_by_user_id'];
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
+        'created_by_user_id',
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('enabledUser', function (Builder $builder) {
+            return $builder->whereHas('patient', function (Builder $query) {
+                return $builder->whereHas('user', function (Builder $query) {
+                    return $query->where('users.enabled', true);
+                });
+            });
+        });
+    }
+
+    /*
+     * Relationships
+     */
+
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
     }
-
 }
