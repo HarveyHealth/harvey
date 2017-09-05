@@ -79,13 +79,13 @@
               const store = this.$root.$data.global;
                 if (store.user.attributes.user_type === 'patient') {
                     store.confirmedDoctors = store.appointments
-                        .filter(e => e.attributes.status === 'complete')
+                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                         .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
                     store.confirmedDoctors = _.uniq(store.confirmedDoctors)
                     return [''].concat(store.confirmedDoctors);
                 } else if (store.user.attributes.user_type === 'practitioner') {
                     store.confirmedPatients = store.appointments
-                        .filter(e => e.attributes.status === 'complete')
+                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                         .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
                     store.confirmedPatients = _.uniq(store.confirmedPatients)
                     return [''].concat(store.confirmedPatients);
