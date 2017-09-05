@@ -24,7 +24,7 @@
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <LoadingGraphic class="loading" :fill="'#444'" v-if="j === 0 && updatingRow === i" />
-          <div class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
+          <div class="cell-wrap" :data-column="columns[j].name" v-html="val"></div>
         </td>
       </tr>
     </tbody>

@@ -62,7 +62,7 @@ class UserTest extends TestCase
         $response->assertJsonFragment(['first_name' => 'ZZXXYY']);
     }
 
-    public function test_a_user_can_not_update_to_a_non_serviceable_zip()
+    public function test_a_patient_can_not_update_to_a_non_serviceable_zip()
     {
         $user = factory(User::class)->create();
         factory(Patient::class)->create(['user_id' => $user->id]);
@@ -74,6 +74,20 @@ class UserTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
         $response->assertSee('Sorry, we do not service this zip.');
+    }
+
+    public function test_a_practitioner_can_update_to_a_non_serviceable_zip()
+    {
+        $user = factory(User::class)->create();
+        factory(Practitioner::class)->create(['user_id' => $user->id]);
+
+        $parameters = ['zip' => 12345];
+
+        Passport::actingAs($user);
+        $response = $this->json('PATCH', 'api/v1/users/' . $user->id, $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+        $response->assertJsonFragment(['zip' => '12345']);
     }
 
     public function test_a_user_can_not_update_another_user()
