@@ -33,8 +33,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
         Route::post('users/{user}/phone/send_verification_code', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
 
-        Route::get('patients', 'PatientsController@index')->name('patients.index');
-        Route::get('patients/{patient}', 'PatientsController@show')->name('patients.show');
+        Route::get('patients', 'PatientsController@getAll')->name('patients.get-all');
+        Route::get('patients/{patient}', 'PatientsController@get')->name('patients.get');
         Route::patch('patients/{patient}', 'PatientsController@update')->name('patients.update');
 
         Route::get('patients/{patient}/attachments', 'PatientsController@getAttachments')->name('patient.attachments.get');
@@ -73,17 +73,17 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
-        Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
-        Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
+        Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
+        Route::get('lab/tests/{labTest}', 'LabTestsController@get')->name('lab-tests.get');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
-        Route::get('lab/tests/{labTest}/results', 'LabTestsController@showResults')->name('lab-tests.show-results');
+        Route::get('lab/tests/{labTest}/results', 'LabTestsController@getResults')->name('lab-tests.get-results');
         Route::post('lab/tests/{labTest}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
         Route::delete('lab/tests/{labTest}/results/{labTestResult}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
 
-        Route::get('lab/orders', 'LabOrdersController@index')->name('lab-orders.index');
-        Route::get('lab/orders/{labOrder}', 'LabOrdersController@show')->name('lab-orders.show');
+        Route::get('lab/orders', 'LabOrdersController@getAll')->name('lab-orders.get-all');
+        Route::get('lab/orders/{labOrder}', 'LabOrdersController@get')->name('lab-orders.get');
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');

@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PatientPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * @param User $user
      * @param      $ability
@@ -21,7 +21,7 @@ class PatientPolicy
             return true;
         }
     }
-    
+
     /**
      * @param User    $user
      * @param Patient $patient
@@ -29,20 +29,9 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $user->id == $patient->user_id;
+        return $patient->user->is($user);
     }
 
-    /**
-     * Determine whether the user can create patients.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
-    {
-        //
-    }
-    
     /**
      * @param User    $user
      * @param Patient $patient
@@ -50,18 +39,18 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient)
     {
-        return $user->id == $patient->user_id;
+        return $patient->user->is($user);
     }
 
     /**
-     * Determine whether the user can delete the patient.
+     * Determine whether the user can add, delete or update an Attachment to the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
-    public function delete(User $user, Patient $patient)
+    public function handleAttachment(User $user, Patient $patient)
     {
-        //
+        return $user->isPractitioner();
     }
 }

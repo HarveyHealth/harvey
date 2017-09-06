@@ -27,7 +27,7 @@ class LabTestsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
             $builder = LabTest::make();
@@ -43,7 +43,7 @@ class LabTestsController extends BaseAPIController
      * @param LabTest     $labTest
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, LabTest $labTest)
+    public function get(Request $request, LabTest $labTest)
     {
         if (currentUser()->cant('view', $labTest)) {
             return $this->respondNotAuthorized('You do not have access to view this LabTest.');
@@ -104,7 +104,7 @@ class LabTestsController extends BaseAPIController
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
-    public function showResults(Request $request, LabTest $labTest)
+    public function getResults(Request $request, LabTest $labTest)
     {
         if (currentUser()->cant('view', $labTest)) {
             return $this->respondNotAuthorized('You do not have access to view this LabTest results.');
@@ -125,13 +125,13 @@ class LabTestsController extends BaseAPIController
             'notes' => 'string|max:1024',
         ]);
 
-        $relative_path = "{$labTest->patient->user->id}/{$labTest->id}";
+        $relative_path = "{$labTest->patient->user->id}";
 
         try {
             Storage::disk('s3')->putFileAs(
                 $relative_path,
                 $request->file('file'),
-                $fileName = "LabTest{$labTest->id}_Result{$labTest->results->count()}.pdf",
+                $fileName = "LabTestResult_{$labTest->results()->withoutGlobalScopes()->count()}.pdf",
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 

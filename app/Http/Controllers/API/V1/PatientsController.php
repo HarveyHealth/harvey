@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Patient;
-use App\Transformers\V1\PatientTransformer;
+use App\Models\{Attachment, Patient};
+use App\Transformers\V1\{PatientTransformer, AttachmentTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 
@@ -24,9 +24,9 @@ class PatientsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
-        if (auth()->user()->isAdminOrPractitioner()) {
+        if (currentUser()->isAdminOrPractitioner()) {
             return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
         }
 
@@ -39,11 +39,11 @@ class PatientsController extends BaseAPIController
      */
     public function show(Patient $patient)
     {
-        if (auth()->user()->can('view', $patient)) {
-            return $this->baseTransformItem($patient, request('include'))->respond();
+        if (currentUser()->cant('view', $patient)) {
+            return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }
 
-        return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
+        return $this->baseTransformItem($patient, request('include'))->respond();
     }
 
     /**
@@ -53,18 +53,83 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
-        if (auth()->user()->can('update', $patient)) {
-            StrictValidator::check($request->all(), [
-                'birthdate' => 'date',
-                'height_inches' => 'integer',
-                'height_feet' => 'integer',
-                'weight' => 'integer'
-            ]);
-
-            $patient->update($request->all());
-            return $this->baseTransformItem($patient)->respond();
+        if (currentUser()->cant('update', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to modify this patient.');
         }
 
-        return $this->respondNotAuthorized('You do not have access to modify this patient.');
+        StrictValidator::check($request->all(), [
+            'birthdate' => 'date',
+            'height_inches' => 'integer',
+            'height_feet' => 'integer',
+            'weight' => 'integer'
+        ]);
+
+        $patient->update($request->all());
+
+        return $this->baseTransformItem($patient)->respond();
+    }
+
+    public function getAttachments(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('view', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve attachments of this Patient.');
+        }
+
+        return $this->baseTransformCollection($patient->attachments, request('include'), new AttachmentTransformer, request('per_page'))->respond();
+    }
+
+    public function getAttachment(Request $request, Patient $patient, Attachment $attachment)
+    {
+        if (currentUser()->cant('view', $patient) || $attachment->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve this attachment.');
+        }
+
+        return $this->baseTransformItem($attachment, request('include'), new AttachmentTransformer, request('per_page'))->respond();
+    }
+
+    public function storeAttachment(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('handleAttachment', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to store Attachments for this Patient.');
+        }
+
+        $validator = StrictValidator::check($request->all(), [
+            'file' => 'required|mimes:pdf',
+            'notes' => 'string|max:1024',
+        ]);
+
+        $relative_path = "{$patient->user->id}";
+
+        try {
+            Storage::disk('s3')->putFileAs(
+                $relative_path,
+                $request->file('file'),
+                $fileName = "Attachment_{$patient->attachments->withoutGlobalScopes()->count()}.pdf",
+                ['ContentType' => $request->file('file')->getMimeType()]
+            );
+
+            $patient->attachments()->save([
+                'created_by_user_id' => currentUser()->id,
+                'key' => "{$relative_path}/{$fileName}",
+                'notes' => request('notes'),
+            ]);
+
+            return $this->baseTransformItem($patient->fresh(), 'attachments')->respond();
+        } catch (Exception $e) {
+            return $this->respondUnprocessable($e->getMessage());
+        }
+    }
+
+    public function deleteAttachment(Request $request, Patient $patient, Attachment $attachment)
+    {
+        if (currentUser()->cant('handleAttachment', $patient) || $attachment->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to delete this Attachment.');
+        }
+
+        if (!$attachment->delete()) {
+            return $this->baseTransformItem($attachment)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 }

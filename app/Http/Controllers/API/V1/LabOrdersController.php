@@ -26,7 +26,7 @@ class LabOrdersController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
             $builder = LabOrder::make();
@@ -42,7 +42,7 @@ class LabOrdersController extends BaseAPIController
      * @param LabOrder     $labOrder
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, LabOrder $labOrder)
+    public function get(Request $request, LabOrder $labOrder)
     {
         if (currentUser()->cant('view', $labOrder)) {
             return $this->respondNotAuthorized("You do not have access to view this LabOrder.");
