@@ -37,7 +37,7 @@ class PatientsController extends BaseAPIController
      * @param Patient $patient
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Patient $patient)
+    public function get(Patient $patient)
     {
         if (currentUser()->cant('view', $patient)) {
             return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
