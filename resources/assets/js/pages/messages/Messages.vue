@@ -6,7 +6,10 @@
                 <div class="container container-backoffice">
                   <h1 class="title header-xlarge">
                     <span class="text">Messages</span>
-                    <button @click="close()" class="button main-action circle">
+                    <button v-if="$root.$data.global.permissions === 'patient' && $root.$data.global.patientMessagingPermissions" @click="close()" class="button main-action circle">
+                        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                    </button>
+                    <button v-if="$root.$data.global.permissions !== 'patient'" @click="close()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
