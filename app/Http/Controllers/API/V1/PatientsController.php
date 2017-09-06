@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\{Attachment, Patient};
-use App\Transformers\V1\{PatientTransformer, AttachmentTransformer};
+use App\Transformers\V1\{PatientTransformer, PrescriptionTransformer, AttachmentTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 
@@ -128,6 +128,70 @@ class PatientsController extends BaseAPIController
 
         if (!$attachment->delete()) {
             return $this->baseTransformItem($attachment)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    public function getPrescriptions(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('view', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve Prescriptions of this Patient.');
+        }
+
+        return $this->baseTransformCollection($patient->prescriptions, request('include'), new PrescriptionTransformer, request('per_page'))->respond();
+    }
+
+    public function getPrescription(Request $request, Patient $patient, Prescription $prescription)
+    {
+        if (currentUser()->cant('view', $patient) || $prescription->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve this Prescription.');
+        }
+
+        return $this->baseTransformItem($prescription, request('include'), new PrescriptionTransformer, request('per_page'))->respond();
+    }
+
+    public function storePrescription(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('handlePrescription', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to store Prescriptions for this Patient.');
+        }
+
+        $validator = StrictValidator::check($request->all(), [
+            'file' => 'required|mimes:pdf',
+            'notes' => 'string|max:1024',
+        ]);
+
+        $relative_path = "{$patient->user->id}";
+
+        try {
+            Storage::disk('s3')->putFileAs(
+                $relative_path,
+                $request->file('file'),
+                $fileName = "Prescription_{$patient->prescriptions->withoutGlobalScopes()->count()}.pdf",
+                ['ContentType' => $request->file('file')->getMimeType()]
+            );
+
+            $patient->prescriptions()->save([
+                'created_by_user_id' => currentUser()->id,
+                'key' => "{$relative_path}/{$fileName}",
+                'notes' => request('notes'),
+            ]);
+
+            return $this->baseTransformItem($patient->fresh(), 'prescriptions')->respond();
+        } catch (Exception $e) {
+            return $this->respondUnprocessable($e->getMessage());
+        }
+    }
+
+    public function deletePrescription(Request $request, Patient $patient, Prescription $prescription)
+    {
+        if (currentUser()->cant('handlePrescription', $patient) || $prescription->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to delete this Prescription.');
+        }
+
+        if (!$prescription->delete()) {
+            return $this->baseTransformItem($prescription)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

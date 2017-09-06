@@ -53,4 +53,16 @@ class PatientPolicy
     {
         return $user->isPractitioner();
     }
+
+    /**
+     * Determine whether the user can add, delete or update an Attachment to the patient.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
+     * @return mixed
+     */
+    public function handlePrescription(User $user, Patient $patient)
+    {
+        return $user->isPractitioner();
+    }
 }
