@@ -58,7 +58,6 @@ const app = new Vue({
             confirmedPatients: [],
             currentPage: '',
             detailMessages: {},
-            patientMessagingPermissions: false,
             loadingAppointments: true,
             loadingClients: true,
             loadingPatients: true,
@@ -288,11 +287,8 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
-            this.global.patientMessagingPermissions = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]).length == 0;
+                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
