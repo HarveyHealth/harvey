@@ -292,7 +292,7 @@ const app = new Vue({
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e))
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
         },
         getClientList() {

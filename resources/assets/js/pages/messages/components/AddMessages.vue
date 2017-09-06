@@ -81,7 +81,7 @@
                     store.confirmedDoctors = store.appointments
                         .filter(e =>  e.attributes.status === 'complete')
                         .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-                    store.confirmedDoctors = _.uniq(store.confirmedDoctors)
+                    store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e))
                     return [''].concat(store.confirmedDoctors);
                 } else if (store.user.attributes.user_type === 'practitioner') {
                     store.confirmedPatients = store.appointments
