@@ -47,7 +47,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('patients/{patient}/prescriptions', 'PatientsController@storePrescription')->name('patient.prescription.store');
         Route::delete('patients/{patient}/prescriptions/{prescription}', 'PatientsController@deletePrescription')->name('patient.prescription.delete');
 
-        Route::get('patients/{patient}/soap_notes', 'PatientsController@getSoap_notes')->name('patient.soap_notes.get');
+        Route::get('patients/{patient}/soap_notes', 'PatientsController@getSoapNotes')->name('patient.soap_notes.get');
         Route::get('patients/{patient}/soap_notes/{soap_note}', 'PatientsController@getSoapNote')->name('patient.soap_note.get');
         Route::post('patients/{patient}/soap_notes', 'PatientsController@storeSoapNote')->name('patient.soap_note.store');
         Route::delete('patients/{patient}/soap_notes/{soap_note}', 'PatientsController@deleteSoapNote')->name('patient.soap_note.delete');

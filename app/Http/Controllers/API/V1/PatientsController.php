@@ -75,7 +75,7 @@ class PatientsController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to retrieve attachments of this Patient.');
         }
 
-        return $this->baseTransformCollection($patient->attachments, request('include'), new AttachmentTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($patient->attachments(), request('include'), new AttachmentTransformer, request('per_page'))->respond();
     }
 
     public function getAttachment(Request $request, Patient $patient, Attachment $attachment)
@@ -139,7 +139,7 @@ class PatientsController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to retrieve Prescriptions of this Patient.');
         }
 
-        return $this->baseTransformCollection($patient->prescriptions, request('include'), new PrescriptionTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($patient->prescriptions(), request('include'), new PrescriptionTransformer, request('per_page'))->respond();
     }
 
     public function getPrescription(Request $request, Patient $patient, Prescription $prescription)
@@ -192,6 +192,82 @@ class PatientsController extends BaseAPIController
 
         if (!$prescription->delete()) {
             return $this->baseTransformItem($prescription)->respond(ResponseCode::HTTP_CONFLICT);
+        }
+
+        return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    public function getSoapNotes(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('view', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve SOAP Notes of this Patient.');
+        }
+
+        $builder = $patient->soapNotes();
+
+        if (!currentUser()->isAdminOrPractitioner()) {
+            $builder = $builder->filterForPatient();
+        }
+
+        return $this->baseTransformBuilder($builder, request('include'), new SoapNoteTransformer, request('per_page'))->respond();
+    }
+
+    public function getSoapNote(Request $request, Patient $patient, SoapNote $soapNote)
+    {
+        if (currentUser()->cant('view', $patient) || $soapNote->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to retrieve this SOAP Note.');
+        }
+
+        if (!currentUser()->isAdminOrPractitioner()) {
+            $soapNote->filterForPatient();
+        }
+
+        return $this->baseTransformItem($soapNote, request('include'), new SoapNoteTransformer, request('per_page'))->respond();
+    }
+
+    public function storeSoapNote(Request $request, Patient $patient)
+    {
+        if (currentUser()->cant('handleSoapNote', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to store SoapNotes for this Patient.');
+        }
+
+        $validator = StrictValidator::check($request->all(), [
+            'subjective' => 'string|max:2048',
+            'objective' => 'string|max:2048',
+            'assessment' => 'string|max:2048',
+            'plan' => 'string|max:2048',
+        ]);
+
+        $relative_path = "{$patient->user->id}";
+
+        try {
+            Storage::disk('s3')->putFileAs(
+                $relative_path,
+                $request->file('file'),
+                $fileName = "SoapNote_{$patient->SoapNotes->withoutGlobalScopes()->count()}.pdf",
+                ['ContentType' => $request->file('file')->getMimeType()]
+            );
+
+            $patient->soapNotes()->save([
+                'created_by_user_id' => currentUser()->id,
+                'key' => "{$relative_path}/{$fileName}",
+                'notes' => request('notes'),
+            ]);
+
+            return $this->baseTransformItem($patient->fresh(), 'soap_notes')->respond();
+        } catch (Exception $e) {
+            return $this->respondUnprocessable($e->getMessage());
+        }
+    }
+
+    public function deleteSoapNote(Request $request, Patient $patient, SoapNote $soapNote)
+    {
+        if (currentUser()->cant('handleSoapNote', $patient) || $soapNote->patient->isNot($patient)) {
+            return $this->respondNotAuthorized('You do not have access to delete this SoapNote.');
+        }
+
+        if (!$soapNote->delete()) {
+            return $this->baseTransformItem($soapNote)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

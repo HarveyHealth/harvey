@@ -39,7 +39,7 @@ class AppointmentsController extends BaseAPIController
             $appointments = $appointments->$filter();
         }
 
-        return $this->baseTransformCollection($appointments->get(), request('include'))->respond();
+        return $this->baseTransformBuilder($appointments, request('include'))->respond();
     }
 
     /**

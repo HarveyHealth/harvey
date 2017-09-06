@@ -29,7 +29,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $patient->user->is($user);
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
     /**
@@ -39,11 +39,11 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient)
     {
-        return $patient->user->is($user);
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
     /**
-     * Determine whether the user can add, delete or update an Attachment to the patient.
+     * Determine whether the user can add, delete or update an Attachment of the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
@@ -55,13 +55,25 @@ class PatientPolicy
     }
 
     /**
-     * Determine whether the user can add, delete or update an Attachment to the patient.
+     * Determine whether the user can add, delete or update a Prescription of the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
     public function handlePrescription(User $user, Patient $patient)
+    {
+        return $user->isPractitioner();
+    }
+
+    /**
+     * Determine whether the user can add, delete or update a SOAP Note of the patient.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
+     * @return mixed
+     */
+    public function handleSoapNote(User $user, Patient $patient)
     {
         return $user->isPractitioner();
     }
