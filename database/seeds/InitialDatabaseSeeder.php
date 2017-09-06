@@ -31,6 +31,7 @@ class InitialDatabaseSeeder extends Seeder
                 'phone' => '3101231234',
                 'password' => bcrypt('secret'),
                 'timezone' => 'America/Los_Angeles',
+                'zip' => '90401',
             ])->id,
         ])->each(function ($practitioner) {
             $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make([
@@ -55,7 +56,8 @@ class InitialDatabaseSeeder extends Seeder
                 'email' =>  'test+rachelwest@goharvey.com',
                 'phone' => '3101231235',
                 'password' => bcrypt('secret'),
-                'timezone' => 'America/Los_Angeles'
+                'timezone' => 'America/Los_Angeles',
+                'zip' => '90401',
             ])->id,
         ])->each(function ($practitioner) {
             $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make([
