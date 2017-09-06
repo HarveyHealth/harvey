@@ -113,11 +113,11 @@ class PatientsController extends BaseAPIController
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
-
-            return $this->baseTransformItem($patient->fresh(), 'attachments')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
+
+        return $this->baseTransformItem($patient->fresh(), 'attachments')->respond();
     }
 
     public function deleteAttachment(Request $request, Patient $patient, Attachment $attachment)
@@ -177,11 +177,11 @@ class PatientsController extends BaseAPIController
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
-
-            return $this->baseTransformItem($patient->fresh(), 'prescriptions')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
+
+        return $this->baseTransformItem($patient->fresh(), 'prescriptions')->respond();
     }
 
     public function deletePrescription(Request $request, Patient $patient, Prescription $prescription)
@@ -218,11 +218,13 @@ class PatientsController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to retrieve this SOAP Note.');
         }
 
+        $builder = $patient->soapNotes()->where('id', $soapNote->id);
+
         if (!currentUser()->isAdminOrPractitioner()) {
-            $soapNote->filterForPatient();
+            $builder = $builder->filterForPatient();
         }
 
-        return $this->baseTransformItem($soapNote, request('include'), new SoapNoteTransformer, request('per_page'))->respond();
+        return $this->baseTransformItem($builder->first(), request('include'), new SoapNoteTransformer)->respond();
     }
 
     public function storeSoapNote(Request $request, Patient $patient)
@@ -253,11 +255,11 @@ class PatientsController extends BaseAPIController
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);
-
-            return $this->baseTransformItem($patient->fresh(), 'soap_notes')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
+
+        return $this->baseTransformItem($patient->fresh(), 'soap_notes')->respond();
     }
 
     public function deleteSoapNote(Request $request, Patient $patient, SoapNote $soapNote)

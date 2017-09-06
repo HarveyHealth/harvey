@@ -52,17 +52,4 @@ class SoapNote extends Model
     {
         return $builder->select(['id', 'patient_id', 'created_by_user_id', 'plan']);
     }
-
-    /*
-     * Model methods
-     */
-
-    public function filterForPatient()
-    {
-        unset($this->subjective);
-        unset($this->objective);
-        unset($this->assessment);
-
-        return true;
-    }
 }
