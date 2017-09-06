@@ -6,6 +6,7 @@ use App\Models\{Attachment, Patient};
 use App\Transformers\V1\{PatientTransformer, PrescriptionTransformer, AttachmentTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
+use Storage;
 
 class PatientsController extends BaseAPIController
 {
@@ -108,7 +109,7 @@ class PatientsController extends BaseAPIController
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 
-            $patient->attachments()->save([
+            $patient->attachments()->create([
                 'created_by_user_id' => currentUser()->id,
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
@@ -172,7 +173,7 @@ class PatientsController extends BaseAPIController
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 
-            $patient->prescriptions()->save([
+            $patient->prescriptions()->create([
                 'created_by_user_id' => currentUser()->id,
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
@@ -250,7 +251,7 @@ class PatientsController extends BaseAPIController
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 
-            $patient->soapNotes()->save([
+            $patient->soapNotes()->create([
                 'created_by_user_id' => currentUser()->id,
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),

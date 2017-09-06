@@ -14,7 +14,7 @@ class LabTestResult extends Model
 
     protected $table = 'lab_tests_results';
 
-    protected $guarded = ['id', 'key', 'lab_test_id'];
+    protected $guarded = ['id', 'lab_test_id'];
 
     public function labTest()
     {

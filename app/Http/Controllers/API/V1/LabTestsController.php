@@ -8,7 +8,7 @@ use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabT
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
-use Exception, ResponseCode;
+use Exception, ResponseCode, Storage;
 
 class LabTestsController extends BaseAPIController
 {
@@ -135,7 +135,7 @@ class LabTestsController extends BaseAPIController
                 ['ContentType' => $request->file('file')->getMimeType()]
             );
 
-            $labTest->results()->save([
+            $labTest->results()->create([
                 'key' => "{$relative_path}/{$fileName}",
                 'notes' => request('notes'),
             ]);

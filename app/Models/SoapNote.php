@@ -16,7 +16,6 @@ class SoapNote extends Model
         'id',
         'created_at',
         'updated_at',
-        'created_by_user_id',
     ];
 
     protected static function boot()
