@@ -28,10 +28,16 @@
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
-                        <div class="input__container length" style="margin-bottom: 1.5em;">
+
+                        <div v-if="!edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
                             <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
                         </div>
+                        <div v-if="edit" class="input__container length" style="margin-bottom: 1.5em;">
+                            <label class="input__label" for="patient_name">card number</label>
+                            <span class="input--text" type="text">{{ `•••• •••• •••• ${oldCard}` }}</span>
+                        </div>
+
                         <div class="input__container length">
                             <label class="input__label" for="patient_name">name on card</label>
                             <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
@@ -120,6 +126,7 @@ export default {
             notificationSymbol: '&#10003;',
             notificationMessage: '',
             notificationActive: false,
+            oldCard: '',
             notificationDirection: 'top-right',
             cards: this.$root.$data.global.creditCards,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
@@ -155,6 +162,13 @@ export default {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = null
+                    this.firstName = ''
+                    this.lastName = ''
+                    this.month = ''
+                    this.year = ''
+                    this.cardNumber = ''
+                    this.cardCvc = ''
+                    this.postalCode = ''
                 })
             this.closeModal()
         },
@@ -168,8 +182,6 @@ export default {
         updateCard() {
             axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
-                address_city: this.currentCard.address_city,
-                address_state: this.currentCard.address_state,
                 address_zip: this.postalCode || this.currentCard.address_zip,
                 exp_month: this.month || this.currentCard.exp_month,
                 exp_year: this.year || this.currentCard.exp_year,
@@ -228,6 +240,7 @@ export default {
             this.currentCard = card
             this.edit = true
             this.details = true
+            this.oldCard = card.last4
         }
     },
     mounted() {

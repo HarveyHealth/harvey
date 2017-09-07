@@ -106,7 +106,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
       </div>
-      <div class="input__container">
+      <div class="input__container" style="height: 125px;">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
