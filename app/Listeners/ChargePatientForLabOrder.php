@@ -18,18 +18,20 @@ class ChargePatientForLabOrder implements ShouldQueue
      */
     public function handle(LabOrderApproved $event)
     {
-        $lab_order = $event->lab_order;
-        $user = $lab_order->patient->user;
+        $labOrder = $event->lab_order;
+        $user = $labOrder->patient->user;
 
-        // make sure not to charge them again
-        if ($lab_order->invoice_id && $lab_order->invoice->isNotOutstanding()) {
+        if ($labOrder->invoice_id && $labOrder->invoice->isNotOutstanding()) {
             return false;
         }
 
-        // generate the invoice
-        $invoice = Cashier::getOrCreateInvoice($lab_order);
+        $invoice = Cashier::getOrCreateInvoice($labOrder);
 
-        // queue up the charge
+        if (!$user->hasACard()) {
+            ops_warning('ChargePatientForLabOrder warning!' , "User ID #{$user->id} doesn't have a credit card associated. Can't charge Invoice ID #{$invoice->id} [LabOrder ID #{$labOrder->id}].", 'operations');
+            return false;
+        }
+
         $job = (new ChargePatientForInvoice($invoice));
         dispatch($job);
     }

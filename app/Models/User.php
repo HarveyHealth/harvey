@@ -296,6 +296,8 @@ class User extends Authenticatable implements Mailable
 
     public function deleteCard(string $cardId)
     {
+        $this->clearHasACardCache();
+
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $exception) {
@@ -303,13 +305,13 @@ class User extends Authenticatable implements Mailable
             return false;
         }
 
-        $this->clearHasACardCache();
-
         return true;
     }
 
     public function updateCard(array $cardInfo)
     {
+        $this->clearHasACardCache();
+
         $cardId = $cardInfo['card_id'];
         unset($cardInfo['card_id']);
 
@@ -331,6 +333,8 @@ class User extends Authenticatable implements Mailable
 
     public function addCard(string $cardTokenId)
     {
+        $this->clearHasACardCache();
+
         try {
             if (empty($this->stripe_id)) {
                 $customer = Customer::create([
@@ -355,8 +359,6 @@ class User extends Authenticatable implements Mailable
         $this->card_last_four = $defaultCard->last4;
         $this->card_brand = $defaultCard->brand;
         $this->save();
-
-        $this->clearHasACardCache();
 
         return true;
     }
