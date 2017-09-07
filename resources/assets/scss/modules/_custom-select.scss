@@ -62,8 +62,10 @@
 }
 
 .custom-select.isdisabled {
-  color: lighten($gray, 10%);
-  select { cursor: default; }
+  &, select {
+    color: lighten($gray, 10%);
+    cursor: default;
+  }
   &::after {
     content: '' !important;
   }

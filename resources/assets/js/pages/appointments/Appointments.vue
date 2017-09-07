@@ -50,6 +50,7 @@
 
       <Practitioner
         :editable="editablePractitioner"
+        :is-disabled="!appointment.patientId"
         :name="appointment.practitionerName"
         :list="practitionerList"
         :set-practitioner="setPractitionerInfo"
@@ -139,10 +140,17 @@
       :active="modalActive"
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
+      :hide-close="isHandlingAction"
     >
-      <h3 class="modal-header">{{ userActionTitle }}</h3>
+      <h3 class="modal-header" v-show="!isHandlingAction">{{ userActionTitle }}</h3>
+      <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
+        <p>Updating appointments</p><br>
+        <div style="width: 24px; margin: 0 auto;">
+          <ClipLoader :size="'24px'" :color="'#4f6268'" />
+        </div>
+      </div>
       <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
-      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
+      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
           <td><p>{{ appointment.patientName }}</p></td>
@@ -163,8 +171,18 @@
           <td width="25%"><p><strong>Purpose:</strong></p></td>
           <td><p>{{ appointment.purpose }}</p></td>
         </tr>
+        <tr v-show="userType === 'patient' && appointment.status === 'canceled'">
+          <td width="25%"><p><strong>Reason:</strong></p></td>
+          <td>
+            <textarea v-model="cancellationReason"
+                      class="input--textarea"
+                      maxlength="1024"
+                      placeholder="Reason for cancelling appointment">
+            </textarea>
+          </td>
+        </tr>
       </table>
-      <div class="modal-button-container" v-show="!bookingConflict">
+      <div class="modal-button-container" v-show="!bookingConflict && !isHandlingAction">
         <button class="button" @click="handleUserAction">Yes, Confirm</button>
         <button class="button button--cancel" @click="handleModalClose">Go Back</button>
         <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
@@ -197,6 +215,7 @@ import Status from './components/Status.vue';
 import Times from './components/Times.vue';
 
 // other
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
 import tableColumns from './utils/tableColumns';
@@ -220,10 +239,12 @@ export default {
         upcoming: [],
         completed: []
       },
+      cancellationReason: '',
       filters: ['All', 'Upcoming', 'Completed'],
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
+      isHandlingAction: false,
       loadingDays: false,
       loadingPatients: !this.$root.$data.global.patients.length,
       loadingTableData: true,
@@ -261,6 +282,7 @@ export default {
 
   components: {
     AppointmentTable,
+    ClipLoader,
     Days,
     FilterButtons,
     Flyout,
@@ -322,7 +344,8 @@ export default {
       return this.userType !== 'patient' && this.flyoutMode === 'new';
     },
     editablePractitioner() {
-      return this.userType !== 'practitioner' && this.flyoutMode === 'new';
+      return (this.flyoutMode === 'new' && this.userType !== 'practitioner') ||
+             (this.flyoutMode === 'update' && this.userType === 'admin' && this.appointment.status === 'pending');
     },
     editablePurpose() {
       if (this.flyoutMode === 'new') return true;
@@ -507,6 +530,13 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
 
+      // The Practitioner dropdown is disabled if there is no patientId listed so that admins
+      // or practitioners cannot select a doctor prior to selecting a patient (for licensing regulations)
+      // Since on new appointments we do not have an associated patientId, we set it as true here
+      if (this.userType === 'patient') {
+        this.appointment.patientId = true;
+      }
+
       this.appointment.status = 'pending';
       this.appointment.purpose = 'New appointment';
       this.flyoutHeading = 'Book Appointment';
@@ -566,6 +596,11 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
+        // If user is admin, filter practitioners by state licensing regulations
+        // First reset the practitioner list
+        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+
         // patient address
         this.appointment.patientAddress = this.setPatientAddress(data);
 
@@ -591,6 +626,7 @@ export default {
         // Practitioner info
         this.appointment.practitionerName = data.doctor;
         this.appointment.practitionerId = data._doctorId;
+        this.appointment.currentPractitionerId = data._doctorId;
 
         // Purpose text
         this.appointment.purpose = data.purpose;
@@ -620,8 +656,10 @@ export default {
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
       }
-      const action = this.userAction === 'new' ? 'post' : 'patch';
-      const api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
+
+      let doctorSwitch = false;
+      let action = this.userAction === 'new' ? 'post' : 'patch';
+      let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
@@ -630,37 +668,60 @@ export default {
       const appointmentDate = data.appointment_at;
 
       // api constraints
-      if (this.userType === 'patient' || this.userAction === 'update') {
-        delete data.patient_id;
-      }
-      if (this.userType !== 'patient' &&
-          this.userAction === 'update' &&
-          this.appointment.currentStatus !== this.appointment.status) {
+      const isPatient = this.userType === 'patient';
+      const isPractitioner = this.userType === 'practitioner';
+      const isAdmin = this.userType === 'admin';
+      const isUpdate = this.userAction === 'update';
+      const isCancel = this.userAction === 'cancel';
+      const isNew = this.userAction === 'new';
+      const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
+      const hasStatusSwitch = this.appointment.currentStatus !== this.appointment.status;
+      const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
+      const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
-        delete data.appointment_at;
-      }
-      if (this.userAction !== 'new') {
+      // Patients don't need to send up their id
+      // Cancellations don't require a patient id
+      // Patient id is required if new appointment made by admin or practitioner
+      // Patient id only required on update if admin switched doctors
+      const shouldKeepPatient = !isPatient && !isCancel && (isNew || adminSwitchesDoctor);
+
+      // Practitioner id is required for new appointment creations
+      // Practitioner id is only required in an update if an admin is switching a doctor
+      const shouldKeepPractitioner = isNew || (isUpdate && adminSwitchesDoctor);
+
+      // Time is not necessary when an admin or practitioner updates appointment status or purpose and not Time
+      // Time should remain if an admin changes a doctor for an existing appointment
+      // Time is not necessary for appointment cancellations
+      const shouldKeepTime = hasTimeSwitch || hasDoctorSwitch;
+
+      if (!shouldKeepPatient) delete data.patient_id;
+      if (!shouldKeepTime) delete data.appointment_at;
+      if (!shouldKeepPractitioner) {
         delete data.practitioner_id;
-      }
-      if (this.userAction === 'cancel') {
-        delete data.appointment_at;
-        delete data.patient_id;
+      } else if (adminSwitchesDoctor) {
+        // If the practitioner_id needs to be sent up, it's because an admin is changing the doctor for
+        // and already existing appointment. In this case we need to cancel the present appointment using
+        // PATCH and then create a new appointment with POST.
+        const patchData = { status: 'canceled' };
+        axios.patch(`/api/v1/appointments/${this.appointment.id}`, patchData).catch(err => console.log(err.response));
+        action = 'post';
+        endpoint = '/api/v1/appointments';
       }
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
+      const apptId = this.appointment.id;
+      const oldIds = this.appointments.map(appt => appt.data._appointmentId);
       this.appointment = this.resetAppointment();
+      this.isHandlingAction = true;
 
-      // If updating, let the table know which row is changing
-      this.selectedRowUpdating = this.userAction !== 'new'
-        ? this.selectedRowIndex
-        : null;
-      // Grab a copy of the old appointments data for comparison after the api call
-      let oldAppointments = JSON.parse(JSON.stringify(this.appointments));
+      // If user is patient and action is cancel, add cancellation_reason to data
+      if (isPatient && isCancel && this.cancellationReason) {
+        data.cancellation_reason = this.cancellationReason;
+      }
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](api, data).then(response => {
-
+      axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
@@ -672,42 +733,30 @@ export default {
 
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
-            this.selectedRowIndex = null;
-            // Cycle through the new appointment list with Array.some so we can break out easily.
-            // For each item compare against oldAppointments
-            // If no match, splice the first item of oldAppointments
-            // If match is found, splice first item of oldAppointments but continue with next appointment object
-            // Once oldAppointments is empty you know you have no match
-            // The row you ended on is the updated data so mark accordingly
-            this.appointments.some((obj, i) => {
-              // If user is filtered and the updated row is disqualified from that filter
-              // the appointments will be less and we just need to end it immediately
-              // and scroll to the top of the page
-              if (this.appointments.length < oldAppointments.length) {
-                this.selectedRowUpdating = null;
-                if (succesPopup) this.handleNotificationInit();
-                window.scrollTo(0, 0);
-              }
+            if (succesPopup) this.handleNotificationInit();
+            this.overlayActive = false;
+            this.modalActive = false;
+            this.isHandlingAction = false;
 
-              while (JSON.stringify(obj.values) !== JSON.stringify(oldAppointments[0].values)) {
-                oldAppointments.splice(0, 1);
-                if (!oldAppointments.length) {
-                  this.selectedRowUpdating = i;
-                  if (succesPopup) this.handleNotificationInit();
-                  setTimeout(() => {
-                    this.selectedRowUpdating = null;
-                    this.selectedRowHasUpdated = i;
-                    setTimeout(() => this.selectedRowHasUpdated = null, 1000);
-                  }, 1000);
-                  return true;
+            const newIds = this.appointments.map(appt => appt.data._appointmentId);
+            // if new appointment or doctor switched, find the id that was not in the old ids
+            if (isNew || adminSwitchesDoctor) {
+              newIds.map((id, index) => {
+                if (oldIds.indexOf(id) < 0) {
+                  this.selectedRowHasUpdated = index;
                 }
-              }
-              oldAppointments.splice(0, 1);
-            })
+              });
+            // else if updated existing, find existing
+            } else if (!isNew) {
+              this.selectedRowHasUpdated = newIds.indexOf(apptId);
+            }
+            setTimeout(() => this.selectedRowHasUpdated = null, 2000);
           })
         });
       }).catch(error => {
+        if (error.response) console.error(error.response)
         this.selectedRowUpdating = null;
+        this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
           this.modalActive = true;
           this.bookingConflict = true;
@@ -718,8 +767,6 @@ export default {
       this.selectedRowData = null;
       this.flyoutActive = false;
       this.flyoutMode = null;
-      this.modalActive = false;
-      this.overlayActive = false;
     },
 
     resetAppointment() {
@@ -729,7 +776,9 @@ export default {
         availableTimes: [],
         date: '',
         day: '',
+        cancellationReason: '',
         currentDate: '',
+        currentPractitionerId: '',
         currentPurpose: '',
         currentStatus: '',
         id: '',
@@ -781,6 +830,11 @@ export default {
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
       this.patientDisplay = `${data.name} (${data.email})`;
+
+      // If user is admin, filter practitioners by state licensing regulations
+      // First reset the practitioner list
+      this.setupPractitionerList(this.$root.$data.global.practitioners);
+      this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
     },
 
     setupAppointments(list) {
