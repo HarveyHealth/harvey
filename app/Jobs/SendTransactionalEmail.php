@@ -3,12 +3,12 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Postmark\PostmarkClient;
 use Postmark\Models\PostmarkException;
+use App\Models\User;
 use Log;
 
 class SendTransactionalEmail implements ShouldQueue
@@ -57,7 +57,20 @@ class SendTransactionalEmail implements ShouldQueue
         foreach ($this->template_model as $key => $value) {
             if (empty($value) && !in_array($key, self::ALLOWED_EMPTY_KEYS)) {
                 $message = "Found empty value for key '{$key}' when sending email to '{$this->to}' with template '{$this->template}'.";
-                Log::warning($message);
+
+                if ($user = User::where('email', $this->to)->first()) {
+                    $contextualData = [
+                        'user' => [
+                            'city' => $user->city,
+                            'email_verified_at' => $user->email_verified_at->toW3cString(),
+                            'state' => $user->state,
+                            'timezone' => $user->timezone,
+                            'zip' => $user->zip,
+                        ],
+                    ];
+                }
+
+                Log::warning($message, $contextualData ?? []);
             }
         }
 
@@ -94,8 +107,8 @@ class SendTransactionalEmail implements ShouldQueue
                 $message = "Mailbox '{$this->to}' is marked as *Inactive* on Postmark so email '{$this->template}' will not be sent.";
                 ops_warning('Warning', $message, 'engineering');
             } else {
-                $contextual_data = ['message' => $exception->message, 'api_error_code' => $exception->postmarkApiErrorCode];
-                Log::error("Unable to send email to '{$this->to}'.", $contextual_data);
+                $contextualData = ['message' => $exception->message, 'api_error_code' => $exception->postmarkApiErrorCode];
+                Log::error("Unable to send email to '{$this->to}'.", $contextualData);
             }
         }
     }
