@@ -34,7 +34,7 @@
 
                         <div v-if="!edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
-                            <input placeholder="Enter card number" v-mask="creditMask" v-model="cardNumber" class="input--text" type="text">
+                            <input placeholder="Enter card number" v-mask="'#### #### #### ####'" v-model="cardNumber" class="input--text" type="text" />
                         </div>
                         <div v-if="edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
@@ -104,12 +104,14 @@
 import axios from 'axios'
 import Modal from '../../commons/Modal.vue'
 import NotificationPopup from '../../commons/NotificationPopup.vue'
+import {mask} from 'vue-the-mask'
 export default {
     name: 'settings',
     components: {
         Modal,
         NotificationPopup
     },
+    directives: {mask},
     data() {
         return {
             details: false,

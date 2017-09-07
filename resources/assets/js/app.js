@@ -20,8 +20,11 @@ import combineAppointmentData from './utils/methods/combineAppointmentData';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
+import VueTheMask from 'vue-the-mask';
+
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
+Vue.use(VueTheMask);
 
 const env = require('get-env')();
 
