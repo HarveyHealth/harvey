@@ -13,6 +13,14 @@ function phone(value) {
     return value;
 }
 
+function card(value) {
+    if (value) {
+        return value.replace(/[^0-9]/g, '')
+            .replace(/(\d{4})(\d{4})(\d{4})(\d{4})/, '$1 $2 $3 $4');
+    }
+    return value;
+}
+
 function hyperlink(value, type) {
     let ret = '';
 
@@ -28,4 +36,4 @@ function hyperlink(value, type) {
     return ret;
 }
 
-export {capitalize, phone, hyperlink}
+export {capitalize, phone, hyperlink, card}

@@ -34,7 +34,7 @@
 
                         <div v-if="!edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
-                            <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
+                            <input placeholder="Enter card number" v-mask="creditMask" v-model="cardNumber" class="input--text" type="text">
                         </div>
                         <div v-if="edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
@@ -142,6 +142,9 @@ export default {
         },
         closeModal() {
             this.deleteModalActive = false
+        },
+        creditMask() {
+            return card
         },
         closeInvalidCC() {
             this.invalidCC = false;
