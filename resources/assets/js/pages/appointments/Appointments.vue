@@ -640,7 +640,7 @@ export default {
 
       let doctorSwitch = false;
       let action = this.userAction === 'new' ? 'post' : 'patch';
-      let api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
+      let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
       this.notificationMessage = this.userAction === 'new' ? 'Appointment Created!' : 'Appointment Updated!';
 
@@ -686,7 +686,7 @@ export default {
         const patchData = { status: 'canceled' };
         axios.patch(`/api/v1/appointments/${this.appointment.id}`, patchData).catch(err => console.log(err.response));
         action = 'post';
-        api = '/api/v1/appointments';
+        endpoint = '/api/v1/appointments';
       }
 
       // Reset appointment here so that subsequent row clicks don't get reset after api call
@@ -697,7 +697,7 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](api, data).then(response => {
+      axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
@@ -730,7 +730,7 @@ export default {
           })
         });
       }).catch(error => {
-        if (error.response) console.log(error.response)
+        if (error.response) console.error(error.response)
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
