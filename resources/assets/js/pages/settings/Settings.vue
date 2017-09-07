@@ -46,7 +46,7 @@
                         <div class="input__container length" style="padding-top: 25px;">
                             <label class="input__label" for="patient_name">expiry date</label>
                             <span class="custom-select" style="float: left; width: 48%;">
-                                <select @change="updateMonth($event)">
+                                <select v-model="month" @change="updateMonth($event)">
                                     <option v-for="month in monthList">{{ month }}</option>
                                 </select>
                             </span>
