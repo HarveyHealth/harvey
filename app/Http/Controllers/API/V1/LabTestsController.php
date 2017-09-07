@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\{LabOrder, LabTest, LabTestInformation};
+use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -65,14 +65,9 @@ class LabTestsController extends BaseAPIController
         StrictValidator::check($request->all(), [
             'lab_order_id' => 'required|exists:lab_orders,id',
             'sku_id' => 'required|exists:skus,id',
+            'status' => ['filled', Rule::in(LabTest::STATUSES)],
             'results_url' => 'url',
             'shipment_code' => 'string',
-        ]);
-
-        $user = LabOrder::find($request->get('lab_order_id'))->patient->user;
-
-        StrictValidator::check($request->all(), [
-            'status' => ['filled', Rule::in(LabTest::STATUSES), "user_has_a_card:{$user->id}"],
         ]);
 
         return $this->baseTransformItem(LabTest::create($request->all())->fresh())->respond();
@@ -85,7 +80,7 @@ class LabTestsController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'status' => ['filled', Rule::in(LabTest::STATUSES), "user_has_a_card:{$labTest->patient->user->id}"],
+            'status' => ['filled', Rule::in(LabTest::STATUSES)],
         ]);
 
         $labTest->update($request->all());
