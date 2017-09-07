@@ -77,7 +77,10 @@
     </div>
     <div v-if="$root.$data.permissions === 'admin'">
       <div v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && (oldCard.last4 == null || oldCard.brand == null)">
-        <p>{{ clientName }} has no credit card on file. Please contact this person. Profile: <router-link :to="`/profile/${clientId}`">Click Here</router-link></p>  
+        <div class="no-message-banner" style="height: 150px;">
+          {{ clientName }} has no credit card on file. <br><br> Please contact this person. <br><br>
+          Profile: <router-link style="color: #FF1744;" :to="`/profile/${clientId}`">Click Here</router-link>
+        </div>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
