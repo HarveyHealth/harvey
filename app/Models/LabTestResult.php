@@ -39,6 +39,6 @@ class LabTestResult extends Model
             return null;
         }
 
-        return $request->getUri();
+        return (string) $request->getUri();
     }
 }

@@ -132,7 +132,10 @@ class LabTestsController extends BaseAPIController
                 $relative_path,
                 $request->file('file'),
                 $fileName = "LabTestResult_{$labTest->results()->withoutGlobalScopes()->count()}.pdf",
-                ['ContentType' => $request->file('file')->getMimeType()]
+                [
+                    'visibility' => 'private',
+                    'ContentType' => $request->file('file')->getMimeType(),
+                ]
             );
 
             $labTest->results()->create([
