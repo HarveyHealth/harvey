@@ -9,8 +9,11 @@
                 </div>
             </div>
             <div class="card" style="width: 450px;">
-                <div class="card-heading-container">
-                    <h1 class="card-header">Payment Details</h1>
+                <div class="card-heading-container" style="height: 75px;">
+                    <h1 class="card-header" style="float: left;">Payment Details</h1>
+                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -15px; right: -25px;" @click="closeDetails">
+                        <svg><use xlink:href="#close" /></svg>
+                    </button>
                 </div>
                 <div>
                     <div v-if="$root.$data.global.loadingCreditCards">
@@ -59,8 +62,8 @@
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
-                            <button v-if="!edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !cardNumber" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
-                            <button v-if="edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !oldCard" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
+                            <button v-if="!edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !cardNumber || !cardCvc" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <button v-if="edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !oldCard || !cardCvc" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                         </div>
                     </div>
 
@@ -171,6 +174,9 @@ export default {
                     this.postalCode = ''
                 })
             this.closeModal()
+        },
+        closeDetails() {
+            this.details = false
         },
         submitUpdateCard() {
             this.details = false
