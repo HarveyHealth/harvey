@@ -59,8 +59,8 @@
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
-                            <button v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
-                            <button v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
+                            <button v-if="!edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !cardNumber" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <button v-if="edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !oldCard" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                         </div>
                     </div>
 
