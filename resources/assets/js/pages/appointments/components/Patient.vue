@@ -13,7 +13,8 @@
     <div class="font-sm"><a :href="'mailto:' + email">{{ email }}</a></div>
     <div class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
     <p v-if="editable && address" v-html="address"></p>
-    <p class="error-text" style="text-align: left;" v-if="shouldShowPaymentError">
+    <p class="copy-error" style="text-align: left;" v-if="shouldShowPaymentError">
+      <br>
       This client has not confirmed payment and cannot be scheduled for an appointment
     </p>
   </div>
