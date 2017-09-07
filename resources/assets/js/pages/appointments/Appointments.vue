@@ -514,7 +514,9 @@ export default {
         this.setPractitionerInfo(this.practitionerList[0].data);
       }
 
-      // If the user is a patient, we want to fill in their id so the practitioner list is enabled
+      // The Practitioner dropdown is disabled if there is no patientId listed so that admins
+      // or practitioners cannot select a doctor prior to selecting a patient (for licensing regulations)
+      // Since on new appointments we do not have an associated patientId, we set it as true here
       if (this.userType === 'patient') {
         this.appointment.patientId = true;
       }
