@@ -22,7 +22,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
-      <div class="input__container" style="height: 475px;">
+      <div class="input__container" :style="{height: latestCard ? '75px' : '475px'}">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
@@ -76,6 +76,12 @@
       </div>
     </div>
     <div v-if="$root.$data.permissions === 'admin'">
+      <div v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && (oldCard.last4 == null || oldCard.brand == null)">
+        <div class="no-message-banner" style="height: 150px;">
+          {{ clientName }} has no credit card on file. <br><br> Please contact this person. <br><br>
+          Profile: <router-link style="color: #FF1744;" :to="`/profile/${clientId}`">Click Here</router-link>
+        </div>
+      </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
@@ -106,7 +112,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
       </div>
-      <div class="input__container">
+      <div class="input__container" style="height: 125px;">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
@@ -296,6 +302,16 @@
       },
       addressOne() {
         return this.$props.rowData ? this.$props.rowData.address_1 : ''
+      },
+      clientName() {
+        if (this.$props.rowData && this.$props.rowData.patient_id && this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id]) {
+          return this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id].attributes.name
+        }
+      },
+      clientId() {
+        if (this.$props.rowData && this.$props.rowData.patient_id && this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id]) {
+          return this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id].attributes.user_id
+        }
       },
       addressTwo() {
         return this.$props.rowData ? this.$props.rowData.address_2 : ''

@@ -9,8 +9,11 @@
                 </div>
             </div>
             <div class="card" style="width: 450px;">
-                <div class="card-heading-container">
-                    <h1 class="card-header">Payment Details</h1>
+                <div class="card-heading-container" style="height: 75px;">
+                    <h1 class="card-header" style="float: left;">Payment Details</h1>
+                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -15px; right: -25px;" @click="closeDetails">
+                        <svg><use xlink:href="#close" /></svg>
+                    </button>
                 </div>
                 <div>
                     <div v-if="$root.$data.global.loadingCreditCards">
@@ -28,10 +31,16 @@
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
-                        <div class="input__container length" style="margin-bottom: 1.5em;">
+
+                        <div v-if="!edit" class="input__container length" style="margin-bottom: 1.5em;">
                             <label class="input__label" for="patient_name">card number</label>
-                            <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
+                            <input placeholder="Enter card number" v-mask="'#### #### #### ####'" v-model="cardNumber" class="input--text" type="text" />
                         </div>
+                        <div v-if="edit" class="input__container length" style="margin-bottom: 1.5em;">
+                            <label class="input__label" for="patient_name">card number</label>
+                            <span class="input--text" type="text">{{ `•••• •••• •••• ${oldCard}` }}</span>
+                        </div>
+
                         <div class="input__container length">
                             <label class="input__label" for="patient_name">name on card</label>
                             <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
@@ -40,7 +49,7 @@
                         <div class="input__container length" style="padding-top: 25px;">
                             <label class="input__label" for="patient_name">expiry date</label>
                             <span class="custom-select" style="float: left; width: 48%;">
-                                <select @change="updateMonth($event)">
+                                <select v-model="month" @change="updateMonth($event)">
                                     <option v-for="month in monthList">{{ month }}</option>
                                 </select>
                             </span>
@@ -53,8 +62,8 @@
                             <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
                         </div>
                         <div class="inline-centered">
-                            <button v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
-                            <button v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
+                            <button v-if="!edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !cardNumber || !(cardCvc.length > 2 && cardCvc.length < 5)" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <button v-if="edit" :disabled="postalCode.length != 5 || !year || !firstName || !lastName || !month || !oldCard || !(cardCvc.length > 2 && cardCvc.length < 5)" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                         </div>
                     </div>
 
@@ -95,12 +104,14 @@
 import axios from 'axios'
 import Modal from '../../commons/Modal.vue'
 import NotificationPopup from '../../commons/NotificationPopup.vue'
+import {mask} from 'vue-the-mask'
 export default {
     name: 'settings',
     components: {
         Modal,
         NotificationPopup
     },
+    directives: {mask},
     data() {
         return {
             details: false,
@@ -120,6 +131,7 @@ export default {
             notificationSymbol: '&#10003;',
             notificationMessage: '',
             notificationActive: false,
+            oldCard: '',
             notificationDirection: 'top-right',
             cards: this.$root.$data.global.creditCards,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
@@ -132,6 +144,9 @@ export default {
         },
         closeModal() {
             this.deleteModalActive = false
+        },
+        creditMask() {
+            return card
         },
         closeInvalidCC() {
             this.invalidCC = false;
@@ -155,8 +170,18 @@ export default {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = null
+                    this.firstName = ''
+                    this.lastName = ''
+                    this.month = ''
+                    this.year = ''
+                    this.cardNumber = ''
+                    this.cardCvc = ''
+                    this.postalCode = ''
                 })
             this.closeModal()
+        },
+        closeDetails() {
+            this.details = false
         },
         submitUpdateCard() {
             this.details = false
@@ -168,8 +193,6 @@ export default {
         updateCard() {
             axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
-                address_city: this.currentCard.address_city,
-                address_state: this.currentCard.address_state,
                 address_zip: this.postalCode || this.currentCard.address_zip,
                 exp_month: this.month || this.currentCard.exp_month,
                 exp_year: this.year || this.currentCard.exp_year,
@@ -228,6 +251,7 @@ export default {
             this.currentCard = card
             this.edit = true
             this.details = true
+            this.oldCard = card.last4
         }
     },
     mounted() {
