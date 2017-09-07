@@ -264,7 +264,7 @@ class Appointment extends Model
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
-            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            ops_warning('Appointment@createCalendarEvent', "Can't add Appointment #{$this->id} to Google Calendar.");
             return false;
         }
 
@@ -278,7 +278,7 @@ class Appointment extends Model
             $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
-            ops_warning('Appointment@addToCalendar', "Can't add Meet link into event description to Appointment #{$this->id}.");
+            ops_warning('Appointment@createCalendarEvent', "Can't add Meet link into event description to Appointment #{$this->id}.");
             return false;
         }
 
@@ -339,7 +339,7 @@ class Appointment extends Model
     public function updateOnCalendar()
     {
         if (empty($this->google_calendar_event_id)) {
-            return $this->addToCalendar();
+            return $this->createCalendarEvent();
         }
 
         try {
