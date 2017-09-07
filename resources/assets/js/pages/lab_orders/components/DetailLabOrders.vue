@@ -76,6 +76,9 @@
       </div>
     </div>
     <div v-if="$root.$data.permissions === 'admin'">
+      <div v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && (oldCard.last4 == null || oldCard.brand == null)">
+        <p>{{ clientName }} has no credit card on file. Please contact this person. Profile: <router-link :to="`/profile/${clientId}`">Click Here</router-link></p>  
+      </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
@@ -296,6 +299,16 @@
       },
       addressOne() {
         return this.$props.rowData ? this.$props.rowData.address_1 : ''
+      },
+      clientName() {
+        if (this.$props.rowData && this.$props.rowData.patient_id && this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id]) {
+          return this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id].attributes.name
+        }
+      },
+      clientId() {
+        if (this.$props.rowData && this.$props.rowData.patient_id && this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id]) {
+          return this.$root.$data.global.patientLookUp[this.$props.rowData.patient_id].attributes.user_id
+        }
       },
       addressTwo() {
         return this.$props.rowData ? this.$props.rowData.address_2 : ''
