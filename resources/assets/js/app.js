@@ -49,6 +49,7 @@ const app = new Vue({
         apiUrl: '/api/v1',
         appointmentData: null,
         clientList: [],
+        permissions: Laravel.user.user_type,
         environment: env,
         flyoutActive: false,
         guest: false,

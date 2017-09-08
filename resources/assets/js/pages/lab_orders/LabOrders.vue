@@ -6,7 +6,7 @@
                 <div class="container container-backoffice">
                     <h1 class="title header-xlarge">
                     <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                    <button v-if="!loadingLabs && $root.$data.permissions === 'admin'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
@@ -24,7 +24,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.global.user.attributes && $root.$data.global.user.attributes.user_type === 'admin'"
+            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions === 'admin'"
             :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
