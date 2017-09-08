@@ -22,7 +22,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
-      <div class="input__container" style="height: 475px;">
+      <div class="input__container" style="height: 50px;">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
@@ -37,30 +37,7 @@
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
           <div v-if="!latestCard" style="padding-top: 5px;">
-            <div class="input__container length" style="margin-bottom: 1.5em; font-size: 0.9em;">
-              <label class="input__label" for="patient_name">card number</label>
-              <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="font-size: 0.9em;">
-              <label class="input__label" for="patient_name">name on card</label>
-              <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
-              <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="padding-top: 25px;">
-              <label class="input__label" for="patient_name">expiry date</label>
-              <span class="custom-select" style="float: left; width: 48%;">
-                  <select @change="updateMonth($event)">
-                      <option v-for="month in monthList">{{ month }}</option>
-                  </select>
-              </span>
-              <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="padding-top: 25px;">
-              <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
-              <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
-              <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
-              <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
-            </div>
+            <router-link to="/settings">Add a credit card to complete shipment</router-link>
           </div>
         </div>
       </div>
@@ -70,7 +47,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && (!cardCvc || !cardNumber || !month || !year || !postalCode || !firstName || !lastName)" @click="updateLabOrder"
+          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder"
             class="button" style="margin-top: 35px;">Complete Shipment</button>
         </div>
       </div>
@@ -277,7 +254,49 @@
         this.$parent.selectedRowData = null;
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
-      }
+      },
+      stripeForm() {
+        let stripe = Stripe(window.Laravel.services.stripe.key);
+        let elements = stripe.elements();
+        let style = {
+            base: {
+                color: '#32325d',
+                lineHeight: '24px',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
+        let card = elements.create('card', {style: style});
+        card.mount('#card-element');
+        card.addEventListener('change', function(event) {
+            let displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+        let form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    let errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    this.submitNewCard(result.token);
+                }
+            });
+        });
+    }
     },
     computed: {
       flyoutHeading() {
