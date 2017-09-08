@@ -105,7 +105,12 @@ class User extends Authenticatable implements Mailable
             return $geocoder->geocode($query);
         });
 
-        return $result['address']['state'] ?? null;
+        if (empty($result['address']['state'])) {
+            Cache::forget("call-geocoder-{$query}");
+            return null;
+        }
+
+        return $result['address']['state'];
     }
 
     public function getFullNameAttribute()
