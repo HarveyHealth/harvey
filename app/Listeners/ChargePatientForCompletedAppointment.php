@@ -30,17 +30,20 @@ class ChargePatientForCompletedAppointment implements ShouldQueue
     public function handle(AppointmentComplete $event)
     {
         $appointment = $event->appointment;
+        $user = $appointment->patient->user;
 
-        // make sure not to charge them again
         if ($appointment->invoice_id && $appointment->invoice->isNotOutstanding()) {
             return false;
         }
 
-        // generate an invoice
         $invoice = Cashier::getOrCreateInvoice($appointment);
 
-        // queue up the charge
-        // delated 15 minutes to avoid weird social issues
+        if (!$user->hasACard()) {
+            ops_warning('ChargePatientForCompletedAppointment warning!' , "User ID #{$user->id} doesn't have a credit card associated. Can't charge Invoice ID #{$invoice->id} [Appointment ID #{$appointment->id}].", 'operations');
+            return false;
+        }
+
+        // Queue up the charge delayed 15 minutes to avoid weird social issues.
         $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addMinutes(15));
         dispatch($job);
     }
