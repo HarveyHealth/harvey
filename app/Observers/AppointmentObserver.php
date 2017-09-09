@@ -38,7 +38,6 @@ class AppointmentObserver
     public function updating(Appointment $appointment)
     {
         if ($appointment->isDirty('status_id')) {
-
             switch($appointment->status_id) {
                 case Appointment::CANCELED_STATUS_ID:
                     event(new AppointmentCanceled($appointment));

@@ -19,6 +19,7 @@ class Cashier
 
         if (!$invoice = $invoiceable->invoice) {
             $invoice = Invoice::newInvoiceWithData($invoiceable->dataForInvoice());
+            $invoiceable = $invoiceable->fresh();
             $invoiceable->invoice_id = $invoice->id;
             $invoiceable->save();
         }

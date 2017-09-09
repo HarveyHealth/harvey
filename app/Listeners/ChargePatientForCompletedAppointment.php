@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentComplete;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Cashier;
 use App\Jobs\ChargePatientForInvoice;
@@ -11,16 +10,6 @@ use Carbon\Carbon;
 
 class ChargePatientForCompletedAppointment implements ShouldQueue
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
     /**
      * Handle the event.
      *

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.2",
+            "version": "3.36.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "98bff6b24863bb0da970449d18f6745b9270add9"
+                "reference": "acb08da60a042e17b0cd9e5e111ba895c8a79f2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/98bff6b24863bb0da970449d18f6745b9270add9",
-                "reference": "98bff6b24863bb0da970449d18f6745b9270add9",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/acb08da60a042e17b0cd9e5e111ba895c8a79f2d",
+                "reference": "acb08da60a042e17b0cd9e5e111ba895c8a79f2d",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-09-06T16:44:34+00:00"
+            "time": "2017-09-08T19:50:29+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -5140,16 +5140,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.13.4",
+            "version": "5.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "28b29210f930729ba862cc805bdc9189f4b00304"
+                "reference": "32f345c5b268bfa1f57bbd3daf73ec8f8d26baf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/28b29210f930729ba862cc805bdc9189f4b00304",
-                "reference": "28b29210f930729ba862cc805bdc9189f4b00304",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/32f345c5b268bfa1f57bbd3daf73ec8f8d26baf8",
+                "reference": "32f345c5b268bfa1f57bbd3daf73ec8f8d26baf8",
                 "shasum": ""
             },
             "require": {
@@ -5182,7 +5182,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-09-01T23:06:28+00:00"
+            "time": "2017-09-08T22:15:44+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
