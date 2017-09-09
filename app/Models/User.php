@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\Clients\Geocoder;
-use App\Lib\{PhoneNumberVerifier, TimeInterval};
+use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -373,5 +373,17 @@ class User extends Authenticatable implements Mailable
     public function clearHasACardCache()
     {
         return Cache::forget("has-a-card-user-id-{$this->id}");
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $transactionalEmailJob = TransactionalEmail::createJob()
+            ->setTo($this->email)
+            ->setTemplate('password.reset')
+            ->setTemplateModel(['action_url' => url(config('app.url').route('password.reset', $token, false))]);
+
+        dispatch($transactionalEmailJob);
+
+        return true;
     }
 }
