@@ -23,6 +23,7 @@ class SendPatientAppointmentUpdatedEmail implements ShouldQueue
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'harvey_id' => $patient->user->id,
             'patient_name' => $patient->user->full_name,
             'patient_state' => $patient->user->state,
             'practitioner_name' => $practitioner->user->full_name,
