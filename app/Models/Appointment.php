@@ -155,6 +155,8 @@ class Appointment extends Model
 
     public function sendClientReminderEmail24Hs()
     {
+        return false;
+
         $templateData = [
             'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
@@ -170,6 +172,8 @@ class Appointment extends Model
 
     public function sendDoctorReminderEmail24Hs()
     {
+        return false;
+
         $templateData = [
             'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
