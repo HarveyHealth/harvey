@@ -19,7 +19,7 @@ class InitialDatabaseSeeder extends Seeder
         // We will also need to have an Oauth Client for the Vue app to consume
         // The API.
 
-        Practitioner::create([
+        $practitioner = Practitioner::create([
             'practitioner_type' => PractitionerType::create([
                 'name' => 'Naturopathic Doctor',
                 'rate' => 150.00,
@@ -33,19 +33,22 @@ class InitialDatabaseSeeder extends Seeder
                 'timezone' => 'America/Los_Angeles',
                 'zip' => '90401',
             ])->id,
-        ])->each(function ($practitioner) {
-            $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make([
-                'day_of_week' => 'Wednesday',
-                'start_time' => '08:00:00',
-                'stop_time' => '10:00:00',
-            ]));
-            $practitioner->licenses()->save(factory(License::class)->make([
-                'state' => 'CA',
-                'title' => 'ND',
-            ]));
-        });
+        ]);
 
-        Practitioner::create([
+        factory(PractitionerSchedule::class)->create([
+            'day_of_week' => 'Wednesday',
+            'practitioner_id' => $practitioner->id,
+            'start_time' => '08:00:00',
+            'stop_time' => '10:00:00',
+        ]);
+
+        factory(License::class)->create([
+            'state' => 'CA',
+            'title' => 'ND',
+            'user_id' => $practitioner->user->id,
+        ]);
+
+        $practitioner = Practitioner::create([
             'practitioner_type' => PractitionerType::create([
                 'name' => 'Doctor of Osteopathy',
                 'rate' => 300.00
@@ -59,17 +62,20 @@ class InitialDatabaseSeeder extends Seeder
                 'timezone' => 'America/Los_Angeles',
                 'zip' => '90401',
             ])->id,
-        ])->each(function ($practitioner) {
-            $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make([
-                'day_of_week' => 'Monday',
-                'start_time' => '11:00:00',
-                'stop_time' => '15:00:00',
-            ]));
-            $practitioner->licenses()->save(factory(License::class)->make([
-                'state' => 'CA',
-                'title' => 'DO',
-            ]));
-        });
+        ]);
+
+        factory(PractitionerSchedule::class)->create([
+            'day_of_week' => 'Monday',
+            'practitioner_id' => $practitioner->id,
+            'start_time' => '11:00:00',
+            'stop_time' => '15:00:00',
+        ]);
+
+        factory(License::class)->create([
+            'state' => 'CA',
+            'title' => 'DO',
+            'user_id' => $practitioner->user->id,
+        ]);
 
         factory(Client::class)->create([
             'name' => 'Harvey-Vue',
