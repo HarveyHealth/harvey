@@ -16,8 +16,6 @@ class AppointmentsSeeder extends Seeder
      */
     public function run()
     {
-        Appointment::flushEventListeners();
-
         $patient = Patient::first();
         $practitioner = Practitioner::first();
 
