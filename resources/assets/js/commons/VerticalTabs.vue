@@ -29,6 +29,7 @@
                 tabList: {},
                 activeTab: `tab-${this.loadWithId}` || null,
                 currentUrl: null,
+                previousTab: null,
             }
         },
         props: {
@@ -41,15 +42,12 @@
                 });
             },
             setActiveTab(tabData) {
-                console.log('running...');
-
+                this.previousTab = this.activeTab;
                 this.activeTab = tabData.id;
                 this.currentUrl = tabData.url;
 
-                console.log(window.location);
-
                 if (this.currentUrl) {
-                  window.history.pushState(null, null, this.currentUrl);
+                  window.history.replaceState({ tab: this.previousTab }, null, this.currentUrl);
                 }
             },
             getTabIndex(id) {
@@ -67,26 +65,17 @@
         mounted() {
             this.$nextTick(() => {
                 if (Object.keys(this.tabList).length && !this.activeTab) {
-                    let firstTab = Object.keys(this.tabList)[0];
-
-                    console.log('here');
-
+                    const firstTab = Object.keys(this.tabList)[0];
                     this.setActiveTab(this.tabList[firstTab]);
                 }
             });
 
-            window.addEventListener('popstate', (e) => {
-              const path = window.location.pathname;
-              const newUrl = path.substr(path.lastIndexOf('/') + 1);
+            window.onpopstate = (e) => {
+              const firstTab = Object.keys(this.tabList)[0];
+              const previousTab = e.state.tab || this.tabList[firstTab];
 
-              for (let item in this.tabList) {
-                if (this.tabList.hasOwnProperty(item)) {
-                  if (this.tabList[item].url === newUrl) {
-                    this.setActiveTab(this.tabList[item]);
-                  }
-                }
-              }
-            });
+              this.setActiveTab(previousTab);
+            };
         }
     }
 </script>
