@@ -375,16 +375,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.7",
+            "version": "1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12"
+                "reference": "9dd73a03951357922d8aee6cc084500de93e2343"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
-                "reference": "b17e6153cb7f33c7e44eb59578dc12eee5dc8e12",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/9dd73a03951357922d8aee6cc084500de93e2343",
+                "reference": "9dd73a03951357922d8aee6cc084500de93e2343",
                 "shasum": ""
             },
             "require": {
@@ -430,7 +430,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-03-06T11:59:08+00:00"
+            "time": "2017-09-11T07:24:36+00:00"
         },
         {
             "name": "crell/api-problem",
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.22",
+            "version": "v0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "f3cc7456ec878086ee6b53591e979a022e24ac27"
+                "reference": "402cbac930add01bf65d151d3f2048a5bdfbd320"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/f3cc7456ec878086ee6b53591e979a022e24ac27",
-                "reference": "f3cc7456ec878086ee6b53591e979a022e24ac27",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/402cbac930add01bf65d151d3f2048a5bdfbd320",
+                "reference": "402cbac930add01bf65d151d3f2048a5bdfbd320",
                 "shasum": ""
             },
             "require": {
@@ -1565,7 +1565,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-09-02T00:25:09+00:00"
+            "time": "2017-09-09T00:24:34+00:00"
         },
         {
             "name": "google/auth",
@@ -5037,16 +5037,16 @@
         },
         {
             "name": "teamtnt/tntsearch",
-            "version": "v1.0.6",
+            "version": "v1.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamtnt/tntsearch.git",
-                "reference": "a6bb8803806783cd2b56a39823d2d7ac7b7878e0"
+                "reference": "97e31a259fe289e21519386b0f326b7fdf27579e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/a6bb8803806783cd2b56a39823d2d7ac7b7878e0",
-                "reference": "a6bb8803806783cd2b56a39823d2d7ac7b7878e0",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/97e31a259fe289e21519386b0f326b7fdf27579e",
+                "reference": "97e31a259fe289e21519386b0f326b7fdf27579e",
                 "shasum": ""
             },
             "require": {
@@ -5089,7 +5089,7 @@
                 "teamtnt",
                 "tntsearch"
             ],
-            "time": "2017-07-07T00:14:46+00:00"
+            "time": "2017-09-09T21:43:22+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
