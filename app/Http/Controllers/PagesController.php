@@ -34,6 +34,17 @@ class PagesController extends Controller
 
     public function getLabTests()
     {
-        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::allFromCache()]);
+      $valid_routes = ['tab-1', 'tab-2', 'tab-3'];
+
+      if($test_slug != null && !in_array($test_slug, $valid_routes)) {
+          return view('errors.404');
+      }
+
+      $data = array(
+        'lab_tests' => LabTestInformation::allFromCache(),
+        'lab_test_slug' => $test_slug,
+      );
+
+      return view('legacy.pages.lab_tests')->with($data);
     }
 }

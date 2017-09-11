@@ -14,7 +14,7 @@
 
 <section class="section is-narrow">
     <div class="container bg-white">
-        <vertical-tabs>
+        <vertical-tabs load-with-id="{{ $lab_test_slug }}">
             @foreach ($lab_tests as $lab_test)
                 <vertical-tab class="tab" label="{{ $lab_test->sku->name }}">
                     <header class="level">

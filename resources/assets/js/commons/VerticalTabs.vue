@@ -2,7 +2,7 @@
     <div id="vertical-tabs" class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
-                <ul class="menu-list">  
+                <ul class="menu-list">
                     <li class="menu-label">Choose Test</li>
                     <li v-for="tabData in tabList">
                         <a
@@ -26,8 +26,11 @@
         data() {
             return {
                 tabList: {},
-                activeTab: null
+                activeTab: this.loadWithId || null,
             }
+        },
+        props: {
+            loadWithId: String,
         },
         methods: {
             updateTab(tabData) {
