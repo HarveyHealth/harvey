@@ -65,8 +65,8 @@ class UsersController extends BaseAPIController
     public function create(Request $request)
     {
         $validator = StrictValidator::make($request->all(), [
-            'first_name' => 'max:100',
-            'last_name' => 'max:100',
+            'first_name' => 'required|max:100',
+            'last_name' => 'required|max:100',
             'email' => 'required|email|max:150|unique:users',
             'password' => 'required|min:6',
             'terms' => 'required|accepted',
