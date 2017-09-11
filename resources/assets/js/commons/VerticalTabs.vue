@@ -41,10 +41,12 @@
                 });
             },
             setActiveTab(tabData) {
+                console.log('running...');
+
                 this.activeTab = tabData.id;
                 this.currentUrl = tabData.url;
 
-                console.log('updated url', this.currentUrl);
+                console.log(window.location);
 
                 if (this.currentUrl) {
                   window.history.pushState(null, null, this.currentUrl);
@@ -67,6 +69,8 @@
                 if (Object.keys(this.tabList).length && !this.activeTab) {
                     let firstTab = Object.keys(this.tabList)[0];
 
+                    console.log('here');
+
                     this.setActiveTab(this.tabList[firstTab]);
                 }
             });
@@ -74,8 +78,6 @@
             window.addEventListener('popstate', (e) => {
               const path = window.location.pathname;
               const newUrl = path.substr(path.lastIndexOf('/') + 1);
-
-              console.log(newUrl);
 
               for (let item in this.tabList) {
                 if (this.tabList.hasOwnProperty(item)) {

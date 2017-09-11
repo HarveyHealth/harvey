@@ -35,7 +35,7 @@ class PagesController extends Controller
     public function getLabTests($test_slug = null)
     {
       $valid_routes = [];
-      $lab_id = 0;
+      $lab_id = 1;
       $available_tests = LabTestInformation::allFromCache();
 
       // get available slugs from each test
