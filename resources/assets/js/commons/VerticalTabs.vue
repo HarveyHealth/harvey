@@ -44,6 +44,8 @@
                 this.activeTab = tabData.id;
                 this.currentUrl = tabData.url;
 
+                console.log('updated url', this.currentUrl);
+
                 if (this.currentUrl) {
                   window.history.pushState(null, null, this.currentUrl);
                 }
@@ -67,6 +69,21 @@
 
                     this.setActiveTab(this.tabList[firstTab]);
                 }
+            });
+
+            window.addEventListener('popstate', (e) => {
+              const path = window.location.pathname;
+              const newUrl = path.substr(path.lastIndexOf('/') + 1);
+
+              console.log(newUrl);
+
+              for (let item in this.tabList) {
+                if (this.tabList.hasOwnProperty(item)) {
+                  if (this.tabList[item].url === newUrl) {
+                    this.setActiveTab(this.tabList[item]);
+                  }
+                }
+              }
             });
         }
     }
