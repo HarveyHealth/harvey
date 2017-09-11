@@ -53,7 +53,7 @@ class PagesController extends Controller
 
       $data = array(
         'lab_tests' => $available_tests,
-        'lab_id' => $lab_id
+        'lab_id' => $lab_id,
       );
 
       return view('legacy.pages.lab_tests')->with($data);

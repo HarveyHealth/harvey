@@ -8,6 +8,7 @@
                         <a
                             :class="{'is-active': tabData.id === activeTab}"
                             @click="setActiveTab(tabData)"
+                            :data-url="tabData.url"
                         >{{ tabData.label }}</a>
                     </li>
                 </ul>
@@ -27,6 +28,7 @@
             return {
                 tabList: {},
                 activeTab: `tab-${this.loadWithId}` || null,
+                currentUrl: null,
             }
         },
         props: {
@@ -40,6 +42,11 @@
             },
             setActiveTab(tabData) {
                 this.activeTab = tabData.id;
+                this.currentUrl = tabData.url;
+
+                if (this.currentUrl) {
+                  window.history.pushState(null, null, this.currentUrl);
+                }
             },
             getTabIndex(id) {
                 const idList = Object.keys(this.tabList);
@@ -60,7 +67,7 @@
 
                     this.setActiveTab(this.tabList[firstTab]);
                 }
-            })
+            });
         }
     }
 </script>
