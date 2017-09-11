@@ -35,12 +35,16 @@ class PagesController extends Controller
     public function getLabTests($test_slug = null)
     {
       $valid_routes = [];
-      $labId = 0;
-      $availableTests = LabTestInformation::allFromCache();
+      $lab_id = 0;
+      $available_tests = LabTestInformation::allFromCache();
 
       // get available slugs from each test
-      foreach ($availableTests as $test) {
+      foreach ($available_tests as $test) {
         array_push($valid_routes, $test->sku->slug);
+
+        if ($test->sku->slug === $test_slug) {
+          $lab_id = $test->sku->id;
+        }
       }
 
       if ($test_slug != null && !in_array($test_slug, $valid_routes)) {
@@ -48,9 +52,8 @@ class PagesController extends Controller
       }
 
       $data = array(
-        'lab_tests' => $availableTests,
-        'lab_test_slug' => $test_slug,
-        'id' => $labId
+        'lab_tests' => $available_tests,
+        'lab_id' => $lab_id
       );
 
       return view('legacy.pages.lab_tests')->with($data);

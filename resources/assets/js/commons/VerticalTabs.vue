@@ -26,7 +26,7 @@
         data() {
             return {
                 tabList: {},
-                activeTab: this.loadWithId || null,
+                activeTab: `tab-${this.loadWithId}` || null,
             }
         },
         props: {
