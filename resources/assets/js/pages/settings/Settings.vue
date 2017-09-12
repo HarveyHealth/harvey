@@ -48,6 +48,7 @@
                             <h1>Delete Credit Card</h1>
                             <p>Are you sure you want to delete this credit card?</p>
                             <div class="inline-centered">
+                                <button @click="closeModal" class="button">Cancel</button>
                                 <button @click="deleteCard" class="button">Yes, Confirm</button>
                             </div>
                         </div>
