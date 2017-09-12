@@ -65,8 +65,6 @@
             }
         },
         mounted() {
-            this.previousTab = this.tabList[0];
-
             this.$nextTick(() => {
                 if (Object.keys(this.tabList).length && !this.activeTab) {
                     const firstTab = Object.keys(this.tabList)[0];
