@@ -1,7 +1,7 @@
 <template>
     <div class="card card-info">
         <div class="card-heading-container">
-            <h2 class="card-header">Practitioner Profile</h2>
+            <h2 class="heading-2">Practitioner Profile</h2>
         </div>
         <div class="card-content-container topPadding">
             <div class="card-content-wrap">
@@ -12,15 +12,15 @@
                         <div class="formgroup">
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="school">School</label>
-                                <input class="form-input form-input_text font-darkest-gray" maxlength="50" v-model="practitioner.school" type="text" name="school"/>
+                                <input class="form-input form-input_text " maxlength="50" v-model="practitioner.school" type="text" name="school"/>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="graduated_year">Graduation Year</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.graduated_year" type="number" name="graduated_year" maxlength="4"/>
+                                <input class="form-input form-input_text " v-model="practitioner.graduated_year" type="number" name="graduated_year" maxlength="4"/>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_number">License #</label>
-                                <input class="form-input form-input_text font-darkest-gray" v-model="practitioner.licenses[0].number" type="text" name="licenses[]" max="10"/>
+                                <input class="form-input form-input_text " v-model="practitioner.licenses[0].number" type="text" name="licenses[]" max="10"/>
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label" for="license_title">License Type</label>
@@ -44,11 +44,11 @@
                             </div>
                             <div class="input__container input-wrap">
                                 <label class="input__label">Specialties <span>(Enter 5)</span></label>
-                                <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[0]"/>
-                                <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[1]"/>
-                                <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[2]"/>
-                                <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[3]"/>
-                                <input class="form-input form-input_text font-darkest-gray" type="text" name="specialty[]" v-model="practitioner.specialty[4]"/>
+                                <input class="form-input form-input_text" type="text" name="specialty[]" v-model="practitioner.specialty[0]"/>
+                                <input class="form-input form-input_text" type="text" name="specialty[]" v-model="practitioner.specialty[1]"/>
+                                <input class="form-input form-input_text" type="text" name="specialty[]" v-model="practitioner.specialty[2]"/>
+                                <input class="form-input form-input_text" type="text" name="specialty[]" v-model="practitioner.specialty[3]"/>
+                                <input class="form-input form-input_text" type="text" name="specialty[]" v-model="practitioner.specialty[4]"/>
 
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                             <div class="profile-title">
-                                <h4>Dr. {{ practitioner.name }}, N.D.</h4>
+                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, N.D.</h4><br>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
@@ -84,10 +84,15 @@
                                     type="header">
                                 </ImageUpload>
                             </div>
-                            <p class="warning prac">Recommended image dimensions are 300x300 for the thumbnail and 400x100 for the background.</p>
-                            <div class="input__container input-wrap">
+                            <p class="copy-muted-2 font-italic font-sm font-thin" style="margin:12px 0 34px;">Recommended image dimensions are 300x300 for the thumbnail and 400x100 for the background.</p>
+                            <div class="input__container input-wrap font-sm">
                                 <label class="input__label" for="description">Description</label>
-                                <textarea v-model="practitioner.description" maxlength="300" name="description" id="description" placeholder="Enter a brief description."></textarea>
+                                <textarea
+                                  v-model="practitioner.description"
+                                  maxlength="300" name="description"
+                                  id="description" class="input--textarea"
+                                  placeholder="Enter a brief description."
+                                  style="min-height: 150px;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -202,10 +207,6 @@
 
 <style lang="scss">
 
-    .card-info {
-        width: 870px;
-    }
-
     input, label {
         display: block;
         width: 80%;
@@ -237,13 +238,7 @@
         padding: 0 0 20px 20px;
     }
 
-    textarea#description {
-        width: 100%;
-        height: 200px;
-        border: 1px solid #eee;
-        padding: 10px;
-        color: #777;
-    }
+
 
     .formgroups {
         display: flex;
@@ -301,10 +296,6 @@
             font-size: 14px;
             line-height: 18px;
         }
-    }
-
-    .form-input {
-        color: #777;
     }
 
     .profile-title {

@@ -38,7 +38,7 @@ class LabTestPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->isAdminOrPractitioner();
     }
 
     /**

@@ -2,11 +2,14 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'phone'" />
-      <h2 v-text="title"></h2>
+      <h2 class="heading-3-expand" v-text="title"></h2>
       <p v-html="subtext"></p>
     </div>
-    <div class="signup-container signup-phone-container text-centered">
-      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }"><i class="fa fa-long-arrow-left"></i><span>Practitioner</span></router-link>
+    <div class="signup-container signup-phone-container font-centered">
+      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }">
+        <i class="fa fa-long-arrow-left"></i>
+        <span class="font-sm">Practitioner</span>
+      </router-link>
 
       <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
         <div class="signup-main-icon">
@@ -24,7 +27,7 @@
         </div>
         <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
           <span v-if="!isPhoneProcessing">Send Text</span>
-          <LoadingGraphic v-else-if="isPhoneProcessing" :size="12" />
+          <ClipLoader v-else-if="isPhoneProcessing" :color="'#ffffff'" :size="'12px'" />
           <i v-else-if="isComplete" class="fa fa-check"></i>
         </button>
       </div>
@@ -36,18 +39,18 @@
 
         <ConfirmInput :get-value="storeCode" :disabled="$root.$data.signup.codeConfirmed" :stored="code" />
 
-        <button class="phone-process-button text-again" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">
+        <button class="phone-process-button text-again font-sm" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">
           <i class="fa fa-repeat" aria-hidden="true"></i>
           Text Me Again
         </button>
 
-        <button class="phone-process-button edit-phone" @click="newPhoneNumber">Re-Enter Phone</button>
+        <button class="phone-process-button edit-phone font-sm" @click="newPhoneNumber">Re-Enter Phone</button>
 
-        <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
+        <p class="copy-error" v-show="isInvalidCode">Invalid code entered.</p>
         <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
           <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
           <span v-else-if="!isPhoneConfirming">Confirm Code</span>
-          <LoadingGraphic v-else :size="12" />
+          <ClipLoader v-else :color="'#ffffff'" :size="'12px'" />
         </button>
       </div>
 
@@ -56,16 +59,16 @@
 </template>
 
 <script>
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import ConfirmInput from '../../../commons/ConfirmInput.vue';
-import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 import StagesNav from '../util/StagesNav.vue';
 import { TheMask } from 'vue-the-mask';
 
 export default {
   name: 'phone',
   components: {
+    ClipLoader,
     ConfirmInput,
-    LoadingGraphic,
     StagesNav,
     TheMask,
   },
@@ -132,6 +135,7 @@ export default {
             this.$root.$data.signup.code = this.code;
             this.isPhoneConfirming = false;
             setTimeout(() => {
+              this.$root.$data.signup.phoneConfirmed = true;
               this.$router.push({ name: 'schedule', path: '/schedule' });
             }, 500);
           } else {

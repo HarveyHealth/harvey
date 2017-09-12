@@ -1,0 +1,22 @@
+////
+/// @group breakpoints
+////
+
+/// Map of breakpoint aliases and breakpoint min-width values.
+$breakpoints: (
+  xs: 0px,
+  sm: 420px,
+  md: 640px,
+  lg: 780px,
+  xl: 960px,
+  xxl: 1280px
+);
+
+/// Map of breakpoints aliases and breakpoint min-height values.
+$breakpoints-height: (
+  xs: 0px,
+  sm: 320px, // iphone 5 landscape
+  md: 560px, // iphone 5 portrait
+  lg: 768px, // ipad landscape
+  xl: 1024px // ipad portrait
+);

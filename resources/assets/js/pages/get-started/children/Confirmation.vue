@@ -2,26 +2,38 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
-      <h2>Final Confirmation</h2>
+      <h2 class="heading-3">Final Confirmation</h2>
     </div>
     <div class="signup-container signup-interstitial-container">
-      <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }"><i class="fa fa-long-arrow-left"></i><span>Schedule</span></router-link>
+      <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">
+        <i class="fa fa-long-arrow-left"></i>
+        <span class="font-sm">Payment</span>
+      </router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
-      <p>By clicking below, you agree to a 60-minute consultation with Dr. {{ this.doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. The cost for the consultation will be $150.</p>
-      <button class="button button--blue" style="width: 195px" :disabled="isProcessing" @click="confirmSignup">
+
+      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+
+      <div v-show="!isBookingAllowed">
+        <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
+        <p class="copy-error" v-show="!$root.$data.signup.data.appointment_at">Appointment time has not been scheduled</p>
+        <p class="copy-error" v-show="!$root.$data.signup.phoneConfirmed">Please confirm phone number before booking an appointment</p>
+        <p class="copy-error" v-show="!$root.$data.signup.billingConfirmed">Please confirm billing before booking an appointment</p>
+      </div>
+
+      <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
-        <LoadingGraphic v-else-if="isProcessing" :style="{ width: '12px', fill: 'white' }" />
+        <ClipLoader v-else-if="isProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
     </div>
 
     <Overlay :active="showModal" />
     <Modal :active="showModal" :on-close="() => showModal = false">
-      <p class="error-text">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <p class="copy-error">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
         <span v-if="!isBackProcessing">Back to Schedule</span>
-        <LoadingGraphic v-else-if="isBackProcessing" :size="12" />
+        <ClipLoader v-else-if="isBackProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
     </Modal>
 
@@ -33,7 +45,7 @@ import getState from '../../../utils/methods/getState';
 import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
-import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
@@ -41,7 +53,7 @@ import StagesNav from '../util/StagesNav.vue';
 export default {
   name: 'confirmation',
   components: {
-    LoadingGraphic,
+    ClipLoader,
     Modal,
     Overlay,
     StagesNav,
@@ -49,6 +61,8 @@ export default {
   data() {
     return {
       isBackProcessing: false,
+      isProcessing: false,
+      cardBrand: this.$root.$data.signup.cardBrand,
       containerClasses: {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
@@ -56,8 +70,8 @@ export default {
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,
+      paymentStatement: `The cost for this consultation will be $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation is complete.`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
-      isProcessing: false,
       showModal: false,
       state: this.$root.$data.signup.practitionerState
     }
@@ -74,6 +88,12 @@ export default {
     },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+    },
+    isBookingAllowed() {
+      return (this.$root.$data.signup.billingConfirmed &&
+        this.$root.$data.signup.phoneConfirmed &&
+        this.$root.$data.signup.data.appointment_at &&
+        this.$root.$data.signup.data.practitioner_id)
     }
   },
   filters: {
