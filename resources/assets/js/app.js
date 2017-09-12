@@ -40,10 +40,23 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 // V2
 import Util from './v2/util';
 import Config from './v2/config';
+import State from './v2/state';
+import Logic from './v2/logic';
+import Http from './v2/http';
 
 window.App = {};
 window.App.Util = Util;
 window.App.Config = Config(Laravel);
+window.App.State = State;
+window.App.Logic = Logic;
+window.App.Http = Http;
+
+Vue.prototype.Util = window.App.Util;
+Vue.prototype.Config = window.App.Config;
+Vue.prototype.Logic = window.App.Logic;
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.propDeep(path.split('.'), App.State, ifUndefined);
+}
 
 const app = new Vue({
     router,
@@ -54,6 +67,8 @@ const app = new Vue({
         Usernav,
     },
     data: {
+        State: App.State,
+        // old
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {
