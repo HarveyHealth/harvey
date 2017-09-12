@@ -48,6 +48,9 @@ const app = new Vue({
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
+        colors: {
+          copy: '#4f6268'
+        },
         clientList: [],
         permissions: Laravel.user.user_type,
         environment: env,
@@ -60,7 +63,7 @@ const app = new Vue({
             confirmedDoctors: [],
             confirmedPatients: [],
             currentPage: '',
-            creditCardTokens: null,
+            creditCards: [],
             detailMessages: {},
             loadingAppointments: true,
             loadingCreditCards: true,
@@ -175,6 +178,7 @@ const app = new Vue({
                         city: includeData.city,
                         date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
                         email: includeData.email,
+                        has_a_card: includeData.has_a_card,
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
@@ -238,7 +242,7 @@ const app = new Vue({
             }
         },
         getLabData() {
-            axios.get(`${this.apiUrl}/lab/orders?include=patient,user`)
+            axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     this.global.labOrders = response.data.data.map((e, i) => {
                         e['included'] = response.data.included[i]
@@ -302,7 +306,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCardTokens = response.data.cards.length ? response.data.cards[0] : null
+                this.global.creditCards = response.data.cards
                 this.global.loadingCreditCards = false;
             })
         },

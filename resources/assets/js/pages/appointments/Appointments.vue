@@ -3,13 +3,13 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="title header-xlarge">
+          <h1 class="heading-1">
             <span class="text">Your Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
-
+          <br>
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
@@ -39,6 +39,8 @@
 
       <Patient
         :address="appointment.patientAddress"
+        :context="flyoutMode"
+        :has-card="appointment.patientPayment"
         :editable="editablePatient"
         :email="appointment.patientEmail"
         :list="patientList"
@@ -116,7 +118,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the <router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link> page before booking an appointment.</p>
+      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings<!--<router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link>--> page before booking an appointment.</p>
 
       <div class="inline-centered">
 
@@ -151,8 +153,8 @@
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
     >
-      <h3 class="modal-header">{{ userActionTitle }}</h3>
-      <p class="error-text" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
+      <h3 class="modal-header heading-3-expand">{{ userActionTitle }}</h3>
+      <p class="copy-error" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
       <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
         <tr v-if="userType !== 'patient'">
           <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
@@ -377,7 +379,7 @@ export default {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
-      return this.flyoutMode === 'new';
+      return this.flyoutMode === 'new' && this.appointment.patientPayment !== false;
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
@@ -599,6 +601,7 @@ export default {
         this.appointment.patientEmail = data._patientEmail;
         this.appointment.patientName = `${data._patientLast}, ${data._patientFirst}`;
         this.appointment.patientPhone = data._patientPhone;
+        this.appointment.patientPayment = data._hasCard;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
@@ -782,6 +785,7 @@ export default {
         id: '',
         status: '',
         patientAddress: '',
+        patientPayment: null,
         patientEmail: '',
         patientId: '',
         patientName: '',
@@ -826,6 +830,7 @@ export default {
     // Set patient info with data from list object
     setPatientInfo(data) {
       this.appointment.patientAddress = this.setPatientAddress(data);
+      this.appointment.patientPayment = data.has_a_card;
       this.appointment.patientEmail = data.email;
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
@@ -858,8 +863,9 @@ export default {
     },
 
     setupAppointments(list) {
-      const appts = tableDataTransform(list, this.$root.addTimezone()).sort(tableSort.byDate('_date')).reverse();
-      this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0);
+      const zone = this.$root.addTimezone();
+      const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
+      this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');
 

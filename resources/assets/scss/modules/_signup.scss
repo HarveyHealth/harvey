@@ -3,9 +3,6 @@
   text-align: center;
   @include padding(50px null null null);
   @include margin(null null 60px null);
-  h2 {
-    font-size: 30px;
-  }
 }
 
 .signup-container {
@@ -19,13 +16,18 @@
 .signup-back-button {
   position: absolute;
   top: 0;
-  left: 3px;
+  left: 0;
   padding: 20px;
-  transition: left 200ms ease-out, opacity 200ms ease-out;
   opacity: .7;
+  transition: opacity 200ms ease-out;
+
+  i {
+    left: 3px;
+    position: relative;
+    transition: left 200ms ease-out;
+  }
 
   span {
-    font-size: 14px;
     display: inline-block;
     margin-left: 10px;
     position: relative;
@@ -33,18 +35,21 @@
   }
 
   &:hover {
-    left: 0;
     color: $harvey-tertiary;
     opacity: 1;
+
+    i {
+      left: 0;
+    }
   }
 }
 
 .signup-form-container,
 .signup-interstitial-container {
   max-width: 510px;
+  padding-top: 22px;
   h1 {
-    font-size: 32px;
-    padding: 0 20px 20px;
+    margin-bottom: 22px;
   }
   @include query(md) {
     @include padding(40px 70px);
@@ -68,15 +73,11 @@
     @include margin(50px null null);
     max-width: 550px;
   }
-
-  h2 {
-    font-weight: 600;
-  }
 }
 
 .signup-main-icon {
   @include margin(0 auto);
-  fill: #ddd;
+  fill: $color-gray-1;
   width: 70px;
   @include query(md) {
     width: 100px;
@@ -133,7 +134,7 @@
 }
 .signup-stage-instructions {
   max-width: 540px;
-  @include margin(0 auto);
+  @include margin(0 auto 22px);
 
   p {
     @include margin(15px 0 30px);
@@ -145,12 +146,6 @@
   .message-container-interstitial {
     margin-bottom: 25px;
   }
-
-a:active,
-a:focus,
-a:hover {
-  color: $harvey-secondary;
-}
 
 // Registration specific styles
 .registration-tree, .interstitial {

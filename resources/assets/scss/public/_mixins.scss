@@ -1,4 +1,4 @@
-@import '../bourbon/_bourbon';
+@import '../../vendor/bourbon/_bourbon';
 
 @mixin background-gradient($color) {
     $gradient-top-left: darken(saturate(adjust-hue($color, -10deg), 10%), 10%);

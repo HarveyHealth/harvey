@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\Clients\Geocoder;
-use App\Lib\{PhoneNumberVerifier, TimeInterval};
+use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -18,7 +18,7 @@ use Cache, Carbon, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, isNot, Textable;
+    use HasApiTokens, Notifiable, Searchable, IsNot, Textable;
 
     public $asYouType = true;
 
@@ -199,6 +199,14 @@ class User extends Authenticatable implements Mailable
         return $this->isAdmin() || $this->isPractitioner();
     }
 
+    public function truncatedName()
+    {
+        $first_initial = substr($this->first_name, 0, 1);
+        $name = $first_initial . '. ' . $this->last_name;
+
+        return $name;
+    }
+
     public function passwordSet()
     {
         return isset($this->password);
@@ -293,6 +301,8 @@ class User extends Authenticatable implements Mailable
 
     public function deleteCard(string $cardId)
     {
+        $this->clearHasACardCache();
+
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $exception) {
@@ -300,13 +310,13 @@ class User extends Authenticatable implements Mailable
             return false;
         }
 
-        $this->clearHasACardCache();
-
         return true;
     }
 
     public function updateCard(array $cardInfo)
     {
+        $this->clearHasACardCache();
+
         $cardId = $cardInfo['card_id'];
         unset($cardInfo['card_id']);
 
@@ -328,6 +338,8 @@ class User extends Authenticatable implements Mailable
 
     public function addCard(string $cardTokenId)
     {
+        $this->clearHasACardCache();
+
         try {
             if (empty($this->stripe_id)) {
                 $customer = Customer::create([
@@ -338,7 +350,10 @@ class User extends Authenticatable implements Mailable
                 $this->stripe_id = $customer->id;
             } else {
                 $customer = Customer::retrieve($this->stripe_id);
-                $customer->sources->create(['source' => $cardTokenId]);
+                $customer->sources->create([
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $this->id],
+                ]);
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $exception) {
@@ -349,8 +364,6 @@ class User extends Authenticatable implements Mailable
         $this->card_last_four = $defaultCard->last4;
         $this->card_brand = $defaultCard->brand;
         $this->save();
-
-        $this->clearHasACardCache();
 
         return true;
     }
@@ -367,9 +380,15 @@ class User extends Authenticatable implements Mailable
         return Cache::forget("has-a-card-user-id-{$this->id}");
     }
 
-    public function isNot(Model $model)
+    public function sendPasswordResetNotification($token)
     {
-        return !$this->is($model);
-    }
+        $transactionalEmailJob = TransactionalEmail::createJob()
+            ->setTo($this->email)
+            ->setTemplate('password.reset')
+            ->setTemplateModel(['action_url' => url(config('app.url').route('password.reset', $token, false))]);
 
+        dispatch($transactionalEmailJob);
+
+        return true;
+    }
 }

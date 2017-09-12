@@ -116,6 +116,7 @@ class AppointmentTest extends TestCase
             'appointment_at' => Carbon::parse("2 hours"),
             'patient_id' => $patient->id,
             'practitioner_id' => $practitioner->id,
+            'status' => 'pending',
         ]);
 
         $output = $this->getRemindersCommandOutput();

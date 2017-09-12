@@ -133,6 +133,29 @@ class LabTestTest extends TestCase
         $this->assertDatabaseHas('lab_tests', ['sku_id' => $sku->id]);
     }
 
+    public function test_it_allows_a_practitioner_to_create_a_lab_test()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $sku = factory(SKU::class)->create();
+
+        Passport::actingAs(factory(Practitioner::class)->create()->user);
+
+        $parameters = [
+            'lab_order_id' => $labOrder->id,
+            'sku_id' => $sku->id,
+        ];
+
+        $response = $this->json('POST', 'api/v1/lab/tests', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['lab_order_id' => "{$labOrder->id}"]);
+        $response->assertJsonFragment(['sku_id' => "{$sku->id}"]);
+
+        $this->assertDatabaseHas('lab_tests', ['lab_order_id' => $labOrder->id]);
+        $this->assertDatabaseHas('lab_tests', ['sku_id' => $sku->id]);
+    }
+
     public function test_sku_id_is_required_when_creating_a_lab_test()
     {
         $labOrder = factory(LabOrder::class)->create();
@@ -163,15 +186,6 @@ class LabTestTest extends TestCase
         $response = $this->json('POST', 'api/v1/lab/tests', $parameters);
 
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_it_does_not_allows_a_practitioner_to_create_a_lab_test()
-    {
-        Passport::actingAs(factory(Practitioner::class)->create()->user);
-
-        $response = $this->json('POST', 'api/v1/lab/tests');
-
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
     public function test_it_does_not_allows_a_patient_to_create_a_lab_test()

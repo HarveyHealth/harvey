@@ -22,7 +22,7 @@
         <label class="input__label" for="patient_name">order tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
-      <div class="input__container">
+      <div class="input__container" style="height: 475px;">
         <label class="input__label" for="patient_name">billing info</label>
         <div v-if="status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
@@ -46,16 +46,16 @@
               <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
               <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
             </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+            <div class="input__container length" style="padding-top: 25px;">
               <label class="input__label" for="patient_name">expiry date</label>
-              <span class="custom-select"> 
+              <span class="custom-select" style="float: left; width: 48%;">
                   <select @change="updateMonth($event)">
                       <option v-for="month in monthList">{{ month }}</option>
                   </select>
               </span>
               <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
             </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
+            <div class="input__container length" style="padding-top: 25px;">
               <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
               <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
               <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
@@ -79,8 +79,8 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
-          <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
-          <span class="custom-select"> 
+          <label class="input__label" style="border: none; padding-top: 7.5px;">{{ test.name }}</label>
+          <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -103,7 +103,7 @@
         <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
       </div>
       <div class="input__container">
-        <span class="input__label">order tracking</span>
+        <label class="input__label" for="patient_name">order tracking</label>
         <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
       </div>
       <div class="input__container">
@@ -122,11 +122,21 @@
         <button class="button" @click="updateOrder()">Update Shipment</button>
       </div>
     </div>
+    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+        <div class="inline-centered">
+            <h1>Invalid Credit Card</h1>
+            <p>The credit card you entered is invalid.</p>
+            <div class="inline-centered">
+                <button @click="closeInvalidCC" class="button">Try again</button>
+            </div>
+        </div>
+    </Modal>
   </Flyout>
 </template>
 
 <script>
   import Flyout from '../../../commons/Flyout.vue'
+  import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
     capitalize
@@ -138,7 +148,8 @@
     props: ['row-data', 'reset'],
     components: {
       Flyout,
-      SelectOptions
+      SelectOptions,
+      Modal
     },
     data() {
       return {
@@ -155,9 +166,11 @@
         cardExpiry: '',
         cardCvc: '',
         postalCode: '',
-        hasCard: this.$root.$data.global.creditCardTokens != null,
+        invalidCC: false,
+        invalidModalActive: false,
+        hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        latestCard: this.$root.$data.global.creditCardTokens,
+        latestCard: this.$root.$data.global.creditCards.slice(-1).pop(),
         monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
       }
     },
@@ -172,6 +185,10 @@
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
       },
+      closeInvalidCC() {
+        this.invalidCC = false;
+        this.invalidModalActive = false;
+      },
       updateMonth(e) {
           this.month = e.target.value
       },
@@ -185,6 +202,12 @@
             address_zip: this.postalCode,
             name: `${this.firstName} ${this.lastName}`
           }, (status, response) => {
+            if (response.error) {
+              this.invalidCC = true;
+              this.invalidModalActive = true;
+              this.handleFlyoutClose();
+              return;
+            }
             axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
                 id: response.id
               })
@@ -287,8 +310,7 @@
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
       oldCard() {
-        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-          .brand) {
+        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
           this.hasCard = true
         }
         return this.$props.rowData ? this.$props.rowData.card : {brand: null, last4: null}

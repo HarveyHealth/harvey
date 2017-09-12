@@ -33,7 +33,8 @@
         "teamtnt/laravel-scout-tntsearch-driver": "^3.0",
         "pusher/pusher-php-server": "^2.6",
         "twilio/sdk": "^5.11",
-        "google/apiclient": "^2.2"
+        "google/apiclient": "^2.2",
+        "cviebrock/eloquent-sluggable": "^4.2"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
