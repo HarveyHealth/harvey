@@ -3,7 +3,7 @@
         <button class="button--close flyout-close" @click="reply()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="title">Reply</h2>
+        <h2 class="heading-3-expand">Reply</h2><br>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
@@ -60,21 +60,21 @@
         },
         computed: {
             userList() {
-                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                if (this.$root.$data.permissions === 'patient') {
                     return [''].concat(this.$root.$data.global.practitioners);
-                } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+                } else if (this.$root.$data.permissions === 'practitioner') {
                     return [''].concat(this.$root.$data.global.patients);
-                } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+                } else if (this.$root.$data.permissions === 'admin') {
                     return [''].concat(this.$root.$data.global.practitioners)
                         .concat(this.$root.$data.global.patients);
                 }
             },
             toUserType() {
-                if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+                if (this.$root.$data.permissions === 'patient') {
                     return "doctor";
-                } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+                } else if (this.$root.$data.permissions === 'practitioner') {
                     return "patient";
-                } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+                } else if (this.$root.$data.permissions === 'admin') {
                     return "all";
                 }
             }

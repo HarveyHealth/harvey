@@ -31,19 +31,26 @@ export default {
       return index;
     },
     stages() {
-      const stages = [
+      let stages = [
         { name: 'practitioner',
           path: '/practitioner' },
         { name: 'phone',
           path: '/phone' },
         { name: 'schedule',
           path: '/schedule' },
+        { name: 'payment',
+          path: '/payment' },
         { name: 'confirmation',
           path: '/confirmation' },
       ];
-      if (Laravel.user.phone_verified_at) {
-        stages.splice(1,1);
-      }
+      stages = stages.filter(stage => {
+        if (stage.name === 'phone' && Laravel.user.phone_verified_at) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+
       return stages;
     }
   }

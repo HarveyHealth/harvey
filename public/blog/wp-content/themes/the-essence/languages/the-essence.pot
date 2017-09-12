@@ -1,0 +1,919 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: The Essence\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-22 22:59+0000\n"
+"POT-Revision-Date: Tue Aug 09 2016 22:34:24 GMT+0200 (Central Europe "
+"Daylight Time)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Loco - https://localise.biz/\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-SearchPath-0: ."
+
+#: 404.php:5 template-parts/content-none.php:3
+msgid "Sorry, Nothing Found!"
+msgstr ""
+
+#: 404.php:6
+msgid ""
+"The page you are looking for could not be found. Maybe try the search form "
+"below."
+msgstr ""
+
+#: archive.php:42
+msgid "Currently Browsing:"
+msgstr ""
+
+#: comments.php:10
+msgid "Comments"
+msgstr ""
+
+#: comments.php:16 comments.php:37
+msgid "Older Comments"
+msgstr ""
+
+#: comments.php:17 comments.php:38
+msgid "Newer Comments"
+msgstr ""
+
+#: comments.php:47
+msgid "Comments are closed."
+msgstr ""
+
+#: comments.php:52
+msgid "Comment"
+msgstr ""
+
+#: comments.php:54
+msgid "Name"
+msgstr ""
+
+#: comments.php:55
+msgid "Email"
+msgstr ""
+
+#: comments.php:56
+msgid "Website"
+msgstr ""
+
+#: functions.php:43
+msgid "Primary"
+msgstr ""
+
+#: functions.php:44 inc/theme-options.php:113
+msgid "Top Bar"
+msgstr ""
+
+#: functions.php:45
+msgid "Footer"
+msgstr ""
+
+#: functions.php:46 functions.php:120 inc/theme-options.php:603
+msgid "Side Panel"
+msgstr ""
+
+#: functions.php:80
+msgid "Sidebar"
+msgstr ""
+
+#: functions.php:90
+msgid "Footer Column 1"
+msgstr ""
+
+#: functions.php:100
+msgid "Footer Column 2"
+msgstr ""
+
+#: functions.php:110
+msgid "Footer Column 3"
+msgstr ""
+
+#. Translators: If there are characters in your language that are not supported
+#. by chosen font(s), translate this to 'off'. Do not translate into your own language.
+#: functions.php:177
+msgctxt "Google fonts: on or off"
+msgid "on"
+msgstr ""
+
+#: search.php:5
+msgid "Search Results For:"
+msgstr ""
+
+#. Name of the template
+msgid "Full Width Content"
+msgstr ""
+
+#. Name of the template
+msgid "Home"
+msgstr ""
+
+#. Name of the template
+msgid "Styler Content"
+msgstr ""
+
+#: inc/display-functions.php:65
+msgid "Newer"
+msgstr ""
+
+#: inc/display-functions.php:66
+msgid "Older"
+msgstr ""
+
+#: inc/display-functions.php:76
+msgid "LOAD MORE POSTS"
+msgstr ""
+
+#: inc/display-functions.php:78
+msgid "NO MORE POSTS"
+msgstr ""
+
+#: inc/display-functions.php:113
+msgid "Pingback:"
+msgstr ""
+
+#: inc/display-functions.php:113
+msgid "(Edit)"
+msgstr ""
+
+#: inc/display-functions.php:144
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: inc/display-functions.php:184 template-parts/main/related-posts.php:22
+msgid "Related Posts"
+msgstr ""
+
+#: inc/display-functions.php:215 template-parts/content.php:19 
+#: template-parts/header/tagline.php:37 
+#: template-parts/listing/blog-post-s1.php:83 
+#: template-parts/listing/blog-post-s3.php:103 
+#: template-parts/listing/blog-post-s4.php:95 
+#: template-parts/listing/blog-post-s5.php:76 
+#: template-parts/listing/blog-post-s7.php:101
+msgid "%1$s ago"
+msgstr ""
+
+#: inc/display-functions.php:282
+msgid "- Select Page -"
+msgstr ""
+
+#: inc/post-options.php:26
+msgid "Homepage Options"
+msgstr ""
+
+#: inc/post-options.php:31
+msgid "Posts Per Page"
+msgstr ""
+
+#: inc/post-options.php:32
+msgid "Amount of posts to be displayed per page ( per \"load more\" )."
+msgstr ""
+
+#: inc/post-options.php:39
+msgid "Style"
+msgstr ""
+
+#: inc/post-options.php:40
+msgid "Choose the style for the homepage."
+msgstr ""
+
+#: inc/post-options.php:71
+msgid "Post Options"
+msgstr ""
+
+#: inc/post-options.php:76
+msgid "Layout"
+msgstr ""
+
+#: inc/post-options.php:77
+msgid "Choose the layout for this post ( full content or with sidebar )."
+msgstr ""
+
+#: inc/post-options.php:82
+msgid "Full Content"
+msgstr ""
+
+#: inc/post-options.php:83
+msgid "Content + Sidebar"
+msgstr ""
+
+#: inc/theme-options.php:14
+msgid "- General"
+msgstr ""
+
+#: inc/theme-options.php:19
+msgid "Logo"
+msgstr ""
+
+#: inc/theme-options.php:26
+msgid "Logo - Retina"
+msgstr ""
+
+#: inc/theme-options.php:33
+msgid "Logo - Left Panel"
+msgstr ""
+
+#: inc/theme-options.php:42
+msgid "- Blog Post Listing"
+msgstr ""
+
+#: inc/theme-options.php:53
+msgid "Meta Elements"
+msgstr ""
+
+#: inc/theme-options.php:62
+msgid "- Blog Post Single"
+msgstr ""
+
+#: inc/theme-options.php:73
+msgid "Blog Post Single - Meta Elements"
+msgstr ""
+
+#: inc/theme-options.php:84
+msgid "Blog Post Single - Related Posts Section"
+msgstr ""
+
+#: inc/theme-options.php:95
+msgid "Blog Post Single - About Author Section"
+msgstr ""
+
+#: inc/theme-options.php:104
+msgid "- Header"
+msgstr ""
+
+#: inc/theme-options.php:124
+msgid "Small Carousel - Homepage"
+msgstr ""
+
+#: inc/theme-options.php:135
+msgid "Small Carousel - Inner Pages"
+msgstr ""
+
+#: inc/theme-options.php:146
+msgid "Big Carousel"
+msgstr ""
+
+#: inc/theme-options.php:155
+msgid "- Home Promo Boxes"
+msgstr ""
+
+#: inc/theme-options.php:164
+msgid "Enable/Disable"
+msgstr ""
+
+#: inc/theme-options.php:171
+msgid "Box 1 - URL"
+msgstr ""
+
+#: inc/theme-options.php:178
+msgid "Box 1 - Title"
+msgstr ""
+
+#: inc/theme-options.php:185
+msgid "Box 1 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:192
+msgid "Box 1 - Image"
+msgstr ""
+
+#: inc/theme-options.php:199
+msgid "Box 2 - URL"
+msgstr ""
+
+#: inc/theme-options.php:206
+msgid "Box 2 - Title"
+msgstr ""
+
+#: inc/theme-options.php:213
+msgid "Box 2 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:220
+msgid "Box 2 - Image"
+msgstr ""
+
+#: inc/theme-options.php:227
+msgid "Box 3 - URL"
+msgstr ""
+
+#: inc/theme-options.php:234
+msgid "Box 3 - Title"
+msgstr ""
+
+#: inc/theme-options.php:241
+msgid "Box 3 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:248
+msgid "Box 3 - Image"
+msgstr ""
+
+#: inc/theme-options.php:255
+msgid "Box 4 - URL"
+msgstr ""
+
+#: inc/theme-options.php:262
+msgid "Box 4 - Title"
+msgstr ""
+
+#: inc/theme-options.php:269
+msgid "Box 4 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:276
+msgid "Box 4 - Image"
+msgstr ""
+
+#: inc/theme-options.php:283
+msgid "Box 5 - URL"
+msgstr ""
+
+#: inc/theme-options.php:290
+msgid "Box 5 - Title"
+msgstr ""
+
+#: inc/theme-options.php:297
+msgid "Box 5 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:304
+msgid "Box 5 - Image"
+msgstr ""
+
+#: inc/theme-options.php:311
+msgid "Box 6 - URL"
+msgstr ""
+
+#: inc/theme-options.php:318
+msgid "Box 6 - Title"
+msgstr ""
+
+#: inc/theme-options.php:325
+msgid "Box 6 - Subtitle"
+msgstr ""
+
+#: inc/theme-options.php:332
+msgid "Box 6 - Image"
+msgstr ""
+
+#: inc/theme-options.php:341
+msgid "- Footer"
+msgstr ""
+
+#: inc/theme-options.php:350
+msgid "Posts"
+msgstr ""
+
+#: inc/theme-options.php:357
+msgid "Posts - Amount"
+msgstr ""
+
+#: inc/theme-options.php:364
+msgid "Posts - Category"
+msgstr ""
+
+#: inc/theme-options.php:378
+msgid "Posts - Order By"
+msgstr ""
+
+#: inc/theme-options.php:389
+msgid "Posts - Order"
+msgstr ""
+
+#: inc/theme-options.php:400
+msgid "Widgets"
+msgstr ""
+
+#: inc/theme-options.php:411 inc/user-options.php:28
+msgid "Instagram"
+msgstr ""
+
+#: inc/theme-options.php:418
+msgid "Instagram - Access Token"
+msgstr ""
+
+#: inc/theme-options.php:426
+msgid "Instagram - User ID"
+msgstr ""
+
+#: inc/theme-options.php:433
+msgid "Copyright Text"
+msgstr ""
+
+#: inc/theme-options.php:442
+msgid "- Social"
+msgstr ""
+
+#: inc/theme-options.php:447
+msgid "Twitter URL"
+msgstr ""
+
+#: inc/theme-options.php:454
+msgid "Facebook URL"
+msgstr ""
+
+#: inc/theme-options.php:461
+msgid "Youtube URL"
+msgstr ""
+
+#: inc/theme-options.php:468
+msgid "Vimeo URL"
+msgstr ""
+
+#: inc/theme-options.php:475
+msgid "Tumblr URL"
+msgstr ""
+
+#: inc/theme-options.php:482
+msgid "Pinterest URL"
+msgstr ""
+
+#: inc/theme-options.php:489
+msgid "LinkedIn URL"
+msgstr ""
+
+#: inc/theme-options.php:496
+msgid "Instagram URL"
+msgstr ""
+
+#: inc/theme-options.php:503
+msgid "Github URL"
+msgstr ""
+
+#: inc/theme-options.php:510
+msgid "Google Plus URL"
+msgstr ""
+
+#: inc/theme-options.php:517
+msgid "Dribbble URL"
+msgstr ""
+
+#: inc/theme-options.php:524
+msgid "Dropbox URL"
+msgstr ""
+
+#: inc/theme-options.php:531
+msgid "Flickr URL"
+msgstr ""
+
+#: inc/theme-options.php:538
+msgid "Foursquare URL"
+msgstr ""
+
+#: inc/theme-options.php:545
+msgid "Behance URL"
+msgstr ""
+
+#: inc/theme-options.php:552
+msgid "Vine URL"
+msgstr ""
+
+#: inc/theme-options.php:559
+msgid "RSS URL"
+msgstr ""
+
+#: inc/theme-options.php:568
+msgid "- Other"
+msgstr ""
+
+#: inc/theme-options.php:592
+msgid "Archive Style"
+msgstr ""
+
+#: inc/theme-options.php:614
+msgid "Sticky Navigation"
+msgstr ""
+
+#: inc/user-options.php:7
+msgid "Social Profiles"
+msgstr ""
+
+#: inc/user-options.php:12
+msgid "Twitter"
+msgstr ""
+
+#: inc/user-options.php:15 inc/user-options.php:23 inc/user-options.php:31 
+#: inc/user-options.php:39 inc/user-options.php:47 inc/user-options.php:55
+msgid "The full URL to your profile."
+msgstr ""
+
+#: inc/user-options.php:20
+msgid "Facebook"
+msgstr ""
+
+#: inc/user-options.php:36
+msgid "Behance"
+msgstr ""
+
+#: inc/user-options.php:44
+msgid "Dribbble"
+msgstr ""
+
+#: inc/user-options.php:52
+msgid "Vine"
+msgstr ""
+
+#: template-parts/content-none.php:4
+msgid ""
+"Nothing matched your search terms. Please try again with some different "
+"keywords."
+msgstr ""
+
+#: template-parts/content-none.php:9
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+
+#: template-parts/content.php:18 template-parts/header/tagline.php:36 
+#: template-parts/listing/blog-post-s1.php:82 
+#: template-parts/listing/blog-post-s7.php:100 
+#: template-parts/main/about-author.php:18
+msgid "by"
+msgstr ""
+
+#: template-parts/content.php:27 template-parts/header/tagline.php:55 
+#: template-parts/listing/blog-post-s1.php:93 
+#: template-parts/listing/blog-post-s6.php:49
+msgid "No comments"
+msgstr ""
+
+#: template-parts/content.php:27 template-parts/header/tagline.php:55 
+#: template-parts/listing/blog-post-s1.php:93 
+#: template-parts/listing/blog-post-s6.php:49
+msgid "One comment"
+msgstr ""
+
+#: template-parts/content.php:27 template-parts/header/tagline.php:55 
+#: template-parts/listing/blog-post-s1.php:93 
+#: template-parts/listing/blog-post-s6.php:49
+msgid "% comments"
+msgstr ""
+
+#: template-parts/content.php:35 template-parts/mobile-share.php:7 
+#: template-parts/header/tagline.php:65 
+#: template-parts/listing/blog-post-s1.php:104 
+#: template-parts/main/share-post.php:10
+msgid "share"
+msgid_plural "shares"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/content.php:88 template-parts/listing/blog-post-s1.php:137
+msgid "CONTINUE READING"
+msgstr ""
+
+#. Base ID
+#: inc/widgets/widget.author.php:15
+msgid "MeridianThemes - About Author"
+msgstr ""
+
+#: inc/widgets/widget.author.php:16
+msgid "Show info about the author."
+msgstr ""
+
+#: inc/widgets/widget.author.php:113 inc/widgets/widget.instagram.php:142 
+#: inc/widgets/widget.posts-alt.php:119 inc/widgets/widget.posts.php:117 
+#: inc/widgets/widget.social.php:140 inc/widgets/widget.subscribe.php:114
+msgid "Title:"
+msgstr ""
+
+#: inc/widgets/widget.author.php:117
+msgid "Author Image URL:"
+msgstr ""
+
+#: inc/widgets/widget.author.php:121
+msgid "Heading Title:"
+msgstr ""
+
+#: inc/widgets/widget.author.php:125
+msgid "Content:"
+msgstr ""
+
+#: inc/widgets/widget.author.php:129
+msgid "Signature Image URL:"
+msgstr ""
+
+#: inc/widgets/widget.instagram.php:146 inc/widgets/widget.posts-alt.php:123 
+#: inc/widgets/widget.posts.php:121
+msgid "Amount:"
+msgstr ""
+
+#: inc/widgets/widget.instagram.php:150
+msgid "Access Token:"
+msgstr ""
+
+#. Base ID
+#: inc/widgets/widget.posts-alt.php:12
+msgid "MeridianThemes - Posts Alternate List"
+msgstr ""
+
+#: inc/widgets/widget.posts-alt.php:13 inc/widgets/widget.posts.php:13
+msgid "Show recent or popular posts."
+msgstr ""
+
+#: inc/widgets/widget.posts-alt.php:127 inc/widgets/widget.posts.php:125
+msgid "Type:"
+msgstr ""
+
+#: inc/widgets/widget.posts-alt.php:129 inc/widgets/widget.posts.php:127
+msgid "Recent"
+msgstr ""
+
+#: inc/widgets/widget.posts-alt.php:130 inc/widgets/widget.posts.php:128
+msgid "Popular"
+msgstr ""
+
+#. Base ID
+#: inc/widgets/widget.posts.php:12
+msgid "MeridianThemes - Posts List"
+msgstr ""
+
+#. Base ID
+#: inc/widgets/widget.social.php:15
+msgid "MeridianThemes - Social"
+msgstr ""
+
+#: inc/widgets/widget.social.php:16
+msgid "Show social links."
+msgstr ""
+
+#: inc/widgets/widget.social.php:144
+msgid ""
+"The URLs to the social profiles are set in WP admin &rarr; Appearance &rarr; "
+"Customize &rarr; Social"
+msgstr ""
+
+#. Base ID
+#: inc/widgets/widget.subscribe.php:15
+msgid "MeridianThemes - Subscribe"
+msgstr ""
+
+#: inc/widgets/widget.subscribe.php:16
+msgid "Show subscription form."
+msgstr ""
+
+#: inc/widgets/widget.subscribe.php:118
+msgid "BG Image URL:"
+msgstr ""
+
+#: inc/widgets/widget.subscribe.php:122
+msgid "Primary Text:"
+msgstr ""
+
+#: inc/widgets/widget.subscribe.php:126
+msgid "Secondary Text:"
+msgstr ""
+
+#: inc/widgets/widget.subscribe.php:130
+msgid "Subscribe ID ( mailpoet ):"
+msgstr ""
+
+#: template-parts/footer/posts.php:7
+msgid "Popular Posts"
+msgstr ""
+
+#: template-parts/header/navigation.php:23
+msgid "Enter search term and hit enter"
+msgstr ""
+
+#: template-parts/main/prev-next-posts.php:6
+msgid "Previous Post"
+msgstr ""
+
+#: template-parts/main/prev-next-posts.php:12
+msgid "Next Post"
+msgstr ""
+
+#: template-parts/main/share-post.php:3
+msgid "Share this post"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2.php:129
+msgid "Metabox configuration is required to have an ID parameter"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2.php:418
+msgid "Click to toggle"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Ajax.php:71
+msgid "Please Try Again"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Ajax.php:173
+msgid "Remove Embed"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Ajax.php:177
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Field.php:1186
+msgid "Add Group"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Field.php:1187
+msgid "Remove Group"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Field.php:1209 inc/CMB2/includes/CMB2_Field.php:1213
+msgid "None"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Field.php:1269
+msgid "Sorry, this field does not have a cmb_id specified."
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Field_Display.php:408 
+#: inc/CMB2/includes/CMB2_JS.php:139 
+#: inc/CMB2/includes/types/CMB2_Type_File_Base.php:75
+msgid "File:"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_hookup.php:143
+msgid ""
+"Term Metadata is a WordPress > 4.4 feature. Please upgrade your WordPress "
+"install."
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_hookup.php:147
+msgid "Term metaboxes configuration requires a 'taxonomies' parameter"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:86 inc/CMB2/includes/CMB2_JS.php:119
+msgid "Clear"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:87
+msgid "Default"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:88
+msgid "Select Color"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:89
+msgid "Current Color"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:109
+msgctxt "Valid formatDate string for jquery-ui datepicker"
+msgid "mm/dd/yy"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:110
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:111
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:112
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:113
+msgid ""
+"January, February, March, April, May, June, July, August, September, October,"
+" November, December"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:114
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:115
+msgid "Next"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:116
+msgid "Prev"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:117
+msgid "Today"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:118 inc/CMB2/includes/CMB2_JS.php:128
+msgid "Done"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:122
+msgid "Choose Time"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:123
+msgid "Time"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:124
+msgid "Hour"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:125
+msgid "Minute"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:126
+msgid "Second"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:127
+msgid "Now"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:129
+msgctxt ""
+"Valid formatting string, as per http://trentrichardson."
+"com/examples/timepicker/"
+msgid "hh:mm TT"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:135
+msgid "Use this file"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:136
+msgid "Use these files"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:137 
+#: inc/CMB2/includes/types/CMB2_Type_File_Base.php:61
+msgid "Remove Image"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:138 inc/CMB2/includes/CMB2_Types.php:257 
+#: inc/CMB2/includes/types/CMB2_Type_File_Base.php:80
+msgid "Remove"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:140 
+#: inc/CMB2/includes/types/CMB2_Type_File_Base.php:78
+msgid "Download"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_JS.php:141
+msgid "Select / Deselect All"
+msgstr ""
+
+#: inc/CMB2/includes/CMB2_Types.php:194
+msgid "Add Row"
+msgstr ""
+
+#: inc/CMB2/includes/helper-functions.php:93
+msgid "No oEmbed Results Found for %s. View more info at %s."
+msgstr ""
+
+#: inc/CMB2/includes/helper-functions.php:279
+msgid "Save"
+msgstr ""
+
+#: inc/CMB2/includes/types/CMB2_Type_File.php:36
+msgid "Add or Upload File"
+msgstr ""
+
+#: inc/CMB2/includes/types/CMB2_Type_File_List.php:36
+msgid "Add or Upload Files"
+msgstr ""
+
+#: inc/CMB2/includes/types/CMB2_Type_Taxonomy_Multicheck.php:27 
+#: inc/CMB2/includes/types/CMB2_Type_Taxonomy_Radio.php:25
+msgid "No terms"
+msgstr ""
+
+#. Name of the theme
+msgid "The Essence"
+msgstr ""
+
+#. Description of the theme
+msgid "Feminine blog theme"
+msgstr ""
+
+#. Theme URI of the theme
+msgid "http://meridianthemes.net"
+msgstr ""
+
+#. Author of the theme
+msgid "MeridianThemes"
+msgstr ""
+
+#. Author URI of the theme
+msgid "http://themeforest.net/user/meridianthemes"
+msgstr ""

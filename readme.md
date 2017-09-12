@@ -37,6 +37,8 @@ php artisan serve
 
 - For use cases Laravel Mix doesn't cover, we'll need to config directly from `./webpack.config.js`.
 
+- We are using [Sassdoc](http://sassdoc.com/annotations/) to document our Sass codebase. Use `npm run sassdoc` to generate the documentation and then review it at [harvey.app/sassdoc](harvey.app/sassdoc).
+
 ### Homestead
 
 - run `./setup`
@@ -92,3 +94,22 @@ Database Seeding will provide you with these accounts:
 
 
 * To observe the faked Twilio text message with confirmation code locally, make sure you are running `php artisan queue:listen` in one terminal windows and in a second run `php artisan log:tail`. Check the log after you've clicked to send text message and you should see the confirmation code.
+
+## WordPress
+An instance of Wordpress is installed in the 'blog' subdirectory. 
+
+To set up the database, first create a 'blog' database in the homestead/vagrant db server.
+Then, run the following commands from the project root:
+
+```
+vagrant ssh
+sudo -i
+echo -e "\nenv['WP_DATABASE_URL'] = 'mysql://homestead:secret@harvey.app/blog?reconnect=true'" >> /etc/php/7.1/fpm/pool.d/www.conf
+echo -e "\nenv['AWS_KEY'] = 'YOUR_AWS_KEY_HERE'" >> /etc/php/7.1/fpm/pool.d/www.conf
+echo -e "\nenv['AWS_SECRET'] = 'YOUR_AWS_SECRET_HERE'" >> /etc/php/7.1/fpm/pool.d/www.conf
+echo -e "\nenv['AWS_REGION'] = 'YOUR_AWS_REGION_HERE'" >> /etc/php/7.1/fpm/pool.d/www.conf
+echo -e "\nenv['AWS_BUCKET'] = 'YOUR_AWS_BUCKET_HERE'" >> /etc/php/7.1/fpm/pool.d/www.conf
+exit
+sudo service nginx restart
+sudo service php7.1-fpm restart
+```

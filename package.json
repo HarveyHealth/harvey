@@ -10,13 +10,15 @@
     "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=./webpack.config.js",
     "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js"
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js",
+    "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
     "bootstrap-sass": "^3.3.7",
     "bulma": "^0.3.0",
+    "card": "^2.4.0",
     "cross-env": "^3.2.3",
     "es6-promise": "^4.1.0",
     "get-env": "^0.5.10",
@@ -28,6 +30,8 @@
     "object-diff": "0.0.4",
     "pusher-js": "^4.1.0",
     "sass-loader": "^6.0.3",
+    "stripe": "^4.23.2",
+    "stripe-api": "^0.1.2",
     "style-loader": "^0.16.1",
     "vee-validate": "^2.0.0-beta.25",
     "vue": "^2.0.1",
@@ -38,5 +42,9 @@
     "vue-the-mask": "^0.11.0-alpha.2",
     "webpack": "2.2.1",
     "webpack-spritesmith": "^0.3.3"
+  },
+  "devDependencies": {
+    "sassdoc": "^2.3.0",
+    "sassdoc-theme-flippant": "^0.1.0"
   }
 }

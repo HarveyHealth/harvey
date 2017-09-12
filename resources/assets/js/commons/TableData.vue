@@ -5,17 +5,18 @@
         <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
+            class="heading-2"
         >{{ col.name }}</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="copy-main">
       <tr v-show="loading">
-        <td :colspan="columns.length" style="font-style: italic;">
+        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
           {{ loadingMsg }}
         </td>
       </tr>
       <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" style="font-style: italic;">
+        <td :colspan="columns.length" class="font-italic font-sm copy-muted">
           {{ emptyMsg }}
         </td>
       </tr>
@@ -23,7 +24,7 @@
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">
-          <LoadingGraphic class="loading" :fill="'#444'" v-if="j === 0 && updatingRow === i" />
+          <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
           <div class="cell-wrap" :data-column="columns[j].name" v-html="val"></div>
         </td>
       </tr>
@@ -32,11 +33,11 @@
 </template>
 
 <script>
-import LoadingGraphic from './LoadingGraphic.vue';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 export default {
   name: 'TableData',
   data() {return {}},
-  components: { LoadingGraphic },
+  components: { ClipLoader },
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {

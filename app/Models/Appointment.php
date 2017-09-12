@@ -4,13 +4,13 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Bugsnag, Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -268,7 +268,7 @@ class Appointment extends Model
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
-            ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
+            ops_warning('Appointment@createCalendarEvent', "Can't add Appointment #{$this->id} to Google Calendar.");
             return false;
         }
 
@@ -282,7 +282,7 @@ class Appointment extends Model
             $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
         } catch (Exception $e) {
             Bugsnag::notifyException($e);
-            ops_warning('Appointment@addToCalendar', "Can't add Meet link into event description to Appointment #{$this->id}.");
+            ops_warning('Appointment@createCalendarEvent', "Can't add Meet link into event description to Appointment #{$this->id}.");
             return false;
         }
 
@@ -343,7 +343,7 @@ class Appointment extends Model
     public function updateOnCalendar()
     {
         if (empty($this->google_calendar_event_id)) {
-            return $this->addToCalendar();
+            return $this->createCalendarEvent();
         }
 
         try {
@@ -428,7 +428,32 @@ class Appointment extends Model
     public function scopeEmptyPatientIntake(Builder $builder)
     {
         return $builder->whereHas('patient.user', function ($query) {
-                $query->whereNull('intake_completed_at');
-            });
+            $query->whereNull('intake_completed_at');
+        });
+    }
+
+    public function dataForInvoice()
+    {
+        $minutes = 30 == $this->duration_in_minutes ? '30' : '60';
+
+        $sku = SKU::findBySlug("{$minutes}-minute-consultation");
+
+        $description = "{$sku->name}, Appointment #{$this->id} with {$this->practitioner->user->full_name} on {$this->appointment_at->format('n/j/y')}";
+
+        return [
+            'patient_id' => $this->patient_id,
+            'practitioner_id' => $this->practitioner_id,
+            'description' => $description,
+            'discount_code_id' => $this->discount_code_id,
+            'invoice_items' => [
+                [
+                    'item_id' => $this->id,
+                    'item_class' => get_class($this),
+                    'description' => $description,
+                    'amount' => $sku->price,
+                    'sku_id' => $sku->id,
+                ],
+            ],
+        ];
     }
 }

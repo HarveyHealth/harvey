@@ -50,15 +50,17 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-      <!-- <router-link to="/settings" title="Settings"
+       <router-link 
+       v-if="user === 'patient'"
+       to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
         <i class="fa fa-cog icon icon-nav-bar"></i>
         <div class="text">Settings</div>
-      </router-link> -->
+      </router-link> 
 
       <router-link
-        v-if="user && user.user_type === 'admin'"
+        v-if="user === 'admin'"
         to="/clients" title="Recent Clients"
         :class="currentPageCheck('clients')"
         @click.native="handleMenu(false, 'clients')">
@@ -100,7 +102,7 @@
         return this.$root.$data.global.unreadMessages.length > 0;
       },
       user() {
-        return this.$root.$data.global.user.attributes
+        return this.$root.$data.permissions
       }
     },
     methods: {

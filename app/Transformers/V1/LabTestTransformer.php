@@ -22,7 +22,7 @@ class LabTestTransformer extends TransformerAbstract
             'sku_id' => (string) $labTest->sku_id,
             'status' => $labTest->status,
             'results_url' => $labTest->results_url,
-            'shipment_code' => $labTest->shipment_code,
+            'shipment_code' => (string) $labTest->shipment_code,
             'completed_at' => $labTest->completed_at,
         ];
     }

@@ -1,0 +1,22 @@
+html {
+  height: 100%;
+}
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+#{$global-copy-elements} {
+  @extend %copy-main;
+}
+
+a {
+  @extend %copy-link;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+div.v-spinner {
+  text-align: center !important;
+}

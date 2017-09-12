@@ -33,6 +33,7 @@ return [
         'model' => App\Models\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'webhook_secret' => env('STRIPE_WEBHOOK_SECRET'),
     ],
 
     'slack' => [
@@ -48,6 +49,9 @@ return [
         'token' => env('POSTMARK_TOKEN', 'POSTMARK_API_TEST'),
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
         'templates' => [
+            'password' => [
+                'reset' => 1497641,
+            ],
             'visitor' => [
                 'subscribe' => 2861223,
             ],

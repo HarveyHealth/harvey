@@ -178,6 +178,7 @@ return [
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Spatie\Fractal\FractalServiceProvider::class,
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
+        Cviebrock\EloquentSluggable\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -194,8 +195,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\SlackServiceProvider::class,
-        App\Providers\StripeServiceProvider::class,
-        App\Providers\ResponseMacroServiceProvider::class
+        App\Providers\ResponseMacroServiceProvider::class,
     ],
 
     /*

@@ -87,6 +87,7 @@ class AppointmentTest extends TestCase
             'appointment_at' => Carbon::parse("2 hours"),
             'patient_id' => $patient->id,
             'practitioner_id' => $practitioner->id,
+            'status' => 'pending',
         ]);
 
         $output = $this->getRemindersCommandOutput();
@@ -115,6 +116,7 @@ class AppointmentTest extends TestCase
             'appointment_at' => Carbon::parse("2 hours"),
             'patient_id' => $patient->id,
             'practitioner_id' => $practitioner->id,
+            'status' => 'pending',
         ]);
 
         $output = $this->getRemindersCommandOutput();
@@ -281,10 +283,12 @@ class AppointmentTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function test_a_patient_may_modify_the_date_and_time_of_their_appointment()
+    public function test_a_patient_may_modify_the_date_and_time_of_their_pending_appointments()
     {
         // Given a patient with a scheduled appointment
-        $appointment = factory(Appointment::class)->create();
+        $appointment = factory(Appointment::class)->create([
+            'status' => 'pending',
+        ]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -304,6 +308,29 @@ class AppointmentTest extends TestCase
         // And they can see the new appointment information
         $this->assertDatabaseHas('appointments', ['appointment_at' => $appointment_at]);
         $this->assertDatabaseHas('appointments', ['reason_for_visit' => 'Some new reason.']);
+    }
+
+    public function test_a_patient_may_not_modify_the_date_and_time_of_their_canceled_appointments()
+    {
+        // Given a patient with a scheduled appointment
+        $appointment = factory(Appointment::class)->create([
+            'status' => 'canceled',
+        ]);
+        $patient = $appointment->patient;
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some new reason.',
+        ];
+
+        Passport::actingAs($patient->user);
+        $response = $this->json('PATCH', "api/v1/appointments/{$appointment->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+
+        $this->assertDatabaseHas('appointments', ['appointment_at' => $appointment->appointment_at]);
+        $this->assertDatabaseHas('appointments', ['reason_for_visit' => $appointment->reason_for_visit]);
     }
 
     public function test_a_patient_can_submit_the_same_date_and_time_when_updating_their_appointment()

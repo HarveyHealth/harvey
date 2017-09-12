@@ -5,7 +5,7 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge"><span class="text">Details</span></h1>
+                    <h1 class="heading-1"><span class="text">Details</span></h1>
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
@@ -19,8 +19,10 @@
             />
             <div class="content-container">
                 <div class="container-message message-detail">
-                    <router-link to="/messages" style="position: relative; bottom: 30px; right: 30px;"><i class="fa fa-arrow-left"></i></router-link>
-                    <h2 class="message-reply-subject">{{ subject }}</h2>
+                    <router-link to="/messages" style="position: relative; bottom: 22px; right: 22px;">
+                      <i class="fa fa-long-arrow-left"></i>
+                    </router-link>
+                    <h2 class="heading-3-expand">{{ subject }}</h2><br>
                     <div>
                         <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
                             <DetailPost
@@ -90,13 +92,13 @@
             this.renderReply = !this.renderReply
           },
           userName() {
-              if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+              if (this.$root.$data.permissions === 'patient') {
                   let arr = this.$root.$data.global.practitioners
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+              } else if (this.$root.$data.permissions === 'practitioner') {
                   let arr = this.$root.$data.global.patients
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+              } else if (this.$root.$data.permissions === 'admin') {
                   let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients)
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }
