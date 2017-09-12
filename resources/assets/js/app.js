@@ -55,7 +55,7 @@ Vue.prototype.Util = window.App.Util;
 Vue.prototype.Config = window.App.Config;
 Vue.prototype.Logic = window.App.Logic;
 Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.propDeep(path.split('.'), App.State, ifUndefined);
+  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
 }
 
 const app = new Vue({

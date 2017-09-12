@@ -36,7 +36,7 @@ rootRoute.name = context === 'get-started'
 
 rootRoute.component = context === 'get-started'
   ? require('./pages/get-started/GetStarted.vue')
-  : require('./pages/dashboard/Dashboard.vue');
+  : require('./v2/components/contextual/dashboard/Dashboard.vue');
 
 if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
