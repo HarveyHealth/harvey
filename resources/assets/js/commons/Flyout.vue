@@ -6,7 +6,7 @@
     <button class="button--close flyout-close" @click="onClose">
       <svg><use xlink:href="#close" /></svg>
     </button>
-    <h2 class="title" v-html="heading"></h2>
+    <h2 v-html="heading"></h2>
     <slot></slot>
   </aside>
 </template>
