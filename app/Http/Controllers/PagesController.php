@@ -34,6 +34,6 @@ class PagesController extends Controller
 
     public function getLabTests()
     {
-        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::allFromCache()]);
+        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::publicFromCache()]);
     }
 }
