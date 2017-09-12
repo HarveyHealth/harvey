@@ -11,7 +11,7 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
-                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -15px; right: -25px;" @click="closeDetails">
+                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -70px; right: -25px;" @click="closeDetails">
                         <svg><use xlink:href="#close" /></svg>
                     </button>
                 </div>
@@ -41,7 +41,6 @@
 
                             <div class="inline-centered">
                                 <button type="submit" v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
-                                <button type="submit" v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
                             </div>
                         </form>
                     </div>
@@ -135,54 +134,10 @@ export default {
             this.currentCard = card
         },
         submitAddCard() {
-            this.details = false
-            
+            this.formAction.submit();
         },
         updateMonth(e) {
             this.month = e.target.value
-        },
-        stripeForm() {
-            let stripe = Stripe(window.Laravel.services.stripe.key);
-            let elements = stripe.elements();
-            let style = {
-                base: {
-                    color: '#32325d',
-                    lineHeight: '24px',
-                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                    fontSmoothing: 'antialiased',
-                    fontSize: '16px',
-                    '::placeholder': {
-                    color: '#aab7c4'
-                    }
-                },
-                invalid: {
-                    color: '#fa755a',
-                    iconColor: '#fa755a'
-                }
-            };
-            let card = elements.create('card', {style: style});
-            card.mount('#card-element');
-            card.addEventListener('change', function(event) {
-                var displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
-            var form = document.getElementById('payment-form');
-                form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                stripe.createToken(card).then(function(result) {
-                    if (result.error) {
-                        var errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                    } else {
-                        this.submitNewCard(result.token);
-                    }
-                });
-            });
-            this.cardInfo = card;
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
@@ -224,25 +179,64 @@ export default {
                 console.log(`PATCH ISSUE`, error)
             })
         },
-        submitNewCard() {
-            stripe.createToken(card).then((result) => {
-                if (result.error) {
-                    var errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
+        submitNewCard(token) {
+            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
+                .then(resp => {
+                    this.notificationMessage = "Successfully added!";
+                    this.notificationActive = true;
+                    setTimeout(() => this.notificationActive = false, 3000);
+                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                        .then(respond => {
+                            this.$root.$data.global.creditCards = respond.data.cards
+                            this.details = false
+                        })
+                })
+        },
+        stripeForm() {
+            let stripe = Stripe(window.Laravel.services.stripe.key);
+            let elements = stripe.elements();
+            let style = {
+                base: {
+                    color: '#32325d',
+                    lineHeight: '24px',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                    color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+            let card = elements.create('card', {style: style});
+            card.mount('#card-element');
+            card.addEventListener('change', function(event) {
+                var displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
                 } else {
-                axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: result.token})
-                    .then(resp => {
-                        this.notificationMessage = "Successfully added!";
-                        this.notificationActive = true;
-                        setTimeout(() => this.notificationActive = false, 3000);
-                        axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
-                            .then(respond => {
-                                this.$root.$data.global.creditCards = respond.data.cards
-                            })
-                    })
+                    displayError.textContent = '';
                 }
             });
-        },
+            var self = this;
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        console.log(`TOKEN`, result.token)
+                        self.submitNewCard(result.token.id);
+                    }
+                });
+            });
+            this.formAction = form;
+        }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';

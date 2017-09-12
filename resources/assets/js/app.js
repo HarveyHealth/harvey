@@ -57,6 +57,7 @@ const app = new Vue({
         currentUserId: Laravel.user.id,
         flyoutActive: false,
         guest: false,
+        stripe: null,
         global: {
             appointments: [],
             confirmedDoctors: [],
@@ -356,8 +357,7 @@ const app = new Vue({
         }
     },
     mounted() {
-        Stripe(Laravel.services.stripe.key);
-        Stripe.setPublishableKey(Laravel.services.stripe.key)
+        this.stripe = Stripe(Laravel.services.stripe.key);
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests
