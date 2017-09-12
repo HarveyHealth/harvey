@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null 15px null);
+  @include margin(null null $space-lg null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -11,20 +11,22 @@
 }
 
 .form-input {
-  @extend %sans--medium;
+  @extend %copy-main;
   line-height: 1.3;
   width: 100%;
 
   &_text {
     border: none;
-    border-bottom: 1px solid $gray;
-    @include padding(0 0 10px 0);
-    color: #444;
+    border-bottom: 1px solid $color-gray-0;
+    @include padding(0 0 6px 0);
+
+    &:disabled {
+      color: rgba(#444, 0.5);
+    }
   }
 
   &_checkbox {
-    @include margin(15px 10px 0 0);
-    font-size: 15px;
+    @include margin($font-sm 10px 0 0);
     width: auto;
     float: left;
   }
@@ -37,12 +39,11 @@
 }
 
 .form-label {
-
+  @extend %font-thin;
   text-align: left;
 
   &_checkbox {
     display: inline-block;
-    font-size: 15px;
     width: calc(100% - 30px);
     position: relative;
     &:hover{
@@ -79,7 +80,7 @@
 }
 
 .radio--text {
-  color: darken($gray, 15%);
+  @extend %copy-main;
   font-family: inherit;
   width: 90%;
   float: left;
@@ -88,26 +89,44 @@
 .input__item,
 .input--text,
 .input--textarea {
-  color: darken($gray, 15%);
-  font-family: inherit;
+  @extend %copy-main;
 }
 
-.input__item.patient-display {
-  font-weight: 500;
+.input-half {
+  float: left;
+  width: 45%;
+
+  &:first-child {
+    margin-right: 10%;
+  }
+
+  &--sm {
+    @include query(sm) {
+      float: left;
+      width: 45%;
+
+      &:first-child {
+        margin-right: 10%;
+      }
+    }
+  }
+
+
 }
 
 .input__label {
-  color: lighten($gray, 15%);
+  @extend %copy-muted;
+  @extend %font-bold;
+  @extend %font-spaced;
+  @extend %font-uppercase;
+  @extend %font-xs;
+
   display: block;
-  font-size: 1em;
-  font-weight: 500;
-  letter-spacing: 1px;
   @include margin(null null 0.5em null);
-  text-transform: uppercase;
   width: 100%;
 
   .flyout & {
-    border-top: 1px solid #eee;
+    border-top: 1px solid $color-gray-0;
     padding-top: 2.2em;
   }
 
@@ -171,17 +190,17 @@
 
 // Placeholders
 ::-webkit-input-placeholder { /* Chrome */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
   opacity: 1;
 }
 :-moz-placeholder { /* Firefox 4 - 18 */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
   opacity: 1;
 }
 

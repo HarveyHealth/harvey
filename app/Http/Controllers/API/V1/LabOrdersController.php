@@ -57,7 +57,7 @@ class LabOrdersController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        if (currentUser()->isNotAdmin()) {
+        if (currentUser()->isNotAdminOrPractitioner()) {
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 

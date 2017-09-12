@@ -137,6 +137,35 @@ class LabOrderTest extends TestCase
         $this->assertDatabaseHas('lab_orders', ['practitioner_id' => $practitioner->id]);
     }
 
+    public function test_it_allows_a_practitioner_to_create_a_lab_order()
+    {
+        $patient = factory(Patient::class)->create();
+        $practitioner = factory(Practitioner::class)->create();
+
+        Passport::actingAs(factory(Practitioner::class)->create()->user);
+
+        $parameters = [
+            'practitioner_id' => $practitioner->id,
+            'patient_id' => $patient->id,
+            'address_1' => 'Test Address 1234',
+            'city' => 'Los Angeles',
+            'zip' => '90401',
+            'state' => 'CA',
+        ];
+
+        factory(License::class)->create(['state' => 'CA']);
+
+        $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['patient_id' => "{$patient->id}"]);
+        $response->assertJsonFragment(['practitioner_id' => "{$practitioner->id}"]);
+
+        $this->assertDatabaseHas('lab_orders', ['patient_id' => $patient->id]);
+        $this->assertDatabaseHas('lab_orders', ['practitioner_id' => $practitioner->id]);
+    }
+
     public function test_patient_id_is_required_when_creating_a_lab_order()
     {
         $practitioner = factory(Practitioner::class)->create();
@@ -165,15 +194,6 @@ class LabOrderTest extends TestCase
         $response = $this->json('POST', 'api/v1/lab/orders', $parameters);
 
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
-    }
-
-    public function test_it_does_not_allows_a_practitioner_to_create_a_lab_order()
-    {
-        Passport::actingAs(factory(Practitioner::class)->create()->user);
-
-        $response = $this->json('POST', 'api/v1/lab/orders');
-
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
     public function test_it_does_not_allows_a_patient_to_create_a_lab_order()

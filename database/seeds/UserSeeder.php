@@ -32,7 +32,9 @@ class UserSeeder extends Seeder
         factory(Patient::class)->create([
             'user_id' => factory(User::class)->create([
                 'email' => 'patient@goharvey.com',
-                'phone' => '3101234568'
+                'phone' => '3101234568',
+                'state' => 'CA',
+                'zip' => 90401,
             ])->id
         ])->each(function ($patient) {
             $patient->attachments()->saveMany(factory(Attachment::class, 3)->make());
@@ -40,14 +42,20 @@ class UserSeeder extends Seeder
             $patient->soapNotes()->saveMany(factory(SoapNote::class, 3)->make());
         });
 
-        factory(Practitioner::class)->create([
+        $practitioner = factory(Practitioner::class)->create([
             'user_id' => factory(User::class)->create([
                 'email' => 'practitioner@goharvey.com',
                 'phone' => '3101234569',
             ])->id
-        ])->each(function ($practitioner) {
-            $practitioner->schedule()->save(factory(PractitionerSchedule::class)->make());
-            $practitioner->licenses()->save(factory(License::class)->make());
-        });
+        ]);
+
+        factory(PractitionerSchedule::class)->create([
+            'practitioner_id' => $practitioner->id,
+        ]);
+
+        factory(License::class)->create([
+                'state' => 'CA',
+                'user_id' => $practitioner->user_id,
+        ]);
     }
 }

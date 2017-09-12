@@ -9,6 +9,7 @@
   @import "signup-practitioner";
   @import "signup-phone";
   @import "signup-schedule";
+  @import "signup-billing";
   @import "signup-success";
 
 @import "dashboard";
@@ -16,14 +17,12 @@
 @import "tabledata";
 @import "custom-select";
 @import "overlay";
-@import "schedule";
 @import "notification-popup";
 @import "messages";
 @import "admin-layout";
 @import "admin";
 @import "user-nav";
 @import "commons";
-@import "new-appointments";
 
 // Google Analytics
 .async-hide { opacity: 0 !important}

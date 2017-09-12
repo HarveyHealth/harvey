@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\{Appointment, User, LabTest, LabOrder, Message};
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        foreach ([Appointment::class, User::class, LabTest::class, LabOrder::class, Message::class] as $model) {
+            $model::flushEventListeners();
+        }
+
         if (app()->environment(['staging', 'production'])) {
             $this->call(InitialDatabaseSeeder::class);
         } else {

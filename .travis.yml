@@ -1,3 +1,4 @@
+
 dist: ubuntu trusty
 git:
   depth: 3
@@ -26,8 +27,7 @@ script:
 branches:
   only:
   - master
-  - develop
-  - /-release$/
+  - /^release-/
 notifications:
   email: false
   slack:

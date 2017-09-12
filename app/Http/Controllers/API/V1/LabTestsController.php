@@ -58,7 +58,7 @@ class LabTestsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        if (currentUser()->isNotAdmin()) {
+        if (currentUser()->cant('create', LabTest::class)) {
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 

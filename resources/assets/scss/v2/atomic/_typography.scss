@@ -1,0 +1,82 @@
+// Sizes
+.font-xs {
+  &, #{$global-copy-elements} {
+    @extend %font-xs;
+  }
+}
+.font-sm {
+  &, #{$global-copy-elements} {
+    @extend %font-sm;
+  }
+}
+.font-md {
+  &, #{$global-copy-elements} {
+    @extend %font-md;
+  }
+}
+.font-lg {
+  &, #{$global-copy-elements} {
+    @extend %font-lg;
+  }
+}
+.font-xl {
+  &, #{$global-copy-elements} {
+    @extend %font-xl;
+  }
+}
+.font-xxl {
+  &, #{$global-copy-elements} {
+    @extend %font-xxl;
+  }
+}
+
+// Weight
+.font-thin {
+  &, #{$global-copy-elements} {
+    @extend %font-thin;
+  }
+}
+.font-normal {
+  &, #{$global-copy-elements} {
+    @extend %font-normal;
+  }
+}
+.font-bold {
+  &, #{$global-copy-elements} {
+    @extend %font-bold;
+  }
+}
+
+// Alignment
+.font-centered {
+  &, #{$global-copy-elements} {
+    @extend %font-centered;
+  }
+}
+.font-right {
+  &, #{$global-copy-elements} {
+    @extend %font-right;
+  }
+}
+.font-left {
+  &, #{$global-copy-elements} {
+    @extend %font-right;
+  }
+}
+
+// Util
+.font-italic {
+  &, #{$global-copy-elements} {
+    @extend %font-italic;
+  }
+}
+.font-spaced {
+  &, #{$global-copy-elements} {
+    @extend %font-spaced;
+  }
+}
+.font-uppercase {
+  &, #{$global-copy-elements} {
+    @extend %font-uppercase;
+  }
+}
