@@ -93,7 +93,9 @@ $factory->define(Practitioner::class, function (Faker\Generator $faker) {
                 'email' => strtolower($faker->firstName.$faker->unique()->lastName).'@goharvey.com',
             ])->id;
         },
-        'practitioner_type' => factory(PractitionerType::class)->create()->id,
+        'practitioner_type' => function () {
+            return factory(PractitionerType::class)->create()->id;
+        },
         'specialty' => [$faker->word, $faker->jobTitle],
         'description' => $faker->text,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",

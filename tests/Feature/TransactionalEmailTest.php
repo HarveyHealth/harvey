@@ -162,6 +162,7 @@ class TransactionalEmailTest extends TestCase
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'harvey_id' => $appointment->patient->user->id,
             'patient_name' => $appointment->patient->user->full_name,
             'patient_state' => $appointment->patient->user->state,
             'practitioner_name' => $appointment->practitioner->user->full_name,

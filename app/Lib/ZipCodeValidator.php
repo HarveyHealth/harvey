@@ -57,7 +57,7 @@ class ZipCodeValidator
     {
         $query = $this->usaQuery();
 
-        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::weeks(1)->toMinutes(), function () use ($query) {
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
             return $this->geocoder->geocode($query);
         });
 
