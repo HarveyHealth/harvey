@@ -38,6 +38,12 @@ class PagesController extends Controller
       $lab_id = 1;
       $available_tests = LabTestInformation::allFromCache();
 
+      // for now, redirect to the first tab
+      if ($test_slug == null) {
+        $redirect_url = $available_tests[0]->sku->slug;
+        return redirect('lab-tests/'.$redirect_url);
+      }
+
       // get available slugs from each test
       foreach ($available_tests as $test) {
         array_push($valid_routes, $test->sku->slug);

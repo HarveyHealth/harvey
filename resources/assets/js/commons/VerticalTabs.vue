@@ -47,7 +47,8 @@
                 this.currentUrl = tabData.url;
 
                 if (this.currentUrl) {
-                  window.history.replaceState({ tab: this.previousTab }, null, this.currentUrl);
+                  console.log(this);
+                  window.history.pushState({ tab: this.previousTab }, null, this.currentUrl);
                 }
             },
             getTabIndex(id) {
