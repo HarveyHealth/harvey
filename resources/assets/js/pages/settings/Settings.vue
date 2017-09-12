@@ -25,7 +25,7 @@
                             <a @click="openModal(card)" style="margin: 0 10px; float: left;">Delete</a>
                         </div>
                     </div>
-                    <div v-if="!details && !cards.length && !$root.$data.global.loadingCreditCards" class="inline-centered">
+                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="inline-centered">
                         <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
@@ -109,7 +109,6 @@ export default {
             notificationMessage: '',
             notificationActive: false,
             notificationDirection: 'top-right',
-            cards: this.$root.$data.global.creditCards,
             formAction: null,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
@@ -230,7 +229,6 @@ export default {
                         var errorElement = document.getElementById('card-errors');
                         errorElement.textContent = result.error.message;
                     } else {
-                        console.log(`TOKEN`, result.token)
                         self.submitNewCard(result.token.id);
                     }
                 });
