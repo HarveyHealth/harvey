@@ -11,6 +11,9 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
+                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -15px; right: -25px;" @click="closeDetails">
+                        <svg><use xlink:href="#close" /></svg>
+                    </button>
                 </div>
                 <div>
                     <div v-if="$root.$data.global.loadingCreditCards">
@@ -27,7 +30,7 @@
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
-                        <form action="/charge" method="post" id="payment-form">
+                        <form id="payment-form">
                             <div class="form-row">
                                 <label for="card-element">
                                 Credit or debit card
@@ -108,14 +111,17 @@ export default {
             notificationActive: false,
             notificationDirection: 'top-right',
             cards: this.$root.$data.global.creditCards,
+            formAction: null,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
     },
     methods: {
         addCard() {
             this.details = true
-            this.edit = false
             setTimeout(() => this.stripeForm(), 100);
+        },
+        closeDetails() {
+            this.details = false
         },
         closeModal() {
             this.deleteModalActive = false
@@ -130,10 +136,7 @@ export default {
         },
         submitAddCard() {
             this.details = false
-            this.edit = false
-            if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
-                this.submitNewCard()
-            }
+            
         },
         updateMonth(e) {
             this.month = e.target.value
@@ -179,6 +182,7 @@ export default {
                     }
                 });
             });
+            this.cardInfo = card;
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
@@ -220,30 +224,25 @@ export default {
                 console.log(`PATCH ISSUE`, error)
             })
         },
-        submitNewCard(token) {
-            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
-                .then(resp => {
-                    this.notificationMessage = "Successfully added!";
-                    this.notificationActive = true;
-                    setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
-                        .then(respond => {
-                            this.$root.$data.global.creditCards = respond.data.cards
-                        })
-                })
+        submitNewCard() {
+            stripe.createToken(card).then((result) => {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: result.token})
+                    .then(resp => {
+                        this.notificationMessage = "Successfully added!";
+                        this.notificationActive = true;
+                        setTimeout(() => this.notificationActive = false, 3000);
+                        axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                            .then(respond => {
+                                this.$root.$data.global.creditCards = respond.data.cards
+                            })
+                    })
+                }
+            });
         },
-        pressEdit(card) {
-            let names = card.name
-            let nameArray = names.split(' ')
-            this.firstName = nameArray[0]
-            this.lastName = nameArray[nameArray.length - 1]
-            this.month = card.exp_month
-            this.year = card.exp_year
-            this.postalCode = card.address_zip
-            this.currentCard = card
-            this.edit = true
-            this.details = true
-        }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';

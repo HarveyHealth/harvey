@@ -199,7 +199,7 @@ export default {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
                 sku_id: Number(e.id),
-                shipment_code: e.shipment_code
+                shipment_code: this.shippingCodes[e.id]
               })
           })
 
