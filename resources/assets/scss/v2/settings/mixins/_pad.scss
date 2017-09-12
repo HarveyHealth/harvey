@@ -1,0 +1,9 @@
+/// Generates classes to give equal amounts of padding on all sides to a container
+/// @group spacing
+@mixin pad {
+  @each $size, $value in $space-list {
+    .pad-#{$size} {
+      padding: $value;
+    }
+  }
+}
