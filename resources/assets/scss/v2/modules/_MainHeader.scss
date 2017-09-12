@@ -1,0 +1,11 @@
+.MainHeader {
+  background: $color-white;
+  border-bottom: 1px solid $color-gray-0;
+  padding: $space-lg $space-sm $space-lg;
+  text-align: center;
+
+  @include query(lg) {
+    padding: $space-xxl $space-sm $space-xxl;
+    text-align: left;
+  }
+}

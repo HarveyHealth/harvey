@@ -9,7 +9,7 @@ export default {
   computed: {
     classes() {
       return {
-        'main-header': this.type === 'main'
+        MainHeader: this.type === 'main'
       }
     }
   },
