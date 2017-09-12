@@ -3,7 +3,7 @@
     <div v-if="$root.$data.permissions !== 'admin'">
       <div class="input__container">
         <label class="input__label first" for="patient_name">lab tests</label>
-        <label v-for="test in testList" class="input__item">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
+        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">doctor</label>
