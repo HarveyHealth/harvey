@@ -20,12 +20,15 @@ class SendPatientAppointmentUpdatedEmail implements ShouldQueue
             ->setTo($patient->user->email)
             ->setTemplate('patient.appointment.updated')
             ->setTemplateModel([
-            'practitioner_name' => $practitioner->user->fullName(),
             'appointment_date' => $appointment->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $appointment->patientAppointmentAtDate()->format('h:i A'),
             'appointment_time_zone' => $appointment->patientAppointmentAtDate()->format('T'),
+            'harvey_id' => $patient->user->id,
+            'patient_name' => $patient->user->full_name,
+            'patient_state' => $patient->user->state,
+            'practitioner_name' => $practitioner->user->full_name,
+            'practitioner_state' => $practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
-            'doctor_state' => $practitioner->doctor_state,
         ]);
 
         dispatch($transactionalEmailJob);

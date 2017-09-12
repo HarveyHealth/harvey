@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Cache, Exception, Lang, Log, View;
+use Bugsnag, Cache, Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -155,6 +155,8 @@ class Appointment extends Model
 
     public function sendClientReminderEmail24Hs()
     {
+        return false;
+
         $templateData = [
             'appointment_date' => $this->patientAppointmentAtDate()->format('l F j'),
             'appointment_time' => $this->patientAppointmentAtDate()->format('h:i A'),
@@ -170,6 +172,8 @@ class Appointment extends Model
 
     public function sendDoctorReminderEmail24Hs()
     {
+        return false;
+
         $templateData = [
             'appointment_date' => $this->practitionerAppointmentAtDate()->format('l F j'),
             'appointment_time' => $this->practitionerAppointmentAtDate()->format('h:i A'),
@@ -254,7 +258,7 @@ class Appointment extends Model
         return true;
     }
 
-    public function addToCalendar()
+    public function createCalendarEvent()
     {
         if (!empty($this->google_calendar_event_id)) {
             return false;
@@ -263,21 +267,41 @@ class Appointment extends Model
         try {
             $event = GoogleCalendar::addEvent($this->getEventParams());
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@addToCalendar', "Can't add Appointment #{$this->id} to Google Calendar.");
             return false;
         }
 
         $this->google_calendar_event_id = $event->id;
-        $this->save();
 
-        return $event;
+        Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () use ($event) {
+            return $event->hangoutLink;
+        });
+
+        try {
+            $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
+        } catch (Exception $e) {
+            Bugsnag::notifyException($e);
+            ops_warning('Appointment@addToCalendar', "Can't add Meet link into event description to Appointment #{$this->id}.");
+            return false;
+        }
+
+        return $update;
     }
 
-    public function getEventParams()
+    public function getEventParams(string $hangoutLink = '')
     {
+        $description = empty($this->reason_for_visit) ? "Reason for visit not specified" : $this->reason_for_visit;
+        $description = trim($description, '.').'.';
+        $description .= "\n{$this->patient->user->email}";
+
+        if (!empty($hangoutLink)) {
+            $description .= "\n{$hangoutLink}";
+        }
+
         return [
             'summary' => $this->patient->user->full_name,
-            'description' => !empty($this->reason_for_visit) ? $this->reason_for_visit : "Reason for visit not specified.",
+            'description' => $description,
             'start' => [
                 'dateTime' => $this->practitionerAppointmentAtDate()->toW3cString(),
                 'timeZone' => $this->practitioner->timezone,
@@ -288,12 +312,10 @@ class Appointment extends Model
             ],
             'attendees' => [
                 ['email' => $this->practitioner->user->email],
-                ['email' => $this->patient->user->email],
             ],
             'reminders' => [
                 'useDefault' => true,
             ],
-            'visibility' => 'private',
             'status' => 'confirmed',
         ];
     }
@@ -307,6 +329,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::deleteEvent($this->google_calendar_event_id);
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@deleteFromCalendar', "Can't delete Appointment #{$this->id} from Google Calendar.");
             return false;
         }
@@ -326,6 +349,7 @@ class Appointment extends Model
         try {
             GoogleCalendar::updateEvent($this->google_calendar_event_id, $this->getEventParams());
         } catch (Exception $e) {
+            Bugsnag::notifyException($e);
             ops_warning('Appointment@updateOnCalendar', "Can't update Appointment #{$this->id} on Google Calendar.");
             return false;
         }

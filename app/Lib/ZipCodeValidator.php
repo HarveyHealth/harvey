@@ -13,11 +13,11 @@ class ZipCodeValidator
     protected $unserviceableStates = [
         'AL', 'FL', 'NY', 'SC', 'TN'
     ];
+    // Updated: 08/22/2017
+    // This is a hotfix and should be included in the backend logic when determining which
+    // practitioners to send to the frontend
     protected $regulatedStates = [
-      'AK', 'CA', 'HI', 'OR', 'WA',
-      'AZ', 'CO', 'MT', 'UT', 'KS',
-      'MN', 'ND', 'CT', 'ME', 'MD',
-      'MA', 'NH', 'PA', 'VT', 'DC'
+      'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
     ];
 
     public function __construct(Geocoder $geocoder)
@@ -57,7 +57,7 @@ class ZipCodeValidator
     {
         $query = $this->usaQuery();
 
-        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::weeks(1)->toMinutes(), function () use ($query) {
+        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
             return $this->geocoder->geocode($query);
         });
 

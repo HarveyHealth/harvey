@@ -42,6 +42,7 @@
                                     <div class="input__container">
                                         <label class="input__label" for="phone">Phone Number</label>
                                         <input class="form-input form-input_text input-styles" v-model="user.attributes.phone" type="number" name="phone"/>
+                                        <a href="#" class="phone-link" @click.prevent="handleTextSend(true)" v-if="phoneNotVerified">Verify phone number</a>
                                     </div>
                                     <div class="input__container">
                                         <label class="input__label" for="timezone">Timezone</label>
@@ -112,18 +113,50 @@
                                 <p v-for="error in errorMessages">{{ error.detail }} </p>
                             </div>
                             <div class="submit inline-centered">
-                                <button class="button" v-on:click.prevent="submit" :disabled="submitting">Save Changes</button><br/>
+                                <button class="button" v-on:click.prevent="submit" :disabled="submitting" style="width: 160px">
+                                  <div v-if="submitting" style="width: 12px; margin: 0 auto;">
+                                    <ClipLoader :size="'12px'" :color="'#ffffff'" />
+                                  </div>
+                                  <span v-else>Save Changes</span>
+                                </button><br/>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
             <PractitionerProfile
-                v-if="isPractitioner"
-                :flashSuccess="flashSuccess"
+                v-if="canEditPractitioners"
+                :flashSuccess="callSuccessNotification"
+                :practitionerIdEditing="practitioner"
             />
         </div>
         {{ _user }}
+        <Modal :active="phoneModal" :on-close="() => phoneModal = false">
+          <h2 class="text-centered">Enter Phone Verification Code</h2>
+          <div style="text-align: center;">
+            <!-- confirmation inputs -->
+            <ConfirmInput ref="confirmInputs" :get-value="(val) => this.phoneConfirmation = val" />
+
+            <!-- send text again button -->
+            <button class="phone-process-button text-again" @click="handleTextResend">
+              <i class="fa fa-repeat" aria-hidden="true"></i>
+              Text Me Again
+            </button>
+
+            <!-- error messages -->
+            <p class="error-text" v-show="isInvalidCode">Invalid code entered.</p>
+
+            <!-- confirm code button -->
+            <button class="button button--blue phone-confirm-button" style="width: 160px; margin-top: 22px"
+                    :disabled="isPhoneConfirming" @click="handleCodeConfirmation">
+              <span v-if="!isPhoneConfirming">Confirm Code</span>
+              <div v-else style="width: 12px; margin: 0 auto;">
+                <ClipLoader :size="'12px'" :color="'#ffffff'" />
+              </div>
+            </button>
+
+          </div>
+        </Modal>
     </div>
 </template>
 
@@ -136,15 +169,18 @@
     import ImageUpload from '../../commons/ImageUpload.vue';
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
     import PractitionerProfile from './components/PractitionerProfile.vue';
-
+    import Modal from '../../commons/Modal.vue';
+    import ConfirmInput from '../../commons/ConfirmInput.vue';
 
     export default {
         name: 'profile',
         components: {
-            NotificationPopup,
-            ImageUpload,
-            ClipLoader,
-            PractitionerProfile,
+          NotificationPopup,
+          ImageUpload,
+          ClipLoader,
+          PractitionerProfile,
+          Modal,
+          ConfirmInput
         },
         data() {
             return {
@@ -163,13 +199,14 @@
                         city: '',
                         state: '',
                         zip: '',
-                    }
+                    },
                 },
+                practitioner: `${Laravel.user.practitionerId}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
                 timezones: timezones,
                 states: states,
-                errorSymbol: '&#9888;',
+                errorSymbol: '!',
                 errorMessage: 'Error retrieving data',
                 successSymbol: '&#10003;',
                 successMessage: 'Changes Saved',
@@ -180,6 +217,12 @@
                 notificationDirection: 'top-right',
                 errorMessages: null,
                 submitting: false,
+                phoneModal: false,
+                phoneConfirmation: '',
+                phoneVerified: Laravel.user.phone_verified_at,
+                currentUserId: Laravel.user.id,
+                isInvalidCode: false,
+                isPhoneConfirming: false,
             }
         },
         methods: {
@@ -202,6 +245,98 @@
               this.notificationMessage = this.successMessage;
               this.flashNotification();
             },
+            handleVerifyClick() {
+              this.phoneModal = true;
+              this.handleTextSend(true);
+            },
+            handleTextSend(force) {
+              // If admin is editing someone else's phone number, do not call confirmation modal
+              if (this.$route.params.id) return;
+
+              const currentPhone = Laravel.user.phone;
+              const updatedPhone = this.updates.phone;
+              const shouldPatch = updatedPhone && (updatedPhone !== currentPhone);
+
+              // If force is true, send text verification no matter what
+              // If it is not true, check to see if verification should be sent
+              if (!force && !updatedPhone) {
+                return;
+              } else if (!force && updatedPhone) {
+                this.phoneModal = true;
+                this.isInvalidCode = false;
+                return;
+              }
+
+              this.phoneModal = true;
+              this.isInvalidCode = false;
+
+              // If phone was changed, patch the user's account to trigger text send
+              if (shouldPatch) {
+                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
+                  .then(response => {
+                    // Update the Laravel object in case the user wants to update phone before refreshing
+                    Laravel.user.phone = updatedPhone;
+                  })
+                  .catch(error => {
+                    if (error.response) {
+                      console.log(error.response);
+                      this.callErrorNotification('Could not update user information');
+                    }
+                  })
+              // If phone is the same, post to send verification text again
+              } else if (!this.phoneVerified) {
+                axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
+                  .catch(error => {
+                    if (error.response) {
+                      console.log(error.response);
+                      this.callErrorNotification('Error sending verification text message');
+                    }
+                  })
+              }
+            },
+            handleTextResend() {
+              this.isInvalidCode = false;
+              this.resetConfirmInputs();
+              this.handleTextSend(true);
+            },
+            handleCodeConfirmation() {
+              // Simple validation to check if valid inputs
+              const isCodeValid = (/\d{5}/).test(this.phoneConfirmation);
+              if (!isCodeValid) {
+                this.isInvalidCode = true;
+                return;
+              }
+
+              this.isPhoneConfirming = true;
+
+              axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/verify?code=${this.phoneConfirmation}`)
+                .then(response => {
+                  this.isPhoneConfirming = false;
+                  // a successful return object is sent even if verification was unsuccessful
+                  if (response.data.verified) {
+                    this.phoneModal = false;
+                    this.phoneVerified = true;
+                    this.callSuccessNotification();
+                  } else {
+                    this.isInvalidCode = true;
+                    this.resetConfirmInputs();
+                  }
+                })
+                .catch(error => {
+                  if (error.response) {
+                    console.log(error.response)
+                    this.phoneModal = false;
+                    this.callErrorNotification('Verification could not be sent');
+                  }
+                })
+            },
+            resetConfirmInputs() {
+              this.phoneConfirmation = '';
+              Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
+                this.$refs.confirmInputs.$refs[i].value = '';
+              })
+              this.$refs.confirmInputs.$refs[0].focus();
+            },
             submit() {
                 if(_.isEmpty(this.updates))
                     return;
@@ -212,12 +347,13 @@
 
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
                     .then(response => {
+                      this.callSuccessNotification();
+                      this.handleTextSend();
                         if (this.canEditUsers) {
                             this.user_data = response.data.data;
                         } else {
                             this.$root.$data.global.user = response.data.data;
                         }
-                        this.callSuccessNotification('Error updating data');
                         this.submitting = false;
                     })
                     .catch(err => {
@@ -248,12 +384,18 @@
                         this.$root.$data.global.loadingUser = false;
                         this.user_data = response.data.data;
                         this.user = _.cloneDeep(response.data.data);
+                        this.practitioner = response.data.data.relationships.practitioner.data.id;
                     })
                     .catch(error => {
-                        this.$router.push('/profile');
-                        this.user_id = null;
-                        this.$root.$data.global.loadingUser = false;
-                        this.callErrorNotification();
+                        if (error.response) {
+                          if (error.response.status === 404) {
+                            this.errorMessage = 'Not a valid user id';
+                          }
+                          this.$router.push('/profile');
+                          this.user_id = null;
+                          this.$root.$data.global.loadingUser = false;
+                          this.callErrorNotification();
+                        }
                     });
             }
         },
@@ -282,12 +424,15 @@
             canEditUsers() {
                 return this._user_id && Laravel.user.user_type === 'admin';
             },
-            isPractitioner() {
-                return Laravel.user.practitionerId;
+            canEditPractitioners() {
+                return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
             },
             // loading is connected to global state since that's where the main user api call is made
             loading() {
                 return this.$root.$data.global.loadingUser;
+            },
+            phoneNotVerified() {
+              return !this.$route.params.id && !this.phoneVerified;
             },
             updates() {
                 // We want to diff against the correct user attributes

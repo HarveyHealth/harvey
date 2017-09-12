@@ -131,7 +131,6 @@
       axios.get(`${this.$root.$data.apiUrl}/messages`)
         .then(response => {
           this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-          this.unread = this.$root.$data.global.unreadMessages.length > 0 ? true : false
         })
     },
     mounted() {
