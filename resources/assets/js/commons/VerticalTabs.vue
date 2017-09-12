@@ -42,14 +42,15 @@
                 });
             },
             setActiveTab(tabData) {
-                this.previousTab = this.activeTab;
                 this.activeTab = tabData.id;
                 this.currentUrl = tabData.url;
 
                 if (this.currentUrl) {
-                  console.log(this);
                   window.history.pushState({ tab: this.previousTab }, null, this.currentUrl);
                 }
+
+                // remember the previous tab
+                this.previousTab = tabData;
             },
             getTabIndex(id) {
                 const idList = Object.keys(this.tabList);
@@ -64,6 +65,8 @@
             }
         },
         mounted() {
+            this.previousTab = this.tabList[0];
+
             this.$nextTick(() => {
                 if (Object.keys(this.tabList).length && !this.activeTab) {
                     const firstTab = Object.keys(this.tabList)[0];
@@ -73,9 +76,9 @@
 
             window.onpopstate = (e) => {
               const firstTab = Object.keys(this.tabList)[0];
-              const previousTab = e.state.tab || this.tabList[firstTab];
+              const historyTab = e.state.tab || this.tabList[firstTab];
 
-              this.setActiveTab(previousTab);
+              this.setActiveTab(historyTab);
             };
         }
     }
