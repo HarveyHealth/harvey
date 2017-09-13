@@ -80,9 +80,9 @@ class Patient extends Model
         }
 
         $output = Cache::remember("intake-token-{$token}-data", TimeInterval::days(1)->toMinutes(), function () use ($token) {
-            $response = (new Typeform)->get($token)->getBody()->getContents();
+            $response = json_decode((new Typeform)->get($token)->getBody()->getContents());
 
-            if (empty(json_decode($response)->responses[0]->token) || 200 != json_decode($response)->http_status) {
+            if (empty($response->responses[0]->token) || 200 != $response->http_status) {
                 return null;
             }
 
