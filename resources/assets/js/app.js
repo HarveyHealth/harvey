@@ -43,6 +43,7 @@ import Config from './v2/config';
 import State from './v2/state';
 import Logic from './v2/logic';
 import Http from './v2/http';
+import Filters from './v2/filters';
 
 window.App = {};
 window.App.Util = Util;
@@ -57,6 +58,8 @@ Vue.prototype.Logic = window.App.Logic;
 Vue.prototype.State = (path, ifUndefined) => {
   return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
 }
+
+Vue.filter('formatPhone', Filters.formatPhone);
 
 const app = new Vue({
     router,

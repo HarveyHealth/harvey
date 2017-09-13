@@ -7,7 +7,7 @@ export default function(name) {
     return;
   }
 
-  return App.Util.find(App.State.data.practitioners.licensed, [
+  return App.Util.data.find(App.State.data.practitioners.licensed, [
     { path: 'attributes.name', resolve: name }
   ]);
 }

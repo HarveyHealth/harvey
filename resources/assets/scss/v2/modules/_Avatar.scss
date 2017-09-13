@@ -1,0 +1,10 @@
+.Avatar {
+  border-radius: 50%;
+}
+
+.Avatar-sm {
+  @extend .Avatar;
+
+  height: $space-sm * 2;
+  width: $space-sm * 2;
+}
