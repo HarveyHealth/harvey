@@ -14,9 +14,9 @@
 
 <section class="section is-narrow">
     <div class="container bg-white">
-        <vertical-tabs>
+        <vertical-tabs load-with-id="{{ $lab_id }}">
             @foreach ($lab_tests as $lab_test)
-                <vertical-tab class="tab" label="{{ $lab_test->sku->name }}">
+                <vertical-tab class="tab" label="{{ $lab_test->sku->name }}" url="{{ $lab_test->sku->slug }}">
                     <header class="level">
                         <div class="media-left is-pulled-left">
                             <img src="{{ $lab_test->image }}" alt="">
