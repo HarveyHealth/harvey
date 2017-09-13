@@ -596,13 +596,13 @@ export default {
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
         this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
 
+        // patient address
+        this.appointment.patientAddress = this.setPatientAddress(data);
+        this.appointment.patientState = data.state;
+
         // If user is admin, filter practitioners by state licensing regulations
         // First reset the practitioner list
         this.setupPractitionerList(this.$root.$data.global.practitioners);
-        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
-
-        // patient address
-        this.appointment.patientAddress = this.setPatientAddress(data);
 
         // store current date
         this.appointment.currentDate = moment(data._date).format('YYYY-MM-DD HH:mm:ss');
@@ -789,6 +789,7 @@ export default {
         patientId: '',
         patientName: '',
         patientPhone: '',
+        patientState: '',
         practitionerAvailability: [],
         practitionerId: '',
         practitionerName: '',
@@ -888,6 +889,9 @@ export default {
       });
       if (this.userType === 'practitioner') {
         this.setPractitionerInfo(this.practitionerList[0].data);
+      }
+      if (this.userType === 'admin' && this.appointment.patientState) {
+        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, this.appointment.patientState);
       }
     },
 
