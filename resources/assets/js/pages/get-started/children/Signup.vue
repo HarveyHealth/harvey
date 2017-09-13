@@ -234,42 +234,46 @@ export default {
           // and also Iggbo servicing data.
           // If such a zipcode is entered, the users api will return a 400
           .catch(error => {
-            this.responseErrors = error.response.data.errors;
-            const errorDetail = this.responseErrors[0].detail;
-            const errorType = this.responseErrors[0].type;
+            if (error.response) {
+              const errors = error.response.data.errors;
+              const errorType = errors[0].type;
+              const errorDetail = errors[0].detail;
 
-            // check for different error type responses
-            if(errorType === 'email-in-use') {
-              this.errors.add('email', errorDetail.message, 'inuse');
-              this.errors.first('email:inuse');
+              // Display error for email that is already in use
+              if (errorType === 'email-in-use') {
+                this.errors.add('email', errorDetail.message, 'inuse');
+              }
+
+              // If zip is out of range, track submission and route to interstitial.
+              // Only do this if this is the only error in the form, though.
+              else if (errorType === 'out-of-range') {
+                // this is an out-of-range situation
+                // track the failed signup
+                if (this.$root.shouldTrack()) {
+                  const firstName = this.signupData.first_name || '';
+                  const lastName = this.signupData.last_name || '';
+                  const email = this.signupData.email || '';
+                  const zip = this.signupData.zip || '';
+
+                  const outOfRangeState = errorDetail.state || '';
+                  const outOfRangeCity = errorDetail.city || '';
+
+                  analytics.track("Account Failed", {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    city: outOfRangeCity,
+                    state: outOfRangeState,
+                    zip: zip,
+                  });
+                }
+
+                this.$router.push({name: 'out-of-range', path: '/out-of-range'});
+              }
 
               // reset the submission to allow for another attempt
               this.isProcessing = false;
               this.isComplete = false;
-
-            } else if(errorType === 'out-of-range') {
-              // this is an out-of-range situation
-              // track the failed signup
-              if(this.$root.shouldTrack()) {
-                const firstName = this.signupData.first_name || '';
-                const lastName = this.signupData.last_name || '';
-                const email = this.signupData.email || '';
-                const zip = this.signupData.zip || '';
-
-                const outOfRangeState = errorDetail.state || '';
-                const outOfRangeCity = errorDetail.city || '';
-
-                analytics.track("Account Failed", {
-                  firstName: firstName,
-                  lastName: lastName,
-                  email: email,
-                  city: outOfRangeCity,
-                  state: outOfRangeState,
-                  zip: zip,
-                });
-              }
-
-              this.$router.push({name: 'out-of-range', path: '/out-of-range'});
             }
           });
 

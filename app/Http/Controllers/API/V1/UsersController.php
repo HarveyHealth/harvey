@@ -82,6 +82,7 @@ class UsersController extends BaseAPIController
         if ($validator->fails()) {
             $this->setApiProblemType($validator);
 
+            // Error handling for zip code
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
 
@@ -98,7 +99,7 @@ class UsersController extends BaseAPIController
                 return response()->apiproblem($output, $this->getStatusCode());
             }
 
-            return $this->respondBadRequest($validator->errors()->first());
+            return $this->respondBadRequest(['message' => $validator->errors()->first()]);
         }
 
         try {
