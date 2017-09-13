@@ -2,18 +2,21 @@
   <Container>
     <MainHeader :heading="Config.dashboard.title"></MainHeader>
     <div class="pad-sm">
-      <div class="Card">
-        <div class="Card-Header">
-          <h2 class="heading-2">Upcoming Appointments</h2>
-        </div>
-        <div class="Card-Content">
-          <p>This is card content</p>
-        </div>
-        <div class="Card-Content border-top">
-          <p>This is card content</p>
-        </div>
-        <div class="Card-Content border-top">
-          <p>This is card content</p>
+      <LoadingBox :is-loading="isLoading" :message="'Loading dashboard'" />
+      <div v-if="!isLoading">
+        <div class="Card">
+          <div class="Card-Header">
+            <h2 class="heading-2">Upcoming Appointments</h2>
+          </div>
+          <div class="Card-Content">
+            <p>This is card content</p>
+          </div>
+          <div class="Card-Content border-top">
+            <p>This is card content</p>
+          </div>
+          <div class="Card-Content border-top">
+            <p>This is card content</p>
+          </div>
         </div>
       </div>
     </div>
@@ -21,12 +24,22 @@
 </template>
 
 <script>
-import { Layout, Structures } from '../../base';
+import { Layout, Structures, Util } from '../../base';
 
 export default {
   components: {
     Container: Layout.Container,
-    MainHeader: Structures.MainHeader
+    LoadingBox: Util.LoadingBox,
+    MainHeader: Structures.MainHeader,
+  },
+  computed: {
+    isLoading() {
+      if (App.Config.user.isPatient) {
+        return !App.State.received.appointments && !App.State.received.practitioners;
+      } else {
+        return !App.State.received.appointments;
+      }
+    }
   },
   beforeMount() {
     App.Logic.misc.setCurrentPage(App.Config.dashboard.title);
