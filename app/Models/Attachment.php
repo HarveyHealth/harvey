@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Traits\HasKeyColumn;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon;
 
 class Attachment extends Model
 {
+    use HasKeyColumn;
+
     protected $dates = [
         'created_at',
         'updated_at',

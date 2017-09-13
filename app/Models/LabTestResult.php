@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use App\Models\LabTest;
-use Aws\S3\Exception\S3Exception;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Bugsnag, Storage;
+use App\Http\Traits\HasKeyColumn;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
 class LabTestResult extends Model
 {
-    use SoftDeletes;
+    use HasKeyColumn, SoftDeletes;
 
     protected $table = 'lab_tests_results';
 
@@ -19,26 +17,5 @@ class LabTestResult extends Model
     public function labTest()
     {
         return $this->belongsTo(LabTest::class);
-    }
-
-    public function getUrlAttribute()
-    {
-        if (empty($this->key)) {
-            return null;
-        }
-
-        try {
-            $client = Storage::disk('s3')->getDriver()->getAdapter()->getClient();
-            $command = $client->getCommand('GetObject', [
-                'Bucket' => config('filesystems.disks.s3.bucket'),
-                'Key' => $this->key,
-            ]);
-            $request = $client->createPresignedRequest($command, '+1 hour');
-        } catch (S3Exception $e) {
-            Bugsnag::notifyException($e);
-            return null;
-        }
-
-        return (string) $request->getUri();
     }
 }

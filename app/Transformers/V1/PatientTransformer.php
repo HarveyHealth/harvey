@@ -22,6 +22,7 @@ class PatientTransformer extends TransformerAbstract
             'height_inches' => (string) $patient->height_inches,
             'name' => $patient->user->full_name,
             'user_id' => (string) $patient->user_id,
+            'weight' => (string) $patient->weight,
         ];
     }
 
