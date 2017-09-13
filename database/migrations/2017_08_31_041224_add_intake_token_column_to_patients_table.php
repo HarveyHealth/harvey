@@ -14,7 +14,7 @@ class AddIntakeTokenColumnToPatientsTable extends Migration
     public function up()
     {
         Schema::table('patients', function (Blueprint $table) {
-            $table->dateTime('intake_token')->after('symptoms')->nullable();
+            $table->string('intake_token')->after('symptoms')->nullable();
         });
     }
 

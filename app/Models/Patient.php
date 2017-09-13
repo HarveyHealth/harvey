@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Lib\Clients\Typeform;
+use App\Lib\TimeInterval;
 use Illuminate\Database\Eloquent\{Model, Builder};
+use Cache;
 
 class Patient extends Model
 {
@@ -66,5 +69,30 @@ class Patient extends Model
     public function prescriptions()
     {
         return $this->hasMany(Prescription::class, 'patient_id', 'id');
+    }
+
+    public function getIntakeData()
+    {
+        $token = $this->intake_token;
+
+        if (empty($token)) {
+            return null;
+        }
+
+        $output = Cache::remember("intake-token-{$token}-data", TimeInterval::days(1)->toMinutes(), function () use ($token) {
+            $response = (new Typeform)->get($token)->getBody()->getContents();
+
+            if (empty(json_decode($response)->responses[0]->token) || 200 != json_decode($response)->http_status) {
+                return null;
+            }
+
+            return $response;
+        });
+
+        if (empty($output)) {
+            Cache::forget("intake-token-{$token}-data");
+        }
+
+        return $output;
     }
 }

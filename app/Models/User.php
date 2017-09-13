@@ -14,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
-use Cache, Carbon, Log, Mail;
+use Cache, Carbon, Exception, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
@@ -88,7 +88,15 @@ class User extends Authenticatable implements Mailable
 
     public function getTypeAttribute()
     {
-        return $this->userType();
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        }
+
+        throw new Exception("Unable to determine user's type.");
     }
 
     public function getStateAttribute()
@@ -153,19 +161,6 @@ class User extends Authenticatable implements Mailable
     public function hasUpcomingAppointment()
     {
         return count($this->nextUpcomingAppointment()) == 1;
-    }
-
-    public function userType()
-    {
-        if ($this->isPatient()) {
-            return 'patient';
-        } elseif ($this->isPractitioner()) {
-            return 'practitioner';
-        } elseif ($this->isAdmin()) {
-            return 'admin';
-        } else {
-            throw new \Exception("Unable to determine user's type.");
-        }
     }
 
     public function isPatient()
