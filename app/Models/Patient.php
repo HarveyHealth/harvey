@@ -86,7 +86,7 @@ class Patient extends Model
                 return null;
             }
 
-            return $response;
+            return (array) $response;
         });
 
         if (empty($output)) {

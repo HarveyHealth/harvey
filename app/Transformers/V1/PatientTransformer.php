@@ -20,7 +20,6 @@ class PatientTransformer extends TransformerAbstract
             'birthdate' => $patient->birthdate,
             'height_feet' => (string) $patient->height_feet,
             'height_inches' => (string) $patient->height_inches,
-            'intake_token' => $patient->intake_token,
             'name' => $patient->user->full_name,
             'user_id' => (string) $patient->user_id,
         ];
@@ -52,7 +51,9 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeIntake(Patient $patient)
     {
-        return $this->item($patient, new IntakeTransformer())->setResourceKey('intake');
+        if (!empty($patient->getIntakeData())) {
+            return $this->item($patient, new IntakeTransformer())->setResourceKey('intake');
+        }
     }
 
     /**

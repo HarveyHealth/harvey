@@ -13,8 +13,8 @@ class IntakeTransformer extends TransformerAbstract
      */
     public function transform(Patient $patient)
     {
-        $output = (array) $patient->getIntakeData();
-        $output['id'] = $patient->id;
+        $output = $patient->getIntakeData();
+        $output['id'] = $output['responses'][0]->token;
 
         return $output;
     }
