@@ -13,6 +13,10 @@ a {
   @extend %copy-link;
 }
 
+p {
+  margin: 0;
+}
+
 [v-cloak] {
   display: none;
 }

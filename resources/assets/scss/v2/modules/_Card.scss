@@ -1,0 +1,16 @@
+.Card {
+  @extend .border;
+
+  background: $color-white;
+}
+
+.Card-Content {
+  @extend .pad-sm;
+}
+
+.Card-Header {
+  @extend .border-bottom;
+  @extend .pad-sm;
+
+  background: $color-gray-2;
+}

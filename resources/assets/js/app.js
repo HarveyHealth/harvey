@@ -12,7 +12,7 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
-import Dashboard from './pages/dashboard/Dashboard.vue';
+import Dashboard from './v2/components/contextual/dashboard/Dashboard';
 import Usernav from './commons/UserNav.vue';
 
 // HELPERS
