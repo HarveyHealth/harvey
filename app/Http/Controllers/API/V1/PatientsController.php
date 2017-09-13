@@ -106,7 +106,10 @@ class PatientsController extends BaseAPIController
                 $relative_path,
                 $request->file('file'),
                 $fileName = "Attachment_{$patient->attachments->withoutGlobalScopes()->count()}.pdf",
-                ['ContentType' => $request->file('file')->getMimeType()]
+                [
+                    'visibility' => 'private',
+                    'ContentType' => $request->file('file')->getMimeType(),
+                ]
             );
 
             $patient->attachments()->create([
@@ -170,7 +173,10 @@ class PatientsController extends BaseAPIController
                 $relative_path,
                 $request->file('file'),
                 $fileName = "Prescription_{$patient->prescriptions->withoutGlobalScopes()->count()}.pdf",
-                ['ContentType' => $request->file('file')->getMimeType()]
+                [
+                    'visibility' => 'private',
+                    'ContentType' => $request->file('file')->getMimeType()
+                ]
             );
 
             $patient->prescriptions()->create([
@@ -248,7 +254,10 @@ class PatientsController extends BaseAPIController
                 $relative_path,
                 $request->file('file'),
                 $fileName = "SoapNote_{$patient->SoapNotes->withoutGlobalScopes()->count()}.pdf",
-                ['ContentType' => $request->file('file')->getMimeType()]
+                [
+                    'visibility' => 'private',
+                    'ContentType' => $request->file('file')->getMimeType()
+                ]
             );
 
             $patient->soapNotes()->create([
