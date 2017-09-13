@@ -255,48 +255,6 @@
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
       },
-      stripeForm() {
-        let stripe = Stripe(window.Laravel.services.stripe.key);
-        let elements = stripe.elements();
-        let style = {
-            base: {
-                color: '#32325d',
-                lineHeight: '24px',
-                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                fontSmoothing: 'antialiased',
-                fontSize: '16px',
-                '::placeholder': {
-                color: '#aab7c4'
-                }
-            },
-            invalid: {
-                color: '#fa755a',
-                iconColor: '#fa755a'
-            }
-        };
-        let card = elements.create('card', {style: style});
-        card.mount('#card-element');
-        card.addEventListener('change', function(event) {
-            let displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
-        let form = document.getElementById('payment-form');
-            form.addEventListener('submit', function(event) {
-            event.preventDefault();
-            stripe.createToken(card).then(function(result) {
-                if (result.error) {
-                    let errorElement = document.getElementById('card-errors');
-                    errorElement.textContent = result.error.message;
-                } else {
-                    this.submitNewCard(result.token);
-                }
-            });
-        });
-    }
     },
     computed: {
       flyoutHeading() {
