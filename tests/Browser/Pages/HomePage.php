@@ -10,10 +10,11 @@ class HomePage extends Page
 {
 
 
-    public $signupText = 'I agree to terms and privacy policy.';
-    public $coverTitle = "Hi. We're Harvey. We specialize in complex health conditions.";
-    public $labsPage = 'Micronutrient Test';
-    public $faqPage =  'Advice and answers from the Harvey Team';
+    public $signupText = "I agree to Harvey's terms and policies.";
+    public $coverTitle = "Choose better health.";
+    public $labsPage = 'Micronutrients Test';
+    public $helpPage =  'Advice and answers from the Harvey Team';
+    public $aboutPage = 'Harvey combines conventional Western therapies';
 
 
     public function url()
@@ -23,7 +24,8 @@ class HomePage extends Page
 
     public function assertCoverTitle(Browser $browser)
     {
-      $browser->assertSee($this->coverTitle);
+      $browser->pause(2000)
+              ->assertSee($this->coverTitle);
     }
 
     public function assert(Browser $browser)
@@ -39,9 +41,9 @@ class HomePage extends Page
     }
 
 //********************Header Tests
-    public function bookNowHeader(Browser $browser)
+    public function getStartedHeader(Browser $browser)
     {
-        $browser->click('@bookNowHeader')
+        $browser->click('@getStartedHeader')
                 ->assertSee($this->signupText);
     }
 
@@ -57,21 +59,41 @@ class HomePage extends Page
                 ->assertCoverTitle();
     }
 
+    public function aboutHeader(Browser $browser)
+    {
+        $browser->click('@aboutHeader')
+                ->assertSee($this->aboutPage);
+    }
+
+    public function labsTestHeader(Browser $browser)
+    {
+        $browser->click('@labsTestHeader')
+                ->assertSee($this->labsPage);
+    }
+
+    public function pricingHeader(Browser $browser)
+    {
+        $browser->click('@pricingHeader')
+                ->waitForText('SIMPLE PRICING')
+                ->assertSee('SIMPLE PRICING');
+    }
+
+
 //***************Boook Appointment buttons on the page
 
 
-    public function bookAppOne(Browser $browser)
+    public function bookCover(Browser $browser)
     {
-        $browser->mouseover('@labTesting')
-                ->pause(3000)
-                ->click('@bookAppOne')
+        $browser->click('@bookCover')
+                ->pause(2000)
                 ->assertSee($this->signupText);
     }
 
     public function bookAppTwo(Browser $browser)
     {
         $browser->mouseover('@footer')
-                ->pause(2000)
+                ->pause(1000)
+                ->waitFor('@bookAppTwo')
                 ->click('@bookAppTwo')
                 ->assertSee($this->signupText);
     }
@@ -83,7 +105,7 @@ class HomePage extends Page
     public function labsButton(Browser $browser)
     {
             $browser->pause(2000)
-                    ->mouseover('@medicalAdvisors')
+                    ->mouseover('@joinDiscussion')
                     ->click('@labsTestButton')
                     ->assertSee($this->labsPage);
 
@@ -115,12 +137,12 @@ class HomePage extends Page
                   ->assertSee('VISIT SITE');
     }
 
-    public function faqFooter(Browser $browser)
+    public function helpFooter(Browser $browser)
     {
           $browser->mouseover('@footerBottom')
                   ->pause(1000)
-                  ->click('@footerFaq')
-                  ->assertSee($this->faqPage);
+                  ->click('@footerhelp')
+                  ->assertSee($this->helpPage);
     }
 
     public function termsFooter(Browser $browser)
@@ -146,22 +168,25 @@ class HomePage extends Page
     {
         return [
             '@element' => '#selector',
-            '@bookNowHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a.button.is-primary.is-outlined.is-hidden-mobile',
+            '@getStartedHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(6)',
+            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(5)',
             '@harveyLogoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
             '@labTesting' => '#tests > div > h2 > span',
-            '@bookAppOne' => '#pricing > div > div.has-text-centered > div > a',
+            '@aboutHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(1)',
+            '@labsTestHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(2)',
+            '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
+            '@bookCover' => '#app > div.page-content > div > section.hero.is-primary > div.hero-body > div > div > div > div.button-wrapper > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
-            '@medicalAdvisors' => '#advisors > div > h2 > span',
-            '@labsTestButton' => '#labs > div > div > div > div > div > a',
+            '@joinDiscussion' => '#email-capture > div > div > h2',
+            '@labsTestButton' => '#feature > div > div > div > div > div > a',
             '@footer' => '#app > footer > div > div > a > img',
             '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',
             '@homeFooter' => '#app > footer > div > div > p.nav-center > a:nth-child(1)',
-            '@footerLabs' => '#app > footer > div > div > p.nav-center > a:nth-child(2)',
-            '@footerBlog' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
-            '@footerFaq' => '#app > footer > div > div > p.nav-center > a:nth-child(4)',
-            '@footerTerms' => '#app > footer > div > div > p.nav-center > a:nth-child(5)',
-            '@footerPrivacy' => '#app > footer > div > div > p.nav-center > a:nth-child(6)'
+            '@footerLabs' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
+            '@footerBlog' => '#app > footer > div > div > p.nav-center > a:nth-child(4)',
+            '@footerhelp' => '#app > footer > div > div > p.nav-center > a:nth-child(5)',
+            '@footerTerms' => '#app > footer > div > div > p.nav-center > a:nth-child(6)',
+            '@footerPrivacy' => '#app > footer > div > div > p.nav-center > a:nth-child(7)'
 
           ];
     }

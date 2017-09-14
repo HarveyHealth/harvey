@@ -7,11 +7,9 @@ use Laravel\Dusk\Page as BasePage;
 
 class LabTestPage extends BasePage
 {
-    /**
-     * Get the URL for the page.
-     *
-     * @return string
-     */
+
+    public $bookNowPage = "I agree to Harvey's terms and policies.";
+
     public function url()
     {
         return '/lab-tests';
@@ -30,16 +28,16 @@ class LabTestPage extends BasePage
 
     public function testMicronutrients(Browser $browser)
     {
-        $browser->waitForText('Micronutrient Test')
-                ->assertSee('Micronutrient Test')
+        $browser->waitForText('Micronutrients Test')
+                ->assertSee('Micronutrients Test')
                 ->assertSee('$299');
     }
 
     public function testHormones(Browser $browser)
     {
         $browser->click('@hormones')
-                ->waitForText('Hormone Test')
-                ->assertSee('Hormone Test')
+                ->waitForText('Hormones Test')
+                ->assertSee('Hormones Test')
                 ->assertSee('$99');
     }
 
@@ -115,6 +113,15 @@ class LabTestPage extends BasePage
                 ->assertSee('Organic Acids Test')
                 ->assertSee('$299');
     }
+
+    public function bookNow(Browser $browser)
+    {
+        $browser->click('@bookNow')
+                ->pause(1000)
+                ->waitForText($this->bookNowPage)
+                ->assertSee($this->bookNowPage);
+    }
+
     /**
      * Get the element shortcuts for the page.
      *
@@ -124,16 +131,17 @@ class LabTestPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@hormones' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(3) > a',
-            '@adrenals' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(4) > a',
-            "@thyroid" => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(5) > a',
-            '@cardio' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(6) > a',
-            '@cbc' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(7) > a',
-            '@toxicMetal' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(8) > a',
-            '@toxicChemical' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(9) > a',
-            '@foodAllergies' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(10) > a',
-            '@microbiome' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(11) > a',
-            '@organic' => '#app > div > section.section.check-load.is-loaded > div > div > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(12) > a',
+            '@hormones' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(3) > a',
+            '@adrenals' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(4) > a',
+            "@thyroid" => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(5) > a',
+            '@cardio' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(6) > a',
+            '@cbc' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(7) > a',
+            '@toxicMetal' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(8) > a',
+            '@toxicChemical' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(9) > a',
+            '@foodAllergies' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(10) > a',
+            '@microbiome' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(11) > a',
+            '@organic' => '#vertical-tabs > div.column.is-3.tabs-navigation > aside > ul > li:nth-child(12) > a',
+            '@bookNow' => '#get-started > div > div > div > a'
         ];
     }
 }

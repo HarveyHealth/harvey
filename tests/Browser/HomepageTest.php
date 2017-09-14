@@ -9,6 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class HomepageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
 
     public function test_if_homepage_is_up()
     {
@@ -19,11 +20,35 @@ class HomepageTest extends DuskTestCase
     }
 
 
-    public function test_if_book_now_is_in_header()
+    public function test_about_button_in_header()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->bookNowHeader();
+                    ->aboutHeader();
+          });
+    }
+
+    public function test_lab_tests_button_in_header()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->labsTestHeader();
+          });
+    }
+
+    // public function test_pricing_button_in_header()
+    // {
+    //       $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->pricingHeader();
+    //       });
+    // }
+
+    public function test_get_started_in_header()
+    {
+          $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->getStartedHeader();
               });
     }
 
@@ -45,21 +70,21 @@ class HomepageTest extends DuskTestCase
 
     }
 
-    public function test_first_book_appointment_on_page()
+    public function test_book_appointment_in_cover()
     {
           $this->browse(function ($browser) {
             $browser->visit(new HomePage)
-                    ->bookAppOne();
+                    ->bookCover();
               });
     }
 
-    public function test_second_book_appointment_button_on_page()
-    {
-          $this->browse(function ($browser) {
-            $browser->visit(new HomePage)
-                    ->bookAppTwo();
-              });
-    }
+    // public function test_second_book_appointment_button_on_page()
+    // {
+    //       $this->browse(function ($browser) {
+    //         $browser->visit(new HomePage)
+    //                 ->bookAppTwo();
+    //           });
+    // }
 
     public function test_if_labs_tests_button_works()
     {
@@ -86,19 +111,19 @@ class HomepageTest extends DuskTestCase
         });
      }
 
-     public function test_if_blog_button_works_in_footer()
-     {
-         $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->blogFooter();
-         });
-      }
+    //  public function test_if_blog_button_works_in_footer()
+    //  {
+    //      $this->browse(function ($browser) {
+    //          $browser->visit(new HomePage)
+    //                  ->blogFooter();
+    //      });
+    //   }
 
-      public function test_if_FAQ_button_works_in_footer()
+      public function test_if_help_button_works_in_footer()
       {
           $this->browse(function ($browser) {
               $browser->visit(new HomePage)
-                      ->faqFooter();
+                      ->helpFooter();
           });
        }
 

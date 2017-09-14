@@ -1,5 +1,5 @@
-
 dist: ubuntu trusty
+sudo: required
 git:
   depth: 3
 language: php
@@ -11,23 +11,48 @@ cache:
   - "$HOME/.composer/cache"
   - "$HOME/node_modules"
 services:
-  - redis-server
+- redis-server
+- mysql:
+  environment:
+    MYSQL_ROOT_PASSWORD: secret
+    MYSQL_DATABASE: harvey
+    MYSQL_USER: homestead
+    MYSQL_PASSWORD: secret
+
+
 before_install:
 - nvm install 7
 - nvm use 7
 - npm cache clean
+- npm install npm@latest -g
 - npm install
+- touch /home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
+- cp .env.dusk.travis .env
 before_script:
 - touch /home/travis/build/HomeHero/harvey/harvey.sqlite
+- export DB_CONNECTION=sqlite
+- export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - phpenv config-rm xdebug.ini
 - composer self-update
 - composer install --no-interaction
+- export DISPLAY=:99.0
+- /usr/bin/Xvfb :99 -ac -screen 0 2560x1440x24 &
+- ./vendor/laravel/dusk/bin/chromedriver-linux --silent &
 script:
+- php artisan migrate --seed
+- php artisan passport:install --force
+- php artisan serve --host=localhost --quiet > /dev/null 2>&1 &
+- php artisan dusk
+- sudo killall -s SIGKILL Xvfb chromedriver-linux php
 - vendor/bin/phpunit
+- rm .env
+
 branches:
   only:
   - master
-  - /^release-/
+  - develop
+  - dusk-tests
+  - /^release\//
 notifications:
   email: false
   slack:

@@ -9,18 +9,13 @@ use Tests\Browser\Pages\LoginPage;
 
 class LoginPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
      * @return void
      */
-    public function test_if_book_now_is_working_in_header()
-    {
-        $this->browse(function (Browser $browser) {
-            $browser->visit(new LoginPage)
-                    ->bookNowHeader();
-        });
-    }
+
 
     public function test_if_forgot_your_password_routes_to_page()
     {
@@ -47,5 +42,12 @@ class LoginPageTest extends DuskTestCase
       });
     }
 
+    public function test_user_is_shown_message_for_wrong_email()
+    {
+      $this->browse(function (Browser $browser) {
+        $browser->visit(new LoginPage)
+                ->wrongEmail();
+      });
+    }
 
 }

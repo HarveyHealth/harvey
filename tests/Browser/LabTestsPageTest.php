@@ -9,11 +9,14 @@ use Tests\Browser\Pages\LabTestPage;
 
 class labTestsPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     /**
      * A Dusk test example.
      *
      * @return void
      */
+
+
     public function test_if_micronutrient_tab_works()
     {
         $this->browse(function (Browser $browser) {
@@ -99,6 +102,14 @@ class labTestsPageTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $browser->visit(new LabTestPage)
                     ->testOrganic();
+        });
+    }
+
+    public function test_if_book_now_button()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit(new LabTestPage)
+                    ->bookNow();
         });
     }
 }
