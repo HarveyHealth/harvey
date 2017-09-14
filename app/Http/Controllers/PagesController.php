@@ -40,7 +40,11 @@ class PagesController extends Controller
             return $item->slug == $labTestSlug;
         });
 
-        $sku_id = empty($index) ? $lab_tests->first()->sku->id : $lab_tests->pluck('sku')->get($index)->id;
+        if (false === $index) {
+            return redirect(route('lab-tests', $lab_tests->first()->sku->slug));
+        }
+
+        $sku_id = $lab_tests->pluck('sku')->get($index)->id;
 
         return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
     }
