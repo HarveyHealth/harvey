@@ -17,8 +17,8 @@ export default {
       style: {
         'opacity': '0',
         'position': 'relative',
-        [`${this.to}`]: '22px',
-        'transition': `${this.to} 200ms ease-in-out, opacity 200ms ease-in-out`,
+        [`${this.to}`]: '16px',
+        'transition': `${this.to} 300ms ease-in-out, opacity 200ms ease-in-out`,
       }
     }
   },
