@@ -13,8 +13,8 @@
           <CardPractitioner />
         </div>
         <div class="Row gutter-sm">
-          <CardSupport />
           <CardUser />
+          <CardSupport />
         </div>
       </div>
     </div>
@@ -47,6 +47,7 @@ export default {
   },
   beforeMount() {
     App.Logic.misc.setCurrentPage(App.Config.dashboard.title);
+    App.Http.appointments.get(App.Http.appointments.getResponse);
     if (App.Config.user.isPatient) {
       App.Http.practitioners.get(App.Http.practitioners.getResponse);
     }

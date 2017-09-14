@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export default function(date, action, length, units) {
-  const _date = moment(App.Util.toLocalTime(date, 'YYYY-MM-DD HH:mm:ss'));
+  const _date = moment(App.Util.time.toLocal(date, 'YYYY-MM-DD HH:mm:ss'));
   const test = moment()[action](length, units);
 
   switch (action) {
