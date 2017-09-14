@@ -8,13 +8,13 @@
             <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
               <p style="font-style: italic;">Your records are loading.</p>
             </div>
-            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
-              <p style="font-style: italic;">No records found.</p>
-            </div>
             <form v-if="!$root.$data.global.loadingPatients" class="form">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
+            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+              <p style="font-style: italic;">No records found.</p>
+            </div>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
                 <h1>HIPAA Warning</h1>
