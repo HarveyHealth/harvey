@@ -32,6 +32,8 @@ class ChargePatientForCompletedAppointment implements ShouldQueue
             return false;
         }
 
-        dispatch(new ChargePatientForInvoice($invoice));
+        // Queue up the charge delayed 15 minutes to avoid weird social issues.
+        $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addMinutes(15));
+        dispatch($job);
     }
 }
