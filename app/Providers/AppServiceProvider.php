@@ -31,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
 
         Stripe::setApiKey(config('services.stripe.secret'));
+
+        \Shippo::setApiKey(config('services.shippo.test_key'));
     }
 
     /**
