@@ -32,36 +32,16 @@ class PagesController extends Controller
         return view('legacy.pages.about')->with(['about']);
     }
 
-    public function getLabTests($test_slug = null)
+    public function getLabTests(string $labTestSlug = null)
     {
-      $valid_routes = [];
-      $lab_id = 1;
-      $available_tests = LabTestInformation::allFromCache();
+        $lab_tests = LabTestInformation::allFromCache();
 
-      // for now, redirect to the first tab
-      if ($test_slug == null) {
-        $redirect_url = $available_tests[0]->sku->slug;
-        return redirect('lab-tests/'.$redirect_url);
-      }
+        $index = $lab_tests->pluck('sku')->search(function ($item) use ($labTestSlug) {
+            return $item->slug == $labTestSlug;
+        });
 
-      // get available slugs from each test
-      foreach ($available_tests as $test) {
-        array_push($valid_routes, $test->sku->slug);
+        $sku_id = empty($index) ? $lab_tests->first()->sku->id : $lab_tests->pluck('sku')->get($index)->id;
 
-        if ($test->sku->slug === $test_slug) {
-          $lab_id = $test->sku->id;
-        }
-      }
-
-      if ($test_slug != null && !in_array($test_slug, $valid_routes)) {
-          return view('errors.404');
-      }
-
-      $data = array(
-        'lab_tests' => $available_tests,
-        'lab_id' => $lab_id,
-      );
-
-      return view('legacy.pages.lab_tests')->with($data);
+        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
     }
 }
