@@ -21,6 +21,7 @@ class CreateAttachmentsTable extends Migration
             $table->foreign('created_by_user_id')->references('id')->on('users');
             $table->string('key');
             $table->string('notes')->nullable();
+            $table->string('name')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

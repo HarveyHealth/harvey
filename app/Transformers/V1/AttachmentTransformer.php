@@ -15,6 +15,7 @@ class AttachmentTransformer extends TransformerAbstract
         return [
             'id' => (string) $attachment->id,
             'created_by_user_id' => (string) $attachment->creator->id,
+            'name' => $attachment->name,
             'notes' => $attachment->notes,
             'url' => $attachment->url,
         ];

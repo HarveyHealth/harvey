@@ -297,8 +297,9 @@ $factory->define(Attachment::class, function (Faker\Generator $faker) {
             return factory(Practitioner::class)->create()->user->id;
         },
         'key' => function () {
-            return 'WIP';
+            return 'testing/testFile.pdf';
         },
+        'name' => $faker->word,
         'notes' => $faker->text,
     ];
 });
@@ -327,7 +328,7 @@ $factory->define(Prescription::class, function (Faker\Generator $faker) {
             return factory(Practitioner::class)->create()->user->id;
         },
         'key' => function () {
-            return 'WIP';
+            return 'testing/testFile.pdf';
         },
         'notes' => $faker->text,
     ];
