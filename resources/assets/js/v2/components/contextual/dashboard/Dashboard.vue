@@ -4,20 +4,18 @@
     <div class="pad-sm">
       <LoadingBox :is-loading="isLoading" :message="'Loading dashboard'" />
       <div v-if="!isLoading">
-        <div class="row">
-          <div class="col-xs-12 col-lg-6">
-            <div class="Card">
-              <div class="Card-Header">
-                <h2 class="heading-2">Upcoming Appointments</h2>
-              </div>
+        <div class="Row gutter-sm">
+          <div class="Card Column-lg-6">
+            <div class="Card-Header">
+              <h2 class="heading-2">Upcoming Appointments</h2>
             </div>
           </div>
-          <div class="col-xs-12 col-lg-6">
-            <CardPractitioner />
-          </div>
+          <CardPractitioner />
         </div>
-        <CardSupport />
-        <CardUser />
+        <div class="Row gutter-sm">
+          <CardSupport />
+          <CardUser />
+        </div>
       </div>
     </div>
   </Container>
@@ -33,6 +31,8 @@ export default {
     CardSupport: Children.CardSupport,
     CardUser: Children.CardUser,
     Container: Layout.Container,
+    GridColumn: Layout.GridColumn,
+    GridRow: Layout.GridRow,
     LoadingBox: Util.LoadingBox,
     MainHeader: Structures.MainHeader,
   },

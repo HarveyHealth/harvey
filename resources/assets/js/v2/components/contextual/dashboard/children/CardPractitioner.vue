@@ -1,5 +1,5 @@
 <template>
-  <Card :heading="Config.dashboard.titleDoctor" :sub-heading="subHeading">
+  <Card :heading="Config.dashboard.titleDoctor" :sub-heading="subHeading" class="Column-lg-6">
     <div class="Card-Content">
       <p>{{ State('dashboard.practitioner.attributes.description', '') }}</p>
     </div>
@@ -8,6 +8,7 @@
 
 <script>
 import Card from './Card';
+import { Layout } from '../../../base';
 
 export default {
   components: { Card },

@@ -1,5 +1,5 @@
 <template>
-  <Card :heading="Config.dashboard.support.heading" :sub-heading="subHeading">
+  <Card :heading="Config.dashboard.support.heading" :sub-heading="subHeading" class="Column-lg-6">
     <div class="Card-Content space-children-md">
       <div class="space-children-xxs">
         <h4 class="heading-4">Support</h4>
