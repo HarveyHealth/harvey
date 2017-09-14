@@ -12,7 +12,7 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENETS
 import Alert from './commons/Alert.vue';
-import Dashboard from './pages/dashboard/Dashboard.vue';
+import Dashboard from './v2/components/contextual/dashboard/Dashboard';
 import Usernav from './commons/UserNav.vue';
 
 // HELPERS
@@ -37,6 +37,30 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
+// V2
+import Util from './v2/util';
+import Config from './v2/config';
+import State from './v2/state';
+import Logic from './v2/logic';
+import Http from './v2/http';
+import Filters from './v2/filters';
+
+window.App = {};
+window.App.Util = Util;
+window.App.Config = Config(Laravel);
+window.App.State = State;
+window.App.Logic = Logic;
+window.App.Http = Http;
+
+Vue.prototype.Util = window.App.Util;
+Vue.prototype.Config = window.App.Config;
+Vue.prototype.Logic = window.App.Logic;
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
+}
+
+Vue.filter('formatPhone', Filters.formatPhone);
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -46,6 +70,8 @@ const app = new Vue({
         Usernav,
     },
     data: {
+        State: App.State,
+        // old
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {

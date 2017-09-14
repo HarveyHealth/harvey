@@ -2,6 +2,7 @@
   "dest": "./public/sassdoc/",
   "groups": {
     "colors": "Colors",
+    "borders": "Borders",
     "typography": "Typography",
     "spacing": "Spacing",
     "layout": "Layout",

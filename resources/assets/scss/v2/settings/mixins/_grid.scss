@@ -1,0 +1,14 @@
+/// Generates grid column classes given a breakpoint, column width, and gutter size
+/// @group grid 
+@mixin generate-grid-columns($breakpoint, $columnWidth, $gutterSize: false) {
+  @include query($breakpoint) {
+    .Column-#{$breakpoint}-#{$columnWidth} {
+      flex-basis: percentage($columnWidth / $column-base);
+    }
+    @if ($gutterSize) {
+      .Row.gutter-#{$gutterSize} > .Column-#{$breakpoint}-#{$columnWidth} {
+        flex-basis: calc(#{percentage($columnWidth / $column-base)} - #{map-get($space-list, $gutterSize)});
+      }
+    }
+  }
+}

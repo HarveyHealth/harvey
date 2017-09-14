@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage">
+  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
     <button class="menu-button"
       @click="handleMenu(null)"
@@ -13,11 +13,11 @@
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
       </router-link>
 
-      <router-link to="/" title="Dashboard"
-        :class="currentPageCheck('dashboard')"
-        @click.native="handleMenu(false, 'dashboard')">
+      <router-link to="/" :title="Config.dashboard.title"
+        :class="currentPageCheck(Config.dashboard.title)"
+        @click.native="handleMenu(false, Config.dashboard.title)">
         <i class="fa fa-dashboard icon icon-nav-bar"></i>
-        <div class="text">Dashboard</div>
+        <div class="text">{{ Config.dashboard.title }}</div>
       </router-link>
 
       <router-link to="/appointments" title="Appointments"
@@ -50,14 +50,14 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link 
+       <router-link
        v-if="user === 'patient'"
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
         <i class="fa fa-cog icon icon-nav-bar"></i>
         <div class="text">Settings</div>
-      </router-link> 
+      </router-link>
 
       <router-link
         v-if="user === 'admin'"
@@ -110,7 +110,7 @@
       currentPageCheck(page, unread) {
         return {
           'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
+          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
           'unread': unread
         }
       },
@@ -120,6 +120,7 @@
       // if an item is given, the currentPage will be set to that item
       handleMenu(force, item) {
         this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+        App.Logic.misc.setCurrentPage(item);
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;

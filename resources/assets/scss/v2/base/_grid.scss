@@ -1,0 +1,40 @@
+.Row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+.Row.align-middle {
+  align-items: center;
+}
+
+.Row.align-top {
+  align-items: flex-start;
+}
+
+.Row.align-bottom {
+  align-items: flex-end;
+}
+
+@each $size, $value in $space-list {
+  .Row.gutter-#{$size} {
+    margin-left: -($value / 2);
+    margin-right: -($value / 2);
+  }
+  .Row.gutter-#{$size} > * {
+    margin-left: $value / 2;
+    margin-right: $value / 2;
+  }
+  .Row.gutter-#{$size} > * {
+    margin-bottom: $value;
+  }
+}
+
+*[class*="Column"] {
+  flex-basis: 100%;
+}
+
+// Generate grid column classes as needed to keep the CSS output small
+@include generate-grid-columns(lg, 4, sm);
+@include generate-grid-columns(lg, 6, sm);
+@include generate-grid-columns(lg, 8, sm);
