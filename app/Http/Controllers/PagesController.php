@@ -32,8 +32,36 @@ class PagesController extends Controller
         return view('legacy.pages.about')->with(['about']);
     }
 
-    public function getLabTests()
+    public function getLabTests($test_slug = null)
     {
-        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::allFromCache()]);
+      $valid_routes = [];
+      $lab_id = 1;
+      $available_tests = LabTestInformation::allFromCache();
+
+      // for now, redirect to the first tab
+      if ($test_slug == null) {
+        $redirect_url = $available_tests[0]->sku->slug;
+        return redirect('lab-tests/'.$redirect_url);
+      }
+
+      // get available slugs from each test
+      foreach ($available_tests as $test) {
+        array_push($valid_routes, $test->sku->slug);
+
+        if ($test->sku->slug === $test_slug) {
+          $lab_id = $test->sku->id;
+        }
+      }
+
+      if ($test_slug != null && !in_array($test_slug, $valid_routes)) {
+          return view('errors.404');
+      }
+
+      $data = array(
+        'lab_tests' => $available_tests,
+        'lab_id' => $lab_id,
+      );
+
+      return view('legacy.pages.lab_tests')->with($data);
     }
 }
