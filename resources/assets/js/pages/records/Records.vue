@@ -5,19 +5,26 @@
       <div v-if="$root.$data.permissions !== 'patient'">
         <div v-if="step == 1">
           <div class="main-content">
-            <form class="form">
+            <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
+              <p style="font-style: italic;">Your records are loading.</p>
+            </div>
+            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+              <p style="font-style: italic;">No records found.</p>
+            </div>
+            <form v-if="!$root.$data.global.loadingPatients" class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
                 <h1>HIPAA Warning</h1>
                 <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
+                <button @click="modalClose" class="button" style="background-color: #ccc;">Go Back</button>
                 <button @click="nextStep" class="button">Yes, I agree</button>
               </div>
             </Modal>
             <div class="container container-backoffice">
-                <div v-for="patient in results" @click="selectPatient(patient)" class="results">
+                <div v-if="search !== ''" v-for="patient in results" @click="selectPatient(patient)" class="results">
                     <div class="spacing">{{ patient.search_name }}</div>
                     <div class="spacing">{{ patient.email }}</div>
                     <div class="spacing">{{ patient.date_of_birth }}</div>
@@ -29,7 +36,7 @@
            <div>
             <form class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
 
               <div style="height: 800px;">  
@@ -221,22 +228,19 @@ export default {
     data() {
         return {
           step: 1,
-          results: [],
           search: '',
           selectedPatient: null,
           activeModal: false,
-          name: ''
+          name: '',
+          showing: []
         }
     },
     methods: {
       updateInput(e) {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(e.target.value, 'ig')
-        this.results = array.filter(ele => {
-          return matcher.test(ele.search_name) ||
-                      matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
+        this.step = 1;
+        this.activeModal = false;
+        this.selectedPatient = null;
+        this.search = e.target.value;
       },
       selectPatient(patient) {
         this.selectedPatient = patient
@@ -245,6 +249,7 @@ export default {
       },
       nextStep() {
         this.step = 2
+        this.search = '';
       },
       modalClose() {
         this.activeModal = false
@@ -253,15 +258,30 @@ export default {
     computed: {
       results() {
         let array = this.$root.$data.global.patients
-        let matcher = new RegExp(this.value, 'ig')
-        this.results = array.filter(ele => {
+        let matcher = new RegExp(this.search, 'ig')
+        return array.filter(ele => {
           return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
                       matcher.test(ele.date_of_birth)
         })
+        return this.showing;
       }
     },
     watch: {
+      results() {
+        if (this.search !== '') {
+          this.step = 1;
+          this.activeModal = false;
+          this.selectedPatient = null;
+          let array = this.$root.$data.global.patients
+          let matcher = new RegExp(this.search, 'ig')
+          return array.filter(ele => {
+            return matcher.test(ele.search_name) ||
+                        matcher.test(ele.email) ||
+                        matcher.test(ele.date_of_birth)
+          })
+        }
+      }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
