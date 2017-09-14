@@ -26,6 +26,7 @@ class AuthenticateWebhook
             } catch(UnexpectedValueException $e) {
                 abort(ResponseCode::HTTP_BAD_REQUEST, 'Invalid payload.');
             } catch(SignatureVerification $e) {
+                dd($request->getContent(), $sigHeader, config('services.stripe.webhook_secret'));
                 abort(ResponseCode::HTTP_BAD_REQUEST, 'Invalid signature.');
             }
         } elseif ((empty(request('key')) || request('key') != config('webhook.key')) && !in_array($request->getPathInfo(), $this->except)) {
