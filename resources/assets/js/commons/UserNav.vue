@@ -110,7 +110,7 @@
       currentPageCheck(page, unread) {
         return {
           'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
+          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
           'unread': unread
         }
       },
@@ -120,6 +120,7 @@
       // if an item is given, the currentPage will be set to that item
       handleMenu(force, item) {
         this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+        App.Logic.misc.setCurrentPage(item);
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
