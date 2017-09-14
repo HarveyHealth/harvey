@@ -5,6 +5,7 @@ export default function(response) {
   }
 
   App.Util.misc.debug('GET: practitioners?include=user');
+  App.Logic.misc.requested('practitioners');
 
   axios.get(`${App.Config.misc.api}practitioners?include=user`)
     .then(r => response(r))

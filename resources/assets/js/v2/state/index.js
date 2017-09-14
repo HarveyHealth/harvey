@@ -1,11 +1,13 @@
 import dashboard from './dashboard';
 import data from './data';
-import misc from './misc';
 import isLoading from './isLoading';
+import misc from './misc';
+import wasRequested from './wasRequested';
 
 export default {
   dashboard,
   data,
-  misc,
   isLoading,
+  misc,
+  wasRequested,
 }
