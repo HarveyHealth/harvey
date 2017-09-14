@@ -15,6 +15,6 @@ export default function(response) {
   // App.Fn.closeAppointmentFlyout();
 
   // Mark as done
-  App.State.received.appointments = true;
+  App.State.isLoading.appointments = false;
   App.Util.misc.debug('Response: GET appointments')(App.State.data.appointments);
 }

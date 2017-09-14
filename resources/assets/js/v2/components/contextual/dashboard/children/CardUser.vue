@@ -1,5 +1,5 @@
 <template>
-  <Card :heading="Config.dashboard.titleDoctor" :sub-heading="subHeading" class="Column-lg-6">
+  <Card :heading="'Your Info'" :sub-heading="subHeading" class="Column-lg-6">
     <div class="Card-Content space-children-md">
       <div class="space-children-xxs">
         <h4 class="heading-4">Email</h4>

@@ -1,22 +1,21 @@
 <template>
   <Container>
     <MainHeader :heading="Config.dashboard.title"></MainHeader>
-    <div class="pad-sm">
+    <div class="pad-sm max-width-xl">
       <LoadingBox :is-loading="isLoading" :message="'Loading dashboard'" />
-      <div v-if="!isLoading">
-        <div class="Row gutter-sm">
-          <div class="Card Column-lg-6">
-            <div class="Card-Header">
-              <h2 class="heading-2">Upcoming Appointments</h2>
-            </div>
+      <SlideIn v-if="!isLoading">
+        <div :class="{ 'Row gutter-sm': Config.user.isPatient }">
+          <div :class="appointmentsWrap">
+            <CardAppointments :heading="'Upcoming Appointments'" :appointments="State('data.appointments.upcoming')" />
+            <CardAppointments :heading="'Recent Appointments'" :appointments="State('data.appointments.recent')" />
           </div>
-          <CardPractitioner />
+          <CardPractitioner v-if="Config.user.isPatient" />
         </div>
         <div class="Row gutter-sm">
           <CardUser />
           <CardSupport />
         </div>
-      </div>
+      </SlideIn>
     </div>
   </Container>
 </template>
@@ -27,21 +26,27 @@ import Children from './children';
 
 export default {
   components: {
+    CardAppointments: Children.CardAppointments,
     CardPractitioner: Children.CardPractitioner,
     CardSupport: Children.CardSupport,
     CardUser: Children.CardUser,
     Container: Layout.Container,
-    GridColumn: Layout.GridColumn,
-    GridRow: Layout.GridRow,
     LoadingBox: Util.LoadingBox,
     MainHeader: Structures.MainHeader,
+    SlideIn: Util.SlideIn
   },
   computed: {
+    appointmentsWrap() {
+      return {
+        'Row gutter-sm': !App.Config.user.isPatient,
+        'Column-lg-6 space-children-sm': App.Config.user.isPatient
+      }
+    },
     isLoading() {
       if (App.Config.user.isPatient) {
-        return !App.State.received.appointments && !App.State.received.practitioners;
+        return App.State.isLoading.appointments || App.State.isLoading.practitioners;
       } else {
-        return !App.State.received.practitioners;
+        return App.State.isLoading.appointments;
       }
     }
   },

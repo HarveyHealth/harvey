@@ -12,11 +12,13 @@ import { Layout } from '../../../base';
 
 export default {
   components: { Card },
-  data() { return {
-    subHeading: {
-      avatar: App.State.dashboard.practitioner.attributes.picture_url || App.Config.misc.defaultUserImage,
-      title: App.State.dashboard.practitioner.attributes.name
+  computed: {
+    subHeading() {
+      return {
+        avatar: App.State.dashboard.practitioner.attributes.picture_url || App.Config.misc.defaultUserImage,
+        title: App.State.dashboard.practitioner.attributes.name
+      }
     }
-  }}
+  }
 }
 </script>

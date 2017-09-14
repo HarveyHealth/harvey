@@ -7,6 +7,6 @@ export default function(response) {
     App.State.dashboard.practitioner = App.Logic.dashboard.findPractitioner(App.Config.user.info.doctor_name);
   }
 
-  App.State.received.practitioners = true;
+  App.State.isLoading.practitioners = false;
   App.Util.misc.debug('Response: GET practitioners')(App.State.data.practitioners);
 }
