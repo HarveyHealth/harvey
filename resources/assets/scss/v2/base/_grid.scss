@@ -1,0 +1,23 @@
+.Row {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+@each $size, $value in $space-list {
+  .Row.gutter-#{$size} {
+    margin-left: -($value / 2);
+    margin-right: -($value / 2);
+  }
+  .Row.gutter-#{$size} > * {
+    margin-left: $value / 2;
+    margin-right: $value / 2;
+    margin-bottom: $value;
+  }
+}
+
+*[class^="Column-"] {
+  flex-basis: 100%;
+}
+
+// Generate grid column classes as needed to keep the CSS output small
