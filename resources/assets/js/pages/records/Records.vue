@@ -12,8 +12,9 @@
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
-            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
-              <p style="font-style: italic;">No records found.</p>
+            <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="inline-centered">
+              <img class="inline-centered" src="images/if_ic_library_514023.svg" alt="" style="height: 500px; mask: url(images/if_ic_library_514023.svg);">
+              <h1 style="color: #5f7278; text-align: center;">No records found.</h1>
             </div>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
@@ -43,19 +44,19 @@
                 <div class="card" style="width: 76%;">
                   <div class="card-heading-container">
                       <div>
-                        Doctor with Patient
+                        {{ selectedPatient.name }}
                       </div>
                   </div>
                     <div style="height: 800px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
                         
                         <div style="float: left; width: 64%; position: relative; top: 25px;">
-                          <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
+                          <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
                           <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
                         </div>
 
                         <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
                           <div style="padding: 10px;">
-                            <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
+                            <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
                             <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
                               <button class="button" style="margin: 33px auto;">Intake Form</button>
                             </div>
@@ -63,12 +64,12 @@
                         </div>
 
                         <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
+                            <h7 name="" class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
                             <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
                           </div>
 
                           <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
+                            <h7 name="" class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
                             <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
                           </div>
 
@@ -77,13 +78,13 @@
                           </div>
 
                             <div style="float: left; width: 64%; position: relative; top: 25px;">
-                              <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
+                              <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
                               <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
                             </div>
 
                             <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
                               <div style="padding: 10px;">
-                                <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescription</h7>
+                                <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescription</h7>
                                 <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
                                   <button class="button" style="margin: 33px auto;">Prescription</button>
                                 </div>
@@ -97,40 +98,8 @@
                       </div>
 
                 </div>
-                <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <label class="input__label" for="patient_name">name</label>
-                        <div style="color: #82BEF2; position: relative; bottom: 30px; float: right; width: 125px; height: 125px;" class="input__label" for="patient_name">image</div>
-                        <div style="color: #82BEF2; width: 100%;" class="input__label" for="patient_name">email</div>
-                        <div style="color: #82BEF2;" class="input__label" for="patient_name">phone</div>
-                    </div>
-                  </div>
-                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">ID</span>
-                         <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">JOINED</span>
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">DOB</span>
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">CITY</span>
-                        <span style="color: #82BEF2; width: 100%;" class="input__label" for="patient_name">STATE</span> 
-                    </div>
-                   </div>  
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <label class="input__label" for="patient_name">appointments</label>
-                        <div style="padding: 15px 0;">
-                          <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                          <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="input__container">
-                      <label class="input__label" for="patient_name">lab tests</label>
-                      <div style="padding: 15px 0;">
-                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Micronutrients</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-                      </div>
-                  </div>
+                <Flyout :active="true" :onClose="() => {}" heading="Record History" style="width: 20%; z-index: 0;">
+                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
                 </Flyout>
 
               </div>
@@ -157,7 +126,7 @@
               </div>
               <div style="height: 600px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
                   <div style="float: left; height: 400px; width: 60%; position: relative; top: 15px;">
-                    <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
+                    <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
                     <p style="margin: 15px; padding: 5px;">
                         Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
                         <br>
@@ -170,13 +139,13 @@
                   </div>
                   <div style="float: left; height: 400px; width: 35%; position: relative; top: 15px;">
                     <div style="padding: 10px;">
-                      <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
+                      <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
                       <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
                         <button class="button" style="margin: 33px auto;">Intake Form</button>
                       </div>
                     </div>
                     <div style="padding: 10px;">
-                      <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescriptions</h7>
+                      <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescriptions</h7>
                       <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
                         <button class="button" style="margin: 33px auto;">Prescriptions</button>
                       </div>
@@ -184,26 +153,8 @@
                   </div>
               </div>
           </div>
-          <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
-            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-              <div class="input__container">
-                  <label class="input__label" for="patient_name">lab notes</label>
-                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-              </div>
-            </div>
-            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-              <div class="input__container">
-                  <label class="input__label" for="patient_name">appointments</label>
-                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-              </div>
-            </div>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">lab tests</label>
-                <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Micronutrients</span>
-                <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-            </div>
+          <Flyout :active="true" :onClose="() => {}" heading="Record History" style="width: 20%; z-index: 0;">
+            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
           </Flyout>
 
         </div>
@@ -239,7 +190,6 @@ export default {
       updateInput(e) {
         this.step = 1;
         this.activeModal = false;
-        this.selectedPatient = null;
         this.search = e.target.value;
       },
       selectPatient(patient) {
