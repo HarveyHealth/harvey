@@ -1,0 +1,16 @@
+.button-light-inverse {
+  background: transparent;
+  border: 1px solid;
+  border-radius: $radius;
+  color: $color-white;
+  display: inline-block;
+  opacity: 0.75;
+  padding: $space-xs $space-sm;
+  transition: opacity 150ms ease-in;
+
+  &:hover,
+  &:active {
+    color: $color-white;
+    opacity: 1;
+  }
+}

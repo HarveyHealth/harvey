@@ -1,0 +1,15 @@
+.Alert {
+  @extend .pad-md;
+
+  background: $color-alert;
+  border-left: 6px solid $color-alert-dark;
+  text-align: center;
+
+  * {
+    color: $color-white;
+  }
+
+  @include query(lg) {
+    text-align: left;
+  }
+}

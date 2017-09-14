@@ -4,6 +4,7 @@
     <div class="pad-sm max-width-xl">
       <LoadingBox :is-loading="isLoading" :message="'Loading dashboard'" />
       <SlideIn v-if="!isLoading">
+        <!-- <Alert v-if="!Config.user.info.intake_completed_at" class="margin-bottom-sm" /> -->
         <div :class="{ 'Row gutter-sm': Config.user.isPatient }">
           <div :class="appointmentsWrap">
             <CardAppointments :heading="'Upcoming Appointments'" :appointments="State('data.appointments.upcoming')" />
@@ -26,6 +27,7 @@ import Children from './children';
 
 export default {
   components: {
+    Alert: Children.Alert,
     CardAppointments: Children.CardAppointments,
     CardPractitioner: Children.CardPractitioner,
     CardSupport: Children.CardSupport,
