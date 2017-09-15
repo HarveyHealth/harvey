@@ -38,14 +38,15 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 });
 
 import Config from './v2/config';
+import State from './v2/state';
 
-window.App = {
-  Config: Config(Laravel)
-};
+window.App = {};
+App.Config = Config(Laravel);
+App.State = State;
 
 Vue.prototype.Config = window.App.Config;
 
-const app = new Vue({
+App.app = new Vue({
     router,
     mixins: [TopNav],
     components: {
