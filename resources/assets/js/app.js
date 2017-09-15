@@ -39,12 +39,26 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 
 import Config from './v2/config';
 import State from './v2/state';
+import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
 App.State = State;
+App.Util = Util;
 
-Vue.prototype.Config = window.App.Config;
+// Adding these objects to the Vue prototype makes them available from
+// within Vue templates directly, cutting back on our use of computed
+// properties, component props, and placeholder data.
+Vue.prototype.Config = App.Config;
+Vue.prototype.Util = App.Util;
+
+// Turning State into a function allows you to query global state within
+// Vue templates, providing default values to fall back on if a particular
+// property is undefined. This is helpful when awaiting data structures from
+// api calls.
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
+}
 
 App.app = new Vue({
     router,
@@ -55,6 +69,9 @@ App.app = new Vue({
         Usernav,
     },
     data: {
+        // Adding this to the root data object makes it globally reactive
+        State: App.State,
+
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {
