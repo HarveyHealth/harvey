@@ -99,6 +99,8 @@
 
                 </div>
                 <Flyout :active="true" :onClose="() => {}" heading="Record History" style="width: 20%; z-index: 0;">
+                  <a :href="'mailto:' + selectedPatient.email"></a>
+                  <a :href="'tel:' + selectedPatient.phone"></a>
                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
                 </Flyout>
 
@@ -154,7 +156,7 @@
               </div>
           </div>
           <Flyout :active="true" :onClose="() => {}" :heading="selectedPatient" style="width: 20%; z-index: 0;">
-            
+
             <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
           </Flyout>
 
