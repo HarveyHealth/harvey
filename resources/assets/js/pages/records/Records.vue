@@ -102,7 +102,8 @@
                   <a style="float: left; width: 51%; margin-bottom: 8px;" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
                   <a style="float: left; width: 51%;" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
                   <div :style="`background-image: url(${selectedPatient.image});`" style="width: 100px; height: 100px; border-radius: 50%; position: absolute; right: 30px; border: 1px solid #ccc; background-size: cover;" />
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px; margin-top: 115px;" />
+                  <div style="border-bottom: 1px solid #d7dde3; margin-bottom: 30px; margin-top: 115px;" />
+                  <div class="input__container" style="border-bottom: 1px solid #d7dde3; margin-bottom: 30px; padding-bottom: 20px;">
                     <div style="float: left; width: 50%;">
                       <span style="width: 100%; float: left;">ID: <b>#{{ selectedPatient.id }}</b></span>
                       <span style="width: 100%; float: left;">Joined: <b>{{ selectedPatient.created_at }}</b></span>
@@ -112,6 +113,35 @@
                       <span style="width: 100%; float: left;">City: <b>{{ selectedPatient.city }}</b></span>
                       <span style="width: 100%; float: left;">State: <b>{{ selectedPatient.state }}</b></span>
                     </div>
+                  </div>
+                  <div class="input__container">
+                    <Timeline :items="[
+                      {
+                        type: 'Intake Form',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                        onClick: () => {}
+                      },
+                      {
+                        type: 'Lab Results',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                        onClick: () => {}
+                      },
+                      {
+                        type: 'Treatment Plan',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                        onClick: () => {}
+                      },
+                      {
+                        type: 'Prescription',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                        onClick: () => {}
+                      }
+                    ]" />
+                  </div>
                 </Flyout>
 
               </div>
@@ -173,8 +203,6 @@
         </div>
       </div>
 
-      
-
   </div>
 </template>
 
@@ -182,12 +210,14 @@
 import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
+import Timeline from '../../commons/Timeline.vue'
 export default {
     name: 'Records',
     components: {
         UserNav,
         Modal,
-        Flyout
+        Flyout,
+        Timeline
     },
     data() {
         return {
