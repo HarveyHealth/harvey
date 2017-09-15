@@ -8,16 +8,16 @@
             <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
               <p style="font-style: italic;">Your records are loading.</p>
             </div>
-            <form v-if="!$root.$data.global.loadingPatients" class="form">
+            <form v-if="!$root.$data.global.loadingPatients" class="form" style="width: 100%;">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
             <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="inline-centered">
-              <img class="inline-centered" src="images/if_ic_library_514023.svg" alt="" style="height: 500px; mask: url(images/if_ic_library_514023.svg);">
+              <img class="inline-centered" src="images/if_ic_library_514023.svg" alt="" style="width: 100%; height: 500px; mask: url(images/if_ic_library_514023.svg);">
               <h1 style="color: #5f7278; text-align: center;">No records found.</h1>
             </div>
              <div v-if="!$root.$data.global.loadingPatients && search === ''" class="inline-centered">
-              <i class="inline-centered fa fa-search" style="font-size: 300px; margin-top: 75px; height: 320px; color: #333;" />
+              <i class="inline-centered fa fa-search" style="font-size: 300px; margin-top: 75px; height: 320px; width: 100%; color: #333;" />
               <h1 style="color: #666; text-align: center;">Search for records.</h1>
             </div>
             <Modal :active="activeModal" :onClose="modalClose">
@@ -42,6 +42,8 @@
             <form class="form">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <button @click="newSoapNote" class="button" style="background-color: #ccc; top: 5px; position: absolute; right: 36%; z-index: 100; width: 10%;">SOAP Note</button>
+              <button class="button" style="top: 5px; position: absolute; right: 25%; z-index: 100; width: 10%;">New Record</button>
             </form>
 
               <div style="height: 800px;">  
@@ -198,6 +200,9 @@ export default {
         this.step = 1;
         this.activeModal = false;
         this.search = e.target.value;
+      },
+      newSoapNote() {
+        this.page = 1;
       },
       selectPatient(patient) {
         this.selectedPatient = patient
