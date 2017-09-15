@@ -5,7 +5,6 @@ import router from './routes';
 import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
-import phonemask from './utils/directives/phonemask';
 import VeeValidate from 'vee-validate';
 
 // MIXINS
@@ -22,7 +21,6 @@ import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
-Vue.directive('phonemask', phonemask);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
@@ -50,18 +48,23 @@ const app = new Vue({
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
+        colors: {
+          copy: '#4f6268'
+        },
         clientList: [],
+        permissions: Laravel.user.user_type,
         environment: env,
         permissions: Laravel.user.user_type,
         currentUserId: Laravel.user.id,
         flyoutActive: false,
         guest: false,
+        stripe: null,
         global: {
             appointments: [],
             confirmedDoctors: [],
             confirmedPatients: [],
             currentPage: '',
-            creditCardTokens: null,
+            creditCards: [],
             detailMessages: {},
             loadingAppointments: true,
             loadingCreditCards: true,
@@ -176,6 +179,7 @@ const app = new Vue({
                         city: includeData.city,
                         date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
                         email: includeData.email,
+                        has_a_card: includeData.has_a_card,
                         id: obj.id,
                         name: `${includeData.last_name}, ${includeData.first_name}`,
                         phone: includeData.phone,
@@ -241,7 +245,7 @@ const app = new Vue({
             }
         },
         getLabData() {
-            axios.get(`${this.apiUrl}/lab/orders?include=patient,user`)
+            axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     this.global.labOrders = response.data.data.map((e, i) => {
                         e['included'] = response.data.included[i]
@@ -305,7 +309,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCardTokens = response.data.cards.length ? response.data.cards[0] : null
+                this.global.creditCards = response.data.cards
                 this.global.loadingCreditCards = false;
             })
         },
@@ -314,9 +318,9 @@ const app = new Vue({
                 .filter(e => e.attributes.status === 'complete')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
             this.global.confirmedPatients = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
+                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors)
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e))
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
         },
         getSelfPractitionerInfo() {
@@ -356,8 +360,7 @@ const app = new Vue({
         }
     },
     mounted() {
-        Stripe(Laravel.services.stripe.key);
-        Stripe.setPublishableKey(Laravel.services.stripe.key)
+        this.stripe = Stripe(Laravel.services.stripe.key);
         window.debug = () => console.log(this.$data);
 
         // Initial GET requests

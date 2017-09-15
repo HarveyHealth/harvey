@@ -23,10 +23,10 @@
 
 .schedule-section {
   background-color: $light-gray;
-  border: 2px solid #eee;
+  border: 2px solid $color-gray-0;
   border-radius: 3px;
   @include padding($space-sm);
-  font-size: 14px;
+  font-size: $font-sm;
   text-align: left;
   @include margin(null null $space-md);
 
@@ -35,8 +35,7 @@
   }
 
   h3 {
-    font-size: 18px;
-    text-align: center;
+    margin-bottom: 12px;
   }
 
   ol {
@@ -47,32 +46,32 @@
   }
 
   ol li {
-    font-size: 12px;
-    color: #ccc;
+    font-size: $font-xs;
     width: 40px;
     height: 40px;
     display: none; // by default
     margin: 10px 3px 15px;
     border-radius: 50%;
-    padding: 13px 0;
+    padding: 12px 0;
     text-align: center;
-    font-weight: 700;
+    font-weight: $font-bold;
 
     &.available {
       display: inline-block;
-      background: #e6e6e6;
-      color: #82BEF2;
+      background: $color-gray-0;
+      color: $color-accent-dark;
       cursor: pointer;
-      transition: background 100ms ease-in-out;
+      opacity: 0.75;
+      transition: opacity 100ms ease-in-out;
 
       &:hover {
-        background: #dedede;
+        opacity: 1;
       }
     }
 
     &.selected {
-      background: $harvey-tertiary !important;
-      color: $white;
+      background: $color-accent-dark !important;
+      color: $color-white;
     }
   }
 
@@ -83,25 +82,18 @@
 }
 
 .schedule-week-info {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $color-gray-0;
 
   .dates {
     float: right;
-    color: $gray;
-    font-size: 12px;
   }
 }
 
 .schedule-info-text {
   margin-bottom: 5px;
   text-align: center;
-  font-size: 21px;
-  font-weight: 500;
-  color: #444;
 }
 
 .time-zone{
-  color: #E3BAB3;
-  font-size: 13px;
-  text-align: center;
+  color: $color-callout;
 }

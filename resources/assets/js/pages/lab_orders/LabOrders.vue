@@ -4,12 +4,12 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge">
+                    <h1 class="heading-1">
                     <span class="text">Lab Orders</span>
                     <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
-                    </h1>
+                    </h1><br>
                     <FilterButtons
                         v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
@@ -167,8 +167,8 @@
                     patient = global.patientLookUp
                 }
                 let data = tableDataTransform(
-                    global.labOrders, 
-                    global.labTests, 
+                    global.labOrders,
+                    global.labTests,
                     patient,
                     global.practitionerLookUp,
                     this.$root.$data.labTests
@@ -207,17 +207,17 @@
                 const global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
                 if (permissions === 'admin') {
-                    return global.loadingLabTests || 
-                    global.loadingLabOrders || 
-                    global.loadingPatients || 
+                    return global.loadingLabTests ||
+                    global.loadingLabOrders ||
+                    global.loadingPatients ||
                     global.loadingPractitioners
                 } else if (permissions === 'practitioner') {
-                    return global.loadingLabTests || 
-                    global.loadingLabOrders || 
+                    return global.loadingLabTests ||
+                    global.loadingLabOrders ||
                     global.loadingPatients
                 } else if (permissions === 'patient') {
-                    return global.loadingLabTests || 
-                    global.loadingLabOrders || 
+                    return global.loadingLabTests ||
+                    global.loadingLabOrders ||
                     global.loadingPractitioners
                 }
                 return false
@@ -244,13 +244,13 @@
             const global = this.$root.$data.global
             let permissions = this.$root.$data.permissions
 
-            if (!global.loadingLabTests && 
-                !global.loadingLabOrders && 
+            if (!global.loadingLabTests &&
+                !global.loadingLabOrders &&
                 !global.loadingPractitioners &&
                 (!global.loadingPatients || (permissions === 'patient'))) {
                     this.setupLabData();
                 }
-            
+
         }
     }
 </script>

@@ -5,17 +5,18 @@
         <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
+            class="heading-2"
         >{{ col.name }}</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="copy-main font-sm">
       <tr v-show="loading">
-        <td :colspan="columns.length" style="font-style: italic;">
+        <td :colspan="columns.length" class="copy-muted font-sm font-italic">
           {{ loadingMsg }}
         </td>
       </tr>
       <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" style="font-style: italic;">
+        <td :colspan="columns.length" class="copy-muted font-sm font-italic">
           {{ emptyMsg }}
         </td>
       </tr>
@@ -25,7 +26,7 @@
         <td v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
-           <a :href="'mailto:'+row.data.email" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a> 
+           <a :href="'mailto:'+row.data.email" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a>
         </td>
       </tr>
     </tbody>

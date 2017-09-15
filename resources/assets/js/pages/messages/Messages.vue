@@ -4,9 +4,9 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                  <h1 class="title header-xlarge">
+                  <h1 class="heading-1">
                     <span class="text">Messages</span>
-                    <button @click="close()" class="button main-action circle">
+                    <button v-if="!$root.$data.global.loadingMessages" @click="close()" class="button main-action circle">
                         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                     </button>
                     </h1>
@@ -18,11 +18,11 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
-              <p style="font-style: italic;">Sorry, you don't have any messages.</p>
+            <div class="card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+              <p class="copy-muted font-sm font-italic">Sorry, you don't have any messages.</p>
             </div>
-            <div class="card" v-show="$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">  
-              <p style="font-style: italic;">Your messages are loading.</p>
+            <div class="card" v-show="$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+              <p class="copy-muted font-sm font-italic">Your messages are loading.</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />

@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\Clients\Geocoder;
-use App\Lib\{PhoneNumberVerifier, TimeInterval};
+use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -14,11 +14,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
-use Cache, Carbon, Log, Mail;
+use Cache, Carbon, Exception, Log, Mail;
 
 class User extends Authenticatable implements Mailable
 {
-    use HasApiTokens, Notifiable, Searchable, isNot, Textable;
+    use HasApiTokens, Notifiable, Searchable, IsNot, Textable;
 
     public $asYouType = true;
 
@@ -108,7 +108,12 @@ class User extends Authenticatable implements Mailable
             return $geocoder->geocode($query);
         });
 
-        return $result['address']['state'] ?? null;
+        if (empty($result['address']['state'])) {
+            Cache::forget("call-geocoder-{$query}");
+            return null;
+        }
+
+        return $result['address']['state'];
     }
 
     public function getFullNameAttribute()
@@ -170,7 +175,7 @@ class User extends Authenticatable implements Mailable
         } elseif ($this->isAdmin()) {
             return 'admin';
         } else {
-            throw new \Exception("Unable to determine user's type.");
+            throw new Exception("Unable to determine type of User ID #{$this->id}.");
         }
     }
 
@@ -192,6 +197,14 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
+    }
+
+    public function truncatedName()
+    {
+        $first_initial = substr($this->first_name, 0, 1);
+        $name = $first_initial . '. ' . $this->last_name;
+
+        return $name;
     }
 
     public function passwordSet()
@@ -279,7 +292,7 @@ class User extends Authenticatable implements Mailable
         try {
             $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
         } catch (Exception $exception) {
-            Log::error("Unable to list cards for User #{$this->id}");
+            Log::error("Unable to list credit cards for User #{$this->id}");
             return [];
         }
 
@@ -288,20 +301,22 @@ class User extends Authenticatable implements Mailable
 
     public function deleteCard(string $cardId)
     {
+        $this->clearHasACardCache();
+
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $exception) {
-            Log::error("Unable to delete card #{$cardId} for User #{$this->id}");
+            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}");
             return false;
         }
-
-        $this->clearHasACardCache();
 
         return true;
     }
 
     public function updateCard(array $cardInfo)
     {
+        $this->clearHasACardCache();
+
         $cardId = $cardInfo['card_id'];
         unset($cardInfo['card_id']);
 
@@ -314,7 +329,7 @@ class User extends Authenticatable implements Mailable
 
             $card->save();
         } catch (Exception $exception) {
-            Log::error("Unable to update card #{$cardId} for User #{$this->id}");
+            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}");
             return false;
         }
 
@@ -323,6 +338,8 @@ class User extends Authenticatable implements Mailable
 
     public function addCard(string $cardTokenId)
     {
+        $this->clearHasACardCache();
+
         try {
             if (empty($this->stripe_id)) {
                 $customer = Customer::create([
@@ -333,19 +350,20 @@ class User extends Authenticatable implements Mailable
                 $this->stripe_id = $customer->id;
             } else {
                 $customer = Customer::retrieve($this->stripe_id);
-                $customer->sources->create(['source' => $cardTokenId]);
+                $customer->sources->create([
+                    'source' => $cardTokenId,
+                    'metadata' => ['harvey_id' => $this->id],
+                ]);
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $exception) {
-            Log::error("Unable to add card #{$cardTokenId} for User #{$this->id}");
+            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}");
             return false;
         }
 
         $this->card_last_four = $defaultCard->last4;
         $this->card_brand = $defaultCard->brand;
         $this->save();
-
-        $this->clearHasACardCache();
 
         return true;
     }
@@ -362,9 +380,15 @@ class User extends Authenticatable implements Mailable
         return Cache::forget("has-a-card-user-id-{$this->id}");
     }
 
-    public function isNot(Model $model)
+    public function sendPasswordResetNotification($token)
     {
-        return !$this->is($model);
-    }
+        $transactionalEmailJob = TransactionalEmail::createJob()
+            ->setTo($this->email)
+            ->setTemplate('password.reset')
+            ->setTemplateModel(['action_url' => url(config('app.url').route('password.reset', $token, false))]);
 
+        dispatch($transactionalEmailJob);
+
+        return true;
+    }
 }

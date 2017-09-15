@@ -56,8 +56,7 @@
   border: none;
   display: block;
   outline: none;
-  font-size: 16px;
-  color: $harvey-tertiary;
+  color: $color-accent;
   cursor: pointer;
   transition: color 100ms ease-in;
   @include margin(25px auto 0);
@@ -67,12 +66,12 @@
   }
 
   &:hover {
-    color: $dark-gray;
+    color: $color-accent-dark;
   }
 
   &:disabled {
     opacity: 0.5;
-    color: $harvey-tertiary !important;
+    color: $color-accent !important;
     cursor: default;
   }
 }

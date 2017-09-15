@@ -17,7 +17,6 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  font-size: .85em;
   max-width: 450px;
   @include padding(35px);
   transform: translate(-50%, -50%);
@@ -27,15 +26,13 @@
 }
 
   .modal-header {
-    font-size: 29px;
-    border-bottom: 1px solid #F4F4F4;
+    border-bottom: 1px solid $color-gray-0;
     @include padding(null null 15px null);
     @include margin(null null 30px null);
   }
   .modal-button-container {
     p {
       font-style: italic;
-      line-height: 1.5;
       @include margin(1em null null null);
     }
     button {
@@ -50,22 +47,13 @@
 }
 
 .appointment-modal .modal {
-  color: darken($gray, 15%);
   max-width: 35em;
-  .modal-header {
-    font-size: 1.5em;
-  }
   p {
-    font-size: 1em;
-    font-weight: 300;
     @include margin(null null 1em null);
   }
 }
 
 @include query(lg) {
-  .modal {
-    font-size: 1em;
-  }
   .modal-button-container {
     button {
       width: auto;

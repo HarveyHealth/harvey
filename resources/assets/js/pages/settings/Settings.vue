@@ -11,66 +11,67 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h1 class="card-header">Payment Details</h1>
+                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -70px; right: -25px;" @click="closeDetails">
+                        <svg><use xlink:href="#close" /></svg>
+                    </button>
                 </div>
-
                 <div>
-
                     <div v-if="$root.$data.global.loadingCreditCards">
                         <p style="text-align: center; font-size: 18px; padding: 10px;"><i>Your credit cards are loading.</i></p>
                     </div>
-
-                    <div v-if="!details && cards">
+                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
                         <div style="height: 40px; margin: 20px auto;">
-                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${cards.last4}`}}</div>
-                            <a @click="pressEdit(cards)" style="margin: 0 10px; float: left;">edit</a>
-                            <a @click="openModal" style="margin: 0 10px; float: left;">delete</a>
+                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
+                            <a @click="openModal(card)" style="margin: 0 10px; float: left;">Delete</a>
                         </div>
                     </div>
-
-                    <div v-if="!details && !cards && !$root.$data.global.loadingCreditCards" class="inline-centered">
+                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="inline-centered">
                         <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
                     </div>
 
                     <div v-if="details" style="padding: 20px;">
-                        <div class="input__container length" style="margin-bottom: 1.5em;">
-                            <label class="input__label" for="patient_name">card number</label>
-                            <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
-                        </div>
-                        <div class="input__container length">
-                            <label class="input__label" for="patient_name">name on card</label>
-                            <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
-                            <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
-                        </div>
-                        <div class="input__container length" style="padding-top: 25px;">
-                            <label class="input__label" for="patient_name">expiry date</label>
-                            <span class="custom-select" style="float: left; width: 48%;"> 
-                                <select @change="updateMonth($event)">
-                                    <option v-for="month in monthList">{{ month }}</option>
-                                </select>
-                            </span>
-                            <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
-                        </div>
-                        <div class="input__container length" style="padding-top: 25px;">
-                            <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
-                            <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
-                            <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
-                            <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
-                        </div>
-                        <div class="inline-centered">
-                            <button v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
-                            <button v-if="edit" @click="submitUpdateCard" class="button" style="margin-top: 35px;">Update Card</button>
-                        </div>
+                        <form id="payment-form">
+                            <div class="form-row">
+                                <label for="card-element">
+                                Credit or debit card
+                                </label>
+                                <div id="card-element"></div>
+                                <div id="card-errors" role="alert"></div>
+                            </div>
+
+                            <div class="inline-centered">
+                                <button type="submit" v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            </div>
+                        </form>
                     </div>
-    
+
                     <Modal :active="deleteModalActive" :onClose="closeModal">
                         <div class="inline-centered">
                             <h1>Delete Credit Card</h1>
                             <p>Are you sure you want to delete this credit card?</p>
                             <div class="inline-centered">
+                                <button @click="closeModal" class="button">Cancel</button>
                                 <button @click="deleteCard" class="button">Yes, Confirm</button>
                             </div>
                         </div>
                     </Modal>
+
+                    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+                        <div class="inline-centered">
+                            <h1>Invalid Credit Card</h1>
+                            <p>The credit card you entered is invalid.</p>
+                            <div class="inline-centered">
+                                <button @click="closeInvalidCC" class="button">Try again</button>
+                            </div>
+                        </div>
+                    </Modal>
+
+                    <NotificationPopup
+                        :active="notificationActive"
+                        :comes-from="notificationDirection"
+                        :symbol="notificationSymbol"
+                        :text="notificationMessage"
+                    />
 
                 </div>
             </div>
@@ -81,10 +82,12 @@
 <script>
 import axios from 'axios'
 import Modal from '../../commons/Modal.vue'
+import NotificationPopup from '../../commons/NotificationPopup.vue'
 export default {
     name: 'settings',
     components: {
-        Modal
+        Modal,
+        NotificationPopup
     },
     data() {
         return {
@@ -98,35 +101,48 @@ export default {
             cardCvc: '',
             postalCode: '',
             edit: false,
+            invalidCC: false,
+            invalidModalActive: false,
             deleteModalActive: false,
             currentCard: null,
-            cards: this.$root.$data.global.creditCardTokens,
+            notificationSymbol: '&#10003;',
+            notificationMessage: '',
+            notificationActive: false,
+            notificationDirection: 'top-right',
+            formAction: null,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
     },
     methods: {
         addCard() {
             this.details = true
-            this.edit = false
+            setTimeout(() => this.stripeForm(), 100);
+        },
+        closeDetails() {
+            this.details = false
         },
         closeModal() {
             this.deleteModalActive = false
         },
-        openModal() {
+        closeInvalidCC() {
+            this.invalidCC = false;
+            this.invalidModalActive = false;
+        },
+        openModal(card) {
             this.deleteModalActive = true
+            this.currentCard = card
         },
         submitAddCard() {
-            this.details = false
-            this.edit = false
-            if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
-                this.submitNewCard()
-            }
+            this.formAction.submit();
         },
         updateMonth(e) {
             this.month = e.target.value
         },
-        deleteCard(card) {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${card.id}`)
+        deleteCard() {
+            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
+                .then(response => {
+                    this.$root.$data.global.creditCards = null
+                })
             this.closeModal()
         },
         submitUpdateCard() {
@@ -140,40 +156,84 @@ export default {
             axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
-                address_country: this.currentCard.address_country,
-                address_line1: this.currentCard.address_line1,
-                address_line2: this.currentCard.address_line2,
                 address_state: this.currentCard.address_state,
                 address_zip: this.postalCode || this.currentCard.address_zip,
                 exp_month: this.month || this.currentCard.exp_month,
                 exp_year: this.year || this.currentCard.exp_year,
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
-        },
-        submitNewCard() {
-            let card = Stripe.card.createToken({
-                number: this.cardNumber,
-                exp_month: this.month,
-                exp_year: this.year,
-                cvc: this.cardCvc,
-                address_zip: this.postalCode,
-                name: `${this.firstName} ${this.lastName}`
-            }, (status, response) => {
-                axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: response.id})
+            .then(response => {
+                axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                    .then(respond => {
+                        this.$root.$data.global.creditCards = respond.data.cards
+                        this.notificationMessage = "Successfully updated!";
+                        this.notificationActive = true;
+                        setTimeout(() => this.notificationActive = false, 3000);
+                    })
+                    .catch(error => {
+                        console.log(`GET ISSUE`, error)
+                    })
+            })
+            .catch(error => {
+                console.log(`PATCH ISSUE`, error)
             })
         },
-        pressEdit(card) {
-            let tokens = this.$root.$data.global.creditCardTokens
-            let names = tokens.name
-            let nameArray = names.split(' ')
-            this.firstName = nameArray[0]
-            this.lastName = nameArray[nameArray.length - 1]
-            this.month = tokens.exp_month
-            this.year = tokens.exp_year
-            this.postalCode = tokens.address_zip
-            this.currentCard = tokens
-            this.edit = true
-            this.details = true
+        submitNewCard(token) {
+            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
+                .then(resp => {
+                    this.notificationMessage = "Successfully added!";
+                    this.notificationActive = true;
+                    setTimeout(() => this.notificationActive = false, 3000);
+                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                        .then(respond => {
+                            this.$root.$data.global.creditCards = respond.data.cards
+                            this.details = false
+                        })
+                })
+        },
+        stripeForm() {
+            let stripe = Stripe(window.Laravel.services.stripe.key);
+            let elements = stripe.elements();
+            let style = {
+                base: {
+                    color: '#32325d',
+                    lineHeight: '24px',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                    color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+            let card = elements.create('card', {style: style});
+            card.mount('#card-element');
+            card.addEventListener('change', function(event) {
+                var displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+            var self = this;
+            var form = document.getElementById('payment-form');
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        self.submitNewCard(result.token.id);
+                    }
+                });
+            });
+            this.formAction = form;
         }
     },
     mounted() {

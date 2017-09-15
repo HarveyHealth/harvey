@@ -1,0 +1,18 @@
+{
+  "dest": "./public/sassdoc/",
+  "groups": {
+    "colors": "Colors",
+    "typography": "Typography",
+    "spacing": "Spacing",
+    "layout": "Layout",
+    "breakpoints": "Breakpoints",
+    "grid": "Grid",
+    "transitions": "Transitions"
+  },
+  "theme": "flippant",
+  "package": {
+    "title": "Harvey",
+    "homepage": "goharvey.com",
+    "description": "Sass documentation for Harvey application"
+  }
+}

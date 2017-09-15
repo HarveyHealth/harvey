@@ -3,7 +3,7 @@
     <div v-if="$root.$data.permissions !== 'admin'">
       <div class="input__container">
         <label class="input__label first" for="patient_name">lab tests</label>
-        <label v-for="test in testList" class="input__item">{{ test.name }} <a v-if="!test.cancel" style="color: #B4E7A0;">(Track Cli)</a></label>
+        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item" style="color: #82BEF2; width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">doctor</label>
@@ -37,30 +37,7 @@
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
           <div v-if="!latestCard" style="padding-top: 5px;">
-            <div class="input__container length" style="margin-bottom: 1.5em; font-size: 0.9em;">
-              <label class="input__label" for="patient_name">card number</label>
-              <input placeholder="Enter card number" v-model="cardNumber" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="font-size: 0.9em;">
-              <label class="input__label" for="patient_name">name on card</label>
-              <input placeholder="First name" style="width: 48%; float: left;" v-model="firstName" class="input--text" type="text">
-              <input placeholder="Last name" style="width: 48%; float: right;" v-model="lastName" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
-              <label class="input__label" for="patient_name">expiry date</label>
-              <span class="custom-select"> 
-                  <select @change="updateMonth($event)">
-                      <option v-for="month in monthList">{{ month }}</option>
-                  </select>
-              </span>
-              <input placeholder="Year" style="width: 48%; float: right;" v-model="year" class="input--text" type="text">
-            </div>
-            <div class="input__container length" style="padding-top: 25px; font-size: 0.9em;">
-              <label style="width: 53%; float: left;" class="input__label" for="patient_name">security code</label>
-              <label style="width: 47%; float: left;" class="input__label" for="patient_name">zip code</label>
-              <input placeholder="CVV" style="width: 48%; float: left;" v-model="cardCvc" class="input--text" type="text">
-              <input placeholder="Enter zip" style="width: 48%; float: right;" v-model="postalCode" class="input--text" type="text">
-            </div>
+            <router-link to="/settings">Add a credit card to complete shipment</router-link>
           </div>
         </div>
       </div>
@@ -70,7 +47,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && (!cardCvc || !cardNumber || !month || !year || !postalCode || !firstName || !lastName)" @click="updateLabOrder"
+          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder"
             class="button" style="margin-top: 35px;">Complete Shipment</button>
         </div>
       </div>
@@ -79,8 +56,8 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
-          <label class="input__label" style="font-size: 0.8em; border: none; padding-top: 7.5px;">{{ test.name }}</label>
-          <span class="custom-select"> 
+          <label class="input__label" style="border: none; padding-top: 7.5px;">{{ test.name }}</label>
+          <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -122,11 +99,21 @@
         <button class="button" @click="updateOrder()">Update Shipment</button>
       </div>
     </div>
+    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+        <div class="inline-centered">
+            <h1>Invalid Credit Card</h1>
+            <p>The credit card you entered is invalid.</p>
+            <div class="inline-centered">
+                <button @click="closeInvalidCC" class="button">Try again</button>
+            </div>
+        </div>
+    </Modal>
   </Flyout>
 </template>
 
 <script>
   import Flyout from '../../../commons/Flyout.vue'
+  import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
     capitalize
@@ -138,7 +125,8 @@
     props: ['row-data', 'reset'],
     components: {
       Flyout,
-      SelectOptions
+      SelectOptions,
+      Modal
     },
     data() {
       return {
@@ -155,9 +143,11 @@
         cardExpiry: '',
         cardCvc: '',
         postalCode: '',
-        hasCard: this.$root.$data.global.creditCardTokens != null,
+        invalidCC: false,
+        invalidModalActive: false,
+        hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        latestCard: this.$root.$data.global.creditCardTokens,
+        latestCard: this.$root.$data.global.creditCards.slice(-1).pop(),
         monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
       }
     },
@@ -172,6 +162,10 @@
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
       },
+      closeInvalidCC() {
+        this.invalidCC = false;
+        this.invalidModalActive = false;
+      },
       updateMonth(e) {
           this.month = e.target.value
       },
@@ -185,6 +179,12 @@
             address_zip: this.postalCode,
             name: `${this.firstName} ${this.lastName}`
           }, (status, response) => {
+            if (response.error) {
+              this.invalidCC = true;
+              this.invalidModalActive = true;
+              this.handleFlyoutClose();
+              return;
+            }
             axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
                 id: response.id
               })
@@ -254,7 +254,7 @@
         this.$parent.selectedRowData = null;
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
-      }
+      },
     },
     computed: {
       flyoutHeading() {
@@ -287,8 +287,7 @@
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
       oldCard() {
-        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-          .brand) {
+        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
           this.hasCard = true
         }
         return this.$props.rowData ? this.$props.rowData.card : {brand: null, last4: null}

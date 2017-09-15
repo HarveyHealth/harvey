@@ -1,5 +1,5 @@
 <template>
-  <aside :class="{ flyout: true, isactive: active }">
+  <aside :class="{ flyout: true, isactive: active, 'copy-main': true, 'font-sm': true }">
     <button v-if="back" style="float: left; right: 0; left: 1em; color: #999999;" class="button--close flyout-close" @click="back">
       <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
     </button>

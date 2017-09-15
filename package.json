@@ -10,7 +10,8 @@
     "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=./webpack.config.js",
     "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js"
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js",
+    "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
@@ -38,7 +39,12 @@
     "vue-router": "^2.3.1",
     "vue-slider-component": "^2.2.5",
     "vue-spinner": "^1.0.2",
+    "vue-the-mask": "^0.11.0-alpha.2",
     "webpack": "2.2.1",
     "webpack-spritesmith": "^0.3.3"
+  },
+  "devDependencies": {
+    "sassdoc": "^2.3.0",
+    "sassdoc-theme-flippant": "^0.1.0"
   }
 }
