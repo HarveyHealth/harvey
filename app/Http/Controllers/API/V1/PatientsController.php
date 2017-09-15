@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\{Attachment, Patient};
-use App\Transformers\V1\{PatientTransformer, PrescriptionTransformer, AttachmentTransformer};
+use App\Models\{Attachment, Patient, Prescription, SoapNote};
+use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PrescriptionTransformer, SoapNoteTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
 use Storage;
@@ -75,7 +75,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('view', $patient)) {
             return $this->respondNotAuthorized('You do not have access to retrieve attachments of this Patient.');
         }
-
+        $this->resource_name = 'attachments';
         return $this->baseTransformBuilder($patient->attachments(), request('include'), new AttachmentTransformer, request('per_page'))->respond();
     }
 
@@ -84,7 +84,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('view', $patient) || $attachment->patient->isNot($patient)) {
             return $this->respondNotAuthorized('You do not have access to retrieve this attachment.');
         }
-
+        $this->resource_name = 'attachments';
         return $this->baseTransformItem($attachment, request('include'), new AttachmentTransformer, request('per_page'))->respond();
     }
 
@@ -95,7 +95,8 @@ class PatientsController extends BaseAPIController
         }
 
         $validator = StrictValidator::check($request->all(), [
-            'file' => 'required|mimes:pdf',
+            'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
+            'name' => 'string|max:64',
             'notes' => 'string|max:1024',
         ]);
 
@@ -115,12 +116,13 @@ class PatientsController extends BaseAPIController
             $patient->attachments()->create([
                 'created_by_user_id' => currentUser()->id,
                 'key' => "{$relative_path}/{$fileName}",
+                'name' => request('name'),
                 'notes' => request('notes'),
             ]);
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
-
+        $this->resource_name = 'attachments';
         return $this->baseTransformItem($patient->fresh(), 'attachments')->respond();
     }
 
@@ -129,7 +131,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('handleAttachment', $patient) || $attachment->patient->isNot($patient)) {
             return $this->respondNotAuthorized('You do not have access to delete this Attachment.');
         }
-
+        $this->resource_name = 'attachments';
         if (!$attachment->delete()) {
             return $this->baseTransformItem($attachment)->respond(ResponseCode::HTTP_CONFLICT);
         }
@@ -142,7 +144,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('view', $patient)) {
             return $this->respondNotAuthorized('You do not have access to retrieve Prescriptions of this Patient.');
         }
-
+        $this->resource_name = 'prescriptions';
         return $this->baseTransformBuilder($patient->prescriptions(), request('include'), new PrescriptionTransformer, request('per_page'))->respond();
     }
 
@@ -151,7 +153,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('view', $patient) || $prescription->patient->isNot($patient)) {
             return $this->respondNotAuthorized('You do not have access to retrieve this Prescription.');
         }
-
+        $this->resource_name = 'prescriptions';
         return $this->baseTransformItem($prescription, request('include'), new PrescriptionTransformer, request('per_page'))->respond();
     }
 
@@ -162,7 +164,7 @@ class PatientsController extends BaseAPIController
         }
 
         $validator = StrictValidator::check($request->all(), [
-            'file' => 'required|mimes:pdf',
+            'file' => 'required|mimes:bmp,img,jpeg,pdf,png',
             'notes' => 'string|max:1024',
         ]);
 
@@ -187,7 +189,7 @@ class PatientsController extends BaseAPIController
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
-
+        $this->resource_name = 'prescriptions';
         return $this->baseTransformItem($patient->fresh(), 'prescriptions')->respond();
     }
 
@@ -196,7 +198,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('handlePrescription', $patient) || $prescription->patient->isNot($patient)) {
             return $this->respondNotAuthorized('You do not have access to delete this Prescription.');
         }
-
+        $this->resource_name = 'prescriptions';
         if (!$prescription->delete()) {
             return $this->baseTransformItem($prescription)->respond(ResponseCode::HTTP_CONFLICT);
         }
@@ -215,7 +217,7 @@ class PatientsController extends BaseAPIController
         if (!currentUser()->isAdminOrPractitioner()) {
             $builder = $builder->filterForPatient();
         }
-
+        $this->resource_name = 'soap_notes';
         return $this->baseTransformBuilder($builder, request('include'), new SoapNoteTransformer, request('per_page'))->respond();
     }
 
@@ -230,7 +232,7 @@ class PatientsController extends BaseAPIController
         if (!currentUser()->isAdminOrPractitioner()) {
             $builder = $builder->filterForPatient();
         }
-
+        $this->resource_name = 'soap_notes';
         return $this->baseTransformItem($builder->first(), request('include'), new SoapNoteTransformer)->respond();
     }
 
@@ -268,7 +270,7 @@ class PatientsController extends BaseAPIController
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
-
+        $this->resource_name = 'soap_notes';
         return $this->baseTransformItem($patient->fresh(), 'soap_notes')->respond();
     }
 
@@ -277,7 +279,7 @@ class PatientsController extends BaseAPIController
         if (currentUser()->cant('handleSoapNote', $patient) || $soapNote->patient->isNot($patient)) {
             return $this->respondNotAuthorized('You do not have access to delete this SoapNote.');
         }
-
+        $this->resource_name = 'soap_notes';
         if (!$soapNote->delete()) {
             return $this->baseTransformItem($soapNote)->respond(ResponseCode::HTTP_CONFLICT);
         }

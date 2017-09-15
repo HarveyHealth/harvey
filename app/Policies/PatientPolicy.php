@@ -51,7 +51,7 @@ class PatientPolicy
      */
     public function handleAttachment(User $user, Patient $patient)
     {
-        return $user->isPractitioner();
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
     /**
