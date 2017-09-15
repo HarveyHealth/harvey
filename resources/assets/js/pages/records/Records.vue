@@ -16,6 +16,10 @@
               <img class="inline-centered" src="images/if_ic_library_514023.svg" alt="" style="height: 500px; mask: url(images/if_ic_library_514023.svg);">
               <h1 style="color: #5f7278; text-align: center;">No records found.</h1>
             </div>
+             <div v-if="!$root.$data.global.loadingPatients && search === ''" class="inline-centered">
+              <i class="inline-centered fa fa-search" style="font-size: 300px; margin-top: 75px; height: 320px; color: #333;" />
+              <h1 style="color: #666; text-align: center;">Search for records.</h1>
+            </div>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
                 <h1>HIPAA Warning</h1>
