@@ -38,6 +38,7 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 });
 
 import Config from './v2/config';
+import Filters from './v2/filters';
 import Http from './v2/http';
 import Logic from './v2/logic';
 import State from './v2/state';
@@ -45,10 +46,15 @@ import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
+App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
 App.State = State;
 App.Util = Util;
+
+// Register global filters
+Vue.filter('formatPhone', Filters.formatPhone);
+Vue.filter('fullName', App.Util.misc.fullName);
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
