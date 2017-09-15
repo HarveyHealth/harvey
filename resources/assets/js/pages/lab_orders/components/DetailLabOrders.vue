@@ -56,7 +56,7 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">lab tests</label>
         <div v-for="test in testList">
-          <label class="input__label" style="border: none; padding-top: 7.5px;">{{ test.name }}</label>
+          <a :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
           <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
