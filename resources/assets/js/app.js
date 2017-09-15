@@ -38,11 +38,13 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 });
 
 import Config from './v2/config';
+import Http from './v2/http';
 import State from './v2/state';
 import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
+App.Http = Http;
 App.State = State;
 App.Util = Util;
 
@@ -50,6 +52,7 @@ App.Util = Util;
 // within Vue templates directly, cutting back on our use of computed
 // properties, component props, and placeholder data.
 Vue.prototype.Config = App.Config;
+Vue.prototype.Http = App.Http;
 Vue.prototype.Util = App.Util;
 
 // Turning State into a function allows you to query global state within
