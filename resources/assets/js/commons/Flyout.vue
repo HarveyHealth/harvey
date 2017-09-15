@@ -34,6 +34,9 @@
       header: {
         type: Boolean
       },
+      headerTwo: {
+        type: Boolean
+      },
       back: {
         type: Function
       }

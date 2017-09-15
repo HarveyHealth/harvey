@@ -42,14 +42,17 @@
 
               <div style="height: 800px;">  
                 <div class="card" style="width: 70%;">
-                  <div class="card-heading-container">
-                      <div>
-                        {{ selectedPatient.name }}
-                      </div>
+                  <div class="card-heading-container" style="height: 65px;">
+                      <h2 style="font-weight: 400; float: left; color: #777777;">
+                        {{ page === 1 ? 'New SOAP Note' : null }}
+                      </h2>
+                      <h2 style="font-weight: 400; float: right; color: #e3bab3;">
+                        {{ selectedPatient.search_name }}
+                      </h2>
                   </div>
                     
                     <div v-if="page === 1">
-                      <TemplateBody />
+                      <SoapNote :patient="selectedPatient" />
                     </div>
 
                   </div>
@@ -165,7 +168,7 @@ import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
 import Timeline from '../../commons/Timeline.vue'
-import TemplateBody from './TemplateBody.vue'
+import SoapNote from './SoapNote.vue'
 export default {
     name: 'Records',
     components: {
@@ -173,7 +176,7 @@ export default {
         Modal,
         Flyout,
         Timeline,
-        TemplateBody
+        SoapNote
     },
     data() {
         return {
