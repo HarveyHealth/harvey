@@ -183,6 +183,8 @@ const app = new Vue({
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip,
+                        image: includeData.image_url,
+                        created_at: moment(includeData.created_at.date).format("MM/DD/YY"),
                     })
                 });
                 this.global.patients = sortByLastName(this.global.patients);

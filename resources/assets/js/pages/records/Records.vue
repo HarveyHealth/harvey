@@ -34,14 +34,14 @@
           </div>
         </div>
         <div v-if="step == 2" class="main-content">
-           <div>
+           <div v-if="$root.$data.permissions !== 'patient'">
             <form class="form">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
 
               <div style="height: 800px;">  
-                <div class="card" style="width: 76%;">
+                <div class="card" style="width: 70%;">
                   <div class="card-heading-container">
                       <div>
                         {{ selectedPatient.name }}
@@ -98,10 +98,20 @@
                       </div>
 
                 </div>
-                <Flyout :active="true" :onClose="() => {}" heading="Record History" style="width: 20%; z-index: 0;">
-                  <a :href="'mailto:' + selectedPatient.email"></a>
-                  <a :href="'tel:' + selectedPatient.phone"></a>
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
+                <Flyout :active="true" :onClose="() => {}" :button="true" :header="true" :heading="selectedPatient.search_name" style=" width: 25%; z-index: 0;">
+                  <a style="float: left; width: 51%; margin-bottom: 8px;" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
+                  <a style="float: left; width: 51%;" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+                  <div :style="`background-image: url(${selectedPatient.image});`" style="width: 100px; height: 100px; border-radius: 50%; position: absolute; right: 30px; border: 1px solid #ccc; background-size: cover;" />
+                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px; margin-top: 115px;" />
+                    <div style="float: left; width: 50%;">
+                      <span style="width: 100%; float: left;">ID: <b>#{{ selectedPatient.id }}</b></span>
+                      <span style="width: 100%; float: left;">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                      <span style="width: 100%; float: left;">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                    </div>
+                    <div style="float: left; width: 50%;">
+                      <span style="width: 100%; float: left;">City: <b>{{ selectedPatient.city }}</b></span>
+                      <span style="width: 100%; float: left;">State: <b>{{ selectedPatient.state }}</b></span>
+                    </div>
                 </Flyout>
 
               </div>
