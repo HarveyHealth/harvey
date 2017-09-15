@@ -47,56 +47,12 @@
                         {{ selectedPatient.name }}
                       </div>
                   </div>
-                    <div style="height: 800px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
-                        
-                        <div style="float: left; width: 64%; position: relative; top: 25px;">
-                          <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
-                          <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
-                        </div>
+                    
+                    <div v-if="page === 1">
+                      <TemplateBody />
+                    </div>
 
-                        <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
-                          <div style="padding: 10px;">
-                            <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
-                            <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
-                              <button class="button" style="margin: 33px auto;">Intake Form</button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 name="" class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
-                            <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
-                          </div>
-
-                          <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 name="" class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
-                            <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
-                          </div>
-
-                          <div style="color: #EDA1A6; padding: 5px; padding-top: 10px; width: 97%; margin: 0 20px;">
-                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                          </div>
-
-                            <div style="float: left; width: 64%; position: relative; top: 25px;">
-                              <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
-                              <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
-                            </div>
-
-                            <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
-                              <div style="padding: 10px;">
-                                <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescription</h7>
-                                <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
-                                  <button class="button" style="margin: 33px auto;">Prescription</button>
-                                </div>
-                              </div>
-                          </div>
-                          
-                          <div class="inline-centered">
-                            <button class="button" style="margin-top: 35px;">Save Changes</button>
-                          </div>
-
-                      </div>
-
+                  </div>
                 </div>
                 <Flyout :active="true" :onClose="() => {}" :button="true" :header="true" :heading="selectedPatient.search_name" style=" width: 25%; z-index: 0;">
                   <a style="float: left; width: 51%; margin-bottom: 8px;" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
@@ -146,9 +102,7 @@
 
               </div>
           </div>
-
         </div>
-      </div>
 
       <div v-if="$root.$data.permissions === 'patient'">
         <div class="main-content">
@@ -211,13 +165,15 @@ import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
 import Timeline from '../../commons/Timeline.vue'
+import TemplateBody from './TemplateBody.vue'
 export default {
     name: 'Records',
     components: {
         UserNav,
         Modal,
         Flyout,
-        Timeline
+        Timeline,
+        TemplateBody
     },
     data() {
         return {
@@ -226,7 +182,8 @@ export default {
           selectedPatient: null,
           activeModal: false,
           name: '',
-          showing: []
+          showing: [],
+          page: 1
         }
     },
     methods: {
