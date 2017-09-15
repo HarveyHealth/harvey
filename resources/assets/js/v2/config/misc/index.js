@@ -6,7 +6,6 @@ export default function (laravel) {
     api: '/api/v1/',
     colors,
     currentPage: null,
-    debug: true,
     defaultUserImage: '/images/default_user_image.png',
     environment: require('get-env')(),
     guest: false,
