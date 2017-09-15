@@ -3,17 +3,17 @@
                         
         <div style="width: 97%; position: relative; top: 25px;">
             <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
-            <textarea v-model="subjective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+            <textarea :maxlength="2048" v-model="subjective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
         </div>
 
         <div style="width: 97%; position: relative; top: 15px;">
             <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
-            <textarea v-model="objective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+            <textarea :maxlength="2048" v-model="objective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
         </div>
 
         <div style="width: 97%; position: relative; top: 15px;">
             <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
-            <textarea v-model="assessment" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
+            <textarea :maxlength="2048" v-model="assessment" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
         </div>
 
         <div style="color: #EDA1A6; padding: 5px; padding-top: 10px; width: 97%; margin: 0 20px;">
@@ -22,7 +22,7 @@
 
         <div style="width: 97%; position: relative; top: 25px;">
             <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
-            <textarea v-model="plan" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+            <textarea :maxlength="2048" v-model="plan" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
         </div>
             
         <div class="inline-centered">
@@ -37,10 +37,10 @@ export default {
     props: ['patient'],
     data() {
       return {
-          subjective: null,
-          objective: null,
-          assessment: null,
-          plan: null,
+          subjective: '',
+          objective: '',
+          assessment: '',
+          plan: '',
       }
   },
   methods: {
