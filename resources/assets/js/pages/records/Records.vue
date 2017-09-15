@@ -153,7 +153,8 @@
                   </div>
               </div>
           </div>
-          <Flyout :active="true" :onClose="() => {}" heading="Record History" style="width: 20%; z-index: 0;">
+          <Flyout :active="true" :onClose="() => {}" :heading="selectedPatient" style="width: 20%; z-index: 0;">
+            
             <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;" />
           </Flyout>
 
