@@ -2,11 +2,11 @@
   <Flyout :active="$parent.detailFlyoutActive" :heading="flyoutHeading" :on-close="handleFlyoutClose">
     <div v-if="$root.$data.permissions !== 'admin'">
       <div class="input__container">
-        <label class="input__label first" for="patient_name">lab tests</label>
+        <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item" style="color: #82BEF2; width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">doctor</label>
+        <label class="input__label" for="patient_name">Doctor</label>
         <label class="input__item">{{ doctorName }}</label>
       </div>
       <div v-for="val in samples" class="input__container">
@@ -14,22 +14,22 @@
         <label class="input__item">Required</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">shipping address</label>
+        <label class="input__label" for="patient_name">Mailing Address</label>
         <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
         <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">order tracking</label>
+        <label class="input__label" for="patient_name">Order Tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">billing info</label>
+        <label class="input__label" for="patient_name">Billing</label>
         <div v-if="status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
-          <label class="input__item">Not paid yet</label>
+          <label class="input__item">Unpaid</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
           <div v-if="latestCard">
@@ -37,13 +37,13 @@
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
           <div v-if="!latestCard" style="padding-top: 5px;">
-            <router-link to="/settings">Add a credit card to complete shipment</router-link>
+            <router-link to="/settings">Add a credit card to complete shipment.</router-link>
           </div>
         </div>
       </div>
       <div style=" padding-top: 35px;">
         <div class="input__container">
-          <label class="input__label" for="patient_name">order status</label>
+          <label class="input__label" for="patient_name">Order Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
@@ -54,7 +54,7 @@
     </div>
     <div v-if="$root.$data.permissions === 'admin'">
       <div class="input__container">
-        <label class="input__label" for="patient_name">lab tests</label>
+        <label class="input__label" for="patient_name">Lab Tests</label>
         <div v-for="test in testList">
           <a :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
           <span class="custom-select">
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">doctor</label>
+        <label class="input__label" for="patient_name">Doctor</label>
         <span class="input--text">{{ doctorName }}</span>
       </div>
       <div v-for="val in samples" class="input__container">
@@ -73,18 +73,18 @@
         <label class="input__item">Required</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">shipping address</label>
+        <label class="input__label" for="patient_name">Mailing Address</label>
         <label class="input__item">{{ addressOne }}</label>
         <label class="input__item">{{ addressTwo }}</label>
         <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
         <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">order tracking</label>
+        <label class="input__label" for="patient_name">Order Tracking</label>
         <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">billing info</label>
+        <label class="input__label" for="patient_name">Billing</label>
         <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
@@ -92,11 +92,11 @@
         <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid Yet</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">order status</label>
+        <label class="input__label" for="patient_name">Order Status</label>
         <span class="input--text">{{ status }}</span>
       </div>
       <div class="inline-centered">
-        <button class="button" @click="updateOrder()">Update Shipment</button>
+        <button class="button" @click="updateOrder()">Update Order</button>
       </div>
     </div>
     <Modal :active="invalidModalActive" :onClose="closeInvalidCC">

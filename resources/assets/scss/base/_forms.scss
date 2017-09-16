@@ -66,17 +66,13 @@
 }
 
 .input__container {
-  @include margin(null null 2.2em null);
+  @include margin(null null 1em null);
   position: relative;
   width: 100%;
   float: left; 
 
   .flyout & {
     width: 100% !important;
-  }
-
-  & > * {
-    @include margin(0.5em null null null);
   }
 }
 
@@ -128,7 +124,7 @@
 
   .flyout & {
     border-top: 1px solid $color-gray-0;
-    padding-top: 2.2em;
+    padding-top: 1.5em;
   }
 
   &.first {
@@ -139,12 +135,15 @@
 
 .input--text,
 .input--textarea {
-  border: 1px solid $color--grey;
-  border-radius: 3px;
-  display: block;
   font-weight: 300;
+}
+
+.input--textarea {
+  height: 37px;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
   @include padding(0.6em 0.8em 0.5em 0.8em);
-  width: 100%;
 }
 
 .input--text[readonly="readonly"] {
@@ -183,10 +182,6 @@
 
 .flyout-btn {
   margin: 2rem;
-}
-
-.input--text {
-  height: 37px;
 }
 
 // Placeholders
