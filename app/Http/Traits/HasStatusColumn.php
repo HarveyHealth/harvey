@@ -28,11 +28,6 @@ trait HasStatusColumn
         return $this->status ? Lang::get("{$tableName}.status.{$this->status}") : null;
     }
 
-    public function isComplete()
-    {
-        return self::COMPLETE_STATUS_ID == $this->status_id;
-    }
-
     public function markAsComplete()
     {
         $this->status_id = self::COMPLETE_STATUS_ID;
@@ -42,6 +37,11 @@ trait HasStatusColumn
         }
 
         return $this->save();
+    }
+
+    public function isComplete()
+    {
+        return self::COMPLETE_STATUS_ID == $this->status_id;
     }
 
     public function isPending()
@@ -54,6 +54,16 @@ trait HasStatusColumn
         return !$this->isPending();
     }
 
+    public function wasShipped()
+    {
+        return $this->status_id >= self::SHIPPED_STATUS_ID;
+    }
+
+    public function wasNotShipped()
+    {
+        return !$this->wasShipped();
+    }
+
     public function scopePending(Builder $builder)
     {
         return $builder->where('status_id', self::PENDING_STATUS_ID);
@@ -64,19 +74,14 @@ trait HasStatusColumn
         return $builder->where('status_id', self::CANCELED_STATUS_ID);
     }
 
+    public function scopeNotCanceled(Builder $builder)
+    {
+        return $builder->where('status_id', '!=', self::CANCELED_STATUS_ID);
+    }
+
     public function scopeComplete(Builder $builder)
     {
         return $builder->where('status_id', self::COMPLETE_STATUS_ID);
-    }
-
-    public function wasShipped()
-    {
-        return $this->status_id >= self::SHIPPED_STATUS_ID;
-    }
-
-    public function wasNotShipped()
-    {
-        return !$this->wasShipped();
     }
 
     public function scopeNoShowPatient(Builder $builder)
