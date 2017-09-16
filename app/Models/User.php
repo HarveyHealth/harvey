@@ -291,8 +291,8 @@ class User extends Authenticatable implements Mailable
 
         try {
             $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
-        } catch (Exception $exception) {
-            Log::error("Unable to list credit cards for User #{$this->id}");
+        } catch (Exception $e) {
+            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody());
             return [];
         }
 
@@ -305,8 +305,8 @@ class User extends Authenticatable implements Mailable
 
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
-        } catch (Exception $exception) {
-            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}");
+        } catch (Exception $e) {
+            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
             return false;
         }
 
@@ -328,8 +328,8 @@ class User extends Authenticatable implements Mailable
             }
 
             $card->save();
-        } catch (Exception $exception) {
-            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}");
+        } catch (Exception $e) {
+            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
             return false;
         }
 
@@ -356,8 +356,8 @@ class User extends Authenticatable implements Mailable
                 ]);
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
-        } catch (Exception $exception) {
-            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}");
+        } catch (Exception $e) {
+            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody());
             return false;
         }
 
