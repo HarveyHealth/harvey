@@ -10,37 +10,44 @@
             </div>
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
-                    <h1 class="card-header">Payment Details</h1>
+                    <h2 class="heading-2">Payment Options</h2>
                     <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -70px; right: -25px;" @click="closeDetails">
-                        <svg><use xlink:href="#close" /></svg>
+                        <svg><use xlink:href="#close"/></svg>
                     </button>
                 </div>
-                <div>
-                    <div v-if="$root.$data.global.loadingCreditCards">
-                        <p style="text-align: center; font-size: 18px; padding: 10px;"><i>Your credit cards are loading.</i></p>
-                    </div>
-                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
-                        <div style="height: 40px; margin: 20px auto;">
-                            <div style="float: left; margin: 0 160px 0 40px;">{{`•••• •••• •••• ${card.last4}`}}</div>
-                            <a @click="openModal(card)" style="margin: 0 10px; float: left;">Delete</a>
+                <div class="card-content-wrap">
+                    <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
+                        <div class="loading">
+                            <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
                         </div>
                     </div>
-                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="inline-centered">
-                        <button v-if="!edit" @click="addCard" class="button" style="margin: 35px 0;">Add Card</button>
+                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
+                        <div class="card-object">
+                            <p class="copy-main font-md font-italic">{{ card.brand }} **** **** **** {{ card.last4 }}</p>
+                        </div>
+                        <div class="button-wrapper">
+                            <button @click="openModal(card)" class="button">Delete Card</button>
+                        </div>
                     </div>
 
-                    <div v-if="details" style="padding: 20px;">
+                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="card-contact-info">
+                        <div class="loading">
+                            <p class="copy-muted font-md font-italic">You do not have any saved cards.</p>
+                        </div>
+                    </div>
+
+                    <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
+                        <button v-if="!edit" @click="addCard" class="button">Add Card</button>
+                    </div>
+
+                    <div v-if="details">
                         <form id="payment-form">
                             <div class="form-row">
-                                <label for="card-element">
-                                Credit or debit card
-                                </label>
                                 <div id="card-element"></div>
                                 <div id="card-errors" role="alert"></div>
                             </div>
-
-                            <div class="inline-centered">
-                                <button type="submit" v-if="!edit" @click="submitAddCard" class="button" style="margin-top: 35px;">Create Card</button>
+                            <div class="button-wrapper">
+                                <button type="submit" v-if="!edit" @click="submitAddCard" class="button">Save Card</button>
                             </div>
                         </form>
                     </div>
@@ -61,7 +68,7 @@
                             <h1>Invalid Credit Card</h1>
                             <p>The credit card you entered is invalid.</p>
                             <div class="inline-centered">
-                                <button @click="closeInvalidCC" class="button">Try again</button>
+                                <button @click="closeInvalidCC" class="button">Try Again</button>
                             </div>
                         </div>
                     </Modal>
@@ -243,7 +250,16 @@ export default {
 </script>
 
 <style>
+    .card-content-wrap .loading {
+        margin: 0;
+    }
+
     .length {
         width: 100% !important;
+    }
+
+    .button--close.flyout-close svg {
+        top: 132px;
+        margin-left: 4px;
     }
 </style>
