@@ -53,11 +53,13 @@
                     </div>
 
                     <Modal :active="deleteModalActive" :onClose="closeModal">
-                        <div class="inline-centered">
-                            <h1>Delete Credit Card</h1>
-                            <p>Are you sure you want to delete this credit card?</p>
+                        <div class="card-content-wrap">
                             <div class="inline-centered">
-                                <button @click="closeModal" class="button">Cancel</button>
+                                <h1 class="title header-xlarge"><span class="text">Delete Credit Card</span></h1>
+                                <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
+                            </div>
+                            <div class="button-wrapper">
+                                <button @click="closeModal" class="button button--cancel">Cancel</button>
                                 <button @click="deleteCard" class="button">Yes, Confirm</button>
                             </div>
                         </div>
