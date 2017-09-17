@@ -66,7 +66,7 @@
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="phone">Phone</h4>
               <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user_id">ID</h4>
-              <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
+              <p class="card-contact-info" v-if="user_id">{{ user_id }}</p>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <h2 class="heading-2">Account Manager</h2>
           </div>
           <div class="card-content-container">
-            <div class="card-content-wrap" v-if="patientName">
+            <div class="card-content-wrap">
               <h3 class="card-contact-name">
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>Sandra Walker
               </h3>
@@ -86,7 +86,7 @@
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Phone</h4>
               <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Available</h4>
-              <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
+              <p class="card-contact-info">Weekdays 9am - 6pm PST</p>
             </div>
           </div>
         </div>
