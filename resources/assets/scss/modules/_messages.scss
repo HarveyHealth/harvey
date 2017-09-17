@@ -163,8 +163,11 @@
 .no-message-banner {
     background-color: $pink;
     color: $white;
-    height: 115px;
-    width: 80%;
+    width: 100%;
     margin: 0 auto 20px auto;
     padding: 20px;
+    a {
+        color: $color--grey;
+        font-weight: 500;
+    }
 }
