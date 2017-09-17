@@ -3,7 +3,7 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge">
+                    <h1 class="heading-1">
                         <span class="text">Settings</span>
                     </h1>
                 </div>
@@ -11,9 +11,6 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h2 class="heading-2">Payment Options</h2>
-                    <button v-if="details" class="button--close flyout-close" style="float: right; position: relative; top: -70px; right: -25px;" @click="closeDetails">
-                        <svg><use xlink:href="#close"/></svg>
-                    </button>
                 </div>
                 <div class="card-content-wrap">
                     <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
@@ -23,7 +20,10 @@
                     </div>
                     <div v-if="!details" v-for="card in $root.$data.global.creditCards">
                         <div class="card-object">
-                            <p class="copy-main font-md font-italic">{{ card.brand }} **** **** **** {{ card.last4 }}</p>
+                            <p class="copy-main font-md font-italic">
+                                <i class="fa fa-credit-card"></i>
+                                {{ card.brand }} **** **** **** {{ card.last4 }}
+                            </p>
                         </div>
                         <div class="button-wrapper">
                             <button @click="openModal(card)" class="button">Delete Card</button>
@@ -47,6 +47,7 @@
                                 <div id="card-errors" role="alert"></div>
                             </div>
                             <div class="button-wrapper">
+                                <button class="button button--cancel" v-if="details" @click="closeDetails">Cancel</button>
                                 <button type="submit" v-if="!edit" @click="submitAddCard" class="button">Save Card</button>
                             </div>
                         </form>
@@ -260,8 +261,8 @@ export default {
         width: 100% !important;
     }
 
-    .button--close.flyout-close svg {
+/*    .button--close.flyout-close svg {
         top: 132px;
         margin-left: 4px;
-    }
+    }*/
 </style>
