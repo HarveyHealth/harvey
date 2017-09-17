@@ -62,10 +62,12 @@ class PagesController extends Controller
 
         if ($index === false && $conditionSlug !== null) {
             return redirect()->route('conditions');
-        } else if ($index === false) {
-            return json_encode($conditions->pluck('questions'));
         }
 
-        return json_encode($conditions[$index]->questions);
+        if ($conditionSlug === null) {
+          $index = 'null';
+        }
+
+        return view('pages.conditions')->with(compact('conditions', 'index'));
     }
 }
