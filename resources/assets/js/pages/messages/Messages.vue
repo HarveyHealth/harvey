@@ -18,10 +18,10 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+            <div class="card empty-card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">You do not have any messages.</p>
             </div>
-            <div class="card" v-show="$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
+            <div class="card empty-card" v-show="$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">Your messages are loading...</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
