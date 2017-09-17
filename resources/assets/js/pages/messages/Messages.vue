@@ -19,10 +19,10 @@
               :text="notificationMessage"
             />
             <div class="card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
-              <p class="copy-muted font-sm font-italic">Sorry, you don't have any messages.</p>
+              <p class="copy-muted font-md font-italic">You do not have any messages.</p>
             </div>
             <div class="card" v-show="$root.$data.global.loadingMessages" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;">
-              <p class="copy-muted font-sm font-italic">Your messages are loading.</p>
+              <p class="copy-muted font-md font-italic">Your messages are loading...</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
