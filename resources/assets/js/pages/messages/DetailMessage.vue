@@ -5,7 +5,14 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="heading-1"><span class="text">Details</span></h1>
+                    <h1 class="heading-1">
+                      <span class="text">{{ subject }}</span>                      
+                    </h1>
+                    <h3 class="font-md copy-muted-2">
+                      <router-link to="/messages">
+                        <i class="fa fa-long-arrow-left"></i> Back to Messages
+                      </router-link>
+                    </h3>
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
@@ -18,29 +25,23 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message message-detail">
-                    <router-link to="/messages" style="position: relative; bottom: 22px; right: 22px;">
-                      <i class="fa fa-long-arrow-left"></i>
-                    </router-link>
-                    <h2 class="heading-3-expand">{{ subject }}</h2><br>
-                    <div>
-                        <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
-                            <DetailPost
-                                :id="detail.id"
-                                :name="detail.attributes.sender_full_name"
-                                :day="detail.attributes.created_at.date"
-                                :time="detail.attributes.created_at.date"
-                                :timezone="detail.attributes.created_at.timezone"
-                                :header="detail.attributes.subject"
-                                :message="detail.attributes.message"
-                                :image="detail.attributes.sender_image_url"
-                                :userId="detail.attributes.recipient_user_id"
-                            />
-                        </div>
+                <div class="container-message">
+                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
+                        <DetailPost
+                          :id="detail.id"
+                          :name="detail.attributes.sender_full_name"
+                          :day="detail.attributes.created_at.date"
+                          :time="detail.attributes.created_at.date"
+                          :timezone="detail.attributes.created_at.timezone"
+                          :header="detail.attributes.subject"
+                          :message="detail.attributes.message"
+                          :image="detail.attributes.sender_image_url"
+                          :userId="detail.attributes.recipient_user_id"
+                        />
                     </div>
-                </div>
-                <div class="container-reply inline-centered">
-                    <button class="button" @click="reply()">Reply</button>
+                    <div class="button-wrapper">
+                        <button class="button" @click="reply()">Reply</button>
+                    </div>
                 </div>
             </div>
         </div>

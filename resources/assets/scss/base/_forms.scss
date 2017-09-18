@@ -69,8 +69,7 @@
   @include margin(null null 1em null);
   position: relative;
   width: 100%;
-  float: left; 
-
+  float: left;
   .flyout & {
     width: 100% !important;
   }
@@ -107,8 +106,6 @@
       }
     }
   }
-
-
 }
 
 .input__label {
@@ -116,15 +113,14 @@
   @extend %font-bold;
   @extend %font-spaced;
   @extend %font-uppercase;
-  @extend %font-xs;
+  @extend %font-sm;
 
   display: block;
-  @include margin(null null 0.5em null);
   width: 100%;
+  @include margin(null null 0.5em null);
 
   .flyout & {
-    border-top: 1px solid $color-gray-0;
-    padding-top: 1.5em;
+    margin-top: .5em;
   }
 
   &.first {
@@ -133,17 +129,23 @@
   }
 }
 
-.input--text,
-.input--textarea {
-  font-weight: 300;
-}
-
-.input--textarea {
+.input--text {
   height: 37px;
+  font-weight: 300;
   display: block;
   border-radius: 3px;
   border: 1px solid $color--grey;
   @include padding(0.6em 0.8em 0.5em 0.8em);
+  width: 100%;
+}
+
+.input--textarea {
+  font-weight: 300;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
+  @include padding(0.6em 0.8em 0.5em 0.8em);
+  width: 100%;
 }
 
 .input--text[readonly="readonly"] {

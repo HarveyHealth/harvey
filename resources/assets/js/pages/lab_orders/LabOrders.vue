@@ -16,6 +16,7 @@
                         :filters="filters"
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
+                        class="filters"
                     />
                 </div>
             </div>

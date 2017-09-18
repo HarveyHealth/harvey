@@ -9,12 +9,12 @@
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
-          <br>
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
             :loading="disabledFilters"
             :on-filter="handleFilter"
+            class="filters"
           />
 
         </div>

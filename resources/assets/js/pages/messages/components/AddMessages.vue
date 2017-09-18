@@ -3,13 +3,13 @@
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="heading-3-expand">New Message</h2><br>
+        <h2 class="heading-3-expand">New Message</h2>
         <div class="no-message-banner" v-if="userList.length <= 1">
             You are not currently assigned to any doctors. Please <a href="/dashboard#/appointments">book a consultation</a> before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
-                <label class="input__label" style="padding: 0; border: none;" for="patient_name">Recipient</label>
+                <label class="input__label" for="patient_name">Recipient</label>
                 <span class="custom-select">
                     <select @change="updateUser($event)">
                         <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
@@ -17,17 +17,17 @@
                 </span>
             </div>
             <div class="input__container" v-if="userList.length">
-                <label class="input__label" style="padding: 0; border: none;" for="patient_name">Subject</label>
+                <label class="input__label" for="patient_name">Subject</label>
                 <input v-model="subject" class="input--text" type="text">
             </div>
             <div class="input__container" v-if="userList.length">
-                <label class="input__label" style="padding: 0; border: none;" for="patient_name">Message</label>
+                <label class="input__label" for="patient_name">Message</label>
                 <textarea v-model="message" class="input--textarea"></textarea>
             </div>
-            <div class="button-wrapper" v-if="5 < 3">
+            <div class="button-wrapper" v-if="userList.length">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send Message</button>
+                :disabled="!subject || !selected || userList.length <= 1">Send</button>
             </div>
         </div>
     </aside>
