@@ -65,8 +65,7 @@
       <!-- App.js -->
       <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
       <script>
-          window.App.State.conditions.all = {!! $conditions !!}
-          window.App.State.conditions.selectedIndex = {!! $index !!}
+          window.setConditions({!! $conditions !!}, {!! $index !!});
       </script>
 
     </body>
