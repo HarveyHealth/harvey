@@ -151,7 +151,17 @@ export default {
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
-                    this.$root.$data.global.creditCards = null
+                    this.$root.$data.global.creditCards = [];
+                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                    .then(respond => {
+                        this.$root.$data.global.creditCards = respond.data.card;
+                        this.notificationMessage = "Successfully deleted!";
+                        this.notificationActive = true;
+                        setTimeout(() => this.notificationActive = false, 3000);
+                    })
+                    .catch(error => {
+                        console.log(`GET ISSUE`, error)
+                    })
                 })
             this.closeModal()
         },
