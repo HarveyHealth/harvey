@@ -1,11 +1,15 @@
-import data from './data';
+import appointments from './appointments';
 import isLoading from './isLoading';
 import misc from './misc';
+import patients from './patients';
+import practitioners from './practitioners';
 import wasRequested from './wasRequested';
 
 export default {
-  data,
+  appointments,
   isLoading,
   misc,
+  patients,
+  practitioners,
   wasRequested,
 }

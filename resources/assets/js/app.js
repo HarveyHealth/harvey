@@ -49,7 +49,6 @@ App.Config = Config(Laravel);
 App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
-App.State = State;
 App.Util = Util;
 
 // Register global filters
@@ -67,12 +66,12 @@ Vue.prototype.Util = App.Util;
 // Turning State into a function allows you to query global state within
 // Vue templates, providing default values to fall back on if a particular
 // property is undefined. This is helpful when awaiting data structures from
-// api calls.
+// api calls. NOTE: this should be used as READ ONLY function.
 Vue.prototype.State = (path, ifUndefined) => {
   return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
 }
 
-App.app = new Vue({
+const app = new Vue({
     router,
     mixins: [TopNav],
     components: {
@@ -81,8 +80,17 @@ App.app = new Vue({
         Usernav,
     },
     data: {
-        // Adding this to the root data object makes it globally reactive
-        State: App.State,
+        // Adding State to the root data object makes it globally reactive.
+        // We do not attach this to window.App for HIPPA compliance. Because of this,
+        // any method that needs to access global state MUST be invoked with .call
+        // and state should be referenced inside as this.$root.$data.State.
+        //    Example:
+        //      export default function hi(person) {
+        //        const Store = this.$root.$data.State;
+        //        return `Hi, ${Store[person]}.`
+        //      }
+        //      App.Logic.hi.call(this, 'person');
+        State: State,
 
         apiUrl: '/api/v1',
         appointmentData: null,
@@ -397,7 +405,12 @@ App.app = new Vue({
     },
     mounted() {
         this.stripe = Stripe(Laravel.services.stripe.key);
-        window.debug = () => console.log(this.$data);
+
+        // This is helpful to have for development because you can test internal methods
+        // that require application state
+        if (App.Config.misc.environment === 'dev') {
+          window.Root = window.Root || this;
+        }
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();

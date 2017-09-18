@@ -1,11 +1,13 @@
 export default function(response) {
-  App.State.data.practitioners.all = response.data.data;
-  App.State.data.practitioners.licensed = response.data.data;
+  const State = this.$root.$data.State;
+
+  State.practitioners.data.all = response.data.data;
+  State.practitioners.data.licensed = response.data.data;
 
   if (App.Config.user.isPatient) {
-    App.State.data.practitioners.licensed = App.Logic.practitioners.filterByLicense(App.Config.user.info.state);
-    App.State.dashboard.practitioner = App.Logic.dashboard.findPractitioner(App.Config.user.info.doctor_name);
+    State.practitioners.data.licensed = App.Logic.practitioners.filterByLicense.call(this, App.Config.user.info.state);
+    State.dashboard.practitioner = App.Logic.dashboard.findPractitioner.call(this, App.Config.user.info.doctor_name);
   }
 
-  App.State.isLoading.practitioners = false;
+  State.isLoading.practitioners = false;
 }

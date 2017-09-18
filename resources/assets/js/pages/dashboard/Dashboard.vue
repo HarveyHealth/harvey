@@ -202,6 +202,7 @@
     },
     mounted() {
       this.$root.$data.global.currentPage = 'dashboard';
+      App.Http.practitioners.get.call(this, App.Http.practitioners.getResponse);
       if (localStorage.getItem('signed up')) return null;
       if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
