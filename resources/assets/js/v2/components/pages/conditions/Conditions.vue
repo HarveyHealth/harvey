@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div v-for="condition in conditions" v-if="!hasSelected">
-      <a :href="'/conditions/' + condition.slug" class="block font-centered">
-        <img :src="condition.image_url" style="width:80px; height:80px" /><br>
-        <span>{{ condition.name }}</span>
-      </a>
-    </div>
+    <WrapConditions v-if="!hasSelected" :conditions="conditions" />
     <div v-else>
       <div v-if="preface">
         <img :src="State('conditions.all')[0].image_url" style="width:80px; height:80px" /><br>
@@ -31,11 +26,13 @@
 
 <script>
 import { Util } from '../../base';
+import WrapConditions from './children/WrapConditions';
 
 export default {
   name: 'conditions',
   components: {
-    SlideIn: Util.SlideIn
+    SlideIn: Util.SlideIn,
+    WrapConditions,
   },
   data() {
     return {
