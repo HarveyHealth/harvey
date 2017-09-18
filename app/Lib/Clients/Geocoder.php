@@ -2,9 +2,6 @@
 
 namespace App\Lib\Clients;
 
-use App\Lib\Slack;
-use App\Notifications\SlackNotification;
-
 class Geocoder extends BaseClient
 {
     protected $base_endpoint = 'https://maps.googleapis.com/maps/api/';
