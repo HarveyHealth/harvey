@@ -1,8 +1,5 @@
 export default {
   all: [],
+  answers: [],
   selectedIndex: null,
-  input: {
-    condition: '',
-    discovery: []
-  }
 }
