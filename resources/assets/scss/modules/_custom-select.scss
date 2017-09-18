@@ -55,7 +55,7 @@
 .custom-select::after {
 	content: "\25be";
 	position: absolute;
-	top: 28%;
+	top: 24%;
 	right: 1em;
 	z-index: 2;
 	/* These hacks make the select behind the arrow clickable in some browsers */
