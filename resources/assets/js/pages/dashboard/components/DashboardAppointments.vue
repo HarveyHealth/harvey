@@ -20,7 +20,6 @@
         </div>
         <div class="card-heading-container">
             <h2 class="heading-2">Recent Appointments</h2>
-            <!-- <a href="/dashboard#/history">View History</a> -->
         </div>
         <template v-if="recentAppointmentsData && recentAppointmentsData.length">
             <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
@@ -34,7 +33,7 @@
             </div>
         </template>
         <div v-else class="card-empty-container">
-            <p class="copy-muted-2 font-italic">You have no appointment history.</p>
+            <p class="copy-muted-2 font-italic">You have no recent appointments.</p>
         </div>
       </div>
     </div>

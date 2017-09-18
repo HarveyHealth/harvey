@@ -7,9 +7,7 @@
         <h3 class="message-post-name heading-2">{{ name }}</h3>
         <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).format("h:mm a") }} {{ moment.tz(moment.tz.guess()).format('z') }}</h3>
       </div>
-      <div class="message-post-body">
-        <p class="message-post-message">{{ message }}</p>
-      </div>
+      <p class="message-post-body">{{ message }}</p>
     </div>
 </template>
 

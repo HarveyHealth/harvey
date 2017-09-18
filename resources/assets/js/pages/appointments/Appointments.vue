@@ -9,12 +9,12 @@
               <svg><use xlink:href="#addition"/></svg>
             </button>
           </h1>
-          <br>
           <FilterButtons
             :active-filter="activeFilter"
             :filters="filters"
             :loading="disabledFilters"
             :on-filter="handleFilter"
+            class="filters"
           />
 
         </div>
@@ -105,7 +105,7 @@
       />
 
       <div class="input__container" v-if="appointment.currentStatus === 'complete'">
-        <label class="input__label">billing info</label>
+        <label class="input__label">Billing Info</label>
         <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
         <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
         <div class="input__item">Charged: $150</div>
@@ -119,7 +119,6 @@
       />
 
       <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings<!--<router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link>--> page before booking an appointment.</p>
-
       <div class="inline-centered">
 
         <button
@@ -247,7 +246,7 @@ export default {
         { data: 30, value: '30 minutes' },
         { data: 60, value: '60 minutes' },
       ],
-      filters: ['Upcoming', 'Past', 'Cancelled'],
+      filters: ['Upcoming', 'Complete', 'Cancelled'],
       flyoutActive: false,
       flyoutHeading: '',
       flyoutMode: null,
@@ -506,7 +505,7 @@ export default {
         case 'Upcoming':
           this.appointments = this.cache.upcoming;
           break;
-        case 'Past':
+        case 'Complete':
           this.appointments = this.cache.past;
           break;
         case 'Cancelled':
