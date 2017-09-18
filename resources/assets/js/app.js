@@ -55,6 +55,7 @@ App.Util = Util;
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
+Vue.filter('jsonParse', Filters.jsonParse);
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
