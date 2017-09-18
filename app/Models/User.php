@@ -201,10 +201,7 @@ class User extends Authenticatable implements Mailable
 
     public function truncatedName()
     {
-        $first_initial = substr($this->first_name, 0, 1);
-        $name = $first_initial . '. ' . $this->last_name;
-
-        return $name;
+        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function passwordSet()
