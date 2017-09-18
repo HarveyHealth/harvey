@@ -20,7 +20,7 @@ export default {
   name: 'conditions',
   computed: {
     conditions() {
-      const _conditions = App.State.conditions;
+      const _conditions = this.$root.$data.State.conditions;
       return _conditions.all = _conditions.selectedIndex !== null && _conditions.selectedIndex > -1
         ? _conditions.all.filter((c, i) => {
           return i === _conditions.selectedIndex;
