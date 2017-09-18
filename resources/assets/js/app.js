@@ -43,7 +43,6 @@ import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
-App.State = State;
 App.Util = Util;
 
 // Adding these objects to the Vue prototype makes them available from
@@ -60,7 +59,7 @@ Vue.prototype.State = (path, ifUndefined) => {
   return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
 }
 
-App.app = new Vue({
+const app = new Vue({
     router,
     mixins: [TopNav],
     components: {
@@ -70,6 +69,7 @@ App.app = new Vue({
     },
     data: {
         // Adding this to the root data object makes it globally reactive
+        // We do not attach this to window.App for HIPPA compliance
         State: App.State,
 
         apiUrl: '/api/v1',
