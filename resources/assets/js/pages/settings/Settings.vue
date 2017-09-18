@@ -152,9 +152,11 @@ export default {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = [];
+                    this.$root.$data.global.loadingCreditCards = true;
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.card;
+                        this.$root.$data.global.loadingCreditCards = false;
                         this.notificationMessage = "Successfully deleted!";
                         this.notificationActive = true;
                         setTimeout(() => this.notificationActive = false, 3000);
@@ -201,12 +203,14 @@ export default {
         submitNewCard(token) {
             axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
                 .then(resp => {
+                    this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.cards
+                            this.$root.$data.global.loadingCreditCards = false;
                             this.details = false
                         })
                 })
