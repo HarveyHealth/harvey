@@ -26,18 +26,18 @@
             />
             <div class="content-container">
                 <div class="container-message">
-                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
-                        <DetailPost
-                          :id="detail.id"
-                          :name="detail.attributes.sender_full_name"
-                          :day="detail.attributes.created_at.date"
-                          :time="detail.attributes.created_at.date"
-                          :timezone="detail.attributes.created_at.timezone"
-                          :header="detail.attributes.subject"
-                          :message="detail.attributes.message"
-                          :image="detail.attributes.sender_image_url"
-                          :userId="detail.attributes.recipient_user_id"
-                        />
+                    <div class="detail-wrap highlight" v-if="detailList" v-for="detail in detailList">
+                      <DetailPost
+                        :id="detail.id"
+                        :name="detail.attributes.sender_full_name"
+                        :day="detail.attributes.created_at.date"
+                        :time="detail.attributes.created_at.date"
+                        :timezone="detail.attributes.created_at.timezone"
+                        :header="detail.attributes.subject"
+                        :message="detail.attributes.message"
+                        :image="detail.attributes.sender_image_url"
+                        :userId="detail.attributes.recipient_user_id"
+                      />
                     </div>
                     <div class="button-wrapper">
                         <button class="button" @click="reply()">Reply</button>

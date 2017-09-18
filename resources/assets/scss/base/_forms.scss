@@ -145,17 +145,14 @@
   border-radius: 3px;
   border: 1px solid $color--grey;
   @include padding(0.6em 0.8em 0.5em 0.8em);
+  line-height: 1.4;
+  min-height: 10em;
   width: 100%;
 }
 
 .input--text[readonly="readonly"] {
   border: none;
   @include padding(0.3em 0);
-}
-
-.input--textarea {
-  line-height: 1.4;
-  min-height: 7em;
 }
 
 .input--warning {
@@ -166,7 +163,7 @@
 .charcount {
   right: 0;
   position: absolute;
-  top: 1.3em;
+  top: .5em;
 }
 
 .input__linkcta {

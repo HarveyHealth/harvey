@@ -9,7 +9,7 @@
 
 .heading-1 {
   @extend %font-xl;
-  @extend %font-thin;
+  @extend %font-normal;
   color: $color-copy;
   @include query(sm) {
     font-size: $font-xxl;

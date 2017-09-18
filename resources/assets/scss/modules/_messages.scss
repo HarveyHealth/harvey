@@ -9,11 +9,6 @@
     .unread {
         border-left: 6px solid #82BEF2 !important;
     }
-    .detail-wrap {
-        width: 100%;
-        min-height: 50px;
-        margin-bottom: 1em;
-    }
     .message-post-details {
         width: 25%;
         float: left;
@@ -36,9 +31,19 @@
     .message-post-body {
         width: 75%;
         position: relative;
-        @include margin(.75em null null 25%);
         h2 {
             @include margin(null);
+        }
+    }
+    .detail-wrap {
+        width: 100%;
+        min-height: 50px;
+        margin-bottom: 1em;
+        &.highlight {
+            .message-post-body {
+                @include margin(.75em null null 25%);
+                color: $color-copy-alt;
+            }
         }
     }
 }
