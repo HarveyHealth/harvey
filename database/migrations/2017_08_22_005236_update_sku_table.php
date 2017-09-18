@@ -63,7 +63,7 @@ class UpdateSkuTable extends Migration
         });
 
         Schema::table('skus', function (Blueprint $table) {
-            $table->enum('item_type', ['test','product','service'])->after('name')->index();
+            $table->enum('item_type', ['test','product','service'])->after('name')->nullable()->index();
         });
 
         Schema::table('skus', function (Blueprint $table) {

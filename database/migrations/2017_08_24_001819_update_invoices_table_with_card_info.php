@@ -32,10 +32,12 @@ class UpdateInvoicesTableWithCardInfo extends Migration
     {
 
         Schema::table('invoices', function (Blueprint $table) {
-            $table->dropColumn('card_brand');
             $table->dropColumn('card_last_four');
         });
 
+        Schema::table('invoices', function (Blueprint $table) {
+            $table->dropColumn('card_brand');
+        });
         Schema::table('invoices', function (Blueprint $table) {
             $table->string('cc_last_four', 4)->nullable();
         });
