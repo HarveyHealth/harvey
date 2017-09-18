@@ -59,7 +59,15 @@ class UpdateSkuTable extends Migration
     public function down()
     {
         Schema::table('skus', function (Blueprint $table) {
-            //
+            $table->dropColumn('item_type');
+        });
+
+        Schema::table('skus', function (Blueprint $table) {
+            $table->enum('item_type', ['test','product','service'])->after('name')->index();
+        });
+
+        Schema::table('skus', function (Blueprint $table) {
+            $table->dropColumn('slug');
         });
     }
 }
