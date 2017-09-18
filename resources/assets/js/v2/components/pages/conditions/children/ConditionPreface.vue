@@ -16,7 +16,7 @@ export default {
   components: { SlideIn: Util.SlideIn },
   methods: {
     toQuestions() {
-      App.State.conditions.prefaceRead = true;
+      this.$root.State.conditions.prefaceRead = true;
     }
   }
 }

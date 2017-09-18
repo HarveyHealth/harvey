@@ -66,7 +66,7 @@
       <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
       <script>
           App.State.conditions.all = {!! $conditions !!}
-          @if ($index)
+          @if ($index !== 'null')
             App.State.conditions.condition = App.State.conditions.all[{!! $index !!}]
             App.State.conditions.condition.questions = App.Util.data.jsonParse(App.State.conditions.condition.questions);
             App.State.conditions.selectedIndex = {!! $index !!}
