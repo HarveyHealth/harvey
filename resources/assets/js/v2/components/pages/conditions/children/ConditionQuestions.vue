@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="State('conditions.all')[0].image_url" style="width:80px; height:80px" /><br>
+    <img :src="State('conditions.condition.image_url')" style="width:80px; height:80px" /><br>
     <button v-if="displayBack" @click="goBack">Back</button>
     <button v-if="displayForward" @click="goForward">Forward</button>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
@@ -21,30 +21,29 @@ export default {
   },
   computed: {
     displayBack() {
-      const index = App.State.conditions.questionIndex;
-      return index > 0;
+      return this.State('conditions.questionIndex') > 0;
     },
     displayForward() {
-      return App.State.conditions.answers.length > App.State.conditions.questionIndex;
+      return this.State('conditions.answers').length > this.State('conditions.questionIndex');
     }
   },
   methods: {
     buttonClasses(answerIndex) {
-      const answers = this.$root.State.conditions.answers;
-      const questionIndex = this.$root.State.conditions.questionIndex;
+      const answers = this.State('conditions.answers');
+      const questionIndex = this.State('conditions.questionIndex');
       return answers[questionIndex]
         ? { button: true, 'is-selected': answers[questionIndex].index === answerIndex }
         : { button: true };
     },
     goBack() {
-      return App.State.conditions.questionIndex--;
+      return App.setState('conditions.questionIndex', this.State('conditions.questionIndex') - 1);
     },
     goForward() {
-      return App.State.conditions.questionIndex++;
+      return App.setState('conditions.questionIndex', this.State('conditions.questionIndex') + 1);
     },
     next(question, answer, index) {
-      const answerIndex = App.State.conditions.questionIndex;
-      App.State.conditions.answers[answerIndex] = { question, answer, index };
+      const answerIndex = this.State('conditions.questionIndex');
+      this.State('conditions.answers')[answerIndex] = { question, answer, index };
       this.goForward();
     }
   }

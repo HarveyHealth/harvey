@@ -4,7 +4,7 @@
     <SlideIn>
       <h3 class="heading-3-expand">{{ State('conditions.all')[0].name }}</h3>
       <p>{{ State('conditions.all')[0].description }}</p>
-      <button class="button" @click="toQuestions">Continue</button>
+      <button class="button" @click="setState('conditions.prefaceRead', true)">Continue</button>
     </SlideIn>
   </div>
 </template>
@@ -14,10 +14,5 @@ import { Util } from '../../../base';
 
 export default {
   components: { SlideIn: Util.SlideIn },
-  methods: {
-    toQuestions() {
-      this.$root.State.conditions.prefaceRead = true;
-    }
-  }
 }
 </script>

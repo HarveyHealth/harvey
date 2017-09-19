@@ -29,6 +29,21 @@ export default {
     ConditionPreface,
     SlideIn: Util.SlideIn,
     WrapConditions,
+  },
+  computed: {
+    selected() {
+      return this.State('conditions.selectedIndex');
+    }
+  },
+  watch: {
+    selected(value) {
+      if (value) {
+        const condition = this.State('conditions.all')[value];
+        const questions = JSON.parse(condition.questions);
+        App.setState('conditions.condition', condition);
+        App.setState('conditions.condition.questions', questions);
+      }
+    }
   }
 }
 </script>

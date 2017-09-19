@@ -5,10 +5,10 @@ export default function(response) {
     return;
   }
 
-  App.Logic.misc.requested.call(this, 'practitioners');
+  App.Logic.misc.requested('practitioners');
 
   axios.get(`${App.Config.misc.api}practitioners?include=user`)
-    .then(r => response.call(this, r))
+    .then(r => response(r))
     .catch(error => {
       if (error.response) {
         console.warn(error.response);
