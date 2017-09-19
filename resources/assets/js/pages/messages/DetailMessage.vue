@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_full_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :header="subject" :id="user_id" />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -37,6 +37,7 @@
                         :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
                         :userId="detail.attributes.recipient_user_id"
+                        :highlight="your_id == detail.attributes.sender_user_id"
                       />
                     </div>
                     <div class="button-wrapper">
@@ -73,6 +74,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
+              your_id: window.Laravel.user.id,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
