@@ -53,3 +53,7 @@
     text-align: center;
     @include margin(2em null .5em null);
 }
+
+.highlight {
+    color: $pink;
+}
