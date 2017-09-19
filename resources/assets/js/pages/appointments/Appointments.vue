@@ -16,7 +16,6 @@
             :on-filter="handleFilter"
             :all-data="appointments"
           />
-
         </div>
       </div>
 
