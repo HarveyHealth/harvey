@@ -50,6 +50,7 @@ App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
 App.Util = Util;
+App.Router = router;
 
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);

@@ -1,31 +1,30 @@
 <template>
   <div>
-    <WrapConditions v-if="!State('conditions.condition')" />
-    <div v-else>
+    <ConditionsAll v-if="!State('conditions.condition')" />
+    <template v-else>
       <ConditionPreface v-if="!State('conditions.prefaceRead')" />
-      <div v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length">
-        <ConditionQuestions />
-      </div>
-      <VerifyZip v-else />
-    </div>
+      <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+      <VerifyZip v-else-if="!State('conditions.zipValidation')" />
+      <OutOfRange v-else-if="State('conditions.zipValidation.serviceable') === false" />
+    </template>
   </div>
 </template>
 
 <script>
-import { Util } from '../../base';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
+import ConditionsAll from './children/ConditionsAll';
+import OutOfRange from './children/OutOfRange';
 import VerifyZip from './children/VerifyZip';
-import WrapConditions from './children/WrapConditions';
 
 export default {
   name: 'conditions',
   components: {
     ConditionQuestions,
     ConditionPreface,
-    SlideIn: Util.SlideIn,
+    ConditionsAll,
+    OutOfRange,
     VerifyZip,
-    WrapConditions,
   },
   computed: {
     selected() {

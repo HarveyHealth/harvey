@@ -94,7 +94,6 @@ export default {
     }
   },
   mounted() {
-    if (this.focusNext) console.log(this.focusNext.refs[this.focusNext.ref].$el)
     if (this.stored) {
       this.distribute(this.stored, 0);
     }
