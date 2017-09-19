@@ -14,7 +14,9 @@
             <p>Please note: You must finish your patient intake form before your first appointment.</p>
           </div>
           <div class="card-alert-button">
-            <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+            <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank">
+              <button class="button is-primary is-outlined">Edit Intake Form</button>
+            </a>
           </div>
         </div>
       </div>
@@ -22,9 +24,7 @@
       <div class="card-wrapper">
 
         <div class="card card-panel">
-          <DashboardAppointments :user-type="userType"
-            :recent-appointments="recent_appointments"
-            :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
+          <DashboardAppointments :user-type="userType" :upcoming-appointments="upcoming_appointments" />
         </div>
 
         <div class="card card-panel" v-if="userType === 'patient'">
