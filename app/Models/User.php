@@ -4,8 +4,7 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
-use App\Lib\Clients\Geocoder;
-use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail};
+use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -101,19 +100,7 @@ class User extends Authenticatable implements Mailable
             return null;
         }
 
-        $query = "{$this->zip} USA";
-
-        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
-            $geocoder = new Geocoder;
-            return $geocoder->geocode($query);
-        });
-
-        if (empty($result['address']['state'])) {
-            Cache::forget("call-geocoder-{$query}");
-            return null;
-        }
-
-        return $result['address']['state'];
+        return app()->make(ZipCodeValidator::class)->setZip($this->zip)->getState();
     }
 
     public function getFullNameAttribute()
@@ -289,7 +276,7 @@ class User extends Authenticatable implements Mailable
         try {
             $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
         } catch (Exception $e) {
-            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody() ?? []);
             return collect();
         }
 
@@ -303,7 +290,7 @@ class User extends Authenticatable implements Mailable
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $e) {
-            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 
@@ -318,12 +305,9 @@ class User extends Authenticatable implements Mailable
         return $this->save();
     }
 
-    public function updateCard(array $cardInfo)
+    public function updateCard(string $cardId, array $cardInfo)
     {
         $this->clearHasACardCache();
-
-        $cardId = $cardInfo['card_id'];
-        unset($cardInfo['card_id']);
 
         try {
             $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
@@ -334,11 +318,23 @@ class User extends Authenticatable implements Mailable
 
             $card->save();
         } catch (Exception $e) {
-            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 
-        return true;
+        return $card;
+    }
+
+    public function getCard(string $cardId)
+    {
+        try {
+            $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
+        } catch (Exception $e) {
+            Log::error("Unable to get credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            return false;
+        }
+
+        return $card;
     }
 
     public function addCard(string $cardTokenId)
@@ -364,7 +360,7 @@ class User extends Authenticatable implements Mailable
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $e) {
-            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 
@@ -372,7 +368,7 @@ class User extends Authenticatable implements Mailable
         $this->card_brand = $defaultCard->brand;
         $this->save();
 
-        return true;
+        return $defaultCard;
     }
 
     public function hasACard()
