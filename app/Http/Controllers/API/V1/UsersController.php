@@ -270,6 +270,6 @@ class UsersController extends BaseAPIController
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        return response()->json(['cards' => $user->getCards()]);
+        return response()->json(['cards' => $user->getCards()->toArray()]);
     }
 }

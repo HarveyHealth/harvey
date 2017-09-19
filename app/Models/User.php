@@ -293,7 +293,7 @@ class User extends Authenticatable implements Mailable
             return [];
         }
 
-        return $cards;
+        return collect($cards);
     }
 
     public function deleteCard(string $cardId)
@@ -307,7 +307,15 @@ class User extends Authenticatable implements Mailable
             return false;
         }
 
-        return true;
+        if ($card = $this->getCards()->last()) {
+            $this->card_last_four = $card->last4;
+            $this->card_brand = $card->brand;
+        } else {
+            $this->card_last_four = null;
+            $this->card_brand = null;
+        }
+
+        return $this->save();
     }
 
     public function updateCard(array $cardInfo)
@@ -347,10 +355,12 @@ class User extends Authenticatable implements Mailable
                 $this->stripe_id = $customer->id;
             } else {
                 $customer = Customer::retrieve($this->stripe_id);
-                $customer->sources->create([
+                $card = $customer->sources->create([
                     'source' => $cardTokenId,
                     'metadata' => ['harvey_id' => $this->id],
                 ]);
+                $customer->default_source = $card->id;
+                $customer->save();
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $e) {
@@ -368,7 +378,7 @@ class User extends Authenticatable implements Mailable
     public function hasACard()
     {
         return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
-            return !empty($this->getCards());
+            return $this->getCards()->isNotEmpty();
         });
     }
 
