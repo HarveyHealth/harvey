@@ -276,7 +276,7 @@ class User extends Authenticatable implements Mailable
         try {
             $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
         } catch (Exception $e) {
-            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody() ?? []);
             return collect();
         }
 
@@ -290,7 +290,7 @@ class User extends Authenticatable implements Mailable
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $e) {
-            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 
@@ -305,12 +305,9 @@ class User extends Authenticatable implements Mailable
         return $this->save();
     }
 
-    public function updateCard(array $cardInfo)
+    public function updateCard(string $cardId, array $cardInfo)
     {
         $this->clearHasACardCache();
-
-        $cardId = $cardInfo['card_id'];
-        unset($cardInfo['card_id']);
 
         try {
             $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
@@ -321,7 +318,7 @@ class User extends Authenticatable implements Mailable
 
             $card->save();
         } catch (Exception $e) {
-            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 
@@ -351,7 +348,7 @@ class User extends Authenticatable implements Mailable
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $e) {
-            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody());
+            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody() ?? []);
             return false;
         }
 

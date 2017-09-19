@@ -239,14 +239,17 @@ class UsersController extends BaseAPIController
         return response()->json([], $responseCode);
     }
 
-    public function updateCard(Request $request, User $user)
+    public function updateCard(Request $request, User $user, string $cardId)
     {
         if (currentUser()->isNot($user)) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        StrictValidator::checkUpdate($request->all(), $validKeys = [
+        StrictValidator::check(['card_id' => $cardId], [
             'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        StrictValidator::checkUpdate($request->all(), $validKeys = [
             'address_city' => 'sometimes',
             'address_country' => 'sometimes',
             'address_line1' => 'sometimes',
@@ -255,11 +258,10 @@ class UsersController extends BaseAPIController
             'address_zip' => 'sometimes',
             'exp_month' => 'sometimes|numeric|between:1,12',
             'exp_year' => 'sometimes|digits:4',
-            'metadata' => 'sometimes',
             'name' => 'sometimes',
         ]);
 
-        $responseCode = $user->updateCard($request->intersect(array_keys($validKeys))) ? ResponseCode::HTTP_OK : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+        $responseCode = $user->updateCard($cardId, $request->intersect(array_keys($validKeys))) ? ResponseCode::HTTP_OK : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
 
         return response()->json([], $responseCode);
     }
