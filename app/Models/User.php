@@ -322,7 +322,19 @@ class User extends Authenticatable implements Mailable
             return false;
         }
 
-        return true;
+        return $card;
+    }
+
+    public function getCard(string $cardId)
+    {
+        try {
+            $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
+        } catch (Exception $e) {
+            Log::error("Unable to get credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            return false;
+        }
+
+        return $card;
     }
 
     public function addCard(string $cardTokenId)
@@ -356,7 +368,7 @@ class User extends Authenticatable implements Mailable
         $this->card_brand = $defaultCard->brand;
         $this->save();
 
-        return true;
+        return $defaultCard;
     }
 
     public function hasACard()
