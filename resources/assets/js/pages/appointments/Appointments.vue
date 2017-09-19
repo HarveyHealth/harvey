@@ -379,7 +379,7 @@ export default {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
-      return this.flyoutMode === 'new' && this.appointment.patientPayment !== false;
+      return this.flyoutMode === 'new' && (this.appointment.patientPayment !== false || this.userType === 'admin');
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';
@@ -863,7 +863,6 @@ export default {
     },
 
     setupAppointments(list) {
-      console.log(list)
       const zone = this.$root.addTimezone();
       const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
