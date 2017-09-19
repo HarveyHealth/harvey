@@ -283,14 +283,14 @@ class User extends Authenticatable implements Mailable
     public function getCards()
     {
         if (empty($this->stripe_id)) {
-            return [];
+            return collect();
         }
 
         try {
             $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
         } catch (Exception $e) {
             Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody());
-            return [];
+            return collect();
         }
 
         return collect($cards);
