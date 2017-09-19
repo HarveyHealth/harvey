@@ -6,4 +6,5 @@ export default {
   selectedIndex: null,
   prefaceRead: false,
   zip: null,
+  zipValidation: null,
 }

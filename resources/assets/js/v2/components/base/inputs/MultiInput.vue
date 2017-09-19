@@ -61,7 +61,7 @@ export default {
         this.$refs[i][0].focus();
       } else {
         if (this.focusNext) {
-          this.focusNext.refs[this.focusNext.ref].focus();
+          this.focusNext.refs[this.focusNext.ref].$el.focus();
         } else {
           this.$refs[this.quantity][0].focus();
         }
@@ -94,6 +94,7 @@ export default {
     }
   },
   mounted() {
+    if (this.focusNext) console.log(this.focusNext.refs[this.focusNext.ref].$el)
     if (this.stored) {
       this.distribute(this.stored, 0);
     }

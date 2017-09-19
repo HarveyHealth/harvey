@@ -1,7 +1,19 @@
 <template>
-  <button :class="'button ' + config[type].class" :disabled="isDisabled" @click="onClick">
-    <Loading v-if="isProcessing" :color="config[type].loadingColor" :size="config[type].loadingSize" />
-    <i v-if="isDone" :class="'fa ' + config[type].doneIcon">{{ config[type].doneText }}</i>
+  <button
+    :class="'button inline' + config[type].class"
+    :disabled="isDisabled || isProcessing"
+    @click="onClick"
+    :style="'width:' + width || 'auto'"
+  >
+    <Loading
+      v-if="isProcessing"
+      class="inline margin-right-xxs"
+      :color="config[type].loadingColor"
+      :size="config[type].loadingSize" />
+    <div v-if="isDone">
+      <i :class="'margin-right-xxs inline fa ' + config[type].doneIcon" style="font-size:12px"></i>
+      <span>{{ config[type].doneText }}</span>
+    </div>
     <span v-else>{{ text }}</span>
   </button>
 </template>
@@ -11,21 +23,23 @@ import Util from '../util';
 
 export default {
   props: {
-    configDone: { type: Object, default: function() { return {}; } },
+    doneText: { type: String, default: '' },
+    doneIcon: { type: String, default: 'fa-check' },
     isDisabled: Boolean,
     isDone: Boolean,
     isProcessing: Boolean,
     onClick: { type: Function, required: true },
     text: { type: String, required: true },
-    type: { type: String, default: 'default' }
+    type: { type: String, default: 'default' },
+    width: String
   },
   data() {
     return {
       config: {
         default: {
           class: '',
-          doneIcon: this.configDone.icon || 'fa-check',
-          doneText: this.configDone.text || 'Complete',
+          doneIcon: this.doneIcon,
+          doneText: this.doneText,
           loadingColor: 'light',
           loadingSize: 'sm',
         }

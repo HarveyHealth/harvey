@@ -1,4 +1,3 @@
-// Must be run with .call to pass in Vue component instance as the context
 export default function(response) {
   if (!response || typeof response !== 'function') {
     console.error('response is required and must be a function');
