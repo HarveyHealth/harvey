@@ -59,7 +59,7 @@
     import socket from './websocket'
     import _ from 'lodash'
     export default {
-        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name'],
+        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name', 'thread_id'],
         name: 'messages',
         components: {
           Preview,
@@ -84,7 +84,7 @@
         },
         computed: {
             detailList() {
-                return this.$root.$data.global.detailMessages[this.$props.subject]
+                return this.$root.$data.global.detailMessages[this.$props.thread_id]
             }
         },
         methods: {
@@ -96,6 +96,9 @@
           },
           highlights(user) {
               return user === this.your_id;
+          },
+          makeThreadId(userOne, userTwo) {
+            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
           },
           userName() {
               if (this.$root.$data.permissions === 'patient') {
@@ -113,7 +116,7 @@
         mounted() {
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                let subject = data.data.attributes.subject
+                let subject = `${makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id
                 this.$root.$data.global.detailMessages[subject].push(data.data)
                 this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
@@ -130,10 +133,10 @@
                     let data = {};
                     let userId = this.$root.$data.global.user.id
                     response.data.data.forEach(e => {
-                    data[e.attributes.subject] = data[e.attributes.subject] ?
-                        data[e.attributes.subject] :
-                        [];
-                    data[e.attributes.subject].push(e);
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
+                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
+                            [];
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
                         Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));

@@ -31,11 +31,12 @@
               <router-link :to="{
                   name: 'detail',
                   params: {
+                    thread_id: `${makeThreadId(chat.attributes.sender_user_id, chat.attributes.recipient_user_id)}-${chat.attributes.subject}`,
                     subject: chat.attributes.subject,
                     sender_id : chat.attributes.sender_user_id,
                     recipient_id : chat.attributes.recipient_user_id,
                     sender_name: chat.attributes.sender_full_name,
-                    recipient_full_name: chat.attributes.recipient_full_name
+                    recipient_full_name: chat.attributes.recipient_full_name,
                   }
                 }">
                 <MessagePost
@@ -89,41 +90,23 @@
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage
+          },
+          makeThreadId(userOne, userTwo) {
+            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
           }
         },
         mounted() {
           this.$root.$data.global.currentPage = 'messages';
 
           let userId = this.$root.$data.global.user.id
-          axios.get(`${this.$root.$data.apiUrl}/messages`)
-              .then(response => {
-                let data = {};
-                response.data.data.forEach(e => {
-                  data[e.attributes.subject] = data[e.attributes.subject] ?
-                      data[e.attributes.subject] :
-                      [];
-                  data[e.attributes.subject].push(e);
-                });
-                if (data) {
-                  Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                  this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data)
-                    .map(e => e[e.length - 1])
-                    .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
-                }
-                this.$root.$data.global.loadingMessages = false
-              })
           let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
           channel.bind('App\\Events\\MessageCreated', (data) => {
-            let subject = data.data.attributes.subject
+            let subject = `${this.makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`
             this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
                 this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
             this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
-              .map(e => e[e.length - 1])
-              .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
-              .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+              .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           })
           this.$root.getConfirmedUsers();
         },
@@ -133,10 +116,10 @@
               .then(response => {
                 let data = {};
                 response.data.data.forEach(e => {
-                  data[e.attributes.subject] = data[e.attributes.subject] ?
-                      data[e.attributes.subject] :
+                  data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
+                      data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
                       [];
-                  data[e.attributes.subject].push(e);
+                  data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                 });
                 if (data) {
                   Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
