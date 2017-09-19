@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="classes">
     <input v-for="i in quantity"
            :ref="i" type="text"
            :disabled="disabled"
@@ -12,12 +12,23 @@
 <script>
 export default {
   props: {
+    color: {
+      type: String,
+      default: 'dark'
+    },
     disabled: Boolean,
     getValue: {
       type: Function,
       required: true,
     },
+    // { refs: $refs, ref: 'name' }
+    // will auto focus ref after last input is filled in
+    focusNext: Object,
     quantity: Number,
+    size: {
+      type: String,
+      default: 'md'
+    },
     stored: String
   },
   data() {
@@ -28,6 +39,11 @@ export default {
   watch: {
     inputs() {
       return this.getValue(this.inputs.join(''));
+    }
+  },
+  computed: {
+    classes() {
+      return `MultiInput ${this.color} ${this.size}`;
     }
   },
   methods: {
@@ -44,7 +60,11 @@ export default {
       if (i <= this.quantity) {
         this.$refs[i][0].focus();
       } else {
-        this.$refs[this.quantity][0].focus();
+        if (this.focusNext) {
+          this.focusNext.refs[this.focusNext.ref].focus();
+        } else {
+          this.$refs[this.quantity][0].focus();
+        }
       }
     },
     keyed(e, ref) {
@@ -74,6 +94,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.focusNext)
     if (this.stored) {
       this.distribute(this.stored, 0);
     }

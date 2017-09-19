@@ -2,7 +2,6 @@
   <div>
     <WrapConditions v-if="!State('conditions.condition')" />
     <div v-else>
-      <MultiInput :quantity="3" :get-value="(v) => setState('misc.foo', v)" />
       <ConditionPreface v-if="!State('conditions.prefaceRead')" />
       <div v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length">
         <ConditionQuestions />
@@ -11,7 +10,7 @@
         <SlideIn>
           <p>Zip codes are important for our business.</p>
           <input type="text" /><button class="button">Verify</button>
-          <MultiInput :quantity="5" :get-value="(v) => console.log(v)" />
+          <MultiInput :quantity="5" :get-value="(v) => setState('misc.foo', v)" />
         </SlideIn>
       </div>
     </div>
@@ -19,8 +18,7 @@
 </template>
 
 <script>
-import { Inputs } from '../../base';
-import { Util } from '../../base';
+import { Inputs, Util } from '../../base';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import WrapConditions from './children/WrapConditions';
