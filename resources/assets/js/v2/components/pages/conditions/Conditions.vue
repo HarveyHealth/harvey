@@ -9,8 +9,8 @@
       <div v-else>
         <SlideIn>
           <p>Zip codes are important for our business.</p>
-          <input type="text" /><button class="button">Verify</button>
-          <MultiInput :quantity="5" :get-value="(v) => setState('misc.foo', v)" />
+          <MultiInput :quantity="5" :focus-next="{refs: $refs, ref: 'submit'}" :get-value="(v) => setState('misc.foo', v)" />
+          <button class="button" :ref="'submit'">Verify</button>
         </SlideIn>
       </div>
     </div>
