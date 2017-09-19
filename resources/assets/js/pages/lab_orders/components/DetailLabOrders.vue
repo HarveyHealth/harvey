@@ -26,7 +26,7 @@
         <label class="input__label" for="patient_name">Billing</label>
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
-          <label v-if="oldCard === null || oldCard.brand === null || oldCard.last4 === null" class="input__item">{{`Legacy Lab Test`}}</label>
+          <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`Legacy Lab Test`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
@@ -86,7 +86,7 @@
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Billing</label>
-        <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended'">
+        <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null">
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
