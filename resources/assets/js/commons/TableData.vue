@@ -1,7 +1,7 @@
 <template>
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
-    <thead v-if="!allData.length">
-      <tr>
+    <thead>
+      <tr v-if="rowData.length !== 0">
         <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"

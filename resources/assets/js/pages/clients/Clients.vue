@@ -17,7 +17,6 @@
           :updating-row="null"
           :updated-row="null"
           :tableRowData="currentData"
-          :allData="currentData"
         />
 
     </div>

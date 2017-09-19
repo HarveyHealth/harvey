@@ -27,7 +27,6 @@
         :updating-row="selectedRowUpdating"
         :updated-row="selectedRowHasUpdated"
         :tableRowData="appointments"
-        :all-data="appointments"
       />
 
     </div>

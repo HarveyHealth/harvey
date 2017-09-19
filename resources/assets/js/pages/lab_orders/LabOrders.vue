@@ -40,7 +40,6 @@
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="currentData"
-                :allData="labData"
              />
         </div>
     </div>
@@ -87,7 +86,7 @@
                     Processing: [],
                     Complete: []
                 },
-                labData: null,
+                labData: [],
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
