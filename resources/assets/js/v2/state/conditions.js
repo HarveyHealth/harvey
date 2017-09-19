@@ -5,4 +5,5 @@ export default {
   questionIndex: 0,
   selectedIndex: null,
   prefaceRead: false,
+  zip: null,
 }

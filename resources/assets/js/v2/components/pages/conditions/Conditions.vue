@@ -6,21 +6,16 @@
       <div v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length">
         <ConditionQuestions />
       </div>
-      <div v-else>
-        <SlideIn>
-          <p>Zip codes are important for our business.</p>
-          <MultiInput :quantity="5" :focus-next="{refs: $refs, ref: 'submit'}" :get-value="(v) => setState('misc.foo', v)" />
-          <button class="button" :ref="'submit'">Verify</button>
-        </SlideIn>
-      </div>
+      <VerifyZip v-else />
     </div>
   </div>
 </template>
 
 <script>
-import { Inputs, Util } from '../../base';
+import { Util } from '../../base';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
+import VerifyZip from './children/VerifyZip';
 import WrapConditions from './children/WrapConditions';
 
 export default {
@@ -28,8 +23,8 @@ export default {
   components: {
     ConditionQuestions,
     ConditionPreface,
-    MultiInput: Inputs.MultiInput,
     SlideIn: Util.SlideIn,
+    VerifyZip,
     WrapConditions,
   },
   computed: {
