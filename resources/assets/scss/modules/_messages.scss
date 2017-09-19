@@ -27,6 +27,9 @@
                 width: 100%;
             }
         }
+        .highlight {
+            color: $color-copy-alt;
+        }
     }
     .message-post-body {
         width: 75%;
@@ -39,9 +42,9 @@
         width: 100%;
         min-height: 50px;
         margin-bottom: 1em;
-        &.highlight {
-            .message-post-body {
-                @include margin(.75em null null 25%);
+        .message-post-body {
+            @include margin(.75em null null 25%);
+            &.highlight {
                 color: $color-copy-alt;
             }
         }
@@ -52,8 +55,4 @@
     width: 100%;
     text-align: center;
     @include margin(2em null .5em null);
-}
-
-.highlight {
-    color: $pink;
 }
