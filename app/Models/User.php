@@ -4,8 +4,7 @@ namespace App\Models;
 
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
-use App\Lib\Clients\Geocoder;
-use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail};
+use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
 use App\Mail\VerifyEmailAddress;
 use App\Models\Message;
 use Illuminate\Database\Eloquent\{Builder, Model};
@@ -101,19 +100,7 @@ class User extends Authenticatable implements Mailable
             return null;
         }
 
-        $query = "{$this->zip} USA";
-
-        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
-            $geocoder = new Geocoder;
-            return $geocoder->geocode($query);
-        });
-
-        if (empty($result['address']['state'])) {
-            Cache::forget("call-geocoder-{$query}");
-            return null;
-        }
-
-        return $result['address']['state'];
+        return app()->make(ZipCodeValidator::class)->setZip($this->zip)->getState();
     }
 
     public function getFullNameAttribute()
