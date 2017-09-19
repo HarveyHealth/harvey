@@ -80,10 +80,6 @@ export default {
       type: Array,
       required: true
     },
-    allData: {
-      type: Array,
-      required: true
-    },
     // The message to display when data loading is done and the set returned is empty
     emptyMsg: {
       type: String,

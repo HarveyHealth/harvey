@@ -39,7 +39,7 @@
                   }
                 }">
                 <MessagePost
-                    :name="chat.attributes.sender_full_name"
+                    :name="chat.attributes.sender_user_id != user ? chat.attributes.sender_full_name : chat.attributes.recipient_full_name"
                     :image="chat.attributes.sender_image_url"
                     :day="chat.attributes.created_at.date"
                     :time="chat.attributes.created_at.date"
@@ -74,7 +74,7 @@
         data() {
             return {
               renderNewMessage: false,
-              user: this.$root.$data.global.user.id,
+              user: Laravel.user.id,
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
