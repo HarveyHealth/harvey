@@ -207,7 +207,7 @@ export default {
                 })
         },
         stripeForm() {
-            let stripe = Stripe(window.Laravel.services.stripe.key);
+            let stripe = this.$root.$data.stripe;
             let elements = stripe.elements();
             let style = {
                 base: {
