@@ -151,7 +151,10 @@ export default {
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
-                    this.$root.$data.global.creditCards = null
+                    this.$root.$data.global.creditCards = [];
+                    this.notificationMessage = "Successfully deleted!";
+                    this.notificationActive = true;
+                    setTimeout(() => this.notificationActive = false, 3000);
                 })
             this.closeModal()
         },
@@ -191,18 +194,20 @@ export default {
         submitNewCard(token) {
             axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
                 .then(resp => {
+                    this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.cards
+                            this.$root.$data.global.loadingCreditCards = false;
                             this.details = false
                         })
                 })
         },
         stripeForm() {
-            let stripe = Stripe(window.Laravel.services.stripe.key);
+            let stripe = this.$root.$data.stripe;
             let elements = stripe.elements();
             let style = {
                 base: {
