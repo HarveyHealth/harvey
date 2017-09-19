@@ -1,13 +1,23 @@
 .container-message {
     background-color: white;
     border: none;
-    @include padding(25px);
+    @include padding(25px 30px);
     border-bottom: 1px solid $color--grey;
     position: relative;
     min-height: 100px;
     width: 100%;
-    .unread {
-        border-left: 6px solid #82BEF2 !important;
+    &.unread {
+        .unread-dot {
+            display: block;
+            border: 1px solid $harvey-primary;
+            border-radius: 100px;
+            height: 10px;
+            width: 10px;
+            background: $harvey-primary;
+            position: absolute;
+            left: 10px;
+            top: 40px;
+        }
     }
     .message-post-details {
         width: 25%;
