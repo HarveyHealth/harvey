@@ -45,8 +45,8 @@ export default {
   },
   computed: {
     $$label() {
-      if (this.editable && this.mode === 'new') return 'available times';
-      if (this.editable && this.mode === 'update') return 'reschedule';
+      if (this.editable && this.mode === 'new') return 'Date & Time';
+      if (this.editable && this.mode === 'update') return 'Reschedule';
       return 'booked for';
     },
     $$selectedDay() {

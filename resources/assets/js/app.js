@@ -54,7 +54,6 @@ const app = new Vue({
         clientList: [],
         permissions: Laravel.user.user_type,
         environment: env,
-        permissions: Laravel.user.user_type,
         currentUserId: Laravel.user.id,
         flyoutActive: false,
         guest: false,

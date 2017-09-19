@@ -5,11 +5,9 @@
             <img :src="image" alt="avatar">
         </div>
         <h3 class="message-post-name heading-2">{{ name }}</h3>
-        <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).format("h:mm a") }} {{ moment.tz(moment.tz.guess()).format('z') }}</h3>
+        <h3 class="message-post-time copy-muted-2 font-sm font-thin" :class="highlight ? 'highlighted' : ''">{{ momentDate }}</h3>
       </div>
-      <div class="message-post-body">
-        <p class="message-post-message">{{ message }}</p>
-      </div>
+      <p class="message-post-body">{{ message }}</p>
     </div>
 </template>
 
@@ -17,11 +15,15 @@
     import moment from 'moment'
     import _ from 'lodash'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'hightlight'],
         name: 'MessagingPost',
         data() {
-            return {
-                moment: moment
+            return {  }
+        },
+        computed: {
+            momentDate() {
+                moment.tz.add(this.$props.timezone);
+                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
             }
         },
         mounted() {
