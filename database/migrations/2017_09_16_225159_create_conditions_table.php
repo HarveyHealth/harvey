@@ -17,7 +17,7 @@ class CreateConditionsTable extends Migration
             $table->increments('id');
             $table->boolean('enabled')->default(true);
             $table->string('name')->unique();
-            $table->string('slug');
+            $table->string('slug')->unique()->index();
             $table->string('image_url');
             $table->string('description');
             $table->json('questions');

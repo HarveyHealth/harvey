@@ -1,13 +1,17 @@
+import appointments from './appointments';
 import conditions from './conditions';
-import data from './data';
 import isLoading from './isLoading';
 import misc from './misc';
+import patients from './patients';
+import practitioners from './practitioners';
 import wasRequested from './wasRequested';
 
 export default {
+  appointments,
   conditions,
-  data,
   isLoading,
   misc,
+  patients,
+  practitioners,
   wasRequested,
 }

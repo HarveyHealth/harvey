@@ -287,21 +287,29 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Condition::class, function (Faker\Generator $faker) {
-    $name = $faker->word;
+    $name = $faker->unique()->word;
     return [
         'name' => $name,
         'slug' => $name,
         'image_url' => '/images/default_user_image.png',
         'description' => $faker->paragraph,
         'questions' => json_encode([
-          [ 'question' => $faker->sentence,
-            'answers' => [$faker->word, $faker->word, $faker->word]],
-          [ 'question' => $faker->sentence,
-            'answers' => [$faker->word, $faker->word, $faker->word]],
-          [ 'question' => $faker->sentence,
-            'answers' => [$faker->word, $faker->word, $faker->word]],
-          [ 'question' => $faker->sentence,
-            'answers' => [$faker->word, $faker->word, $faker->word]],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
         ]),
     ];
 });
