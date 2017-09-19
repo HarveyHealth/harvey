@@ -59,16 +59,6 @@
             }
         },
         computed: {
-            userList() {
-                if (this.$root.$data.permissions === 'patient') {
-                    return [''].concat(this.$root.$data.global.practitioners);
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    return [''].concat(this.$root.$data.global.patients);
-                } else if (this.$root.$data.permissions === 'admin') {
-                    return [''].concat(this.$root.$data.global.practitioners)
-                        .concat(this.$root.$data.global.patients);
-                }
-            },
             toUserType() {
                 if (this.$root.$data.permissions === 'patient') {
                     return "Doctor";
