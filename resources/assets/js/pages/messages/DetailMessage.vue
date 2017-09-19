@@ -26,7 +26,7 @@
             />
             <div class="content-container">
                 <div class="container-message">
-                    <div class="detail-wrap highlight" v-if="detailList" v-for="detail in detailList">
+                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"
@@ -37,7 +37,7 @@
                         :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
                         :userId="detail.attributes.recipient_user_id"
-                        :highlight="your_id == detail.attributes.sender_user_id"
+                        :yourId="your_id"
                       />
                     </div>
                     <div class="button-wrapper">
@@ -93,6 +93,9 @@
           },
           reply() {
             this.renderReply = !this.renderReply
+          },
+          highlights(user) {
+              return user === this.your_id;
           },
           userName() {
               if (this.$root.$data.permissions === 'patient') {

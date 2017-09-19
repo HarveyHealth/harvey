@@ -4,10 +4,10 @@
         <div class="message-post-avatar">
             <img :src="image" alt="avatar">
         </div>
-        <h3 class="message-post-name heading-2">{{ name }}</h3>
-        <h3 class="message-post-time copy-muted-2 font-sm font-thin" :class="highlight ? 'highlighted' : ''">{{ momentDate }}</h3>
+        <h3 class="message-post-name heading-2" :class="{highlight: yourId == userId ? 'highlight' : ''}">{{ name }}</h3>
+        <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ momentDate }}</h3>
       </div>
-      <p class="message-post-body">{{ message }}</p>
+      <p class="message-post-body" :class="{highlight: yourId == userId ? 'highlight' : ''}">{{ message }}</p>
     </div>
 </template>
 
@@ -15,8 +15,8 @@
     import moment from 'moment'
     import _ from 'lodash'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'hightlight'],
-        name: 'MessagingPost',
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'yourId'],
+        name: 'DetailPost',
         data() {
             return {  }
         },
