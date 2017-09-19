@@ -5,7 +5,7 @@
             <img :src="image" alt="avatar">
         </div>
         <h3 class="message-post-name heading-2">{{ name }}</h3>
-        <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).format("h:mm a") }} {{ moment.tz(moment.tz.guess()).format('z') }}</h3>
+        <h3 class="message-post-time copy-muted-2 font-sm font-thin">{{ momentDate }}</h3>
       </div>
       <p class="message-post-body">{{ message }}</p>
     </div>
@@ -18,8 +18,12 @@
         props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone'],
         name: 'MessagingPost',
         data() {
-            return {
-                moment: moment
+            return {  }
+        },
+        computed: {
+            momentDate() {
+                moment.tz.add(this.$props.timezone);
+                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
             }
         },
         mounted() {

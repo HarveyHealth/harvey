@@ -20,9 +20,7 @@
         props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'timezone'],
         name: 'MessagingPost',
         data() {
-            return {
-                moment: moment
-            }
+            return {  }
         },
         computed: {
             messages() {
