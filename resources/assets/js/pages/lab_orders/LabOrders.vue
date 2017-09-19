@@ -16,6 +16,7 @@
                         :filters="filters"
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
+                        :all-data="labData"
                         class="filters"
                     />
                 </div>
@@ -86,6 +87,7 @@
                     Processing: [],
                     Complete: []
                 },
+                labData: null,
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -174,6 +176,7 @@
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
+                this.labData = data;
                 let choices = {
                     0: "Recommended",
                     1: "Confirmed",

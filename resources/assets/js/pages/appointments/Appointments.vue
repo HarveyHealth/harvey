@@ -14,6 +14,7 @@
             :filters="filters"
             :loading="disabledFilters"
             :on-filter="handleFilter"
+            :all-data="appointments"
             class="filters"
           />
 
