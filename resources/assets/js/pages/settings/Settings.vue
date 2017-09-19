@@ -152,7 +152,7 @@ export default {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = [];
-                    this.notificationMessage = "Successfully deleted!";
+                    this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                 })
