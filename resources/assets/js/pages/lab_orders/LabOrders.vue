@@ -17,7 +17,6 @@
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
                         :all-data="labData"
-                        class="filters"
                     />
                 </div>
             </div>
