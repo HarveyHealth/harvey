@@ -40,6 +40,7 @@
                 :updating-row="selectedRowUpdating"
                 :updated-row="selectedRowHasUpdated"
                 :tableRowData="currentData"
+                :allData="labData"
              />
         </div>
     </div>

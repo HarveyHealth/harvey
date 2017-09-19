@@ -1,6 +1,6 @@
 <template>
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
-    <thead>
+    <thead v-if="!allData.length">
       <tr>
         <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
@@ -77,6 +77,10 @@ export default {
     // passed row data and returns a function that can be passed to the native
     // Array.sort method. See rowData and it will make more sense.
     columns: {
+      type: Array,
+      required: true
+    },
+    allData: {
       type: Array,
       required: true
     },
