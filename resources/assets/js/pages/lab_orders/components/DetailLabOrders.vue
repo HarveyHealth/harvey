@@ -25,7 +25,8 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">Billing</label>
         <div v-if="status !== 'Recommended'">
-          <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
+          <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
+          <label v-if="oldCard === null || oldCard.brand === null || oldCard.last4 === null" class="input__item">{{`Legacy Lab Test`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
@@ -147,7 +148,6 @@
         invalidModalActive: false,
         hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        latestCard: this.$root.$data.global.creditCards.slice(-1).pop(),
         monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
       }
     },
@@ -290,7 +290,7 @@
         if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
           this.hasCard = true
         }
-        return this.$props.rowData ? this.$props.rowData.card : {brand: null, last4: null}
+        return this.$props.rowData ? this.$props.rowData.card : null
       },
       price() {
         return this.$props.rowData ? this.$props.rowData.total_price : ''
@@ -321,6 +321,9 @@
           status: ['No Order']
         }] : this.$props.rowData.test_list
         return this.$props.rowData.test_list
+      },
+      latestCard() {
+        return this.$root.$data.global.creditCards.slice(-1).pop();
       }
     }
   }
