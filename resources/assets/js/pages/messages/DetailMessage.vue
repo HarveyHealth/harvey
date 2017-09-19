@@ -37,7 +37,7 @@
                         :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
                         :userId="detail.attributes.recipient_user_id"
-                        :highlight="your_id == detail.attributes.sender_user_id"
+                        :highlighted="your_id == detail.attributes.sender_user_id"
                       />
                     </div>
                     <div class="button-wrapper">

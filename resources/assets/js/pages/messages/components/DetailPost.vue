@@ -5,7 +5,7 @@
             <img :src="image" alt="avatar">
         </div>
         <h3 class="message-post-name heading-2">{{ name }}</h3>
-        <h3 class="message-post-time copy-muted-2 font-sm font-thin" :class="highlight ? 'highlighted' : ''">{{ momentDate }}</h3>
+        <h3 class="message-post-time copy-muted-2 font-sm font-thin" :class="{highlighted: hightlighted}">{{ momentDate }}</h3>
       </div>
       <p class="message-post-body">{{ message }}</p>
     </div>
@@ -15,7 +15,7 @@
     import moment from 'moment'
     import _ from 'lodash'
     export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'hightlight'],
+        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'hightlighted'],
         name: 'MessagingPost',
         data() {
             return {  }
