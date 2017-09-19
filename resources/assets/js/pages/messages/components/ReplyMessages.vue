@@ -3,7 +3,7 @@
         <button class="button--close flyout-close" @click="reply()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="heading-3-expand">Reply</h2><br>
+        <h2 class="heading-3-expand">Reply</h2>
         <div class="input__container">
             <label class="input__label" for="patient_name">{{ toUserType }}</label>
             <span class="custom-select">
@@ -13,7 +13,7 @@
             </span>
         </div>
         <div class="input__container">
-            <label class="input__label" for="patient_name">message</label>
+            <label class="input__label" for="patient_name">Message</label>
             <textarea v-model="message" class="input--textarea"></textarea>
         </div>
         <div>
@@ -71,11 +71,11 @@
             },
             toUserType() {
                 if (this.$root.$data.permissions === 'patient') {
-                    return "doctor";
+                    return "Doctor";
                 } else if (this.$root.$data.permissions === 'practitioner') {
-                    return "patient";
+                    return "Client";
                 } else if (this.$root.$data.permissions === 'admin') {
-                    return "all";
+                    return "Recipient";
                 }
             }
         }

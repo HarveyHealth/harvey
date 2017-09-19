@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
 use App\Lib\{PhoneNumberVerifier, Validation\StrictValidator, ZipCodeValidator};
 use App\Models\{Patient, User};
-use App\Transformers\V1\UserTransformer;
+use App\Transformers\V1\{CreditCardTransformer, UserTransformer};
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -59,7 +59,7 @@ class UsersController extends BaseAPIController
             $query = $query->orderBy('created_at', $order[1] ?? false);
         }
 
-        return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($query, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     public function create(Request $request)
@@ -219,9 +219,13 @@ class UsersController extends BaseAPIController
             'id' => 'required|regex:/^tok_.*/',
         ]);
 
-        $responseCode = $user->addCard(request('id')) ? ResponseCode::HTTP_CREATED : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+        if (!$card = $user->addCard(request('id'))) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
 
-        return response()->json([], $responseCode);
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_CREATED);
     }
 
     public function deleteCard(Request $request, User $user, string $cardId)
@@ -261,9 +265,32 @@ class UsersController extends BaseAPIController
             'name' => 'sometimes',
         ]);
 
-        $responseCode = $user->updateCard($cardId, $request->intersect(array_keys($validKeys))) ? ResponseCode::HTTP_OK : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+        if (!$card = $user->updateCard($cardId, $request->intersect(array_keys($validKeys)))) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
 
-        return response()->json([], $responseCode);
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_OK);
+    }
+
+    public function getCard(Request $request, User $user, string $cardId)
+    {
+        if (currentUser()->isNot($user)) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        if (!$card = $user->getCard($cardId)) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_CREATED);
     }
 
     public function getCards(Request $request, User $user)
@@ -272,6 +299,6 @@ class UsersController extends BaseAPIController
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        return response()->json(['cards' => $user->getCards()]);
+        return response()->json(['cards' => $user->getCards()->toArray()]);
     }
 }

@@ -34,6 +34,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('users/{user}/phone/send_verification_code', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
         Route::delete('users/{user}/cards/{card_id}', 'UsersController@deleteCard')->name('users.delete-card');
         Route::get('users/{user}/cards', 'UsersController@getCards')->name('users.get-cards');
+        Route::get('users/{user}/cards/{card_id}', 'UsersController@getCard')->name('users.get-card');
         Route::patch('users/{user}/cards/{card_id}', 'UsersController@updateCard')->name('users.update-card');
         Route::post('users/{user}/cards', 'UsersController@addCard')->name('users.add-card');
 

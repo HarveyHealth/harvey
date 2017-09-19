@@ -45,7 +45,7 @@ $color-alert: #6d859a;
 $color-callout: #e0aaa6;
 
 /// Default font color defined globally
-$color-copy:	#4f6268;
+$color-copy: #5f7278;
 
 /// Typically used for subheadings
 $color-copy-muted-1: #8fa2a8;
@@ -69,13 +69,16 @@ $color-fade-light-muted: rgba(255, 255, 255, 0.4);
 $color-good: #b4e7a0;
 
 /// Used mostly for borders that divides sections of the application
-$color-gray-0:	#e4eaec;
+$color-gray-0:	#f2f2f2;
 
 /// Used for application background
-$color-gray-1:	#f2f2f2;
+$color-gray-1:	#f9f9f9;
 
 /// Used for section heading backgrounds in some contexts
 $color-gray-2:	#fafafa;
 
 /// Used for text on dark backgrounds mostly
 $color-white:	#ffffff;
+
+/// Used for alternative colored text
+$color-copy-alt: #e3bab3;
