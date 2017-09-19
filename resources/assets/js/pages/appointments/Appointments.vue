@@ -4,7 +4,7 @@
       <div class="main-header">
         <div class="container container-backoffice">
           <h1 class="heading-1">
-            <span class="text">Your Appointments</span>
+            <span class="text">Appointments</span>
             <button class="button main-action circle" @click="handleNewAppointmentClick">
               <svg><use xlink:href="#addition"/></svg>
             </button>

@@ -124,7 +124,7 @@
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
         } else {
-          return 'Your Dashboard';
+          return 'Dashboard';
         }
       },
       displayName() {
