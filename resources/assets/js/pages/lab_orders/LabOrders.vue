@@ -17,7 +17,6 @@
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
                         :all-data="labData"
-                        class="filters"
                     />
                 </div>
             </div>
@@ -87,7 +86,7 @@
                     Processing: [],
                     Complete: []
                 },
-                labData: null,
+                labData: [],
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
