@@ -26,7 +26,7 @@
         <label class="input__label" for="patient_name">Billing</label>
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
-          <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on file`}}</label>
+          <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on order`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
@@ -90,7 +90,7 @@
           <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label class="input__item">{{`Charged: $${price}`}}</label>
         </div>
-        <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item">{{`No credit card on file`}}</label>
+        <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item">{{`No credit card on order`}}</label>
         <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid Yet</label>
       </div>
       <div class="input__container">
