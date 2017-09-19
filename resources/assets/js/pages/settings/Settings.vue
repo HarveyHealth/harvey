@@ -48,7 +48,7 @@
                             </div>
                             <div class="button-wrapper">
                                 <button class="button button--cancel" v-if="details" @click="closeDetails">Cancel</button>
-                                <button type="submit" v-if="!edit" @click="submitAddCard" class="button">Save Card</button>
+                                <button type="submit" :disabled="sent" v-if="!edit" @click="submitAddCard" class="button">Save Card</button>
                             </div>
                         </form>
                     </div>
@@ -120,6 +120,7 @@ export default {
             notificationActive: false,
             notificationDirection: 'top-right',
             formAction: null,
+            sent: false,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
         }
     },
@@ -203,6 +204,7 @@ export default {
                             this.$root.$data.global.creditCards = respond.data.cards
                             this.$root.$data.global.loadingCreditCards = false;
                             this.details = false
+                            this.sent = false;
                         })
                 })
         },
@@ -244,6 +246,7 @@ export default {
                         var errorElement = document.getElementById('card-errors');
                         errorElement.textContent = result.error.message;
                     } else {
+                        self.sent = true;
                         self.submitNewCard(result.token.id);
                     }
                 });

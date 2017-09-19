@@ -51,7 +51,7 @@ export default {
   },
   computed: {
     shouldShowPaymentError() {
-      return this.context === 'new' && this.hasCard === false;
+      return this.context === 'new' && this.hasCard === false && Laravel.user.user_type !== 'admin';
     }
   },
   methods: {

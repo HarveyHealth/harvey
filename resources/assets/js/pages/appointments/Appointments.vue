@@ -108,7 +108,7 @@
         <label class="input__label">Billing Info</label>
         <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
         <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
-        <div class="input__item">Charged: $150</div>
+        <div class="input__item">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
       <Purpose
@@ -378,7 +378,7 @@ export default {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
     visibleNewButton() {
-      return this.flyoutMode === 'new' && this.appointment.patientPayment !== false;
+      return this.flyoutMode === 'new' && (this.appointment.patientPayment !== false || this.userType === 'admin');
     },
     visibleStatus() {
       return this.flyoutMode !== 'new';

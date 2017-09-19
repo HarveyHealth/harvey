@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_full_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :header="subject" :id="user_id" />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -26,7 +26,7 @@
             />
             <div class="content-container">
                 <div class="container-message">
-                    <div class="detail-wrap highlight" v-if="detailList" v-for="detail in detailList">
+                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"
@@ -37,6 +37,7 @@
                         :message="detail.attributes.message"
                         :image="detail.attributes.sender_image_url"
                         :userId="detail.attributes.recipient_user_id"
+                        :yourId="your_id"
                       />
                     </div>
                     <div class="button-wrapper">
@@ -58,7 +59,7 @@
     import socket from './websocket'
     import _ from 'lodash'
     export default {
-        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name'],
+        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name', 'thread_id'],
         name: 'messages',
         components: {
           Preview,
@@ -73,6 +74,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
+              your_id: window.Laravel.user.id,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
@@ -82,7 +84,7 @@
         },
         computed: {
             detailList() {
-                return this.$root.$data.global.detailMessages[this.$props.subject]
+                return this.$root.$data.global.detailMessages[this.$props.thread_id]
             }
         },
         methods: {
@@ -91,6 +93,12 @@
           },
           reply() {
             this.renderReply = !this.renderReply
+          },
+          highlights(user) {
+              return user === this.your_id;
+          },
+          makeThreadId(userOne, userTwo) {
+            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
           },
           userName() {
               if (this.$root.$data.permissions === 'patient') {
@@ -108,7 +116,7 @@
         mounted() {
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                let subject = data.data.attributes.subject
+                let subject = `${makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id
                 this.$root.$data.global.detailMessages[subject].push(data.data)
                 this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
@@ -125,10 +133,10 @@
                     let data = {};
                     let userId = this.$root.$data.global.user.id
                     response.data.data.forEach(e => {
-                    data[e.attributes.subject] = data[e.attributes.subject] ?
-                        data[e.attributes.subject] :
-                        [];
-                    data[e.attributes.subject].push(e);
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
+                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
+                            [];
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
                         Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));

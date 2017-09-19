@@ -18,23 +18,6 @@
         <div v-else class="card-empty-container">
             <p class="copy-muted-2 font-italic">You have no upcoming appointments.</p>
         </div>
-        <div class="card-heading-container">
-            <h2 class="heading-2">Recent Appointments</h2>
-        </div>
-        <template v-if="recentAppointmentsData && recentAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
-                <DashboardAppointment
-                    v-if="dayOffset(appointment, 7)"
-                    :appointment="appointment"
-                    :user-type="userType"
-                    :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
-                >
-              </DashboardAppointment>
-            </div>
-        </template>
-        <div v-else class="card-empty-container">
-            <p class="copy-muted-2 font-italic">You have no recent appointments.</p>
-        </div>
       </div>
     </div>
 </template>
@@ -44,7 +27,7 @@
     import moment from 'moment';
 
     export default {
-        props: ['userType', 'recentAppointments', 'upcomingAppointments'],
+        props: ['userType', 'upcomingAppointments'],
         components: {
             DashboardAppointment,
         },
@@ -82,16 +65,6 @@
             }
         },
         computed: {
-            recentAppointmentsData() {
-              if (this.recentAppointments.data && this.recentAppointments.data.length) {
-                return this.recentAppointments.data.reverse();
-              } else {
-                return [];
-              }
-            },
-            recentAppointmentsIncluded() {
-                return this.recentAppointments.included;
-            },
             upcomingAppointmentsData() {
               if (this.upcomingAppointments.data && this.upcomingAppointments.data.length) {
                 return this.upcomingAppointments.data.filter(obj => {
