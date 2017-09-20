@@ -19,24 +19,24 @@ let rootRoute = {
   children: []
 };
 
-// For when intake FE is ready
-// rootRoute.name = context === 'get-started'
-//   ? 'get-started' : context === 'intake'
-//   ? 'intake' : context !== 'get-started' || context !== 'intake'
-//   ? 'dashboard' : 'get-started';
-
-// rootRoute.component = context === 'get-started'
-//   ? require('./pages/get-started/GetStarted.vue') : context === 'intake'
-//   ? require('./pages/intake/Intake.vue') : context !== 'get-started' || context !== 'intake'
-//   ? require('./pages/dashboard/Dashboard.vue') : require('./pages/get-started/GetStarted.vue');
-
-rootRoute.name = context === 'get-started'
-  ? 'get-started'
-  : 'dashboard';
-
-rootRoute.component = context === 'get-started'
-  ? require('./pages/get-started/GetStarted.vue')
-  : require('./pages/dashboard/Dashboard.vue');
+switch(context) {
+  case 'get-started':
+    rootRoute.name = 'get-started';
+    rootRoute.component = require('./pages/get-started/GetStarted');
+    break;
+  case 'dashboard':
+    rootRoute.name = 'dashboard';
+    rootRoute.component = require('./pages/dashboard/Dashboard');
+    break;
+  case 'conditions':
+    rootRoute.name = 'conditions';
+    rootRoute.component = require('./v2/components/pages/conditions/Conditions');
+    break;
+  // case 'intake':
+  //   rootRoute.name = 'intake';
+  //   rootRoute.component = require('./pages/intake/Intake');
+  //   break;
+}
 
 if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
