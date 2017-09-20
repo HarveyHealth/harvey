@@ -20,13 +20,13 @@ class ZipVerificationController extends BaseAPIController
       $this->zipCodeValidator->setZip($zip);
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
-      $servicable = $this->zipCodeValidator->isServiceable($state);
+      $serviceable = $this->zipCodeValidator->isServiceable($state);
       $practitioners = count(License::where('state', $state)->first());
       $regulated = $this->zipCodeValidator->isRegulated($state);
 
       // Store zip code in Redis if serviceable and set to expire in a day if the user
       // never continues through to signup funnel
-      if ($servicable) {
+      if ($serviceable) {
         $sessionId = Session::getId();
         $redisKey = "login-zip-{$sessionId}";
         Redis::set($redisKey, $zip);
