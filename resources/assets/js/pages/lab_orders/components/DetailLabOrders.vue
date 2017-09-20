@@ -3,14 +3,14 @@
     :active="$parent.detailFlyoutActive" 
     :heading="flyoutHeading" 
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : null"
+    :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
   >
     <div v-if="$root.$data.permissions === 'patient'">
       <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
-          class="input__item" style="color: #82BEF2; width: 100%; float: left;">{{ test.name }}</a>
+          class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
@@ -44,29 +44,60 @@
             <label class="input__item">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
-          <div v-if="!latestCard" style="padding-top: 5px;">
+          <div v-if="!latestCard">
             <router-link to="/settings">Add a credit card to complete shipment.</router-link>
           </div>
         </div>
       </div>
-      <div style=" padding-top: 35px;">
+      <div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Order Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder" class="button" style="margin-top: 35px;">Save &amp; Continue</button>
+          <button :disabled="!hasCard && !latestCard" @click="stepThree" class="button">Save &amp; Continue</button>
         </div>
       </div>
       </div>
       <div v-if="step == 3">
         <div class="input__container">
-          <div>
+          <div class="products-side">
             <label class="input__label" for="products">Products</label>
+            <span class="sub-items" v-for="test in testList">{{ test.name }}</span>
           </div>
-          <div>
+          <div class="total-side">
             <label class="input__label" for="total">Total</label>
+            <span class="sub-items" v-for="test in testList">${{ test.price }}</span>
           </div>
+        </div>
+        <div class="input__container">
+          <div class="products-side">
+            <label class="input__label" for="totals">Total</label>
+          </div>
+          <div class="total-side">
+            <label class="input__label" for="price">${{ price }}</label>
+          </div>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">mailing address</label>
+          <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
+          <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
+          <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
+          <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
+          <span class="custom-select" style="width: 45%; float:left;">
+                  <select @change="updateState($event)">
+                      <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                  </select>
+              </span>
+          <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="billing">Billing Info</label>
+            <label class="input__item sub-billing1">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
+        </div>
+        <div class="inline-centered">
+          <button class="button" :disabled="!address1 || !address2 || !newCity || !newState || !newZip" @click="updateOrder()">Confirm Payment</button>
         </div>
       </div>
     </div>
@@ -75,7 +106,7 @@
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
             <label v-if="status === 'Recommended' || status === 'Confirmed'" class="input__label">{{ test.name }}</label>
             <span v-if="status !== 'Recommended' && status !== 'Confirmed'" class="custom-select">
                 <select @change="updateTest($event, test)">
@@ -147,7 +178,7 @@
             </span>
         <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
       </div>
-      <div class="inline-centered" style="padding-top: 50px;">
+      <div class="inline-centered">
         <button class="button" @click="updateOrder()" :disabled="!validZip || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 ">Mark as Shipped</button>
       </div>
     </div>
