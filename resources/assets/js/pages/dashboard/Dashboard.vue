@@ -26,20 +26,17 @@
           <div class="card card-panel">
             <DashboardAppointments :user-type="userType" :upcoming-appointments="upcoming_appointments" />
           </div>
-
           <div class="card card-panel" v-if="userType === 'patient'">
             <div class="card-heading-container">
               <h2 class="heading-2">Your Doctor</h2>
             </div>
             <div class="card-content-container">
-
               <div class="card-content-wrap">
                 <h3 class="heading-3">
                   <img class="card-avatar" :src="practitioner.avatar">
                   {{ practitioner.name }}
                 </h3>
               </div>
-
               <div class="card-content-wrap">
                 <p>{{ practitioner.description }}</p>
               </div>
