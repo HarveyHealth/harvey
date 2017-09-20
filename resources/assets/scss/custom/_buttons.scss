@@ -99,8 +99,8 @@ input[type="submit"] {
   cursor: pointer;
   font-family: inherit;
   font-size: 1em;
-  margin-right: 0.5em;
-  padding: 0.4em 0.6em;
+  margin-right: 1em;
+  padding: 0.5em 0;
 
   &.isactive {
     border-bottom: 3px solid $harvey-primary;

@@ -9,16 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NotifyOfFailedCharge
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  ChargeFailed  $event
@@ -27,10 +17,20 @@ class NotifyOfFailedCharge
     public function handle(ChargeFailed $event)
     {
         $invoice = $event->invoice;
-        $patient_user = $invoice->patient->user;
+        $exception = $event->exception;
+        $transaction = $event->transaction;
+        $patientUser = $invoice->patient->user;
 
-        // send a message to operations
-        $message = 'Invoice #' . $invoice->id . ' for ' . $patient_user->truncatedName();
+        $message = "Invoice #{$invoice->id} for '{$patientUser->truncatedName()}'.";
+
+        if (!empty($exception)) {
+            $message .= " Error: '{$exception->getMessage()}'.";
+        }
+
+        if (!empty($transaction)) {
+            $message .= " Transaction #{$transaction->id}.";
+        }
+
         ops_warning('Charge Failed', $message, 'operations');
 
         // we need to fire of an email to the user, but we need copy
