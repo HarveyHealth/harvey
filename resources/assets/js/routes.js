@@ -22,7 +22,7 @@ let rootRoute = {
 switch(context) {
   case 'get-started':
     rootRoute.name = 'get-started';
-    rootRoute.component = require('./pages/get-started/GetStarted');
+    rootRoute.component = require('./v2/components/pages/getstarted/GetStarted');
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
@@ -43,9 +43,6 @@ if (context === 'get-started' && loggedIn) {
     { path: 'welcome',
       name: 'welcome',
       component: require('./pages/get-started/children/Welcome.vue') },
-    { path: 'out-of-range',
-      name: 'out-of-range',
-      component: require('./pages/get-started/children/OutOfRange.vue') },
     { path: 'practitioner',
       name: 'practitioner',
       component: require('./pages/get-started/children/Practitioner.vue') },
@@ -65,18 +62,12 @@ if (context === 'get-started' && loggedIn) {
       name: 'success',
       component: require('./pages/get-started/children/Success.vue') }
   ];
-} else if (context === 'get-started') {
-  rootRoute.children.push({
-    path: 'out-of-range',
-    name: 'out-of-range',
-    component: require('./pages/get-started/children/OutOfRange.vue')
-  });
 }
 
 rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
-  component: require('./pages/get-started/children/Signup.vue')
+  component: require('./v2/components/pages/getstarted/children/Signup')
 })
 
 let routes = [

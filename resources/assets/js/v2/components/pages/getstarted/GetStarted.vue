@@ -5,9 +5,8 @@
 </template>
 
 <script>
-
-  import Signup from './children/Signup.vue';
-  import Welcome from './children/Welcome.vue';
+  import Signup from './children/Signup';
+  import Welcome from './children/Welcome';
 
   export default {
     name: 'get-started',
@@ -24,7 +23,7 @@
       }
     },
     mounted() {
-      if (App.Config.user.isLoggedIn) { 
+      if (App.Config.user.isLoggedIn) {
         window.onbeforeunload = () => {
           return 'All your information will be reset.';
         }
