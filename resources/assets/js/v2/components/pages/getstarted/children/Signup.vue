@@ -185,7 +185,7 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if(App.Config.isProduction) {
+            if(App.Logic.misc.shouldTrack()) {
               // collect response information
               const userData = response.data.data.attributes;
               const userId = response.data.data.id || '';
@@ -262,7 +262,7 @@ export default {
   mounted () {
     this.$root.toDashboard();
 
-    if(App.Config.isProduction) {
+    if(App.Logic.misc.shouldTrack()) {
       analytics.page("Signup");
     }
   }

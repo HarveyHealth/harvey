@@ -46,10 +46,10 @@ import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
+App.Util = Util;
 App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
-App.Util = Util;
 App.Router = router;
 
 // Register global filters
