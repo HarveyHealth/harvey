@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\{License};
-use App\Http\Controllers\Controller;
 use App\Lib\{TimeInterval, ZipCodeValidator};
 use Illuminate\Http\Request;
-use Exception, Redis, ResponseCode, Session;
+use Redis, ResponseCode, Session;
 
 class ZipVerificationController extends BaseAPIController
 {
@@ -15,31 +14,25 @@ class ZipVerificationController extends BaseAPIController
         $this->zipCodeValidator = $zipCodeValidator;
     }
 
-    public function captureZip($zip)
+    public function captureZip(Request $request, string $zip)
     {
       // Grab geocoding information from zip code
       $this->zipCodeValidator->setZip($zip);
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
-      $servicable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = License::all()->pluck('state')->contains($state);
+      $serviceable = $this->zipCodeValidator->isServiceable($state);
+      $practitioners = count(License::where('state', $state)->first());
+      $regulated = $this->zipCodeValidator->isRegulated($state);
 
       // Store zip code in Redis if serviceable and set to expire in a day if the user
       // never continues through to signup funnel
-      if ($servicable) {
+      if ($serviceable) {
         $sessionId = Session::getId();
         $redisKey = "login-zip-{$sessionId}";
         Redis::set($redisKey, $zip);
         Redis::expire($redisKey, TimeInterval::day()->toSeconds());
       }
 
-      return response()->json([
-        'city' => $city,
-        'practitioners' => count($practitioners),
-        'regulated' => $this->zipCodeValidator->isRegulated($state),
-        'serviceable' => $servicable,
-        'state' => $state,
-        'zip' => $zip,
-      ]);
+      return response()->json(compact('city', 'practitioners', 'regulated', 'serviceable', 'state', 'zip'));
     }
   }
