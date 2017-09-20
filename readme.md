@@ -6,7 +6,13 @@ A web application to provide virtual consultations with state-licensed integrati
 
 ## Requirements
  - PHP >= 7.1
+ - PHP [curl extension](http://php.net/manual/en/book.curl.php)
+ - PHP [mbstring extension](http://php.net/manual/en/book.mbstring.php)
  - PHP [mcrypt extension](http://php.net/manual/en/book.mcrypt.php)
+ - PHP [mysql extension](http://php.net/manual/en/book.mysql.php)
+ - PHP [sqlite3 extension](http://php.net/manual/en/book.sqlite3.php)
+ - PHP [xml extension](http://php.net/manual/en/book.xml.php)
+ - PHP [zip extension](http://php.net/manual/en/book.zip.php)
  - Node 7
  - MySQL 5.7
  - [Composer](https://getcomposer.org/download/)
@@ -96,7 +102,7 @@ Database Seeding will provide you with these accounts:
 * To observe the faked Twilio text message with confirmation code locally, make sure you are running `php artisan queue:listen` in one terminal windows and in a second run `php artisan log:tail`. Check the log after you've clicked to send text message and you should see the confirmation code.
 
 ## WordPress
-An instance of Wordpress is installed in the 'blog' subdirectory. 
+An instance of Wordpress is installed in the 'blog' subdirectory.
 
 To set up the database, first create a 'blog' database in the homestead/vagrant db server.
 Then, run the following commands from the project root:
