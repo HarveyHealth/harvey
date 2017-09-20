@@ -1,7 +1,7 @@
 <template>
   <TableData
     :columns="tableColumns"
-    :empty-msg="'Sorry, no appointments were found.'"
+    :empty-msg="'You do not have any appointments.'"
     :loading="loading"
     :loading-msg="'Loading your appointments...'"
     :on-row-click="handleRowClick"
