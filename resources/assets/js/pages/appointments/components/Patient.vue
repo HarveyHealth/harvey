@@ -2,20 +2,27 @@
   <div class="input__container" v-if="visible">
     <label class="input__label first">client</label>
     <SelectOptions v-if="editable"
-      :attached-label="'Select patient'"
+      :attached-label="'Select Client'"
       :is-loading="$root.$data.global.loadingPatients"
-      :loading-msg="'Loading patients...'"
+      :loading-msg="'Loading clients...'"
       :on-select="handleSelect"
       :options="list"
       :selected="name"
     />
-    <span v-else class="input__item patient-display">{{ name }}</span>
-    <div class="font-sm"><a :href="'mailto:' + email">{{ email }}</a></div>
-    <div class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
-    <p v-if="editable && address" v-html="address"></p>
-    <p class="copy-error" style="text-align: left;" v-if="shouldShowPaymentError">
-      This client has not confirmed payment and cannot be scheduled for an appointment
-    </p>
+    <div v-if="name" class="margin-top" >
+      <label class="input__label">Contact</label>
+      <p class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></p>
+      <p class="font-sm"><a :href="'mailto:' + email">{{ email }}</a></p>
+    </div>
+    <div v-if="address" class="margin-top">
+      <label class="input__label">Location</label>
+      <p v-html="address"></p>
+    </div>
+    <div v-if="name" class="margin-top">
+      <label class="input__label">Payment</label>
+      <p v-if="shouldShowPaymentError"><a href="/dashboard#/settings">Add Card</a></p>
+      <p v-else class="copy-good">Card Found</p>
+    </div>
   </div>
 </template>
 

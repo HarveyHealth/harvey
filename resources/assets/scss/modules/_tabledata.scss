@@ -55,8 +55,14 @@
   }
 
   tbody {
-    tr:hover {
-      opacity: .70;
+    tr {
+      td {
+        opacity: .70;
+        &.copy-muted {
+          opacity: 1;
+          cursor: auto;
+        }
+      }
     }
   }
 

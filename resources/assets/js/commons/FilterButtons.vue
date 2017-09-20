@@ -1,7 +1,6 @@
 <template>
   <div class="filters">
     <button
-      v-if="allData.length > 0"
       v-for="(name, index) in filters"
       :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
       :disabled="loading"
