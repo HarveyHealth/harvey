@@ -5,7 +5,8 @@
     :on-close="handleFlyoutClose"
     :back="step == 2 ? prevStep : null"
   >
-    <div v-if="$root.$data.permissions !== 'admin'">
+    <div v-if="$root.$data.permissions === 'patient'">
+      <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
@@ -54,11 +55,22 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
+          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder" class="button" style="margin-top: 35px;">Save &amp; Continue</button>
+        </div>
+      </div>
+      </div>
+      <div v-if="step == 3">
+        <div class="input__container">
+          <div>
+            <label class="input__label" for="products">Products</label>
+          </div>
+          <div>
+            <label class="input__label" for="total">Total</label>
+          </div>
         </div>
       </div>
     </div>
-    <div v-if="$root.$data.permissions === 'admin'">
+    <div v-if="$root.$data.permissions !== 'patient'">
       <div v-if="step === 1">
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
@@ -74,7 +86,7 @@
         </div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Doctor</label>
-          <span class="input--text">{{ doctorName }}</span>
+          <span class="input__item">{{ doctorName }}</span>
         </div>
         <div v-for="val in samples" class="input__container">
           <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
@@ -89,8 +101,7 @@
         </div>
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Order Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item"
-            style="color: #82BEF2;">{{ shipmentCode }}</a>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color">{{ shipmentCode }}</a>
         </div>
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Billing</label>
@@ -104,10 +115,10 @@
         </div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Order Status</label>
-          <span class="input--text">{{ status }}</span>
+          <span class="input__item">{{ status }}</span>
         </div>
         <div class="inline-centered">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateOrder()">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateOrder()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Save &amp; Continue</button>
         </div>
       </div>
@@ -214,11 +225,15 @@
       updateState(e) {
         this.newState = e.target.value
       },
+      stepThree() {
+        this.step = 3;
+        this.flyoutHeading = 'Confirm Payment';
+      },
       nextStep() {
         this.step++;
       },
       prevStep() {
-        this.step--;
+        this.step = 1;
       },
       closeInvalidCC() {
         this.invalidCC = false;
@@ -228,59 +243,21 @@
         this.month = e.target.value
       },
       updateLabOrder() {
-        if (!this.hasCard) {
-          let card = Stripe.card.createToken({
-            number: this.cardNumber,
-            exp_month: this.month,
-            exp_year: this.year,
-            cvc: this.cardCvc,
-            address_zip: this.postalCode,
-            name: `${this.firstName} ${this.lastName}`
-          }, (status, response) => {
-            if (response.error) {
-              this.invalidCC = true;
-              this.invalidModalActive = true;
-              this.handleFlyoutClose();
-              return;
-            }
-            axios.post(`${this.$root.$data.apiUrl}/users/${this.$root.$data.global.user.id}/cards`, {
-                id: response.id
-              })
-              .then(resp => {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-                    shipment_code: this.$props.rowData.shipment_code,
-                    address_1: this.$props.rowData.address_1,
-                    address_2: this.$props.rowData.address_2,
-                    city: this.$props.rowData.city,
-                    state: this.$props.rowData.state,
-                    zip: this.$props.rowData.zip
-                  })
-                  .then(respond => {
-                    this.$parent.notificationMessage = "Successfully updated!";
-                    this.$parent.notificationActive = true;
-                    this.$parent.selectedRowData = null;
-                    setTimeout(() => this.$parent.notificationActive = false, 3000);
-                    this.handleFlyoutClose()
-                  })
-              })
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            shipment_code: this.$props.rowData.shipment_code,
+            address_1: this.$props.rowData.address_1 || this.address1,
+            address_2: this.$props.rowData.address_2 || this.address2,
+            city: this.$props.rowData.city || this.newCity,
+            state: this.$props.rowData.state || this.newState,
+            zip: this.$props.rowData.zip || this.newZip
           })
-        } else {
-          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-              shipment_code: this.$props.rowData.shipment_code,
-              address_1: this.$props.rowData.address_1,
-              address_2: this.$props.rowData.address_2,
-              city: this.$props.rowData.city,
-              state: this.$props.rowData.state,
-              zip: this.$props.rowData.zip
-            })
-            .then(respond => {
-              this.$parent.notificationMessage = "Successfully updated!";
-              this.$parent.notificationActive = true;
-              this.$parent.selectedRowData = null;
-              setTimeout(() => this.$parent.notificationActive = false, 3000);
-              this.handleFlyoutClose()
-            })
-        }
+          .then(respond => {
+            this.$parent.notificationMessage = "Successfully updated!";
+            this.$parent.notificationActive = true;
+            this.$parent.selectedRowData = null;
+            setTimeout(() => this.$parent.notificationActive = false, 3000);
+            this.handleFlyoutClose()
+          })
       },
       updateOrder() {
         this.$props.rowData.test_list.forEach(e => {
