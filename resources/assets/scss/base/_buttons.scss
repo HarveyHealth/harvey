@@ -50,6 +50,10 @@ input[type="submit"] {
   }
 }
 
+.flyout .button {
+  @include margin(1em null 1em null);
+}
+
 .button--blue {
   background-color: $harvey-tertiary;
   color: $white;
@@ -119,29 +123,32 @@ button.button--blue:disabled {
   }
 }
 
-.button--filter {
-  background: none;
-  border: none;
-  border-bottom: 3px solid transparent;
-  color: $color-copy-muted-1;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: $font-sm;
-  @include margin(null 0.5em null null);
-  @include padding(0.4em 0.6em);
+.filters {
+  @include margin(1em null null null); 
+  .button--filter {
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: $color-copy-muted-1;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: $font-sm;
+    @include margin(null 2em null null);
+    @include padding(0.5em 0);
 
-  &.isactive {
-    border-color: $color-accent-dark;
-  }
+    &.isactive {
+      border-color: $color-accent-dark;
+    }
 
-  &:hover,
-  &.isactive {
-    color: $color-copy;
-  }
+    &:hover,
+    &.isactive {
+      color: $color-copy;
+    }
 
-  &:disabled {
-    border-color: transparent;
-    color: $color-copy-muted-2;
-    cursor: default;
+    &:disabled {
+      border-color: transparent;
+      color: $color-copy-muted-2;
+      cursor: default;
+    }
   }
 }

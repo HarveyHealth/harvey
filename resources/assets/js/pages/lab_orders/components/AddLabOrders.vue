@@ -71,7 +71,6 @@
       <div class="inline-centered">
         <h1>Create Lab Order</h1>
         <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
-        <br>
         <ul style="text-align: left; margin-left: 125px; padding-bottom: 5px;">
           <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
         </ul>

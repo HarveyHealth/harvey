@@ -69,9 +69,19 @@ function currentUser()
     return auth()->user();
 }
 
+function isProd()
+{
+    return app()->environment('production');
+}
+
+function isNotProd()
+{
+    return !isProd();
+}
+
 function isStgOrProd()
 {
-    return app()->environment(['staging', 'production']);
+    return app()->environment('staging', 'production');
 }
 
 function isNotStgOrProd()
@@ -116,7 +126,7 @@ function ops_success($alert, $message, $channels = 'engineering')
 function log_mark()
 {
     static $log_mark = 0;
-    
+
     $log_letters = range('a','z');
     $marker = $log_letters[$log_mark];
     \Log::info($marker);
