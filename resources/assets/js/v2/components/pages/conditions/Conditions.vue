@@ -33,7 +33,7 @@ export default {
   },
   watch: {
     selected(value) {
-      if (value) {
+      if (value >= 0) {
         const condition = this.State('conditions.all')[value];
         const questions = JSON.parse(condition.questions);
         App.setState('conditions.condition', condition);
