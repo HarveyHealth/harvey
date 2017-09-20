@@ -7,6 +7,10 @@
 <script>
 export default {
   props: {
+    delay: {
+      type: Number,
+      default: 50
+    },
     to: {
       type: String,
       default: 'top'
@@ -26,7 +30,7 @@ export default {
     setTimeout(() => {
       this.style.opacity = '1';
       this.style[this.to] = '0';
-    }, 50)
+    }, this.delay)
   }
 }
 </script>
