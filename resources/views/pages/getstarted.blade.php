@@ -18,12 +18,17 @@
 
         <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
-          var zipValidation  = localStorage.getItem('harvey_zip_validation');
           window.Laravel = {!! $vue_data !!}
+          var zipValidation  = localStorage.getItem('harvey_zip_validation');
+          var loggedIn = Laravel.user.signedIn;
           window.$$context = 'get-started';
           if (!zipValidation) {
-            window.location.href = '/conditions';
-          } else if (!Laravel.user.signedIn) {
+            if (loggedIn) {
+              window.location.href = '/logout';
+            } else {
+              window.location.href = '/conditions';
+            }
+          } else if (!loggedIn) {
             window.location.hash = '/signup';
           } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
             window.location.href = '/dashboard';
