@@ -30,7 +30,7 @@
       </div>
         <div class="inline-centered">
             <button class="button flyout-btn"
-            @click="nextStep()"
+            @click="openModal()"
             :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Recommendation</button>
         </div>
   </div>
@@ -87,20 +87,6 @@ export default {
     }
   },
   methods: {
-    nextStep() {
-      this.step++
-      let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
-      let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
-      this.clientList = [patientsFind].concat(patients)
-      if (window.Laravel.user.user_type == 'admin') {
-        let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        this.doctorList = [doctorsFind].concat(doctors)
-      }
-    },
-    prevStep() {
-      this.step--
-    },
     modalClose() {
       this.$parent.addActiveModal = false
     },
@@ -119,9 +105,6 @@ export default {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedClientName = e.target.value.name;
     },
-    updateState(e) {
-      this.state = e.target.value
-    },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedDoctorName = e.target.value.name;
@@ -129,7 +112,6 @@ export default {
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
       this.$parent.addActiveModal = false
-      this.step = 1
     },
     createLabOrder() {
         this.selectedTests.map(e => {
@@ -216,18 +198,8 @@ export default {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"
     },
-    stateList() {
-      return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
-    },
     testNameList() {
       return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
-    },
-    validZip() {
-      if (this.zip != '') {
-        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5
-      } else {
-        return true
-      }
     }
   },
   watch: {

@@ -1,5 +1,10 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="flyoutHeading" :on-close="handleFlyoutClose">
+  <Flyout 
+    :active="$parent.detailFlyoutActive" 
+    :heading="flyoutHeading" 
+    :on-close="handleFlyoutClose"
+    :back="step == 2 ? prevStep : null"
+  >
     <div v-if="$root.$data.permissions !== 'admin'">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
@@ -58,8 +63,9 @@
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <a :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
-            <span class="custom-select">
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
+            <label v-if="status === 'Recommended' || status === 'Confirmed'" class="input__label">{{ test.name }}</label>
+            <span v-if="status !== 'Recommended' && status !== 'Confirmed'" class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -81,12 +87,12 @@
           <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
           <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
         </div>
-        <div class="input__container">
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Order Tracking</label>
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item"
             style="color: #82BEF2;">{{ shipmentCode }}</a>
         </div>
-        <div class="input__container">
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Billing</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
             <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
@@ -101,14 +107,15 @@
           <span class="input--text">{{ status }}</span>
         </div>
         <div class="inline-centered">
-          <button class="button" @click="updateOrder()">Update Order</button>
+          <button v-if="status !== 'Confirmed'" class="button" @click="updateOrder()">Update Order</button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Save &amp; Continue</button>
         </div>
       </div>
     </div>
     <div v-if="step == 2">
-      <div v-for="test in selectedTests">
+      <div v-for="test in testList">
         <div class="input__container">
-          <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
+          <label class="input__label" for="patient_name">{{ test.name }}</label>
           <input v-model="shippingCodes[test.id]" class="input--text" type="text">
         </div>
       </div>
@@ -120,8 +127,8 @@
         <label class="input__label" for="patient_name">mailing address</label>
         <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
         <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-        <input placeholder="Enter city" v-model="city" class="input--text" type="text">
-        <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
+        <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
+        <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
         <span class="custom-select" style="width: 45%; float:left;">
                 <select @change="updateState($event)">
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
@@ -130,7 +137,7 @@
         <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
       </div>
       <div class="inline-centered" style="padding-top: 50px;">
-        <button class="button" @click="openModal()" :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 ">Mark as Shipped</button>
+        <button class="button" @click="updateOrder()" :disabled="!validZip || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 ">Mark as Shipped</button>
       </div>
     </div>
     </div>
@@ -168,13 +175,20 @@
         selectedStatus: null,
         selectedDoctor: null,
         selectedShipment: {},
+        shippingCodes: {},
         selectedAddressOne: null,
         selectedAddressTwo: null,
         firstName: '',
         lastName: '',
         month: '',
         year: '',
+        masterTracking: '',
         step: 1,
+        address1: '',
+        address2: '',
+        newCity: '',
+        newZip: '',
+        newState: '',
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
@@ -196,6 +210,15 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
+      },
+      updateState(e) {
+        this.newState = e.target.value
+      },
+      nextStep() {
+        this.step++;
+      },
+      prevStep() {
+        this.step--;
       },
       closeInvalidCC() {
         this.invalidCC = false;
@@ -300,6 +323,13 @@
           `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` :
           ''
       },
+      validZip() {
+        if (this.zip != '') {
+          return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5
+        } else {
+          return true
+        }
+      },
       status() {
         return this.$props.rowData ? this.$props.rowData.completed_at : ''
       },
@@ -320,6 +350,9 @@
       },
       zip() {
         return this.$props.rowData ? this.$props.rowData.zip : ''
+      },
+      stateList() {
+        return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
       },
       oldCard() {
         if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
