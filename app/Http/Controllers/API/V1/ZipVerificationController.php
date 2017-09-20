@@ -21,7 +21,8 @@ class ZipVerificationController extends BaseAPIController
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
       $servicable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = License::where('state', $state)->first();
+      $practitioners = count(License::where('state', $state)->first());
+      $regulated = $this->zipCodeValidator->isRegulated($state);
 
       // Store zip code in Redis if serviceable and set to expire in a day if the user
       // never continues through to signup funnel
@@ -32,13 +33,6 @@ class ZipVerificationController extends BaseAPIController
         Redis::expire($redisKey, TimeInterval::day()->toSeconds());
       }
 
-      return response()->json([
-        'city' => $city,
-        'practitioners' => count($practitioners),
-        'regulated' => $this->zipCodeValidator->isRegulated($state),
-        'serviceable' => $servicable,
-        'state' => $state,
-        'zip' => $zip,
-      ]);
+      return response()->json(compact('city', 'practitioners', 'regulated', 'serviceable', 'state', 'zip'));
     }
   }
