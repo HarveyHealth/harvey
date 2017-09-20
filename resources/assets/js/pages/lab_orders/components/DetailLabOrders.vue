@@ -27,7 +27,7 @@
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on order`}}</label>
-          <label class="input__item">{{`Charged: $${price}`}}</label>
+          <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
           <label class="input__item">Unpaid</label>
