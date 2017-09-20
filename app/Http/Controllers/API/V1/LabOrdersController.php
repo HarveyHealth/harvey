@@ -91,6 +91,7 @@ class LabOrdersController extends BaseAPIController
 
         StrictValidator::checkUpdate($request->all(), [
             'shipment_code' => 'string',
+            'shipment_label_url' => 'string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
