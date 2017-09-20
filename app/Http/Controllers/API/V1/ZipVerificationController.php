@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Models\{License};
-use App\Http\Controllers\Controller;
 use App\Lib\{TimeInterval, ZipCodeValidator};
 use Illuminate\Http\Request;
-use Exception, Redis, ResponseCode, Session;
+use Redis, ResponseCode, Session;
 
 class ZipVerificationController extends BaseAPIController
 {
@@ -22,7 +21,7 @@ class ZipVerificationController extends BaseAPIController
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
       $servicable = $this->zipCodeValidator->isServiceable($state);
-      $practitioners = License::all()->pluck('state')->contains($state);
+      $practitioners = License::where('state', $state)->first();
 
       // Store zip code in Redis if serviceable and set to expire in a day if the user
       // never continues through to signup funnel
