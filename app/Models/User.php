@@ -30,6 +30,11 @@ class User extends Authenticatable implements Mailable
         'terms_accepted_at',
     ];
 
+    protected $fillable = [
+      'provider',
+      'provider_id',
+    ];
+
     protected $guarded = [
         'id',
         'card_brand',
