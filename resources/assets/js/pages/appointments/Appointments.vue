@@ -58,7 +58,7 @@
       />
 
       <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
-        <label class="input__label">Mailing Address</label>
+        <label class="input__label">Address</label>
         <p class="input__item" v-html="appointment.patientAddress"></p>
       </div>
 
@@ -117,7 +117,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings<!--<router-link :to="{ name:'settings', path: '/settings' }">Settings</router-link>--> page before booking an appointment.</p>
+      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="inline-centered">
 
         <button
@@ -150,39 +150,48 @@
       :active="modalActive"
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
+      class="modal-wrapper"
     >
-      <h3 class="modal-header heading-3-expand">{{ userActionTitle }}</h3>
-      <p class="copy-error" v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
-      <table border="0" style="width: 100%" cellpadding="0" cellspacing="0" v-show="!bookingConflict">
-        <tr v-if="userType !== 'patient'">
-          <td width="25%" style="min-width: 7em;"><p><strong>Client:</strong></p></td>
-          <td><p>{{ appointment.patientName }}</p></td>
-        </tr>
-        <tr v-if="userType !== 'practitioner'">
-          <td width="25%"><p><strong>Doctor:</strong></p></td>
-          <td><p>{{ appointment.practitionerName }}</p></td>
-        </tr>
-        <tr>
-          <td width="25%"><p><strong>Time:</strong></p></td>
-          <td><p>{{ appointment.date | confirmDate }}</p></td>
-        </tr>
-        <tr v-if="flyoutMode === 'update'">
-          <td width="25%"><p><strong>Status:</strong></p></td>
-          <td><p>{{ appointment.status | confirmStatus }}</p></td>
-        </tr>
-        <tr v-if="appointment.status === 'complete'">
-          <td width="25%"><p><strong>Duration:</strong></p></td>
-          <td><p>{{ appointment.duration.value }}</p></td>
-        </tr>
-        <tr>
-          <td width="25%"><p><strong>Purpose:</strong></p></td>
-          <td><p>{{ appointment.purpose }}</p></td>
-        </tr>
-      </table>
-      <div class="modal-button-container" v-show="!bookingConflict">
-        <button class="button" @click="handleUserAction">Yes, Confirm</button>
-        <button class="button button--cancel" @click="handleModalClose">Go Back</button>
-        <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p>
+      <div class="card-content-wrap">
+        <div class="inline-centered">
+          <h1 class="title header-xlarge">
+            <span class="text">{{ userActionTitle }}</span>
+          </h1>
+          <p v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <p v-show="!bookingConflict">Are you sure you want to book the following appointment?</p>
+<!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
+          <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict" class="modal-table inline-left">
+            <tr v-if="userType !== 'patient'">
+              <td width="25%"><strong>Client:</strong></td>
+              <td>{{ appointment.patientName }}</td>
+            </tr>
+            <tr v-if="userType !== 'practitioner'">
+              <td width="25%"><strong>Doctor:</strong></td>
+              <td>{{ appointment.practitionerName }}</td>
+            </tr>
+            <tr>
+              <td width="25%"><strong>Date/Time:</strong></td>
+              <td>{{ appointment.date | confirmDate }}</td>
+            </tr>
+            <tr v-if="flyoutMode === 'update'">
+              <td width="25%"><strong>Status:</strong></td>
+              <td>{{ appointment.status | confirmStatus }}</td>
+            </tr>
+            <tr v-if="appointment.status === 'complete'">
+              <td width="25%"><strong>Duration:</strong></td>
+              <td>{{ appointment.duration.value }}</td>
+            </tr>
+            <tr>
+              <td width="25%"><strong>Purpose:</strong></td>
+              <td>{{ appointment.purpose }}</td>
+            </tr>
+          </table>
+          <div class="button-wrapper">
+            <button class="button button--cancel" @click="handleModalClose" v-show="bookingConflict">Okay</button>
+            <button class="button button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
+            <button class="button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
+          </div>
+        </div>
       </div>
     </Modal>
 

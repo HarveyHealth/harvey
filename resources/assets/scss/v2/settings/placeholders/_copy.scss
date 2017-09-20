@@ -28,6 +28,15 @@
 }
 
 /// Default styling for error messages
+%copy-good {
+  @extend %copy-main;
+  @extend %font-sm;
+
+  color: $color-good !important;
+  font-weight: $font-normal !important;
+}
+
+/// Default styling for error messages
 %copy-error {
   @extend %copy-main;
   @extend %font-sm;

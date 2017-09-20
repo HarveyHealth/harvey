@@ -187,3 +187,21 @@
     }
   }
 }
+
+// Helpers
+
+.margin-top {
+  @include margin(1em null null null);
+}
+
+.margin-bottom {
+  @include margin(null null 1em null);
+}
+
+.marginless-bottom {
+  @include margin(null null 0 null);
+}
+
+.margin-negative-top {
+  @include margin(-1em null null null);
+}
