@@ -418,6 +418,14 @@ const app = new Vue({
           window.Root = window.Root || this;
         }
 
+        // For conditions, we could either create an endpoint that will need to be hit
+        // as soon as the page loads, or we expose a function on the window object that
+        // will set the application state.
+        window.setConditions = (data, index) => {
+          this.State.conditions.all = data;
+          this.State.conditions.selectedIndex = index;
+        }
+
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
     }

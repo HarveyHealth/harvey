@@ -22,7 +22,7 @@ let rootRoute = {
 switch(context) {
   case 'get-started':
     rootRoute.name = 'get-started';
-    rootRoute.component = require('./v2/components/pages/getstarted/GetStarted');
+    rootRoute.component = require('./pages/get-started/GetStarted');
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
