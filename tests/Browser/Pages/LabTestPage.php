@@ -21,10 +21,10 @@ class LabTestPage extends BasePage
      * @param  Browser  $browser
      * @return void
      */
-    public function assert(Browser $browser)
-    {
-        $browser->assertPathIs($this->url());
-    }
+    // public function assert(Browser $browser)
+    // {
+    //     $browser->assertPathIs($this->url());
+    // }
 
     public function testMicronutrients(Browser $browser)
     {
