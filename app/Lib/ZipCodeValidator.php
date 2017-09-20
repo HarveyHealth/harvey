@@ -36,11 +36,6 @@ class ZipCodeValidator
         return $this->zip;
     }
 
-    public function usaQuery()
-    {
-        return "{$this->getZip()} USA";
-    }
-
     public function getCity()
     {
         $this->callGeocoder();
@@ -55,7 +50,7 @@ class ZipCodeValidator
 
     protected function callGeocoder()
     {
-        $query = $this->usaQuery();
+        $query = "{$this->getZip()} USA";
 
         $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
             return $this->geocoder->geocode($query);
@@ -63,6 +58,10 @@ class ZipCodeValidator
 
         $this->state = $result['address']['state'];
         $this->city = $result['address']['city'];
+
+        if (empty($this->state) || empty($this->city)) {
+            Cache::forget("call-geocoder-{$query}");
+        }
 
         return $result;
     }

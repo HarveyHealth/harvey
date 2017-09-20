@@ -87,7 +87,7 @@ export default {
     // The message to display when data loading is done and the set returned is empty
     emptyMsg: {
       type: String,
-      default: 'No data found'
+      default: 'You do not have any clients.'
     },
     // Whether the table data is still loading or not
     loading: {
@@ -96,7 +96,7 @@ export default {
     // The message to display if the component mounts and loading is still true
     loadingMsg: {
       type: String,
-      default: 'Loading...'
+      default: 'Loading your clients...'
     },
     // What happens when a row is clicked.
     // Function takes the row data and the row data index as arguments.
