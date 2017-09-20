@@ -97,7 +97,7 @@
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
         <div class="inline-centered">
-          <button class="button" :disabled="!address1 || !address2 || !newCity || !newState || !newZip" @click="updateOrder()">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="updateOrder()">Confirm Payment</button>
         </div>
       </div>
     </div>
