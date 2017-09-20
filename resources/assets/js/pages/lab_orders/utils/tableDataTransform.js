@@ -59,8 +59,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     item_type: testList[Number(test.attributes.sku_id)].attributes.item_type,
                     price: testList[Number(test.attributes.sku_id)].attributes.price,
                     name: testList[Number(test.attributes.sku_id)].attributes.name,
-                    status: test.attributes.status !== 'Recommended' ? 
-                        [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                    status: test.attributes.status !== 'Recommended' || test.attributes.status !== 'Confirmed' ? 
+                        [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     sku: testList[Number(test.id)],
