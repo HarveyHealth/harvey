@@ -31,6 +31,7 @@ class ZipVerificationController extends BaseAPIController
         $redisKey = "login-zip-{$sessionId}";
         Redis::set($redisKey, $zip);
         Redis::expire($redisKey, TimeInterval::day()->toSeconds());
+        \Log::info('REDIS ZIP: '.Redis::get($redisKey));
       }
 
       return response()->json(compact('city', 'practitioners', 'regulated', 'serviceable', 'state', 'zip'));

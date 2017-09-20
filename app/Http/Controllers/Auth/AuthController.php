@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\{Appointment, Patient, User};
+use App\Lib\zipCodeValidator;
 use App\Http\Controllers\Controller;
+use App\Events\{UserRegistered};
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use App\Events\{UserRegistered};
-use Exception, ResponseCode;
-use Auth;
-use Socialite;
-use Redis;
-use Session;
+use Auth, Socialite;
 
 class AuthController extends Controller
 {
+
+    public function __construct(ZipCodeValidator $zipCodeValidator)
+    {
+        $this->zipCodeValidator = $zipCodeValidator;
+    }
+
     // Redirect the user to the OAuth Provider.
     public function redirectToProvider($provider, Request $request)
     {
+        session(['zip' => $request->zip]);
         return Socialite::driver($provider)->redirect();
     }
 
@@ -28,24 +32,26 @@ class AuthController extends Controller
     {
         // Grab facebook user information
         $user = Socialite::driver($provider)->user();
+
         // Determine if user currently exists from previous facebook signin
         $existingUser = User::where('provider_id', $user->id)->first();
 
-        // login and redirect based on appointment history
         if ($existingUser) {
+          // login and redirect based on appointment history
           $patientId = Patient::where('user_id', $existingUser->id)->first()->id;
           $hasAppointment = Appointment::where('patient_id', $patientId)->first();
           $toPage = $hasAppointment ? '/dashboard' : '/get-started';
           Auth::loginUsingId($existingUser->id, true);
-
           return redirect($toPage);
-        } else {
-          // Get zip code stored in Redis
-          $sessionId = Session::getId();
-          $zip = Redis::get("login-zip-{$sessionId}");
-          Redis::del("login-zip-{$sessionId}");
 
-          // Create user
+        } else {
+          // Get zip, city, state
+          $zip = session('zip');
+          $this->zipCodeValidator->setZip($zip);
+          $city = $this->zipCodeValidator->getCity();
+          $state = $this->zipCodeValidator->getState();
+
+          // Create user and patient
           User::unguard();
           $_user = new User([
               'first_name' => explode(' ', $user->name)[0],
@@ -56,6 +62,8 @@ class AuthController extends Controller
               'provider' => $provider,
               'provider_id' => $user->id,
               'zip' => $zip,
+              'city' => $city,
+              'state' => $state,
           ]);
           $_user->save();
           $_user->patient()->save(new Patient());
