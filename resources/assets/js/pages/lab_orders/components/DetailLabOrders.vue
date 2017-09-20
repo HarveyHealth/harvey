@@ -17,7 +17,7 @@
         <label class="input__item">{{ doctorName }}</label>
       </div>
       <div v-for="val in samples" class="input__container">
-        <label class="input__label" for="patient_name">{{ val }}</label>
+        <label class="input__label" for="patient_name">Sample Type: {{ val }}</label>
         <label class="input__item">Required</label>
       </div>
       <div class="input__container">
@@ -120,7 +120,7 @@
           <span class="input__item">{{ doctorName }}</span>
         </div>
         <div v-for="val in samples" class="input__container">
-          <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
+          <label class="input__label" for="patient_name">Sample Type: {{ capitalize(val) }}</label>
           <label class="input__item">Required</label>
         </div>
         <div class="input__container">
@@ -150,7 +150,7 @@
         </div>
         <div class="inline-centered">
           <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateOrder()">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Save &amp; Continue</button>
+          <button v-if="status === 'Confirmed'" :disabled="!oldCard || !oldCard.brand || !oldCard.last4" class="button" @click="nextStep()">Save &amp; Continue</button>
         </div>
       </div>
     </div>
@@ -295,6 +295,11 @@
           if (this.selectedShipment[Number(e.test_id)] != undefined) {
             axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
               status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+            })
+          }
+          if (this.$props.rowData.completed_at === 'Confirmed') {
+            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              status: 'shipped'
             })
           }
         })
