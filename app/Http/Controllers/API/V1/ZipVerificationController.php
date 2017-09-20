@@ -14,7 +14,7 @@ class ZipVerificationController extends BaseAPIController
         $this->zipCodeValidator = $zipCodeValidator;
     }
 
-    public function captureZip($zip)
+    public function captureZip(Request $request, string $zip)
     {
       // Grab geocoding information from zip code
       $this->zipCodeValidator->setZip($zip);
