@@ -14,7 +14,7 @@
             :filters="filters"
             :loading="disabledFilters"
             :on-filter="handleFilter"
-            :all-data="appointments"
+            :all-data="$root.global.appointments"
           />
         </div>
       </div>
