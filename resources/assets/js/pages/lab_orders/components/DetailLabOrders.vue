@@ -3,7 +3,8 @@
     <div v-if="$root.$data.permissions !== 'admin'">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item" style="color: #82BEF2; width: 100%; float: left;">{{ test.name }}</a>
+        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
+          class="input__item" style="color: #82BEF2; width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
@@ -48,67 +49,99 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder"
-            class="button" style="margin-top: 35px;">Complete Shipment</button>
+          <button :disabled="!hasCard && !latestCard" @click="updateLabOrder" class="button" style="margin-top: 35px;">Complete Shipment</button>
         </div>
       </div>
     </div>
     <div v-if="$root.$data.permissions === 'admin'">
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Lab Tests</label>
-        <div v-for="test in testList">
-          <a :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
-          <span class="custom-select">
+      <div v-if="step === 1">
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Lab Tests</label>
+          <div v-for="test in testList">
+            <a :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label" style="border: none; padding-top: 7.5px; color: rgb(130, 190, 242);">{{ test.name }}</a>
+            <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
+          </div>
         </div>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Doctor</label>
-        <span class="input--text">{{ doctorName }}</span>
-      </div>
-      <div v-for="val in samples" class="input__container">
-        <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
-        <label class="input__item">Required</label>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Mailing Address</label>
-        <label class="input__item">{{ addressOne }}</label>
-        <label class="input__item">{{ addressTwo }}</label>
-        <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-        <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Order Tracking</label>
-        <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item" style="color: #82BEF2;">{{ shipmentCode }}</a>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Billing</label>
-        <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
-          <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
-          <label class="input__item">{{`Charged: $${price}`}}</label>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Doctor</label>
+          <span class="input--text">{{ doctorName }}</span>
         </div>
-        <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item">{{`No credit card on order`}}</label>
-        <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid Yet</label>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Order Status</label>
-        <span class="input--text">{{ status }}</span>
-      </div>
-      <div class="inline-centered">
-        <button class="button" @click="updateOrder()">Update Order</button>
+        <div v-for="val in samples" class="input__container">
+          <label class="input__label" for="patient_name">{{ capitalize(val) }}</label>
+          <label class="input__item">Required</label>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Mailing Address</label>
+          <label class="input__item">{{ addressOne }}</label>
+          <label class="input__item">{{ addressTwo }}</label>
+          <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
+          <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Order Tracking</label>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item"
+            style="color: #82BEF2;">{{ shipmentCode }}</a>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Billing</label>
+          <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
+            <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
+            <label class="input__item">{{`Charged: $${price}`}}</label>
+          </div>
+          <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined"
+            class="input__item">{{`No credit card on order`}}</label>
+          <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid Yet</label>
+        </div>
+        <div class="input__container">
+          <label class="input__label" for="patient_name">Order Status</label>
+          <span class="input--text">{{ status }}</span>
+        </div>
+        <div class="inline-centered">
+          <button class="button" @click="updateOrder()">Update Order</button>
+        </div>
       </div>
     </div>
-    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
-        <div class="inline-centered">
-            <h1>Invalid Credit Card</h1>
-            <p>The credit card you entered is invalid.</p>
-            <div class="inline-centered">
-                <button @click="closeInvalidCC" class="button">Try again</button>
-            </div>
+    <div v-if="step == 2">
+      <div v-for="test in selectedTests">
+        <div class="input__container">
+          <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
+          <input v-model="shippingCodes[test.id]" class="input--text" type="text">
         </div>
+      </div>
+      <div class="input__container">
+        <label class="input__label" for="patient_name">master tracking</label>
+        <input v-model="masterTracking" class="input--text" type="text">
+      </div>
+      <div class="input__container">
+        <label class="input__label" for="patient_name">mailing address</label>
+        <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
+        <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
+        <input placeholder="Enter city" v-model="city" class="input--text" type="text">
+        <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
+        <span class="custom-select" style="width: 45%; float:left;">
+                <select @change="updateState($event)">
+                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                </select>
+            </span>
+        <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
+      </div>
+      <div class="inline-centered" style="padding-top: 50px;">
+        <button class="button" @click="openModal()" :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 ">Mark as Shipped</button>
+      </div>
+    </div>
+    </div>
+    <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
+      <div class="inline-centered">
+        <h1>Invalid Credit Card</h1>
+        <p>The credit card you entered is invalid.</p>
+        <div class="inline-centered">
+          <button @click="closeInvalidCC" class="button">Try again</button>
+        </div>
+      </div>
     </Modal>
   </Flyout>
 </template>
@@ -141,6 +174,7 @@
         lastName: '',
         month: '',
         year: '',
+        step: 1,
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
@@ -149,7 +183,7 @@
         invalidModalActive: false,
         hasCard: this.$root.$data.global.creditCards.length,
         capitalize: _.capitalize,
-        monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
+        monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
       }
     },
     methods: {
@@ -168,7 +202,7 @@
         this.invalidModalActive = false;
       },
       updateMonth(e) {
-          this.month = e.target.value
+        this.month = e.target.value
       },
       updateLabOrder() {
         if (!this.hasCard) {
@@ -288,7 +322,8 @@
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
       oldCard() {
-        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card.brand) {
+        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
+          .brand) {
           this.hasCard = true
         }
         return this.$props.rowData ? this.$props.rowData.card : null
