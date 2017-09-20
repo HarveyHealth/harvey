@@ -68,17 +68,26 @@ $color-fade-light-muted: rgba(255, 255, 255, 0.4);
 /// Used for success notifications or positive feedback
 $color-good: #b4e7a0;
 
-/// Used mostly for borders that divides sections of the application
-$color-gray-0:	#f2f2f2;
+/// White
+$color-white:   #ffffff;
 
-/// Used for application background
-$color-gray-1:	#f9f9f9;
+/// Darker white
+$color-white:   #ffffff;
 
-/// Used for section heading backgrounds in some contexts
-$color-gray-2:	#fafafa;
+/// Backgrounds
+$color-gray-0:	#f9f9f9;
 
-/// Used for text on dark backgrounds mostly
-$color-white:	#ffffff;
+/// Darker backgrounds
+$color-gray-1:  #f5f5f5;
+
+/// Dividers
+$color-gray-2:  #f2f2f2;
+
+/// Darker dividers
+$color-gray-3:	#fafafa;
+
+/// Even darker dividers
+$color-gray-4:  #eee;
 
 /// Used for alternative colored text
 $color-copy-alt: #e3bab3;

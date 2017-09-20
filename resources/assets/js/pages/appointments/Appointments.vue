@@ -157,7 +157,7 @@
           <h1 class="title header-xlarge">
             <span class="text">{{ userActionTitle }}</span>
           </h1>
-          <p v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <p v-show="bookingConflict">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
           <p v-show="!bookingConflict">Are you sure you want to book the following appointment?</p>
 <!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
           <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict" class="modal-table inline-left">
@@ -187,7 +187,7 @@
             </tr>
           </table>
           <div class="button-wrapper">
-            <button class="button button--cancel" @click="handleModalClose" v-show="bookingConflict">Okay</button>
+            <button class="button button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
             <button class="button button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
             <button class="button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
           </div>

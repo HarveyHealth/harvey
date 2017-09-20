@@ -35,8 +35,8 @@
 
             <div class="card-content-wrap">
               <h3 class="heading-3">
-                <img class="card-avatar" :src="practitioner.avatar">
-                {{ practitioner.name }}
+                <img class="card-avatar" :src="practitioner.avatar" v-if="practitioner.name != '#'">
+                <p class="copy-muted-2 font-italic">{{ practitioner.name }}</p>
               </h3>
             </div>
 
@@ -159,7 +159,7 @@
         } else {
           return {
             avatar: '#',
-            description: 'Loading practitioner information',
+            description: 'Loading doctor...',
             name: ''
           }
         }

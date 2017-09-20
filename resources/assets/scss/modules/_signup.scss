@@ -214,6 +214,16 @@
   opacity: 0;
 }
 
+.closing-selection{
+  text-align: center;
+  @include padding(0 0 1rem 0);
+  span {
+    background: $color-gray-0;
+    @include padding(.25em 0.4em);
+    border-radius: 5px;
+  }
+}
+
 // Input fields
 
 input:focus,
