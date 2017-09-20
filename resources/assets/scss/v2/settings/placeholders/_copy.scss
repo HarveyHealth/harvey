@@ -27,7 +27,7 @@
   color: $color-copy-muted-2;
 }
 
-/// Default styling for error messages
+/// Default styling for good messages
 %copy-good {
   @extend %copy-main;
   @extend %font-sm;
