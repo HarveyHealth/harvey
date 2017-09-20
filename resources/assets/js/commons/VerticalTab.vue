@@ -19,7 +19,8 @@
     export default {
         props: {
             id: [String, Number],
-            label: [String, Number]
+            label: [String, Number],
+            url: String,
         },
         data() {
             return {
@@ -32,7 +33,8 @@
             if (parent) {
                 parent.updateTab({
                     id: this.tabId,
-                    label: this.label
+                    label: this.label,
+                    url: this.url,
                 });
             }
         }

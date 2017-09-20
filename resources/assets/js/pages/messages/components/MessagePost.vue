@@ -1,15 +1,16 @@
 <template>
-    <div class="container-message message-post" :class="{unread: read}">
+    <div class="container-message" :class="{unread: read}">
+        <div class="unread-dot"></div>
         <div class="message-post-details">
           <div class="message-post-avatar">
               <img :src="image" alt="avatar">
           </div>
           <h3 class="heading-2">{{ name }}</h3>
-          <h3 class="message-post-time font-sm copy-muted-2">{{ moment(day).format("M/D/YYYY") }}, {{ moment.tz(time).local().format("h:mm a") }} {{ moment.tz(moment.tz.guess()).format('z') }}</h3>
+          <h3 class="font-md copy-muted-2">{{ momemtDate }}</h3>
         </div>
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
-          <p class="message-post-message copy-muted">{{ messages }}</p>
+          <p class="message-post-message copy-muted" :class="">{{ messages }}</p>
         </div>
     </div>
 </template>
@@ -20,9 +21,7 @@
         props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'timezone'],
         name: 'MessagingPost',
         data() {
-            return {
-                moment: moment
-            }
+            return {  }
         },
         computed: {
             messages() {
@@ -32,6 +31,10 @@
                     return message.join('');
                 }
                 return this.$props.message;
+            },
+            momemtDate() {
+                moment.tz.add(this.$props.timezone);
+                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
             },
             subjects() {
                 if (this.$props.header.split('').length > 50) {

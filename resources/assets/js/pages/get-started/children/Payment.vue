@@ -35,17 +35,22 @@
           </div>
         </form>
 
-        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can edit your card information here, or continue on to the confirmation page.</p>
-        <p v-else>We will not charge you. You can confirm your appointment date and time on the next page.</p>
+        <div class="signup-main-icon">
+          <svg class="interstitial-icon icon-rocket">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
+          </svg>
+        </div>
 
+        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
         <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
 
-        <button class="button button--blue" style="width: 180px" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
+        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
+        <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
           <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
           <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
           <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
         </button>
-        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">Edit Card</button>
+        
       </div>
 
     </div>
@@ -111,7 +116,7 @@ export default {
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
-        ? 'Payment Method Confirmed!'
+        ? 'Payment Method'
         : 'Enter Payment Method';
     }
   },

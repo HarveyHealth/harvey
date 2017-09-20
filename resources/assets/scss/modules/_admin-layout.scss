@@ -67,10 +67,10 @@ $backoffice-grid: (
   }
 
   .main-header .main-action {
-    height: 34px;
-    margin-bottom: 4px;
+    height: 35px;
+    width: 35px;
     position: static !important;
-    width: 34px;
+    margin-top: -5px;
 
     svg {
       height: $font-md;

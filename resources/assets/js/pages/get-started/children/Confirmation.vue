@@ -13,7 +13,7 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
 
-      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}. Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}.<br/><br/>Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
 
       <div v-show="!isBookingAllowed">
         <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
@@ -28,13 +28,25 @@
       </button>
     </div>
 
-    <Overlay :active="showModal" />
-    <Modal :active="showModal" :on-close="() => showModal = false">
-      <p class="copy-error">We&rsquo;re sorry, it looks like that date and time was recently booked. Please take a look at other available times.</p>
-      <button @click="handleNewAvailability" class="button button--blue" style="width: 200px; margin-top: 20px;">
-        <span v-if="!isBackProcessing">Back to Schedule</span>
-        <ClipLoader v-else-if="isBackProcessing" :color="'#ffffff'" :size="'12px'" />
-      </button>
+    <Overlay :active="showModal"/>
+
+    <Modal
+      :active="showModal"
+      :container-class="'appointment-modal'"
+      :on-close="() => showModal = false"
+      class="modal-wrapper"
+    >
+      <div class="card-content-wrap">
+        <div class="inline-centered">
+          <h1 class="title header-xlarge">
+            <span class="text">Booking Conflict</span>
+          </h1>
+          <p>We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <div class="button-wrapper">
+            <button class="button button--cancel" @click="handleNewAvailability">Back to Schedule</button>
+          </div>
+        </div>
+      </div>
     </Modal>
 
   </div>

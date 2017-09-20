@@ -9,6 +9,7 @@
   height: 100%;
   z-index: 10000;
 }
+
 .modal-wrapper.appointment-modal {
   z-index: 9999;
 }
@@ -18,13 +19,19 @@
   top: 50%;
   left: 50%;
   max-width: 450px;
-  @include padding(35px);
+  @include padding(20px);
   transform: translate(-50%, -50%);
   z-index: 200; // above the :before
   background: $white;
   width: 90%;
-}
-
+  .modal-table {
+    font-size: $font-md;
+    margin-top: 1.5em;
+    line-height: 1.5em;
+    tr td {
+      font-weight: 300;
+    }
+  }
   .modal-header {
     border-bottom: 1px solid $color-gray-0;
     @include padding(null null 15px null);
@@ -33,14 +40,16 @@
   .modal-button-container {
     p {
       font-style: italic;
+      font-size: $font-md;
       @include margin(1em null null null);
     }
     button {
       width: 100%;
       display: inline-block;
-      margin: 10px 0;
+      @include margin(10px null null null);
     }
   }
+}
 
 .appointment-modal .button--cancel {
   margin-top: 15px;
@@ -49,6 +58,7 @@
 .appointment-modal .modal {
   max-width: 35em;
   p {
+    font-size: $font-md;
     @include margin(null null 1em null);
   }
 }

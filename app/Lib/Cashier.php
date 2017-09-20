@@ -6,8 +6,8 @@ use App\Events\{ChargeFailed, ChargeSucceeded};
 use App\Http\Traits\Invoiceable;
 use App\Jobs\ChargePatientForInvoice;
 use App\Models\{Invoice, Transaction};
-use Carbon, Exception;
 use Stripe\Charge;
+use Carbon, Exception;
 
 class Cashier
 {
@@ -101,8 +101,6 @@ class Cashier
 
                 $user->billing_error++;
 
-                ops_error('Stripe Exception', "Could not charge User #{$user->id} for Invoice #{$invoice->id}. _Error:_ '{$e->getMessage()}'");
-
                 event(new ChargeFailed($invoice, $e));
             }
 
@@ -111,7 +109,7 @@ class Cashier
 
             // if we had a billing error, try again in 24 hours
             // but only try for a maximum of 3 times
-            if ($user->billing_error > 0 && $user->billing_error <= 3) {
+            if ($user->billing_error > 0 && $user->billing_error < 3) {
                 $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
                 dispatch($job);
                 return false;

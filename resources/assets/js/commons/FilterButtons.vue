@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="filters">
     <button
       v-for="(name, index) in filters"
       :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
@@ -24,6 +24,10 @@ export default {
     },
     onFilter: {
       type: Function,
+      required: true
+    },
+    allData: {
+      type: Array,
       required: true
     }
   }

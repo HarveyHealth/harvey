@@ -19,10 +19,10 @@
   z-index: -10;
 }
 .custom-select.show-day-label:before {
-  content: 'Select day';
+  content: 'Select Day';
 }
 .custom-select.show-time-label:before {
-  content: 'Select time';
+  content: 'Select Time';
 }
 .custom-select.detached-label:before {
   content: attr(data-detached-label);
@@ -55,7 +55,7 @@
 .custom-select::after {
 	content: "\25be";
 	position: absolute;
-	top: 28%;
+	top: 24%;
 	right: 1em;
 	z-index: 2;
 	/* These hacks make the select behind the arrow clickable in some browsers */
