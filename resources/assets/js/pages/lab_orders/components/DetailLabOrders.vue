@@ -30,7 +30,7 @@
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">Billing</label>
+        <label class="input__label" for="patient_name">Billing Info</label>
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on order`}}</label>
@@ -134,8 +134,8 @@
           <label class="input__label" for="patient_name">Order Tracking</label>
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color">{{ shipmentCode }}</a>
         </div>
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label" for="patient_name">Billing</label>
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label" for="patient_name">Billing Info</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
             <label class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
             <label class="input__item">{{`Charged: $${price}`}}</label>
@@ -158,7 +158,7 @@
       <div v-for="test in testList">
         <div class="input__container">
           <label class="input__label" for="patient_name">{{ test.name }}</label>
-          <input v-model="shippingCodes[test.id]" class="input--text" type="text">
+          <input v-model="shippingCodes[test.test_id]" class="input--text" type="text">
         </div>
       </div>
       <div class="input__container">
@@ -179,7 +179,7 @@
         <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
       </div>
       <div class="inline-centered">
-        <button class="button" @click="updateOrder()" :disabled="!validZip || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 ">Mark as Shipped</button>
+        <button class="button" @click="updateOrder()" :disabled="!validZip || masterTracking.length == 0 || !address1 || !newCity || !newZip || !newState ">Mark as Shipped</button>
       </div>
     </div>
     </div>
