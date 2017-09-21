@@ -13,7 +13,7 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
 
-      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute video consultation with Dr. {{ doctor }}, on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
+      <p v-if="isBookingAllowed">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
 
       <div v-show="!isBookingAllowed">
         <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
