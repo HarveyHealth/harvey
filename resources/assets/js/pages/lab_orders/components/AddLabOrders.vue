@@ -143,7 +143,7 @@ export default {
             }
             axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
                 .then(response => {
-                    this.selectedTests.forEach((e, i)=> {
+                    this.selectedTests.forEach((e)=> {
                         axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                             lab_order_id: Number(response.data.data.id),
                             sku_id: Number(e.id),

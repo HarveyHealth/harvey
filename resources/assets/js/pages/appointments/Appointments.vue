@@ -224,7 +224,6 @@ import Times from './components/Times.vue';
 // other
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
-import tableColumns from './utils/tableColumns';
 import tableDataTransform from './utils/tableDataTransform';
 import tableSort from '../../utils/methods/tableSort';
 import transformAvailability from '../../utils/methods/transformAvailability';
@@ -714,7 +713,7 @@ export default {
 
             // Make the call
             // TO-DO: Add error notifications if api call fails
-            axios[action](api, data).then(response => {
+            axios[action](api, data).then(() => {
 
                 // track the event
                 if(this.$root.shouldTrack()) {
@@ -761,7 +760,7 @@ export default {
                         });
                     });
                 });
-            }).catch(error => {
+            }).catch(() => {
                 this.selectedRowUpdating = null;
                 if (this.userAction === 'update' || this.userAction === 'new') {
                     this.modalActive = true;

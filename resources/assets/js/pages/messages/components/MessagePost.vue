@@ -10,7 +10,7 @@
         </div>
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
-          <p class="message-post-message copy-muted" :class="">{{ messages }}</p>
+          <p class="message-post-message copy-muted">{{ messages }}</p>
         </div>
     </div>
 </template>

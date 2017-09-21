@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import card from 'card';
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import StagesNav from '../util/StagesNav.vue';
 
@@ -145,7 +144,7 @@ export default {
                 } else {
                     this.$root.$data.signup.cardBrand = response.card.brand;
                     this.$root.$data.signup.cardLastFour = response.card.last4;
-                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
+                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
                         this.$router.push({ name: 'confirmation', path: '/confirmation' });
                         this.markComplete();
                     }).catch(error => {

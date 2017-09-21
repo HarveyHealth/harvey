@@ -199,9 +199,6 @@
 import Flyout from '../../../commons/Flyout.vue';
 import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import {
-    capitalize
-} from '../../../utils/filters/textformat';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
@@ -282,7 +279,7 @@ export default {
                 state: this.$props.rowData.state || this.newState,
                 zip: this.$props.rowData.zip || this.newZip
             })
-                .then(respond => {
+                .then(() => {
                     this.$parent.notificationMessage = "Successfully updated!";
                     this.$parent.notificationActive = true;
                     this.$parent.selectedRowData = null;

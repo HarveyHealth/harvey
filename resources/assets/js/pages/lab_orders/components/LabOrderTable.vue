@@ -16,7 +16,6 @@
 <script>
 import TableData from '../../../commons/TableData.vue';
 import tableColumns from '../utils/tableColumns';
-import tableSort from '../../../utils/methods/tableSort';
 
 export default {
     name: 'LabOrderTable',

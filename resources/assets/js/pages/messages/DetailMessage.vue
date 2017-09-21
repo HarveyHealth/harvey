@@ -25,8 +25,8 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message">
-                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
+                <div v-if="detailList" class="container-message">
+                    <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"

@@ -54,7 +54,6 @@ import LabOrderTable from './components/LabOrderTable.vue';
 import AddLabOrders from './components/AddLabOrders.vue';
 import DetailLabOrders from './components/DetailLabOrders.vue';
 import tableDataTransform from './utils/tableDataTransform';
-import _ from 'lodash';
 
 export default {
     name: 'LabOrders',
@@ -231,7 +230,7 @@ export default {
         }
     },
     watch: {
-        loadingLabs(val, old) {
+        loadingLabs(val) {
             if (!val) {
                 this.setupLabData();
             }

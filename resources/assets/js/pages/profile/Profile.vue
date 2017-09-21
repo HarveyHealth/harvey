@@ -273,7 +273,7 @@ export default {
             // If phone was changed, patch the user's account to trigger text send
             if (shouldPatch) {
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
-                    .then(response => {
+                    .then(() => {
                     // Update the Laravel object in case the user wants to update phone before refreshing
                         Laravel.user.phone = updatedPhone;
                     })

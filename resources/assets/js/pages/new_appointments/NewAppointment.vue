@@ -56,7 +56,6 @@
 
 <script>
 import moment from 'moment';
-import Form from '../../utils/objects/Form.js';
 import DatePicker from './components/DatePicker.vue';
 import TimePicker from './components/TimePicker.vue';
 

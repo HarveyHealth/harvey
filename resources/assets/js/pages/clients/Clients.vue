@@ -39,7 +39,7 @@ export default {
         };
     },
     methods: {
-        handleRowClick(obj, index) {
+        handleRowClick() {
             return null;
         },
         $$rowClasses(data, index) {
@@ -63,7 +63,7 @@ export default {
         }
     },
     watch: {
-        loadingClients(val, old) {
+        loadingClients(val) {
             if (!val) {
                 this.setupLabData();
             }

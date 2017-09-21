@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         updateTab(tabData) {
-            this.tabList = _.assign({}, this.tabList, {
+            this.tabList = assign({}, this.tabList, {
                 [tabData.id]: tabData
             });
         },

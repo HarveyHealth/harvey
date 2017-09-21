@@ -13,7 +13,6 @@
 
 <script>
 import moment from 'moment';
-import _ from 'lodash';
 export default {
     props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'yourId'],
     name: 'DetailPost',
@@ -29,7 +28,7 @@ export default {
     mounted() {
         if (this.$root.$data.global.user.id == this.$props.userId) {
             axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
-                .then(response => {
+                .then(() => {
                     this.$root.$data.global.unreadMessages = this.$root.$data.global.unreadMessages.filter(e => e.id !== this.$props.id);
                 });
         }

@@ -38,24 +38,6 @@ export default {
                 id: patientId,
             };
 
-                // first, get the patient information from the provided patient_id from appointment
-            const relatedPatient = _included.map((item) => {
-                if (item.type === 'patients' && item.id === patientData.id.toString()) {
-                    patientData.user_id = item.attributes.user_id;
-                }
-            });
-
-                // now find the related user
-            const relatedUser = _included.map((item) => {
-                // needed since the data types are different
-                if (item.type === 'users' && item.id === patientData.user_id.toString()) {
-                    patientData.first_name = item.attributes.first_name;
-                    patientData.last_name = item.attributes.last_name;
-                    patientData.email = item.attributes.email;
-                    patientData.phone = item.attributes.phone;
-                }
-            });
-
             return patientData;
         },
         dayOffset(appt, days) {

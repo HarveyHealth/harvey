@@ -33,6 +33,7 @@
         "no-console": "off",
         "no-useless-escape": "off",
         "indent": [0, 4, { "Switch": 4 }],
-        "vue/require-v-for-key": "off"
+        "vue/require-v-for-key": "off",
+        "vue/valid-v-for": "off",
     }
 }
