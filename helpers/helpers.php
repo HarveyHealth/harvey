@@ -69,6 +69,11 @@ function currentUser()
     return auth()->user();
 }
 
+function isLocal()
+{
+    return app()->environment('local');
+}
+
 function isProd()
 {
     return app()->environment('production');
