@@ -14,17 +14,17 @@
 </template>
 
 <script>
-import {uniqueId,} from 'lodash';
+import {uniqueId} from 'lodash';
 
 export default {
     props: {
-        id: [String, Number,],
-        label: [String, Number,],
-        url: String,
+        id: [String, Number],
+        label: [String, Number],
+        url: String
     },
     data() {
         return {
-            tabId: this.id || 'tab-' + uniqueId(),
+            tabId: this.id || 'tab-' + uniqueId()
         };
     },
     mounted() {
@@ -34,9 +34,9 @@ export default {
             parent.updateTab({
                 id: this.tabId,
                 label: this.label,
-                url: this.url,
+                url: this.url
             });
         }
-    },
+    }
 };
 </script>

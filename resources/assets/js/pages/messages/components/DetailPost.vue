@@ -24,7 +24,7 @@ export default {
         id: String,
         userId: String,
         yourId: String,
-        timezone: String,
+        timezone: String
     },
     name: 'DetailPost',
     data() {
@@ -34,7 +34,7 @@ export default {
         momentDate() {
             moment.tz.add(this.$props.timezone);
             return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
-        },
+        }
     },
     mounted() {
         if (this.$root.$data.global.user.id == this.$props.userId) {
@@ -43,6 +43,6 @@ export default {
                     this.$root.$data.global.unreadMessages = this.$root.$data.global.unreadMessages.filter(e => e.id !== this.$props.id);
                 });
         }
-    },
+    }
 };
 </script>

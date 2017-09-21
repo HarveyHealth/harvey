@@ -72,7 +72,7 @@ export default {
         Preview,
         UserNav,
         MessagePost,
-        NotificationPopup,
+        NotificationPopup
     },
     data() {
         return {
@@ -81,13 +81,13 @@ export default {
             notificationSymbol: '&#10003;',
             notificationMessage: 'Message Sent!',
             notificationActive: false,
-            notificationDirection: 'top-right',
+            notificationDirection: 'top-right'
         };
     },
     computed: {
         messageList() {
             return this.$root.$data.global.messages.slice(0).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
-        },
+        }
     },
     methods: {
         close() {
@@ -95,7 +95,7 @@ export default {
         },
         makeThreadId(userOne, userTwo) {
             return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
-        },
+        }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'messages';
@@ -105,7 +105,7 @@ export default {
         channel.bind('App\\Events\\MessageCreated', (data) => {
             let subject = `${this.makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
             this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data,];
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
             this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                 .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
@@ -132,6 +132,6 @@ export default {
                     this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 }
             });
-    },
+    }
 };
 </script>

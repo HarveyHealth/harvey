@@ -25,20 +25,20 @@ export default {
         // Status string to be converted for SelectOptions
         status: String,
         // Should we even display appointment status?
-        visible: Boolean,
+        visible: Boolean
     },
     components: {
-        SelectOptions,
+        SelectOptions
     },
     computed: {
         convertedStatus() {
             return convertStatus(this.status) || '';
-        },
+        }
     },
     methods: {
         handleSelect(e) {
             this.setStatus(this.list[e.target.selectedIndex]);
-        },
-    },
+        }
+    }
 };
 </script>

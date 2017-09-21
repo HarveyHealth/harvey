@@ -216,7 +216,7 @@ export default {
     components: {
         UserNav,
         Modal,
-        Flyout,
+        Flyout
     },
     data() {
         return {
@@ -224,7 +224,7 @@ export default {
             search: '',
             selectedPatient: null,
             activeModal: false,
-            name: '',
+            name: ''
         };
     },
     methods: {
@@ -247,7 +247,7 @@ export default {
         },
         modalClose() {
             this.activeModal = false;
-        },
+        }
     },
     computed: {
         results() {
@@ -258,13 +258,13 @@ export default {
                       matcher.test(ele.email) ||
                       matcher.test(ele.date_of_birth);
             });
-        },
+        }
     },
     watch: {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
-    },
+    }
 };
 </script>
 

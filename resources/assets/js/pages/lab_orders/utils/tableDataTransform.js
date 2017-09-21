@@ -1,4 +1,4 @@
-import { capitalize, } from '../../../utils/filters/textformat';
+import { capitalize } from '../../../utils/filters/textformat';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -28,9 +28,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             total_price: 0,
             card: {
                 brand: obj.included && obj.included.attributes ? obj.included.attributes.card_brand : null,
-                last4: obj.included && obj.included.attributes ? obj.included.attributes.card_last4 : null,
+                last4: obj.included && obj.included.attributes ? obj.included.attributes.card_last4 : null
             },
-            samples: {},
+            samples: {}
         };
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id) {
@@ -49,13 +49,13 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     price: testList[Number(test.attributes.sku_id)].attributes.price,
                     name: testList[Number(test.attributes.sku_id)].attributes.name,
                     status: obj.attributes.shipment_code === 'recommended'
-                        ? [capitalize(test.attributes.status),].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled',], capitalize(test.attributes.status)))
+                        ? [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status)))
                         : obj.attributes.shipment_code === 'confirmed'
-                            ? [capitalize(test.attributes.status),].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled',], capitalize(test.attributes.status)))
-                            : [capitalize(test.attributes.status),].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled',], capitalize(test.attributes.status))),
+                            ? [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status)))
+                            : [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     sku: testList[Number(test.id)],
-                    shipment_code: test.attributes.shipment_code,
+                    shipment_code: test.attributes.shipment_code
                 });
             }
         });
@@ -68,8 +68,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 `Dr. ${practitionerLookup[Number(data.practitioner_id)].attributes.name}`,
                 `#${data.id}`,
                 data.number_of_tests,
-                data.completed_at,
-            ],
+                data.completed_at
+            ]
         };
     });
 }

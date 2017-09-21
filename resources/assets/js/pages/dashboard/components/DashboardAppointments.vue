@@ -29,16 +29,16 @@ import moment from 'moment';
 export default {
     props: {
         userType: String, 
-        upcomingAppointments: [Object, Array],
+        upcomingAppointments: [Object, Array]
     },
     components: {
-        DashboardAppointment,
+        DashboardAppointment
     },
     methods: {
         getIncludedPatient(_included, _appointment) {
             const patientId = _appointment.attributes.patient_id;
             const patientData = {
-                id: patientId,
+                id: patientId
             };
 
             return patientData;
@@ -47,7 +47,7 @@ export default {
             const today = moment();
             const apptDate = moment.utc(appt.attributes.appointment_at.date).local();
             return today.diff(apptDate, 'days') <= days;
-        },
+        }
     },
     computed: {
         upcomingAppointmentsData() {
@@ -61,7 +61,7 @@ export default {
         },
         upcomingAppointmentsIncluded() {
             return this.upcomingAppointments.included;
-        },
-    },
+        }
+    }
 };
 </script>

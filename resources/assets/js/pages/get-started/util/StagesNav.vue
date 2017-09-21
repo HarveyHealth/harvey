@@ -14,7 +14,7 @@
 export default {
     props: {
         current: String,
-        required: true,
+        required: true
     },
     data() {
         return {
@@ -33,15 +33,15 @@ export default {
         stages() {
             let stages = [
                 { name: 'practitioner',
-                    path: '/practitioner', },
+                    path: '/practitioner' },
                 { name: 'phone',
-                    path: '/phone', },
+                    path: '/phone' },
                 { name: 'schedule',
-                    path: '/schedule', },
+                    path: '/schedule' },
                 { name: 'payment',
-                    path: '/payment', },
+                    path: '/payment' },
                 { name: 'confirmation',
-                    path: '/confirmation', },
+                    path: '/confirmation' }
             ];
             stages = stages.filter(stage => {
                 if (stage.name === 'phone' && Laravel.user.phone_verified_at) {
@@ -52,7 +52,7 @@ export default {
             });
 
             return stages;
-        },
-    },
+        }
+    }
 };
 </script>

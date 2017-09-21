@@ -29,19 +29,19 @@ export default {
         disabled: Boolean,
         getValue: {
             type: Function,
-            required: true,
+            required: true
         },
-        stored: String,
+        stored: String
     },
     data() {
         return {
-            inputs: [],
+            inputs: []
         };
     },
     watch: {
         inputs() {
             return this.getValue(this.inputs.join(''));
-        },
+        }
     },
     methods: {
         distribute(e, ref) {
@@ -84,12 +84,12 @@ export default {
                 this.$refs[ref + 1].focus();
                 this.$refs[ref + 1].setSelectionRange(0,0);
             }
-        },
+        }
     },
     mounted() {
         if (this.stored) {
             this.distribute(this.stored, 0);
         }
-    },
+    }
 };
 </script>

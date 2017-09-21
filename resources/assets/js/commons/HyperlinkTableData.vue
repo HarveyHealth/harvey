@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { phone, } from '../../../utils/filters/textformat';
+import { phone } from '../../../utils/filters/textformat';
 
 export default {
     name: 'TableData',
@@ -44,12 +44,12 @@ export default {
         $$tableClasses() {
             return {
                 tabledata: true,
-                [`${this.tableClass}`]: true,
+                [`${this.tableClass}`]: true
             };
-        },
+        }
     },
     filters: {
-        phone,
+        phone
     },
     methods: {
     // This is a method so it can freshly render and respond to the index
@@ -59,9 +59,9 @@ export default {
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
+                'has-updated': this.updatedRow === index
             };
-        },
+        }
     },
     props: {
     // Defines the column based on the following data:
@@ -82,31 +82,31 @@ export default {
     // Array.sort method. See rowData and it will make more sense.
         columns: {
             type: Array,
-            required: true,
+            required: true
         },
         // The message to display when data loading is done and the set returned is empty
         emptyMsg: {
             type: String,
-            default: 'No data found',
+            default: 'No data found'
         },
         // Whether the table data is still loading or not
         loading: {
-            type: Boolean,
+            type: Boolean
         },
         // The message to display if the component mounts and loading is still true
         loadingMsg: {
             type: String,
-            default: 'Loading...',
+            default: 'Loading...'
         },
         // What happens when a row is clicked.
         // Function takes the row data and the row data index as arguments.
         onRowClick: {
-            type: Function,
+            type: Function
         },
         // What happens when a table column header is clicked.
         // Function takes the column data as an argument
         onSort: {
-            type: Function,
+            type: Function
         },
         // The set of row data rendered based on the following structure:
         // [
@@ -120,30 +120,30 @@ export default {
         // Given the above column data, the sort function would probably take '_date' as the property to be used.
         rowData: {
             type: Array,
-            required: true,
+            required: true
         },
         // Can be null to start but should be used to store the index of the row clicked
         selectedRow: {
             type: String,
             default: null,
-            required: true,
+            required: true
         },
         // To add custom class to the table for additional styling
         tableClass: {
-            type: String,
+            type: String
         },
         // Like selectedRow but to indicate the index of the row that was just updated
         updatedRow: {
             type: String,
             default: null,
-            required: false,
+            required: false
         },
         // Like selectedRow but to indicate the index of the row currently being updated
         updatingRow: {
             type: String,
             default: null,
-            required: false,
-        },
-    },
+            required: false
+        }
+    }
 };
 </script>

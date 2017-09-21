@@ -1,9 +1,9 @@
-import { capitalize, } from '../filters/textformat.js';
+import { capitalize } from '../filters/textformat.js';
 
 export default {
     data () {
         return {
-            nav_is_open: false,
+            nav_is_open: false
         };
     },
     methods: {
@@ -30,6 +30,6 @@ export default {
             if (e.relatedTarget === null || !this.isDescendant(e.target, e.relatedTarget)) {
                 this.toggleNav();
             }
-        },
-    },
+        }
+    }
 };

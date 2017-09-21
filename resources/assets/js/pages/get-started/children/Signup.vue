@@ -92,13 +92,13 @@ import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 export default {
     name: 'sign-up',
     components: {
-        LoadingGraphic,
+        LoadingGraphic
     },
     data() {
         return {
             animClasses: {
                 'anim-fade-slideup': true,
-                'anim-fade-slideup-in': false,
+                'anim-fade-slideup-in': false
             },
             env: this.$root.$data.environment,
             isComplete: false,
@@ -106,7 +106,7 @@ export default {
             isProcessing: false,
             quotes: [
                 { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-                    source: 'Elizabeth Yorn (Missouri, battling Lupus)', },
+                    source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
             ],
             responseErrors: [],
             signupData: {
@@ -115,12 +115,12 @@ export default {
                 last_name: localStorage.getItem('sign up last_name') || '',
                 password: localStorage.getItem('sign up password') || '',
                 terms: '',
-                zip: localStorage.getItem('sign up zip') || '',
+                zip: localStorage.getItem('sign up zip') || ''
             },
             subtitle: '',
             terms: false,
             title: 'Your health journey<br>starts with us.',
-            zipInRange: false,
+            zipInRange: false
         };
     },
     // These are necessary because VeeValidate's custom messages are just not working
@@ -172,7 +172,7 @@ export default {
                     ? 'Please agree to terms and privacy policy'
                     : '';
             }
-        },
+        }
     },
     methods: {
         onSubmit() {
@@ -216,7 +216,7 @@ export default {
                                 email: email,
                                 city: city,
                                 state: state,
-                                zip: zip,
+                                zip: zip
                             });
                         }
 
@@ -265,11 +265,11 @@ export default {
                                     email: email,
                                     city: outOfRangeCity,
                                     state: outOfRangeState,
-                                    zip: zip,
+                                    zip: zip
                                 });
                             }
 
-                            this.$router.push({name: 'out-of-range', path: '/out-of-range',});
+                            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
                         }
                     });
 
@@ -281,7 +281,7 @@ export default {
         login(email, password) {
             axios.post('login', {
                 email: email,
-                password: password,
+                password: password
             })
                 .then(() => {
                     // TODO: check zip code to determine if out of range
@@ -295,7 +295,7 @@ export default {
         },
         persistTextFields(field, value) {
             localStorage.setItem(`sign up ${field}`, value);
-        },
+        }
     },
     mounted () {
         this.$root.toDashboard();
@@ -308,6 +308,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

@@ -28,7 +28,7 @@
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import { phone, } from '../../../utils/filters/textformat';
+import { phone } from '../../../utils/filters/textformat';
 
 export default {
     props: {
@@ -51,15 +51,15 @@ export default {
         // Function takes the selected patient data object
         setPatient: Function,
         // If we should display a patient name or options at all
-        visible: Boolean,
+        visible: Boolean
     },
     components: {
-        SelectOptions,
+        SelectOptions
     },
     computed: {
         shouldShowPaymentError() {
             return this.context === 'new' && this.hasCard === false && Laravel.user.user_type !== 'admin';
-        },
+        }
     },
     methods: {
         handleSelect(e) {
@@ -69,10 +69,10 @@ export default {
             if(this.$root.shouldTrack()) {
                 // add "Click Phone Number" tracking here
             }
-        },
+        }
     },
     filters: {
-        phone,
-    },
+        phone
+    }
 };
 </script>

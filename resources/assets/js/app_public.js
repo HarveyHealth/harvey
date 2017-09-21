@@ -30,12 +30,12 @@ import VerticalTabs from './commons/VerticalTabs.vue';
 const env = require('get-env')();
 
 const app = new Vue({
-    mixins: [TopNav,],
+    mixins: [TopNav],
     components: {
         loadinggraphic,
         Symptoms,
         VerticalTab,
-        VerticalTabs,
+        VerticalTabs
     },
     data: {
         guest: true,
@@ -45,8 +45,8 @@ const app = new Vue({
             form: new Form({
                 email: '',
                 password: '',
-                remember: false,
-            }),
+                remember: false
+            })
         },
         register: {
             form: new Form({
@@ -55,8 +55,8 @@ const app = new Vue({
                 email: '',
                 phone: '',
                 password: '',
-                terms: false,
-            }),
+                terms: false
+            })
         },
         symptomsChanged: false,
         symptomsSaving: false,
@@ -64,53 +64,53 @@ const app = new Vue({
             cardiovascular: {
                 label: 'Cardiovascular',
                 description: 'Chest pain, dizziness, fainting, fevers, irregular heartbeat, shortness of breath, leg swelling, etc.',
-                value: 3,
+                value: 3
             },
             digestive: {
                 label: 'Digestive',
                 description: 'Acid reflux, constipation, gas, diarrhea, heartburn, indigestion, bloating, stomach pain, cramps, etc.',
-                value: 3,
+                value: 3
             },
             endocrine_hormonal: {
                 label: 'Endocrine/Hormonal',
                 description: 'Depression, fatigue, hot flashes, insomnia, mood swings, night sweats, stress, vaginal dryness, weight gain/loss, etc.',
-                value: 3,
+                value: 3
             },
             dermatological: {
                 label: 'Dermatological',
                 description: 'Hair, skin and nails weakness, and other exocrine gland issues.',
-                value: 3,
+                value: 3
             },
             immune: {
                 label: 'Immune',
                 description: 'Frequent colds, flus, cold sores, swollen lymph glands, and/or fighting known autoimmune diseases.',
-                value: 3,
+                value: 3
             },
             musculo_skeletal: {
                 label: 'Musculo-skeletal',
                 description: 'Aches, muscle pain, body fatigue, loss of muscle control, etc.',
-                value: 3,
+                value: 3
             },
             nervous: {
                 label: 'Nervous',
                 description: 'Headaches, migraines, numbness, tingling, tremors, etc.',
-                value: 3,
+                value: 3
             },
             renal_urinary: {
                 label: 'Renal/Urinary',
                 description: 'Loss of bladder control, urinary tract infection, liver/kidney issues, etc.',
-                value: 3,
+                value: 3
             },
             reproductive: {
                 label: 'Reproductive',
                 description: 'Impotence, loss of libido, pre/post-menopause, yeast infections, and other reproductive issues.',
-                value: 3,
+                value: 3
             },
             respiratory: {
                 label: 'Respiratory',
                 description: 'Allergies, breathing problems, chronic cough/cold issues, bronchial inflammation, etc.',
-                value: 3,
-            },
+                value: 3
+            }
         },
         navIsInverted: true,
         isLoginPage: false,
@@ -121,9 +121,9 @@ const app = new Vue({
         emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
             'error-text': true,
-            'is-visible': false,
+            'is-visible': false
         },
-        emailCaptureSuccess: false,
+        emailCaptureSuccess: false
     },
     computed: {
         bodyClassNames () {
@@ -131,7 +131,7 @@ const app = new Vue({
         },
         isHomePage () {
             return window.location.pathname === '/';
-        },
+        }
     },
     methods: {
         onEmailCaptureSubmit () {
@@ -141,13 +141,13 @@ const app = new Vue({
                 const visitorData = {
                     to: this.guestEmail,
                     template: 'subscribe',
-                    _token: Laravel.app.csrfToken,
+                    _token: Laravel.app.csrfToken
                 };
                 axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
                     this.emailCaptureSuccess = true;
                     if (this.shouldTrack()) {
                         analytics.identify({
-                            email: this.guestEmail,
+                            email: this.guestEmail
                         });
                     }
                 }).catch(error => {
@@ -211,7 +211,7 @@ const app = new Vue({
         },
         checkWhichPage (...args) {
             let result = false;
-            result = [...args,].some(arg => {
+            result = [...args].some(arg => {
                 return this.bodyClassNames.contains(arg);
             });
             return result;
@@ -245,11 +245,11 @@ const app = new Vue({
             return (/^[?#]/.test(url) ? url.slice(1) : url)
                 .split('&')
                 .reduce((params, param) => {
-                    const [key, value,] = param.split('=');
+                    const [key, value] = param.split('=');
                     params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
                     return params;
                 }, {});
-        },
+        }
     },
     mounted () {
         this.$nextTick(() => {
@@ -288,7 +288,7 @@ const app = new Vue({
         } else if (this.checkWhichPage('signup', 'register')) {
             window.removeEventListener('blur', this.onIframeClick);
         }
-    },
+    }
 }).$mount('#app');
 
 export default app;

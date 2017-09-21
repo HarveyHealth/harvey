@@ -36,10 +36,10 @@ export default {
         // What happens when a user selects a day
         setTimes: Function,
         // The UTC formatted date string for a given selection
-        time: String,
+        time: String
     },
     components: {
-        SelectOptions,
+        SelectOptions
     },
     computed: {
         $$label() {
@@ -49,12 +49,12 @@ export default {
         },
         $$selectedDay() {
             return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
-        },
+        }
     },
     methods: {
         handleSelect(e) {
             this.setTimes(e.target.value, e.target.selectedIndex);
-        },
-    },
+        }
+    }
 };
 </script>

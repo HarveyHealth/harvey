@@ -219,14 +219,14 @@
 </template>
 
 <script>
-import {assign,} from 'lodash';
+import {assign} from 'lodash';
 
 export default {
     name: 'profile',
     props: {
         form: Object,
         includeCta: Boolean,
-        user: Object,
+        user: Object
     },
     // data() {
     //     return {
@@ -250,15 +250,15 @@ export default {
         onSuccess() {
             // this.$eventHub.$emit('mixpanel', "Profile Updated");
             this.$router.push('/payment');
-        },
+        }
     },
     watch: {
         user() {
             assign(this.form, this.user);
-        },
+        }
     },
     mounted() {
         // this.$eventHub.$emit('mixpanel', "View Profile Page");
-    },
+    }
 };
 </script>

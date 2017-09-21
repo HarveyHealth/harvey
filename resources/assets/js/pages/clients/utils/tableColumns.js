@@ -5,36 +5,36 @@ export default [
         key: 'client',
         name: 'Client',
         width: '20%',
-        sort: tableSort.byDate('client'),
+        sort: tableSort.byDate('client')
     },
     {
         key: 'signup',
         name: 'Created',
         width: '20%',
-        sort: tableSort.byTime('signup'),
+        sort: tableSort.byTime('signup')
     },
     {
         key: 'location',
         name: 'Location',
         width: '20%',
-        sort: tableSort.byString('location'),
+        sort: tableSort.byString('location')
     },
     {
         key: 'doctor',
         name: 'Doctor',
         width: '20%',
-        sort: tableSort.byString('doctor'),
+        sort: tableSort.byString('doctor')
     },
     {
         key: 'booked',
         name: 'Confirmed',
         width: '10%',
-        sort: tableSort.byString('booked'),
+        sort: tableSort.byString('booked')
     },
     {
         key: 'done',
         name: 'Completed',
         width: '10%',
-        sort: tableSort.byString('done'),
-    },
+        sort: tableSort.byString('done')
+    }
 ];

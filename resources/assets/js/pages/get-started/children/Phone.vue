@@ -59,10 +59,10 @@
 </template>
 
 <script>
-import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import ConfirmInput from '../../../commons/ConfirmInput.vue';
 import StagesNav from '../util/StagesNav.vue';
-import { TheMask, } from 'vue-the-mask';
+import { TheMask } from 'vue-the-mask';
 
 export default {
     name: 'phone',
@@ -70,7 +70,7 @@ export default {
         ClipLoader,
         ConfirmInput,
         StagesNav,
-        TheMask,
+        TheMask
     },
     data() {
         return {
@@ -79,14 +79,14 @@ export default {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
+                'container': true
             },
             isInvalidCode: false,
             isInvalidNumber: false,
             phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
             isPhoneConfirming: false,
             isPhoneProcessing: false,
-            isUserPatchError: false,
+            isUserPatchError: false
         };
     },
     computed: {
@@ -104,7 +104,7 @@ export default {
             return this.$children.filter(child => {
                 return child.hasOwnProperty('distribute');
             })[0];
-        },
+        }
     },
     methods: {
         newPhoneNumber() {
@@ -121,7 +121,7 @@ export default {
             this.isInvalidCode = false;
 
             if (this.$root.$data.signup.codeConfirmed) {
-                this.$router.push({ name: 'schedule', path: '/schedule', });
+                this.$router.push({ name: 'schedule', path: '/schedule' });
             }
 
             if (code.length < 5) {
@@ -136,7 +136,7 @@ export default {
                         this.isPhoneConfirming = false;
                         setTimeout(() => {
                             this.$root.$data.signup.phoneConfirmed = true;
-                            this.$router.push({ name: 'schedule', path: '/schedule', });
+                            this.$router.push({ name: 'schedule', path: '/schedule' });
                         }, 500);
                     } else {
                         this.setInvalidCode();
@@ -168,7 +168,7 @@ export default {
                 setTimeout(this.sendConfirmation, 400);
             } else {
                 // Else, patch the user's phone which triggers the code confirmation send
-                axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number, }).then(response => {
+                axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
                     this.$root.$data.signup.phonePending = true;
                     Laravel.user.phone = number;
                     Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
@@ -180,7 +180,7 @@ export default {
 
                         // Segment Identify update
                         analytics.identify(userId, {
-                            phone: number,
+                            phone: number
                         });
                     }
                 }).catch(() => {
@@ -204,7 +204,7 @@ export default {
         setInvalidCode() {
             this.isPhoneConfirming = false;
             this.isInvalidCode = true;
-        },
+        }
     },
     mounted () {
         this.$root.toDashboard();
@@ -217,6 +217,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

@@ -8,7 +8,7 @@ export default {
     // Whether the overlay is visible or not
         active: Boolean,
         // What happens when the overlay is clicked
-        onClick: Function,
-    },
+        onClick: Function
+    }
 };
 </script>

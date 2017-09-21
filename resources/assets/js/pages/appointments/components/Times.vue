@@ -33,10 +33,10 @@ export default {
         // What happens when a user selects a time?
         setTime: Function,
         // Hours and minutes string that corresponds to a given time option
-        time: String,
+        time: String
     },
     components: {
-        SelectOptions,
+        SelectOptions
     },
     computed: {
     // Transforming times into structure appropriate for SelectOptions
@@ -45,18 +45,18 @@ export default {
                 return this.list.map(timeObj => {
                     return {
                         value: this.$root.addTimezone(moment(timeObj.stored).format('h:mm a')),
-                        data: timeObj,
+                        data: timeObj
                     };
                 });
             } else {
                 return [];
             }
-        },
+        }
     },
     filters: {
         timeFilter(date) {
             return toLocal(date, 'h:mm a');
-        },
+        }
     },
     methods: {
     // Check to see if the user clicked the empty option or not
@@ -65,7 +65,7 @@ export default {
                 ? this.times[e.target.selectedIndex - 1].data
                 : null;
             this.setTime(timeObj);
-        },
-    },
+        }
+    }
 };
 </script>

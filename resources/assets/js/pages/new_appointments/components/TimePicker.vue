@@ -29,7 +29,7 @@ export default {
         endOfDayHour: String,
         minimumNotice: String,
         duration: String,
-        startDateTime: String,
+        startDateTime: String
     },
     methods: {
         range(start, stop, step) {
@@ -50,13 +50,13 @@ export default {
             return range;
         },
         setsTimeObject(hour, hourOffset = 0) {
-            return moment({hour: hour + hourOffset, minute: 0,});
+            return moment({hour: hour + hourOffset, minute: 0});
         },
         onTimeChange(time) {
             if (time >= this.startTime) {
-                this.$eventHub.$emit('datetime-change', {type: 'time', value: time,});
+                this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
             }
-        },
+        }
     },
     computed: {
         times() {
@@ -68,10 +68,10 @@ export default {
             } else {
                 return moment(this.startDateTime).local().hour();
             }
-        },
+        }
     },
     mounted() {
         this.onTimeChange(this.startTime);
-    },
+    }
 };
 </script>

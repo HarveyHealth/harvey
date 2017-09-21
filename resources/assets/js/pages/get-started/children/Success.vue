@@ -57,14 +57,14 @@ export default {
     name: 'success',
     components: {
         Modal,
-        Overlay,
+        Overlay
     },
     data() {
         return {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
+                'container': true
             },
             showModal: false,
             title: 'Your appointment is confirmed!',
@@ -79,7 +79,7 @@ export default {
             calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
             calendarZone: '',
             calendarLocation: '',
-            calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : '',
+            calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : ''
         };
     },
     computed: {
@@ -90,7 +90,7 @@ export default {
         date() {
             const dateObject = this.appointmentDate;
             return dateObject;
-        },
+        }
     },
     methods: {
         showIntakeModal() {
@@ -100,7 +100,7 @@ export default {
             if (this.$root.isOnProduction()) {
                 // place intake tracking here
             }
-        },
+        }
     },
     filters: {
         toDate(date) {
@@ -108,7 +108,7 @@ export default {
         },
         toTime(date) {
             return moment.utc(date).local().format('h:mm a');
-        },
+        }
     },
     mounted () {
         this.$root.$data.signup.completedSignup = true;
@@ -138,6 +138,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

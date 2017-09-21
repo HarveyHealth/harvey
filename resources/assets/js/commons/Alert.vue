@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import {assign,} from 'lodash';
+import {assign} from 'lodash';
 
 export default {
     name: 'alert',
@@ -28,8 +28,8 @@ export default {
             alertData: {
                 type: 'info',
                 timeout: 2000,
-                important: false,
-            },
+                important: false
+            }
         };
     },
     created() {
@@ -44,6 +44,6 @@ export default {
                 );
             }
         });
-    },
+    }
 };
 </script>

@@ -13,23 +13,23 @@ export default {
     props: {
         activeFilter: {
             type: Number,
-            required: true,
+            required: true
         },
         filters: {
             type: Array,
-            required: true,
+            required: true
         },
         loading: {
-            type: Boolean,
+            type: Boolean
         },
         onFilter: {
             type: Function,
-            required: true,
+            required: true
         },
         allData: {
             type: Array,
-            required: true,
-        },
-    },
+            required: true
+        }
+    }
 };
 </script>

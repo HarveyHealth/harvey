@@ -57,7 +57,7 @@ import getState from '../../../utils/methods/getState';
 import moment from 'moment';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
-import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import Modal from '../../../commons/Modal.vue';
 import Overlay from '../../../commons/Overlay.vue';
 import StagesNav from '../util/StagesNav.vue';
@@ -68,7 +68,7 @@ export default {
         ClipLoader,
         Modal,
         Overlay,
-        StagesNav,
+        StagesNav
     },
     data() {
         return {
@@ -78,14 +78,14 @@ export default {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
+                'container': true
             },
             date: this.$root.$data.signup.data.appointment_at,
             doctor: `${this.$root.$data.signup.practitionerName}, ND`,
             paymentStatement: `The cost for this consultation will be $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation is complete.`,
             phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
             showModal: false,
-            state: this.$root.$data.signup.practitionerState,
+            state: this.$root.$data.signup.practitionerState
         };
     },
     computed: {
@@ -106,10 +106,10 @@ export default {
         this.$root.$data.signup.phoneConfirmed &&
         this.$root.$data.signup.data.appointment_at &&
         this.$root.$data.signup.data.practitioner_id);
-        },
+        }
     },
     filters: {
-        getState,
+        getState
     },
     methods: {
         confirmSignup() {
@@ -118,7 +118,7 @@ export default {
                 this.$root.$data.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
                 window.onbeforeunload = null;
                 this.isProcessing = false;
-                this.$router.push({ name: 'success', path: 'success', });
+                this.$router.push({ name: 'success', path: 'success' });
             })
                 .catch(() => {
                     // 400 Bad request means the time was booked just before the signup user confirmed but after they
@@ -135,9 +135,9 @@ export default {
                 this.$root.$data.signup.selectedTime = null;
                 this.$root.$data.signup.selectedDate = null;
                 this.isBackProcessing = false;
-                this.$router.push({ name: 'schedule', path: '/schedule', });
+                this.$router.push({ name: 'schedule', path: '/schedule' });
             });
-        },
+        }
     },
     mounted () {
         this.$root.toDashboard();
@@ -150,7 +150,7 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 
 };
 </script>

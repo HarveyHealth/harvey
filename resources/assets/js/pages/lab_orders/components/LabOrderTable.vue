@@ -20,55 +20,55 @@ import tableColumns from '../utils/tableColumns';
 export default {
     name: 'LabOrderTable',
     components: {
-        TableData,
+        TableData
     },
     data() {
         return {
-            tableColumns,
+            tableColumns
         };
     },
     computed: {
         tableData() {
             return this.tableRowData;
-        },
+        }
     },
     methods: {
         handleSort(colObj) {
             this.tableData.sort(colObj.sort);
-        },
+        }
     },
     props: {
     // Passed from Appointments so we can modify the appointment data and trigger
     // other things within Appointments
         handleRowClick: {
-            type: Function,
+            type: Function
         },
         // Passed from Appointments because it is waiting for the app.js Promise to resolve
         loading: {
             type: Boolean,
-            required: true,
+            required: true
         },
         // See TableData
         selectedRow: {
-            type: Object,
+            type: Object
         },
         // See TableData
         tableRowData: {
             type: Array,
-            required: true,
+            required: true
         },
         // See TableData
         updatedRow: {
             type: String,
             default: null,
-            required: false,
+            required: false
         },
         // See TableData
         updatingRow: {
             type: String,
             default: null,
-            required: false,
-        },
-    },
+            required: false
+        }
+    }
 };
 </script>

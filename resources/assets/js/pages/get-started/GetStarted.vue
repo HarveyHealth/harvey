@@ -13,17 +13,17 @@ export default {
     name: 'get-started',
     components: {
         Signup,
-        Welcome,
+        Welcome
     },
     methods: {
         setBeforeUnload() {
             window.onbeforeunload = () => {
                 return 'All your information will be reset.';
             };
-        },
+        }
     },
     mounted() {
         if (Laravel.user.signedIn) this.setBeforeUnload();
-    },
+    }
 };
 </script>

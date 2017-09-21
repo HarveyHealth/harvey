@@ -23,7 +23,7 @@
 export default {
     props: {
         fill: String,
-        size: Number,
+        size: Number
     },
     computed: {
         _fill() {
@@ -31,7 +31,7 @@ export default {
         },
         _size() {
             return this.size ? `${this.size}px` : '30px';
-        },
-    },
+        }
+    }
 };
 </script>

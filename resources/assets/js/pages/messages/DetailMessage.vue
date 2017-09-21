@@ -65,7 +65,7 @@ export default {
         subject: String,
         sender_name: String,
         recipient_full_name: String,
-        thread_id: String,
+        thread_id: String
     },
     name: 'messages',
     components: {
@@ -73,7 +73,7 @@ export default {
         UserNav,
         DetailPost,
         Reply,
-        NotificationPopup,
+        NotificationPopup
     },
     data() {
         return {
@@ -82,17 +82,17 @@ export default {
             isActive: null,
             user: this.userName,
             your_id: window.Laravel.user.id,
-            user_id: _.pull([this.$props.recipient_id, this.$props.sender_id,], this.$root.$data.global.user.id)[0],
+            user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
             notificationSymbol: '&#10003;',
             notificationMessage: 'Message Sent!',
             notificationActive: false,
-            notificationDirection: 'top-right',
+            notificationDirection: 'top-right'
         };
     },
     computed: {
         detailList() {
             return this.$root.$data.global.detailMessages[this.$props.thread_id];
-        },
+        }
     },
     methods: {
         close() {
@@ -118,7 +118,7 @@ export default {
                 let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients);
                 return all.filter(e => e.id === this.$route.params.id)[0].name;
             }
-        },
+        }
     },
     mounted() {
         let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
@@ -154,6 +154,6 @@ export default {
                     this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
                 }
             });
-    },
+    }
 };
 </script>

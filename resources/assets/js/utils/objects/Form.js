@@ -1,4 +1,4 @@
-import { assign, } from 'lodash';
+import { assign } from 'lodash';
 import Errors from './Errors.js';
 
 export default class Form {

@@ -20,7 +20,7 @@ export default {
     props: {
         label: String,
         type: String,
-        route: String,
+        route: String
     },
     methods: {
         upload() {
@@ -48,8 +48,8 @@ export default {
                 .catch(err => {
                     this.$emit('uploadError', JSON.parse(err));
                 });
-        },
-    },
+        }
+    }
 };
 </script>
 

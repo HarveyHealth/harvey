@@ -20,8 +20,8 @@ export default {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
-            },
+                'container': true
+            }
         };
     },
     mounted () {
@@ -39,6 +39,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

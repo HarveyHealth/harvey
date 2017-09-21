@@ -52,9 +52,9 @@ export default {
         return {
             animClasses: {
                 'anim-fade-slideup': true,
-                'anim-fade-slideup-in': false,
+                'anim-fade-slideup-in': false
             },
-            typeformUrl: `https://kyleahill.typeform.com/to/XGnCna?harveyid=${Laravel.user.id}`,
+            typeformUrl: `https://kyleahill.typeform.com/to/XGnCna?harveyid=${Laravel.user.id}`
         };
     },
     mounted() {
@@ -71,6 +71,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

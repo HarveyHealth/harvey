@@ -17,20 +17,20 @@ export default {
         // Whether or not the flyout is open
         active: {
             type: Boolean,
-            required: true,
+            required: true
         },
         // If the flyout contains a heading
         heading: {
-            type: String,
+            type: String
         },
         // onClose should update the active prop
         onClose: {
             type: Function,
-            required: true,
+            required: true
         },
         back: {
-            type: Function,
-        },
-    },
+            type: Function
+        }
+    }
 };
 </script>

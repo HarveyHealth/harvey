@@ -75,7 +75,7 @@
 <script>
 import moment from 'moment';
 
-import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import StagesNav from '../util/StagesNav.vue';
 import transformAvailability from '../../../utils/methods/transformAvailability';
 
@@ -83,18 +83,18 @@ export default {
     name: 'practitioner',
     components: {
         ClipLoader,
-        StagesNav,
+        StagesNav
     },
     data() {
         return {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
+                'container': true
             },
             errorText: null,
             isProcessing: false,
-            store: this.$root.$data,
+            store: this.$root.$data
         };
     },
     filters: {
@@ -103,7 +103,7 @@ export default {
         },
         year(value) {
             return moment(value).format('YYYY');
-        },
+        }
     },
     // This is for when the component loads before the practitioner list has finished loading
     watch: {
@@ -111,7 +111,7 @@ export default {
             if (list.length) {
                 this.select(list[0], 0, true);
             }
-        },
+        }
     },
     computed: {
         hasSelection() {
@@ -128,7 +128,7 @@ export default {
             return Laravel.user.phone_verified_at
                 ? 'schedule'
                 : 'phone';
-        },
+        }
     },
     methods: {
         determineImage(image, type) {
@@ -147,7 +147,7 @@ export default {
                     this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
                     this.isProcessing = false;
                 } else {
-                    this.$router.push({ name: this.nextStage, path: `/${this.nextStage}`, });
+                    this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
                 }
             });
         },
@@ -161,7 +161,7 @@ export default {
             this.store.signup.practitionerName = dr.info.name;
             this.store.signup.practitionerState = dr.info.license_state;
             this.errorText = null;
-        },
+        }
     },
     mounted () {
         this.$root.toDashboard();
@@ -176,6 +176,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

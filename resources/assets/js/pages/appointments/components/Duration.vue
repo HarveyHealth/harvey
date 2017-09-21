@@ -26,15 +26,15 @@ export default {
         // What happens when a user selects a status?
         setDuration: Function,
         // Should we even display appointment status?
-        visible: Boolean,
+        visible: Boolean
     },
     components: {
-        SelectOptions,
+        SelectOptions
     },
     methods: {
         handleSelect(e) {
             this.setDuration(this.list[e.target.selectedIndex - 1]);
-        },
-    },
+        }
+    }
 };
 </script>

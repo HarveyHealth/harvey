@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import {assign,} from 'lodash';
+import {assign} from 'lodash';
 
 export default {
     data() {
@@ -29,16 +29,16 @@ export default {
             tabList: {},
             activeTab: `tab-${this.loadWithId}` || null,
             currentUrl: null,
-            previousTab: null,
+            previousTab: null
         };
     },
     props: {
-        loadWithId: String,
+        loadWithId: String
     },
     methods: {
         updateTab(tabData) {
             this.tabList = assign({}, this.tabList, {
-                [tabData.id]: tabData,
+                [tabData.id]: tabData
             });
         },
         setActiveTab(tabData) {
@@ -46,7 +46,7 @@ export default {
             this.currentUrl = tabData.url;
 
             if (this.currentUrl) {
-                window.history.pushState({ tab: this.previousTab, }, null, this.currentUrl);
+                window.history.pushState({ tab: this.previousTab }, null, this.currentUrl);
             }
 
             // remember the previous tab
@@ -55,14 +55,14 @@ export default {
         getTabIndex(id) {
             const idList = Object.keys(this.tabList);
             return idList.indexOf(id);
-        },
+        }
     },
     computed: {
         activeTabNumber() {
             if (this.activeTab) {
                 return this.getTabIndex(this.activeTab);
             }
-        },
+        }
     },
     mounted() {
         this.$nextTick(() => {
@@ -78,6 +78,6 @@ export default {
 
             this.setActiveTab(historyTab);
         };
-    },
+    }
 };
 </script>

@@ -61,19 +61,19 @@ import StagesNav from '../util/StagesNav.vue';
 export default {
     name: 'schedule',
     components: {
-        StagesNav,
+        StagesNav
     },
     data() {
         return {
             containerClasses: {
                 'anim-fade-slideup': true,
                 'anim-fade-slideup-in': false,
-                'container': true,
+                'container': true
             },
             errorText: null,
             isProcessing: false,
             weeks: 4,
-            weekStart: moment().startOf('week'),
+            weekStart: moment().startOf('week')
         };
     },
     filters: {
@@ -88,7 +88,7 @@ export default {
         },
         weekDay(value) {
             return moment(value).format('MMM D');
-        },
+        }
     },
     computed: {
         availableTimes() {
@@ -96,8 +96,8 @@ export default {
         },
         prevStage() {
             return Laravel.user.phone_verified_at
-                ? { name: 'practitioner', display: 'Practitioner', }
-                : { name: 'phone', display: 'Phone', };
+                ? { name: 'practitioner', display: 'Practitioner' }
+                : { name: 'phone', display: 'Phone' };
         },
         selectedWeek() {
             return this.$root.$data.signup.selectedWeek;
@@ -123,13 +123,13 @@ export default {
                     if (this.dayWithWeek(dayObj.date, weekObj.start)) {
                         weekObj.days[dayObj.day.substring(0,3)] = {
                             date: dayObj.date,
-                            times: dayObj.times.map(t => t.stored),
+                            times: dayObj.times.map(t => t.stored)
                         };
                     }
                 });
             });
             return weeks;
-        },
+        }
     },
     methods: {
         checkAppointment() {
@@ -139,13 +139,13 @@ export default {
                 return;
             }
             this.isProcessing = true;
-            this.$router.push({ name: 'payment', path: '/payment', });
+            this.$router.push({ name: 'payment', path: '/payment' });
         },
         createWeek(start) {
             return {
                 start: start.add(1, 'days').format('YYYY-MM-DD'),
                 end: start.add(6, 'days').format('YYYY-MM-DD'),
-                days: { Mon: null, Tue: null, Wed: null, Thu: null, Fri: null, Sat: null, Sun: null, },
+                days: { Mon: null, Tue: null, Wed: null, Thu: null, Fri: null, Sat: null, Sun: null }
             };
         },
         dayWithWeek(date, start) {
@@ -187,7 +187,7 @@ export default {
             case 3:
                 return 'In three weeks';
             }
-        },
+        }
     },
     mounted () {
         this.$root.toDashboard();
@@ -200,6 +200,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    },
+    }
 };
 </script>

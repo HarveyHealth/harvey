@@ -64,11 +64,11 @@ export default {
         Overlay,
         DetailLabOrders,
         FilterButtons,
-        NotificationPopup,
+        NotificationPopup
     },
     data() {
         return {
-            filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete',],
+            filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
             activeFilter: 0,
             selectedRowData: {},
             selectedRowUpdating: null,
@@ -83,7 +83,7 @@ export default {
                 Received: [],
                 Mailed: [],
                 Processing: [],
-                Complete: [],
+                Complete: []
             },
             labData: [],
             currentData: [],
@@ -91,7 +91,7 @@ export default {
             notificationMessage: '',
             notificationActive: false,
             notificationDirection: 'top-right',
-            userType: null,
+            userType: null
         };
     },
     methods: {
@@ -143,7 +143,7 @@ export default {
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
+                'has-updated': this.updatedRow === index
             };
         },
         addingFlyoutActive() {
@@ -181,7 +181,7 @@ export default {
                 3: "Received",
                 4: "Mailed",
                 5: "Processing",
-                6: "Complete",
+                6: "Complete"
             };
             data.sort((a,b) => new Date(b.data.date) - new Date(a.data.date));
             this.cache[choices['0']] = data.filter(e => e.data.completed_at == "Recommended");
@@ -198,7 +198,7 @@ export default {
         },
         getLabTests() {
             this.tests = this.$root.$data.labTests;
-        },
+        }
     },
     computed: {
         disabledFilters() {
@@ -228,7 +228,7 @@ export default {
         },
         labTests() {
             return this.$root.$data.labTests.length > 0;
-        },
+        }
     },
     watch: {
         loadingLabs(val) {
@@ -240,7 +240,7 @@ export default {
             if (!val) {
                 this.getLabTests();
             }
-        },
+        }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'lab-orders';
@@ -254,6 +254,6 @@ export default {
             this.setupLabData();
         }
 
-    },
+    }
 };
 </script>

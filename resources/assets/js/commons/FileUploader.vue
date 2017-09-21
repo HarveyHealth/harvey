@@ -46,11 +46,11 @@ export default {
             fileName: '',
             uploading: false,
             upload_success: false,
-            form: new FormData(),
+            form: new FormData()
         };
     },
     props: {
-        action: String,
+        action: String
     },
     methods: {
         onFileChange(e) {
@@ -98,7 +98,7 @@ export default {
         },
         onError() {
 
-        },
-    },
+        }
+    }
 };
 </script>
