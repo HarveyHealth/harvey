@@ -107,12 +107,19 @@ export default {
     }
   },
   methods: {
+    clearCodeInputs() {
+      Object.keys(this.confirmInputComponent.$refs).forEach(i => {
+        this.confirmInputComponent.$refs[i].value = '';
+      })
+    },
     newPhoneNumber() {
       this.isPhoneProcessing = false;
       this.code = '';
       this.$root.$data.signup.phonePending = false;
       this.$root.$data.signup.codeConfirmed = false;
       this.$root.$data.signup.code = '';
+      this.isInvalidCode = false;
+      this.clearCodeInputs();
     },
     storeCode(value) {
       this.code = value;
@@ -142,9 +149,7 @@ export default {
             this.setInvalidCode();
           }
         }).catch(error => {
-          Object.keys(this.confirmInputComponent.$refs).forEach(i => {
-            this.confirmInputComponent.$refs[i].value = '';
-          })
+          this.clearCodeInputs();
           this.setInvalidCode();
         })
       }
@@ -191,9 +196,7 @@ export default {
       }
     },
     handleNewSend() {
-      Object.keys(this.confirmInputComponent.$refs).forEach(i => {
-        this.confirmInputComponent.$refs[i].value = '';
-      })
+      this.clearCodeInputs();
       this.sendConfirmation();
     },
     sendConfirmation() {
