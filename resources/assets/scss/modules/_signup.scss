@@ -2,6 +2,7 @@
 .signup-content {
   text-align: center;
   @include padding(50px null null null);
+  @include padding(25px 0 0);
   @include margin(null null 60px null);
 }
 
@@ -12,6 +13,7 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
   @include padding(30px);
   @include margin(0 auto 5px);
+
   &.small {
     max-width: 500px;
   }
@@ -28,7 +30,21 @@
     @include margin(1em 0);
   }
 
+  // Main Signup Page
+
+  &.signup {
+    h1 {
+      @include margin(0 0 1em);
+    }
+    .form-label {
+      .form-input_checkbox {
+        @include margin(4px 10px 0 0);
+      }
+    }
+  }
+
   // We should merge these at some point
+
   .error-text, .copy-error {
     width: 100%;
     line-height: 1.3;
@@ -206,6 +222,12 @@ select:focus,
 textarea:focus,
 button:focus {
   outline: none;
+}
+
+.form-input_text {
+  border: none;
+  border-bottom: 2px solid $color-gray-3;
+  @include padding(7px);
 }
 
 // Add event button overrides
