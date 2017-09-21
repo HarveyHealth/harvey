@@ -2,7 +2,7 @@
     <div class="section">
         <h2 class="title is-4">Pick a date</h2>
         <ul class="columns">
-            <li v-bind:v-for="date in dates" class="column" @click="onDateChange(date)">
+            <li v-for="date in dates" class="column" @click="onDateChange(date)">
                 <a :class="['box', 'has-text-centered', 'datetime-selector', {'is-selected' : isSameDate(selectedDate, date)}]">
                     <p class="subtitle">{{date | datetime('dddd') }}</p>
                     <p class="subtitle"><small>{{date | datetime('MMM') }}</small> </p>
@@ -18,9 +18,9 @@ import moment from 'moment';
 
 export default {
     props: {
-        selectedDate: Any,
-        maximumDays: Any,
-        startDateTime: Any,
+        selectedDate: String,
+        maximumDays: String,
+        startDateTime: String,
     },
     methods: {
         onDateChange(date) {

@@ -272,7 +272,7 @@ export default {
             patientList: [],
             practitionerList: [],
             purposeCharLimit: 180,
-            selectedRowData: null,
+            selectedRowData: {},
             selectedRowHasUpdated: null,
             selectedRowIndex: null,
             selectedRowUpdating: null,
@@ -555,7 +555,7 @@ export default {
             this.flyoutMode = 'new';
             this.flyoutActive = true;
             this.overlayActive = true;
-            this.selectedRowData = null;
+            this.selectedRowData = {};
             this.selectedRowIndex = null;
         },
 
@@ -656,7 +656,7 @@ export default {
                 // Reset everything
                 this.flyoutActive = false;
                 this.flyoutMode = null;
-                this.selectedRowData = null;
+                this.selectedRowData = {};
                 this.selectedRowIndex = null;
                 setTimeout(() => this.appointment = this.resetAppointment(), 300);
             }
@@ -769,7 +769,7 @@ export default {
                 }
             });
 
-            this.selectedRowData = null;
+            this.selectedRowData = {};
             this.flyoutActive = false;
             this.flyoutMode = null;
             this.modalActive = false;

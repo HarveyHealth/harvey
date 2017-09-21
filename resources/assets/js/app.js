@@ -93,7 +93,7 @@ const app = new Vue({
             upcoming_appointments: [],
             unreadMessages: [],
             labOrders: [],
-            labTests: [],
+            labTests: {},
             patientLookUp: {},
             practitionerLookUp: {},
             user: {},

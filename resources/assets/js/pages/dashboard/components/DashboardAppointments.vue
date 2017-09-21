@@ -6,7 +6,7 @@
       </div>
       <div class="card-content-container">
         <template v-if="upcomingAppointmentsData && upcomingAppointmentsData.length">
-            <div class="appointment-wrapper" v-bind:v-for="appointment in upcomingAppointmentsData">
+            <div class="appointment-wrapper" v-for="appointment in upcomingAppointmentsData">
                 <DashboardAppointment
                     :appointment="appointment"
                     :user-type="userType"
@@ -29,7 +29,7 @@ import moment from 'moment';
 export default {
     props: {
         userType: String, 
-        upcomingAppointments: Object,
+        upcomingAppointments: [Object, Array],
     },
     components: {
         DashboardAppointment,

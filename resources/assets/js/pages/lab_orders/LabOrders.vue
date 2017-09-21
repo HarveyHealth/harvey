@@ -70,7 +70,7 @@ export default {
         return {
             filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete',],
             activeFilter: 0,
-            selectedRowData: null,
+            selectedRowData: {},
             selectedRowUpdating: null,
             selectedRowHasUpdated: null,
             addFlyoutActive: false,
@@ -86,7 +86,6 @@ export default {
                 Complete: [],
             },
             labData: [],
-            tests: this.$root.$data.labTests,
             currentData: [],
             notificationSymbol: '&#10003;',
             notificationMessage: '',
@@ -99,7 +98,7 @@ export default {
         handleRowClick(obj, index) {
             let data;
             if (obj) {
-                data = obj.data === this.selectedRowData ? null : obj.data;
+                data = obj.data === this.selectedRowData ? {} : obj.data;
             } else {
                 data = null;
             }
@@ -109,7 +108,7 @@ export default {
                 this.selectedRowData = data;
                 this.selectedRowIndex = index;
             } else {
-                this.selectedRowData = null;
+                this.selectedRowData = {};
                 this.selectedRowIndex = null;
                 this.detailFlyoutActive = false;
             }
@@ -152,7 +151,7 @@ export default {
             this.addFlyoutActive = !this.addFlyoutActive;
         },
         detailsFlyoutActive() {
-            if (this.selectedRowData != null) this.selectedRowData = null;
+            this.selectedRowData = {};
             this.addFlyoutActive = !this.addFlyoutActive;
             this.detailFlyoutActive = !this.detailFlyoutActive;
         },
@@ -223,6 +222,9 @@ export default {
                     global.loadingPractitioners;
             }
             return false;
+        },
+        tests() {
+            return this.$root.$data.labTests;
         },
         labTests() {
             return this.$root.$data.labTests.length > 0;

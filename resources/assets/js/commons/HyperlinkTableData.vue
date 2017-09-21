@@ -2,7 +2,7 @@
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
-        <th v-bind:v-for="col in columns"
+        <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
         >{{ col.name }}</th>
@@ -19,10 +19,10 @@
           {{ emptyMsg }}
         </td>
       </tr>
-      <tr v-bind:v-for="(row, i) in rowData"
+      <tr v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-bind:v-for="(val, j) in row.values" :width="columns[j].width">
+        <td v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
            <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val | phone }}</a>
@@ -124,7 +124,8 @@ export default {
         },
         // Can be null to start but should be used to store the index of the row clicked
         selectedRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: true,
         },
         // To add custom class to the table for additional styling
@@ -133,12 +134,14 @@ export default {
         },
         // Like selectedRow but to indicate the index of the row that was just updated
         updatedRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
         // Like selectedRow but to indicate the index of the row currently being updated
         updatingRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
     },

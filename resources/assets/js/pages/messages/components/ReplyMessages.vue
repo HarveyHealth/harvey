@@ -32,7 +32,7 @@ import axios from 'axios';
 export default {
     props: {
         name: String,
-        id: Any,
+        id: String,
         header: String,
     },
     name: 'Reply',

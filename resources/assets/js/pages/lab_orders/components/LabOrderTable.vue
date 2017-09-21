@@ -59,12 +59,14 @@ export default {
         },
         // See TableData
         updatedRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
         // See TableData
         updatingRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
     },

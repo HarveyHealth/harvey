@@ -28,7 +28,7 @@
               <preview v-if="renderNewMessage" />
             </div>
             <div v-if="messageList" >
-                <div v-bind:v-for="chat in messageList" class="messages-wrapper">
+                <div v-for="chat in messageList" class="messages-wrapper">
                 <router-link :to="{
                     name: 'detail',
                     params: {

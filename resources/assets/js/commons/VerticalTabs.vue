@@ -4,7 +4,7 @@
             <aside class="menu">
                 <ul class="menu-list">
                     <li class="menu-label">Choose Test</li>
-                    <li v-bind:v-for="tabData in tabList">
+                    <li v-for="tabData in tabList">
                         <a
                             :class="{'is-active': tabData.id === activeTab}"
                             @click="setActiveTab(tabData)"

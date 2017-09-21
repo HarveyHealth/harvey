@@ -25,7 +25,7 @@ export default {
         header: String,
         message: String,
         image: String,
-        id: Any,
+        id: String,
         timezone: String,
     },
     name: 'MessagingPost',

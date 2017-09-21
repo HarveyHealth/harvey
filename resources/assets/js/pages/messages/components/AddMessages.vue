@@ -12,7 +12,7 @@
                 <label class="input__label" for="patient_name">Recipient</label>
                 <span class="custom-select">
                     <select @change="updateUser($event)">
-                        <option  v-bind:v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
+                        <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
                     </select>
                 </span>
             </div>

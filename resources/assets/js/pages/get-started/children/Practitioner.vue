@@ -20,7 +20,7 @@
         <div class="signup-practitioner-wrapper cf">
           <div class="practitioner-wrapper">
             <h3 class="signup-section-header heading-2 font-centered">Available Doctors</h3>
-            <div class="signup-practitioner-selector-wrap" v-bind:v-for="(dr, index) in practitioners">
+            <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
               <button :class="{ 'signup-practitioner-selector': true, 'active': index === selected }" @click="select(dr, index)">
                 <img :src="determineImage(dr.info.picture_url, 'user')" />
               </button>

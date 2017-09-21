@@ -13,7 +13,7 @@
       <ClientsTable
           :handle-row-click="handleRowClick"
           :loading="loadingClients"
-          :selected-row="null"
+          :selected-row="{}"
           :updating-row="null"
           :updated-row="null"
           :tableRowData="currentData"

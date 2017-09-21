@@ -2,7 +2,7 @@
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
     <thead>
       <tr v-if="rowData.length !== 0">
-        <th v-bind:v-for="col in columns"
+        <th v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
             class="heading-2"
@@ -20,10 +20,10 @@
           {{ emptyMsg }}
         </td>
       </tr>
-      <tr v-bind:v-for="(row, i) in rowData"
+      <tr v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-bind:v-for="(val, j) in row.values" :width="columns[j].width">
+        <td v-for="(val, j) in row.values" :width="columns[j].width">
           <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
           <div class="cell-wrap" :data-column="columns[j].name" v-html="val"></div>
         </td>
@@ -34,6 +34,7 @@
 
 <script>
 import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
+import { isEqual } from 'lodash';
 export default {
     name: 'TableData',
     data() {return {};},
@@ -53,9 +54,9 @@ export default {
     // has been selected, is currently updating, or has just finished updating.
         $$rowClasses(data, index) {
             return {
-                'is-selected': this.selectedRow === data,
-                'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
+                'is-selected': isEqual(this.selectedRow, data),
+                'is-updating': isEqual(this.updatingRow, index),
+                'has-updated': isEqual(this.updatedRow, index),
             };
         },
     },
@@ -120,7 +121,8 @@ export default {
         },
         // Can be null to start but should be used to store the index of the row clicked
         selectedRow: {
-            type: Any,
+            type: Object,
+            default: {},
             required: true,
         },
         // To add custom class to the table for additional styling
@@ -129,12 +131,14 @@ export default {
         },
         // Like selectedRow but to indicate the index of the row that was just updated
         updatedRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
         // Like selectedRow but to indicate the index of the row currently being updated
         updatingRow: {
-            type: Any,
+            type: String,
+            default: null,
             required: false,
         },
     },

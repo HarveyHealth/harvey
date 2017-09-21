@@ -27,7 +27,7 @@
                                 <span class="custom-select">
                                     <select v-model="practitioner.licenses[0].title">
                                         <option value=""></option>
-                                        <option v-bind:v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
+                                        <option v-for="license_type in license_types" name="license_title" v-bind:value="license_type">
                                             {{ license_names[license_type] }} ({{ license_type }})
                                         </option>
                                     </select>
@@ -38,7 +38,7 @@
                                 <span class="custom-select">
                                     <select name="license_state" v-model="practitioner.licenses[0].state">
                                         <option value=""></option>
-                                        <option v-bind:v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
+                                        <option v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
                                     </select>
                                 </span>
                             </div>
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="error-text">
-                        <p v-bind:v-for="error in errorMessages">{{ error.detail }} </p>
+                        <p v-for="error in errorMessages">{{ error.detail }} </p>
                     </div>
                     <div class="submit inline-centered">
                         <button class="button" v-on:click.prevent="submit" :disabled="submitting || errors.any()">Save Changes</button>

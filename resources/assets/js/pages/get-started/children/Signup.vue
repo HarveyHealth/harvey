@@ -17,7 +17,7 @@
             <div class="quotes-imgs">
               <a href="/"><svg class="harvey"><use xlink:href="#harvey-logo" /></svg></a>
             </div>
-            <blockquote v-bind:v-for="obj in quotes" :key="obj.source">
+            <blockquote v-for="obj in quotes" :key="obj.source">
               <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="copy-main font-lg"></p>
               <footer v-html="'&ndash; ' + obj.source" class="copy-muted font-italic"></footer>
             </blockquote>

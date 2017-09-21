@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div  v-if="!details">
-                        <div v-bind:v-for="card in $root.$data.global.creditCards">
+                        <div v-for="card in $root.$data.global.creditCards">
                             <div class="card-object">
                                 <p class="copy-main font-md font-italic">
                                     <i class="fa fa-credit-card"></i>

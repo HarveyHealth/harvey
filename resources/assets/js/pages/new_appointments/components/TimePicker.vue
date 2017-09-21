@@ -2,7 +2,7 @@
     <div class="section">
         <h2 class="title is-4">Pick a time</h2>
         <ul class="columns">
-            <li v-bind:v-for="time in times" class="column" @click="onTimeChange(time)">
+            <li v-for="time in times" class="column" @click="onTimeChange(time)">
                 <a
                     :class="['box', 'has-text-centered', 'datetime-selector', {'is-selected' : selectedTime == time}]"
                     :disabled="time < startTime"
@@ -22,14 +22,14 @@ import moment from 'moment';
 
 export default {
     props: {
-        selectedDate: Any,
-        selectedTime: Any,
-        now: Any,
-        startOfDayHour: Any,
-        endOfDayHour: Any,
-        minimumNotice: Any,
-        duration: Any,
-        startDateTime: Any,
+        selectedDate: String,
+        selectedTime: String,
+        now: String,
+        startOfDayHour: String,
+        endOfDayHour: String,
+        minimumNotice: String,
+        duration: String,
+        startDateTime: String,
     },
     methods: {
         range(start, stop, step) {

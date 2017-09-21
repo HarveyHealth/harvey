@@ -63,8 +63,8 @@ export default {
     name: 'new-appointment',
     props: {
         user: Object,
-        includeCta: Any,
-        form: Any,
+        includeCta: Boolean,
+        form: Object,
     },
     data() {
         return {

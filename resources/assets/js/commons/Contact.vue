@@ -5,7 +5,7 @@
             <h2 class="title is-1"><strong>Contact Us</strong></h2>
 
             <ul>
-                <li v-bind:v-for="(value, type) in types">
+                <li v-for="(value, type) in types">
                     <h3 class="title is-4">{{ capitalize(type) }}</h3>
                     <p class="subtitle is-3">
                         <a :href="hyperlink(value, type)">{{value}}</a>
