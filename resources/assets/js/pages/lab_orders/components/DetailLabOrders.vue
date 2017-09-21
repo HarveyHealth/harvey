@@ -308,6 +308,11 @@
               })
             }
           }
+          if (this.$props.rowData.completed_at === 'Recommended') {
+            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              status: 'confirmed'
+            })
+          }
         })
         axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
           .then(response => {
