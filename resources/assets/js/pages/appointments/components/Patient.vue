@@ -20,8 +20,8 @@
     </div>
     <div v-if="name" class="margin-top">
       <label class="input__label">Payment</label>
-      <p v-if="shouldShowPaymentError"><a href="/dashboard#/settings">Add Card</a></p>
-      <p v-else class="copy-good">Card Found</p>
+      <p v-if="hasCard" class="copy-good">Card Found</p>
+      <p v-else><a href="/dashboard#/settings">Add Card</a></p>
     </div>
   </div>
 </template>
