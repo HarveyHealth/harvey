@@ -5,7 +5,7 @@ namespace Tests\Browser\Pages;
 use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
 
-class Dashboardappointment extends BasePage
+class DashboardAppointment extends BasePage
 {
     /**
      * Get the URL for the page.
@@ -39,7 +39,7 @@ class Dashboardappointment extends BasePage
             '@element' => '#selector',
             '@appointmentTab' => '#app > div.nav-bar > nav > a:nth-child(3)',
             '@newAppointment' => '#app > div.main-container > div.main-content > div > div > h1 > button',
-            '@selectPatient' => '#app > div.main-container > aside > div:nth-child(3) > div:nth-child(2) > span',
+            '@selectPatient' => '#app > div.main-container > aside > div:nth-child(4) > div:nth-child(2) > span',
             '@selectDoctor' => '#app > div.main-container > aside > div:nth-child(4) > div > span'
         ];
     }
