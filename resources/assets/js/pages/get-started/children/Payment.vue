@@ -2,57 +2,49 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'payment'" />
-      <h2 class="heading-3-expand" v-text="title"></h2>
+      <h2 class="heading-1" v-text="title"></h2>
       <p v-html="subtext"></p>
 
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
     </div>
-    <div class="signup-container signup-phone-container font-centered">
+    <div class="signup-container small router">
       <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }">
         <i class="fa fa-long-arrow-left"></i>
         <span class="font-sm">Schedule</span>
       </router-link>
-
-      <div class="phone-input-container">
-        <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
-          <div class="input-wrap">
-            <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
-          </div>
-          <div class="input-wrap">
-            <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
-          </div>
-          <div>
-            <div class="input-wrap input-half--sm">
-              <input class="form-input form-input_text"
-                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
-            </div>
-            <div class="input-wrap input-half--sm last">
-              <input class="form-input form-input_text"
-                    :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
-            </div>
-          </div>
-        </form>
-
-        <div class="signup-main-icon">
-          <svg class="interstitial-icon icon-rocket">
-            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
-          </svg>
+      <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
+        <div class="input-wrap">
+          <input class="form-input form-input_text"
+                :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
         </div>
-
-        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
-        <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
-
-        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
-        <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
-          <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
-          <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
-          <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
-        </button>
-        
+        <div class="input-wrap">
+          <input class="form-input form-input_text"
+                :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
+        </div>
+        <div>
+          <div class="input-wrap input-half--sm">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
+          </div>
+          <div class="input-wrap input-half--sm last">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
+          </div>
+        </div>
+      </form>
+      <div v-if="!pageLogic.showForm" class="signup-main-icon">
+        <svg>
+          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
+        </svg>
       </div>
-
+      <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
+      <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
+      <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
+      <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
+        <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
+        <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
+        <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
+      </button>
     </div>
   </div>
 </template>
@@ -116,7 +108,7 @@ export default {
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
-        ? 'Payment Method'
+        ? 'Confirm Payment'
         : 'Enter Payment Method';
     }
   },
@@ -189,10 +181,10 @@ export default {
     },
     validateCardInputs() {
       let result = '';
-      if (!this.cardNumber.length) result += 'Card number is blank<br>'
-      if (!this.cardName.length) result += 'Card name is blank<br>'
-      if (!this.cardExpiration.length) result += 'Card expiration is blank<br>'
-      if (!this.cardCvc.length) result += 'Card CVC is blank<br>'
+      if (!this.cardNumber.length) result += 'Your card number is blank.<br>'
+      if (!this.cardName.length) result += 'Your card name is blank.<br>'
+      if (!this.cardExpiration.length) result += 'Your card expiration is blank.<br>'
+      if (!this.cardCvc.length) result += 'Your card CVC is blank.<br>'
       return result;
     }
   },

@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null $space-lg null);
+  @include margin(null null $space-md null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -148,6 +148,9 @@
   line-height: 1.4;
   min-height: 10em;
   width: 100%;
+  &.small {
+    min-height: 4em;
+  }
 }
 
 .input--text[readonly="readonly"] {

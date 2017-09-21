@@ -35,7 +35,7 @@
 
       <div class="container small signup-form-inputs">
 
-        <div class="signup-container signup-form-container">
+        <div class="signup-container small naked signup">
 
           <h1 class="heading-1" v-html="title"></h1>
 
@@ -65,7 +65,7 @@
           </div>
 
           <div class="input-wrap last">
-            <label class="form-label form-label_checkbox font-sm" for="checkbox">
+            <label class="form-label form-label_checkbox font-medium-gray" for="checkbox">
               <input class="form-input form-input_checkbox" v-model="terms" name="terms" type="checkbox" id="checkbox" v-validate="'required'"> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
             </label>
             <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
