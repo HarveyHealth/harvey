@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.11",
+            "version": "3.36.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "fd0aacadab2f5ae4a43b91bccc164299c5cef7f0"
+                "reference": "aadad22574042e76f5ae3d995cd94b5673dc9b80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/fd0aacadab2f5ae4a43b91bccc164299c5cef7f0",
-                "reference": "fd0aacadab2f5ae4a43b91bccc164299c5cef7f0",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/aadad22574042e76f5ae3d995cd94b5673dc9b80",
+                "reference": "aadad22574042e76f5ae3d995cd94b5673dc9b80",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-09-19T22:09:23+00:00"
+            "time": "2017-09-21T19:39:57+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1356,16 +1356,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.8.1",
+            "version": "8.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "d234fc851e71443f20325501d1b764af488b0a66"
+                "reference": "ec918d3a819d386b59fae5aa465665f7dd0b8a75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/d234fc851e71443f20325501d1b764af488b0a66",
-                "reference": "d234fc851e71443f20325501d1b764af488b0a66",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ec918d3a819d386b59fae5aa465665f7dd0b8a75",
+                "reference": "ec918d3a819d386b59fae5aa465665f7dd0b8a75",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1420,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-09-06T08:32:29+00:00"
+            "time": "2017-09-20T09:10:15+00:00"
         },
         {
             "name": "giggsey/locale",

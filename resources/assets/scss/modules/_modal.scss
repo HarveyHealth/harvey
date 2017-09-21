@@ -63,6 +63,10 @@
   }
 }
 
+.appointment-modal td {
+  vertical-align: top;
+}
+
 @include query(lg) {
   .modal-button-container {
     button {
