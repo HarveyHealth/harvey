@@ -105,7 +105,7 @@ let rules = [
         loader: 'vue-loader',
         options: {
             loaders: Mix.options.extractVueStyles ? {
-                js: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.APP_ENV === 'local' ? 'eslint-loader' : ''],
+                js: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.NODE_ENV === 'development' ? 'eslint-loader' : ''],
                 scss: vueExtractTextPlugin.extract({
                     use: 'css-loader!sass-loader',
                     fallback: 'vue-style-loader'
@@ -127,7 +127,7 @@ let rules = [
                     fallback: 'vue-style-loader'
                 })
             }: {
-                js: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.APP_ENV === 'local' ? 'eslint-loader' : ''],
+                js: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.NODE_ENV === 'development' ? 'eslint-loader' : ''],
                 scss: 'vue-style-loader!css-loader!sass-loader',
                 sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
                 less: 'vue-style-loader!css-loader!less-loader',
@@ -145,7 +145,7 @@ let rules = [
     {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.APP_ENV === 'local' ? 'eslint-loader' : '']
+        loader: ['babel-loader' + Mix.babelConfig(), dotenv.config().parsed.NODE_ENV === 'development' ? 'eslint-loader' : '']
     },
 
     {
