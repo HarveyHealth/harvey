@@ -24,7 +24,6 @@ export default function (fetchedAvailability, userType) {
 
   let day = '';
   let dayObj = null;
-  const timeObj = [];
   const availabilityTransformed = [];
 
   fetchedAvailability.forEach((iso, index) => {

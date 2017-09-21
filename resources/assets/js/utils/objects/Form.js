@@ -13,7 +13,7 @@ export default class Form {
   }
 
   data () {
-    const data = _.assign({}, this);
+    const data = assign({}, this);
 
     delete data.originalData;
     delete data.errors;

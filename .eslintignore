@@ -13,5 +13,5 @@ storage
 tests
 vagrant_files
 vendor
-resources/assets/vendors
+resources/assets/vendors/**
 *.json

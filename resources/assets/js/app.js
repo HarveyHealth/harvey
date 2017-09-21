@@ -92,8 +92,6 @@ const app = new Vue({
       test_results: [],
       upcoming_appointments: [],
       unreadMessages: [],
-      confirmedDoctors: [],
-      confirmedPatients: [],
       labOrders: [],
       labTests: [],
       patientLookUp: {},
@@ -279,7 +277,7 @@ const app = new Vue({
           this.global.user = data;
           this.global.loadingUser = false;
         })
-        .catch(error => this.global.user = {});
+        .catch(() => this.global.user = {});
     },
     getMessages () {
       const makeThreadId = (userOne, userTwo) => {
@@ -365,3 +363,5 @@ const app = new Vue({
     if (Laravel.user.signedIn) this.setup();
   }
 }).$mount('#app');
+
+export default app;

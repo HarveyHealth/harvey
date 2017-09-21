@@ -1,3 +1,4 @@
+/* eslint-disable */
 !(function (d) {
   var config = {
       kitId: 'ukw4upn',
