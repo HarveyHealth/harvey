@@ -4,7 +4,7 @@
       <div style="width: 22px; margin: 0 auto;">
         <ClipLoader :color="$root.$data.colors.copy" :size="'22px'" />
       </div>
-      <div>Loading Practitioners...</div>
+      <div>Loading practitioners...</div>
     </h3>
     <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" :style="{ 'max-width': '500px', 'margin': '0 auto' }">
       <i class="fa fa-error"></i>
@@ -13,12 +13,11 @@
     <template v-else>
       <div class="signup-stage-instructions">
         <StagesNav :current="'practitioner'" />
-        <h2 class="heading-3-expand font-normal">Choose Your Practitioner</h2>
+        <h2 class="heading-3-expand font-normal">Choose Your Doctor</h2>
         <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
       </div>
       <div class="signup-container signup-stage-container">
         <div class="signup-practitioner-wrapper cf">
-
           <div class="practitioner-wrapper">
             <h3 class="signup-section-header heading-2 font-centered">Available Doctors</h3>
             <div class="signup-practitioner-selector-wrap" v-for="(dr, index) in practitioners">
@@ -28,8 +27,7 @@
               <small class="signup-practitioner-selector-name">{{ dr.name }}</small>
             </div>
           </div>
-
-          <div class="practitioner-wrapper">
+          <div class="practitioner-wrapper right">
             <div v-if="hasSelection">
               <div class="practitioner-bg" :style="{ backgroundImage: 'url(' + determineImage(practitioners[selected].info.background_picture_url, 'background') + ')' }"></div>
               <img class="practitioner-avatar" :src="determineImage(practitioners[selected].info.picture_url, 'user')" />
@@ -52,17 +50,16 @@
                 <hr class="practitioner-divider" />
                 <p class="practitioner-rate font-centered">
                   <span class="font-bold font-spaced font-xl">$150</span>
-                  <span class="font-xl">/hour</span>
+                  <span class="font-lg">per 1 hour</span>
                 </p>
               </div>
             </div>
           </div>
-
         </div>
-        <p class="copy-error" v-html="errorText" v-show="errorText"></p>
-        <p class="practitioner-selection text-centered" v-if="hasSelection">
-          Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND</span>.
+        <p class="closing-selection" v-if="hasSelection">
+          Your selection is <span class="font-bold">{{ practitioners[selected].name }}, ND.</span>
         </p>
+        <p class="copy-error" v-html="errorText" v-show="errorText"></p>
         <div class="font-centered" ref="button">
           <button class="button button--blue" style="width: 160px" :disabled="isProcessing" @click="getAvailability(store.signup.data.practitioner_id)">
             <span v-if="!isProcessing">Continue</span>

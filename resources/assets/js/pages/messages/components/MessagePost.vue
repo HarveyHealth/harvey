@@ -1,5 +1,6 @@
 <template>
     <div class="container-message" :class="{unread: read}">
+        <div class="unread-dot"></div>
         <div class="message-post-details">
           <div class="message-post-avatar">
               <img :src="image" alt="avatar">

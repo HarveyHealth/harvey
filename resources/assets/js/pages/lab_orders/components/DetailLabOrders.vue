@@ -244,8 +244,8 @@
     },
     methods: {
       handleFlyoutClose() {
-        this.$parent.selectedRowData = null;
         this.step = 1;
+        this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
       updateStatus(e) {
