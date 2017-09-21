@@ -15,13 +15,13 @@
         <div class="schedule-section schedule-days">
           <h3 class="heading-2 font-normal font-centered">Choose date</h3>
 
-          <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
+          <div v-bind:v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
             <div class="schedule-week-info copy-muted">
               <span class="week font-xs">{{ weekReference(i) }}</span>
               <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
             </div>
             <ol>
-              <li v-for="(dayObj, key) in week.days"
+              <li v-bind:v-for="(dayObj, key) in week.days"
                   v-show="dayObj !== null"
                   v-text="key"
                   @click="handleSelectDay(i, key, dayObj)"
@@ -36,7 +36,7 @@
           <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
           <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
           <ol v-show="selectedDate">
-            <li v-for="(time, j) in availableTimes"
+            <li v-bind:v-for="(time, j) in availableTimes"
                 :class="{ 'available': true, 'selected': selectedTime === j }"
                 @click="handleSelectTime(time, j)"
             >{{ time | timeDisplay }}</li>

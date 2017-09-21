@@ -1,7 +1,7 @@
 <template>
     <div class="symptoms-selector-wrapper columns is-desktop is-multiline">
         <div class="control column is-half-desktop"
-             v-for="stat in stats"
+             v-bind:v-for="stat in stats"
         >
             <div class="control-label">
                 <label class="label">{{stat.label}}</label>

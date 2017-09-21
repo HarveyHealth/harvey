@@ -9,7 +9,7 @@
           <label class="input__label" for="patient_name">client</label>
           <span class="custom-select">
               <select @change="updateClient($event)">
-                  <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
+                  <option v-bind:v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
               </select>
           </span>
       </div>
@@ -17,13 +17,13 @@
           <label class="input__label" for="patient_name">doctor</label>
           <span class="custom-select">
               <select @change="updateDoctor($event)">
-                  <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+                  <option v-bind:v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
               </select>
           </span>
       </div>
       <div>
             <label class="input__label" for="patient_name">tests</label>
-            <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
+            <span v-bind:v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
                 <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
                 <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
             </span>
@@ -39,7 +39,7 @@
         <h1>Create Lab Order</h1>
         <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
         <ul style="text-align: left; margin-left: 125px; padding-bottom: 5px;">
-          <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
+          <li v-bind:v-for="test in selectedTests">{{ test.attributes.name }}</li>
         </ul>
         <div class="inline-centered">
             <button @click="createLabOrder" class="button">Yes, Confirm</button>

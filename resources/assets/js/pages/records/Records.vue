@@ -17,7 +17,7 @@
               </div>
             </Modal>
             <div class="container container-backoffice">
-                <div v-for="patient in results" @click="selectPatient(patient)" class="results">
+                <div v-bind:v-for="patient in results" @click="selectPatient(patient)" class="results">
                     <div class="spacing">{{ patient.search_name }}</div>
                     <div class="spacing">{{ patient.email }}</div>
                     <div class="spacing">{{ patient.date_of_birth }}</div>

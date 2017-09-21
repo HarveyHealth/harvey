@@ -26,7 +26,7 @@
             />
             <div class="content-container">
                 <div v-if="detailList" class="container-message">
-                    <div class="detail-wrap" v-for="detail in detailList">
+                    <div class="detail-wrap" v-bind:v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"

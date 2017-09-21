@@ -9,14 +9,14 @@
       <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
+        <a v-bind:v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
           class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
         <label class="input__item">{{ doctorName }}</label>
       </div>
-      <div v-for="val in samples" class="input__container">
+      <div v-bind:v-for="val in samples" class="input__container">
         <label class="input__label" for="patient_name">Sample Type: {{ val }}</label>
         <label class="input__item">Required</label>
       </div>
@@ -63,11 +63,11 @@
         <div class="input__container">
           <div class="products-side">
             <label class="input__label" for="products">Products</label>
-            <span class="sub-items" v-for="test in testList">{{ test.name }}</span>
+            <span class="sub-items" v-bind:v-for="test in testList">{{ test.name }}</span>
           </div>
           <div class="total-side">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in testList">${{ test.price }}</span>
+            <span class="sub-items" v-bind:v-for="test in testList">${{ test.price }}</span>
           </div>
         </div>
         <div class="input__container">
@@ -86,7 +86,7 @@
           <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
           <span class="custom-select" style="width: 45%; float:left;">
                   <select @change="updateState($event)">
-                      <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                      <option v-bind:v-for="state in stateList" :data-id="state">{{ state }}</option>
                   </select>
               </span>
           <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
@@ -105,12 +105,12 @@
       <div v-if="step === 1">
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
-          <div v-for="test in testList">
+          <div v-bind:v-for="test in testList">
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
             <label v-if="status === 'Recommended' || status === 'Confirmed'" class="input__label">{{ test.name }}</label>
             <span v-if="status !== 'Recommended' && status !== 'Confirmed'" class="custom-select">
                 <select @change="updateTest($event, test)">
-                    <option v-for="current in test.status">{{ current }}</option>
+                    <option v-bind:v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
           </div>
@@ -119,7 +119,7 @@
           <label class="input__label" for="patient_name">Doctor</label>
           <span class="input__item">{{ doctorName }}</span>
         </div>
-        <div v-for="val in samples" class="input__container">
+        <div v-bind:v-for="val in samples" class="input__container">
           <label class="input__label" for="patient_name">Sample Type: {{ capitalize(val) }}</label>
           <label class="input__item">Required</label>
         </div>
@@ -155,7 +155,7 @@
       </div>
     </div>
     <div v-if="step == 2">
-      <div v-for="test in testList">
+      <div v-bind:v-for="test in testList">
         <div class="input__container">
           <label class="input__label" for="patient_name">{{ test.name }}</label>
           <input v-model="shippingCodes[test.test_id]" class="input--text" type="text">
@@ -173,7 +173,7 @@
         <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
         <span class="custom-select" style="width: 45%; float:left;">
                 <select @change="updateState($event)">
-                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                    <option v-bind:v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
             </span>
         <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>

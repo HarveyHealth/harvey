@@ -2,7 +2,7 @@
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
     <thead>
       <tr>
-        <th v-for="col in columns"
+        <th v-bind:v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
             class="heading-2"
@@ -20,10 +20,10 @@
           {{ emptyMsg }}
         </td>
       </tr>
-      <tr v-for="(row, i) in rowData"
+      <tr v-bind:v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-for="(val, j) in row.values" :width="columns[j].width">
+        <td v-bind:v-for="(val, j) in row.values" :width="columns[j].width">
           <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
           <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
            <a :href="'mailto:'+row.data.email" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a>

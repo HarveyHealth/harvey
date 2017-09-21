@@ -10,7 +10,7 @@
       <h2 class="heading-1 font-normal">We&rsquo;re sorry!</h2>
       <p>Unfortunately, we are unnable to service clients in your state yet, but we&rsquo;re working on it. We will add you to our newsletter and let you know as soon as we launch there.</p>
       <div class="social-icon-wrapper">
-        <a v-for="icon in socialIcons" :href="icon.href">
+        <a v-bind:v-for="icon in socialIcons" :href="icon.href">
           <i :class="icon.class"></i>
         </a>
       </div>

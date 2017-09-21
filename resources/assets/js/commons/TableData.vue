@@ -2,7 +2,7 @@
   <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
     <thead>
       <tr v-if="rowData.length !== 0">
-        <th v-for="col in columns"
+        <th v-bind:v-for="col in columns"
             @click="onSort ? onSort(col) : null"
             :width="col.width"
             class="heading-2"
@@ -20,10 +20,10 @@
           {{ emptyMsg }}
         </td>
       </tr>
-      <tr v-for="(row, i) in rowData"
+      <tr v-bind:v-for="(row, i) in rowData"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
-        <td v-for="(val, j) in row.values" :width="columns[j].width">
+        <td v-bind:v-for="(val, j) in row.values" :width="columns[j].width">
           <ClipLoader class="loading" :color="$root.$data.colors.copy" :size="'18px'" v-if="j === 0 && updatingRow === i" />
           <div class="cell-wrap" :data-column="columns[j].name" v-html="val"></div>
         </td>

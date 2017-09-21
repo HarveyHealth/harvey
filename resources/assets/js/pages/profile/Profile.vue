@@ -48,7 +48,7 @@
                                         <label class="input__label" for="timezone">Timezone</label>
                                         <span class="custom-select">
                                             <select name="timezone" v-model="user.attributes.timezone">
-                                                <option v-for="timezone in timezones">{{ timezone }}</option>
+                                                <option v-bind:v-for="timezone in timezones">{{ timezone }}</option>
                                             </select>
                                         </span>
                                     </div>
@@ -99,7 +99,7 @@
                                         <label class="input__label" for="state">State</label>
                                         <span class="custom-select">
                                             <select name="state" v-model="user.attributes.state">
-                                                <option v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
+                                                <option v-bind:v-for="(state, abbreviation) in states" v-bind:value="abbreviation">{{ state }}</option>
                                             </select>
                                         </span>
                                     </div>
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="error-text">
-                                <p v-for="error in errorMessages">{{ error.detail }} </p>
+                                <p v-bind:v-for="error in errorMessages">{{ error.detail }} </p>
                             </div>
                             <div class="submit inline-centered">
                                 <button class="button" v-on:click.prevent="submit" :disabled="submitting" style="width: 160px">

@@ -5,7 +5,7 @@
       <select :value="selected" @change="onSelect($event)" :disabled="isDisabled">
         <option v-if="$$hasAttachedLabel" disabled value="">{{ attachedLabel }}</option>
         <option v-if="!isRequired"></option>
-        <option v-for="item in options">{{ item.value }}</option>
+        <option v-bind:v-for="item in options">{{ item.value }}</option>
       </select>
     </span>
   </div>

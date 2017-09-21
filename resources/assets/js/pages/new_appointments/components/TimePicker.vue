@@ -2,7 +2,7 @@
     <div class="section">
         <h2 class="title is-4">Pick a time</h2>
         <ul class="columns">
-            <li v-for="time in times" class="column" @click="onTimeChange(time)">
+            <li v-bind:v-for="time in times" class="column" @click="onTimeChange(time)">
                 <a
                     :class="['box', 'has-text-centered', 'datetime-selector', {'is-selected' : selectedTime == time}]"
                     :disabled="time < startTime"
