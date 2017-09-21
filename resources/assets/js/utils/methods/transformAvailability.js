@@ -1,7 +1,6 @@
 import moment from 'moment';
 
-export default function(fetchedAvailability, userType) {
-
+export default function (fetchedAvailability, userType) {
   if (!fetchedAvailability || !fetchedAvailability.length) return [];
 
   // Rules:
@@ -14,7 +13,7 @@ export default function(fetchedAvailability, userType) {
   const makeTimeObj = iso => ({
     stored: moment(iso).format('YYYY-MM-DD HH:mm:ss'),
     utc: moment.utc(iso),
-    local: moment.utc(iso).local(),
+    local: moment.utc(iso).local()
   });
 
   const makeDayObj = iso => ({
@@ -25,8 +24,8 @@ export default function(fetchedAvailability, userType) {
 
   let day = '';
   let dayObj = null;
-  let timeObj = [];
-  let availabilityTransformed = [];
+  const timeObj = [];
+  const availabilityTransformed = [];
 
   fetchedAvailability.forEach((iso, index) => {
     // Only if the date is pending
@@ -51,10 +50,8 @@ export default function(fetchedAvailability, userType) {
       if (dayObj && index === fetchedAvailability.length - 1) {
         availabilityTransformed.push(dayObj);
       }
-
     }
-  })
+  });
 
   return availabilityTransformed;
-
 }

@@ -136,7 +136,7 @@
                         // Interval resize trigger function
                         ed.addCommand('mceAutoResizeTimeout', function() {
                             // Resize
-                            this.execCommand('mceAutoResize')
+                            this.execCommand('mceAutoResize');
                             // Disable throbber
                             this.setProgressState(false);
                             this.springload.throbbing = false;

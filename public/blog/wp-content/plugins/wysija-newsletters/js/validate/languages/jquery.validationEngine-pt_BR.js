@@ -132,7 +132,7 @@
                         var b = new Number;
                         var c = 11;
                         b += (a[9] * --c);
-                        if ((x = b % 11) < 2) { a[9] = 0 } else { a[9] = 11-x }
+                        if ((x = b % 11) < 2) { a[9] = 0; } else { a[9] = 11-x; }
                         b = 0;
                         c = 11;
                         for (y=0; y<10; y++) b += (a[y] * c--);

@@ -12,7 +12,7 @@ const rootRedirect = context === 'get-started'
   ? loggedIn ? '/welcome' : '/signup'
   : '/';
 
-let rootRoute = {
+const rootRoute = {
   path: '/',
   name: null,
   component: null,
@@ -77,68 +77,68 @@ rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
   component: require('./pages/get-started/children/Signup.vue')
-})
+});
 
-let routes = [
+const routes = [
 
-    rootRoute,
+  rootRoute,
 
-    {
-        path: '/appointments',
-        name: 'appointments',
-        props: true,
-        component: require('./pages/appointments/Appointments.vue'),
-    },
-    {
-        path: '/messages',
-        component: require('./pages/messages/Messages.vue')
-    },
-    {
-        path: '/detail',
-        name: 'detail',
-        props: true,
-        component: require('./pages/messages/DetailMessage.vue')
-    },
-    {
-        path: '/lab_orders',
-        component: require('./pages/lab_orders/LabOrders.vue')
-    },
-    {
-        path: '/clients',
-        component: require('./pages/clients/Clients.vue')
-    },
-    {
-        path: '/records',
-        component: require('./pages/records/Records.vue')
-    },
-    {
-        path: '/settings',
-        component: require('./pages/settings/Settings.vue')
-    },
-    {
-        path: '/profile',
-        component: require('./pages/profile/Profile.vue')
-    },
-    {
-        path: '/profile/:id',
-        props: true,
-        component: require('./pages/profile/Profile.vue')
-    },
-    {
-        path: '*',
-        redirect:  rootRedirect
-    }
+  {
+    path: '/appointments',
+    name: 'appointments',
+    props: true,
+    component: require('./pages/appointments/Appointments.vue')
+  },
+  {
+    path: '/messages',
+    component: require('./pages/messages/Messages.vue')
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    props: true,
+    component: require('./pages/messages/DetailMessage.vue')
+  },
+  {
+    path: '/lab_orders',
+    component: require('./pages/lab_orders/LabOrders.vue')
+  },
+  {
+    path: '/clients',
+    component: require('./pages/clients/Clients.vue')
+  },
+  {
+    path: '/records',
+    component: require('./pages/records/Records.vue')
+  },
+  {
+    path: '/settings',
+    component: require('./pages/settings/Settings.vue')
+  },
+  {
+    path: '/profile',
+    component: require('./pages/profile/Profile.vue')
+  },
+  {
+    path: '/profile/:id',
+    props: true,
+    component: require('./pages/profile/Profile.vue')
+  },
+  {
+    path: '*',
+    redirect: rootRedirect
+  }
 ];
 
-let router = new VueRouter({
-    routes,
-    linkActiveClass: 'is-active'
+const router = new VueRouter({
+  routes,
+  linkActiveClass: 'is-active'
 });
 
 router.afterEach(() => {
-    if (router.app.nav_is_open) {
-        router.app.nav_is_open = false;
-    }
+  if (router.app.nav_is_open) {
+    router.app.nav_is_open = false;
+  }
 });
 
-export default router
+export default router;

@@ -1,6 +1,6 @@
 import combineAppointmentData from './combineAppointmentData';
 
-export default function(cb) {
+export default function (cb) {
   axios
     .get(`${this.$root.apiUrl}/appointments?include=patient.user`)
     .then(response => {

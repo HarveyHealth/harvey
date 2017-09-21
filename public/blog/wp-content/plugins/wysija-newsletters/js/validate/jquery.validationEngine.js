@@ -405,7 +405,7 @@
 						}, 1100, function(){
 							if(options.focusFirstField) first_err.focus();
 						});
-						$("html, body").animate({scrollLeft: fixleft},1100)
+						$("html, body").animate({scrollLeft: fixleft},1100);
 					}
 
 				} else if(options.focusFirstField)
@@ -1324,7 +1324,7 @@
 				do {
 					digit = parseInt(cardNumber.charAt(i));
 					luhn += (pos++ % 2 == 0) ? digit * 2 : digit;
-				} while (--i >= 0)
+				} while (--i >= 0);
 
 				for (i = 0; i < luhn.length; i++) {
 					sum += parseInt(luhn.charAt(i));
@@ -2047,7 +2047,7 @@
 	 // Only show one message per error prompt
 	 showOneMessage: false
 	}};
-	$(function(){$.validationEngine.defaults.promptPosition = methods.isRTL()?'topLeft':"topRight"});
+	$(function(){$.validationEngine.defaults.promptPosition = methods.isRTL()?'topLeft':"topRight";});
 })(jQuery);
 
 

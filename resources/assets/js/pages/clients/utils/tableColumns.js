@@ -1,6 +1,5 @@
 import tableSort from '../../../utils/methods/tableSort';
 
-
 export default [
   {
     key: 'client',
@@ -38,4 +37,4 @@ export default [
     width: '10%',
     sort: tableSort.byString('done')
   }
-]
+];

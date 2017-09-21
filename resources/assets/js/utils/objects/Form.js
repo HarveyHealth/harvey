@@ -1,50 +1,50 @@
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 import Errors from './Errors.js';
 
 export default class Form {
-    constructor(data) {
-        this.originalData = data;
+  constructor (data) {
+    this.originalData = data;
 
-        for (let field in data) {
-            this[field] = data[field];
-        }
-
-        this.errors = new Errors();
+    for (const field in data) {
+      this[field] = data[field];
     }
 
-    data() {
-        let data = _.assign({}, this);
+    this.errors = new Errors();
+  }
 
-        delete data.originalData;
-        delete data.errors;
+  data () {
+    const data = _.assign({}, this);
 
-        return data;
+    delete data.originalData;
+    delete data.errors;
+
+    return data;
+  }
+
+  reset () {
+    for (const field in this.originalData) {
+      this[field] = '';
     }
+  }
 
-    reset() {
-        for (let field in this.originalData) {
-            this[field] = '';
-        }
+  submit (requestType, url, successCallback, failCallback) {
+    axios[requestType](url, this.data())
+      .then(this.onSuccess.bind(this, successCallback))
+      .catch(error => this.onFail(error, failCallback));
+  }
+
+  onSuccess (successCallback) {
+    this.errors.clear();
+
+    if (successCallback && typeof successCallback === 'function') {
+      successCallback();
     }
+  }
 
-    submit(requestType, url, successCallback, failCallback) {
-        axios[requestType]( url, this.data() )
-            .then( this.onSuccess.bind(this, successCallback) )
-            .catch(error => this.onFail(error, failCallback));
+  onFail (error, failCallback) {
+    if (error.response && error.response.data) {
+      this.errors.record(error.response.data);
     }
-
-    onSuccess(successCallback) {
-        this.errors.clear();
-
-        if (successCallback && typeof successCallback === 'function') {
-            successCallback();
-        }
-    }
-
-    onFail(error, failCallback) {
-        if (error.response && error.response.data) {
-            this.errors.record(error.response.data);
-        }
-        if (failCallback) failCallback();
-    }
+    if (failCallback) failCallback();
+  }
 }

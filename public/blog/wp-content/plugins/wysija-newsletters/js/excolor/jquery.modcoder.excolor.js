@@ -75,7 +75,7 @@ jQuery.fn.modcoder_excolor = function (C) {
             //j = j.toLowerCase();
             j = j.split('jquery.modcoder.excolor.js');
             if (j.length == 2) {
-                root_path = j[0]
+                root_path = j[0];
             }
         }
         var k = new Image();
@@ -102,13 +102,13 @@ jQuery.fn.modcoder_excolor = function (C) {
         jQuery(aitem).mouseenter(function () {
             clearTimeout(click_to);
             click_to = setTimeout(function () {
-                click_flag = true
-            }, 100)
+                click_flag = true;
+            }, 100);
         }).mouseleave(function () {
             clearTimeout(click_to);
             click_to = setTimeout(function () {
-                click_flag = false
-            }, 100)
+                click_flag = false;
+            }, 100);
         });
         if (C.color_box) {
             if(C.show_input === true) {
@@ -125,13 +125,13 @@ jQuery.fn.modcoder_excolor = function (C) {
         if (C.round_corners) {
             u = '-khtml-border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;';
             rad3px = '-khtml-border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;';
-            radwrap = '-khtml-border-radius: 0 7px 7px 7px;-moz-border-radius: 0 7px 7px 7px;-webkit-border-radius: 0 7px 7px 7px;border-radius: 0 7px 7px 7px;'
+            radwrap = '-khtml-border-radius: 0 7px 7px 7px;-moz-border-radius: 0 7px 7px 7px;-webkit-border-radius: 0 7px 7px 7px;border-radius: 0 7px 7px 7px;';
         }
         if (C.shadow) {
-            shadow = 'box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';-webkit-box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';-moz-box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';'
+            shadow = 'box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';-webkit-box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';-moz-box-shadow:0 ' + C.shadow_size + 'px ' + (C.shadow_size * 2) + 'px 0 ' + C.shadow_color + ';';
         }
         if (C.backlight) {
-            backlight = 'background-position:0 0;background-repeat:no-repeat;background-image:url(' + root_path + 'shbg.png);'
+            backlight = 'background-position:0 0;background-repeat:no-repeat;background-image:url(' + root_path + 'shbg.png);';
         }
         var w = new Array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
         w[8] = 8;
@@ -206,7 +206,7 @@ jQuery.fn.modcoder_excolor = function (C) {
             inputhex = '';
             if (parsex == '') {
                 jQuery(isample).val('').css('background', 'url(' + root_path + 'transp.gif) repeat');
-                jQuery(wrapper).find('input').val('')
+                jQuery(wrapper).find('input').val('');
             } else {
                 for (var i = 0; i < parsex.length; i++) {
                     if (parsex.charAt(i) != '#' && (parsex.charAt(i) + '') in y) {
@@ -296,7 +296,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                 jQuery(wrapper).remove();
                 break;
             }
-            opened = false
+            opened = false;
         }
 
         function action_ok() {
@@ -381,7 +381,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                 if (hexistr == '') {
                     hue = 119;
                     saturation = 0;
-                    brightness = 0
+                    brightness = 0;
                 } else {
                     var b = hex2rgb(hexistr);
                     jQuery(inp_r).val(b['r']);
@@ -390,13 +390,13 @@ jQuery.fn.modcoder_excolor = function (C) {
                     var b = rgb2hsv(b['r'], b['g'], b['b']);
                     hue = -1 * (Math.round(b['h'] * 1 / 3) - 120);
                     if (hue < 0) {
-                        hue = 0
+                        hue = 0;
                     }
                     if (hue > 119) {
-                        hue = 119
+                        hue = 119;
                     }
                     saturation = b['s'];
-                    brightness = b['v']
+                    brightness = b['v'];
                 }
                 jQuery(slider).css('left', pos_huebox.left + 'px').css('top', (pos_huebox.top + hue) + 'px');
                 init_positions();
@@ -406,7 +406,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                     jQuery(colsample).css('background-image', 'url(' + root_path + 'transp.gif)').css('background-repeat', 'repeat');
                     jQuery(isample).val('').css('background', 'url(' + root_path + 'transp.gif) repeat');
                     jQuery(switcher).css('background', 'url(' + root_path + 'transp0.gif) -20px 0 no-repeat');
-                    jQuery(wrapper).find('input').val('')
+                    jQuery(wrapper).find('input').val('');
                 }
             }
         };
@@ -419,7 +419,7 @@ jQuery.fn.modcoder_excolor = function (C) {
             jQuery(inp_r).val(Math.round(a['r']) * 1);
             jQuery(inp_g).val(Math.round(a['g']) * 1);
             jQuery(inp_b).val(Math.round(a['b']) * 1);
-            jQuery(inp_hex).val(rgb2hex(a['r'], a['g'], a['b']))
+            jQuery(inp_hex).val(rgb2hex(a['r'], a['g'], a['b']));
 
             C.callback_on_select(rgb2hex(a['r'], a['g'], a['b']), jQuery(aitem).attr('id'));
         };
@@ -433,7 +433,7 @@ jQuery.fn.modcoder_excolor = function (C) {
             if (s == 0) {
                 e['r'] = v * 255;
                 e['g'] = v * 255;
-                e['b'] = v * 255
+                e['b'] = v * 255;
             } else {
                 f = h * 6;
                 var_i = Math.floor(f);
@@ -443,38 +443,38 @@ jQuery.fn.modcoder_excolor = function (C) {
                 if (var_i == 0) {
                     var_r = v;
                     var_g = var_3;
-                    var_b = var_1
+                    var_b = var_1;
                 } else if (var_i == 1) {
                     var_r = var_2;
                     var_g = v;
-                    var_b = var_1
+                    var_b = var_1;
                 } else if (var_i == 2) {
                     var_r = var_1;
                     var_g = v;
-                    var_b = var_3
+                    var_b = var_3;
                 } else if (var_i == 3) {
                     var_r = var_1;
                     var_g = var_2;
-                    var_b = v
+                    var_b = v;
                 } else if (var_i == 4) {
                     var_r = var_3;
                     var_g = var_1;
-                    var_b = v
+                    var_b = v;
                 } else {
                     var_r = v;
                     var_g = var_1;
-                    var_b = var_2
+                    var_b = var_2;
                 };
                 e['r'] = Math.round(var_r * 255);
                 e['g'] = Math.round(var_g * 255);
-                e['b'] = Math.round(var_b * 255)
+                e['b'] = Math.round(var_b * 255);
             }
             if (d == 'hex') {
-                return rgb2hex(e['r'], e['g'], e['b'])
+                return rgb2hex(e['r'], e['g'], e['b']);
             } else if (d == 'rgb') {
-                return (e)
+                return (e);
             } else {
-                return (e)
+                return (e);
             }
         };
 
@@ -498,11 +498,11 @@ jQuery.fn.modcoder_excolor = function (C) {
                         break;
                     case 4:
                         b['b'] = (16 * x.indexOf(h.charAt(i)) + x.indexOf(h.charAt(i + 1))) * 1;
-                        break
+                        break;
                     }
                 }
             }
-            return b
+            return b;
         };
 
         function rgb2hsv(a, c, d) {
@@ -519,42 +519,42 @@ jQuery.fn.modcoder_excolor = function (C) {
             delta = (maxrgb - e);
             b = maxrgb;
             if (maxrgb != 0.0) {
-                s = 255.0 * delta / maxrgb
+                s = 255.0 * delta / maxrgb;
             } else {
-                s = 0.0
+                s = 0.0;
             }
             if (s != 0.0) {
                 if (a == maxrgb) {
-                    h = (c - d) / delta
+                    h = (c - d) / delta;
                 } else {
                     if (c == maxrgb) {
-                        h = 2.0 + (d - a) / delta
+                        h = 2.0 + (d - a) / delta;
                     } else {
                         if (d == maxrgb) {
-                            h = 4.0 + (a - c) / delta
+                            h = 4.0 + (a - c) / delta;
                         }
                     }
                 }
             } else {
-                h = -1.0
+                h = -1.0;
             }
             h = h * 60;
             if (h < 0.0) {
-                h = h + 360.0
+                h = h + 360.0;
             }
             f['h'] = Math.round(h);
             f['s'] = Math.round(s * 100 / 255);
             f['v'] = Math.round(b * 100 / 255);
             if (f['h'] > 360) {
-                f['h'] = 360
+                f['h'] = 360;
             }
             if (f['s'] > 100) {
-                f['s'] = 100
+                f['s'] = 100;
             }
             if (f['v'] > 100) {
-                f['v'] = 100
+                f['v'] = 100;
             }
-            return f
+            return f;
         };
 
         function rgb2hex(r, g, b) {
@@ -566,20 +566,20 @@ jQuery.fn.modcoder_excolor = function (C) {
             var d = '';
             for (var i = 0; i < a.length; i++) {
                 dec = parseInt(a[i]);
-                d += c[parseInt(dec / 16)] + c[dec % 16]
+                d += c[parseInt(dec / 16)] + c[dec % 16];
             }
-            return d
+            return d;
         };
 
         function init_positions() {
             jQuery(slider).css('left', pos_huebox.left + 'px').css('top', (pos_huebox.top + hue) + 'px');
-            jQuery(sb_sel).css('left', (pos_sbbox.left + Math.round(saturation * 1.3) - 4) + 'px').css('top', (pos_sbbox.top + jQuery(sbbox).height() - 4 - Math.round(brightness * 1.3)) + 'px')
+            jQuery(sb_sel).css('left', (pos_sbbox.left + Math.round(saturation * 1.3) - 4) + 'px').css('top', (pos_sbbox.top + jQuery(sbbox).height() - 4 - Math.round(brightness * 1.3)) + 'px');
         };
 
         function init_colors() {
             jQuery(sbbox).css('background-color', '#' + hsb2rgb_hex(-1 * (hue - 119) * 3, 100, 100, 'hex'));
             jQuery(colsample).css('background-color', '#' + hsb2rgb_hex(-1 * (hue - 119) * 3, saturation, brightness, 'hex')).css('background-image', 'none');
-            jQuery(switcher).css('background', 'url(' + root_path + 'transp0.gif) 0 0 no-repeat')
+            jQuery(switcher).css('background', 'url(' + root_path + 'transp0.gif) 0 0 no-repeat');
         };
         setTimeout(function () {
             if(C.show_input === true) {
@@ -598,11 +598,11 @@ jQuery.fn.modcoder_excolor = function (C) {
                 cz_index = C.z_index,
                 zindex1, zindex2;
             if (isNaN(cz_index * 1)) {
-                zindex1 = zindex2 = ''
+                zindex1 = zindex2 = '';
             } else {
                 cz_index = cz_index * 1;
                 zindex1 = 'z-index:' + cz_index + ';';
-                zindex2 = 'z-index:' + (cz_index + 1) + ';'
+                zindex2 = 'z-index:' + (cz_index + 1) + ';';
             }
             var c = '<div id="modcoder_sample_wrapper" style="width:62px;height:30px;float:left;background:none;border:1px solid ' + C.border_color + ';margin:0;padding:0;' + u + '"><div id="modcoder_sample" style="width:60px;height:28px;border:1px solid white;float:left;padding:0;margin:0;' + u + '"></div></div>';
             init_color();
@@ -619,13 +619,13 @@ jQuery.fn.modcoder_excolor = function (C) {
             wrapper.mouseenter(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = true
-                }, 50)
+                    click_flag = true;
+                }, 50);
             }).mouseleave(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = false
-                }, 50)
+                    click_flag = false;
+                }, 50);
             });
             inp_hex = jQuery(wrapper).find('input#modcoder_hex');
             switcher = jQuery('body > div#modcoder_switcher');
@@ -639,26 +639,26 @@ jQuery.fn.modcoder_excolor = function (C) {
                 }, C.anim_speed, function () {
                     jQuery(this).show();
                     jQuery('body > div#modcoder_slider, body > div#modcoder_picker').show();
-                    jQuery(switcher).show()
+                    jQuery(switcher).show();
                 });
                 break;
             case 'slide':
                 jQuery(wrapper).slideDown(C.anim_speed, function () {
                     jQuery(this).show();
                     jQuery('body > div#modcoder_slider, body > div#modcoder_picker').show();
-                    jQuery(switcher).show()
+                    jQuery(switcher).show();
                 });
                 break;
             case 'fade':
                 jQuery('body > div#modcoder_colorpicker, body > div#modcoder_slider, body > div#modcoder_picker, body > div#modcoder_switcher').fadeTo(1, 0, function () {
-                    jQuery(this).show().fadeTo(C.anim_speed, 1)
+                    jQuery(this).show().fadeTo(C.anim_speed, 1);
                 });
                 break;
             default:
                 jQuery(wrapper).show();
                 jQuery(switcher).show();
                 jQuery('body > div#modcoder_slider, body > div#modcoder_picker').show();
-                break
+                break;
             }
             huebox = jQuery(wrapper).find('div#modcoder_hue');
             sbbox = jQuery(wrapper).find('div#modcoder_grad div');
@@ -685,37 +685,37 @@ jQuery.fn.modcoder_excolor = function (C) {
             }).css('left', (pos_huebox.left - 1) + 'px').css('top', (pos_huebox.top - 15) + 'px').mouseenter(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = true
-                }, 50)
+                    click_flag = true;
+                }, 50);
             }).mouseleave(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = false
-                }, 50)
+                    click_flag = false;
+                }, 50);
             });
             jQuery(slider).mouseenter(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = true
-                }, 50)
+                    click_flag = true;
+                }, 50);
             }).mouseleave(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = false
-                }, 50)
+                    click_flag = false;
+                }, 50);
             });
             jQuery(sb_sel).mouseenter(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = true
-                }, 50)
+                    click_flag = true;
+                }, 50);
             }).mouseleave(function () {
                 clearTimeout(click_to);
                 click_to = setTimeout(function () {
-                    click_flag = false
-                }, 50)
+                    click_flag = false;
+                }, 50);
             }).dblclick(function (e) {
-                jQuery(ok_but).click()
+                jQuery(ok_but).click();
             });
             jQuery(sb_sel).mousedown(function (e) {
                 pos_sel = jQuery(this).offset();
@@ -731,7 +731,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                 correct_y = e.pageY - pos_slider.top;
                 moved_slider = this;
                 jQuery(switcher).css('background', 'url(' + root_path + 'transp0.gif) 0 0 no-repeat');
-                e.preventDefault()
+                e.preventDefault();
             });
             jQuery(huebox).mousedown(function (e) {
                 if (e.pageY >= (pos_huebox.top + 5) && e.pageY <= ((pos_huebox.top + jQuery(huebox).height()) - 6)) {
@@ -746,23 +746,23 @@ jQuery.fn.modcoder_excolor = function (C) {
                     correct_x = e.pageX - pos_slider.left;
                     correct_y = e.pageY - pos_slider.top;
                     moved_slider = slider;
-                    e.preventDefault()
+                    e.preventDefault();
                 }
             });
             jQuery(sbbox).mousedown(function (e) {
                 saturation = Math.round((e.pageX - pos_sbbox.left - 1) / 1.3);
                 if (saturation > 100) {
-                    saturation = 100
+                    saturation = 100;
                 }
                 if (saturation < 1) {
-                    saturation = 1
+                    saturation = 1;
                 }
                 brightness = -1 * (Math.round((e.pageY - pos_sbbox.top - 1) / 1.3) - 100);
                 if (brightness > 100) {
-                    brightness = 100
+                    brightness = 100;
                 }
                 if (brightness < 1) {
-                    brightness = 1
+                    brightness = 1;
                 }
                 jQuery(switcher).css('background', 'url(' + root_path + 'transp0.gif) 0 0 no-repeat');
                 init_positions();
@@ -772,7 +772,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                 pos_sel = jQuery(j).offset();
                 correct_x = e.pageX - pos_sel.left;
                 correct_y = e.pageY - pos_sel.top;
-                e.preventDefault()
+                e.preventDefault();
             });
             jQuery(wrapper).find('input.modcoder_input').keypress(function (a) {
                 // set color has changed flag
@@ -780,73 +780,73 @@ jQuery.fn.modcoder_excolor = function (C) {
 
                 if (jQuery(this).hasClass('modcoder_rgb')) {
                     if (!((String.fromCharCode(a.which) * 1) in w) && !(a.which in z)) {
-                        a.preventDefault()
+                        a.preventDefault();
                     }
                 } else {
                     if (!(String.fromCharCode(a.which) in y) && !(a.which in z)) {
-                        a.preventDefault()
+                        a.preventDefault();
                     }
                 }
             }).change(function () {
                 if (jQuery(this).hasClass('modcoder_rgb')) {
                     if (jQuery(this).val() == '') {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
                     if (isNaN(jQuery(this).val() * 1)) {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
                     if (jQuery(this).val() * 1 > 255) {
-                        jQuery(this).val('255')
+                        jQuery(this).val('255');
                     }
                     if (jQuery(this).val() * 1 < 0) {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
-                    draw_rgb()
+                    draw_rgb();
                 } else {
-                    hex_valid_and_draw()
+                    hex_valid_and_draw();
                 }
             }).keyup(function () {
                 if (jQuery(this).hasClass('modcoder_rgb')) {
                     if (jQuery(this).val() == '') {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
                     if (isNaN(jQuery(this).val() * 1)) {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
                     if (jQuery(this).val() * 1 > 255) {
-                        jQuery(this).val('255')
+                        jQuery(this).val('255');
                     }
                     if (jQuery(this).val() * 1 < 0) {
-                        jQuery(this).val('0')
+                        jQuery(this).val('0');
                     }
-                    draw_rgb()
+                    draw_rgb();
                 } else {
-                    hex_valid_and_draw()
+                    hex_valid_and_draw();
                 }
             });
             inp_hex[0].onpaste = inp_hex[0].oninput = function (e) {
                 clearTimeout(hexto);
                 hexto = setTimeout(function () {
-                    hex_valid_and_draw()
-                }, 100)
+                    hex_valid_and_draw();
+                }, 100);
             };
             inp_r[0].onpaste = inp_r[0].oninput = inp_g[0].onpaste = inp_g[0].oninput = inp_b[0].onpaste = inp_b[0].oninput = function (e) {
                 if (jQuery(this).val() == '') {
-                    jQuery(this).val('0')
+                    jQuery(this).val('0');
                 }
                 if (isNaN(jQuery(this).val() * 1)) {
-                    jQuery(this).val('0')
+                    jQuery(this).val('0');
                 }
                 if (jQuery(this).val() * 1 > 255) {
-                    jQuery(this).val('255')
+                    jQuery(this).val('255');
                 }
                 if (jQuery(this).val() * 1 < 0) {
-                    jQuery(this).val('0')
+                    jQuery(this).val('0');
                 }
                 clearTimeout(hexto);
                 hexto = setTimeout(function () {
                     draw_rgb();
-                }, 100)
+                }, 100);
             };
             jQuery(ok_but).click(function () {
                 userok = true;
@@ -889,7 +889,7 @@ jQuery.fn.modcoder_excolor = function (C) {
         };
         jQuery(document).mouseup(function (e) {
             j = 'mel';
-            moved_slider = 'mel'
+            moved_slider = 'mel';
         }).mousemove(function (e) {
             if (j != 'mel') {
                 e.preventDefault();
@@ -897,29 +897,29 @@ jQuery.fn.modcoder_excolor = function (C) {
                     tty = 0;
                 a = e.pageX - correct_x;
                 if (a < (pos_sbbox.left - 4)) {
-                    a = pos_sbbox.left - 4
+                    a = pos_sbbox.left - 4;
                 }
                 if (a > (pos_sbbox.left + 125)) {
-                    a = pos_sbbox.left + 125
+                    a = pos_sbbox.left + 125;
                 }
                 tty = e.pageY - correct_y;
                 if (tty < (pos_sbbox.top - 4)) {
-                    tty = pos_sbbox.top - 4
+                    tty = pos_sbbox.top - 4;
                 }
                 if (tty > (pos_sbbox.top + 125)) {
-                    tty = pos_sbbox.top + 125
+                    tty = pos_sbbox.top + 125;
                 }
                 jQuery(j).css('left', a + 'px').css('top', tty + 'px');
                 brightness = -1 * (Math.round((tty - pos_sbbox.top + 5) / 1.3) - 100) + 1;
                 saturation = Math.round((a - pos_sbbox.left + 5) / 1.3);
                 if (brightness == 1) {
-                    brightness = 0
+                    brightness = 0;
                 }
                 if (saturation == 1) {
-                    saturation = 0
+                    saturation = 0;
                 }
                 jQuery(colsample).css('background-color', '#' + hsb2rgb_hex(-1 * (hue - 119) * 3, saturation, brightness, 'hex')).css('background-image', 'none');
-                update_inputs()
+                update_inputs();
             }
             if (moved_slider != 'mel') {
                 e.preventDefault();
@@ -953,8 +953,8 @@ jQuery.fn.modcoder_excolor = function (C) {
             if (!opened) {
                 jQuery('body > div#modcoder_slider, body > div#modcoder_picker, body > div#modcoder_colorpicker').stop().remove();
                 setTimeout(function () {
-                    run_modcoder_colorpicker()
-                }, 50)
+                    run_modcoder_colorpicker();
+                }, 50);
             }
         }).keyup(function () {
             if (opened) {
@@ -962,7 +962,7 @@ jQuery.fn.modcoder_excolor = function (C) {
                 update_inputs();
                 init_positions();
                 jQuery(inp_hex).val(inputhex);
-                hex_valid_and_draw()
+                hex_valid_and_draw();
             }
         });
 
@@ -986,10 +986,10 @@ jQuery.fn.modcoder_excolor = function (C) {
         }
 
         jQuery(isample).click(function () {
-            jQuery(aitem).click()
+            jQuery(aitem).click();
         });
         if (C.demo_mode) {
-            jQuery(isample).click()
+            jQuery(isample).click();
         }
-    })
+    });
 };

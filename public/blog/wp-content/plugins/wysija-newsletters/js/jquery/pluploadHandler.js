@@ -483,7 +483,7 @@ jQuery(document).ready(function($){
 		uploader.bind('UploadComplete', function(up, files) {
 			uploadComplete(files);
 		});
-	}
+	};
 
 	if ( typeof(wpUploaderInit) == 'object' )
 		uploader_init();

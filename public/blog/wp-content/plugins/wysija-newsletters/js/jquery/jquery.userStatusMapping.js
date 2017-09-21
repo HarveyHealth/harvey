@@ -40,11 +40,11 @@
 
 		var getColumnPosition = function(obj) {
 			return $(obj).parents('th').index();
-		}
+		};
 
 		var getRowPosition = function(obj) {
 			return $(obj).parents('th').parent().index();
-		}
+		};
 
 		$(this)
 		.change(function() {

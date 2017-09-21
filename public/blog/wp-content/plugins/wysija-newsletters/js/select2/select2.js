@@ -1033,7 +1033,7 @@ the specific language governing permissions and limitations under the Apache Lic
             if (this.mutationCallback === undefined) {
                 this.mutationCallback = function (mutations) {
                     mutations.forEach(sync);
-                }
+                };
             }
 
             // safari, chrome, firefox, IE11
@@ -2133,7 +2133,7 @@ the specific language governing permissions and limitations under the Apache Lic
             if (opts.element.get(0).tagName.toLowerCase() === "select") {
                 // install the selection initializer
                 opts.initSelection = function (element, callback) {
-                    var selected = element.find("option").filter(function() { return this.selected });
+                    var selected = element.find("option").filter(function() { return this.selected; });
                     // a single select box always has a value, no need to null check 'selected'
                     callback(self.optionToData(selected));
                 };
@@ -2303,7 +2303,7 @@ the specific language governing permissions and limitations under the Apache Lic
             if (this.select) {
                 this.select
                     .val(val)
-                    .find("option").filter(function() { return this.selected }).each2(function (i, elm) {
+                    .find("option").filter(function() { return this.selected; }).each2(function (i, elm) {
                         data = self.optionToData(elm);
                         return false;
                     });
@@ -2398,7 +2398,7 @@ the specific language governing permissions and limitations under the Apache Lic
 
                     var data = [];
 
-                    element.find("option").filter(function() { return this.selected }).each2(function (i, elm) {
+                    element.find("option").filter(function() { return this.selected; }).each2(function (i, elm) {
                         data.push(self.optionToData(elm));
                     });
                     callback(data);

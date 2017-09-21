@@ -1,7 +1,7 @@
 jQuery( function ( $ ) {
 	var mshotRemovalTimer = null;
-	var mshotSecondTryTimer = null
-	var mshotThirdTryTimer = null
+	var mshotSecondTryTimer = null;
+	var mshotThirdTryTimer = null;
 	
 	var mshotEnabledLinkSelector = 'a[id^="author_comment_url"], tr.pingback td.column-author a:first-of-type, td.comment p a';
 	

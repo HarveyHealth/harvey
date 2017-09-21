@@ -109,7 +109,7 @@
                 try {
                     return that._validateForm(event);
                 } catch(e) {}
-            }
+            };
         })(this);
     };
 
