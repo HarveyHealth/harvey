@@ -38,7 +38,9 @@ import Payment from '../../commons/Payment.vue';
 
 export default {
     name: 'new-appointment-wrapper',
-    props: ['user'],
+    props: {
+        user: Object
+    },
     data() {
         return {
             steps: ['new-appointment', 'profile', 'payment'],

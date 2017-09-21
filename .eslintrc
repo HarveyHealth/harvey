@@ -39,6 +39,15 @@
         "vue/require-render-return": [2],
         "vue/no-async-in-computed-properties": [2],
         "vue/no-duplicate-attributes": [2],
+        "vue/require-prop-types": [2],
+        "vue/this-in-template": [2, "never"],
+        // "vue/max-attributes-per-line": [2, {
+        //     "singleline": 3,
+        //     "multiline": {
+        //       "max": 1,
+        //       "allowFirstLine": false
+        //     }
+        //   }],
         "vue/no-side-effects-in-computed-properties": [2],
         "vue/return-in-computed-property": [2, { "treatUndefinedAsUnspecified": true }]
     }

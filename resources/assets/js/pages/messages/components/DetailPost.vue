@@ -14,7 +14,18 @@
 <script>
 import moment from 'moment';
 export default {
-    props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'yourId'],
+    props: {
+        name: String,
+        day: String,
+        time: String,
+        header: String,
+        message: String,
+        image: String,
+        id: Any,
+        userId: Any,
+        yourId: Any,
+        timezone: String,
+    },
     name: 'DetailPost',
     data() {
         return {  };

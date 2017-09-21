@@ -107,7 +107,10 @@ export default {
             flag: false
         };
     },
-    props: ['user', 'patient'],
+    props: {
+        user: Object, 
+        patient: Object
+    },
     components: {
         DashboardAppointments,
     },

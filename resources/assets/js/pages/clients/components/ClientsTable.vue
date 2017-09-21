@@ -62,10 +62,12 @@ export default {
         },
         // See TableData
         updatedRow: {
+            type: Any,
             required: false
         },
         // See TableData
         updatingRow: {
+            type: Any,
             required: false
         },
     }

@@ -99,7 +99,9 @@
 <script>
 export default {
     name: 'payment',
-    props: ['user', 'form'],
+    props: {
+        form: Object
+    },
     // data() {
     //     return {
     //         form: new Form({

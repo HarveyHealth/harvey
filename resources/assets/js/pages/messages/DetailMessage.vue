@@ -59,7 +59,14 @@ import axios from 'axios';
 import socket from './websocket';
 import _ from 'lodash';
 export default {
-    props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name', 'thread_id'],
+    props: {
+        sender_id: Any,
+        recipient_id: Any,
+        subject: String,
+        sender_name: String,
+        recipient_full_name: String,
+        thread_id: String
+    },
     name: 'messages',
     components: {
         Preview,

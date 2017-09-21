@@ -30,7 +30,11 @@
 <script>
 import axios from 'axios';
 export default {
-    props: ['name', 'header', 'id'],
+    props: {
+        name: String,
+        id: Any,
+        header: String
+    },
     name: 'Reply',
     data() {
         return {

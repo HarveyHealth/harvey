@@ -40,7 +40,6 @@
 
 <script>
 export default {
-    props: ['action'],
     data() {
         return {
             hasFile: false,
@@ -49,6 +48,9 @@ export default {
             upload_success: false,
             form: new FormData()
         };
+    },
+    props: {
+        action: String
     },
     methods: {
         onFileChange(e) {

@@ -27,7 +27,10 @@ import DashboardAppointment from './DashboardAppointment.vue';
 import moment from 'moment';
 
 export default {
-    props: ['userType', 'upcomingAppointments'],
+    props: {
+        userType: String, 
+        upcomingAppointments: Object
+    },
     components: {
         DashboardAppointment,
     },

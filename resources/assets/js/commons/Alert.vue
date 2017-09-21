@@ -22,7 +22,6 @@ import {assign} from 'lodash';
 
 export default {
     name: 'alert',
-    props: [],
     data() {
         return {
             show: false,

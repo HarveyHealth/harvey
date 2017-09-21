@@ -203,7 +203,9 @@ import axios from 'axios';
 import _ from 'lodash';
 export default {
     name: 'DetailLabOrders',
-    props: ['row-data', 'reset'],
+    props: {
+        reset: Function
+    },
     components: {
         Flyout,
         SelectOptions,

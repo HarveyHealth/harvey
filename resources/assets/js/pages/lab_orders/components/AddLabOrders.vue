@@ -56,7 +56,10 @@ import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
-    props: ['reset', 'labTests'],
+    props: {
+        reset: Function,
+        labTests: Array,
+    },
     name: 'AddLabOrders',
     components: {
         Flyout,

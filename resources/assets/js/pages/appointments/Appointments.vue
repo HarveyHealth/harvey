@@ -68,7 +68,7 @@
       </div>
 
       <Days
-        :day="this.appointment.day"
+        :day="appointment.day"
         :editable="editableDays"
         :is-loading="loadingDays"
         :list="appointment.practitionerAvailability"

@@ -17,7 +17,11 @@
 import moment from 'moment';
 
 export default {
-    props: ['selectedDate', 'maximumDays', 'startDateTime'],
+    props: {
+        selectedDate: Any,
+        maximumDays: Any,
+        startDateTime: Any
+    },
     methods: {
         onDateChange(date) {
             this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});

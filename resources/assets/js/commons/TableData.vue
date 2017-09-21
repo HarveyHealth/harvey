@@ -120,6 +120,7 @@ export default {
         },
         // Can be null to start but should be used to store the index of the row clicked
         selectedRow: {
+            type: Any,
             required: true
         },
         // To add custom class to the table for additional styling
@@ -128,10 +129,12 @@ export default {
         },
         // Like selectedRow but to indicate the index of the row that was just updated
         updatedRow: {
+            type: Any,
             required: false
         },
         // Like selectedRow but to indicate the index of the row currently being updated
         updatingRow: {
+            type: Any,
             required: false
         }
     }

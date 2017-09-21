@@ -21,7 +21,16 @@
 import moment from 'moment';
 
 export default {
-    props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
+    props: {
+        selectedDate: Any,
+        selectedTime: Any,
+        now: Any,
+        startOfDayHour: Any,
+        endOfDayHour: Any,
+        minimumNotice: Any,
+        duration: Any,
+        startDateTime: Any
+    },
     methods: {
         range(start, stop, step) {
             if (stop == null) {

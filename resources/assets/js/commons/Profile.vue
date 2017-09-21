@@ -223,7 +223,11 @@ import {assign} from 'lodash';
 
 export default {
     name: 'profile',
-    props: ['user', 'includeCta', 'form'],
+    props: {
+        form: Object,
+        includeCta: Boolean,
+        user: Object
+    },
     // data() {
     //     return {
     //         form: new Form({

@@ -61,7 +61,11 @@ import TimePicker from './components/TimePicker.vue';
 
 export default {
     name: 'new-appointment',
-    props: ['user', 'includeCta', 'form'],
+    props: {
+        user: Object,
+        includeCta: Any,
+        form: Any
+    },
     data() {
         return {
             // form: new Form({
