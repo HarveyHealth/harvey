@@ -31,11 +31,11 @@ export default {
     name: 'Clients',
     components: {
         ClientsTable,
-        UserNav
+        UserNav,
     },
     data() {
         return {
-            currentData: []
+            currentData: [],
         };
     },
     methods: {
@@ -55,24 +55,24 @@ export default {
         },
         getLabTests() {
             this.tests = this.$root.$data.labTests;
-        }
+        },
     },
     computed: {
         loadingClients() {
             return this.$root.$data.global.loadingClients;
-        }
+        },
     },
     watch: {
         loadingClients(val) {
             if (!val) {
                 this.setupLabData();
             }
-        }
+        },
     },
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
         const clientList = this.$root.$data.clientList;
         if (clientList.length) this.setupLabData();
-    }
+    },
 };
 </script>

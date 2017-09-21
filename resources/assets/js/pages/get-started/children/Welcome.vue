@@ -39,6 +39,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    }
+    },
 };
 </script>

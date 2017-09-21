@@ -90,7 +90,7 @@ export default {
         date() {
             const dateObject = this.appointmentDate;
             return dateObject;
-        }
+        },
     },
     methods: {
         showIntakeModal() {
@@ -100,7 +100,7 @@ export default {
             if (this.$root.isOnProduction()) {
                 // place intake tracking here
             }
-        }
+        },
     },
     filters: {
         toDate(date) {
@@ -108,7 +108,7 @@ export default {
         },
         toTime(date) {
             return moment.utc(date).local().format('h:mm a');
-        }
+        },
     },
     mounted () {
         this.$root.$data.signup.completedSignup = true;
@@ -138,6 +138,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    }
+    },
 };
 </script>

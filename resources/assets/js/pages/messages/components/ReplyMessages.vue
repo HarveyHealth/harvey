@@ -33,13 +33,13 @@ export default {
     props: {
         name: String,
         id: Any,
-        header: String
+        header: String,
     },
     name: 'Reply',
     data() {
         return {
             reply: this.$parent.reply,
-            message: ''
+            message: '',
         };
     },
     methods: {
@@ -50,7 +50,7 @@ export default {
             axios.post(`${this.$root.$data.apiUrl}/messages`, {
                 message: this.message,
                 recipient_user_id: this.$props.id,
-                subject: this.$props.header
+                subject: this.$props.header,
             })
                 .then(response => {
                     this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
@@ -60,7 +60,7 @@ export default {
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
                 });
             this.$parent.reply();
-        }
+        },
     },
     computed: {
         toUserType() {
@@ -71,7 +71,7 @@ export default {
             } else if (this.$root.$data.permissions === 'admin') {
                 return "Recipient";
             }
-        }
-    }
+        },
+    },
 };
 </script>

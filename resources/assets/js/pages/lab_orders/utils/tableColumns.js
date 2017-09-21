@@ -5,36 +5,36 @@ export default [
         key: 'order_date',
         name: 'Order Date',
         width: '15%',
-        sort: tableSort.byDate('_date')
+        sort: tableSort.byDate('_date'),
     },
     {
         key: 'client',
         name: 'Client',
         width: '15%',
-        sort: tableSort.byString('client')
+        sort: tableSort.byString('client'),
     },
     {
         key: 'doctor',
         name: 'Doctor',
         width: '20%',
-        sort: tableSort.byString('doctor')
+        sort: tableSort.byString('doctor'),
     },
     {
         key: 'order_id',
         name: 'Order Id',
         width: '10%',
-        sort: tableSort.byTime('_date')
+        sort: tableSort.byTime('_date'),
     },
     {
         key: 'tests',
         name: 'Tests',
         width: '10%',
-        sort: tableSort.byString('status')
+        sort: tableSort.byString('status'),
     },
     {
         key: 'status',
         name: 'Status',
         width: '30%',
-        sort: tableSort.byString('purpose')
-    }
+        sort: tableSort.byString('purpose'),
+    },
 ];

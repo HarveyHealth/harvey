@@ -2,11 +2,11 @@ import Contact from '../../commons/Contact.vue';
 
 export default {
     components: {
-        Contact
+        Contact,
     },
     methods: {
         toggleContact () {
             this.$eventHub.$emit('toggle-contact');
-        }
-    }
+        },
+    },
 };

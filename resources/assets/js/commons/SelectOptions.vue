@@ -29,31 +29,31 @@ export default {
         },
         // Whether the entire selection input is diabled or not
         isDisabled: {
-            type: Boolean
+            type: Boolean,
         },
         // If the selection options depend on Promised data, this prop
         // indicates if the data is still loading or not
         isLoading: {
-            type: Boolean
+            type: Boolean,
         },
         // If the selection is not required for form submission, an empty
         // option will render at the beginning of the list
         isRequired: {
             type: Boolean,
-            default: true
+            default: true,
         },
         // If the selection has an isLoading state of true, this message will
         // display in place of the selection input
         loadingMsg: {
             type: String,
-            default: 'Loading...'
+            default: 'Loading...',
         },
         // Handles what happens when an option is selected from the list.
         // The function takes the click event as an argument.
         onSelect: {
             type: Function,
             required: true,
-            default: () => console.warn('Must pass on-select handler')
+            default: () => console.warn('Must pass on-select handler'),
         },
         // The list of options with associated data
         // [
@@ -65,14 +65,14 @@ export default {
         // ]
         options: {
             type: Array,
-            required: true
+            required: true,
         },
         // Using this to recreate a v-model scenario. This way we can render the options
         // with a particular option already selected (useful for pulling up saved state)
         selected: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
     // Computed properties prefixed with $$ reference props only so they're
     // pretty much stateless. I just didn't want to include this logic in
@@ -85,9 +85,9 @@ export default {
             return {
                 'custom-select': true,
                 'detached-label': this.detachedLabel && this.selected === '',
-                'isdisabled': this.isDisabled
+                'isdisabled': this.isDisabled,
             };
-        }
-    }
+        },
+    },
 };
 </script>

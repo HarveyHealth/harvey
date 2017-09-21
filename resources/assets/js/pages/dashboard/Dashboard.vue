@@ -97,19 +97,19 @@
 
 <script>
 import DashboardAppointments from './components/DashboardAppointments.vue';
-import { phone } from '../../utils/filters/textformat.js';
+import { phone, } from '../../utils/filters/textformat.js';
 
 export default {
     name: 'dashboard',
     data() {
         return {
             patientName: Laravel.user.fullName, // because it's already there
-            flag: false
+            flag: false,
         };
     },
     props: {
         user: Object, 
-        patient: Object
+        patient: Object,
     },
     components: {
         DashboardAppointments,
@@ -117,7 +117,7 @@ export default {
     methods: {
         viewAppointmentPage() {
         // add tracking for Appointments Page view here
-        }
+        },
     },
     computed: {
         dashboardTitle() {
@@ -153,14 +153,14 @@ export default {
                     return {
                         avatar: dr.info.picture_url,
                         description: dr.info.description,
-                        name: `${dr.name}, ${typeAbbr}`
+                        name: `${dr.name}, ${typeAbbr}`,
                     };
                 })[0];
             } else {
                 return {
                     avatar: '#',
                     description: 'Loading doctor...',
-                    name: ''
+                    name: '',
                 };
             }
 
@@ -173,7 +173,7 @@ export default {
         },
         userClass() {
             return {
-                [`is-${this.userType}`]: true
+                [`is-${this.userType}`]: true,
             };
         },
         user_id() {
@@ -192,7 +192,7 @@ export default {
         },
         appointments() {
             return this.$root.$data.global.appointments;
-        }
+        },
     },
     beforeMount() {
         let flag = localStorage.getItem('signed up');
@@ -206,6 +206,6 @@ export default {
         if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
         }
-    }
+    },
 };
 </script>

@@ -13,7 +13,7 @@ export default {
     props: {
         activeFilter: {
             type: Number,
-            required: true
+            required: true,
         },
         filters: {
             type: Array,
@@ -24,12 +24,12 @@ export default {
         },
         onFilter: {
             type: Function,
-            required: true
+            required: true,
         },
         allData: {
             type: Array,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 };
 </script>

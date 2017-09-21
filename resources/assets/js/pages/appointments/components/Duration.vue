@@ -29,12 +29,12 @@ export default {
         visible: Boolean,
     },
     components: {
-        SelectOptions
+        SelectOptions,
     },
     methods: {
         handleSelect(e) {
             this.setDuration(this.list[e.target.selectedIndex - 1]);
-        }
-    }
+        },
+    },
 };
 </script>

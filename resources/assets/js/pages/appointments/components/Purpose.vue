@@ -18,25 +18,25 @@ export default {
     // Limits the number of characters the user can input
         characterLimit: {
             type: Number,
-            required: true
+            required: true,
         },
         // Is the purpose editable or display only?
         editable: {
             type: Boolean,
-            default: true
+            default: true,
         },
         // What happens when a user inputs something into the textarea?
         // Function takes the textarea value if not empty.
         // This should probably update the textValue prop in immitation of v-model.
         onInput: {
             type: Function,
-            required: true
+            required: true,
         },
         // The initial value of the textarea or display.
         textValue: {
             type: String,
-            required: true
-        }
+            required: true,
+        },
     },
     computed: {
     // Checking if the value is over the character limit
@@ -47,9 +47,9 @@ export default {
         $$countClasses() {
             return {
                 'charcount': true,
-                'input--warning': this.$$count === 0
+                'input--warning': this.$$count === 0,
             };
-        }
-    }
+        },
+    },
 };
 </script>

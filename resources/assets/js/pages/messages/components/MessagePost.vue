@@ -26,7 +26,7 @@ export default {
         message: String,
         image: String,
         id: Any,
-        timezone: String
+        timezone: String,
     },
     name: 'MessagingPost',
     data() {
@@ -55,7 +55,7 @@ export default {
         },
         read() {
             return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0;
-        }
-    }
+        },
+    },
 };
 </script>

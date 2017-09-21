@@ -31,7 +31,7 @@ export default {
         },
         _size() {
             return this.size ? `${this.size}px` : '30px';
-        }
-    }
+        },
+    },
 };
 </script>

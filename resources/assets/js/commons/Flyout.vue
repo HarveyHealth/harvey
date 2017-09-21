@@ -26,11 +26,11 @@ export default {
         // onClose should update the active prop
         onClose: {
             type: Function,
-            required: true
+            required: true,
         },
         back: {
-            type: Function
-        }
-    }
+            type: Function,
+        },
+    },
 };
 </script>

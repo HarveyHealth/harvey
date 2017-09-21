@@ -64,7 +64,7 @@ export default {
     props: {
         user: Object,
         includeCta: Any,
-        form: Any
+        form: Any,
     },
     data() {
         return {
@@ -78,17 +78,17 @@ export default {
             endOfDayHour: 18,
             maximumDays: 7,
             minimumNotice: 0, // hours
-            duration: 1 // hours
+            duration: 1, // hours
         };
     },
     components: {
         DatePicker,
-        TimePicker
+        TimePicker,
     },
     methods: {
         canBookToday() {
             let acceptableTime = moment(this.now).add(this.minimumNotice, 'hours');
-            let endOfDayTime = moment(this.now).set({hour: this.endOfDayHour, minute: 0, second:0, millisecond:0}).subtract(this.duration, 'hours');
+            let endOfDayTime = moment(this.now).set({hour: this.endOfDayHour, minute: 0, second:0, millisecond:0,}).subtract(this.duration, 'hours');
 
             return acceptableTime <= endOfDayTime;
         },
@@ -128,7 +128,7 @@ export default {
         },
         onSuccess() {
             // this.$eventHub.$emit('mixpanel', "New Appointment Created");
-        }
+        },
     },
     computed: {
         startDateTime() {
@@ -137,14 +137,14 @@ export default {
             if (canBookToday) {
                 let hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
 
-                return this.now.set({hour: hour, minute: 0, second:0, millisecond:0}).utc();
+                return this.now.set({hour: hour, minute: 0, second:0, millisecond:0,}).utc();
             } else {
-                return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0}).utc();
+                return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0,}).utc();
             }
-        }
+        },
     },
     created() {
         this.$eventHub.$on('datetime-change', this.onDateTimeChange);
-    }
+    },
 };
 </script>

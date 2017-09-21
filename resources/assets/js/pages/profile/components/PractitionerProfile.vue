@@ -114,7 +114,7 @@ import _ from 'lodash';
 import ImageUpload from '../../../commons/ImageUpload.vue';
 import LicenseTypes from '../../../../../../public/licensetypes.json';
 import states from '../../../../../../public/states.json';
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
 
 export default {
     name: 'practitioner-profile',
@@ -122,10 +122,10 @@ export default {
         return {
             practitioner_id: Laravel.user.practitionerId || this.practitionerIdEditing,
             practitioner: {
-                licenses: [{'number': '', 'state': '', 'title': ''}],
+                licenses: [{'number': '', 'state': '', 'title': '',},],
                 picture_url : '/images/default_user_image.png',
                 background_picture_url: '',
-                specialty: []
+                specialty: [],
             },
             license_types: Object.keys(LicenseTypes),
             license_names: LicenseTypes,
@@ -150,7 +150,7 @@ export default {
             axios.patch(`/api/v1/practitioners/${this.practitioner_id}`, payload)
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
-                    this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
+                    this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': '',};
                     this.submitting = false;
                     this.flashSuccess();
                 })
@@ -182,13 +182,13 @@ export default {
     computed: {
         loading() {
             return this.$root.$data.global.practitionerProfileLoading;
-        }
+        },
     },
     mounted() {
         axios.get(`/api/v1/practitioners/${this.practitioner_id}`)
             .then(response => {
                 this.practitioner = response.data.data.attributes;
-                this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
+                this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': '',};
                 this.$root.$data.global.practitionerProfileLoading = false;
             })
             .catch(() => this.practitioner = {});
@@ -199,9 +199,9 @@ export default {
         },
         practitionerIdEditing: {
             type: String,
-            default: null
-        }
-    }
+            default: null,
+        },
+    },
 };
 </script>
 

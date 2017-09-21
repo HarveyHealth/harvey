@@ -29,12 +29,12 @@ export default {
                 'container': true,
             },
             socialIcons: [
-                { class: 'fa fa-medium', href: 'https://blog.goharvey.com/' },
-                { class: 'fa fa-instagram', href: 'https://www.instagram.com/goharveyapp/' },
-                { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp' },
-                { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
-                { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' },
-            ]
+                { class: 'fa fa-medium', href: 'https://blog.goharvey.com/', },
+                { class: 'fa fa-instagram', href: 'https://www.instagram.com/goharveyapp/', },
+                { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp', },
+                { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp', },
+                { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw', },
+            ],
         };
     },
     mounted () {
@@ -47,6 +47,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    }
+    },
 };
 </script>

@@ -40,14 +40,14 @@ import Flyout from '../../../commons/Flyout.vue';
 export default {
     name: 'Preview',
     components: {
-        Flyout
+        Flyout,
     },
     data() {
         return {
             close: this.$parent.close,
             selected: '',
             subject: '',
-            message: ''
+            message: '',
         };
     },
     methods: {
@@ -58,10 +58,10 @@ export default {
             axios.post(`${this.$root.$data.apiUrl}/messages`, {
                 message: this.message,
                 recipient_user_id: Number(this.selected),
-                subject: this.subject
+                subject: this.subject,
             })
                 .then(response => {
-                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
+                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data,];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
                     this.$parent.messageList = this.$root.$data.global.messages;
                     this.$parent.notificationActive = true;
@@ -71,7 +71,7 @@ export default {
                     console.log(`ERROR`, error);
                 });
             this.$parent.close();
-        }
+        },
     },
     computed: {
         userList() {
@@ -81,15 +81,15 @@ export default {
                     .filter(e =>  e.attributes.status === 'complete')
                     .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
                 store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e));
-                return [''].concat(store.confirmedDoctors);
+                return ['',].concat(store.confirmedDoctors);
             } else if (this.$root.$data.permissions === 'practitioner') {
                 store.confirmedPatients = store.appointments
                     .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                     .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
                 store.confirmedPatients = _.uniq(store.confirmedPatients);
-                return [''].concat(store.confirmedPatients);
+                return ['',].concat(store.confirmedPatients);
             } else if (this.$root.$data.permissions === 'admin') {
-                return [''].concat(store.practitioners).concat(store.patients);
+                return ['',].concat(store.practitioners).concat(store.patients);
             }
         },
         toUserType() {
@@ -101,7 +101,7 @@ export default {
             } else if (store.user.attributes.user_type === 'admin') {
                 return "all";
             }
-        }
-    }
+        },
+    },
 };
 </script>

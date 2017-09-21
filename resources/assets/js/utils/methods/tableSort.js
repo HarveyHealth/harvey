@@ -29,6 +29,6 @@ export default {
             const B = moment(`${today} ${b.data[prop].match(/\d\d\:\d\d\:\d\d/)[0]}`);
             return A.diff(B);
         };
-    }
+    },
 
 };

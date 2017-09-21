@@ -64,7 +64,7 @@ export default {
     components: {
         Flyout,
         Modal,
-        SelectOptions
+        SelectOptions,
     },
     data() {
         return {
@@ -85,8 +85,8 @@ export default {
             testNamesInList: [],
             selectedClientName: '',
             selectedDoctorName: '',
-            doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
-            clientList: [''].concat(this.$root.$data.global.patients)
+            doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo,] : ['',].concat(this.$root.$data.global.practitioners),
+            clientList: ['',].concat(this.$root.$data.global.patients),
         };
     },
     methods: {
@@ -131,7 +131,7 @@ export default {
                     address_2: this.address2,
                     city: this.city,
                     state: this.state,
-                    zip: Number(this.zip)
+                    zip: Number(this.zip),
                 };
             } else {
                 data = {
@@ -141,7 +141,7 @@ export default {
                     address_1: this.address1,
                     city: this.city,
                     state: this.state,
-                    zip: Number(this.zip)
+                    zip: Number(this.zip),
                 };
             }
             axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
@@ -150,7 +150,7 @@ export default {
                         axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                             lab_order_id: Number(response.data.data.id),
                             sku_id: Number(e.id),
-                            shipment_code: this.shippingCodes[e.id]
+                            shipment_code: this.shippingCodes[e.id],
                         });
                     });
 
@@ -167,8 +167,8 @@ export default {
                     this.shippingCodes = {};
                     this.prevDoctor = '';
                     this.prevClient = '';
-                    this.doctorList = [''].concat(this.$root.$data.global.practitioners);
-                    this.clientList = [''].concat(this.$root.$data.global.patients);
+                    this.doctorList = ['',].concat(this.$root.$data.global.practitioners);
+                    this.clientList = ['',].concat(this.$root.$data.global.patients);
                     Object.values(this.$props.labTests).map(e => e.checked = false);
 
                     this.$parent.notificationMessage = "Successfully added!";
@@ -194,7 +194,7 @@ export default {
                 });
             this.handleFlyoutClose();
             this.modalClose();
-        }
+        },
     },
     computed: {
         flyoutHeading() {
@@ -203,14 +203,14 @@ export default {
         },
         testNameList() {
             return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
-        }
+        },
     },
     watch: {
         testNameList(val) {
             if (val) {
                 return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
             }
-        }
+        },
     },
     mounted() {
         let selfPractitioner = this.$root.$data.global.selfPractitionerInfo;
@@ -218,6 +218,6 @@ export default {
             this.selectedDoctor = selfPractitioner.id;
             this.selectedDoctorName = selfPractitioner.name;
         }
-    }
+    },
 };
 </script>

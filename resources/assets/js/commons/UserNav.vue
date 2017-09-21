@@ -94,7 +94,7 @@ export default {
             return {
                 'fa': true,
                 'fa-close': this.$root.$data.global.menuOpen,
-                'fa-navicon': !this.$root.$data.global.menuOpen
+                'fa-navicon': !this.$root.$data.global.menuOpen,
             };
         },
         // Checks to see if there are any unread messages
@@ -103,7 +103,7 @@ export default {
         },
         user() {
             return this.$root.$data.permissions;
-        }
+        },
     },
     methods: {
         // Updates class list with current page and unread information
@@ -111,7 +111,7 @@ export default {
             return {
                 'admin-nav-link': true,
                 'current': this.$root.$data.global.currentPage === page,
-                'unread': unread
+                'unread': unread,
             };
         },
         // ** Handles mobile menu state and currentPage **
@@ -126,7 +126,7 @@ export default {
             } else {
                 setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
             }
-        }
+        },
     },
     beforeMount() {
         // Grabs messages to determine unread state for messages button
@@ -141,13 +141,13 @@ export default {
         channel.bind('App\\Events\\MessageCreated', (data) => {
             let subject = data.data.attributes.subject;
             this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data,];
             this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
             this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                 .map(e => e[e.length - 1])
                 .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
         });
-    }
+    },
 };
 </script>

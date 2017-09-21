@@ -16,7 +16,7 @@ const rootRoute = {
     path: '/',
     name: null,
     component: null,
-    children: []
+    children: [],
 };
 
 // For when intake FE is ready
@@ -42,41 +42,41 @@ if (context === 'get-started' && loggedIn) {
     rootRoute.children = [
         { path: 'welcome',
             name: 'welcome',
-            component: require('./pages/get-started/children/Welcome.vue') },
+            component: require('./pages/get-started/children/Welcome.vue'), },
         { path: 'out-of-range',
             name: 'out-of-range',
-            component: require('./pages/get-started/children/OutOfRange.vue') },
+            component: require('./pages/get-started/children/OutOfRange.vue'), },
         { path: 'practitioner',
             name: 'practitioner',
-            component: require('./pages/get-started/children/Practitioner.vue') },
+            component: require('./pages/get-started/children/Practitioner.vue'), },
         { path: 'phone',
             name: 'phone',
-            component: require('./pages/get-started/children/Phone.vue') },
+            component: require('./pages/get-started/children/Phone.vue'), },
         { path: 'schedule',
             name: 'schedule',
-            component: require('./pages/get-started/children/Schedule.vue') },
+            component: require('./pages/get-started/children/Schedule.vue'), },
         { path: 'payment',
             name: 'payment',
-            component: require('./pages/get-started/children/Payment.vue') },
+            component: require('./pages/get-started/children/Payment.vue'), },
         { path: 'confirmation',
             name: 'confirmation',
-            component: require('./pages/get-started/children/Confirmation.vue') },
+            component: require('./pages/get-started/children/Confirmation.vue'), },
         { path: 'success',
             name: 'success',
-            component: require('./pages/get-started/children/Success.vue') }
+            component: require('./pages/get-started/children/Success.vue'), },
     ];
 } else if (context === 'get-started') {
     rootRoute.children.push({
         path: 'out-of-range',
         name: 'out-of-range',
-        component: require('./pages/get-started/children/OutOfRange.vue')
+        component: require('./pages/get-started/children/OutOfRange.vue'),
     });
 }
 
 rootRoute.children.push({
     path: 'signup',
     name: 'sign-up',
-    component: require('./pages/get-started/children/Signup.vue')
+    component: require('./pages/get-started/children/Signup.vue'),
 });
 
 const routes = [
@@ -87,52 +87,52 @@ const routes = [
         path: '/appointments',
         name: 'appointments',
         props: true,
-        component: require('./pages/appointments/Appointments.vue')
+        component: require('./pages/appointments/Appointments.vue'),
     },
     {
         path: '/messages',
-        component: require('./pages/messages/Messages.vue')
+        component: require('./pages/messages/Messages.vue'),
     },
     {
         path: '/detail',
         name: 'detail',
         props: true,
-        component: require('./pages/messages/DetailMessage.vue')
+        component: require('./pages/messages/DetailMessage.vue'),
     },
     {
         path: '/lab_orders',
-        component: require('./pages/lab_orders/LabOrders.vue')
+        component: require('./pages/lab_orders/LabOrders.vue'),
     },
     {
         path: '/clients',
-        component: require('./pages/clients/Clients.vue')
+        component: require('./pages/clients/Clients.vue'),
     },
     {
         path: '/records',
-        component: require('./pages/records/Records.vue')
+        component: require('./pages/records/Records.vue'),
     },
     {
         path: '/settings',
-        component: require('./pages/settings/Settings.vue')
+        component: require('./pages/settings/Settings.vue'),
     },
     {
         path: '/profile',
-        component: require('./pages/profile/Profile.vue')
+        component: require('./pages/profile/Profile.vue'),
     },
     {
         path: '/profile/:id',
         props: true,
-        component: require('./pages/profile/Profile.vue')
+        component: require('./pages/profile/Profile.vue'),
     },
     {
         path: '*',
-        redirect: rootRedirect
-    }
+        redirect: rootRedirect,
+    },
 ];
 
 const router = new VueRouter({
     routes,
-    linkActiveClass: 'is-active'
+    linkActiveClass: 'is-active',
 });
 
 router.afterEach(() => {

@@ -20,7 +20,7 @@ export default {
     // Whether the popup is viewable or not
         active: {
             type: Boolean,
-            required: true
+            required: true,
         },
         // Changes the background for error indication
         asError: {
@@ -31,18 +31,18 @@ export default {
         // available: 'top-right', 'bottom-right'
         comesFrom: {
             type: String,
-            required: true
+            required: true,
         },
         // Symbol displayed on the left of the popup
         // User HTML, like &#10003;
         symbol: {
-            type: String
+            type: String,
         },
         // The text to display in the popup
         text: {
             type: String,
-            required: true
-        }
-    }
+            required: true,
+        },
+    },
 };
 </script>

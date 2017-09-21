@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {isEmpty, assign, pick, keys} from 'lodash';
+import {isEmpty, assign, pick, keys,} from 'lodash';
 import moment from 'moment';
 import Form from '../../utils/objects/Form.js';
 import NewAppointment from './NewAppointment.vue';
@@ -39,23 +39,23 @@ import Payment from '../../commons/Payment.vue';
 export default {
     name: 'new-appointment-wrapper',
     props: {
-        user: Object
+        user: Object,
     },
     data() {
         return {
-            steps: ['new-appointment', 'profile', 'payment'],
-            buttonTexts: ['Schedule', 'Save', 'Save card'],
+            steps: ['new-appointment', 'profile', 'payment',],
+            buttonTexts: ['Schedule', 'Save', 'Save card',],
             titles: [
                 'Schedule an appointment with a naturopath',
                 'Your doctor will need additional info',
-                'Payment details'
+                'Payment details',
             ],
             currentStep: 0,
             buttonIsDisabled: false,
             minimumAge: 1,
             validationRules: {
                 'new-appointment': {
-                    details: 'Please explain how we can help you in details.'
+                    details: 'Please explain how we can help you in details.',
                 },
                 'profile': {
                     first_name: 'Please tell us your first name.',
@@ -72,14 +72,14 @@ export default {
                     number: 'The card number field is required.',
                     exp_month: 'The expiration month field is required.',
                     exp_year: 'The expiration year field is required.',
-                    cvc: 'The cvc field is required.'
-                }
+                    cvc: 'The cvc field is required.',
+                },
             },
             forms: {
                 'new-appointment': new Form({
                     selectedDate: '',
                     selectedTime: '',
-                    details: ''
+                    details: '',
                 }),
                 'profile': new Form({
                     first_name: '',
@@ -90,28 +90,28 @@ export default {
                     birthdate: '',
                     height_feet: '',
                     height_inches: '',
-                    weight: ''
+                    weight: '',
                 }),
                 'payment': new Form({
                     number: '',
                     exp_month: '',
                     exp_year: '',
-                    cvc: ''
-                })
-            }
+                    cvc: '',
+                }),
+            },
         };
     },
     components: {
         NewAppointment,
         Profile,
-        Payment
+        Payment,
     },
     methods: {
         formOnError(error) {
             this.forms[this.currentStepName].onFail({
                 response: {
-                    data: error
-                }
+                    data: error,
+                },
             });
         },
         hasFieldData(field) {
@@ -126,7 +126,7 @@ export default {
             Object.keys(currentStepValidator).forEach(field => {
                 if (!this.hasFieldData(field)) {
                     // error object in Laravel error format
-                    errorData[field] = [currentStepValidator[field]];
+                    errorData[field] = [currentStepValidator[field],];
                 }
             });
 
@@ -139,27 +139,27 @@ export default {
                     let phone = currentForm.phone.replace(/\D/g, '').replace(/^1/g, '');
 
                     if ( phone.length !== 10 ) {
-                        errorData['phone'] = ['Please input a valid phone number.'];
+                        errorData['phone'] = ['Please input a valid phone number.',];
                     }
 
                     // check if birthdate is validate
                     if ( !this.validateBirthdate(currentForm.birthdate) ) {
-                        errorData['birthdate'] = ['Please input a valid birthdate.'];
+                        errorData['birthdate'] = ['Please input a valid birthdate.',];
                     }
                     // check if height is valid
                     if ( currentForm.height_feet < 1 || currentForm.height_feet > 10 ) {
-                        errorData['height_feet'] = ['Please input a valid height(feet).'];
+                        errorData['height_feet'] = ['Please input a valid height(feet).',];
                     }
 
                     if ( currentForm.height_inches == '' ) {
                         currentForm.height_inches = 0;
                     } else if ( currentForm.height_inches > 11 || currentForm.height_inches < 0 ) {
-                        errorData['height_inches'] = ['Please input a valid height(inches).'];
+                        errorData['height_inches'] = ['Please input a valid height(inches).',];
                     }
 
                     // check if weight is valid
                     if ( currentForm.weight <= 0 ) {
-                        errorData['weight'] = ['Please input a valid weight.'];
+                        errorData['weight'] = ['Please input a valid weight.',];
                     }
                 }
             }
@@ -186,7 +186,7 @@ export default {
             }
         },
         validateBirthdate(date) {
-            let inputDate = moment(date, ['MM/DD/YYYY', 'YYYY-MM-DD']),
+            let inputDate = moment(date, ['MM/DD/YYYY', 'YYYY-MM-DD',]),
                 age = moment().diff(inputDate, 'years');
 
             return inputDate.isValid() && age >= this.minimumAge;
@@ -204,7 +204,7 @@ export default {
                 this.submitForms(response.id);
             } else {
                 this.goBackToErrorComponent({
-                    [response.error.param]: [response.error.message]
+                    [response.error.param]: [response.error.message,],
                 }, 2);
             }
         },
@@ -222,7 +222,7 @@ export default {
 
             return assign({}, profileFormData, {
                 'birthdate': formattedBirthdate,
-                'stripe_token': stripe_token
+                'stripe_token': stripe_token,
             });
         },
         submitForms(stripe_token) {
@@ -236,7 +236,7 @@ export default {
                             this.$eventHub.$emit('alert', {
                                 type: 'success',
                                 important: false,
-                                text: 'Your appointment is created successfully.'
+                                text: 'Your appointment is created successfully.',
                             });
                             // this.$eventHub.$emit('mixpanel', "Payment Method Submitted");
                             this.$router.push('/');
@@ -273,14 +273,14 @@ export default {
 
             if (symptomsData) {
                 this.$http.patch(this.$root.apiUrl + '/users/' + this.$root.userId, {
-                    'symptoms': symptomsData
+                    'symptoms': symptomsData,
                 })
                     .then(() => {
                         sessionStorage.removeItem(sessionKey);
                     })
                     .catch(() => {});
             }
-        }
+        },
     },
     computed: {
         isFirstTimeUser() {
@@ -288,7 +288,7 @@ export default {
         },
         currentStepName() {
             return this.steps[this.currentStep];
-        }
+        },
     },
     mounted() {
         this.assignUserData();
@@ -296,7 +296,7 @@ export default {
     watch: {
         user() {
             this.assignUserData();
-        }
-    }
+        },
+    },
 };
 </script>

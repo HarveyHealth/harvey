@@ -99,7 +99,7 @@ export default {
     name: 'settings',
     components: {
         Modal,
-        NotificationPopup
+        NotificationPopup,
     },
     data() {
         return {
@@ -123,7 +123,7 @@ export default {
             notificationDirection: 'top-right',
             formAction: null,
             sent: false,
-            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
+            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12',],
         };
     },
     methods: {
@@ -176,7 +176,7 @@ export default {
                 address_zip: this.postalCode || this.currentCard.address_zip,
                 exp_month: this.month || this.currentCard.exp_month,
                 exp_year: this.year || this.currentCard.exp_year,
-                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
+                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name,
             })
                 .then(() => {
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
@@ -195,7 +195,7 @@ export default {
                 });
         },
         submitNewCard(token) {
-            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
+            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token,})
                 .then(() => {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
@@ -221,15 +221,15 @@ export default {
                     fontSmoothing: 'antialiased',
                     fontSize: '16px',
                     '::placeholder': {
-                        color: '#aab7c4'
-                    }
+                        color: '#aab7c4',
+                    },
                 },
                 invalid: {
                     color: '#fa755a',
-                    iconColor: '#fa755a'
-                }
+                    iconColor: '#fa755a',
+                },
             };
-            let card = elements.create('card', {style: style});
+            let card = elements.create('card', {style: style,});
             card.mount('#card-element');
             card.addEventListener('change', function(event) {
                 var displayError = document.getElementById('card-errors');
@@ -254,11 +254,11 @@ export default {
                 });
             });
             this.formAction = form;
-        }
+        },
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
-    }
+    },
 };
 </script>
 

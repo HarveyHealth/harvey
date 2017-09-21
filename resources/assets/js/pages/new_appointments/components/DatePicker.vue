@@ -20,15 +20,15 @@ export default {
     props: {
         selectedDate: Any,
         maximumDays: Any,
-        startDateTime: Any
+        startDateTime: Any,
     },
     methods: {
         onDateChange(date) {
-            this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});
+            this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc(),});
         },
         isSameDate(a, b) {
             return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
-        }
+        },
     },
     computed: {
         dates() {
@@ -41,10 +41,10 @@ export default {
             }
 
             return dates;
-        }
+        },
     },
     mounted() {
         this.onDateChange(this.dates[0]);
-    }
+    },
 };
 </script>

@@ -23,18 +23,18 @@ import tableColumns from '../utils/tableColumns';
 export default {
     data() {
         return {
-            tableColumns
+            tableColumns,
         };
     },
     components: {
-        TableData
+        TableData,
     },
     computed: {
     // Needs to be computed to respond to global state change
     // Also, default sort by date for now until more robust sort is created
         tableData() {
             return this.tableRowData;
-        }
+        },
     },
     methods: {
         handleSort(colObj) {
@@ -51,7 +51,7 @@ export default {
         // Passed from Appointments because it is waiting for the app.js Promise to resolve
         loading: {
             type: Boolean,
-            required: true
+            required: true,
         },
         // See TableData
         selectedRow: {
@@ -60,18 +60,18 @@ export default {
         // See TableData
         tableRowData: {
             type: Array,
-            required: true
+            required: true,
         },
         // See TableData
         updatedRow: {
             type: Any,
-            required: false
+            required: false,
         },
         // See TableData
         updatingRow: {
             type: Any,
-            required: false
+            required: false,
         },
-    }
+    },
 };
 </script>

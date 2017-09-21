@@ -29,7 +29,7 @@ import moment from 'moment';
 export default {
     props: {
         userType: String, 
-        upcomingAppointments: Object
+        upcomingAppointments: Object,
     },
     components: {
         DashboardAppointment,
@@ -47,7 +47,7 @@ export default {
             const today = moment();
             const apptDate = moment.utc(appt.attributes.appointment_at.date).local();
             return today.diff(apptDate, 'days') <= days;
-        }
+        },
     },
     computed: {
         upcomingAppointmentsData() {
@@ -61,7 +61,7 @@ export default {
         },
         upcomingAppointmentsIncluded() {
             return this.upcomingAppointments.included;
-        }
-    }
+        },
+    },
 };
 </script>

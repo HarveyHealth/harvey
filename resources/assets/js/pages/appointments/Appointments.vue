@@ -231,7 +231,7 @@ import toLocal from '../../utils/methods/toLocal';
 
 export default {
     props: {
-        appt_id: String
+        appt_id: String,
     },
     data() {
         return {
@@ -241,19 +241,19 @@ export default {
             billingConfirmed: Laravel.user.has_a_card,
             billing: {
                 brand: Laravel.user.card_brand,
-                last4: Laravel.user.card_last4
+                last4: Laravel.user.card_last4,
             },
             bookingConflict: false,
             cache: {
                 all: [],
                 upcoming: [],
-                completed: []
+                completed: [],
             },
             durationList: [
-                { data: 30, value: '30 minutes' },
-                { data: 60, value: '60 minutes' },
+                { data: 30, value: '30 minutes', },
+                { data: 60, value: '60 minutes', },
             ],
-            filters: ['Upcoming', 'Complete', 'Cancelled'],
+            filters: ['Upcoming', 'Complete', 'Cancelled',],
             flyoutActive: false,
             flyoutHeading: '',
             flyoutMode: null,
@@ -278,16 +278,16 @@ export default {
             selectedRowUpdating: null,
             showBillingError: false,
             statuses: [
-                { value: 'Pending', data: 'pending' },
-                { value: 'No-Show-Patient', data: 'no_show_patient' },
-                { value: 'No-Show-Doctor', data: 'no_show_doctor' },
-                { value: 'General Conflict', data: 'general_conflict' },
-                { value: 'Canceled', data: 'canceled' },
-                { value: 'Complete', data: 'complete' }
+                { value: 'Pending', data: 'pending', },
+                { value: 'No-Show-Patient', data: 'no_show_patient', },
+                { value: 'No-Show-Doctor', data: 'no_show_doctor', },
+                { value: 'General Conflict', data: 'general_conflict', },
+                { value: 'Canceled', data: 'canceled', },
+                { value: 'Complete', data: 'complete', },
             ],
             userAction: '',
             userActionTitle: '',
-            userType: Laravel.user.user_type
+            userType: Laravel.user.user_type,
         };
     },
 
@@ -315,7 +315,7 @@ export default {
         },
         confirmStatus(status) {
             return convertStatus(status);
-        }
+        },
     },
 
     computed: {
@@ -422,7 +422,7 @@ export default {
             if (!val) {
                 this.setupPractitionerList(this.$root.$data.global.practitioners);
             }
-        }
+        },
     },
 
     methods: {
@@ -456,7 +456,7 @@ export default {
                     .filter(obj => obj.times.length)
                     // Transform into a format the TableData component can consume
                     .map(obj => {
-                        return { value: moment.utc(obj.date).format('dddd, MMMM Do'), data: obj };
+                        return { value: moment.utc(obj.date).format('dddd, MMMM Do'), data: obj, };
                     });
                 // if no availabilty, show warning message
                 if (!list.filter(obj => obj.times.length).length) {
@@ -595,7 +595,7 @@ export default {
             this.appointment.currentDate = '';
             this.appointment.availableTimes = [];
             this.appointment.currentDuration = '';
-            this.appointment.duration = { data: '', value: '' };
+            this.appointment.duration = { data: '', value: '', };
 
             if (data) {
                 this.selectedRowData = data;
@@ -627,7 +627,7 @@ export default {
                     this.appointment.currentDuration = `${data._duration} minutes`;
                     this.appointment.duration = {
                         data: data._duration,
-                        value: this.appointment.currentDuration
+                        value: this.appointment.currentDuration,
                     };
                 }
 
@@ -669,7 +669,7 @@ export default {
                 reason_for_visit: this.appointment.purpose,
                 status: this.appointment.status,
                 patient_id: this.appointment.patientId * 1,
-                practitioner_id: this.appointment.practitionerId * 1
+                practitioner_id: this.appointment.practitionerId * 1,
             };
             const action = this.userAction === 'new' ? 'post' : 'patch';
             const api = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
@@ -783,7 +783,7 @@ export default {
                 availableTimes: [],
                 date: '',
                 day: '',
-                duration: { data: '', value: ''},
+                duration: { data: '', value: '',},
                 currentDate: '',
                 currentDuration: '',
                 currentPurpose: '',
@@ -902,13 +902,13 @@ export default {
                 const display = this.userType === 'patient'
                     ? item.name
                     : `${item.name} (${item.email})`;
-                return { value: display, data: item };
+                return { value: display, data: item, };
             });
         },
 
         setupPractitionerList(list) {
             this.practitionerList = list.map(obj => {
-                return { value: obj.name, data: obj };
+                return { value: obj.name, data: obj, };
             });
             if (this.userType === 'practitioner') {
                 this.setPractitionerInfo(this.practitionerList[0].data);
@@ -930,6 +930,6 @@ export default {
         if (patients.length) this.setupPatientList(patients);
         if (practitioners.length) this.setupPractitionerList(practitioners);
 
-    }
+    },
 };
 </script>

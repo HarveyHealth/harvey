@@ -167,7 +167,7 @@ import timezones from '../../../../../public/timezones.json';
 import states from '../../../../../public/states.json';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
 import ImageUpload from '../../commons/ImageUpload.vue';
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
 import PractitionerProfile from './components/PractitionerProfile.vue';
 import Modal from '../../commons/Modal.vue';
 import ConfirmInput from '../../commons/ConfirmInput.vue';
@@ -180,7 +180,7 @@ export default {
         ClipLoader,
         PractitionerProfile,
         Modal,
-        ConfirmInput
+        ConfirmInput,
     },
     data() {
         return {
@@ -257,7 +257,7 @@ export default {
 
             // If phone was changed, patch the user's account to trigger text send
             if (shouldPatch) {
-                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
+                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone, })
                     .then(() => {
                     // Update the Laravel object in case the user wants to update phone before refreshing
                         Laravel.user.phone = updatedPhone;
@@ -382,7 +382,7 @@ export default {
                         this.callErrorNotification();
                     }
                 });
-        }
+        },
     },
     mounted() {
         // We need to bar non admins from hitting profile/:id
@@ -403,7 +403,7 @@ export default {
             } else {
                 this.$router.push('/profile');
             }
-        }
+        },
     },
     computed: {
         canEditUsers() {
@@ -441,7 +441,7 @@ export default {
                     city: '',
                     state: '',
                     zip: '',
-                }
+                },
             };
         },
         _user() {
@@ -453,8 +453,8 @@ export default {
         // We set the user_id as a computed property so we can set a watch on it for when the url changes
         _user_id() {
             return this.$route.params.id;
-        }
-    }
+        },
+    },
 };
 </script>
 

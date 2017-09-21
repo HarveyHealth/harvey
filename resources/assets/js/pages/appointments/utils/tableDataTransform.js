@@ -1,6 +1,6 @@
 import convertStatus from './convertStatus';
 import toLocal from '../../../utils/methods/toLocal';
-import { capitalize } from '../../../utils/filters/textformat';
+import { capitalize, } from '../../../utils/filters/textformat';
 
 export default function (appointments, zone, userType) {
     return appointments
@@ -34,7 +34,7 @@ export default function (appointments, zone, userType) {
                 _patientFirst: obj.patientData.first_name,
                 _patientLast: obj.patientData.last_name,
                 _duration: obj.attributes.duration_in_minutes,
-                _patientPhone: obj.patientData.phone
+                _patientPhone: obj.patientData.phone,
 
             };
             return {
@@ -45,8 +45,8 @@ export default function (appointments, zone, userType) {
                     data.client,
                     data.doctor,
                     data.status,
-                    data.purpose
-                ]
+                    data.purpose,
+                ],
             };
         });
 }

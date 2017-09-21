@@ -204,12 +204,12 @@ import _ from 'lodash';
 export default {
     name: 'DetailLabOrders',
     props: {
-        reset: Function
+        reset: Function,
     },
     components: {
         Flyout,
         SelectOptions,
-        Modal
+        Modal,
     },
     data() {
         return {
@@ -237,7 +237,7 @@ export default {
             invalidCC: false,
             invalidModalActive: false,
             capitalize: _.capitalize,
-            monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+            monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12',],
         };
     },
     methods: {
@@ -278,7 +278,7 @@ export default {
                 address_2: this.$props.rowData.address_2 || this.address2,
                 city: this.$props.rowData.city || this.newCity,
                 state: this.$props.rowData.state || this.newState,
-                zip: this.$props.rowData.zip || this.newZip
+                zip: this.$props.rowData.zip || this.newZip,
             })
                 .then(() => {
                     this.$parent.notificationMessage = "Successfully updated!";
@@ -292,7 +292,7 @@ export default {
             this.$props.rowData.test_list.forEach((e, i, a) => {
                 if (this.selectedShipment[Number(e.test_id)] != undefined) {
                     axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                        status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                        status: this.selectedShipment[Number(e.test_id)].toLowerCase(),
                     });
                 }
                 if (this.$props.rowData.completed_at === 'Confirmed') {
@@ -302,7 +302,7 @@ export default {
                     });
                     if (a.length - 1 == i) {
                         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-                            shipment_code: this.masterTracking
+                            shipment_code: this.masterTracking,
                         });
                     }
                 }
@@ -369,7 +369,7 @@ export default {
             return this.$props.rowData ? this.$props.rowData.zip : '';
         },
         stateList() {
-            return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+            return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",];
         },
         hasCard() {
             let rowData = this.$props.rowData;
@@ -398,7 +398,7 @@ export default {
             data.user_id = lookUp[id].attributes.user_id;
             let practitioners = this.$root.$data.global.practitioners.slice(0);
             let arr = _.pull(practitioners, data);
-            let results = [data].concat(arr);
+            let results = [data,].concat(arr);
             return results;
         },
         statusList() {
@@ -410,14 +410,14 @@ export default {
             let tests = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
                 name: "No Lab Orders",
                 cancel: true,
-                status: ['No Order']
-            }] : this.$props.rowData.test_list;
+                status: ['No Order',],
+            },] : this.$props.rowData.test_list;
             return tests;
         },
         latestCard() {
             return this.$root.$data.global.creditCards.slice(-1).pop();
-        }
-    }
+        },
+    },
 };
 
 </script>

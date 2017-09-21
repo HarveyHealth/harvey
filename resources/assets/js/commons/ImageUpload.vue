@@ -20,7 +20,7 @@ export default {
     props: {
         label: String,
         type: String,
-        route: String
+        route: String,
     },
     methods: {
         upload() {

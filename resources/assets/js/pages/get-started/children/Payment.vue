@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import { ClipLoader, } from 'vue-spinner/dist/vue-spinner.min.js';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
@@ -84,7 +84,7 @@ export default {
             isProcessing: false,
             postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
             stripeKey: Laravel.services.stripe.key,
-            stripeError: ''
+            stripeError: '',
         };
     },
     computed: {
@@ -117,7 +117,7 @@ export default {
             return this.$root.$data.signup.billingConfirmed
                 ? 'Payment Method'
                 : 'Enter Payment Method';
-        }
+        },
     },
     methods: {
         onSubmit(e) {
@@ -126,7 +126,7 @@ export default {
             this.stripeError = '';
 
             if (this.pageLogic.submitContinue) {
-                this.$router.push({ name: 'confirmation', path: '/confirmation' });
+                this.$router.push({ name: 'confirmation', path: '/confirmation', });
                 return;
             }
 
@@ -144,8 +144,8 @@ export default {
                 } else {
                     this.$root.$data.signup.cardBrand = response.card.brand;
                     this.$root.$data.signup.cardLastFour = response.card.last4;
-                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
-                        this.$router.push({ name: 'confirmation', path: '/confirmation' });
+                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id, }).then(() => {
+                        this.$router.push({ name: 'confirmation', path: '/confirmation', });
                         this.markComplete();
                     }).catch(error => {
                         if (error.response) {
@@ -193,7 +193,7 @@ export default {
             if (!this.cardExpiration.length) result += 'Card expiration is blank<br>';
             if (!this.cardCvc.length) result += 'Card CVC is blank<br>';
             return result;
-        }
+        },
     },
     mounted () {
         this.$root.toDashboard();
@@ -209,12 +209,12 @@ export default {
                 numberInput: 'input[name="card_number"]',
                 expiryInput: 'input[name="card_expiration"]',
                 cvcInput: 'input[name="card_cvc"]',
-                nameInput: 'input[name="card_name"]'
+                nameInput: 'input[name="card_name"]',
             },
         });
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-    }
+    },
 };
 </script>

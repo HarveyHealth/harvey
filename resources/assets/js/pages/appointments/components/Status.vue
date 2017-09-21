@@ -28,17 +28,17 @@ export default {
         visible: Boolean,
     },
     components: {
-        SelectOptions
+        SelectOptions,
     },
     computed: {
         convertedStatus() {
             return convertStatus(this.status) || '';
-        }
+        },
     },
     methods: {
         handleSelect(e) {
             this.setStatus(this.list[e.target.selectedIndex]);
-        }
-    }
+        },
+    },
 };
 </script>

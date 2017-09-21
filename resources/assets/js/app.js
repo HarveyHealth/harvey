@@ -39,17 +39,17 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
 
 const app = new Vue({
     router,
-    mixins: [TopNav],
+    mixins: [TopNav,],
     components: {
         Alert,
         Dashboard,
-        Usernav
+        Usernav,
     },
     data: {
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {
-            copy: '#4f6268'
+            copy: '#4f6268',
         },
         clientList: [],
         permissions: Laravel.user.user_type,
@@ -86,7 +86,7 @@ const app = new Vue({
             // This is a hotfix and should be included in the backend logic when determining which
             // practitioners to send to the frontend
             regulatedStates: [
-                'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+                'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC',
             ],
             signed_in: Laravel.user.signedIn,
             test_results: [],
@@ -98,7 +98,7 @@ const app = new Vue({
             practitionerLookUp: {},
             user: {},
             selfPractitionerInfo: null,
-            user_editing: {}
+            user_editing: {},
         },
         signup: {
             availability: [],
@@ -117,7 +117,7 @@ const app = new Vue({
             data: {
                 appointment_at: null,
                 reason_for_visit: 'First appointment',
-                practitioner_id: null
+                practitioner_id: null,
             },
             googleMeetLink: '',
             phone: '',
@@ -130,13 +130,13 @@ const app = new Vue({
             selectedPractitioner: 0,
             selectedWeek: null,
             selectedTime: null,
-            visistedStages: []
+            visistedStages: [],
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
         labTests: {},
         timezone: moment.tz.guess(),
-        timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
+        timezoneAbbr: moment.tz(moment.tz.guess()).format('z'),
     },
     methods: {
         addTimezone (value) {
@@ -183,7 +183,7 @@ const app = new Vue({
                         search_name: `${includeData.first_name} ${includeData.last_name}`,
                         state: includeData.state,
                         user_id: obj.attributes.user_id,
-                        zip: includeData.zip
+                        zip: includeData.zip,
                     });
                 });
                 this.global.patients = sortByLastName(this.global.patients);
@@ -213,7 +213,7 @@ const app = new Vue({
                                 info: dr.attributes,
                                 name: `Dr. ${dr.attributes.name}`,
                                 id: dr.id,
-                                user_id: dr.attributes.user_id };
+                                user_id: dr.attributes.user_id, };
                         });
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e;
@@ -229,7 +229,7 @@ const app = new Vue({
                             info: obj.attributes,
                             name: `Dr. ${obj.attributes.name}`,
                             id: obj.id,
-                            user_id: obj.attributes.user_id };
+                            user_id: obj.attributes.user_id, };
                     });
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e;
@@ -325,7 +325,7 @@ const app = new Vue({
                 id: self.id,
                 name: `Dr. ${self.attributes.name}`,
                 info: self.attributes,
-                user_id: self.attributes.user_id
+                user_id: self.attributes.user_id,
             };
         },
         getClientList () {
@@ -353,7 +353,7 @@ const app = new Vue({
         },
         shouldTrack () {
             return env === 'production' || env === 'prod';
-        }
+        },
     },
     mounted () {
         this.stripe = Stripe(Laravel.services.stripe.key);
@@ -361,7 +361,7 @@ const app = new Vue({
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
-    }
+    },
 }).$mount('#app');
 
 export default app;

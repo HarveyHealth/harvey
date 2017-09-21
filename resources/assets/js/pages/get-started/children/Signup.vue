@@ -92,7 +92,7 @@ import LoadingGraphic from '../../../commons/LoadingGraphic.vue';
 export default {
     name: 'sign-up',
     components: {
-        LoadingGraphic
+        LoadingGraphic,
     },
     data() {
         return {
@@ -106,7 +106,7 @@ export default {
             isProcessing: false,
             quotes: [
                 { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-                    source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
+                    source: 'Elizabeth Yorn (Missouri, battling Lupus)', },
             ],
             responseErrors: [],
             signupData: {
@@ -172,7 +172,7 @@ export default {
                     ? 'Please agree to terms and privacy policy'
                     : '';
             }
-        }
+        },
     },
     methods: {
         onSubmit() {
@@ -269,7 +269,7 @@ export default {
                                 });
                             }
 
-                            this.$router.push({name: 'out-of-range', path: '/out-of-range'});
+                            this.$router.push({name: 'out-of-range', path: '/out-of-range',});
                         }
                     });
 
@@ -308,6 +308,6 @@ export default {
     },
     beforeDestroy() {
         this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
-    }
+    },
 };
 </script>

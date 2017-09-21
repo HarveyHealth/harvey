@@ -24,11 +24,11 @@
 
 <script>
 import moment from 'moment-timezone';
-import { capitalize, phone, hyperlink } from '../../../utils/filters/textformat.js';
+import { capitalize, phone, hyperlink, } from '../../../utils/filters/textformat.js';
 import Contact from '../../../utils/mixins/Contact';
 
 export default {
-    mixins: [Contact],
+    mixins: [Contact,],
     props: {
         appointment: Object,
         patientData: Object,
@@ -36,13 +36,13 @@ export default {
     },
     data() {
         return {
-            local_timezone: ''
+            local_timezone: '',
         };
     },
     methods: {
         capitalize,
         phone,
-        hyperlink
+        hyperlink,
     },
     computed: {
         localAppointmentTime() {
@@ -56,10 +56,10 @@ export default {
         },
         user_type() {
             return this.userType;
-        }
+        },
     },
     mounted() {
         this.local_timezone = moment.tz.guess();
-    }
+    },
 };
 </script>
