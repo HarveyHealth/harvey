@@ -62,15 +62,15 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
-            'address_1' => 'max:100',
-            'address_2' => 'max:100',
-            'city' => 'max:100',
-            'patient_id' => 'exists:patients,id',
-            'practitioner_id' => 'exists:practitioners,id',
-            'shipment_code' => 'string',
-            'state' => 'max:2',
+            'address_1' => 'filled|max:100',
+            'address_2' => 'filled|max:100',
+            'city' => 'filled|max:100',
+            'patient_id' => 'required|exists:patients,id',
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'shipment_code' => 'filled|string',
+            'state' => 'filled|max:2',
             'status' => ['filled', Rule::in(LabOrder::STATUSES)],
-            'zip' => 'digits:5|serviceable',
+            'zip' => 'filled|digits:5|serviceable',
         ], [
             'serviceable' => "Sorry, Lab Orders can't be delivered to that :attribute."
         ]);
@@ -90,7 +90,7 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'shipment_code' => 'string',
+            'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",

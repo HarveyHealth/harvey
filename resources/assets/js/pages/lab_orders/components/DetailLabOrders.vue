@@ -9,8 +9,8 @@
       <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`"
-          class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
+        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
+        <a v-if="status === 'Recommended' || status === 'Confirmed'" v-for="test in testList" class="input__item" style="width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
@@ -108,7 +108,7 @@
           <div v-for="test in testList">
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
             <label v-if="status === 'Recommended' || status === 'Confirmed'" class="input__label">{{ test.name }}</label>
-            <span v-if="status !== 'Recommended' && status !== 'Confirmed'" class="custom-select">
+            <span class="custom-select">
                 <select @change="updateTest($event, test)">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
@@ -149,7 +149,7 @@
           <span class="input__item">{{ status }}</span>
         </div>
         <div class="inline-centered">
-          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateOrder()">Update Order</button>
+          <button class="button" @click="updateOrder()">Update Order</button>
           <button v-if="status === 'Confirmed'" :disabled="!oldCard || !oldCard.brand || !oldCard.last4" class="button" @click="nextStep()">Save &amp; Continue</button>
         </div>
       </div>
@@ -341,17 +341,22 @@
       },
       updateOrder() {
         let data = {};
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-          shipment_code: this.masterTracking,
-          address_1: this.address1,
-          address_2: this.address2,
-          city: this.newCity,
-          state: this.newState,
-          zip: this.newZip
-        })
+        if (this.$props.rowData.completed_at === 'Confirmed' || this.$props.rowData.completed_at === 'Recommended') {
+          data = {}
+        } else {
+          data = {
+            shipment_code: this.masterTracking,
+            address_1: this.address1,
+            address_2: this.address2,
+            city: this.newCity,
+            state: this.newState,
+            zip: this.newZip
+          };
+        }
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
         .then(() => {
           this.$props.rowData.test_list.forEach((e) => {
-            if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+            if (this.selectedShipment[Number(e.test_id)] != undefined) {
               axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
               })
