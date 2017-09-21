@@ -118,29 +118,10 @@ export default {
           e.shipping_code = this.shippingCodes[e.id]
           return e
         })
-        let data = null
-        if (this.address2.length > 0) {
-          data = {
-              practitioner_id: this.selectedDoctor,
-              patient_id: this.selectedClient,
-              shipment_code: this.masterTracking,
-              address_1: this.address1,
-              address_2: this.address2,
-              city: this.city,
-              state: this.state,
-              zip: Number(this.zip)
-            }
-          } else {
-            data = {
-              practitioner_id: this.selectedDoctor,
-              patient_id: this.selectedClient,
-              shipment_code: this.masterTracking,
-              address_1: this.address1,
-              city: this.city,
-              state: this.state,
-              zip: Number(this.zip)
-            }
-          }
+        let data =  {
+          practitioner_id: this.selectedDoctor,
+          patient_id: this.selectedClient,
+        };
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
           this.selectedTests.forEach((e, i)=> {
