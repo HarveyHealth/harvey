@@ -20,12 +20,12 @@
         <label class="input__label" for="patient_name">Sample Type: {{ val }}</label>
         <label class="input__item">Required</label>
       </div>
-      <div class="input__container">
+      <div v-if="status !== 'Recommended'" class="input__container">
         <label class="input__label" for="patient_name">Mailing Address</label>
         <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
         <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
       </div>
-      <div class="input__container">
+      <div v-if="status !== 'Recommended'" class="input__container">
         <label class="input__label" for="patient_name">Order Tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
