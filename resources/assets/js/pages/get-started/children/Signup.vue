@@ -35,7 +35,7 @@
 
       <div class="container small signup-form-inputs">
 
-        <div class="signup-container signup-form-container">
+        <div class="signup-container large">
 
           <h1 class="heading-1" v-html="title"></h1>
 

@@ -2,9 +2,9 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'confirmation'" />
-      <h2 class="heading-3">Final Confirmation</h2>
+      <h2 class="heading-1">Final Confirmation</h2>
     </div>
-    <div class="signup-container signup-interstitial-container">
+    <div class="signup-container small router">
       <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">
         <i class="fa fa-long-arrow-left"></i>
         <span class="font-sm">Payment</span>
@@ -13,7 +13,7 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
 
-      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute consultation with Dr. {{ doctor }}.<br/><br/>Your video chat with {{ firstName }} will be on {{ dateDisplay }} at {{ timeDisplay }}. {{ paymentStatement }}</p>
+      <p v-if="isBookingAllowed">By clicking below, you agree to a 60-minute video consultation with Dr. {{ doctor }}, on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
 
       <div v-show="!isBookingAllowed">
         <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
@@ -42,9 +42,7 @@
             <span class="text">Booking Conflict</span>
           </h1>
           <p>We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <div class="button-wrapper">
-            <button class="button button--cancel" @click="handleNewAvailability">Back to Schedule</button>
-          </div>
+          <button class="button button--cancel" @click="handleNewAvailability">Back to Schedule</button>
         </div>
       </div>
     </Modal>
@@ -82,7 +80,7 @@ export default {
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,
-      paymentStatement: `The cost for this consultation will be $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation is complete.`,
+      paymentStatement: `Your consultation will cost $150, which will be charged to your ${this.$root.$data.signup.cardBrand || 'card'} after the consultation`,
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
       showModal: false,
       state: this.$root.$data.signup.practitionerState

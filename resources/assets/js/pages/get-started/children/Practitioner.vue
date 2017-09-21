@@ -1,12 +1,12 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-3-expand font-centered">
+    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-1">
       <div style="width: 22px; margin: 0 auto;">
         <ClipLoader :color="$root.$data.colors.copy" :size="'22px'" />
       </div>
       <div>Loading practitioners...</div>
     </h3>
-    <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-container signup-interstitial-container font-centered">
+    <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-stage-instructions">
       <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
         <i class="fa fa-long-arrow-left"></i>
       </router-link>
@@ -24,10 +24,10 @@
     <template v-else>
       <div class="signup-stage-instructions">
         <StagesNav :current="'practitioner'" />
-        <h2 class="heading-3-expand font-normal">Choose Your Doctor</h2>
+        <h2 class="heading-1 font-normal">Choose Your Doctor</h2>
         <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
       </div>
-      <div class="signup-container signup-stage-container">
+      <div class="signup-container large">
         <div class="signup-practitioner-wrapper cf">
           <div class="practitioner-wrapper">
             <h3 class="signup-section-header heading-2 font-centered">Available Doctors</h3>

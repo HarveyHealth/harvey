@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null $space-lg null);
+  @include margin(null null $space-md null);
   &.last {
     @include margin(null null 20px null);
   }
