@@ -256,7 +256,7 @@ class LabTestTest extends TestCase
         $this->assertDatabaseHas('lab_tests', ['status_id' => LabTest::CANCELED_STATUS_ID]);
     }
 
-    public function test_it_does_not_allows_a_patient_to_update_his_lab_test()
+    public function test_it_allows_a_patient_to_update_his_lab_test_status()
     {
         $labTest = factory(LabTest::class)->create();
 
@@ -268,7 +268,11 @@ class LabTestTest extends TestCase
 
         $response = $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment($parameters);
+
+        $this->assertDatabaseHas('lab_tests', ['status_id' => LabTest::CANCELED_STATUS_ID]);
     }
 
     public function test_it_does_not_allows_a_patient_to_delete_his_lab_test()
