@@ -11,7 +11,7 @@ export default function(zip, response) {
   App.setState('wasRequested.zip', true);
   App.setState('isLoading.zip', true);
 
-  axios.get(`${App.Config.misc.api}verify/zip/${zip}`)
+  axios.get(`${App.Config.misc.api}visitors/verifications/zip/${zip}`)
     .then(r => response(r))
     .catch(error => {
       if (error.response) {

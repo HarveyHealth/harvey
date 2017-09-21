@@ -21,10 +21,8 @@
       // (which happens at the end of the /conditions funnel if the user's
       // zip code is valid). If they do have zip_validation data stored,
       // we assign that to conditions state and render the component.
-      const zipValidation = localStorage.getItem('harvey_zip_validation');
-      if (!zipValidation) {
-        window.location.href = '/conditions';
-      } else {
+      const zipValidation = App.Util.data.fromStorage('zip_validation');
+      if (zipValidation) {
         App.setState('getstarted.userPost.zip', JSON.parse(zipValidation).zip);
       }
     },
