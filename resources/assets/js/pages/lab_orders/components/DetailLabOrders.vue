@@ -291,28 +291,31 @@
           })
       },
       updateOrder() {
-        this.$props.rowData.test_list.forEach((e, i, a) => {
-          if (this.selectedShipment[Number(e.test_id)] != undefined) {
-            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-              status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-            })
-          }
-          if (this.$props.rowData.completed_at === 'Confirmed') {
-            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-              status: 'shipped',
-              shipment_code: this.shippingCodes[e.test_id],
-            })
-            if (a.length - 1 == i) {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-                shipment_code: this.masterTracking
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+          shipment_code: this.masterTracking,
+          address_1: this.address1,
+          address_2: this.address2,
+          city: this.newCity,
+          state: this.newState,
+          zip: this.newZip
+        })
+        .then(() => {
+          this.$props.rowData.test_list.forEach((e) => {
+            if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+              })
+            } else if (this.$props.rowData.completed_at === 'Confirmed') {
+              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                status: 'shipped',
+                shipment_code: this.shippingCodes[e.test_id],
+              })
+            } else if (this.$props.rowData.completed_at === 'Recommended') {
+              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                status: 'confirmed'
               })
             }
-          }
-          if (this.$props.rowData.completed_at === 'Recommended') {
-            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-              status: 'confirmed'
-            })
-          }
+          })
         })
         axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
           .then(response => {
