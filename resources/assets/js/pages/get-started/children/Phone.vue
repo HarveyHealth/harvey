@@ -65,159 +65,159 @@ import StagesNav from '../util/StagesNav.vue';
 import { TheMask } from 'vue-the-mask';
 
 export default {
-  name: 'phone',
-  components: {
-    ClipLoader,
-    ConfirmInput,
-    StagesNav,
-    TheMask,
-  },
-  data() {
-    return {
-      code: this.$root.$data.signup.code || '',
-      codeDigits: 5,
-      containerClasses: {
-        'anim-fade-slideup': true,
-        'anim-fade-slideup-in': false,
-        'container': true,
-      },
-      isInvalidCode: false,
-      isInvalidNumber: false,
-      phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
-      isPhoneConfirming: false,
-      isPhoneProcessing: false,
-      isUserPatchError: false,
-    }
-  },
-  computed: {
-    title() {
-      return this.$root.$data.signup.phonePending
-        ? 'Enter Confirmation Code'
-        : 'Validate Phone Number';
+    name: 'phone',
+    components: {
+        ClipLoader,
+        ConfirmInput,
+        StagesNav,
+        TheMask,
     },
-    subtext() {
-      return this.$root.$data.signup.phonePending
-        ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
-        : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
+    data() {
+        return {
+            code: this.$root.$data.signup.code || '',
+            codeDigits: 5,
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true,
+            },
+            isInvalidCode: false,
+            isInvalidNumber: false,
+            phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
+            isPhoneConfirming: false,
+            isPhoneProcessing: false,
+            isUserPatchError: false,
+        };
     },
-    confirmInputComponent() {
-      return this.$children.filter(child => {
-        return child.hasOwnProperty('distribute');
-      })[0];
-    }
-  },
-  methods: {
-    newPhoneNumber() {
-      this.isPhoneProcessing = false;
-      this.code = '';
-      this.$root.$data.signup.phonePending = false;
-      this.$root.$data.signup.codeConfirmed = false;
-      this.$root.$data.signup.code = '';
+    computed: {
+        title() {
+            return this.$root.$data.signup.phonePending
+                ? 'Enter Confirmation Code'
+                : 'Validate Phone Number';
+        },
+        subtext() {
+            return this.$root.$data.signup.phonePending
+                ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
+                : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
+        },
+        confirmInputComponent() {
+            return this.$children.filter(child => {
+                return child.hasOwnProperty('distribute');
+            })[0];
+        }
     },
-    storeCode(value) {
-      this.code = value;
-    },
-    processConfirmation(code) {
-      this.isInvalidCode = false;
+    methods: {
+        newPhoneNumber() {
+            this.isPhoneProcessing = false;
+            this.code = '';
+            this.$root.$data.signup.phonePending = false;
+            this.$root.$data.signup.codeConfirmed = false;
+            this.$root.$data.signup.code = '';
+        },
+        storeCode(value) {
+            this.code = value;
+        },
+        processConfirmation(code) {
+            this.isInvalidCode = false;
 
-      if (this.$root.$data.signup.codeConfirmed) {
-        this.$router.push({ name: 'schedule', path: '/schedule' });
-      }
+            if (this.$root.$data.signup.codeConfirmed) {
+                this.$router.push({ name: 'schedule', path: '/schedule' });
+            }
 
-      if (code.length < 5) {
-        this.isInvalidCode = true;
-      } else {
-        this.isPhoneConfirming = true;
-        // Send code off to the Twilio API
-        axios.get(`/api/v1/users/${Laravel.user.id}/phone/verify?code=${code}`).then(response => {
-          if (response.data.verified) {
-            this.$root.$data.signup.codeConfirmed = true;
-            this.$root.$data.signup.code = this.code;
-            this.isPhoneConfirming = false;
-            setTimeout(() => {
-              this.$root.$data.signup.phoneConfirmed = true;
-              this.$router.push({ name: 'schedule', path: '/schedule' });
-            }, 500);
-          } else {
-            this.setInvalidCode();
-          }
-        }).catch(error => {
-          Object.keys(this.confirmInputComponent.$refs).forEach(i => {
-            this.confirmInputComponent.$refs[i].value = '';
-          })
-          this.setInvalidCode();
-        })
-      }
+            if (code.length < 5) {
+                this.isInvalidCode = true;
+            } else {
+                this.isPhoneConfirming = true;
+                // Send code off to the Twilio API
+                axios.get(`/api/v1/users/${Laravel.user.id}/phone/verify?code=${code}`).then(response => {
+                    if (response.data.verified) {
+                        this.$root.$data.signup.codeConfirmed = true;
+                        this.$root.$data.signup.code = this.code;
+                        this.isPhoneConfirming = false;
+                        setTimeout(() => {
+                            this.$root.$data.signup.phoneConfirmed = true;
+                            this.$router.push({ name: 'schedule', path: '/schedule' });
+                        }, 500);
+                    } else {
+                        this.setInvalidCode();
+                    }
+                }).catch(error => {
+                    Object.keys(this.confirmInputComponent.$refs).forEach(i => {
+                        this.confirmInputComponent.$refs[i].value = '';
+                    });
+                    this.setInvalidCode();
+                });
+            }
 
-    },
-    processPhone(number) {
-      this.isInvalidNumber = false;
-      const validNumber = (/\d{10}/).test(number);
-      if (!validNumber) {
-        this.isInvalidNumber = true;
-        return;
-      }
+        },
+        processPhone(number) {
+            this.isInvalidNumber = false;
+            const validNumber = (/\d{10}/).test(number);
+            if (!validNumber) {
+                this.isInvalidNumber = true;
+                return;
+            }
 
-      this.isPhoneProcessing = true;
-      this.isUserPatchError = false;
-      this.$root.$data.signup.phone = number;
+            this.isPhoneProcessing = true;
+            this.isUserPatchError = false;
+            this.$root.$data.signup.phone = number;
 
-      // If a user returning to the flow already has a number stored and
-      // they did not change it, just send the confirmation code again
-      if (Laravel.user.phone === number) {
-        setTimeout(this.sendConfirmation, 400);
-      } else {
-      // Else, patch the user's phone which triggers the code confirmation send
-        axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
-          this.$root.$data.signup.phonePending = true;
-          Laravel.user.phone = number;
-          Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+            // If a user returning to the flow already has a number stored and
+            // they did not change it, just send the confirmation code again
+            if (Laravel.user.phone === number) {
+                setTimeout(this.sendConfirmation, 400);
+            } else {
+                // Else, patch the user's phone which triggers the code confirmation send
+                axios.patch(`/api/v1/users/${Laravel.user.id}`, { phone: number }).then(response => {
+                    this.$root.$data.signup.phonePending = true;
+                    Laravel.user.phone = number;
+                    Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
-          // track the number patch
-          if(this.$root.shouldTrack()) {
-            // collect response information
-            const userData = response.data.data.attributes;
-            const userId = response.data.data.id || '';
+                    // track the number patch
+                    if(this.$root.shouldTrack()) {
+                        // collect response information
+                        const userData = response.data.data.attributes;
+                        const userId = response.data.data.id || '';
 
-            // Segment Identify update
-            analytics.identify(userId, {
-              phone: number,
+                        // Segment Identify update
+                        analytics.identify(userId, {
+                            phone: number,
+                        });
+                    }
+                }).catch(error => {
+                    this.isUserPatchError = true;
+                    this.isPhoneProcessing = false;
+                });
+            }
+        },
+        handleNewSend() {
+            Object.keys(this.confirmInputComponent.$refs).forEach(i => {
+                this.confirmInputComponent.$refs[i].value = '';
             });
-          }
-        }).catch(error => {
-          this.isUserPatchError = true;
-          this.isPhoneProcessing = false;
-        });
-      }
+            this.sendConfirmation();
+        },
+        sendConfirmation() {
+            axios.post(`api/v1/users/${Laravel.user.id}/phone/sendverificationcode`);
+            this.isInvalidCode = false;
+            this.$root.$data.signup.phonePending = true;
+            Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
+        },
+        setInvalidCode() {
+            this.isPhoneConfirming = false;
+            this.isInvalidCode = true;
+        },
     },
-    handleNewSend() {
-      Object.keys(this.confirmInputComponent.$refs).forEach(i => {
-        this.confirmInputComponent.$refs[i].value = '';
-      })
-      this.sendConfirmation();
-    },
-    sendConfirmation() {
-      axios.post(`api/v1/users/${Laravel.user.id}/phone/sendverificationcode`);
-      this.isInvalidCode = false;
-      this.$root.$data.signup.phonePending = true;
-      Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
-    },
-    setInvalidCode() {
-      this.isPhoneConfirming = false;
-      this.isInvalidCode = true;
-    },
-  },
-  mounted () {
-    this.$root.toDashboard();
-    this.$root.$data.signup.visistedStages.push('phone');
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+    mounted () {
+        this.$root.toDashboard();
+        this.$root.$data.signup.visistedStages.push('phone');
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Phone');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Phone');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

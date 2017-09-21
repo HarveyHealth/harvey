@@ -28,46 +28,46 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    export default {
-        props: ['name', 'header', 'id'],
-        name: 'Reply',
-        data() {
-            return {
-                reply: this.$parent.reply,
-                message: ''
-            }
+import axios from 'axios';
+export default {
+    props: ['name', 'header', 'id'],
+    name: 'Reply',
+    data() {
+        return {
+            reply: this.$parent.reply,
+            message: ''
+        };
+    },
+    methods: {
+        updateUser(e) {
+            this.selected = e.target.children[e.target.selectedIndex].dataset.id;
         },
-        methods: {
-            updateUser(e) {
-                this.selected = e.target.children[e.target.selectedIndex].dataset.id;
-            },
-            createMessage() {
-                axios.post(`${this.$root.$data.apiUrl}/messages`, {
-                    message: this.message,
-                    recipient_user_id: this.$props.id,
-                    subject: this.$props.header
-                })
+        createMessage() {
+            axios.post(`${this.$root.$data.apiUrl}/messages`, {
+                message: this.message,
+                recipient_user_id: this.$props.id,
+                subject: this.$props.header
+            })
                 .then(response => {
                     this.$root.$data.global.detailMessages[this.$props.header].push(response.data.data);
-                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date))
-                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
+                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                    this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
-                })
-                this.$parent.reply();
-            }
-        },
-        computed: {
-            toUserType() {
-                if (this.$root.$data.permissions === 'patient') {
-                    return "Doctor";
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    return "Client";
-                } else if (this.$root.$data.permissions === 'admin') {
-                    return "Recipient";
-                }
+                });
+            this.$parent.reply();
+        }
+    },
+    computed: {
+        toUserType() {
+            if (this.$root.$data.permissions === 'patient') {
+                return "Doctor";
+            } else if (this.$root.$data.permissions === 'practitioner') {
+                return "Client";
+            } else if (this.$root.$data.permissions === 'admin') {
+                return "Recipient";
             }
         }
     }
+};
 </script>

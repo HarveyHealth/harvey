@@ -20,33 +20,33 @@
 
 <script>
 export default {
-  name: 'out-of-range',
-  data() {
-    return {
-      containerClasses: {
-        'anim-fade-slideup': true,
-        'anim-fade-slideup-in': false,
-        'container': true,
-      },
-      socialIcons: [
-        { class: 'fa fa-medium', href: 'https://blog.goharvey.com/' },
-        { class: 'fa fa-instagram', href: 'https://www.instagram.com/goharveyapp/' },
-        { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp' },
-        { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
-        { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' },
-      ]
-    }
-  },
-  mounted () {
-    this.$root.toDashboard();
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+    name: 'out-of-range',
+    data() {
+        return {
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true,
+            },
+            socialIcons: [
+                { class: 'fa fa-medium', href: 'https://blog.goharvey.com/' },
+                { class: 'fa fa-instagram', href: 'https://www.instagram.com/goharveyapp/' },
+                { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp' },
+                { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
+                { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' },
+            ]
+        };
+    },
+    mounted () {
+        this.$root.toDashboard();
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Out of Range');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Out of Range');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

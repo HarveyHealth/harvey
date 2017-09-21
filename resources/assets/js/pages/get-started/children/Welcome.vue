@@ -14,31 +14,31 @@
 
 <script>
 export default {
-  name: 'welcome',
-  data() {
-    return {
-      containerClasses: {
-        'anim-fade-slideup': true,
-        'anim-fade-slideup-in': false,
-        'container': true,
-      },
+    name: 'welcome',
+    data() {
+        return {
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true,
+            },
+        };
+    },
+    mounted () {
+        this.$root.toDashboard();
+        this.$root.setup();
+
+        if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
+        if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
+
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+        if(this.$root.shouldTrack()) {
+            analytics.page('Welcome');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  mounted () {
-    this.$root.toDashboard();
-    this.$root.setup();
-
-    if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
-    if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
-
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
-
-    if(this.$root.shouldTrack()) {
-      analytics.page('Welcome');
-    }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

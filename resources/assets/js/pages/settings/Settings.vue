@@ -90,9 +90,9 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Modal from '../../commons/Modal.vue'
-import NotificationPopup from '../../commons/NotificationPopup.vue'
+import axios from 'axios';
+import Modal from '../../commons/Modal.vue';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
 export default {
     name: 'settings',
     components: {
@@ -122,32 +122,32 @@ export default {
             formAction: null,
             sent: false,
             monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
-        }
+        };
     },
     methods: {
         addCard() {
-            this.details = true
+            this.details = true;
             setTimeout(() => this.stripeForm(), 100);
         },
         closeDetails() {
-            this.details = false
+            this.details = false;
         },
         closeModal() {
-            this.deleteModalActive = false
+            this.deleteModalActive = false;
         },
         closeInvalidCC() {
             this.invalidCC = false;
             this.invalidModalActive = false;
         },
         openModal(card) {
-            this.deleteModalActive = true
-            this.currentCard = card
+            this.deleteModalActive = true;
+            this.currentCard = card;
         },
         submitAddCard() {
             this.formAction.submit();
         },
         updateMonth(e) {
-            this.month = e.target.value
+            this.month = e.target.value;
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
@@ -156,14 +156,14 @@ export default {
                     this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                })
-            this.closeModal()
+                });
+            this.closeModal();
         },
         submitUpdateCard() {
-            this.details = false
-            this.edit = false
+            this.details = false;
+            this.edit = false;
             if (this.firstName && this.lastName && this.year && this.month && this.cardNumber && this.cardCvc && this.postalCode) {
-                this.updateCard()
+                this.updateCard();
             }
         },
         updateCard() {
@@ -176,21 +176,21 @@ export default {
                 exp_year: this.year || this.currentCard.exp_year,
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
-            .then(response => {
-                axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
-                    .then(respond => {
-                        this.$root.$data.global.creditCards = respond.data.cards
-                        this.notificationMessage = "Successfully updated!";
-                        this.notificationActive = true;
-                        setTimeout(() => this.notificationActive = false, 3000);
-                    })
-                    .catch(error => {
-                        console.log(`GET ISSUE`, error)
-                    })
-            })
-            .catch(error => {
-                console.log(`PATCH ISSUE`, error)
-            })
+                .then(response => {
+                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                        .then(respond => {
+                            this.$root.$data.global.creditCards = respond.data.cards;
+                            this.notificationMessage = "Successfully updated!";
+                            this.notificationActive = true;
+                            setTimeout(() => this.notificationActive = false, 3000);
+                        })
+                        .catch(error => {
+                            console.log(`GET ISSUE`, error);
+                        });
+                })
+                .catch(error => {
+                    console.log(`PATCH ISSUE`, error);
+                });
         },
         submitNewCard(token) {
             axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
@@ -201,12 +201,12 @@ export default {
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                         .then(respond => {
-                            this.$root.$data.global.creditCards = respond.data.cards
+                            this.$root.$data.global.creditCards = respond.data.cards;
                             this.$root.$data.global.loadingCreditCards = false;
-                            this.details = false
+                            this.details = false;
                             this.sent = false;
-                        })
-                })
+                        });
+                });
         },
         stripeForm() {
             let stripe = this.$root.$data.stripe;
@@ -219,7 +219,7 @@ export default {
                     fontSmoothing: 'antialiased',
                     fontSize: '16px',
                     '::placeholder': {
-                    color: '#aab7c4'
+                        color: '#aab7c4'
                     }
                 },
                 invalid: {
@@ -257,7 +257,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
     }
-}
+};
 </script>
 
 <style>

@@ -96,116 +96,116 @@
 </template>
 
 <script>
-  import DashboardAppointments from './components/DashboardAppointments.vue';
-  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
-  import Contact from '../../utils/mixins/Contact';
-  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
-  import getAppointments from '../../utils/methods/getAppointments';
+import DashboardAppointments from './components/DashboardAppointments.vue';
+import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
+import Contact from '../../utils/mixins/Contact';
+import combineAppointmentData from '../../utils/methods/combineAppointmentData';
+import getAppointments from '../../utils/methods/getAppointments';
 
-  export default {
+export default {
     name: 'dashboard',
     data() {
-      return {
-        patientName: Laravel.user.fullName, // because it's already there
-        flag: false
-      };
+        return {
+            patientName: Laravel.user.fullName, // because it's already there
+            flag: false
+        };
     },
     props: ['user', 'patient'],
     components: {
-      DashboardAppointments,
+        DashboardAppointments,
     },
     methods: {
-      viewAppointmentPage() {
+        viewAppointmentPage() {
         // add tracking for Appointments Page view here
-      }
+        }
     },
     computed: {
-      dashboardTitle() {
-        if (this.userType === 'admin') {
-          return 'Admin Dashboard';
-        } else {
-          return 'Dashboard';
-        }
-      },
-      displayName() {
-        if(this.user.attributes === undefined) {
-          return '';
-        } else {
-          return `${this.user.attributes.first_name} ${this.user.attributes.last_name}`;
-        }
-      },
-      email() {
-        return this.user.attributes ? this.user.attributes.email : '';
-      },
-      phone() {
-        return this.user.attributes ? phone(this.user.attributes.phone) : '';
-      },
-      practitioner() {
-        if (this.$root.$data.global.practitioners.length) {
-          const name = Laravel.user.doctor_name;
-          return this.$root.$data.global.practitioners.filter(dr => {
-            return dr.info.name === name;
-          }).map(dr => {
-            const typeAbbr = dr.info.type_name
-              .split(' ')
-              .map(part => part.charAt(0))
-              .join('');
-            return {
-              avatar: dr.info.picture_url,
-              description: dr.info.description,
-              name: `${dr.name}, ${typeAbbr}`
+        dashboardTitle() {
+            if (this.userType === 'admin') {
+                return 'Admin Dashboard';
+            } else {
+                return 'Dashboard';
             }
-          })[0];
-        } else {
-          return {
-            avatar: '#',
-            description: 'Loading doctor...',
-            name: ''
-          }
-        }
+        },
+        displayName() {
+            if(this.user.attributes === undefined) {
+                return '';
+            } else {
+                return `${this.user.attributes.first_name} ${this.user.attributes.last_name}`;
+            }
+        },
+        email() {
+            return this.user.attributes ? this.user.attributes.email : '';
+        },
+        phone() {
+            return this.user.attributes ? phone(this.user.attributes.phone) : '';
+        },
+        practitioner() {
+            if (this.$root.$data.global.practitioners.length) {
+                const name = Laravel.user.doctor_name;
+                return this.$root.$data.global.practitioners.filter(dr => {
+                    return dr.info.name === name;
+                }).map(dr => {
+                    const typeAbbr = dr.info.type_name
+                        .split(' ')
+                        .map(part => part.charAt(0))
+                        .join('');
+                    return {
+                        avatar: dr.info.picture_url,
+                        description: dr.info.description,
+                        name: `${dr.name}, ${typeAbbr}`
+                    };
+                })[0];
+            } else {
+                return {
+                    avatar: '#',
+                    description: 'Loading doctor...',
+                    name: ''
+                };
+            }
 
-      },
-      recent_appointments() {
-        return this.$root.$data.global.recent_appointments || [];
-      },
-      upcoming_appointments() {
-        return this.$root.$data.global.upcoming_appointments || [];
-      },
-      userClass() {
-        return {
-          [`is-${this.userType}`]: true
-        }
-      },
-      user_id() {
-        return this.user.id || '';
-      },
-      userType() {
-        return Laravel.user.user_type;
-      },
-      viewableIntakeAlert() {
-        return !this.$root.$data.global.loadingAppointments &&
+        },
+        recent_appointments() {
+            return this.$root.$data.global.recent_appointments || [];
+        },
+        upcoming_appointments() {
+            return this.$root.$data.global.upcoming_appointments || [];
+        },
+        userClass() {
+            return {
+                [`is-${this.userType}`]: true
+            };
+        },
+        user_id() {
+            return this.user.id || '';
+        },
+        userType() {
+            return Laravel.user.user_type;
+        },
+        viewableIntakeAlert() {
+            return !this.$root.$data.global.loadingAppointments &&
                !this.$root.$data.global.appointments.length &&
                this.userType === 'patient';
-      },
-      zip() {
-        return this.user.attributes ? this.user.attributes.zip : '';
-      },
-      appointments() {
-        return this.$root.$data.global.appointments;
-      }
+        },
+        zip() {
+            return this.user.attributes ? this.user.attributes.zip : '';
+        },
+        appointments() {
+            return this.$root.$data.global.appointments;
+        }
     },
     beforeMount() {
-      let flag = localStorage.getItem('signed up');
-      if (flag) {
-        localStorage.removeItem('signed up');
-      }
+        let flag = localStorage.getItem('signed up');
+        if (flag) {
+            localStorage.removeItem('signed up');
+        }
     },
     mounted() {
-      this.$root.$data.global.currentPage = 'dashboard';
-      if (localStorage.getItem('signed up')) return null;
-      if(this.$root.shouldTrack()) {
+        this.$root.$data.global.currentPage = 'dashboard';
+        if (localStorage.getItem('signed up')) return null;
+        if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
-      }
+        }
     }
-  }
+};
 </script>

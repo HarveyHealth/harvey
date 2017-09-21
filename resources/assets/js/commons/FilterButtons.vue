@@ -10,26 +10,26 @@
 
 <script>
 export default {
-  props: {
-    activeFilter: {
-      type: Number,
-      required: true
-    },
-    filters: {
-      type: Array,
-      required: true,
-    },
-    loading: {
-      type: Boolean,
-    },
-    onFilter: {
-      type: Function,
-      required: true
-    },
-    allData: {
-      type: Array,
-      required: true
+    props: {
+        activeFilter: {
+            type: Number,
+            required: true
+        },
+        filters: {
+            type: Array,
+            required: true,
+        },
+        loading: {
+            type: Boolean,
+        },
+        onFilter: {
+            type: Function,
+            required: true
+        },
+        allData: {
+            type: Array,
+            required: true
+        }
     }
-  }
-}
+};
 </script>

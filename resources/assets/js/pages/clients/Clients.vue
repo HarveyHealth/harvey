@@ -24,55 +24,55 @@
 </template>
 
 <script>
-  import ClientsTable from './components/ClientsTable.vue'
-  import UserNav from '../../commons/UserNav.vue'
-  import tableDataTransform from './utils/tableData'
-  export default {
-      name: 'Clients',
-      components: {
+import ClientsTable from './components/ClientsTable.vue';
+import UserNav from '../../commons/UserNav.vue';
+import tableDataTransform from './utils/tableData';
+export default {
+    name: 'Clients',
+    components: {
         ClientsTable,
         UserNav
-      },
-      data() {
+    },
+    data() {
         return {
-          currentData: []
-        }
-      },
-      methods: {
+            currentData: []
+        };
+    },
+    methods: {
         handleRowClick(obj, index) {
-            return null
+            return null;
         },
         $$rowClasses(data, index) {
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
                 'has-updated': this.updatedRow === index,
-            }
+            };
         },
         setupLabData() {
-            let data = tableDataTransform(this.$root.$data.clientList)
-            this.currentData = data
+            let data = tableDataTransform(this.$root.$data.clientList);
+            this.currentData = data;
         },
         getLabTests() {
-            this.tests = this.$root.$data.labTests
+            this.tests = this.$root.$data.labTests;
         }
     },
     computed: {
         loadingClients() {
-            return this.$root.$data.global.loadingClients
+            return this.$root.$data.global.loadingClients;
         }
     },
     watch: {
         loadingClients(val, old) {
             if (!val) {
-                this.setupLabData()
+                this.setupLabData();
             }
         }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
-        const clientList = this.$root.$data.clientList
+        const clientList = this.$root.$data.clientList;
         if (clientList.length) this.setupLabData();
     }
-  }
+};
 </script>

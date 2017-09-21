@@ -6,24 +6,24 @@
 
 <script>
 
-  import Signup from './children/Signup.vue';
-  import Welcome from './children/Welcome.vue';
+import Signup from './children/Signup.vue';
+import Welcome from './children/Welcome.vue';
 
-  export default {
+export default {
     name: 'get-started',
     components: {
-      Signup,
-      Welcome,
+        Signup,
+        Welcome,
     },
     methods: {
-      setBeforeUnload() {
-        window.onbeforeunload = () => {
-          return 'All your information will be reset.';
+        setBeforeUnload() {
+            window.onbeforeunload = () => {
+                return 'All your information will be reset.';
+            };
         }
-      }
     },
     mounted() {
-      if (Laravel.user.signedIn) this.setBeforeUnload();
+        if (Laravel.user.signedIn) this.setBeforeUnload();
     }
-  }
+};
 </script>

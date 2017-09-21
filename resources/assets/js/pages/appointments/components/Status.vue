@@ -15,30 +15,30 @@ import SelectOptions from '../../../commons/SelectOptions.vue';
 import convertStatus from '../utils/convertStatus';
 
 export default {
-  props: {
+    props: {
     // Is the status editable or display only?
-    editable: Boolean,
-    // List of status objects (see SelectOptions for structure)
-    list: Array,
-    // What happens when a user selects a status?
-    setStatus: Function,
-    // Status string to be converted for SelectOptions
-    status: String,
-    // Should we even display appointment status?
-    visible: Boolean,
-  },
-  components: {
-    SelectOptions
-  },
-  computed: {
-    convertedStatus() {
-      return convertStatus(this.status) || '';
+        editable: Boolean,
+        // List of status objects (see SelectOptions for structure)
+        list: Array,
+        // What happens when a user selects a status?
+        setStatus: Function,
+        // Status string to be converted for SelectOptions
+        status: String,
+        // Should we even display appointment status?
+        visible: Boolean,
+    },
+    components: {
+        SelectOptions
+    },
+    computed: {
+        convertedStatus() {
+            return convertStatus(this.status) || '';
+        }
+    },
+    methods: {
+        handleSelect(e) {
+            this.setStatus(this.list[e.target.selectedIndex]);
+        }
     }
-  },
-  methods: {
-    handleSelect(e) {
-      this.setStatus(this.list[e.target.selectedIndex]);
-    }
-  }
-}
+};
 </script>

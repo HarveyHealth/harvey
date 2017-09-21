@@ -21,41 +21,41 @@ import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: {
+    props: {
     // A given day string to set as the selection or display
-    day: String,
-    // Do we need to give options, or just display given day?
-    editable: Boolean,
-    // Is the day data still loading?
-    isLoading: Boolean,
-    // List of day objects (see SelectOptions for structure)
-    list: Array,
-    // Is this for a new appointment or for updating an appointment
-    mode: String,
-    // Is the loaded data empty?
-    noAvailability: Boolean,
-    // What happens when a user selects a day
-    setTimes: Function,
-    // The UTC formatted date string for a given selection
-    time: String
-  },
-  components: {
-    SelectOptions
-  },
-  computed: {
-    $$label() {
-      if (this.editable && this.mode === 'new') return 'Date & Time';
-      if (this.editable && this.mode === 'update') return 'Reschedule';
-      return 'booked for';
+        day: String,
+        // Do we need to give options, or just display given day?
+        editable: Boolean,
+        // Is the day data still loading?
+        isLoading: Boolean,
+        // List of day objects (see SelectOptions for structure)
+        list: Array,
+        // Is this for a new appointment or for updating an appointment
+        mode: String,
+        // Is the loaded data empty?
+        noAvailability: Boolean,
+        // What happens when a user selects a day
+        setTimes: Function,
+        // The UTC formatted date string for a given selection
+        time: String
     },
-    $$selectedDay() {
-      return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
+    components: {
+        SelectOptions
+    },
+    computed: {
+        $$label() {
+            if (this.editable && this.mode === 'new') return 'Date & Time';
+            if (this.editable && this.mode === 'update') return 'Reschedule';
+            return 'booked for';
+        },
+        $$selectedDay() {
+            return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
+        }
+    },
+    methods: {
+        handleSelect(e) {
+            this.setTimes(e.target.value, e.target.selectedIndex);
+        }
     }
-  },
-  methods: {
-    handleSelect(e) {
-      this.setTimes(e.target.value, e.target.selectedIndex);
-    }
-  }
-}
+};
 </script>

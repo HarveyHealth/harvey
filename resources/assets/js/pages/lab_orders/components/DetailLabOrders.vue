@@ -196,224 +196,224 @@
 </template>
 
 <script>
-  import Flyout from '../../../commons/Flyout.vue'
-  import Modal from '../../../commons/Modal.vue'
-  import SelectOptions from '../../../commons/SelectOptions.vue'
-  import {
+import Flyout from '../../../commons/Flyout.vue';
+import Modal from '../../../commons/Modal.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
+import {
     capitalize
-  } from '../../../utils/filters/textformat'
-  import axios from 'axios'
-  import _ from 'lodash'
-  export default {
+} from '../../../utils/filters/textformat';
+import axios from 'axios';
+import _ from 'lodash';
+export default {
     name: 'DetailLabOrders',
     props: ['row-data', 'reset'],
     components: {
-      Flyout,
-      SelectOptions,
-      Modal
+        Flyout,
+        SelectOptions,
+        Modal
     },
     data() {
-      return {
-        selectedStatus: null,
-        selectedDoctor: null,
-        selectedShipment: {},
-        shippingCodes: {},
-        selectedAddressOne: null,
-        selectedAddressTwo: null,
-        firstName: '',
-        lastName: '',
-        month: '',
-        year: '',
-        masterTracking: '',
-        step: 1,
-        address1: '',
-        address2: '',
-        newCity: '',
-        newZip: '',
-        newState: '',
-        cardNumber: '',
-        cardExpiry: '',
-        cardCvc: '',
-        postalCode: '',
-        invalidCC: false,
-        invalidModalActive: false,
-        hasCard: this.$root.$data.global.creditCards.length,
-        capitalize: _.capitalize,
-        monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
-      }
+        return {
+            selectedStatus: null,
+            selectedDoctor: null,
+            selectedShipment: {},
+            shippingCodes: {},
+            selectedAddressOne: null,
+            selectedAddressTwo: null,
+            firstName: '',
+            lastName: '',
+            month: '',
+            year: '',
+            masterTracking: '',
+            step: 1,
+            address1: '',
+            address2: '',
+            newCity: '',
+            newZip: '',
+            newState: '',
+            cardNumber: '',
+            cardExpiry: '',
+            cardCvc: '',
+            postalCode: '',
+            invalidCC: false,
+            invalidModalActive: false,
+            hasCard: this.$root.$data.global.creditCards.length,
+            capitalize: _.capitalize,
+            monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+        };
     },
     methods: {
-      handleFlyoutClose() {
-        this.$parent.selectedRowData = null;
-        this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
-      },
-      updateStatus(e) {
-        this.selectedStatus = e.target.value;
-      },
-      updateTest(e, object) {
-        this.selectedShipment[object.test_id] = e.target.value;
-      },
-      updateState(e) {
-        this.newState = e.target.value
-      },
-      stepThree() {
-        this.step = 3;
-        this.flyoutHeading = 'Confirm Payment';
-      },
-      nextStep() {
-        this.step++;
-      },
-      prevStep() {
-        this.step = 1;
-      },
-      closeInvalidCC() {
-        this.invalidCC = false;
-        this.invalidModalActive = false;
-      },
-      updateMonth(e) {
-        this.month = e.target.value
-      },
-      updateLabOrder() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.$props.rowData.shipment_code,
-            address_1: this.$props.rowData.address_1 || this.address1,
-            address_2: this.$props.rowData.address_2 || this.address2,
-            city: this.$props.rowData.city || this.newCity,
-            state: this.$props.rowData.state || this.newState,
-            zip: this.$props.rowData.zip || this.newZip
-          })
-          .then(respond => {
+        handleFlyoutClose() {
+            this.$parent.selectedRowData = null;
+            this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive;
+        },
+        updateStatus(e) {
+            this.selectedStatus = e.target.value;
+        },
+        updateTest(e, object) {
+            this.selectedShipment[object.test_id] = e.target.value;
+        },
+        updateState(e) {
+            this.newState = e.target.value;
+        },
+        stepThree() {
+            this.step = 3;
+            this.flyoutHeading = 'Confirm Payment';
+        },
+        nextStep() {
+            this.step++;
+        },
+        prevStep() {
+            this.step = 1;
+        },
+        closeInvalidCC() {
+            this.invalidCC = false;
+            this.invalidModalActive = false;
+        },
+        updateMonth(e) {
+            this.month = e.target.value;
+        },
+        updateLabOrder() {
+            axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+                shipment_code: this.$props.rowData.shipment_code,
+                address_1: this.$props.rowData.address_1 || this.address1,
+                address_2: this.$props.rowData.address_2 || this.address2,
+                city: this.$props.rowData.city || this.newCity,
+                state: this.$props.rowData.state || this.newState,
+                zip: this.$props.rowData.zip || this.newZip
+            })
+                .then(respond => {
+                    this.$parent.notificationMessage = "Successfully updated!";
+                    this.$parent.notificationActive = true;
+                    this.$parent.selectedRowData = null;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                    this.handleFlyoutClose();
+                });
+        },
+        updateOrder() {
+            this.$props.rowData.test_list.forEach((e, i, a) => {
+                if (this.selectedShipment[Number(e.test_id)] != undefined) {
+                    axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                        status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                    });
+                }
+                if (this.$props.rowData.completed_at === 'Confirmed') {
+                    axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                        status: 'shipped',
+                        shipment_code: this.shippingCodes[e.test_id],
+                    });
+                    if (a.length - 1 == i) {
+                        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+                            shipment_code: this.masterTracking
+                        });
+                    }
+                }
+            });
+            axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+                .then(response => {
+                    this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
+                        e['included'] = response.data.included[i];
+                        return e;
+                    });
+                    this.$root.$data.global.loadingLabOrders = false;
+                    axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
+                        .then(response => {
+                            this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                                e['included'] = response.data.included[i];
+                                return e;
+                            });
+                            this.$root.$data.global.loadingLabTests = false;
+                            this.$props.reset();
+                        });
+                });
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
             setTimeout(() => this.$parent.notificationActive = false, 3000);
-            this.handleFlyoutClose()
-          })
-      },
-      updateOrder() {
-        this.$props.rowData.test_list.forEach((e, i, a) => {
-          if (this.selectedShipment[Number(e.test_id)] != undefined) {
-            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-              status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-            })
-          }
-          if (this.$props.rowData.completed_at === 'Confirmed') {
-            axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-              status: 'shipped',
-              shipment_code: this.shippingCodes[e.test_id],
-            })
-            if (a.length - 1 == i) {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-                shipment_code: this.masterTracking
-              })
-            }
-          }
-        })
-        axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
-          .then(response => {
-            this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-              e['included'] = response.data.included[i]
-              return e;
-            })
-            this.$root.$data.global.loadingLabOrders = false
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-              .then(response => {
-                this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                  e['included'] = response.data.included[i]
-                  return e;
-                })
-                this.$root.$data.global.loadingLabTests = false
-                this.$props.reset();
-              })
-          })
-        this.$parent.notificationMessage = "Successfully updated!";
-        this.$parent.notificationActive = true;
-        this.$parent.selectedRowData = null;
-        setTimeout(() => this.$parent.notificationActive = false, 3000);
-        this.handleFlyoutClose();
-      },
+            this.handleFlyoutClose();
+        },
     },
     computed: {
-      flyoutHeading() {
-        return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : ''
-      },
-      doctorName() {
-        return this.$props.rowData ?
-          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` :
-          ''
-      },
-      validZip() {
-        if (this.zip != '') {
-          return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5
-        } else {
-          return true
+        flyoutHeading() {
+            return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : '';
+        },
+        doctorName() {
+            return this.$props.rowData ?
+                `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` :
+                '';
+        },
+        validZip() {
+            if (this.zip != '') {
+                return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
+            } else {
+                return true;
+            }
+        },
+        status() {
+            return this.$props.rowData ? this.$props.rowData.completed_at : '';
+        },
+        shipmentCode() {
+            return this.$props.rowData ? this.$props.rowData.shipment_code : '';
+        },
+        addressOne() {
+            return this.$props.rowData ? this.$props.rowData.address_1 : '';
+        },
+        addressTwo() {
+            return this.$props.rowData ? this.$props.rowData.address_2 : '';
+        },
+        city() {
+            return this.$props.rowData ? this.$props.rowData.city : '';
+        },
+        state() {
+            return this.$props.rowData ? this.$props.rowData.state : '';
+        },
+        zip() {
+            return this.$props.rowData ? this.$props.rowData.zip : '';
+        },
+        stateList() {
+            return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+        },
+        oldCard() {
+            if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
+                .brand) {
+                this.hasCard = true;
+            }
+            return this.$props.rowData ? this.$props.rowData.card : null;
+        },
+        price() {
+            return this.$props.rowData ? this.$props.rowData.total_price : '';
+        },
+        samples() {
+            return this.$props.rowData ? Object.keys(this.$props.rowData.samples) : [];
+        },
+        doctorList() {
+            let data = {};
+            if (!this.$props.rowData) return [];
+            data.name =
+          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`;
+            data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id;
+            data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes
+                .user_id;
+            let arr = _.pull(this.$root.$data.global.practitioners, data);
+            return [data].concat(arr);
+        },
+        statusList() {
+            if (!this.$props.rowData) return "";
+            return this.$props.rowData.completed_at;
+        },
+        testList() {
+            if (!this.$props.rowData) return [];
+            this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+                name: "No Lab Orders",
+                cancel: true,
+                status: ['No Order']
+            }] : this.$props.rowData.test_list;
+            return this.$props.rowData.test_list;
+        },
+        latestCard() {
+            return this.$root.$data.global.creditCards.slice(-1).pop();
         }
-      },
-      status() {
-        return this.$props.rowData ? this.$props.rowData.completed_at : ''
-      },
-      shipmentCode() {
-        return this.$props.rowData ? this.$props.rowData.shipment_code : ''
-      },
-      addressOne() {
-        return this.$props.rowData ? this.$props.rowData.address_1 : ''
-      },
-      addressTwo() {
-        return this.$props.rowData ? this.$props.rowData.address_2 : ''
-      },
-      city() {
-        return this.$props.rowData ? this.$props.rowData.city : ''
-      },
-      state() {
-        return this.$props.rowData ? this.$props.rowData.state : ''
-      },
-      zip() {
-        return this.$props.rowData ? this.$props.rowData.zip : ''
-      },
-      stateList() {
-        return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
-      },
-      oldCard() {
-        if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-          .brand) {
-          this.hasCard = true
-        }
-        return this.$props.rowData ? this.$props.rowData.card : null
-      },
-      price() {
-        return this.$props.rowData ? this.$props.rowData.total_price : ''
-      },
-      samples() {
-        return this.$props.rowData ? Object.keys(this.$props.rowData.samples) : []
-      },
-      doctorList() {
-        let data = {}
-        if (!this.$props.rowData) return []
-        data.name =
-          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`
-        data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id
-        data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes
-          .user_id
-        let arr = _.pull(this.$root.$data.global.practitioners, data)
-        return [data].concat(arr)
-      },
-      statusList() {
-        if (!this.$props.rowData) return ""
-        return this.$props.rowData.completed_at
-      },
-      testList() {
-        if (!this.$props.rowData) return []
-        this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
-          name: "No Lab Orders",
-          cancel: true,
-          status: ['No Order']
-        }] : this.$props.rowData.test_list
-        return this.$props.rowData.test_list
-      },
-      latestCard() {
-        return this.$root.$data.global.creditCards.slice(-1).pop();
-      }
     }
-  }
+};
 
 </script>

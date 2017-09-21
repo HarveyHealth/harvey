@@ -16,25 +16,25 @@
 import SelectOptions from '../../../commons/SelectOptions.vue';
 
 export default {
-  props: {
+    props: {
     // Status string to be converted for SelectOptions
-    duration: String,
-    // Is the status editable or display only?
-    editable: Boolean,
-    // List of status objects (see SelectOptions for structure)
-    list: Array,
-    // What happens when a user selects a status?
-    setDuration: Function,
-    // Should we even display appointment status?
-    visible: Boolean,
-  },
-  components: {
-    SelectOptions
-  },
-  methods: {
-    handleSelect(e) {
-      this.setDuration(this.list[e.target.selectedIndex - 1]);
+        duration: String,
+        // Is the status editable or display only?
+        editable: Boolean,
+        // List of status objects (see SelectOptions for structure)
+        list: Array,
+        // What happens when a user selects a status?
+        setDuration: Function,
+        // Should we even display appointment status?
+        visible: Boolean,
+    },
+    components: {
+        SelectOptions
+    },
+    methods: {
+        handleSelect(e) {
+            this.setDuration(this.list[e.target.selectedIndex - 1]);
+        }
     }
-  }
-}
+};
 </script>
