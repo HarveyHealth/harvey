@@ -6,9 +6,24 @@
     "plugins": ["vue"],
     "parserOptions": {
         "parser": "babel-eslint",
-        "ecmaVersion": 7,
+        "ecmaVersion": "2017",
         "sourceType": "module",
         "ecmaFeatures": {
+            "arrowFunctions": true,
+            "destructuring": true,
+            "classes": true,
+            "defaultParams": true,
+            "blockBindings": true,
+            "modules": true,
+            "objectLiteralComputedProperties": true,
+            "objectLiteralShorthandMethods": true,
+            "objectLiteralShorthandProperties": true,
+            "restParams": true,
+            "spread": true,
+            "forOf": true,
+            "generators": true,
+            "templateStrings": true,
+            "superInFunctions": true,
             "experimentalObjectRestSpread": true
         }
     },
@@ -17,6 +32,7 @@
         "no-undef": "off",
         "no-console": "off",
         "no-useless-escape": "off",
-        "indent": ["error", 4]
+        "indent": [0, 4, { "Switch": 4 }],
+        "vue/require-v-for-key": "off"
     }
 }

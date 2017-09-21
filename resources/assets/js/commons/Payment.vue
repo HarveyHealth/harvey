@@ -97,8 +97,6 @@
 </template>
 
 <script>
-import Form from '../utils/objects/Form.js';
-
 export default {
     name: 'payment',
     props: ['user', 'form'],

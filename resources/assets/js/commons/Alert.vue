@@ -36,7 +36,7 @@ export default {
     created() {
         this.$eventHub.$on('alert', (data) => {
             this.show = true;
-            this.alertData = _.assign({}, this.alertData, data);
+            this.alertData = assign({}, this.alertData, data);
 
             if (!this.alertData.important) {
                 setTimeout(
