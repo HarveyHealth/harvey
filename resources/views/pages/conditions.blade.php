@@ -20,9 +20,6 @@
         <script>
           window.Laravel = {!! $vue_data !!}
           window.$$context = 'conditions';
-          if (Laravel.user.signedIn) {
-            window.location.hash = '/dashboard';
-          }
         </script>
 
         <!-- Typekit -->
