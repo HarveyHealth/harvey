@@ -109,7 +109,6 @@
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
-                    console.log(this.$children.map(e => console.log(e)))
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;

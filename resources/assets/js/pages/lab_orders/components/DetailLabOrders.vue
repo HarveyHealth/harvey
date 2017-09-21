@@ -79,17 +79,9 @@
           </div>
         </div>
         <div class="input__container">
-          <label class="input__label" for="patient_name">mailing address</label>
-          <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
-          <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-          <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
-          <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
-          <span class="custom-select" style="width: 45%; float:left;">
-                  <select @change="updateState($event)">
-                      <option v-for="state in stateList" :data-id="state">{{ state }}</option>
-                  </select>
-              </span>
-          <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
+          <label class="input__label" for="patient_name">Mailing Address</label>
+          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
+          <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
         </div>
         <div class="input__container">
           <label class="input__label" for="billing">Billing Info</label>
@@ -149,8 +141,8 @@
           <span class="input__item">{{ status }}</span>
         </div>
         <div class="inline-centered">
-          <button class="button" @click="updateOrder()">Update Order</button>
-          <button v-if="status === 'Confirmed'" :disabled="!oldCard || !oldCard.brand || !oldCard.last4" class="button" @click="nextStep()">Save &amp; Continue</button>
+          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Save &amp; Continue</button>
         </div>
       </div>
     </div>
@@ -179,7 +171,7 @@
         <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
       </div>
       <div class="inline-centered">
-        <button class="button" @click="updateOrder()" :disabled="!validZip || masterTracking.length == 0 || !address1 || !newCity || !newZip || !newState ">Mark as Shipped</button>
+        <button class="button" @click="updateLabOrder()" :disabled="!validZip || masterTracking.length == 0 || !address1 || !newCity || !newZip || !newState ">Mark as Shipped</button>
       </div>
     </div>
     </div>
@@ -284,7 +276,7 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+              if (this.selectedShipment[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                   status: this.selectedShipment[Number(e.test_id)].toLowerCase()
                 })
@@ -317,7 +309,7 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+              if (this.selectedShipment[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                   status: this.selectedShipment[Number(e.test_id)].toLowerCase()
                 })
@@ -339,24 +331,9 @@
             this.handleFlyoutClose()
           })
       },
-      updateOrder() {
-        let data = {};
-        if (this.$props.rowData.completed_at === 'Confirmed' || this.$props.rowData.completed_at === 'Recommended') {
-          data = {}
-        } else {
-          data = {
-            shipment_code: this.masterTracking,
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip
-          };
-        }
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
-        .then(() => {
-          this.$props.rowData.test_list.forEach((e) => {
-            if (this.selectedShipment[Number(e.test_id)] != undefined) {
+      updateTests() {
+        this.$props.rowData.test_list.forEach((e) => {
+          if (this.selectedShipment[Number(e.test_id)] != undefined) {
               axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
               })
@@ -370,7 +347,6 @@
                 status: 'confirmed'
               })
             }
-          })
         })
         axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
           .then(response => {
