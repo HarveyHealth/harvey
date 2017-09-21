@@ -63,7 +63,7 @@ class LabOrdersController extends BaseAPIController
 
         StrictValidator::check($request->all(), [
             'address_1' => 'max:100',
-            'address_2' => 'filled|max:100',
+            'address_2' => 'max:100',
             'city' => 'max:100',
             'patient_id' => 'exists:patients,id',
             'practitioner_id' => 'exists:practitioners,id',
