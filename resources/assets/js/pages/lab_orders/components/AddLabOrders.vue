@@ -199,13 +199,13 @@ export default {
             if (this.step == 2) return "Enter Tracking #s";
         },
         testNameList() {
-            return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id);
+            return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
         }
     },
     watch: {
         testNameList(val) {
             if (val) {
-                return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id);
+                return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
             }
         }
     },

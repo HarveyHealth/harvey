@@ -86,7 +86,7 @@ export default {
     },
     computed: {
         messageList() {
-            return this.$root.$data.global.messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+            return this.$root.$data.global.messages.slice(0).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
         }
     },
     methods: {

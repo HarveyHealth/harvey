@@ -221,7 +221,6 @@ export default {
     data() {
         return {
             step: 1,
-            results: [],
             search: '',
             selectedPatient: null,
             activeModal: false,
@@ -254,7 +253,7 @@ export default {
         results() {
             let array = this.$root.$data.global.patients;
             let matcher = new RegExp(this.value, 'ig');
-            this.results = array.filter(ele => {
+            return array.filter(ele => {
                 return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
                       matcher.test(ele.date_of_birth);
