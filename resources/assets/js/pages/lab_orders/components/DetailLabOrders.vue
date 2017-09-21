@@ -85,7 +85,7 @@
         </div>
         <div class="input__container">
           <label class="input__label" for="billing">Billing Info</label>
-            <label class="input__item sub-billing1">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label class="input__item sub-billing1">{{`Billing will go to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
         <div class="inline-centered">
