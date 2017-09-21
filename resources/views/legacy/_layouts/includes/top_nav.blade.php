@@ -14,7 +14,7 @@
                 <a href="/#prices" class="link is-hidden-mobile">Pricing</a>
                 <a href="tel:800-690-9989" class="button is-primary is-outlined is-hidden-mobile">(800) 690-9989</a>
                 <a href="/login" class="button is-primary is-outlined">Log In</a>
-                <a href="/get-started" class="button is-primary">Get Started</a>
+                <a :href="getStartedLink" class="button is-primary">Get Started</a>
             </span>
         </div>
     </div>

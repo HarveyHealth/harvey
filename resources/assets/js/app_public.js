@@ -39,6 +39,7 @@ const app = new Vue({
         VerticalTabs
     },
     data: {
+        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
         guest: true,
         appLoaded: false,
         isProcessing: false,
@@ -132,6 +133,9 @@ const app = new Vue({
         },
         isHomePage() {
           return window.location.pathname === '/';
+        },
+        getStartedLink() {
+          return this.hasZipValidation ? '/get-started' : '/conditions'
         }
     },
     methods: {
