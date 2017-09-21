@@ -32,9 +32,9 @@
       <div class="input__container">
         <label class="input__label" for="patient_name">Billing Info</label>
         <div v-if="status !== 'Recommended'">
-          <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
+          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Billed to: ${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on order`}}</label>
-          <label v-if="oldCard !== null && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}`}}</label>
+          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
           <label class="input__item">Unpaid</label>
@@ -97,7 +97,7 @@
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
         <div class="inline-centered">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="updateOrder()">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
       </div>
     </div>
@@ -274,16 +274,64 @@
       updateMonth(e) {
         this.month = e.target.value
       },
+      patientLabUpdate() {
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            address_1: this.address1,
+            address_2: this.address2,
+            city: this.newCity,
+            state: this.newState,
+            zip: this.newZip
+          })
+          .then(respond => {
+              this.$props.rowData.test_list.forEach((e) => {
+              if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                })
+              } else if (this.$props.rowData.completed_at === 'Confirmed') {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: 'shipped',
+                  shipment_code: this.shippingCodes[e.test_id],
+                })
+              } else if (this.$props.rowData.completed_at === 'Recommended') {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: 'confirmed'
+                })
+              }
+            })
+            this.$parent.notificationMessage = "Successfully updated!";
+            this.$parent.notificationActive = true;
+            this.$parent.selectedRowData = null;
+            setTimeout(() => this.$parent.notificationActive = false, 3000);
+            this.handleFlyoutClose()
+          })
+      },
       updateLabOrder() {
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             shipment_code: this.$props.rowData.shipment_code,
-            address_1: this.$props.rowData.address_1 || this.address1,
-            address_2: this.$props.rowData.address_2 || this.address2,
-            city: this.$props.rowData.city || this.newCity,
-            state: this.$props.rowData.state || this.newState,
-            zip: this.$props.rowData.zip || this.newZip
+            address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
+            address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
+            city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
+            state: this.$props.rowData.state ? this.$props.rowData.state : this.newState,
+            zip: this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip
           })
           .then(respond => {
+              this.$props.rowData.test_list.forEach((e) => {
+              if (this.$props.rowData.completed_at !== 'Recommended' && this.$props.rowData.completed_at !== 'Confirmed' && this.selectedShipment[Number(e.test_id)] != undefined) {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                })
+              } else if (this.$props.rowData.completed_at === 'Confirmed') {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: 'shipped',
+                  shipment_code: this.shippingCodes[e.test_id],
+                })
+              } else if (this.$props.rowData.completed_at === 'Recommended') {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: 'confirmed'
+                })
+              }
+            })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
             this.$parent.selectedRowData = null;
@@ -292,6 +340,7 @@
           })
       },
       updateOrder() {
+        let data = {};
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
           shipment_code: this.masterTracking,
           address_1: this.address1,
