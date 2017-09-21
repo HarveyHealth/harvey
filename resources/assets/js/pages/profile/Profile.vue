@@ -186,21 +186,6 @@ export default {
         return {
             loadingProfileImage: false, // loading of the image on image upload
             previousProfileImage: '',
-            user: {
-                attributes: {
-                    first_name: '',
-                    last_name: '',
-                    email: '',
-                    gender: '',
-                    phone: '',
-                    timezone: '',
-                    address_1: '',
-                    address_2: '',
-                    city: '',
-                    state: '',
-                    zip: '',
-                },
-            },
             practitioner: `${Laravel.user.practitionerId}` || null,
             user_data: null,
             user_id: this.$route.params.id,
@@ -441,11 +426,27 @@ export default {
         },
         // This computed property is used solely to populate this.user once the api call
         // from app.js is finished running. Sort of like a watch for parent components.
+        user() {
+            let user = this.$root.$data.global.user;
+            return !this.$root.$data.global.loadingUser ? _.cloneDeep(user) : {
+                attributes: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    gender: '',
+                    phone: '',
+                    timezone: '',
+                    address_1: '',
+                    address_2: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                }
+            };
+        },
         _user() {
             if (this.canEditUsers) {
                 this.getData(this.user_id);
-            } else if (!this.$root.$data.global.loadingUser) {
-                this.user = _.cloneDeep(this.$root.$data.global.user);
             }
             return '';
         },

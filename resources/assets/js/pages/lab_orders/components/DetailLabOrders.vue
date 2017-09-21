@@ -234,7 +234,6 @@ export default {
             postalCode: '',
             invalidCC: false,
             invalidModalActive: false,
-            hasCard: this.$root.$data.global.creditCards.length,
             capitalize: _.capitalize,
             monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
         };
@@ -370,12 +369,15 @@ export default {
         stateList() {
             return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
         },
+        hasCard() {
+            let rowData = this.$props.rowData;
+            let card = rowData.card;
+            return rowData && card && card.last4 && card.brand;
+        },
         oldCard() {
-            if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-                .brand) {
-                this.hasCard = true;
-            }
-            return this.$props.rowData ? this.$props.rowData.card : null;
+            let rowData = this.$props.rowData;
+            let card = rowData.card;
+            return rowData && card && card.last4 && card.brand ? card : null;
         },
         price() {
             return this.$props.rowData ? this.$props.rowData.total_price : '';
@@ -386,13 +388,16 @@ export default {
         doctorList() {
             let data = {};
             if (!this.$props.rowData) return [];
+            let id = Number(this.$props.rowData.practitioner_id);
+            let lookUp = this.$root.$data.global.practitionerLookUp;
             data.name =
-          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`;
-            data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id;
-            data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes
-                .user_id;
-            let arr = _.pull(this.$root.$data.global.practitioners, data);
-            return [data].concat(arr);
+          `Dr. ${lookUp[id].attributes.name}`;
+            data.id = lookUp[id].id;
+            data.user_id = lookUp[id].attributes.user_id;
+            let practitioners = this.$root.$data.global.practitioners.slice(0);
+            let arr = _.pull(practitioners, data);
+            let results = [data].concat(arr);
+            return results;
         },
         statusList() {
             if (!this.$props.rowData) return "";
@@ -400,12 +405,12 @@ export default {
         },
         testList() {
             if (!this.$props.rowData) return [];
-            this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+            let tests = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
                 name: "No Lab Orders",
                 cancel: true,
                 status: ['No Order']
             }] : this.$props.rowData.test_list;
-            return this.$props.rowData.test_list;
+            return tests;
         },
         latestCard() {
             return this.$root.$data.global.creditCards.slice(-1).pop();

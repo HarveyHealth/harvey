@@ -25,8 +25,8 @@ export default {
     },
     computed: {
         messages() {
-            if (this.$props.message.split('').length > 50) {
-                let message = this.$props.message.split('').splice(0, 47);
+            if (this.$props.message.slice(0).split('').length > 50) {
+                let message = this.$props.message.slice(0).split('').splice(0, 47);
                 message[47] === ' ' ? message.push('...') : message.push(' ...');
                 return message.join('');
             }
@@ -37,8 +37,8 @@ export default {
             return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
         },
         subjects() {
-            if (this.$props.header.split('').length > 50) {
-                let header = this.$props.header.split('').splice(0, 47);
+            if (this.$props.header.slice(0).split('').length > 50) {
+                let header = this.$props.header.slice(0).split('').splice(0, 47);
                 header[47] === ' ' ? header.push('...') : header.push(' ...');
                 return header.join('');
             }

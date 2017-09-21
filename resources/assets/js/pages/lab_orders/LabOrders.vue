@@ -86,7 +86,7 @@ export default {
                 Complete: []
             },
             labData: [],
-            tests: null,
+            tests: this.$root.$data.labTests,
             currentData: [],
             notificationSymbol: '&#10003;',
             notificationMessage: '',
@@ -225,7 +225,6 @@ export default {
             return false;
         },
         labTests() {
-            this.tests = this.$root.$data.labTests;
             return this.$root.$data.labTests.length > 0;
         }
     },
