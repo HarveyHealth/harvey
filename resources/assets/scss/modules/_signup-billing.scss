@@ -9,3 +9,15 @@
     max-width: 350px !important;
   }
 }
+
+#credit-card-form {
+    @include margin(null null 1em null);
+    .input-wrap {
+        @include margin(null null 1em null);
+        .form-input {
+            border: none;
+            border-bottom: 2px solid $color-gray-3;
+            @include padding(7px);
+        }
+    }  
+}

@@ -35,7 +35,7 @@
                 <a href="/" class="nav-item">Home</a>
                 <a href="/about" class="nav-item">About</a>
                 <a href="/lab-tests" class="nav-item">Lab Tests</a>
-                <a href="//blog.goharvey.com" class="nav-item">Blog</a>
+                <a href="/blog" class="nav-item">Blog</a>
                 <a href="http://help.goharvey.com" class="nav-item">Help</a>
                 <a href="http://help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>
                 <a href="http://help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
