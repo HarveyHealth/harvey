@@ -3,7 +3,7 @@
     <div class="signup-stage-instructions">
       <StagesNav :current="'schedule'" />
       <h2 class="heading-3-expand">Choose date and time...</h2>
-      <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now or in 4 weeks.</p>
+      <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
     </div>
     <div class="signup-container signup-stage-container signup-schedule-container">
       <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
@@ -41,9 +41,12 @@
                 @click="handleSelectTime(time, j)"
             >{{ time | timeDisplay }}</li>
           </ol>
+          <div v-if="!selectedDate" class="left-arrow"><i class="fa fa-hand-o-left" aria-hidden="true"></i></div>
         </div>
       </div>
-
+      <p class="closing-selection" v-if="selectedDate" v-show="!errorText" >
+        Your consultation will be on <span class="font-bold">{{ selectedDate | fullDate }}.</span>
+      </p>
       <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
       <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
 

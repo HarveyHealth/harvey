@@ -2,9 +2,9 @@
   <div class="input__container" v-if="visible">
     <label :class="{ 'input__label': true, 'first': isPatient }">doctor</label>
     <SelectOptions v-if="editable"
-      :attached-label="'Select practitioner'"
+      :attached-label="'Select Doctor'"
       :is-loading="$root.$data.global.loadingPractitioners"
-      :loading-msg="'Loading practitioners...'"
+      :loading-msg="'Loading doctors...'"
       :on-select="handleSelect"
       :options="list"
       :selected="name"
