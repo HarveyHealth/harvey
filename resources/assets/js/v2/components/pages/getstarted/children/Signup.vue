@@ -82,11 +82,21 @@
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
             <div class="font-centered">
-              <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
+              <ButtonInput
+                :isDisabled="isProcessing"
+                :isDone="isComplete"
+                :isProcessing="isProcessing"
+                :onClick="() => false"
+                :text="'Sign Up'"
+                :width="'160px'"
+              />
+              <br>or<br>
+              <ButtonInput :text="'Signup With Facebook'" :on-click="facebookSignup" :width="'240px'" />
+              <!-- <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
                 <span v-if="!isProcessing">Sign Up</span>
                 <LoadingGraphic v-else-if="isProcessing" :size="12" />
                 <i v-else-if="isComplete" class="fa fa-check"></i>
-              </button>
+              </button> -->
             </div>
           </div>
         </div>
@@ -96,12 +106,13 @@
 </template>
 
 <script>
-import { Util } from '../../../base';
+import { Inputs, Util } from '../../../base';
 import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
+    ButtonInput: Inputs.ButtonInput,
     LoadingGraphic,
     SlideIn: Util.SlideIn,
   },
@@ -166,6 +177,15 @@ export default {
     }
   },
   methods: {
+    facebookSignup(e) {
+      e.preventDefault();
+      if(!this.State('getstarted.userPost.terms')) {
+        this.errors.add('terms', 'error', 'required');
+        this.errors.first('terms:required');
+      } else {
+        window.location.href = `/auth/facebook?zip=${this.State('getstarted.userPost.zip')}`;
+      }
+    },
     onSubmit() {
       this.State('getstarted.userPost').terms = this.State('getstarted.userPost.terms') ? true : '';
       // Validate the form
