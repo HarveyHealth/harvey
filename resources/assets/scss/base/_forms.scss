@@ -34,8 +34,10 @@
 }
 
 .form-radio {
-  float: left;
-  width: 10%;
+    float: left;
+    width: 20px;
+    height: 20px;
+    @include margin(2px 4px 0 0);
 }
 
 .form-label {
@@ -174,16 +176,23 @@
   @include margin(1.5em null null null);
 }
 
+// Radio List
+
 .fullscreen-left {
-  @include margin(5px);
+  @include margin(0);
+  @include padding(5px);
   width: 100%;
   float: left;
   height: 25px;
-  @include padding(5px);
-}
-
-.flyout-btn {
-  margin: 2rem;
+  font-size: 15px;
+  label {
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .highlightText {
+      color: $turquoise; 
+  }
 }
 
 // Placeholders
@@ -203,7 +212,7 @@
 }
 
 .hoverInput {
-  color: $harvey-primary;
+  color: $turquoise;
   position: relative;
   left: 0;
   top: 30px;

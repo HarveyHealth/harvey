@@ -6,7 +6,7 @@
   >
   <div>
       <div class="input__container">
-          <label class="input__label" for="patient_name">client</label>
+          <label class="input__label" for="patient_name">Client</label>
           <span class="custom-select">
               <select @change="updateClient($event)">
                   <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
@@ -14,7 +14,7 @@
           </span>
       </div>
       <div class="input__container">
-          <label class="input__label" for="patient_name">doctor</label>
+          <label class="input__label" for="patient_name">Doctor</label>
           <span class="custom-select">
               <select @change="updateDoctor($event)">
                   <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
@@ -22,16 +22,19 @@
           </span>
       </div>
       <div>
-            <label class="input__label" for="patient_name">tests</label>
+            <label class="input__label" for="patient_name">Lab Tests</label>
             <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
-                <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
+                
+                <label :class="{highlightText: tests.checked}" class="radio--text">
+                  <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
+                  {{ tests.attributes.name }}
+                </label>
             </span>
       </div>
         <div class="inline-centered">
             <button class="button flyout-btn"
             @click="openModal()"
-            :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Recommendation</button>
+            :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Lab Order</button>
         </div>
   </div>
     <Modal :active="$parent.addActiveModal" :onClose="modalClose">

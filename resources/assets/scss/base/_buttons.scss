@@ -2,7 +2,7 @@
 input[type="submit"] {
   @extend %sans--medium;
   appearance: none;
-  background-color: $harvey-primary;
+  background-color: $turquoise;
   border: 0;
   border-radius: 3px;
   color: #fff;
@@ -20,23 +20,23 @@ input[type="submit"] {
   -webkit-font-smoothing: antialiased;
 
   &.is-outlined {
-    color: $harvey-tertiary;
-    @include border-color($harvey-tertiary);
+    color: $turquoise;
+    @include border-color($turquoise);
     background-color: transparent;
     @include padding(9px 16px);
     border: 2px solid;
     font-weight: 600;
     &:hover,
     &:focus{
-      color: $harvey-tertiary;
-      @include border-color($harvey-tertiary);
+      color: $turquoise;
+      @include border-color($turquoise);
       background-color: transparent;
     }
   }
 
   &:hover,
   &:focus {
-    background-color: darken($harvey-primary, 10);
+    background-color: darken($turquoise, 10);
     color: white;
   }
 
@@ -51,25 +51,25 @@ input[type="submit"] {
 }
 
 .flyout .button {
-  @include margin(1em null 1em null);
+  @include margin(2em null 1em null);
 }
 
 .button--blue {
-  background-color: $harvey-tertiary;
+  background-color: $turquoise;
   color: $white;
 
   &:focus,
   &:hover {
-    background-color: lighten($harvey-tertiary, 4%);
+    background-color: lighten($turquoise, 4%);
   }
 }
 button.button--blue:disabled {
-  background-color: lighten($harvey-tertiary, 4%);
+  background-color: lighten($turquoise, 4%);
   color: rgba(black, 0.5);
   opacity: 1;
 
   &:hover {
-    background-color: lighten($harvey-tertiary, 4%);
+    background-color: lighten($turquoise, 4%);
   }
 }
 

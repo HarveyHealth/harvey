@@ -1,6 +1,6 @@
 <template>
   <div class="input__container" v-if="visible">
-    <label :class="{ 'input__label': true, 'first': isPatient }">doctor</label>
+    <label :class="{ 'input__label': true, 'first': isPatient }">Doctor</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select Doctor'"
       :is-disabled="isDisabled"
