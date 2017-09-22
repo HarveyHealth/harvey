@@ -171,7 +171,7 @@
         <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
       </div>
       <div class="inline-centered">
-        <button class="button" @click="updateLabOrder()" :disabled="!validZip || masterTracking.length == 0 || !address1 || !newCity || !newZip || !newState ">Mark as Shipped</button>
+        <button class="button" @click="updateLabOrder()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
       </div>
     </div>
     </div>
