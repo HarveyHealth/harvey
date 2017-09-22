@@ -1,13 +1,23 @@
 .container-message {
     background-color: white;
     border: none;
-    @include padding(25px);
+    @include padding(25px 30px);
     border-bottom: 1px solid $color--grey;
     position: relative;
     min-height: 100px;
     width: 100%;
-    .unread {
-        border-left: 6px solid #82BEF2 !important;
+    &.unread {
+        .unread-dot {
+            display: block;
+            border: 1px solid $turquoise;
+            border-radius: 100px;
+            height: 10px;
+            width: 10px;
+            background: $turquoise;
+            position: absolute;
+            left: 10px;
+            top: 40px;
+        }
     }
     .message-post-details {
         width: 25%;
@@ -27,6 +37,9 @@
                 width: 100%;
             }
         }
+        .highlight {
+            color: $color-copy-alt;
+        }
     }
     .message-post-body {
         width: 75%;
@@ -39,9 +52,9 @@
         width: 100%;
         min-height: 50px;
         margin-bottom: 1em;
-        &.highlight {
-            .message-post-body {
-                @include margin(.75em null null 25%);
+        .message-post-body {
+            @include margin(.75em null null 25%);
+            &.highlight {
                 color: $color-copy-alt;
             }
         }
@@ -52,8 +65,4 @@
     width: 100%;
     text-align: center;
     @include margin(2em null .5em null);
-}
-
-.highlight {
-    color: $pink;
 }

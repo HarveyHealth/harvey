@@ -7,7 +7,7 @@
 *.swp
 /.idea
 /.vagrant
-/.vscode/*
+/.vscode
 /ngrok
 /node_modules
 /public/build/*

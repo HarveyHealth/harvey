@@ -136,7 +136,7 @@
         <div class="main-content">
           <div class="main-header">
             <div class="container container-backoffice">
-              <h1 class="title header-xlarge">
+              <h1 class="header-xlarge">
                 <span class="text">Records</span>
               </h1>
             </div>

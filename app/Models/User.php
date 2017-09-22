@@ -242,7 +242,7 @@ class User extends Authenticatable implements Mailable
     {
         $recentMessagesCount = Message::from($this)->createdAfter(Carbon::parse('-10 minutes'))->count();
 
-        if ($recentMessagesCount <= 5) {
+        if ($recentMessagesCount <= 50) {
             return true;
         }
 

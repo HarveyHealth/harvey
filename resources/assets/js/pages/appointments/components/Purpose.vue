@@ -5,7 +5,7 @@
     <p v-if="!editable" class="input__item">{{ textValue }}</p>
     <textarea
       v-else
-      class="input--textarea"
+      class="input--textarea small"
       :value="textValue"
       @input="$$count > -1 ? onInput($event) : false"
     ></textarea>

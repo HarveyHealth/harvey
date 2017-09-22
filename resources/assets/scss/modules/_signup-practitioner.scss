@@ -9,6 +9,12 @@ $practitioner-grid: (
   .selected-practitioner {
     font-weight: 600;
   }
+  span {
+    background: $color-gray-0;
+    //border: 2px solid $turquoise;
+    @include padding(.25em 0.4em);
+    border-radius: 5px;
+  }
 }
 
 .signup-practitioner-wrapper {
@@ -34,7 +40,7 @@ $practitioner-grid: (
   &:active,
   &:hover,
   &:focus {
-    border-color: $harvey-tertiary;
+    border-color: $turquoise;
   }
 
   &-name {
@@ -65,7 +71,7 @@ $practitioner-grid: (
 .practitioner-wrapper {
   background: $lightest-gray;
   border-radius: 3px;
-  border: 4px solid $color-gray-0;
+  border: 2px solid $color-gray-0;
   overflow: hidden;
   padding-bottom: 1.5em;
   position: relative;
@@ -82,7 +88,7 @@ $practitioner-grid: (
   background-size: cover;
   background-repeat: no-repeat;
   height: 80px;
-  opacity: 0.3;
+  opacity: 0.5;
   width: 100%;
 }
 .practitioner-avatar {
