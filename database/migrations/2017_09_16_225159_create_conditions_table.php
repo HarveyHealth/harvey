@@ -95,13 +95,9 @@ class CreateConditionsTable extends Migration
                         'question' => "What digestion issue affects you the most?",
                         'answers' => ["Upset stomach/diarrhea", "Gas/bloating", "Constipation", "Pain in stomach", "Other"]
                     ],
-                   [
+                    [
                         'question' => "Is the condition heightened by specific foods or is it pretty consistent?",
                         'answers' => ["Irritated by foods", "Consistent no matter what I eat"]
-                   ],
-                   [
-                        'question' => "Do you take any probiotics consistently, and if so, how much?",
-                        'answers' => ["Yes - 5 billion cfu or less", "Yes - 5-25 billion cfu", "Yes - 25 billion or more cfu", "No", "I don't know"]
                     ],
                     [
                         'question' => "Do you take any probiotics consistently, and if so, how much?",
@@ -117,7 +113,7 @@ class CreateConditionsTable extends Migration
                     ],
                     [
                         'question' => "What severity would you rate the symptoms?",
-                        'answers' => ["Annoying but I manage easily", "Painful, but i get by on my day", "Takes me out of action some days"]
+                        'answers' => ["Annoying but I manage easily", "Painful, but I get by on my day", "Takes me out of action some days"]
                     ],
                     [
                         'question' => "Have you ever tested your food sensitivities or the health of your microbiome?",
