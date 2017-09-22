@@ -124,7 +124,7 @@
       />
 
       <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
-      <div class="inline-centered">
+      <div class="button-wrapper">
 
         <button
           v-if="visibleNewButton"

@@ -71,7 +71,6 @@
   @include margin(null null 1em null);
   position: relative;
   width: 100%;
-  float: left;
   .flyout & {
     width: 100% !important;
   }
@@ -121,13 +120,17 @@
   width: 100%;
   @include margin(null null 0.5em null);
 
-  .flyout & {
-    margin-top: .5em;
-  }
-
   &.first {
     padding-top: 0;
     border: none;
+  }
+  &.lab-test {
+    font-size: 15px;
+    @include margin(1em 0 .25em 0);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #CBC5C1;
   }
 }
 
@@ -178,11 +181,10 @@
 
 // Radio List
 
-.fullscreen-left {
+.inventory-left {
   @include margin(0);
   @include padding(5px);
   width: 100%;
-  float: left;
   height: 25px;
   font-size: 15px;
   label {

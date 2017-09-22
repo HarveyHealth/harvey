@@ -22,16 +22,15 @@
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Lab Tests</label>
-      <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-          
+      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
           <label :class="{highlightText: tests.checked}" class="radio--text">
             <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
             {{ tests.attributes.name }}
           </label>
-      </span>
+      </div>
     </div>
     <div class="button-wrapper">
-        <button class="button flyout-btn"
+        <button class="button"
         @click="openModal()"
         :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Lab Order</button>
     </div>

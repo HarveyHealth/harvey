@@ -48,6 +48,10 @@ input[type="submit"] {
       background-color: $green;
     }
   }
+
+  .flyout & {
+      min-width: 10rem;
+  }
 }
 
 .button--blue {
