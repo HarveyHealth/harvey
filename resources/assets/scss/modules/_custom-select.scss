@@ -3,10 +3,18 @@
 /* Container used for styling the custom select, the buttom class below adds the
  * bg gradient, corners, etc. */
 .custom-select {
-  border: 1px solid $color-gray-0;
-  border-radius: 3px;
-  display: block;
-	position: relative;
+    border: 1px solid $color-gray-0;
+    border-radius: 3px;
+    display: block;
+    position: relative;
+    select {
+        &.disabled {
+            opacity: .9;
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
 }
 .custom-select.show-day-label:before,
 .custom-select.show-time-label:before,
