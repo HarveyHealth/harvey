@@ -38,7 +38,7 @@
     >
       <div class="card-content-wrap">
         <div class="inline-centered">
-          <h1 class="title header-xlarge">
+          <h1 class="header-xlarge">
             <span class="text">Booking Conflict</span>
           </h1>
           <p>We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>

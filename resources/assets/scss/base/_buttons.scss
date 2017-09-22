@@ -50,10 +50,6 @@ input[type="submit"] {
   }
 }
 
-.flyout .button {
-  @include margin(2em null 1em null);
-}
-
 .button--blue {
   background-color: $turquoise;
   color: $white;

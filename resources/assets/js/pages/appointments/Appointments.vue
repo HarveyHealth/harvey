@@ -161,7 +161,7 @@
     >
       <div class="card-content-wrap">
         <div class="inline-centered">
-          <h1 class="title header-xlarge" v-show="!isHandlingAction">
+          <h1 class="header-xlarge" v-show="!isHandlingAction">
             <span class="text">{{ userActionTitle }}</span>
           </h1>
           <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
@@ -202,9 +202,9 @@
               <td width="25%"><p><strong>Reason:</strong></p></td>
               <td>
                 <textarea v-model="cancellationReason"
-                          class="input--textarea"
-                          maxlength="1024"
-                          placeholder="Reason for cancelling appointment">
+                  class="input--textarea"
+                  maxlength="1024"
+                  placeholder="Reason for cancelling appointment">
                 </textarea>
               </td>
             </tr>
