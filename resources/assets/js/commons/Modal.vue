@@ -1,6 +1,6 @@
 <template>
   <div v-if="active" class="modal-wrapper" :class="containerClass">
-    <div class="modal copy-main-sm-expand">
+    <div class="modal">
       <button @click="onClose" class="button button--cancel modal-close" v-if="!hideClose">
         <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#close"></use></svg>
       </button>

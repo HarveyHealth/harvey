@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-stage-instructions">
       <StagesNav :current="'phone'" />
-      <h2 class="heading-3-expand" v-text="title"></h2>
+      <h2 class="heading-1" v-text="title"></h2>
       <p v-html="subtext"></p>
     </div>
     <div class="signup-container signup-phone-container font-centered">
