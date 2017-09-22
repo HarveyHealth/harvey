@@ -164,7 +164,7 @@
         <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Address' }}</label>
       </div>
       <div class="inline-centered">
-        <button class="button" @click="updateLabOrder()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
+        <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
       </div>
     </div>
     </div>
@@ -283,6 +283,30 @@
               } else if (this.$props.rowData.completed_at === 'Recommended') {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                   status: 'confirmed'
+                })
+              }
+            })
+            this.$parent.notificationMessage = "Successfully updated!";
+            this.$parent.notificationActive = true;
+            this.$parent.selectedRowData = null;
+            setTimeout(() => this.$parent.notificationActive = false, 3000);
+            this.handleFlyoutClose()
+          })
+      },
+      markedShipped() {
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            shipment_code: this.masterTracking,
+            address_1: this.$props.rowData.address_1,
+            address_2: this.$props.rowData.address_2,
+            city: this.$props.rowData.city,
+            state: this.$props.rowData.state,
+            zip: this.$props.rowData.zip
+          })
+          .then(respond => {
+              this.$props.rowData.test_list.forEach((e) => {
+              if (this.selectedShipment[Number(e.test_id)] != undefined) {
+                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
                 })
               }
             })
