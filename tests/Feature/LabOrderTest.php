@@ -258,7 +258,7 @@ class LabOrderTest extends TestCase
         $this->assertDatabaseHas('lab_orders', $parameters);
     }
 
-    public function test_it_does_not_allows_a_patient_to_update_his_lab_order()
+    public function test_it_does_allows_a_patient_to_update_his_lab_order()
     {
         $labOrder = factory(LabOrder::class)->create();
 
@@ -270,7 +270,11 @@ class LabOrderTest extends TestCase
 
         $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
 
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment($parameters);
+
+        $this->assertDatabaseHas('lab_orders', $parameters);
     }
 
     public function test_it_does_not_allows_a_patient_to_delete_his_lab_order()
@@ -406,7 +410,7 @@ class LabOrderTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function test_zip_is_required_when_creating_a_lab_order()
+    public function test_zip_must_be_filled_when_creating_a_lab_order()
     {
         $patient = factory(Patient::class)->create();
         $practitioner = factory(Practitioner::class)->create();
@@ -419,6 +423,7 @@ class LabOrderTest extends TestCase
             'address_1' => 'Test Address 1234',
             'city' => 'Los Angeles',
             'state' => 'CA',
+            'zip' => '',
         ];
 
         $response = $this->json('POST', 'api/v1/lab/orders', $parameters);

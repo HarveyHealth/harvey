@@ -55,6 +55,9 @@
             updateUser(e) {
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
+            makeThreadId(userOne, userTwo) {
+                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
+            },
             createMessage() {
                 axios.post(`${this.$root.$data.apiUrl}/messages`, {
                     message: this.message,
@@ -62,7 +65,7 @@
                     subject: this.subject
                 })
                 .then(response => {
-                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
+                    this.$root.$data.global.detailMessages[`${this.makeThreadId(response.data.data.attributes.sender_user_id, response.data.data.attributes.recipient_user_id)}-${response.data.data.attributes.subject}`] = [response.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
                     this.$parent.messageList = this.$root.$data.global.messages
                     this.$parent.notificationActive = true;
