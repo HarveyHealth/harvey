@@ -25,24 +25,9 @@ class TypeformController extends BaseWebhookController
             ops_warning('TypeformController', "Invalid intake_validation_token '{$formResponse['hidden']['intake_validation_token']}'for User #{$userId} when handling event '{$eventType}'.");
         } else {
             $user->patient->intake_token = $formResponse['token'];
-            $user->save()
+            $user->patient->save();
 
-            Cache::remember("intake-token-{$formResponse['token']}-submitted_at", TimeInterval::years(1)->toMinutes(), function () use ($formResponse) {
-                return Carbon::parse($formResponse['submitted_at']);
-            });
-
-            Cache::remember("intake-token-{$formResponse['token']}-definition", TimeInterval::years(1)->toMinutes(), function () use ($formResponse) {
-                return $formResponse['definition'];
-            });
-
-            Cache::remember("intake-token-{$formResponse['token']}-completed", TimeInterval::years(1)->toMinutes(), function () use ($formResponse) {
-                if (!empty($formResponse['definition']['fields'])
-                    && !empty($formResponse['answers'])
-                        && count($formResponse['definition']['fields']) == count($formResponse['answers'])) {
-                            return true;
-                }
-                return false;
-            });
+            Cache::forget("intake-token-{$formResponse['token']}-data");
         }
 
         return response("Thanks!", ResponseCode::HTTP_OK);

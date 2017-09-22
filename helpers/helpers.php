@@ -69,6 +69,11 @@ function currentUser()
     return auth()->user();
 }
 
+function isLocal()
+{
+    return app()->environment('local');
+}
+
 function isProd()
 {
     return app()->environment('production');
@@ -120,8 +125,6 @@ function ops_success($alert, $message, $channels = 'engineering')
 {
     ops_message('success', $alert, $message, $channels);
 }
-
-
 
 function log_mark()
 {

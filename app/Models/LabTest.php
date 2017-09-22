@@ -4,8 +4,7 @@ namespace App\Models;
 
 use App\Http\Traits\HasStatusColumn;
 use App\Models\{LabOrder, LabTestResult, SKU};
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
 class LabTest extends Model
 {

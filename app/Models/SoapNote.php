@@ -15,6 +15,7 @@ class SoapNote extends Model
     protected $guarded = [
         'id',
         'created_at',
+        'created_by_user_id',
         'updated_at',
     ];
 
@@ -51,4 +52,23 @@ class SoapNote extends Model
     {
         return $builder->select(['id', 'patient_id', 'created_by_user_id', 'plan']);
     }
+
+    public function scopeBelongingTo(Builder $builder, User $user)
+    {
+        switch ($user->type) {
+            case 'admin':
+            case 'practitioner':
+                return $builder;
+                break;
+
+            case 'patient':
+                return $builder->whereHas('patient', function ($builder) use ($user) {
+                    $builder->where('patients.user_id', $user->id);
+                })->orWhere('created_by_user_id', $user->id)->filterForPatient();
+                break;
+        }
+
+        return $builder->limit(0);
+    }
+
 }

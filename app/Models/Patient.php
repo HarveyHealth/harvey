@@ -73,25 +73,21 @@ class Patient extends Model
 
     public function getIntakeData()
     {
-        $token = $this->intake_token;
-
-        if (empty($token)) {
-            return null;
+        if (empty($token = $this->intake_token)) {
+            return [];
         }
 
-        $output = Cache::remember("intake-token-{$token}-data", TimeInterval::days(1)->toMinutes(), function () use ($token) {
+        $key = "intake-token-{$token}-data";
+
+        $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function () use ($token) {
             $response = json_decode((new Typeform)->get($token)->getBody()->getContents());
 
             if (empty($response->responses[0]->token) || 200 != $response->http_status) {
-                return null;
+                return [];
             }
 
             return (array) $response;
         });
-
-        if (empty($output)) {
-            Cache::forget("intake-token-{$token}-data");
-        }
 
         return $output;
     }

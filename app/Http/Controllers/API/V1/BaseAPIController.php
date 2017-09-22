@@ -79,11 +79,11 @@ class BaseAPIController extends Controller
      * @param null $transformer
      * @return Fractal
      */
-    public function baseTransformItem($item, $include = null, $transformer = null)
+    public function baseTransformItem($item, $include = null, $transformer = null, $resourceName = null)
     {
         return fractal()->item($item)
             ->parseIncludes($include)
-            ->withResourceName($this->resource_name)
+            ->withResourceName($resourceName ?? $this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }

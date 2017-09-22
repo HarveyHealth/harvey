@@ -17,7 +17,9 @@ class PatientPolicy
      */
     public function before(User $user, $ability)
     {
-        return $user->isAdmin() ?: null;
+        if ($user->isAdmin()) {
+            return true;
+        }
     }
 
     /**
@@ -41,38 +43,38 @@ class PatientPolicy
     }
 
     /**
-     * Determine whether the user can store an Attachment to the patient.
+     * Determine whether the user can add, delete or update an Attachment of the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
-    public function storeAttachment(User $user, Patient $patient)
+    public function handleAttachment(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
     /**
-     * Determine whether the user can store a Prescription to the patient.
+     * Determine whether the user can add, delete or update a Prescription of the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
-    public function storePrescription(User $user, Patient $patient)
+    public function handlePrescription(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isPractitioner();
     }
 
     /**
-     * Determine whether the user can store a SoapNote to the patient.
+     * Determine whether the user can add, delete or update a SOAP Note of the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
-    public function storeSoapNote(User $user, Patient $patient)
+    public function handleSoapNote(User $user, Patient $patient)
     {
-        return $user->is($patient->user) || $user->isPractitioner();
+        return $user->isPractitioner();
     }
 }

@@ -7,7 +7,14 @@ use League\Fractal\TransformerAbstract;
 
 class PatientTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['user', 'appointments', 'intake', 'records'];
+    protected $availableIncludes = [
+        'appointments',
+        'attachments',
+        'intake',
+        'prescriptions',
+        'soap_notes',
+        'user',
+    ];
 
     /**
      * @param Patient $patient
@@ -32,8 +39,7 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeUser(Patient $patient)
     {
-        $user = $patient->user;
-        return $this->item($user, new UserTransformer())->setResourceKey('users');
+        return $this->item($patient->user, new UserTransformer())->setResourceKey('user');
     }
 
     /**
@@ -42,8 +48,16 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeAppointments(Patient $patient)
     {
-        $appointments = $patient->appointments;
-        return $this->collection($appointments, new AppointmentTransformer())->setResourceKey('appointments');
+        return $this->collection($patient->appointments, new AppointmentTransformer())->setResourceKey('appointments');
+    }
+
+    /**
+     * @param Patient $patient
+     * @return mixed
+     */
+    public function includeAttachments(Patient $patient)
+    {
+        return $this->collection($patient->attachments, new AttachmentTransformer())->setResourceKey('attachments');
     }
 
     /**
@@ -52,18 +66,28 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeIntake(Patient $patient)
     {
-        if (!empty($patient->getIntakeData())) {
-            return $this->item($patient, new IntakeTransformer())->setResourceKey('intake');
+        if (empty($patient->getIntakeData())) {
+            return $this->null();
         }
+
+        return $this->item($patient, new IntakeTransformer())->setResourceKey('intake');
     }
 
     /**
      * @param Patient $patient
      * @return mixed
      */
-    public function includeRecords(Patient $patient)
+    public function includePrescriptions(Patient $patient)
     {
-        // WIP
+        return $this->collection($patient->prescriptions, new PrescriptionTransformer())->setResourceKey('prescriptions');
     }
 
+    /**
+     * @param Patient $patient
+     * @return mixed
+     */
+    public function includeSoapNotes(Patient $patient)
+    {
+        return $this->collection($patient->soap_notes, new SoapNoteTransformer())->setResourceKey('soap_notes');
+    }
 }

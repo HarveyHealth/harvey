@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Http\Traits\HasKeyColumn;
-use Illuminate\Database\Eloquent\{Model, Builder};
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use Carbon;
 
 class Attachment extends Model
 {
-    use HasKeyColumn;
+    use HasKeyColumn, SoftDeletes;
 
     protected $dates = [
         'created_at',
@@ -18,6 +18,7 @@ class Attachment extends Model
     protected $guarded = [
         'id',
         'created_at',
+        'created_by_user_id',
         'updated_at',
     ];
 
@@ -26,8 +27,8 @@ class Attachment extends Model
         parent::boot();
 
         static::addGlobalScope('enabledUser', function (Builder $builder) {
-            return $builder->whereHas('patient.user', function ($query) {
-                $query->where('enabled', true);
+            return $builder->whereHas('patient.user', function ($builder) {
+                $builder->where('enabled', true);
             });
         });
     }
@@ -44,5 +45,23 @@ class Attachment extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
+    }
+
+    public function scopeBelongingTo(Builder $builder, User $user)
+    {
+        switch ($user->type) {
+            case 'admin':
+            case 'practitioner':
+                return $builder;
+                break;
+
+            case 'patient':
+                return $builder->whereHas('patient', function ($builder) use ($user) {
+                    $builder->where('patients.user_id', $user->id);
+                })->orWhere('created_by_user_id', $user->id);
+                break;
+        }
+
+        return $builder->limit(0);
     }
 }
