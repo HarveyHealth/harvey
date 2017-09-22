@@ -56,7 +56,7 @@
                     <Modal :active="deleteModalActive" :onClose="closeModal">
                         <div class="card-content-wrap">
                             <div class="inline-centered">
-                                <h1 class="title header-xlarge"><span class="text">Delete Credit Card</span></h1>
+                                <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
                                 <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
                             </div>
                             <div class="button-wrapper">

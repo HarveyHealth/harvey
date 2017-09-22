@@ -18,12 +18,14 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  max-width: 450px;
+  width: 34em;
   @include padding(20px);
   transform: translate(-50%, -50%);
   z-index: 200; // above the :before
   background: $white;
-  width: 90%;
+  p {
+    font-size: 16px;
+  }
   .modal-table {
     font-size: $font-md;
     margin-top: 1.5em;
@@ -49,22 +51,6 @@
       @include margin(10px null null null);
     }
   }
-}
-
-.appointment-modal .button--cancel {
-  margin-top: 15px;
-}
-
-.appointment-modal .modal {
-  max-width: 34em;
-  p {
-    font-size: $font-md;
-    @include margin(null null 1em null);
-  }
-}
-
-.appointment-modal td {
-  vertical-align: top;
 }
 
 @include query(lg) {
