@@ -80,8 +80,16 @@
         </div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Mailing Address</label>
-          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-          <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
+            <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
+            <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
+            <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
+            <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
+            <span class="custom-select" style="width: 45%; float:left;">
+                <select @change="updateState($event)">
+                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+                </select>
+              </span>
+            <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
         </div>
         <div class="input__container">
           <label class="input__label" for="billing">Billing Info</label>
@@ -117,8 +125,7 @@
         </div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Mailing Address</label>
-          <label class="input__item">{{ addressOne }}</label>
-          <label class="input__item">{{ addressTwo }}</label>
+          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
           <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
         </div>
@@ -159,16 +166,9 @@
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">mailing address</label>
-        <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
-        <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-        <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
-        <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
-        <span class="custom-select" style="width: 45%; float:left;">
-                <select @change="updateState($event)">
-                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
-                </select>
-            </span>
-        <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
+        <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
+        <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
+        <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Shipping Address' }}</label>
       </div>
       <div class="inline-centered">
         <button class="button" @click="updateLabOrder()" :disabled="!validZip || masterTracking.length == 0 || !address1 || !newCity || !newZip || !newState ">Mark as Shipped</button>
