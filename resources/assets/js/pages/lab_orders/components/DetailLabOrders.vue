@@ -97,7 +97,8 @@
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
         <div class="inline-centered">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
+          <button v-if="paid[id] != true" class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
+          <button v-if="paid[id] == true" class="button" :disabled="paid[id]" @click="patientLabUpdate()">Already Paid</button>
         </div>
       </div>
     </div>
@@ -226,6 +227,7 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        paid: {},
         postalCode: '',
         invalidCC: false,
         invalidModalActive: false,
@@ -267,6 +269,7 @@
         this.month = e.target.value
       },
       patientLabUpdate() {
+        this.paid[this.$props.rowData.id] = true;
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             address_1: this.address1,
             address_2: this.address2,
@@ -387,6 +390,9 @@
         } else {
           return true
         }
+      },
+      id() {
+        return this.$props.id ? this.$props.rowData.id : ''
       },
       status() {
         return this.$props.rowData ? this.$props.rowData.completed_at : ''

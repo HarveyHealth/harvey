@@ -35,8 +35,6 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             samples: {}
         }
         tests.forEach(test => {
-            console.log(`TEST`, test);
-            console.log(`LIST`, testList);
             if (test.attributes.lab_order_id == obj.id) {
                 data.total_price += Number(testList[Number(test.attributes.sku_id)].attributes.price)
                 data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] = data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] ?
