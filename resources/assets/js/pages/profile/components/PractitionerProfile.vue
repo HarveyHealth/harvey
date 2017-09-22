@@ -151,7 +151,6 @@
                     .then(response => {
                         this.practitioner = response.data.data.attributes;
                         this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
-                        this.practitioner.specialty =  this.practitioner.specialty || [];
                         this.submitting = false;
                         this.flashSuccess();
                     })
@@ -190,7 +189,6 @@
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
-                    this.practitioner.specialty =  this.practitioner.specialty || [];
                     this.$root.$data.global.practitionerProfileLoading = false;
                 })
                 .catch(error => this.practitioner = {});
