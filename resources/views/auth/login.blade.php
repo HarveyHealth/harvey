@@ -86,6 +86,10 @@
                 </div>
             </footer>
 
+            <br>
+
+            <facebooksignin :type="'login'" />
+
        </form>
     </div>
 </section>

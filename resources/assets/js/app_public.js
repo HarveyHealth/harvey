@@ -26,6 +26,7 @@ import loadinggraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
+import facebooksignin from './v2/components/base/inputs/FacebookSignin';
 
 // for environment conditionals
 const env = require('get-env')();
@@ -34,6 +35,7 @@ const app = new Vue({
     mixins: [TopNav],
     components: {
         loadinggraphic,
+        facebooksignin,
         Symptoms,
         VerticalTab,
         VerticalTabs
