@@ -13,10 +13,13 @@ class LabOrdersSeeder extends Seeder
     public function run()
     {
         $labOrder = factory(LabOrder::class)->create();
-        $labTest = factory(LabTest::class, 5)->create([
-            'lab_order_id' => $labOrder->id,
-            'sku_id' => SKU::all()->random()->id
-        ]);
+
+        for ($i=0; $i < 5; $i++) {
+            $labTest = factory(LabTest::class)->create([
+                'lab_order_id' => $labOrder->id,
+                'sku_id' => SKU::where('item_type', 'lab-test')->get()->random()->id
+            ]);
+        }
     }
 }
 

@@ -32,8 +32,8 @@
             </div>
             <div class="card-content-container">
               <div class="card-content-wrap">
-                <h3 class="heading-3">
-                  <img class="card-avatar" :src="practitioner.avatar">
+                <h3 class="heading-3-expand align-children-middle">
+                  <img class="card-avatar" :src="practitioner.avatar" v-if="practitioner.name != '#'">
                   {{ practitioner.name }}
                 </h3>
               </div>
@@ -66,8 +66,9 @@
             </div>
             <div class="card-content-container">
               <div class="card-content-wrap">
-                <h3 class="card-contact-name">
-                  <svg class="icon-person"><use xlink:href="#small-person" /></svg>Sandra Walker
+                <h3 class="card-contact-name align-children-middle">
+                  <svg class="icon-person"><use xlink:href="#small-person" /></svg>
+                  <span class="heading-3-expand">Sandra Walker</span>
                 </h3>
               </div>
               <div class="card-content-wrap">
@@ -120,7 +121,7 @@
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
         } else {
-          return 'Your Dashboard';
+          return 'Dashboard';
         }
       },
       displayName() {
@@ -163,7 +164,7 @@
         } else {
           return {
             avatar: '#',
-            description: 'Loading practitioner information',
+            description: 'Loading doctor...',
             name: ''
           }
         }
