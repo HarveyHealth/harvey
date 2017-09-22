@@ -10,7 +10,7 @@
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
-        <a v-if="status === 'Recommended' || status === 'Confirmed'" v-for="test in testList" class="input__item" style="width: 100%; float: left;">{{ test.name }}</a>
+        <a v-if="status === 'Recommended' || status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
@@ -59,7 +59,7 @@
         <div class="input__container">
           <div class="products-side">
             <label class="input__label" for="products">Products</label>
-            <span class="sub-items" v-for="test in testList">{{ test.name }}</span>
+            <a href="https://www.goharvey.com/lab-tests" class="sub-items link-color" v-for="test in testList">{{ test.name }}</a>
           </div>
           <div class="total-side">
             <label class="input__label" for="total">Total</label>
@@ -103,7 +103,7 @@
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <label v-if="status === 'Recommended' || status === 'Confirmed'" class="input__label lab-test">{{ test.name }}</label>
+            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="https://www.goharvey.com/lab-tests" class="input__label lab-test link-color">{{ test.name }}</a>
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
             <span class="custom-select">
                 <select @change="updateTest($event, test)">
@@ -127,7 +127,7 @@
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color">{{ shipmentCode }}</a>
         </div>
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label" for="patient_name">Billing</label>
+          <label class="input__label" for="patient_name">Billing Info</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
             <label class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <label class="input__item">{{`Charged: $${price}`}}</label>

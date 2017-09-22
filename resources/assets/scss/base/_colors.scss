@@ -48,5 +48,6 @@ $red: #FF0000;
 }
 
 .link-color {
-  color: $turquoise;
+  color: $turquoise !important;
+  cursor: pointer;
 }
