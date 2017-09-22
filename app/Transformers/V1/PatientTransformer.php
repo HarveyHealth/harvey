@@ -88,6 +88,6 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeSoapNotes(Patient $patient)
     {
-        return $this->collection($patient->soap_notes, new SoapNoteTransformer())->setResourceKey('soap_notes');
+        return $this->collection($patient->soapNotes, new SoapNoteTransformer())->setResourceKey('soap_notes');
     }
 }
