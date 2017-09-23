@@ -14,7 +14,7 @@
       <i :class="'margin-right-xxs inline fa ' + config[type].doneIcon" style="font-size:12px"></i>
       <span>{{ config[type].doneText }}</span>
     </div>
-    <span v-else>{{ text }}</span>
+    <span v-else v-html="text"></span>
   </button>
 </template>
 

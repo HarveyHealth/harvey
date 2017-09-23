@@ -1,0 +1,30 @@
+.Button-facebook {
+  background: #4267b2;
+  border: none;
+  color: white;
+  line-height: 0 !important;
+  height: auto;
+  padding: $space-md;
+  opacity: 0.94;
+  transition: opacity 200ms ease-in-out;
+
+  &:hover {
+    color: white;
+    opacity: 1;
+  }
+
+  > span {
+    display: inline-block;
+    padding-left: $space-md;
+    position: relative;
+  }
+
+  .fa {
+    font-size: $font-md;
+    margin-left: -($space-md);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    vertical-align: middle;
+  }
+}

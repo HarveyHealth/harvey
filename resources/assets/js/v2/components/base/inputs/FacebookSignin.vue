@@ -1,5 +1,5 @@
 <template>
-  <ButtonInput :text="config[type]" :on-click="handleClick" :width="'240px'" />
+  <ButtonInput class="Button-facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
 </template>
 
 <script>
@@ -16,7 +16,8 @@ export default {
   data() {
     return {
       config: {
-        login: 'Login With Facebook'
+        login: '<i class="fa fa-facebook"></i><span>Login With Facebook</span>',
+        signin: '<i class="fa fa-facebook"></i><span>Sign In With Facebook</span>',
       }
     }
   },

@@ -86,9 +86,10 @@
                 </div>
             </footer>
 
-            <br>
-
-            <facebooksignin :type="'login'" />
+            <div class="font-centered space-children-sm">
+              <div class="Divider-or">or</div>
+              <facebooksignin :type="'login'" />
+            </div>
 
        </form>
     </div>
