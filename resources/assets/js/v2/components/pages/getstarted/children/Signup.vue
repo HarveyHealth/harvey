@@ -90,8 +90,8 @@
                 :text="'Sign Up'"
                 :width="'160px'"
               />
-              <br>or<br>
-              <ButtonInput :text="'Signup With Facebook'" :on-click="facebookSignup" :width="'240px'" />
+              <div class="Divider-or pad-sm">or</div>
+              <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
               <!-- <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
                 <span v-if="!isProcessing">Sign Up</span>
                 <LoadingGraphic v-else-if="isProcessing" :size="12" />
@@ -113,6 +113,7 @@ export default {
   name: 'sign-up',
   components: {
     ButtonInput: Inputs.ButtonInput,
+    FacebookSignin: Inputs.FacebookSignin,
     LoadingGraphic,
     SlideIn: Util.SlideIn,
   },

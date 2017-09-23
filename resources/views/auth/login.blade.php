@@ -88,7 +88,7 @@
 
             <div class="font-centered space-children-sm">
               <div class="Divider-or">or</div>
-              <facebooksignin :type="'login'" />
+              <facebooksignin :type="'login'" :on-click="facebookLogin" />
             </div>
 
        </form>

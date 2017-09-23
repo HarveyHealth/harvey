@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="'button inline' + config[type].class"
+    :class="'Button' + config[type].class"
     :disabled="isDisabled || isProcessing"
     @click="onClick"
     :style="'width:' + width || 'auto'"

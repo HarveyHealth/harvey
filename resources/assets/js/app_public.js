@@ -141,6 +141,10 @@ const app = new Vue({
         }
     },
     methods: {
+        facebookLogin(e) {
+          e.preventDefault();
+          window.location.href = '/auth/facebook';
+        },
         onEmailCaptureSubmit(e) {
           this.emailCaptureClasses['is-visible'] = false;
           const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
