@@ -155,6 +155,7 @@ export default {
                     this.$root.$data.global.creditCards = [];
                     this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = false;
                     setTimeout(() => this.notificationActive = false, 3000);
                 })
             this.closeModal()
@@ -198,6 +199,7 @@ export default {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
                         .then(respond => {
