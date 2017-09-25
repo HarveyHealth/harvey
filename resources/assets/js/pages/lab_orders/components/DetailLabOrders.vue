@@ -5,12 +5,18 @@
     :on-close="handleFlyoutClose"
     :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
   >
+
+    <!-- PATIENTS ONLY -->
+
     <div v-if="$root.$data.permissions === 'patient'">
+
+      <!-- RECOMMENDED -->
+
       <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
-        <a v-if="status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
+        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+        <a v-if="status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__label link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
         <div v-if="status === 'Recommended'">
           <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
             <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -48,7 +54,7 @@
             <label class="input__item">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
           </div>
           <div v-if="!latestCard">
-            <router-link to="/settings">Add a credit card to complete shipment.</router-link>
+            <router-link to="/settings">Add Card</router-link>
           </div>
         </div>
       </div>
@@ -62,6 +68,9 @@
         </div>
       </div>
       </div>
+
+      <!-- RECOMMENDED / PAYMENT -->
+
       <div v-if="step == 3">
         <div class="input__container">
           <div class="products-side">
@@ -86,33 +95,39 @@
             <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
             <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
             <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
-            <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
-            <span class="custom-select" style="width: 45%; float:left;">
+            <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text">
+            <span class="custom-select">
                 <select @change="updateState($event)">
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
               </span>
-            <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code.</label>
+            <label v-if="!validZip" class="input__label">Please enter a valid zip code.</label>
         </div>
         <div class="input__container">
           <label class="input__label" for="billing">Billing</label>
             <label class="input__item sub-billing1">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
-        <div class="inline-centered">
+        <div class="button-wrapper">
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
       </div>
     </div>
+
+    <!-- ADMINS/PRACTITIONERS ONLY -->
+
     <div v-if="$root.$data.permissions !== 'patient'">
+
+      <!-- SHIPPED -->
+
       <div v-if="step === 1">
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="https://www.goharvey.com/lab-tests" class="input__label lab-test link-color">{{ test.name }}</a>
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
+            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="https://www.goharvey.com/lab-tests" class="input__label lab-test link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
             <span class="custom-select">
-                <select @change="updateTest($event, test)">
+                <select @change="updateTest($event, test)" class="disabled" disabled>
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
@@ -130,16 +145,16 @@
         </div>
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color">{{ shipmentCode }}</a>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
         </div>
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label" for="patient_name">Billing Info</label>
+          <label class="input__label" for="patient_name">Payment</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
             <label class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
           <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined"
-            class="input__item">{{`No credit card on file.`}}</label>
+            class="input__item error-text">{{`No card on file.`}}</label>
           <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid</label>
         </div>
         <div class="input__container">
@@ -152,6 +167,9 @@
         </div>
       </div>
     </div>
+
+    <!-- FLYER STEP #2 -->
+
     <div v-if="step == 2">
       <div v-for="test in testList">
         <div class="input__container">
@@ -167,13 +185,16 @@
         <label class="input__label" for="patient_name">Address</label>
         <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
         <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-        <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Address' }}</label>
+        <label class="input__item error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</label>
       </div>
       <div class="inline-centered">
         <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
       </div>
     </div>
     </div>
+
+    <!-- MODAL -->
+
     <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
       <div class="inline-centered">
         <h1>Invalid Credit Card</h1>
@@ -183,6 +204,7 @@
         </div>
       </div>
     </Modal>
+
   </Flyout>
 </template>
 
