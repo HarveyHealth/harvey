@@ -22,8 +22,7 @@ class AddParcelInfoToSkusTable extends Migration
             $table->text('mass_unit')->after('slug')->nullable();
         });
 
-        // make sure only lab tests get dimensions
-        foreach (\App\Models\SKU::all() as $sku) {
+        \App\Models\SKU::all()->map(function($sku) {
             if ($sku->item_type === 'lab-test') {
                 $sku->weight = '2';
                 $sku->height = '12';
@@ -33,7 +32,7 @@ class AddParcelInfoToSkusTable extends Migration
                 $sku->mass_unit = 'lb';
                 $sku->save();
             }
-        }
+        });
     }
 
     /**
