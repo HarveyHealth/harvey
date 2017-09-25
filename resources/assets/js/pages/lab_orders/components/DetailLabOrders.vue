@@ -336,8 +336,8 @@
                   })
                 } else if (!e.patient && e.checked) {
                   axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
-                    lab_order_id: this.$props.rowData.id,
-                    sku_id: e.id,
+                    lab_order_id: Number(this.$props.rowData.id),
+                    sku_id: Number(e.id),
                     status: 'confirmed'
                   })
                 }
