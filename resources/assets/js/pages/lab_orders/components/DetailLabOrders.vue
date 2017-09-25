@@ -291,7 +291,7 @@
             zip: this.newZip
           })
           .then(respond => {
-              this.patientTestList.forEach((e) => {
+              _.each(this.patientTestList, (e) => {
                 if (e.patient && !e.checked) {
                   let id = null;
                   this.$props.rowData.test_list.forEach(ele => {
@@ -506,7 +506,7 @@
         return this.$props.rowData.test_list
       },
       patientTestList() {
-        if (!this.$props.rowData) return []
+        if (!this.$props.rowData) return {}
         let obj = {};
         this.$props.rowData.test_list.forEach(e => {
           obj[e.name] = e.name;
