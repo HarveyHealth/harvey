@@ -1,9 +1,9 @@
 <template>
-  <div class="input__container" style="margin-bottom: 0.5em;">
+  <div class="input__container">
     <label class="input__label">{{ $$label }}</label>
     <p class="copy-main-sm" v-if="isLoading">Loading availability...</p>
     <SelectOptions v-else-if="editable && !noAvailability"
-      :detached-label="day ? null : 'Select day'"
+      :detached-label="day ? null : 'Select Day'"
       :is-disabled="!list.length"
       :is-required="false"
       :on-select="handleSelect"
@@ -11,8 +11,7 @@
       :selected="day"
     />
     <span v-else-if="!editable" class="input__item">{{ $$selectedDay }}</span>
-    <span v-else class="input--warning">No available openings</span>
-
+    <span v-else class="input--warning">No Available Dates</span>
   </div>
 </template>
 
@@ -45,8 +44,8 @@ export default {
   },
   computed: {
     $$label() {
-      if (this.editable && this.mode === 'new') return 'available times';
-      if (this.editable && this.mode === 'update') return 'reschedule';
+      if (this.editable && this.mode === 'new') return 'Date & Time';
+      if (this.editable && this.mode === 'update') return 'Reschedule';
       return 'booked for';
     },
     $$selectedDay() {

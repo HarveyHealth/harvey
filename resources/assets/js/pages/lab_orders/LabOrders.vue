@@ -5,17 +5,19 @@
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                    <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
-                        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                    </button>
-                    </h1><br>
+                        <span class="text">Lab Orders</span>
+                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                        </button>
+                    </h1>
                     <FilterButtons
+                        :flyout="closeFlyouts"
                         v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
+                        :all-data="labData"
                     />
                 </div>
             </div>
@@ -85,6 +87,7 @@
                     Processing: [],
                     Complete: []
                 },
+                labData: [],
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -146,6 +149,12 @@
                     'has-updated': this.updatedRow === index,
                 }
             },
+            closeFlyouts() {
+                this.detailFlyoutActive = false;
+                this.addFlyoutActive  = false;
+                this.selectedRowData = null;
+                this.selectedRowIndex = null;
+            },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false
                 this.addFlyoutActive = !this.addFlyoutActive
@@ -159,7 +168,7 @@
                 let global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
                 let patient = null
-                if (permissions == 'patient') {
+                if (permissions === 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -173,6 +182,7 @@
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
+                this.labData = data;
                 let choices = {
                     0: "Recommended",
                     1: "Confirmed",

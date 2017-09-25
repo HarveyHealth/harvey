@@ -3,31 +3,31 @@
         <button class="button--close flyout-close" @click="close()">
             <svg><use xlink:href="#close" /></svg>
         </button>
-        <h2 class="heading-3-expand">New Message</h2><br>
-        <div v-if="userList.length <= 1" class="no-message-banner">
-            You are not currently assigned to any doctors. Please book a consultation with a doctor in order to send messages.
+        <h2 class="heading-3-expand">New Message</h2>
+        <div class="no-message-banner" v-if="userList.length <= 1">
+            You are not currently assigned to any doctors. Please <a href="/dashboard#/appointments">book a consultation</a> before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
-        <div class="input__container">
-            <label class="input__label" style="padding: 0; border: none;" for="patient_name">recipient</label>
-            <span class="custom-select">
-                <select @change="updateUser($event)">
-                    <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
-                </select>
-            </span>
-        </div>
-        <div class="input__container">
-            <label class="input__label" style="padding: 0; border: none;" for="patient_name">subject</label>
-            <input v-model="subject" class="input--text" type="text">
-        </div>
-        <div class="input__container">
-            <label class="input__label" style="padding: 0; border: none;" for="patient_name">message</label>
-            <textarea v-model="message" class="input--textarea"></textarea>
-        </div>
-        <div>
-            <div class="inline-centered">
+        <div v-else>
+            <div class="input__container">
+                <label class="input__label" for="patient_name">Recipient</label>
+                <span class="custom-select">
+                    <select @change="updateUser($event)">
+                        <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
+                    </select>
+                </span>
+            </div>
+            <div class="input__container" v-if="userList.length">
+                <label class="input__label" for="patient_name">Subject</label>
+                <input v-model="subject" class="input--text" type="text">
+            </div>
+            <div class="input__container" v-if="userList.length">
+                <label class="input__label" for="patient_name">Message</label>
+                <textarea v-model="message" class="input--textarea"></textarea>
+            </div>
+            <div class="button-wrapper" v-if="userList.length">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send Message</button>
+                :disabled="!subject || !selected || userList.length <= 1">Send</button>
             </div>
         </div>
     </aside>
@@ -55,6 +55,9 @@
             updateUser(e) {
                 this.selected = e.target.children[e.target.selectedIndex].dataset.id;
             },
+            makeThreadId(userOne, userTwo) {
+                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
+            },
             createMessage() {
                 axios.post(`${this.$root.$data.apiUrl}/messages`, {
                     message: this.message,
@@ -62,7 +65,7 @@
                     subject: this.subject
                 })
                 .then(response => {
-                    this.$root.$data.global.detailMessages[response.data.data.attributes.subject] = [response.data.data];
+                    this.$root.$data.global.detailMessages[`${this.makeThreadId(response.data.data.attributes.sender_user_id, response.data.data.attributes.recipient_user_id)}-${response.data.data.attributes.subject}`] = [response.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
                     this.$parent.messageList = this.$root.$data.global.messages
                     this.$parent.notificationActive = true;
@@ -77,19 +80,19 @@
         computed: {
             userList() {
               const store = this.$root.$data.global;
-                if (store.user.attributes.user_type === 'patient') {
+                if (this.$root.$data.permissions === 'patient') {
                     store.confirmedDoctors = store.appointments
                         .filter(e =>  e.attributes.status === 'complete')
                         .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
                     store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e))
                     return [''].concat(store.confirmedDoctors);
-                } else if (store.user.attributes.user_type === 'practitioner') {
+                } else if (this.$root.$data.permissions === 'practitioner') {
                     store.confirmedPatients = store.appointments
                         .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                         .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
                     store.confirmedPatients = _.uniq(store.confirmedPatients)
                     return [''].concat(store.confirmedPatients);
-                } else if (store.user.attributes.user_type === 'admin') {
+                } else if (this.$root.$data.permissions === 'admin') {
                     return [''].concat(store.practitioners).concat(store.patients);
                 }
             },

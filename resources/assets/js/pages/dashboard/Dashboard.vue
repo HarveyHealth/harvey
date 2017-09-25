@@ -14,7 +14,9 @@
             <p>Please note: You must finish your patient intake form before your first appointment.</p>
           </div>
           <div class="card-alert-button">
-            <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank"><button class="button is-primary is-outlined">Edit Intake Form</button></a>
+            <a :href="'https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=' + user_id" target="_blank">
+              <button class="button is-primary is-outlined">Edit Intake Form</button>
+            </a>
           </div>
         </div>
       </div>
@@ -22,9 +24,7 @@
       <div class="card-wrapper">
 
         <div class="card card-panel">
-          <DashboardAppointments :user-type="userType"
-            :recent-appointments="recent_appointments"
-            :upcoming-appointments="upcoming_appointments"></DashboardAppointments>
+          <DashboardAppointments :user-type="userType" :upcoming-appointments="upcoming_appointments" />
         </div>
 
         <div class="card card-panel" v-if="userType === 'patient'">
@@ -35,8 +35,8 @@
 
             <div class="card-content-wrap">
               <h3 class="heading-3">
-                <img class="card-avatar" :src="practitioner.avatar">
-                {{ practitioner.name }}
+                <img class="card-avatar" :src="practitioner.avatar" v-if="practitioner.name != '#'">
+                <p class="copy-muted-2 font-italic">{{ practitioner.name }}</p>
               </h3>
             </div>
 
@@ -66,7 +66,7 @@
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="phone">Phone</h4>
               <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user_id">ID</h4>
-              <p class="card-contact-info" v-if="user_id">#{{ user_id }}</p>
+              <p class="card-contact-info" v-if="user_id">{{ user_id }}</p>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <h2 class="heading-2">Account Manager</h2>
           </div>
           <div class="card-content-container">
-            <div class="card-content-wrap" v-if="patientName">
+            <div class="card-content-wrap">
               <h3 class="card-contact-name">
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>Sandra Walker
               </h3>
@@ -86,7 +86,7 @@
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Phone</h4>
               <p class="card-contact-info"><a href="tel:800-690-9989">800-690-9989</a></p>
               <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced">Available</h4>
-              <p class="card-contact-info">Mon-Fri 9am-6pm PST</p>
+              <p class="card-contact-info">Weekdays 9am - 6pm PST</p>
             </div>
           </div>
         </div>
@@ -124,7 +124,7 @@
         if (this.userType === 'admin') {
           return 'Admin Dashboard';
         } else {
-          return 'Your Dashboard';
+          return 'Dashboard';
         }
       },
       displayName() {
@@ -159,7 +159,7 @@
         } else {
           return {
             avatar: '#',
-            description: 'Loading practitioner information',
+            description: 'Loading doctor...',
             name: ''
           }
         }

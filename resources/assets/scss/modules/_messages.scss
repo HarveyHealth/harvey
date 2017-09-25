@@ -1,170 +1,68 @@
-.unread {
-    border-left: 6px solid #82BEF2 !important;
-}
-
 .container-message {
     background-color: white;
-    border: 1px solid $color--grey;
-    border-bottom: 0;
+    border: none;
+    @include padding(25px 30px);
+    border-bottom: 1px solid $color--grey;
     position: relative;
+    min-height: 100px;
     width: 100%;
-    @include padding(25px);
-}
-
-.container-detail {
-    border-left: none;
-}
-
-.container-detail-message {
-    border-left: none;
-    position: relative;
-}
-
-.top-layer {
-    font-weight: 300;
-    text-align: left;
-    @include margin(0);
-}
-
-.top-layer:first-child {
-    font-weight: bold;
-}
-
-.top-layer-margin {
-    float: left;
-    @include margin(0 10px 0 0);
-    color: #AAA;
-}
-
-.subject-header {
-    border-bottom: 1px solid $light-gray;
-    font-size: 18px;
-    text-align: left;
-    @include margin(0);
-    @include padding(35px);
-}
-
-.messages-wrapper {
-    a {
-        display: block;
-        // @include margin(null null 25px);
-    }
-    &:last-child .container-message {
-        border-bottom: 2px solid $color-gray-0;
-    }
-}
-
-.message-post-details {
-    @include margin(0 0 20px);
-}
-
-.message-post-avatar {
-    border: 2px solid $color-gray-0;
-    border-radius: 50%;
-    overflow: hidden;
-    img {
-        width: 100%;
-    }
-}
-
-.message-post-name {
-    text-transform: uppercase;
-}
-
-.detail-wrap:not(:last-child) {
-    border-bottom: 1px solid $light-gray;
-    @include padding(0 0 25px);
-    @include margin(0 0 35px);
-}
-
-.container-message.message-detail {
-    @include padding(35px);
-    .message-reply-subject {
-        @include margin(0 0 35px);
+    &.unread {
+        .unread-dot {
+            display: block;
+            border: 1px solid $turquoise;
+            border-radius: 100px;
+            height: 10px;
+            width: 10px;
+            background: $turquoise;
+            position: absolute;
+            left: 10px;
+            top: 40px;
+        }
     }
     .message-post-details {
-        position: relative;
-        @include padding(3px 0 0 45px);
-    }
-    .message-post-avatar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 35px;
-    }
-}
-
-.container-message.message-post {
-    .message-post-avatar {
-        display: inline-block;
+        width: 25%;
         float: left;
-        width: 40px;
-        @include margin(0 25px 0 0);
-    }
-}
-
-.message-post-subject {
-    @include margin(0 0 6px 0);
-}
-
-.container-reply {
-    background: $white;
-    border: 1px solid $color--grey;
-    @include padding(35px);
-}
-
-.emphasis {
-    color: $harvey-secondary;
-}
-
-.subtle {
-    color: lighten($harvey-secondary, 30%);
-}
-
-@include query(md) {
-    .container-message.message-post {
-        @include padding(55px 25px);
+        position: relative;
+        @include margin(null null 20px null);
         .message-post-avatar {
-            float: none;
-            left: 35px;
+            @include margin(null 15px null null);
+            border: 2px solid $color-gray-0;
+            border-radius: 50%;
             overflow: hidden;
-            position: absolute;
-            top: calc(50% - 30px);
-            width: 60px;
-            @include margin(0);
-        }
-        .message-post-details,
-        .message-post-body {
-            @include margin(0 0 22px 100px);
-        }
-        .message-post-details h3 {
             display: inline-block;
-        }
-        .message-post-time {
-            @include margin(0 0 0 35px);
-        }
-    }
-    .container-message.message-detail {
-        @include padding(55px);
-        .message-post-details {
-            position: relative;
-            @include padding(10px 0 0 65px);
-            @include margin(0 0 34px);
-            * {
-                display: inline-block;
+            float: left;
+            width: 40px;
+            height: 40px;
+            img {
+                width: 100%;
             }
         }
-        .message-post-time {
-            @include margin(0 0 0 35px);
+        .highlight {
+            color: $color-copy-alt;
+        }
+    }
+    .message-post-body {
+        width: 75%;
+        position: relative;
+        h2 {
+            @include margin(null);
+        }
+    }
+    .detail-wrap {
+        width: 100%;
+        min-height: 50px;
+        margin-bottom: 1em;
+        .message-post-body {
+            @include margin(.75em null null 25%);
+            &.highlight {
+                color: $color-copy-alt;
+            }
         }
     }
 }
 
-.no-message-banner {
-    background-color: $pink;
-    color: $white;
-    height: 115px;
-    width: 80%;
-    margin: 0 auto 20px auto;
-    padding: 20px;
+.button-wrapper {
+    width: 100%;
+    text-align: center;
+    @include margin(2em null .5em null);
 }

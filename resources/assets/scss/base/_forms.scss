@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null $space-lg null);
+  @include margin(null null $space-md null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -34,8 +34,10 @@
 }
 
 .form-radio {
-  float: left;
-  width: 10%;
+    float: left;
+    width: 20px;
+    height: 20px;
+    @include margin(2px 4px 0 0);
 }
 
 .form-label {
@@ -66,17 +68,11 @@
 }
 
 .input__container {
-  @include margin(null null 2.2em null);
+  @include margin(null null 1em null);
   position: relative;
   width: 100%;
-  float: left; 
-
   .flyout & {
     width: 100% !important;
-  }
-
-  & > * {
-    @include margin(0.5em null null null);
   }
 }
 
@@ -111,8 +107,6 @@
       }
     }
   }
-
-
 }
 
 .input__label {
@@ -120,41 +114,53 @@
   @extend %font-bold;
   @extend %font-spaced;
   @extend %font-uppercase;
-  @extend %font-xs;
+  @extend %font-sm;
 
   display: block;
-  @include margin(null null 0.5em null);
   width: 100%;
-
-  .flyout & {
-    border-top: 1px solid $color-gray-0;
-    padding-top: 2.2em;
-  }
+  @include margin(null null 0.5em null);
 
   &.first {
     padding-top: 0;
     border: none;
   }
+  &.lab-test {
+    font-size: 15px;
+    @include margin(1em 0 .25em 0);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #CBC5C1;
+  }
 }
 
-.input--text,
-.input--textarea {
-  border: 1px solid $color--grey;
-  border-radius: 3px;
-  display: block;
+.input--text {
+  height: 37px;
   font-weight: 300;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
   @include padding(0.6em 0.8em 0.5em 0.8em);
   width: 100%;
+}
+
+.input--textarea {
+  font-weight: 300;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
+  @include padding(0.6em 0.8em 0.5em 0.8em);
+  line-height: 1.4;
+  min-height: 10em;
+  width: 100%;
+  &.small {
+    min-height: 4em;
+  }
 }
 
 .input--text[readonly="readonly"] {
   border: none;
   @include padding(0.3em 0);
-}
-
-.input--textarea {
-  line-height: 1.4;
-  min-height: 7em;
 }
 
 .input--warning {
@@ -165,7 +171,7 @@
 .charcount {
   right: 0;
   position: absolute;
-  top: 1.3em;
+  top: .5em;
 }
 
 .input__linkcta {
@@ -173,20 +179,22 @@
   @include margin(1.5em null null null);
 }
 
-.fullscreen-left {
-  @include margin(5px);
-  width: 100%;
-  float: left;
-  height: 25px;
+// Radio List
+
+.inventory-left {
+  @include margin(0);
   @include padding(5px);
-}
-
-.flyout-btn {
-  margin: 2rem;
-}
-
-.input--text {
-  height: 37px;
+  width: 100%;
+  height: 25px;
+  font-size: 15px;
+  label {
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .highlightText {
+      color: $turquoise; 
+  }
 }
 
 // Placeholders
@@ -206,7 +214,7 @@
 }
 
 .hoverInput {
-  color: $harvey-primary;
+  color: $turquoise;
   position: relative;
   left: 0;
   top: 30px;

@@ -26,7 +26,7 @@
                 @endforeach
             </table>
         @else
-            Sorry, you don't have any users yet.
+            You do not have any clients yet.
         @endif
     </div>
 @endsection

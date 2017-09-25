@@ -40,9 +40,29 @@ class StripeController extends BaseWebhookController
         Log::info('Stripe customer created.');
     }
 
+    public function handleCustomerUpdated()
+    {
+        Log::info('Stripe customer updated.');
+    }
+
     public function handleCustomerSourceCreated()
     {
         Log::info('Stripe customer payment source created.');
+    }
+
+    public function handleCustomerSourceDeleted()
+    {
+        Log::info('Stripe customer payment source deleted.');
+    }
+
+    public function handlePayoutCreated()
+    {
+        Log::info('Stripe payout created.');
+    }
+
+    public function handlePayoutPaid()
+    {
+        Log::info('Stripe payout paid.');
     }
 
     public function handlePayload(array $payload)
