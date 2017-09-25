@@ -16,7 +16,7 @@
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-        <a v-if="status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__label link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+        <a v-if="status === 'Confirmed'" v-for="test in testList" href="/lab-tests" class="input__label link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
         <div v-if="status === 'Recommended'">
           <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
             <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -75,7 +75,7 @@
         <div class="input__container">
           <div class="products-side">
             <label class="input__label" for="products">Products</label>
-            <a href="https://www.goharvey.com/lab-tests" class="sub-items link-color" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</a>
+            <a href="/lab-tests" class="sub-items link-color" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</a>
           </div>
           <div class="total-side">
             <label class="input__label" for="total">Total</label>
@@ -124,7 +124,7 @@
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="https://www.goharvey.com/lab-tests" class="input__label lab-test link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="/lab-tests" class="input__label lab-test link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
             <span class="custom-select">
                 <select @change="updateTest($event, test)" class="disabled" disabled>
