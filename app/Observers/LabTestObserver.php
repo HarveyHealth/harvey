@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\LabTest;
+use App\Events\LabTestReceived;
 use Carbon;
 
 class LabTestObserver
