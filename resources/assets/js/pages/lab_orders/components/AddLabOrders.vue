@@ -52,9 +52,6 @@
               <td width="25%" class="color-good">${{ test.attributes.price }}</td>
             </tr>
           </table>
-  <!--         <ul>
-            <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
-          </ul> -->
           <div class="button-wrapper">
             <button class="button button--cancel" @click="modalClose">Cancel</button>
             <button class="button" @click="createLabOrder">Yes, Confirm</button>

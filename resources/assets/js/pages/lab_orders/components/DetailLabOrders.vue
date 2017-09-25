@@ -10,7 +10,15 @@
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
-        <a v-if="status === 'Recommended' || status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
+        <a v-if="status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
+        <div v-if="status === 'Recommended'">
+          <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
+            <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
+              <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox">
+              {{ test.attributes.name }}{{ test.patient ? ' ( Recommended )': '' }}
+            </label>
+          </div>
+        </div>
       </div>
       <div class="input__container">
         <label class="input__label" for="patient_name">Doctor</label>
@@ -38,7 +46,6 @@
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
           <div v-if="latestCard">
             <label class="input__item">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
           <div v-if="!latestCard">
             <router-link to="/settings">Add a credit card to complete shipment.</router-link>
@@ -59,11 +66,11 @@
         <div class="input__container">
           <div class="products-side">
             <label class="input__label" for="products">Products</label>
-            <a href="https://www.goharvey.com/lab-tests" class="sub-items link-color" v-for="test in testList">{{ test.name }}</a>
+            <a href="https://www.goharvey.com/lab-tests" class="sub-items link-color" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</a>
           </div>
           <div class="total-side">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in testList">${{ test.price }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
         </div>
         <div class="input__container">
@@ -71,7 +78,7 @@
             <label class="input__label" for="totals">Total</label>
           </div>
           <div class="total-side">
-            <label class="input__label" for="price">${{ price }}</label>
+            <label class="input__label" for="price">${{ patientPrice }}</label>
           </div>
         </div>
         <div class="input__container">
@@ -93,8 +100,7 @@
             <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
         </div>
         <div class="inline-centered">
-          <button v-if="paid[id] != true" class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
-          <button v-if="paid[id] == true" class="button" :disabled="paid[id]" @click="patientLabUpdate()">Already Paid</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
       </div>
     </div>
@@ -219,7 +225,10 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        patientPrice: 0,
         paid: {},
+        patientLabTests: {},
+        labPatients: {},
         postalCode: '',
         invalidCC: false,
         invalidModalActive: false,
@@ -229,6 +238,19 @@
       }
     },
     methods: {
+      updatePatientTests(e, test) {
+        this.patientTestList[test.attributes.name].checked = !test.checked;
+        if (this.patientTestList[test.attributes.name].checked) {
+          this.labPatients[test.attributes.name] = test;
+        } else {
+          delete this.labPatients[test.attributes.name];
+        }
+        let price = 0;
+        Object.values(this.labPatients).forEach(e => {
+          price += eval(e.attributes.price);
+        })
+        this.patientPrice = price;
+      },
       handleFlyoutClose() {
         this.step = 1;
         this.$parent.selectedRowData = null;
@@ -261,7 +283,6 @@
         this.month = e.target.value
       },
       patientLabUpdate() {
-        this.paid[this.$props.rowData.id] = true;
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             address_1: this.address1,
             address_2: this.address2,
@@ -270,21 +291,34 @@
             zip: this.newZip
           })
           .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-                })
-              } else if (this.$props.rowData.completed_at === 'Confirmed') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped',
-                  shipment_code: this.shippingCodes[e.test_id],
-                })
-              } else if (this.$props.rowData.completed_at === 'Recommended') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'confirmed'
-                })
-              }
+              _.each(this.patientTestList, (e) => {
+                if (e.patient && !e.checked) {
+                  let id = null;
+                  this.$props.rowData.test_list.forEach(ele => {
+                    if (e.attributes.name === ele.name) {
+                      id = ele.test_list;
+                    }
+                  })
+                  axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                    status: 'canceled'
+                  })
+                } else if (e.patient && e.checked) {
+                  let id = null;
+                  this.$props.rowData.test_list.forEach(ele => {
+                    if (e.attributes.name === ele.name) {
+                      id = ele.test_list;
+                    }
+                  })
+                  axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                    status: 'confirmed'
+                  })
+                } else if (!e.patient && e.checked) {
+                  axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
+                    lab_order_id: this.$props.rowData.id,
+                    sku_id: e.id,
+                    status: 'confirmed'
+                  })
+                }
             })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
@@ -470,6 +504,23 @@
           status: ['No Order']
         }] : this.$props.rowData.test_list
         return this.$props.rowData.test_list
+      },
+      patientTestList() {
+        if (!this.$props.rowData) return {}
+        let obj = {};
+        this.$props.rowData.test_list.forEach(e => {
+          obj[e.name] = e.name;
+        })
+        let objs = _.map(this.$root.$data.labTests, e => {
+          e.patient = obj[e.attributes.name] ? true : false;
+          e.checked = false;
+          return e;
+        })
+        let returns = {}
+        objs.forEach(e => {
+          returns[e.attributes.name] = e;
+        })
+        return returns;
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
