@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Lib\{PractitionerAvailability, TimeInterval};
-use Illuminate\Database\Eloquent\{Model, Builder};
+use Illuminate\Database\Eloquent\{Builder, Model};
 use Carbon\Carbon;
 
 class Practitioner extends Model
@@ -27,8 +27,8 @@ class Practitioner extends Model
         parent::boot();
 
         static::addGlobalScope('enabledUser', function (Builder $builder) {
-            return $builder->whereHas('user', function (Builder $query){
-                $query->where('users.enabled', true);
+            return $builder->whereHas('user', function (Builder $builder){
+                $builder->where('users.enabled', true);
             });
         });
     }
@@ -113,4 +113,16 @@ class Practitioner extends Model
     {
         return $this->hasMany(License::class, 'user_id', 'user_id');
     }
+
+    /*
+     * Query scopes
+     */
+
+    public function scopeLicensedForState($builder, string $state)
+    {
+        return $builder->whereHas('licenses', function ($builder) use ($state) {
+            $builder->where('state', $state);
+        });
+    }
+
 }

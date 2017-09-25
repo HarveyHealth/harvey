@@ -2,9 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Admin;
-use App\Models\Patient;
-use App\Models\Practitioner;
+use App\Models\{Admin, License, Patient, Practitioner, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -15,14 +13,44 @@ class PractitionerTest extends TestCase
 
     public function test_anyone_can_view_practitioner_list()
     {
-        factory(Practitioner::class, 3)->create();
+        factory(Practitioner::class, 3)->create()->each(function ($practitioner) {
+            $practitioner->licenses()->save(factory(License::class)->make([
+                'state' => 'CA',
+            ]));
+        });;
 
         foreach ([Patient::class, Admin::class, Practitioner::class] as $userClass) {
-            Passport::actingAs(factory($userClass)->make()->user);
+            Passport::actingAs(factory($userClass)->make([
+                'user_id' => factory(User::class)->create(['state' => 'CA'])->id,
+            ])->user);
             $response = $this->json('GET', 'api/v1/practitioners/');
             $response->assertStatus(200);
             $this->assertCount(3, $response->original['data']);
         }
+    }
+
+    public function test_practitioner_list_is_filtered_according_to_patient_regulated_state()
+    {
+        factory(Practitioner::class, 2)->create()->each(function ($practitioner) {
+            $practitioner->licenses()->save(factory(License::class)->make([
+                'state' => 'CA',
+            ]));
+        });;
+
+        factory(Practitioner::class, 2)->create()->each(function ($practitioner) {
+            $practitioner->licenses()->save(factory(License::class)->make([
+                'state' => 'WA',
+            ]));
+        });;
+
+        Passport::actingAs(factory(Patient::class)->make([
+            'user_id' => factory(User::class)->create(['state' => 'WA'])->id,
+        ])->user);
+
+        $response = $this->json('GET', 'api/v1/practitioners/');
+        $response->assertStatus(200);
+
+        $this->assertCount(2, $response->original['data']);
     }
 
     public function test_transformer_includes_expected_keys()

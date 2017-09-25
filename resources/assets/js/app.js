@@ -158,21 +158,6 @@ const app = new Vue({
             }
           })
         },
-        // Filters practitioner list by state licensing regulations
-        // practitioners = practitioner list from backend or from appointments page
-        // state = user state to test against
-        filterPractitioners(practitioners, state) {
-          return practitioners.filter(practitioner => {
-            // First check if the user's state is regulated or not
-            const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
-            // Get licenses from global list or from appointments page list
-            const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
-            // If the user's state is regulated, filter dr list for drs with licenses in that state
-            return userRegulatedState
-              ? licenses.filter(license => license.state === state).length
-              : true
-          })
-        },
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
@@ -229,12 +214,7 @@ const app = new Vue({
         getPractitioners() {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                  if (Laravel.user.user_type === 'patient') {
-                    this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
-                  } else {
-                    this.global.practitioners = response.data.data;
-                  }
-                  this.global.practitioners = this.global.practitioners.map(dr => {
+                  this.global.practitioners = response.data.data.map(dr => {
                     return {
                       id: dr.id,
                       info: dr.attributes,

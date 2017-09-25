@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Lib\ZipCodeValidator;
 use App\Lib\Validation\StrictValidator;
 use App\Models\Practitioner;
-use App\Transformers\V1\PractitionerAvailabilityTransformer;
-use App\Transformers\V1\PractitionerTransformer;
+use App\Transformers\V1\{PractitionerAvailabilityTransformer, PractitionerTransformer};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -25,9 +25,18 @@ class PractitionersController extends BaseAPIController
      */
     public function index()
     {
-        $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
+        $builder = Practitioner::make();
 
-        return $this->baseTransformBuilder(Practitioner::make(), $include, $this->transformer, request('per_page'))->respond();
+        if (currentUser()->isAdminOrPractitioner()) {
+            $include = request('include');
+        } else {
+            $include = null;
+            if (in_array($state = strtoupper(currentUser()->state), ZipCodeValidator::REGULATED_STATES)) {
+                $builder = $builder->licensedForState($state);
+            }
+        }
+
+        return $this->baseTransformBuilder($builder, $include, $this->transformer, request('per_page'))->respond();
     }
 
     public function show(Practitioner $practitioner)
