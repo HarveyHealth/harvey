@@ -72,6 +72,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreditCardUpdated' => [
             'App\Listeners\PayOutstandingInvoicesForPatient',
         ],
+        
+        'App\Events\ShipmentInitiated' => [
+            'App\Listener\UpdateLabOrderWithShipmentLabel'
+        ]
     ];
 
     protected $subscribe = [
