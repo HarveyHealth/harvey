@@ -70,6 +70,12 @@ return [
                     'updated' => 1929884,
                     'reminder' => 1497642,
                 ],
+                'lab_order' => [
+                    'shipped' => 2741642,
+                ],
+                'lab_test' => [
+                    'received' => 3148942,
+                ],
                 'welcome' => 1450461,
             ],
             'message' => [
