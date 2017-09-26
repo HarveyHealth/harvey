@@ -52,9 +52,6 @@
               <td width="25%" class="color-good">${{ test.attributes.price }}</td>
             </tr>
           </table>
-  <!--         <ul>
-            <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
-          </ul> -->
           <div class="button-wrapper">
             <button class="button button--cancel" @click="modalClose">Cancel</button>
             <button class="button" @click="createLabOrder">Yes, Confirm</button>
@@ -117,13 +114,16 @@ export default {
         _.pull(this.selectedTests, obj)
       }
     },
+    formatName(str) {
+      return str.split(', ').reverse().join(' ')
+    },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedClientName = e.target.value.name;
+        this.selectedClientName = this.formatName(e.target.value);
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedDoctorName = e.target.value.name;
+        this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
