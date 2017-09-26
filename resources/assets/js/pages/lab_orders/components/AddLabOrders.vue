@@ -95,7 +95,7 @@ export default {
       testNamesInList: [],
       selectedClientName: '',
       selectedDoctorName: '',
-      doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
+      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
@@ -186,8 +186,10 @@ export default {
                     })
                 })
             })
-        this.handleFlyoutClose();
-        this.modalClose();
+            .then(() => {
+              this.handleFlyoutClose();
+              this.modalClose();
+            })
     }
   },
   computed: {

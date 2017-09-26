@@ -88,6 +88,7 @@
                     Complete: []
                 },
                 labData: [],
+                step: 1,
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -110,10 +111,12 @@
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                    this.step = 1;
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
                     this.detailFlyoutActive = false;
+                    this.step = 1;
                 }
             },
             handleFilter(name, index) {

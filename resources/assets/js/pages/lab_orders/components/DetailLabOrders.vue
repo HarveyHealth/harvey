@@ -3,7 +3,7 @@
     :active="$parent.detailFlyoutActive" 
     :heading="flyoutHeading" 
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
 
     <!-- PATIENTS ONLY -->
@@ -12,7 +12,7 @@
 
       <!-- RECOMMENDED -->
 
-      <div v-if="step == 1">
+      <div v-if="$parent.step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
@@ -71,7 +71,7 @@
 
       <!-- RECOMMENDED / PAYMENT -->
 
-      <div v-if="step == 3">
+      <div v-if="$parent.step == 3">
         <div class="input__container checkout-container">
           <div class="left-column">
             <label class="input__label" for="products">Products</label>
@@ -120,7 +120,7 @@
 
       <!-- SHIPPED -->
 
-      <div v-if="step === 1">
+      <div v-if="$parent.step === 1">
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
@@ -170,7 +170,7 @@
 
     <!-- FLYER STEP #2 -->
 
-    <div v-if="step == 2">
+    <div v-if="$parent.step == 2">
       <div v-for="test in testList">
         <div class="input__container">
           <label class="input__label" for="patient_name">{{ test.name }}</label>
@@ -238,7 +238,6 @@
         month: '',
         year: '',
         masterTracking: '',
-        step: 1,
         address1: '',
         address2: '',
         newCity: '',
@@ -274,7 +273,7 @@
         this.patientPrice = `${price}.00`;
       },
       handleFlyoutClose() {
-        this.step = 1;
+        this.$parent.step = 1;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -291,14 +290,14 @@
         this.newState = e.target.value
       },
       stepThree() {
-        this.step = 3;
+        this.$parent.step = 3;
         this.flyoutHeading = 'Confirm Payment';
       },
       nextStep() {
-        this.step++;
+        this.$parent.step++;
       },
       prevStep() {
-        this.step = 1;
+        this.$parent.step = 1;
       },
       closeInvalidCC() {
         this.invalidCC = false;
