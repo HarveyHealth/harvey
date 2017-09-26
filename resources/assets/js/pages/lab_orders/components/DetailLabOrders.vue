@@ -44,7 +44,7 @@
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on file.`}}</label>
-          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}`}}</label>
+          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}.00`}}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
           <label class="input__item">Unpaid</label>
@@ -79,7 +79,7 @@
           </div>
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}.00</span>
           </div>
           <div class="left-column">
             <label class="input__label discount" for="totals">Discount (20%)</label>
@@ -151,7 +151,7 @@
           <label class="input__label" for="patient_name">Payment</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
             <label class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-            <label class="input__item">{{`Charged: $${price}`}}</label>
+            <label class="input__item">{{`Charged: $${price}.00`}}</label>
           </div>
           <label v-if="$root.$data.permissions === 'practitioner' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text">{{`No card on file.`}}</label>
           <a v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text" :href="`/profile/${patientUser}`">{{`Add card.`}}</a>
