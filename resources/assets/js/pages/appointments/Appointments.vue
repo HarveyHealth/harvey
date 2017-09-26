@@ -77,6 +77,7 @@
         :set-times="setAvailableTimes"
         :time="appointment.currentDate"
         :no-availability="noAvailability"
+        :visible="visibleDays"
       />
 
       <Times
@@ -121,6 +122,7 @@
         :editable="editablePurpose"
         :on-input="handlePurposeInput"
         :text-value="appointment.purpose"
+        :visible="visiblePurpose"
       />
 
       <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
@@ -410,6 +412,11 @@ export default {
         this.userType === 'patient'
       );
     },
+    visibleDays() {
+      return this.flyoutMode === 'update' ||
+        (this.userType === 'practitioner' && this.appointment.patientName !== '') || 
+        (this.userType !== 'practitioner' && this.appointment.practitionerName !== '');
+    },
     visibleDuration() {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
@@ -423,7 +430,10 @@ export default {
       return this.userType !== 'patient';
     },
     visiblePractitioner() {
-      return this.userType !== 'practitioner';
+      return this.userType !== 'practitioner' && (this.flyoutMode === 'update' || this.appointment.patientName !== '');
+    },
+    visiblePurpose() {
+      return this.flyoutMode === 'update' || this.appointment.date !== '';
     },
     visibleUpdateButtons() {
       return this.flyoutMode === 'update' &&
@@ -645,7 +655,7 @@ export default {
         this.appointment.patientPhone = data._patientPhone;
         this.appointment.patientPayment = data._hasCard;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
-        this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
+        this.patientDisplay = this.appointment.patientName;
 
         // patient address
         this.appointment.patientAddress = this.setPatientAddress(data);
@@ -901,7 +911,16 @@ export default {
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
-      this.patientDisplay = `${data.name} (${data.email})`;
+      this.patientDisplay = data.name;
+
+      // Reset dependent inputs
+      this.appointment.practitionerId = '';
+      this.appointment.practitionerName = '';
+      this.appointment.practitionerAvailability = [];
+      this.appointment.availableTimes = [];
+      this.appointment.date = '';
+      this.appointment.date = '';
+      this.appointment.time = '';
 
       // If user is admin, filter practitioners by state licensing regulations
       // First reset the practitioner list
@@ -964,10 +983,7 @@ export default {
 
     setupPatientList(list) {
       this.patientList = list.map(item => {
-        const display = this.userType === 'patient'
-          ? item.name
-          : `${item.name} (${item.email})`
-        return { value: display, data: item };
+        return { value: item.name, data: item };
       });
     },
 
