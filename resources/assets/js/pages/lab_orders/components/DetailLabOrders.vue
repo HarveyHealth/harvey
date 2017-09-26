@@ -154,7 +154,7 @@
             <label class="input__item">{{`Charged: $${price}.00`}}</label>
           </div>
           <label v-if="$root.$data.permissions === 'practitioner' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text">{{`No card on file.`}}</label>
-          <router-link v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text" :to="`/profile/${patientUser}`">{{`Add card.`}}</router-link>
+          <router-link v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text" :to="`/settings/${patientUser}`">{{`Add card.`}}</router-link>
           <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid</label>
         </div>
         <div class="input__container">
