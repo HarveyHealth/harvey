@@ -139,7 +139,7 @@
 
         <div class="input__container">
           <label class="input__label">Client</label>
-          <span class="input__item">Patient Name</span>
+          <span class="input__item">{{ patientName }}</span>
         </div>
 
         <!-- Doctor -->
@@ -517,6 +517,11 @@
       doctorName() {
         return this.$props.rowData ?
           `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}, ND` :
+          ''
+      },
+      patientName() {
+        return this.$props.rowData ?
+          `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
           ''
       },
       validZip() {
