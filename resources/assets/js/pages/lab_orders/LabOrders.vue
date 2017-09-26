@@ -231,7 +231,8 @@
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
-                    global.loadingPractitioners
+                    global.loadingPractitioners ||
+                    global.loadingCreditCards
                 }
                 return false
             },
