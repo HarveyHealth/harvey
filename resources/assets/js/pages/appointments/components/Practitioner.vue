@@ -1,5 +1,5 @@
 <template>
-  <div class="input__container" v-if="visible">
+  <div class="input__container" v-if="isVisible">
     <label :class="{ 'input__label': true, 'first': isPatient }">Doctor</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select Doctor'"
@@ -30,7 +30,7 @@ export default {
     // What happens when a practitioner is selected
     setPractitioner: Function,
     // Do we even need to display a practitioner name or options?
-    visible: Boolean
+    isVisible: Boolean
   },
   components: {
     SelectOptions

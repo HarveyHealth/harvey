@@ -30,6 +30,7 @@
           </div>
         </div>
 
+
         <!-- Doctor -->
 
         <div class="input__container">
@@ -59,11 +60,13 @@
           <label class="input__item">{{ status }}</label>
         </div>
 
+
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button :disabled="!hasCard || !latestCard" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
+
       </div>
 
       <!-- RECOMMENDED / PAYMENT -->
@@ -79,7 +82,7 @@
           </div>
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}.00</span>
           </div>
           <div class="left-column">
             <label class="input__label discount" for="totals">Discount (20%)</label>
@@ -155,6 +158,13 @@
           </div>
         </div>
 
+        <!-- Master Tracking -->
+
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+          <label class="input__label" for="patient_name">Master Tracking</label>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
+        </div>
+
         <!-- Doctor -->
 
         <div class="input__container">
@@ -174,26 +184,20 @@
           <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
         </div>
 
-        <!-- Master Tracking -->
-
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label" for="patient_name">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
-        </div>
-
         <!-- Payment -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label" for="patient_name">Payment</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined" class="left-column">
             <span class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</span>
-            <span class="input__item">{{`Charged: $${price}`}}</span>
+            <span class="input__item">{{`Charged: $${price}.00`}}</span>
           </div>
           <div class="left-column" v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined">
             <span class="input__item error-text">{{`No card on file.`}}</span>
           </div>
           <span v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item left-column error-text">Invoice not paid.</span>
-          <a href="/dashboard#/settings/12345" class="right-column">Edit Card</a>
+          <router-link class="input__item right-column link-color" :to="`/settings/${patientUser}`">{{`Edit Card`}}</router-link>
+
         </div>
 
         <!-- Status -->
@@ -206,7 +210,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" :disabled="disabled" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -302,7 +306,6 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
-        disabled: true,
         patientPrice: 0,
         paid: {},
         patientLabTests: {},
@@ -327,13 +330,11 @@
         Object.values(this.labPatients).forEach(e => {
           price += eval(e.attributes.price);
         })
-        this.patientPrice = price;
-        this.disabled = false;
+        this.patientPrice = `${price}.00`;
       },
       handleFlyoutClose() {
         this.step = 1;
         this.$parent.selectedRowData = null;
-        this.disabled = true;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
       updateStatus(e) {
@@ -341,7 +342,6 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
-        this.disabled = false;
       },
       isEmpty(obj) {
         return _.isEmpty(obj);
@@ -380,7 +380,7 @@
                   let id = null;
                   this.$props.rowData.test_list.forEach(ele => {
                     if (e.attributes.name === ele.name) {
-                      id = ele.test_list;
+                      id = ele.test_id;
                     }
                   })
                   axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
@@ -390,7 +390,7 @@
                   let id = null;
                   this.$props.rowData.test_list.forEach(ele => {
                     if (e.attributes.name === ele.name) {
-                      id = ele.test_list;
+                      id = ele.test_id;
                     }
                   })
                   axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
@@ -549,6 +549,9 @@
       zip() {
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
+      patientUser() {
+        return this.$props.rowData ? this.$props.rowData.patient_user_id : null;
+      },
       stateList() {
         return ["State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
       },
@@ -593,11 +596,12 @@
         if (!this.$props.rowData) return {}
         let obj = {};
         this.$props.rowData.test_list.forEach(e => {
-          obj[e.name] = e.name;
+          obj[e.name] = e.test_id;
         })
         let objs = _.map(this.$root.$data.labTests, e => {
           e.patient = obj[e.attributes.name] ? true : false;
           e.checked = false;
+          e.test_id = obj[e.attributes.name];
           return e;
         })
         let returns = {}
