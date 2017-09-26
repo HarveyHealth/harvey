@@ -29,8 +29,6 @@ class AppServiceProvider extends ServiceProvider
         LabTest::observe(LabTestObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
-
-        Stripe::setApiKey(config('services.stripe.secret'));
     }
 
     /**

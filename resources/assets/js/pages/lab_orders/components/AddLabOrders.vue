@@ -3,79 +3,59 @@
     :active="$parent.addFlyoutActive"
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : null"
   >
-  <div v-if="step == 1">
-      <div class="input__container">
-          <label class="input__label" for="patient_name">client</label>
-          <span class="custom-select">
-              <select @change="updateClient($event)">
-                  <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
-              </select>
-          </span>
-      </div>
-      <div class="input__container">
-          <label class="input__label" for="patient_name">doctor</label>
-          <span class="custom-select">
-              <select @change="updateDoctor($event)">
-                  <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
-              </select>
-          </span>
-      </div>
-      <div>
-            <label class="input__label" for="patient_name">tests</label>
-            <span v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="fullscreen-left">
-                <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
-                <label :class="{highlightTextColor: tests.checked}" class="radio--text">{{ tests.attributes.name }}</label>
-            </span>
-      </div>
-        <div class="inline-centered">
-            <button class="button flyout-btn"
-            @click="nextStep()"
-            :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Save &amp; Continue</button>
-        </div>
-  </div>
-  <div v-if="step == 2">
-      <div v-for="test in selectedTests">
-          <div class="input__container">
-              <label class="input__label" for="patient_name">{{ test.attributes.name }}</label>
-              <input v-model="shippingCodes[test.id]" class="input--text" type="text">
-          </div>
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">master tracking</label>
-            <input v-model="masterTracking" class="input--text" type="text">
-        </div>
-        <div class="input__container">
-            <label class="input__label" for="patient_name">mailing address</label>
-            <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
-            <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-            <input placeholder="Enter city" v-model="city" class="input--text" type="text">
-            <input placeholder="Enter zip" v-model="zip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
-            <span class="custom-select" style="width: 45%; float:left;">
-                <select @change="updateState($event)">
-                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
-                </select>
-            </span>
-            <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code</label>
-          </div>
-          <div class="inline-centered" style="padding-top: 50px;">
-              <button class="button"
-              @click="openModal()"
-              :disabled="!validZip || selectedDoctor.length == 0 || selectedClient.length == 0  || masterTracking.length == 0 || address1.length == 0 || city.length == 0 || zip.length == 0 || state.length == 0 "
-              >Mark as Shipped</button>
-          </div>
+    <div class="input__container">
+        <label class="input__label" for="patient_name">Client</label>
+        <span class="custom-select">
+            <select @change="updateClient($event)">
+                <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
+            </select>
+        </span>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Doctor</label>
+      <span class="custom-select">
+          <select @change="updateDoctor($event)">
+              <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+          </select>
+      </span>
+    </div>
+    <div class="input__container">
+      <label class="input__label" for="patient_name">Lab Tests</label>
+      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
+          <label :class="{highlightText: tests.checked}" class="radio--text">
+            <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
+            {{ tests.attributes.name }}
+          </label>
       </div>
     </div>
-    <Modal :active="$parent.addActiveModal" :onClose="modalClose">
-      <div class="inline-centered">
-        <h1>Create Lab Order</h1>
-        <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b> and doctor <b>{{ selectedDoctorName }}</b>?</p>
-        <ul style="text-align: left; margin-left: 125px; padding-bottom: 5px;">
-          <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
-        </ul>
+    <div class="button-wrapper">
+        <button class="button"
+        @click="openModal()"
+        :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Lab Order</button>
+    </div>
+    <Modal
+      :active="$parent.addActiveModal"
+      :onClose="modalClose"
+      class="modal-wrapper"
+    >
+      <div class="card-content-wrap">
         <div class="inline-centered">
-            <button @click="createLabOrder" class="button">Yes, Confirm</button>
+          <h1 class="header-xlarge">
+            <span class="text">Create Lab Order</span>
+          </h1>
+          <p>Are you sure you want to create a new lab order recommedation for client <b>{{ selectedClientName }}</b>, on behalf of <b>{{ selectedDoctorName }}</b>?</p>
+          <table border="0" cellpadding="0" cellspacing="0" class="modal-table inline-left">
+            <tr v-for="test in selectedTests">
+              <td width="25%"><strong>{{ test.attributes.lab_name }}</strong></td>
+              <td width="25%">{{ test.attributes.name }}</td>
+              <td width="25%" class="color-good">${{ test.attributes.price }}</td>
+            </tr>
+          </table>
+          <div class="button-wrapper">
+            <button class="button button--cancel" @click="modalClose">Cancel</button>
+            <button class="button" @click="createLabOrder">Yes, Confirm</button>
+          </div>
         </div>
       </div>
     </Modal>
@@ -115,25 +95,11 @@ export default {
       testNamesInList: [],
       selectedClientName: '',
       selectedDoctorName: '',
-      doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
+      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
   methods: {
-    nextStep() {
-      this.step++
-      let patients = _.pull(this.$root.$data.global.patients, {id: this.selectedClient})
-      let patientsFind = _.find(this.$root.$data.global.patients, {id: this.selectedClient})
-      this.clientList = [patientsFind].concat(patients)
-      if (window.Laravel.user.user_type == 'admin') {
-        let doctors = _.pull(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        let doctorsFind = _.find(this.$root.$data.global.practitioners, {id: this.selectedDoctor})
-        this.doctorList = [doctorsFind].concat(doctors)
-      }
-    },
-    prevStep() {
-      this.step--
-    },
     modalClose() {
       this.$parent.addActiveModal = false
     },
@@ -148,50 +114,30 @@ export default {
         _.pull(this.selectedTests, obj)
       }
     },
+    formatName(str) {
+      return str.split(', ').reverse().join(' ')
+    },
     updateClient(e) {
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedClientName = e.target.value.name;
-    },
-    updateState(e) {
-      this.state = e.target.value
+        this.selectedClientName = this.formatName(e.target.value);
     },
     updateDoctor(e) {
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedDoctorName = e.target.value.name;
+        this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
       this.$parent.addActiveModal = false
-      this.step = 1
     },
     createLabOrder() {
         this.selectedTests.map(e => {
           e.shipping_code = this.shippingCodes[e.id]
           return e
         })
-        let data = null
-        if (this.address2.length > 0) {
-          data = {
-              practitioner_id: this.selectedDoctor,
-              patient_id: this.selectedClient,
-              shipment_code: this.masterTracking,
-              address_1: this.address1,
-              address_2: this.address2,
-              city: this.city,
-              state: this.state,
-              zip: Number(this.zip)
-            }
-          } else {
-            data = {
-              practitioner_id: this.selectedDoctor,
-              patient_id: this.selectedClient,
-              shipment_code: this.masterTracking,
-              address_1: this.address1,
-              city: this.city,
-              state: this.state,
-              zip: Number(this.zip)
-            }
-          }
+        let data =  {
+          practitioner_id: this.selectedDoctor,
+          patient_id: this.selectedClient,
+        };
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
           this.selectedTests.forEach((e, i)=> {
@@ -240,8 +186,10 @@ export default {
                     })
                 })
             })
-        this.handleFlyoutClose();
-        this.modalClose();
+            .then(() => {
+              this.handleFlyoutClose();
+              this.modalClose();
+            })
     }
   },
   computed: {
@@ -249,18 +197,8 @@ export default {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"
     },
-    stateList() {
-      return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
-    },
     testNameList() {
       return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
-    },
-    validZip() {
-      if (this.zip != '') {
-        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5
-      } else {
-        return true
-      }
     }
   },
   watch: {

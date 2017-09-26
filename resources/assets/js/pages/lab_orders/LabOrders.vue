@@ -11,6 +11,7 @@
                         </button>
                     </h1>
                     <FilterButtons
+                        :flyout="closeFlyouts"
                         v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
@@ -87,6 +88,7 @@
                     Complete: []
                 },
                 labData: [],
+                step: 1,
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -109,10 +111,12 @@
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                    this.step = 1;
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
                     this.detailFlyoutActive = false;
+                    this.step = 1;
                 }
             },
             handleFilter(name, index) {
@@ -148,6 +152,12 @@
                     'has-updated': this.updatedRow === index,
                 }
             },
+            closeFlyouts() {
+                this.detailFlyoutActive = false;
+                this.addFlyoutActive  = false;
+                this.selectedRowData = null;
+                this.selectedRowIndex = null;
+            },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false
                 this.addFlyoutActive = !this.addFlyoutActive
@@ -161,7 +171,7 @@
                 let global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
                 let patient = null
-                if (permissions == 'patient') {
+                if (permissions === 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -221,7 +231,8 @@
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
-                    global.loadingPractitioners
+                    global.loadingPractitioners ||
+                    global.loadingCreditCards
                 }
                 return false
             },

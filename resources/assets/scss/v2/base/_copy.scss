@@ -22,6 +22,12 @@
   }
 }
 
+.copy-good {
+  &, #{$global-copy-elements} {
+    @extend %copy-good;
+  }
+}
+
 .copy-error {
   &, #{$global-copy-elements} {
     @extend %copy-error;

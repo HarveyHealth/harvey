@@ -80,6 +80,7 @@ class LabTestsController extends BaseAPIController
 
         StrictValidator::checkUpdate($request->all(), [
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
+            'shipment_code' => 'filled|string',
         ]);
 
         $labTest->update($request->all());

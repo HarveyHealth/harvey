@@ -1,11 +1,10 @@
 <template>
   <div class="filters">
     <button
-      v-if="allData.length > 0"
       v-for="(name, index) in filters"
       :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
       :disabled="loading"
-      @click="onFilter(name, index)">{{ name }}</button>
+      @click="handleFilter(name, index)">{{ name }}</button>
   </div>
 </template>
 
@@ -30,6 +29,15 @@ export default {
     allData: {
       type: Array,
       required: true
+    },
+    flyout: {
+      type: Function
+    }
+  },
+  methods: {
+    handleFilter(name, index) {
+      this.onFilter(name, index);
+      if (this.flyout) this.flyout();
     }
   }
 }

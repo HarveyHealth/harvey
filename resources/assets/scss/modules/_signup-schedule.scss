@@ -22,13 +22,13 @@
 }
 
 .schedule-section {
-  background-color: $light-gray;
-  border: 2px solid $color-gray-0;
+  background-color: $color-gray-0;
+  border: 2px solid $color-gray-1;
   border-radius: 3px;
   @include padding($space-sm);
   font-size: $font-sm;
   text-align: left;
-  @include margin(null null $space-md);
+  @include margin(null null $space-sm);
 
   @include query(md) {
     @include grid-column(1, (columns: 2, gutter: $space-md));
@@ -58,7 +58,7 @@
 
     &.available {
       display: inline-block;
-      background: $color-gray-0;
+      background: $color-gray-4;
       color: $color-accent-dark;
       cursor: pointer;
       opacity: 0.75;
@@ -75,6 +75,14 @@
     }
   }
 
+  .left-arrow {
+    width: 100%;
+    font-size: 130px;
+    color: $color-gray-4;
+    margin: 3rem auto 0;
+    text-align: center;
+  }
+
 }
 
 .schedule-week {
@@ -82,7 +90,7 @@
 }
 
 .schedule-week-info {
-  border-bottom: 1px solid $color-gray-0;
+  border-bottom: 1px solid $color-gray-4;
 
   .dates {
     float: right;

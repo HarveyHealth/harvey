@@ -10,7 +10,10 @@
             </div>
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Payment Options</h2>
+                    <h2 class="heading-2">
+                        Payment Options
+                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                    </h2>
                 </div>
                 <div class="card-content-wrap">
                     <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
@@ -18,11 +21,11 @@
                             <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
                         </div>
                     </div>
-                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
+                    <div v-if="!details && !$root.$data.global.loadingCreditCards" v-for="card in $root.$data.global.creditCards">
                         <div class="card-object">
                             <p class="copy-main font-md font-italic">
                                 <i class="fa fa-credit-card"></i>
-                                {{ card.brand }} **** **** **** {{ card.last4 }}
+                                {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
                             </p>
                         </div>
                         <div class="button-wrapper">
@@ -56,7 +59,7 @@
                     <Modal :active="deleteModalActive" :onClose="closeModal">
                         <div class="card-content-wrap">
                             <div class="inline-centered">
-                                <h1 class="title header-xlarge"><span class="text">Delete Credit Card</span></h1>
+                                <h1 class="header-xlarge"><span class="text">Delete Credit Card</span></h1>
                                 <p>Are you sure you want to permanently delete this credit card from your Harvey account?</p>
                             </div>
                             <div class="button-wrapper">
@@ -101,27 +104,34 @@ export default {
     },
     data() {
         return {
-            details: false,
-            firstName: '',
-            lastName: '',
-            month: '',
-            year: '',
-            cardNumber: '',
-            cardExpiry: '',
             cardCvc: '',
-            postalCode: '',
+            cardExpiry: '',
+            cardNumber: '',
+            currentCard: null,
+            deleteModalActive: false,
+            details: false,
             edit: false,
+            firstName: '',
+            formAction: null,
             invalidCC: false,
             invalidModalActive: false,
-            deleteModalActive: false,
-            currentCard: null,
-            notificationSymbol: '&#10003;',
-            notificationMessage: '',
+            lastName: '',
+            month: '',
+            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12'],
             notificationActive: false,
             notificationDirection: 'top-right',
-            formAction: null,
+            notificationMessage: '',
+            notificationSymbol: '&#10003;',
+            postalCode: '',
             sent: false,
-            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
+            user: {
+                attributes: {
+                    first_name: '',
+                    last_name: '',
+                },
+            },
+            user_id: this.$route.params.id,
+            year: ''
         }
     },
     methods: {
@@ -150,11 +160,12 @@ export default {
             this.month = e.target.value
         },
         deleteCard() {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
+            axios.delete(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = [];
-                    this.notificationMessage = "Successfully deleted!";
+                    this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = false;
                     setTimeout(() => this.notificationActive = false, 3000);
                 })
             this.closeModal()
@@ -167,7 +178,7 @@ export default {
             }
         },
         updateCard() {
-            axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
                 address_state: this.currentCard.address_state,
@@ -177,7 +188,7 @@ export default {
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
             .then(response => {
-                axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.cards
                         this.notificationMessage = "Successfully updated!";
@@ -193,13 +204,14 @@ export default {
             })
         },
         submitNewCard(token) {
-            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
+            axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {id: token})
                 .then(resp => {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                    axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.cards
                             this.$root.$data.global.loadingCreditCards = false;
@@ -207,6 +219,22 @@ export default {
                             this.sent = false;
                         })
                 })
+        },
+        getCards() {
+            this.$root.$data.global.loadingCreditCards = true;
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
+                this.$root.$data.global.creditCards = response.data.cards;
+                this.$root.$data.global.loadingCreditCards = false;
+            });
+        },
+        getUser() {
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id}`)
+                .then(response => {
+                  this.user = response.data.data;
+                })
+                .catch(error => {
+                    this.$router.push('/profile');
+                });
         },
         stripeForm() {
             let stripe = this.$root.$data.stripe;
@@ -252,10 +280,30 @@ export default {
                 });
             });
             this.formAction = form;
-        }
+        },
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
+        this.getCards();
+        if (this.user_id) {
+            this.getUser();
+        }
+    },
+    watch: {
+        _user_id(id) {
+            if (id && 'admin' === Laravel.user.user_type) {
+                this.user_id = id;
+                this.getUser();
+            } else {
+                this.user_id = null;
+            }
+            this.getCards();
+        }
+    },
+    computed: {
+        _user_id() {
+          return this.$route.params.id;
+        }
     }
 }
 </script>

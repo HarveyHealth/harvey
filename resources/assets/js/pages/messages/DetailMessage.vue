@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :senderId="sender_id" :header="subject" :id="user_id" />
             </div>
             <NotificationPopup
                 :active="notificationActive"
