@@ -115,6 +115,7 @@
 
         <div class="input__container">
           <label class="input__label" for="billing">Payment</label>
+            <router-link to="/settings" v-if="!latestCard || !latestCard.brand || !latestCard.last4">Add Credit Card</router-link>
             <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
             <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
         </div>
