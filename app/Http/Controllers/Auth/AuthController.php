@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Models\{Appointment, Patient, User};
 use App\Lib\zipCodeValidator;
 use App\Http\Controllers\Controller;
-use App\Events\{UserRegistered};
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Auth, Socialite;
 
 class AuthController extends Controller
@@ -73,6 +72,7 @@ class AuthController extends Controller
               'state' => $state,
           ]);
           $_user->save();
+          event(new UserRegistered($_user));
           $_user->patient()->save(new Patient());
           // Emit the user registration event for email send
           // event(new UserRegistered($_user));
