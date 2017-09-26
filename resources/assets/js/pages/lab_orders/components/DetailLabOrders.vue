@@ -180,7 +180,7 @@
             <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
             <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
           </div>
-          <router-link class="input__item right-column link-color" :to="`/profile/${patientuser}`">Edit Address</router-link>
+          <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
         </div>
 
         <!-- Payment -->
@@ -195,7 +195,7 @@
             <span class="input__item error-text">{{`No card on file.`}}</span>
           </div>
           <span v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item left-column error-text">Invoice not paid.</span>
-          <router-link class="input__item right-column link-color" :to="`/settings/${patientUser}`">{{`Edit Card`}}</router-link>
+          <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">{{`Edit Card`}}</router-link>
 
         </div>
 
@@ -241,7 +241,7 @@
             <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
             <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
           </div>
-          <router-link class="input__item right-column link-color" :to="`/profile/${patientUser}`">Edit Address</router-link>
+          <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
         </div>
 
         <!-- Mark as Shipped -->
