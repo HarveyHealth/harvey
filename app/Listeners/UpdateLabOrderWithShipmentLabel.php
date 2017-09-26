@@ -16,6 +16,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
         $labTests = $event->labOrder->labTests()->get();
+        $patientInfo = $event->labOrder->patient->user;
 
         foreach ($labTests as $labTest) {
           \Log::info('LabOrder has shipped with ' . $labTest->sku->id);
@@ -33,6 +34,21 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'country' => 'US',
           'phone' => '+1 800 690 9989',
           'email' => 'support@goharvey.com',
+          'test' => true,
+        );
+
+        // To Address
+        $toAddress = array(
+          'name' => $patientInfo->first_name . ' ' . $patientInfo->last_name,
+          'company' => '',
+          'street1' => $patientInfo->address_1,
+          'street2' => $patientInfo->address_2,
+          'city' => $patientInfo->city,
+          'state' => $patientInfo->state,
+          'zip' => $patientInfo->zip,
+          'phone' => $patientInfo->phone,
+          'email' => $patientInfo->email,
+          'test' => true,
         );
 
         /*
