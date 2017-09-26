@@ -148,7 +148,7 @@
         </div>
         <div class="button-wrapper">
           <button v-if="status !== 'Confirmed'" :disabled="disabled" class="button" @click="updateTests()">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Continue &amp; Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Continue <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
