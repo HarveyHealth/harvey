@@ -3,7 +3,7 @@
     :active="$parent.detailFlyoutActive" 
     :heading="flyoutHeading" 
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
 
     <!-- PATIENTS ONLY -->
@@ -12,7 +12,8 @@
 
       <!-- RECOMMENDED -->
 
-      <div v-if="step == 1">
+
+      <div v-if="$parent.step == 1">
 
         <!-- Doctor -->
 
@@ -69,8 +70,8 @@
       </div>
 
       <!-- RECOMMENDED / PAYMENT -->
-
-      <div v-if="step == 3">
+      
+      <div v-if="$parent.step == 3">
 
         <!-- Product List -->
 
@@ -133,7 +134,7 @@
 
       <!-- SHIPPED & BEYOND -->
 
-      <div v-if="step === 1">
+      <div v-if="$parent.step === 1">
 
         <!-- Client -->
 
@@ -227,6 +228,9 @@
 
         <!-- Master Tracking -->
 
+    <div v-if="$parent.step == 2">
+      <div v-for="test in testList">
+
         <div class="input__container">
           <label class="input__label">Master Tracking</label>
           <input v-model="masterTracking" class="input--text" type="text">
@@ -299,7 +303,6 @@
         year: '',
         disabled: true,
         masterTracking: '',
-        step: 1,
         address1: '',
         address2: '',
         newCity: '',
@@ -336,7 +339,7 @@
         this.disabled = _.isEmpty(this.labPatients) ? true : false
       },
       handleFlyoutClose() {
-        this.step = 1;
+        this.$parent.step = 1;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -353,14 +356,14 @@
         this.newState = e.target.value
       },
       stepThree() {
-        this.step = 3;
+        this.$parent.step = 3;
         this.flyoutHeading = 'Confirm Payment';
       },
       nextStep() {
-        this.step++;
+        this.$parent.step++;
       },
       prevStep() {
-        this.step = 1;
+        this.$parent.step = 1;
       },
       closeInvalidCC() {
         this.invalidCC = false;
@@ -593,12 +596,12 @@
       },
       testList() {
         if (!this.$props.rowData) return []
-        this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+        let results = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list
-        return this.$props.rowData.test_list
+        }] : this.$props.rowData.test_list.filter(e => e.current_status !== 'Canceled')
+        return results
       },
       patientTestList() {
         if (!this.$props.rowData) return {}
