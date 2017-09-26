@@ -64,7 +64,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button :disabled="!hasCard || !latestCard" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
       </div>
       </div>
@@ -162,7 +162,7 @@
           <span class="input__item">{{ status }}</span>
         </div>
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" :disabled="disabled" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -247,7 +247,6 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
-        disabled: true,
         patientPrice: 0,
         paid: {},
         patientLabTests: {},
@@ -272,13 +271,11 @@
         Object.values(this.labPatients).forEach(e => {
           price += eval(e.attributes.price);
         })
-        this.patientPrice = price;
-        this.disabled = false;
+        this.patientPrice = `${price}.00`;
       },
       handleFlyoutClose() {
         this.step = 1;
         this.$parent.selectedRowData = null;
-        this.disabled = true;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
       updateStatus(e) {
@@ -286,7 +283,6 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
-        this.disabled = false;
       },
       isEmpty(obj) {
         return _.isEmpty(obj);
@@ -325,7 +321,7 @@
                   let id = null;
                   this.$props.rowData.test_list.forEach(ele => {
                     if (e.attributes.name === ele.name) {
-                      id = ele.test_list;
+                      id = ele.test_id;
                     }
                   })
                   axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
@@ -335,7 +331,7 @@
                   let id = null;
                   this.$props.rowData.test_list.forEach(ele => {
                     if (e.attributes.name === ele.name) {
-                      id = ele.test_list;
+                      id = ele.test_id;
                     }
                   })
                   axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
@@ -494,6 +490,9 @@
       zip() {
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
+      disabled() {
+        return _.isEmpty(this.labPatients);
+      },
       stateList() {
         return ["State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
       },
@@ -538,11 +537,12 @@
         if (!this.$props.rowData) return {}
         let obj = {};
         this.$props.rowData.test_list.forEach(e => {
-          obj[e.name] = e.name;
+          obj[e.name] = e.test_id;
         })
         let objs = _.map(this.$root.$data.labTests, e => {
           e.patient = obj[e.attributes.name] ? true : false;
           e.checked = false;
+          e.test_id = obj[e.attributes.name];
           return e;
         })
         let returns = {}
@@ -553,6 +553,13 @@
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
+      }
+    },
+    watch: {
+      disabled(val) {
+        if (!_.isEmpty(this.labPatients)) {
+          return false;
+        }
       }
     }
   }
