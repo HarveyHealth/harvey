@@ -1,8 +1,8 @@
 <template>
-  <div class="input__container">
+  <div class="input__container" v-if="list.length">
     <span v-if="isLoading"></span>
     <SelectOptions v-else-if="editable && list.length"
-      :detached-label="time ? null : 'Select time'"
+      :detached-label="time ? null : 'Select Time'"
       :is-disabled="!times.length"
       :is-required="false"
       :options="times"

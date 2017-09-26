@@ -3,10 +3,18 @@
 /* Container used for styling the custom select, the buttom class below adds the
  * bg gradient, corners, etc. */
 .custom-select {
-  border: 1px solid $color-gray-0;
-  border-radius: 3px;
-  display: block;
-	position: relative;
+    border: 1px solid $color-gray-5;
+    border-radius: 3px;
+    display: block;
+    position: relative;
+    select {
+        &.disabled {
+            opacity: .9;
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
 }
 .custom-select.show-day-label:before,
 .custom-select.show-time-label:before,
@@ -19,10 +27,10 @@
   z-index: -10;
 }
 .custom-select.show-day-label:before {
-  content: 'Select day';
+  content: 'Select Day';
 }
 .custom-select.show-time-label:before {
-  content: 'Select time';
+  content: 'Select Time';
 }
 .custom-select.detached-label:before {
   content: attr(data-detached-label);
@@ -55,7 +63,7 @@
 .custom-select::after {
 	content: "\25be";
 	position: absolute;
-	top: 28%;
+	top: 24%;
 	right: 1em;
 	z-index: 2;
 	/* These hacks make the select behind the arrow clickable in some browsers */
@@ -93,12 +101,4 @@
 		-moz-appearance: none;
 		appearance: none;
 	}
-}
-
-.highlightCheckbox {
-	background-color: rgba(84, 166, 237, 0.6);
-}
-
-.highlightTextColor {
-	color: white;
 }

@@ -1,5 +1,5 @@
-body.home, body.about, body.lab-tests { // Eventually combine into a single Vue template
-    
+body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a single Vue template
+
     // General
 
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
@@ -265,7 +265,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
             display: inline-block;
             img {
                 margin: -20px 0;
-                width: 100%; 
+                width: 100%;
             }
         }
         form {
@@ -317,7 +317,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
     // How it Works
 
     #how-it-works {
-        
+
         .instructions{
             margin-bottom: 1rem;
         }
@@ -355,7 +355,7 @@ body.home, body.about, body.lab-tests { // Eventually combine into a single Vue 
     #stories, #advisors {
         a {
             &:focus {
-                outline: 0; 
+                outline: 0;
             }
         }
         .column {
