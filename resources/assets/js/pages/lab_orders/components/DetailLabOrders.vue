@@ -14,10 +14,17 @@
 
       <div v-if="step == 1">
 
+        <!-- Doctor -->
+
+        <div class="input__container">
+          <label class="input__label">Doctor</label>
+          <label class="input__item">{{ doctorName }}</label>
+        </div>
+
         <!-- Lab Tests -->
 
         <div class="input__container">
-          <label class="input__label first" for="patient_name">Lab Tests</label>
+          <label class="input__label first">Lab Tests</label>
           <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
           <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
           <div v-if="status === 'Recommended'">
@@ -30,12 +37,11 @@
           </div>
         </div>
 
+        <!-- Tracking -->
 
-        <!-- Doctor -->
-
-        <div class="input__container">
-          <label class="input__label">Doctor</label>
-          <label class="input__item">{{ doctorName }}</label>
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+          <label class="input__label">Master Tracking</label>
+          <label class="input__item">{{ shipmentCode }}</label>
         </div>
 
         <!-- Address -->
@@ -44,13 +50,6 @@
           <label class="input__label">Address</label>
           <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
-        </div>
-
-        <!-- Tracking -->
-
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label">Master Tracking</label>
-          <label class="input__item">{{ shipmentCode }}</label>
         </div>
 
         <!-- Status -->
@@ -143,6 +142,13 @@
           <span class="input__item">Patient Name</span>
         </div>
 
+        <!-- Doctor -->
+
+        <div class="input__container">
+          <label class="input__label">Doctor</label>
+          <span class="input__item">{{ doctorName }}</span>
+        </div>
+
         <!-- Lab Tests -->
 
         <div class="input__container">
@@ -161,15 +167,8 @@
         <!-- Master Tracking -->
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label" for="patient_name">Master Tracking</label>
+          <label class="input__label">Master Tracking</label>
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
-        </div>
-
-        <!-- Doctor -->
-
-        <div class="input__container">
-          <label class="input__label">Doctor</label>
-          <span class="input__item">{{ doctorName }}</span>
         </div>
 
         <!-- Address -->
@@ -187,7 +186,7 @@
         <!-- Payment -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label" for="patient_name">Payment</label>
+          <label class="input__label">Payment</label>
           <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined" class="left-column">
             <span class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</span>
             <span class="input__item">{{`Charged: $${price}.00`}}</span>
@@ -203,7 +202,7 @@
         <!-- Status -->
 
         <div class="input__container">
-          <label class="input__label" for="patient_name">Status</label>
+          <label class="input__label">Status</label>
           <span class="input__item">{{ status }}</span>
         </div>
 
@@ -221,7 +220,7 @@
       <div v-if="step == 2">
         <div v-for="test in testList">
           <div class="input__container">
-            <label class="input__label" for="patient_name">{{ test.name }}</label>
+            <label class="input__label">{{ test.name }}</label>
             <input v-model="shippingCodes[test.test_id]" class="input--text" type="text">
           </div>
         </div>
@@ -229,17 +228,19 @@
         <!-- Master Tracking -->
 
         <div class="input__container">
-          <label class="input__label" for="patient_name">Master Tracking</label>
+          <label class="input__label">Master Tracking</label>
           <input v-model="masterTracking" class="input--text" type="text">
         </div>
 
         <!-- Address -->
 
         <div class="input__container">
-          <span class="input__label" for="patient_name">Address</span>
-          <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
-          <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
-          <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
+          <span class="input__label">Address</span>
+          <div class="left-column">          
+            <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
+            <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
+            <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
+          </div>
           <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
         </div>
 
