@@ -1,15 +1,16 @@
 .checkout-container,
-.payment-container {
+.payment-container,
+.address-container {
     @include margin(0);
     .left-column {
-        width: 75%;
+        width: 70%;
         display: inline-block;
         float: left;
         @include margin(0 0 1em 0);
     }
 
     .right-column  {
-        width: 25%;
+        width: 30%;
         display: inline-block;
         @include margin(0 0 1em 0);
     }

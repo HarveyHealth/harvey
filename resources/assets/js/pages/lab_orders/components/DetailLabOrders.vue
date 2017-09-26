@@ -16,7 +16,7 @@
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
         <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-        <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color" disabled><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+        <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
         <div v-if="status === 'Recommended'">
           <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
             <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -27,20 +27,20 @@
         </div>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">Doctor</label>
+        <label class="input__label">Doctor</label>
         <label class="input__item">{{ doctorName }}</label>
       </div>
       <div v-if="status !== 'Recommended'" class="input__container">
-        <label class="input__label" for="patient_name">Address</label>
+        <label class="input__label">Address</label>
         <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
         <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
       </div>
       <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-        <label class="input__label" for="patient_name">Order Tracking</label>
+        <label class="input__label">Order Tracking</label>
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">Payment</label>
+        <label class="input__label">Payment</label>
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on file.`}}</label>
@@ -60,7 +60,7 @@
       </div>
       <div>
         <div class="input__container">
-          <label class="input__label" for="patient_name">Status</label>
+          <label class="input__label">Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
@@ -91,7 +91,7 @@
           </div>
         </div>
         <div class="input__container">
-          <label class="input__label" for="patient_name">Address</label>
+          <label class="input__label">Address</label>
             <input placeholder="Address 1" v-model="address1" class="input--text address" type="text">
             <input placeholder="Address 2" v-model="address2" class="input--text address" type="text">
             <input placeholder="City" v-model="newCity" class="input--text city" type="text">
@@ -118,11 +118,15 @@
 
     <div v-if="$root.$data.permissions !== 'patient'">
 
-      <!-- SHIPPED -->
+      <!-- SHIPPED & BEYOND -->
 
       <div v-if="step === 1">
         <div class="input__container">
-          <label class="input__label" for="patient_name">Lab Tests</label>
+          <label class="input__label">Client</label>
+          <span class="input__item">Patient Name</span>
+        </div>
+        <div class="input__container">
+          <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
             <a v-if="status === 'Recommended' || status === 'Confirmed'" href="#" class="input__label lab-test link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
@@ -134,14 +138,15 @@
           </div>
         </div>
         <div class="input__container">
-          <label class="input__label" for="patient_name">Doctor</label>
+          <label class="input__label">Doctor</label>
           <span class="input__item">{{ doctorName }}</span>
         </div>
-        <div class="input__container">
-          <label class="input__label" for="patient_name">Address</label>
-          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-          <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-          <label class="input__item">{{ zip && city && state && addressOne ? '' : 'Shipping Address' }}</label>
+        <div class="input__container address-container">
+          <span class="input__label">Address</span>
+          <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
+          <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
+          <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
+          <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
         </div>
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label" for="patient_name">Master Tracking</label>
@@ -181,11 +186,13 @@
         <label class="input__label" for="patient_name">Master Tracking</label>
         <input v-model="masterTracking" class="input--text" type="text">
       </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Address</label>
-        <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-        <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-        <label class="input__item error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</label>
+      <div class="input__container address-container">
+        <span class="input__label" for="patient_name">Address</span>
+        <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
+        <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
+        <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
+        <!-- TODO: Only make this show up when missing address -->
+        <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
       </div>
       <div class="inline-centered">
         <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
