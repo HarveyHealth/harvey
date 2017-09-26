@@ -18,8 +18,8 @@ class AddParcelInfoToSkusTable extends Migration
             $table->text('height')->after('slug')->nullable();
             $table->text('width')->after('slug')->nullable();
             $table->text('length')->after('slug')->nullable();
-            $table->text('distance_unit')->after('slug')->nullable();
-            $table->text('mass_unit')->after('slug')->nullable();
+            $table->string('distance_unit', 2)->after('slug')->nullable();
+            $table->string('mass_unit', 2)->after('slug')->nullable();
         });
 
         \App\Models\SKU::all()->map(function($sku) {
@@ -43,12 +43,7 @@ class AddParcelInfoToSkusTable extends Migration
     public function down()
     {
         Schema::table('skus', function (Blueprint $table) {
-            $table->dropColumn('weight');
-            $table->dropColumn('height');
-            $table->dropColumn('width');
-            $table->dropColumn('length');
-            $table->dropColumn('distance_unit');
-            $table->dropColumn('mass_unit');
+            $table->dropColumn(['weight', 'height', 'width', 'length', 'distance_unit', 'mass_unit']);
         });
     }
 }
