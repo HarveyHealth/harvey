@@ -180,7 +180,7 @@
             <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
             <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
           </div>
-          <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
+          <router-link class="input__item right-column link-color" :to="`/profile/${patientuser}`">Edit Address</router-link>
         </div>
 
         <!-- Payment -->
@@ -241,7 +241,7 @@
             <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
             <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
           </div>
-          <a class="input__item right-column link-color" href="/dashboard#/profile/12345">Edit Address</a>
+          <router-link class="input__item right-column link-color" :to="`/profile/${patientUser}`">Edit Address</router-link>
         </div>
 
         <!-- Mark as Shipped -->
