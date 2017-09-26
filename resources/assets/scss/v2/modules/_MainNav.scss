@@ -1,0 +1,69 @@
+.MainNav-conditions {
+  position: fixed;
+
+  .MainNav-Wrapper {
+    background: $color-fade-darker;
+    bottom: 0;
+    left: 0;
+    display: none;
+    padding-top: $space-lg;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+
+  &.is-open {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    .MainNav-Wrapper {
+      display: block;
+    }
+  }
+
+  @include zindex('MainNav');
+
+  a {
+    color: $color-white !important;
+    display: block;
+    font-size: $font-xl;
+    font-weight: $font-normal;
+    padding: $space-lg 0;
+    text-align: center;
+  }
+
+  .menu {
+    @extend %reset-button;
+
+    color: $color-white;
+    padding: $space-md;
+    position: fixed;
+    transition: color 200ms ease-in-out;
+    top: 0;
+    right: 0;
+
+    @include zindex('MainNav-menu');
+  }
+
+  @include query(md) {
+    &, .MainNav-Wrapper {
+      background: transparent;
+      display: block !important;
+      padding-bottom: $space-sm;
+      position: static;
+      text-align: center;
+    }
+    .MainNav-Wrapper a {
+      display: inline;
+      font-size: $font-lg;
+      font-weight: $font-thin;
+      padding: $space-md;
+    }
+    .menu {
+      display: none;
+    }
+  }
+
+}

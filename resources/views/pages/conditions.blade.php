@@ -26,7 +26,7 @@
         <script type="text/javascript" src="{{ mix('js/vendors/typekit.js') }}"></script>
 
     </head>
-    <body class="bg-blue-fade">
+    <body>
 
       @include('_includes.svgs')
 

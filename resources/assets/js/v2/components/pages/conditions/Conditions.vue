@@ -1,6 +1,21 @@
 <template>
   <div>
-    <ConditionsAll v-if="!State('conditions.condition')" />
+    <div class="bg-blue-fade"></div>
+    <div v-if="!State('conditions.condition')">
+      <MainNav :context="'conditions'" />
+      <div class="margin-0a max-width-xl pad-md color-white">
+        <div class="margin-0a max-width-icon">
+          <SvgIcon :id="'harvey-icon-white'" />
+        </div>
+        <div class="margin-0a max-width-lg font-centered space-children-lg">
+          <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to common medical conditions.</p>
+          <p>Harvey doctors hold the bold belief that with the right nutrition, lifestyle and environmental factors humans can prevent most chronic diseases. While integrative medicine has shown incredible success healing patients with a wide variety of medical issues, we are currently focused on just a few conditions.</p>
+          <p class="font-normal font-xl">Choose a symptom below to get started.</p>
+          <div class="margin-0a max-width-md" style="border-bottom: 1px solid white"></div>
+        </div>
+        <ConditionsAll class="space-top-xl" />
+      </div>
+    </div>
     <template v-else>
       <ConditionPreface v-if="!State('conditions.prefaceRead')" />
       <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
@@ -11,6 +26,8 @@
 </template>
 
 <script>
+import { Util } from '../../base';
+import Shared from '../../shared';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -23,6 +40,8 @@ export default {
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,
+    MainNav: Shared.MainNav,
+    SvgIcon: Util.SvgIcon,
     OutOfRange,
     VerifyZip,
   },

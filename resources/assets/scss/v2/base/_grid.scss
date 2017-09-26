@@ -36,5 +36,5 @@
 
 // Generate grid column classes as needed to keep the CSS output small
 @include generate-grid-columns(xs, 1, 2, md);
-@include generate-grid-columns(sm, 1, 3, md);
-@include generate-grid-columns(md, 1, 5, md);
+@include generate-grid-columns(md, 1, 3, md);
+@include generate-grid-columns(lg, 1, 5, md);
