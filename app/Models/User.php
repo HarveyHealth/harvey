@@ -37,7 +37,6 @@ class User extends Authenticatable implements Mailable
         'created_at',
         'email_verified_at',
         'enabled',
-        'intake_completed_at',
         'password',
         'phone_verified_at',
         'remember_token',
@@ -50,7 +49,6 @@ class User extends Authenticatable implements Mailable
     protected $dates = [
         'created_at',
         'email_verified_at',
-        'intake_completed_at',
         'phone_verified_at',
         'updated_at',
     ];
@@ -89,7 +87,15 @@ class User extends Authenticatable implements Mailable
 
     public function getTypeAttribute()
     {
-        return $this->userType();
+        if ($this->isPatient()) {
+            return 'patient';
+        } elseif ($this->isPractitioner()) {
+            return 'practitioner';
+        } elseif ($this->isAdmin()) {
+            return 'admin';
+        }
+
+        throw new Exception("Unable to determine user's type.");
     }
 
     public function getStateAttribute()
@@ -142,28 +148,6 @@ class User extends Authenticatable implements Mailable
     public function hasUpcomingAppointment()
     {
         return count($this->nextUpcomingAppointment()) == 1;
-    }
-
-    public function tests()
-    {
-        if ($this->isPatient()) {
-            return $this->hasManyThrough(Test::class, Patient::class);
-        } else {
-            return $this->hasManyThrough(Test::class, Practitioner::class);
-        }
-    }
-
-    public function userType()
-    {
-        if ($this->isPatient()) {
-            return 'patient';
-        } elseif ($this->isPractitioner()) {
-            return 'practitioner';
-        } elseif ($this->isAdmin()) {
-            return 'admin';
-        } else {
-            throw new Exception("Unable to determine type of User ID #{$this->id}.");
-        }
     }
 
     public function isPatient()

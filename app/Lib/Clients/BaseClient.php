@@ -2,6 +2,8 @@
 
 namespace App\Lib\Clients;
 
+use GuzzleHttp\Client;
+
 class BaseClient
 {
     protected $base_endpoint;
@@ -11,16 +13,7 @@ class BaseClient
 
     public function __construct($client = null)
     {
-        if (empty($client)) {
-            $client = new \GuzzleHttp\Client(['defaults' => $this->defaults()]);
-        }
-
-        $this->client = $client;
-    }
-
-    protected function client()
-    {
-        return $this->client;
+        $this->client = $client ?? $client = new Client(['defaults' => $this->defaults()]);;
     }
 
     protected function defaults()
@@ -31,35 +24,24 @@ class BaseClient
         ];
     }
 
-    public function get($call, $params = [], $headers = [])
+    public function get(string $call, array $params = [], array $headers = [])
     {
-        $client = $this->client();
-
-        $data = [];
         $data['query'] = array_merge($params, $this->params);
         $data['headers'] = array_merge($this->headers, $headers);
 
-        $response = $client->get($this->baseEndpoint($call), $data);
-
-        return $response;
+        return $this->client->get($this->baseEndpoint($call), $data);
     }
 
     public function post($call, $params = [], $headers = [])
     {
-        $client = $this->client();
-
-        $data = [];
         $data['body'] = array_merge($params, $this->params);;
         $data['headers'] = array_merge($this->headers, $headers);
 
-        $response = $client->post($this->baseEndpoint($call), $data);
-
-        return $response;
+        return $this->client->post($this->baseEndpoint($call), $data);
     }
 
     protected function baseEndpoint($call)
     {
-        $endpoint = trim($this->base_endpoint, '/') . '/';
-        return $endpoint . $call;
+        return trim($this->base_endpoint, '/') . "/{$call}";
     }
 }

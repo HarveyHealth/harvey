@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Routing\Controller;
 
 /*
@@ -46,9 +47,6 @@ Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests'
 // SIGNUP FUNNEL
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
-// INTAKE
-// Route::get('/intake', 'IntakeController@index')->name('intake');
-
-if (\App::environment(['local'])) {
-	Route::get('test', 'TestController@index');
+if (isLocal()) {
+    Route::get('test', 'TestController@index');
 }
