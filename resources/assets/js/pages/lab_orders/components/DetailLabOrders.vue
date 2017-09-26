@@ -64,7 +64,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
+          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
       </div>
       </div>
