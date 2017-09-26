@@ -285,6 +285,8 @@ const app = new Vue({
                         e['included'] = response.data.included[i]
                         return e;
                     })
+                })
+                .then(() => {
                     this.global.loadingLabTests = false
                 })
 
@@ -294,6 +296,8 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
+                })
+                .then(() => {
                     this.global.loadingTestTypes = false
                 })
         },
@@ -329,6 +333,8 @@ const app = new Vue({
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
                         this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
                     }
+                })
+                .then(() => {
                     this.global.loadingMessages = false
                 })
         },
@@ -336,6 +342,8 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
                 this.global.creditCards = response.data.cards
+            })
+            .then(() => {
                 this.global.loadingCreditCards = false;
             })
         },
@@ -362,6 +370,8 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
                 this.clientList = response.data.data
+            })
+            .then(() => {
                 this.global.loadingClients = false
             })
         },
