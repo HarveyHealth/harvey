@@ -21,7 +21,7 @@
           <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
             <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
               <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox">
-              {{ test.attributes.name }}{{ test.patient ? ' (Recommended)': '' }}
+              {{ test.attributes.name }} <i v-if="test.patient" class="fa fa-star" aria-hidden="true"></i>
             </label>
           </div>
         </div>
