@@ -5,11 +5,18 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
-                    <h1 class="title header-xlarge"><span class="text">Details</span></h1>
+                    <h1 class="heading-1">
+                      <span class="text">{{ subject }}</span>                      
+                    </h1>
+                    <h3 class="font-md copy-muted-2">
+                      <router-link to="/messages">
+                        <i class="fa fa-long-arrow-left"></i> Back to Messages
+                      </router-link>
+                    </h3>
                 </div>
             </div>
             <div :class="{flyout: true, isactive: renderReply}">
-                <Reply v-if="renderReply" :name="recipient_full_name" :header="subject" :id="user_id" />
+                <Reply v-if="renderReply" :name="recipient_id != your_id ? recipient_full_name : sender_name" :senderId="sender_id" :header="subject" :id="user_id" />
             </div>
             <NotificationPopup
                 :active="notificationActive"
@@ -18,27 +25,24 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message message-detail">
-                    <router-link to="/messages" style="position: relative; bottom: 30px; right: 30px;"><i class="fa fa-arrow-left"></i></router-link>
-                    <h2 class="message-reply-subject">{{ subject }}</h2>
-                    <div>
-                        <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
-                            <DetailPost
-                                :id="detail.id"
-                                :name="detail.attributes.sender_full_name"
-                                :day="detail.attributes.created_at.date"
-                                :time="detail.attributes.created_at.date"
-                                :timezone="detail.attributes.created_at.timezone"
-                                :header="detail.attributes.subject"
-                                :message="detail.attributes.message"
-                                :image="detail.attributes.sender_image_url"
-                                :userId="detail.attributes.recipient_user_id"
-                            />
-                        </div>
+                <div class="container-message">
+                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
+                      <DetailPost
+                        :id="detail.id"
+                        :name="detail.attributes.sender_full_name"
+                        :day="detail.attributes.created_at.date"
+                        :time="detail.attributes.created_at.date"
+                        :timezone="detail.attributes.created_at.timezone"
+                        :header="detail.attributes.subject"
+                        :message="detail.attributes.message"
+                        :image="detail.attributes.sender_image_url"
+                        :userId="detail.attributes.recipient_user_id"
+                        :yourId="your_id"
+                      />
                     </div>
-                </div>
-                <div class="container-reply inline-centered">
-                    <button class="button" @click="reply()">Reply</button>
+                    <div class="button-wrapper">
+                        <button class="button" @click="reply()">Reply</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,7 +59,7 @@
     import socket from './websocket'
     import _ from 'lodash'
     export default {
-        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name'],
+        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name', 'thread_id'],
         name: 'messages',
         components: {
           Preview,
@@ -70,6 +74,7 @@
               renderReply: false,
               isActive: null,
               user: this.userName,
+              your_id: window.Laravel.user.id,
               user_id: _.pull([this.$props.recipient_id, this.$props.sender_id], this.$root.$data.global.user.id)[0],
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
@@ -79,7 +84,7 @@
         },
         computed: {
             detailList() {
-                return this.$root.$data.global.detailMessages[this.$props.subject]
+                return this.$root.$data.global.detailMessages[this.$props.thread_id]
             }
         },
         methods: {
@@ -89,14 +94,20 @@
           reply() {
             this.renderReply = !this.renderReply
           },
+          highlights(user) {
+              return user === this.your_id;
+          },
+          makeThreadId(userOne, userTwo) {
+            return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
+          },
           userName() {
-              if (this.$root.$data.global.user.attributes.user_type === 'patient') {
+              if (this.$root.$data.permissions === 'patient') {
                   let arr = this.$root.$data.global.practitioners
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'practitioner') {
+              } else if (this.$root.$data.permissions === 'practitioner') {
                   let arr = this.$root.$data.global.patients
                   return arr.filter(e => e.id === this.$route.params.id)[0].name
-              } else if (this.$root.$data.global.user.attributes.user_type === 'admin') {
+              } else if (this.$root.$data.permissions === 'admin') {
                   let all = this.$root.$data.global.practitioners.concat(this.$root.$data.global.patients)
                   return all.filter(e => e.id === this.$route.params.id)[0].name
               }
@@ -105,7 +116,7 @@
         mounted() {
             let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
             channel.bind('App\\Events\\MessageCreated', (data) => {
-                let subject = data.data.attributes.subject
+                let subject = `${makeThreadId(data.data.attributes.sender_user_id, data.data.attributes.recipient_user_id)}-${data.data.attributes.subject}`;
                 let userId = this.$root.$data.global.user.id
                 this.$root.$data.global.detailMessages[subject].push(data.data)
                 this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
@@ -122,10 +133,10 @@
                     let data = {};
                     let userId = this.$root.$data.global.user.id
                     response.data.data.forEach(e => {
-                    data[e.attributes.subject] = data[e.attributes.subject] ?
-                        data[e.attributes.subject] :
-                        [];
-                    data[e.attributes.subject].push(e);
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
+                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
+                            [];
+                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
                     });
                     if (data) {
                         Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));

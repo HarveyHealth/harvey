@@ -2,8 +2,6 @@
   background: $white;
   border-left: 1px solid $color--grey;
   bottom: 0;
-  font-size: 16px;
-  font-weight: 300;
   max-width: 25em;
   overflow-y: auto;
   @include padding(3em 1.6em 2em);
@@ -49,10 +47,10 @@
     @include margin(null null 0.6em null);
   }
 
-  .title {
+  .title, h2 {
     border-bottom: 1px solid $light-gray;
     @include padding(null null 15px null);
-    @include margin(null null 30px null);
+    @include margin(15px null);
   }
 
 }

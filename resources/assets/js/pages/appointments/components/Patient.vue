@@ -1,18 +1,31 @@
 <template>
-  <div class="input__container" v-if="visible">
+  <div class="input__container" v-if="isVisible">
     <label class="input__label first">client</label>
     <SelectOptions v-if="editable"
-      :attached-label="'Select patient'"
+      :attached-label="'Select Client'"
       :is-loading="$root.$data.global.loadingPatients"
-      :loading-msg="'Loading patients...'"
+      :loading-msg="'Loading clients...'"
       :on-select="handleSelect"
       :options="list"
       :selected="name"
     />
-    <span v-else class="input__item patient-display">{{ name }}</span>
-    <div><a :href="'mailto:' + email">{{ email }}</a></div>
-    <div><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></div>
-    <p v-if="editable && address" v-html="address"></p>
+    <p v-else-if="isVisible && name">{{ name }}</p>
+    <div class="Flyout-SubSection" v-if="name">
+      <div>
+        <label class="font-xs font-uppercase font-normal copy-muted-2">Contact</label>
+        <p class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></p>
+      </div>
+      <div v-if="address" class="margin-top">
+        <label class="font-xs font-uppercase font-normal copy-muted-2">Location</label>
+        <p v-html="address"></p>
+      </div>
+      <div v-if="name" class="margin-top">
+        <label class="font-xs font-uppercase font-normal copy-muted-2">Payment</label>
+        <p v-if="hasCard" class="copy-good">Card Found</p>
+        <p v-else-if="userType !== 'patient'" class="copy-error">No billing info on record</p>
+        <p v-else><a href="/dashboard#/settings">Add Card</a></p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -23,6 +36,10 @@ import { phone } from '../../../utils/filters/textformat';
 export default {
   props: {
     address: String,
+    // flyout mode 'new' or 'edit'
+    context: String,
+    // Does the selected patient have a credit card confirmed?
+    hasCard: Boolean,
     // Are we displaying the given name, or allowing user to select one?
     editable: Boolean,
     // If a name is given from a selected row
@@ -36,11 +53,17 @@ export default {
     // What happens when a patient option is selected.
     // Function takes the selected patient data object
     setPatient: Function,
+    userType: String,
     // If we should display a patient name or options at all
-    visible: Boolean
+    isVisible: Boolean
   },
   components: {
     SelectOptions
+  },
+  computed: {
+    shouldShowPaymentError() {
+      return this.context === 'new' && this.hasCard === false && Laravel.user.user_type !== 'admin';
+    }
   },
   methods: {
     handleSelect(e) {

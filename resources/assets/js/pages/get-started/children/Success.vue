@@ -3,9 +3,9 @@
     <div class="success-wrapper mt-xl_lgH">
       <img class="success-icon" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="font-medium font-xlarge_md mt-md">{{ title }}</h1>
+      <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
 
-      <p class="font-base font-medium_md">
+      <p>
         <span class="confirmation_day">
           Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
           {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
@@ -28,9 +28,9 @@
         </div>
       </p>
 
-      <p class="font-base" v-html="note"></p>
+      <p v-html="note"></p>
 
-      <div class="text-centered mt-lg">
+      <div class="font-centered mt-lg">
         <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
         <a href="/dashboard" class="button button--cancel">Dashboard</a>
       </div>
@@ -38,9 +38,9 @@
 
     <Overlay :active="showModal" />
     <Modal :active="showModal" :on-close="() => showModal = false">
-      <h3 class="font-large">You are leaving Harvey!</h3>
-      <p class="fwt-normal lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
-      <p class="fwt-normal lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
+      <h3 class="heading-1">You are leaving Harvey!</h3>
+      <p class="lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
+      <p class="lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
       <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>
     </Modal>
 
@@ -97,7 +97,7 @@ export default {
       this.showModal = true;
     },
     sendToIntake() {
-      if (this.$root.$data.environment === 'production' || this.$root.$data.environment === 'prod') {
+      if (this.$root.isOnProduction()) {
         // place intake tracking here
       }
     }

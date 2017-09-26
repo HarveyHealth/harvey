@@ -58,7 +58,7 @@ class LabTestsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        if (currentUser()->isNotAdmin()) {
+        if (currentUser()->cant('create', LabTest::class)) {
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
         }
 
@@ -81,6 +81,7 @@ class LabTestsController extends BaseAPIController
 
         StrictValidator::checkUpdate($request->all(), [
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
+            'shipment_code' => 'filled|string',
         ]);
 
         $labTest->update($request->all());

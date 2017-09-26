@@ -1,0 +1,107 @@
+////
+/// @group colors
+////
+
+// Primary Colors (soft background colors)
+
+// Nevada: #5F7278
+// Tasman: #BDCEBE
+// Lola: #D6CBD3
+// Nebula: #D5E1DF
+
+// Secondary Colors (bold background colors)
+
+// Fiord: #4C586F
+// Camouflage Green: #849974
+// Silver Rust: #CBC5C1
+// Casper: #A1BBD0
+
+// Font Colors (font and text colors)
+
+// Boulder: #777777
+// Mine Shaft: #444444
+// Nevada: #5F7278
+// Gull Gray: #9AABB9
+
+// Splash Colors (bright accent and link colors)
+
+// Feijoa: #B4E7A0
+// Jordy Blue: #82BEF2
+// Rose Fog: #E3BAB3
+
+// Brand
+
+$fiord: #4C586F;
+$lime: #E3EAA7;
+$pink: #EDA1A6;
+$brown: #ADA397;
+$purple: #BAA7B5;
+$turquoise: #82BEF2;
+$camouflage: #849974;
+$slategrey: #5F7278;
+$casper: #A1BBD0;
+$green: #BDCEBE;
+$red: #FF0000;
+
+/// Accent color for use in CTAs
+$color-accent:	#82bef2;
+
+/// Dark version of accent
+$color-accent-dark: #54a6ed;
+
+/// Darker version of accent used for hover/active state
+$color-accent-darker: #3486cd;
+
+/// Used for alert boxes that prompt the user with an action
+$color-alert: #6d859a;
+
+/// Used for calling attention to something (not used often)
+$color-callout: #e0aaa6;
+
+/// Default font color defined globally
+$color-copy: #5f7278;
+
+/// Used for alternative colored text
+$color-copy-alt: #e3bab3;
+
+/// Typically used for subheadings
+$color-copy-muted-1: #8fa2a8;
+
+/// Used for inactive states or subtext comments, etc.
+$color-copy-muted-2:	#b0bcc0;
+
+/// Used for error messages, cancelation, regression, etc.
+$color-error:	#ed4146;
+
+/// Used for dark overlays like the Overlay
+$color-fade-dark: rgba(0, 0, 0, 0.3);
+
+/// Used for light overlays or transparent backgrounds
+$color-fade-light: rgba(255, 255, 255, 0.75);
+
+/// Used for muted fonts on darker backgrounds
+$color-fade-light-muted: rgba(255, 255, 255, 0.4);
+
+/// Used for success notifications or positive feedback
+$color-good: #b4e7a0;
+
+// White
+$color-white:   #ffffff;
+
+/// Backgrounds
+$color-gray-0:	#f9f9f9;
+
+/// Darker backgrounds
+$color-gray-1:  #f5f5f5;
+
+/// Dividers
+$color-gray-2:  #f2f2f2;
+
+/// Darker dividers
+$color-gray-3:	#fafafa;
+
+/// Even darker dividers
+$color-gray-4:  #eeeeee;
+
+// Text border
+$color-gray-5: #e4eaec;

@@ -55,6 +55,9 @@ if (context === 'get-started' && loggedIn) {
     { path: 'schedule',
       name: 'schedule',
       component: require('./pages/get-started/children/Schedule.vue') },
+    { path: 'payment',
+      name: 'payment',
+      component: require('./pages/get-started/children/Payment.vue') },
     { path: 'confirmation',
       name: 'confirmation',
       component: require('./pages/get-started/children/Confirmation.vue') },
@@ -110,6 +113,10 @@ let routes = [
     },
     {
         path: '/settings',
+        component: require('./pages/settings/Settings.vue')
+    },
+    {
+        path: '/settings/:id',
         component: require('./pages/settings/Settings.vue')
     },
     {

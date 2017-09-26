@@ -172,7 +172,7 @@ body {
     }
     &.home,
     &.about,
-    &.lab-tests,
+    &[class*="lab-tests"], // to account for new routes
     &.404 {
         .header.is-inverted {
             background-color: transparent;

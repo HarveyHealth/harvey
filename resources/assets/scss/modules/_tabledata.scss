@@ -7,7 +7,7 @@
 
   .loading {
     width: 20px;
-    fill: darken($color--grey, 65%);
+    fill: $color-copy;
     left: 50%;
     top: 50%;
     position: absolute;
@@ -18,12 +18,10 @@
 
   td {
     background: $white;
-    border-right: 1px solid $color--grey;
-    border-left: 1px solid $color--grey;
+    border-right: 1px solid $color-gray-0;
+    border-left: 1px solid $color-gray-0;
     cursor: pointer;
     display: block;
-    font-size: 14px;
-    font-weight: 300;
     transition: color 200ms;
     width: 100%;
     position: relative;
@@ -32,11 +30,10 @@
     }
 
     &:first-child {
-      //border-top: 1px solid $color--grey;
       @include padding(1.5em null null null);
     }
     &:last-child {
-      border-bottom: 1px solid $color--grey;
+      border-bottom: 1px solid $color-gray-0;
       @include margin(null null 16px null);
       @include padding(null null 1.5em null);
     }
@@ -47,12 +44,8 @@
   }
 
   th {
-    background: $lightest-gray;
-    color: lighten($gray, 10%);
+    background: $color-gray-1;
     display: none;
-    font-size: 0.85em;
-    font-weight: 500;
-    text-transform: uppercase;
   }
 
   th, td {
@@ -62,8 +55,14 @@
   }
 
   tbody {
-    tr:hover {
-      opacity: .70;
+    tr {
+      td {
+        opacity: .70;
+        &.copy-muted {
+          opacity: 1;
+          cursor: auto;
+        }
+      }
     }
   }
 
@@ -73,8 +72,7 @@
       opacity: 1;
     }
     td {
-        background: lighten($harvey-primary,15%);
-        color: darken($gray, 10%);
+        background: lighten($color-accent,15%);
       }
   }
 
@@ -83,7 +81,7 @@
     color: darken($color--grey, 15%);
 
     & i {
-      color: darken($color--grey, 65%);
+      color: $color-copy;
       font-size: 22px;
       left: 50%;
       position: absolute;
@@ -91,13 +89,7 @@
   }
 
   tr.has-updated td {
-    // border-color: darken($color--grey, 65%);
     background: $color--grey;
-    color: darken($color--grey, 65%);
-    // font-weight: bold;
-    // @include query(lg) {
-    //   border-top: 1px solid;
-    // }
   }
 
   .cell-wrap:before {
@@ -136,12 +128,15 @@
   & {
     @include padding(0);
   }
+  thead th {
+    @include padding(10px 20px);
+  }
   th, td {
     border: none;
-    border-bottom: 1px solid $color--grey;
+    border-bottom: 1px solid $color-gray-5;
     display: table-cell;
     width: auto;
-    @include padding(25px);
+    @include padding(20px);
   }
   td {
     font-size: 16px;
@@ -159,7 +154,7 @@
   font-size: 14px;
   @include margin(null null null 90px);
 }
-@include query(lg) {
+@include query(md) {
   .tabledata.appointments-table {
     @include normalTableStyles;
   }

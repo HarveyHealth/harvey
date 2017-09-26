@@ -3,19 +3,18 @@
     <div class="appointment_left">
       <template v-if="user_type == 'admin'">
         <p v-text="fullName"></p>
-        <p class="appointment_doctor">Dr. {{ appointment.attributes.practitioner_name }}</p>
+        <p>Dr. {{ appointment.attributes.practitioner_name }}</p>
       </template>
       <template v-else-if="user_type == 'practitioner'">
         <p v-text="fullName"></p>
       </template>
       <template v-else>
-        <p class="appointment_doctor">Dr. {{ appointment.attributes.practitioner_name }}</p>
+        <p>Dr. {{ appointment.attributes.practitioner_name }}</p>
       </template>
     </div>
     <div class="appointment_right">
-      <div class="box">
+      <div>
         <router-link
-          class="appointment_date"
           :to="{ name: 'appointments', params: { appt_id: appointment.id } }"
         >{{ localAppointmentTime }}</router-link>
       </div>

@@ -252,6 +252,7 @@ class PractitionerAvailability
         }
 
         ksort($slots);
+
         return array_keys($slots);
     }
 

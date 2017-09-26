@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="card-heading-container">
-        <h2 class="card-header">Upcoming Appointments</h2>
+        <h2 class="heading-2">Upcoming Appointments</h2>
         <a href="/dashboard#/appointments">View Appointments</a>
       </div>
       <div class="card-content-container">
@@ -16,25 +16,7 @@
             </div>
         </template>
         <div v-else class="card-empty-container">
-            <p>You have no upcoming appointments.</p>
-        </div>
-        <div class="card-heading-container">
-            <h2 class="card-header">Recent Appointments</h2>
-            <!-- <a href="/dashboard#/history">View History</a> -->
-        </div>
-        <template v-if="recentAppointmentsData && recentAppointmentsData.length">
-            <div class="appointment-wrapper" v-for="(appointment, index) in recentAppointmentsData">
-                <DashboardAppointment
-                    v-if="dayOffset(appointment, 7)"
-                    :appointment="appointment"
-                    :user-type="userType"
-                    :patient-data="getIncludedPatient(recentAppointmentsIncluded, appointment)"
-                >
-              </DashboardAppointment>
-            </div>
-        </template>
-        <div v-else class="card-empty-container">
-            <p>You have no appointment history.</p>
+            <p class="copy-muted-2 font-italic">You have no upcoming appointments.</p>
         </div>
       </div>
     </div>
@@ -45,7 +27,7 @@
     import moment from 'moment';
 
     export default {
-        props: ['userType', 'recentAppointments', 'upcomingAppointments'],
+        props: ['userType', 'upcomingAppointments'],
         components: {
             DashboardAppointment,
         },
@@ -83,16 +65,6 @@
             }
         },
         computed: {
-            recentAppointmentsData() {
-              if (this.recentAppointments.data && this.recentAppointments.data.length) {
-                return this.recentAppointments.data.reverse();
-              } else {
-                return [];
-              }
-            },
-            recentAppointmentsIncluded() {
-                return this.recentAppointments.included;
-            },
             upcomingAppointmentsData() {
               if (this.upcomingAppointments.data && this.upcomingAppointments.data.length) {
                 return this.upcomingAppointments.data.filter(obj => {

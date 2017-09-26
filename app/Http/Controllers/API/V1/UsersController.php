@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API\V1;
 use App\Events\{OutOfServiceZipCodeRegistered, UserRegistered};
 use App\Lib\{PhoneNumberVerifier, Validation\StrictValidator, ZipCodeValidator};
 use App\Models\{Patient, User};
-use App\Transformers\V1\UserTransformer;
+use App\Transformers\V1\{CreditCardTransformer, UserTransformer};
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use ResponseCode;
+use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
@@ -59,7 +59,7 @@ class UsersController extends BaseAPIController
             $query = $query->orderBy('created_at', $order[1] ?? false);
         }
 
-        return $this->baseTransformBuilder($query, request('include'), new UserTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($query, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     public function create(Request $request)
@@ -82,6 +82,7 @@ class UsersController extends BaseAPIController
         if ($validator->fails()) {
             $this->setApiProblemType($validator);
 
+            // Error handling for zip code
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
 
@@ -98,7 +99,7 @@ class UsersController extends BaseAPIController
                 return response()->apiproblem($output, $this->getStatusCode());
             }
 
-            return $this->respondBadRequest($validator->errors()->first());
+            return $this->respondBadRequest(['message' => $validator->errors()->first()]);
         }
 
         try {
@@ -112,7 +113,7 @@ class UsersController extends BaseAPIController
             $user->patient()->save(new Patient());
 
             return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
     }
@@ -152,7 +153,7 @@ class UsersController extends BaseAPIController
             'phone' => 'max:10|unique:users',
             'state' => 'max:2',
             'timezone' => 'max:75',
-            'zip' => $user->isPractitioner() ? 'digits:5' : 'digits:5|serviceable',
+            'zip' => $user->isAdminOrPractitioner() ? 'digits:5' : 'digits:5|serviceable',
         ], [
             'serviceable' => 'Sorry, we do not service this :attribute.'
         ]);
@@ -177,7 +178,7 @@ class UsersController extends BaseAPIController
 
     public function sendVerificationCode(Request $request, User $user)
     {
-        if (currentUser()->id != $user->id && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => 'Verification code not sent.'], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -196,16 +197,109 @@ class UsersController extends BaseAPIController
             'image' => 'required|dimensions:max_width=300,max_height=300',
         ]);
 
-        try{
+        try {
             $image = $request->file('image');
             $imagePath = 'profile-images/' . time() . $image->getFilename() . '.' . $image->getClientOriginalExtension();
             Storage::cloud()->put($imagePath, file_get_contents($image), 'public');
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             return $this->respondWithError('Unable to upload profile image. Please try again later');
         }
 
         $user->update(['image_url' => Storage::cloud()->url($imagePath)]);
 
         return $this->baseTransformItem($user)->respond();
+    }
+
+    public function addCard(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check($request->all(), [
+            'id' => 'required|regex:/^tok_.*/',
+        ]);
+
+        if (!$card = $user->addCard(request('id'))) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_CREATED);
+    }
+
+    public function deleteCard(Request $request, User $user, string $cardId)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        $responseCode = $user->deleteCard($cardId) ? ResponseCode::HTTP_NO_CONTENT : ResponseCode::HTTP_SERVICE_UNAVAILABLE;
+
+        return response()->json([], $responseCode);
+    }
+
+    public function updateCard(Request $request, User $user, string $cardId)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        StrictValidator::checkUpdate($request->all(), $validKeys = [
+            'address_city' => 'sometimes',
+            'address_country' => 'sometimes',
+            'address_line1' => 'sometimes',
+            'address_line2' => 'sometimes',
+            'address_state' => 'sometimes',
+            'address_zip' => 'sometimes',
+            'exp_month' => 'sometimes|numeric|between:1,12',
+            'exp_year' => 'sometimes|digits:4',
+            'name' => 'sometimes',
+        ]);
+
+        if (!$card = $user->updateCard($cardId, $request->intersect(array_keys($validKeys)))) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_OK);
+    }
+
+    public function getCard(Request $request, User $user, string $cardId)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        StrictValidator::check(['card_id' => $cardId], [
+            'card_id' => 'required|regex:/^card_.*/',
+        ]);
+
+        if (!$card = $user->getCard($cardId)) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "users/{$user->id}/card";
+
+        return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_CREATED);
+    }
+
+    public function getCards(Request $request, User $user)
+    {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+            return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
+        }
+
+        return response()->json(['cards' => $user->getCards()->toArray()]);
     }
 }

@@ -192,11 +192,11 @@
                     <em>Avoided unnecessary surgery.</em>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/layne.jpg" alt="">
+                    <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img src="/images/home/lisa.jpg" alt="">
                     </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne's Story</strong></p>
-                    <em>Discovered high levels of mercury.</em>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
+                    <em>Found a natural remedy for chronic pain.</em>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>

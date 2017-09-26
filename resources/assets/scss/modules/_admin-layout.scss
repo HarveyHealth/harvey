@@ -67,14 +67,14 @@ $backoffice-grid: (
   }
 
   .main-header .main-action {
-    height: 36px;
-    margin-top: -10px;
+    height: 35px;
+    width: 35px;
     position: static !important;
-    width: 36px;
+    margin-top: -5px;
 
     svg {
-      height: 18px;
-      width: 18px;
+      height: $font-md;
+      width: $font-md;
     }
   }
 

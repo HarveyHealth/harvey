@@ -2,7 +2,7 @@
   <div class="main-container">
     <UserNav />
 
-      <div v-if="$root.$data.global.user.attributes.user_type !== 'patient'">
+      <div v-if="$root.$data.permissions !== 'patient'">
         <div v-if="step == 1">
           <div class="main-content">
             <form class="form">
@@ -132,11 +132,11 @@
         </div>
       </div>
 
-      <div v-if="$root.$data.global.user.attributes.user_type === 'patient'">
+      <div v-if="$root.$data.permissions === 'patient'">
         <div class="main-content">
           <div class="main-header">
             <div class="container container-backoffice">
-              <h1 class="title header-xlarge">
+              <h1 class="header-xlarge">
                 <span class="text">Records</span>
               </h1>
             </div>

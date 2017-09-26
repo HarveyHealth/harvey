@@ -2,12 +2,13 @@
     <div id="vertical-tabs" class="columns is-gapless vertical-tabs">
         <div class="column is-3 tabs-navigation">
             <aside class="menu">
-                <ul class="menu-list">  
+                <ul class="menu-list">
                     <li class="menu-label">Choose Test</li>
                     <li v-for="tabData in tabList">
                         <a
                             :class="{'is-active': tabData.id === activeTab}"
                             @click="setActiveTab(tabData)"
+                            :data-url="tabData.url"
                         >{{ tabData.label }}</a>
                     </li>
                 </ul>
@@ -26,8 +27,13 @@
         data() {
             return {
                 tabList: {},
-                activeTab: null
+                activeTab: `tab-${this.loadWithId}` || null,
+                currentUrl: null,
+                previousTab: null,
             }
+        },
+        props: {
+            loadWithId: String,
         },
         methods: {
             updateTab(tabData) {
@@ -37,6 +43,14 @@
             },
             setActiveTab(tabData) {
                 this.activeTab = tabData.id;
+                this.currentUrl = tabData.url;
+
+                if (this.currentUrl) {
+                  window.history.pushState({ tab: this.previousTab }, null, this.currentUrl);
+                }
+
+                // remember the previous tab
+                this.previousTab = tabData;
             },
             getTabIndex(id) {
                 const idList = Object.keys(this.tabList);
@@ -53,11 +67,17 @@
         mounted() {
             this.$nextTick(() => {
                 if (Object.keys(this.tabList).length && !this.activeTab) {
-                    let firstTab = Object.keys(this.tabList)[0];
-
+                    const firstTab = Object.keys(this.tabList)[0];
                     this.setActiveTab(this.tabList[firstTab]);
                 }
-            })
+            });
+
+            window.onpopstate = (e) => {
+              const firstTab = Object.keys(this.tabList)[0];
+              const historyTab = e.state.tab || this.tabList[firstTab];
+
+              this.setActiveTab(historyTab);
+            };
         }
     }
 </script>

@@ -1,0 +1,55 @@
+// Sizes
+%font-xs {
+  font-size: 12px;
+}
+%font-sm {
+  font-size: 14px;
+}
+%font-md {
+  font-size: 16px;
+}
+%font-lg {
+  font-size: 18px;
+}
+%font-xl {
+  font-size: 24px;
+}
+%font-xxl {
+  font-size: 32px;
+}
+
+// Weight
+%font-thin {
+  font-weight: $font-thin;
+}
+%font-normal {
+  font-weight: $font-normal;
+}
+%font-bold {
+  font-weight: $font-bold;
+}
+
+// Alignment
+%font-centered {
+  text-align: center;
+}
+%font-right {
+  text-align: right;
+}
+%font-left {
+  text-align: left;
+}
+
+// Util
+%font-italic {
+  font-style: italic;
+}
+%font-smooth {
+  -webkit-font-smoothing: antialiased;
+}
+%font-spaced {
+  letter-spacing: 1px;
+}
+%font-uppercase {
+  text-transform: uppercase;
+}

@@ -1,0 +1,38 @@
+.heading-1,
+.heading-2,
+.heading-3 {
+  @extend %font-smooth;
+  line-height: $line-height-sm;
+  margin: 0;
+  padding: 0;
+}
+
+.heading-1 {
+  @extend %font-xl;
+  @extend %font-normal;
+  color: $color-copy;
+  @include query(sm) {
+    font-size: $font-xxl;
+  }
+}
+
+.heading-2 {
+  @extend %font-sm;
+  @extend %font-bold;
+  @extend %font-spaced;
+  @extend %font-uppercase;
+  color: $color-copy-muted-1;
+}
+
+.heading-3 {
+  @extend %font-lg;
+  @extend %font-normal;
+  color: $color-copy;
+}
+
+.heading-3-expand {
+  @extend .heading-3;
+  @include query(md) {
+    font-size: $font-xl;
+  }
+}

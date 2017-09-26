@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use App\Http\Traits\BelongsToPatientAndPractitioner;
-use App\Http\Traits\HasStatusColumn;
-use App\Models\LabTest;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
+use App\Models\{LabTest, SKU};
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
 class LabOrder extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner;
+    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -49,5 +47,42 @@ class LabOrder extends Model
     public function labTests()
     {
         return $this->hasMany(LabTest::class);
+    }
+
+    public function dataForInvoice()
+    {
+        $labTests = $this->labTests()->notCanceled()->get();
+
+        if ($labTests->isEmpty()) {
+            return [];
+        }
+
+        $invoiceData = [
+            'patient_id' => $this->patient_id,
+            'practitioner_id' => $this->practitioner_id,
+            'discount_code_id' => $this->discount_code_id,
+            'invoice_items' => [],
+            'description' => "Lab Tests order #{$this->id} on " . date('n/j/Y'),
+        ];
+
+        foreach ($labTests as $labTest) {
+            $invoiceData['invoice_items'][] = [
+                'amount' => $labTest->sku->price,
+                'description' => "{$labTest->sku->name} Test",
+                'item_class' => get_class($labTest),
+                'item_id' => $labTest->id,
+                'sku_id' => $labTest->sku->id,
+            ];
+        }
+
+        $sku = SKU::findBySlugOrFail('processing-fee-self');
+
+        $invoiceData['invoice_items'][] = [
+            'amount' => $sku->price,
+            'description' => $sku->name,
+            'sku_id' => $sku->id,
+        ];
+
+        return $invoiceData;
     }
 }

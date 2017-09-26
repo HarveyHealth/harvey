@@ -2,30 +2,82 @@
 .signup-content {
   text-align: center;
   @include padding(50px null null null);
+  @include padding(25px 0 0);
   @include margin(null null 60px null);
-  h2 {
-    font-size: 30px;
-  }
 }
 
 .signup-container {
   background: $white;
+  position: relative;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  position: relative;
-  @include padding(30px 25px);
-  @include margin(0 0 2px);
+  @include padding(30px);
+  @include margin(0 auto 5px);
+
+  &.small {
+    max-width: 500px;
+  }
+  &.large {
+    max-width: 770px;
+  }
+  &.naked {
+    @include margin(3em auto 5px);
+  }
+  &.router {
+    @include padding(60px 30px 30px 30px);
+  }
+  p {
+    @include margin(1em 0);
+  }
+
+  // Main Signup Page
+
+  &.signup {
+    h1 {
+      @include margin(0 0 1em);
+    }
+    .form-label {
+      .form-input_checkbox {
+        @include margin(4px 10px 0 0);
+      }
+    }
+  }
+
+  // We should merge these at some point
+
+  .error-text, .copy-error {
+    width: 100%;
+    line-height: 1.3;
+    @include margin(0);
+    @include padding(10px 0 0);
+    text-align: left;
+    .flyout & {
+      text-align: left;
+    }
+  }
+
+  .button {
+    @include margin(.5em null null);
+  }
+
 }
+
+// Signup Back Button
+
 .signup-back-button {
-  position: absolute;
-  top: 0;
-  left: 3px;
-  padding: 20px;
-  transition: left 200ms ease-out, opacity 200ms ease-out;
   opacity: .7;
+  position: absolute;
+  top: 0; left: 0;
+  @include padding(20px);
+  transition: opacity 200ms ease-out;
+
+  i {
+    left: 3px;
+    position: relative;
+    transition: left 200ms ease-out;
+  }
 
   span {
-    font-size: 14px;
     display: inline-block;
     margin-left: 10px;
     position: relative;
@@ -33,64 +85,29 @@
   }
 
   &:hover {
-    left: 0;
-    color: $harvey-tertiary;
+    color: $turquoise;
     opacity: 1;
-  }
-}
 
-.signup-form-container,
-.signup-interstitial-container {
-  max-width: 510px;
-  h1 {
-    font-size: 32px;
-    padding: 0 20px 20px;
-  }
-  @include query(md) {
-    @include padding(40px 70px);
-  }
-  &.large {
-    max-width: 775px;
-    @include padding(30px);
-    @include query(md) {
-      @include padding(60px 75px);
+    i {
+      left: 0;
     }
   }
 }
 
-.signup-interstitial-container *:not(:first-child) {
-  @include margin(22px null null);
-}
-
-.signup-interstitial-container {
-  @include margin(3px auto 3px);
-  @include query(md) {
-    @include margin(50px null null);
-    max-width: 550px;
-  }
-
-  h2 {
-    font-weight: 600;
-  }
-}
+// Signup Icons
 
 .signup-main-icon {
-  @include margin(0 auto);
-  fill: #ddd;
-  width: 70px;
-  @include query(md) {
-    width: 100px;
-    height: 130px;
-    margin-top: 0 !important;
-  }
+  width: 100px;
+  height: 100px;
+  @include margin(0 auto 2em);
+  fill: $color-gray-1;
 
   svg {
     width: 100%;
-  }
-
-  .icon-rocket,
-  .icon-globe {
-    height: 80px;
+    height: 100%;
+    &#rocket {
+      height: 120px;
+    }
   }
 
   .icon-phone-sms {
@@ -103,12 +120,9 @@
     height: 100px;
   }
 
-  .interstitial-icon {
-    @include query(md) {
-      height: auto;
-    }
-  }
 }
+
+// Social Icons
 
 .social-icon-wrapper a {
   display: inline-block;
@@ -120,73 +134,44 @@
   }
 }
 
-.signup-stage-container {
-  max-width: 740px;
-  @include margin(0 auto 2px);
-  @include padding($space-sm $space-sm $space-lg);
+// Signup Header
 
-  .error-text {
-    width: 80%;
-    line-height: 1.3;
-    @include padding(10px);
-  }
-}
 .signup-stage-instructions {
   max-width: 540px;
-  @include margin(0 auto);
+  @include margin(0 auto 22px);
 
   p {
     @include margin(15px 0 30px);
   }
 }
 
-// =============== old
-
-  .message-container-interstitial {
-    margin-bottom: 25px;
-  }
-
-a:active,
-a:focus,
-a:hover {
-  color: $harvey-secondary;
-}
-
-// Registration specific styles
-.registration-tree, .interstitial {
-  @include margin(null null 25px null);
-  max-width: 470px;
-  width: 100%;
-}
-
-.interstitial {
-  @include margin(20px null null null);
-}
 
 // Progress Indicator
+
 .signup_progress-indicator {
   @include margin(25px 0);
   text-align: center;
 }
-  .signup_progress-step {
-    background: #DDD;
-    border-radius: 50%;
-    display: inline-block;
-    height: 18px;
-    @include margin(null 10px null null);
-    width: 18px;
 
-    &:last-child {
-      @include margin(null 0 null null);
-    }
+.signup_progress-step {
+  background: #DDD;
+  border-radius: 50%;
+  display: inline-block;
+  height: 18px;
+  @include margin(null 10px null null);
+  width: 18px;
 
-    &.current {
-      background: $gray;
-    }
+  &:last-child {
+    @include margin(null 0 null null);
   }
 
+  &.current {
+    background: $gray;
+  }
+}
 
 // Checked Radio
+
 .radio-block {
   @include margin(null null 40px null);
   width: 100%;
@@ -219,194 +204,28 @@ a:hover {
   opacity: 0;
 }
 
-// Input fields
+.closing-selection{
+  @include margin(1em null 1.5em);
+  span {
+    background: $color-gray-0;
+    @include padding(.25em 0.4em);
+    border-radius: 5px;
+  }
+}
+
+// Input Fields
 
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
-    outline: none;
+  outline: none;
 }
 
-
-// Calendar
-.calendar-block {
-  @include margin(null null 55px null);
-  width: 100%;
-  @media (min-width: 850px) { width: 50%; }
-
-  &:not(:last-child) {
-    @include margin(null null 55px null);
-    @include margin(null 50px null null);
-  }
-}
-  .calendar-block_container {
-    background-color: $lightest-gray;
-    border: 1px solid #EFEFEF;
-    border-radius: 5px;
-    height: 100%;
-    @include padding(25px 35px);
-  }
-    .calendar-main-content  {
-      border-bottom: 1px solid $gray;
-      @include margin(null null 25px null);
-      @include padding(null null 25px null);
-    }
-
-      .calendar-week-container small {
-        display: block;
-        text-align: center;
-      }
-        .calendar-week-container_title-wrapper {
-          border-bottom: 1px solid #ccc;
-          @include margin(20px null null null);
-          @include padding(null null 10px null);
-        }
-          .calendar-week-container_title {
-            display: inline-block;
-            font-size: 15px;
-            @include margin(null null 0 null);
-          }
-          .calendar-week-container_date {
-            display: inline-block;
-            float: right;
-            font-size: 10px;
-            line-height: 2.5;
-          }
-
-        .calendar-week-container_days-wrapper {
-          list-style: none;
-          overflow: hidden;
-          @include margin(0 0 10px);
-          @include padding(15px 0 0 0);
-        }
-          .calendar-item {
-            background: #F1F1F2;
-            border-radius: 50%;
-            float: left;
-            height: 35px;
-            @include margin(0 10px 10px 0);
-            position: relative;
-            transition: box-shadow .25s ease-in-out;
-            width: 35px;
-
-            &.bar {
-              border-radius: 0;
-              height: auto;
-              width: 100%;
-            }
-
-            &:nth-child(5n) {
-              @media (min-width: 850px) { @include margin(null 0 null null); }
-            }
-
-            &.selected {
-              background-color: $harvey-primary;
-
-              .calendar-item_link {
-                color: $white;
-              }
-
-              &:hover {
-                box-shadow: none;
-              }
-            }
-          }
-
-          button.calendar-item_link {
-            color: darken($gray, 15%);
-            border: none;
-            border-radius: 50%;
-            background: none;
-            cursor: pointer;
-            font-size: 12px;
-            @include padding(0);
-            line-height: 35px;
-            text-align: center;
-            width: 100%;
-
-            &[disabled] {
-              cursor: default;
-              opacity: 0.5;
-            }
-
-            &:not([disabled]):hover {
-              box-shadow: inset 0 0 0 2px $gray;
-            }
-
-            &:hover,
-            &[disabled]:hover {
-              background-color: transparent; // Overwrites hover state on $all-buttons
-            }
-          }
-
-          .bar > button.calendar-item_link {
-            border-radius: 0;
-          }
-
-
-  .calendar-notice p {
-    @include margin(0 auto 25px);
-    max-width: 355px;
-    font-style: italic;
-  }
-
-// Confirmation
-.confirmation {
-  text-align: center;
-}
-  .confirmation_calendar {
-    @include margin(30px auto);
-    max-width: 132px;
-  }
-    .confirmation_date {
-      font-size: 23px;
-      @include margin(null null 20px null);
-    }
-      .confirmation_day {
-        @extend %sans--bold;
-      }
-      .confirmation_time {
-        @extend %sans--bold;
-      }
-      .confirmation_calendar-add {
-        background: none;
-        border: none;
-
-        img {
-          max-width: 29px;
-          vertical-align: bottom;
-        }
-      }
-    .confirmation_reschedule {
-      display: inline-block;
-      @include margin(null null 20px null);
-    }
-    .confirmation_text {
-      @include margin(null null 30px null);
-    }
-
-    .font-base {
-      font-size: 16px;
-      padding: 0 10%;
-    }
-
-    .button.dashboard {
-      color: #888;
-      border: 1px solid #EFEFEF;
-      background-color: #f9f9f9;
-      @include padding(12px 30px);
-      @include margin(null null null 10px);
-      &:hover{
-        color: #666;
-        border: 1px solid #ddd;
-        background-color: #f2f2f2;
-      }
-    }
-
-// Form Errors/Feedback
-.error-container {
-  @include margin(0 0 15px 0);
+.form-input_text {
+  border: none;
+  border-bottom: 2px solid $color-gray-3;
+  @include padding(7px);
 }
 
 // Add event button overrides
@@ -426,14 +245,12 @@ button:focus {
     opacity: 1 !important;
   }
 }
-.addeventatc_dropdown .copyx {
+.addeventatc_dropdown .copy {
   height: 8px !important;
 }
 .addeventatc_dropdown .copyx em {
   display: none !important;
 }
-
-
 
 // New grid layout
 $signup-grid: (
@@ -470,16 +287,3 @@ $signup-grid: (
     @include grid-column(6, $signup-grid);
   }
 }
-
-.signup-form-container {
-  @include padding(60px 12%);
-  .input-wrap {
-    margin-bottom: 20px;
-    line-height: 40px;
-    .font-base{
-      line-height: 30px;
-      padding: 0 3%;
-    }
-  }
-}
-

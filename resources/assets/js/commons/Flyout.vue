@@ -1,12 +1,12 @@
 <template>
-  <aside :class="{ flyout: true, isactive: active }">
-    <button v-if="back" style="float: left; right: 0; left: 1em; color: #999999;" class="button--close flyout-close" @click="back">
+  <aside :class="{ flyout: true, isactive: active, 'copy-main': true, 'font-sm': true }">
+    <button v-if="back" class="button--close flyout-close left" @click="back">
       <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
     </button>
     <button class="button--close flyout-close" @click="onClose">
       <svg><use xlink:href="#close" /></svg>
     </button>
-    <h2 class="title" v-html="heading"></h2>
+    <h2 class="heading-3-expand" v-html="heading"></h2>
     <slot></slot>
   </aside>
 </template>

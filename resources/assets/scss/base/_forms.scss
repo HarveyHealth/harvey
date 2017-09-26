@@ -1,5 +1,5 @@
 .input-wrap {
-  @include margin(null null 15px null);
+  @include margin(null null $space-md null);
   &.last {
     @include margin(null null 20px null);
   }
@@ -11,20 +11,22 @@
 }
 
 .form-input {
-  @extend %sans--medium;
+  @extend %copy-main;
   line-height: 1.3;
   width: 100%;
 
   &_text {
     border: none;
-    border-bottom: 1px solid $gray;
-    @include padding(0 0 10px 0);
-    color: #444;
+    border-bottom: 1px solid $color-gray-0;
+    @include padding(0 0 6px 0);
+
+    &:disabled {
+      color: rgba(#444, 0.5);
+    }
   }
 
   &_checkbox {
-    @include margin(15px 10px 0 0);
-    font-size: 15px;
+    @include margin($font-sm 10px 0 0);
     width: auto;
     float: left;
   }
@@ -32,17 +34,18 @@
 }
 
 .form-radio {
-  float: left;
-  width: 10%;
+    float: left;
+    width: 20px;
+    height: 20px;
+    @include margin(2px 4px 0 0);
 }
 
 .form-label {
-
+  @extend %font-thin;
   text-align: left;
 
   &_checkbox {
     display: inline-block;
-    font-size: 15px;
     width: calc(100% - 30px);
     position: relative;
     &:hover{
@@ -65,21 +68,17 @@
 }
 
 .input__container {
-  @include margin(null null 2.2em null);
+  @include margin(null null 1em null);
   position: relative;
   width: 100%;
-
   .flyout & {
     width: 100% !important;
-  }
-
-  & > * {
-    @include margin(0.5em null null null);
+    display: table;
   }
 }
 
 .radio--text {
-  color: darken($gray, 15%);
+  @extend %copy-main;
   font-family: inherit;
   width: 90%;
   float: left;
@@ -88,53 +87,91 @@
 .input__item,
 .input--text,
 .input--textarea {
-  color: darken($gray, 15%);
-  font-family: inherit;
+  @extend %copy-main;
 }
 
-.input__item.patient-display {
-  font-weight: 500;
+.input-half {
+  float: left;
+  width: 45%;
+
+  &:first-child {
+    margin-right: 10%;
+  }
+
+  &--sm {
+    @include query(sm) {
+      float: left;
+      width: 45%;
+
+      &:first-child {
+        margin-right: 10%;
+      }
+    }
+  }
 }
 
 .input__label {
-  color: lighten($gray, 15%);
-  display: block;
-  font-size: 1em;
-  font-weight: 500;
-  letter-spacing: 1px;
-  @include margin(null null 0.5em null);
-  text-transform: uppercase;
-  width: 100%;
+  @extend %copy-muted;
+  @extend %font-bold;
+  @extend %font-spaced;
+  @extend %font-uppercase;
+  @extend %font-sm;
 
-  .flyout & {
-    border-top: 1px solid #eee;
-    padding-top: 2.2em;
-  }
+  display: block;
+  width: 100%;
+  @include margin(null null 0.5em null);
 
   &.first {
     padding-top: 0;
     border: none;
   }
+  &.lab-test {
+    font-size: 15px;
+    @include margin(.5em 0 .25em 0);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: $camouflage;
+  }
+  &.link-color {
+    font-size: 15px;
+    @include margin(.5em 0 0);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .fa {
+    font-size: 14px;
+  }
 }
 
-.input--text,
-.input--textarea {
-  border: 1px solid $color--grey;
-  border-radius: 3px;
-  display: block;
+.input--text {
+  height: 37px;
   font-weight: 300;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
   @include padding(0.6em 0.8em 0.5em 0.8em);
   width: 100%;
+}
+
+.input--textarea {
+  font-weight: 300;
+  display: block;
+  border-radius: 3px;
+  border: 1px solid $color--grey;
+  @include padding(0.6em 0.8em 0.5em 0.8em);
+  line-height: 1.4;
+  min-height: 10em;
+  width: 100%;
+  &.small {
+    min-height: 4em;
+  }
 }
 
 .input--text[readonly="readonly"] {
   border: none;
   @include padding(0.3em 0);
-}
-
-.input--textarea {
-  line-height: 1.4;
-  min-height: 7em;
 }
 
 .input--warning {
@@ -145,7 +182,7 @@
 .charcount {
   right: 0;
   position: absolute;
-  top: 1.3em;
+  top: .5em;
 }
 
 .input__linkcta {
@@ -153,40 +190,42 @@
   @include margin(1.5em null null null);
 }
 
-.fullscreen-left {
-  @include margin(5px);
-  width: 100%;
-  float: left;
-  height: 25px;
+// Radio List
+
+.inventory-left {
+  @include margin(0);
   @include padding(5px);
-}
-
-.flyout-btn {
-  margin: 2rem;
-}
-
-.input--text {
-  height: 37px;
+  width: 100%;
+  height: 25px;
+  font-size: 15px;
+  label {
+    &:hover{
+      cursor: pointer;
+    }
+  }
+  .highlightText {
+      color: $turquoise;
+  }
 }
 
 // Placeholders
 ::-webkit-input-placeholder { /* Chrome */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
 }
 :-ms-input-placeholder { /* IE 10+ */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
 }
 ::-moz-placeholder { /* Firefox 19+ */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
   opacity: 1;
 }
 :-moz-placeholder { /* Firefox 4 - 18 */
-  color: $medium-gray;
+  color: $color-copy-muted-1;
   opacity: 1;
 }
 
 .hoverInput {
-  color: $harvey-primary;
+  color: $turquoise;
   position: relative;
   left: 0;
   top: 30px;
@@ -204,4 +243,26 @@
   top: 0;
   transform: translateY(-27px) scale(0.78);
   @include margin(null null 20px null);
+}
+
+.StripeElement {
+  background-color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
 }

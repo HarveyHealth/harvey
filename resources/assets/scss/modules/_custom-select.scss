@@ -3,24 +3,34 @@
 /* Container used for styling the custom select, the buttom class below adds the
  * bg gradient, corners, etc. */
 .custom-select {
-  border: 1px solid $color--grey;
-  border-radius: 3px;
-  display: block;
-	position: relative;
+    border: 1px solid $color-gray-5;
+    border-radius: 3px;
+    display: block;
+    position: relative;
+    select {
+        &.disabled {
+            opacity: .9;
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
 }
 .custom-select.show-day-label:before,
 .custom-select.show-time-label:before,
 .custom-select.detached-label:before {
+  @extend %font-sm;
+  color: $color-copy;
   display: block;
-  @include padding(0.6em 0.8em 0.5em 0.8em);
+  padding: 8px $font-xs;
   position: absolute;
   z-index: -10;
 }
 .custom-select.show-day-label:before {
-  content: 'Select day';
+  content: 'Select Day';
 }
 .custom-select.show-time-label:before {
-  content: 'Select time';
+  content: 'Select Time';
 }
 .custom-select.detached-label:before {
   content: attr(data-detached-label);
@@ -32,8 +42,8 @@
 	width: 100%;
 	@include margin(0);
 	outline: none;
-	@include padding(.6em .8em .5em .8em);
-  color: darken($gray, 15%);
+	padding: 8px;
+  color: $color-copy;
   cursor: pointer;
 
 	/* Prefixed box-sizing rules necessary for older browsers */
@@ -42,7 +52,7 @@
 	box-sizing: border-box;
 
 	/* Font size must be 16px to prevent iOS page zoom on focus */
-	font-size: 16px;
+	font-size: $font-sm;
   font-family: inherit;
   font-weight: inherit;
 }
@@ -53,7 +63,7 @@
 .custom-select::after {
 	content: "\25be";
 	position: absolute;
-	top: 28%;
+	top: 24%;
 	right: 1em;
 	z-index: 2;
 	/* These hacks make the select behind the arrow clickable in some browsers */
@@ -62,7 +72,7 @@
 }
 
 .custom-select.isdisabled {
-  color: lighten($gray, 10%);
+  color: $color-copy-muted-2;
   select { cursor: default; }
   &::after {
     content: '' !important;
@@ -91,15 +101,4 @@
 		-moz-appearance: none;
 		appearance: none;
 	}
-	// .custom-select select:focus {
-	// 	@include border-color($gray); /* Match-03 */
-	// }
-}
-
-.highlightCheckbox {
-	background-color: rgba(84, 166, 237, 0.6);
-}
-
-.highlightTextColor {
-	color: white;
 }
