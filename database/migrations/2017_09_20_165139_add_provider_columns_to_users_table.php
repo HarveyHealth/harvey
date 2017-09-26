@@ -14,8 +14,7 @@ class AddProviderColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function(Blueprint $table) {
-            $table->string('provider')->nullable();
-            $table->string('provider_id')->nullable()->unique();
+            $table->string('facebook_provider_id')->nullable()->unique();
         });
     }
 

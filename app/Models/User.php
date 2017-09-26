@@ -31,8 +31,7 @@ class User extends Authenticatable implements Mailable
     ];
 
     protected $fillable = [
-      'provider',
-      'provider_id',
+        'facebook_provider_id',
     ];
 
     protected $guarded = [
