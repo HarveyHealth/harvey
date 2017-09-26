@@ -58,7 +58,7 @@
         :set-practitioner="setPractitionerInfo"
       />
 
-      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
+      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update' && userType !== 'patient'">
         <label class="input__label">Address</label>
         <p class="input__item" v-html="appointment.patientAddress"></p>
       </div>
@@ -430,7 +430,7 @@ export default {
       return this.userType !== 'patient';
     },
     visiblePractitioner() {
-      return this.userType !== 'practitioner' && (this.flyoutMode === 'update' || this.appointment.patientName !== '');
+      return this.userType !== 'practitioner' && (this.flyoutMode === 'update' || this.userType === 'patient' || this.appointment.patientName !== '');
     },
     visiblePurpose() {
       return this.flyoutMode === 'update' || this.appointment.date !== '';
