@@ -22,7 +22,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         }
 
         // From Address
-        $from_address = array(
+        $fromAddress = array(
           'name' => '',
           'company' => 'Harvey, Inc',
           'street1' => '12655 W Jefferson Blvd',
