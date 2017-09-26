@@ -153,8 +153,8 @@
             <label class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <label class="input__item">{{`Charged: $${price}`}}</label>
           </div>
-          <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined"
-            class="input__item error-text">{{`No card on file.`}}</label>
+          <label v-if="$root.$data.permissions === 'practitioner' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text">{{`No card on file.`}}</label>
+          <a v-if="$root.$data.permissions === 'admin' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined" class="input__item error-text" :href="`/profile/${patientUser}`">{{`Add card.`}}</a>
           <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid</label>
         </div>
         <div class="input__container">
@@ -490,8 +490,8 @@
       zip() {
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
-      disabled() {
-        return _.isEmpty(this.labPatients);
+      patientUser() {
+        return this.$props.rowData ? this.$props.rowData.patient_user_id : null;
       },
       stateList() {
         return ["State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
@@ -553,13 +553,6 @@
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
-      }
-    },
-    watch: {
-      disabled(val) {
-        if (!_.isEmpty(this.labPatients)) {
-          return false;
-        }
       }
     }
   }

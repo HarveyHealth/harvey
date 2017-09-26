@@ -10,6 +10,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
+            patient_user_id: patientLookUp[obj.attributes.patient_id] ? patientLookUp[obj.attributes.patient_id].attributes.user_id : null,
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
