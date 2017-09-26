@@ -40,7 +40,7 @@
         <label class="input__item">{{ shipmentCode }}</label>
       </div>
       <div class="input__container">
-        <label class="input__label" for="patient_name">Billing</label>
+        <label class="input__label" for="patient_name">Payment</label>
         <div v-if="status !== 'Recommended'">
           <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
           <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on file.`}}</label>
@@ -51,7 +51,7 @@
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
           <div v-if="latestCard">
-            <label class="input__item">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
           </div>
           <div v-if="!latestCard">
             <router-link to="/settings">Add Card</router-link>
@@ -72,41 +72,41 @@
       <!-- RECOMMENDED / PAYMENT -->
 
       <div v-if="step == 3">
-        <div class="input__container">
-          <div class="products-side">
+        <div class="input__container checkout-container">
+          <div class="left-column">
             <label class="input__label" for="products">Products</label>
-            <a href="#" class="sub-items link-color" v-for="test in Object.values(labPatients)" disabled>{{ test.attributes.name }}</a>
+            <span class="sub-items" v-for="test in Object.values(labPatients)" disabled>{{ test.attributes.name }}</span>
           </div>
-          <div class="total-side">
+          <div class="right-column">
             <label class="input__label" for="total">Total</label>
             <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
-        </div>
-        <div class="input__container">
-          <div class="products-side">
-            <label class="input__label" for="totals">Total</label>
+          <div class="left-column">
+            <label class="input__label discount" for="totals">Discount (20%)</label>
+            <label class="input__label total" for="totals">Total</label>
           </div>
-          <div class="total-side">
-            <label class="input__label" for="price">${{ patientPrice }}</label>
+          <div class="right-column">
+            <label class="input__label discount" for="price">$20.00</label>
+            <label class="input__label total" for="price">${{ patientPrice }}</label>
           </div>
         </div>
         <div class="input__container">
           <label class="input__label" for="patient_name">Address</label>
-            <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
-            <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-            <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
-            <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text">
-            <span class="custom-select">
+            <input placeholder="Address 1" v-model="address1" class="input--text address" type="text">
+            <input placeholder="Address 2" v-model="address2" class="input--text address" type="text">
+            <input placeholder="City" v-model="newCity" class="input--text city" type="text">
+            <input placeholder="Zip Code" v-model="newZip" class="input--text zip" type="text">
+            <span class="custom-select state">
                 <select @change="updateState($event)">
                     <option v-for="state in stateList" :data-id="state">{{ state }}</option>
                 </select>
               </span>
             <label v-if="!validZip" class="input__label">Please enter a valid zip code.</label>
         </div>
-        <div class="input__container">
-          <label class="input__label" for="billing">Billing</label>
-            <label class="input__item sub-billing1">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
+        <div class="input__container payment-container">
+          <label class="input__label" for="billing">Payment</label>
+            <label class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
         </div>
         <div class="button-wrapper">
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
@@ -460,7 +460,7 @@
       },
       doctorName() {
         return this.$props.rowData ?
-          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` :
+          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}, ND` :
           ''
       },
       validZip() {
@@ -495,7 +495,7 @@
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
       stateList() {
-        return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
+        return ["State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
       },
       oldCard() {
         if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
