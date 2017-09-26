@@ -11,6 +11,7 @@
                         </button>
                     </h1>
                     <FilterButtons
+                        :flyout="closeFlyouts"
                         v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
@@ -147,6 +148,12 @@
                     'is-updating': this.updatingRow === index,
                     'has-updated': this.updatedRow === index,
                 }
+            },
+            closeFlyouts() {
+                this.detailFlyoutActive = false;
+                this.addFlyoutActive  = false;
+                this.selectedRowData = null;
+                this.selectedRowIndex = null;
             },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false

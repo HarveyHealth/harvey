@@ -126,11 +126,21 @@
   }
   &.lab-test {
     font-size: 15px;
-    @include margin(1em 0 .25em 0);
+    @include margin(.5em 0 .25em 0);
     text-transform: none;
     font-weight: 500;
     letter-spacing: 0;
-    color: #CBC5C1;
+    color: $camouflage;
+  }
+  &.link-color {
+    font-size: 15px;
+    @include margin(.5em 0 .25em 0);
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+  .fa {
+    font-size: 14px;
   }
 }
 

@@ -277,19 +277,25 @@ class User extends Authenticatable implements Mailable
             return collect();
         }
 
-        try {
-            $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
-        } catch (Exception $e) {
-            Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody() ?? []);
-            return collect();
-        }
+        return Cache::remember("get-cards-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
+            try {
+                $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
+            } catch (Exception $e) {
+                Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody() ?? []);
+                return collect();
+            }
+            return collect($cards);
+        });
+    }
 
-        return collect($cards);
+    public function clearGetCardsCache()
+    {
+        return Cache::forget("get-cards-user-id-{$this->id}");
     }
 
     public function deleteCard(string $cardId)
     {
-        $this->clearHasACardCache();
+        $this->clearGetCardsCache();
 
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
@@ -311,7 +317,7 @@ class User extends Authenticatable implements Mailable
 
     public function updateCard(string $cardId, array $cardInfo)
     {
-        $this->clearHasACardCache();
+        $this->clearGetCardsCache();
 
         try {
             $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
@@ -343,7 +349,7 @@ class User extends Authenticatable implements Mailable
 
     public function addCard(string $cardTokenId)
     {
-        $this->clearHasACardCache();
+        $this->clearGetCardsCache();
 
         try {
             if (empty($this->stripe_id)) {
@@ -377,14 +383,7 @@ class User extends Authenticatable implements Mailable
 
     public function hasACard()
     {
-        return Cache::remember("has-a-card-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
-            return $this->getCards()->isNotEmpty();
-        });
-    }
-
-    public function clearHasACardCache()
-    {
-        return Cache::forget("has-a-card-user-id-{$this->id}");
+        return $this->getCards()->isNotEmpty();
     }
 
     public function sendPasswordResetNotification($token)
