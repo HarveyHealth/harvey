@@ -47,7 +47,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\LabOrderShipped' => [
             'App\Listeners\SendPatientLabOrderShippedEmail',
-            'App\Listener\UpdateLabOrderWithShipmentLabel',
+            'App\Listeners\UpdateLabOrderWithShipmentLabel',
         ],
 
         'App\Events\LabTestReceived' => [
