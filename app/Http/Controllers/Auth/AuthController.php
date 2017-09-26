@@ -49,6 +49,10 @@ class AuthController extends Controller
           return redirect($toPage);
 
         } else {
+          if (session('no_zip')) {
+            session(['no_zip' => false]);
+            return redirect('/conditions');
+          }
           // Get zip, city, state
           $zip = session('zip');
           $this->zipCodeValidator->setZip($zip);
