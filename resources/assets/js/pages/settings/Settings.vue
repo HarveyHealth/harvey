@@ -10,8 +10,9 @@
             </div>
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Payment Options
-                        <span class="heading-2" v-if="this.user_id">for User ID #{{ this.user_id }}<h2 class="heading-2">{{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }}</h2></span>
+                    <h2 class="heading-2">
+                        Payment Options
+                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
                     </h2>
                 </div>
                 <div class="card-content-wrap">
