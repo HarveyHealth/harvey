@@ -58,7 +58,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
+          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Continue &amp; Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
         </div>
       </div>
       </div>
@@ -148,7 +148,7 @@
         </div>
         <div class="button-wrapper">
           <button v-if="status !== 'Confirmed'" :disabled="disabled" class="button" @click="updateTests()">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Continue &amp; Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
     </div>
