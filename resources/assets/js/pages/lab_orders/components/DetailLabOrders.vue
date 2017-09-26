@@ -3,7 +3,7 @@
     :active="$parent.detailFlyoutActive" 
     :heading="flyoutHeading" 
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
 
     <!-- PATIENTS ONLY -->
@@ -12,7 +12,7 @@
 
       <!-- RECOMMENDED -->
 
-      <div v-if="step == 1">
+      <div v-if="$parent.step == 1">
 
         <!-- Doctor -->
 
@@ -63,14 +63,14 @@
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button :disabled="!hasCard || !latestCard" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button @click="stepThree" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
 
       </div>
 
       <!-- RECOMMENDED / PAYMENT -->
-
-      <div v-if="step == 3">
+      
+      <div v-if="$parent.step == 3">
 
         <!-- Product List -->
 
@@ -114,15 +114,18 @@
 
         <div class="input__container">
           <label class="input__label" for="billing">Payment</label>
-            <label class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
+            <router-link to="/settings" v-if="!latestCard || !latestCard.brand || !latestCard.last4">Add Credit Card</router-link>
+            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <router-link v-if="latestCard && latestCard.brand && latestCard.last4" class="right-column link-color" to="/settings">Edit Card</router-link>
         </div>
 
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
+      </div>
+
       </div>
 
     </div> <!-- END // PATIENT ONLY -->
@@ -133,7 +136,7 @@
 
       <!-- SHIPPED & BEYOND -->
 
-      <div v-if="step === 1">
+      <div v-if="$parent.step === 1">
 
         <!-- Client -->
 
@@ -173,7 +176,7 @@
 
         <!-- Address -->
 
-        <div class="input__container">
+        <div v-if="status !== 'Recommended'" class="input__container">
           <span class="input__label">Address</span>
           <div class="left-column">
             <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
@@ -209,7 +212,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateTests()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -217,7 +220,7 @@
 
       <!-- FLYER STEP #2 -->
 
-      <div v-if="step == 2">
+      <div v-if="$parent.step == 2">
         <div v-for="test in testList">
           <div class="input__container">
             <label class="input__label">{{ test.name }}</label>
@@ -226,6 +229,8 @@
         </div>
 
         <!-- Master Tracking -->
+
+      <div>
 
         <div class="input__container">
           <label class="input__label">Master Tracking</label>
@@ -297,8 +302,8 @@
         lastName: '',
         month: '',
         year: '',
+        disabled: true,
         masterTracking: '',
-        step: 1,
         address1: '',
         address2: '',
         newCity: '',
@@ -332,9 +337,10 @@
           price += eval(e.attributes.price);
         })
         this.patientPrice = `${price}.00`;
+        this.disabled = _.isEmpty(this.labPatients) ? true : false
       },
       handleFlyoutClose() {
-        this.step = 1;
+        this.$parent.step = 1;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -351,14 +357,14 @@
         this.newState = e.target.value
       },
       stepThree() {
-        this.step = 3;
+        this.$parent.step = 3;
         this.flyoutHeading = 'Confirm Payment';
       },
       nextStep() {
-        this.step++;
+        this.$parent.step++;
       },
       prevStep() {
-        this.step = 1;
+        this.$parent.step = 1;
       },
       closeInvalidCC() {
         this.invalidCC = false;
@@ -591,12 +597,12 @@
       },
       testList() {
         if (!this.$props.rowData) return []
-        this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+        let results = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list
-        return this.$props.rowData.test_list
+        }] : this.$props.rowData.test_list.filter(e => e.current_status !== 'Canceled')
+        return results
       },
       patientTestList() {
         if (!this.$props.rowData) return {}

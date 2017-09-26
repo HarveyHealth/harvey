@@ -57,6 +57,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                         [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
                         [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
+                    current_status: capitalize(test.attributes.status),
                     sku: testList[Number(test.id)],
                     shipment_code: test.attributes.shipment_code
                 })
