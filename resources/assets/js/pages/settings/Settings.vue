@@ -11,7 +11,7 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h2 class="heading-2">Payment Options
-                        <span class="heading-2" v-if="this.user_id">for User ID #{{ this.user_id }}</span>
+                        <span class="heading-2" v-if="this.user_id">for User ID #{{ this.user_id }}<h2 class="heading-2">{{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }}</h2></span>
                     </h2>
                 </div>
                 <div class="card-content-wrap">
@@ -24,7 +24,7 @@
                         <div class="card-object">
                             <p class="copy-main font-md font-italic">
                                 <i class="fa fa-credit-card"></i>
-                                {{ card.brand }} **** **** **** {{ card.last4 }}
+                                {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
                             </p>
                         </div>
                         <div class="button-wrapper">
@@ -123,6 +123,12 @@ export default {
             notificationSymbol: '&#10003;',
             postalCode: '',
             sent: false,
+            user: {
+                attributes: {
+                    first_name: '',
+                    last_name: '',
+                },
+            },
             user_id: this.$route.params.id,
             year: ''
         }
@@ -218,6 +224,15 @@ export default {
                 this.$root.$data.global.loadingCreditCards = false;
             });
         },
+        getUser() {
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id}`)
+                .then(response => {
+                  this.user = response.data.data;
+                })
+                .catch(error => {
+                    this.$router.push('/profile');
+                });
+        },
         stripeForm() {
             let stripe = this.$root.$data.stripe;
             let elements = stripe.elements();
@@ -262,15 +277,23 @@ export default {
                 });
             });
             this.formAction = form;
-        }
+        },
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
         this.getCards();
+        if (this.user_id) {
+            this.getUser();
+        }
     },
     watch: {
         _user_id(id) {
-            this.user_id = ('admin' === Laravel.user.user_type) ? id : null;
+            if (id && 'admin' === Laravel.user.user_type) {
+                this.user_id = id;
+                this.getUser();
+            } else {
+                this.user_id = null;
+            }
             this.getCards();
         }
     },
