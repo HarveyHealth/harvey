@@ -176,7 +176,7 @@
 
         <!-- Address -->
 
-        <div class="input__container">
+        <div v-if="status !== 'Recommended'" class="input__container">
           <span class="input__label">Address</span>
           <div class="left-column">
             <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
@@ -212,7 +212,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateTests()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -230,7 +230,7 @@
 
         <!-- Master Tracking -->
 
-      <div v-for="test in testList">
+      <div>
 
         <div class="input__container">
           <label class="input__label">Master Tracking</label>
