@@ -525,12 +525,12 @@
       },
       testList() {
         if (!this.$props.rowData) return []
-        this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+        let results = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list
-        return this.$props.rowData.test_list
+        }] : this.$props.rowData.test_list.filter(e => e.current_status !== 'Canceled')
+        return results
       },
       patientTestList() {
         if (!this.$props.rowData) return {}
