@@ -14,6 +14,15 @@
           <div class="margin-0a max-width-md" style="border-bottom: 1px solid white"></div>
         </div>
         <ConditionsAll class="space-top-xl" />
+        <div class="space-top-xl space-children-md">
+          <p class="font-centered">Harvey is available to patients in Arizona, California, Conneticut, Florida, Georgia, Illinois, Maryland, Michigan, Missouri, New York, Ohio, Oregon, Pennsylvania, Rhode Island, and Washington.</p>
+          <p class="font-centered">&copy; 2017 Harvey Health, Inc. All Rights Reserved.</p>
+        </div>
+        <div class="font-centered space-top-xl">
+          <img src="/images/conditions/logo-norton.png" :style="imgStyles" />
+          <img src="/images/conditions/logo-bbb.png" :style="imgStyles" />
+          <img src="/images/conditions/logo-hipaa.png" :style="imgStyles" />
+        </div>
       </div>
     </div>
     <template v-else>
@@ -44,6 +53,11 @@ export default {
     SvgIcon: Util.SvgIcon,
     OutOfRange,
     VerifyZip,
+  },
+  data() {
+    return {
+      imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
+    }
   },
   computed: {
     selected() {
