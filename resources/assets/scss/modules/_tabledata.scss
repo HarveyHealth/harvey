@@ -129,7 +129,7 @@
     @include padding(0);
   }
   thead th {
-    @include padding(10px);
+    @include padding(10px 20px);
   }
   th, td {
     border: none;
