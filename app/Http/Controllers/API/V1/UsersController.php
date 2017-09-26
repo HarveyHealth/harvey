@@ -212,7 +212,7 @@ class UsersController extends BaseAPIController
 
     public function addCard(Request $request, User $user)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
