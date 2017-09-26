@@ -22,11 +22,11 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
-import loadinggraphic from './commons/LoadingGraphic.vue';
+import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
-import facebooksignin from './v2/components/base/inputs/FacebookSignin';
+import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
 
 // for environment conditionals
 const env = require('get-env')();
@@ -34,8 +34,8 @@ const env = require('get-env')();
 const app = new Vue({
     mixins: [TopNav],
     components: {
-        loadinggraphic,
-        facebooksignin,
+        LoadingGraphic,
+        FacebookSignin,
         Symptoms,
         VerticalTab,
         VerticalTabs

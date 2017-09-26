@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegistered;
 use App\Models\{Appointment, Patient, User};
 use App\Lib\zipCodeValidator;
 use App\Http\Controllers\Controller;
-use App\Events\{UserRegistered};
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Auth, Socialite;
 
 class AuthController extends Controller
@@ -21,7 +20,11 @@ class AuthController extends Controller
     // Redirect the user to the OAuth Provider.
     public function redirectToProvider($provider, Request $request)
     {
-        session(['zip' => $request->zip]);
+        if (!$request->zip) {
+            session(['no_zip' => true]);
+        } else {
+            session(['zip' => $request->zip]);
+        }
         return Socialite::driver($provider)->redirect();
     }
 
@@ -34,7 +37,7 @@ class AuthController extends Controller
         $user = Socialite::driver($provider)->user();
 
         // Determine if user currently exists from previous facebook signin
-        $existingUser = User::where('provider_id', $user->id)->first();
+        $existingUser = User::where('facebook_provider_id', $user->id)->first();
 
         if ($existingUser) {
           // login and redirect based on appointment history
@@ -45,6 +48,10 @@ class AuthController extends Controller
           return redirect($toPage);
 
         } else {
+          if (session('no_zip')) {
+            session(['no_zip' => false]);
+            return redirect('/conditions');
+          }
           // Get zip, city, state
           $zip = session('zip');
           $this->zipCodeValidator->setZip($zip);
@@ -59,13 +66,13 @@ class AuthController extends Controller
               'email' => $user->email,
               'image_url' => $user->avatar,
               'terms_accepted_at' => \Carbon::now(),
-              'provider' => $provider,
-              'provider_id' => $user->id,
+              'facebook_provider_id' => $user->id,
               'zip' => $zip,
               'city' => $city,
               'state' => $state,
           ]);
           $_user->save();
+          event(new UserRegistered($_user));
           $_user->patient()->save(new Patient());
           // Emit the user registration event for email send
           // event(new UserRegistered($_user));

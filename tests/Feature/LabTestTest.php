@@ -188,15 +188,6 @@ class LabTestTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
     }
 
-    public function test_it_does_not_allows_a_patient_to_create_a_lab_test()
-    {
-        Passport::actingAs(factory(Patient::class)->create()->user);
-
-        $response = $this->json('POST', 'api/v1/lab/tests');
-
-        $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
-    }
-
     public function test_it_allows_an_admin_to_update_lab_tests_if_lab_order_is_complete()
     {
         $labTest = factory(LabTest::class)->create(['status' => 'complete']);

@@ -89,6 +89,12 @@ button.button--blue:disabled {
   cursor: pointer;
   height: 30px;
   width: 30px;
+  &.left {
+    float: left;
+    right: 0px;
+    left: 1em;
+    color: $turquoise;
+  }
 }
 
 .button--close.flyout-close,

@@ -29,6 +29,20 @@
 // Jordy Blue: #82BEF2
 // Rose Fog: #E3BAB3
 
+// Brand
+
+$fiord: #4C586F;
+$lime: #E3EAA7;
+$pink: #EDA1A6;
+$brown: #ADA397;
+$purple: #BAA7B5;
+$turquoise: #82BEF2;
+$camouflage: #849974;
+$slategrey: #5F7278;
+$casper: #A1BBD0;
+$green: #BDCEBE;
+$red: #FF0000;
+
 /// Accent color for use in CTAs
 $color-accent:	#82bef2;
 
@@ -68,7 +82,7 @@ $color-fade-light-muted: rgba(255, 255, 255, 0.4);
 /// Used for success notifications or positive feedback
 $color-good: #b4e7a0;
 
-/// White
+// White
 $color-white:   #ffffff;
 
 /// Backgrounds
@@ -84,7 +98,10 @@ $color-gray-2:  #f2f2f2;
 $color-gray-3:	#fafafa;
 
 /// Even darker dividers
-$color-gray-4:  #eee;
+$color-gray-4:  #eeeeee;
+
+// Text border
+$color-gray-5: #e4eaec;
 
 /// Used for alternative colored text
 $color-copy-alt: #e3bab3;

@@ -1,7 +1,7 @@
 <template>
   <TableData 
       :columns="tableColumns"
-      :empty-msg="'You do not have any lab orders.'"
+      :empty-msg="'No lab orders in this category.'"
       :loading="loading"
       :loading-msg="'Loading your lab orders...'"
       :on-row-click="handleRowClick"

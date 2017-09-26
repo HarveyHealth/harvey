@@ -555,6 +555,9 @@
     .error-text {
         width: 100%;
         text-align: center;
+        .flyout & {
+            text-align: left;
+        } 
     }
 
     .v-spinner {
