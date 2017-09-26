@@ -14,6 +14,6 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // call shippo
         // get data & save to db
 
-        \Log::info('Lab Order has shipped ' . $event->labOrder->id);
+        return \Log::info('LabOrder has shipped ' . $event->labOrder->id);
     }
 }

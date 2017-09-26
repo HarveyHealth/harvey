@@ -47,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\LabOrderShipped' => [
             'App\Listeners\SendPatientLabOrderShippedEmail',
+            'App\Listener\UpdateLabOrderWithShipmentLabel',
         ],
 
         'App\Events\LabTestReceived' => [
@@ -72,10 +73,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CreditCardUpdated' => [
             'App\Listeners\PayOutstandingInvoicesForPatient',
         ],
-        
-        'App\Events\ShipmentInitiated' => [
-            'App\Listener\UpdateLabOrderWithShipmentLabel'
-        ]
     ];
 
     protected $subscribe = [
