@@ -81,7 +81,7 @@
           </div>
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}.00</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
           <div class="left-column">
             <label class="input__label discount" for="totals">Discount (20%)</label>
