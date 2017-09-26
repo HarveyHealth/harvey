@@ -42,20 +42,20 @@
         :has-card="appointment.patientPayment"
         :editable="editablePatient"
         :email="appointment.patientEmail"
+        :is-visible="visiblePatient"
         :list="patientList"
         :name="patientDisplay"
         :phone="appointment.patientPhone"
         :set-patient="setPatientInfo"
-        :visible="visiblePatient"
       />
 
       <Practitioner
         :editable="editablePractitioner"
         :is-disabled="!appointment.patientId"
+        :is-visible="visiblePractitioner"
         :name="appointment.practitionerName"
         :list="practitionerList"
         :set-practitioner="setPractitionerInfo"
-        :visible="visiblePractitioner"
       />
 
       <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
@@ -72,12 +72,12 @@
         :day="this.appointment.day"
         :editable="editableDays"
         :is-loading="loadingDays"
+        :is-visible="visibleDays"
         :list="appointment.practitionerAvailability"
         :mode="flyoutMode"
         :set-times="setAvailableTimes"
         :time="appointment.currentDate"
         :no-availability="noAvailability"
-        :visible="visibleDays"
       />
 
       <Times
@@ -92,9 +92,9 @@
       <Duration
         :duration="appointment.duration.value"
         :editable="editableDuration"
+        :is-visible="visibleDuration"
         :list="durationList"
         :set-duration="setDuration"
-        :visible="visibleDuration"
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
@@ -104,10 +104,10 @@
 
       <Status
         :editable="editableStatus"
+        :is-visible="visibleStatus"
         :list="statuses"
         :set-status="setStatus"
         :status="appointment.status"
-        :visible="visibleStatus"
       />
 
       <div class="input__container" v-if="appointment.currentStatus === 'complete'">
@@ -120,9 +120,9 @@
       <Purpose
         :character-limit="purposeCharLimit"
         :editable="editablePurpose"
+        :is-visible="visiblePurpose"
         :on-input="handlePurposeInput"
         :text-value="appointment.purpose"
-        :visible="visiblePurpose"
       />
 
       <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
@@ -414,7 +414,7 @@ export default {
     },
     visibleDays() {
       return this.flyoutMode === 'update' ||
-        (this.userType === 'practitioner' && this.appointment.patientName !== '') || 
+        (this.userType === 'practitioner' && this.appointment.patientName !== '') ||
         (this.userType !== 'practitioner' && this.appointment.practitionerName !== '');
     },
     visibleDuration() {
@@ -924,8 +924,10 @@ export default {
 
       // If user is admin, filter practitioners by state licensing regulations
       // First reset the practitioner list
-      this.setupPractitionerList(this.$root.$data.global.practitioners);
-      this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+      Vue.nextTick(() => {
+        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+      })
     },
 
     // Set practitioner info with data from list object

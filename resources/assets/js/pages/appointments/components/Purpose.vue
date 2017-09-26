@@ -1,5 +1,5 @@
 <template>
-  <div class="input__container" v-if="visible">
+  <div class="input__container" v-if="isVisible">
     <label class="input__label" for="purpose">purpose</label>
     <span v-if="editable" :class="$$countClasses">{{ $$count }}</span>
     <p v-if="!editable" class="input__item">{{ textValue }}</p>
@@ -37,7 +37,7 @@ export default {
       type: String,
       required: true
     },
-    visible: Boolean
+    isVisible: Boolean
   },
   computed: {
     // Checking if the value is over the character limit

@@ -1,5 +1,5 @@
 <template>
-  <div class="input__container" v-if="visible">
+  <div class="input__container" v-if="isVisible">
     <label class="input__label">{{ $$label }}</label>
     <p class="copy-main-sm" v-if="isLoading">Loading availability...</p>
     <SelectOptions v-else-if="editable && !noAvailability"
@@ -38,7 +38,7 @@ export default {
     setTimes: Function,
     // The UTC formatted date string for a given selection
     time: String,
-    visible: Boolean
+    isVisible: Boolean
   },
   components: {
     SelectOptions

@@ -1,5 +1,5 @@
 <template>
-  <div class="input__container" v-if="visible">
+  <div class="input__container" v-if="isVisible">
     <label class="input__label first">client</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select Client'"
@@ -9,7 +9,7 @@
       :options="list"
       :selected="name"
     />
-    <p v-else-if="visible && name">{{ name }}</p>
+    <p v-else-if="isVisible && name">{{ name }}</p>
     <div class="Flyout-SubSection" v-if="name">
       <div>
         <label class="font-xs font-uppercase font-normal copy-muted-2">Contact</label>
@@ -55,7 +55,7 @@ export default {
     setPatient: Function,
     userType: String,
     // If we should display a patient name or options at all
-    visible: Boolean
+    isVisible: Boolean
   },
   components: {
     SelectOptions
