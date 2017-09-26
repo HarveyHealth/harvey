@@ -1,24 +1,58 @@
-.products-side {
-    width: 80%;
-    float: left;
+.checkout-container,
+.payment-container {
+    @include margin(0);
+    .left-column {
+        width: 75%;
+        display: inline-block;
+        float: left;
+        @include margin(0 0 1em 0);
+    }
+
+    .right-column  {
+        width: 25%;
+        display: inline-block;
+        @include margin(0 0 1em 0);
+    }
+
+    .discount {
+        color: $casper;
+        font-weight: 500;
+        @include margin(0 0 .25em 0);
+    }
+
+    .total {
+        color: $color-good;
+        @include margin(0);
+    }
+
+    .sub-items {
+        width: 100%;
+        margin-bottom: .25em;
+        float: left;
+    }
 }
 
-.total-side {
-    width: 20%;
-    float: left;
+.address, .city, .zip, .state {
+   @include margin(0 0 .5em);
 }
 
-.sub-items {
-    width: 100%;
-    float: left;
-}
-
-.sub-billing1 {
+.zip {
     width: 70%;
     float: left;
+    display: inline-block;
 }
 
-.sub-billing2 {
-    width: 30%;
-    float: left;
+.state {
+    &.custom-select{
+        width: 28%;
+        left: 2%;
+        display: inline-block !important;
+    }
+}
+
+.payment-container{
+    .right-column,
+    .left-column {
+        @include margin(0);
+    }
 }

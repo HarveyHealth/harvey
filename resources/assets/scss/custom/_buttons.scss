@@ -60,14 +60,6 @@ input[type="submit"] {
   }
 }
 
-.button--close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-}
-
 .button--close.flyout-close,
 .button--cancel.modal-close {
   position: absolute;
