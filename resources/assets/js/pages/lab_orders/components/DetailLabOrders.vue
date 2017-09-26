@@ -116,7 +116,7 @@
           <label class="input__label" for="billing">Payment</label>
             <router-link to="/settings" v-if="!latestCard || !latestCard.brand || !latestCard.last4">Add Credit Card</router-link>
             <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link v-if="!latestCard || !latestCard.brand || !latestCard.last4" class="right-column link-color" to="/settings">Edit Card</router-link>
+            <router-link v-if="latestCard && latestCard.brand && latestCard.last4" class="right-column link-color" to="/settings">Edit Card</router-link>
         </div>
 
         <!-- Call to Action -->
@@ -124,6 +124,8 @@
         <div class="button-wrapper">
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
+      </div>
+
       </div>
 
     </div> <!-- END // PATIENT ONLY -->
@@ -218,7 +220,7 @@
 
       <!-- FLYER STEP #2 -->
 
-      <div v-if="step == 2">
+      <div v-if="$parent.step == 2">
         <div v-for="test in testList">
           <div class="input__container">
             <label class="input__label">{{ test.name }}</label>
@@ -228,7 +230,6 @@
 
         <!-- Master Tracking -->
 
-    <div v-if="$parent.step == 2">
       <div v-for="test in testList">
 
         <div class="input__container">
