@@ -10,7 +10,9 @@
             </div>
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Payment Options</h2>
+                    <h2 class="heading-2">Payment Options
+                        <span class="heading-2" v-if="this.user_id">for User ID #{{ this.user_id }}</span>
+                    </h2>
                 </div>
                 <div class="card-content-wrap">
                     <div v-if="$root.$data.global.loadingCreditCards" class="card-contact-info">
@@ -18,7 +20,7 @@
                             <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
                         </div>
                     </div>
-                    <div v-if="!details" v-for="card in $root.$data.global.creditCards">
+                    <div v-if="!details && !$root.$data.global.loadingCreditCards" v-for="card in $root.$data.global.creditCards">
                         <div class="card-object">
                             <p class="copy-main font-md font-italic">
                                 <i class="fa fa-credit-card"></i>
@@ -101,27 +103,28 @@ export default {
     },
     data() {
         return {
-            details: false,
-            firstName: '',
-            lastName: '',
-            month: '',
-            year: '',
-            cardNumber: '',
-            cardExpiry: '',
             cardCvc: '',
-            postalCode: '',
+            cardExpiry: '',
+            cardNumber: '',
+            currentCard: null,
+            deleteModalActive: false,
+            details: false,
             edit: false,
+            firstName: '',
+            formAction: null,
             invalidCC: false,
             invalidModalActive: false,
-            deleteModalActive: false,
-            currentCard: null,
-            notificationSymbol: '&#10003;',
-            notificationMessage: '',
+            lastName: '',
+            month: '',
+            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12'],
             notificationActive: false,
             notificationDirection: 'top-right',
-            formAction: null,
+            notificationMessage: '',
+            notificationSymbol: '&#10003;',
+            postalCode: '',
             sent: false,
-            monthList: ['','1','2','3','4','5','6','7','8','9','10','11','12']
+            user_id: this.$route.params.id,
+            year: ''
         }
     },
     methods: {
@@ -150,7 +153,7 @@ export default {
             this.month = e.target.value
         },
         deleteCard() {
-            axios.delete(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards/${this.currentCard.id}`)
+            axios.delete(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards/${this.currentCard.id}`)
                 .then(response => {
                     this.$root.$data.global.creditCards = [];
                     this.notificationMessage = "Your card has been deleted.";
@@ -167,7 +170,7 @@ export default {
             }
         },
         updateCard() {
-            axios.patch(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
                 address_state: this.currentCard.address_state,
@@ -177,7 +180,7 @@ export default {
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
             .then(response => {
-                axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.cards
                         this.notificationMessage = "Successfully updated!";
@@ -193,13 +196,13 @@ export default {
             })
         },
         submitNewCard(token) {
-            axios.post(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`, {id: token})
+            axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {id: token})
                 .then(resp => {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${window.Laravel.user.id}/cards`)
+                    axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.cards
                             this.$root.$data.global.loadingCreditCards = false;
@@ -207,6 +210,13 @@ export default {
                             this.sent = false;
                         })
                 })
+        },
+        getCards() {
+            this.$root.$data.global.loadingCreditCards = true;
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
+                this.$root.$data.global.creditCards = response.data.cards;
+                this.$root.$data.global.loadingCreditCards = false;
+            });
         },
         stripeForm() {
             let stripe = this.$root.$data.stripe;
@@ -256,6 +266,18 @@ export default {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'settings';
+        this.getCards();
+    },
+    watch: {
+        _user_id(id) {
+            this.user_id = ('admin' === Laravel.user.user_type) ? id : null;
+            this.getCards();
+        }
+    },
+    computed: {
+        _user_id() {
+          return this.$route.params.id;
+        }
     }
 }
 </script>
