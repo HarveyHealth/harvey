@@ -1,19 +1,21 @@
-.checkout-container,
-.payment-container,
-.address-container {
-    @include margin(0);
-    .left-column {
-        width: 70%;
-        display: inline-block;
-        float: left;
-        @include margin(0 0 1em 0);
-    }
+.left-column {
+    width: 70%;
+    display: table;
+    float: left;
 
-    .right-column  {
-        width: 30%;
-        display: inline-block;
-        @include margin(0 0 1em 0);
+    .input__item {
+        display: table;
     }
+}
+
+.right-column  {
+    width: 30%;
+    display: table;
+
+}
+
+.checkout-container {
+    @include margin(0);
 
     .discount {
         color: $casper;
@@ -37,7 +39,7 @@
    @include margin(0 0 .5em);
 }
 
-.zip {
+.city {
     width: 70%;
     float: left;
     display: inline-block;
@@ -51,9 +53,10 @@
     }
 }
 
-.payment-container{
-    .right-column,
-    .left-column {
-        @include margin(0);
-    }
+.last-container{
+    @include margin(0);
+}
+
+.color-good {
+    color: $color-good;
 }
