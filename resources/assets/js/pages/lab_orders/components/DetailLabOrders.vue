@@ -15,13 +15,13 @@
       <div v-if="step == 1">
       <div class="input__container">
         <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-        <a v-if="status === 'Confirmed'" v-for="test in testList" href="/lab-tests" class="input__label link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+        <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color" disabled><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
         <div v-if="status === 'Recommended'">
           <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
             <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
               <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox">
-              {{ test.attributes.name }}{{ test.patient ? ' ( Recommended )': '' }}
+              {{ test.attributes.name }}{{ test.patient ? ' (Recommended)': '' }}
             </label>
           </div>
         </div>
@@ -64,7 +64,7 @@
           <label class="input__item">{{ status }}</label>
         </div>
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && !latestCard" @click="stepThree" class="button">Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
+          <button :disabled="!hasCard || !latestCard || disabled" @click="stepThree" class="button">Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
         </div>
       </div>
       </div>
@@ -75,7 +75,7 @@
         <div class="input__container">
           <div class="products-side">
             <label class="input__label" for="products">Products</label>
-            <a href="/lab-tests" class="sub-items link-color" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</a>
+            <a href="#" class="sub-items link-color" v-for="test in Object.values(labPatients)" disabled>{{ test.attributes.name }}</a>
           </div>
           <div class="total-side">
             <label class="input__label" for="total">Total</label>
@@ -124,7 +124,7 @@
         <div class="input__container">
           <label class="input__label" for="patient_name">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="/lab-tests" class="input__label lab-test link-color" target="_blank"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="#" class="input__label lab-test link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
             <span class="custom-select">
                 <select @change="updateTest($event, test)" class="disabled" disabled>
@@ -162,7 +162,7 @@
           <span class="input__item">{{ status }}</span>
         </div>
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
+          <button v-if="status !== 'Confirmed'" :disabled="disabled" class="button" @click="updateTests()">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -247,6 +247,7 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        disabled: true,
         patientPrice: 0,
         paid: {},
         patientLabTests: {},
@@ -272,10 +273,12 @@
           price += eval(e.attributes.price);
         })
         this.patientPrice = price;
+        this.disabled = false;
       },
       handleFlyoutClose() {
         this.step = 1;
         this.$parent.selectedRowData = null;
+        this.disabled = true;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
       updateStatus(e) {
@@ -283,6 +286,10 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
+        this.disabled = false;
+      },
+      isEmpty(obj) {
+        return _.isEmpty(obj);
       },
       updateState(e) {
         this.newState = e.target.value
