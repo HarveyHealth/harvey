@@ -63,7 +63,7 @@
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button :disabled="!hasCard || !latestCard" @click="stepThree" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button @click="stepThree" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
 
       </div>
@@ -121,7 +121,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
       </div>
 
@@ -297,6 +297,7 @@
         lastName: '',
         month: '',
         year: '',
+        disabled: true,
         masterTracking: '',
         step: 1,
         address1: '',
@@ -332,6 +333,7 @@
           price += eval(e.attributes.price);
         })
         this.patientPrice = `${price}.00`;
+        this.disabled = _.isEmpty(this.labPatients) ? true : false
       },
       handleFlyoutClose() {
         this.step = 1;
