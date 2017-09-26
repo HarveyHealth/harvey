@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\LabOrderApproved;
+use App\Events\LabOrderShipped;
 use App\Models\LabOrder;
 
 class LabOrderObserver

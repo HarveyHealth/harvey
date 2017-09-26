@@ -13,5 +13,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // $event->labOrder->labTests->map(sum dimensions)
         // call shippo
         // get data & save to db
+
+        \Log::info('Lab Order has shipped ' . $event->labOrder->id);
     }
 }

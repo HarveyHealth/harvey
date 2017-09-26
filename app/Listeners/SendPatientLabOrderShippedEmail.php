@@ -16,7 +16,7 @@ class SendPatientLabOrderShippedEmail implements ShouldQueue
             $labTests[] = [
                 'name' => $labTest->sku->name,
                 'lab_name' => $labTest->information->lab_name,
-            ]
+            ];
         }
 
         $transactionalEmailJob = TransactionalEmail::createJob()
