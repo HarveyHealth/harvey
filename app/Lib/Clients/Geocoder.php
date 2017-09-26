@@ -2,7 +2,8 @@
 
 namespace App\Lib\Clients;
 
-use Exception, Log;
+use App\Lib\Slack;
+use App\Notifications\SlackNotification;
 
 class Geocoder extends BaseClient
 {
@@ -11,7 +12,7 @@ class Geocoder extends BaseClient
     public function __construct()
     {
         parent::__construct();
-        $this->params = [
+        $base_params = [
             'key' => config('services.google_geocoder.api_key')
         ];
     }
@@ -21,16 +22,16 @@ class Geocoder extends BaseClient
         try {
             $response = $this->get('geocode/json', ['address' => $query]);
         } catch (Exception $e) {
-            ops_error('Geocoder', "Could not process geocoding: {$query} / Exception: {$e->getMessage()}");
+            ops_error("Exception processing geocoding: {$query}");
+            return false;
+        }
+
+        if ($response->getStatusCode() != 200) {
+            ops_error("Could not process geocoding: {$query} / API Response status code: {$response->getStatusCode()}");
             return false;
         }
 
         $obj = json_decode($response->getBody());
-
-        if ($response->getStatusCode() != 200 || empty($obj->results)) {
-            ops_error('Geocoder', "Could not process geocoding: {$query} / Response Code: '{$response->getStatusCode()}' / Message: '{$obj->error_message}'");
-            return false;
-        }
 
         $types = $obj->results[0]->address_components[0]->types ?? [];
 
