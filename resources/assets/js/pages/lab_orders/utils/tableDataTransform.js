@@ -30,8 +30,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             card: {
-                brand: obj.included && obj.included.attributes ? obj.included.attributes.card_brand : null,
-                last4: obj.included && obj.included.attributes ? obj.included.attributes.card_last4 : null
+                brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
+                last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last4 : null
             },
             samples: {}
         }
