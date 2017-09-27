@@ -23,10 +23,9 @@
 
         <div class="input__container">
           <label class="input__label first">Lab Tests</label>
-          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-          <span v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
-            <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
-          </span>
+
+          <!-- Recommended -->
+
           <div v-if="status === 'Recommended'">
             <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
               <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -35,6 +34,19 @@
               </label>
             </div>
           </div>
+
+          <!-- Confirmed -->
+
+          <div v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+            <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+          </div>
+
+          <!-- Shipped or greater -->
+
+          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+          </a>
+
         </div>
 
         <!-- Tracking -->
@@ -161,7 +173,6 @@
         <div class="button-wrapper">
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
-      </div>
 
       </div>
 
@@ -192,10 +203,19 @@
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
-            <span v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+
+            <!-- Recommended or Confirmed -->
+            
+            <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
-            </span>
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+            </div>
+
+            <!-- Shipped or greater -->
+            
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            </a>
+            
             <span class="custom-select">
                 <select @change="updateTest($event, test)" class="disabled" disabled>
                     <option v-for="current in test.status">{{ current }}</option>
@@ -208,7 +228,9 @@
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank">
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}
+          </a>
         </div>
 
         <!-- Address -->

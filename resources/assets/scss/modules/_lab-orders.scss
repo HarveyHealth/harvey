@@ -18,8 +18,10 @@
 
 .input__item {
     display: table;
-    &:hover {
-        cursor: text;
+    .left-column & {
+        &:hover {
+            cursor: text;
+        }
     }
 }
 
@@ -41,8 +43,8 @@
 .sub-items {
     width: 100%;
     font-size: 15px;
-    margin-bottom: .25em;
-    float: left;
+    display: table;
+    @include margin(.5em 0 .25em);
 }
 
 .address, .city, .zip, .state {
