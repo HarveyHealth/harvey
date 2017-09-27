@@ -12,10 +12,10 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
         $labTests = $event->labOrder->labTests()->get();
         $patientInfo = $event->labOrder->patient->user;
-        $parcels = array();
+        $parcels = [];
 
         // From Address
-        $fromAddress = array(
+        $fromAddress = [
           'name' => '',
           'company' => 'Harvey, Inc',
           'street1' => '12655 W Jefferson Blvd',
@@ -27,10 +27,10 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'phone' => '+1 800 690 9989',
           'email' => 'support@goharvey.com',
           'test' => true,
-        );
+        ];
 
         // To Address
-        $toAddress = array(
+        $toAddress = [
           'name' => $patientInfo->first_name . ' ' . $patientInfo->last_name,
           'company' => '',
           'street1' => $patientInfo->address_1,
@@ -42,31 +42,29 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'phone' => $patientInfo->phone,
           'email' => $patientInfo->email,
           'test' => true,
-        );
+        ];
 
         // Parcel info
         $parcelInfo = $labTests->map(function($labTest) {
-          $parcelData = array(
+          $parcelData = [
             'length' => $labTest->sku->length,
             'width' => $labTest->sku->width,
             'height' => $labTest->sku->height,
             'distance_unit' => $labTest->sku->distance_unit,
             'weight' => $labTest->sku->weight,
             'mass_unit' => $labTest->sku->mass_unit
-          );
+          ];
 
           // add it to the parcels array
           return $parcels[] = $parcelData;
         });
 
-        // Create a Shippo Shipment object
-        $shipment = \Shippo_Shipment::create(
-        array(
+        $shipment = \Shippo_Shipment::create([
           'address_from' => $fromAddress,
           'address_to' => $toAddress,
           'parcels' => $parcelInfo,
           'async' => false,
-          ));
+        ]);
 
         \Log::info($shipment);
 
