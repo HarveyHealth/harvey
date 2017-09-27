@@ -50,7 +50,7 @@ export default {
           class: 'Button-whiteFilled',
           doneIcon: this.doneIcon,
           doneText: this.doneText,
-          loadingColor: 'light',
+          loadingColor: 'dark',
           loadingSize: 'sm',
         }
       }

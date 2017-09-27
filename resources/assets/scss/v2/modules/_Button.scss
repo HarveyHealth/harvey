@@ -24,7 +24,7 @@
   &:disabled,
   &:disabled:hover,
   &:disabled:focus {
-    opacity: 0.65;
+    opacity: 0.5;
     cursor: not-allowed;
     color: rgba(255,255,255,0.6);
   }
@@ -34,6 +34,13 @@
 .Button-whiteFilled {
   background: $color-white;
   color: $color-copy;
+
+  &:disabled,
+  &:disabled:hover,
+  &:disabled:focus {
+    color: rgba($color-copy, 0.6);
+  }
+
 }
 
 // For condition answers, inverse with checkmark icon
@@ -43,7 +50,7 @@
   border-radius: 4px;
   display: table; // for vertical alignment;
   height: 100%;
-  opacity: 0.7;
+  opacity: 1;
   text-align: left;
   transition: background 200ms ease-in-out, opacity 200ms ease-in-out;
   padding: $space-sm $space-xl $space-sm $space-sm;
@@ -71,6 +78,10 @@
       display: block;
       right: $space-sm;
     }
+  }
+
+  @include query(sm) {
+    opacity: 0.7;
   }
 
 }

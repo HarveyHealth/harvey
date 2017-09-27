@@ -12,6 +12,9 @@
 <script>
 export default {
   props: {
+    autoFocus: {
+      type: Boolean
+    },
     color: {
       type: String,
       default: 'dark'
@@ -23,6 +26,8 @@ export default {
     },
     // { refs: $refs, ref: 'name' }
     // will auto focus ref after last input is filled in
+    // takes this data structure in case the ref to be passed in
+    // has not been defined yet
     focusNext: Object,
     quantity: Number,
     size: {
@@ -61,7 +66,7 @@ export default {
         this.$refs[i][0].focus();
       } else {
         if (this.focusNext) {
-          this.focusNext.refs[this.focusNext.ref].$el.focus();
+          Vue.nextTick(() => this.focusNext.refs[this.focusNext.ref].$el.focus());
         } else {
           this.$refs[this.quantity][0].focus();
         }
@@ -96,6 +101,9 @@ export default {
   mounted() {
     if (this.stored) {
       this.distribute(this.stored, 0);
+    }
+    if (this.autoFocus) {
+      this.$refs[1][0].focus();
     }
   }
 }
