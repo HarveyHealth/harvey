@@ -12,7 +12,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
         $labTests = $event->labOrder->labTests()->get();
         $patientInfo = $event->labOrder->patient->user;
-        $parcels = [];
+        $parcels = array();
 
         // From Address
         $fromAddress = array(
@@ -38,13 +38,14 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'city' => $patientInfo->city,
           'state' => $patientInfo->state,
           'zip' => $patientInfo->zip,
+          'country' => 'US',
           'phone' => $patientInfo->phone,
           'email' => $patientInfo->email,
           'test' => true,
         );
 
         // Parcel info
-        $labTests->map(function($labTest) {
+        $parcelInfo = $labTests->map(function($labTest) {
           $parcelData = array(
             'length' => $labTest->sku->length,
             'width' => $labTest->sku->width,
@@ -55,20 +56,40 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           );
 
           // add it to the parcels array
-          $parcels[] = $parcelData;
+          return $parcels[] = $parcelData;
         });
 
-        \Log::info($parcels);
-
-
-        /*
-        $shipment = Shippo_Shipment::create(
+        // Create a Shippo Shipment object
+        $shipment = \Shippo_Shipment::create(
         array(
-          'address_from'=> $from_address,
-          'address_to'=> $to_address,
-          'parcels'=> array($parcel),
-          'async'=> false,
+          'address_from' => $fromAddress,
+          'address_to' => $toAddress,
+          'parcels' => $parcelInfo,
+          'async' => false,
           ));
-        */
+
+        \Log::info($shipment);
+
+        // Rates are stored in the `rates` array
+        // The details on the returned object are here: https://goshippo.com/docs/reference#rates
+        // Get the first rate in the rates results for demo purposes.
+        // $rate = $shipment['rates'][0];
+        // Purchase the desired rate with a transaction request
+        // Set async=false, indicating that the function will wait until the carrier returns a shipping label before it returns
+        // $transaction = Shippo_Transaction::create(array(
+        //     'rate'=> $rate['object_id'],
+        //     'async'=> false,
+        // ));
+        // Print the shipping label from label_url
+        // Get the tracking number from tracking_number
+        // if ($transaction['status'] == 'SUCCESS'){
+        //     echo "--> " . "Shipping label url: " . $transaction['label_url'] . "\n";
+        //     echo "--> " . "Shipping tracking number: " . $transaction['tracking_number'] . "\n";
+        // } else {
+        //     echo "Transaction failed with messages:" . "\n";
+        //     foreach ($transaction['messages'] as $message) {
+        //         echo "--> " . $message . "\n";
+        //     }
+        // }
     }
 }
