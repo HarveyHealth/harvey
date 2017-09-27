@@ -115,7 +115,7 @@
                     this.selectedRowIndex = index;
                     this.step = 1;
                     this.loading = true;
-                    this.getPatientCreditCard(data.patient_user_id);
+                    if (this.$root.$data.permissions !== 'patient') this.getPatientCreditCard(data.patient_user_id);
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
