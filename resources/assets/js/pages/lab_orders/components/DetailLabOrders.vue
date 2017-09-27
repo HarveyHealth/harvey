@@ -493,9 +493,9 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
+              if (this.shippingCodes[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                  status: 'shipped'
                 })
               }
             })
@@ -508,7 +508,6 @@
       },
       updateLabOrder() {
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.$props.rowData.shipment_code,
             address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
             address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
             city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
