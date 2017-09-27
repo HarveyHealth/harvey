@@ -261,7 +261,8 @@
             if (!global.loadingLabTests &&
                 !global.loadingLabOrders &&
                 !global.loadingPractitioners &&
-                (!global.loadingPatients || (permissions === 'patient'))) {
+                (!global.loadingCreditCards || permissions === 'patient') &&
+                (!global.loadingPatients || permissions === 'patient')) {
                     this.setupLabData();
                 }
 
