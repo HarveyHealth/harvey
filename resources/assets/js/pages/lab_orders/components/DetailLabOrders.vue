@@ -217,7 +217,7 @@
             </a>
             
             <span class="custom-select">
-                <select @change="updateTest($event, test)" class="disabled" disabled>
+                <select @change="updateTest($event, test)" class="disabled" :disabled="status === 'Recommnded' || status === 'Confirmed'">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
