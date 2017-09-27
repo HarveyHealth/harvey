@@ -270,10 +270,27 @@ const app = new Vue({
             }
         },
         getLabData() {
+            axios.get(`${this.apiUrl}/lab/orders?include=invoice`)
+            .then(response => console.log('SINGLE', response))
+
+            axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
+            .then(response => console.log('MULTI', response))
+
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
+                    let user = response.data.included.filter(e => e.type === 'users')
+                    let patient = response.data.included.filter(e => e.type === 'patients')
+                    let invoices = response.data.included.filter(e => e.type === 'invoices')
+                    let obj = {};
+                    invoices.forEach(e => {
+                        obj[e.id] = e;
+                    })
                     this.global.labOrders = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i]
+                        e.user = user[i];
+                        e.patient = patient[i];
+                        if (e.relationships.invoice) {
+                            e.invoice = obj[e.relationships.invoice.data.id]
+                        }
                         return e;
                     })
                     this.global.loadingLabOrders = false
