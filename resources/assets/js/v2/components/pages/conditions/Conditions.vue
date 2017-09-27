@@ -30,8 +30,7 @@
       <div class="margin-0a max-width-lg pad-md color-white">
         <ConditionPreface v-if="!State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-        <VerifyZip v-else-if="!State('conditions.zipValidation')" />
-        <OutOfRange v-else-if="State('conditions.zipValidation.serviceable') === false" />
+        <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.serviceable') === false" />
       </div>
     </div>
   </div>
@@ -43,7 +42,6 @@ import Shared from '../../shared';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
-import OutOfRange from './children/OutOfRange';
 import VerifyZip from './children/VerifyZip';
 
 export default {
@@ -54,7 +52,6 @@ export default {
     ConditionsAll,
     MainNav: Shared.MainNav,
     SvgIcon: Util.SvgIcon,
-    OutOfRange,
     VerifyZip,
   },
   data() {
