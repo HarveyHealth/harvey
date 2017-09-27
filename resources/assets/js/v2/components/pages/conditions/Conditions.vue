@@ -5,7 +5,7 @@
       <MainNav :context="'conditions'" />
       <div class="margin-0a max-width-xl pad-md color-white">
         <div class="margin-0a max-width-icon">
-          <SvgIcon :id="'harvey-icon-white'" />
+          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" />
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
           <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to common medical conditions.</p>
@@ -25,12 +25,15 @@
         </div>
       </div>
     </div>
-    <template v-else>
-      <ConditionPreface v-if="!State('conditions.prefaceRead')" />
-      <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-      <VerifyZip v-else-if="!State('conditions.zipValidation')" />
-      <OutOfRange v-else-if="State('conditions.zipValidation.serviceable') === false" />
-    </template>
+    <div v-else>
+      <MainNav :context="'questions'" />
+      <div class="margin-0a max-width-lg pad-md color-white">
+        <ConditionPreface v-if="!State('conditions.prefaceRead')" />
+        <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+        <VerifyZip v-else-if="!State('conditions.zipValidation')" />
+        <OutOfRange v-else-if="State('conditions.zipValidation.serviceable') === false" />
+      </div>
+    </div>
   </div>
 </template>
 

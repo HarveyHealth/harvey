@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="'Button' + config[type].class"
+    :class="'Button ' + config[type].class"
     :disabled="isDisabled || isProcessing"
     @click="onClick"
     :style="'width:' + width || 'auto'"
@@ -33,6 +33,9 @@ export default {
     type: { type: String, default: 'default' },
     width: String
   },
+  components: {
+    Loading: Util.Loading,
+  },
   data() {
     return {
       config: {
@@ -42,12 +45,16 @@ export default {
           doneText: this.doneText,
           loadingColor: 'light',
           loadingSize: 'sm',
+        },
+        whiteFilled: {
+          class: 'Button-whiteFilled',
+          doneIcon: this.doneIcon,
+          doneText: this.doneText,
+          loadingColor: 'light',
+          loadingSize: 'sm',
         }
       }
     }
-  },
-  components: {
-    Loading: Util.Loading,
   },
 }
 </script>

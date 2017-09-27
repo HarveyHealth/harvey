@@ -1,5 +1,5 @@
 <template>
-  <svg :style="{ width: this.width, height: this.height }">
+  <svg :style="styles">
     <use :xlink:href="'#' + id" />
   </svg>
 </template>
@@ -13,9 +13,16 @@ export default {
     },
     id: String,
     width: {
-      type: String,
-      default: '100%'
+      type: String
     },
+  },
+  computed: {
+    styles() {
+      return {
+        width: this.width,
+        height: this.height
+      }
+    }
   }
 }
 </script>

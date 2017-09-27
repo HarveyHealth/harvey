@@ -65,5 +65,21 @@
       display: none;
     }
   }
+}
 
+.MainNav-questions {
+  padding: $space-sm;
+
+  .MainNav-logo {
+    width: 100px;
+    height: 45px;
+  }
+
+  @include query(lg) {
+    padding: $space-md;
+
+    .MainNav-logo {
+      width: 150px;
+    }
+  }
 }
