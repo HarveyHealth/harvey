@@ -6,11 +6,9 @@
     :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
 
-    <!-- PATIENTS ONLY -->
+    <!-- PATIENTS -->
 
     <div v-if="$root.$data.permissions === 'patient'">
-
-      <!-- RECOMMENDED -->
 
       <div v-if="$parent.step == 1">
 
@@ -46,10 +44,34 @@
 
         <!-- Address -->
 
-        <div v-if="status !== 'Recommended'" class="input__container">
+        <div class="input__container">
           <label class="input__label">Address</label>
           <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
+        </div>
+
+        <!-- Card -->
+
+        <!-- Show only if the invoice is unpaid... -->
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Status -->
@@ -58,7 +80,6 @@
           <label class="input__label">Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
-
 
         <!-- Call to Action -->
 
@@ -110,13 +131,27 @@
             <label v-if="!validZip" class="input__label">Please enter a valid zip code.</label>
         </div>
 
-        <!-- Payment -->
+        <!-- Card -->
 
         <div class="input__container">
-          <label class="input__label" for="billing">Payment</label>
-            <router-link to="/settings" v-if="!latestCard || !latestCard.brand || !latestCard.last4">Add Credit Card</router-link>
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link v-if="latestCard && latestCard.brand && latestCard.last4" class="right-column link-color" to="/settings">Edit Card</router-link>
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Call to Action -->
@@ -130,11 +165,9 @@
 
     </div> <!-- END // PATIENT ONLY -->
 
-    <!-- ADMINS/PRACTITIONERS ONLY -->
+    <!-- ADMINS/PRACTITIONERS -->
 
     <div v-if="$root.$data.permissions !== 'patient'">
-
-      <!-- SHIPPED & BEYOND -->
 
       <div v-if="$parent.step === 1">
 
@@ -186,20 +219,27 @@
           <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
         </div>
 
-        <!-- Payment -->
+        <!-- Card -->
+
+        <div class="input__container">
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label">Payment</label>
-          <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined" class="left-column">
-            <span class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</span>
-            <span class="input__item">{{`Charged: $${price}.00`}}</span>
-          </div>
-          <div class="left-column" v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined">
-            <span class="input__item error-text">{{`No card on file.`}}</span>
-          </div>
-          <span v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item left-column error-text">Invoice not paid.</span>
-          <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">{{`Edit Card`}}</router-link>
-
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Status -->
@@ -221,6 +261,7 @@
       <!-- FLYER STEP #2 -->
 
       <div v-if="$parent.step == 2">
+
         <div v-for="test in testList">
           <div class="input__container">
             <label class="input__label">{{ test.name }}</label>
@@ -229,8 +270,6 @@
         </div>
 
         <!-- Master Tracking -->
-
-      <div>
 
         <div class="input__container">
           <label class="input__label">Master Tracking</label>
@@ -254,7 +293,6 @@
         <div class="button-wrapper">
           <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
         </div>
-      </div>
 
     </div>
 
