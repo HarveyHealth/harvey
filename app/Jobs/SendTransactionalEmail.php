@@ -63,6 +63,7 @@ class SendTransactionalEmail implements ShouldQueue
                         'user' => [
                             'city' => $user->city,
                             'email_verified_at' => empty($user->email_verified_at) ? null : $user->email_verified_at->toW3cString(),
+                            'full_name' => $user->full_name,
                             'state' => $user->state,
                             'timezone' => $user->timezone,
                             'zip' => $user->zip,
