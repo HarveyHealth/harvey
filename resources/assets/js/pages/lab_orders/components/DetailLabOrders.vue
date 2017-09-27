@@ -23,7 +23,7 @@
 
         <div class="input__container">
           <label class="input__label first">Lab Tests</label>
-          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
           <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
           <div v-if="status === 'Recommended'">
             <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
@@ -191,7 +191,7 @@
           <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
             <a v-if="status === 'Recommended' || status === 'Confirmed'" href="#" class="input__label lab-test link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
             <span class="custom-select">
                 <select @change="updateTest($event, test)" class="disabled" disabled>
                     <option v-for="current in test.status">{{ current }}</option>
@@ -204,7 +204,7 @@
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
         </div>
 
         <!-- Address -->
