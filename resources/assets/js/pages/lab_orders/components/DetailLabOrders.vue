@@ -24,7 +24,9 @@
         <div class="input__container">
           <label class="input__label first">Lab Tests</label>
           <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-          <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+          <span v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+            <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+          </span>
           <div v-if="status === 'Recommended'">
             <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
               <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -98,7 +100,7 @@
         <div class="input__container checkout-container">
           <div class="left-column">
             <label class="input__label" for="products">Products</label>
-            <span class="sub-items" v-for="test in Object.values(labPatients)" disabled>{{ test.attributes.name }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</span>
           </div>
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
@@ -140,7 +142,7 @@
               <span v-else class="input__item error-text">No card on file.</span>
             </div>
             <!-- This should always show, don't add conditional statements -->
-            <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+            <router-link class="right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
         </div>
 
         <!-- Invoice -->
@@ -190,7 +192,9 @@
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="#" class="input__label lab-test link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+            <span v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+            </span>
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color" target="_blank"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
             <span class="custom-select">
                 <select @change="updateTest($event, test)" class="disabled" disabled>
