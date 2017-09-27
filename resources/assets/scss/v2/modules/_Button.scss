@@ -1,3 +1,4 @@
+// Base button styles
 .Button {
   appearance: none;
   background: $color-accent-dark;
@@ -29,9 +30,58 @@
   }
 }
 
+// White fill with copy color
 .Button-whiteFilled {
   background: $color-white;
   color: $color-copy;
+}
+
+// For condition answers, inverse with checkmark icon
+.Button-answer {
+  background: transparent;
+  border: 2px solid $color-white;
+  border-radius: 4px;
+  display: table; // for vertical alignment;
+  height: 100%;
+  opacity: 0.7;
+  text-align: left;
+  transition: background 200ms ease-in-out, opacity 200ms ease-in-out;
+  padding: $space-sm $space-xl $space-sm $space-sm;
+  position: relative;
+  width: 100%;
+
+  i {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  span {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  &.is-selected {
+    background: $color-white;
+    color: $color-copy;
+    opacity: 1;
+
+    i {
+      display: block;
+      right: $space-sm;
+    }
+  }
+
+}
+
+.Button-condition-nav {
+  background: transparent;
+  position: absolute;
+  top: -90px;
+
+  &.is-left { left: 0; }
+  &.is-right { right: 0; }
 }
 
 .Button-facebook {
