@@ -248,10 +248,11 @@
         <!-- Card -->
 
         <div class="input__container">
-          <label class="input__label">Card</label>
+          <label class="input__label">Current Card</label>
             <div class="left-column">
-              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-              <span v-else class="input__item error-text">No card on file.</span>
+              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
+              <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
             </div>
             <!-- This should always show, don't add conditional statements -->
             <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
@@ -262,8 +263,9 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Invoice</label>
             <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
               <span v-if="paid" class="input__item color-good">{{`Charged: $${price}`}}</span>
-              <span v-else class="input__item error-text">Invoice not paid.</span>
+              <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
             </div>
         </div>
 
@@ -376,7 +378,6 @@
         cardExpiry: '',
         cardCvc: '',
         patientPrice: 0,
-        paid: {},
         patientLabTests: {},
         labPatients: {},
         postalCode: '',
@@ -404,6 +405,7 @@
       },
       handleFlyoutClose() {
         this.$parent.step = 1;
+        this.loading = true;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -574,7 +576,7 @@
         this.$parent.selectedRowData = null;
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
-      },
+      }
     },
     computed: {
       flyoutHeading() {

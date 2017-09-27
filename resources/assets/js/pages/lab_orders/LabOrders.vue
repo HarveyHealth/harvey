@@ -78,6 +78,8 @@
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
                 addActiveModal: false,
+                patientCard: null,
+                loading: false,
                 cache: {
                     Recommended: [],
                     Confirmed: [],
@@ -112,11 +114,14 @@
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
                     this.step = 1;
+                    this.loading = true;
+                    this.getPatientCreditCard(data.patient_user_id);
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
                     this.detailFlyoutActive = false;
                     this.step = 1;
+                    this.loading = true;
                 }
             },
             handleFilter(name, index) {
@@ -157,6 +162,7 @@
                 this.addFlyoutActive  = false;
                 this.selectedRowData = null;
                 this.selectedRowIndex = null;
+                this.loading = true;
             },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false
@@ -166,6 +172,7 @@
                 if (this.selectedRowData != null) this.selectedRowData = null;
                 this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
+                this.loading = true;
             },
             setupLabData() {
                 let global = this.$root.$data.global
@@ -210,6 +217,15 @@
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests
+            },
+            getPatientCreditCard(userId) {
+                axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
+                .then(response => {
+                    this.patientCard = response.data.cards[response.data.cards.length - 1];
+                })
+                .then(() => {
+                    this.loading = false;
+                })
             }
         },
         computed: {
