@@ -25,8 +25,7 @@ class SendPatientLabOrderShippedEmail implements ShouldQueue
             ->setTemplateModel([
                 'tracking_number' => $event->labOrder->shipment_code,
                 'lab_tests' => $labTests,
-            ]
-        );
+            ]);
 
         dispatch($transactionalEmailJob);
     }
