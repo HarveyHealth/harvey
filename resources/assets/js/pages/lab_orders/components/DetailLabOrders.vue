@@ -493,11 +493,9 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.shippingCodes[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                   status: 'shipped'
                 })
-              }
             })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
