@@ -9,18 +9,10 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 {
     public function handle(LabOrderShipped $event)
     {
-        // try catch shippo info
-        // $event->labOrder->labTests->map(sum dimensions)
-        // call shippo
-        // get data & save to db
-
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
         $labTests = $event->labOrder->labTests()->get();
         $patientInfo = $event->labOrder->patient->user;
-
-        foreach ($labTests as $labTest) {
-          \Log::info('LabOrder has shipped with ' . $labTest->sku->id);
-        }
+        $parcels = [];
 
         // From Address
         $fromAddress = array(
@@ -50,6 +42,22 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'email' => $patientInfo->email,
           'test' => true,
         );
+
+        // Parcel info
+        $labTests->map(function($labTest) {
+          $parcelData = array(
+            'length' => $labTest->sku->length,
+            'width' => $labTest->sku->width,
+            'height' => $labTest->sku->height,
+            'distance_unit' => $labTest->sku->distance_unit,
+            'weight' => $labTest->sku->weight,
+            'mass_unit' => $labTest->sku->mass_unit
+          );
+
+          // add it to the parcels array
+          $parcels[] = $parcelData;
+        });
+
 
         /*
         $shipment = Shippo_Shipment::create(
