@@ -58,6 +58,8 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           $parcels[] = $parcelData;
         });
 
+        \Log::info($parcels);
+
 
         /*
         $shipment = Shippo_Shipment::create(
