@@ -12,9 +12,9 @@ use Auth, Socialite;
 class AuthController extends Controller
 {
 
-    public function __construct(ZipCodeValidator $zipCodeValidator)
+    public function __construct(ZipCodeValidator $zip_code_validator)
     {
-        $this->zipCodeValidator = $zipCodeValidator;
+        $this->zip_code_validator = $zip_code_validator;
     }
 
     // Redirect the user to the OAuth Provider.
@@ -37,13 +37,12 @@ class AuthController extends Controller
         $user = Socialite::driver('facebook')->user();
 
         // Determine if user currently exists from previous facebook signin
-        if ($existingUser = User::where('facebook_provider_id', $user->id)->first()) {
+        if ($existing_user = User::where('facebook_provider_id', $user->id)->first()) {
           // login and redirect based on appointment history
-          $patientId = $existingUser->patient->id;
-          $hasAppointment = $existingUser->appointments()->first();
-          $toPage = $hasAppointment ? '/dashboard' : '/get-started';
-          Auth::loginUsingId($existingUser->id, true);
-          return redirect($toPage);
+          $has_appointment = $existing_user->appointments()->first();
+          $to_page = $has_appointment ? '/dashboard' : '/get-started';
+          Auth::loginUsingId($existing_user->id, true);
+          return redirect($to_page);
 
         } else {
           if (session('no_zip')) {
@@ -52,14 +51,19 @@ class AuthController extends Controller
           }
           // Get zip, city, state
           $zip = session('zip');
-          $this->zipCodeValidator->setZip($zip);
-          $city = $this->zipCodeValidator->getCity();
-          $state = $this->zipCodeValidator->getState();
+          $this->zip_code_validator->setZip($zip);
+          $city = $this->zip_code_validator->getCity();
+          $state = $this->zip_code_validator->getState();
+
+          // parse facebook name to at least get the last name correctly
+          $full_name = explode(' ', trim($user->name));
+          $last_name = array_pop($full_name);
+          $first_name = implode(' ', $full_name);
 
           // Create user and patient
           $_user = User::create([
-              'first_name' => explode(' ', $user->name)[0],
-              'last_name' => explode(' ', $user->name)[1],
+              'first_name' => $first_name,
+              'last_name' => $last_name,
               'email' => $user->email,
               'image_url' => $user->avatar,
               'terms_accepted_at' => \Carbon::now(),
