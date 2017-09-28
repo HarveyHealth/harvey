@@ -116,6 +116,7 @@ export default {
         this.$root.$data.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
         window.onbeforeunload = null;
         this.isProcessing = false;
+        App.Util.data.killStorage('zip_validation');
         this.$router.push({ name: 'success', path: 'success' });
       })
       .catch(error => {

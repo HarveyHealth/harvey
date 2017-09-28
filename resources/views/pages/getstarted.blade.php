@@ -19,22 +19,16 @@
         <!-- Handles one-time logged-in rendering of geting-started funnel -->
         <script>
           window.Laravel = {!! $vue_data !!}
+          // Controller has determined that the user is:
+          // logged in as patient with no Appointment
+          // or logged out
           var zipValidation  = localStorage.getItem('harvey_zip_validation');
           var loggedIn = Laravel.user.signedIn;
           window.$$context = 'get-started';
-          if (!zipValidation) {
-            if (loggedIn) {
-              window.location.href = '/logout';
-            } else {
-              window.location.href = '/conditions';
-            }
-          } else if (!loggedIn) {
-            window.location.hash = '/signup';
-          } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
-            window.location.href = '/dashboard';
-          } else {
-            window.location.hash = '/welcome';
-          }
+          if (!loggedIn && zipValidation) window.location.hash = '/signup';
+          if (loggedIn && zipValidation) window.location.hash = '/welcome';
+          if (!loggedIn && !zipValidation) window.location.href = '/conditions';
+          if (loggedIn && !zipValidation) window.location.href = '/logout';
         </script>
 
         <!-- Typekit -->
