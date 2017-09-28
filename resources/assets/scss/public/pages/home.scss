@@ -12,6 +12,10 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
         position: relative;
         @include padding(3.5rem null 2.5rem null);
 
+        .hero-body {
+            padding: 6em 1em;
+        }
+
         .title,
         .title.is-5 strong,
         .subtitle {
