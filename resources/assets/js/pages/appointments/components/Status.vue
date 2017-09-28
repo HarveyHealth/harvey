@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="input__container">
+  <div v-if="isVisible" class="input__container">
     <label class="input__label">status</label>
     <SelectOptions v-if="editable"
       :on-select="handleSelect"
@@ -25,7 +25,7 @@ export default {
     // Status string to be converted for SelectOptions
     status: String,
     // Should we even display appointment status?
-    visible: Boolean,
+    isVisible: Boolean,
   },
   components: {
     SelectOptions
