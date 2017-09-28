@@ -62,6 +62,9 @@ return [
                     'updated' => 1929883,
                     'reminder' => 2550321,
                 ],
+                'attachment' => [
+                    'uploaded' => 3338765,
+                ],
             ],
             'patient' => [
                 'appointment' => [
@@ -69,6 +72,10 @@ return [
                     'new' => 1492142,
                     'updated' => 1929884,
                     'reminder' => 1497642,
+                ],
+                'charge' => [
+                    'succeeded' => 3372143,
+                    'failed' => 3372981,
                 ],
                 'lab_order' => [
                     'shipped' => 2741642,
