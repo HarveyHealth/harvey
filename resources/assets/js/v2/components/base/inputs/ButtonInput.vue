@@ -10,7 +10,7 @@
       class="inline margin-right-xxs"
       :color="config[type].loadingColor"
       :size="config[type].loadingSize" />
-    <div v-if="isDone">
+    <div v-else-if="isDone">
       <i :class="'margin-right-xxs inline fa ' + config[type].doneIcon" style="font-size:12px"></i>
       <span>{{ config[type].doneText }}</span>
     </div>

@@ -62,6 +62,26 @@
 
 }
 
+.signup-aside-icon-row {
+  text-align: center;
+
+  span {
+    display: inline-block;
+    padding: $space-sm;
+    width: 80px;
+  }
+
+  svg {
+    max-height: 80px;
+    width: 100%;
+    fill: #ddd;
+  }
+
+  svg.use-stroke {
+    stroke: #ddd;
+  }
+}
+
 // Signup Back Button
 
 .signup-back-button {
@@ -224,7 +244,7 @@ button:focus {
 
 .form-input_text {
   border: none;
-  border-bottom: 2px solid $color-gray-3;
+  border-bottom: 1px solid $color-gray-5;
   @include padding(7px);
 }
 
@@ -272,7 +292,7 @@ $signup-grid: (
   .signup-wrapper {
     // If desktop, give margin. Otherwise, tablets shouldn't get margin-top
     @media (min-height: 780px) {
-        margin-top: 100px;
+        margin-top: 80px;
     }
   }
 

@@ -1,15 +1,18 @@
-.Divider {
-  color: $color-copy-muted-2;
-  font-weight: $font-thin;
-  text-align: center;
-}
-
 .Divider-or {
-  @extend .Divider;
+  border-bottom: 1px dashed $color-copy-muted-2;
+  position: relative;
+  margin: 24px auto;
+  max-width: 320px;
 
-  &::before, &::after {
-    display: inline-block;
-    margin: 0 $space-xs;
-    content: "\2013 \2013 \2013 \2013 \2013 \2013 \2013 \2013 \2013 \2013 \2013";
+  &::after {
+    background: $color-white;
+    color: $color-copy-muted-2;
+    content: 'OR';
+    font-size: 12px;
+    padding: $space-xs;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -14px;
   }
 }
