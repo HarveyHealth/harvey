@@ -16,8 +16,7 @@ class SendPatientLabTestReceivedEmail implements ShouldQueue
             ->setTemplateModel([
                 'lab_test_name' => $event->labTest->sku->name,
                 'lab_name' =>   $event->labTest->information->lab_name,
-            ]
-        );
+            ]);
 
         dispatch($transactionalEmailJob);
     }

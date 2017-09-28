@@ -78,6 +78,8 @@
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
                 addActiveModal: false,
+                patientCard: null,
+                loading: false,
                 cache: {
                     Recommended: [],
                     Confirmed: [],
@@ -88,6 +90,7 @@
                     Complete: []
                 },
                 labData: [],
+                step: 1,
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -110,10 +113,15 @@
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                    this.step = 1;
+                    this.loading = true;
+                    if (this.$root.$data.permissions !== 'patient') this.getPatientCreditCard(data.patient_user_id);
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
                     this.detailFlyoutActive = false;
+                    this.step = 1;
+                    this.loading = true;
                 }
             },
             handleFilter(name, index) {
@@ -154,6 +162,7 @@
                 this.addFlyoutActive  = false;
                 this.selectedRowData = null;
                 this.selectedRowIndex = null;
+                this.loading = true;
             },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false
@@ -163,6 +172,7 @@
                 if (this.selectedRowData != null) this.selectedRowData = null;
                 this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
+                this.loading = true;
             },
             setupLabData() {
                 let global = this.$root.$data.global
@@ -207,6 +217,15 @@
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests
+            },
+            getPatientCreditCard(userId) {
+                axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
+                .then(response => {
+                    this.patientCard = response.data.cards[response.data.cards.length - 1];
+                })
+                .then(() => {
+                    this.loading = false;
+                })
             }
         },
         computed: {
@@ -228,7 +247,8 @@
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
-                    global.loadingPractitioners
+                    global.loadingPractitioners ||
+                    global.loadingCreditCards
                 }
                 return false
             },
@@ -257,7 +277,8 @@
             if (!global.loadingLabTests &&
                 !global.loadingLabOrders &&
                 !global.loadingPractitioners &&
-                (!global.loadingPatients || (permissions === 'patient'))) {
+                (!global.loadingCreditCards || permissions === 'patient') &&
+                (!global.loadingPatients || permissions === 'patient')) {
                     this.setupLabData();
                 }
 
