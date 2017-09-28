@@ -45,6 +45,14 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\ChargePatientForLabOrder',
         ],
 
+        'App\Events\LabOrderShipped' => [
+            'App\Listeners\SendPatientLabOrderShippedEmail',
+        ],
+
+        'App\Events\LabTestReceived' => [
+            'App\Listeners\SendPatientLabTestReceivedEmail',
+        ],
+
         'App\Events\OutOfServiceZipCodeRegistered' => [
             'App\Listeners\CreateLead',
         ],

@@ -1,4 +1,4 @@
-body.lab-tests {
+body[class*="lab-tests"] { // to account for all the additional routes
     .hero {
         .hero-background {
             background: url('/images/lab_tests/blood-draw.jpg') no-repeat center top;

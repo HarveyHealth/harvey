@@ -5,17 +5,19 @@
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                    <span class="text">Lab Orders</span>
-                    <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
-                        <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                    </button>
-                    </h1><br>
+                        <span class="text">Lab Orders</span>
+                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                        </button>
+                    </h1>
                     <FilterButtons
+                        :flyout="closeFlyouts"
                         v-if="$root.$data.permissions !== 'patient'"
                         :active-filter="activeFilter"
                         :filters="filters"
                         :loading="disabledFilters"
                         :on-filter="handleFilter"
+                        :all-data="labData"
                     />
                 </div>
             </div>
@@ -76,6 +78,8 @@
                 addFlyoutActive: false,
                 detailFlyoutActive: false,
                 addActiveModal: false,
+                patientCard: null,
+                loading: false,
                 cache: {
                     Recommended: [],
                     Confirmed: [],
@@ -85,6 +89,8 @@
                     Processing: [],
                     Complete: []
                 },
+                labData: [],
+                step: 1,
                 tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
@@ -107,10 +113,15 @@
                     this.detailFlyoutActive = true;
                     this.selectedRowData = data;
                     this.selectedRowIndex = index;
+                    this.step = 1;
+                    this.loading = true;
+                    if (this.$root.$data.permissions !== 'patient') this.getPatientCreditCard(data.patient_user_id);
                 } else {
                     this.selectedRowData = null;
                     this.selectedRowIndex = null;
                     this.detailFlyoutActive = false;
+                    this.step = 1;
+                    this.loading = true;
                 }
             },
             handleFilter(name, index) {
@@ -146,6 +157,13 @@
                     'has-updated': this.updatedRow === index,
                 }
             },
+            closeFlyouts() {
+                this.detailFlyoutActive = false;
+                this.addFlyoutActive  = false;
+                this.selectedRowData = null;
+                this.selectedRowIndex = null;
+                this.loading = true;
+            },
             addingFlyoutActive() {
                 this.detailFlyoutActive = false
                 this.addFlyoutActive = !this.addFlyoutActive
@@ -154,12 +172,13 @@
                 if (this.selectedRowData != null) this.selectedRowData = null;
                 this.addFlyoutActive = !this.addFlyoutActive
                 this.detailFlyoutActive = !this.detailFlyoutActive
+                this.loading = true;
             },
             setupLabData() {
                 let global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
                 let patient = null
-                if (permissions == 'patient') {
+                if (permissions === 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                     patient[global.user.included.id].attributes.id = global.user.included.id
@@ -173,6 +192,7 @@
                     global.practitionerLookUp,
                     this.$root.$data.labTests
                 )
+                this.labData = data;
                 let choices = {
                     0: "Recommended",
                     1: "Confirmed",
@@ -197,6 +217,15 @@
             },
             getLabTests() {
                 this.tests = this.$root.$data.labTests
+            },
+            getPatientCreditCard(userId) {
+                axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
+                .then(response => {
+                    this.patientCard = response.data.cards[response.data.cards.length - 1];
+                })
+                .then(() => {
+                    this.loading = false;
+                })
             }
         },
         computed: {
@@ -218,7 +247,8 @@
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
-                    global.loadingPractitioners
+                    global.loadingPractitioners ||
+                    global.loadingCreditCards
                 }
                 return false
             },
@@ -247,7 +277,8 @@
             if (!global.loadingLabTests &&
                 !global.loadingLabOrders &&
                 !global.loadingPractitioners &&
-                (!global.loadingPatients || (permissions === 'patient'))) {
+                (!global.loadingCreditCards || permissions === 'patient') &&
+                (!global.loadingPatients || permissions === 'patient')) {
                     this.setupLabData();
                 }
 

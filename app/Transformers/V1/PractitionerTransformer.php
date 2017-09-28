@@ -25,7 +25,7 @@ class PractitionerTransformer extends TransformerAbstract
             'name' => $practitioner->user->full_name,
             'picture_url' => $practitioner->picture_url,
             'school' => $practitioner->school,
-            'specialty' => json_decode($practitioner->specialty),
+            'specialty' => json_decode($practitioner->specialty) ?? [],
             'type_name' => $practitioner->type->name,
             'user_id' => (string) $practitioner->user_id,
         ];
