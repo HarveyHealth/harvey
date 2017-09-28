@@ -27,8 +27,8 @@ Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 
 // Facebook Connect
-Route::get('auth/{provider}', 'Auth\AuthController@redirectToProvider');
-Route::get('auth/{provider}/callback', 'Auth\AuthController@handleProviderCallback');
+Route::get('auth/facebook', 'Auth\AuthController@redirectToFacebookProvider');
+Route::get('auth/facebook/callback', 'Auth\AuthController@handleFacebookProviderCallback');
 
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');

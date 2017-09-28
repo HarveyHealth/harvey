@@ -18,31 +18,29 @@ class AuthController extends Controller
     }
 
     // Redirect the user to the OAuth Provider.
-    public function redirectToProvider($provider, Request $request)
+    public function redirectToFacebookProvider(Request $request)
     {
         if (!$request->zip) {
             session(['no_zip' => true]);
         } else {
             session(['zip' => $request->zip]);
         }
-        return Socialite::driver($provider)->redirect();
+        return Socialite::driver('facebook')->redirect();
     }
 
     // Obtain the user information from provider.  Check if the user already exists in our
     // database by looking up their provider_id in the database.
     // If the user exists, log them in. Otherwise, create a new user then log them in.
-    public function handleProviderCallback($provider)
+    public function handleFacebookProviderCallback()
     {
         // Grab facebook user information
-        $user = Socialite::driver($provider)->user();
+        $user = Socialite::driver('facebook')->user();
 
         // Determine if user currently exists from previous facebook signin
-        $existingUser = User::where('facebook_provider_id', $user->id)->first();
-
-        if ($existingUser) {
+        if ($existingUser = User::where('facebook_provider_id', $user->id)->first()) {
           // login and redirect based on appointment history
-          $patientId = Patient::where('user_id', $existingUser->id)->first()->id;
-          $hasAppointment = Appointment::where('patient_id', $patientId)->first();
+          $patientId = $existingUser->patient->id;
+          $hasAppointment = $existingUser->appointments()->first();
           $toPage = $hasAppointment ? '/dashboard' : '/get-started';
           Auth::loginUsingId($existingUser->id, true);
           return redirect($toPage);
@@ -59,8 +57,7 @@ class AuthController extends Controller
           $state = $this->zipCodeValidator->getState();
 
           // Create user and patient
-          User::unguard();
-          $_user = new User([
+          $_user = User::create([
               'first_name' => explode(' ', $user->name)[0],
               'last_name' => explode(' ', $user->name)[1],
               'email' => $user->email,
@@ -71,13 +68,13 @@ class AuthController extends Controller
               'city' => $city,
               'state' => $state,
           ]);
-          $_user->save();
-          event(new UserRegistered($_user));
+
           $_user->patient()->save(new Patient());
-          // Emit the user registration event for email send
-          // event(new UserRegistered($_user));
+
+          event(new UserRegistered($_user));
+
           Auth::login($_user, true);
-          // return $zip;
+
           return redirect('/get-started#/welcome');
         }
     }
