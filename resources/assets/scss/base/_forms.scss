@@ -73,6 +73,7 @@
   width: 100%;
   .flyout & {
     width: 100% !important;
+    display: table;
   }
 }
 
@@ -134,7 +135,7 @@
   }
   &.link-color {
     font-size: 15px;
-    @include margin(.5em 0 .25em 0);
+    @include margin(.5em 0 0);
     text-transform: none;
     font-weight: 500;
     letter-spacing: 0;

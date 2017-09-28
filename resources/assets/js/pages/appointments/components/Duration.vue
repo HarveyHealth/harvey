@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="input__container" :style="{ 'margin-bottom': editable ? '0.5em' : false }">
+  <div v-if="isVisible" class="input__container" :style="{ 'margin-bottom': editable ? '0.5em' : false }">
     <label class="input__label">duration</label>
     <SelectOptions v-if="editable"
       :attached-label="'Select duration'"
@@ -26,7 +26,7 @@ export default {
     // What happens when a user selects a status?
     setDuration: Function,
     // Should we even display appointment status?
-    visible: Boolean,
+    isVisible: Boolean,
   },
   components: {
     SelectOptions
