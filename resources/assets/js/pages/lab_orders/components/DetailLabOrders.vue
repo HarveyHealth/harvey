@@ -217,7 +217,7 @@
             </a>
             
             <span class="custom-select">
-                <select @change="updateTest($event, test)" class="disabled" disabled>
+                <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
@@ -248,10 +248,11 @@
         <!-- Card -->
 
         <div class="input__container">
-          <label class="input__label">Card</label>
+          <label class="input__label">Current Card</label>
             <div class="left-column">
-              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-              <span v-else class="input__item error-text">No card on file.</span>
+              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
+              <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
             </div>
             <!-- This should always show, don't add conditional statements -->
             <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
@@ -263,8 +264,8 @@
           <label class="input__label">Invoice</label>
             <div class="left-column">
               <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
-              <span v-else class="input__item error-text">Invoice not paid.</span>
+              <span v-if="paid" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
             </div>
         </div>
 
@@ -377,7 +378,6 @@
         cardExpiry: '',
         cardCvc: '',
         patientPrice: 0,
-        paid: {},
         patientLabTests: {},
         labPatients: {},
         postalCode: '',
@@ -405,6 +405,7 @@
       },
       handleFlyoutClose() {
         this.$parent.step = 1;
+        this.loading = true;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -493,11 +494,9 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                  status: 'shipped'
                 })
-              }
             })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
@@ -508,7 +507,6 @@
       },
       updateLabOrder() {
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.$props.rowData.shipment_code,
             address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
             address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
             city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
@@ -578,7 +576,7 @@
         this.$parent.selectedRowData = null;
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
-      },
+      }
     },
     computed: {
       flyoutHeading() {
@@ -593,6 +591,9 @@
         return this.$props.rowData ?
           `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
           ''
+      },
+      paid() {
+        return this.$props.rowData ? this.$props.rowData.paid : false;
       },
       validZip() {
         if (this.zip != '') {

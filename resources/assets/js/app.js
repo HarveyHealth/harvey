@@ -270,12 +270,6 @@ const app = new Vue({
             }
         },
         getLabData() {
-            axios.get(`${this.apiUrl}/lab/orders?include=invoice`)
-            .then(response => console.log('SINGLE', response))
-
-            axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
-            .then(response => console.log('MULTI', response))
-
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     let user = response.data.included.filter(e => e.type === 'users')

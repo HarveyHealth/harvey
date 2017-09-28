@@ -29,9 +29,10 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             test_list: [],
             date: obj.attributes.created_at.date,
             total_price: 0,
+            paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
-                last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last4 : null
+                last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
             },
             samples: {}
         }
