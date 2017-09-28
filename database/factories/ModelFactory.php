@@ -7,6 +7,7 @@ use App\Models\{
     Appointment,
     LabOrder,
     LabTest,
+    LabTestInformation,
     License,
     Message,
     Patient,
@@ -282,5 +283,18 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
             return factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => function () {
+            return factory(SKU::class)->create()->id;
+        },
+        'description' => $faker->randomHtml(2,3),
+        'image' => $faker->url,
+        'lab_name' => $faker->sentence(3),
+        'sample' => $faker->sentence(2),
+        'quote' => $faker->text,
     ];
 });

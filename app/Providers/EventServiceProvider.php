@@ -49,8 +49,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPatientLabOrderShippedEmail',
         ],
 
-        'App\Events\LabTestReceived' => [
-            'App\Listeners\SendPatientLabTestReceivedEmail',
+        'App\Events\LabTestProcessing' => [
+            'App\Listeners\SendPatientLabTestProcessingEmail',
         ],
 
         'App\Events\OutOfServiceZipCodeRegistered' => [

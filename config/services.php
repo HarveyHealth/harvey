@@ -74,7 +74,7 @@ return [
                     'shipped' => 2741642,
                 ],
                 'lab_test' => [
-                    'received' => 3148942,
+                    'processing' => 3148942,
                 ],
                 'welcome' => 1450461,
             ],
