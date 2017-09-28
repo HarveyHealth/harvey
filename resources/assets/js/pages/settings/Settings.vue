@@ -10,8 +10,9 @@
             </div>
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Payment Options
-                        <span class="heading-2" v-if="this.user_id">for User ID #{{ this.user_id }}<h2 class="heading-2">{{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }}</h2></span>
+                    <h2 class="heading-2">
+                        Payment Options
+                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
                     </h2>
                 </div>
                 <div class="card-content-wrap">
@@ -164,6 +165,7 @@ export default {
                     this.$root.$data.global.creditCards = [];
                     this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = false;
                     setTimeout(() => this.notificationActive = false, 3000);
                 })
             this.closeModal()
@@ -207,6 +209,7 @@ export default {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
+                    Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {
