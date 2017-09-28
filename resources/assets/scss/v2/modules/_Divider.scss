@@ -1,18 +1,25 @@
-.Divider-or {
+.Divider-text {
   border-bottom: 1px dashed $color-copy-muted-2;
   position: relative;
   margin: 24px auto;
-  max-width: 320px;
+  max-width: 300px;
 
   &::after {
-    background: $color-white;
     color: $color-copy-muted-2;
-    content: 'OR';
+    content: attr(data-text);
     font-size: 12px;
-    padding: $space-xs;
+    padding: 12px;
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);
-    top: -14px;
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+
+  &.is-white::after {
+    background: $color-white;
+  }
+
+  &.is-gray::after {
+    background: $color-gray-0;
   }
 }

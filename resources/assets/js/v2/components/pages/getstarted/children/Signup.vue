@@ -82,7 +82,7 @@
                 :text="'Sign Up'"
                 :width="'160px'"
               />
-              <div class="Divider-or"></div>
+              <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
             </div>
           </div>

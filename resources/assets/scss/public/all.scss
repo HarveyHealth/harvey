@@ -541,6 +541,7 @@ body[class*="404"]{
 
       form {
         margin-bottom: 60px;
+        padding: 16px;
       }
 
       .button {
@@ -575,7 +576,7 @@ body[class*="404"]{
         max-width: 510px;
         @include padding(1rem 4.5rem);
         @include until($tablet) {
-          @include padding(1.7rem 3rem);
+          @include padding(1.5rem 3rem 0.5rem);
 
         }
       }
