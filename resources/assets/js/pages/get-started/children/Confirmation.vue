@@ -13,16 +13,16 @@
         <svg class="interstitial-icon icon-rocket"><use xlink:href="#clipboard" /></svg>
       </div>
 
-      <p v-if="isBookingAllowed">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
+      <p v-if="$root.isSignupBookingAllowed">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
 
-      <div v-show="!isBookingAllowed">
+      <div v-show="!$root.isSignupBookingAllowed">
         <p class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">You must select a practitioner</p>
         <p class="copy-error" v-show="!$root.$data.signup.data.appointment_at">Appointment time has not been scheduled</p>
         <p class="copy-error" v-show="!$root.$data.signup.phoneConfirmed">Please confirm phone number before booking an appointment</p>
         <p class="copy-error" v-show="!$root.$data.signup.billingConfirmed">Please confirm billing before booking an appointment</p>
       </div>
 
-      <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
+      <button class="button button--blue" v-if="$root.isSignupBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
         <ClipLoader v-else-if="isProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
@@ -99,12 +99,6 @@ export default {
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     },
-    isBookingAllowed() {
-      return (this.$root.$data.signup.billingConfirmed &&
-        this.$root.$data.signup.phoneConfirmed &&
-        this.$root.$data.signup.data.appointment_at &&
-        this.$root.$data.signup.data.practitioner_id)
-    }
   },
   filters: {
     getState,

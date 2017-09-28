@@ -111,6 +111,10 @@ export default {
     }
   },
   mounted () {
+    if (!this.$root.isSignupBookingAllowed) {
+      this.$router.push({ name: 'welcome', path: 'welcome' });
+      return;
+    }
     this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.

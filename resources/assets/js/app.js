@@ -192,6 +192,14 @@ const app = new Vue({
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
+    computed: {
+      isSignupBookingAllowed() {
+        return this.signup.billingConfirmed &&
+          this.signup.phoneConfirmed &&
+          this.signup.data.appointment_at &&
+          this.signup.data.practitioner_id
+      }
+    },
     methods: {
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
