@@ -12,7 +12,6 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
         $labTests = $event->labOrder->labTests;
         $user = $event->labOrder->patient->user;
-        $parcels = [];
 
         // From Address
         $fromAddress = [
@@ -45,8 +44,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         ];
 
         $parcelInfo = $labTests->pluck('sku')->map(function($sku) {
-          $items = collect($sku->getAttributes())->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
-          return $parcels[] = $items;
+          return collect($sku->getAttributes())->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
         });
 
         $shipment = \Shippo_Shipment::create([
