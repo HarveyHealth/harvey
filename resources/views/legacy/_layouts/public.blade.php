@@ -53,12 +53,8 @@
                 isMobile: window.matchMedia('(max-width: 768px)').matches,
                 src: [
                   {
-                    src: 'http://harvey-develop.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                    src: 'http://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
                     type: 'video/mp4'
-                  },
-                  {
-                    src: 'night.webm',
-                    type: 'video/webm;codecs="vp8, vorbis"'
                   }
                 ],
                 // What to do once video loads
