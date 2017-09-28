@@ -18,11 +18,9 @@
 
     <div id="app">
         @include('legacy._layouts.includes.top_nav')
-
         <div class="page-content">
             @yield('main_content')
         </div>
-
         @include('legacy._layouts.includes.footer')
     </div>
 
@@ -33,9 +31,6 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
-    <script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
-    <link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
-
     @if (Auth::guest())
         
         <!-- Modernizr -->
@@ -44,6 +39,35 @@
         <!-- Juicer -->
         <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
         <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
+
+        <!-- Bideo -->
+        <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
+        <script>
+
+              var bv = new Bideo();
+              bv.init({
+                videoEl: document.querySelector('#hero-video'),
+                container: document.querySelector('body'),
+                resize: true,
+                autoplay: true,
+                isMobile: window.matchMedia('(max-width: 768px)').matches,
+                src: [
+                  {
+                    src: 'http://harvey-develop.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                    type: 'video/mp4'
+                  },
+                  {
+                    src: 'night.webm',
+                    type: 'video/webm;codecs="vp8, vorbis"'
+                  }
+                ],
+                // What to do once video loads
+                onLoad: function () {
+                  document.querySelector('#video-cover').style.display = 'none';
+                }
+              });
+
+        </script>
 
         <!-- Lity -->
         <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
