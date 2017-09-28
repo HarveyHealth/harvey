@@ -2,9 +2,6 @@
     width: 70%;
     display: table;
     float: left;
-    .input__item {
-        display: table;
-    }
     .checkout-container & {
         @include margin(0 0 1em 0);
     }
@@ -19,25 +16,35 @@
     }
 }
 
+.input__item {
+    display: table;
+    .left-column & {
+        &:hover {
+            cursor: text;
+        }
+    }
+}
+
 .checkout-container {
     @include margin(0);
+}
 
-    .discount {
-        color: $casper;
-        font-weight: 500;
-        @include margin(0 0 .25em 0);
-    }
+.discount {
+    color: $casper;
+    font-weight: 500;
+    @include margin(0 0 .25em 0);
+}
 
-    .total {
-        color: $color-good;
-        @include margin(0);
-    }
+.total {
+    color: $color-good;
+    @include margin(0);
+}
 
-    .sub-items {
-        width: 100%;
-        margin-bottom: .25em;
-        float: left;
-    }
+.sub-items {
+    width: 100%;
+    font-size: 15px;
+    display: table;
+    @include margin(.5em 0 .25em);
 }
 
 .address, .city, .zip, .state {

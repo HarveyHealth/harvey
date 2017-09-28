@@ -6,11 +6,9 @@
     :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
 
-    <!-- PATIENTS ONLY -->
+    <!-- PATIENTS -->
 
     <div v-if="$root.$data.permissions === 'patient'">
-
-      <!-- RECOMMENDED -->
 
       <div v-if="$parent.step == 1">
 
@@ -25,8 +23,9 @@
 
         <div class="input__container">
           <label class="input__label first">Lab Tests</label>
-          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
-          <a v-if="status === 'Confirmed'" v-for="test in testList" href="#" class="input__label link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
+
+          <!-- Recommended -->
+
           <div v-if="status === 'Recommended'">
             <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
               <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
@@ -35,6 +34,19 @@
               </label>
             </div>
           </div>
+
+          <!-- Confirmed -->
+
+          <div v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+            <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+          </div>
+
+          <!-- Shipped or greater -->
+
+          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+          </a>
+
         </div>
 
         <!-- Tracking -->
@@ -46,10 +58,34 @@
 
         <!-- Address -->
 
-        <div v-if="status !== 'Recommended'" class="input__container">
+        <div class="input__container">
           <label class="input__label">Address</label>
           <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
+        </div>
+
+        <!-- Card -->
+
+        <!-- Show only if the invoice is unpaid... -->
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Status -->
@@ -58,7 +94,6 @@
           <label class="input__label">Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
-
 
         <!-- Call to Action -->
 
@@ -77,7 +112,7 @@
         <div class="input__container checkout-container">
           <div class="left-column">
             <label class="input__label" for="products">Products</label>
-            <span class="sub-items" v-for="test in Object.values(labPatients)" disabled>{{ test.attributes.name }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</span>
           </div>
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
@@ -110,13 +145,27 @@
             <label v-if="!validZip" class="input__label">Please enter a valid zip code.</label>
         </div>
 
-        <!-- Payment -->
+        <!-- Card -->
 
         <div class="input__container">
-          <label class="input__label" for="billing">Payment</label>
-            <router-link to="/settings" v-if="!latestCard || !latestCard.brand || !latestCard.last4">Add Credit Card</router-link>
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item left-column">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link v-if="latestCard && latestCard.brand && latestCard.last4" class="right-column link-color" to="/settings">Edit Card</router-link>
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Call to Action -->
@@ -124,17 +173,14 @@
         <div class="button-wrapper">
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
         </div>
-      </div>
 
       </div>
 
     </div> <!-- END // PATIENT ONLY -->
 
-    <!-- ADMINS/PRACTITIONERS ONLY -->
+    <!-- ADMINS/PRACTITIONERS -->
 
     <div v-if="$root.$data.permissions !== 'patient'">
-
-      <!-- SHIPPED & BEYOND -->
 
       <div v-if="$parent.step === 1">
 
@@ -157,10 +203,21 @@
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="#" class="input__label lab-test link-color"><i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}</a>
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color"><i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}</a>
+
+            <!-- Recommended or Confirmed -->
+            
+            <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+            </div>
+
+            <!-- Shipped or greater -->
+            
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            </a>
+            
             <span class="custom-select">
-                <select @change="updateTest($event, test)" class="disabled" disabled>
+                <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
@@ -171,7 +228,9 @@
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color"><i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}</a>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank">
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}
+          </a>
         </div>
 
         <!-- Address -->
@@ -186,20 +245,28 @@
           <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
         </div>
 
-        <!-- Payment -->
+        <!-- Card -->
+
+        <div class="input__container">
+          <label class="input__label">Current Card</label>
+            <div class="left-column">
+              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
+              <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label">Payment</label>
-          <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined" class="left-column">
-            <span class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</span>
-            <span class="input__item">{{`Charged: $${price}.00`}}</span>
-          </div>
-          <div class="left-column" v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined">
-            <span class="input__item error-text">{{`No card on file.`}}</span>
-          </div>
-          <span v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item left-column error-text">Invoice not paid.</span>
-          <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">{{`Edit Card`}}</router-link>
-
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="paid" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
 
         <!-- Status -->
@@ -221,6 +288,7 @@
       <!-- FLYER STEP #2 -->
 
       <div v-if="$parent.step == 2">
+
         <div v-for="test in testList">
           <div class="input__container">
             <label class="input__label">{{ test.name }}</label>
@@ -229,8 +297,6 @@
         </div>
 
         <!-- Master Tracking -->
-
-      <div>
 
         <div class="input__container">
           <label class="input__label">Master Tracking</label>
@@ -254,7 +320,6 @@
         <div class="button-wrapper">
           <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
         </div>
-      </div>
 
     </div>
 
@@ -313,7 +378,6 @@
         cardExpiry: '',
         cardCvc: '',
         patientPrice: 0,
-        paid: {},
         patientLabTests: {},
         labPatients: {},
         postalCode: '',
@@ -341,6 +405,7 @@
       },
       handleFlyoutClose() {
         this.$parent.step = 1;
+        this.loading = true;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
       },
@@ -429,11 +494,9 @@
           })
           .then(respond => {
               this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
                 axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+                  status: 'shipped'
                 })
-              }
             })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
@@ -444,7 +507,6 @@
       },
       updateLabOrder() {
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.$props.rowData.shipment_code,
             address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
             address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
             city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
@@ -514,7 +576,7 @@
         this.$parent.selectedRowData = null;
         setTimeout(() => this.$parent.notificationActive = false, 3000);
         this.handleFlyoutClose();
-      },
+      }
     },
     computed: {
       flyoutHeading() {
@@ -529,6 +591,9 @@
         return this.$props.rowData ?
           `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
           ''
+      },
+      paid() {
+        return this.$props.rowData ? this.$props.rowData.paid : false;
       },
       validZip() {
         if (this.zip != '') {
