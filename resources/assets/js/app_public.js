@@ -258,14 +258,16 @@ const app = new Vue({
 
         // This is a temporary solution until we refactor how analytics is loaded
         // on public pages
+        const path = window.location.pathname;
+
         if (this.shouldTrack()) {
           let currentPage = '';
 
           if(this.isHomePage) {
             currentPage = 'Homepage';
-          } else if (window.location.pathname === '/about') {
+          } else if (path === '/about') {
             currentPage = 'About';
-          } else if (window.location.pathname === '/lab-tests') {
+          } else if (path === '/lab-tests') {
             currentPage = 'Lab Tests';
           }
 

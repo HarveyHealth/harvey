@@ -32,8 +32,20 @@ class PagesController extends Controller
         return view('legacy.pages.about')->with(['about']);
     }
 
-    public function getLabTests()
+    public function getLabTests(string $labTestSlug = null)
     {
-        return view('legacy.pages.lab_tests')->with(['lab_tests' => LabTestInformation::publicFromCache()]);
+        $lab_tests = LabTestInformation::publicFromCache();
+
+        $index = $lab_tests->pluck('sku')->search(function ($item) use ($labTestSlug) {
+            return $item->slug == $labTestSlug;
+        });
+
+        if (false === $index) {
+            return redirect(route('lab-tests', $lab_tests->first()->sku->slug));
+        }
+
+        $sku_id = $lab_tests->pluck('sku')->get($index)->id;
+
+        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
     }
 }
