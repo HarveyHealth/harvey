@@ -2,7 +2,7 @@
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="signup-container small naked">
       <div class="signup-main-icon">
-        <svg id="rocket"><use xlink:href="#rocket" /></svg>
+        <svg id="rocket"><use xlink:href="#checklist" /></svg>
       </div>
       <h2 class="heading-1">Welcome to Harvey</h2>
       <p>You will need to answer a few basic questions before you can book a consultation with a Naturopathic Doctor.</p>

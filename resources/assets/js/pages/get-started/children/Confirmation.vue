@@ -1,8 +1,8 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
+    <div class="signup-stage-instructions color-whhite">
       <StagesNav :current="'confirmation'" />
-      <h2 class="heading-1">Final Confirmation</h2>
+      <h2 class="heading-1 color-white">Final Confirmation</h2>
     </div>
     <div class="signup-container small router">
       <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">

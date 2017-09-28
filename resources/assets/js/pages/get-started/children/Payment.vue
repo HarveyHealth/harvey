@@ -1,8 +1,8 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
+    <div class="signup-stage-instructions color-white">
       <StagesNav :current="'payment'" />
-      <h2 class="heading-1" v-text="title"></h2>
+      <h2 class="heading-1 color-white" v-text="title"></h2>
       <p v-html="subtext"></p>
 
       <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>

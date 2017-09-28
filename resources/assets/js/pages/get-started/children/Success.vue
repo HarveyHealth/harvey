@@ -1,9 +1,9 @@
 <template>
   <div :class="containerClasses">
-    <div class="success-wrapper mt-xl_lgH">
+    <div class="success-wrapper mt-xl_lgH color-white">
       <img class="success-icon" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
+      <h1 class="heading-1 font-normal mt-md color-white">{{ title }}</h1><br>
 
       <p>
         <span class="confirmation_day">

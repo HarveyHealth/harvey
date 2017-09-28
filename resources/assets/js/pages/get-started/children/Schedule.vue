@@ -1,8 +1,8 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
+    <div class="signup-stage-instructions color-white">
       <StagesNav :current="'schedule'" />
-      <h2 class="heading-1">Choose Date & Time</h2>
+      <h2 class="heading-1 color-white">Choose Date & Time</h2>
       <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
     </div>
     <div class="signup-container large router">
