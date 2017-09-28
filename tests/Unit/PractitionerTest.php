@@ -60,8 +60,7 @@ class PractitionerTest extends TestCase
 
     public function test_it_shows_the_correct_availability_if_schedules_are_set_and_using_48hs_buffer()
     {
-        $knownDate = Carbon::create(2017, 4, 18, 12); // create testing date
-        Carbon::setTestNow($knownDate);
+        Carbon::setTestNow(Carbon::create(2017, 4, 18, 12));
 
         $practitioner = factory(Practitioner::class)->create();
 

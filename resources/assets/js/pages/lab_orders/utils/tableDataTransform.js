@@ -10,6 +10,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
+            patient_user_id: patientLookUp[obj.attributes.patient_id] ? patientLookUp[obj.attributes.patient_id].attributes.user_id : null,
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
@@ -28,9 +29,10 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             test_list: [],
             date: obj.attributes.created_at.date,
             total_price: 0,
+            paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
             card: {
-                brand: obj.included && obj.included.attributes ? obj.included.attributes.card_brand : null,
-                last4: obj.included && obj.included.attributes ? obj.included.attributes.card_last4 : null
+                brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
+                last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
             },
             samples: {}
         }
@@ -56,6 +58,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                         [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
                         [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
+                    current_status: capitalize(test.attributes.status),
                     sku: testList[Number(test.id)],
                     shipment_code: test.attributes.shipment_code
                 })
