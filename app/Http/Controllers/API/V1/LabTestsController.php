@@ -6,6 +6,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
+use Illuminate\Support\Pluralizer;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Exception, ResponseCode, Storage;
@@ -169,7 +170,17 @@ class LabTestsController extends BaseAPIController
     public function information()
     {
         $this->serializer = new JsonApiSerializer();
-        return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
+
+        $builder = LabTestInformation::make();
+
+        if ($user = currentUser()) {
+            $scope = Pluralizer::plural($user->type);
+            $builder = $builder->$scope();
+        } else {
+            $builder = $builder->public();
+        }
+
+        return $this->baseTransformBuilder($builder, request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
 }
