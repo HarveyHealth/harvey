@@ -174,6 +174,8 @@
           <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+
       </div>
 
     </div> <!-- END // PATIENT ONLY -->
@@ -341,6 +343,7 @@
 <script>
   import Q from 'q'
   import Flyout from '../../../commons/Flyout.vue'
+  import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
   import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
@@ -354,7 +357,8 @@
     components: {
       Flyout,
       SelectOptions,
-      Modal
+      Modal,
+      ClipLoader
     },
     data() {
       return {
@@ -378,6 +382,7 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        loading: false,
         patientPrice: 0,
         patientLabTests: {},
         labPatients: {},
@@ -406,7 +411,7 @@
       },
       handleFlyoutClose() {
         this.$parent.step = 1;
-        this.loading = true;
+        this.loading = false;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
         this.address1 = ''
@@ -446,6 +451,7 @@
         this.month = e.target.value
       },
       patientLabUpdate() {
+        this.loading = true;
             let promises = [];
             _.each(this.patientTestList, (e, i, a) => {
                 if (e.patient && !e.checked) {
