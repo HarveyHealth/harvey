@@ -278,7 +278,7 @@
                 !global.loadingLabOrders &&
                 !global.loadingPractitioners &&
                 (!global.loadingCreditCards || permissions === 'patient') &&
-                (!global.loadingPatients || permissions === 'patient')) {
+                (!global.loadingPatients || permissions !== 'patient')) {
                     this.setupLabData();
                 }
 
