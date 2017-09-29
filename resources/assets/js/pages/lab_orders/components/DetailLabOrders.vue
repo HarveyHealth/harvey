@@ -279,7 +279,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateTests">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateLabOrder">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
       </div>
@@ -409,6 +409,12 @@
         this.loading = true;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
+        this.address1 = ''
+        this.address2 = ''
+        this.newCity = ''
+        this.newZip = ''
+        this.newState = ''
+        this.labPatients = {}
       },
       updateStatus(e) {
         this.selectedStatus = e.target.value;
@@ -480,7 +486,7 @@
               })
               .then((respond) => {
                 let status = _.capitalize(respond.data.data.attributes.status);
-                let number = _.size(this.patientTestList);
+                let number = _.size(this.labPatients);
                 this.$root.$data.global.labOrders.forEach((e, i) => {
                   if (e.id === this.$props.rowData.id) {
                     this.$root.$data.global.labOrders[i].attributes.status = status;
@@ -504,7 +510,6 @@
                     this.$parent.currentData[i].values[4] = number
                   }
                 })
-                this.$root.$data.global.labOrders
                 this.$parent.notificationMessage = "Successfully updated!";
                 this.$parent.notificationActive = true;
                 this.$parent.selectedRowData = null;
@@ -515,38 +520,38 @@
       },
       markedShipped() {
         let promises = [];
-            this.$props.rowData.test_list.forEach((e) => {
-                promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped'
-                }))
+        this.$props.rowData.test_list.forEach((e) => {
+            promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              status: 'shipped'
+            }))
+        })
+        Q.allSettled(promises).then(() => {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            shipment_code: this.masterTracking,
+            address_1: this.$props.rowData.address_1,
+            address_2: this.$props.rowData.address_2,
+            city: this.$props.rowData.city,
+            state: this.$props.rowData.state,
+            zip: this.$props.rowData.zip
+          })
+          .then(respond => {
+            this.$root.$data.global.labOrders.forEach((e, i) => {
+              if (e.id === this.$props.rowData.id) {
+                this.$root.$data.global.labOrders[i].attributes.status = _.capitalize(e.attributes.status);
+                this.$root.$data.global.labOrders[i].attributes.address_1 = this.$props.rowData.address_1;
+                this.$root.$data.global.labOrders[i].attributes.address_2 = this.$props.rowData.address_2;
+                this.$root.$data.global.labOrders[i].attributes.city = this.$props.rowData.city;
+                this.$root.$data.global.labOrders[i].attributes.state = this.$props.rowData.state;
+                this.$root.$data.global.labOrders[i].attributes.zip = this.$props.rowData.zip;
+              }
             })
-            Q.allSettled(promises).then(() => {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-                shipment_code: this.masterTracking,
-                address_1: this.$props.rowData.address_1,
-                address_2: this.$props.rowData.address_2,
-                city: this.$props.rowData.city,
-                state: this.$props.rowData.state,
-                zip: this.$props.rowData.zip
-              })
-              .then(respond => {
-                this.$root.$data.global.labOrders.forEach((e, i) => {
-                  if (e.id === this.$props.rowData.id) {
-                    this.$root.$data.global.labOrders[i].attributes.status = _.capitalize(e.attributes.status);
-                    this.$root.$data.global.labOrders[i].attributes.address_1 = this.$props.rowData.address_1;
-                    this.$root.$data.global.labOrders[i].attributes.address_2 = this.$props.rowData.address_2;
-                    this.$root.$data.global.labOrders[i].attributes.city = this.$props.rowData.city;
-                    this.$root.$data.global.labOrders[i].attributes.state = this.$props.rowData.state;
-                    this.$root.$data.global.labOrders[i].attributes.zip = this.$props.rowData.zip;
-                  }
-                })
-                this.$parent.notificationMessage = "Successfully updated!";
-                this.$parent.notificationActive = true;
-                this.$parent.selectedRowData = null;
-                setTimeout(() => this.$parent.notificationActive = false, 3000);
-                this.handleFlyoutClose()
-              })
-            })
+            this.$parent.notificationMessage = "Successfully updated!";
+            this.$parent.notificationActive = true;
+            this.$parent.selectedRowData = null;
+            setTimeout(() => this.$parent.notificationActive = false, 3000);
+            this.handleFlyoutClose()
+          })
+        })
       },
       updateLabOrder() {
         let promises = []
@@ -575,16 +580,31 @@
               zip: this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip
             })
             .then(respond => {
+              let status = _.capitalize(respond.data.data.attributes.status);
+              let number = _.size(this.$props.rowData.test_list);
               this.$root.$data.global.labOrders.forEach((e, i) => {
-                  if (e.id === this.$props.rowData.id) {
-                    this.$root.$data.global.labOrders[i].attributes.status = _.capitalize(e.attributes.status);
-                    this.$root.$data.global.labOrders[i].attributes.address_1 = this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1;
-                    this.$root.$data.global.labOrders[i].attributes.address_2 = this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2;
-                    this.$root.$data.global.labOrders[i].attributes.city = this.$props.rowData.city ? this.$props.rowData.city : this.newCity;
-                    this.$root.$data.global.labOrders[i].attributes.state = this.$props.rowData.state ? this.$props.rowData.state : this.newState;
-                    this.$root.$data.global.labOrders[i].attributes.zip = this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip;
-                  }
-                })
+                if (e.id === this.$props.rowData.id) {
+                  this.$root.$data.global.labOrders[i].attributes.status = status;
+                  this.$root.$data.global.labOrders[i].attributes.address_1 = this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1;
+                  this.$root.$data.global.labOrders[i].attributes.address_2 = this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2;
+                  this.$root.$data.global.labOrders[i].attributes.city = this.$props.rowData.city ? this.$props.rowData.city : this.newCity;
+                  this.$root.$data.global.labOrders[i].attributes.state = this.$props.rowData.state ? this.$props.rowData.state : this.newState;
+                  this.$root.$data.global.labOrders[i].attributes.zip = this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip;
+                }
+              })
+              this.$parent.currentData.forEach((e, i) => {
+                if (e.data.id === this.$props.rowData.id) {
+                  this.$parent.currentData[i].data.completed_at = status;
+                  this.$parent.currentData[i].data.address_1 = this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1;
+                  this.$parent.currentData[i].data.address_2 = this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2;
+                  this.$parent.currentData[i].data.city = this.$props.rowData.city ? this.$props.rowData.city : this.newCity;
+                  this.$parent.currentData[i].data.state = this.$props.rowData.state ? this.$props.rowData.state : this.newState;
+                  this.$parent.currentData[i].data.zip = this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip;
+                  this.$parent.currentData[i].data.number_of_tests = number;
+                  this.$parent.currentData[i].values[5] = status
+                  this.$parent.currentData[i].values[4] = number
+                }
+              })
               this.$parent.notificationMessage = "Successfully updated!";
               this.$parent.notificationActive = true;
               this.$parent.selectedRowData = null;
@@ -593,46 +613,6 @@
             })
         })
       },
-      updateTests() {
-        this.$props.rowData.test_list.forEach((e) => {
-          if (this.selectedShipment[Number(e.test_id)] != undefined) {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-              })
-            } else if (this.$props.rowData.completed_at === 'Confirmed') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                status: 'shipped',
-                shipment_code: this.shippingCodes[e.test_id],
-              })
-            } else if (this.$props.rowData.completed_at === 'Recommended') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                status: 'confirmed'
-              })
-            }
-        })
-        axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
-          .then(response => {
-            this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-              e['included'] = response.data.included[i]
-              return e;
-            })
-            this.$root.$data.global.loadingLabOrders = false
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-              .then(response => {
-                this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                  e['included'] = response.data.included[i]
-                  return e;
-                })
-                this.$root.$data.global.loadingLabTests = false
-                this.$props.reset();
-              })
-          })
-        this.$parent.notificationMessage = "Successfully updated!";
-        this.$parent.notificationActive = true;
-        this.$parent.selectedRowData = null;
-        setTimeout(() => this.$parent.notificationActive = false, 3000);
-        this.handleFlyoutClose();
-      }
     },
     computed: {
       flyoutHeading() {
