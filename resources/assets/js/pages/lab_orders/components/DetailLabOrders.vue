@@ -171,7 +171,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !validZip|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>

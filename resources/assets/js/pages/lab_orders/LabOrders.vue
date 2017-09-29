@@ -271,11 +271,11 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-            if (global.loadingLabTests ||
-                    global.loadingLabOrders ||
-                    global.loadingPractitioners ||
-                    global.loadingUser ||
-                    global.loadingCreditCards) {
+            if (!global.loadingLabTests ||
+                !global.loadingLabOrders ||
+                !global.loadingPractitioners ||
+                !global.loadingUser ||
+                !global.loadingCreditCards) {
                 this.setupLabData();
             }
         }
