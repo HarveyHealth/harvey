@@ -11,6 +11,8 @@ class SKU extends Model
     use Sluggable, SluggableScopeHelpers;
 
     protected $table = 'skus';
+    
+    protected $fillable = ['name', 'price'];
 
     public function scopeItemType($query, $type)
     {
