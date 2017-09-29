@@ -74,7 +74,7 @@ return [
                     'shipped' => 2741642,
                 ],
                 'lab_test' => [
-                    'received' => 3148942,
+                    'processing' => 3148942,
                 ],
                 'welcome' => 1450461,
             ],
@@ -98,5 +98,9 @@ return [
         'client_secret_file' => env('GCALENDAR_SECRET_FILE', storage_path('calendar_api/client_secret.json')),
         'access_token_file' => env('GCALENDAR_TOKEN_FILE', storage_path('calendar_api/access_token.json')),
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
+    ],
+
+    'google_geocoder' => [
+        'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
     ],
 ];

@@ -6,19 +6,19 @@ use App\Models\LabTest;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class LabTestReceived
+class LabTestProcessing
 {
     use Dispatchable, SerializesModels;
 
-    public $labTest;
+    public $lab_test;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(LabTest $labTest)
+    public function __construct(LabTest $lab_test)
     {
-        $this->labTest = $labTest;
+        $this->lab_test = $lab_test;
     }
 }
