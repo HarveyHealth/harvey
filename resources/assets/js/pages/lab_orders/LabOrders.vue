@@ -271,17 +271,7 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-            const global = this.$root.$data.global
-            let permissions = this.$root.$data.permissions
-
-            if (!global.loadingLabTests &&
-                !global.loadingLabOrders &&
-                !global.loadingPractitioners &&
-                (!global.loadingCreditCards || permissions === 'patient') &&
-                (!global.loadingPatients || permissions !== 'patient')) {
-                    this.setupLabData();
-                }
-
+            this.setupLabData();
         }
     }
 </script>
