@@ -154,7 +154,7 @@
               <span v-else class="input__item error-text">No card on file.</span>
             </div>
             <!-- This should always show, don't add conditional statements -->
-            <router-link class="right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+            <router-link class="right-column link-color" :to="'/settings'">Edit Card</router-link>
         </div>
 
         <!-- Invoice -->
