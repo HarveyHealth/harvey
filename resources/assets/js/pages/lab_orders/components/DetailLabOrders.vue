@@ -425,6 +425,10 @@
         this.newZip = ''
         this.newState = ''
         this.labPatients = {}
+        if (this.$root.$data.permissions !== 'patient') {
+          this.$parent.setupLabData();
+          this.$parent.activeFilter = 0;
+        }
       },
       updateStatus(e) {
         this.selectedStatus = e.target.value;
