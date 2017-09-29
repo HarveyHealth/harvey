@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated, UserRegistered};
 use App\Jobs\SendTransactionalEmail;
-use App\Models\{Appointment,Patient,User, LabTest, LabTestInformation};
+use App\Models\{Appointment,Patient,User,LabOrder,LabTest,LabTestInformation};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Log;
@@ -192,6 +192,7 @@ class TransactionalEmailTest extends TestCase
         ]);
     }
 
+
     public function test_labtest_processing_notification()
     {
       // create Lab Test instance
@@ -211,6 +212,24 @@ class TransactionalEmailTest extends TestCase
         'lab_test_name' => $lab_test->sku->name,
         'lab_name' =>   $lab_test->information->lab_name,
       ]);
+    }
+
+
+    public function test_laborder_shipped_notification()
+    {
+      // create a Lab Order
+      $labOrder = factory(LabOrder::class)->create();
+
+      // change its status to Shipped
+      $labOrder->status_id = LabOrder::SHIPPED_STATUS_ID;
+      $labOrder->save();
+
+      // assert the notification email was sent to the patient
+      $this->assertEmailWasSentTo($labOrder->patient->user->email);
+
+      // assert the information sent was correct
+      $this->assertEmailTemplateNameWas('patient.lab_order.shipped');
+
     }
 
 }
