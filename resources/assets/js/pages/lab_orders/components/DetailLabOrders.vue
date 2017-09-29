@@ -653,7 +653,7 @@
         }
       },
       id() {
-        return this.$props.id ? this.$props.rowData.id : ''
+        return this.$props.rowData ? this.$props.rowData.id : ''
       },
       status() {
         return this.$props.rowData ? this.$props.rowData.completed_at : ''
@@ -739,6 +739,23 @@
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
+      }
+    },
+    watch: {
+      id(old, latest) {
+        if (old !== latest) {
+          this.masterTracking = ''
+          this.address1 = ''
+          this.address2 = ''
+          this.newCity = ''
+          this.newZip = ''
+          this.newState = ''
+          this.selectedShipment = {}
+          this.shippingCodes = {}
+          this.patientLabTests = {}
+          this.labPatients = {}
+          this.disabled = true
+        }
       }
     }
   }

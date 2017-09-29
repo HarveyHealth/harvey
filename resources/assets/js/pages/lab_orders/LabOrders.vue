@@ -181,7 +181,6 @@
                 if (permissions === 'patient') {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
-                    patient[global.user.included.id].attributes.id = global.user.included.id
                 } else {
                     patient = global.patientLookUp
                 }
@@ -248,6 +247,7 @@
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
                     global.loadingPractitioners ||
+                    global.loadingUser ||
                     global.loadingCreditCards
                 }
                 return false
@@ -271,7 +271,13 @@
         },
         mounted() {
             this.$root.$data.global.currentPage = 'lab-orders';
-            this.setupLabData();
+            if (global.loadingLabTests ||
+                    global.loadingLabOrders ||
+                    global.loadingPractitioners ||
+                    global.loadingUser ||
+                    global.loadingCreditCards) {
+                this.setupLabData();
+            }
         }
     }
 </script>
