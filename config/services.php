@@ -69,7 +69,7 @@ return [
             'patient' => [
                 'appointment' => [
                     'canceled' => 1687742,
-                    'completed' => 3376781,
+                    'complete' => 3376781,
                     'new' => 1492142,
                     'updated' => 1929884,
                     'reminder' => 1497642,
