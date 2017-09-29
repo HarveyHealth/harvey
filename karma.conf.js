@@ -1,11 +1,12 @@
 // Karma configuration
 // Generated on Fri Sep 29 2017 10:58:07 GMT-0400 (EDT)
+const argv = require('yargs').argv;
 
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: './',
 
 
     // frameworks to use
@@ -15,7 +16,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'tests/Frontend/**/*Spec.js',
+      './tests/Frontend/**/*specs.js',
     ],
 
 
@@ -50,17 +51,17 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+    autoWatch: false,
 
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['jsdom'],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: !argv.watch,
 
     // Concurrency level
     // how many browser should be started simultaneous

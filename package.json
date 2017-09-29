@@ -11,7 +11,9 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=./webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=./webpack.config.js",
-    "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json"
+    "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json",
+    "test": "NODE_ENV=test karma start karma.conf.js",
+    "test:watch": "npm test -- --watch"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
