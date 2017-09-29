@@ -1,0 +1,75 @@
+.left-column {
+    width: 70%;
+    display: table;
+    float: left;
+    .checkout-container & {
+        @include margin(0 0 1em 0);
+    }
+}
+
+.right-column  {
+    width: 30%;
+    display: table;
+    text-align: right;
+    .checkout-container & {
+        @include margin(0 0 1em 0);
+    }
+}
+
+.input__item {
+    display: table;
+    .left-column & {
+        &:hover {
+            cursor: text;
+        }
+    }
+}
+
+.checkout-container {
+    @include margin(0);
+}
+
+.discount {
+    color: $casper;
+    font-weight: 500;
+    @include margin(0 0 .25em 0);
+}
+
+.total {
+    color: $color-good;
+    @include margin(0);
+}
+
+.sub-items {
+    width: 100%;
+    font-size: 15px;
+    display: table;
+    @include margin(.5em 0 .25em);
+}
+
+.address, .city, .zip, .state {
+   @include margin(0 0 .5em);
+}
+
+.city {
+    width: 70%;
+    float: left;
+    display: inline-block;
+}
+
+.state {
+    &.custom-select{
+        width: 28%;
+        left: 2%;
+        @include margin(0);
+        display: inline-block !important;
+    }
+}
+
+.last-container{
+    @include margin(0);
+}
+
+.color-good {
+    color: $color-good;
+}

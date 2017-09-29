@@ -116,6 +116,10 @@ let routes = [
         component: require('./pages/settings/Settings.vue')
     },
     {
+        path: '/settings/:id',
+        component: require('./pages/settings/Settings.vue')
+    },
+    {
         path: '/profile',
         component: require('./pages/profile/Profile.vue')
     },

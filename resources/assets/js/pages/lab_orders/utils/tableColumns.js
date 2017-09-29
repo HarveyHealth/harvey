@@ -3,7 +3,7 @@ import tableSort from '../../../utils/methods/tableSort';
 export default [
   {
     key: 'order_date',
-    name: 'Order Date',
+    name: 'Date',
     width: '15%',
     sort: tableSort.byDate('_date')
   },
@@ -27,7 +27,7 @@ export default [
   },
   {
     key: 'tests',
-    name: 'Tests',
+    name: 'Lab Tests',
     width: '10%',
     sort: tableSort.byString('status')
   },

@@ -28,7 +28,7 @@
   @include padding($space-sm);
   font-size: $font-sm;
   text-align: left;
-  @include margin(null null $space-md);
+  @include margin(null null $space-sm);
 
   @include query(md) {
     @include grid-column(1, (columns: 2, gutter: $space-md));

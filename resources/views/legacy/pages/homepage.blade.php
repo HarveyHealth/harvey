@@ -4,27 +4,20 @@
 @section('main_content')
 
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
-    <section class="hero is-primary">
-        <div class="hero-background"></div>
+    <section class="hero hero-background">
+        <div id="hero-video-container">
+            <video id="hero-video" autoplay loop muted></video>
+            <div id="video-cover"></div>
+            <div id="overlay"></div>
+        </div>
         <div class="hero-body">
             <div class="container">
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
-                        <div class="columns">
-                            <div class="column is-5">
-                                <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                                    <img src="/images/home/clinic.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="column is-7 is-paddingless-left">
-                                <p class="title is-5 is-marginless"><strong>Start your health journey</strong></p>
-                                <p class="subtitle is-6">Learn how Harvey's whole-body approach to medicine makes it very unique from other practices.</p>
-                            </div>
-                        </div>
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -192,11 +185,11 @@
                     <em>Avoided unnecessary surgery.</em>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/layne.jpg" alt="">
+                    <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
+                        <img src="/images/home/lisa.jpg" alt="">
                     </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne's Story</strong></p>
-                    <em>Discovered high levels of mercury.</em>
+                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
+                    <em>Found a natural remedy for chronic pain.</em>
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>

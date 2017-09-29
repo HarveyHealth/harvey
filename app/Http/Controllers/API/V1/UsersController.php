@@ -82,6 +82,7 @@ class UsersController extends BaseAPIController
         if ($validator->fails()) {
             $this->setApiProblemType($validator);
 
+            // Error handling for zip code
             if ($validator->errors()->get('zip')) {
                 event(new OutOfServiceZipCodeRegistered($request));
 
@@ -98,7 +99,7 @@ class UsersController extends BaseAPIController
                 return response()->apiproblem($output, $this->getStatusCode());
             }
 
-            return $this->respondBadRequest($validator->errors()->first());
+            return $this->respondBadRequest(['message' => $validator->errors()->first()]);
         }
 
         try {
@@ -211,7 +212,7 @@ class UsersController extends BaseAPIController
 
     public function addCard(Request $request, User $user)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -230,7 +231,7 @@ class UsersController extends BaseAPIController
 
     public function deleteCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -245,7 +246,7 @@ class UsersController extends BaseAPIController
 
     public function updateCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -276,7 +277,7 @@ class UsersController extends BaseAPIController
 
     public function getCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -295,7 +296,7 @@ class UsersController extends BaseAPIController
 
     public function getCards(Request $request, User $user)
     {
-        if (currentUser()->isNot($user)) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
