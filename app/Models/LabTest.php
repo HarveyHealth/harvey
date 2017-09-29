@@ -76,4 +76,13 @@ class LabTest extends Model
             $query->patientOrPractitioner($user);
         });
     }
+
+    /**
+     * Order query by SKU name
+     */
+    public function scopeBySkuName($query)
+    {
+      return $query->leftJoin('skus','skus.id','=','sku_id')
+              ->orderBy('skus.name');
+    }
 }
