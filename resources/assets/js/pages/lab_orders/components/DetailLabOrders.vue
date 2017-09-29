@@ -154,7 +154,7 @@
               <span v-else class="input__item error-text">No card on file.</span>
             </div>
             <!-- This should always show, don't add conditional statements -->
-            <router-link class="right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+            <router-link class="right-column link-color" :to="'/settings'">Edit Card</router-link>
         </div>
 
         <!-- Invoice -->
@@ -250,7 +250,7 @@
         <!-- Card -->
 
         <div class="input__container">
-          <label class="input__label">Current Card</label>
+          <label class="input__label">Card</label>
             <div class="left-column">
               <label v-if="$parent.loading">Loading patient's current credit card...</label>
               <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>

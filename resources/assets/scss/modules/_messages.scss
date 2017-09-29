@@ -1,7 +1,10 @@
 .container-message {
     background-color: white;
     border: none;
-    @include padding(25px 30px);
+    @include padding(15px 20px);
+    @media screen and (min-width: 960px) {
+      @include padding(25px 30px);
+    }
     border-bottom: 1px solid $color--grey;
     position: relative;
     min-height: 100px;
@@ -20,10 +23,14 @@
         }
     }
     .message-post-details {
-        width: 25%;
         float: left;
-        position: relative;
-        @include margin(null null 20px null);
+        width: 100%;
+        @include margin(.5em null .5em null);
+        @media screen and (min-width: 960px) {
+          width: 30%;
+          margin-bottom: .5em;
+        }
+
         .message-post-avatar {
             @include margin(null 15px null null);
             border: 2px solid $color-gray-0;
@@ -42,18 +49,28 @@
         }
     }
     .message-post-body {
-        width: 75%;
-        position: relative;
+        width: 100%;
+        @include margin(null null 1em null);
+        @media screen and (min-width: 960px) {
+          width: 70%;
+          border: none;
+          @include padding(0);
+          @include margin(0 0 .5em 30%);
+        }
         h2 {
             @include margin(null);
         }
     }
     .detail-wrap {
         width: 100%;
+        clear: both;
         min-height: 50px;
-        margin-bottom: 1em;
+        @include margin(null null .5em null);
         .message-post-body {
-            @include margin(.75em null null 25%);
+            @media screen and (min-width: 960px) {
+              width: 70%;
+              @include margin(null null .5em 30%);
+            }
             &.highlight {
                 color: $color-copy-alt;
             }
