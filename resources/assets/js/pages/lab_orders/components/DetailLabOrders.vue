@@ -58,7 +58,7 @@
 
         <!-- Address -->
 
-        <div class="input__container">
+        <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Address</label>
           <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
@@ -171,8 +171,10 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate()">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip || !hasCard || !latestCard" @click="patientLabUpdate">Confirm Payment</button>
         </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
 
       </div>
 
@@ -279,9 +281,12 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateTests()">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateLabOrder">Update Order</button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+
       </div>
     </div>
 
@@ -318,8 +323,10 @@
         <!-- Mark as Shipped -->
 
         <div class="button-wrapper">
-          <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
+          <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
         </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
 
     </div>
 
@@ -339,7 +346,9 @@
 </template>
 
 <script>
+  import Q from 'q'
   import Flyout from '../../../commons/Flyout.vue'
+  import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
   import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
@@ -353,7 +362,8 @@
     components: {
       Flyout,
       SelectOptions,
-      Modal
+      Modal,
+      ClipLoader
     },
     data() {
       return {
@@ -377,6 +387,7 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        loading: false,
         patientPrice: 0,
         patientLabTests: {},
         labPatients: {},
@@ -405,9 +416,28 @@
       },
       handleFlyoutClose() {
         this.$parent.step = 1;
-        this.loading = true;
+        this.loading = false;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
+        this.address1 = ''
+        this.address2 = ''
+        this.newCity = ''
+        this.newZip = ''
+        this.newState = ''
+        this.labPatients = {}
+        if (this.$root.$data.permissions !== 'patient') {
+          this.$parent.setupLabData();
+          let status = {
+            0: "Recommended",
+            1: "Confirmed",
+            2: "Shipped",
+            3: "Received",
+            4: "Mailed",
+            5: "Processing",
+            6: "Complete"
+          }
+          this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
+        }
       },
       updateStatus(e) {
         this.selectedStatus = e.target.value;
@@ -439,95 +469,69 @@
         this.month = e.target.value
       },
       patientLabUpdate() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+        this.loading = true;
+        let promises = [];
+        _.each(this.patientTestList, (e, i, a) => {
+            if (e.patient && !e.checked) {
+              let id = null;
+              this.$props.rowData.test_list.forEach(ele => {
+                if (e.attributes.name === ele.name) {
+                  id = ele.test_id;
+                }
+              })
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                status: 'canceled'
+              }))
+            } else if (e.patient && e.checked) {
+              let id = null;
+              this.$props.rowData.test_list.forEach(ele => {
+                if (e.attributes.name === ele.name) {
+                  id = ele.test_id;
+                }
+              })
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                status: 'confirmed'
+              }))
+            } else if (!e.patient && e.checked) {
+              promises.push(axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
+                lab_order_id: Number(this.$props.rowData.id),
+                sku_id: Number(e.id),
+                status: 'confirmed'
+              }))
+            }
+        })
+        return Q.allSettled(promises).then(() => {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             address_1: this.address1,
             address_2: this.address2,
             city: this.newCity,
             state: this.newState,
             zip: this.newZip
           })
-          .then(respond => {
-              _.each(this.patientTestList, (e) => {
-                if (e.patient && !e.checked) {
-                  let id = null;
-                  this.$props.rowData.test_list.forEach(ele => {
-                    if (e.attributes.name === ele.name) {
-                      id = ele.test_id;
-                    }
-                  })
-                  axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
-                    status: 'canceled'
-                  })
-                } else if (e.patient && e.checked) {
-                  let id = null;
-                  this.$props.rowData.test_list.forEach(ele => {
-                    if (e.attributes.name === ele.name) {
-                      id = ele.test_id;
-                    }
-                  })
-                  axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
-                    status: 'confirmed'
-                  })
-                } else if (!e.patient && e.checked) {
-                  axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
-                    lab_order_id: Number(this.$props.rowData.id),
-                    sku_id: Number(e.id),
-                    status: 'confirmed'
-                  })
-                }
+          .then((respond) => {
+            let status = _.capitalize(respond.data.data.attributes.status);
+            let number = _.size(this.labPatients);
+            this.$root.$data.global.labOrders.forEach((e, i) => {
+              if (e.id === this.$props.rowData.id) {
+                this.$root.$data.global.labOrders[i].attributes.status = status;
+                this.$root.$data.global.labOrders[i].attributes.address_1 = this.address1;
+                this.$root.$data.global.labOrders[i].attributes.address_2 = this.address2;
+                this.$root.$data.global.labOrders[i].attributes.city = this.newCity;
+                this.$root.$data.global.labOrders[i].attributes.state = this.newState;
+                this.$root.$data.global.labOrders[i].attributes.zip = this.newZip;
+              }
             })
-            this.$parent.notificationMessage = "Successfully updated!";
-            this.$parent.notificationActive = true;
-            this.$parent.selectedRowData = null;
-            setTimeout(() => this.$parent.notificationActive = false, 3000);
-            this.handleFlyoutClose()
-          })
-      },
-      markedShipped() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.masterTracking,
-            address_1: this.$props.rowData.address_1,
-            address_2: this.$props.rowData.address_2,
-            city: this.$props.rowData.city,
-            state: this.$props.rowData.state,
-            zip: this.$props.rowData.zip
-          })
-          .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped'
-                })
-            })
-            this.$parent.notificationMessage = "Successfully updated!";
-            this.$parent.notificationActive = true;
-            this.$parent.selectedRowData = null;
-            setTimeout(() => this.$parent.notificationActive = false, 3000);
-            this.handleFlyoutClose()
-          })
-      },
-      updateLabOrder() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
-            address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
-            city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
-            state: this.$props.rowData.state ? this.$props.rowData.state : this.newState,
-            zip: this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip
-          })
-          .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-                })
-              } else if (this.$props.rowData.completed_at === 'Confirmed') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped',
-                  shipment_code: this.shippingCodes[e.test_id],
-                })
-              } else if (this.$props.rowData.completed_at === 'Recommended') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'confirmed'
-                })
+            this.$parent.currentData.forEach((e, i) => {
+              if (e.data.id === this.$props.rowData.id) {
+                this.$parent.currentData[i].data.completed_at = status;
+                this.$parent.currentData[i].data.address_1 = this.address1;
+                this.$parent.currentData[i].data.address_2 = this.address2;
+                this.$parent.currentData[i].data.city = this.newCity;
+                this.$parent.currentData[i].data.state = this.newState;
+                this.$parent.currentData[i].data.zip = this.newZip;
+                this.$parent.currentData[i].data.number_of_tests = number;
+                this.$parent.currentData[i].values[5] = status
+                this.$parent.currentData[i].values[4] = number
               }
             })
             this.$parent.notificationMessage = "Successfully updated!";
@@ -536,47 +540,93 @@
             setTimeout(() => this.$parent.notificationActive = false, 3000);
             this.handleFlyoutClose()
           })
+        })
       },
-      updateTests() {
+      markedShipped() {
+        this.loading = true;
+        let promises = [];
         this.$props.rowData.test_list.forEach((e) => {
-          if (this.selectedShipment[Number(e.test_id)] != undefined) {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+            promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              status: 'shipped'
+            }))
+        })
+        return Q.allSettled(promises).then(() => {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            shipment_code: this.masterTracking,
+          })
+          .then(respond => {
+            let status = _.capitalize(respond.data.data.attributes.status);
+            this.$root.$data.global.labOrders.forEach((e, i) => {
+              if (e.id === this.$props.rowData.id) {
+                this.$root.$data.global.labOrders[i].attributes.status = status;
+                this.$root.$data.global.labOrders[i].attributes.shipment_code = respond.data.data.attributes.shipment_code;
+              }
+            })
+            this.$parent.currentData.forEach((e, i) => {
+              if (e.data.id === this.$props.rowData.id) {
+                this.$parent.currentData[i].data.completed_at = status;
+                this.$parent.currentData[i].values[5] = status
+                this.$parent.currentData[i].data.shipment_code = respond.data.data.attributes.shipment_code;
+              }
+            })
+            this.$parent.notificationMessage = "Successfully updated!";
+            this.$parent.notificationActive = true;
+            this.$parent.selectedRowData = null;
+            setTimeout(() => this.$parent.notificationActive = false, 3000);
+            this.handleFlyoutClose()
+          })
+        })
+      },
+      updateLabOrder() {
+        let promises = []
+          this.$props.rowData.test_list.forEach((e) => {
+            if (this.selectedShipment[Number(e.test_id)] != undefined) {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-              })
+              }))
             } else if (this.$props.rowData.completed_at === 'Confirmed') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'shipped',
                 shipment_code: this.shippingCodes[e.test_id],
-              })
+              }))
             } else if (this.$props.rowData.completed_at === 'Recommended') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'confirmed'
-              })
+              }))
             }
-        })
-        axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
-          .then(response => {
-            this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-              e['included'] = response.data.included[i]
-              return e;
-            })
-            this.$root.$data.global.loadingLabOrders = false
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-              .then(response => {
-                this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                  e['included'] = response.data.included[i]
-                  return e;
-                })
-                this.$root.$data.global.loadingLabTests = false
-                this.$props.reset();
-              })
           })
-        this.$parent.notificationMessage = "Successfully updated!";
-        this.$parent.notificationActive = true;
-        this.$parent.selectedRowData = null;
-        setTimeout(() => this.$parent.notificationActive = false, 3000);
-        this.handleFlyoutClose();
-      }
+          return Q.allSettled(promises).then(() => {
+            axios.get(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}?include=user,patient,invoice`)
+            .then(respond => {
+              let user = respond.data.included.filter(e => e.type === 'users')
+              let patient = respond.data.included.filter(e => e.type === 'patients')
+              let invoices = respond.data.included.filter(e => e.type === 'invoices')
+              this.$root.$data.global.labOrders.forEach((e, i) => {
+                if (e.id === this.$props.rowData.id) {
+                  this.$root.$data.global.labOrders[i] = _.extend(respond.data.data, {
+                      user: user[0],
+                      patient: patient[0],
+                      invoices: invoices[0] || null,
+                    });
+                }
+              })
+              this.$parent.currentData.forEach((e, i) => {
+                if (e.data.id === this.$props.rowData.id) {
+                  this.$parent.currentData[i] = _.extend(respond.data.data, {
+                      user: user[0],
+                      patient: patient[0],
+                      invoices: invoices[0] || null,
+                    });
+                }
+              })
+              this.$parent.notificationMessage = "Successfully updated!";
+              this.$parent.notificationActive = true;
+              this.$parent.selectedRowData = null;
+              setTimeout(() => this.$parent.notificationActive = false, 3000);
+              this.handleFlyoutClose()
+            })
+        })
+      },
     },
     computed: {
       flyoutHeading() {
