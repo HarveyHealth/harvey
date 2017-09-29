@@ -427,7 +427,16 @@
         this.labPatients = {}
         if (this.$root.$data.permissions !== 'patient') {
           this.$parent.setupLabData();
-          this.$parent.activeFilter = 0;
+          let status = {
+            0: "Recommended",
+            1: "Confirmed",
+            2: "Shipped",
+            3: "Received",
+            4: "Mailed",
+            5: "Processing",
+            6: "Complete"
+          }
+          this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
         }
       },
       updateStatus(e) {
