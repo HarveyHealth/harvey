@@ -797,7 +797,7 @@ export default {
       axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
-          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
+          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
             });
