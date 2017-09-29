@@ -58,7 +58,7 @@
 
         <!-- Address -->
 
-        <div class="input__container">
+        <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Address</label>
           <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
           <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
@@ -479,10 +479,11 @@
                 zip: this.newZip
               })
               .then((respond) => {
+                let status = _.capitalize(respond.data.data.attributes.status);
+                let number = _.size(this.patientTestList);
                 this.$root.$data.global.labOrders.forEach((e, i) => {
-                  let Status = _.capitalize(e.attributes.status);
                   if (e.id === this.$props.rowData.id) {
-                    this.$root.$data.global.labOrders[i].attributes.status = Status;
+                    this.$root.$data.global.labOrders[i].attributes.status = status;
                     this.$root.$data.global.labOrders[i].attributes.address_1 = this.address1;
                     this.$root.$data.global.labOrders[i].attributes.address_2 = this.address2;
                     this.$root.$data.global.labOrders[i].attributes.city = this.newCity;
@@ -491,14 +492,16 @@
                   }
                 })
                 this.$parent.currentData.forEach((e, i) => {
-                  if (e.id === this.$props.rowData.id) {
-                    this.$parent.currentData[i].data.completed_at = Status;
+                  if (e.data.id === this.$props.rowData.id) {
+                    this.$parent.currentData[i].data.completed_at = status;
                     this.$parent.currentData[i].data.address_1 = this.address1;
                     this.$parent.currentData[i].data.address_2 = this.address2;
                     this.$parent.currentData[i].data.city = this.newCity;
                     this.$parent.currentData[i].data.state = this.newState;
                     this.$parent.currentData[i].data.zip = this.newZip;
-                    this.$parent.currentData[i].values[5] = Status
+                    this.$parent.currentData[i].data.number_of_tests = number;
+                    this.$parent.currentData[i].values[5] = status
+                    this.$parent.currentData[i].values[4] = number
                   }
                 })
                 this.$root.$data.global.labOrders
