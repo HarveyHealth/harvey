@@ -1,6 +1,8 @@
 // Karma configuration
 // Generated on Fri Sep 29 2017 10:58:07 GMT-0400 (EDT)
 const argv = require('yargs').argv;
+const Mix = require('laravel-mix').config;
+const webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
   config.set({
@@ -11,12 +13,17 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'sinon-chai'],
 
 
     // list of files / patterns to load in the browser
     files: [
-      './tests/Frontend/**/*specs.js',
+        {
+        pattern: './tests/Frontend/setup.js',
+        watched: false,
+        served: true,
+        included: true,
+      },
     ],
 
 
@@ -28,8 +35,16 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      './tests/Frontend/setup.js': ['webpack', 'sourcemap'],
     },
 
+    plugins: [
+      'karma-mocha',
+      'karma-sinon-chai',
+      'karma-webpack',
+      'karma-jsdom-launcher',
+      'karma-sourcemap-loader',
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -51,12 +66,33 @@ module.exports = function(config) {
 
 
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
+    autoWatch: argv.watch,
 
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: ['jsdom'],
+    webpack: {
+      module: {
+        loaders: [
+          {
+            test: /\.js?$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel-loader' + Mix.babelConfig(),
+            include: [
+              path.join(__dirname, 'tests/Frontend')
+            ],
+          },
+          {
+            test: /\.vue$/,
+            loader: 'vue-loader',
+          }
+        ]
+      }
+    },
+    webpackMiddleware: {
+      noInfo: true,
+    },
 
 
     // Continuous Integration mode
