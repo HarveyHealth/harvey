@@ -252,7 +252,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
             <div class="left-column">
-              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <span v-if="$parent.loading"><em>Loading cards...</em></span>
               <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
               <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
             </div>
