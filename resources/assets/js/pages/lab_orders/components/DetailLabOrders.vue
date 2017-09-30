@@ -483,7 +483,7 @@
                 status: 'canceled'
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
@@ -500,7 +500,7 @@
               })
               .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
@@ -513,7 +513,7 @@
               })
               .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
@@ -571,7 +571,7 @@
             })
             .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
@@ -612,8 +612,10 @@
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    console.log('HIT')
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                    console.log(this.$root.$data.global.labTests[idx])
                   }
                 })
               }))
@@ -623,7 +625,7 @@
                 shipment_code: this.shippingCodes[e.test_id],
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
@@ -633,7 +635,7 @@
                 status: 'confirmed'
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (ele.attributes.id == e.test_id) {
+                  if (Number(ele.id) === Number(e.test_id)) {
                     this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
