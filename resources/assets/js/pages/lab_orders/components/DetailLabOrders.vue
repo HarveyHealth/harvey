@@ -481,6 +481,12 @@
               })
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
                 status: 'canceled'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (e.patient && e.checked) {
               let id = null;
@@ -491,12 +497,26 @@
               })
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
                 status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (!e.patient && e.checked) {
               promises.push(axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(this.$props.rowData.id),
                 sku_id: Number(e.id),
                 status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             }
         })
@@ -548,7 +568,14 @@
         this.$props.rowData.test_list.forEach((e) => {
             promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
               status: 'shipped'
-            }))
+            })
+            .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
         })
         return Q.allSettled(promises).then(() => {
           axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
@@ -583,15 +610,35 @@
             if (this.selectedShipment[Number(e.test_id)] != undefined) {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    console.log('HIT')
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                    console.log(this.$root.$data.global.labTests[idx])
+                  }
+                })
               }))
             } else if (this.$props.rowData.completed_at === 'Confirmed') {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'shipped',
                 shipment_code: this.shippingCodes[e.test_id],
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (this.$props.rowData.completed_at === 'Recommended') {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'confirmed'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             }
           })
