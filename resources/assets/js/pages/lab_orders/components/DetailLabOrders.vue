@@ -484,7 +484,7 @@
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -501,7 +501,7 @@
               .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -514,7 +514,7 @@
               .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -572,7 +572,7 @@
             .then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -613,7 +613,7 @@
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -624,8 +624,7 @@
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
-                    this.$root.$data.global.labTests[idx].attributes.shipment_code = resp.data.data.attributes.shipment_code
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
@@ -635,7 +634,7 @@
               }).then(resp => {
                 this.$root.$data.global.labTests.forEach((ele, idx) => {
                   if (ele.attributes.id == e.test_id) {
-                    this.$root.$data.global.labTests[idx].attributes.status = resp.data.data.attributes.status
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
                   }
                 })
               }))
