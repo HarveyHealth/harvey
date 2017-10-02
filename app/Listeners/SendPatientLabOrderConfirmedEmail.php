@@ -23,7 +23,7 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 
         $transactionalEmailJob = TransactionalEmail::createJob()
         ->setTo($event->lab_order->patient->user->email)
-        ->setTemplate('patient.lab_order.complete')
+        ->setTemplate('patient.lab_order.confirmed')
         ->setTemplateModel([
             'address' => "{$event->lab_order->addres_1} {$event->lab_order->addres_2}",
             'charges' => $charges,
