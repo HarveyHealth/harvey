@@ -69,6 +69,7 @@
     @include padding(20px 30px);
   .button-wrapper {
     text-align: center;
+    clear: both;
     @include margin(2em null .5em null);
   }
 
