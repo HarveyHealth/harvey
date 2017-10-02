@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentComplete;
-use App\Mdoels\SKU;
+use App\Models\SKU;
 use App\Lib\{Cashier, TransactionalEmail};
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;

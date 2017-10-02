@@ -15,7 +15,7 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 
         foreach ($invoice->items as $item) {
             $charges[] = [
-                'laboratory' => $item->sku->labTestInformation->lab_name,
+                'laboratory' => $item->sku->labTestInformation->lab_name ?? '',
                 'name' => $item->description,
                 'price' => $item->amount,
             ];
@@ -23,7 +23,7 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 
         $transactionalEmailJob = TransactionalEmail::createJob()
         ->setTo($event->lab_order->patient->user->email)
-        ->setTemplate('patient.lab_order.complete')
+        ->setTemplate('patient.lab_order.confirmed')
         ->setTemplateModel([
             'address' => "{$event->lab_order->addres_1} {$event->lab_order->addres_2}",
             'charges' => $charges,
