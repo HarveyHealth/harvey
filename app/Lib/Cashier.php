@@ -14,7 +14,7 @@ class Cashier
     public static function getOrCreateInvoice($invoiceable)
     {
         if (!in_array(Invoiceable::class, class_uses($invoiceable))) {
-            throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait. ');
+            throw new Exception('Invalid class ' . get_class($invoiceable) . '. Does not use invoiceable trait.');
         }
 
         if (!$invoice = $invoiceable->invoice) {
@@ -74,12 +74,9 @@ class Cashier
                     $invoice->card_last_four = $charge->source->last4;
                     $invoice->status = Invoice::PAID_STATUS;
 
-                    // reset any billing error flags
                     $user->billing_error = 0;
 
                     event(new ChargeSucceeded($invoice, $transaction));
-
-                // not success, but would this ever happen?
                 } else {
                     $transaction->gateway = 'stripe';
                     $transaction->response_code = $charge->failure_code;
@@ -107,11 +104,8 @@ class Cashier
             $transaction->save();
             $user->save();
 
-            // if we had a billing error, try again in 24 hours
-            // but only try for a maximum of 3 times
             if ($user->billing_error > 0 && $user->billing_error < 3) {
-                $job = (new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24));
-                dispatch($job);
+                dispatch((new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addHours(24)));
                 return false;
             }
         } else {
