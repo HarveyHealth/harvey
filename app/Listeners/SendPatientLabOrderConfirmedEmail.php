@@ -15,7 +15,7 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 
         foreach ($invoice->items as $item) {
             $charges[] = [
-                'laboratory' => $item->sku->labTestInformation->lab_name,
+                'laboratory' => $item->sku->labTestInformation->lab_name ?? '',
                 'name' => $item->description,
                 'price' => $item->amount,
             ];
