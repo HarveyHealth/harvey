@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use App\Events\LabOrderConfirmed;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Lib\TransactionalEmail;
+use App\Lib\{Cashier, TransactionalEmail};
 
 class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 {
