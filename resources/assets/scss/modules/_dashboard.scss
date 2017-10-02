@@ -113,7 +113,7 @@
 }
 
 #card-errors {
-  color: $red;
+  color: $color-error;
   font-size: 15px;
   line-height: 1.4;
   @include margin(.5em 0 0 0);

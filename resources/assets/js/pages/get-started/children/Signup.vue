@@ -27,7 +27,7 @@
             <div><svg class="smaller"><use xlink:href="#bottle" /></svg></div>
             <div><svg><use xlink:href="#baby" /></svg></div>
             <div><svg><use xlink:href="#scale" /></svg></div>
-            <div class="show-xl"><svg class="smaller"><use xlink:href="#yogo" /></svg></div>
+            <div class="show-xl"><svg class="smaller"><use xlink:href="#yoga" /></svg></div>
             <div class="show-xl"><svg><use xlink:href="#medicine" /></svg></div>
           </div>
         </div>
