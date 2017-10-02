@@ -2,7 +2,6 @@
 // Generated on Fri Sep 29 2017 10:58:07 GMT-0400 (EDT)
 const argv = require('yargs').argv;
 const Mix = require('laravel-mix').config;
-const webpackConfig = require('./webpack.config.js');
 
 module.exports = function(config) {
   config.set({

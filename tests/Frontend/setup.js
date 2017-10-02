@@ -4,9 +4,6 @@ import sinon from 'sinon';
 global.expect = chai.expect;
 global.sinon = sinon;
 
-// set a base path
-const componentPath = '../../../resources/assets/js/';
-
 // console errors
 const oldError = console.error;
 before(() => { console.error = (message) => { throw new Error(message); }; });
