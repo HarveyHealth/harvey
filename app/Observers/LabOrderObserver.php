@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\{LabOrderApproved, LabOrderShipped};
+use App\Events\{LabOrderConfirmed, LabOrderShipped};
 use App\Models\LabOrder;
 
 class LabOrderObserver
@@ -18,7 +18,7 @@ class LabOrderObserver
         if ($labOrder->isDirty('status_id')) {
             switch ($labOrder->status_id) {
                 case LabOrder::CONFIRMED_STATUS_ID:
-                    event(new LabOrderApproved($labOrder));
+                    event(new LabOrderConfirmed($labOrder));
                     break;
 
                 case LabOrder::SHIPPED_STATUS_ID:

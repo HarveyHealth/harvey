@@ -41,8 +41,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 data.total_price += Number(testList[Number(test.attributes.sku_id)].attributes.price)
                 data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] = data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] ?
                     data.samples[testList[Number(test.attributes.sku_id)].attributes.sample]++ : 1
-                data.number_of_tests = data.number_of_tests ?
-                    data.number_of_tests + 1 : 1
+                if (test.attributes.status !== 'canceled') {
+                    data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
+                }
                 data.sku_ids[test.attributes.sku_id] = test.included
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status
                 data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
