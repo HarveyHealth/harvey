@@ -44,24 +44,25 @@
         <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
         <script>
 
-              var bv = new Bideo();
-              bv.init({
+            var isMobile = window.matchMedia('(max-width: 768px)');
+            // console.log(isMobile.matches);
+            
+            var bv = new Bideo();
+            bv.init({
                 videoEl: document.querySelector('#hero-video'),
                 container: document.querySelector('body'),
                 resize: true,
                 autoplay: true,
-                isMobile: window.matchMedia('(max-width: 768px)').matches,
-                src: [
-                  {
-                    src: 'http://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
-                    type: 'video/mp4'
-                  }
-                ],
-                // What to do once video loads
+                src: [{
+                        src: 'http://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                        type: 'video/mp4'
+                }],
                 onLoad: function () {
-                  document.querySelector('#video-cover').style.display = 'none';
+                    if (isMobile.matches === false) {
+                        document.querySelector('#video-cover').style.display = 'none';
+                    }
                 }
-              });
+            });
 
         </script>
 
