@@ -471,6 +471,13 @@
       patientLabUpdate() {
         this.loading = true;
         let promises = [];
+        promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+            address_1: this.address1,
+            address_2: this.address2,
+            city: this.newCity,
+            state: this.newState,
+            zip: this.newZip
+          }))
         _.each(this.patientTestList, (e, i, a) => {
             if (e.patient && !e.checked) {
               let id = null;
@@ -521,13 +528,7 @@
             }
         })
         return Q.allSettled(promises).then(() => {
-          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip
-          })
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`)
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
             let number = _.size(this.labPatients);
