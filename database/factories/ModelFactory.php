@@ -7,6 +7,7 @@ use App\Models\{
     Appointment,
     LabOrder,
     LabTest,
+    LabTestInformation,
     License,
     Message,
     Patient,
@@ -151,6 +152,12 @@ $factory->define(SKU::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->state(SKU::class, 'lab-test', function (Faker\Generator $faker) {
+    return [
+        'item_type' => 'lab-test',
+    ];
+});
+
 $factory->define(License::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->randomElement(['ND', 'MD', 'DO']),
@@ -282,5 +289,16 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
             return factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => factory(SKU::class),
+        'description' => $faker->sentence(100),
+        'image' => '/images/lab_tests/micronutrients.png',
+        'lab_name' => 'Unknown',
+        'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
+        'quote' => $faker->sentence(10),
     ];
 });

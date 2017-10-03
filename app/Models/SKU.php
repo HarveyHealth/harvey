@@ -18,6 +18,11 @@ class SKU extends Model
     {
         return $query->where('item_type', $type);
     }
+    
+    public function scopelabtests($query)
+    {
+        return $query->where('item_type', '=', 'lab-test');
+    }
 
     public function labTestInformation()
     {

@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Lib\TimeInterval;
-use App\Models\LabTestInformation;
 use Cache;
 
 class LabTestInformation extends Model
@@ -13,6 +12,7 @@ class LabTestInformation extends Model
     use SoftDeletes;
 
     protected $table = 'lab_tests_information';
+    protected $fillable = ['description', 'image', 'sample', 'quote', 'lab_name'];
 
     public function sku()
     {
