@@ -21,6 +21,7 @@ class Cashier
             $invoice = Invoice::newInvoiceWithData($invoiceable->dataForInvoice());
             $invoiceable = $invoiceable->fresh();
             $invoiceable->invoice_id = $invoice->id;
+            $invoiceable->unsetEventDispatcher();
             $invoiceable->save();
         }
 

@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.17",
+            "version": "3.36.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4bf27e8808e5e08a71b7fbdb951f51918c57a1c6"
+                "reference": "bed7567b2ed8e70fbf5e1ecf927100e91955b29a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4bf27e8808e5e08a71b7fbdb951f51918c57a1c6",
-                "reference": "4bf27e8808e5e08a71b7fbdb951f51918c57a1c6",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bed7567b2ed8e70fbf5e1ecf927100e91955b29a",
+                "reference": "bed7567b2ed8e70fbf5e1ecf927100e91955b29a",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-09-29T19:46:41+00:00"
+            "time": "2017-10-03T15:53:57+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -137,16 +137,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.7.0",
+            "version": "v3.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "96c6dc265543d69d657df8f8ab7de4d73b40b71c"
+                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/96c6dc265543d69d657df8f8ab7de4d73b40b71c",
-                "reference": "96c6dc265543d69d657df8f8ab7de4d73b40b71c",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
+                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
                 "shasum": ""
             },
             "require": {
@@ -190,25 +190,25 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-09-13T14:44:20+00:00"
+            "time": "2017-10-02T18:08:20+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
-            "version": "v2.7.2",
+            "version": "v2.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-laravel.git",
-                "reference": "daa40245d639322eb25827e4d564ee09ef5c00b5"
+                "reference": "b5f23d2b075d81371857e117d5dae5abe7df2022"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/daa40245d639322eb25827e4d564ee09ef5c00b5",
-                "reference": "daa40245d639322eb25827e4d564ee09ef5c00b5",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-laravel/zipball/b5f23d2b075d81371857e117d5dae5abe7df2022",
+                "reference": "b5f23d2b075d81371857e117d5dae5abe7df2022",
                 "shasum": ""
             },
             "require": {
-                "bugsnag/bugsnag": "^3.5",
-                "bugsnag/bugsnag-psr-logger": "^1.1.1",
+                "bugsnag/bugsnag": "^3.8",
+                "bugsnag/bugsnag-psr-logger": "^1.2.0",
                 "illuminate/contracts": "^5.0",
                 "illuminate/support": "^5.0",
                 "php": ">=5.5"
@@ -249,24 +249,24 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-09-22T15:09:18+00:00"
+            "time": "2017-10-03T09:15:31+00:00"
         },
         {
             "name": "bugsnag/bugsnag-psr-logger",
-            "version": "v1.1.1",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-psr-logger.git",
-                "reference": "e0024c173150ffa1f333ad50eaa251837f4566e0"
+                "reference": "72885f051e1134216ec0f29cd50c328a8ac98a68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-psr-logger/zipball/e0024c173150ffa1f333ad50eaa251837f4566e0",
-                "reference": "e0024c173150ffa1f333ad50eaa251837f4566e0",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-psr-logger/zipball/72885f051e1134216ec0f29cd50c328a8ac98a68",
+                "reference": "72885f051e1134216ec0f29cd50c328a8ac98a68",
                 "shasum": ""
             },
             "require": {
-                "bugsnag/bugsnag": "^3.2",
+                "bugsnag/bugsnag": "^3.8",
                 "php": ">=5.5",
                 "psr/log": "^1.0"
             },
@@ -307,7 +307,7 @@
                 "psr",
                 "tracking"
             ],
-            "time": "2017-09-22T14:40:10+00:00"
+            "time": "2017-10-02T18:44:16+00:00"
         },
         {
             "name": "cocur/slugify",
