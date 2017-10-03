@@ -302,16 +302,11 @@ $font-family: "proxima-nova";
     }
 
     .logo-wrapper {
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: 999px) {
         max-width: 30px;
       }
       svg {
         width: 150px;
-        @include mobile {
-          .harvey-text {
-            display: none;
-          }
-        }
         &.harvey-mark {
           width: 150px;
           @include margin(2px null null null);
@@ -323,7 +318,7 @@ $font-family: "proxima-nova";
     .nav-items {
 
       display: block;
-      @include padding(.7em);
+      @include padding(.5em);
 
       .nev-left & {
         text-align: left;
@@ -411,7 +406,7 @@ body {
 .logo-wrapper {
   .no-svg & {
     background: url('/images/logos/mobile-logo.png') no-repeat center center;
-    @include from($mobile) {
+    @media screen and (min-width: 998px) {
       background-image: url('/images/logos/main-logo.png');
     }
   }
