@@ -80,7 +80,7 @@
                 resize: true,
                 autoplay: true,
                 src: [{
-                        src: 'http://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                        src: 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
                         type: 'video/mp4'
                 }],
                 onLoad: function() {
