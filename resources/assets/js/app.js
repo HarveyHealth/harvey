@@ -415,4 +415,8 @@ const app = new Vue({
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
     }
-}).$mount('#app');
+});
+
+app.mount('#app');
+
+export default app;

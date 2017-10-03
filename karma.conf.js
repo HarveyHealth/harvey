@@ -38,10 +38,10 @@ module.exports = function(config) {
     },
 
     plugins: [
+      'karma-chrome-launcher',
       'karma-mocha',
       'karma-sinon-chai',
       'karma-webpack',
-      'karma-jsdom-launcher',
       'karma-sourcemap-loader',
     ],
 
@@ -70,7 +70,8 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['jsdom'],
+    browsers: ['Chrome'],
+
     webpack: {
       module: {
         loaders: [
@@ -87,7 +88,7 @@ module.exports = function(config) {
             loader: 'vue-loader',
           }
         ]
-      }
+      },
     },
     webpackMiddleware: {
       noInfo: true,
