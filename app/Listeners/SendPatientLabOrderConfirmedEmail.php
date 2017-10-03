@@ -30,7 +30,7 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
             'discount' => $invoice->discount,
             'doctor' => $event->lab_order->practitioner->user->full_name,
             'subtotal' => $invoice->subtotal,
-            'total' => $invoice->total,
+            'total' => $invoice->amount,
         ]);
 
         dispatch($transactionalEmailJob);
