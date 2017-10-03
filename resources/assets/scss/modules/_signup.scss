@@ -43,23 +43,29 @@
     }
   }
 
-  // We should merge these at some point
-
-  .error-text, .copy-error {
-    width: 100%;
-    line-height: 1.3;
-    @include margin(0);
-    @include padding(10px 0 0);
-    text-align: left;
-    .flyout & {
-      text-align: left;
-    }
-  }
-
   .button {
     @include margin(.5em null null);
   }
 
+}
+
+// We should merge these at some point
+
+.error-text, .copy-error {
+  width: 100%;
+  line-height: 1.3;
+  @include margin(0);
+  @include padding(10px 0 0);
+  text-align: left;
+  .flyout & {
+    text-align: left;
+  }
+  .error-list & {
+    @include margin(0 0 0 15%);
+    line-height: 1em;
+    font-size: 15px;
+    width: 85%;
+  }
 }
 
 // Signup Back Button
@@ -144,7 +150,6 @@
     @include margin(15px 0 30px);
   }
 }
-
 
 // Progress Indicator
 

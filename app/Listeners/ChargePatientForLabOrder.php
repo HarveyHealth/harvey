@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\LabOrderApproved;
+use App\Events\LabOrderConfirmed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Cashier;
@@ -13,10 +13,10 @@ class ChargePatientForLabOrder implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  LabOrderApproved  $event
+     * @param  LabOrderConfirmed  $event
      * @return void
      */
-    public function handle(LabOrderApproved $event)
+    public function handle(LabOrderConfirmed $event)
     {
         $labOrder = $event->lab_order;
         $user = $labOrder->patient->user;
@@ -32,7 +32,6 @@ class ChargePatientForLabOrder implements ShouldQueue
             return false;
         }
 
-        $job = (new ChargePatientForInvoice($invoice));
-        dispatch($job);
+        dispatch(new ChargePatientForInvoice($invoice));
     }
 }

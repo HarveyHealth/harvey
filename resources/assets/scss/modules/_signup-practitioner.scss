@@ -99,6 +99,10 @@ $practitioner-grid: (
   position: absolute;
   top: 22px;
   left: 50%;
+  -ms-transform: translate(-50%, 0);
+  -webkit-transform: translate(-50%, 0);
+  -moz-transform: translate(-50%, 0);
+  -o-transform: translate(-50%, 0);
   transform: translate(-50%, 0);
 }
 .practitioner-name {
