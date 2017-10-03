@@ -314,6 +314,7 @@ class LabOrderTest extends TestCase
     {
         $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
+        $labOrder = $labOrder->fresh();
 
         $this->assertEquals('recommended', $labOrder->status);
 
@@ -334,6 +335,7 @@ class LabOrderTest extends TestCase
     {
         $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
+        $labOrder = $labOrder->fresh();
 
         $this->assertEquals('recommended', $labOrder->status);
 
