@@ -69,15 +69,16 @@ return [
             'patient' => [
                 'appointment' => [
                     'canceled' => 1687742,
+                    'complete' => 3376781,
                     'new' => 1492142,
                     'updated' => 1929884,
                     'reminder' => 1497642,
                 ],
                 'charge' => [
-                    'succeeded' => 3372143,
                     'failed' => 3372981,
                 ],
                 'lab_order' => [
+                    'confirmed' => 3372143,
                     'shipped' => 2741642,
                 ],
                 'lab_test' => [

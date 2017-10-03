@@ -26,6 +26,9 @@ mix.options({processCssUrls: false})
    .sass('resources/assets/scss/public/pages/legal.scss', 'public/css')
    .sass('resources/assets/scss/public/app_public.scss', 'public/css');
 
+// Needed for cross browsers (Safari)
+mix.sourceMaps();
+
 if (mix.config.inProduction) {
     mix.version();
 }

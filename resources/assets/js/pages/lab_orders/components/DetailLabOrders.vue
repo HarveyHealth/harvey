@@ -171,7 +171,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !newZip|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -252,7 +252,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
             <div class="left-column">
-              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <span v-if="$parent.loading"><em>Loading cards...</em></span>
               <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
               <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
             </div>
@@ -481,6 +481,12 @@
               })
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
                 status: 'canceled'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (e.patient && e.checked) {
               let id = null;
@@ -491,12 +497,26 @@
               })
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
                 status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (!e.patient && e.checked) {
               promises.push(axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(this.$props.rowData.id),
                 sku_id: Number(e.id),
                 status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             }
         })
@@ -548,7 +568,14 @@
         this.$props.rowData.test_list.forEach((e) => {
             promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
               status: 'shipped'
-            }))
+            })
+            .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
         })
         return Q.allSettled(promises).then(() => {
           axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
@@ -583,15 +610,35 @@
             if (this.selectedShipment[Number(e.test_id)] != undefined) {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    console.log('HIT')
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                    console.log(this.$root.$data.global.labTests[idx])
+                  }
+                })
               }))
             } else if (this.$props.rowData.completed_at === 'Confirmed') {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'shipped',
                 shipment_code: this.shippingCodes[e.test_id],
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             } else if (this.$props.rowData.completed_at === 'Recommended') {
               promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'confirmed'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
               }))
             }
           })
@@ -653,7 +700,7 @@
         }
       },
       id() {
-        return this.$props.id ? this.$props.rowData.id : ''
+        return this.$props.rowData ? this.$props.rowData.id : ''
       },
       status() {
         return this.$props.rowData ? this.$props.rowData.completed_at : ''
@@ -739,6 +786,23 @@
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
+      }
+    },
+    watch: {
+      id(old, latest) {
+        if (old !== latest) {
+          this.masterTracking = ''
+          this.address1 = ''
+          this.address2 = ''
+          this.newCity = ''
+          this.newZip = ''
+          this.newState = ''
+          this.selectedShipment = {}
+          this.shippingCodes = {}
+          this.patientLabTests = {}
+          this.labPatients = {}
+          this.disabled = true
+        }
       }
     }
   }
