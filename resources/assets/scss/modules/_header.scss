@@ -25,7 +25,7 @@
 
         svg {
           width: 150px;
-          @include margin(8px null null null);
+          @include margin(7px);
 
           .harvey-text {
             display: none;
@@ -51,6 +51,11 @@
         float: right;
         font-size: 16px;
         @include margin(12px null null null);
+
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flexbox; // 2011 (IE 10)
+        display: -webkit-flex; /* Safari */
         display: flex;
 
         a {
