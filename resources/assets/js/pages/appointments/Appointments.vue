@@ -736,6 +736,7 @@ export default {
       // collect data for tracking later
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
+      const appointmentPatientEmail = this.appointment.patientEmail;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -800,6 +801,7 @@ export default {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
+              email: appointmentPatientEmail,
             });
           }
         }
