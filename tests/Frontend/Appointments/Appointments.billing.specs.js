@@ -9,21 +9,33 @@ window.Laravel = {
   }
 };
 
-const app = new Vue({
-  components: { Appointments },
-  data: {
-    global: {
-      patients: []
-    }
-  },
-  render(create) {
-    return create('Appointments')
-  }
-});
-
 describe('test', () => {
   it('test', () => {
-    // app.$mount()
-    console.log(app.$children)
+    const app = new Vue({
+      components: {
+        Appointments
+      },
+      data: {
+        global: {
+          appointments: [],
+          currentPage: '',
+          loadingAppointments: false,
+          loadingPatients: false,
+          loadingPractitioners: false,
+          patients: [],
+          practitioners: [],
+        }
+      },
+      methods: {
+        addTimezone() { return false; },
+        filterPractitioners() { return false; },
+        getAppointments() { return false; },
+        shouldTrack() { return false; }
+      },
+      render(create) {
+        return create('div', [create('Appointments')])
+      }
+    }).$mount()
+    console.log(app.$el);
   })
 })

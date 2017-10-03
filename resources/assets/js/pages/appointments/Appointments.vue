@@ -186,7 +186,7 @@
             </tr>
             <tr>
               <td width="25%"><strong>Date/Time:</strong></td>
-              <td>{{ appointment.date | confirmDate }}</td>
+              <td>{{ confirmDate(appointment.date) }}</td>
             </tr>
             <tr v-if="flyoutMode === 'update'">
               <td width="25%"><strong>Status:</strong></td>
@@ -340,9 +340,6 @@ export default {
   },
 
   filters: {
-    confirmDate(date) {
-      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
-    },
     confirmStatus(status) {
       return convertStatus(status);
     }
@@ -465,6 +462,10 @@ export default {
   },
 
   methods: {
+
+    confirmDate(date) {
+      // return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
+    },
 
     checkPastAppointment() {
       return this.userType === 'patient'

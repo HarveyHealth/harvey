@@ -417,6 +417,6 @@ const app = new Vue({
     }
 });
 
-app.mount('#app');
+app.$mount('#app');
 
 export default app;
