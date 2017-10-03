@@ -43,13 +43,13 @@ module.exports = function(config) {
       'karma-sinon-chai',
       'karma-webpack',
       'karma-sourcemap-loader',
+      'karma-spec-reporter'
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
+    reporters: ['spec'],
 
     // web server port
     port: 9876,

@@ -177,6 +177,7 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
+                    console.log(this.global.appointments)
                     this.global.loadingAppointments = true;
                     Vue.nextTick(() => {
                         this.global.loadingAppointments = false
@@ -410,7 +411,7 @@ const app = new Vue({
     },
     mounted() {
         this.stripe = Stripe(Laravel.services.stripe.key);
-        window.debug = () => console.log(this.$data);
+        window.debug = () => this;
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();

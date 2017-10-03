@@ -65,7 +65,7 @@
 
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
-        <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+        <span class="input__item">{{ confirmDate(appointment.currentDate) }}</span>
       </div>
 
       <Days
@@ -272,9 +272,9 @@ export default {
       },
       bookingConflict: false,
       cache: {
-        all: [],
         upcoming: [],
-        completed: []
+        past: [],
+        cancelled: []
       },
       cancellationReason: '',
       durationList: [
@@ -958,6 +958,7 @@ export default {
     setupAppointments(list) {
       const zone = this.$root.addTimezone();
       const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
+
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');
