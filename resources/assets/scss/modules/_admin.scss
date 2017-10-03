@@ -80,11 +80,6 @@
       left: 15%;
       top: 49%;
       position: absolute;
-
-      -ms-transform: translate(-50%,-50%);
-      -webkit-transform: translate(-50%,-50%);
-      -moz-transform: translate(-50%,-50%);
-      -o-transform: translate(-50%,-50%);
       transform: translate(-50%,-50%);
 
       font-size: 18px;
@@ -112,7 +107,6 @@
     top: 25px;
     left: 49%;
     position: absolute;
-    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     transition: border-color .25s ease-in-out;
     width: 100px;

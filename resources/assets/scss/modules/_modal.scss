@@ -17,13 +17,7 @@
 .modal {
   width: 34em;
   position: fixed;
-
-  // Don't touch these
   top: 40%; left: 50%;
-  -ms-transform: translate(-50%,-40%);
-  -webkit-transform: translate(-50%,-40%);
-  -moz-transform: translate(-50%,-40%);
-  -o-transform: translate(-50%,-40%);
   transform: translate(-50%,-40%);
 
   z-index: 200;
@@ -48,7 +42,7 @@
     @include padding(null null 15px null);
     @include margin(null null 30px null);
   }
-  
+
   .modal-button-container {
     p {
       font-style: italic;
