@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Events\{LabOrderConfirmed, LabOrderShipped};
-use App\Models\{LabOrder, LabTest};
+use App\Models\LabOrder;
 
 class LabOrderObserver
 {
@@ -15,15 +15,7 @@ class LabOrderObserver
      */
     public function saving(LabOrder $lab_order)
     {
-        if ($lab_order->labTests->isEmpty()) {
-            return true;
-        }
-
-        if (1 == $lab_order->labTests->pluck('status_id')->unique()->count()) {
-            $lab_order->status_id = $lab_order->labTests->first()->status_id;
-        } else {
-            $lab_order->status_id = $lab_order->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
-        }
+        $lab_order->setStatus();
 
         if ($lab_order->isDirty('status_id')) {
             switch ($lab_order->status_id) {

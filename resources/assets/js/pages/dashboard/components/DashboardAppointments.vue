@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="card-heading-container">
-        <h2 class="heading-2">Upcoming Appointments</h2>
+        <h2 class="heading-2">Appointments</h2>
         <a href="/dashboard#/appointments">View Appointments</a>
       </div>
       <div class="card-content-container">

@@ -25,7 +25,7 @@ class Cashier
             $invoiceable->save();
         }
 
-        return $invoice;
+        return $invoice->fresh();
     }
 
     public static function chargePatientForInvoice(Invoice $invoice)

@@ -565,6 +565,9 @@
 
     .v-spinner {
         align-self: center;
-        text-align: left !important;
+        text-align: center !important;
+        position: absolute;
+        z-index: 1000;
+        margin-top: -1.5em;
     }
 </style>

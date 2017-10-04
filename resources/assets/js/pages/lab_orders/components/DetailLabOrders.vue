@@ -425,8 +425,8 @@
         this.newZip = ''
         this.newState = ''
         this.labPatients = {}
+        this.$parent.setupLabData();
         if (this.$root.$data.permissions !== 'patient') {
-          this.$parent.setupLabData();
           let status = {
             0: "Recommended",
             1: "Confirmed",
@@ -512,11 +512,7 @@
                 status: 'confirmed'
               })
               .then(resp => {
-                this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (Number(ele.id) === Number(e.test_id)) {
-                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
-                  }
-                })
+                this.$root.$data.global.labTests.push(resp.data.data);
               }))
             }
         })
@@ -763,7 +759,7 @@
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list.filter(e => e.current_status !== 'Canceled')
+        }] : this.$props.rowData.test_list.filter(e => e.original_status !== 'canceled')
         return results
       },
       patientTestList() {
