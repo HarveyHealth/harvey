@@ -44,7 +44,7 @@
                     </div>
 
                     <div v-if="details">
-                        <form id="payment-form">
+                        <form id="payment-form" name="billing-info">
                             <div class="form-row">
                                 <div id="card-element"></div>
                                 <div id="card-errors" role="alert"></div>
