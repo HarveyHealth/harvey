@@ -14,14 +14,19 @@
           <div class="card-heading-container">
             <h2 class="heading-2">Practitioner</h2>
           </div>
-          <div class="card-content-container">
-            <div class="card-content-wrap" v-if="practitioner.name">
+          <div v-if="practitioner.name" class="card-content-container">
+            <div class="card-content-wrap">
               <h3 class="card-contact-name">
                 <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ practitioner.name }}
               </h3>
             </div>
             <div class="card-content-wrap">
               <p>{{ practitioner.description }}</p>
+            </div>
+          </div>
+          <div v-else class="card-content-container">
+            <div class="card-empty-container">
+              <p class="copy-muted-2 font-italic">{{ practitioner.status }}</p>
             </div>
           </div>
         </div>
@@ -137,12 +142,12 @@
           })[0];
         } else {
           return {
-            avatar: '#',
-            description: 'Loading your doctor...',
+            status: 'Loading your doctor...',
+            avatar: '',
+            description: '',
             name: ''
           }
         }
-
       },
       recent_appointments() {
         return this.$root.$data.global.recent_appointments || [];

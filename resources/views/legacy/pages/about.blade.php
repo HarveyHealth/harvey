@@ -40,7 +40,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctors passed a medical board exam and received a state medical license.</p>
+                        <p class="subtitle is-6">100% of our doctors passed a national board exam and received a state medical license.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
