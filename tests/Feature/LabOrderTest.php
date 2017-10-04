@@ -310,26 +310,44 @@ class LabOrderTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_NO_CONTENT);
     }
 
-    public function test_a_lab_order_is_set_as_complete_after_lab_tests_are_complete()
+    public function test_a_lab_order_is_set_as_complete_after_lab_tests_are_completed_and_address_is_updated()
     {
         $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
+        $labOrder = $labOrder->fresh();
 
         $this->assertEquals('recommended', $labOrder->status);
 
         $labOrder->labTests->every->markAsComplete();
 
+        Passport::actingAs($labOrder->practitioner->user);
+
+        $parameters = [
+            'address_1' => 'Some Random Address 1234',
+        ];
+
+        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
+
         $this->assertEquals('complete', $labOrder->fresh()->status);
     }
 
-    public function test_a_lab_order_is_set_as_canceled_after_lab_tests_are_canceled()
+    public function test_a_lab_order_is_set_as_canceled_after_lab_tests_are_canceled_and_address_is_updated()
     {
         $labOrder = factory(LabOrder::class)->create(['status' => 'recommended']);
         $labTest = factory(LabTest::class, 3)->create(['lab_order_id' => $labOrder->id]);
+        $labOrder = $labOrder->fresh();
 
         $this->assertEquals('recommended', $labOrder->status);
 
         $labOrder->labTests->every->markAsCanceled();
+
+        Passport::actingAs($labOrder->practitioner->user);
+
+        $parameters = [
+            'address_1' => 'Some Random Address 1234',
+        ];
+
+        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
 
         $this->assertEquals('canceled', $labOrder->fresh()->status);
     }

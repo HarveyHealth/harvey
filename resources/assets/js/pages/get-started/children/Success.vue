@@ -67,7 +67,7 @@ export default {
         'container': true,
       },
       showModal: false,
-      title: 'Your appointment is confirmed!',
+      title: 'Appointment confirmed!',
       note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. Chat with us on this screen if you have any questions.',
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
       appointmentDate: this.$root.$data.signup.data.appointment_at,
