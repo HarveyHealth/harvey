@@ -51,6 +51,7 @@
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
                         {{ page === 1 ? 'New SOAP Note' : null }}
+                        {{ page === 2 ? 'Lab Results' : null }}
                       </h2>
                       <h2 style="font-weight: 400; float: right; color: #e3bab3;">
                         {{ selectedPatient.search_name }}
@@ -59,6 +60,9 @@
                     
                     <div v-if="page === 1">
                       <SoapNote :patient="selectedPatient" />
+                    </div>
+                    <div v-if="page === 2">
+                      <LabResults :patient="selectedPatient" />
                     </div>
 
                   </div>
@@ -91,7 +95,9 @@
                         type: 'Lab Results',
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {}
+                        onClick: () => {
+                          this.labResults();
+                        }
                       },
                       {
                         type: 'Treatment Plan',
@@ -175,6 +181,7 @@ import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
 import Timeline from '../../commons/Timeline.vue'
 import SoapNote from './SoapNote.vue'
+import LabResults from './LabResults.vue'
 export default {
     name: 'Records',
     components: {
@@ -182,7 +189,8 @@ export default {
         Modal,
         Flyout,
         Timeline,
-        SoapNote
+        SoapNote,
+        LabResults
     },
     data() {
         return {
@@ -203,6 +211,9 @@ export default {
       },
       newSoapNote() {
         this.page = 1;
+      },
+      labResults() {
+        this.page = 2;
       },
       selectPatient(patient) {
         this.selectedPatient = patient

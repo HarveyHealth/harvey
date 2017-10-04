@@ -100,7 +100,7 @@ const app = new Vue({
             practitionerLookUp: {},
             user: {},
             selfPractitionerInfo: null,
-            user_editing: {}
+            user_editing: {},
         },
         signup: {
           availability: [],
