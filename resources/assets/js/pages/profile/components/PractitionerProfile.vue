@@ -59,12 +59,13 @@
                                     <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
                                     <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
                                     <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
-                                    <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <img v-if="practitioner.picture_url" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <img v-else class="practitioner-profile-images__profile" src="/images/default_user_image.png" />
                                     <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
                                 </div>
                             </div>
                             <div class="profile-title">
-                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, N.D.</h4><br>
+                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, ND</h4><br>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
@@ -302,7 +303,7 @@
         display: flex;
         justify-content: center;
         font-size: 1.5em;
-        padding-bottom: 10px;
+        padding: 1em 0;
     }
 
     .warning.prac {
