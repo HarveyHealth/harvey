@@ -46,7 +46,7 @@
             <button @click="newSoapNote" class="button" style="background-color: #ccc; top: 5px; position: absolute; right: 36%; z-index: 100; width: 10%;">SOAP Note</button>
             <button class="button" style="top: 5px; position: absolute; right: 25%; z-index: 100; width: 10%;">New Record</button>
 
-              <div style="height: 800px;">  
+              <div style="height: auto;">  
                 <div class="card" style="width: 70%;">
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
@@ -240,6 +240,10 @@ export default {
         this.search = e.target.value;
       },
       newSoapNote() {
+        this.page = 1;
+        this.index = null;
+      },
+      soapNote() {
         this.page = 1;
       },
       labResults() {

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 800px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
+  <div style="height: auto; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
                         
         <div style="width: 97%; position: relative; top: 25px;">
             <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
@@ -25,7 +25,7 @@
             <textarea :maxlength="2048" v-model="plan" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
         </div>
             
-        <div class="inline-centered">
+        <div class="inline-centered" style="padding-bottom: 15px;">
             <button @click="createSoapNote()" :disabled="!subjective || !objective || !assessment || !plan" class="button" style="margin-top: 35px;">Save Changes</button>
         </div>
     </div>
