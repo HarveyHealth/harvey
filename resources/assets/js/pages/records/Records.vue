@@ -54,6 +54,8 @@
                         {{ page === 2 ? 'Lab Results' : null }}
                         {{ page === 3 ? 'Prescription' : null }}
                         {{ page === 4 ? 'Attachment' : null }}
+                        {{ page === 5 ? 'Intake Form' : null }}
+                        {{ page === 6 ? 'Treatment Plan' : null }}
                       </h2>
                       <h2 style="font-weight: 400; float: right; color: #e3bab3;">
                         {{ selectedPatient.search_name }}
@@ -71,6 +73,12 @@
                     </div>
                     <div v-if="page === 4">
                       <Attachment :patient="selectedPatient" />
+                    </div>
+                    <div v-if="page === 5">
+                      <Intake :patient="selectedPatient" />
+                    </div>
+                    <div v-if="page === 5">
+                      <Treatment :patient="selectedPatient" />
                     </div>
 
                   </div>
@@ -99,6 +107,7 @@
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
                           this.setIndex(0);
+                          this.intake();
                         }
                       },
                       {
@@ -116,6 +125,7 @@
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
                           this.setIndex(2);
+                          this.treatment();
                         }
                       },
                       {
@@ -205,10 +215,12 @@ import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
 import Timeline from '../../commons/Timeline.vue'
-import SoapNote from './SoapNote.vue'
-import LabResults from './LabResults.vue'
-import Prescription from './Prescription.vue'
-import Attachment from './Attachment.vue'
+import SoapNote from './components/SoapNote.vue'
+import LabResults from './components/LabResults.vue'
+import Prescription from './components/Prescription.vue'
+import Attachment from './components/Attachment.vue'
+import Intake from './components/Intake.vue'
+import Treatment from './components/Treatment.vue'
 export default {
     name: 'Records',
     components: {
@@ -219,7 +231,9 @@ export default {
         SoapNote,
         LabResults,
         Prescription,
-        Attachment
+        Attachment,
+        Intake,
+        Treatment
     },
     data() {
         return {
@@ -254,6 +268,12 @@ export default {
       },
       attachment() {
         this.page = 4;
+      },
+      intake() {
+        this.page = 5;
+      },
+      treatment() {
+        this.page = 6;
       },
       setIndex(idx) {
         this.index = idx;
