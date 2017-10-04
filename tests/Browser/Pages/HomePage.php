@@ -104,7 +104,7 @@ class HomePage extends Page
 
     public function labsButton(Browser $browser)
     {
-            $browser->pause(2000)
+            $browser->pause(3000)
                     ->mouseover('@joinDiscussion')
                     ->click('@labsTestButton')
                     ->assertSee($this->labsPage);
@@ -168,16 +168,16 @@ class HomePage extends Page
     {
         return [
             '@element' => '#selector',
-            '@getStartedHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(6)',
-            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(5)',
+            '@getStartedHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > div > a:nth-child(2)',
+            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(4)',
             '@harveyLogoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
             '@labTesting' => '#tests > div > h2 > span',
-            '@aboutHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(1)',
-            '@labsTestHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(2)',
+            '@aboutHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(1)',
+            '@labsTestHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(2)',
             '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
-            '@bookCover' => '#app > div.page-content > div > section.hero.is-primary > div.hero-body > div > div > div > div.button-wrapper > a',
+            '@bookCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
-            '@joinDiscussion' => '#email-capture > div > div > h2',
+            '@joinDiscussion' => '.title is-3 is-padding-top',
             '@labsTestButton' => '#feature > div > div > div > div > div > a',
             '@footer' => '#app > footer > div > div > a > img',
             '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',
