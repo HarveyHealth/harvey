@@ -17,9 +17,7 @@ describe('Flyout Component', () => {
       const wrapper = new Constructor({ propsData: mockProps }).$mount();
 
       const selection = wrapper.$el.querySelector('[data-test="close"]');
-      const clickEvent = new window.Event('click');
-
-      selection.dispatchEvent(clickEvent);
+      selection.click();
 
       expect(onCloseSpy).to.have.been.calledOnce;
     });
