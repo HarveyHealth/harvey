@@ -2,17 +2,16 @@
 
 namespace App\Jobs;
 
+use App\Lib\Cashier;
+use App\Models\Invoice;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Models\Invoice;
-use App\Lib\Cashier;
+use Illuminate\Queue\InteractsWithQueue;
 
 class ChargePatientForInvoice implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable;
 
     public $invoice;
 
