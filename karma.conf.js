@@ -38,7 +38,7 @@ module.exports = function(config) {
     },
 
     plugins: [
-      'karma-chrome-launcher',
+      'karma-jsdom-launcher',
       'karma-mocha',
       'karma-sinon-chai',
       'karma-webpack',
@@ -70,7 +70,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['jsdom'],
 
     webpack: {
       module: {
