@@ -137,7 +137,8 @@
             return {
               avatar: dr.info.picture_url,
               description: dr.info.description,
-              name: `${dr.name}, ${typeAbbr}`
+              name: `${dr.name}, ${typeAbbr}`,
+              status: ''
             }
           })[0];
         } else {
