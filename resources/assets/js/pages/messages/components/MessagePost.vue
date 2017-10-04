@@ -6,7 +6,7 @@
               <img :src="image" alt="avatar">
           </div>
           <h3 class="heading-2">{{ name }}</h3>
-          <h3 class="font-md copy-muted-2">{{ momemtDate }}</h3>
+          <h3 class="font-sm copy-muted-2">{{ momemtDate }}</h3>
         </div>
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>

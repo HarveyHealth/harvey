@@ -2,19 +2,13 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
+use App\Models\{Invoice, Transaction};
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use App\Models\Invoice;
-use App\Models\Transaction;
+use Exception;
 
 class ChargeFailed
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
 
     public $invoice;
     public $transaction;
@@ -25,7 +19,7 @@ class ChargeFailed
      *
      * @return void
      */
-    public function __construct(Invoice $invoice, $exception = null, $transaction = null)
+    public function __construct(Invoice $invoice, Exception $exception = null, Transaction $transaction = null)
     {
         $this->invoice = $invoice;
         $this->exception = $exception;
