@@ -374,7 +374,9 @@ class LabOrderTest extends TestCase
 
     public function test_it_does_not_allows_an_admin_to_update_the_address_of_a_lab_order_if_shipped()
     {
-        $labOrder = factory(LabOrder::class)->create(['status' => 'shipped']);
+        $labOrder = factory(LabOrder::class)->create();
+        $labOrder->status = 'shipped';
+        $labOrder->save();
 
         Passport::actingAs(factory(Admin::class)->create()->user);
 

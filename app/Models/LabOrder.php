@@ -49,6 +49,20 @@ class LabOrder extends Model
         return $this->hasMany(LabTest::class);
     }
 
+    public function setStatus() {
+        if ($this->labTests->isEmpty()) {
+            return true;
+        }
+
+        if (1 == $this->labTests->pluck('status_id')->unique()->count()) {
+            $this->status_id = $this->labTests->first()->status_id;
+        } else {
+            $this->status_id = $this->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
+        }
+
+        return $this->status;
+    }
+
     public function dataForInvoice()
     {
         $labTests = $this->labTests()->notCanceled()->get();
