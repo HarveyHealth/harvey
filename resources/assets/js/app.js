@@ -15,10 +15,14 @@ import Alert from './commons/Alert.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
-// HELPERS
+// METHODS
 import combineAppointmentData from './utils/methods/combineAppointmentData';
+import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
+
+// STORE
+import store from './store';
 
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
@@ -45,101 +49,7 @@ const app = new Vue({
         Dashboard,
         Usernav,
     },
-    data: {
-        apiUrl: '/api/v1',
-        appointmentData: null,
-        colors: {
-          copy: '#4f6268'
-        },
-        clientList: [],
-        permissions: Laravel.user.user_type,
-        environment: env,
-        currentUserId: Laravel.user.id,
-        flyoutActive: false,
-        guest: false,
-        stripe: null,
-        global: {
-            appointments: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
-            currentPage: '',
-            creditCards: [],
-            detailMessages: {},
-            loadingAppointments: true,
-            loadingCreditCards: true,
-            loadingClients: true,
-            loadingPatients: true,
-            loadingPractitioners: true,
-            practitionerProfileLoading: true,
-            loadingLabOrders: true,
-            loadingMessages: true,
-            loadingLabTests: true,
-            loadingTestTypes: true,
-            loadingUser: true,
-            loadingUserEditing: true,
-            menuOpen: false,
-            messages: [],
-            patients: [],
-            practitioners: [],
-            recent_appointments: [],
-            // Updated: 08/22/2017
-            // This is a hotfix and should be included in the backend logic when determining which
-            // practitioners to send to the frontend
-            regulatedStates: [
-              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
-            ],
-            signed_in: Laravel.user.signedIn,
-            test_results: [],
-            upcoming_appointments: [],
-            unreadMessages: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
-            labOrders: [],
-            labTests: [],
-            patientLookUp: {},
-            practitionerLookUp: {},
-            user: {},
-            selfPractitionerInfo: null,
-            user_editing: {}
-        },
-        signup: {
-          availability: [],
-          availableTimes: [],
-          billingConfirmed: false,
-          cardBrand: '',
-          cardCvc: '',
-          cardExpiration: '',
-          cardName: '',
-          cardNumber: '',
-          cardLastFour: '',
-          code: '',
-          completedSignup: false,
-          codeConfirmed: false,
-          cost: '',
-          data: {
-            appointment_at: null,
-            reason_for_visit: 'First appointment',
-            practitioner_id: null,
-          },
-          googleMeetLink: '',
-          phone: '',
-          phonePending: false,
-          phoneConfirmed: false,
-          practitionerName: '',
-          practitionerState: '',
-          selectedDate: null,
-          selectedDay: null,
-          selectedPractitioner: 0,
-          selectedWeek: null,
-          selectedTime: null,
-          visistedStages: [],
-        },
-        initialAppointment: {},
-        initialAppointmentComplete: false,
-        labTests: {},
-        timezone: moment.tz.guess(),
-        timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
-    },
+    data: store(Laravel),
     methods: {
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
@@ -158,26 +68,13 @@ const app = new Vue({
             }
           })
         },
-        // Filters practitioner list by state licensing regulations
-        // practitioners = practitioner list from backend or from appointments page
-        // state = user state to test against
-        filterPractitioners(practitioners, state) {
-          return practitioners.filter(practitioner => {
-            // First check if the user's state is regulated or not
-            const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
-            // Get licenses from global list or from appointments page list
-            const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
-            // If the user's state is regulated, filter dr list for drs with licenses in that state
-            return userRegulatedState
-              ? licenses.filter(license => license.state === state).length
-              : true
-          })
-        },
+
+        filterPractitioners: filterPractitioners.bind(this),
+
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
-                    console.log(this.global.appointments)
                     this.global.loadingAppointments = true;
                     Vue.nextTick(() => {
                         this.global.loadingAppointments = false
