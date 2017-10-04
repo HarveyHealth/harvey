@@ -6,6 +6,7 @@ use App\Http\Traits\HasStatusColumn;
 use App\Models\{LabOrder, SKU};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class LabTest extends Model
 {
@@ -84,5 +85,10 @@ class LabTest extends Model
     {
       return $query->leftJoin('skus','skus.id','=','sku_id')
               ->orderBy('skus.name');
+    }
+
+    public function scopeShipped(Builder $builder)
+    {
+        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
     }
 }
