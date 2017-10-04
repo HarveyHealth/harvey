@@ -46,6 +46,8 @@ const AppStub = function(component, componentName, setAppState) {
     return stub.$(selector).html() === null ? false : true;
   }
 
+  stub.find = selector => stub.vm.$el.querySelector(selector);
+
   return stub;
 }
 

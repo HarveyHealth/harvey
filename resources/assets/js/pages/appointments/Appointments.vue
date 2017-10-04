@@ -508,6 +508,8 @@ export default {
         } else {
           this.loadingDays = false;
         }
+      }).catch(error => {
+        
       });
     },
 
