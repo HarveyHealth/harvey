@@ -50,10 +50,10 @@
                 <div class="card" style="width: 70%;">
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
-                        {{ page === 1 ? 'SOAP Note' : null }}
-                        {{ page === 2 ? 'Lab Results' : null }}
-                        {{ page === 3 ? 'Prescription' : null }}
-                        {{ page === 4 ? 'Attachment' : null }}
+                        {{ page === 1 ? 'New SOAP Note' : null }}
+                        {{ page === 2 ? 'New Lab Results' : null }}
+                        {{ page === 3 ? 'New Prescription' : null }}
+                        {{ page === 4 ? 'New Attachment' : null }}
                         {{ page === 5 ? 'Intake Form' : null }}
                         {{ page === 6 ? 'Treatment Plan' : null }}
                       </h2>
