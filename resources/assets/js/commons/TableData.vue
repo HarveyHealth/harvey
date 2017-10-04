@@ -21,6 +21,7 @@
         </td>
       </tr>
       <tr v-for="(row, i) in rowData"
+          v-show="!loading"
           @click="onRowClick(row, i)"
           :class="$$rowClasses(row.data, i)">
         <td v-for="(val, j) in row.values" :width="columns[j].width">

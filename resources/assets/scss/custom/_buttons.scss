@@ -17,7 +17,7 @@ input[type="submit"] {
   transition: background-color .25s ease-in-out;
   user-select: none;
   vertical-align: middle;
-    min-width: 10rem;
+  min-width: 10rem;
   width: auto;
 
   &.is-outlined {
@@ -75,7 +75,8 @@ input[type="submit"] {
     stroke: $gray;
     stroke-width: 6px;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,-50%);
+
     width: 1em;
   }
 
