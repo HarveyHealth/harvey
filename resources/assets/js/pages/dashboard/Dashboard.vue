@@ -167,7 +167,7 @@
                this.userType === 'patient';
       },
       cityState() {
-        return this.user.attributes ? this.user.attributes.city + ', ' + this.user.attributes.state : '';
+        return this.user.attributes ? `${this.user.attributes.city}, ${this.user.attributes.state}` : '';
       },
       appointments() {
         return this.$root.$data.global.appointments;
