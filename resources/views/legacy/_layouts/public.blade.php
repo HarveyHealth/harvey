@@ -18,11 +18,9 @@
 
     <div id="app">
         @include('legacy._layouts.includes.top_nav')
-
         <div class="page-content">
             @yield('main_content')
         </div>
-
         @include('legacy._layouts.includes.footer')
     </div>
 
@@ -33,9 +31,6 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
-    <script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
-    <link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
-
     @if (Auth::guest())
         
         <!-- Modernizr -->
@@ -44,6 +39,59 @@
         <!-- Juicer -->
         <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
         <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
+
+        <!-- Bideo -->
+        <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
+        <script>
+
+            // Detect mobile
+            var detectMobile = window.matchMedia('(max-width: 768px)').matches;
+            
+            // Detect IE browsers
+            var detectIE = false;
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                // return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                detectIE = true;
+            }
+            var trident = ua.indexOf('Trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                // var rv = ua.indexOf('rv:');
+                // return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                detectIE = true;
+            }
+            var edge = ua.indexOf('Edge/');
+            if (edge > 0) {
+               // Edge (IE 12+) => return version number
+               // return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+               detectIE = true;
+            }
+
+            // console.log('Mobile ' + detectMobile);
+            // console.log('IE ' + detectIE);
+            
+            var bv = new Bideo();
+            bv.init({
+                videoEl: document.querySelector('#hero-video'),
+                container: document.querySelector('body'),
+                resize: true,
+                autoplay: true,
+                src: [{
+                        src: 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                        type: 'video/mp4'
+                }],
+                onLoad: function() {
+                    // If not mobile and not IE, play video
+                    if ((detectMobile === false) && (detectIE === false)) {
+                        document.querySelector('#video-cover').style.display = 'none';
+                    }
+                }
+            });
+
+        </script>
 
         <!-- Lity -->
         <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">

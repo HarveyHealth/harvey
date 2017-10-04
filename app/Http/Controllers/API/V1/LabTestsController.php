@@ -70,7 +70,7 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all())->fresh())->respond();
+        return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
     }
 
     public function update(Request $request, LabTest $labTest)
@@ -86,7 +86,7 @@ class LabTestsController extends BaseAPIController
 
         $labTest->update($request->all());
 
-        return $this->baseTransformItem($labTest)->respond();
+        return $this->baseTransformItem($labTest, request('include'))->respond();
     }
 
     /**

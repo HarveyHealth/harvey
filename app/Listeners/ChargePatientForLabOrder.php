@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\LabOrderApproved;
+use App\Events\LabOrderConfirmed;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Cashier;
@@ -13,26 +13,22 @@ class ChargePatientForLabOrder implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  LabOrderApproved  $event
+     * @param  LabOrderConfirmed  $event
      * @return void
      */
-    public function handle(LabOrderApproved $event)
+    public function handle(LabOrderConfirmed $event)
     {
-        $labOrder = $event->lab_order;
-        $user = $labOrder->patient->user;
-
-        if ($labOrder->invoice_id && $labOrder->invoice->isNotOutstanding()) {
+        if ($event->lab_order->invoice_id && $event->lab_order->invoice->isNotOutstanding()) {
             return false;
         }
 
-        $invoice = Cashier::getOrCreateInvoice($labOrder);
+        $invoice = Cashier::getOrCreateInvoice($event->lab_order);
 
-        if (!$user->hasACard()) {
-            ops_warning('ChargePatientForLabOrder warning!' , "User ID #{$user->id} doesn't have a credit card associated. Can't charge Invoice ID #{$invoice->id} [LabOrder ID #{$labOrder->id}].", 'operations');
+        if (!$event->lab_order->patient->user->hasACard()) {
+            ops_warning('ChargePatientForLabOrder warning!' , "User ID #{$event->lab_order->patient->user->id} doesn't have a credit card associated. Can't charge Invoice ID #{$invoice->id} [LabOrder ID #{$event->lab_order->id}].", 'operations');
             return false;
         }
 
-        $job = (new ChargePatientForInvoice($invoice));
-        dispatch($job);
+        dispatch(new ChargePatientForInvoice($invoice));
     }
 }
