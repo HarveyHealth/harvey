@@ -6,7 +6,7 @@
         <div v-if="step == 1">
           <div class="main-content">
             <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
-              <p style="font-style: italic;">Your records are loading.</p>
+              <p style="font-style: italic;">Your records are loading...</p>
             </div>
             <form v-if="!$root.$data.global.loadingPatients" class="form" style="width: 100%;">
               <i class="fa fa-search search-icon"></i>
@@ -39,19 +39,21 @@
         </div>
         <div v-if="step == 2" class="main-content">
            <div v-if="$root.$data.permissions !== 'patient'">
-            <form class="form">
+            <div class="form">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
-              <button @click="newSoapNote" class="button" style="background-color: #ccc; top: 5px; position: absolute; right: 36%; z-index: 100; width: 10%;">SOAP Note</button>
-              <button class="button" style="top: 5px; position: absolute; right: 25%; z-index: 100; width: 10%;">New Record</button>
-            </form>
+            </div>
+            <button @click="newSoapNote" class="button" style="background-color: #ccc; top: 5px; position: absolute; right: 36%; z-index: 100; width: 10%;">SOAP Note</button>
+            <button class="button" style="top: 5px; position: absolute; right: 25%; z-index: 100; width: 10%;">New Record</button>
 
               <div style="height: 800px;">  
                 <div class="card" style="width: 70%;">
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
-                        {{ page === 1 ? 'New SOAP Note' : null }}
+                        {{ page === 1 ? 'SOAP Note' : null }}
                         {{ page === 2 ? 'Lab Results' : null }}
+                        {{ page === 3 ? 'Prescription' : null }}
+                        {{ page === 4 ? 'Attachment' : null }}
                       </h2>
                       <h2 style="font-weight: 400; float: right; color: #e3bab3;">
                         {{ selectedPatient.search_name }}
@@ -63,6 +65,12 @@
                     </div>
                     <div v-if="page === 2">
                       <LabResults :patient="selectedPatient" />
+                    </div>
+                    <div v-if="page === 3">
+                      <Prescription :patient="selectedPatient" />
+                    </div>
+                    <div v-if="page === 4">
+                      <Attachment :patient="selectedPatient" />
                     </div>
 
                   </div>
@@ -84,12 +92,14 @@
                     </div>
                   </div>
                   <div class="input__container">
-                    <Timeline :items="[
+                    <Timeline :index="index" :items="[
                       {
                         type: 'Intake Form',
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {}
+                        onClick: () => {
+                          this.setIndex(0);
+                        }
                       },
                       {
                         type: 'Lab Results',
@@ -97,19 +107,34 @@
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
                           this.labResults();
+                          this.setIndex(1);
                         }
                       },
                       {
                         type: 'Treatment Plan',
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {}
+                        onClick: () => {
+                          this.setIndex(2);
+                        }
                       },
                       {
                         type: 'Prescription',
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {}
+                        onClick: () => {
+                          this.prescription();
+                          this.setIndex(3);
+                        }
+                      },
+                      {
+                        type: 'Attachment',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                        onClick: () => {
+                          this.attachment();
+                          this.setIndex(4);
+                        }
                       }
                     ]" />
                   </div>
@@ -182,6 +207,8 @@ import Flyout from '../../commons/Flyout.vue'
 import Timeline from '../../commons/Timeline.vue'
 import SoapNote from './SoapNote.vue'
 import LabResults from './LabResults.vue'
+import Prescription from './Prescription.vue'
+import Attachment from './Attachment.vue'
 export default {
     name: 'Records',
     components: {
@@ -190,7 +217,9 @@ export default {
         Flyout,
         Timeline,
         SoapNote,
-        LabResults
+        LabResults,
+        Prescription,
+        Attachment
     },
     data() {
         return {
@@ -200,7 +229,8 @@ export default {
           activeModal: false,
           name: '',
           showing: [],
-          page: 1
+          page: 1,
+          index: null
         }
     },
     methods: {
@@ -214,6 +244,15 @@ export default {
       },
       labResults() {
         this.page = 2;
+      },
+      prescription() {
+        this.page = 3;
+      },
+      attachment() {
+        this.page = 4;
+      },
+      setIndex(idx) {
+        this.index = idx;
       },
       selectPatient(patient) {
         this.selectedPatient = patient

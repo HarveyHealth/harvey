@@ -2,20 +2,17 @@
     <div class="lab-body">
         <div class="p-spacing">
             <p>
-                You are about upload a new lab test for client {{ patient.search_name }} 
-                (date of birth {{ patient.date_of_birth }}). 
-                Please verify the name of the lab and the type of lab test before 
-                uploading the results, so we can match the result with a lab test. 
+                You are about upload a prescription for client {{ patient.search_name }}, 
+                with adate of birth {{ patient.date_of_birth }}. 
+                Please verify the name of the pharmacy before 
+                uploading, so we can keep things organized.
+                Anything you upload will be viewable to your patient.
                 The only file format accepted is a PDF.
             </p>
         </div>
         <div class="card-heading-container records-spacing">
             <div>
-                <label class="input__label">lab name</label>
-                <div></div>
-            </div>
-            <div>
-                <label class="input__label">lab test</label>
+                <label class="input__label">pharmacy</label>
                 <div></div>
             </div>
             <div>
