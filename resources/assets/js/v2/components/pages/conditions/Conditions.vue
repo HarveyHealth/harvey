@@ -30,7 +30,7 @@
       <div class="margin-0a max-width-lg pad-md color-white">
         <ConditionPreface v-if="!State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-        <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.serviceable') === false" />
+        <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false" />
       </div>
     </div>
   </div>

@@ -16,7 +16,7 @@
         <div class="nav-right">
             <div class="nav-items">
                 <a href="tel:800-690-9989" class="button is-primary is-outlined is-hidden-mobile">(800) 690-9989</a>
-                <a href="/get-started" class="button is-primary">Get Started</a>
+                <a :href="hasZipValidation ? '/get-started' : '/conditions'" class="button is-primary">Get Started</a>
             </div>
         </div>
     </div>

@@ -20,7 +20,7 @@
         :ref="'submit'"
         :width="'140px'" />
     </SlideIn>
-    <div v-if="State('conditions.zipValidation.serviceable') === false">
+    <div v-if="State('conditions.zipValidation.is_serviceable') === false">
       <SlideIn class="space-children-lg">
         <p class="heading-1">Unfortunately, we cannot service patients in your state, but we&rsquo;re working on it.</p>
         <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from out team of Naturopathic Doctors.</p>

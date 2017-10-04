@@ -20,10 +20,10 @@ class ZipVerificationController extends BaseAPIController
       $this->zipCodeValidator->setZip($zip);
       $city = $this->zipCodeValidator->getCity();
       $state = $this->zipCodeValidator->getState();
-      $serviceable = $this->zipCodeValidator->isServiceable($state);
+      $is_serviceable = $this->zipCodeValidator->isServiceable($state);
       $practitioners = count(License::where('state', $state)->first());
-      $regulated = $this->zipCodeValidator->isRegulated($state);
+      $is_regulated = $this->zipCodeValidator->isRegulated($state);
 
-      return response()->json(compact('city', 'practitioners', 'regulated', 'serviceable', 'state', 'zip'));
+      return response()->json(compact('city', 'practitioners', 'is_regulated', 'is_serviceable', 'state', 'zip'));
     }
   }
