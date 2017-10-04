@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Events\{LabOrderConfirmed, LabOrderShipped};
-use App\Models\{LabOrder, LabTest};
+use App\Models\LabOrder;
 
 class LabOrderObserver
 {
