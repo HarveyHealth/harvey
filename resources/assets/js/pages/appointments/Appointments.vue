@@ -95,6 +95,7 @@
         :is-visible="visibleDuration"
         :list="durationList"
         :set-duration="setDuration"
+        data-test="duration"
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
@@ -138,6 +139,7 @@
           v-if="visibleUpdateButtons"
           class="button"
           @click="handleConfirmationModal('update')"
+          data-test="button_update"
           :disabled="disableUpdateButton">Update Appointment</button>
 
         <a v-if="visibleCancelButton"
