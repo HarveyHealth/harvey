@@ -1,7 +1,7 @@
-.MainNav-conditions {
+.MainNav--conditions {
   position: fixed;
 
-  .MainNav-Wrapper {
+  .MainNav_Wrapper {
     background: $color-fade-darker;
     bottom: 0;
     left: 0;
@@ -18,7 +18,7 @@
     right: 0;
     top: 0;
 
-    .MainNav-Wrapper {
+    .MainNav_Wrapper {
       display: block;
     }
   }
@@ -48,14 +48,14 @@
   }
 
   @include query(md) {
-    &, .MainNav-Wrapper {
+    &, .MainNav_Wrapper {
       background: transparent;
       display: block !important;
       padding-bottom: $space-sm;
       position: static;
       text-align: center;
     }
-    .MainNav-Wrapper a {
+    .MainNav_Wrapper a {
       display: inline;
       font-size: $font-lg;
       font-weight: $font-thin;
@@ -67,11 +67,11 @@
   }
 }
 
-.MainNav-questions {
+.MainNav--questions {
   padding: $space-sm;
   text-align: center;
 
-  .MainNav-logo {
+  .MainNav_Logo {
     width: 100px;
     height: 45px;
   }
@@ -80,7 +80,7 @@
     padding: $space-md;
     text-align: left;
 
-    .MainNav-logo {
+    .MainNav_Logo {
       width: 150px;
     }
   }

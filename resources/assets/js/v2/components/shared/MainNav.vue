@@ -1,6 +1,6 @@
 <template>
   <nav :class="classes">
-    <div class="MainNav-Wrapper" v-if="showMenu">
+    <div class="MainNav_Wrapper" v-if="showMenu">
       <a href="/">Home</a>
       <a href="/about">About</a>
       <a href="/lab-tests">Lab Tests</a>
@@ -11,7 +11,7 @@
       <i :class="menuClass"></i>
     </button>
     <a v-if="!showMenu" href="/">
-      <SvgIcon class="MainNav-logo" :id="'harvey-logo-white'" />
+      <SvgIcon class="MainNav_Logo" :id="'harvey-logo-white'" />
     </a>
   </nav>
 </template>
@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     classes() {
-      return `MainNav${this.context ? '-' + this.context : ''} ${this.isOpen ? 'is-open' : ''}`;
+      return `MainNav${this.context ? '--' + this.context : ''} ${this.isOpen ? 'is-open' : ''}`;
     },
     menuClass() {
       return `fa ${this.isOpen ? 'fa-close' : 'fa-bars'}`;

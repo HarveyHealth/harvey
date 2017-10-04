@@ -4,10 +4,10 @@
       <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'80px'" />
     </div>
     <div class="margin-0a max-width-md" style="position: relative">
-      <button class="Button Button-condition-nav is-left" v-show="displayBack()" @click="goBack">
+      <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>
       </button>
-      <button class="Button Button-condition-nav is-right" v-show="displayForward()" @click="goForward">
+      <button class="Button Button--condition-nav is-right" v-show="displayForward()" @click="goForward">
         <i class="fa fa-chevron-right"></i>
       </button>
     </div>
@@ -17,7 +17,7 @@
       </div>
       <Row :gutter="'md'" class="space-top-xl">
         <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">
-          <div :class="{'Button Button-answer':true, 'is-selected': answerIndex === aIndex}"
+          <div :class="{'Button Button--answer':true, 'is-selected': answerIndex === aIndex}"
                @click="next(obj.question, answer, aIndex)">
             <span>{{ answer }}</span>
             <i class="fa fa-check"></i>

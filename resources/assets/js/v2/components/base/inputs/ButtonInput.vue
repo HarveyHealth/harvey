@@ -47,7 +47,7 @@ export default {
           loadingSize: 'sm',
         },
         whiteFilled: {
-          class: 'Button-whiteFilled',
+          class: 'Button--white-filled',
           doneIcon: this.doneIcon,
           doneText: this.doneText,
           loadingColor: 'dark',
