@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default function(laravel) {
   return {
@@ -94,6 +94,6 @@ export default function(laravel) {
       initialAppointmentComplete: false,
       labTests: {},
       timezone: moment.tz.guess(),
-      timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
+      timezoneAbbr: moment.tz(moment.tz.guess()).format('z'),
   }
 }

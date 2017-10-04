@@ -49,7 +49,9 @@ const app = new Vue({
         Dashboard,
         Usernav,
     },
+
     data: store(Laravel),
+
     methods: {
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
@@ -316,5 +318,3 @@ const app = new Vue({
 });
 
 app.$mount('#app');
-
-export default app;

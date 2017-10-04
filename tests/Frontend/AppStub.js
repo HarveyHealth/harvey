@@ -1,5 +1,10 @@
 import Vue from 'vue';
 import cheerio from 'cheerio';
+import store from '../../resources/assets/js/store';
+import laravel from './LaravelStub';
+
+// methods
+import filterPractitioners from '../../resources/assets/js/utils/methods/filterPractitioners';
 
 // Creates a mock app environment for a given component to resolve any
 // references to $root. Add methods and properties as needed.
@@ -11,18 +16,9 @@ const AppStub = function(component, componentName, setAppState) {
 
   let stub = {};
 
-  // Set initial data
-  const data = {
-    global: {
-      appointments: [],
-      currentPage: '',
-      loadingAppointments: true,
-      loadingPatients: true,
-      loadingPractitioners: true,
-      patients: [],
-      practitioners: [],
-    }
-  };
+  // store is a function that takes in a Laravel object to set particular state.
+  // this returns the same object used in the actual application.
+  const data = store(laravel);
 
   // Mutate $root data
   if (setAppState) setAppState(data);
@@ -32,18 +28,7 @@ const AppStub = function(component, componentName, setAppState) {
     components: { [`${componentName}`]: component },
     methods: {
       addTimezone() { return false; },
-      filterPractitioners(practitioners, state) {
-        return practitioners.filter(practitioner => {
-          // First check if the user's state is regulated or not
-          const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
-          // Get licenses from global list or from appointments page list
-          const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
-          // If the user's state is regulated, filter dr list for drs with licenses in that state
-          return userRegulatedState
-            ? licenses.filter(license => license.state === state).length
-            : true
-        })
-      },
+      filterPractitioners: filterPractitioners.bind(this),
       getAppointments() { return false; },
       shouldTrack() { return false; }
     },
