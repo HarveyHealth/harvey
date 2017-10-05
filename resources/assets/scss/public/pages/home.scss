@@ -149,7 +149,7 @@ body[class*="lab-tests"] {
         span {
             font-weight: 300;
         }
-        @include from($tablet) {
+        
             display: table;
             white-space: nowrap;
             overflow: hidden;
@@ -166,9 +166,9 @@ body[class*="lab-tests"] {
                 position: relative;
                 top: 0.7em;
             }
-        }
+        
         & + .columns {
-            @include margin(3rem null null null);
+            @include margin(3em null 0 null);
         }
     }
     .button-wrapper {
@@ -371,8 +371,9 @@ body[class*="lab-tests"] {
             .columns {
                 .column {
                     text-align: left;
+                    @include padding(null null 0 null);
                     .column {
-                        @include padding(null null null 0);
+                        @include padding(null null 0 0);
                     }
                 }
             }
