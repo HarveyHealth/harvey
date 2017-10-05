@@ -12,8 +12,8 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-7 is-6-desktop">
-                    <h1 class="title is-1">Lab Tests</h1>
-                    <p class="subtitle is-5">Our integrative doctors rely on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatment plans.</p>
+                    <h1 class="title is-1">Home Lab Testing</h1>
+                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and proposed treatment plans.</p>
                 </div>
             </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="has-text-centered">
             <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
             <div class="button-wrapper">
-                <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
             </div>
         </div>
     </div>
