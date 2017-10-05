@@ -10,7 +10,13 @@ class SendPatientLabOrderConfirmedEmail implements ShouldQueue
 {
     public function handle(LabOrderConfirmed $event)
     {
-        $invoice = Cashier::getOrCreateInvoice($event->lab_order);
+        $invoice = $event->appointment->invoice;
+
+        if (!$invoice) {
+            ops_error('SendPatientLabOrderConfirmedEmail error!', "No invoice exists for Lab Order #{$invoice->id}. No email sent.");
+            return;
+        }
+
         $charges = [];
 
         foreach ($invoice->items as $item) {
