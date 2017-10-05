@@ -162,6 +162,7 @@
       :on-close="handleModalClose"
       :hide-close="isHandlingAction"
       class="modal-wrapper"
+      data-test="modal_confirmation"
     >
       <div class="card-content-wrap">
         <div class="inline-centered">
@@ -248,8 +249,9 @@ import Purpose from './components/Purpose.vue';
 import Status from './components/Status.vue';
 import Times from './components/Times.vue';
 
-// other
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+// ClipLoader must be imported from the src and the .vue extension
+// must be included or Karma yells at your
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
 import tableColumns from './utils/tableColumns';
@@ -466,7 +468,7 @@ export default {
   methods: {
 
     confirmDate(date) {
-      // return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
+      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
     },
 
     checkPastAppointment() {
