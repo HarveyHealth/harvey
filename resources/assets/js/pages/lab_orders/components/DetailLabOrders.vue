@@ -95,6 +95,12 @@
           <label class="input__item">{{ status }}</label>
         </div>
 
+        <!-- Discount Code -->
+        <div v-if="status === 'Recommended'">
+          <label class="input__label">Discount Code</label>
+          <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
+        </div>
+
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
@@ -377,6 +383,7 @@
         lastName: '',
         month: '',
         year: '',
+        discountCode: '',
         disabled: true,
         masterTracking: '',
         address1: '',
@@ -435,7 +442,7 @@
             4: "Mailed",
             5: "Processing",
             6: "Complete"
-          }
+          };
           this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
         }
       },
@@ -522,7 +529,8 @@
             address_2: this.address2,
             city: this.newCity,
             state: this.newState,
-            zip: this.newZip
+            zip: this.newZip,
+            discount_code: this.discountCode,
           })
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
