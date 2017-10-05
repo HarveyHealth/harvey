@@ -8,6 +8,7 @@ use App\Lib\Cashier;
 use App\Jobs\ChargePatientForInvoice;
 use Carbon\Carbon;
 use App\Lib\TransactionalEmail;
+use App\Models\SKU;
 
 class EmailAndChargePatientForCompleteAppointment implements ShouldQueue
 {
