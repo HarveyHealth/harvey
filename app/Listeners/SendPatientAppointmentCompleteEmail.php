@@ -31,8 +31,7 @@ class SendPatientAppointmentCompleteEmail implements ShouldQueue
             'duration' => $event->appointment->duration_in_minutes,
             'rate' => SKU::findBySlugOrFail($slug)->price,
             'total' => $invoice->amount,
-        ])
-        ->delay(Carbon::now()->addMinutes(2));
+        ]);
 
         dispatch($transactionalEmailJob);
     }
