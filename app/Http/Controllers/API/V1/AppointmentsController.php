@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -76,6 +77,14 @@ class AppointmentsController extends BaseAPIController
             $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
+        }
+
+        if ($inputData['discount_code']) {
+            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($inputData['discount_code'], 'consultation', currentUser());
+
+            if ($discount_code) {
+                $inputData['discount_code_id'] = $discount_code->id;
+            }
         }
 
         $appointment = Appointment::create($inputData);
