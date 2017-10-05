@@ -7,8 +7,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Cashier;
 use App\Jobs\ChargePatientForInvoice;
 use Carbon\Carbon;
+use App\Lib\TransactionalEmail;
+use App\Models\SKU;
 
-class ChargePatientForCompleteAppointment implements ShouldQueue
+class EmailAndChargePatientForCompleteAppointment implements ShouldQueue
 {
     /**
      * Handle the event.
@@ -32,6 +34,20 @@ class ChargePatientForCompleteAppointment implements ShouldQueue
             return false;
         }
 
-        dispatch((new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addMinutes(30)));
+        $duration = $appointment->duration_in_minutes;
+        $slug = $duration . '-minute-consultation';
+
+        $transactionalEmailJob = TransactionalEmail::createJob()
+        ->setTo($appointment->patient->user->email)
+        ->setTemplate('patient.appointment.complete')
+        ->setTemplateModel([
+            'doctor' => $appointment->practitioner->user->full_name,
+            'duration' => $appointment->duration_in_minutes,
+            'rate' => SKU::findBySlugOrFail($slug)->price,
+            'total' => $invoice->amount,
+        ]);
+
+        dispatch($transactionalEmailJob);
+        dispatch((new ChargePatientForInvoice($invoice))->delay(Carbon::now()->addMinutes(2)));
     }
 }
