@@ -334,7 +334,7 @@ $font-family: "proxima-nova";
 
         font-size: 17px;
         display: inline-block;
-        @include padding(.3em 1em);
+        @include padding(.35em 1em);
         @include margin(null .2em null null);
 
         &.link {
