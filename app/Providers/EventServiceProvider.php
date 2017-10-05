@@ -38,13 +38,11 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\AppointmentComplete' => [
-            'App\Listeners\ChargePatientForCompleteAppointment',
-            'App\Listeners\SendPatientAppointmentCompleteEmail',
+            'App\Listeners\EmailAndChargePatientForCompleteAppointment',
         ],
 
         'App\Events\LabOrderConfirmed' => [
-            'App\Listeners\ChargePatientForLabOrder',
-            'App\Listeners\SendPatientLabOrderConfirmedEmail',
+            'App\Listeners\EmailAndChargePatientForLabOrder',
         ],
 
         'App\Events\LabOrderShipped' => [
