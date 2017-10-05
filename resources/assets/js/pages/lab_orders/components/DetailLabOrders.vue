@@ -99,12 +99,13 @@
         <div v-if="status === 'Recommended'">
           <label class="input__label">Discount Code</label>
           <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
+          <span v-if="disabledDiscount">Invalid Discount Code</span>
         </div>
 
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button @click="stepThree" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button @click="validDiscountCode" :disabled="disabled || disabledDiscount" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
 
       </div>
@@ -390,6 +391,7 @@
         address2: '',
         newCity: '',
         newZip: '',
+        disabledDiscount: false,
         newState: '',
         cardNumber: '',
         cardExpiry: '',
@@ -451,6 +453,16 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
+      },
+      validDiscountCode() {
+        axios.post(`${this.$root.$data.apiUrl}/discountcode?code=${this.discountCode}&applies_to=lab-test`)
+          .then(response => {
+            this.stepThree();
+          })
+          .catch(error => {
+            console.log(error); // Find path to error 'valid' on error for this disabledDicount reassignment
+            this.disabledDiscount = true;
+          })
       },
       isEmpty(obj) {
         return _.isEmpty(obj);

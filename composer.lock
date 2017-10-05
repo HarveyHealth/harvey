@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.20",
+            "version": "3.36.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "d6515144f8f80b95ed1c3d0a8ecc736a58154d7f"
+                "reference": "010aea6ccdc76ad63fdca556f9a408544d390dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/d6515144f8f80b95ed1c3d0a8ecc736a58154d7f",
-                "reference": "d6515144f8f80b95ed1c3d0a8ecc736a58154d7f",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/010aea6ccdc76ad63fdca556f9a408544d390dfb",
+                "reference": "010aea6ccdc76ad63fdca556f9a408544d390dfb",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-10-04T21:57:05+00:00"
+            "time": "2017-10-05T19:28:13+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -137,16 +137,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.8.0",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca"
+                "reference": "c359f5dc81b808acc8238f4c14d1261c7dbc53b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
-                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/c359f5dc81b808acc8238f4c14d1261c7dbc53b0",
+                "reference": "c359f5dc81b808acc8238f4c14d1261c7dbc53b0",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-10-02T18:08:20+00:00"
+            "time": "2017-10-05T14:29:36+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
