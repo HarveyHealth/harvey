@@ -23,6 +23,7 @@ import sortByLastName from './utils/methods/sortByLastName';
 
 // STORE
 import store from './store';
+const Store = store(Laravel);
 
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
@@ -50,7 +51,7 @@ const app = new Vue({
         Usernav,
     },
 
-    data: store(Laravel),
+    data: Store,
 
     methods: {
         addTimezone(value) {
@@ -71,7 +72,11 @@ const app = new Vue({
           })
         },
 
-        filterPractitioners: filterPractitioners.bind(this),
+        // Cannot just bind this to filterPractitioners. You must wrap it in a function
+        // for 'this' to refer to the Vue instance
+        filterPractitioners(practitioners, state) {
+          return filterPractitioners.call(this, practitioners, state);
+        },
 
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)

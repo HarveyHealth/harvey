@@ -509,7 +509,7 @@ export default {
           this.loadingDays = false;
         }
       }).catch(error => {
-        
+
       });
     },
 
