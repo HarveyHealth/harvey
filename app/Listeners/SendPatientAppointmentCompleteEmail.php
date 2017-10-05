@@ -13,10 +13,11 @@ class SendPatientAppointmentCompleteEmail implements ShouldQueue
 {
     public function handle(AppointmentComplete $event)
     {
-        $invoice = $event->appointment->invoice;
+        $appointment = $event->appointment;
+        $invoice = $appointment->invoice;
 
         if (!$invoice) {
-            ops_error('SendPatientAppointmentCompleteEmail error!', "No invoice exists for Appointment #{$invoice->id}. No email sent.");
+            ops_error('SendPatientAppointmentCompleteEmail error!', "No invoice exists for Appointment #{$appointment->id}. No email sent.");
             return;
         }
 
