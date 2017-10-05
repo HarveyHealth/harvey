@@ -2,13 +2,21 @@
 @section('page_title','About')
 @section('main_content')
 
-    <section class="hero">
-        <div class="hero-background"></div>
-        <div class="hero-body container">
-            <header class="content has-text-centered">
-                <h1 class="title is-3 page-title">About Us</h1>
-                <p class="copy-has-max-width subtitle is-5 ">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as prevention and natural self-healing, to treat the whole person, not just a set of isolated symptoms.</p>
-            </header>
+    <section class="hero hero-background">
+        <div id="hero-video-container">
+            <video id="hero-video" autoplay loop muted></video>
+            <div id="video-cover"></div>
+            <div id="overlay"></div>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-7 is-6-desktop">
+                        <h1 class="title is-1">About Us</h1>
+                        <p class="subtitle is-5">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as prevention and natural self-healing, to treat the whole person, not just a set of isolated symptoms.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -40,7 +48,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctors passed a medical board exam and received a state medical license.</p>
+                        <p class="subtitle is-6">100% of our doctors passed a national board exam and received a state medical license.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
