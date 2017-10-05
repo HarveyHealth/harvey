@@ -27,7 +27,7 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Your health is our focus.</h2>
+            <h2 class="title is-3">Your wellness is our focus.</h2>
             <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
@@ -38,39 +38,39 @@
     <section class="section" id="how-it-works">
         <div class="container has-text-centered">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <div class="columns is-multiline">
-                <div class="column is-half-tablet is-auto-desktop">
+            <div class="columns">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
                         <span class="icon icon_steps_1"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
-                        <p>Review your health history in a 1-hour video consultation with a naturopathic doctor.</p>
+                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink">
                         <span class="icon icon_steps_2"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
                         <p>Receive a custom lab kit mailed to your home for sample collection.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
                         <span class="icon icon_steps_3"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>3. Analysis</strong></p>
                         <p>Review your test results with your doctor to gain actionable health insights.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <span class="icon icon_steps_4"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
                         <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
                     </div>
@@ -132,7 +132,7 @@
 
     <section class="section" id="feature">
         <div class="container">
-            <div class="columns is-narrow is-multiline">
+            <div class="columns is-narrow">
                 <figure class="image">
                     <img src="/images/home/package-door.jpg" alt="">
                 </figure>
@@ -177,21 +177,21 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Patient Stories</span></h2>
             <div class="columns is-narrow">
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/jill.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
                     <em>Avoided unnecessary surgery.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/lisa.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
                     <em>Found a natural remedy for chronic pain.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/lauren.jpg" alt="">
                     </a>
@@ -200,21 +200,21 @@
                 </div>
             </div>
             <div class="columns is-narrow is-hidden-mobile">
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/scott.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
                     <em>Optimized recovery from injury.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/jamie.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
                     <em>Healed from chronic fatigue syndrome and Lyme disease.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
                         <img src="/images/home/bruce.jpg" alt="">
                     </a>
@@ -255,7 +255,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>

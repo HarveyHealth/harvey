@@ -741,6 +741,7 @@ export default {
       // collect data for tracking later
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
+      const appointmentPatientEmail = this.appointment.patientEmail;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -802,9 +803,10 @@ export default {
       axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
-          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
+          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
+              email: appointmentPatientEmail,
             });
           }
         }

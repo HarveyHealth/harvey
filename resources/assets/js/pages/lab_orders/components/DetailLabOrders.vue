@@ -171,7 +171,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || !validZip|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -252,7 +252,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
             <div class="left-column">
-              <label v-if="$parent.loading">Loading patient's current credit card...</label>
+              <span v-if="$parent.loading"><em>Loading cards...</em></span>
               <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
               <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
             </div>
@@ -425,8 +425,8 @@
         this.newZip = ''
         this.newState = ''
         this.labPatients = {}
+        this.$parent.setupLabData();
         if (this.$root.$data.permissions !== 'patient') {
-          this.$parent.setupLabData();
           let status = {
             0: "Recommended",
             1: "Confirmed",
@@ -512,11 +512,7 @@
                 status: 'confirmed'
               })
               .then(resp => {
-                this.$root.$data.global.labTests.forEach((ele, idx) => {
-                  if (Number(ele.id) === Number(e.test_id)) {
-                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
-                  }
-                })
+                this.$root.$data.global.labTests.push(resp.data.data);
               }))
             }
         })
@@ -763,7 +759,7 @@
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list.filter(e => e.current_status !== 'Canceled')
+        }] : this.$props.rowData.test_list.filter(e => e.original_status !== 'canceled')
         return results
       },
       patientTestList() {

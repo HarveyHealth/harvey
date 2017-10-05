@@ -2,13 +2,21 @@
 @section('page_title','About')
 @section('main_content')
 
-    <section class="hero">
-        <div class="hero-background"></div>
-        <div class="hero-body container">
-            <header class="content has-text-centered">
-                <h1 class="title is-3 page-title">About Us</h1>
-                <p class="copy-has-max-width subtitle is-5 ">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as prevention and natural self-healing, to treat the whole person, not just a set of isolated symptoms.</p>
-            </header>
+    <section class="hero hero-background">
+        <div id="hero-video-container">
+            <video id="hero-video" autoplay loop muted></video>
+            <div id="video-cover"></div>
+            <div id="overlay"></div>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-7 is-6-desktop is-offset-5">
+                        <h1 class="title is-1">About Harvey</h1>
+                        <p class="subtitle is-5">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as nutrition and prevention, to treat the whole body, not just a set of symptoms.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -40,7 +48,7 @@
                     </figure>
                     <div class="column is-paddingless-top">
                         <p class="title is-5 is-marginless"><strong>State medical license</strong></p>
-                        <p class="subtitle is-6">100% of our doctors passed a medical board exam and received a state medical license.</p>
+                        <p class="subtitle is-6">100% of our doctors passed a national board exam and received a state medical license.</p>
                     </div>
                 </div>
                 <div class="column is-half columns is-mobile">
@@ -157,7 +165,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-11.png" alt="">
+                            <img src="/images/about/square-11.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Cardiovascular</label>
@@ -166,7 +174,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-48.png" alt="">
+                            <img src="/images/about/square-48.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Digestive</label>
@@ -177,7 +185,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-2.png" alt="">
+                            <img src="/images/about/square-2.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Endocrine/Hormonal</label>
@@ -186,7 +194,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-28.png" alt="">
+                            <img src="/images/about/square-28.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Dermatological</label>
@@ -197,7 +205,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-26.png" alt="">
+                            <img src="/images/about/square-26.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Immune</label>
@@ -206,7 +214,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-20.png" alt="">
+                            <img src="/images/about/square-20.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Musculoskeletal</label>
@@ -217,7 +225,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-14.png" alt="">
+                            <img src="/images/about/square-14.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Nervous</label>
@@ -226,7 +234,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-51.png" alt="">
+                            <img src="/images/about/square-51.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Renal/Urinary</label>
@@ -237,7 +245,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-4.png" alt="">
+                            <img src="/images/about/square-4.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Fertility/Reproductive</label>
@@ -246,7 +254,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/home/square-52.png" alt="">
+                            <img src="/images/about/square-52.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Respiratory</label>
@@ -263,11 +271,10 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>
     </section>
-
 
 @endsection

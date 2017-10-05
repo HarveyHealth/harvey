@@ -32,7 +32,7 @@
     </script>
 
     @if (Auth::guest())
-        
+
         <!-- Modernizr -->
         <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
 
@@ -44,24 +44,57 @@
         <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
         <script>
 
-              var bv = new Bideo();
-              bv.init({
-                videoEl: document.querySelector('#hero-video'),
-                container: document.querySelector('body'),
-                resize: true,
-                autoplay: true,
-                isMobile: window.matchMedia('(max-width: 768px)').matches,
-                src: [
-                  {
-                    src: 'http://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
-                    type: 'video/mp4'
-                  }
-                ],
-                // What to do once video loads
-                onLoad: function () {
-                  document.querySelector('#video-cover').style.display = 'none';
+            // Big video only needed on the homepage
+            if (document.body.className.match('home')) {
+
+                // Detect mobile
+                var detectMobile = window.matchMedia('(max-width: 768px)').matches;
+                
+                // Detect IE browsers
+                var detectIE = false;
+                var ua = window.navigator.userAgent;
+                var msie = ua.indexOf('MSIE ');
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    // return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                    detectIE = true;
                 }
-              });
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    // var rv = ua.indexOf('rv:');
+                    // return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                    detectIE = true;
+                }
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                   // Edge (IE 12+) => return version number
+                   // return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                   detectIE = true;
+                }
+
+                // console.log('Mobile ' + detectMobile);
+                // console.log('IE ' + detectIE);
+
+                var bv = new Bideo();
+                bv.init({
+                    videoEl: document.querySelector('#hero-video'),
+                    container: document.querySelector('body'),
+                    resize: true,
+                    autoplay: true,
+                    src: [{
+                        src: 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                        type: 'video/mp4'
+                    }],
+                    onLoad: function() {
+                        // If not mobile and not IE, play video
+                        if ((detectMobile === false) && (detectIE === false)) {
+                            document.querySelector('#video-cover').style.display = 'none';
+                        }
+                    }
+                });
+
+            } // End
 
         </script>
 
