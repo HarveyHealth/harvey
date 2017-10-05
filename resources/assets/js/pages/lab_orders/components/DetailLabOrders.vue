@@ -105,7 +105,7 @@
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button @click="validDiscountCode" :disabled="disabled || disabledDiscount" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button @click="validDiscountCode" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
 
       </div>
@@ -455,7 +455,8 @@
         this.selectedShipment[object.test_id] = e.target.value;
       },
       validDiscountCode() {
-        axios.post(`${this.$root.$data.apiUrl}/discountcode?code=${this.discountCode}&applies_to=lab-test`)
+        if (this.discountCode !== '') {
+        axios.post(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
             this.stepThree();
           })
@@ -463,6 +464,9 @@
             console.log(error); // Find path to error 'valid' on error for this disabledDicount reassignment
             this.disabledDiscount = true;
           })
+        } else {
+          this.stepThree();
+        }
       },
       isEmpty(obj) {
         return _.isEmpty(obj);
