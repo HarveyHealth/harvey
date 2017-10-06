@@ -456,7 +456,7 @@
       },
       validDiscountCode() {
         if (this.discountCode !== '') {
-        axios.post(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
             this.stepThree();
           })
