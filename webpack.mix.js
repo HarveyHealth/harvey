@@ -12,11 +12,11 @@ const { mix } = require('laravel-mix');
  */
 
 mix.options({processCssUrls: false})
-
    .js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/app_public.js', 'public/js')
    .sass('resources/assets/scss/application.scss', 'public/css')
-   .sass('resources/assets/scss/public/app_public.scss', 'public/css');
+   .sass('resources/assets/scss/public/app_public.scss', 'public/css')
+   .copy('resources/assets/images', 'public/images', false);
 
 // Needed for cross browsers (Safari)
 // mix.sourceMaps();
