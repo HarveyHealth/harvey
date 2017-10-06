@@ -92,8 +92,6 @@ const app = new Vue({
             test_results: [],
             upcoming_appointments: [],
             unreadMessages: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
             labOrders: [],
             labTests: [],
             patientLookUp: {},

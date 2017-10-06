@@ -27,7 +27,7 @@ Axios.interceptors.request.use(function(config){
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
 
     return config;
-})
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

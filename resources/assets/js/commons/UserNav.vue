@@ -51,14 +51,14 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link 
+       <router-link
        v-if="user === 'patient'"
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
         <i class="fa fa-cog icon icon-nav-bar"></i>
         <div class="text">Settings</div>
-      </router-link> 
+      </router-link>
 
       <router-link
         v-if="user === 'admin'"
@@ -74,6 +74,15 @@
                    @click.native="handleMenu(false, 'profile')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Profile</div>
+      </router-link>
+
+      <router-link
+              v-if="user === 'admin'"
+              to="/lab-tests/edit" title="Lab Tests"
+              :class="currentPageCheck('sku-dashboard')"
+              @click.native="handleMenu(false, 'sku-dashboard')">
+        <i class="fa fa-users icon icon-nav-bar"></i>
+        <div class="text">Lab Tests</div>
       </router-link>
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">

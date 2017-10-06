@@ -25,6 +25,11 @@ mix.options({processCssUrls: false})
    .sass('resources/assets/scss/public/pages/legal.scss', 'public/css')
    .sass('resources/assets/scss/public/app_public.scss', 'public/css');
 
+mix.browserSync({
+    proxy: 'harvey.app',
+    open: 'local',
+});
+
 if (mix.config.inProduction) {
     mix.version();
 }

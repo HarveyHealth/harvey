@@ -80,9 +80,7 @@ rootRoute.children.push({
 })
 
 let routes = [
-
     rootRoute,
-
     {
         path: '/appointments',
         name: 'appointments',
@@ -127,6 +125,11 @@ let routes = [
         path: '/profile/:id',
         props: true,
         component: require('./pages/profile/Profile.vue')
+    },
+    {
+        path: '/lab-tests/edit',
+        props: true,
+        component: require('./pages/sku-dashboard/SkuDashboard.vue')
     },
     {
         path: '*',
