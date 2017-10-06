@@ -8,7 +8,7 @@ class DiscountCode extends Model
 {
     public static function findByValidCodeApplicationAndUser($code, $applies_to, $user)
     {
-        $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->first();
+        $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->limit(1)->first();
 
         // if we don't have a valid code
         if (!$discount_code)
@@ -16,7 +16,7 @@ class DiscountCode extends Model
 
         // if this is not a one-time use code
         // go head and return it
-        if (!$discount_code->one_time)
+        if (!$discount_code->one_time_use)
             return $discount_code;
 
         // otherwise we need to do some checking
@@ -85,11 +85,15 @@ class DiscountCode extends Model
 
     public function scopeNotExpired($query)
     {
-        return $query->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
+        return $query->where(function ($query) {
+                $query->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
+            });
     }
 
     public function scopeAppliesTo($query, $applies_to)
     {
-        return $query->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
+        return $query->where(function ($query) use ($applies_to) {
+                $query->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
+            });
     }
 }
