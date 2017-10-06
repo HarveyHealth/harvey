@@ -86,14 +86,14 @@ class DiscountCode extends Model
     public function scopeNotExpired($query)
     {
         return $query->where(function ($query) {
-                $query->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
-            });
+            $query->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
+        });
     }
 
     public function scopeAppliesTo($query, $applies_to)
     {
         return $query->where(function ($query) use ($applies_to) {
-                $query->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
-            });
+            $query->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
+        });
     }
 }

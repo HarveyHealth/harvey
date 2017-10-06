@@ -25,9 +25,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
     Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
 
-    Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
-
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
         Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
         Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
 

@@ -118,9 +118,11 @@ const app = new Vue({
           cost: '',
           data: {
             appointment_at: null,
+            discount_code: null,
             reason_for_visit: 'First appointment',
             practitioner_id: null,
           },
+          discountCode: '',
           googleMeetLink: '',
           phone: '',
           phonePending: false,
