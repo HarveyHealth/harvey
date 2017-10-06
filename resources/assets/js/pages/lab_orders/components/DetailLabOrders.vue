@@ -1,7 +1,7 @@
 <template>
-  <Flyout 
-    :active="$parent.detailFlyoutActive" 
-    :heading="flyoutHeading" 
+  <Flyout
+    :active="$parent.detailFlyoutActive"
+    :heading="flyoutHeading"
     :on-close="handleFlyoutClose"
     :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
@@ -99,18 +99,19 @@
         <div v-if="status === 'Recommended'">
           <label class="input__label">Discount Code</label>
           <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
+          <span v-if="disabledDiscount">Invalid Discount Code</span>
         </div>
 
         <!-- Call to Action -->
 
         <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
-          <button @click="stepThree" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
+          <button @click="validDiscountCode" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
 
       </div>
 
       <!-- RECOMMENDED / PAYMENT -->
-      
+
       <div v-if="$parent.step == 3">
 
         <!-- Product List -->
@@ -213,17 +214,17 @@
           <div v-for="test in testList">
 
             <!-- Recommended or Confirmed -->
-            
+
             <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
             <!-- Shipped or greater -->
-            
+
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
               <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
             </a>
-            
+
             <span class="custom-select">
                 <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
                     <option v-for="current in test.status">{{ current }}</option>
@@ -318,7 +319,7 @@
 
         <div class="input__container">
           <span class="input__label">Address</span>
-          <div class="left-column">          
+          <div class="left-column">
             <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
             <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
             <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
@@ -390,6 +391,7 @@
         address2: '',
         newCity: '',
         newZip: '',
+        disabledDiscount: false,
         newState: '',
         cardNumber: '',
         cardExpiry: '',
@@ -451,6 +453,20 @@
       },
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
+      },
+      validDiscountCode() {
+        if (this.discountCode !== '') {
+        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+          .then(response => {
+            this.stepThree();
+          })
+          .catch(error => {
+            console.log(error); // Find path to error 'valid' on error for this disabledDicount reassignment
+            this.disabledDiscount = true;
+          })
+        } else {
+          this.stepThree();
+        }
       },
       isEmpty(obj) {
         return _.isEmpty(obj);

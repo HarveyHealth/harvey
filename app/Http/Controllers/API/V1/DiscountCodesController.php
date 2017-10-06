@@ -26,19 +26,19 @@ class DiscountCodesController extends BaseAPIController
     public function index(Request $request)
     {
         StrictValidator::check($request->all(), [
-            'code' => 'required|exists:discount_codes,code',
+            'discount_code' => 'required',
             'applies_to' => 'required'
         ]);
 
-        $code = $request->input('code');
+        $code = $request->input('discount_code');
         $applies_to = $request->input('applies_to');
-        // $user = auth()->user();
-        $user = \App\Models\User::findOrFail(1);
+        $user = auth()->user();
 
         $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, $user);
 
+        // if we don't have a valid discount code
         if (!$discount_code) {
-            return $this->respondWithError('Invalid Code', 'Invalid Code.', ResponseCode::HTTP_NOT_FOUND);
+            return response()->apiproblem(['valid' => false]);
         }
 
         return $this->baseTransformBuilder($discount_code, null, $this->transformer)->respond();
