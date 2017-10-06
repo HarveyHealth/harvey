@@ -20,6 +20,7 @@
 /storage
 /tests/Browser/console/*.*
 /vendor
+/yarn.lock
 Homestead.json
 public/css/
 public/images/
