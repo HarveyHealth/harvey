@@ -72,7 +72,7 @@
             "php artisan scout:import 'App\\Models\\Message'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
-            "npm run production"
+            "yarn run production"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
@@ -82,7 +82,7 @@
             "php artisan scout:import 'App\\Models\\Message'",
             "php artisan view:clear",
             "php artisan calendar:get_credentials",
-            "npm run dev"
+            "yarn run dev"
         ]
     },
     "config": {
