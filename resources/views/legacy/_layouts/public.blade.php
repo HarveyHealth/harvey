@@ -70,6 +70,7 @@
             // console.log('Mobile ' + detectMobile);
             // console.log('IE ' + detectIE);
 
+            var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
             var bv = new Bideo();
             bv.init({
                 videoEl: document.querySelector('#hero-video'),
@@ -77,7 +78,7 @@
                 resize: true,
                 autoplay: true,
                 src: [{
-                    src: 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4',
+                    src: videoLink,
                     type: 'video/mp4'
                 }],
                 onLoad: function() {
