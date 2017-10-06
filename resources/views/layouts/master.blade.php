@@ -13,7 +13,7 @@
         <meta property="og:site_name" content="Harvey">
         <meta property="og:locale" content="en_US">
         <meta property="og:url" content="https://www.goharvey.com">
-        <meta property="og:image" content="/images/social-share.jpg">
+        <meta property="og:image" content="https://harvey-production.s3.amazonaws.com/assets/images/social-share.jpg">
         <meta property="og:description" content="Harvey is the leading telehealth provider of personalized and integrative medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — all from your home.">
         <meta name="description" content="Harvey is the leading telehealth provider of personalized and integrative medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — all from your home.">
         <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
@@ -25,9 +25,9 @@
         <link type="application/rss+xml" rel="alternate" title="RSS" href="https://blog.goharvey.com/feed">
         <meta name="google-site-verification" content="X_qk9hRyP9xKTYUV7T2K7ou4_ONozH_Z0d0uRN-CBz0" />
         <meta property="fb:app_id" content="383090978468158">
-        <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="/images/icon.png">
-        <link type="image/x-icon" rel="shortcut icon" href="/images/favicon.ico">
-        <link type="image/x-icon" rel="icon" href="/images/icon.png">
+        <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://harvey-production.s3.amazonaws.com/assets/images/icon.png">
+        <link type="image/x-icon" rel="shortcut icon" href="https://harvey-production.s3.amazonaws.com/assets/images/favicon.ico">
+        <link type="image/x-icon" rel="icon" href="https://harvey-production.s3.amazonaws.com/assets/images/icon.png">
         <!-- Stylesheets -->
         @stack('stylesheets')
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
