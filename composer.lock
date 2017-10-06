@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.19",
+            "version": "3.36.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "bed7567b2ed8e70fbf5e1ecf927100e91955b29a"
+                "reference": "010aea6ccdc76ad63fdca556f9a408544d390dfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/bed7567b2ed8e70fbf5e1ecf927100e91955b29a",
-                "reference": "bed7567b2ed8e70fbf5e1ecf927100e91955b29a",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/010aea6ccdc76ad63fdca556f9a408544d390dfb",
+                "reference": "010aea6ccdc76ad63fdca556f9a408544d390dfb",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-10-03T15:53:57+00:00"
+            "time": "2017-10-05T19:28:13+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -137,16 +137,16 @@
         },
         {
             "name": "bugsnag/bugsnag",
-            "version": "v3.8.0",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bugsnag/bugsnag-php.git",
-                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca"
+                "reference": "c359f5dc81b808acc8238f4c14d1261c7dbc53b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
-                "reference": "cd387df7aa0ec1d57330a0529e1a46dcff41a7ca",
+                "url": "https://api.github.com/repos/bugsnag/bugsnag-php/zipball/c359f5dc81b808acc8238f4c14d1261c7dbc53b0",
+                "reference": "c359f5dc81b808acc8238f4c14d1261c7dbc53b0",
                 "shasum": ""
             },
             "require": {
@@ -190,7 +190,7 @@
                 "logging",
                 "tracking"
             ],
-            "time": "2017-10-02T18:08:20+00:00"
+            "time": "2017-10-05T14:29:36+00:00"
         },
         {
             "name": "bugsnag/bugsnag-laravel",
@@ -1356,16 +1356,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.8.2",
+            "version": "8.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "ec918d3a819d386b59fae5aa465665f7dd0b8a75"
+                "reference": "7475e4816658bea470fe590f1b4b2db98b6510c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/ec918d3a819d386b59fae5aa465665f7dd0b8a75",
-                "reference": "ec918d3a819d386b59fae5aa465665f7dd0b8a75",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/7475e4816658bea470fe590f1b4b2db98b6510c2",
+                "reference": "7475e4816658bea470fe590f1b4b2db98b6510c2",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1420,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-09-20T09:10:15+00:00"
+            "time": "2017-10-04T10:08:33+00:00"
         },
         {
             "name": "giggsey/locale",
