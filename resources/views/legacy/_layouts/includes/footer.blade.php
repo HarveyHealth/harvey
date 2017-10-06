@@ -3,11 +3,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <a href="/">
-                @if (Auth::guest())
-                    <img src="/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
-                @else
-                    <img src="/images/logos/main-logo.png" class="footer-logo" alt="Harvey Logo">
-                @endif
+                <img src="/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
             </a>
             <div id="social-icons">
                 <!-- Facebook -->
