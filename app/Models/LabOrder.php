@@ -61,7 +61,7 @@ class LabOrder extends Model
             $this->status_id = $this->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
         }
 
-        return $this->status;
+        return $this;
     }
 
     public function dataForInvoice()

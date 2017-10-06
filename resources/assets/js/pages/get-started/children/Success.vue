@@ -1,10 +1,8 @@
 <template>
   <div :class="containerClasses">
     <div class="success-wrapper mt-xl_lgH">
-      <img class="success-icon" src="/images/signup/calendar.png" alt="">
-
+      <img class="success-icon" src="https://harvey-production.s3.amazonaws.com/assets/images/signup/calendar.png" alt="">
       <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
-
       <p>
         <span class="confirmation_day">
           Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
