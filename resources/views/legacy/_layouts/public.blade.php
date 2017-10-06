@@ -3,8 +3,8 @@
 @push('stylesheets')
 
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
-    <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
+    <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}" async>
+    <link rel="stylesheet" href="https://assets.juicer.io/embed.css" async>
 
 @endpush
 
@@ -36,7 +36,7 @@
 
     <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
     <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
-    <script>
+    <script type="text/javascript" async>
 
         // Big video only needed on the homepage
         if (document.body.className.match('home')) {
@@ -71,6 +71,7 @@
             // console.log('IE ' + detectIE);
 
             var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
+            
             var bv = new Bideo();
             bv.init({
                 videoEl: document.querySelector('#hero-video'),
@@ -92,8 +93,8 @@
         } // End
     </script>
     <script type="text/javascript" src="{{ mix('js/vendors/zepto.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('js/vendors/lity.js') }}"></script>
-    <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
+    <script type="text/javascript" src="{{ mix('js/vendors/lity.js') }}" async></script>
+    <script type="text/javascript" src="https://assets.juicer.io/embed.js" async></script>
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
 
     @stack('scripts')
