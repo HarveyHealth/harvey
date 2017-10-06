@@ -3,8 +3,8 @@
 @push('stylesheets')
 
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
-    <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
+    <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
+    <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
 
 @endpush
 
@@ -34,9 +34,8 @@
         window.Laravel = {!! $vue_data !!}
     </script>
 
-    <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('js/vendors/bideo.js') }}"></script>
-    <script>
+    <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
+    <script type="text/javascript" async>
 
         // Big video only needed on the homepage
         if (document.body.className.match('home')) {
@@ -70,30 +69,33 @@
             // console.log('Mobile ' + detectMobile);
             // console.log('IE ' + detectIE);
 
-            var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
-            var bv = new Bideo();
-            bv.init({
-                videoEl: document.querySelector('#hero-video'),
-                container: document.querySelector('body'),
-                resize: true,
-                autoplay: true,
-                src: [{
-                    src: videoLink,
-                    type: 'video/mp4'
-                }],
-                onLoad: function() {
-                    // If not mobile and not IE, play video
-                    if ((detectMobile === false) && (detectIE === false)) {
-                        document.querySelector('#video-cover').style.display = 'none';
+            try {
+                var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
+                var bv = new Bideo();
+                bv.init({
+                    videoEl: document.querySelector('#hero-video'),
+                    container: document.querySelector('body'),
+                    resize: true,
+                    autoplay: true,
+                    src: [{
+                        src: videoLink,
+                        type: 'video/mp4'
+                    }],
+                    onLoad: function() {
+                        // If not mobile and not IE, play video
+                        if ((detectMobile === false) && (detectIE === false)) {
+                            document.querySelector('#video-cover').style.display = 'none';
+                        }
                     }
-                }
-            });
+                });
+            } catch(e){};
 
         } // End
     </script>
-    <script type="text/javascript" src="{{ mix('js/vendors/zepto.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('js/vendors/lity.js') }}"></script>
-    <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-zepto@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-modernizr@1.0.0/index.js"></script>
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
 
     @stack('scripts')
