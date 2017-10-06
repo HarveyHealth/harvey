@@ -27,7 +27,7 @@ class DiscountCodesController extends BaseAPIController
     {
         StrictValidator::check($request->all(), [
             'code' => 'required|exists:discount_codes,code',
-            'discount_type' => 'required'
+            'applies_to' => 'required'
         ]);
 
         $code = $request->input('code');
