@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+let mix = require('laravel-mix');
 let SpritesmithPlugin = require('webpack-spritesmith');
 let path = require('path');
 
@@ -16,6 +16,7 @@ let path = require('path');
 mix.options({processCssUrls: false})
    .js('resources/assets/js/app.js', 'public/js')
    .js('resources/assets/js/app_public.js', 'public/js')
+   .js('resources/assets/js/vendors/typekit.js', 'public/js/vendors')
    .sass('resources/assets/scss/application.scss', 'public/css')
    .sass('resources/assets/scss/public/app_public.scss', 'public/css')
    .copy('resources/assets/images', 'public/images', false)
@@ -24,7 +25,6 @@ mix.options({processCssUrls: false})
 if (mix.inProduction()) {
     mix.version();
 }
-
 
 /*
  |--------------------------------------------------------------------------
@@ -36,7 +36,6 @@ if (mix.inProduction()) {
  | doesn't require you to copy and maintain a copy of the webpack.config.js file.
  |
  */
-
 
 mix.webpackConfig({
     plugins: [
