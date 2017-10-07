@@ -88,7 +88,7 @@ class Cashier
 
                     $user->billing_error++;
 
-                    event(new ChargeFailed($invoice, null, $transaction));
+                    event(new ChargeFailed($invoice, 'Charge Failed!', $transaction));
                 }
             } catch (Exception $e) {
                 $transaction->gateway = 'stripe';
@@ -97,9 +97,12 @@ class Cashier
                 $transaction->transaction_date = Carbon::now();
                 $transaction->success = false;
 
+                $invoice->card_brand = $user->card_brand;
+                $invoice->card_last_four = $user->card_last_four;
+
                 $user->billing_error++;
 
-                event(new ChargeFailed($invoice, $e));
+                event(new ChargeFailed($invoice, $e->getMessage(), $transaction));
             }
 
             $transaction->save();
