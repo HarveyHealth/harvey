@@ -1,6 +1,6 @@
 {
-  "name": "gh-font-awesome",
-  "version": "1.0.3",
+  "name": "gh-modernizr",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {

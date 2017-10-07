@@ -32,7 +32,7 @@
         @stack('stylesheets')
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
-        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.1/index.css">
+        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.2/index.css">
     </head>
 
     <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
