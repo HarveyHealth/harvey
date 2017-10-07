@@ -36,14 +36,8 @@
 
     <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
     <script type="text/javascript" async>
-
-        // Big video only needed on the homepage
         if (document.body.className.match('home')) {
-
-            // Detect mobile
             var detectMobile = window.matchMedia('(max-width: 768px)').matches;
-            
-            // Detect IE browsers
             var detectIE = false;
             var ua = window.navigator.userAgent;
             var msie = ua.indexOf('MSIE ');
@@ -65,10 +59,6 @@
                // return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
                detectIE = true;
             }
-
-            // console.log('Mobile ' + detectMobile);
-            // console.log('IE ' + detectIE);
-
             try {
                 var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
                 var bv = new Bideo();
@@ -89,15 +79,13 @@
                     }
                 });
             } catch(e){};
-
-        } // End
+        }
     </script>
     <script type="text/javascript" src="https://unpkg.com/gh-zepto@1.0.0/index.js" async></script>
     <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
     <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
     <script type="text/javascript" src="https://unpkg.com/gh-modernizr@1.0.0/index.js"></script>
     <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
-
     @stack('scripts')
 
 @endsection
