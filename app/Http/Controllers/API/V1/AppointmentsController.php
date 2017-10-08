@@ -62,9 +62,7 @@ class AppointmentsController extends BaseAPIController
      */
     public function store(Request $request)
     {
-        $inputData = $request->all();
-
-        StrictValidator::check($inputData, [
+        StrictValidator::check($request->all(), [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
             'discount_code' => 'string|max:24',
@@ -74,6 +72,8 @@ class AppointmentsController extends BaseAPIController
             'reason_for_visit' => 'required',
             'status' => ['filled', Rule::in(Appointment::STATUSES)],
         ]);
+
+        $inputData = $request->except('discount_code');
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
