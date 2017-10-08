@@ -15,14 +15,14 @@ class NotifyChargeFailedSlackChannel implements ShouldQueue
      */
     public function handle(ChargeFailed $event)
     {
-        $message = "Invoice #{$event->invoice->id} for {$event->invoice->patient->user->truncatedName()}.";
-
-        if (!empty($event->exception)) {
-            $message .= " Error: '{$event->exception->getMessage()}'.";
-        }
+        $message = "_Invoice_ #{$event->invoice->id} for *{$event->invoice->patient->user->truncatedName()}*.";
 
         if (!empty($event->transaction)) {
-            $message .= " Transaction #{$event->transaction->id}.";
+            $message .= " _Transaction_ #{$event->transaction->id}.";
+        }
+
+        if (!empty($event->message)) {
+            $message .= " _Error_: '{$event->message}'.";
         }
 
         ops_warning('Charge Failed', $message, 'operations');

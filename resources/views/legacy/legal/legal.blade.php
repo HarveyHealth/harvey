@@ -1,10 +1,6 @@
 @extends('legacy._layouts.public')
 @section('page_title',$page_title)
 
-@push('stylesheets')
-    <link rel="stylesheet" href="{{ mix('css/legal.css') }}">
-@endpush
-
 @section('main_content')
     <section class="section bottom-padding-terms">
         <div class="container">

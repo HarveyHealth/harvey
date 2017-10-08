@@ -184,7 +184,7 @@ body {
                 }
             }
             @at-root .no-svg & .logo-wrapper {
-                background-image: url('/images/logos/mobile-logo-inverted.png');
+                background-image: url('https://harvey-production.s3.amazonaws.com/assets/images/logos/mobile-logo-inverted.png');
             }
             .button {
                 &:not(.is-outlined) {
