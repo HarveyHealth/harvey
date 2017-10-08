@@ -1,0 +1,53 @@
+<template>
+  <button
+    :class="'button inline' + config[type].class"
+    :disabled="isDisabled || isProcessing"
+    @click="onClick"
+    :style="'width:' + width || 'auto'"
+  >
+    <Loading
+      v-if="isProcessing"
+      class="inline margin-right-xxs"
+      :color="config[type].loadingColor"
+      :size="config[type].loadingSize" />
+    <div v-if="isDone">
+      <i :class="'margin-right-xxs inline fa ' + config[type].doneIcon" style="font-size:12px"></i>
+      <span>{{ config[type].doneText }}</span>
+    </div>
+    <span v-else>{{ text }}</span>
+  </button>
+</template>
+
+<script>
+import Util from '../util';
+
+export default {
+  props: {
+    doneText: { type: String, default: '' },
+    doneIcon: { type: String, default: 'fa-check' },
+    isDisabled: Boolean,
+    isDone: Boolean,
+    isProcessing: Boolean,
+    onClick: { type: Function, required: true },
+    text: { type: String, required: true },
+    type: { type: String, default: 'default' },
+    width: String
+  },
+  data() {
+    return {
+      config: {
+        default: {
+          class: '',
+          doneIcon: this.doneIcon,
+          doneText: this.doneText,
+          loadingColor: 'light',
+          loadingSize: 'sm',
+        }
+      }
+    }
+  },
+  components: {
+    Loading: Util.Loading,
+  },
+}
+</script>

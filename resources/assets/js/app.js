@@ -46,14 +46,16 @@ import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
+App.Util = Util;
 App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
-App.Util = Util;
+App.Router = router;
 
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
+Vue.filter('jsonParse', Filters.jsonParse);
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -68,8 +70,19 @@ Vue.prototype.Util = App.Util;
 // property is undefined. This is helpful when awaiting data structures from
 // api calls. NOTE: this should be used as READ ONLY function.
 Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
+  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
 }
+
+// State() is internally read only and setState() is globally write-only.
+//    App.setState('practitioners.data.all', 'practitioners');
+//    State.practitioners.data.all yields 'practitioners'
+App.setState = (state, value) => {
+  const path = state.split('.');
+  const prop = path.pop();
+  return App.Util.data.propDeep(path, State)[prop] = value;
+}
+
+Vue.prototype.setState = App.setState;
 
 const app = new Vue({
     router,
@@ -81,15 +94,8 @@ const app = new Vue({
     },
     data: {
         // Adding State to the root data object makes it globally reactive.
-        // We do not attach this to window.App for HIPPA compliance. Because of this,
-        // any method that needs to access global state MUST be invoked with .call
-        // and state should be referenced inside as this.$root.$data.State.
-        //    Example:
-        //      export default function hi(person) {
-        //        const Store = this.$root.$data.State;
-        //        return `Hi, ${Store[person]}.`
-        //      }
-        //      App.Logic.hi.call(this, 'person');
+        // We do not attach this to window.App for HIPPA compliance. User
+        // App.setState to mutate this object.
         State: State,
 
         apiUrl: '/api/v1',
