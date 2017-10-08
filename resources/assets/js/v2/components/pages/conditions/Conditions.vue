@@ -9,8 +9,7 @@
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
           <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to common medical conditions.</p>
-          <p>Harvey doctors hold the bold belief that with the right nutrition, lifestyle and environmental factors humans can prevent most chronic diseases. While integrative medicine has shown incredible success healing patients with a wide variety of medical issues, we are currently focused on just a few conditions.</p>
-          <p class="font-normal font-xl">Choose a symptom below to get started.</p>
+          <p class="font-lg">Harvey doctors hold the bold belief that with the right nutrition, lifestyle and environmental factors humans can prevent most chronic diseases. While integrative medicine has shown incredible success healing patients with a wide variety of medical issues, we are currently focused on just a few conditions.</p>
           <div class="margin-0a max-width-md" style="border-bottom: 1px solid white"></div>
         </div>
         <ConditionsAll class="space-top-xl" />
