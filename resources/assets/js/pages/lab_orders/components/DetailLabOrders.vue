@@ -126,11 +126,17 @@
             <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
           <div class="left-column">
-            <label class="input__label discount" for="totals">Discount (20%)</label>
+            <label class="input__label discount" for="totals">Discount ({{
+              discountType === 'dollars' ? `$${discountAmount}` :
+              discountType === 'percent' ? `${discountAmount}%` : '0%'
+              }})</label>
             <label class="input__label total" for="totals">Total</label>
           </div>
           <div class="right-column">
-            <label class="input__label discount" for="price">$20.00</label>
+            <label class="input__label discount" for="price">{{
+              discountType === 'dollars' ? `$${discountAmount}` :
+              discountType === 'percent' ? `$${this.patientPrice * this.discountAmount}` : '0.00'
+             }}</label>
             <label class="input__label total" for="price">${{ patientPrice }}</label>
           </div>
         </div>
@@ -393,9 +399,12 @@
         newZip: '',
         disabledDiscount: false,
         newState: '',
+        patchCode: '',
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
+        discountType: '',
+        discountAmount: '',
         loading: false,
         patientPrice: 0,
         patientLabTests: {},
@@ -420,7 +429,7 @@
         Object.values(this.labPatients).forEach(e => {
           price += eval(e.attributes.price);
         })
-        this.patientPrice = `${price}.00`;
+        this.patientPrice = price;
         this.disabled = _.isEmpty(this.labPatients) ? true : false
       },
       handleFlyoutClose() {
@@ -458,11 +467,17 @@
         if (this.discountCode !== '') {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
+            if (response.data.data.attributes.valid) {
+              this.discountType = response.data.data.attributes.discount_type;
+              this.discountAmount = response.data.data.attributes.amount;
+              this.patientPrice = this.discountType === 'percent' ? `${this.patientPrice * (100 - this.discountAmount)}.00` :
+                this.discountType === 'dollars' ? `${eval(this.patientPrice - this.discountAmount)}` : `${this.patientPrice}.00`;
+              this.patchCode = response.data.data.attributes.code;
+              this.stepThree();
+            } else {
+              this.disabledDiscount = true;
+            }
             this.stepThree();
-          })
-          .catch(error => {
-            console.log(error); // Find path to error 'valid' on error for this disabledDicount reassignment
-            this.disabledDiscount = true;
           })
         } else {
           this.stepThree();
@@ -546,7 +561,7 @@
             city: this.newCity,
             state: this.newState,
             zip: this.newZip,
-            discount_code: this.discountCode,
+            discount_code: this.patchCode || null,
           })
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
