@@ -34,7 +34,8 @@
         "pusher/pusher-php-server": "^2.6",
         "twilio/sdk": "^5.11",
         "google/apiclient": "^2.2",
-        "cviebrock/eloquent-sluggable": "^4.2"
+        "cviebrock/eloquent-sluggable": "^4.2",
+        "laravel/socialite": "^3.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",

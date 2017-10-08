@@ -1,0 +1,57 @@
+.Button {
+  appearance: none;
+  background: $color-accent-dark;
+  border: none;
+  border-radius: 3px;
+  color: $color-white;
+  cursor: pointer;
+  font-family: $font-family-main;
+  font-size: $font-md;
+  text-align: center;
+  opacity: 0.94;
+  outline: none;
+  padding: $space-button;
+  text-decoration: none;
+  transition: opacity 200ms ease-in-out;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+
+  &:hover, &:focus {
+    opacity: 1;
+  }
+
+  &:disabled,
+  &:disabled:hover,
+  &:disabled:focus {
+    opacity: 0.65;
+    cursor: not-allowed;
+    color: rgba(255,255,255,0.6);
+  }
+}
+
+.Button-facebook {
+  background: #4267b2;
+  border: none;
+  color: white;
+  line-height: 1.15 !important;
+  height: auto;
+
+  &:hover {
+    color: white;
+  }
+
+  > span {
+    display: inline-block;
+    padding-left: $space-md;
+    position: relative;
+  }
+
+  .fa {
+    font-size: $font-md;
+    margin-left: -($space-md);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    vertical-align: middle;
+  }
+}

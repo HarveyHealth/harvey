@@ -1,6 +1,8 @@
 <template>
   <div>
-    <img :src="State('conditions.condition.image_url')" style="width:80px; height:80px" /><br>
+    <div class="block margin-0a max-width-md">
+      <SvgIcon :id="State('conditions.condition.image_url')" />
+    </div>
     <button v-if="displayBack" @click="goBack">Back</button>
     <button v-if="displayForward" @click="goForward">Forward</button>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
@@ -17,7 +19,8 @@ import { Util } from '../../../base';
 
 export default {
   components: {
-    SlideIn: Util.SlideIn
+    SlideIn: Util.SlideIn,
+    SvgIcon: Util.SvgIcon,
   },
   computed: {
     displayBack() {

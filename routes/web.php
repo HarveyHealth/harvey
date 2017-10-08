@@ -26,6 +26,10 @@ Route::post('verify/{user_id}/{token}', 'Auth\EmailVerificationController@setPas
 Route::get('dashboard', 'DashboardController@index')->name('dashboard');
 Route::get('api/dashboard', 'DashboardController@index');
 
+// Facebook Connect
+Route::get('auth/facebook', 'Auth\AuthController@redirectToFacebookProvider');
+Route::get('auth/facebook/callback', 'Auth\AuthController@handleFacebookProviderCallback');
+
 // INVITE USERS
 Route::get('invite', 'InviteController@getInvite');
 Route::post('invite', 'InviteController@postInvite');
