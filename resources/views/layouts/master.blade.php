@@ -7,7 +7,7 @@
         @if (View::hasSection('page_title'))
             <title>@yield('page_title') | Harvey</title>
         @else
-            <title>Holistic and Integrative Medicine | Harvey</title>
+            <title>Personalized, Holistic & Integrative Medicine | Harvey</title>
         @endif
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
@@ -58,5 +58,4 @@
             }}();
         </script>
     </footer>
-
 </html>
