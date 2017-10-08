@@ -307,6 +307,7 @@ $font-family: "proxima-nova";
       }
       svg {
         width: 150px;
+        height: 60px;
         &.harvey-mark {
           width: 150px;
           @include margin(2px null null null);
