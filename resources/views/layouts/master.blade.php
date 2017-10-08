@@ -28,6 +28,10 @@
         <link type="image/x-icon" rel="apple-touch-icon-precomposed" href="https://harvey-production.s3.amazonaws.com/assets/images/icon.png">
         <link type="image/x-icon" rel="shortcut icon" href="https://harvey-production.s3.amazonaws.com/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://harvey-production.s3.amazonaws.com/assets/images/icon.png">
+        <!-- Fonts -->
+        @stack('stylesheets')
+        <script src="https://use.typekit.net/ukw4upn.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.2/index.css">
     </head>
 
