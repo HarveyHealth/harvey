@@ -3,7 +3,7 @@ export default function(response) {
   App.setState('isLoading.zip', false);
   App.Util.data.killStorage('zip_validation');
 
-  if (response.data.serviceable) {
+  if (response.data.is_serviceable) {
     // zip_validation will be checked on get-started. If it does not exist
     // the user will be pushed back out to the homepage.
     App.Util.data.toStorage('zip_validation', JSON.stringify(response.data));

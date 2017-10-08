@@ -1,6 +1,6 @@
 <template>
   <button
-    :class="'Button' + config[type].class"
+    :class="'Button ' + config[type].class"
     :disabled="isDisabled || isProcessing"
     @click="onClick"
     :style="'width:' + width || 'auto'"
@@ -10,7 +10,7 @@
       class="inline margin-right-xxs"
       :color="config[type].loadingColor"
       :size="config[type].loadingSize" />
-    <div v-if="isDone">
+    <div v-else-if="isDone">
       <i :class="'margin-right-xxs inline fa ' + config[type].doneIcon" style="font-size:12px"></i>
       <span>{{ config[type].doneText }}</span>
     </div>
@@ -33,6 +33,9 @@ export default {
     type: { type: String, default: 'default' },
     width: String
   },
+  components: {
+    Loading: Util.Loading,
+  },
   data() {
     return {
       config: {
@@ -42,12 +45,16 @@ export default {
           doneText: this.doneText,
           loadingColor: 'light',
           loadingSize: 'sm',
+        },
+        whiteFilled: {
+          class: 'Button--white-filled',
+          doneIcon: this.doneIcon,
+          doneText: this.doneText,
+          loadingColor: 'dark',
+          loadingSize: 'sm',
         }
       }
     }
-  },
-  components: {
-    Loading: Util.Loading,
   },
 }
 </script>

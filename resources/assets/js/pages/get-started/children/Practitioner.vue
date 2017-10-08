@@ -1,19 +1,19 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-1">
+    <h3 v-if="$root.$data.global.loadingPractitioners" class="heading-1 color-white">
       <div style="width: 22px; margin: 0 auto;">
-        <ClipLoader :color="$root.$data.colors.copy" :size="'22px'" />
+        <ClipLoader :color="'white'" :size="'22px'" />
       </div>
       <div>Loading practitioners...</div>
     </h3>
-    <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-stage-instructions">
+    <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-stage-instructions color-white">
       <router-link class="signup-back-button" :to="{ name: 'sign-up', path: 'signup' }">
         <i class="fa fa-long-arrow-left"></i>
       </router-link>
       <div class="signup-main-icon">
         <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
       </div>
-      <h2 class="heading-1 font-normal">We&rsquo;re sorry!</h2>
+      <h2 class="heading-1 font-normal color-white">We&rsquo;re sorry!</h2>
       <p>Unfortunately, we no longer have practitioner availability in your area. Please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom right corner of the page.</p>
       <div class="social-icon-wrapper">
         <a v-for="icon in socialIcons" :href="icon.href">
@@ -22,9 +22,9 @@
       </div>
     </div>
     <template v-else>
-      <div class="signup-stage-instructions">
+      <div class="signup-stage-instructions color-white">
         <StagesNav :current="'practitioner'" />
-        <h2 class="heading-1 font-normal">Choose Your Doctor</h2>
+        <h2 class="heading-1 font-normal color-white">Choose Your Doctor</h2>
         <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
       </div>
       <div class="signup-container large">

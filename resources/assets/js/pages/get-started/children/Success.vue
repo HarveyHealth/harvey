@@ -1,9 +1,9 @@
 <template>
   <div :class="containerClasses">
-    <div class="success-wrapper mt-xl_lgH">
+    <div class="success-wrapper mt-xl_lgH color-white">
       <img class="success-icon" src="/images/signup/calendar.png" alt="">
 
-      <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
+      <h1 class="heading-1 font-normal mt-md color-white">{{ title }}</h1><br>
 
       <p>
         <span class="confirmation_day">
@@ -67,7 +67,7 @@ export default {
         'container': true,
       },
       showModal: false,
-      title: 'Your appointment is confirmed!',
+      title: 'Appointment confirmed!',
       note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. Chat with us on this screen if you have any questions.',
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
       appointmentDate: this.$root.$data.signup.data.appointment_at,
@@ -111,6 +111,10 @@ export default {
     }
   },
   mounted () {
+    if (!this.$root.isSignupBookingAllowed) {
+      this.$router.push({ name: 'welcome', path: 'welcome' });
+      return;
+    }
     this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.

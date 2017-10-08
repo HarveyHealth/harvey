@@ -86,8 +86,8 @@
                 </div>
             </footer>
 
-            <div class="font-centered space-children-sm">
-              <div class="Divider-or">or</div>
+            <div class="font-centered space-children-lg">
+              <div class="Divider-text is-gray" data-text="OR"></div>
               <facebook-signin :type="'login'" :on-click="facebookLogin" />
             </div>
 

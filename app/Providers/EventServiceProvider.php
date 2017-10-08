@@ -38,11 +38,13 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\AppointmentComplete' => [
-            'App\Listeners\ChargePatientForCompletedAppointment',
+            'App\Listeners\ChargePatientForCompleteAppointment',
+            'App\Listeners\SendPatientAppointmentCompleteEmail',
         ],
 
-        'App\Events\LabOrderApproved' => [
+        'App\Events\LabOrderConfirmed' => [
             'App\Listeners\ChargePatientForLabOrder',
+            'App\Listeners\SendPatientLabOrderConfirmedEmail',
         ],
 
         'App\Events\LabOrderShipped' => [
@@ -62,11 +64,12 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\ChargeFailed' => [
-            'App\Listeners\NotifyOfFailedCharge',
+            'App\Listeners\NotifyChargeFailedSlackChannel',
+            'App\Listeners\SendPatientChargeFailedEmail',
         ],
 
         'App\Events\ChargeSucceeded' => [
-            'App\Listeners\NotifyOfSuccessfulCharge',
+            'App\Listeners\NotifyChargeSucceededSlackChannel',
         ],
 
         'App\Events\CreditCardUpdated' => [

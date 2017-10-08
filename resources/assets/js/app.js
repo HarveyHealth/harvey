@@ -192,6 +192,14 @@ const app = new Vue({
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
+    computed: {
+      isSignupBookingAllowed() {
+        return this.signup.billingConfirmed &&
+          this.signup.phoneConfirmed &&
+          this.signup.data.appointment_at &&
+          this.signup.data.practitioner_id
+      }
+    },
     methods: {
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
@@ -324,21 +332,23 @@ const app = new Vue({
         getLabData() {
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
-                    let user = response.data.included.filter(e => e.type === 'users')
-                    let patient = response.data.included.filter(e => e.type === 'patients')
-                    let invoices = response.data.included.filter(e => e.type === 'invoices')
-                    let obj = {};
-                    invoices.forEach(e => {
-                        obj[e.id] = e;
-                    })
-                    this.global.labOrders = response.data.data.map((e, i) => {
-                        e.user = user[i];
-                        e.patient = patient[i];
-                        if (e.relationships.invoice) {
-                            e.invoice = obj[e.relationships.invoice.data.id]
-                        }
-                        return e;
-                    })
+                    if (response.data.included) {
+                        let user = response.data.included.filter(e => e.type === 'users')
+                        let patient = response.data.included.filter(e => e.type === 'patients')
+                        let invoices = response.data.included.filter(e => e.type === 'invoices')
+                        let obj = {};
+                        invoices.forEach(e => {
+                            obj[e.id] = e;
+                        })
+                        this.global.labOrders = response.data.data.map((e, i) => {
+                            e.user = user[i];
+                            e.patient = patient[i];
+                            if (e.relationships.invoice) {
+                                e.invoice = obj[e.relationships.invoice.data.id]
+                            }
+                            return e;
+                        })
+                    }
                     this.global.loadingLabOrders = false
                 })
 

@@ -1,11 +1,28 @@
 <template>
-  <svg style="width:100%"><use :xlink:href="'#' + id" /></svg>
+  <svg :style="styles">
+    <use :xlink:href="'#' + id" />
+  </svg>
 </template>
 
 <script>
 export default {
   props: {
-    id: String
+    height: {
+      type: String,
+      default: '',
+    },
+    id: String,
+    width: {
+      type: String
+    },
+  },
+  computed: {
+    styles() {
+      return {
+        width: this.width,
+        height: this.height
+      }
+    }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <ButtonInput class="Button-facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
+  <ButtonInput class="Button--facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
 </template>
 
 <script>
