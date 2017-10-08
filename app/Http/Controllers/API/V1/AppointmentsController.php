@@ -67,7 +67,7 @@ class AppointmentsController extends BaseAPIController
         StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
-            'discount_code' => 'string:max:24',
+            'discount_code' => 'string|max:24',
             'duration_in_minutes' => 'integer',
             'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
             'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
