@@ -37,6 +37,40 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
+import Config from './v2/config';
+import Filters from './v2/filters';
+import Http from './v2/http';
+import Logic from './v2/logic';
+import State from './v2/state';
+import Util from './v2/util';
+
+window.App = {};
+App.Config = Config(Laravel);
+App.Filters = Filters;
+App.Http = Http;
+App.Logic = Logic;
+App.Util = Util;
+
+// Register global filters
+Vue.filter('formatPhone', Filters.formatPhone);
+Vue.filter('fullName', App.Util.misc.fullName);
+
+// Adding these objects to the Vue prototype makes them available from
+// within Vue templates directly, cutting back on our use of computed
+// properties, component props, and placeholder data.
+Vue.prototype.Config = App.Config;
+Vue.prototype.Http = App.Http;
+Vue.prototype.Logic = App.Logic;
+Vue.prototype.Util = App.Util;
+
+// Turning State into a function allows you to query global state within
+// Vue templates, providing default values to fall back on if a particular
+// property is undefined. This is helpful when awaiting data structures from
+// api calls. NOTE: this should be used as READ ONLY function.
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
+}
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -46,6 +80,18 @@ const app = new Vue({
         Usernav,
     },
     data: {
+        // Adding State to the root data object makes it globally reactive.
+        // We do not attach this to window.App for HIPPA compliance. Because of this,
+        // any method that needs to access global state MUST be invoked with .call
+        // and state should be referenced inside as this.$root.$data.State.
+        //    Example:
+        //      export default function hi(person) {
+        //        const Store = this.$root.$data.State;
+        //        return `Hi, ${Store[person]}.`
+        //      }
+        //      App.Logic.hi.call(this, 'person');
+        State: State,
+
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {
@@ -410,7 +456,12 @@ const app = new Vue({
     },
     mounted() {
         this.stripe = Stripe(Laravel.services.stripe.key);
-        window.debug = () => console.log(this.$data);
+
+        // This is helpful to have for development because you can test internal methods
+        // that require application state
+        if (App.Config.misc.environment === 'dev') {
+          window.Root = window.Root || this;
+        }
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
