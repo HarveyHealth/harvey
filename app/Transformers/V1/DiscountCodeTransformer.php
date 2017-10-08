@@ -10,19 +10,14 @@ class DiscountCodeTransformer extends TransformerAbstract
     /**
      * @return array
      */
-    public function transform(DiscountCode $discount_code = null)
+    public function transform(DiscountCode $discount_code)
     {
-        $data = [
-            'valid' => !empty($discount_code),
+        return [
+            'id' => $discount_code->id,
+            'amount' => $discount_code->amount,
+            'code' => $discount_code->code,
+            'discount_type' => $discount_code->discount_type,
+            'expires_at' => $discount_code->expires_at,
         ];
-
-        if ($data['valid']) {
-            $data['id'] = $discount_code->id;
-            $data['discount_type'] = $discount_code->discount_type;
-            $data['amount'] = $discount_code->amount;
-            $data['code'] = $discount_code->code;
-        }
-
-        return $data;
     }
 }

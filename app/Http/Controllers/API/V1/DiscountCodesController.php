@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Transformers\V1\DiscountCodeTransformer;
-use App\Models\DiscountCode;
-use Illuminate\Http\Request;
 use App\Lib\Validation\StrictValidator;
+use App\Models\DiscountCode;
+use App\Transformers\V1\DiscountCodeTransformer;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use ResponseCode;
 
 class DiscountCodesController extends BaseAPIController
 {
+    protected $resource_name = 'discountcode';
+
     /**
      * LabOrdersController constructor.
      * @param DiscountCodeTransformer $transformer
@@ -26,21 +29,20 @@ class DiscountCodesController extends BaseAPIController
     public function index(Request $request)
     {
         StrictValidator::check($request->all(), [
-            'discount_code' => 'required',
-            'applies_to' => 'required'
+            'discount_code' => 'required|max:24',
+            'applies_to' => ['required', Rule::in(DiscountCode::ALLOWED_APPLIES_TO)],
         ]);
 
         $code = $request->input('discount_code');
         $applies_to = $request->input('applies_to');
-        $user = auth()->user();
 
-        $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, $user);
+        $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, currentUser());
 
         // if we don't have a valid discount code
         if (!$discount_code) {
             return response()->apiproblem(['valid' => false]);
         }
 
-        return $this->baseTransformBuilder($discount_code, null, $this->transformer)->respond();
+        return $this->baseTransformItem($discount_code)->respond();
     }
 }

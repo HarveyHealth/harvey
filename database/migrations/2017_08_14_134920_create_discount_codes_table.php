@@ -15,11 +15,9 @@ class CreateDiscountCodesTable extends Migration
     {
         Schema::create('discount_codes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
             $table->boolean('enabled')->default(true);
-            $table->string('code', 24)->unique();
-            $table->enum('discount_type',['percent','dollars'])->default('dollars');
+            $table->string('code', 24)->unique()->index();
+            $table->enum('discount_type', ['percent','dollars'])->default('dollars');
             $table->decimal('amount')->default(0);
             $table->datetime('expires_at')->nullable();
             $table->timestamps();

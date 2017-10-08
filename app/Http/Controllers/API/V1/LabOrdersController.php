@@ -89,26 +89,19 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
-        $inputData = $request->all();
-
         StrictValidator::checkUpdate($request->all(), [
-            'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'filled|string|max:24',
+            'shipment_code' => 'filled|string',
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
         ]);
 
-        if ($inputData['discount_code']) {
-            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($inputData['discount_code'], 'lab-test', currentUser());
 
-            if ($discount_code) {
-                $inputData['discount_code_id'] = $discount_code->id;
-            }
-        }
-
-        $labOrder->update($inputData);
+        $labOrder->update($request->all());
+        $labOrder->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
 
         return $this->baseTransformItem($labOrder, request('include'))->respond();
     }

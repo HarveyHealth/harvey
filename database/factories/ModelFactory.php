@@ -5,6 +5,7 @@ use Laravel\Passport\Client;
 use App\Models\{
     Admin,
     Appointment,
+    DiscountCode,
     LabOrder,
     LabTest,
     License,
@@ -282,5 +283,12 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
             return factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(DiscountCode::class, function (Faker\Generator $faker) {
+    return [
+        'code' => $faker->word . $faker->numberBetween(100, 999),
+        'amount' => $faker->numberBetween(10, 90),
     ];
 });

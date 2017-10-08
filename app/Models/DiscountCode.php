@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\{Builder, Model};
+use Illuminate\Validation\Rule;
 
 class DiscountCode extends Model
 {
-    public static function findByValidCodeApplicationAndUser($code, $applies_to, $user)
+    const ALLOWED_APPLIES_TO = ['lab-test', 'consultation', 'all'];
+
+    protected $dates = [
+        'created_at',
+        'deleted_at',
+        'expires_at',
+    ];
+
+    public static function findByValidCodeApplicationAndUser($code, $applies_to, User $user)
     {
-        $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->limit(1)->first();
+        $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->first();
 
         // if we don't have a valid code
         if (!$discount_code)
@@ -20,13 +29,12 @@ class DiscountCode extends Model
             return $discount_code;
 
         // otherwise we need to do some checking
-        if (!$user->isPatient()) {
+        if ($user->isNotPatient()) {
             ops_warning('A non-patient is trying to use a coupon code');
             return false;
         }
 
-        $codes_used = \App\Models\Invoice::where('discount_code_id', $discount_code->id)
-                        ->where('patient_id', $user->patient->id)->count();
+        $codes_used = Invoice::where('discount_code_id', $discount_code->id)->where('patient_id', $user->patient->id)->count();
 
         // they've already used this one
         if ($codes_used > 0)
@@ -73,27 +81,27 @@ class DiscountCode extends Model
         return $description;
     }
 
-    public function scopeWithCode($query, $code)
+    public function scopeWithCode(Builder $builder, $code)
     {
-        return $query->where('code', $code);
+        return $builder->where('code', $code);
     }
 
-    public function scopeEnabled($query)
+    public function scopeEnabled(Builder $builder)
     {
-        return $query->where('enabled', true);
+        return $builder->where('enabled', true);
     }
 
-    public function scopeNotExpired($query)
+    public function scopeNotExpired(Builder $builder)
     {
-        return $query->where(function ($query) {
-            $query->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
+        return $builder->where(function (Builder $builder) {
+            $builder->whereNull('expires_at')->orWhere('expires_at', '>', date('Y-m-d H:i:s'));
         });
     }
 
-    public function scopeAppliesTo($query, $applies_to)
+    public function scopeAppliesTo(Builder $builder, $applies_to)
     {
-        return $query->where(function ($query) use ($applies_to) {
-            $query->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
+        return $builder->where(function (Builder $builder) use ($applies_to) {
+            $builder->where('applies_to', $applies_to)->orWhere('applies_to', 'all');
         });
     }
 }

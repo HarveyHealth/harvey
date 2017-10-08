@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasDiscountCodeIdColumn, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Bugsnag, Cache, Exception, Lang, Log, View;
 use App\Models\SKU;
@@ -12,7 +12,7 @@ use App\Models\DiscountCode;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
+    use SoftDeletes, HasDiscountCodeIdColumn, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -34,9 +34,9 @@ class Appointment extends Model
     ];
 
     protected $guarded = [
-        'id',
         'created_at',
         'deleted_at',
+        'discount_code_id',
         'google_calendar_event_id',
         'status_id',
         'updated_at',
@@ -458,19 +458,14 @@ class Appointment extends Model
             ],
         ];
 
-        // if we have a discount code,
-        // add another invoice item
-        if ($this->discount_code_id) {
-
+        if ($this->discountCode) {
             $sku = SKU::findBySlugOrFail('discount');
-            $discount_code = DiscountCode::find($this->discount_code_id);
-
-            $amount = $discount_code->discountForSubtotal($data['invoice_items'][0]['amount']);
+            $amount = $this->discountCode->discountForSubtotal($data['invoice_items'][0]['amount']);
 
             $data['invoice_items'][] = [
-                'item_id' => $discount_code->id,
-                'item_class' => get_class($discount_code),
-                'description' => $discount_code->itemDescription(),
+                'item_id' => $this->discountCode->id,
+                'item_class' => get_class($this->discountCode),
+                'description' => $this->discountCode->itemDescription(),
                 'amount' => $amount,
                 'sku_id' => $sku->id,
             ];

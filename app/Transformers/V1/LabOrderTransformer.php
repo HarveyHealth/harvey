@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class LabOrderTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner', 'lab_tests', 'invoice'];
+    protected $availableIncludes = ['patient', 'practitioner', 'lab_tests', 'invoice', 'discount_code'];
 
     /**
      * @param LabOrder $labOrder
@@ -16,12 +16,12 @@ class LabOrderTransformer extends TransformerAbstract
     public function transform(LabOrder $labOrder)
     {
         return [
+            'id' => (string) $labOrder->id,
             'address_1' => $labOrder->address_1,
             'address_2' => $labOrder->address_2,
             'city' => $labOrder->city,
             'completed_at' => $labOrder->completed_at,
             'created_at' => $labOrder->created_at,
-            'id' => (string) $labOrder->id,
             'patient_id' => (string) $labOrder->patient_id,
             'practitioner_id' => (string) $labOrder->practitioner_id,
             'shipment_code' => (string) $labOrder->shipment_code,
@@ -78,6 +78,17 @@ class LabOrderTransformer extends TransformerAbstract
     {
         if ($invoice = $labOrder->invoice) {
             return $this->item($invoice, new InvoiceTransformer(), 'invoices');
+        }
+    }
+
+    /**
+     * @param LabOrder $labOrder
+     * @return mixed
+     */
+    public function includeDiscountCode(LabOrder $labOrder)
+    {
+        if ($discount_code = $labOrder->discountCode) {
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
         }
     }
 }
