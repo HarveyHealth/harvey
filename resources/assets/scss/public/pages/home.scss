@@ -506,18 +506,18 @@ body[class*="lab-tests"] {
 
 body.home {
     #video-cover {
-        background: #5F7278 url('/images/home/hero-cover-home.jpg') no-repeat;
+        background: #5F7278 url('https://harvey-production.s3.amazonaws.com/assets/images/home/hero-cover-home.jpg') no-repeat;
     }
 }
 
 body.about {
     #video-cover {
-        background: #5F7278 url('/images/about/hero-cover-about.jpg') no-repeat;
+        background: #5F7278 url('https://harvey-production.s3.amazonaws.com/assets/images/about/hero-cover-about.jpg') no-repeat;
     }
 }
 
 body[class*="lab-tests"] {
     #video-cover {
-        background: #5F7278 url('/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
+        background: #5F7278 url('https://harvey-production.s3.amazonaws.com/assets/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
     }
 }

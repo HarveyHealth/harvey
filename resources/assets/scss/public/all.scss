@@ -405,9 +405,9 @@ body {
 
 .logo-wrapper {
   .no-svg & {
-    background: url('/images/logos/mobile-logo.png') no-repeat center center;
+    background: url('https://harvey-production.s3.amazonaws.com/assets/images/logos/mobile-logo.png') no-repeat center center;
     @media screen and (min-width: 998px) {
-      background-image: url('/images/logos/main-logo.png');
+      background-image: url('https://harvey-production.s3.amazonaws.com/assets/images/logos/main-logo.png');
     }
   }
 }
