@@ -1,3 +1,28 @@
+@mixin output-row-gutter-classes($size, $value, $rowClass: 'Row') {
+  .#{$rowClass}.gutter-#{$size} {
+    margin-left: -($value / 2);
+    margin-right: -($value / 2);
+  }
+  .#{$rowClass}.gutter-#{$size} > * {
+    margin-left: $value / 2;
+    margin-right: $value / 2;
+  }
+  .#{$rowClass}.gutter-#{$size} > * {
+    margin-bottom: $value;
+  }
+}
+/// Generates Row gutter classes
+/// @group grid
+@mixin generate-row-gutter-classes($size, $value, $breakpoint: null) {
+  @if (not $breakpoint) {
+    @include output-row-gutter-classes($size, $value);
+  } @else {
+    @include query($breakpoint) {
+      @include output-row-gutter-classes($size, $value, 'Row-' + $breakpoint);
+    }
+  }
+}
+
 /// Generates grid column classes given a breakpoint, column width, column base, and gutter size
 /// @group grid
 @mixin generate-grid-columns($breakpoint, $columnWidth, $base, $gutterSize: false) {
@@ -6,7 +31,7 @@
       flex-basis: percentage($columnWidth / $base);
     }
     @if ($gutterSize) {
-      .Row.gutter-#{$gutterSize} > .Column-#{$breakpoint}-#{$columnWidth}of#{$base} {
+      *[class*="Row"].gutter-#{$gutterSize} > .Column-#{$breakpoint}-#{$columnWidth}of#{$base} {
         flex-basis: calc(#{percentage($columnWidth / $base)} - #{map-get($space-list, $gutterSize)});
       }
     }

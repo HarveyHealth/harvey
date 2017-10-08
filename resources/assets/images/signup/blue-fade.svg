@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1920px" height="2418px" viewBox="0 0 1920 2418" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Fade Rectangle</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="101.999998%" y2="100.999999%" id="linearGradient-1">
+            <stop stop-color="#4C586F" offset="0%"></stop>
+            <stop stop-color="#59708E" offset="24.1848693%"></stop>
+            <stop stop-color="#5A7391" offset="26.5077706%"></stop>
+            <stop stop-color="#5A7392" offset="26.7090841%"></stop>
+            <stop stop-color="#6C94BB" offset="58.4732678%"></stop>
+            <stop stop-color="#73A3CE" offset="73.1087631%"></stop>
+            <stop stop-color="#82BEF1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Signup-Flow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Conditions" transform="translate(-32.000000, -89.000000)" fill="url(#linearGradient-1)">
+            <rect id="Fade-Rectangle" x="32" y="89" width="1920" height="2418"></rect>
+        </g>
+    </g>
+</svg>

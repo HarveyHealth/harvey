@@ -1,39 +1,31 @@
 <template>
   <SlideIn :delay="400">
-    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup">
-      <div class="signup-wrapper">
-        <aside class="signup-quotes">
-          <div class="quotes-icons">
-            <div class="quotes-icons-top">
-              <div><svg><use xlink:href="#apple" /></svg></div>
-              <div><svg><use xlink:href="#stethoscope" /></svg></div>
-              <div><svg><use xlink:href="#labs" /></svg></div>
-              <div><svg class="smaller"><use xlink:href="#doctor" /></svg></div>
-              <div class="show-xl"><svg><use xlink:href="#carrot" /></svg></div>
-              <div class="show-xl"><svg class="with-stroke"><use xlink:href="#wellness" /></svg></div>
-            </div>
-            <div class="quotes-text">
-              <div class="quotes-imgs">
-                <a href="/"><svg class="harvey"><use xlink:href="#harvey-logo" /></svg></a>
-              </div>
-              <blockquote v-for="obj in quotes" :key="obj.source">
-                <p v-html="'&ldquo;' + obj.quote + '&rdquo;'" class="copy-main font-lg"></p>
-                <footer v-html="'&ndash; ' + obj.source" class="copy-muted font-italic"></footer>
-              </blockquote>
-            </div>
-            <div class="quotes-icons-bottom">
-              <div><svg><use xlink:href="#heart" /></svg></div>
-              <div><svg class="smaller"><use xlink:href="#bottle" /></svg></div>
-              <div><svg><use xlink:href="#baby" /></svg></div>
-              <div><svg><use xlink:href="#scale" /></svg></div>
-              <div class="show-xl"><svg class="smaller"><use xlink:href="#yogo" /></svg></div>
-              <div class="show-xl"><svg><use xlink:href="#medicine" /></svg></div>
-            </div>
+    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm max-width-xxl margin-0a">
+      <div class="Row-lg align-middle gutter-md">
+        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-xl">
+          <div class="signup-aside-icon-row">
+            <span><svg><use xlink:href="#apple" /></svg></span>
+            <span><svg><use xlink:href="#stethoscope" /></svg></span>
+            <span><svg><use xlink:href="#labs" /></svg></span>
+            <span><svg><use xlink:href="#doctor" /></svg></span>
+            <span class="is-inline-xl"><svg><use xlink:href="#carrot" /></svg></span>
+            <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
+          </div>
+          <div class="signup-aside-text">
+            <p class="font-xl color-white font-centered">Based on your answers, we are confident our Naturopathic Doctors can help you with your condition.</p>
+          </div>
+          <div class="signup-aside-icon-row">
+            <span><svg><use xlink:href="#heart" /></svg></span>
+            <span><svg><use xlink:href="#bottle" /></svg></span>
+            <span><svg><use xlink:href="#baby" /></svg></span>
+            <span><svg><use xlink:href="#scale" /></svg></span>
+            <span class="is-inline-xl"><svg><use xlink:href="#yogo" /></svg></span>
+            <span class="is-inline-xl"><svg><use xlink:href="#medicine" /></svg></span>
           </div>
         </aside>
-        <div class="container small signup-form-inputs">
-          <div class="signup-container signup-form-container">
-            <h1 class="heading-1" v-html="title"></h1>
+        <div class="Column-lg-1of2 Column-xl-3of7 margin-0a max-width-md">
+          <div class="signup-container signup-form-container space-children-md">
+            <h1 class="heading-1 font-centered" v-html="title"></h1>
 
             <div class="input-wrap">
               <input class="form-input form-input_text"
@@ -90,13 +82,8 @@
                 :text="'Sign Up'"
                 :width="'160px'"
               />
-              <div class="Divider-or pad-sm">or</div>
+              <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
-              <!-- <button class="button button--blue" style="width: 160px" :disabled="isProcessing">
-                <span v-if="!isProcessing">Sign Up</span>
-                <LoadingGraphic v-else-if="isProcessing" :size="12" />
-                <i v-else-if="isComplete" class="fa fa-check"></i>
-              </button> -->
             </div>
           </div>
         </div>

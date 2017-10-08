@@ -29,24 +29,7 @@
 
       @include('_includes.svgs')
 
-      <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
-          <div class="container">
-              <div class="nav-left">
-                  <a href="/logout" class="nav-item">
-                      <div class="logo-wrapper">
-                          {!! $svgImages['logo'] !!}
-                      </div>
-                  </a>
-              </div>
-              <div class="nav-right">
-                  <span class="nav-item">
-                      <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
-                  </span>
-              </div>
-          </div>
-      </div>
-
-      <main class="signup-content">
+      <main>
         <div id="app">
           <router-view />
         </div>

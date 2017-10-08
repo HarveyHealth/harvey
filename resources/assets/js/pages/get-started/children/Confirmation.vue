@@ -1,9 +1,9 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
+    <div class="signup-stage-instructions color-white">
       <StagesNav :current="'confirmation'" />
-      <h2 v-if="isBookingAllowed" class="heading-1">Final Confirmation</h2>
-      <h2 v-else class="heading-1">Oops, please go back.</h2>
+      <h2 v-if="$root.isSignupBookingAllowed" class="heading-1 color-white">Final Confirmation</h2>
+      <h2 v-else class="heading-1 color-white">Oops, please go back.</h2>
     </div>
     <div class="signup-container small router">
       <router-link class="signup-back-button" :to="{ name: 'payment', path: '/payment' }">
@@ -11,21 +11,21 @@
         <span class="font-sm">Payment</span>
       </router-link>
       <div class="signup-main-icon">
-        <svg v-if="isBookingAllowed" class="interstitial-icon icon-rocket"><use xlink:href="#clipboard"/></svg>
+        <svg v-if="$root.isSignupBookingAllowed" class="interstitial-icon icon-rocket"><use xlink:href="#clipboard"/></svg>
         <svg v-else class="interstitial-icon icon-error"><use xlink:href="#error"/></svg>
       </div>
 
-      <p v-if="isBookingAllowed">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
+      <p v-if="$root.isSignupBookingAllowed">You are about to book a video consultation with Dr. {{ doctor }} on {{ dateDisplay }} at {{ timeDisplay }}.<br/><br/>{{ paymentStatement }}. Our of respect for our doctors, we charge a $10 fee for <em>no shows</em> or cancelations within 6 hours of your appointment.</p>
       <p v-else>Looks like we're missing a few things from you before we can schedule your consultation. If you're having trouble, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or click the chat button at the bottom corner of the page.</p>
 
-      <ul v-show="!isBookingAllowed" class="error-list">
+      <ul v-show="!$root.isSignupBookingAllowed" class="error-list">
         <li class="copy-error" v-show="!$root.$data.signup.data.practitioner_id">Please select your practitioner.</li>
         <li class="copy-error" v-show="!$root.$data.signup.data.appointment_at">Please select an appointment date and time.</li>
         <li class="copy-error" v-show="!$root.$data.signup.phoneConfirmed">Please confirm your phone number.</li>
         <li class="copy-error" v-show="!$root.$data.signup.billingConfirmed">Please enter your payment method.</li>
       </ul>
 
-      <button class="button button--blue" v-if="isBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
+      <button class="button button--blue" v-if="$root.isSignupBookingAllowed" :disabled="isProcessing" @click="confirmSignup" :style="{ width: '200px'}">
         <span v-if="!isProcessing">Book Appointment</span>
         <ClipLoader v-else-if="isProcessing" :color="'#ffffff'" :size="'12px'" />
       </button>
@@ -102,12 +102,6 @@ export default {
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
     },
-    isBookingAllowed() {
-      return (this.$root.$data.signup.billingConfirmed &&
-        this.$root.$data.signup.phoneConfirmed &&
-        this.$root.$data.signup.data.appointment_at &&
-        this.$root.$data.signup.data.practitioner_id)
-    }
   },
   filters: {
     getState,
