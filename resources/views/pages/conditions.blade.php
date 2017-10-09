@@ -20,18 +20,6 @@
 
       @include('_includes.svgs')
 
-      <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
-          <div class="container">
-              <div class="nav-left">
-                  <a href="/logout" class="nav-item">
-                      <div class="logo-wrapper">
-                          {!! $svgImages['logo'] !!}
-                      </div>
-                  </a>
-              </div>
-          </div>
-      </div>
-
       <main>
         <div id="app">
           <router-view />
