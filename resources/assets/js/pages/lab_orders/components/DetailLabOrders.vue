@@ -561,14 +561,14 @@ export default {
       })
       return Q.allSettled(promises).then(() => {
         let data = null;
-        if (this.patchCode) {
+        if (this.discountCode) {
           data = {
             address_1: this.address1,
             address_2: this.address2,
             city: this.newCity,
             state: this.newState,
             zip: this.newZip,
-            discount_code: this.patchCode,
+            discount_code: this.discountCode,
           }
         } else {
           data = {
