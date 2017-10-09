@@ -98,6 +98,7 @@ class LabOrdersController extends BaseAPIController
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes',
         ]);
 
         if ($inputData['discount_code']) {
