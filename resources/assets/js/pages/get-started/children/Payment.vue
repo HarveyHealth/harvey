@@ -151,7 +151,7 @@ export default {
     validateDiscount(resolve) {
       const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
       axios.get(endpoint).then(response => {
-        const attributes = response.data.data[0].attributes;
+        const attributes = response.data.data.attributes;
         this.isValidDiscount = true;
         this.$root.$data.signup.data.discount_code = this.discountCode;
         switch(attributes.discount_type) {
@@ -164,8 +164,10 @@ export default {
         }
         if (resolve) resolve();
       }).catch(error => {
-        this.toggleProcessing();
-        this.discountError = error.response.data.errors[0].detail;
+        if (error) {
+          this.toggleProcessing();
+          this.discountError = error.response.data.errors[0].detail;
+        }
       });
     },
     createStripeToken(cardData) {
