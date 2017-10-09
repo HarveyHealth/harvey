@@ -8,6 +8,7 @@ use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
