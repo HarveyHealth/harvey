@@ -87,9 +87,12 @@
   }
 }
 
-// Targeting the harvey-text inside the svg for the Discovery/Signup main navigation.
-.header.is-inverted .logo-wrapper .MainNav_Logo {
-  color: #fff;
+.header.is-inverted {
+  .logo-wrapper {
+    .MainNav_Logo {
+      color: #fff;
+    }
+  }
 }
 
 // Header

@@ -16,6 +16,14 @@
   @include padding(1em null null null);
 }
 
+.is-padding-top-lg {
+  @include padding(1em null null null);
+}
+
+.is-padding-top-xl {
+  @include padding(2em null null null);
+}
+
 .is-padding-right {
   @include padding(null 1em null null);
 }

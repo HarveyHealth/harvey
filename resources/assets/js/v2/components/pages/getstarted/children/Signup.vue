@@ -1,8 +1,8 @@
 <template>
   <SlideIn :delay="400">
-    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm max-width-xxl margin-0a">
+    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm max-width-xxl margin-0a is-padding-top-xl">
       <div class="Row-lg align-middle">
-        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-xl">
+        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm is-padding">
           <div class="signup-aside-icon-row">
             <span><svg><use xlink:href="#apple" /></svg></span>
             <span><svg><use xlink:href="#stethoscope" /></svg></span>
@@ -12,14 +12,19 @@
             <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
           </div>
           <div class="signup-aside-text">
-            <p class="font-xl color-white font-centered">Based on your answers, we are confident our Naturopathic Doctors can help you with your condition.</p>
+            <div class="logo-wrapper">
+              <a href="/">
+                <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
+              </a>
+            </div>
+            <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition.</p>
           </div>
           <div class="signup-aside-icon-row">
             <span><svg><use xlink:href="#heart" /></svg></span>
             <span><svg><use xlink:href="#bottle" /></svg></span>
             <span><svg><use xlink:href="#baby" /></svg></span>
             <span><svg><use xlink:href="#scale" /></svg></span>
-            <span class="is-inline-xl"><svg><use xlink:href="#yogo" /></svg></span>
+            <span class="is-inline-xl"><svg><use xlink:href="#yoga" /></svg></span>
             <span class="is-inline-xl"><svg><use xlink:href="#medicine" /></svg></span>
           </div>
         </aside>
@@ -103,6 +108,7 @@ export default {
     FacebookSignin: Inputs.FacebookSignin,
     LoadingGraphic,
     SlideIn: Util.SlideIn,
+    SvgIcon: Util.SvgIcon
   },
   data() {
     return {

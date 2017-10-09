@@ -49,6 +49,17 @@
 
 }
 
+.signup-aside-text{
+  .logo-wrapper {
+    @include margin(0 auto);
+    .MainNav_Logo {
+      color: #fff;
+      width: 200px;
+      height: 60px;
+    }
+  }
+}
+
 .signup-aside-icon-row {
   text-align: center;
 
@@ -74,6 +85,7 @@
   margin: 0;
   padding: 0;
 }
+
 // We should merge these at some point
 .error-text, .copy-error {
   width: 100%;
@@ -149,8 +161,6 @@
   }
 
 }
-
-// Social Icons
 
 .social-icon-wrapper a {
   display: inline-block;
