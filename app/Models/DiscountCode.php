@@ -14,21 +14,22 @@ class DiscountCode extends Model
         if (!$discount_code)
             return false;
 
-        // if this is not a one-time use code
-        // go head and return it
-        if (!$discount_code->one_time_use)
-            return $discount_code;
-
-        // otherwise we need to do some checking
+        // make sure this is a patient
         if (!$user->isPatient()) {
             ops_warning('A non-patient is trying to use a coupon code');
             return false;
         }
 
+        // if this is not a one-time use code
+        // go ahead and return it
+        if (!$discount_code->one_time_use)
+            return $discount_code;
+
+        // check to see if this person has used this discount code before
         $codes_used = \App\Models\Invoice::where('discount_code_id', $discount_code->id)
                         ->where('patient_id', $user->patient->id)->count();
 
-        // they've already used this one
+        // if they've already used this one
         if ($codes_used > 0)
             return false;
 
@@ -75,7 +76,7 @@ class DiscountCode extends Model
 
     public function scopeWithCode($query, $code)
     {
-        return $query->where('code', $code);
+        return $query->where('code', '=', $code);
     }
 
     public function scopeEnabled($query)
