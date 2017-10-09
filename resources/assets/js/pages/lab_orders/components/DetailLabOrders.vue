@@ -128,7 +128,7 @@
             <label class="input__label total" for="totals">Total</label>
           </div>
           <div class="right-column">
-            <label class="input__label discount" for="price">{{ discountType === 'dollars' ? `- $${discountAmount}` : discountType === 'percent' ? `- $${this.patientPrice * this.discountAmount}` : '- 0.00' }}
+            <label class="input__label discount" for="price">{{ discountType === 'dollars' ? `- $${discountAmount}` : discountType === 'percent' ? `- $${percentAmount}` : '- 0.00' }}
             </label>
             <label class="input__label total" for="price">${{ patientPrice }}</label>
           </div>
@@ -395,6 +395,7 @@ export default {
       address2: '',
       newCity: '',
       newZip: '',
+      percentAmount: '',
       disabledDiscount: false,
       newState: '',
       patchCode: '',
@@ -465,12 +466,14 @@ export default {
       if (this.discountCode !== '') {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
-            console.log(response)
             if (response.data.data.attributes.valid) {
               this.discountType = response.data.data.attributes.discount_type;
               this.discountAmount = response.data.data.attributes.amount;
-              this.patientPrice = this.discountType === 'percent' ? `${this.patientPrice * (100 - this.discountAmount)}.00` :
-                this.discountType === 'dollars' ? `${eval(this.patientPrice - this.discountAmount)}` : `${this.patientPrice}.00`;
+              if (response.data.data.attributes.discount_type === 'percent') {
+                this.percentAmount = (this.patientPrice * (Number(this.discountAmount)) * 0.01).toFixed(2)
+              }
+              this.patientPrice = this.discountType === 'percent' ? `${(this.patientPrice * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
+                this.discountType === 'dollars' ? `${eval(this.patientPrice - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
               this.patchCode = response.data.data.attributes.code;
               this.stepThree();
             } else {
