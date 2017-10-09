@@ -78,7 +78,7 @@
           <label class="input__label">Invoice</label>
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
             <span v-else class="input__item error-text">Invoice not paid.</span>
           </div>
         </div>
@@ -169,7 +169,7 @@
           <label class="input__label">Invoice</label>
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
             <span v-else class="input__item error-text">Invoice not paid.</span>
           </div>
         </div>
@@ -275,7 +275,7 @@
           <label class="input__label">Invoice</label>
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-            <span v-if="paid" class="input__item color-good">{{`Charged: $${price}`}}</span>
+            <span v-if="paid" class="input__item color-good">{{`Charged: $${invoicePrice}`}}</span>
             <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
           </div>
         </div>
@@ -789,7 +789,10 @@ export default {
       return this.$props.rowData ? this.$props.rowData.card : null
     },
     price() {
-      return this.$props.rowData ? this.$props.rowData.total_price : ''
+      return this.$props.rowData ? this.$props.rowData.total_price.toFixed(2) : ''
+    },
+    invoicePrice() {
+      return this.$props.rowData ? this.$props.rowData.invoice_paid : ''
     },
     samples() {
       return this.$props.rowData ? Object.keys(this.$props.rowData.samples) : []
