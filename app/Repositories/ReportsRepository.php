@@ -37,7 +37,10 @@ class ReportsRepository extends BaseRepository
                 $join->on('lab_orders.invoice_id','=','invoices.id');
                 $join->on('skus.item_type', '=', DB::raw('"lab-test"'));
             })
-            ->leftJoin('lab_tests','lab_orders.id','=','lab_tests.lab_order_id')
+            ->leftJoin('lab_tests',function($join){
+                $join->on('skus.id', '=', 'lab_tests.sku_id');
+                $join->on('lab_orders.id','=','lab_tests.lab_order_id');
+            })
             ->leftJoin('lab_tests_information','skus.id','=','lab_tests_information.sku_id')
             ->leftJoin('practitioners as l_practitioners','l_practitioners.id','=','lab_orders.practitioner_id')
             ->leftJoin('users as l_users','l_practitioners.user_id','=','l_users.id')
@@ -46,7 +49,10 @@ class ReportsRepository extends BaseRepository
             ->where('invoice_items.created_at','>=', $from_date)
             ->where('invoice_items.created_at','<=',$to_date)
 
+            //->groupBy('item_id')
+
             ->select(
+                'invoice_items.id as item_id',
                 'users.id as client_id', //Client ID
                 'users.first_name as client_first_name',//Client Name
                 'users.last_name as client_last_name',//Client Name
@@ -59,10 +65,11 @@ class ReportsRepository extends BaseRepository
                 'invoices.transaction_id', //Transaction ID
                 'skus.item_type',//Product Type (Consultation/Lab Test/Processing Fee)
 
-                //If the line item is a Consultation, please also include:
-                DB::raw("(select min(id)
+                //If the line item is a Consultation
+                DB::raw("(select min(appointment_at)
                         from appointments a
-                        where a.patient_id = invoices.patient_id) = appointments.id as first_consultation"), //First Consultation (Y/N)
+                        where a.patient_id = invoices.patient_id
+                        and status_id = 5) = appointments.appointment_at as first_consultation"), //First Consultation (Y/N)
 
                 'appointments.duration_in_minutes as consultation_duration',//Consultation Duration (30/60 min)
                 DB::raw('(100/60) * appointments.duration_in_minutes as practitioner_cost'),//Practitioner Cost (100 usd per hour)
@@ -89,17 +96,11 @@ class ReportsRepository extends BaseRepository
 
             $discount_total = ($item->discount_type=='percent')? $item->item_amount * $item->discount_amount/100:$item->discount_amount;
 
-
-            switch ($item->processing_type) {
-                case 'processing-fee-self':
-                    $processing_type = 'Full';
-                    break;
-                case 'shipping':
-                    $processing_type = 'Partial';
-                    break;
-                default:
-                    $processing_type = '';
-                    break;
+            if ($item->item_type == 'service-fee'){
+                $processing_type = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
+            }
+            else{
+                $processing_type = "";
             }
 
             if ($item->consultation_duration){ // fill info if item is consultation
@@ -116,8 +117,15 @@ class ReportsRepository extends BaseRepository
                 $blood_draw = "";
             }
 
+            if ($item->item_type == 'lab-test'){
+                $lab_test_name = $item->lab_test_name;
+            }
+            else{
+                $lab_test_name = "";
+            }
 
             $report[] = [
+                "ID" => $item->item_id,
                 "Client ID" => $item->client_id,
                 "Client Name" => $client_name,
                 "Client Signup Date" => new Carbon($item->client_signup_date),
@@ -130,7 +138,7 @@ class ReportsRepository extends BaseRepository
                 "First Consultation" => $first_consultation,
                 "Consultation Duration" => $item->consultation_duration, // (30/60 min)
                 // If the line item is a Lab Test,
-                "Lab Test Name" => $item->lab_test_name,
+                "Lab Test Name" => $lab_test_name,
                 "Lab Name" => $item->lab_name,
                 "Blood Draw" => $blood_draw,// (Y/N)
                 // If the line item is a Processing Fee
