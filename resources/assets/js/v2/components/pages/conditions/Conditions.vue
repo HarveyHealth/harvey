@@ -8,20 +8,10 @@
           <SvgIcon :id="'harvey-icon-white'" :width="'100%'" />
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to common medical conditions.</p>
-          <p class="font-lg">Harvey doctors hold the bold belief that with the right nutrition, lifestyle and environmental factors humans can prevent most chronic diseases. While integrative medicine has shown incredible success healing patients with a wide variety of medical issues, we are currently focused on just a few conditions.</p>
-          <div class="margin-0a max-width-md" style="border-bottom: 1px solid white"></div>
+          <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to chronic medical conditions.</p>
+          <p class="font-lg">While integrative medicine has shown incredible success healing patients with a wide variety of health conditions, we are currently focused on just a few conditions. Please select one of the 10 conditions below to get started.</p>
         </div>
-        <ConditionsAll class="space-top-xl" />
-        <div class="space-top-xl space-children-md">
-          <p class="font-centered">Harvey is available to patients in Arizona, California, Conneticut, Florida, Georgia, Illinois, Maryland, Michigan, Missouri, New York, Ohio, Oregon, Pennsylvania, Rhode Island, and Washington.</p>
-          <p class="font-centered">&copy; 2017 Harvey Health, Inc. All Rights Reserved.</p>
-        </div>
-        <div class="font-centered space-top-xl">
-          <img src="/images/conditions/logo-norton.png" :style="imgStyles" />
-          <img src="/images/conditions/logo-bbb.png" :style="imgStyles" />
-          <img src="/images/conditions/logo-hipaa.png" :style="imgStyles" />
-        </div>
+        <ConditionsAll class="space-top-lg is-padding-lg" />
       </div>
     </div>
     <div v-else>
