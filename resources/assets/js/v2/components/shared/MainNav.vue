@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
   .harvey-text {
     fill: #fff !important;
   }
