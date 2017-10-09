@@ -72,6 +72,7 @@
   text-align: center;
 
   .MainNav_Logo {
+    color: #5F7278;
     width: 100px;
     height: 45px;
   }
@@ -84,6 +85,11 @@
       width: 150px;
     }
   }
+}
+
+// Targeting the harvey-text inside the svg for the Discovery/Signup main navigation.
+.header.is-inverted .logo-wrapper .MainNav_Logo {
+  color: #fff;
 }
 
 // Header
@@ -224,7 +230,7 @@
         text-align: right;
         float: right;
       }
-      
+
       a {
 
         font-size: 17px;

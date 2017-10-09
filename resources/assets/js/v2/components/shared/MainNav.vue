@@ -29,8 +29,15 @@
       display: none !important;
     }
   }
-  .MainNav_Logo * {
-    fill: #fff!important;
+  @media screen and (max-width: 999px) and (min-width: 768px) {
+    .is-hidden-tablet-only {
+      display: none !important;
+    }
+  }
+  @media screen and (max-width: 999px) {
+    .header .container .logo-wrapper {
+      max-width: none;
+    }
   }
   .nav {
     align-items: stretch;
