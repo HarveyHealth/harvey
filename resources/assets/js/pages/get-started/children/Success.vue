@@ -1,10 +1,8 @@
 <template>
   <div :class="containerClasses">
     <div class="success-wrapper mt-xl_lgH">
-      <img class="success-icon" src="/images/signup/calendar.png" alt="">
-
+      <img class="success-icon" src="https://harvey-production.s3.amazonaws.com/assets/images/signup/calendar.png" alt="">
       <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
-
       <p>
         <span class="confirmation_day">
           Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
@@ -67,7 +65,7 @@ export default {
         'container': true,
       },
       showModal: false,
-      title: 'Your appointment is confirmed!',
+      title: 'Appointment confirmed!',
       note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. Chat with us on this screen if you have any questions.',
       intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
       appointmentDate: this.$root.$data.signup.data.appointment_at,

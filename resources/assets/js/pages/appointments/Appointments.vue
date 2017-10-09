@@ -42,23 +42,23 @@
         :has-card="appointment.patientPayment"
         :editable="editablePatient"
         :email="appointment.patientEmail"
+        :is-visible="visiblePatient"
         :list="patientList"
         :name="patientDisplay"
         :phone="appointment.patientPhone"
         :set-patient="setPatientInfo"
-        :visible="visiblePatient"
       />
 
       <Practitioner
         :editable="editablePractitioner"
         :is-disabled="!appointment.patientId"
+        :is-visible="visiblePractitioner"
         :name="appointment.practitionerName"
         :list="practitionerList"
         :set-practitioner="setPractitionerInfo"
-        :visible="visiblePractitioner"
       />
 
-      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update'">
+      <div class="input__container" v-if="appointment.patientAddress && flyoutMode === 'update' && userType !== 'patient'">
         <label class="input__label">Address</label>
         <p class="input__item" v-html="appointment.patientAddress"></p>
       </div>
@@ -72,6 +72,7 @@
         :day="this.appointment.day"
         :editable="editableDays"
         :is-loading="loadingDays"
+        :is-visible="visibleDays"
         :list="appointment.practitionerAvailability"
         :mode="flyoutMode"
         :set-times="setAvailableTimes"
@@ -91,9 +92,9 @@
       <Duration
         :duration="appointment.duration.value"
         :editable="editableDuration"
+        :is-visible="visibleDuration"
         :list="durationList"
         :set-duration="setDuration"
-        :visible="visibleDuration"
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
@@ -103,10 +104,10 @@
 
       <Status
         :editable="editableStatus"
+        :is-visible="visibleStatus"
         :list="statuses"
         :set-status="setStatus"
         :status="appointment.status"
-        :visible="visibleStatus"
       />
 
       <div class="input__container" v-if="appointment.currentStatus === 'complete'">
@@ -119,6 +120,7 @@
       <Purpose
         :character-limit="purposeCharLimit"
         :editable="editablePurpose"
+        :is-visible="visiblePurpose"
         :on-input="handlePurposeInput"
         :text-value="appointment.purpose"
       />
@@ -410,6 +412,11 @@ export default {
         this.userType === 'patient'
       );
     },
+    visibleDays() {
+      return this.flyoutMode === 'update' ||
+        (this.userType === 'practitioner' && this.appointment.patientName !== '') ||
+        (this.userType !== 'practitioner' && this.appointment.practitionerName !== '');
+    },
     visibleDuration() {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
@@ -423,7 +430,10 @@ export default {
       return this.userType !== 'patient';
     },
     visiblePractitioner() {
-      return this.userType !== 'practitioner';
+      return this.userType !== 'practitioner' && (this.flyoutMode === 'update' || this.userType === 'patient' || this.appointment.patientName !== '');
+    },
+    visiblePurpose() {
+      return this.flyoutMode === 'update' || this.appointment.date !== '';
     },
     visibleUpdateButtons() {
       return this.flyoutMode === 'update' &&
@@ -645,7 +655,7 @@ export default {
         this.appointment.patientPhone = data._patientPhone;
         this.appointment.patientPayment = data._hasCard;
         if (this.userType !== 'patient') this.appointment.patientId = data._patientId;
-        this.patientDisplay = `${this.appointment.patientName} (${this.appointment.patientEmail})`;
+        this.patientDisplay = this.appointment.patientName;
 
         // patient address
         this.appointment.patientAddress = this.setPatientAddress(data);
@@ -726,6 +736,7 @@ export default {
       // collect data for tracking later
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
+      const appointmentPatientEmail = this.appointment.patientEmail;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -787,9 +798,10 @@ export default {
       axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
-          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
+          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
+              email: appointmentPatientEmail,
             });
           }
         }
@@ -901,12 +913,23 @@ export default {
       this.appointment.patientName = data.name;
       this.appointment.patientId = data.id;
       this.appointment.patientPhone = data.phone;
-      this.patientDisplay = `${data.name} (${data.email})`;
+      this.patientDisplay = data.name;
+
+      // Reset dependent inputs
+      this.appointment.practitionerId = '';
+      this.appointment.practitionerName = '';
+      this.appointment.practitionerAvailability = [];
+      this.appointment.availableTimes = [];
+      this.appointment.date = '';
+      this.appointment.date = '';
+      this.appointment.time = '';
 
       // If user is admin, filter practitioners by state licensing regulations
       // First reset the practitioner list
-      this.setupPractitionerList(this.$root.$data.global.practitioners);
-      this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+      Vue.nextTick(() => {
+        this.setupPractitionerList(this.$root.$data.global.practitioners);
+        this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
+      })
     },
 
     // Set practitioner info with data from list object
@@ -964,10 +987,7 @@ export default {
 
     setupPatientList(list) {
       this.patientList = list.map(item => {
-        const display = this.userType === 'patient'
-          ? item.name
-          : `${item.name} (${item.email})`
-        return { value: display, data: item };
+        return { value: item.name, data: item };
       });
     },
 

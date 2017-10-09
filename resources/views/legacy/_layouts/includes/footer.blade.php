@@ -3,11 +3,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <a href="/">
-                @if (Auth::guest())
-                    <img src="/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
-                @else
-                    <img src="/images/logos/main-logo.png" class="footer-logo" alt="Harvey Logo">
-                @endif
+                <img src="https://harvey-production.s3.amazonaws.com/assets/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
             </a>
             <div id="social-icons">
                 <!-- Facebook -->
@@ -34,7 +30,7 @@
             <p class="nav-center">
                 <a href="/" class="nav-item">Home</a>
                 <a href="/about" class="nav-item">About</a>
-                <a href="/lab-tests" class="nav-item">Lab Tests</a>
+                <a href="/lab-tests" class="nav-item">Labs</a>
                 <a href="/blog" class="nav-item">Blog</a>
                 <a href="http://help.goharvey.com" class="nav-item">Help</a>
                 <a href="http://help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>

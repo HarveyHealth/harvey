@@ -62,15 +62,23 @@ return [
                     'updated' => 1929883,
                     'reminder' => 2550321,
                 ],
+                'attachment' => [
+                    'uploaded' => 3338765,
+                ],
             ],
             'patient' => [
                 'appointment' => [
                     'canceled' => 1687742,
+                    'complete' => 3376781,
                     'new' => 1492142,
                     'updated' => 1929884,
                     'reminder' => 1497642,
                 ],
+                'charge' => [
+                    'failed' => 3372981,
+                ],
                 'lab_order' => [
+                    'confirmed' => 3372143,
                     'shipped' => 2741642,
                 ],
                 'lab_test' => [
@@ -103,5 +111,9 @@ return [
     'shippo' => [
         'key' => env('SHIPPO_API_KEY'),
         'test_key' => env('SHIPPO_TEST_API_KEY'),
+    ],
+
+    'google_geocoder' => [
+        'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
     ],
 ];

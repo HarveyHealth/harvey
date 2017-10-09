@@ -101,7 +101,7 @@ class LabOrdersController extends BaseAPIController
 
         $labOrder->update($request->all());
 
-        return $this->baseTransformItem($labOrder)->respond();
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**

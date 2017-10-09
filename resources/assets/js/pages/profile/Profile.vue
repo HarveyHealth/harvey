@@ -17,7 +17,10 @@
             </div>
             <div class="card card-info">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Contact Info</h2>
+                    <h2 class="heading-2">
+                        Contact Info
+                        <span v-if="this.user_id && !loading">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                    </h2>
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
@@ -555,10 +558,16 @@
     .error-text {
         width: 100%;
         text-align: center;
+        .flyout & {
+            text-align: left;
+        }
     }
 
     .v-spinner {
         align-self: center;
-        text-align: left !important;
+        text-align: center !important;
+        position: absolute;
+        z-index: 1000;
+        margin-top: -1.5em;
     }
 </style>

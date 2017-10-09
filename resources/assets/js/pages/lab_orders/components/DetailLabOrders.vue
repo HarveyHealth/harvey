@@ -3,185 +3,352 @@
     :active="$parent.detailFlyoutActive" 
     :heading="flyoutHeading" 
     :on-close="handleFlyoutClose"
-    :back="step == 2 ? prevStep : step == 3 ? prevStep : null"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null"
   >
+
+    <!-- PATIENTS -->
+
     <div v-if="$root.$data.permissions === 'patient'">
-      <div v-if="step == 1">
-      <div class="input__container">
-        <label class="input__label first" for="patient_name">Lab Tests</label>
-        <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
-        <a v-if="status === 'Recommended' || status === 'Confirmed'" v-for="test in testList" href="https://www.goharvey.com/lab-tests" class="input__item link-color" style="width: 100%; float: left;">{{ test.name }}</a>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Doctor</label>
-        <label class="input__item">{{ doctorName }}</label>
-      </div>
-      <div v-if="status !== 'Recommended'" class="input__container">
-        <label class="input__label" for="patient_name">Address</label>
-        <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-        <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
-      </div>
-      <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-        <label class="input__label" for="patient_name">Order Tracking</label>
-        <label class="input__item">{{ shipmentCode }}</label>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Billing</label>
-        <div v-if="status !== 'Recommended'">
-          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-          <label v-if="!oldCard || !oldCard.brand || !oldCard.last4" class="input__item">{{`No credit card on file.`}}</label>
-          <label v-if="oldCard !== null && oldCard !== undefined && oldCard.brand !== undefined && oldCard.last4 !== undefined && oldCard.brand !== null && oldCard.last4 !== null" class="input__item">{{`Charged: $${price}`}}</label>
-        </div>
-        <div v-if="status === 'Recommended' && $root.$data.permissions === 'practitioner'">
-          <label class="input__item">Unpaid</label>
-        </div>
-        <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'">
-          <div v-if="latestCard">
-            <label class="input__item">{{`Billed to: ${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <label class="input__item">{{`Charged: $${price}`}}</label>
-          </div>
-          <div v-if="!latestCard">
-            <router-link to="/settings">Add a credit card to complete shipment.</router-link>
-          </div>
-        </div>
-      </div>
-      <div>
+
+      <div v-if="$parent.step == 1">
+
+        <!-- Doctor -->
+
         <div class="input__container">
-          <label class="input__label" for="patient_name">Status</label>
+          <label class="input__label">Doctor</label>
+          <label class="input__item">{{ doctorName }}</label>
+        </div>
+
+        <!-- Lab Tests -->
+
+        <div class="input__container">
+          <label class="input__label first">Lab Tests</label>
+
+          <!-- Recommended -->
+
+          <div v-if="status === 'Recommended'">
+            <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
+              <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
+                <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox">
+                {{ test.attributes.name }} <i v-if="test.patient" class="fa fa-star" aria-hidden="true"></i>
+              </label>
+            </div>
+          </div>
+
+          <!-- Confirmed -->
+
+          <div v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+            <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+          </div>
+
+          <!-- Shipped or greater -->
+
+          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+          </a>
+
+        </div>
+
+        <!-- Tracking -->
+
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+          <label class="input__label">Master Tracking</label>
+          <label class="input__item">{{ shipmentCode }}</label>
+        </div>
+
+        <!-- Address -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Address</label>
+          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
+          <label class="input__item">{{ city }}, {{ state }} {{ zip }}</label>
+        </div>
+
+        <!-- Card -->
+
+        <!-- Show only if the invoice is unpaid... -->
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="right-column link-color" to="/settings">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
+        </div>
+
+        <!-- Status -->
+
+        <div class="input__container">
+          <label class="input__label">Status</label>
           <label class="input__item">{{ status }}</label>
         </div>
-        <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="inline-centered">
-          <button :disabled="!hasCard && !latestCard" @click="stepThree" class="button">Enter Tracking <i class="fa fa-long-arrow-right"></i></button>
+
+        <!-- Call to Action -->
+
+        <div v-if="status === 'Recommended' && $root.$data.permissions === 'patient'" class="button-wrapper">
+          <button @click="stepThree" :disabled="disabled" class="button">Continue <i class="fa fa-long-arrow-right"></i></button>
         </div>
+
       </div>
-      </div>
-      <div v-if="step == 3">
-        <div class="input__container">
-          <div class="products-side">
+
+      <!-- RECOMMENDED / PAYMENT -->
+      
+      <div v-if="$parent.step == 3">
+
+        <!-- Product List -->
+
+        <div class="input__container checkout-container">
+          <div class="left-column">
             <label class="input__label" for="products">Products</label>
-            <a href="https://www.goharvey.com/lab-tests" class="sub-items link-color" v-for="test in testList">{{ test.name }}</a>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</span>
           </div>
-          <div class="total-side">
+          <div class="right-column">
             <label class="input__label" for="total">Total</label>
-            <span class="sub-items" v-for="test in testList">${{ test.price }}</span>
+            <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
+          </div>
+          <div class="left-column">
+            <label class="input__label discount" for="totals">Discount (20%)</label>
+            <label class="input__label total" for="totals">Total</label>
+          </div>
+          <div class="right-column">
+            <label class="input__label discount" for="price">$20.00</label>
+            <label class="input__label total" for="price">${{ patientPrice }}</label>
           </div>
         </div>
+
+        <!-- Address -->
+
         <div class="input__container">
-          <div class="products-side">
-            <label class="input__label" for="totals">Total</label>
-          </div>
-          <div class="total-side">
-            <label class="input__label" for="price">${{ price }}</label>
-          </div>
+          <label class="input__label">Address</label>
+            <input placeholder="Address 1" v-model="address1" class="input--text address" type="text">
+            <input placeholder="Address 2" v-model="address2" class="input--text address" type="text">
+            <input placeholder="City" v-model="newCity" class="input--text city" type="text">
+            <span class="custom-select state">
+              <select @change="updateState($event)">
+                  <option v-for="state in stateList" :data-id="state">{{ state }}</option>
+              </select>
+            </span>
+            <input placeholder="Zip Code" v-model="newZip" class="input--text zip" type="text">
+
+            <label v-if="!validZip" class="input__label">Please enter a valid zip code.</label>
         </div>
+
+        <!-- Card -->
+
         <div class="input__container">
-          <label class="input__label" for="patient_name">Address</label>
-            <input placeholder="Enter address 1" v-model="address1" class="input--text" type="text">
-            <input placeholder="Enter address 2" v-model="address2" class="input--text" type="text">
-            <input placeholder="Enter city" v-model="newCity" class="input--text" type="text">
-            <input placeholder="Enter zip" v-model="newZip" class="input--text" type="text" style="width: 50%; float: left; margin-right: 5%;">
-            <span class="custom-select" style="width: 45%; float:left;">
-                <select @change="updateState($event)">
-                    <option v-for="state in stateList" :data-id="state">{{ state }}</option>
-                </select>
-              </span>
-            <label v-if="!validZip" class="input__label" style="color: #EDA1A6; margin-top: 70px; text-align: center;">Please enter a valid zip code.</label>
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+              <span v-else class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="right-column link-color" :to="'/settings'">Edit Card</router-link>
         </div>
-        <div class="input__container">
-          <label class="input__label" for="billing">Billing</label>
-            <label class="input__item sub-billing1">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
-            <router-link class="sub-billing2 link-color" to="/settings">Update Card</router-link>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-else class="input__item error-text">Invoice not paid.</span>
+            </div>
         </div>
-        <div class="inline-centered">
-          <button v-if="paid[id] != true" class="button" :disabled="!address1 || !newCity || !newState || !newZip" @click="patientLabUpdate()">Confirm Payment</button>
-          <button v-if="paid[id] == true" class="button" :disabled="paid[id]" @click="patientLabUpdate()">Already Paid</button>
+
+        <!-- Call to Action -->
+
+        <div class="button-wrapper">
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+
       </div>
-    </div>
+
+    </div> <!-- END // PATIENT ONLY -->
+
+    <!-- ADMINS/PRACTITIONERS -->
+
     <div v-if="$root.$data.permissions !== 'patient'">
-      <div v-if="step === 1">
+
+      <div v-if="$parent.step === 1">
+
+        <!-- Client -->
+
         <div class="input__container">
-          <label class="input__label" for="patient_name">Lab Tests</label>
+          <label class="input__label">Client</label>
+          <span class="input__item">{{ patientName }}</span>
+        </div>
+
+        <!-- Doctor -->
+
+        <div class="input__container">
+          <label class="input__label">Doctor</label>
+          <span class="input__item">{{ doctorName }}</span>
+        </div>
+
+        <!-- Lab Tests -->
+
+        <div class="input__container">
+          <label class="input__label">Lab Tests</label>
           <div v-for="test in testList">
-            <a v-if="status === 'Recommended' || status === 'Confirmed'" href="https://www.goharvey.com/lab-tests" class="input__label lab-test link-color">{{ test.name }}</a>
-            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`http://printtracking.fedex.com/trackOrder.do?gtns=${test.shipment_code}`" class="input__label link-color">{{ test.name }}</a>
+
+            <!-- Recommended or Confirmed -->
+            
+            <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+            </div>
+
+            <!-- Shipped or greater -->
+            
+            <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            </a>
+            
             <span class="custom-select">
-                <select @change="updateTest($event, test)">
+                <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
                     <option v-for="current in test.status">{{ current }}</option>
                 </select>
             </span>
           </div>
         </div>
-        <div class="input__container">
-          <label class="input__label" for="patient_name">Doctor</label>
-          <span class="input__item">{{ doctorName }}</span>
-        </div>
-        <div class="input__container">
-          <label class="input__label" for="patient_name">Address</label>
-          <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-          <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-          <label class="input__item">{{ zip && city && state && addressOne ? '' : 'Shipping Address' }}</label>
-        </div>
+
+        <!-- Master Tracking -->
+
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label" for="patient_name">Master Tracking</label>
-          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color">{{ shipmentCode }}</a>
+          <label class="input__label">Master Tracking</label>
+          <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank">
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}
+          </a>
         </div>
+
+        <!-- Address -->
+
         <div v-if="status !== 'Recommended'" class="input__container">
-          <label class="input__label" for="patient_name">Billing Info</label>
-          <div v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand != undefined && oldCard.last4 != undefined">
-            <label class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
-            <label class="input__item">{{`Charged: $${price}`}}</label>
+          <span class="input__label">Address</span>
+          <div class="left-column">
+            <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
+            <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
+            <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
           </div>
-          <label v-if="$root.$data.permissions !== 'patient' && status !== 'Recommended' && oldCard !== null && oldCard.brand == undefined && oldCard.last4 == undefined"
-            class="input__item">{{`No credit card on file.`}}</label>
-          <label v-if="$root.$data.permissions !== 'patient' && status === 'Recommended'" class="input__item">Not Paid</label>
+          <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
         </div>
+
+        <!-- Card -->
+
         <div class="input__container">
-          <label class="input__label" for="patient_name">Status</label>
+          <label class="input__label">Card</label>
+            <div class="left-column">
+              <span v-if="$parent.loading"><em>Loading cards...</em></span>
+              <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
+              <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
+            </div>
+            <!-- This should always show, don't add conditional statements -->
+            <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
+        </div>
+
+        <!-- Invoice -->
+
+        <div v-if="status !== 'Recommended'" class="input__container">
+          <label class="input__label">Invoice</label>
+            <div class="left-column">
+              <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+              <span v-if="paid" class="input__item color-good">{{`Charged: $${price}`}}</span>
+              <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
+            </div>
+        </div>
+
+        <!-- Status -->
+
+        <div class="input__container">
+          <label class="input__label">Status</label>
           <span class="input__item">{{ status }}</span>
         </div>
+
+        <!-- Call to Action -->
+
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateTests()">Update Order</button>
-          <button v-if="status === 'Confirmed'" class="button" @click="nextStep()">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+          <button v-if="status !== 'Confirmed' && status !== 'Recommended'" class="button" @click="updateLabOrder">Update Order</button>
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking <i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
         </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+
       </div>
     </div>
-    <div v-if="step == 2">
-      <div v-for="test in testList">
+
+      <!-- FLYER STEP #2 -->
+
+      <div v-if="$parent.step == 2">
+
+        <div v-for="test in testList">
+          <div class="input__container">
+            <label class="input__label">{{ test.name }}</label>
+            <input v-model="shippingCodes[test.test_id]" class="input--text" type="text">
+          </div>
+        </div>
+
+        <!-- Master Tracking -->
+
         <div class="input__container">
-          <label class="input__label" for="patient_name">{{ test.name }}</label>
-          <input v-model="shippingCodes[test.test_id]" class="input--text" type="text">
+          <label class="input__label">Master Tracking</label>
+          <input v-model="masterTracking" class="input--text" type="text">
         </div>
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Master Tracking</label>
-        <input v-model="masterTracking" class="input--text" type="text">
-      </div>
-      <div class="input__container">
-        <label class="input__label" for="patient_name">Address</label>
-        <label class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</label>
-        <label class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</label>
-        <label class="input__item">{{ zip && city && state && addressOne ? '' : 'No Address' }}</label>
-      </div>
-      <div class="inline-centered">
-        <button class="button" @click="markedShipped()" :disabled="masterTracking.length == 0">Mark as Shipped</button>
-      </div>
+
+        <!-- Address -->
+
+        <div class="input__container">
+          <span class="input__label">Address</span>
+          <div class="left-column">          
+            <span class="input__item">{{ addressOne }} {{ addressTwo ? addressTwo : '' }}</span>
+            <span class="input__item">{{ zip && city && state ? `${city}, ${state} ${zip}` : `` }}</span>
+            <span class="input__item left-column error-text">{{ zip && city && state && addressOne ? '' : 'No address on file.' }}</span>
+          </div>
+          <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
+        </div>
+
+        <!-- Mark as Shipped -->
+
+        <div class="button-wrapper">
+          <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
+        </div>
+
+        <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
+
     </div>
-    </div>
+
+    <!-- MODAL -->
+
     <Modal :active="invalidModalActive" :onClose="closeInvalidCC">
       <div class="inline-centered">
         <h1>Invalid Credit Card</h1>
         <p>The credit card you entered is invalid.</p>
-        <div class="inline-centered">
+        <div class="button-wrapper">
           <button @click="closeInvalidCC" class="button">Try again</button>
         </div>
       </div>
     </Modal>
+
   </Flyout>
 </template>
 
 <script>
+  import Q from 'q'
   import Flyout from '../../../commons/Flyout.vue'
+  import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
   import Modal from '../../../commons/Modal.vue'
   import SelectOptions from '../../../commons/SelectOptions.vue'
   import {
@@ -195,7 +362,8 @@
     components: {
       Flyout,
       SelectOptions,
-      Modal
+      Modal,
+      ClipLoader
     },
     data() {
       return {
@@ -209,8 +377,8 @@
         lastName: '',
         month: '',
         year: '',
+        disabled: true,
         masterTracking: '',
-        step: 1,
         address1: '',
         address2: '',
         newCity: '',
@@ -219,7 +387,10 @@
         cardNumber: '',
         cardExpiry: '',
         cardCvc: '',
-        paid: {},
+        loading: false,
+        patientPrice: 0,
+        patientLabTests: {},
+        labPatients: {},
         postalCode: '',
         invalidCC: false,
         invalidModalActive: false,
@@ -229,10 +400,44 @@
       }
     },
     methods: {
+      updatePatientTests(e, test) {
+        this.patientTestList[test.attributes.name].checked = !test.checked;
+        if (this.patientTestList[test.attributes.name].checked) {
+          this.labPatients[test.attributes.name] = test;
+        } else {
+          delete this.labPatients[test.attributes.name];
+        }
+        let price = 0;
+        Object.values(this.labPatients).forEach(e => {
+          price += eval(e.attributes.price);
+        })
+        this.patientPrice = `${price}.00`;
+        this.disabled = _.isEmpty(this.labPatients) ? true : false
+      },
       handleFlyoutClose() {
-        this.step = 1;
+        this.$parent.step = 1;
+        this.loading = false;
         this.$parent.selectedRowData = null;
         this.$parent.detailFlyoutActive = !this.$parent.detailFlyoutActive
+        this.address1 = ''
+        this.address2 = ''
+        this.newCity = ''
+        this.newZip = ''
+        this.newState = ''
+        this.labPatients = {}
+        this.$parent.setupLabData();
+        if (this.$root.$data.permissions !== 'patient') {
+          let status = {
+            0: "Recommended",
+            1: "Confirmed",
+            2: "Shipped",
+            3: "Received",
+            4: "Mailed",
+            5: "Processing",
+            6: "Complete"
+          }
+          this.$parent.handleFilter(status[this.$parent.activeFilter], this.$parent.activeFilter);
+        }
       },
       updateStatus(e) {
         this.selectedStatus = e.target.value;
@@ -240,18 +445,21 @@
       updateTest(e, object) {
         this.selectedShipment[object.test_id] = e.target.value;
       },
+      isEmpty(obj) {
+        return _.isEmpty(obj);
+      },
       updateState(e) {
         this.newState = e.target.value
       },
       stepThree() {
-        this.step = 3;
+        this.$parent.step = 3;
         this.flyoutHeading = 'Confirm Payment';
       },
       nextStep() {
-        this.step++;
+        this.$parent.step++;
       },
       prevStep() {
-        this.step = 1;
+        this.$parent.step = 1;
       },
       closeInvalidCC() {
         this.invalidCC = false;
@@ -261,29 +469,85 @@
         this.month = e.target.value
       },
       patientLabUpdate() {
-        this.paid[this.$props.rowData.id] = true;
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+        this.loading = true;
+        let promises = [];
+        _.each(this.patientTestList, (e, i, a) => {
+            if (e.patient && !e.checked) {
+              let id = null;
+              this.$props.rowData.test_list.forEach(ele => {
+                if (e.attributes.name === ele.name) {
+                  id = ele.test_id;
+                }
+              })
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                status: 'canceled'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
+            } else if (e.patient && e.checked) {
+              let id = null;
+              this.$props.rowData.test_list.forEach(ele => {
+                if (e.attributes.name === ele.name) {
+                  id = ele.test_id;
+                }
+              })
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${id}`, {
+                status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
+            } else if (!e.patient && e.checked) {
+              promises.push(axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
+                lab_order_id: Number(this.$props.rowData.id),
+                sku_id: Number(e.id),
+                status: 'confirmed'
+              })
+              .then(resp => {
+                this.$root.$data.global.labTests.push(resp.data.data);
+              }))
+            }
+        })
+        return Q.allSettled(promises).then(() => {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             address_1: this.address1,
             address_2: this.address2,
             city: this.newCity,
             state: this.newState,
             zip: this.newZip
           })
-          .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-                })
-              } else if (this.$props.rowData.completed_at === 'Confirmed') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped',
-                  shipment_code: this.shippingCodes[e.test_id],
-                })
-              } else if (this.$props.rowData.completed_at === 'Recommended') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'confirmed'
-                })
+          .then((respond) => {
+            let status = _.capitalize(respond.data.data.attributes.status);
+            let number = _.size(this.labPatients);
+            this.$root.$data.global.labOrders.forEach((e, i) => {
+              if (e.id === this.$props.rowData.id) {
+                this.$root.$data.global.labOrders[i].attributes.status = status;
+                this.$root.$data.global.labOrders[i].attributes.address_1 = this.address1;
+                this.$root.$data.global.labOrders[i].attributes.address_2 = this.address2;
+                this.$root.$data.global.labOrders[i].attributes.city = this.newCity;
+                this.$root.$data.global.labOrders[i].attributes.state = this.newState;
+                this.$root.$data.global.labOrders[i].attributes.zip = this.newZip;
+              }
+            })
+            this.$parent.currentData.forEach((e, i) => {
+              if (e.data.id === this.$props.rowData.id) {
+                this.$parent.currentData[i].data.completed_at = status;
+                this.$parent.currentData[i].data.address_1 = this.address1;
+                this.$parent.currentData[i].data.address_2 = this.address2;
+                this.$parent.currentData[i].data.city = this.newCity;
+                this.$parent.currentData[i].data.state = this.newState;
+                this.$parent.currentData[i].data.zip = this.newZip;
+                this.$parent.currentData[i].data.number_of_tests = number;
+                this.$parent.currentData[i].values[5] = status
+                this.$parent.currentData[i].values[4] = number
               }
             })
             this.$parent.notificationMessage = "Successfully updated!";
@@ -292,22 +556,40 @@
             setTimeout(() => this.$parent.notificationActive = false, 3000);
             this.handleFlyoutClose()
           })
+        })
       },
       markedShipped() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
+        this.loading = true;
+        let promises = [];
+        this.$props.rowData.test_list.forEach((e) => {
+            promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              status: 'shipped'
+            })
+            .then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
+        })
+        return Q.allSettled(promises).then(() => {
+          axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
             shipment_code: this.masterTracking,
-            address_1: this.$props.rowData.address_1,
-            address_2: this.$props.rowData.address_2,
-            city: this.$props.rowData.city,
-            state: this.$props.rowData.state,
-            zip: this.$props.rowData.zip
           })
           .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-                })
+            let status = _.capitalize(respond.data.data.attributes.status);
+            this.$root.$data.global.labOrders.forEach((e, i) => {
+              if (e.id === this.$props.rowData.id) {
+                this.$root.$data.global.labOrders[i].attributes.status = status;
+                this.$root.$data.global.labOrders[i].attributes.shipment_code = respond.data.data.attributes.shipment_code;
+              }
+            })
+            this.$parent.currentData.forEach((e, i) => {
+              if (e.data.id === this.$props.rowData.id) {
+                this.$parent.currentData[i].data.completed_at = status;
+                this.$parent.currentData[i].values[5] = status
+                this.$parent.currentData[i].data.shipment_code = respond.data.data.attributes.shipment_code;
               }
             })
             this.$parent.notificationMessage = "Successfully updated!";
@@ -316,79 +598,77 @@
             setTimeout(() => this.$parent.notificationActive = false, 3000);
             this.handleFlyoutClose()
           })
+        })
       },
       updateLabOrder() {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-            shipment_code: this.$props.rowData.shipment_code,
-            address_1: this.$props.rowData.address_1 ? this.$props.rowData.address_1 : this.address1,
-            address_2: this.$props.rowData.address_2 ? this.$props.rowData.address_2 : this.address2,
-            city: this.$props.rowData.city ? this.$props.rowData.city : this.newCity,
-            state: this.$props.rowData.state ? this.$props.rowData.state : this.newState,
-            zip: this.$props.rowData.zip ? this.$props.rowData.zip : this.newZip
-          })
-          .then(respond => {
-              this.$props.rowData.test_list.forEach((e) => {
-              if (this.selectedShipment[Number(e.test_id)] != undefined) {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-                })
-              } else if (this.$props.rowData.completed_at === 'Confirmed') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'shipped',
-                  shipment_code: this.shippingCodes[e.test_id],
-                })
-              } else if (this.$props.rowData.completed_at === 'Recommended') {
-                axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                  status: 'confirmed'
-                })
-              }
-            })
-            this.$parent.notificationMessage = "Successfully updated!";
-            this.$parent.notificationActive = true;
-            this.$parent.selectedRowData = null;
-            setTimeout(() => this.$parent.notificationActive = false, 3000);
-            this.handleFlyoutClose()
-          })
-      },
-      updateTests() {
-        this.$props.rowData.test_list.forEach((e) => {
-          if (this.selectedShipment[Number(e.test_id)] != undefined) {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+        let promises = []
+          this.$props.rowData.test_list.forEach((e) => {
+            if (this.selectedShipment[Number(e.test_id)] != undefined) {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: this.selectedShipment[Number(e.test_id)].toLowerCase()
-              })
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    console.log('HIT')
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                    console.log(this.$root.$data.global.labTests[idx])
+                  }
+                })
+              }))
             } else if (this.$props.rowData.completed_at === 'Confirmed') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
                 status: 'shipped',
                 shipment_code: this.shippingCodes[e.test_id],
-              })
-            } else if (this.$props.rowData.completed_at === 'Recommended') {
-              axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
-                status: 'confirmed'
-              })
-            }
-        })
-        axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
-          .then(response => {
-            this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-              e['included'] = response.data.included[i]
-              return e;
-            })
-            this.$root.$data.global.loadingLabOrders = false
-            axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
-              .then(response => {
-                this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                  e['included'] = response.data.included[i]
-                  return e;
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
                 })
-                this.$root.$data.global.loadingLabTests = false
-                this.$props.reset();
-              })
+              }))
+            } else if (this.$props.rowData.completed_at === 'Recommended') {
+              promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
+                status: 'confirmed'
+              }).then(resp => {
+                this.$root.$data.global.labTests.forEach((ele, idx) => {
+                  if (Number(ele.id) === Number(e.test_id)) {
+                    this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
+                  }
+                })
+              }))
+            }
           })
-        this.$parent.notificationMessage = "Successfully updated!";
-        this.$parent.notificationActive = true;
-        this.$parent.selectedRowData = null;
-        setTimeout(() => this.$parent.notificationActive = false, 3000);
-        this.handleFlyoutClose();
+          return Q.allSettled(promises).then(() => {
+            axios.get(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}?include=user,patient,invoice`)
+            .then(respond => {
+              let user = respond.data.included.filter(e => e.type === 'users')
+              let patient = respond.data.included.filter(e => e.type === 'patients')
+              let invoices = respond.data.included.filter(e => e.type === 'invoices')
+              this.$root.$data.global.labOrders.forEach((e, i) => {
+                if (e.id === this.$props.rowData.id) {
+                  this.$root.$data.global.labOrders[i] = _.extend(respond.data.data, {
+                      user: user[0],
+                      patient: patient[0],
+                      invoices: invoices[0] || null,
+                    });
+                }
+              })
+              this.$parent.currentData.forEach((e, i) => {
+                if (e.data.id === this.$props.rowData.id) {
+                  this.$parent.currentData[i] = _.extend(respond.data.data, {
+                      user: user[0],
+                      patient: patient[0],
+                      invoices: invoices[0] || null,
+                    });
+                }
+              })
+              this.$parent.notificationMessage = "Successfully updated!";
+              this.$parent.notificationActive = true;
+              this.$parent.selectedRowData = null;
+              setTimeout(() => this.$parent.notificationActive = false, 3000);
+              this.handleFlyoutClose()
+            })
+        })
       },
     },
     computed: {
@@ -397,8 +677,16 @@
       },
       doctorName() {
         return this.$props.rowData ?
-          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}` :
+          `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}, ND` :
           ''
+      },
+      patientName() {
+        return this.$props.rowData ?
+          `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
+          ''
+      },
+      paid() {
+        return this.$props.rowData ? this.$props.rowData.paid : false;
       },
       validZip() {
         if (this.zip != '') {
@@ -408,7 +696,7 @@
         }
       },
       id() {
-        return this.$props.id ? this.$props.rowData.id : ''
+        return this.$props.rowData ? this.$props.rowData.id : ''
       },
       status() {
         return this.$props.rowData ? this.$props.rowData.completed_at : ''
@@ -431,8 +719,11 @@
       zip() {
         return this.$props.rowData ? this.$props.rowData.zip : ''
       },
+      patientUser() {
+        return this.$props.rowData ? this.$props.rowData.patient_user_id : null;
+      },
       stateList() {
-        return ["Enter State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
+        return ["State", "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]
       },
       oldCard() {
         if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
@@ -464,15 +755,50 @@
       },
       testList() {
         if (!this.$props.rowData) return []
-        this.$props.rowData.test_list = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
+        let results = this.$props.rowData && this.$props.rowData.test_list.length == 0 ? [{
           name: "No Lab Orders",
           cancel: true,
           status: ['No Order']
-        }] : this.$props.rowData.test_list
-        return this.$props.rowData.test_list
+        }] : this.$props.rowData.test_list.filter(e => e.original_status !== 'canceled')
+        return results
+      },
+      patientTestList() {
+        if (!this.$props.rowData) return {}
+        let obj = {};
+        this.$props.rowData.test_list.forEach(e => {
+          obj[e.name] = e.test_id;
+        })
+        let objs = _.map(this.$root.$data.labTests, e => {
+          e.patient = obj[e.attributes.name] ? true : false;
+          e.checked = false;
+          e.test_id = obj[e.attributes.name];
+          return e;
+        })
+        let returns = {}
+        objs.forEach(e => {
+          returns[e.attributes.name] = e;
+        })
+        return returns;
       },
       latestCard() {
         return this.$root.$data.global.creditCards.slice(-1).pop();
+      }
+    },
+    watch: {
+      id(old, latest) {
+        if (old !== latest) {
+          this.masterTracking = ''
+          this.address1 = ''
+          this.address2 = ''
+          this.newCity = ''
+          this.newZip = ''
+          this.newState = ''
+          this.selectedShipment = {}
+          this.shippingCodes = {}
+          this.patientLabTests = {}
+          this.labPatients = {}
+          this.disabled = true
+        }
       }
     }
   }

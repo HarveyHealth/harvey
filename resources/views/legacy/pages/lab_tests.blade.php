@@ -2,13 +2,21 @@
 @section('page_title','Lab Tests')
 @section('main_content')
 
-<section class="hero">
-    <div class="hero-background"></div>
-    <div class="hero-body container">
-        <header class="content has-text-centered">
-            <h1 class="title is-3 page-title">Lab Tests</h1>
-            <p class="copy-has-max-width subtitle is-5 ">Our physicians rely on specialized, evidence-based clinical laboratory tests to help validate and enhance the credibility of their proposed treatment plans.</p>
-        </header>
+<section class="hero hero-background">
+    <div id="hero-video-container">
+        <video id="hero-video" autoplay loop muted></video>
+        <div id="video-cover"></div>
+        <div id="overlay"></div>
+    </div>
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-7 is-6-desktop">
+                    <h1 class="title is-1">Home Lab Testing</h1>
+                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and proposed treatment plans.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -44,7 +52,7 @@
         <div class="has-text-centered">
             <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
             <div class="button-wrapper">
-                <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
             </div>
         </div>
     </div>

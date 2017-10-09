@@ -38,6 +38,7 @@ class LabTestPolicy
      */
     public function create(User $user)
     {
+        return true; //WIP we need to check if lab_order_id belongs to Patient
         return $user->isAdminOrPractitioner();
     }
 

@@ -52,9 +52,6 @@
               <td width="25%" class="color-good">${{ test.attributes.price }}</td>
             </tr>
           </table>
-  <!--         <ul>
-            <li v-for="test in selectedTests">{{ test.attributes.name }}</li>
-          </ul> -->
           <div class="button-wrapper">
             <button class="button button--cancel" @click="modalClose">Cancel</button>
             <button class="button" @click="createLabOrder">Yes, Confirm</button>
@@ -98,7 +95,7 @@ export default {
       testNamesInList: [],
       selectedClientName: '',
       selectedDoctorName: '',
-      doctorList:this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
+      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
     }
   },
@@ -189,8 +186,10 @@ export default {
                     })
                 })
             })
-        this.handleFlyoutClose();
-        this.modalClose();
+            .then(() => {
+              this.handleFlyoutClose();
+              this.modalClose();
+            })
     }
   },
   computed: {
