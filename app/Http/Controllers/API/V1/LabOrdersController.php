@@ -110,6 +110,8 @@ class LabOrdersController extends BaseAPIController
             }
         }
 
+        unset($inputData['discount_code']);
+
         $labOrder->update($inputData);
 
         return $this->baseTransformItem($labOrder, request('include'))->respond();

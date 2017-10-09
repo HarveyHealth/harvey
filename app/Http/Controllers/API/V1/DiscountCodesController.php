@@ -32,8 +32,7 @@ class DiscountCodesController extends BaseAPIController
 
         $code = $request->input('discount_code');
         $applies_to = $request->input('applies_to');
-        // $user = auth()->user();
-        $user = \App\Models\User::find(4);
+        $user = auth()->user();
 
         $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, $user);
 
