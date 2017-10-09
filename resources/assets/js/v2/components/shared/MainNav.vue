@@ -4,7 +4,7 @@
       <div class="nav-left">
         <a href="/" class="nav-item">
           <div class="logo-wrapper">
-            <!-- <SvgIcon class="MainNav_Logo"/> -->
+            <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
           </div>
         </a>
         <div class="nav-items">
@@ -24,7 +24,52 @@
 </template>
 
 <style>
-  .header { background: black;}
+  .harvey-text {
+    fill: #fff !important;
+  }
+  .nav {
+    align-items: stretch;
+    background-color: #fff;
+    display: flex;
+    min-height: 3.5rem;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+  }
+  .nav > .container {
+    align-items: stretch;
+    display: flex;
+    min-height: 3.5rem;
+    width: 100%;
+  }
+  .nav-left,
+  .nav-right {
+    align-items: stretch;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+  .nav-left {
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .nav-right {
+    justify-content: flex-end;
+  }
+  .nav-item {
+    align-items: center;
+    display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 1rem;
+    justify-content: center;
+    line-height: 1.5;
+    padding: 0.5rem 0.75rem;
+  }
+
 </style>
 
 <script>
