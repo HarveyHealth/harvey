@@ -1,7 +1,7 @@
 <template>
   <SlideIn :delay="400">
     <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm max-width-xxl margin-0a">
-      <div class="Row-lg align-middle gutter-md">
+      <div class="Row-lg align-middle">
         <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-xl">
           <div class="signup-aside-icon-row">
             <span><svg><use xlink:href="#apple" /></svg></span>

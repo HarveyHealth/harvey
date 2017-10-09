@@ -1,5 +1,5 @@
 <template>
-  <div class="space-children-lg">
+  <div class="space-children-sm">
     <div class="block font-centered margin-0a max-width-md">
       <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
