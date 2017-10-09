@@ -111,11 +111,11 @@
         :status="appointment.status"
       />
 
-      <div class="input__container" v-if="appointment.currentStatus === 'complete'">
+      <div class="input__container" v-if="appointment.currentStatus === 'complete'" data-test="section_billing">
         <label class="input__label">Billing Info</label>
         <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
         <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
-        <div class="input__item">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
+        <div class="input__item" data-test="appointment_amount_charged">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
       <Purpose

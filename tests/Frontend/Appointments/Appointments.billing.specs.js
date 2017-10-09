@@ -79,4 +79,39 @@ describe('Appointments (Billing):', () => {
       });
     });
   });
+
+  context('When a user views a completed appointment', () => {
+    let mockAppointmentData = JSON.parse(JSON.stringify(mockData));
+    // The appointment must be in the past for the filters to apply properly
+    mockAppointmentData.attributes.appointment_at.date = '2017-09-10 13:30:00.000000';
+    mockAppointmentData.attributes.status = 'complete';
+    mockAppointmentData.attributes.duration_in_minutes = '60'; // currently expects $150 charge
+    Laravel.user.card_brand = 'Visa';
+    Laravel.user.card_last4 = '5555';
+
+    const App = AppStub(Appointments, 'Appointments');
+    const _Appointments = App.vm.$children[0];
+
+    App.vm.$data.global.appointments.push(mockAppointmentData);
+    App.vm.$data.global.loadingAppointments = false;
+
+    it('the flyout billing section will render', done => {
+      Vue.nextTick(() => {
+        // Table needs to be filtered to display a past, completed appointment
+        App.find('.filters button + button').click();
+        Vue.nextTick(() => {
+          App.find('table .cell-wrap').click();
+          Vue.nextTick(() => {
+            expect(App.contains('[data-test="section_billing"]')).to.equal(true);
+            done();
+          });
+        });
+      });
+    });
+
+    it('the charged amount will correspond to the duration of the appointment', done => {
+      expect(App.$('[data-test="appointment_amount_charged"]').text()).to.equal('Charged: $150');
+      done();
+    });
+  });
 });
