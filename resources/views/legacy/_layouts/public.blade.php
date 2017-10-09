@@ -35,7 +35,7 @@
     </script>
 
     <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
-    <script type="text/javascript" async>
+    <script type="text/javascript">
         if (document.body.className.match('home')) {
             var detectMobile = window.matchMedia('(max-width: 768px)').matches;
             var detectIE = false;
