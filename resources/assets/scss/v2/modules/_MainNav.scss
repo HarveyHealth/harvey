@@ -85,3 +85,176 @@
     }
   }
 }
+
+// Header
+
+.header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
+  height: 60px;
+  overflow: hidden;
+  position: fixed;
+  box-shadow: none;
+
+  &.is-inverted {
+    background-color: transparent;
+    box-shadow: none;
+
+    .button {
+
+      // Inverted, outlined
+
+      &.is-outlined {
+        color: #fff;
+        background-color: transparent;
+        @include border-color(#fff);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: transparent;
+          @include border-color(#fff);
+          opacity: .7;
+        }
+      }
+
+      // Inverted, not outlined
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: darken($tertiary, 5%);
+          @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+
+    .logo-wrapper {
+      .harvey-text {
+        fill: #fff !important;
+      }
+    }
+
+  } // End inverted
+
+  &:not(.is-inverted) {
+
+    .button {
+
+      // Outlined, not inverted
+
+      &.is-outlined {
+          color: $tertiary;
+          background-color: transparent;
+          @include border-color($tertiary);
+          &:hover,
+          &:active,
+          &:focus {
+            color: darken($tertiary, 5%);
+            background-color: transparent;
+            @include border-color(darken($tertiary, 5%));
+            opacity: .6;
+          }
+      }
+
+      // Not outlined, not inverted
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+            color: #fff;
+            background-color: darken($tertiary, 5%);
+            @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+  } // End not inverted
+
+  .container {
+
+    height: 60px;
+    max-width: 1152px;
+    @include margin(0 auto);
+    + mobile, + tablet {
+      @include padding(0 20px);
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+    }
+
+    .logo-wrapper {
+      @media screen and (max-width: 999px) {
+        max-width: 30px;
+      }
+      svg {
+        width: 150px;
+        height: 60px;
+        &.harvey-mark {
+          width: 150px;
+          @include margin(2px null null null);
+          height: 43px;
+        }
+      }
+    }
+
+    .nav-items {
+
+      display: block;
+      @include padding(.5em);
+
+      .nev-left & {
+        text-align: left;
+        float: left;
+      }
+
+      .nev-right & {
+        text-align: right;
+        float: right;
+      }
+      
+      a {
+
+        font-size: 17px;
+        display: inline-block;
+        @include padding(.35em 1em);
+        @include margin(null .2em null null);
+
+        &.link {
+          font-size: 18px;
+          color: $tertiary;
+          @include margin(0);
+          @include padding(.4em .6em);
+          &:hover{
+            opacity: .7;
+          }
+        }
+      }
+    }
+
+  }
+  &.is-inverted {
+    .container {
+      .nav-items{
+        a.link {
+          color: #fff;
+          &:hover {
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
+}
