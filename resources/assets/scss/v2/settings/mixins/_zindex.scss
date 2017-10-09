@@ -1,0 +1,3 @@
+@mixin zindex($item) {
+  z-index: index($z-list, $item);
+}

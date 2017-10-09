@@ -1,0 +1,7 @@
+.color-white {
+  &, #{$global-copy-elements} {
+    color: $color-white;
+  }
+}
+
+$tertiary: #82BEF2;

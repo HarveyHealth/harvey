@@ -1,0 +1,269 @@
+.MainNav--conditions {
+  position: fixed;
+
+  .MainNav_Wrapper {
+    background: $color-fade-darker;
+    bottom: 0;
+    left: 0;
+    display: none;
+    padding-top: $space-lg;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+
+  &.is-open {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+
+    .MainNav_Wrapper {
+      display: block;
+    }
+  }
+
+  @include zindex('MainNav');
+
+  a {
+    color: $color-white !important;
+    display: block;
+    font-size: $font-xl;
+    font-weight: $font-normal;
+    padding: $space-lg 0;
+    text-align: center;
+  }
+
+  .menu {
+    @extend %reset-button;
+
+    color: $color-white;
+    padding: $space-md;
+    position: fixed;
+    transition: color 200ms ease-in-out;
+    top: 0;
+    right: 0;
+
+    @include zindex('MainNav-menu');
+  }
+
+  @include query(md) {
+    &, .MainNav_Wrapper {
+      background: transparent;
+      display: block !important;
+      padding-bottom: $space-sm;
+      position: static;
+      text-align: center;
+    }
+    .MainNav_Wrapper a {
+      display: inline;
+      font-size: $font-lg;
+      font-weight: $font-thin;
+      padding: $space-md;
+    }
+    .menu {
+      display: none;
+    }
+  }
+}
+
+.MainNav--questions {
+  padding: $space-sm;
+  text-align: center;
+
+  .MainNav_Logo {
+    color: #5F7278;
+    width: 100px;
+    height: 45px;
+  }
+
+  @include query(lg) {
+    padding: $space-md;
+    text-align: left;
+
+    .MainNav_Logo {
+      width: 150px;
+    }
+  }
+}
+
+.header.is-inverted {
+  .logo-wrapper {
+    .MainNav_Logo {
+      color: #fff;
+    }
+  }
+}
+
+// Header
+
+.header {
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 101;
+  height: 60px;
+  overflow: hidden;
+  position: fixed;
+  box-shadow: none;
+
+  &.is-inverted {
+    background-color: transparent;
+    box-shadow: none;
+
+    .button {
+
+      // Inverted, outlined
+
+      &.is-outlined {
+        color: #fff;
+        background-color: transparent;
+        @include border-color(#fff);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: transparent;
+          @include border-color(#fff);
+          opacity: .7;
+        }
+      }
+
+      // Inverted, not outlined
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+          color: #fff;
+          background-color: darken($tertiary, 5%);
+          @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+
+    .logo-wrapper {
+      .harvey-text {
+        fill: #fff !important;
+      }
+    }
+
+  } // End inverted
+
+  &:not(.is-inverted) {
+
+    .button {
+
+      // Outlined, not inverted
+
+      &.is-outlined {
+          color: $tertiary;
+          background-color: transparent;
+          @include border-color($tertiary);
+          &:hover,
+          &:active,
+          &:focus {
+            color: darken($tertiary, 5%);
+            background-color: transparent;
+            @include border-color(darken($tertiary, 5%));
+            opacity: .6;
+          }
+      }
+
+      // Not outlined, not inverted
+
+      &:not(.is-outlined) {
+        color: #fff;
+        background-color: $tertiary;
+        @include border-color($tertiary);
+        &:hover,
+        &:active,
+        &:focus {
+            color: #fff;
+            background-color: darken($tertiary, 5%);
+            @include border-color(darken($tertiary, 5%));
+        }
+      }
+    }
+  } // End not inverted
+
+  .container {
+
+    height: 60px;
+    max-width: 1152px;
+    @include margin(0 auto);
+    + mobile, + tablet {
+      @include padding(0 20px);
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+    }
+
+    .logo-wrapper {
+      @media screen and (max-width: 999px) {
+        max-width: 30px;
+      }
+      svg {
+        width: 150px;
+        height: 60px;
+        &.harvey-mark {
+          width: 150px;
+          @include margin(2px null null null);
+          height: 43px;
+        }
+      }
+    }
+
+    .nav-items {
+
+      display: block;
+      @include padding(.5em);
+
+      .nev-left & {
+        text-align: left;
+        float: left;
+      }
+
+      .nev-right & {
+        text-align: right;
+        float: right;
+      }
+
+      a {
+
+        font-size: 17px;
+        display: inline-block;
+        @include padding(.35em 1em);
+        @include margin(null .2em null null);
+
+        &.link {
+          font-size: 18px;
+          color: $tertiary;
+          @include margin(0);
+          @include padding(.4em .6em);
+          &:hover{
+            opacity: .7;
+          }
+        }
+      }
+    }
+
+  }
+  &.is-inverted {
+    .container {
+      .nav-items{
+        a.link {
+          color: #fff;
+          &:hover {
+            opacity: .7;
+          }
+        }
+      }
+    }
+  }
+}

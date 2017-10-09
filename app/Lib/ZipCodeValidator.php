@@ -66,6 +66,11 @@ class ZipCodeValidator
         return $result;
     }
 
+    public function isRegulated($state)
+    {
+        return in_array($state, $this->regulatedStates);
+    }
+
     public function isServiceable()
     {
         return $this->stateIsServiceable($this->getState());

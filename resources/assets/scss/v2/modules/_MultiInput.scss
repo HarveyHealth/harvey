@@ -1,0 +1,29 @@
+.MultiInput input {
+  display: inline-block;
+  border: 2px solid;
+  border-radius: 3px;
+  text-align: center;
+  font-family: $font-family-main;
+  margin: 0 $space-xxs;
+  padding: $space-xs $space-xxs;
+}
+
+.MultiInput.sm input {
+  font-size: 18px;
+  width: 28px;
+}
+
+.MultiInput.md input {
+  font-size: $font-xl;
+  width: $space-lg;
+}
+
+.MultiInput.light input {
+  background: transparent;
+  color: $color-white;
+}
+
+.MultiInput.dark input {
+  background: $color-white;
+  color: $color-copy;
+}

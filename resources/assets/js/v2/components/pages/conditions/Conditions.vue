@@ -1,0 +1,67 @@
+<template>
+  <div>
+    <div class="bg-blue-fade"></div>
+    <div v-if="!State('conditions.condition')">
+      <MainNav :context="'conditions'" />
+      <div class="margin-0a max-width-xl pad-md color-white">
+        <div class="margin-0a max-width-icon">
+          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" />
+        </div>
+        <div class="margin-0a max-width-lg font-centered space-children-lg">
+          <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to chronic medical conditions.</p>
+          <p class="font-lg">While integrative medicine has shown incredible success healing patients with a wide variety of health conditions, we are currently focused on just a few conditions. Please select one of the 10 conditions below to get started.</p>
+        </div>
+        <ConditionsAll class="space-top-lg is-padding-lg" />
+      </div>
+    </div>
+    <div v-else>
+      <MainNav :context="'questions'" />
+      <div class="margin-0a max-width-lg pad-md color-white">
+        <ConditionPreface v-if="!State('conditions.prefaceRead')" />
+        <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+        <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false" />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Util } from '../../base';
+import Shared from '../../shared';
+import ConditionQuestions from './children/ConditionQuestions';
+import ConditionPreface from './children/ConditionPreface';
+import ConditionsAll from './children/ConditionsAll';
+import VerifyZip from './children/VerifyZip';
+
+export default {
+  name: 'conditions',
+  components: {
+    ConditionQuestions,
+    ConditionPreface,
+    ConditionsAll,
+    MainNav: Shared.MainNav,
+    SvgIcon: Util.SvgIcon,
+    VerifyZip,
+  },
+  data() {
+    return {
+      imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
+    }
+  },
+  computed: {
+    selected() {
+      return this.State('conditions.selectedIndex');
+    }
+  },
+  watch: {
+    selected(value) {
+      if (value >= 0) {
+        const condition = this.State('conditions.all')[value];
+        const questions = JSON.parse(condition.questions);
+        App.setState('conditions.condition', condition);
+        App.setState('conditions.condition.questions', questions);
+      }
+    }
+  }
+}
+</script>
