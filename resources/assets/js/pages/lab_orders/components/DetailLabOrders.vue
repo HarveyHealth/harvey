@@ -560,14 +560,26 @@ export default {
         }
       })
       return Q.allSettled(promises).then(() => {
-        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, {
-          address_1: this.address1,
-          address_2: this.address2,
-          city: this.newCity,
-          state: this.newState,
-          zip: this.newZip,
-          discount_code: this.patchCode || null,
-        })
+        let data = null;
+        if (this.patchCode) {
+          data = {
+            address_1: this.address1,
+            address_2: this.address2,
+            city: this.newCity,
+            state: this.newState,
+            zip: this.newZip,
+            discount_code: this.patchCode,
+          }
+        } else {
+          data = {
+            address_1: this.address1,
+            address_2: this.address2,
+            city: this.newCity,
+            state: this.newState,
+            zip: this.newZip,
+          }
+        }
+        axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
             let number = _.size(this.labPatients);
