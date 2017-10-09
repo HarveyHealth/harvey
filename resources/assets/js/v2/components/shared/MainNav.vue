@@ -24,12 +24,16 @@
 </template>
 
 <style scoped>
-  .harvey-text {
-    fill: #fff !important;
+  @media screen and (max-width: 767px) {
+    .is-hidden-mobile {
+      display: none !important;
+    }
+  }
+  .MainNav_Logo * {
+    fill: #fff!important;
   }
   .nav {
     align-items: stretch;
-    background-color: #fff;
     display: flex;
     min-height: 3.5rem;
     position: relative;
