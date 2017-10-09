@@ -5,7 +5,7 @@
     </div>
     <SlideIn class="space-children-xl">
       <h3 class="color-white heading-1 font-bold font-centered">{{ State('conditions.condition.name') }}</h3>
-      <p class="font-centered">{{ State('conditions.condition.description') }}</p>
+      <p class="font-centered font-lg">{{ State('conditions.condition.description') }}</p>
       <div class="font-centered">
         <ButtonInput
           :text="button"

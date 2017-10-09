@@ -15,7 +15,7 @@
       <div class="font-centered margin-0a max-width-md">
         <p class="heading-1">{{ obj.question }}</p>
       </div>
-      <Row :gutter="'md'" class="space-top-xl">
+      <Row :gutter="'md'" class="space-top-lg is-padding-lg">
         <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">
           <div :class="{'Button Button--answer':true, 'is-selected': answerIndex === aIndex}"
                @click="next(obj.question, answer, aIndex)">

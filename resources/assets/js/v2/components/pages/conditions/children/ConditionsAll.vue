@@ -5,7 +5,7 @@
         <div class="ConditionOption">
           <SvgIcon :id="condition.image_url" :width="'60px'" :height="'60px'" />
         </div>
-        <span class="color-white">{{ condition.name }}</span>
+        <p class="color-white is-padding is-paddingless-bottom">{{ condition.name }}</p>
       </a>
     </Column>
   </Row>
