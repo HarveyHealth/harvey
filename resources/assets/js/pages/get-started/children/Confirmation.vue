@@ -115,6 +115,9 @@ export default {
   methods: {
     confirmSignup() {
       this.isProcessing = true;
+      if (!this.$root.$data.signup.data.discount_code) {
+        delete this.$root.$data.signup.data.discount_code;
+      }
       axios.post('/api/v1/appointments', this.$root.$data.signup.data).then(response => {
         this.$root.$data.signup.googleMeetLink = response.data.data.attributes.google_meet_link;
         window.onbeforeunload = null;
