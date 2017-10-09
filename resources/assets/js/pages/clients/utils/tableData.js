@@ -3,11 +3,14 @@ import moment from 'moment'
 
 
 export default function(clientList) {
-    return clientList
+
+    console.log(clientList);
+
+    return clientList.data
     .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
-    .map(e => {
-        let data = e.attributes
-        data['email_hyperlink'] = 0
+    .map((client) => {
+        let data = client.attributes;
+        data['email_hyperlink'] = 0;
         return {
             data: data,
             values: [
@@ -17,8 +20,8 @@ export default function(clientList) {
                 data.doctor_name ? `Dr. ${data.doctor_name}` : 'N/A',
                 data.has_an_appointment ? 'Yes' : 'No',
                 data.has_completed_an_appointment ? 'Yes' : 'No'
-            ]
+            ],
         }
     })
-    .splice(0, 50)
+    .splice(0, 50);
 }
