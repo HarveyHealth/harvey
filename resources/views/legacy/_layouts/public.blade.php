@@ -73,7 +73,7 @@
                     }],
                     onLoad: function() {
                         // If not mobile and not IE, play video
-                        if ((detectMobile === false) && (detectIE === false)) {
+                        if (detectMobile && detectIE) {
                             document.querySelector('#video-cover').style.display = 'none';
                         }
                     }
