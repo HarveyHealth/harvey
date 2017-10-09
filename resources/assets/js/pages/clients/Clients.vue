@@ -40,7 +40,7 @@
       },
       methods: {
         handleRowClick(obj, index) {
-            return null
+            return null;
         },
         $$rowClasses(data, index) {
             return {
@@ -51,27 +51,27 @@
         },
         setupLabData() {
             let data = tableDataTransform(this.$root.$data.clientList)
-            this.currentData = data
+            this.currentData = data;
         },
         getLabTests() {
-            this.tests = this.$root.$data.labTests
+            this.tests = this.$root.$data.labTests;
         }
     },
     computed: {
         loadingClients() {
-            return this.$root.$data.global.loadingClients
+            return this.$root.$data.global.loadingClients;
         }
     },
     watch: {
         loadingClients(val, old) {
             if (!val) {
-                this.setupLabData()
+                this.setupLabData();
             }
         }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
-        const clientList = this.$root.$data.clientList
+        const clientList = this.$root.$data.clientList;
         if (clientList.length) this.setupLabData();
     }
   }

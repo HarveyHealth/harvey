@@ -10,7 +10,7 @@ export default [
   },
   {
     key: 'signup',
-    name: 'Created',
+    name: 'Joined',
     width: '20%',
     sort: tableSort.byTime('signup')
   },

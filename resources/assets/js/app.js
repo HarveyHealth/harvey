@@ -442,10 +442,10 @@ const app = new Vue({
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
-                this.clientList = response.data.data
+                this.clientList = response.data;
             })
             .then(() => {
-                this.global.loadingClients = false
+                this.global.loadingClients = false;
             })
         },
         setup() {
