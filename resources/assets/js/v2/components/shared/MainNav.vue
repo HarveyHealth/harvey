@@ -42,6 +42,9 @@
     min-height: 3.5rem;
     width: 100%;
   }
+  .header .container .nav-items {
+    padding: 0.75em 0.5em;
+  }
   .nav-left,
   .nav-right {
     align-items: stretch;
@@ -68,6 +71,12 @@
     justify-content: center;
     line-height: 1.5;
     padding: 0.5rem 0.75rem;
+  }
+  .button.is-outlined {
+    border-width: 1px;
+    font-weight: normal;
+    height: 2.285em;
+    line-height: 1.5;
   }
 
 </style>

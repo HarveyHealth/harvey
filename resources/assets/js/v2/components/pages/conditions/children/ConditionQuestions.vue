@@ -1,7 +1,7 @@
 <template>
   <div class="space-children-lg">
     <div class="block font-centered margin-0a max-width-md">
-      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'80px'" />
+      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
     <div class="margin-0a max-width-md" style="position: relative">
       <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">

@@ -1,7 +1,7 @@
 <template>
   <div class="space-children-lg">
     <div class="block font-centered margin-0a max-width-md">
-      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'80px'" />
+      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
     <SlideIn class="space-children-xl">
       <h3 class="color-white heading-1 font-bold font-centered">{{ State('conditions.condition.name') }}</h3>
