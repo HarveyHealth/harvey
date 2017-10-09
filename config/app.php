@@ -107,7 +107,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    'default_image_url' => config('app.url') . 'https://harvey-production.s3.amazonaws.com/assets/images/default_user_image.png',
+    'default_image_url' => 'https://harvey-production.s3.amazonaws.com/assets/images/default_user_image.png',
 
     /*
     |--------------------------------------------------------------------------
