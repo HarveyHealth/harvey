@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import moment from 'moment'
 
-
 export default function(clientList) {
     return clientList.data
     .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
