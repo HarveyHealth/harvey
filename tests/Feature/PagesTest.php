@@ -25,7 +25,7 @@ class PagesTest extends TestCase
 
     public function test_if_each_lab_tests_returns_ok()
     {
-        foreach (LabTestInformation::allFromCache() as $labTest) {
+        foreach (LabTestInformation::publicFromCache() as $labTest) {
             $response = $this->get("/lab-tests/{$labTest->sku->slug}");
             $response->assertStatus(ResponseCode::HTTP_OK);
         }
