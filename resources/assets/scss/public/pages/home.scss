@@ -166,7 +166,7 @@ body[class*="lab-tests"] {
                 display: table-cell;
                 content: ' ';
                 width: 50%;
-                border-top: 1px solid $border;
+                border-top: $border;
                 position: relative;
                 top: 0.7em;
             }
