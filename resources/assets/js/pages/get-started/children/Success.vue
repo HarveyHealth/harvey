@@ -1,47 +1,49 @@
 <template>
   <div :class="containerClasses">
-    <div class="success-wrapper mt-xl_lgH">
-      <img class="success-icon" src="https://harvey-production.s3.amazonaws.com/assets/images/signup/calendar.png" alt="">
-      <h1 class="heading-1 font-normal mt-md">{{ title }}</h1><br>
-      <p>
-        <span class="confirmation_day">
-          Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
-          {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
-        </span>
+    <div class="vertical-center">
+      <div class="success-wrapper mt-xl_lgH color-white">
+        <img class="success-icon" src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/calendar.png" alt="">
+        <h1 class="heading-1 font-normal mt-md color-white">{{ title }}</h1><br>
+        <p>
+          <span class="confirmation_day">
+            Dr. {{ $root.$data.signup.practitionerName }}, ND.<br>
+            {{ appointmentDate | toDate }}</span> at <span class="confirmation_time">{{ appointmentDate | toTime }} {{$root.addTimezone()}}
+          </span>
 
-        <div v-cloak title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible, 'mt-sm': true}">
-          Add to Calendar
-          <span class="start">{{ calendarStart }}</span>
-          <span class="end">{{ calendarEnd }}</span>
-          <span class="timezone">{{ calendarZone }}</span>
-          <span class="title">{{ calendarSummary }}</span>
-          <span class="description">{{ calendarDescription }}</span>
-          <span class="location">{{ calendarLocation }}</span>
-          <span class="organizer">Harvey</span>
-          <span class="organizer_email">support@goharvey.com</span>
-          <span class="all_day_event">false</span>
-          <span class="date_format">MM/DD/YYYY</span>
-          <span class="client">ajiwVmWorzcyJqbpmmXE27705</span>
-          <span class="addeventatc_icon" style="height: 0 !important; background: none !important;"></span>
+          <div v-cloak title="Add to Calendar" :class="{addeventatc: true, isVisible: calendarVisible, 'mt-sm': true}">
+            Add to Calendar
+            <span class="start">{{ calendarStart }}</span>
+            <span class="end">{{ calendarEnd }}</span>
+            <span class="timezone">{{ calendarZone }}</span>
+            <span class="title">{{ calendarSummary }}</span>
+            <span class="description">{{ calendarDescription }}</span>
+            <span class="location">{{ calendarLocation }}</span>
+            <span class="organizer">Harvey</span>
+            <span class="organizer_email">support@goharvey.com</span>
+            <span class="all_day_event">false</span>
+            <span class="date_format">MM/DD/YYYY</span>
+            <span class="client">ajiwVmWorzcyJqbpmmXE27705</span>
+            <span class="addeventatc_icon" style="height: 0 !important; background: none !important;"></span>
+          </div>
+        </p>
+
+        <p v-html="note"></p>
+
+        <div class="font-centered mt-lg">
+          <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
+          <a href="/dashboard" class="button button--cancel">Dashboard</a>
         </div>
-      </p>
-
-      <p v-html="note"></p>
-
-      <div class="font-centered mt-lg">
-        <a @click.prevent="showIntakeModal" href="#" class="button button--blue">Start Intake Form</a>
-        <a href="/dashboard" class="button button--cancel">Dashboard</a>
       </div>
+
+      <Overlay :active="showModal" />
+      <Modal :active="showModal" :on-close="() => showModal = false">
+        <h3 class="heading-1">You are leaving Harvey!</h3>
+        <p class="lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
+        <p class="lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
+        <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>
+      </Modal>
+
     </div>
-
-    <Overlay :active="showModal" />
-    <Modal :active="showModal" :on-close="() => showModal = false">
-      <h3 class="heading-1">You are leaving Harvey!</h3>
-      <p class="lh-base mt-lg">Your patient intake will be conducted by a third-party HIPAA-compliant EMR provider called &ldquo;IntakeQ&rdquo;.</p>
-      <p class="lh-base">When prompted, enter your full name and the same email you used to sign up for Harvey. You can close the form and come back to it later if you want.</p>
-      <a class="button button--blue mt-lg" :href="intakeUrl">Go to IntakeQ</a>
-    </Modal>
-
   </div>
 </template>
 
@@ -63,6 +65,10 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true,
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       showModal: false,
       title: 'Appointment confirmed!',
@@ -109,6 +115,10 @@ export default {
     }
   },
   mounted () {
+    if (!this.$root.isSignupBookingAllowed) {
+      this.$router.push({ name: 'welcome', path: 'welcome' });
+      return;
+    }
     this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.

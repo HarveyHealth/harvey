@@ -9,43 +9,28 @@
         <!-- Typography -->
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
-        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.2/index.css">
+        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         <script>
           window.Laravel = {!! $vue_data !!}
+          // Controller has determined that the user is:
+          // logged in as patient with no Appointment
+          // or logged out
+          var zipValidation  = localStorage.getItem('harvey_zip_validation');
+          var loggedIn = Laravel.user.signedIn;
           window.$$context = 'get-started';
-          if (!Laravel.user.signedIn) {
-            window.location.hash = '/signup';
-          } else if (Laravel.user.has_an_appointment || Laravel.user.user_type !== 'patient') {
-            window.location.href = '/dashboard';
-          } else {
-            window.location.hash = '/welcome';
-          }
+          if (!loggedIn && zipValidation) window.location.hash = '/signup';
+          if (loggedIn && zipValidation) window.location.hash = '/welcome';
+          if (!loggedIn && !zipValidation) window.location.href = '/conditions';
+          if (loggedIn && !zipValidation) window.location.href = '/logout';
         </script>
     </head>
     <body>
 
       @include('_includes.svgs')
 
-      <div class="header nav header--signup" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
-          <div class="container">
-              <div class="nav-left">
-                  <a href="/logout" class="nav-item">
-                      <div class="logo-wrapper">
-                          {!! $svgImages['logo'] !!}
-                      </div>
-                  </a>
-              </div>
-              <div class="nav-right">
-                  <span class="nav-item">
-                      <a href="tel:800-690-9989" class="button is-primary is-outlined">(800) 690-9989</a>
-                  </span>
-              </div>
-          </div>
-      </div>
-
-      <main class="signup-content">
-        <div id="app">
+      <main class="height-100">
+        <div id="app" class="height-100">
           <router-view />
         </div>
       </main>

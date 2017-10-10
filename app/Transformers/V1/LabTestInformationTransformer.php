@@ -14,8 +14,9 @@ class LabTestInformationTransformer extends TransformerAbstract
     public function transform(LabTestInformation $labTestInformation)
     {
         return [
-            'description' => $labTestInformation->description,
             'id' => $labTestInformation->id,
+            'description' => $labTestInformation->description,
+            'example' => $labTestInformation->example,
             'image' => $labTestInformation->image,
             'item_type' => $labTestInformation->sku->item_type,
             'lab_name' => $labTestInformation->lab_name,
@@ -23,6 +24,7 @@ class LabTestInformationTransformer extends TransformerAbstract
             'price' => $labTestInformation->sku->price,
             'quote' => $labTestInformation->quote,
             'sample' => $labTestInformation->sample,
+            'visibility' => $labTestInformation->visibility,
         ];
     }
 }

@@ -1,0 +1,21 @@
+.block {
+  display: block;
+}
+
+.inline {
+  display: inline-block;
+}
+
+.is-visible-lg {
+  display: none !important;
+  @include query(lg) {
+    display: block !important;
+  }
+}
+
+.is-inline-xl {
+  display: none !important;
+  @include query(xl) {
+    display: inline-block !important;
+  }
+}

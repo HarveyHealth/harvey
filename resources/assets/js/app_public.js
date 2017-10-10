@@ -22,10 +22,11 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
-import loadinggraphic from './commons/LoadingGraphic.vue';
+import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
+import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
 
 // for environment conditionals
 const env = require('get-env')();
@@ -33,12 +34,14 @@ const env = require('get-env')();
 const app = new Vue({
     mixins: [TopNav],
     components: {
-        loadinggraphic,
+        LoadingGraphic,
+        FacebookSignin,
         Symptoms,
         VerticalTab,
         VerticalTabs
     },
     data: {
+        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
         guest: true,
         appLoaded: false,
         isProcessing: false,
@@ -132,9 +135,16 @@ const app = new Vue({
         },
         isHomePage() {
           return window.location.pathname === '/';
+        },
+        getStartedLink() {
+          return this.hasZipValidation ? '/get-started' : '/conditions'
         }
     },
     methods: {
+        facebookLogin(e) {
+          e.preventDefault();
+          window.location.href = '/auth/facebook';
+        },
         onEmailCaptureSubmit(e) {
           this.emailCaptureClasses['is-visible'] = false;
           const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
