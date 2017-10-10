@@ -37,7 +37,7 @@ class PagesController extends Controller
 
     public function getLabTests(string $labTestSlug = null)
     {
-        $lab_tests = LabTestInformation::allFromCache();
+        $lab_tests = LabTestInformation::publicFromCache();
 
         $index = $lab_tests->pluck('sku')->search(function ($item) use ($labTestSlug) {
             return $item->slug == $labTestSlug;

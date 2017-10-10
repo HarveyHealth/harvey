@@ -15,7 +15,9 @@
   }
 
   svg {
+    left: 50%;
     position: absolute;
-    transform: translate(-50%, 23%);
+    transform: translate(-50%, -50%);
+    top: 50%;
   }
 }

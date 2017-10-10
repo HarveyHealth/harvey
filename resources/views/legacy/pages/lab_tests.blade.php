@@ -31,7 +31,10 @@
                         </div>
                         <div class="media-content">
                             <h3 class="title is-4"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
-                            <p class="subtitle is-6">Sample: {{ $lab_test->sample }}</p>
+                            <p class="is-6">Sample: {{ $lab_test->sample }}</p>
+                            @if ($lab_test->example)
+                                <a class="link is-6" href="{{ $lab_test->example }}" target="_blank">Example Results</a>
+                            @endif
                         </div>
                         <div class="media-right">
                             <p class="title is-3">${{ number_format($lab_test->sku->price) }}</p>

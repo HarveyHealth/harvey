@@ -21,9 +21,10 @@
       // (which happens at the end of the /conditions funnel if the user's
       // zip code is valid). If they do have zip_validation data stored,
       // we assign that to conditions state and render the component.
-      const zipValidation = App.Util.data.fromStorage('zip_validation');
+      const zipValidation = App.Logic.getstarted.getZipValidation();
       if (zipValidation) {
-        App.setState('getstarted.userPost.zip', JSON.parse(zipValidation).zip);
+        App.setState('getstarted.zipValidation', zipValidation);
+        App.setState('getstarted.userPost.zip', zipValidation.zip);
       }
     },
     mounted() {

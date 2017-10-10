@@ -9,11 +9,14 @@ export default function(response) {
     App.Util.data.toStorage('zip_validation', JSON.stringify(response.data));
     window.location.href = '/get-started';
 
-  } else if (App.Logic.misc.shouldTrack()) {
-    analytics.track('Account Failed', {
-      city: response.data.city,
-      state: response.data.state,
-      zip: response.data.zip,
-    });
+  } else {
+    App.setState('conditions.invalidZip', true);
+    if (App.Logic.misc.shouldTrack()) {
+      analytics.track('Account Failed', {
+        city: response.data.city,
+        state: response.data.state,
+        zip: response.data.zip,
+      });
+    }
   }
 }

@@ -9,4 +9,5 @@ export default {
     terms: '',
     zip: '',
   },
+  zipValidation: null,
 }
