@@ -72,9 +72,11 @@
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
         const clientList = this.$root.$data.clientList;
-        // if (clientList.length) this.setupLabData();
-        this.setupLabData();
-        // console.log('...mounted', clientList);
+
+        // only load if we have no clients
+        if (this.currentData.length === 0 && clientList.length != 0) {
+            this.setupLabData();
+        }
     }
   }
 </script>
