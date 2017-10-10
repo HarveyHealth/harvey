@@ -222,6 +222,13 @@
                     <em>Cured himself of diabetes.</em>
                 </div>
             </div>
+            <div class="container has-text-centered">
+                <div class="button-wrapper">
+                    <a href="https://www.youtube.com/watch?v=nfyk7irbYsw&list=UUNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
+                        <i class="fa fa-youtube is-padding-right" aria-hidden="true"></i> Watch Videos
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
