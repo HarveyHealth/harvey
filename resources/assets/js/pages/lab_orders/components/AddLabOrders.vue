@@ -88,6 +88,7 @@ export default {
       city: '',
       zip: '',
       state: '',
+      resetting: false,
       selectedTests: [],
       shippingCodes: {},
       prevDoctor: '',
@@ -118,16 +119,19 @@ export default {
       return str.split(', ').reverse().join(' ')
     },
     updateClient(e) {
+        this.resetting = false;
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedClientName = this.formatName(e.target.value);
     },
     updateDoctor(e) {
+        this.resetting = false;
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
       this.$parent.addActiveModal = false
+      this.resetting = true;
     },
     createLabOrder() {
         this.selectedTests.map(e => {

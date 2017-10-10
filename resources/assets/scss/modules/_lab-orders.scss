@@ -35,6 +35,14 @@
     @include margin(0 0 .25em 0);
 }
 
+.discount-error {
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    @include padding(20px 0 0 0);
+}
+
 .total {
     color: $color-good;
     @include margin(0);

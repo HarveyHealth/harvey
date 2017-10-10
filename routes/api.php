@@ -27,6 +27,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
         Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
         Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
 
@@ -78,5 +79,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
+
+
     });
 });
