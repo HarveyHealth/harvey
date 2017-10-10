@@ -9,7 +9,7 @@
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
           <p class="font-normal font-xxl">Personalized for better health.</p>
-          <p class="font-lg is-padding is-paddingless-top">Harvey empowers people to find natural and holistic remedies to chronic health conditions. To get started, select your most concerning health issue out of the list below. We will ask you a few questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
+          <p class="font-lg is-padding is-paddingless-top">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
         </div>
         <ConditionsAll class="space-top-lg is-padding-lg" />
       </div>
