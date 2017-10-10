@@ -17,7 +17,14 @@
   vertical-align: middle;
   -webkit-font-smoothing: antialiased;
 
-  &:hover, &:focus {
+  &:hover {
+    opacity: 1;
+    &.Button--answer{
+      background: rgba(255,255,255,.1);
+    }
+  }
+
+  &:focus {
     opacity: 1;
   }
 

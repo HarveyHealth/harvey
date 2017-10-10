@@ -8,8 +8,8 @@
           <SvgIcon :id="'harvey-icon-white'" :width="'100%'" />
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <p class="font-normal font-xl">Harvey is on a mission to end human's reliance on pharamecautical drugs. We empower people to find natural and holistic remedies to chronic medical conditions.</p>
-          <p class="font-lg">While integrative medicine has shown incredible success healing patients with a wide variety of health conditions, we are currently focused on just a few conditions. Please select one of the 10 conditions below to get started.</p>
+          <p class="font-normal font-xxl">Personalized for better health.</p>
+          <p class="font-lg is-padding is-paddingless-top">Harvey empowers people to find natural and holistic remedies to chronic health conditions. To get started, select your most concerning health issue out of the list below. We will ask you a few questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
         </div>
         <ConditionsAll class="space-top-lg is-padding-lg" />
       </div>
