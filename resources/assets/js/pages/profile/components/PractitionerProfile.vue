@@ -124,7 +124,7 @@
                 practitioner_id: Laravel.user.practitionerId || this.practitionerIdEditing,
                 practitioner: {
                     licenses: [{'number': '', 'state': '', 'title': ''}],
-                    picture_url : '/images/default_user_image.png',
+                    picture_url : 'https://harvey-production.s3.amazonaws.com/assets/images/default_user_image.png',
                     background_picture_url: '',
                     specialty: []
                 },

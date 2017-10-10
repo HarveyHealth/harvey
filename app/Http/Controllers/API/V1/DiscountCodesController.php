@@ -14,7 +14,7 @@ class DiscountCodesController extends BaseAPIController
     protected $resource_name = 'discountcode';
 
     /**
-     * LabOrdersController constructor.
+     * DiscountCodesController constructor.
      * @param DiscountCodeTransformer $transformer
      */
     public function __construct(DiscountCodeTransformer $transformer)
