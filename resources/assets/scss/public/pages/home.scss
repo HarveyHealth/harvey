@@ -9,6 +9,10 @@ body[class*="lab-tests"] {
         color: $text-secondary;
     }
 
+    strong {
+        font-weight: 700;
+    }
+
     // Hero Images
 
     .hero {

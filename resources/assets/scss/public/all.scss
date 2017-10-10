@@ -67,6 +67,13 @@ $font-family: "proxima-nova";
       color: white;
     }
   }
+
+  .nav-item {
+    img {
+      max-height: 55px;
+    }
+  }
+
 }
 
 // Hide before font loads

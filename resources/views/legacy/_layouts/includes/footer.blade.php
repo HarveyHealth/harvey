@@ -36,6 +36,17 @@
                 <a href="http://help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>
                 <a href="http://help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
             </p>
+            <p class="nav-center">
+                <a href="/https://bbb.org" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/bbb.png">
+                </a>
+                <a href="https://us.norton.com" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/norton.png">
+                </a>
+                <a href="https://stripe.com" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/stripe.png">
+                </a>
+            </p>
             <p class="has-small-lineheight">
                 <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>
                 Harvey does not provide medical advice, diagnosis or treatment.</small>
