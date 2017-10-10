@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Bugsnag, Cache, Exception, Lang, Log, View;
-use App\Models\SKU;
-use App\Models\DiscountCode;
+use App\Models\{DiscountCode, SKU};
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Bugsnag, Cache, Carbon, Google_Service_Exception, Exception, Lang, Log, View;
+
 
 class Appointment extends Model
 {
@@ -88,7 +87,19 @@ class Appointment extends Model
         }
 
         return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
-            return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+            try {
+                return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+            } catch (Google_Service_Exception $e) {
+                if (404 == $e->getCode()) {
+                    $message = "Got a 404 when retrieving google_calendar_event_id #{$this->google_calendar_event_id} (Appointment ID #{$this->id}).";
+                    $message .= "\nPatient: *{$this->patient->user->fullName()}*  on {$this->appointment_at->format('M j')} at {$this->appointment_at->format('g:ia')}. Appointment unsynced from Google Calendar.";
+                    ops_warning('Google Calendar', $message, 'practitioners');
+                    $this->google_calendar_event_id = null;
+                    $this->save();
+                } else {
+                    throw $e;
+                }
+            }
         });
     }
 
