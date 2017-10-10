@@ -1,5 +1,9 @@
 @include pad;
 
+.pad-sm-sides {
+  @include padding(null $space-sm);
+}
+
 .is-padding {
   @include padding(1em);
 }

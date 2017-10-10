@@ -1,7 +1,6 @@
 <template>
-  <div class="font-centered">
+  <div class="font-centered height-100">
     <div class="bg-blue-fade"></div>
-    <MainNav :context="'questions'" />
     <router-view />
   </div>
 </template>

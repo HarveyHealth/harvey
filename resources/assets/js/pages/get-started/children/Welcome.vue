@@ -21,6 +21,7 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true
       },
     }
   },

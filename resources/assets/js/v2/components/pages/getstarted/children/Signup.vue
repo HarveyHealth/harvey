@@ -1,6 +1,6 @@
 <template>
-  <SlideIn :delay="400">
-    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm max-width-xxl margin-0a is-padding-top-xl">
+  <SlideIn :delay="400" class="height-100">
+    <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm-sides max-width-xxl min-width-100 vertical-center-absolute margin-0a">
       <div class="Row-lg align-middle">
         <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm is-padding">
           <div class="signup-aside-icon-row">

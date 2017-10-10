@@ -80,6 +80,7 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,
