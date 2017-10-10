@@ -16,6 +16,8 @@
   transition: opacity 200ms ease-in-out;
   vertical-align: middle;
   -webkit-font-smoothing: antialiased;
+  min-height: 40px;
+  min-width: 160px;
 
   &:hover {
     opacity: 1;

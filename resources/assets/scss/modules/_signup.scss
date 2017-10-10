@@ -39,6 +39,8 @@
 
   .button {
     @include margin(.5em null null);
+    min-height: 40px;
+    min-width: 160px;
   }
 
 }
@@ -268,7 +270,7 @@ button:focus {
   color: #888 !important;
   @include border-color( #ccc);
   font-weight: 400 !important;
-  @include margin(null null 20px null);
+  @include margin(10px auto 25px);
   transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;

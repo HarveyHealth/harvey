@@ -104,7 +104,7 @@ export default {
     subtext() {
       return this.$root.$data.signup.phonePending
         ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
-        : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
+        : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before every appointment.';
     },
     confirmInputComponent() {
       return this.$children.filter(child => {
