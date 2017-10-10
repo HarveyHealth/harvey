@@ -60,7 +60,7 @@
                detectIE = true;
             }
             try {
-                var videoLink = 'https://harvey-production.s3.amazonaws.com/assets/videos/hero-video.mp4';
+                var videoLink = 'https://d35oe889gdmcln.cloudfront.net/assets/videos/hero-video.mp4';
                 var bv = new Bideo();
                 bv.init({
                     videoEl: document.querySelector('#hero-video'),
