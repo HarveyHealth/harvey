@@ -15,7 +15,7 @@ class MoveImagesToS3OfLabTestsInformationTable extends Migration
     public function up()
     {
         LabTestInformation::all()->map(function ($item) {
-            $item->image = 'https://harvey-production.s3.amazonaws.com/assets' . $item->image;
+            $item->image = 'https://d35oe889gdmcln.cloudfront.net/assets' . $item->image;
             $item->save();
         });
     }
@@ -28,7 +28,7 @@ class MoveImagesToS3OfLabTestsInformationTable extends Migration
     public function down()
     {
         LabTestInformation::all()->map(function ($item) {
-            $item->image = str_replace('https://harvey-production.s3.amazonaws.com/assets/', '', $item->image);
+            $item->image = str_replace('https://d35oe889gdmcln.cloudfront.net/assets/', '', $item->image);
             $item->save();
         });
     }

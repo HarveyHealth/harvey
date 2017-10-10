@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     determineImage(image, type) {
-      return image ? image : `https://harvey-production.s3.amazonaws.com/assets/images/default_${type}_image.png`;
+      return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
     },
     getAvailability(id) {
       this.isProcessing = true;

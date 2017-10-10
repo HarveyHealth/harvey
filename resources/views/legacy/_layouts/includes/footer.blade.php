@@ -3,7 +3,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <a href="/">
-                <img src="https://harvey-production.s3.amazonaws.com/assets/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
+                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
             </a>
             <div id="social-icons">
                 <!-- Facebook -->
