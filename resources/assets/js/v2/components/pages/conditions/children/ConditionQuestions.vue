@@ -5,8 +5,9 @@
     </div>
     <div class="margin-0a max-width-md" style="position: relative">
       <button class="Button Button--condition-nav is-left" v-show="goToConditions()">
-        <i class="fa fa-undo"></i>
-        <a href="/conditions" class="color-white">Start Over</a>
+        <a href="/conditions" class="color-white">
+          <i class="fa fa-undo"></i> Start Over
+        </a>
       </button>
       <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>

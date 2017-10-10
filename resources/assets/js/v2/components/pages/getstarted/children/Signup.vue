@@ -92,7 +92,7 @@
               <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
               <p class="is-padding font-xs"><em>We never share any financial or personal health information with Facebook. We only request from them your name and email.</em></p>
-              <p class="font-sm"><a href="/conditions"><i class="fa fa-long-arrow-left margin-right-xs"></i> Re-Enter Zip Code</a></p>
+              <p class="font-sm"><a href="/conditions"><i class="fa fa-long-arrow-left margin-right-xs"></i>Update Location</a></p>
             </div>
           </div>
         </div>
@@ -173,7 +173,7 @@ export default {
       }
     },
     title() {
-      return `Now serving ${App.Util.misc.getState(this.State('getstarted.zipValidation.state'))}`;
+      return `Now serving patients<br/>in ${App.Util.misc.getState(this.State('getstarted.zipValidation.state'))}.`;
     }
   },
   methods: {

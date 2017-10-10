@@ -3,7 +3,7 @@
     <SvgIcon :id="'map'" :width="'120px'" :height="'120px'" />
     <SlideIn class="space-children-lg" v-if="!State('conditions.zipValidation')">
       <p class="heading-1">What is your zip code?</p>
-      <p>Harvey does not have licensed doctors in every state. Please enter your zip code below to verify we can work together.</p>
+      <p class="font-lg">Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</p>
       <MultiInput
         :auto-focus="true"
         :quantity="5"

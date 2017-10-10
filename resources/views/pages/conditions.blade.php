@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <title>Conditions | Harvey</title>
+        <title>Health Conditions | Harvey</title>
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
         <meta property="og:locale" content="en_US">
@@ -29,6 +29,7 @@
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
+        <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         <script>
           window.Laravel = {!! $vue_data !!}
           window.$$context = 'conditions';
