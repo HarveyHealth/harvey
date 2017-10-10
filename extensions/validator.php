@@ -2,6 +2,7 @@
 
 use App\Lib\{TimeslotManager, ZipCodeValidator};
 use App\Models\{Appointment, Practitioner, LabOrder};
+use App\Models\DiscountCode;
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();

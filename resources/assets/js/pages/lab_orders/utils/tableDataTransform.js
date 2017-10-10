@@ -30,6 +30,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
+            invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
@@ -54,9 +55,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
-                        obj.attributes.status === 'confirmed' ? 
-                        [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
-                        [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
+                        obj.attributes.status === 'confirmed' ?
+                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                            [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),
                     sku: testList[Number(test.id)],

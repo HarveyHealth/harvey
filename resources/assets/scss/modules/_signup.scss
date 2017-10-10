@@ -84,7 +84,7 @@
 
 // We should merge these at some point
 
-.error-text, .copy-error {
+.error-text, .copy-error, .copy-good {
   width: 100%;
   line-height: 1.3;
   @include margin(0);

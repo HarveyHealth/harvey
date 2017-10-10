@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Bugsnag, Cache, Exception, Lang, Log, View;
+use App\Models\SKU;
+use App\Models\DiscountCode;
 
 class Appointment extends Model
 {
@@ -440,7 +442,7 @@ class Appointment extends Model
 
         $description = "{$sku->name}, Appointment #{$this->id} with {$this->practitioner->user->full_name} on {$this->appointment_at->format('n/j/y')}";
 
-        return [
+        $data = [
             'patient_id' => $this->patient_id,
             'practitioner_id' => $this->practitioner_id,
             'description' => $description,
@@ -455,5 +457,25 @@ class Appointment extends Model
                 ],
             ],
         ];
+
+        // if we have a discount code,
+        // add another invoice item
+        if ($this->discount_code_id) {
+
+            $sku = SKU::findBySlugOrFail('discount');
+            $discount_code = DiscountCode::find($this->discount_code_id);
+
+            $amount = $discount_code->discountForSubtotal($data['invoice_items'][0]['amount']);
+
+            $data['invoice_items'][] = [
+                'item_id' => $discount_code->id,
+                'item_class' => get_class($discount_code),
+                'description' => $discount_code->itemDescription(),
+                'amount' => $amount,
+                'sku_id' => $sku->id,
+            ];
+        }
+
+        return $data;
     }
 }
