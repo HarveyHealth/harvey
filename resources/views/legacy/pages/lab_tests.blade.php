@@ -30,11 +30,11 @@
                             <img src="{{ $lab_test->image }}" alt="">
                         </div>
                         <div class="media-content">
-                            <h3 class="title is-4"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
+                            <h3 class="title font-xl"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
                             @if ($lab_test->example)
-                                <a class="link is-6" href="{{ $lab_test->example }}" target="_blank">What does this test measure?</a>
+                                <a class="link font-lg" href="{{ $lab_test->example }}" target="_blank">What does this test measure?</a>
                             @endif
-                            <p class="is-6">Sample: {{ $lab_test->sample }}</p>
+                            <p class="font-md">Sample: {{ $lab_test->sample }}</p>
                         </div>
                         <div class="media-right">
                             <p class="title is-3">${{ number_format($lab_test->sku->price) }}</p>
