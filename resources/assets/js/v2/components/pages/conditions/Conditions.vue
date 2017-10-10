@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     hasZip() {
-      return this.State('getstarted.userPost.zip');
+      return this.State('getstarted.userPost.zip') || this.State('conditions.invalidZip');
     },
     selected() {
       return this.State('conditions.selectedIndex');
