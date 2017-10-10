@@ -4,6 +4,9 @@
       <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
     <div class="margin-0a max-width-md" style="position: relative">
+      <button class="Button Button--condition-nav is-left" v-show="goToConditions()">
+        <a href="/conditions" class="color-white">Start Over</a>
+      </button>
       <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">
         <i class="fa fa-chevron-left"></i>
       </button>
@@ -52,10 +55,13 @@ export default {
   },
   methods: {
     displayBack() {
-      return this.State('conditions.questionIndex') >= 0;
+      return this.State('conditions.questionIndex') > 0;
     },
     displayForward() {
       return this.hasAnswered > this.State('conditions.questionIndex');
+    },
+    goToConditions() {
+      return this.State('conditions.questionIndex') < 1;
     },
     goBack() {
       return App.setState('conditions.questionIndex', this.State('conditions.questionIndex') - 1);
