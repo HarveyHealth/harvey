@@ -13,7 +13,7 @@
             <div class="columns">
                 <div class="column is-7 is-6-desktop">
                     <h1 class="title is-1">Home Lab Testing</h1>
-                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and proposed treatment plans.</p>
+                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and treatment plans.</p>
                 </div>
             </div>
         </div>

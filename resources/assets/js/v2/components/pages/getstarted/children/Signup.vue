@@ -74,7 +74,7 @@
                   name="terms" type="checkbox" id="checkbox"
                   v-model="State('getstarted.userPost').terms"
                   v-validate="'required'"
-                  checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
+                  checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="http://help.goharvey.com/legal/terms">terms</a> and <a href="http://help.goharvey.com/legal/privacy">policies</a>.
               </label>
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
