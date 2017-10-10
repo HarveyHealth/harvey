@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Webhooks;
 
-use Illuminate\Http\Request;
-use App\Lib\Slack;
-use App\Notifications\SlackNotification;
+use App\Lib\TimeInterval;
 use App\Models\User;
-use Carbon\Carbon;
-use ResponseCode, Log;
+use Cache, Carbon, ResponseCode;
 
 class TypeformController extends BaseWebhookController
 {
@@ -18,21 +15,21 @@ class TypeformController extends BaseWebhookController
 
         if ('form_response' != $eventType) {
             ops_warning('TypeformController', "Unhandled Typeform event: '{$eventType}'");
-        } elseif (empty($userId = $formResponse['hidden']['harveyid'])) {
-            ops_warning('TypeformController', "Missing 'harveyid' value when handling event '{$eventType}'.");
+        } elseif (empty($userId = $formResponse['hidden']['harvey_id'])) {
+            ops_warning('TypeformController', "Missing 'harvey_id' value when handling event '{$eventType}'.");
+        } elseif (empty($formResponse['hidden']['intake_validation_token'])) {
+            ops_warning('TypeformController', "Missing 'intake_validation_token' value when handling event '{$eventType}'.");
         } elseif (empty($user = User::find($userId))) {
             ops_warning('TypeformController', "Can't find User #{$userId} when handling event '{$eventType}'.");
+        } elseif ($formResponse['hidden']['intake_validation_token'] != $user->patient->intake_validation_token) {
+            ops_warning('TypeformController', "Invalid intake_validation_token '{$formResponse['hidden']['intake_validation_token']}'for User #{$userId} when handling event '{$eventType}'.");
         } else {
-            if (empty($user->intake_completed_at)
-                && !empty($formResponse['definition']['fields'])
-                    && !empty($formResponse['answers'])
-                        && count($formResponse['definition']['fields']) == count($formResponse['answers'])) {
-                            $user->intake_completed_at = Carbon::now();
-                            $user->save();
-            }
-            return response("Thanks!", ResponseCode::HTTP_OK);
+            $user->patient->intake_token = $formResponse['token'];
+            $user->patient->save();
+
+            Cache::forget("intake-token-{$formResponse['token']}-data");
         }
 
-        return response("Can't process webhook.", ResponseCode::HTTP_BAD_REQUEST);
+        return response("Thanks!", ResponseCode::HTTP_OK);
     }
 }

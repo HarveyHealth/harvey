@@ -109,7 +109,7 @@ class PhoneNumberVerifierTest extends TestCase
         Log::spy();
 
         Passport::actingAs($user);
-        $response = $this->json('POST', "api/v1/users/{$user->id}/phone/sendverificationcode");
+        $response = $this->json('POST', "api/v1/users/{$user->id}/phone/send_verification_code");
 
         $response->assertStatus(ResponseCode::HTTP_OK);
         $response->assertJsonFragment(['status' => 'Verification code sent.']);
@@ -129,7 +129,7 @@ class PhoneNumberVerifierTest extends TestCase
         Log::spy();
 
         Passport::actingAs($user);
-        $response = $this->json('POST', "api/v1/users/1/phone/sendverificationcode");
+        $response = $this->json('POST', "api/v1/users/1/phone/send_verification_code");
 
         $response->assertStatus(ResponseCode::HTTP_FORBIDDEN);
         $response->assertJsonFragment(['status' => 'Verification code not sent.']);

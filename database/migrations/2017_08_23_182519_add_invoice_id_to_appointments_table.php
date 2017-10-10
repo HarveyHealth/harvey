@@ -27,7 +27,8 @@ class AddInvoiceIdToAppointmentsTable extends Migration
     public function down()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            //
+            $table->dropForeign(['invoice_id']);
+            $table->dropColumn('invoice_id');
         });
     }
 }

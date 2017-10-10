@@ -191,7 +191,7 @@ class Appointment extends Model
     {
         $templateData = [
             'doctor_name' => $this->practitioner->user->full_name,
-            'intake_link' => "https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID={$this->patient->user->id}",
+            'intake_link' => "https://hello.typeform.com/to/XGnCna?harvey_id={$this->patient->user->id}&intake_validation_token={$this->patient->intake_validation_token}",
             'time' => $this->patientAppointmentAtDate()->format('h:i A'),
             'timezone' => $this->patientAppointmentAtDate()->format('T'),
         ];

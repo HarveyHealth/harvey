@@ -89,11 +89,6 @@ class Practitioner extends Model
         return $this->hasMany(PatientNote::class, 'practitioner_id', 'id');
     }
 
-    public function chartNotes()
-    {
-        return $this->hasMany(ChartNote::class, 'practitioner_id', 'id');
-    }
-
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'practitioner_id', 'id');
@@ -102,11 +97,6 @@ class Practitioner extends Model
     public function schedule()
     {
         return $this->hasMany(PractitionerSchedule::class, 'practitioner_id', 'id');
-    }
-
-    public function test()
-    {
-        return $this->hasMany(Test::class, 'practitioner_id', 'id');
     }
 
     public function licenses()

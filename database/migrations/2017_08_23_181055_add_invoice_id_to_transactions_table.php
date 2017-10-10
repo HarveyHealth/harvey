@@ -27,7 +27,8 @@ class AddInvoiceIdToTransactionsTable extends Migration
     public function down()
     {
         Schema::table('transactions', function (Blueprint $table) {
-            //
+            $table->dropForeign(['invoice_id']);
+            $table->dropColumn('invoice_id');
         });
     }
 }

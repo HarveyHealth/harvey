@@ -27,7 +27,8 @@ class AddSkuIdsToInvoiceTables extends Migration
     public function down()
     {
         Schema::table('invoice_items', function (Blueprint $table) {
-            //
+            $table->dropForeign(['sku_id']);
+            $table->dropColumn('sku_id');
         });
     }
 }

@@ -3,23 +3,16 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
+use App\Lib\HarveyApiSerializer;
 use Crell\ApiProblem\ApiProblem;
 use Illuminate\Validation\Validator;
-use League\Fractal\Serializer\JsonApiSerializer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use ResponseCode;
 
 class BaseAPIController extends Controller
 {
-    /**
-     * @var int
-     */
     protected $status_code = ResponseCode::HTTP_OK;
     protected $resource_name;
-
-    /**
-     * @var JsonApiSerializer
-     */
     protected $apiProblem, $serializer, $transformer;
 
     /**
@@ -27,7 +20,7 @@ class BaseAPIController extends Controller
      */
     public function __construct()
     {
-        $this->serializer = new JsonApiSerializer(config('app.url') . '/api/v1');
+        $this->serializer = new HarveyApiSerializer(config('app.url') . '/api/v1');
         $this->apiProblem = new ApiProblem;
     }
 
@@ -86,11 +79,11 @@ class BaseAPIController extends Controller
      * @param null $transformer
      * @return Fractal
      */
-    public function baseTransformItem($item, $include = null, $transformer = null)
+    public function baseTransformItem($item, $include = null, $transformer = null, $resourceName = null)
     {
         return fractal()->item($item)
             ->parseIncludes($include)
-            ->withResourceName($this->resource_name)
+            ->withResourceName($resourceName ?? $this->resource_name)
             ->transformWith($transformer ?? $this->transformer)
             ->serializeWith($this->serializer);
     }

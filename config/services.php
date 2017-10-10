@@ -108,6 +108,11 @@ return [
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
     ],
 
+    'typeform' => [
+        'api_key' => env('TYPEFORM_API_KEY'),
+        'uid' => env('TYPEFORM_UID'),
+    ],
+
     'google_geocoder' => [
         'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
     ],

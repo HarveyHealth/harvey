@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use App\Http\Traits\HasStatusColumn;
-use App\Models\{LabOrder, SKU};
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\{LabOrder, LabTestResult, SKU};
+use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 
 class LabTest extends Model
 {
@@ -48,6 +47,11 @@ class LabTest extends Model
     public function labOrder()
     {
         return $this->belongsTo(LabOrder::class);
+    }
+
+    public function results()
+    {
+        return $this->hasMany(LabTestResult::class);
     }
 
     public function sku()
