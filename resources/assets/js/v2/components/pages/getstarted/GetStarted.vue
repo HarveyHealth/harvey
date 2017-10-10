@@ -22,7 +22,6 @@
       // zip code is valid). If they do have zip_validation data stored,
       // we assign that to conditions state and render the component.
       const zipValidation = App.Logic.getstarted.getZipValidation();
-      console.log('baaaaa')
       if (zipValidation) {
         App.setState('getstarted.zipValidation', zipValidation);
         App.setState('getstarted.userPost.zip', zipValidation.zip);
