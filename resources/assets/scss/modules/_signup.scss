@@ -20,9 +20,6 @@
   &.large {
     max-width: 770px;
   }
-  &.naked {
-    @include margin(3em auto 5px);
-  }
   &.router {
     @include padding(60px 30px 30px 30px);
   }

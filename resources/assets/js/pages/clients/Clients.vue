@@ -50,7 +50,7 @@
             }
         },
         setupLabData() {
-            let data = tableDataTransform(this.$root.$data.clientList)
+            let data = tableDataTransform(this.$root.$data.clientList);
             this.currentData = data;
         },
         getLabTests() {
@@ -72,7 +72,11 @@
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
         const clientList = this.$root.$data.clientList;
-        if (clientList.length) this.setupLabData();
+
+        // only load if we have no local clients, but available clients in-app
+        if (this.currentData.length === 0 && clientList.length != 0) {
+            this.setupLabData();
+        }
     }
   }
 </script>
