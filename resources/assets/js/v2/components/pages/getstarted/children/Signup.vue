@@ -17,7 +17,7 @@
                 <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
               </a>
             </div>
-            <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition.</p>
+            <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition!</p>
           </div>
           <div class="signup-aside-icon-row">
             <span><svg><use xlink:href="#heart" /></svg></span>
@@ -89,6 +89,8 @@
               />
               <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
+              <p class="is-padding font-xs"><em>We never share any financial or personal health information with Facebook. We only request from them your name and email.</em></p>
+              </label>
             </div>
           </div>
         </div>
