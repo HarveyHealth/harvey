@@ -61,6 +61,7 @@
     &.custom-select{
         width: 28%;
         left: 2%;
+        @include margin(0);
         display: inline-block !important;
     }
 }

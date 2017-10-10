@@ -80,7 +80,7 @@ class Invoice extends Model
         return $this->belongsTo(DiscountCode::class);
     }
 
-    public function invoiceItems()
+    public function items()
     {
         return $this->hasMany(InvoiceItem::class);
     }
@@ -93,7 +93,7 @@ class Invoice extends Model
     public function calculateTotals($reset = false)
     {
         if (empty($this->amount) || $reset) {
-            $items = $this->invoiceItems;
+            $items = $this->items;
 
             $subtotal = 0;
 

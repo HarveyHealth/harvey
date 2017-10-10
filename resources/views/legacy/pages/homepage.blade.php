@@ -4,27 +4,20 @@
 @section('main_content')
 
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
-    <section class="hero is-primary">
-        <div class="hero-background"></div>
+    <section class="hero hero-background">
+        <div id="hero-video-container">
+            <video id="hero-video" autoplay loop muted></video>
+            <div id="video-cover"></div>
+            <div id="overlay"></div>
+        </div>
         <div class="hero-body">
             <div class="container">
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
-                        <div class="columns">
-                            <div class="column is-5">
-                                <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                                    <img src="/images/home/clinic.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="column is-7 is-paddingless-left">
-                                <p class="title is-5 is-marginless"><strong>Start your health journey</strong></p>
-                                <p class="subtitle is-6">Learn how Harvey's whole-body approach to medicine makes it very unique from other practices.</p>
-                            </div>
-                        </div>
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>

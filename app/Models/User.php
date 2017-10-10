@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CreditCardUpdated;
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
@@ -312,6 +313,8 @@ class User extends Authenticatable implements Mailable
             return false;
         }
 
+        event(new CreditCardUpdated($this));
+
         return $card;
     }
 
@@ -357,6 +360,8 @@ class User extends Authenticatable implements Mailable
         $this->card_last_four = $defaultCard->last4;
         $this->card_brand = $defaultCard->brand;
         $this->save();
+
+        event(new CreditCardUpdated($this));
 
         return $defaultCard;
     }

@@ -89,6 +89,9 @@ Database Seeding will provide you with these accounts:
 # Nginx
 - Procfile calls the nginx.conf file in the project root.
 
+# Front-end Testing
+Harvey uses `karma`, `mocha`, and `chai` for front-end testing. Tests are located in the `./tests/Frontend` directory. To run tests, use `npm test`. To run tests in watch mode, run `npm run test:watch`. 
+
 # Testing / Get Confirmation Number for Phone Number
 
 * Before testing locally make sure you composer update, delete all DB tables, and php artisan migrate:refresh --seed and also you need the twilio credentials set in your .env
