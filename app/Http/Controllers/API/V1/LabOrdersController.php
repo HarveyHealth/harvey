@@ -84,9 +84,9 @@ class LabOrdersController extends BaseAPIController
      * @param LabOrder     $labOrder
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, LabOrder $lab_order)
+    public function update(Request $request, LabOrder $labOrder)
     {
-        if (currentUser()->cant('update', $lab_order) || $lab_order->isComplete()) {
+        if (currentUser()->cant('update', $labOrder) || $labOrder->isComplete()) {
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
@@ -94,15 +94,15 @@ class LabOrdersController extends BaseAPIController
 
         StrictValidator::checkUpdate($request->all(), [
             'shipment_code' => 'filled|string',
-            'address_1' => "sometimes|order_was_not_shipped:{$lab_order->id}",
-            'address_2' => "sometimes|order_was_not_shipped:{$lab_order->id}",
-            'city' => "sometimes|order_was_not_shipped:{$lab_order->id}",
-            'state' => "sometimes|order_was_not_shipped:{$lab_order->id}",
-            'zip' => "sometimes|order_was_not_shipped:{$lab_order->id}",
+            'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'discount_code' => 'sometimes',
         ]);
 
-        if ($input_data['discount_code']) {
+        if (!empty($input_data['discount_code'])) {
             $discount_code = DiscountCode::findByValidCodeApplicationAndUser($input_data['discount_code'], 'lab-test', currentUser());
 
             \Log::info($discount_code);
@@ -110,13 +110,13 @@ class LabOrdersController extends BaseAPIController
             if ($discount_code) {
                 $input_data['discount_code_id'] = $discount_code->id;
             }
+
+            unset($input_data['discount_code']);
         }
 
-        unset($input_data['discount_code']);
+        $labOrder->update($input_data);
 
-        $lab_order->update($input_data);
-
-        return $this->baseTransformItem($lab_order, request('include'))->respond();
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**
