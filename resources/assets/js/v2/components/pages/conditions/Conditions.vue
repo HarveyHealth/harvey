@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-blue-fade"></div>
-    <div v-if="!State('conditions.condition')">
+    <div v-if="!hasZip && !State('conditions.condition')">
       <MainNav :context="'conditions'" />
       <div class="margin-0a max-width-xl pad-md color-white">
         <div class="margin-0a max-width-icon">
@@ -17,9 +17,9 @@
     <div v-else>
       <MainNav :context="'questions'" />
       <div class="margin-0a max-width-lg pad-md color-white">
-        <ConditionPreface v-if="!State('conditions.prefaceRead')" />
-        <ConditionQuestions v-else-if="State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-        <VerifyZip v-else-if="!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false" />
+        <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
+        <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+        <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
       </div>
     </div>
   </div>
@@ -49,6 +49,9 @@ export default {
     }
   },
   computed: {
+    hasZip() {
+      return this.State('getstarted.userPost.zip') || this.State('conditions.invalidZip');
+    },
     selected() {
       return this.State('conditions.selectedIndex');
     }
@@ -62,6 +65,9 @@ export default {
         App.setState('conditions.condition.questions', questions);
       }
     }
+  },
+  beforeCreate() {
+    App.setState('getstarted.userPost.zip', App.Logic.getstarted.getZipValidation());
   }
 }
 </script>

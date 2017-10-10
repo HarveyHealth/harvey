@@ -24,6 +24,7 @@
       <SlideIn class="space-children-lg">
         <p class="heading-1">Unfortunately, we cannot service patients in your state, but we&rsquo;re working on it.</p>
         <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from out team of Naturopathic Doctors.</p>
+        <p class="font-sm"><a @click="reEnterZip" class="color-white"><i class="fa fa-long-arrow-left margin-right-xs"></i> Re-Enter Zip Code</a></p>
         <div>
           <a class="color-white inline font-xxl" style="padding: 4%" v-for="icon in Config.misc.socialMedia" :href="icon.href">
             <i :class="icon.class"></i>
@@ -43,6 +44,12 @@ export default {
     MultiInput: Inputs.MultiInput,
     SlideIn: Util.SlideIn,
     SvgIcon: Util.SvgIcon
+  },
+  methods: {
+    reEnterZip() {
+      App.setState('wasRequested.zip', false);
+      App.setState('conditions.zipValidation', null);
+    }
   }
 }
 </script>

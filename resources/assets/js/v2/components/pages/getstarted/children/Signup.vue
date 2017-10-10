@@ -92,7 +92,7 @@
               <div class="Divider-text is-white" data-text="OR"></div>
               <FacebookSignin :type="'signup'" :on-click="facebookSignup" />
               <p class="is-padding font-xs"><em>We never share any financial or personal health information with Facebook. We only request from them your name and email.</em></p>
-              </label>
+              <p class="font-sm"><a href="/conditions"><i class="fa fa-long-arrow-left margin-right-xs"></i> Re-Enter Zip Code</a></p>
             </div>
           </div>
         </div>
@@ -126,7 +126,6 @@ export default {
       ],
       responseErrors: [],
       subtitle: '',
-      title: 'Your health journey<br>starts with us.',
       zipInRange: false,
     }
   },
@@ -172,6 +171,9 @@ export default {
           ? 'Please agree to terms and privacy policy.'
           : ''
       }
+    },
+    title() {
+      return `Now serving ${App.Util.misc.getState(this.State('getstarted.zipValidation.state'))}`;
     }
   },
   methods: {
