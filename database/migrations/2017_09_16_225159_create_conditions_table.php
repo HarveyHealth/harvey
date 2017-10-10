@@ -165,7 +165,7 @@ class CreateConditionsTable extends Migration
                     ],
                     [
                         'question' => "Do you have a strict diet?",
-                        'answer' => ["Yes - I spend a lot of time/energy on food planning", "I usually eat pretty healthy but not every day", "Not yet"]
+                        'answers' => ["Yes - I spend a lot of time/energy on food planning", "I usually eat pretty healthy but not every day", "Not yet"]
                     ],
                     [
                         'question' => "How often do you exercise?",
