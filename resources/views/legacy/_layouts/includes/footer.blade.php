@@ -37,7 +37,7 @@
                 <a href="http://help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
             </p>
             <p class="nav-center">
-                <a href="/https://bbb.org" class="nav-item" target="_blank">
+                <a href="https://bbb.org" class="nav-item" target="_blank">
                     <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/bbb.png">
                 </a>
                 <a href="https://us.norton.com" class="nav-item" target="_blank">
