@@ -73,8 +73,8 @@
                 <input class="form-input form-input_checkbox"
                   name="terms" type="checkbox" id="checkbox"
                   v-model="State('getstarted.userPost').terms"
-                  v-validate="'required'" />
-                I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
+                  v-validate="'required'"
+                  checked="checked" /> I agree to <span class="is-hidden-mobile">Harvey's</span> <a href="/terms">terms</a> and <a href="/privacy">policies</a>.
               </label>
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-      </div> <!-- end signup-wrapper -->
+      </div>
     </form>
   </SlideIn>
 </template>
@@ -132,15 +132,15 @@ export default {
     firstNameError() {
       if (this.errors.has('first_name')) {
         return this.errors.firstByRule('first_name', 'required')
-          ? 'First name is required'
-          : 'First name only takes alphabetic characters'
+          ? 'First name is required.'
+          : 'First name only takes alphabetic characters.'
       }
     },
     lastNameError() {
       if (this.errors.has('last_name')) {
         return this.errors.firstByRule('last_name', 'required')
-          ? 'Last name is required'
-          : 'Last name only takes alphabetic characters'
+          ? 'Last name is required.'
+          : 'Last name only takes alphabetic characters.'
       }
     },
     emailError() {
@@ -150,22 +150,22 @@ export default {
           return this.errors.firstByRule('email', 'inuse');
         } else {
           return this.errors.firstByRule('email', 'required')
-            ? 'Email is required'
-            : 'Not a valid email address'
+            ? 'Email is required.'
+            : 'That is not a valid email address.'
         }
       }
     },
     passwordError() {
       if (this.errors.has('password')) {
         return this.errors.firstByRule('password', 'required')
-          ? 'Password is required'
-          : 'Password needs minimum of 6 characters'
+          ? 'Password is required.'
+          : 'Password needs minimum of 6 characters.'
       }
     },
     termsError() {
       if (this.errors.has('terms')) {
         return this.errors.firstByRule('terms', 'required')
-          ? 'Please agree to terms and privacy policy'
+          ? 'Please agree to terms and privacy policy.'
           : ''
       }
     }

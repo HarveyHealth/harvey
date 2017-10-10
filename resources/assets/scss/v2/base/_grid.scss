@@ -1,6 +1,8 @@
 .Row {
   display: flex;
   flex-wrap: wrap;
+  max-width: 1152px;
+  @include margin(0 auto);
   overflow: hidden;
 }
 
@@ -8,6 +10,8 @@
   .Row-lg {
     display: flex;
     flex-wrap: wrap;
+    max-width: 1152px;
+    @include margin(0 auto);
     overflow: hidden;
   }
 }

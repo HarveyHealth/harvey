@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit" :class="animClasses" v-if="!$root.$data.signup.completedSignup">
-
+    
     <div class="signup-wrapper">
 
       <aside class="signup-quotes">
@@ -34,11 +34,8 @@
       </aside>
 
       <div class="container small signup-form-inputs">
-
         <div class="signup-container small naked signup">
-
           <h1 class="heading-1" v-html="title"></h1>
-
           <div class="input-wrap">
             <input class="form-input form-input_text" v-on:change="persistTextFields('first_name', signupData.first_name)" name="first_name" type="text" placeholder="First Name" v-model="signupData.first_name" v-validate="'required|alpha_spaces'" data-vv-as="First name" />
             <p v-show="errors.has('first_name')" class="copy-error">{{ firstNameError }}</p>
@@ -81,8 +78,7 @@
 
         </div>
       </div>
-
-    </div> <!-- end signup-wrapper -->
+    </div>
   </form>
 </template>
 
@@ -130,14 +126,14 @@ export default {
       if (this.errors.has('first_name')) {
         return this.errors.firstByRule('first_name', 'required')
           ? 'First name is required'
-          : 'First name only takes alphabetic characters'
+          : 'First name only takes alphabetic characters.'
       }
     },
     lastNameError() {
       if (this.errors.has('last_name')) {
         return this.errors.firstByRule('last_name', 'required')
           ? 'Last name is required'
-          : 'Last name only takes alphabetic characters'
+          : 'Last name only takes alphabetic characters.'
       }
     },
     emailError() {
@@ -148,7 +144,7 @@ export default {
         } else {
           return this.errors.firstByRule('email', 'required')
             ? 'Email is required'
-            : 'Not a valid email address'
+            : 'That is not a valid email address.'
         }
       }
     },
@@ -156,20 +152,20 @@ export default {
       if (this.errors.has('zip')) {
         return this.errors.firstByRule('zip', 'required')
           ? 'Zipcode is required'
-          : 'Zipcode must contain 5 numeric characters'
+          : 'Zipcode must contain 5 numeric characters.'
       }
     },
     passwordError() {
       if (this.errors.has('password')) {
         return this.errors.firstByRule('password', 'required')
           ? 'Password is required'
-          : 'Password needs minimum of 6 characters'
+          : 'Password needs minimum of 6 characters.'
       }
     },
     termsError() {
       if (this.errors.has('terms')) {
         return this.errors.firstByRule('terms', 'required')
-          ? 'Please agree to terms and privacy policy'
+          ? 'Please agree to terms and privacy policy.'
           : ''
       }
     }

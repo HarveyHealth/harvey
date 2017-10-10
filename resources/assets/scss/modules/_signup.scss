@@ -11,7 +11,7 @@
   position: relative;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  @include padding(30px);
+  @include padding(30px 40px);
   @include margin(0 auto 5px);
 
   &.small {
@@ -25,9 +25,6 @@
   }
   &.router {
     @include padding(60px 30px 30px 30px);
-  }
-  p {
-    @include margin(1em 0);
   }
 
   // Main Signup Page
@@ -87,11 +84,12 @@
 }
 
 // We should merge these at some point
+
 .error-text, .copy-error {
   width: 100%;
   line-height: 1.3;
   @include margin(0);
-  @include padding(10px 0 0);
+  @include padding(8px 0 0);
   text-align: left;
   .flyout & {
     text-align: left;
