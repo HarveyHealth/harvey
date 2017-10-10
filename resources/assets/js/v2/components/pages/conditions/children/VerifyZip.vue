@@ -22,11 +22,13 @@
     </SlideIn>
     <div v-if="State('conditions.zipValidation.is_serviceable') === false">
       <SlideIn class="space-children-lg">
-        <p class="heading-1">Unfortunately, we cannot service patients in your state, but we&rsquo;re working on it.</p>
+        <p class="heading-1">Unfortunately, we cannot service patients in your state yet.</p>
         <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from out team of Naturopathic Doctors.</p>
-        <p class="font-sm"><a @click="reEnterZip" class="color-white"><i class="fa fa-long-arrow-left margin-right-xs"></i> Re-Enter Zip Code</a></p>
-        <div>
-          <a class="color-white inline font-xxl" style="padding: 4%" v-for="icon in Config.misc.socialMedia" :href="icon.href">
+        <a href="#" class="font-md color-white" @click="reEnterZip">
+          <i class="fa fa-undo margin-right-xs"></i> Try Again
+        </a>
+        <div class="is-paddingless">
+          <a class="color-white inline font-xxl" style="padding: 4%" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
             <i :class="icon.class"></i>
           </a>
         </div>
