@@ -5,7 +5,7 @@
       <MainNav :context="'conditions'" />
       <div class="margin-0a max-width-xl pad-md color-white">
         <div class="margin-0a max-width-icon">
-          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" />
+          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
           <p class="font-normal font-xxl">Personalized for better health.</p>

@@ -180,7 +180,7 @@ export default {
         case 1:
           return 'Next week';
         case 2:
-          return 'In two weeks';
+          return 'The week after';
         case 3:
           return 'In three weeks';
       }

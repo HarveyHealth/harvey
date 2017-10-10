@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7 is-6-desktop is-offset-5">
                         <h1 class="title is-1">About Harvey</h1>
-                        <p class="subtitle is-5">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as nutrition and prevention, to treat the whole body, not just a set of symptoms.</p>
+                        <p class="subtitle is-5">Harvey empowers people to find natural and holistic remedies to chronic health conditions. We believe in science, and we believe in treating your whole body, not just your symptoms.</p>
                     </div>
                 </div>
             </div>

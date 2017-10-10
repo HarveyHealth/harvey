@@ -25,7 +25,7 @@
       <div class="signup-stage-instructions color-white">
         <StagesNav :current="'practitioner'" />
         <h2 class="heading-1 font-normal color-white">Choose Your Doctor</h2>
-        <p>The Naturopathic Doctors below are licensed and available to work with patients in your state. Please select the doctor you prefer.</p>
+        <p>The Naturopathic Doctors below are fully licensed and available to work with patients in your state. Please select the doctor that best suits your needs.</p>
       </div>
       <div class="signup-container large">
         <div class="signup-practitioner-wrapper cf">
@@ -61,7 +61,7 @@
                 <hr class="practitioner-divider" />
                 <p class="practitioner-rate font-centered">
                   <span class="font-bold font-spaced font-xl">$150</span>
-                  <span class="font-lg">per 1 hour</span>
+                  <span class="font-lg"> / hour</span>
                 </p>
               </div>
             </div>

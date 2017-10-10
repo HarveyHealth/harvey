@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     displayBack() {
-      return this.State('conditions.questionIndex') > 0;
+      return this.State('conditions.questionIndex') >= 0;
     },
     displayForward() {
       return this.hasAnswered > this.State('conditions.questionIndex');
