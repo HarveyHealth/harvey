@@ -9,7 +9,7 @@
         <!-- Typography -->
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
-        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.2/index.css">
+        <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
         <script>
           window.Laravel = {!! $vue_data !!}

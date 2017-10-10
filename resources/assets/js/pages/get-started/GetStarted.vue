@@ -17,12 +17,13 @@
       Signup,
       Welcome,
     },
-    beforeCreate() {
-      const zipValidation = localStorage.getItem('harvey_zip_validation');
+    beforeMount() {
+      const zipValidation = App.Logic.getstarted.getZipValidation();
       if (!zipValidation) {
         window.location.href = '/conditions';
       } else {
-        App.setState('getstarted.userPost.zip', JSON.parse(zipValidation).zip);
+        App.setState('getstarted.zipValidation', zipValidation);
+        App.setState('getstarted.userPost.zip', zipValidation.zip);
       }
     },
     mounted() {
