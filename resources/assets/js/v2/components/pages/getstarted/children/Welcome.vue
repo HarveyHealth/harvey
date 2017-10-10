@@ -23,7 +23,9 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
-        'height-100': true
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
     }
   },

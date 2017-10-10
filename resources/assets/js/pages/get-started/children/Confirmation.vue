@@ -83,7 +83,9 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
         'pad-md': true,
-        'height-100': true
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       date: this.$root.$data.signup.data.appointment_at,
       doctor: `${this.$root.$data.signup.practitionerName}, ND`,

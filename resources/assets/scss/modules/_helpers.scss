@@ -2,9 +2,7 @@
   text-align: center;
 }
 .vertical-center {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  align-self: center;
 }
 
 em.bold {
@@ -14,6 +12,10 @@ em.bold {
 
 .flex-wrapper {
   @media (min-width: 850px) { display: flex; }
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .block {

@@ -66,7 +66,9 @@ export default {
         'anim-fade-slideup-in': false,
         'container': true,
         'pad-md': true,
-        'height-100': true
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       showModal: false,
       title: 'Appointment confirmed!',
