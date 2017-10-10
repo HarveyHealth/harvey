@@ -2,30 +2,32 @@
   <SlideIn :delay="400" class="height-100">
     <form @submit.prevent="onSubmit" v-if="!$root.$data.signup.completedSignup" class="pad-sm-sides max-width-xxl min-width-100 vertical-center-absolute margin-0a">
       <div class="Row-lg align-middle">
-        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm is-padding">
-          <div class="signup-aside-icon-row">
-            <span><svg><use xlink:href="#apple" /></svg></span>
-            <span><svg><use xlink:href="#stethoscope" /></svg></span>
-            <span><svg><use xlink:href="#labs" /></svg></span>
-            <span><svg><use xlink:href="#doctor" /></svg></span>
-            <span class="is-inline-xl"><svg><use xlink:href="#carrot" /></svg></span>
-            <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
-          </div>
-          <div class="signup-aside-text">
-            <div class="logo-wrapper">
-              <a href="/">
-                <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
-              </a>
+        <aside class="Column-lg-1of2 Column-xl-4of7 is-visible-lg space-children-sm">
+          <div class="is-padding">
+            <div class="signup-aside-icon-row">
+              <span><svg><use xlink:href="#apple" /></svg></span>
+              <span><svg><use xlink:href="#stethoscope" /></svg></span>
+              <span><svg><use xlink:href="#labs" /></svg></span>
+              <span><svg><use xlink:href="#doctor" /></svg></span>
+              <span class="is-inline-xl"><svg><use xlink:href="#carrot" /></svg></span>
+              <span class="is-inline-xl"><svg class="use-stroke"><use xlink:href="#wellness" /></svg></span>
             </div>
-            <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition!</p>
-          </div>
-          <div class="signup-aside-icon-row">
-            <span><svg><use xlink:href="#heart" /></svg></span>
-            <span><svg><use xlink:href="#bottle" /></svg></span>
-            <span><svg><use xlink:href="#baby" /></svg></span>
-            <span><svg><use xlink:href="#scale" /></svg></span>
-            <span class="is-inline-xl"><svg><use xlink:href="#yoga" /></svg></span>
-            <span class="is-inline-xl"><svg><use xlink:href="#medicine" /></svg></span>
+            <div class="signup-aside-text">
+              <div class="logo-wrapper">
+                <a href="/">
+                  <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
+                </a>
+              </div>
+              <p class="font-xl color-white is-padding font-centered">Based on your answers, we're confident our Naturopathic Doctors can help improve your health condition!</p>
+            </div>
+            <div class="signup-aside-icon-row">
+              <span><svg><use xlink:href="#heart" /></svg></span>
+              <span><svg><use xlink:href="#bottle" /></svg></span>
+              <span><svg><use xlink:href="#baby" /></svg></span>
+              <span><svg><use xlink:href="#scale" /></svg></span>
+              <span class="is-inline-xl"><svg><use xlink:href="#yoga" /></svg></span>
+              <span class="is-inline-xl"><svg><use xlink:href="#medicine" /></svg></span>
+            </div>
           </div>
         </aside>
         <div class="Column-lg-1of2 Column-xl-3of7 margin-0a max-width-md">
