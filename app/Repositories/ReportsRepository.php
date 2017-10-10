@@ -24,6 +24,8 @@ class ReportsRepository extends BaseRepository
             ->join('skus','invoice_items.sku_id','=','skus.id')
             ->join('patients','patients.id','=','patient_id')
             ->join('users','patients.user_id','=','users.id')
+            ->leftJoin('discount_codes','invoices.discount_code_id','=','discount_codes.id')
+
             /* consultations */
             ->leftJoin('appointments', function ($join) {
                 $join->on('appointments.invoice_id', '=', 'invoices.id');
@@ -31,7 +33,7 @@ class ReportsRepository extends BaseRepository
             })
             ->leftJoin('practitioners as c_practitioners','c_practitioners.id','=','appointments.practitioner_id')
             ->leftJoin('users as c_users','c_practitioners.user_id','=','c_users.id')
-            ->leftJoin('discount_codes as c_discount_codes','appointments.discount_code_id','=','c_discount_codes.id')
+
             /* lab tests */
             ->leftJoin('lab_orders',function($join){
                 $join->on('lab_orders.invoice_id','=','invoices.id');
@@ -44,14 +46,16 @@ class ReportsRepository extends BaseRepository
             ->leftJoin('lab_tests_information','skus.id','=','lab_tests_information.sku_id')
             ->leftJoin('practitioners as l_practitioners','l_practitioners.id','=','lab_orders.practitioner_id')
             ->leftJoin('users as l_users','l_practitioners.user_id','=','l_users.id')
-            ->leftJoin('discount_codes','lab_orders.discount_code_id','=','discount_codes.id')
+
 
             ->where('invoice_items.created_at','>=', $from_date)
             ->where('invoice_items.created_at','<=',$to_date)
 
-            //->groupBy('item_id')
+            ->orderBy('invoice_id')
 
             ->select(
+                DB::raw("(select count(1) from invoice_items as i where i.invoice_id = invoices.id) as item_count"),
+                'invoices.id as invoice_id',
                 'invoice_items.id as item_id',
                 'users.id as client_id', //Client ID
                 'users.first_name as client_first_name',//Client Name
@@ -80,9 +84,8 @@ class ReportsRepository extends BaseRepository
                 //If the line item is a Processing Fee, please also include:
                 'skus.slug as processing_type',//Processing Type (Full/Partial)
                 'invoice_items.amount as item_amount',//Consultation Price, Processing Total, Lab Test Price
-                DB::raw("IF(discount_codes.code IS NULL, c_discount_codes.code, discount_codes.code) as discount_code"), // //Discount Code
-                DB::raw("IF(discount_codes.discount_type IS NULL, c_discount_codes.discount_type, discount_codes.discount_type) as discount_type"), //Discount Type
-                DB::raw("IF(discount_codes.amount IS NULL, c_discount_codes.amount, discount_codes.amount) as discount_amount") // //Discount Total
+                'discount_codes.code as discount_code', // Discount Code
+                'invoices.discount' // Discount Amount
             );
 
         $report = [];
@@ -94,7 +97,7 @@ class ReportsRepository extends BaseRepository
 
             $product_type = ucfirst(str_replace("-"," ",$item->item_type));
 
-            $discount_total = ($item->discount_type=='percent')? $item->item_amount * $item->discount_amount/100:$item->discount_amount;
+
 
             if ($item->item_type == 'service-fee'){
                 $processing_type = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
@@ -125,7 +128,7 @@ class ReportsRepository extends BaseRepository
             }
 
             $report[] = [
-                "ID" => $item->item_id,
+                "ID" => $item->invoice_id,
                 "Client ID" => $item->client_id,
                 "Client Name" => $client_name,
                 "Client Signup Date" => new Carbon($item->client_signup_date),
@@ -147,7 +150,7 @@ class ReportsRepository extends BaseRepository
                 "Item Cost" => $item->practitioner_cost,
                 "Item Price" => $item->item_amount,
                 "Discount Code" => $item->discount_code,
-                "Discount Total" => $discount_total
+                "Discount" => $item->discount / $item->item_count
             ];
         }
 
