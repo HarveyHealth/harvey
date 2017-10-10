@@ -47,17 +47,21 @@ Validator::extend('order_was_not_shipped', function ($attribute, $value, $parame
 
 
 Validator::extend('appointments_less_than',function($attribute, $value, $parameters, $validator){
-  if (empty($parameters)) {
-      return false;
-  }
+    if (! app()->environment('testing', 'production')){
+        return false;
+    }
 
-  // only allow search by patient or practitioner
-  if (!in_array($attribute,['patient_id','practitioner_id'])){
-    throw new InvalidArgumentException("Invalid value for Attribute argument");
-  }
+    if (empty($parameters)) {
+        return false;
+    }
 
-  // count pending appointments
-  $count = Appointment::pending()->where($attribute,$value)->count();
+    // only allow search by patient or practitioner
+    if (!in_array($attribute,['patient_id','practitioner_id'])){
+        throw new InvalidArgumentException("Invalid value for Attribute argument");
+    }
 
-  return $count < $parameters[0];
+    // count pending appointments
+    $count = Appointment::pending()->where($attribute,$value)->count();
+
+    return $count < $parameters[0];
 });
