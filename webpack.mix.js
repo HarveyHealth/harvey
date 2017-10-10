@@ -37,6 +37,11 @@ if (mix.inProduction()) {
  */
 
 mix.webpackConfig({
+    resolve: {
+        alias: {
+            moment$: 'moment/moment.js'
+        },
+    },
     plugins: [
         new SpritesmithPlugin({
             src: {
