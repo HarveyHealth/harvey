@@ -50,7 +50,7 @@
             }
         },
         setupLabData() {
-            let data = tableDataTransform(this.$root.$data.clientList)
+            let data = tableDataTransform(this.$root.$data.clientList);
             this.currentData = data;
         },
         getLabTests() {
@@ -72,7 +72,9 @@
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
         const clientList = this.$root.$data.clientList;
-        if (clientList.length) this.setupLabData();
+        // if (clientList.length) this.setupLabData();
+        this.setupLabData();
+        // console.log('...mounted', clientList);
     }
   }
 </script>
