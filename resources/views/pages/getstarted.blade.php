@@ -10,8 +10,7 @@
         <meta property="og:locale" content="en_US">
         <meta property="og:url" content="https://www.goharvey.com">
         <meta property="og:image" content="https://d35oe889gdmcln.cloudfront.net/assets/images/social-share.jpg">
-        <meta property="og:description" content="Harvey is the leading telehealth provider of personalized and integrative medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — all from your home.">
-        <meta name="description" content="Harvey is the leading telehealth provider of personalized and integrative medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — all from your home.">
+        <meta property="og:description" name="description" content="Harvey is the leading telehealth provider of personalized and integrative medicine. We empower people to find natural and holistic remedies to chronic health conditions — without leaving their homes.">
         <meta name="keywords" content="holistic health, holistic medicine, vitamins and supplements, naturopathic, integrative medicine, supplements, naturopathic doctor, chiropractor, vitamins, functional medicine, homeopathic medicine, homeopathy, naturopathic medicine, alternative medicine, natural health, acupuncture, eastern medicine, telehealth, naturopathy, natural cure, genomics, lab tests, integrative doctor, functional doctor">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -25,11 +24,11 @@
         <link type="image/x-icon" rel="shortcut icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/favicon.ico">
         <link type="image/x-icon" rel="icon" href="https://d35oe889gdmcln.cloudfront.net/assets/images/icon.png">
         <!-- Typography -->
-        @stack('stylesheets')
         <script src="https://use.typekit.net/ukw4upn.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
         <link rel="stylesheet" href="https://unpkg.com/gh-font-awesome@1.0.4/index.css">
         <link rel="stylesheet" href="{{ mix('css/application.css') }}">
+        @stack('stylesheets')
         <script>
           window.Laravel = {!! $vue_data !!}
           // Controller has determined that the user is:
