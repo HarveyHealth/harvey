@@ -125,7 +125,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
