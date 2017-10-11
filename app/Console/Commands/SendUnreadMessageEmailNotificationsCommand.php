@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Redis;
 
 class SendUnreadMessageEmailNotificationsCommand extends Command
 {
-    const UNREAD_OLDER_THAN_MINUTES = 15;
+    const UNREAD_OLDER_THAN_MINUTES = 10;
+    const UNREAD_NEWER_THAN_MINUTES = 15;
     const LAST_PROCESSED_ID_REDIS_KEY = 'messages:send-unread-messages-notifications:last_processed_id';
 
     /**
@@ -39,13 +40,18 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
         $lastProcessedId = Redis::get(self::LAST_PROCESSED_ID_REDIS_KEY);
         $builder = Message::unread();
 
+        // defines date to filter messages to be notified
+        $older_than = Carbon::now()->subMinutes(self::UNREAD_OLDER_THAN_MINUTES);
+        $newer_than = Carbon::now()->subMinutes(self::UNREAD_NEWER_THAN_MINUTES);
+
         if (is_numeric($lastProcessedId)) {
             $this->info("Last processed ID = {$lastProcessedId}.");
-            $builder = $builder->idGreaterThan($lastProcessedId);
+            $builder = $builder->idGreaterThan($lastProcessedId)->createdBefore($older_than);
         } else {
             $this->info("Last processed ID not found.");
             $this->info('Looking for unread messages in the last ' . self::UNREAD_OLDER_THAN_MINUTES . ' minutes');
-            $builder = $builder->createdAfter(Carbon::now()->subMinutes(self::UNREAD_OLDER_THAN_MINUTES));
+            $builder = $builder->createdBefore($older_than);
+            $builder = $builder->createdAfter($newer_than);
         }
 
         $messages = $builder->get();
