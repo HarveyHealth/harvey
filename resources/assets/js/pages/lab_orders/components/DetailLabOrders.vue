@@ -94,7 +94,7 @@
         <div v-if="status === 'Recommended'">
           <label class="input__label">Discount Code</label>
           <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
-          <span class="error-color discount-error" v-if="disabledDiscount">Invalid Discount Code</span>
+          <span class="error-text" v-if="disabledDiscount">Code does not exist.</span>
         </div>
 
         <!-- Call to Action -->
@@ -114,24 +114,39 @@
         <!-- Product List -->
 
         <div class="input__container checkout-container">
+
+          <!-- Product Names -->
           <div class="left-column">
             <label class="input__label" for="products">Products</label>
             <span class="sub-items" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</span>
           </div>
+
+          <!-- Product Prices -->
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
             <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
+
+          <!-- Summary Names -->
           <div class="left-column">
-            <label class="input__label discount" for="totals">Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
+            <label class="sub-items processing">Processing</label>
+            <label class="sub-items summary subtotal">Subtotal</label>
+            <label class="sub-items discount">
+              Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
             </label>
-            <label class="input__label total" for="totals">Total</label>
+            <label class="sub-items summary total">Total</label>
           </div>
+
+          <!-- Summary Amounts -->
           <div class="right-column">
-            <label class="input__label discount" for="price">{{ discountType === 'dollars' ? `- $${discountAmount}` : discountType === 'percent' ? `- $${percentAmount}` : '- 0.00' }}
+            <label class="sub-items processing">${{ processingFee }}</label>
+            <label class="sub-items summary subtotal">${{ subtotalAmount }}</label>
+            <label class="sub-items discount">
+              - ${{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `$${percentAmount}` : '0.00' }}
             </label>
-            <label class="input__label total" for="price">${{ patientPrice }}</label>
+            <label class="sub-items summary total">${{ patientPrice }}</label>
           </div>
+
         </div>
 
         <!-- Address -->
@@ -403,7 +418,9 @@ export default {
       cardExpiry: '',
       cardCvc: '',
       discountType: '',
-      discountAmount: '',
+      discountAmount: 0, // Placeholder
+      processingFee: 20,
+      subtotalAmount: 0,
       loading: false,
       patientPrice: 0,
       patientLabTests: {},
@@ -428,9 +445,21 @@ export default {
       Object.values(this.labPatients).forEach(e => {
         price += eval(e.attributes.price);
       })
-      this.patientPrice = price.toFixed(2);
+
+      // Reusable
+
+      let fee = Number(this.processingFee);
+      let subtotal = Number(price) + fee;
+      let discount = Number(this.discountAmount); // TODO: If there is a discount code, apply it
+
+      this.processingFee = fee.toFixed(2);
+      this.subtotalAmount = (price + fee).toFixed(2);
+      this.discountAmount = discount.toFixed(2);
+      this.patientPrice = (price + fee - discount).toFixed(2);
+
       this.disabled = _.isEmpty(this.labPatients) ? true : false
     },
+
     handleFlyoutClose() {
       this.$parent.step = 1;
       this.loading = false;
@@ -474,6 +503,7 @@ export default {
               }
               this.patientPrice = this.discountType === 'percent' ? `${(this.patientPrice * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
                 this.discountType === 'dollars' ? `${eval(this.patientPrice - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
+              this.patientPrice = (this.patientPrice + this.processingFee).toFixed(2);
               this.patchCode = response.data.data.attributes.code;
               this.stepThree();
             } else {

@@ -29,16 +29,6 @@
     @include margin(0);
 }
 
-.discount {
-    color: $casper;
-}
-
-.total {
-    color: $color-good;
-    font-size: 15px;
-    @include margin(.25em 0);
-}
-
 .discount-error {
     font-size: 18px;
     font-weight: 500;
@@ -52,6 +42,20 @@
     font-size: 15px;
     display: table;
     @include margin(.25em 0);
+
+    &.discount {
+        color: $casper;
+    }
+
+    &.summary {
+        font-weight: 600;
+    }
+
+    &.total {
+        color: $color-good;
+        font-size: 16px;
+        @include margin(.25em 0);
+    }
 }
 
 .address, .city, .zip, .state {
