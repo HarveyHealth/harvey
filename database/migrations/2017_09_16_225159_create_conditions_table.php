@@ -218,7 +218,7 @@ class CreateConditionsTable extends Migration
                 ]
             ],
             [
-                'name' => "Fibromyalgia & Fatigue",
+                'name' => "Fibromyalgia and Fatigue",
                 'slug' => "fibromyalgia-and-fatigue",
                 'image_url' => 'condition_fibromyalgia_and_fatigue',
                 'description' => "Fatigue is one of the most common reasons for people in the United States to seek medical help. Oftentimes, a traditional approach will rule out underlying conditions which are common causes of fatigue, and then hit a dead end. From a Naturopathic perspective, fatigue should be assessed as a whole body approach, and multiple contributing variables to fatigue will be addressed. Dietary factors, nutrient support, adrenal health/hormone balance will all be taken into account when creating a care plan for fatigue management and optimal energy support.",
@@ -250,7 +250,7 @@ class CreateConditionsTable extends Migration
                 ]
             ],
             [
-                'name' => "Diet & Nutrition Guidance",
+                'name' => "Diet and Nutrition Guidance",
                 'slug' => "diet-and-nutrition",
                 'image_url' => "condition_diet_and_nutrition",
                 'description' => "One of the core beliefs in Naturopathic medicine is based on letting food be your medicine, and letting your medicine be your food. Maybe you feel pretty great, and you just want a little extra guidance on optimizing your diet? Maybe you follow a vegetarian diet and you want to be sure you’re doing the best you can for your body? We can approach optimal diet by removing food sensitivities, assessing and supporting nutrient balance, and removing obstacles to optimal wellness.",
@@ -282,7 +282,7 @@ class CreateConditionsTable extends Migration
                 ]
             ],
             [
-                'name' => "Anxiety & Depression",
+                'name' => "Anxiety and Depression",
                 'slug' => "anxiety-and-depression",
                 'image_url' => "condition_anxiety_and_depression",
                 'description' => "Naturopathic medicine strongly believes in “whole person wellness”. This includes mind, body and spirit. If our mind or spirit is not well, it affects us physically, and vice versa. Additional investigation may include nutrient status, hormone balance and diet assessments. We have effective, non-toxic therapies to help you find the balance you need to feel as healthy as you’d like to feel.",
@@ -318,7 +318,7 @@ class CreateConditionsTable extends Migration
                 ]
             ],
             [
-                'name' => "General / Other",
+                'name' => "General Health",
                 'slug' => "general",
                 'image_url' => "condition_general",
                 'description' => "As licensed doctors, Naturopathic Doctors are able to provide a variety of services to treat a multitude of conditions. Every patient will get a personalized treatment protocol, which will most effectively address their needs and individual concerns. We may utilize specialty lab testing, dietary and lifestyle advice, nutritional and herbal remedies, and a patient centered approach. It would be our pleasure to assist you on your path to optimal wellness.",
