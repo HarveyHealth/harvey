@@ -32,15 +32,13 @@ class DiscountCodesController extends BaseAPIController
 
         $code = $request->input('discount_code');
         $applies_to = $request->input('applies_to');
-        $user = auth()->user();
 
-        $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, $user);
+        $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, currentUser());
 
-        // if we don't have a valid discount code
         if (!$discount_code) {
-            return response()->apiproblem(['valid' => false]);
+            return response()->apiproblem(['valid' => false], ResponseCode::HTTP_OK);
         }
 
-        return $this->baseTransformItem($discount_code, null, $this->transformer)->respond();
+        return $this->baseTransformItem($discount_code)->respond();
     }
 }
