@@ -32,24 +32,18 @@
                     :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
             </div>
           </div>
+          <div class="input-wrap">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="discount_card" type="text" placeholder="Discount Code" v-model="discountCode" />
+            <div class="copy-error" v-show="discountError">{{ discountError }}</div>
+            <div class="copy-good" v-show="isValidDiscount">{{ discountSuccess }}</div>
+          </div>
         </form>
         <div v-if="!pageLogic.showForm" class="signup-main-icon">
           <svg>
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
           </svg>
         </div>
-        <div class="input-wrap">
-          <input class="form-input form-input_text"
-                :disabled="isComplete" name="discount_card" type="text" placeholder="Discount Code" v-model="discountCode" />
-          <div class="copy-error" v-show="discountError">{{ discountError }}</div>
-          <div class="copy-good" v-show="isValidDiscount">{{ discountSuccess }}</div>
-        </div>
-      </form>
-      <div v-if="!pageLogic.showForm" class="signup-main-icon">
-        <svg>
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
-        </svg>
-      </div>
         <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
         <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
         <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
@@ -140,6 +134,8 @@ export default {
       this.toggleProcessing();
       this.stripeError = '';
       this.discountError = '';
+      this.discountSuccess = '';
+      this.isValidDiscount = false;
 
       if (this.pageLogic.submitContinue) {
         this.$router.push({ name: 'confirmation', path: '/confirmation' });
@@ -163,9 +159,15 @@ export default {
     validateDiscount(resolve) {
       const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
       axios.get(endpoint).then(response => {
+        if (response.data.errors) {
+          this.discountError = 'Invalid discount code';
+          if (!this.stripeError) {
+            this.toggleProcessing();
+          }
+          return;
+        }
         const attributes = response.data.data.attributes;
         this.isValidDiscount = true;
-        this.$root.$data.signup.data.discount_code = this.discountCode;
         switch(attributes.discount_type) {
           case 'dollars':
             this.discountSuccess = `$${attributes.amount} consultation discount applied!`;
@@ -175,12 +177,7 @@ export default {
             break;
         }
         if (resolve) resolve();
-      }).catch(error => {
-        if (error) {
-          this.toggleProcessing();
-          this.discountError = error.response.data.errors[0].detail;
-        }
-      });
+      }).catch(error => {});
     },
     createStripeToken(cardData) {
       Stripe.card.createToken(cardData, (status, response) => {
@@ -189,6 +186,7 @@ export default {
         } else {
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
+          this.$root.$data.signup.data.discount_code = this.discountCode;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.markComplete();
