@@ -56,8 +56,8 @@ class ZipCodeValidator
 
         if (empty($json_result)) {
             $json_result = json_encode($this->geocoder->geocode($query));
-            Redis::set($redisKey, $json_result);
-            Redis::expire($redisKey, TimeInterval::months(1)->toSeconds());
+            Redis::set($redis_key, $json_result);
+            Redis::expire($redis_key, TimeInterval::months(1)->toSeconds());
         }
 
         $result = json_decode($json_result, true);
@@ -66,8 +66,8 @@ class ZipCodeValidator
         $this->city = $result['address']['city'];
 
         if ((empty($this->state) || empty($this->city))
-        && Redis::ttl($redisKey) > TimeInterval::hours(1)->toSeconds()) {
-            Redis::expire($redisKey, TimeInterval::hours(1)->toSeconds());
+        && Redis::ttl($redis_key) > TimeInterval::hours(1)->toSeconds()) {
+            Redis::expire($redis_key, TimeInterval::hours(1)->toSeconds());
         }
 
         return $result;
