@@ -16,6 +16,10 @@ class AuthController extends Controller
         $this->zip_code_validator = $zip_code_validator;
     }
 
+    private function determineView($user) {
+        return $user->appointments()->first() ? '/dashboard' : '/get-started';
+    }
+
     // Redirect the user to the OAuth Provider.
     public function redirectToFacebookProvider(Request $request)
     {
@@ -37,12 +41,19 @@ class AuthController extends Controller
 
         // Determine if user currently exists from previous facebook signin
         if ($existing_user = User::where('facebook_provider_id', $user->id)->first()) {
-            // login and redirect based on appointment history
-            $has_appointment = $existing_user->appointments()->first();
-            $to_page = $has_appointment ? '/dashboard' : '/get-started';
+
             Auth::loginUsingId($existing_user->id, true);
-            return redirect($to_page);
+            return redirect($this->determineView($existing_user));
+
         } else {
+
+            // Determine if the email is already used in the db. If so, update facebook_provider_id and login
+            if ($current_legacy_user = User::where('email', $user->email)->first()) {
+              $current_legacy_user->update(['facebook_provider_id' => $user->id]);
+              Auth::loginUsingId($current_legacy_user->id, true);
+              return redirect($this->determineView($current_legacy_user));
+            }
+
             if (session('no_zip')) {
                 session(['no_zip' => false]);
                 return redirect('/conditions');
