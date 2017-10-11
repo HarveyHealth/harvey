@@ -31,8 +31,12 @@
 
 .discount {
     color: $casper;
-    font-weight: 500;
-    @include margin(0 0 .25em 0);
+}
+
+.total {
+    color: $color-good;
+    font-size: 15px;
+    @include margin(.25em 0);
 }
 
 .discount-error {
@@ -43,16 +47,11 @@
     @include padding(20px 0 0 0);
 }
 
-.total {
-    color: $color-good;
-    @include margin(0);
-}
-
 .sub-items {
     width: 100%;
     font-size: 15px;
     display: table;
-    @include margin(.5em 0 .25em);
+    @include margin(.25em 0);
 }
 
 .address, .city, .zip, .state {
