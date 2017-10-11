@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use Bugsnag, Cache, Exception, Lang, Log, View;
+use Illuminate\Support\Facades\Redis;
 
 class Appointment extends Model
 {

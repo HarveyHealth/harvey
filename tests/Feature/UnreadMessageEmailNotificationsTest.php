@@ -6,7 +6,8 @@ use App\Console\Commands\SendUnreadMessageEmailNotificationsCommand;
 use App\Models\{Message, Patient};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Carbon, Redis, ResponseCode;
+use Carbon, ResponseCode;
+use Illuminate\Support\Facades\Redis;
 
 
 class UnreadMessageEmailNotificationsTest extends TestCase
