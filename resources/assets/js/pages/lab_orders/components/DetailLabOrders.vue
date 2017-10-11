@@ -142,7 +142,7 @@
             <label class="sub-items processing">${{ processingFee }}</label>
             <label class="sub-items summary subtotal">${{ subtotalAmount }}</label>
             <label class="sub-items discount">
-              - ${{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `$${percentAmount}` : '0.00' }}
+              - ${{ discountType === 'dollars' ? `${discountAmount}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
             </label>
             <label class="sub-items summary total">${{ patientPrice }}</label>
           </div>
@@ -419,7 +419,7 @@ export default {
       cardCvc: '',
       discountType: '',
       discountAmount: 0, // Placeholder
-      processingFee: 20,
+      processingFee: 20.00,
       subtotalAmount: 0,
       pricing: 0,
       loading: false,
@@ -442,18 +442,18 @@ export default {
       } else {
         delete this.labPatients[test.attributes.name];
       }
-      Object.values(this.labPatients).forEach(e => {
+      let tests = Object.values(this.labPatients)
+      tests.forEach(e => {
         this.pricing += eval(e.attributes.price);
       })
 
-      let fee = Number(this.processingFee);
-      let subtotal = Number(this.pricing) + fee;
-      let discount = 0;
+      let fee = this.processingFee;
+      let subtotal = this.pricing + fee;
 
       this.processingFee = fee.toFixed(2);
-      this.subtotalAmount = (price + fee).toFixed(2);
+      this.subtotalAmount = subtotal.toFixed(2);
 
-      this.disabled = _.isEmpty(this.labPatients) ? true : false
+      this.disabled = tests.length === 0 ? true : false
     },
 
     handleFlyoutClose() {
@@ -495,8 +495,8 @@ export default {
             if (response.data.data.attributes.valid) {
               this.discountType = response.data.data.attributes.discount_type;
               this.discountAmount = response.data.data.attributes.amount;
-              if (response.data.data.attributes.discount_type === 'percent') {
-                this.percentAmount = (this.patientPrice * (Number(this.discountAmount)) * 0.01).toFixed(2)
+              if (this.discountType === 'percent') {
+                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2)
               }
               this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
                 this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
