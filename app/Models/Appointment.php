@@ -93,7 +93,7 @@ class Appointment extends Model
             } catch (Google_Service_Exception $e) {
                 if (404 == $e->getCode()) {
                     $message = "Got a 404 when retrieving google_calendar_event_id #{$this->google_calendar_event_id} (Appointment ID #{$this->id}).";
-                    $message .= "\nPatient: *{$this->patient->user->fullName()}*  on {$this->appointment_at->format('M j')} at {$this->appointment_at->format('g:ia')}. Appointment unsynced from Google Calendar.";
+                    $message .= "\nPatient: *{$this->patient->user->full_name}*  on {$this->appointment_at->format('M j')} at {$this->appointment_at->format('g:ia')}. Appointment unsynced from Google Calendar.";
                     ops_warning('Google Calendar', $message, 'practitioners');
                     $this->google_calendar_event_id = null;
                     $this->save();
