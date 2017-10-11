@@ -23,7 +23,7 @@
     <div v-if="State('conditions.zipValidation.is_serviceable') === false">
       <SlideIn class="space-children-lg">
         <p class="heading-1">Unfortunately, we cannot service patients in your state yet.</p>
-        <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from out team of Naturopathic Doctors.</p>
+        <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</p>
         <a href="#" class="font-md color-white" @click="reEnterZip">
           <i class="fa fa-undo margin-right-xs"></i> Try Again
         </a>
