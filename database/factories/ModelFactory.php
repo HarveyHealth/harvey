@@ -8,6 +8,7 @@ use App\Models\{
     Condition,
     LabOrder,
     LabTest,
+    LabTestInformation,
     License,
     Message,
     Patient,
@@ -280,7 +281,7 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
             return factory(LabOrder::class)->create()->id;
         },
         'sku_id' => function () {
-            return factory(SKU::class)->create()->id;
+            return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
     ];
