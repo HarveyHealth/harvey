@@ -7,7 +7,7 @@ use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use App\Models\{DiscountCode, SKU};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use Bugsnag, Cache, Google_Service_Exception, Exception, Lang, Log, View;
+use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, Redis, View;
 
 
 class Appointment extends Model
@@ -87,9 +87,14 @@ class Appointment extends Model
             return null;
         }
 
-        return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
+        $redis_key = "google-meet-link-appointment-id-{$this->id}";
+        $google_meet_link = Redis::get($redis_key);
+
+        if (is_null($google_meet_link)) {
             try {
-                return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+                $google_meet_link = GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+                Redis::set($redis_key, $google_meet_link);
+                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
             } catch (Google_Service_Exception $e) {
                 if (404 == $e->getCode()) {
                     $message = "Got a 404 when retrieving google_calendar_event_id #{$this->google_calendar_event_id} (Appointment ID #{$this->id}).";
@@ -98,10 +103,15 @@ class Appointment extends Model
                     $this->google_calendar_event_id = null;
                     $this->save();
                 } else {
+                    $google_meet_link = false;
+                    Redis::set($redis_key, $google_meet_link);
+                    Redis::expire($redis_key, TimeInterval::days(1)->toSeconds());
                     throw $e;
                 }
             }
-        });
+        }
+
+        return $google_meet_link;
     }
 
     public function isLocked()
@@ -288,9 +298,10 @@ class Appointment extends Model
 
         $this->google_calendar_event_id = $event->id;
 
-        Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () use ($event) {
-            return $event->hangoutLink;
-        });
+        $redis_key = "google-meet-link-appointment-id-{$this->id}";
+
+        Redis::set($redis_key, $event->hangoutLink);
+        Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
 
         try {
             $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));

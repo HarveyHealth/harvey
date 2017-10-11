@@ -14,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
-use Cache, Carbon, Exception, Log, Mail;
+use Carbon, Exception, Log, Mail, Redis;
 
 class User extends Authenticatable implements Mailable
 {
@@ -274,20 +274,29 @@ class User extends Authenticatable implements Mailable
             return collect();
         }
 
-        return Cache::remember("get-cards-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
+        $redis_key = "get-cards-user-id-{$this->id}";
+        $cards_json = Redis::get($redis_key);
+
+        if (is_null($cards_json)) {
             try {
                 $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
+                $cards_json = json_encode($cards);
+                Redis::set($redis_key, $cards_json);
+                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
             } catch (Exception $e) {
                 Log::error("Unable to list credit cards for User #{$this->id}", $e->getMessage() ?? []);
-                return collect();
+                $cards_json = '[]';
+                Redis::set($redis_key, $cards_json);
+                Redis::expire($redis_key, TimeInterval::hours(6)->toSeconds());
             }
-            return collect($cards);
-        });
+        }
+
+        return collect(json_decode($cards_json, true));
     }
 
     public function clearGetCardsCache()
     {
-        return Cache::forget("get-cards-user-id-{$this->id}");
+        return Redis::del("get-cards-user-id-{$this->id}");
     }
 
     public function deleteCard(string $cardId)
