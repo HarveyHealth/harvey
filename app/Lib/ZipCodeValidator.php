@@ -60,7 +60,7 @@ class ZipCodeValidator
         $this->city = $result['address']['city'];
 
         if (empty($this->state) || empty($this->city)) {
-            Cache::forget("call-geocoder-{$query}");
+            Cache::put("call-geocoder-{$query}", $result, TimeInterval::minutes(rand(60,1440)));
         }
 
         return $result;
