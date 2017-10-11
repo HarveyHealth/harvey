@@ -98,7 +98,7 @@
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
-        <label class="input__label">Google Meet Link</label>
+        <label class="input__label">Meet Link</label>
         <a :href="appointment.googleMeet" target="_blank">{{ appointment.googleMeet }}</a>
       </div>
 
