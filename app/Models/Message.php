@@ -119,6 +119,11 @@ class Message extends Model
         return $builder->where('created_at', '>', $date);
     }
 
+    public function scopeCreatedBefore(Builder $builder, Carbon $date)
+    {
+        return $builder->where('created_at', '<', $date);
+    }
+
     public function scopeIdGreaterThan(Builder $builder, int $id)
     {
         return $builder->where('id', '>', $id);

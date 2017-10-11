@@ -14,6 +14,7 @@ use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
 use Cache, Carbon, Exception, Log, Mail;
+use Illuminate\Support\Facades\Redis;
 
 class User extends Authenticatable implements Mailable
 {
