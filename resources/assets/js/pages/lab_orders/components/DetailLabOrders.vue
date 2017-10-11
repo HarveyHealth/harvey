@@ -139,12 +139,12 @@
 
           <!-- Summary Amounts -->
           <div class="right-column">
-            <label class="sub-items processing">${{ processingFee }}</label>
-            <label class="sub-items summary subtotal">${{ subtotalAmount }}</label>
+            <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
+            <label class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
             <label class="sub-items discount">
               - ${{ discountType === 'dollars' ? `${discountAmount}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
             </label>
-            <label class="sub-items summary total">${{ patientPrice }}</label>
+            <label class="sub-items summary total">${{ discountType === '' ? subtotalAmount.toFixed(2) : patientPrice }}</label>
           </div>
 
         </div>
@@ -419,7 +419,7 @@ export default {
       cardCvc: '',
       discountType: '',
       discountAmount: 0, // Placeholder
-      processingFee: 20.00,
+      processingFee: 20,
       subtotalAmount: 0,
       pricing: 0,
       loading: false,
@@ -442,18 +442,18 @@ export default {
       } else {
         delete this.labPatients[test.attributes.name];
       }
-      let tests = Object.values(this.labPatients)
-      tests.forEach(e => {
-        this.pricing += eval(e.attributes.price);
+
+      let prices = 0
+      _.each(this.labPatients, e => {
+        prices += Number(e.attributes.price);
       })
 
       let fee = this.processingFee;
-      let subtotal = this.pricing + fee;
+      let subtotal = prices + fee;
+      this.processingFee = fee;
+      this.subtotalAmount = subtotal;
 
-      this.processingFee = fee.toFixed(2);
-      this.subtotalAmount = subtotal.toFixed(2);
-
-      this.disabled = tests.length === 0 ? true : false
+      this.disabled = _.isEmpty(this.labPatients) ? true : false
     },
 
     handleFlyoutClose() {
@@ -691,9 +691,7 @@ export default {
           }).then(resp => {
             this.$root.$data.global.labTests.forEach((ele, idx) => {
               if (Number(ele.id) === Number(e.test_id)) {
-                console.log('HIT')
                 this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
-                console.log(this.$root.$data.global.labTests[idx])
               }
             })
           }))
@@ -869,23 +867,6 @@ export default {
       return this.$root.$data.global.creditCards.slice(-1).pop();
     }
   },
-  watch: {
-    id(old, latest) {
-      if (old !== latest) {
-        this.masterTracking = ''
-        this.address1 = ''
-        this.address2 = ''
-        this.newCity = ''
-        this.newZip = ''
-        this.newState = ''
-        this.selectedShipment = {}
-        this.shippingCodes = {}
-        this.patientLabTests = {}
-        this.labPatients = {}
-        this.disabled = true
-      }
-    }
-  }
 }
 
 </script>
