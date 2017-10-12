@@ -80,7 +80,7 @@ Database Seeding will provide you with these accounts:
 - password: `secret`
 
 #### Patient: Staging
-- email: `admin@goharvey.com`
+- email: `patient@goharvey.com`
 - password: `secret`
 
 #### Practitioner
