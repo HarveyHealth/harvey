@@ -36,3 +36,10 @@
     font-size: $font-xl;
   }
 }
+
+.heading-4 {
+  @extend .font-uppercase;
+  @extend .font-xs;
+
+  color: $color-copy-muted-2;
+}
