@@ -19,7 +19,7 @@
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Contact Info
-                        <span v-if="this.user_id && !loading">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ thisUserId }})</span>
                     </h2>
                 </div>
                 <div class="card-content-container topPadding">
@@ -204,6 +204,7 @@
                         zip: '',
                     },
                 },
+                thisUserId: this.$root.$data.global.user.attributes.id,
                 practitioner: `${Laravel.user.practitionerId}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
