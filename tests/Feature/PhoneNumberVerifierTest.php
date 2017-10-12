@@ -7,7 +7,8 @@ use App\Models\{Patient, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Carbon, Log, Redis, ResponseCode;
+use Carbon, Log, ResponseCode;
+use Illuminate\Support\Facades\Redis;
 
 class PhoneNumberVerifierTest extends TestCase
 {

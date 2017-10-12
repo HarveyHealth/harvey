@@ -5,7 +5,8 @@ namespace App\Http\Controllers\API\V1;
 use App\Lib\{TimeInterval, TransactionalEmail, Validation\StrictValidator};
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Redis, ResponseCode;
+use ResponseCode;
+use Illuminate\Support\Facades\Redis;
 
 class VisitorsController extends BaseAPIController
 {
