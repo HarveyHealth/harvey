@@ -1,0 +1,27 @@
+.color-white {
+  &, #{$global-copy-elements} {
+    color: $color-white;
+  }
+}
+
+.color-good {
+    color: $color-good;
+}
+
+.gray-lightest {
+    color: #f9f9f9;
+}
+
+.gray-lighter {
+    color: #f2f2f2;
+}
+
+.gray-light {
+    color: #eee;
+}
+
+.gray {
+    color: #777;
+}
+
+$tertiary: #82BEF2;

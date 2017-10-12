@@ -40,7 +40,7 @@
       },
       methods: {
         handleRowClick(obj, index) {
-            return null
+            return null;
         },
         $$rowClasses(data, index) {
             return {
@@ -50,29 +50,33 @@
             }
         },
         setupLabData() {
-            let data = tableDataTransform(this.$root.$data.clientList)
-            this.currentData = data
+            let data = tableDataTransform(this.$root.$data.clientList);
+            this.currentData = data;
         },
         getLabTests() {
-            this.tests = this.$root.$data.labTests
+            this.tests = this.$root.$data.labTests;
         }
     },
     computed: {
         loadingClients() {
-            return this.$root.$data.global.loadingClients
+            return this.$root.$data.global.loadingClients;
         }
     },
     watch: {
         loadingClients(val, old) {
             if (!val) {
-                this.setupLabData()
+                this.setupLabData();
             }
         }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
-        const clientList = this.$root.$data.clientList
-        if (clientList.length) this.setupLabData();
+        const clientList = this.$root.$data.clientList;
+
+        // only load if we have no local clients, but available clients in-app
+        if (this.currentData.length === 0 && clientList.length != 0) {
+            this.setupLabData();
+        }
     }
   }
 </script>

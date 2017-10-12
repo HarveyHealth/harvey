@@ -67,6 +67,13 @@ $font-family: "proxima-nova";
       color: white;
     }
   }
+
+  .nav-item {
+    img {
+      max-height: 55px;
+    }
+  }
+
 }
 
 // Hide before font loads
@@ -307,6 +314,7 @@ $font-family: "proxima-nova";
       }
       svg {
         width: 150px;
+        height: 60px;
         &.harvey-mark {
           width: 150px;
           @include margin(2px null null null);
@@ -334,7 +342,7 @@ $font-family: "proxima-nova";
 
         font-size: 17px;
         display: inline-block;
-        @include padding(.3em 1em);
+        @include padding(.35em 1em);
         @include margin(null .2em null null);
 
         &.link {
@@ -405,9 +413,9 @@ body {
 
 .logo-wrapper {
   .no-svg & {
-    background: url('/images/logos/mobile-logo.png') no-repeat center center;
+    background: url('https://d35oe889gdmcln.cloudfront.net/assets/images/logos/mobile-logo.png') no-repeat center center;
     @media screen and (min-width: 998px) {
-      background-image: url('/images/logos/main-logo.png');
+      background-image: url('https://d35oe889gdmcln.cloudfront.net/assets/images/logos/main-logo.png');
     }
   }
 }
@@ -543,6 +551,7 @@ body[class*="404"]{
 
       form {
         margin-bottom: 60px;
+        padding: 16px;
       }
 
       .button {
@@ -575,9 +584,9 @@ body[class*="404"]{
       .card-footer-item {
         width: 100%;
         max-width: 510px;
-        @include padding(1.7rem 4.5rem);
+        @include padding(1rem 4.5rem);
         @include until($tablet) {
-          @include padding(1.7rem 3rem);
+          @include padding(1.5rem 3rem 0.5rem);
 
         }
       }
