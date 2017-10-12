@@ -19,7 +19,7 @@
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Contact Info
-                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ thisUserId }})</span>
+                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
                     </h2>
                 </div>
                 <div class="card-content-container topPadding">
