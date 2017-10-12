@@ -1,5 +1,5 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -131,7 +131,7 @@
           <div class="left-column">
             <label class="sub-items processing">Processing</label>
             <label class="sub-items summary subtotal">Subtotal</label>
-            <label class="sub-items discount">
+            <label v-if="discountCode" class="sub-items discount">
               Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
             </label>
             <label class="sub-items summary total">Total</label>
@@ -141,7 +141,7 @@
           <div class="right-column">
             <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
             <label class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
-            <label class="sub-items discount">
+            <label v-if="discountCode" class="sub-items discount">
               - ${{ discountType === 'dollars' ? `${discountAmount}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
             </label>
             <label class="sub-items summary total">${{ discountType === '' ? subtotalAmount.toFixed(2) : patientPrice }}</label>
@@ -522,7 +522,6 @@ export default {
     },
     stepThree() {
       this.$parent.step = 3;
-      this.flyoutHeading = 'Confirm Payment';
     },
     nextStep() {
       this.$parent.step++;
