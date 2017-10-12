@@ -132,7 +132,7 @@
             <label class="sub-items processing">Processing</label>
             <label v-if="discountCode" class="sub-items summary subtotal">Subtotal</label>
             <label v-if="discountCode" class="sub-items discount">
-              Discount {{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }}
+              Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
             </label>
             <label class="sub-items summary total">Total</label>
           </div>
