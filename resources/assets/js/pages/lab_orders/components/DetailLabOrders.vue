@@ -496,7 +496,7 @@ export default {
               this.discountType = response.data.data.attributes.discount_type;
               this.discountAmount = response.data.data.attributes.amount;
               if (this.discountType === 'percent') {
-                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2)
+                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01))
               }
               this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
                 this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
