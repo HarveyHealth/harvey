@@ -130,7 +130,7 @@
           <!-- Summary Names -->
           <div class="left-column">
             <label class="sub-items processing">Processing</label>
-            <label class="sub-items summary subtotal">Subtotal</label>
+            <label v-if="discountCode" class="sub-items summary subtotal">Subtotal</label>
             <label v-if="discountCode" class="sub-items discount">
               Discount {{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }}
             </label>
@@ -140,7 +140,7 @@
           <!-- Summary Amounts -->
           <div class="right-column">
             <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
-            <label class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
+            <label v-if="discountCode" class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
             <label v-if="discountCode" class="sub-items discount">
               - ${{ discountType === 'dollars' ? `${discountAmount.toFixed(2)}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
             </label>
