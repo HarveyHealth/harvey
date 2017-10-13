@@ -465,6 +465,11 @@ export default {
       this.address2 = ''
       this.newCity = ''
       this.newZip = ''
+      this.subtotalAmount = 0
+      this.discountAmount = 0
+      this.discountType = ''
+      this.percentAmount = 0
+      this.discountCode = ''
       this.pricing = 0
       this.newState = ''
       this.labPatients = {}
