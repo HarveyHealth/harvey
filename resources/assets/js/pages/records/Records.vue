@@ -5,15 +5,15 @@
       <div v-if="$root.$data.permissions !== 'patient'">
         <div v-if="step == 1">
           <div class="main-content">
-            <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
-              <p style="font-style: italic;">Your records are loading...</p>
+            <div class="card records-loading" v-if="$root.$data.global.loadingPatients">
+              <p><i>Your records are loading...</i></p>
             </div>
-            <form v-if="!$root.$data.global.loadingPatients" class="form" style="width: 100%;">
+            <form v-if="!$root.$data.global.loadingPatients" class="form full-width">
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </form>
             <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="inline-centered">
-              <img class="inline-centered" src="images/if_ic_library_514023.svg" alt="" style="width: 100%; height: 500px; mask: url(images/if_ic_library_514023.svg);">
+              <img class="inline-centered full-width height500" src="images/if_ic_library_514023.svg" alt="">
               <h1 style="color: #5f7278; text-align: center;">No records found.</h1>
             </div>
              <div v-if="!$root.$data.global.loadingPatients && search === ''" class="inline-centered">
@@ -326,6 +326,19 @@ export default {
 </script>
 
 <style lang="scss">
+  .records-loading {
+    height: 70px;
+    padding: 20px;
+    margin: 0;
+    font-family: 'proxima-nova';
+    font-weight: 300;
+  }
+  .full-width {
+    width: 100%;
+  }
+  .height500 {
+    height: 500px;
+  }
   .form {
     background-color: white;
   }
@@ -345,7 +358,7 @@ export default {
     color: #777777;
   }
   .results {
-    width: 100%; 
+    width: 100%;
     margin: 5px;
     float: left;
     &:hover {
