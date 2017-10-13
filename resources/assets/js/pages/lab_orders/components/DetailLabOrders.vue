@@ -132,7 +132,7 @@
             <label class="sub-items processing">Processing</label>
             <label v-if="discountCode" class="sub-items summary subtotal">Subtotal</label>
             <label v-if="discountCode" class="sub-items discount">
-              <em>Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})</em>
+              Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
             </label>
             <label class="sub-items summary total">Total</label>
           </div>
@@ -142,7 +142,7 @@
             <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
             <label v-if="discountCode" class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
             <label v-if="discountCode" class="sub-items discount">
-              <em>- ${{ discountType === 'dollars' ? `${discountAmount}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}</em>
+              - ${{ discountType === 'dollars' ? `${discountAmount.toFixed(2)}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
             </label>
             <label class="sub-items summary total">${{ discountType === '' ? subtotalAmount.toFixed(2) : patientPrice }}</label>
           </div>
@@ -494,9 +494,9 @@ export default {
           .then(response => {
             if (response.data.data.attributes.valid) {
               this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = response.data.data.attributes.amount;
+              this.discountAmount = Number(response.data.data.attributes.amount)
               if (this.discountType === 'percent') {
-                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01))
+                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2)
               }
               this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
                 this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
