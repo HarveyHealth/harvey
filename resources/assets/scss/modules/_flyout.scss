@@ -4,6 +4,7 @@
   bottom: 0;
   max-width: 25em;
   overflow-x: visible;
+  overflow-y: scroll;
   @include padding(3em 1.6em 2em);
   position: fixed;
   right: -26em;

@@ -2,7 +2,7 @@
 
 use Carbon\Carbon;
 use Laravel\Passport\Client;
-use App\Models\DiscountCode;
+use App\Lib\PractitionerAvailability;
 use App\Models\{
     Admin,
     Appointment,
@@ -19,7 +19,8 @@ use App\Models\{
     PractitionerType,
     SKU,
     Test,
-    User
+    User,
+    DiscountCode
 };
 
 /*
@@ -120,8 +121,10 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
         $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
     }
 
-    $start_hour = rand(0, 22);
-    $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
+    $start_block = collect(PractitionerAvailability::PREDEFINED_BLOCKS)->random();
+
+    list($start_hour, $star_minute) = explode(':', $start_block);
+    $start_time = "{$start_hour}:{$star_minute}:00";
 
     $stop_hour = rand($start_hour + 2, 24);
     $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);

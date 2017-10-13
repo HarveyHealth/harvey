@@ -92,6 +92,7 @@
   text-align: left;
   .flyout & {
     text-align: left;
+    @include padding(0);
   }
   .error-list & {
     line-height: 1em;

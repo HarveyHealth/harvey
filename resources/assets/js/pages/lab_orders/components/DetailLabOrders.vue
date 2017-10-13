@@ -1,5 +1,5 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -39,7 +39,7 @@
           <!-- Shipped or greater -->
 
           <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
           </a>
 
         </div>
@@ -79,7 +79,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -130,9 +130,9 @@
           <!-- Summary Names -->
           <div class="left-column">
             <label class="sub-items processing">Processing</label>
-            <label class="sub-items summary subtotal">Subtotal</label>
-            <label class="sub-items discount">
-              Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
+            <label v-if="discountCode" class="sub-items summary subtotal">Subtotal</label>
+            <label v-if="discountCode" class="sub-items discount">
+              <em>Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})</em>
             </label>
             <label class="sub-items summary total">Total</label>
           </div>
@@ -140,9 +140,9 @@
           <!-- Summary Amounts -->
           <div class="right-column">
             <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
-            <label class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
-            <label class="sub-items discount">
-              - ${{ discountType === 'dollars' ? `${discountAmount}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}
+            <label v-if="discountCode" class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
+            <label v-if="discountCode" class="sub-items discount">
+              <em>- ${{ discountType === 'dollars' ? `${discountAmount.toFixed(2)}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}</em>
             </label>
             <label class="sub-items summary total">${{ discountType === '' ? subtotalAmount.toFixed(2) : patientPrice }}</label>
           </div>
@@ -185,7 +185,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -226,7 +226,7 @@
 
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
-          <div v-for="test in testList">
+          <div v-for="test in testList" class="is-padding-bottom">
 
             <!-- Recommended or Confirmed -->
 
@@ -234,10 +234,10 @@
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
-            <!-- Shipped or greater -->
+            <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
             </a>
 
             <span class="custom-select">
@@ -291,7 +291,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="paid" class="input__item color-good">{{`Charged: $${invoicePrice}`}}</span>
-            <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
+            <span v-if="!paid" class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -494,7 +494,7 @@ export default {
           .then(response => {
             if (response.data.data.attributes.valid) {
               this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = response.data.data.attributes.amount;
+              this.discountAmount = Number(response.data.data.attributes.amount)
               if (this.discountType === 'percent') {
                 this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2)
               }
@@ -522,7 +522,6 @@ export default {
     },
     stepThree() {
       this.$parent.step = 3;
-      this.flyoutHeading = 'Confirm Payment';
     },
     nextStep() {
       this.$parent.step++;
