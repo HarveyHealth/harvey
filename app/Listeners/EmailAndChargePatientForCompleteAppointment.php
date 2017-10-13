@@ -41,9 +41,11 @@ class EmailAndChargePatientForCompleteAppointment implements ShouldQueue
         ->setTo($appointment->patient->user->email)
         ->setTemplate('patient.appointment.complete')
         ->setTemplateModel([
+            'discount' => $invoice->discount,
             'doctor' => $appointment->practitioner->user->full_name,
             'duration' => $appointment->duration_in_minutes,
-            'rate' => SKU::findBySlugOrFail($slug)->price,
+            'rate' => SKU::findBySlugOrFail('60-minute-consultation')->price,
+            'subtotal' => $invoice->subtotal,
             'total' => $invoice->amount,
         ]);
 
