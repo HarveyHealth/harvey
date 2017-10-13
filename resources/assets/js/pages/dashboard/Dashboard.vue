@@ -91,10 +91,10 @@
     data() {
       return {
         patientName: Laravel.user.fullName, // because it's already there
-        flag: false
+        flag: false,
+        user: this.$root.$data.global.user,
       };
     },
-    props: ['user', 'patient'],
     components: {
       DashboardAppointments,
     },

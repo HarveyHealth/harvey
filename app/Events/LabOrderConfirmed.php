@@ -2,13 +2,12 @@
 
 namespace App\Events;
 
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use App\Models\LabOrder;
 
 class LabOrderConfirmed
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable;
 
     public $lab_order;
 

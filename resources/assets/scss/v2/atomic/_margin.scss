@@ -1,0 +1,32 @@
+.margin-0a {
+  margin: 0 auto;
+}
+
+.margin-bottom-0 {
+  margin-bottom: 0;
+}
+
+// Overwrites margin bottom absolutely
+.ow-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+
+.margin-bottom-sm {
+  margin-bottom: $space-sm;
+}
+
+.margin-right-xxs {
+  margin-right: $space-xxs;
+}
+
+.margin-right-xs {
+  margin-right: $space-xs;
+}
+
+.margin-right-sm {
+  margin-right: $space-sm;
+}
+
+.margin-top-md {
+  margin-top: $space-md;
+}

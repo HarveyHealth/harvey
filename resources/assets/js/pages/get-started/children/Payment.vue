@@ -1,56 +1,58 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
-      <StagesNav :current="'payment'" />
-      <h2 class="heading-1" v-text="title"></h2>
-      <p v-html="subtext"></p>
+    <div class="vertical-center">
+      <div class="signup-stage-instructions color-white">
+        <StagesNav :current="'payment'" />
+        <h2 class="heading-1 color-white" v-text="title"></h2>
+        <p v-html="subtext"></p>
 
-      <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
-    </div>
-    <div class="signup-container small router">
-      <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }">
-        <i class="fa fa-long-arrow-left"></i>
-        <span class="font-sm">Schedule</span>
-      </router-link>
-      <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
-        <div class="input-wrap">
-          <input class="form-input form-input_text"
-                :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
-        </div>
-        <div class="input-wrap">
-          <input class="form-input form-input_text"
-                :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
-        </div>
-        <div>
-          <div class="input-wrap input-half--sm">
-            <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
-          </div>
-          <div class="input-wrap input-half--sm last">
-            <input class="form-input form-input_text"
-                  :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
-          </div>
-        </div>
-        <div class="input-wrap">
-          <input class="form-input form-input_text"
-                :disabled="isComplete" name="discount_card" type="text" placeholder="Discount Code" v-model="discountCode" />
-          <div class="copy-error" v-show="discountError">{{ discountError }}</div>
-          <div class="copy-good" v-show="isValidDiscount">{{ discountSuccess }}</div>
-        </div>
-      </form>
-      <div v-if="!pageLogic.showForm" class="signup-main-icon">
-        <svg>
-          <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
-        </svg>
+        <div class="credit-card" v-show="!$root.$data.signup.billingConfirmed"></div>
       </div>
-      <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
-      <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
-      <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
-      <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)" style="width: 175px;">
-        <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
-        <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
-        <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
-      </button>
+      <div class="signup-container small router">
+        <router-link class="signup-back-button" :to="{ name: 'schedule', path: '/schedule' }">
+          <i class="fa fa-long-arrow-left"></i>
+          <span class="font-sm">Schedule</span>
+        </router-link>
+        <form id="credit-card-form" class="input-container cf" v-show="pageLogic.showForm">
+          <div class="input-wrap">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="card_number" type="text" placeholder="Card Number" v-model="cardNumber" />
+          </div>
+          <div class="input-wrap">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="card_name" type="text" placeholder="Name on Card" v-model="cardName" />
+          </div>
+          <div>
+            <div class="input-wrap input-half--sm">
+              <input class="form-input form-input_text"
+                    :disabled="isComplete" name="card_expiration" type="text" placeholder="MM/YY" v-model="cardExpiration" />
+            </div>
+            <div class="input-wrap input-half--sm last">
+              <input class="form-input form-input_text"
+                    :disabled="isComplete" name="card_cvc" type="text" placeholder="CVC" v-model="cardCvc" />
+            </div>
+          </div>
+          <div class="input-wrap">
+            <input class="form-input form-input_text"
+                  :disabled="isComplete" name="discount_card" type="text" placeholder="Discount Code" v-model="discountCode" />
+            <div class="copy-error" v-show="discountError">{{ discountError }}</div>
+            <div class="copy-good" v-show="isValidDiscount">{{ discountSuccess }}</div>
+          </div>
+        </form>
+        <div v-if="!pageLogic.showForm" class="signup-main-icon">
+          <svg>
+            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#checkmark"></use>
+          </svg>
+        </div>
+        <p v-if="!pageLogic.showForm">Your card has been confirmed. You can enter new card info here, or continue to the confirmation page.</p>
+        <p class="copy-error" v-show="stripeError.length" v-html="stripeError"></p>
+        <button class="button button--cancel" v-show="pageLogic.editButton" @click="resetCardData">New Card</button>
+        <button class="button button--blue" :disabled="pageLogic.submitDisabled" @click="onSubmit($event)">
+          <ClipLoader v-if="pageLogic.formProcessing" :color="'#ffffff'" :size="'12px'" />
+          <span v-else-if="pageLogic.needSave">Save &amp; Continue</span>
+          <span v-else-if="pageLogic.submitContinue"><i class="fa fa-check"></i> Continue</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +79,10 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true,
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       discountCode: this.$root.$data.signup.data.discount_code || '',
       discountError: '',
@@ -128,6 +134,8 @@ export default {
       this.toggleProcessing();
       this.stripeError = '';
       this.discountError = '';
+      this.discountSuccess = '';
+      this.isValidDiscount = false;
 
       if (this.pageLogic.submitContinue) {
         this.$router.push({ name: 'confirmation', path: '/confirmation' });
@@ -151,9 +159,15 @@ export default {
     validateDiscount(resolve) {
       const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
       axios.get(endpoint).then(response => {
+        if (response.data.errors) {
+          this.discountError = 'Invalid discount code';
+          if (!this.stripeError) {
+            this.toggleProcessing();
+          }
+          return;
+        }
         const attributes = response.data.data.attributes;
         this.isValidDiscount = true;
-        this.$root.$data.signup.data.discount_code = this.discountCode;
         switch(attributes.discount_type) {
           case 'dollars':
             this.discountSuccess = `$${attributes.amount} consultation discount applied!`;
@@ -163,12 +177,7 @@ export default {
             break;
         }
         if (resolve) resolve();
-      }).catch(error => {
-        if (error) {
-          this.toggleProcessing();
-          this.discountError = error.response.data.errors[0].detail;
-        }
-      });
+      }).catch(error => {});
     },
     createStripeToken(cardData) {
       Stripe.card.createToken(cardData, (status, response) => {
@@ -177,6 +186,7 @@ export default {
         } else {
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
+          this.$root.$data.signup.data.discount_code = this.discountCode;
           axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.markComplete();

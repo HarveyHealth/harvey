@@ -81,6 +81,16 @@ class AppointmentsController extends BaseAPIController
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
+        if ($request->has('discount_code')) {
+          if ($inputData['discount_code'] !== null) {
+            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($inputData['discount_code'], 'consultation', currentUser());
+            if ($discount_code) {
+                $inputData['discount_code_id'] = $discount_code->id;
+            }
+            unset($inputData['discount_code']);
+          }
+        }
+
         $appointment = Appointment::create($inputData);
         $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
 

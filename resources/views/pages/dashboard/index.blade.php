@@ -15,6 +15,8 @@
         !Laravel.user.has_an_appointment &&
         Laravel.user.user_type === 'patient' ) {
         window.location.href = '/get-started';
+    } else {
+      window.$$context = 'dashboard';
     }
     </script>
 

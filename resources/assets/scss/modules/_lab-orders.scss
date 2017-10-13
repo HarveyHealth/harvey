@@ -29,12 +29,6 @@
     @include margin(0);
 }
 
-.discount {
-    color: $casper;
-    font-weight: 500;
-    @include margin(0 0 .25em 0);
-}
-
 .discount-error {
     font-size: 18px;
     font-weight: 500;
@@ -43,16 +37,27 @@
     @include padding(20px 0 0 0);
 }
 
-.total {
-    color: $color-good;
-    @include margin(0);
-}
-
 .sub-items {
     width: 100%;
     font-size: 15px;
     display: table;
-    @include margin(.5em 0 .25em);
+    @include margin(.25em 0);
+
+    &.discount {
+        em {
+            color: $casper;
+            font-size: 15px;
+        }
+    }
+
+    &.summary {
+        font-weight: 500;
+    }
+
+    &.total {
+        color: $color-good;
+        @include margin(.25em 0);
+    }
 }
 
 .address, .city, .zip, .state {
@@ -80,4 +85,11 @@
 
 .color-good {
     color: $color-good;
+}
+
+.is-padding-bottom {
+    @include padding(null null .75em null);
+    &:last-of-type {
+        @include padding(0);
+    }
 }

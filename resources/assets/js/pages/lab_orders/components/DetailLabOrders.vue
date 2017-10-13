@@ -1,5 +1,5 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -39,7 +39,7 @@
           <!-- Shipped or greater -->
 
           <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
           </a>
 
         </div>
@@ -79,7 +79,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -93,8 +93,8 @@
         <!-- Discount Code -->
         <div v-if="status === 'Recommended'">
           <label class="input__label">Discount Code</label>
-          <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
-          <span class="error-color discount-error" v-if="disabledDiscount">Invalid Discount Code</span>
+          <input placeholder="Discount Code" v-model="discountCode" @keydown="keyDownDiscountCode" class="input--text" type="text">
+          <span class="error-text" v-if="disabledDiscount">Code does not exist.</span>
         </div>
 
         <!-- Call to Action -->
@@ -114,24 +114,39 @@
         <!-- Product List -->
 
         <div class="input__container checkout-container">
+
+          <!-- Product Names -->
           <div class="left-column">
             <label class="input__label" for="products">Products</label>
             <span class="sub-items" v-for="test in Object.values(labPatients)">{{ test.attributes.name }}</span>
           </div>
+
+          <!-- Product Prices -->
           <div class="right-column">
             <label class="input__label" for="total">Total</label>
             <span class="sub-items" v-for="test in Object.values(labPatients)">${{ test.attributes.price }}</span>
           </div>
+
+          <!-- Summary Names -->
           <div class="left-column">
-            <label class="input__label discount" for="totals">Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})
+            <label class="sub-items processing">Processing</label>
+            <label v-if="discountCode" class="sub-items summary subtotal">Subtotal</label>
+            <label v-if="discountCode" class="sub-items discount">
+              <em>Discount ({{ discountType === 'dollars' ? `$${discountAmount}` : discountType === 'percent' ? `${discountAmount}%` : '0%' }})</em>
             </label>
-            <label class="input__label total" for="totals">Total</label>
+            <label class="sub-items summary total">Total</label>
           </div>
+
+          <!-- Summary Amounts -->
           <div class="right-column">
-            <label class="input__label discount" for="price">{{ discountType === 'dollars' ? `- $${discountAmount}` : discountType === 'percent' ? `- $${percentAmount}` : '- 0.00' }}
+            <label class="sub-items processing">${{ processingFee.toFixed(2)  }}</label>
+            <label v-if="discountCode" class="sub-items summary subtotal">${{ subtotalAmount.toFixed(2)  }}</label>
+            <label v-if="discountCode" class="sub-items discount">
+              <em>- ${{ discountType === 'dollars' ? `${discountAmount.toFixed(2)}` : discountType === 'percent' ? `${percentAmount}` : '0.00' }}</em>
             </label>
-            <label class="input__label total" for="price">${{ patientPrice }}</label>
+            <label class="sub-items summary total">${{ discountType === '' ? subtotalAmount.toFixed(2) : patientPrice }}</label>
           </div>
+
         </div>
 
         <!-- Address -->
@@ -170,7 +185,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -211,7 +226,7 @@
 
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
-          <div v-for="test in testList">
+          <div v-for="test in testList" class="is-padding-bottom">
 
             <!-- Recommended or Confirmed -->
 
@@ -219,10 +234,10 @@
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
-            <!-- Shipped or greater -->
+            <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
             </a>
 
             <span class="custom-select">
@@ -276,7 +291,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="paid" class="input__item color-good">{{`Charged: $${invoicePrice}`}}</span>
-            <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
+            <span v-if="!paid" class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -403,7 +418,10 @@ export default {
       cardExpiry: '',
       cardCvc: '',
       discountType: '',
-      discountAmount: '',
+      discountAmount: 0, // Placeholder
+      processingFee: 20,
+      subtotalAmount: 0,
+      pricing: 0,
       loading: false,
       patientPrice: 0,
       patientLabTests: {},
@@ -424,12 +442,23 @@ export default {
       } else {
         delete this.labPatients[test.attributes.name];
       }
-      let price = 0;
-      Object.values(this.labPatients).forEach(e => {
-        price += eval(e.attributes.price);
+
+      let prices = 0
+      _.each(this.labPatients, e => {
+        prices += Number(e.attributes.price);
       })
-      this.patientPrice = price.toFixed(2);
+
+      let fee = this.processingFee;
+      let subtotal = prices + fee;
+      this.processingFee = fee;
+      this.subtotalAmount = subtotal;
+
       this.disabled = _.isEmpty(this.labPatients) ? true : false
+    },
+    keyDownDiscountCode(e) {
+      if (e.target.value === '') {
+        this.disabledDiscount = false
+      }
     },
     handleFlyoutClose() {
       this.$parent.step = 1;
@@ -440,6 +469,13 @@ export default {
       this.address2 = ''
       this.newCity = ''
       this.newZip = ''
+      this.subtotalAmount = 0
+      this.discountAmount = 0
+      this.discountType = ''
+      this.percentAmount = 0
+      this.disabledDiscount = false
+      this.discountCode = ''
+      this.pricing = 0
       this.newState = ''
       this.labPatients = {}
       this.$parent.setupLabData();
@@ -467,13 +503,14 @@ export default {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
             if (response.data.data.attributes.valid) {
+              this.disabledDiscount = false
               this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = response.data.data.attributes.amount;
-              if (response.data.data.attributes.discount_type === 'percent') {
-                this.percentAmount = (this.patientPrice * (Number(this.discountAmount)) * 0.01).toFixed(2)
+              this.discountAmount = Number(response.data.data.attributes.amount)
+              if (this.discountType === 'percent') {
+                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2)
               }
-              this.patientPrice = this.discountType === 'percent' ? `${(this.patientPrice * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
-                this.discountType === 'dollars' ? `${eval(this.patientPrice - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
+              this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
+                this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
               this.patchCode = response.data.data.attributes.code;
               this.stepThree();
             } else {
@@ -486,6 +523,7 @@ export default {
           })
       } else {
         this.stepThree();
+        this.disabledDiscount = false
       }
     },
     isEmpty(obj) {
@@ -496,13 +534,17 @@ export default {
     },
     stepThree() {
       this.$parent.step = 3;
-      this.flyoutHeading = 'Confirm Payment';
     },
     nextStep() {
       this.$parent.step++;
     },
     prevStep() {
       this.$parent.step = 1;
+      this.discountAmount = 0
+      this.discountType = ''
+      this.percentAmount = 0
+      this.disabledDiscount = false
+      this.discountCode = ''
     },
     closeInvalidCC() {
       this.invalidCC = false;
@@ -665,9 +707,7 @@ export default {
           }).then(resp => {
             this.$root.$data.global.labTests.forEach((ele, idx) => {
               if (Number(ele.id) === Number(e.test_id)) {
-                console.log('HIT')
                 this.$root.$data.global.labTests[idx].attributes = resp.data.data.attributes
-                console.log(this.$root.$data.global.labTests[idx])
               }
             })
           }))
@@ -843,23 +883,6 @@ export default {
       return this.$root.$data.global.creditCards.slice(-1).pop();
     }
   },
-  watch: {
-    id(old, latest) {
-      if (old !== latest) {
-        this.masterTracking = ''
-        this.address1 = ''
-        this.address2 = ''
-        this.newCity = ''
-        this.newZip = ''
-        this.newState = ''
-        this.selectedShipment = {}
-        this.shippingCodes = {}
-        this.patientLabTests = {}
-        this.labPatients = {}
-        this.disabled = true
-      }
-    }
-  }
 }
 
 </script>

@@ -1,0 +1,132 @@
+// Base button styles
+.Button {
+  appearance: none;
+  background: $color-accent-dark;
+  border: none;
+  border-radius: 3px;
+  color: $color-white;
+  cursor: pointer;
+  font-family: $font-family-main;
+  font-size: $font-md;
+  text-align: center;
+  opacity: 0.94;
+  outline: none;
+  padding: $space-button;
+  text-decoration: none;
+  transition: opacity 200ms ease-in-out;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+  min-height: 40px;
+  min-width: 160px;
+
+  &:hover {
+    opacity: 1;
+    &.Button--answer{
+      background: rgba(255,255,255,.1);
+    }
+  }
+
+  &:focus {
+    opacity: 1;
+  }
+
+  &:disabled,
+  &:disabled:hover,
+  &:disabled:focus {
+    opacity: 0.5;
+    cursor: not-allowed;
+    color: rgba(255,255,255,0.6);
+  }
+}
+
+// White fill with copy color
+.Button--white-filled {
+  background: $color-white;
+  color: $color-copy;
+
+  &:disabled,
+  &:disabled:hover,
+  &:disabled:focus {
+    color: rgba($color-copy, 0.6);
+  }
+
+}
+
+// For condition answers, inverse with checkmark icon
+.Button--answer {
+  background: transparent;
+  border: 2px solid $color-white;
+  border-radius: 4px;
+  display: table; // for vertical alignment;
+  height: 100%;
+  opacity: 1;
+  text-align: left;
+  transition: background 200ms ease-in-out, opacity 200ms ease-in-out;
+  padding: $space-sm $space-xl $space-sm $space-sm;
+  position: relative;
+  width: 100%;
+
+  i {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  span {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  &.is-selected {
+    background: rgba(255,255,255,.1);
+    color: $color-white;
+    opacity: 1;
+
+    i {
+      display: block;
+      right: $space-sm;
+    }
+  }
+
+  @include query(sm) {
+    opacity: 0.7;
+  }
+
+}
+
+.Button--condition-nav {
+  background: transparent;
+  position: absolute;
+  top: -90px;
+
+  &.is-left { left: 0; }
+  &.is-right { right: 0; }
+}
+
+.Button--facebook {
+  background: #4267b2;
+  border: none;
+  color: white;
+  line-height: 1.15 !important;
+  height: auto;
+
+  &:hover {
+    color: white;
+  }
+
+  > span {
+    display: inline-block;
+    padding-left: $space-md;
+    position: relative;
+  }
+
+  .fa {
+    font-size: $font-md;
+    margin-left: -($space-md);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    vertical-align: middle;
+  }
+}
