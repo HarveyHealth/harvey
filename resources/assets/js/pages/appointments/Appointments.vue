@@ -98,7 +98,7 @@
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
-        <label class="input__label">Google Meet Link</label>
+        <label class="input__label">Meet Link</label>
         <a :href="appointment.googleMeet" target="_blank">{{ appointment.googleMeet }}</a>
       </div>
 
@@ -125,7 +125,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
@@ -736,6 +736,7 @@ export default {
       // collect data for tracking later
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
+      const appointmentPatientEmail = this.appointment.patientEmail;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -797,9 +798,10 @@ export default {
       axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
-          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
+          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
+              email: appointmentPatientEmail,
             });
           }
         }

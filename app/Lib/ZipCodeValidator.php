@@ -4,7 +4,7 @@ namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
 use App\Models\License;
-use Cache;
+use Redis;
 
 class ZipCodeValidator
 {
@@ -51,19 +51,33 @@ class ZipCodeValidator
     protected function callGeocoder()
     {
         $query = "{$this->getZip()} USA";
+        $redis_key = "state-for-zip-{$query}";
+        $json_result = Redis::get($redis_key);
 
-        $result = Cache::remember("call-geocoder-{$query}", TimeInterval::months(1)->toMinutes(), function () use ($query) {
-            return $this->geocoder->geocode($query);
-        });
+        if (empty($json_result)) {
+            $json_result = json_encode($this->geocoder->geocode($query));
+            Redis::set($redis_key, $json_result);
+            Redis::expire($redis_key, TimeInterval::days(rand(10, 30))->toSeconds() + rand(0, 100));
+        }
+
+        $result = json_decode($json_result, true);
 
         $this->state = $result['address']['state'];
         $this->city = $result['address']['city'];
 
-        if (empty($this->state) || empty($this->city)) {
-            Cache::forget("call-geocoder-{$query}");
+        $min_time_before_retry = TimeInterval::minutes(30)->toSeconds();
+
+        if ((empty($this->state) || empty($this->city))
+        && Redis::ttl($redis_key) > $min_time_before_retry) {
+            Redis::expire($redis_key, $min_time_before_retry);
         }
 
         return $result;
+    }
+
+    public function isRegulated($state)
+    {
+        return in_array($state, $this->regulatedStates);
     }
 
     public function isServiceable()

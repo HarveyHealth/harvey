@@ -4,27 +4,20 @@
 @section('main_content')
 
 <div class="sections check-load" :class="{'is-loaded': appLoaded}">
-    <section class="hero is-primary">
-        <div class="hero-background"></div>
+    <section class="hero hero-background">
+        <div id="hero-video-container">
+            <video id="hero-video" autoplay loop muted></video>
+            <div id="video-cover"></div>
+            <div id="overlay"></div>
+        </div>
         <div class="hero-body">
             <div class="container">
                 <div class="columns">
                     <div class="column is-7 is-6-desktop">
                         <h1 class="title is-1">Choose better health.</h1>
-                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey offers video consultations with naturopathic doctors, advanced lab tests and natural treatment plans — without leaving your home.</p>
-                        <div class="columns">
-                            <div class="column is-5">
-                                <a href="//www.youtube.com/watch?v=nfyk7irbYsw&rel=0&modestbranding=0&autohide=1&showinfo=0&vq=hd720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                                    <img src="/images/home/clinic.jpg" alt="">
-                                </a>
-                            </div>
-                            <div class="column is-7 is-paddingless-left">
-                                <p class="title is-5 is-marginless"><strong>Start your health journey</strong></p>
-                                <p class="subtitle is-6">Learn how Harvey's whole-body approach to medicine makes it very unique from other practices.</p>
-                            </div>
-                        </div>
+                        <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -34,8 +27,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Your health is our focus.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
+            <h2 class="title is-3">Your health is our <strong>#1 priority</strong>.</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on nutrition, lifestyle and enviromnent factors, to help you find the root cause of chronic health conditions (both big and small) and reduce risk of serious disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
             </div>
@@ -45,39 +38,39 @@
     <section class="section" id="how-it-works">
         <div class="container has-text-centered">
             <h2 class="title is-4 section-header"><span>How it Works</span></h2>
-            <div class="columns is-multiline">
-                <div class="column is-half-tablet is-auto-desktop">
+            <div class="columns">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
                         <span class="icon icon_steps_1"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
-                        <p>Review your health history in a 1-hour video consultation with a naturopathic doctor.</p>
+                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink">
                         <span class="icon icon_steps_2"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
                         <p>Receive a custom lab kit mailed to your home for sample collection.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
                         <span class="icon icon_steps_3"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>3. Analysis</strong></p>
                         <p>Review your test results with your doctor to gain actionable health insights.</p>
                     </div>
                 </div>
-                <div class="column is-half-tablet is-auto-desktop">
+                <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-green">
                         <span class="icon icon_steps_4"></span>
                     </figure>
-                    <div class="column is-paddingless-bottom">
+                    <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
                         <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
                     </div>
@@ -100,7 +93,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img src="/images/home/micronutrient.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/micronutrient.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -108,7 +101,7 @@
             <div class="columns is-narrow">
                 <div class="column">
                     <figure>
-                        <img src="/images/home/allergy.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/allergy.jpg" alt="">
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
@@ -130,7 +123,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img src="/images/home/hormone.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/hormone.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -139,9 +132,9 @@
 
     <section class="section" id="feature">
         <div class="container">
-            <div class="columns is-narrow is-multiline">
+            <div class="columns is-narrow">
                 <figure class="image">
-                    <img src="/images/home/package-door.jpg" alt="">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/package-door.jpg" alt="">
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
@@ -149,7 +142,7 @@
                         <p class="is-6">All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform a free in-home blood draw.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
-                                <img src="/images/home/vial.png"> Lab Tests
+                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Lab Tests
                             </a>
                         </div>
                     </div>
@@ -165,7 +158,7 @@
                 <div class="has-text-centered">
                     <h2 class="copy-has-max-width title has-text-centered">
                         <div id="ebook-wrapper">
-                            <img src="/images/home/ebook.png">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/ebook.png">
                         </div> Download the Harvey eBook</h2>
                     <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
                     <form>
@@ -184,49 +177,56 @@
         <div class="container">
             <h2 class="title is-4 section-header"><span>Patient Stories</span></h2>
             <div class="columns is-narrow">
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/jill.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jill.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
                     <em>Avoided unnecessary surgery.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/lisa.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lisa.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
                     <em>Found a natural remedy for chronic pain.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/lauren.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lauren.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lauren's Story</strong></p>
                     <em>Healed from a thyroid disorder.</em>
                 </div>
             </div>
             <div class="columns is-narrow is-hidden-mobile">
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/scott.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/scott.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
                     <em>Optimized recovery from injury.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/jamie.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jamie.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
                     <em>Healed from chronic fatigue syndrome and Lyme disease.</em>
                 </div>
-                <div class="column is-3-desktop is-half-tablet is-auto-desktop">
+                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/home/bruce.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/bruce.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Bruce's Story</strong></p>
                     <em>Cured himself of diabetes.</em>
+                </div>
+            </div>
+            <div class="container has-text-centered">
+                <div class="button-wrapper">
+                    <a href="https://www.youtube.com/watch?v=nfyk7irbYsw&list=UUNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
+                        <i class="fa fa-youtube is-padding-right" aria-hidden="true"></i> Watch Videos
+                    </a>
                 </div>
             </div>
         </div>
@@ -250,7 +250,7 @@
                 </div>
                 <div class="column is-6 is-auto-tablet">
                     <figure>
-                        <img src="/images/home/pricing.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
                     </figure>
                 </div>
             </div>
@@ -262,7 +262,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Book Appointment</a>
+                    <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>

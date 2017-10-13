@@ -2,13 +2,17 @@
 
 use Carbon\Carbon;
 use Laravel\Passport\Client;
+use App\Lib\PractitionerAvailability;
 use App\Models\{
     Admin,
     Appointment,
     Attachment,
+    Condition,
+    DiscountCode,
     LabOrder,
     LabTest,
     LabTestResult,
+    LabTestInformation,
     License,
     Message,
     Patient,
@@ -67,7 +71,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'zip' => $zip,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
-        'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York']),
+        'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York', 'UTC']),
         'remember_token' => str_random(10)
     ];
 });
@@ -166,6 +170,11 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     $durationInMinutes = array_random([null, null, null, 30, 60]);
     $statusId = $durationInMinutes ? Appointment::COMPLETE_STATUS_ID : array_random(array_diff(array_keys(Appointment::STATUSES), [Appointment::COMPLETE_STATUS_ID]));
 
+
+    $discount_code_id = (rand (0 , 1))?null:function () {
+        return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
+    };
+
     return [
         'duration_in_minutes' => $durationInMinutes,
         'status_id' => $statusId,
@@ -173,6 +182,7 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
         'practitioner_id' => factory(Practitioner::class),
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
+        'discount_code_id' => $discount_code_id,
     ];
 });
 
@@ -236,6 +246,9 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
+    $discount_code_id = (rand(0,1))?null:function () {
+        return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
+    };
     return [
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
@@ -244,13 +257,16 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
         'city' => $faker->city,
         'state' => 'CA',
         'zip' => $faker->postcode,
+        'discount_code_id' => $discount_code_id,
     ];
 });
 
 $factory->define(LabTest::class, function (Faker\Generator $faker) {
     return [
         'lab_order_id' => factory(LabOrder::class),
-        'sku_id' => factory(SKU::class),
+        'sku_id' => function () {
+            return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
+        },
         'shipment_code' => $faker->isbn13,
     ];
 });
@@ -298,5 +314,61 @@ $factory->define(Prescription::class, function (Faker\Generator $faker) {
         },
         'key' => 'testing/testFile.pdf',
         'notes' => $faker->text,
+    ];
+});
+
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => function () {
+            return factory(SKU::class)->create()->id;
+        },
+        'description' => $faker->randomHtml(2,3),
+        'image' => $faker->url,
+        'lab_name' => $faker->sentence(3),
+        'sample' => $faker->sentence(2),
+        'quote' => $faker->text,
+    ];
+});
+
+$factory->define(Condition::class, function (Faker\Generator $faker) {
+    $name = $faker->unique()->word;
+    return [
+        'name' => $name,
+        'slug' => $name,
+        'image_url' => '/images/default_user_image.png',
+        'description' => $faker->paragraph,
+        'questions' => json_encode([
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+            [
+                'question' => $faker->sentence,
+                'answers' => [$faker->word, $faker->word, $faker->word]
+            ],
+        ]),
+    ];
+});
+
+$factory->define(DiscountCode::class, function (Faker\Generator $faker) {
+     return [
+        'code' => $faker->word . $faker->numberBetween(100, 999),
+        'enabled' => true,
+        'user_id' => function () {
+            return factory(User::class)->create()->id;
+        },
+        'applies_to'=> $faker->randomElement(['consultation','all','lab-test']),
+        'one_time_use' => true,
+        'discount_type' => $faker->randomElement(['percent','dollars']),
+        'amount' => $faker->numberBetween(10, 90),
+        'expires_at' => $faker->dateTimeBetween('+5 years', '+10 years'),
     ];
 });

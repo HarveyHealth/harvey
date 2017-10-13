@@ -30,6 +30,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             date: obj.attributes.created_at.date,
             total_price: 0,
             paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
+            invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
             card: {
                 brand: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_brand : null,
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
@@ -37,12 +38,11 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             samples: {}
         }
         tests.forEach(test => {
-            if (test.attributes.lab_order_id == obj.id) {
+            if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
                 data.total_price += Number(testList[Number(test.attributes.sku_id)].attributes.price)
                 data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] = data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] ?
                     data.samples[testList[Number(test.attributes.sku_id)].attributes.sample]++ : 1
-                data.number_of_tests = data.number_of_tests ?
-                    data.number_of_tests + 1 : 1
+                data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status
                 data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
@@ -52,11 +52,12 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     item_type: testList[Number(test.attributes.sku_id)].attributes.item_type,
                     price: testList[Number(test.attributes.sku_id)].attributes.price,
                     name: testList[Number(test.attributes.sku_id)].attributes.name,
+                    original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
-                        obj.attributes.status === 'confirmed' ? 
-                        [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
-                        [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
+                        obj.attributes.status === 'confirmed' ?
+                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                            [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),
                     sku: testList[Number(test.id)],
@@ -64,6 +65,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 })
             }
         })
+        data.test_list = data.test_list.filter(e => e.original_status !== 'canceled')
         data.number_of_tests = !data.number_of_tests ? 0 : data.number_of_tests
         return {
             data,

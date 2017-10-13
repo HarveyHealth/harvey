@@ -38,19 +38,19 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\AppointmentComplete' => [
-            'App\Listeners\ChargePatientForCompletedAppointment',
+            'App\Listeners\EmailAndChargePatientForCompleteAppointment',
         ],
 
-        'App\Events\LabOrderApproved' => [
-            'App\Listeners\ChargePatientForLabOrder',
+        'App\Events\LabOrderConfirmed' => [
+            'App\Listeners\EmailAndChargePatientForLabOrder',
         ],
 
         'App\Events\LabOrderShipped' => [
             'App\Listeners\SendPatientLabOrderShippedEmail',
         ],
 
-        'App\Events\LabTestReceived' => [
-            'App\Listeners\SendPatientLabTestReceivedEmail',
+        'App\Events\LabTestProcessing' => [
+            'App\Listeners\SendPatientLabTestProcessingEmail',
         ],
 
         'App\Events\OutOfServiceZipCodeRegistered' => [
@@ -62,11 +62,12 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         'App\Events\ChargeFailed' => [
-            'App\Listeners\NotifyOfFailedCharge',
+            'App\Listeners\NotifyChargeFailedSlackChannel',
+            'App\Listeners\SendPatientChargeFailedEmail',
         ],
 
         'App\Events\ChargeSucceeded' => [
-            'App\Listeners\NotifyOfSuccessfulCharge',
+            'App\Listeners\NotifyChargeSucceededSlackChannel',
         ],
 
         'App\Events\CreditCardUpdated' => [

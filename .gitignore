@@ -21,6 +21,7 @@
 /tests/Browser/console/*.*
 /vendor
 /yarn.lock
+/package-lock.json
 Homestead.json
 public/css/
 public/images/

@@ -16,6 +16,7 @@ class LabTestInformationTransformer extends TransformerAbstract
         return [
             'id' => $labTestInformation->id,
             'description' => $labTestInformation->description,
+            'example' => $labTestInformation->example,
             'image' => $labTestInformation->image,
             'item_type' => $labTestInformation->sku->item_type,
             'lab_name' => $labTestInformation->lab_name,

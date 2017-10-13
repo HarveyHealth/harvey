@@ -126,6 +126,15 @@ function ops_success($alert, $message, $channels = 'engineering')
     ops_message('success', $alert, $message, $channels);
 }
 
+function cloudfront_link(string $path)
+{
+    if (!starts_with($path, '/')) {
+        $path = "/{$path}";
+    }
+
+    return 'https://' . config('filesystems.cloudfront.domain') . $path;
+}
+
 function log_mark()
 {
     static $log_mark = 0;

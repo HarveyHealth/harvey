@@ -20,9 +20,9 @@
         <p v-html="address"></p>
       </div>
       <div v-if="name" class="margin-top">
-        <label class="font-xs font-uppercase font-normal copy-muted-2">Payment</label>
+        <label class="font-xs font-uppercase font-normal copy-muted-2">Card</label>
         <p v-if="hasCard" class="copy-good">Card Found</p>
-        <p v-else-if="userType !== 'patient'" class="copy-error">No billing info on record</p>
+        <p v-else-if="userType !== 'patient'" class="copy-error">No card on file.</p>
         <p v-else><a href="/dashboard#/settings">Add Card</a></p>
       </div>
     </div>

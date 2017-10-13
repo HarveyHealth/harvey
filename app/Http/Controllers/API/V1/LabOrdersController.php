@@ -8,6 +8,7 @@ use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -89,6 +90,8 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
+        $input_data = $request->all();
+
         StrictValidator::checkUpdate($request->all(), [
             'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
@@ -96,11 +99,24 @@ class LabOrdersController extends BaseAPIController
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes',
         ]);
 
-        $labOrder->update($request->all());
+        if (!empty($input_data['discount_code'])) {
+            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($input_data['discount_code'], 'lab-test', currentUser());
 
-        return $this->baseTransformItem($labOrder)->respond();
+            \Log::info($discount_code);
+
+            if ($discount_code) {
+                $input_data['discount_code_id'] = $discount_code->id;
+            }
+
+            unset($input_data['discount_code']);
+        }
+
+        $labOrder->update($input_data);
+
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**
