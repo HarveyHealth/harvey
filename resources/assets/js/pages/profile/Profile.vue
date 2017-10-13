@@ -2,6 +2,7 @@
     <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
+                v-if="notificationError !== undefined && notificationActive !== undefined && notificationDirection !== undefined && notificationSymbol !== undefined && notificationMessage !== undefined"
                 :as-error="notificationError"
                 :active="notificationActive"
                 :comes-from="notificationDirection"
@@ -19,7 +20,8 @@
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Contact Info
-                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id}})</span>
+                        <span v-if="!user_id && !loading">(#{{ thisUserId }})</span>
                     </h2>
                 </div>
                 <div class="card-content-container topPadding">
@@ -204,6 +206,7 @@
                         zip: '',
                     },
                 },
+                thisUserId: Laravel.user.id,
                 practitioner: `${Laravel.user.practitionerId}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
@@ -561,10 +564,5 @@
         .flyout & {
             text-align: left;
         }
-    }
-
-    .v-spinner {
-        align-self: center;
-        text-align: left !important;
     }
 </style>

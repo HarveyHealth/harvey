@@ -2,6 +2,8 @@
 /// @group layout
 ////
 
+/// Max width for icons
+$max-width-icon: 60px;
 /// Max width for left side navigation bar
 $max-width-nav: 150px;
 /// Max width for right side flyout
@@ -14,3 +16,5 @@ $max-width-md: 500px;
 $max-width-lg: 700px;
 /// Max width - extra large
 $max-width-xl: 980px;
+
+$max-width-xxl: 1200px;

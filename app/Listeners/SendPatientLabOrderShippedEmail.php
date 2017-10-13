@@ -12,11 +12,10 @@ class SendPatientLabOrderShippedEmail implements ShouldQueue
     {
         $labTests = [];
 
-        // Include names of labs ordered and lab, ie "Spectracell Micronutrient" (maximum 3)
         foreach ($event->labOrder->labTests()->shipped()->bySkuName()->get() as $labTest) {
             $labTests[] = [
-                'name' => $labTest->sku->name,
-                'lab_name' => $labTest->information->lab_name,
+                'name' => $labTest->sku->name ?? '',
+                'lab_name' => $labTest->information->lab_name ?? '',
             ];
         }
 

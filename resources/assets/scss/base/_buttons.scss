@@ -49,9 +49,6 @@ input[type="submit"] {
     }
   }
 
-  .flyout & {
-      min-width: 10rem;
-  }
 }
 
 .button--blue {
@@ -100,27 +97,28 @@ button.button--blue:disabled {
 .button--close.flyout-close,
 .button--cancel.modal-close {
   position: absolute;
-  right: 1em;
-  top: 1em;
+  right: 15px;
+  top: 15px;
   background: none;
   border: none;
-  @include padding(8px 10px);
+  padding: 0;
+  @include padding(0);
 
   &.button--close-large {
     svg {
-      height: 1.5em;
-      width: 1.5em;
+      height: 2em;
+      width: 2em;
     }
   }
 
   & svg {
-    height: 1em;
     position: absolute;
-    stroke: $turquoise;
-    stroke-width: 6px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 1em;
+    stroke: #82BEF2;
+    stroke-width: 7px;
+    height: 20px;
+    width: 20px;
+    top: 5px;
+    right: 5px;
   }
 
   &:hover {

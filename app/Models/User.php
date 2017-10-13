@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CreditCardUpdated;
 use App\Http\Interfaces\Mailable;
 use App\Http\Traits\{IsNot, Textable};
 use App\Lib\{PhoneNumberVerifier, TimeInterval, TransactionalEmail, ZipCodeValidator};
@@ -13,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Stripe\Customer;
-use Cache, Carbon, Exception, Log, Mail;
+use Carbon, Exception, Log, Mail, Redis;
 
 class User extends Authenticatable implements Mailable
 {
@@ -273,20 +274,29 @@ class User extends Authenticatable implements Mailable
             return collect();
         }
 
-        return Cache::remember("get-cards-user-id-{$this->id}", TimeInterval::weeks(1)->toMinutes(), function () {
+        $redis_key = "get-cards-user-id-{$this->id}";
+        $cards_json = Redis::get($redis_key);
+
+        if (is_null($cards_json)) {
             try {
                 $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
+                $cards_json = json_encode($cards);
+                Redis::set($redis_key, $cards_json);
+                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
             } catch (Exception $e) {
-                Log::error("Unable to list credit cards for User #{$this->id}", $e->getJsonBody() ?? []);
-                return collect();
+                Log::error("Unable to list credit cards for User #{$this->id}", $e->getMessage() ?? []);
+                $cards_json = '[]';
+                Redis::set($redis_key, $cards_json);
+                Redis::expire($redis_key, TimeInterval::hours(6)->toSeconds());
             }
-            return collect($cards);
-        });
+        }
+
+        return collect(json_decode($cards_json, true));
     }
 
     public function clearGetCardsCache()
     {
-        return Cache::forget("get-cards-user-id-{$this->id}");
+        return Redis::del("get-cards-user-id-{$this->id}");
     }
 
     public function deleteCard(string $cardId)
@@ -296,7 +306,7 @@ class User extends Authenticatable implements Mailable
         try {
             Customer::retrieve($this->stripe_id)->sources->retrieve($cardId)->delete();
         } catch (Exception $e) {
-            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            Log::error("Unable to delete credit card #{$cardId} for User #{$this->id}", $e->getMessage() ?? []);
             return false;
         }
 
@@ -324,9 +334,11 @@ class User extends Authenticatable implements Mailable
 
             $card->save();
         } catch (Exception $e) {
-            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            Log::error("Unable to update credit card #{$cardId} for User #{$this->id}", $e->getMessage() ?? []);
             return false;
         }
+
+        event(new CreditCardUpdated($this));
 
         return $card;
     }
@@ -336,7 +348,7 @@ class User extends Authenticatable implements Mailable
         try {
             $card = Customer::retrieve($this->stripe_id)->sources->retrieve($cardId);
         } catch (Exception $e) {
-            Log::error("Unable to get credit card #{$cardId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            Log::error("Unable to get credit card #{$cardId} for User #{$this->id}", $e->getMessage() ?? []);
             return false;
         }
 
@@ -366,13 +378,15 @@ class User extends Authenticatable implements Mailable
             }
             $defaultCard = $customer->sources->retrieve($customer->default_source);
         } catch (Exception $e) {
-            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getJsonBody() ?? []);
+            Log::error("Unable to add credit card #{$cardTokenId} for User #{$this->id}", $e->getMessage() ?? []);
             return false;
         }
 
         $this->card_last_four = $defaultCard->last4;
         $this->card_brand = $defaultCard->brand;
         $this->save();
+
+        event(new CreditCardUpdated($this));
 
         return $defaultCard;
     }

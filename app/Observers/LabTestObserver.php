@@ -8,7 +8,6 @@ use Carbon;
 
 class LabTestObserver
 {
-
     /**
      * Listen to the LabTest updating event.
      *
@@ -41,17 +40,15 @@ class LabTestObserver
      */
     public function updated(LabTest $lab_test)
     {
-        $status_id = $lab_test->status_id;
+        $labOrderSetStatusTriggers = collect([
+            LabTest::RECEIVED_STATUS_ID,
+            LabTest::COMPLETE_STATUS_ID,
+            LabTest::MAILED_STATUS_ID,
+            LabTest::PROCESSING_STATUS_ID,
+        ]);
 
-        $same_status = function ($value, $key) use ($status_id) { return $value->status_id == $status_id; };
-
-        if ($lab_test->labOrder->labTests->every($same_status)) {
-            $method_name = 'markAs' . ucfirst($lab_test->status);
-            $lab_test->labOrder->$method_name();
-        } else {
-            $weakest_status_id = $lab_test->labOrder->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
-            $lab_test->labOrder->status_id = $weakest_status_id;
-            $lab_test->labOrder->save();
+        if ($labOrderSetStatusTriggers->contains($lab_test->status_id)) {
+            $lab_test->labOrder->setStatus()->save();
         }
     }
 }

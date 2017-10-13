@@ -3,4 +3,5 @@ export default {
   availability: false,
   patients: false,
   practitioners: false,
+  zip: false,
 }

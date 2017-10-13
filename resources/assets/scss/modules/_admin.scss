@@ -80,7 +80,8 @@
       left: 15%;
       top: 49%;
       position: absolute;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%,-50%);
+
       font-size: 18px;
     }
     .text {
@@ -103,10 +104,10 @@
 
 .nav-bar-account {
   .harvey-mark {
+    color: #5F7278;
     top: 25px;
     left: 49%;
     position: absolute;
-    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     transition: border-color .25s ease-in-out;
     width: 100px;

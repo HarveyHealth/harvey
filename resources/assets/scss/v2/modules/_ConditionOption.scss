@@ -1,0 +1,23 @@
+.ConditionOption {
+  background: $casper;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  margin: 0 auto;
+  height: 90px;
+  width: 90px;
+  position: relative;
+  opacity: 0.8;
+  transition: box-shadow 200ms ease-in-out, opacity 200ms ease-in-out;
+
+  a:hover & {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    opacity: 1;
+  }
+
+  svg {
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+}
