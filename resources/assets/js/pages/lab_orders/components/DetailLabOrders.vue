@@ -540,7 +540,6 @@ export default {
     },
     prevStep() {
       this.$parent.step = 1;
-      this.subtotalAmount = 0
       this.discountAmount = 0
       this.discountType = ''
       this.percentAmount = 0
