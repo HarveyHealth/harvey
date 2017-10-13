@@ -4,7 +4,7 @@
             :columns="tableColumns"
             :empty-msg="'Sorry, no clients were found.'"
             :loading="loading"
-            :loading-msg="'Loading your clients...'"
+            :loading-msg="'Loading available lab tests...'"
             :on-row-click="handleRowClick"
             :row-data="tableData"
             :selected-row="selectedRow"
@@ -31,14 +31,14 @@ export default {
         // Needs to be computed to respond to global state change
         // Also, default sort by date for now until more robust sort is created
         tableData() {
-        return this.tableRowData;
+            return this.tableRowData;
         }
     },
     methods: {
         handleSort(colObj) {
-        // computed properties can be mutated, apparently?
-        this.tableData.sort(colObj.sort);
-        },
+            // computed properties can be mutated, apparently?
+            this.tableData.sort(colObj.sort);
+        }
     },
     props: {
         // Passed from Appointments so we can modify the appointment data and trigger

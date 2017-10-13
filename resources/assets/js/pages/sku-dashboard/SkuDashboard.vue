@@ -3,16 +3,26 @@
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
-                    <div class="heading-1">Edit Lab Tests</div>
+                    <h1 class="heading-1">
+                        <span class="text">Edit Lab Tests</span>
+                    </h1>
                     <button @click="modalOpen" class="button is-primary">New Lab Test</button>
                 </div>
             </div>
         </div>
         <Flyout
                 :active="activeModal"
-                heading="flyoutHeciading"
+                heading="flyoutHeading"
                 :on-close="modalClose"
         />
+        <SkusTable
+            :handle-row-click="handleRowClick"
+            :loading="loadingLabs"
+            :selected-row="selectedRowData"
+            :updating-row="selectedRowUpdating"
+            :updated-row="selectedRowHasUpdated"
+            :tableRowData="currentData"
+         />
     </div>
 </template>
 
@@ -20,13 +30,15 @@
 import UserNav from '../../commons/UserNav.vue'
 import Modal from '../../commons/Modal.vue'
 import Flyout from '../../commons/Flyout.vue'
+import SkusTable from './components/SkusTable.vue'
 
 export default {
     name: 'SkuDashboard',
     components: {
         UserNav,
         Modal,
-        Flyout
+        Flyout,
+        SkusTable
     },
     data() {
         return {
@@ -39,7 +51,10 @@ export default {
       },
         modalOpen() {
           this.activeModal = true;
-        }
+        },
+        handleRowClick() {
+            console.log('click');
+        },
     },
     computed: {
     },
