@@ -2,7 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Appointment, AppointmentReminder, Patient, Practitioner, PractitionerSchedule};
+use App\Models\{
+    Admin,
+    Appointment,
+    AppointmentReminder,
+    Patient,
+    Practitioner,
+    PractitionerSchedule,
+    User
+};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Carbon;
