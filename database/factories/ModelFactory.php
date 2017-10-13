@@ -123,7 +123,7 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
     $start_block = collect(PractitionerAvailability::PREDEFINED_BLOCKS)->random();
 
     list($start_hour, $star_minute) = explode(':', $start_block);
-    $start_time = "{$start_hour}:{$star_minute}";
+    $start_time = "{$start_hour}:{$star_minute}:00";
 
     $stop_hour = rand($start_hour + 2, 24);
     $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);

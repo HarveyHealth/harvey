@@ -227,7 +227,11 @@ class AppointmentTest extends TestCase
         $patient = factory(Patient::class)->create();
 
         // And a practitioner exists
-        $practitioner = factory(Practitioner::class)->create();
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         // And valid appointment parameters
@@ -250,7 +254,11 @@ class AppointmentTest extends TestCase
 
     public function test_it_allows_a_practitioner_to_schedule_a_new_appointment()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         $parameters = [
@@ -269,7 +277,11 @@ class AppointmentTest extends TestCase
 
     public function test_it_requires_a_patient_id_when_a_practitioner_schedule_a_new_appointment()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
 
         $parameters = [
@@ -335,7 +347,11 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_can_submit_the_same_date_and_time_when_updating_their_appointment()
     {
-        $practitioner = factory(Practitioner::class)->create();
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
         $appointment = factory(Appointment::class)->create([
             'appointment_at' => $appointment_at,
