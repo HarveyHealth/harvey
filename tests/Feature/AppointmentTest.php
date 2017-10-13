@@ -305,8 +305,13 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_modify_the_date_and_time_of_their_pending_appointments()
     {
-        // Given a patient with a scheduled appointment
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
             'status' => 'pending',
         ]);
         $patient = $appointment->patient;
@@ -332,8 +337,13 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_not_modify_the_date_and_time_of_their_canceled_appointments()
     {
-        // Given a patient with a scheduled appointment
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
             'status' => 'canceled',
         ]);
         $patient = $appointment->patient;
@@ -381,7 +391,15 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_not_modify_a_non_pending_appointment()
     {
-        $appointment = factory(Appointment::class)->create(['status' => 'complete']);
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
+        $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
+            'status' => 'complete',
+        ]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -398,8 +416,13 @@ class AppointmentTest extends TestCase
 
     public function test_it_does_not_allow_modifications_if_the_appointment_is_less_than_4_hours_away()
     {
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         // Given a patient with a scheduled appointment less than 4 hours away
-        $appointment = factory(Appointment::class)->states('soon')->create();
+        $appointment = factory(Appointment::class)->states('soon')->create(['practitioner_id' => $practitioner->id]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -422,8 +445,13 @@ class AppointmentTest extends TestCase
 
     public function test_it_does_not_allow_cancellation_if_the_appointment_is_less_than_4_hours_away()
     {
+        $practitioner = factory(Practitioner::class)->create([
+            'user_id' => factory(User::class)->create([
+                'timezone' => 'UTC',
+            ]),
+        ]);
         // Given a patient with a scheduled appointment less than 4 hours away
-        $appointment = factory(Appointment::class)->states('soon')->create();
+        $appointment = factory(Appointment::class)->states('soon')->create(['practitioner_id' => $practitioner->id]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
