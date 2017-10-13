@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Laravel\Passport\Client;
+use App\Models\DiscountCode;
 use App\Models\{
     Admin,
     Appointment,
@@ -176,6 +177,11 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     $durationInMinutes = array_random([null, null, null, 30, 60]);
     $statusId = $durationInMinutes ? Appointment::COMPLETE_STATUS_ID : array_random(array_diff(array_keys(Appointment::STATUSES), [Appointment::COMPLETE_STATUS_ID]));
 
+
+    $discount_code_id = (rand (0 , 1))?null:function () {
+        return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
+    };
+
     return [
         'duration_in_minutes' => $durationInMinutes,
         'status_id' => $statusId,
@@ -187,6 +193,7 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
         },
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
+        'discount_code_id' => $discount_code_id,
     ];
 });
 
@@ -260,6 +267,9 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
+    $discount_code_id = (rand(0,1))?null:function () {
+        return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
+    };
     return [
         'patient_id' => function () {
             return factory(Patient::class)->create()->id;
@@ -272,6 +282,7 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
         'city' => $faker->city,
         'state' => 'CA',
         'zip' => $faker->postcode,
+        'discount_code_id' => $discount_code_id,
     ];
 });
 
@@ -312,5 +323,20 @@ $factory->define(Condition::class, function (Faker\Generator $faker) {
                 'answers' => [$faker->word, $faker->word, $faker->word]
             ],
         ]),
+    ];
+});
+
+$factory->define(DiscountCode::class, function (Faker\Generator $faker) {
+     return [
+        'code' => $faker->word . $faker->numberBetween(100, 999),
+        'enabled' => true,
+        'user_id' => function () {
+            return factory(User::class)->create()->id;
+        },
+        'applies_to'=> $faker->randomElement(['consultation','all','lab-test']),
+        'one_time_use' => true,
+        'discount_type' => $faker->randomElement(['percent','dollars']),
+        'amount' => $faker->numberBetween(10, 90),
+        'expires_at' => $faker->dateTimeBetween('+5 years', '+10 years'),
     ];
 });
