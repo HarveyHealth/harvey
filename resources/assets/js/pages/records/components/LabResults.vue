@@ -55,5 +55,6 @@ export default {
         padding: 25px; 
         overflow-x: hidden; 
         overflow-y: scroll;
+        width: 100%;
     }
 </style>

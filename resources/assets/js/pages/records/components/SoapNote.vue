@@ -1,32 +1,32 @@
 <template>
-  <div style="height: auto; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
+  <div class="records-container">  
                         
-        <div style="width: 97%; position: relative; top: 25px;">
-            <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
-            <textarea :maxlength="2048" v-model="subjective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+        <div class="top-soap-note">
+            <h7 class="card-header top-header">Subject</h7>
+            <textarea :maxlength="2048" v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
-        <div style="width: 97%; position: relative; top: 15px;">
-            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
-            <textarea :maxlength="2048" v-model="objective" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+        <div class="mid-soap-note">
+            <h7 class="card-header mid-header">Objective</h7>
+            <textarea :maxlength="2048" v-model="objective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
-        <div style="width: 97%; position: relative; top: 15px;">
-            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
-            <textarea :maxlength="2048" v-model="assessment" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
+        <div class="mid-soap-note">
+            <h7 class="card-header mid-header">Assessment</h7>
+            <textarea :maxlength="2048" v-model="assessment" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
         </div>
 
-        <div style="color: #EDA1A6; padding: 5px; padding-top: 10px; width: 97%; margin: 0 20px;">
+        <div class="soap-divider">
             - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         </div>
 
-        <div style="width: 97%; position: relative; top: 25px;">
-            <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
-            <textarea :maxlength="2048" v-model="plan" class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+        <div class="top-soap-note">
+            <h7 class="card-header top-header">Treatment</h7>
+            <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
             
-        <div class="inline-centered" style="padding-bottom: 15px;">
-            <button @click="createSoapNote()" :disabled="!subjective || !objective || !assessment || !plan" class="button" style="margin-top: 35px;">Save Changes</button>
+        <div class="inline-centered padding15">
+            <button @click="createSoapNote()" :disabled="!subjective || !objective || !assessment || !plan" class="button margin35">Save Changes</button>
         </div>
     </div>
 </template>
@@ -60,5 +60,50 @@ export default {
 </script>
 
 <style lang="scss">
+    .records-container {
+        height: auto; 
+        padding: 10px; 
+        overflow-x: hidden; 
+        overflow-y: scroll; 
+        width: 100%;
+    }
+    .top-soap-note {
+        width: 97%; 
+        position: relative; 
+        top: 25px;
 
+        .top-header {
+            height: 20px; 
+            margin: 15px; 
+            padding: 5px;
+        }
+    }
+    .mid-soap-note {
+        width: 97%; 
+        position: relative; 
+        top: 15px;
+
+        .mid-header {
+            height: 20px; 
+            margin: 20px 15px; 
+            padding: 5px;
+        }
+    }
+    .soap-divider {
+        color: #EDA1A6; 
+        padding: 5px; 
+        padding-top: 10px; 
+        width: 97%; 
+        margin: 0 20px;
+    }
+    .soap-textarea {
+        min-height: 100px; 
+        margin: 15px;
+    }
+    .padding15 {
+        padding-bottom: 15px;
+    }
+    .margin35 {
+        margin: 35px;
+    }
 </style>
