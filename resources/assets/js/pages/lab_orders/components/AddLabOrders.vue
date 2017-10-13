@@ -22,10 +22,11 @@
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Lab Tests</label>
-      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
+      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left custom-padding">
           <label :class="{highlightText: tests.checked}" class="radio--text">
             <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
             {{ tests.attributes.name }}
+            </input>
           </label>
       </div>
     </div>
