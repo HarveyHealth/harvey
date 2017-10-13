@@ -21,7 +21,11 @@ class SkusController extends BaseAPIController
     
     public function index()
     {
-        return $this->baseTransformCollection(SKU::all(), request('include'))->respond();
+        $skuCollection = request()->has('filter')
+            ? SKU::where('item_type', request('filter'))->get()
+            : SKU::all();
+        $skuCollection->load('labTestInformation');
+        return $this->baseTransformCollection($skuCollection, request('include'))->respond();
     }
     
     public function indexLabTests()

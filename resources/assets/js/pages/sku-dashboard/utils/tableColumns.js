@@ -2,39 +2,51 @@ import tableSort from '../../../utils/methods/tableSort';
 
 export default [
   {
-    key: 'order_date',
-    name: 'Date',
-    width: '15%',
-    sort: tableSort.byDate('_date')
+    key: 'lab_test',
+    name: 'Lab Test',
+    width: '16%',
+    sort: tableSort.byDate('lab_test')
   },
   {
-    key: 'client',
-    name: 'Client',
-    width: '15%',
-    sort: tableSort.byString('client')
+    key: 'lab_name',
+    name: 'Lab Name',
+    width: '16%',
+    sort: tableSort.byString('lab_name')
   },
   {
-    key: 'doctor',
-    name: 'Doctor',
-    width: '20%',
-    sort: tableSort.byString('doctor')
+    key: 'sample',
+    name: 'Sample',
+    width: '12%',
+    sort: tableSort.byString('sample')
   },
   {
-    key: 'order_id',
-    name: 'Order Id',
-    width: '10%',
-    sort: tableSort.byTime('_date')
+    key: 'description',
+    name: 'Description',
+    width: '12%',
+    sort: tableSort.byTime('description')
   },
   {
-    key: 'tests',
-    name: 'Lab Tests',
-    width: '10%',
-    sort: tableSort.byString('status')
+    key: 'quote',
+    name: 'Quote',
+    width: '12%',
+    sort: tableSort.byString('quote')
   },
   {
-    key: 'status',
-    name: 'Status',
-    width: '30%',
-    sort: tableSort.byString('purpose')
+    key: 'image',
+    name: 'Image',
+    width: '12%',
+    sort: tableSort.byString('image')
+  },
+  {
+    key: 'price',
+    name: 'Price',
+    width: '8%',
+    sort: tableSort.byString('price')
+  },
+  {
+    key: 'cost',
+    name: 'Cost',
+    width: '8%',
+    sort: tableSort.byString('cost')
   },
 ]

@@ -1,5 +1,6 @@
 <template>
     <div class="main-container">
+        <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
@@ -9,28 +10,23 @@
                     <button @click="modalOpen" class="button is-primary">New Lab Test</button>
                 </div>
             </div>
+            <Flyout
+                    :active="activeModal"
+                    heading="flyoutHeading"
+                    :on-close="modalClose"
+            />
+            <div class="sku-table" v-for="sku in currentData">
+                <Sku :sku="sku" />
+            </div>
         </div>
-        <Flyout
-                :active="activeModal"
-                heading="flyoutHeading"
-                :on-close="modalClose"
-        />
-        <SkusTable
-            :handle-row-click="handleRowClick"
-            :loading="loadingLabs"
-            :selected-row="selectedRowData"
-            :updating-row="selectedRowUpdating"
-            :updated-row="selectedRowHasUpdated"
-            :tableRowData="currentData"
-         />
     </div>
 </template>
 
 <script>
-import UserNav from '../../commons/UserNav.vue'
-import Modal from '../../commons/Modal.vue'
-import Flyout from '../../commons/Flyout.vue'
-import SkusTable from './components/SkusTable.vue'
+import UserNav from '../../commons/UserNav.vue';
+import Modal from '../../commons/Modal.vue';
+import Flyout from '../../commons/Flyout.vue';
+import Sku from './components/Sku.vue';
 
 export default {
     name: 'SkuDashboard',
@@ -38,11 +34,15 @@ export default {
         UserNav,
         Modal,
         Flyout,
-        SkusTable
+        Sku,
     },
     data() {
         return {
-            activeModal: false
+            activeModal: false,
+            selectedRowData: null,
+            selectedRowUpdating: null,
+            selectedRowHasUpdated: null,
+            currentData: [],
         }
     },
     methods: {
@@ -55,6 +55,8 @@ export default {
         handleRowClick() {
             console.log('click');
         },
+        getLabTestSkus() {
+        }
     },
     computed: {
     },
@@ -62,6 +64,12 @@ export default {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'sku-dashboard';
+
+        axios.get(`${this.$root.$data.apiUrl}/skus?filter=lab-test`)
+            .then(response => {
+                this.currentData = response.data.data;
+            })
+            .catch(e => console.log(e));
     }
 }
 </script>
@@ -71,4 +79,9 @@ export default {
     display: flex;
     justify-content: space-between;
   }
+
+    .sku-table {
+        display: flex;
+        justify-content: space-between;
+    }
 </style>
