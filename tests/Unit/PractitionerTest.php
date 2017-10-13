@@ -165,10 +165,10 @@ class PractitionerTest extends TestCase
         $practitioner->save();
 
         $expected_result = collect([
-            '2017-04-19T15:00:00+00:00',
-            '2017-04-26T15:00:00+00:00',
-            '2017-05-03T15:00:00+00:00',
-            '2017-05-10T15:00:00+00:00',
+            '2017-04-19T16:00:00+00:00',
+            '2017-04-26T16:00:00+00:00',
+            '2017-05-03T16:00:00+00:00',
+            '2017-05-10T16:00:00+00:00',
         ]);
 
         $this->assertEquals($expected_result, $practitioner->availability);
@@ -195,9 +195,9 @@ class PractitionerTest extends TestCase
         $practitioner->save();
 
         $expected_result = collect([
-            '2017-04-26T15:00:00+00:00',
-            '2017-05-03T15:00:00+00:00',
-            '2017-05-10T15:00:00+00:00',
+            '2017-04-26T16:00:00+00:00',
+            '2017-05-03T16:00:00+00:00',
+            '2017-05-10T16:00:00+00:00',
         ]);
 
         $this->assertEquals($expected_result, $practitioner->availability);
@@ -233,9 +233,9 @@ class PractitionerTest extends TestCase
         $practitioner->save();
 
         $expected_result = collect([
-            '2017-04-19T15:00:00+00:00',
-            '2017-05-03T15:00:00+00:00',
-            '2017-05-10T15:00:00+00:00',
+            '2017-04-19T16:00:00+00:00',
+            '2017-05-03T16:00:00+00:00',
+            '2017-05-10T16:00:00+00:00',
         ]);
 
         $this->assertEquals($expected_result, $practitioner->availability);
