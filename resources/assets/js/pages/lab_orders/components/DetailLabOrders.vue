@@ -39,7 +39,7 @@
           <!-- Shipped or greater -->
 
           <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-            <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+            <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
           </a>
 
         </div>
@@ -79,7 +79,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -185,7 +185,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
-            <span v-else class="input__item error-text">Invoice not paid.</span>
+            <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 
@@ -226,7 +226,7 @@
 
         <div class="input__container">
           <label class="input__label">Lab Tests</label>
-          <div v-for="test in testList">
+          <div v-for="test in testList" class="is-padding-bottom">
 
             <!-- Recommended or Confirmed -->
 
@@ -234,10 +234,10 @@
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
-            <!-- Shipped or greater -->
+            <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-medkit" aria-hidden="true"></i> {{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
             </a>
 
             <span class="custom-select">
@@ -291,7 +291,7 @@
           <div class="left-column">
             <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="paid" class="input__item color-good">{{`Charged: $${invoicePrice}`}}</span>
-            <span v-if="!paid" class="input__item error-text">Invoice not paid.</span>
+            <span v-if="!paid" class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
 

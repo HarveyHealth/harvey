@@ -86,3 +86,10 @@
 .color-good {
     color: $color-good;
 }
+
+.is-padding-bottom {
+    @include padding(null null .75em null);
+    &:last-of-type {
+        @include padding(0);
+    }
+}
