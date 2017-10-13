@@ -71,12 +71,24 @@ Database Seeding will provide you with these accounts:
 - email: `admin@goharvey.com`
 - password: `secret`
 
+#### Admin: Staging
+- email: `admin@goharvey.com`
+- password: `secret`
+
 #### Patient
+- email: `patient@goharvey.com`
+- password: `secret`
+
+#### Patient: Staging
 - email: `patient@goharvey.com`
 - password: `secret`
 
 #### Practitioner
 - email: `practitioner@goharvey.com`
+- password: `secret`
+
+#### Practitioner: Staging
+- email: `alex@goharvey.com`
 - password: `secret`
 
 ### Standardization Notes:
@@ -88,6 +100,9 @@ Database Seeding will provide you with these accounts:
 
 # Nginx
 - Procfile calls the nginx.conf file in the project root.
+
+# Front-end Testing
+Harvey uses `karma`, `mocha`, and `chai` for front-end testing. Tests are located in the `./tests/Frontend` directory. To run tests, use `npm test`. To run tests in watch mode, run `npm run test:watch`. 
 
 # Testing / Get Confirmation Number for Phone Number
 

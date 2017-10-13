@@ -40,18 +40,18 @@
                     </div>
 
                     <div v-if="!details && !$root.$data.global.creditCards.length && !$root.$data.global.loadingCreditCards" class="button-wrapper">
-                        <button v-if="!edit" @click="addCard" class="button">Add Card</button>
+                        <button v-if="!edit" @click="mountStripeForm" class="button">Add Card</button>
                     </div>
 
-                    <div v-if="details">
-                        <form id="payment-form">
+                    <div v-show="details">
+                        <form @submit.prevent="generateCardTokenWithStripeForm" id="payment-form" name="billing-info">
                             <div class="form-row">
                                 <div id="card-element"></div>
                                 <div id="card-errors" role="alert"></div>
                             </div>
                             <div class="button-wrapper">
-                                <button class="button button--cancel" v-if="details" @click="closeDetails">Cancel</button>
-                                <button type="submit" :disabled="sent" v-if="!edit" @click="submitAddCard" class="button">Save Card</button>
+                                <button class="button button--cancel" @click="closeDetails">Cancel</button>
+                                <button type="submit" :disabled="sent" class="button">Save Card</button>
                             </div>
                         </form>
                     </div>
@@ -131,14 +131,12 @@ export default {
                 },
             },
             user_id: this.$route.params.id,
-            year: ''
+            year: '',
+            stripe: this.$root.$data.stripe,
+            card: null,
         }
     },
     methods: {
-        addCard() {
-            this.details = true
-            setTimeout(() => this.stripeForm(), 100);
-        },
         closeDetails() {
             this.details = false
         },
@@ -152,9 +150,6 @@ export default {
         openModal(card) {
             this.deleteModalActive = true
             this.currentCard = card
-        },
-        submitAddCard() {
-            this.formAction.submit();
         },
         updateMonth(e) {
             this.month = e.target.value
@@ -218,7 +213,9 @@ export default {
                             this.details = false
                             this.sent = false;
                         })
-                })
+                });
+
+            this.stopListeningForStripeFormErrors();
         },
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
@@ -236,9 +233,9 @@ export default {
                     this.$router.push('/profile');
                 });
         },
-        stripeForm() {
-            let stripe = this.$root.$data.stripe;
-            let elements = stripe.elements();
+        mountStripeForm() {
+            this.details = true;
+            this.stripe = this.$root.$data.stripe;
             let style = {
                 base: {
                     color: '#32325d',
@@ -247,7 +244,7 @@ export default {
                     fontSmoothing: 'antialiased',
                     fontSize: '16px',
                     '::placeholder': {
-                    color: '#aab7c4'
+                        color: '#aab7c4'
                     }
                 },
                 invalid: {
@@ -255,31 +252,31 @@ export default {
                     iconColor: '#fa755a'
                 }
             };
-            let card = elements.create('card', {style: style});
-            card.mount('#card-element');
-            card.addEventListener('change', function(event) {
-                var displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
+            this.card = this.stripe.elements().create('card', {style: style});
+            this.card.mount('#card-element');
+
+            this.listenForStripeFormErrors();
+        },
+        generateCardTokenWithStripeForm() {
+            if(!this.stripe || !this.card) return;
+
+            this.stripe.createToken(this.card).then((result) => {
+                if (result.error) {
+                    document.getElementById('card-errors').textContent = result.error.message;
                 } else {
-                    displayError.textContent = '';
+                    this.sent = true;
+                    this.submitNewCard(result.token.id);
                 }
             });
-            var self = this;
-            var form = document.getElementById('payment-form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-                stripe.createToken(card).then(function(result) {
-                    if (result.error) {
-                        var errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                    } else {
-                        self.sent = true;
-                        self.submitNewCard(result.token.id);
-                    }
-                });
-            });
-            this.formAction = form;
+        },
+        handleStripeFormChange() {
+            document.getElementById('card-errors').textContent = event.error ? event.error.message : '';
+        },
+        listenForStripeFormErrors() {
+            this.card.addEventListener('change', this.handleStripeFormChange);
+        },
+        stopListeningForStripeFormErrors() {
+            this.card.removeEventListener('change', this.handleStripeFormChange);
         },
     },
     mounted() {
@@ -312,13 +309,4 @@ export default {
     .card-content-wrap .loading {
         margin: 0;
     }
-
-    .length {
-        width: 100% !important;
-    }
-
-/*    .button--close.flyout-close svg {
-        top: 132px;
-        margin-left: 4px;
-    }*/
 </style>

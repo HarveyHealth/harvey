@@ -46,14 +46,16 @@ import Util from './v2/util';
 
 window.App = {};
 App.Config = Config(Laravel);
+App.Util = Util;
 App.Filters = Filters;
 App.Http = Http;
 App.Logic = Logic;
-App.Util = Util;
+App.Router = router;
 
 // Register global filters
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
+Vue.filter('jsonParse', Filters.jsonParse);
 
 // Adding these objects to the Vue prototype makes them available from
 // within Vue templates directly, cutting back on our use of computed
@@ -68,8 +70,19 @@ Vue.prototype.Util = App.Util;
 // property is undefined. This is helpful when awaiting data structures from
 // api calls. NOTE: this should be used as READ ONLY function.
 Vue.prototype.State = (path, ifUndefined) => {
-  return App.Util.data.propDeep(path.split('.'), App.State, ifUndefined);
+  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
 }
+
+// State() is internally read only and setState() is globally write-only.
+//    App.setState('practitioners.data.all', 'practitioners');
+//    State.practitioners.data.all yields 'practitioners'
+App.setState = (state, value) => {
+  const path = state.split('.');
+  const prop = path.pop();
+  return App.Util.data.propDeep(path, State)[prop] = value;
+}
+
+Vue.prototype.setState = App.setState;
 
 const app = new Vue({
     router,
@@ -81,15 +94,8 @@ const app = new Vue({
     },
     data: {
         // Adding State to the root data object makes it globally reactive.
-        // We do not attach this to window.App for HIPPA compliance. Because of this,
-        // any method that needs to access global state MUST be invoked with .call
-        // and state should be referenced inside as this.$root.$data.State.
-        //    Example:
-        //      export default function hi(person) {
-        //        const Store = this.$root.$data.State;
-        //        return `Hi, ${Store[person]}.`
-        //      }
-        //      App.Logic.hi.call(this, 'person');
+        // We do not attach this to window.App for HIPPA compliance. User
+        // App.setState to mutate this object.
         State: State,
 
         apiUrl: '/api/v1',
@@ -164,9 +170,11 @@ const app = new Vue({
           cost: '',
           data: {
             appointment_at: null,
+            discount_code: null,
             reason_for_visit: 'First appointment',
             practitioner_id: null,
           },
+          discountCode: '',
           googleMeetLink: '',
           phone: '',
           phonePending: false,
@@ -185,6 +193,14 @@ const app = new Vue({
         labTests: {},
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
+    },
+    computed: {
+      isSignupBookingAllowed() {
+        return this.signup.billingConfirmed &&
+          this.signup.phoneConfirmed &&
+          this.signup.data.appointment_at &&
+          this.signup.data.practitioner_id
+      }
     },
     methods: {
         addTimezone(value) {
@@ -318,21 +334,23 @@ const app = new Vue({
         getLabData() {
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
-                    let user = response.data.included.filter(e => e.type === 'users')
-                    let patient = response.data.included.filter(e => e.type === 'patients')
-                    let invoices = response.data.included.filter(e => e.type === 'invoices')
-                    let obj = {};
-                    invoices.forEach(e => {
-                        obj[e.id] = e;
-                    })
-                    this.global.labOrders = response.data.data.map((e, i) => {
-                        e.user = user[i];
-                        e.patient = patient[i];
-                        if (e.relationships.invoice) {
-                            e.invoice = obj[e.relationships.invoice.data.id]
-                        }
-                        return e;
-                    })
+                    if (response.data.included) {
+                        let user = response.data.included.filter(e => e.type === 'users')
+                        let patient = response.data.included.filter(e => e.type === 'patients')
+                        let invoices = response.data.included.filter(e => e.type === 'invoices')
+                        let obj = {};
+                        invoices.forEach(e => {
+                            obj[e.id] = e;
+                        })
+                        this.global.labOrders = response.data.data.map((e, i) => {
+                            e.user = user[i];
+                            e.patient = patient[i];
+                            if (e.relationships.invoice) {
+                                e.invoice = obj[e.relationships.invoice.data.id]
+                            }
+                            return e;
+                        })
+                    }
                     this.global.loadingLabOrders = false
                 })
 
@@ -426,10 +444,10 @@ const app = new Vue({
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
-                this.clientList = response.data.data
+                this.clientList = response.data;
             })
             .then(() => {
-                this.global.loadingClients = false
+                this.global.loadingClients = false;
             })
         },
         setup() {
@@ -459,6 +477,14 @@ const app = new Vue({
         // that require application state
         if (App.Config.misc.environment === 'dev') {
           window.Root = window.Root || this;
+        }
+
+        // For conditions, we could either create an endpoint that will need to be hit
+        // as soon as the page loads, or we expose a function on the window object that
+        // will set the application state.
+        window.setConditions = (data, index) => {
+          this.State.conditions.all = data;
+          this.State.conditions.selectedIndex = index;
         }
 
         // Initial GET requests

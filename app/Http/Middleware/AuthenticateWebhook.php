@@ -20,7 +20,10 @@ class AuthenticateWebhook
      */
     public function handle($request, Closure $next)
     {
-        if (!empty($sigHeader = $request->server->getHeaders()['STRIPE_SIGNATURE'])) {
+        $headers = $request->server->getHeaders();
+        $sigHeader = $headers['STRIPE_SIGNATURE'] ?? false;
+
+        if (!empty($sigHeader)) {
             try {
                 StripeWebhook::constructEvent($request->getContent(), $sigHeader, config('services.stripe.webhook_secret'));
             } catch(UnexpectedValueException $e) {

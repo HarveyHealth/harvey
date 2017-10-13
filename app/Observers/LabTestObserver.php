@@ -8,23 +8,22 @@ use Carbon;
 
 class LabTestObserver
 {
-
     /**
      * Listen to the LabTest updating event.
      *
-     * @param  LabTest $labTest
+     * @param  LabTest $lab_test
      * @return void
      */
-    public function updating(LabTest $labTest)
+    public function updating(LabTest $lab_test)
     {
-        if ($labTest->isDirty('status_id')) {
-            switch ($labTest->status_id) {
+        if ($lab_test->isDirty('status_id')) {
+            switch ($lab_test->status_id) {
                 case LabTest::COMPLETE_STATUS_ID:
-                    $labTest->completed_at = Carbon::now();
+                    $lab_test->completed_at = Carbon::now();
                     break;
 
                 case LabTest::RECEIVED_STATUS_ID:
-                    event(new LabTestReceived($labTest));
+                    event(new LabTestReceived($lab_test));
                     break;
 
                 default:
@@ -36,22 +35,20 @@ class LabTestObserver
     /**
      * Listen to the LabTest updated event.
      *
-     * @param  LabTest $labTest
+     * @param  LabTest $lab_test
      * @return void
      */
-    public function updated(LabTest $labTest)
+    public function updated(LabTest $lab_test)
     {
-        $status_id = $labTest->status_id;
+        $labOrderSetStatusTriggers = collect([
+            LabTest::RECEIVED_STATUS_ID,
+            LabTest::COMPLETE_STATUS_ID,
+            LabTest::MAILED_STATUS_ID,
+            LabTest::PROCESSING_STATUS_ID,
+        ]);
 
-        $sameStatus = function ($value, $key) use ($status_id) { return $value->status_id == $status_id; };
-
-        if ($labTest->labOrder->labTests->every($sameStatus)) {
-            $methodName = 'markAs' . ucfirst($labTest->status);
-            $labTest->labOrder->$methodName();
-        } else {
-            $weakestStatusId = $labTest->labOrder->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
-            $labTest->labOrder->status_id = $weakestStatusId;
-            $labTest->labOrder->save();
+        if ($labOrderSetStatusTriggers->contains($lab_test->status_id)) {
+            $lab_test->labOrder->setStatus()->save();
         }
     }
 }

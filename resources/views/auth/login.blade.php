@@ -81,10 +81,15 @@
                     <a href="/get-started" class="button login-buttons">Sign Up</a>
                     <button type="submit" class="button is-primary login-buttons">
                       <span v-if="!isProcessing">Log In</span>
-                      <LoadingGraphic v-else :size="12" />
+                      <loading-graphic v-else :size="12" />
                     </button>
                 </div>
             </footer>
+
+            <div class="font-centered space-children-lg">
+              <div class="Divider-text is-gray" data-text="OR"></div>
+              <facebook-signin :type="'login'" :on-click="facebookLogin" />
+            </div>
 
        </form>
     </div>

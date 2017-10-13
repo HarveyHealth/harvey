@@ -17,7 +17,7 @@ export default {
       default: 'md'
     }
   },
-  components: { 
+  components: {
     ClipLoader
   },
   data() {
@@ -28,7 +28,7 @@ export default {
         muted: this.Config.misc.colors.muted
       },
       sizes: {
-        sm: '12px',
+        sm: '10px',
         md: '22px',
         lg: '34px',
       }

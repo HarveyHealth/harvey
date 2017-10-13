@@ -11,7 +11,7 @@
       :selected="day"
     />
     <span v-else-if="!editable" class="input__item">{{ $$selectedDay }}</span>
-    <span v-else class="input--warning">No Available Dates</span>
+    <span v-else class="input--warning">No dates available.</span>
   </div>
 </template>
 

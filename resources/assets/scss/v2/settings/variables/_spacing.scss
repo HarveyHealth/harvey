@@ -17,7 +17,9 @@ $space-xl: 44px;
 /// Extra large space value and then some
 $space-xxl: 54px;
 
+$space-button: 12px;
+
 /// This list is used by `space-children` mixin to generate vertical spacing utility classes.
 /// We have a list and variables so we can use the variables in specific cases. If you want a space-children
 /// utility class for a new size, add it to this list.
-$space-list: (xxs: $space-xxs, xs: $space-xs, sm: $space-sm, md: $space-md, lg: $space-lg, xl: $space-xl, xxl: $space-xxl);
+$space-list: (xxs: $space-xxs, xs: $space-xs, sm: $space-sm, md: $space-md, lg: $space-lg, xl: $space-xl, xxl: $space-xxl, button: $space-button);

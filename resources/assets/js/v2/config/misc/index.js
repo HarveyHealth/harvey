@@ -1,5 +1,6 @@
 import colors from './colors';
 import regulatedStates from './regulatedStates';
+import socialMedia from './socialMedia';
 
 export default function (laravel) {
   return {
@@ -11,5 +12,6 @@ export default function (laravel) {
     guest: false,
     intakeLink: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${laravel.user.id}`,
     regulatedStates,
+    socialMedia,
   }
 }
