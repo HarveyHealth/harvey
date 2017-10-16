@@ -36,7 +36,7 @@ class LabTestsController extends BaseAPIController
             $builder = LabTest::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder->with('sku'), request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
