@@ -143,7 +143,7 @@ class User extends Authenticatable implements Mailable
         $builder = $this->appointments()->ByAppointmentAtDesc();
 
         return Cache::remember("last_doctor_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
-            return $builder->first()->practitioner->user->full_name ?? null;
+            return $builder->first()->practitioner->user->full_name ?? false;
         });
     }
 
