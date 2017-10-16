@@ -19,8 +19,8 @@ class MessageTransformer extends TransformerAbstract
     public function transform(Message $message)
     {
         return [
-            'created_at' => $message->created_at,
             'id' => (string) $message->id,
+            'created_at' => $message->created_at,
             'is_sender_admin' => (boolean) $message->is_sender_admin,
             'message' => htmlentities($message->message),
             'read_at' => $message->read_at,
