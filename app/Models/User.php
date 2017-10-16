@@ -332,7 +332,7 @@ class User extends Authenticatable implements Mailable
                 Log::error("Unable to list credit cards for User #{$this->id}", $e->getMessage() ?? []);
                 $cards_json = '[]';
                 Redis::set($redis_key, $cards_json);
-                Redis::expire($redis_key, TimeInterval::hours(6)->toSeconds());
+                Redis::expire($redis_key, TimeInterval::hours(2)->toSeconds());
             }
         }
 

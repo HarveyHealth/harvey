@@ -65,11 +65,11 @@ class ZipCodeValidator
         $this->state = $result['address']['state'];
         $this->city = $result['address']['city'];
 
-        $min_time_before_retry = TimeInterval::minutes(30)->toSeconds();
+        $minutes_before_retry = TimeInterval::minutes(10)->toSeconds();
 
         if ((empty($this->state) || empty($this->city))
-        && Redis::ttl($redis_key) > $min_time_before_retry) {
-            Redis::expire($redis_key, $min_time_before_retry);
+        && Redis::ttl($redis_key) > $minutes_before_retry) {
+            Redis::expire($redis_key, $minutes_before_retry);
         }
 
         return $result;
