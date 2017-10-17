@@ -109,8 +109,7 @@ export default {
       this.$parent.addActiveModal = true
     },
     updateTestSelection(test, index) {
-      this.testNameList[index].checked = !this.testNameList[index].checked
-      if (test.checked) {
+      if (this.testNameList[index].checked = !this.testNameList[index].checked) {
         this.selectedTests.push(test)
       } else {
         _.pull(this.selectedTests, test)
