@@ -13,7 +13,7 @@
             <div class="columns">
                 <div class="column is-7 is-6-desktop">
                     <h1 class="title is-1">Home Lab Testing</h1>
-                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and proposed treatment plans.</p>
+                    <p class="subtitle is-5">Our integrative doctors rely on a wide range of specialized, in-home lab tests to help validate and enhance the credibility of their diagnosis and treatment plans.</p>
                 </div>
             </div>
         </div>
@@ -30,8 +30,11 @@
                             <img src="{{ $lab_test->image }}" alt="">
                         </div>
                         <div class="media-content">
-                            <h3 class="title is-4"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
-                            <p class="subtitle is-6">Sample: {{ $lab_test->sample }}</p>
+                            <h3 class="title font-xl"><strong>{{ $lab_test->sku->name }} Test</strong></h3>
+                            @if ($lab_test->example)
+                                <a class="link font-lg" href="{{ $lab_test->example }}" target="_blank">What does this test measure?</a>
+                            @endif
+                            <p class="font-md">Sample: {{ $lab_test->sample }}</p>
                         </div>
                         <div class="media-right">
                             <p class="title is-3">${{ number_format($lab_test->sku->price) }}</p>
@@ -52,7 +55,7 @@
         <div class="has-text-centered">
             <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
             <div class="button-wrapper">
-                <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
             </div>
         </div>
     </div>

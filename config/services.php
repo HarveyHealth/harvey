@@ -116,4 +116,10 @@ return [
     'google_geocoder' => [
         'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
     ],
+
+    'facebook' => [
+        'client_id'     => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect'      => env('FACEBOOK_URL'),
+    ],
 ];

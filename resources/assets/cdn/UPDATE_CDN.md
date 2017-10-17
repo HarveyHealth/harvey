@@ -11,3 +11,10 @@ Change version number
 ```
 https://unpkg.com/:package@:version/:file
 ```
+
+##User Auth
+```
+goharvey
+6^Xh_#uc@HUn$/#
+kyle@goharvey.com
+```

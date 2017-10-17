@@ -22,10 +22,11 @@
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Lab Tests</label>
-      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
+      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left custom-padding">
           <label :class="{highlightText: tests.checked}" class="radio--text">
             <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
             {{ tests.attributes.name }}
+            </input>
           </label>
       </div>
     </div>
@@ -88,6 +89,7 @@ export default {
       city: '',
       zip: '',
       state: '',
+      resetting: false,
       selectedTests: [],
       shippingCodes: {},
       prevDoctor: '',
@@ -118,16 +120,19 @@ export default {
       return str.split(', ').reverse().join(' ')
     },
     updateClient(e) {
+        this.resetting = false;
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedClientName = this.formatName(e.target.value);
     },
     updateDoctor(e) {
+        this.resetting = false;
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
       this.$parent.addActiveModal = false
+      this.resetting = true;
     },
     createLabOrder() {
         this.selectedTests.map(e => {

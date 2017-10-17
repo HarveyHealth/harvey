@@ -471,4 +471,209 @@ class LabOrderTest extends TestCase
 
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
     }
+
+    public function test_lab_order_patch_is_needed_to_trigger_status_change_after_all_lab_tests_were_set_as_canceled()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'canceled',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", []);
+
+        $this->assertEquals('canceled', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_patch_is_needed_to_trigger_status_change_after_all_lab_tests_were_set_as_recommended()
+    {
+        $labOrder = factory(LabOrder::class)->create([
+            'status' => 'canceled',
+        ]);
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'recommended',
+        ];
+
+        $this->assertEquals('canceled', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('canceled', $labOrder->fresh()->status);
+
+        $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", []);
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_patch_is_needed_to_trigger_status_change_after_all_lab_tests_were_set_as_confirmed()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'confirmed',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", []);
+
+        $this->assertEquals('confirmed', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_patch_is_needed_to_trigger_status_change_after_all_lab_tests_were_set_as_shipped()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'shipped',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", []);
+
+        $this->assertEquals('shipped', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_status_is_set_after_all_lab_tests_were_set_as_received()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'received',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('received', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_status_is_set_after_all_lab_tests_were_set_as_complete()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'complete',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('complete', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_status_is_set_after_all_lab_tests_were_set_as_mailed()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'mailed',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('mailed', $labOrder->fresh()->status);
+    }
+
+    public function test_lab_order_status_is_set_after_all_lab_tests_were_set_as_processing()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+        $labTests = factory(LabTest::class, 3)->create([
+            'lab_order_id' => $labOrder->id,
+        ]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'processing',
+        ];
+
+        $this->assertEquals('recommended', $labOrder->fresh()->status);
+
+        foreach ($labTests as $labTest) {
+            $this->json('PATCH', "api/v1/lab/tests/{$labTest->id}", $parameters);
+        }
+
+        $this->assertEquals('processing', $labOrder->fresh()->status);
+    }
+
+    public function test_patient_is_charged_after_lab_order_is_set_to_confirmed()
+    {
+        $labOrder = factory(LabOrder::class)->create();
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'status' => 'confirmed',
+        ];
+    }
 }

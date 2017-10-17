@@ -27,8 +27,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Your wellness is our focus.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on lifestyle and nutrition, to help you find the root cause of chronic health conditions and reduce risk of serious disease.</p>
+            <h2 class="title is-3">Your health is our <strong>#1 priority</strong>.</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on nutrition, lifestyle and environment factors, to help you find the root cause of chronic health conditions (both big and small) and reduce risk of serious disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
             </div>
@@ -93,7 +93,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/micronutrient.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/micronutrient.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -101,7 +101,7 @@
             <div class="columns is-narrow">
                 <div class="column">
                     <figure>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/allergy.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/allergy.jpg" alt="">
                     </figure>
                 </div>
                 <div class="column has-content-vertical-aligned">
@@ -123,7 +123,7 @@
                 </div>
                 <div class="column has-text-right">
                     <figure>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/hormone.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/hormone.jpg" alt="">
                     </figure>
                 </div>
             </div>
@@ -134,7 +134,7 @@
         <div class="container">
             <div class="columns is-narrow">
                 <figure class="image">
-                    <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/package-door.jpg" alt="">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/package-door.jpg" alt="">
                 </figure>
                 <div class="column is-5-desktop is-offset-1-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
@@ -142,7 +142,7 @@
                         <p class="is-6">All our lab tests can be taken in the comfort of your home. If recommended by your doctor, we will mail you a lab kit and (if necessary) schedule a mobile phlebotomist to perform a free in-home blood draw.</p>
                         <div class="button-wrapper">
                             <a href="/lab-tests" class="button is-secondary is-outlined is-medium has-arrow">
-                                <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/vial.png"> Lab Tests
+                                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/vial.png"> Lab Tests
                             </a>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                 <div class="has-text-centered">
                     <h2 class="copy-has-max-width title has-text-centered">
                         <div id="ebook-wrapper">
-                            <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/ebook.png">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/ebook.png">
                         </div> Download the Harvey eBook</h2>
                     <p class="copy-has-max-width subtitle">Provide us with your email to receive our exclusive Harvey eBook <em>"10 Best Things for Your Health"</em> so you can start feeling better than ever.</p>
                     <form>
@@ -179,21 +179,21 @@
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/jill.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jill.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
                     <em>Avoided unnecessary surgery.</em>
                 </div>
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/lisa.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lisa.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
                     <em>Found a natural remedy for chronic pain.</em>
                 </div>
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/lauren.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lauren.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lauren's Story</strong></p>
                     <em>Healed from a thyroid disorder.</em>
@@ -202,24 +202,31 @@
             <div class="columns is-narrow is-hidden-mobile">
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/scott.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/scott.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
                     <em>Optimized recovery from injury.</em>
                 </div>
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/jamie.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jamie.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
                     <em>Healed from chronic fatigue syndrome and Lyme disease.</em>
                 </div>
                 <div class="column is-3-desktop is-4-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/bruce.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/bruce.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Bruce's Story</strong></p>
                     <em>Cured himself of diabetes.</em>
+                </div>
+            </div>
+            <div class="container has-text-centered">
+                <div class="button-wrapper">
+                    <a href="https://www.youtube.com/watch?v=nfyk7irbYsw&list=UUNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
+                        <i class="fa fa-youtube is-padding-right" aria-hidden="true"></i> Watch Videos
+                    </a>
                 </div>
             </div>
         </div>
@@ -243,7 +250,7 @@
                 </div>
                 <div class="column is-6 is-auto-tablet">
                     <figure>
-                        <img src="https://harvey-production.s3.amazonaws.com/assets/images/home/pricing.png" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/pricing.png" alt="">
                     </figure>
                 </div>
             </div>
@@ -255,7 +262,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>
