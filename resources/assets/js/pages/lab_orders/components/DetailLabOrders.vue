@@ -22,9 +22,9 @@
           <!-- Recommended -->
 
           <div v-if="status === 'Recommended'">
-            <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left">
+            <div v-for="test in Object.values(patientTestList)" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
               <label :class="{'link-color': test.patient, highlightText: test.checked}" class="radio--text">
-                <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox"> {{ test.attributes.name }}
+                <input :checked="test.checked" @click="updatePatientTests($event, test)" class="form-radio" type="checkbox"> {{ test.attributes.name }} </input>
                 <i v-if="test.patient" class="fa fa-star" aria-hidden="true"></i>
               </label>
             </div>
@@ -93,7 +93,7 @@
         <!-- Discount Code -->
         <div v-if="status === 'Recommended'">
           <label class="input__label">Discount Code</label>
-          <input placeholder="Discount Code" v-model="discountCode" class="input--text" type="text">
+          <input placeholder="Discount Code" v-model="discountCode" @keydown="keyDownDiscountCode" class="input--text" type="text">
           <span class="error-text" v-if="disabledDiscount">Code does not exist.</span>
         </div>
 
@@ -455,7 +455,11 @@ export default {
 
       this.disabled = _.isEmpty(this.labPatients) ? true : false
     },
-
+    keyDownDiscountCode(e) {
+      if (e.target.value === '') {
+        this.disabledDiscount = false
+      }
+    },
     handleFlyoutClose() {
       this.$parent.step = 1;
       this.loading = false;
@@ -469,6 +473,7 @@ export default {
       this.discountAmount = 0
       this.discountType = ''
       this.percentAmount = 0
+      this.disabledDiscount = false
       this.discountCode = ''
       this.pricing = 0
       this.newState = ''
@@ -498,6 +503,7 @@ export default {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
             if (response.data.data.attributes.valid) {
+              this.disabledDiscount = false
               this.discountType = response.data.data.attributes.discount_type;
               this.discountAmount = Number(response.data.data.attributes.amount)
               if (this.discountType === 'percent') {
@@ -517,6 +523,7 @@ export default {
           })
       } else {
         this.stepThree();
+        this.disabledDiscount = false
       }
     },
     isEmpty(obj) {
@@ -533,6 +540,11 @@ export default {
     },
     prevStep() {
       this.$parent.step = 1;
+      this.discountAmount = 0
+      this.discountType = ''
+      this.percentAmount = 0
+      this.disabledDiscount = false
+      this.discountCode = ''
     },
     closeInvalidCC() {
       this.invalidCC = false;
