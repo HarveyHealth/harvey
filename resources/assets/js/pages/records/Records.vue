@@ -6,7 +6,7 @@
         <div v-if="step == 1">
           <div class="main-content">
             <div class="card" style="height: 70px; padding: 20px; margin: 0; font-family: 'proxima-nova'; font-weight: 300;" v-if="$root.$data.global.loadingPatients">
-              <p style="font-style: italic;">Your records are loading...</p>
+              <p><i>Your records are loading...</i></p>
             </div>
             <form v-if="!$root.$data.global.loadingPatients" class="form" style="width: 100%;">
               <i class="fa fa-search search-icon"></i>

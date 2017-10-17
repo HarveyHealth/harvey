@@ -52,7 +52,12 @@ export default {
               plan: this.plan
           })
           .then(response => {
-
+            let global = this.$root.$data.global;
+            global.soapNotes[response.data.data.attributes.created_by_user_id] = global.soapNotes[response.data.data.attributes.created_by_user_id]
+                ? global.soapNotes[response.data.data.attributes.created_by_user_id] : {};
+            global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] = global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id]
+                ? global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] : {};
+              global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] = response.data.data;
           })
       }
   }

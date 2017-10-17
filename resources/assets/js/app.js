@@ -153,6 +153,9 @@ const app = new Vue({
             user: {},
             selfPractitionerInfo: null,
             user_editing: {},
+            soapNotes: {},
+            prescriptions: {},
+            attachments: {},
         },
         signup: {
           availability: [],
