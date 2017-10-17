@@ -27,6 +27,7 @@ class AppointmentObserver
     public function created(Appointment $appointment)
     {
         event(new AppointmentScheduled($appointment));
+        $appointment->patient->user->clearAppointmentsCache();
     }
 
     /**
@@ -52,6 +53,7 @@ class AppointmentObserver
         if ($appointment->isDirty('appointment_at')) {
             event(new AppointmentUpdated($appointment));
         }
+        $appointment->patient->user->clearAppointmentsCache();
     }
 
     /**
@@ -63,5 +65,6 @@ class AppointmentObserver
     public function deleted(Appointment $appointment)
     {
         event(new AppointmentCanceled($appointment));
+        $appointment->patient->user->clearAppointmentsCache();
     }
 }

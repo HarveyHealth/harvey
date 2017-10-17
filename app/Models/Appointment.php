@@ -54,14 +54,14 @@ class Appointment extends Model
         parent::boot();
 
         static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
-            return $builder->whereHas('practitioner.user', function ($query) {
-                $query->where('enabled', true);
+            return $builder->whereHas('practitioner.user', function (Builder $builder) {
+                $builder->where('enabled', true);
             });
         });
 
         static::addGlobalScope('enabledPatient', function (Builder $builder) {
-            return $builder->whereHas('patient.user', function ($query) {
-                $query->where('enabled', true);
+            return $builder->whereHas('patient.user', function (Builder $builder) {
+                $builder->where('enabled', true);
             });
         });
     }
@@ -92,7 +92,7 @@ class Appointment extends Model
             try {
                 $google_meet_link = GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
                 Redis::set($redis_key, $google_meet_link);
-                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
+                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0,100))->toSeconds());
             } catch (Google_Service_Exception $e) {
                 if (404 == $e->getCode()) {
                     $message = "Got a 404 when retrieving google_calendar_event_id #{$this->google_calendar_event_id} (Appointment ID #{$this->id}).";
@@ -299,7 +299,7 @@ class Appointment extends Model
         $redis_key = "google-meet-link-appointment-id-{$this->id}";
 
         Redis::set($redis_key, $event->hangoutLink);
-        Redis::expire($redis_key, TimeInterval::days(rand(10,30))->toSeconds() + rand(0, 100));
+        Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0,100))->toSeconds());
 
         try {
             $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
@@ -450,8 +450,8 @@ class Appointment extends Model
 
     public function scopeEmptyPatientIntake(Builder $builder)
     {
-        return $builder->whereHas('patient.user', function ($query) {
-            $query->whereNull('intake_completed_at');
+        return $builder->whereHas('patient.user', function (Builder $builder) {
+            $builder->whereNull('intake_completed_at');
         });
     }
 
