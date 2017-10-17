@@ -130,3 +130,30 @@
     vertical-align: middle;
   }
 }
+
+.Button--cancel {
+  @extend .Button;
+
+  background: $color-gray-6;
+}
+
+.Button--close {
+  @extend .Button;
+
+  background: transparent;
+  min-width: $space-xl !important;
+  width: $space-xl !important;
+  height: $space-xl !important;
+
+  svg {
+    stroke: $color-accent;
+    stroke-width: 7px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+  }
+
+  &:hover svg {
+    opacity: 1;
+  }
+}

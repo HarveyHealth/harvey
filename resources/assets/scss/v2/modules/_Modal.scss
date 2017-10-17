@@ -1,0 +1,54 @@
+.Modal {
+  background: $color-fade-dark;
+  z-index: 10000; // needs to be incorporated into z-index mixin eventually
+
+  @include fixed-fullscreen;
+}
+
+.Modal_Container {
+  background: white;
+  margin: 0 auto;
+  height: calc(100% - #{$space-lg});
+  width: calc(100% - #{$space-lg});
+  max-width: 700px;
+  max-height: 500px;
+
+  @include fixed-centered;
+  @include padding($space-lg $space-sm);
+
+  .Button {
+    width: 100%;
+
+    @include query(md) {
+      width: auto;
+    }
+  }
+
+  @include query(sm) {
+    @include padding($space-lg);
+  }
+
+  @include query(lg) {
+    height: auto;
+  }
+}
+
+.Modal_CloseButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.Modal_ScrollContent {
+  border-top: 1px solid $color-gray-5;
+  border-bottom: 1px solid $color-gray-5;
+  overflow-y: auto;
+  height: 100%;
+
+  @include padding($space-xs null);
+  @include margin($space-sm null);
+
+  @include query(lg) {
+    border: 0;
+  }
+}

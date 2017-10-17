@@ -159,9 +159,24 @@
       :container-class="'appointment-modal'"
       :on-close="handleModalClose"
       :hide-close="isHandlingAction"
-      class="modal-wrapper"
     >
-      <div class="card-content-wrap">
+      <div class="space-children-sm">
+        <h2 class="heading-1 font-centered">Cancel Appointment</h2>
+        <div>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+          <p>lhi hfdg lkjd fhlkgjhsk ldfjghk lsdfjh gkshdfg fdg dfg dfg dfg dgh sfgh dfghd fgh</p>
+        </div>
+        <div class="space-children-xs space-children-none-md font-centered">
+          <button class="Button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
+          <button class="Button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
+        </div>
+      </div>
+      <!-- <div class="card-content-wrap">
         <div class="inline-centered">
           <h1 class="header-xlarge" v-show="!isHandlingAction">
             <span class="text">{{ userActionTitle }}</span>
@@ -174,7 +189,6 @@
           </div>
           <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
           <p v-show="!bookingConflict && !isHandlingAction">Are you sure you want to book the following appointment?</p>
-<!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
           <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction" class="modal-table inline-left">
             <tr v-if="userType !== 'patient'">
               <td width="25%"><strong>Client:</strong></td>
@@ -217,7 +231,7 @@
             <button class="button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
           </div>
         </div>
-      </div>
+      </div> -->
     </Modal>
 
     <NotificationPopup
