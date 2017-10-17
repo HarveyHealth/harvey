@@ -14,9 +14,10 @@ class SKUTransformer extends TransformerAbstract
     {
         return [
             'id' => (string) $sku->id,
-            'name' => $sku->name,
             'item_type' => $sku->item_type,
+            'name' => $sku->name,
             'price' => (string) $sku->price,
+            'sample' => $sku->labTestInformation->sample,
         ];
     }
 }
