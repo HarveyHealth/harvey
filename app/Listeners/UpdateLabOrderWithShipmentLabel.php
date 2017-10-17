@@ -54,20 +54,21 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'async' => false,
         ]);
 
-        \Log::info($shipment);
+        // \Log::info($shipment);
 
         if (!empty($shipment['rates'])) {
-          \Log::info('array is not empty!');
+
+          // for now I'll pick the first rate
+          $rate = $shipment['rates'][0];
+          $transaction = Shippo_Transaction::create([
+            'rate' => $rate['object_id'],
+            'async' => false,
+          ]);
+
+          \Log::info($transaction);
         }
 
-        // for now I'll pick the first rate
-        // $rate = $shipment['rates'][0];
-        // $transaction = Shippo_Transaction::create([
-        //   'rate' => $rate['object_id'],
-        //   'async' => false,
-        // ]);
-        //
-        // \Log::info($transaction);
+
 
         // Rates are stored in the `rates` array
         // The details on the returned object are here: https://goshippo.com/docs/reference#rates
