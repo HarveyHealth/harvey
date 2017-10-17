@@ -4,8 +4,12 @@
   @include query(md) {
     > *:not(:last-child) {
       margin-bottom: 0;
-    }  
+    }
   }
+}
+
+.space-bottom-xxs {
+  margin-bottom: $space-xxs;
 }
 
 .space-bottom-md {

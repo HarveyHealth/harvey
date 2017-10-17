@@ -6,31 +6,23 @@
 }
 
 .Modal_Container {
-  background: white;
   margin: 0 auto;
   height: calc(100% - #{$space-lg});
   width: calc(100% - #{$space-lg});
   max-width: 700px;
-  max-height: 500px;
+  max-height: 650px;
 
   @include fixed-centered;
-  @include padding($space-lg $space-sm);
 
-  .Button {
-    width: 100%;
-
-    @include query(md) {
-      width: auto;
-    }
-  }
-
-  @include query(sm) {
-    @include padding($space-lg);
-  }
-
-  @include query(lg) {
+  .Modal.is-simple & {
     height: auto;
   }
+}
+
+.Modal_Wrap {
+  background: $color-white;
+  height: 100%;
+  @include padding($space-md null null);
 }
 
 .Modal_CloseButton {
@@ -40,15 +32,27 @@
 }
 
 .Modal_ScrollContent {
-  border-top: 1px solid $color-gray-5;
-  border-bottom: 1px solid $color-gray-5;
   overflow-y: auto;
-  height: 100%;
+  height: calc(100% - 70px);
 
-  @include padding($space-xs null);
-  @include margin($space-sm null);
+  @include padding(null $space-md $space-md);
 
   @include query(lg) {
-    border: 0;
+    @include padding($space-md $space-lg);
+  }
+}
+
+.Modal_Footer {
+  height: 70px;
+  padding: $space-xs 0;
+  border-top: 1px solid $color-gray-5;
+
+  .Button, .Button--cancel {
+    min-width: 120px;
+    margin: 5px;
+  }
+
+  .Modal.is-simple & {
+    display: none;
   }
 }
