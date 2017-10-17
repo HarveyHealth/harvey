@@ -83,5 +83,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('skus', 'SkusController@store')->name('skus.store');
         Route::put('skus/{sku}', 'SkusController@update')->name('skus.update');
         Route::delete('skus/{sku}', 'SkusController@delete')->name('skus.delete');
+        Route::patch('skus/{sku}', 'SkusController@updateListOrder')->name('skus.updateListOrder');
     });
 });

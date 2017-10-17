@@ -6,6 +6,8 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\LabTestInformation;
 use App\Models\SKU;
 use App\Transformers\V1\SKUTransformer;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use DB;
 
@@ -47,21 +49,30 @@ class SkusController extends BaseAPIController
         StrictValidator::check($request->all(), [
             'name' => 'required',
             'price' => 'required',
+            'cost' => 'required',
             'description' => 'required',
             'image' => 'required',
             'sample' => 'required',
             'quote' => 'required',
             'lab_name' => 'required',
+            'published_at' => 'boolean',
         ]);
     
-        $sku = new SKU($request->only(['name', 'price']));
+        $sku = new SKU($request->only(['name', 'price', 'cost']));
         
         if (currentUser()->cant('create', $sku)) {
             return $this->respondNotAuthorized("You do not have access to create this SKU");
         }
         
         $sku->save();
-        $sku->labTestInformation()->save(new LabTestInformation($request->only(['description', 'image', 'sample', 'quote', 'lab_name'])));
+        $sku->labTestInformation()->save(new LabTestInformation([
+            'lab_name' => $request->get('lab_name'),
+            'description' => $request->get('description'),
+            'image' => $request->get('image'),
+            'sample' => $request->get('sample'),
+            'quote' => $request->get('quote'),
+            'published_at' => $request->get('published_at') ? Carbon::now() : null
+        ]));
         $sku->refresh();
         
         return $this->baseTransformItem($sku, request('include'))->respond();
@@ -76,23 +87,42 @@ class SkusController extends BaseAPIController
         StrictValidator::check($request->all(), [
             'name' => 'required',
             'price' => 'required',
+            'cost' => 'required',
             'description' => 'required',
             'image' => 'required',
             'sample' => 'required',
             'quote' => 'required',
             'lab_name' => 'required',
+            'published_at' => 'boolean',
         ]);
     
         try {
             DB::transaction(function () use ($request, $sku) {
-                $sku->update($request->only(['name', 'price']));
-                $sku->labTestInformation()->update($request->only(['description', 'image', 'sample', 'quote']));
+                $sku->update($request->only(['name', 'price', 'cost']));
+                $sku->labTestInformation()->update([
+                    'lab_name' => $request->get('lab_name'),
+                    'description' => $request->get('description'),
+                    'image' => $request->get('image'),
+                    'sample' => $request->get('sample'),
+                    'quote' => $request->get('quote'),
+                    'published_at' => $request->get('published_at') ? Carbon::now() : null
+                ]);
             });
             $sku->refresh();
+            $sku->load('labTestInformation');
             return $this->baseTransformItem($sku, request('include'))->respond();
         } catch (\Exception $exception) {
             return $this->respondWithError($exception->getMessage());
         }
+    }
+    
+    public function updateListOrder(Request $request, SKU $sku)
+    {
+        $this->validate($request, ['list_order' => 'required']);
+        
+        $sku->labTestInformation()->update(['list_order' => $request->get('list_order')]);
+        
+        return JsonResponse::create(['status' => 'updated']);
     }
     
     public function delete()

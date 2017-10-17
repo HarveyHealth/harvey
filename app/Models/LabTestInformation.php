@@ -22,7 +22,7 @@ class LabTestInformation extends Model
     public static function allFromCache()
     {
         return Cache::remember('all_lab_tests_information', TimeInterval::days(1)->toMinutes(), function () {
-            return static::all()->load('sku');
+            return static::whereNotNull('published_at')->orderBy('list_order', 'asc')->get()->load('sku');
         });
     }
 }
