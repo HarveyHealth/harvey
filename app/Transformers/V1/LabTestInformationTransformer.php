@@ -24,6 +24,7 @@ class LabTestInformationTransformer extends TransformerAbstract
             'price' => $labTestInformation->sku->price,
             'quote' => $labTestInformation->quote,
             'sample' => $labTestInformation->sample,
+            'sku_id' => $labTestInformation->sku->id,
             'visibility' => $labTestInformation->visibility,
         ];
     }
