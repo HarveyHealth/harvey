@@ -374,7 +374,7 @@ body[class*="lab-tests"] {
         @include until($desktop) {
             .columns {
                 .column {
-                    text-align: left;
+                    text-align: center !important;
                     @include padding(null null 0 null);
                     .column {
                         @include padding(null null 0 0);
