@@ -5,7 +5,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
-    if (orders.length === 0 || tests.length === 0 || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return []
+    if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return []
     return orders.map(obj => {
         let data = {
             id: obj.id,
@@ -39,8 +39,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         }
 
         tests.forEach(test => {
-            if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
-                data.total_price += Number(test.included.attributes.price)
+            if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled' && test.included && test.included.attributes) {
+                data.total_price += eval(test.included.attributes.price)
                 data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample]++ : 1
                 data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
