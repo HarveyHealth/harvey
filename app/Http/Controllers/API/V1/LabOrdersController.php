@@ -35,7 +35,9 @@ class LabOrdersController extends BaseAPIController
             $builder = LabOrder::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), new LabOrderTransformer, request('per_page'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user')->with('invoice');
+
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**

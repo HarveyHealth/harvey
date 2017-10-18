@@ -23,7 +23,6 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
-    Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
@@ -86,6 +85,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
         Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
+        Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
         Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');

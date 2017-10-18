@@ -31,16 +31,18 @@ class AppointmentsController extends BaseAPIController
     public function index()
     {
         if (currentUser()->isAdmin()) {
-            $appointments = Appointment::orderBy('appointment_at', 'asc');
+            $builder = Appointment::orderBy('appointment_at', 'asc');
         } else {
-            $appointments = currentUser()->appointments();
+            $builder = currentUser()->appointments();
         }
 
         if (in_array($filter = request('filter'), ['recent', 'upcoming'])) {
-            $appointments = $appointments->$filter();
+            $builder = $builder->$filter();
         }
 
-        return $this->baseTransformBuilder($appointments, request('include'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user');
+
+        return $this->baseTransformBuilder($builder, request('include'))->respond();
     }
 
     /**

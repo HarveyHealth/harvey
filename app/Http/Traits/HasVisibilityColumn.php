@@ -23,21 +23,21 @@ trait HasVisibilityColumn
 
     public function scopePublic(Builder $builder)
     {
-        return $builder->where('visibility_id', self::PUBLIC_VISIBILITY_ID);
+        return $builder->where('visibility_id', '<=', self::PUBLIC_VISIBILITY_ID);
     }
 
     public function scopePatients(Builder $builder)
     {
-        return $builder->where('visibility_id', self::PATIENTS_VISIBILITY_ID);
+        return $builder->where('visibility_id', '<=', self::PATIENTS_VISIBILITY_ID);
     }
 
     public function scopePractitioners(Builder $builder)
     {
-        return $builder->where('visibility_id', self::PRACTITIONERS_VISIBILITY_ID);
+        return $builder->where('visibility_id', '<=', self::PRACTITIONERS_VISIBILITY_ID);
     }
 
     public function scopeAdmins(Builder $builder)
     {
-        return $builder->where('visibility_id', self::ADMINS_VISIBILITY_ID);
+        return $builder->where('visibility_id', '<=', self::ADMINS_VISIBILITY_ID);
     }
 }
