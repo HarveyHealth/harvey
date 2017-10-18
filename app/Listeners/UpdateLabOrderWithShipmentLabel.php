@@ -10,6 +10,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
     public function handle(LabOrderShipped $event)
     {
         // Example: https://github.com/goshippo/shippo-php-client/blob/master/examples/basic-shipment.php
+        $lab_order = $event->labOrder;
         $labTests = $event->labOrder->labTests;
         $user = $event->labOrder->patient->user;
 
@@ -32,11 +33,11 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         $toAddress = [
           'name' => $user->full_name,
           'company' => '',
-          'street1' => $user->address_1,
-          'street2' => $user->address_2,
-          'city' => $user->city,
-          'state' => $user->state,
-          'zip' => $user->zip,
+          'street1' => $lab_order->address_1,
+          'street2' => $lab_order->address_2,
+          'city' => $lab_order->city,
+          'state' => $lab_order->state,
+          'zip' => $lab_order->zip,
           'country' => 'US',
           'phone' => $user->phone,
           'email' => $user->email,
