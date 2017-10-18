@@ -55,7 +55,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'async' => false,
         ]);
 
-        // \Log::info($shipment);
+        \Log::info($shipment);
 
         if (!empty($shipment['rates'])) {
 
