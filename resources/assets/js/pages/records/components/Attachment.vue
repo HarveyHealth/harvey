@@ -13,7 +13,9 @@
         <div class="card-heading-container records-spacing">
             <div>
                 <label class="input__label">file upload</label>
-                <div></div>
+                <div>
+                    
+                </div>
             </div>
             <div>
                 <label class="input__label">upload</label>

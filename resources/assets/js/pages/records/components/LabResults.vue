@@ -12,16 +12,27 @@
         <div class="card-heading-container records-spacing">
             <div>
                 <label class="input__label">lab name</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="lab in labNameList">{{ lab.name }}</option>
+                    </select>
+                </span>
             </div>
             <div>
                 <label class="input__label">lab test</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="lab in labTestList">{{ lab.attributes.name }}</option>
+                    </select>
+                </span>
             </div>
             <div>
                 <label class="input__label">upload</label>
-                <div>
-
+                <div class="border-upload-container">
+                    <div class="upload-container">
+                        <i class="fa fa-book pdf-icons"></i>
+                        <p class="pdf-upload-text">Lab Result (PDF)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,6 +47,15 @@ export default {
     data() {
         return {
 
+        }
+    },
+    computed: {
+        labNameList() {
+            return [{name: ''}].concat([{name: 'SpectraCell'}]);
+        },
+        labTestList() {
+            let labTests = Object.values(this.$root.$data.labTests)
+            return [{attributes: {name: ''}}].concat(labTests)
         }
     }
 }
@@ -56,5 +76,27 @@ export default {
         overflow-x: hidden; 
         overflow-y: scroll;
         width: 100%;
+    }
+    .pdf-upload-text {
+        margin: 0;
+    }
+    .upload-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+    .border-upload-container {
+        border: 1px solid #ccc;
+        background-color: #ebebeb;
+        border-radius: 5px;
+        height: 35px;
+        padding: 5px 10px 0 0;
+    }
+    .pdf-icons{
+        padding: 0 10px;
+    }
+    .bg-white {
+        background-color: white !important;
     }
 </style>
