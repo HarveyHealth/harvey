@@ -2,7 +2,7 @@
   <div :class="classes">
     <input v-for="i in quantity"
            :ref="i" type="text"
-           :disabled="disabled"
+           :disabled="isDisabled"
            @keydown="keyed($event, i)"
            @input="distribute($event, i)"
     />
@@ -12,28 +12,37 @@
 <script>
 export default {
   props: {
-    autoFocus: {
-      type: Boolean
-    },
+    // Theme for input borders and text
     color: {
       type: String,
       default: 'dark'
-    },
-    disabled: Boolean,
-    getValue: {
-      type: Function,
-      required: true,
     },
     // { refs: $refs, ref: 'name' }
     // will auto focus ref after last input is filled in
     // takes this data structure in case the ref to be passed in
     // has not been defined yet
     focusNext: Object,
+    // Function fires when inputs changes. The parameter for this function
+    // is a string of all combined input values
+    getValue: {
+      type: Function,
+      required: true,
+    },
+    // When the component mounts, should the first input be focused?
+    isAutoFocused: {
+      type: Boolean
+    },
+    // Should the inputs be disabled?
+    isDisabled: Boolean,
+    // The number of input fields
     quantity: Number,
+    // Will be used to attach classnames that can modify the size of the inputs
     size: {
       type: String,
       default: 'md'
     },
+    // The data that will map to these inputs. Think of this as the parent's data to v-model
+    // against these inputs
     stored: String
   },
   data() {
@@ -102,7 +111,7 @@ export default {
     if (this.stored) {
       this.distribute(this.stored, 0);
     }
-    if (this.autoFocus) {
+    if (this.isAutoFocused) {
       this.$refs[1][0].focus();
     }
   }
