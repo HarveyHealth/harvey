@@ -13,14 +13,19 @@
         <div class="card-heading-container records-spacing">
             <div>
                 <label class="input__label">file upload</label>
-                <div>
-                    
-                </div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="attach in attachmentList">{{ attach.name }}</option>
+                    </select>
+                </span>
             </div>
             <div>
                 <label class="input__label">upload</label>
-                <div>
-
+                <div class="border-upload-container">
+                    <div class="upload-container">
+                        <i class="fa fa-book pdf-icons"></i>
+                        <p class="pdf-upload-text">Attachment (PDF)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -35,6 +40,11 @@ export default {
     data() {
         return {
 
+        }
+    },
+    computed: {
+        attachmentList() {
+            return [{name: ''}].concat([]);
         }
     }
 }

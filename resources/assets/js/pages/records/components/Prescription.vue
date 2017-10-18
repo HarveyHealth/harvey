@@ -13,12 +13,19 @@
         <div class="card-heading-container records-spacing">
             <div>
                 <label class="input__label">pharmacy</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="script in prescriptionList">{{ script.name }}</option>
+                    </select>
+                </span>
             </div>
             <div>
                 <label class="input__label">upload</label>
-                <div>
-
+                <div class="border-upload-container">
+                    <div class="upload-container">
+                        <i class="fa fa-book pdf-icons"></i>
+                        <p class="pdf-upload-text">Prescription (PDF)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,6 +40,11 @@ export default {
     data() {
         return {
 
+        }
+    },
+    computed: {
+        prescriptionList() {
+            return [{name: ''}].concat([]);
         }
     }
 }
@@ -53,5 +65,28 @@ export default {
         overflow-x: hidden; 
         overflow-y: scroll;
         width: 100%;
+    }
+    .pdf-upload-text {
+        margin: 0;
+    }
+    .upload-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+    .border-upload-container {
+        border: 1px solid #ccc;
+        background-color: #ebebeb;
+        border-radius: 5px;
+        height: 35px;
+        padding: 0 10px 0 0;
+        cursor: pointer;
+    }
+    .pdf-icons{
+        padding: 0 10px;
+    }
+    .bg-white {
+        background-color: white !important;
     }
 </style>

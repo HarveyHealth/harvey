@@ -91,7 +91,8 @@ export default {
         background-color: #ebebeb;
         border-radius: 5px;
         height: 35px;
-        padding: 5px 10px 0 0;
+        padding: 0 10px 0 0;
+        cursor: pointer;
     }
     .pdf-icons{
         padding: 0 10px;
