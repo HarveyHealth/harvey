@@ -91,9 +91,9 @@
                         .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                         .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
                     store.confirmedPatients = _.uniq(store.confirmedPatients)
-                    return [''].concat(store.confirmedPatients);
+                    return [''].concat(store.confirmedPatients).filter(e => e.name !== 'null, null');
                 } else if (this.$root.$data.permissions === 'admin') {
-                    return [''].concat(store.practitioners).concat(store.patients);
+                    return [''].concat(store.practitioners).concat(store.patients).filter(e => e.name !== 'null, null');
                 }
             },
             toUserType() {
