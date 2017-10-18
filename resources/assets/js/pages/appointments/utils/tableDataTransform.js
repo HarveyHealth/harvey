@@ -1,4 +1,5 @@
 import convertStatus from './convertStatus';
+import displayStatus from './displayStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
@@ -49,7 +50,7 @@ export default function(appointments, zone, userType) {
         data.time,
         data.client,
         data.doctor,
-        data.status,
+        displayStatus(data.status, userType),
         data.purpose
       ]
     }
