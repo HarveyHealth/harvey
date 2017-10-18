@@ -43,7 +43,11 @@ export default {
     },
     // The data that will map to these inputs. Think of this as the parent's data to v-model
     // against these inputs
-    stored: String
+    stored: String,
+    // Takes a regular expression and uses that to validate
+    // each specific input. If the test does not pass, nothing
+    // is input.
+    validation: RegExp,
   },
   data() {
     return {
@@ -62,6 +66,12 @@ export default {
   },
   methods: {
     distribute(e, ref) {
+      // If validation required and fails, return early.
+      if (this.validation && !this.validate(e.target.value)) {
+        e.target.value = '';
+        return
+      }
+
       const value = typeof e === 'string' ? e : e.target.value;
       let i, j = 0, k = 1;
       for (i = ref; i <= this.quantity; i++, j++) {
@@ -105,6 +115,13 @@ export default {
         this.$refs[ref + 1][0].focus();
         this.$refs[ref + 1][0].setSelectionRange(0,0);
       }
+    },
+    validate(value) {
+      let result = true;
+      value.split('').map(v => {
+        if (!this.validation.test(v)) result = false;
+      });
+      return result;
     }
   },
   mounted() {

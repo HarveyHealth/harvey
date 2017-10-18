@@ -9,7 +9,8 @@
         :focus-next="{ refs: $refs, ref: 'submit' }"
         :get-value="zip => setState('conditions.zip', zip)"
         :is-auto-focused="true"
-        :quantity="5" />
+        :quantity="5"
+        :validation="/\d/" />
       <ButtonInput
         :is-disabled="State('conditions.zip').length < 5"
         :is-done="State('wasRequested.zip') && !State('isLoading.zip')"
