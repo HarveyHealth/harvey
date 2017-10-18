@@ -114,7 +114,7 @@ class LabTestsController extends BaseAPIController
     {
         $this->serializer = new JsonApiSerializer();
 
-        $builder = LabTestInformation::make();
+        $builder = LabTestInformation::with('sku');
 
         if ($user = currentUser()) {
             $scope = Pluralizer::plural($user->type);

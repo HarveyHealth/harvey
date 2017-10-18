@@ -172,7 +172,7 @@
         </div>
         <div class="font-centered">
           <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <p v-show="!bookingConflict && !isHandlingAction && appointment.status === 'canceled'">{{ userActionSubtitle }}</p>
+          <p v-show="!bookingConflict && !isHandlingAction && statusWasChanged">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
         </div>
         <div class="space-children-sm" v-show="!bookingConflict && !isHandlingAction">
           <div class="Row-md" v-if="userType !== 'patient'">
@@ -212,6 +212,7 @@
         </div>
       </div>
       <div class="font-centered" slot="footer" v-if="!isHandlingAction">
+        <button class="Button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
         <button class="Button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
         <button class="Button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
       </div>
@@ -313,7 +314,6 @@ export default {
       ],
       userAction: '',
       userActionTitle: '',
-      userActionSubtitle: '',
       userType: Laravel.user.user_type
     }
   },
@@ -409,6 +409,9 @@ export default {
         this.visibleUpdateButtons &&
         this.userType === 'patient'
       );
+    },
+    statusWasChanged() {
+      return this.appointment.status !== this.appointment.currentStatus;
     },
     visibleDays() {
       return this.flyoutMode === 'update' ||
@@ -515,12 +518,12 @@ export default {
       switch(action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
-          this.userActionSubtitle = 'Are you sure you want to cancel this appointment?';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
           break;
         case 'update':
-          this.userActionTitle = 'Update Appointment';
+          // If an admin/practitioner updates an appointment status to anything other than pending, they are cancelling it
+          this.userActionTitle = this.appointment.status !== 'pending' ? 'Cancel Appointment' : 'Update Appointment';
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
