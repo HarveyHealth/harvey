@@ -172,7 +172,7 @@
         </div>
         <div class="font-centered">
           <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <p v-show="!bookingConflict && !isHandlingAction && statusWasChanged">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
+          <p v-show="!bookingConflict && !isHandlingAction && statusWasChanged && flyoutMode === 'update'">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
         </div>
         <div class="space-children-sm" v-show="!bookingConflict && !isHandlingAction">
           <div class="Row-md" v-if="userType !== 'patient'">
