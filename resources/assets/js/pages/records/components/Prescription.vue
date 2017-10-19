@@ -54,7 +54,7 @@ export default {
     .records-spacing {
         display: flex;
         justify-content: space-around;
-        width: 60%;
+        width: 500px;
     }
     .p-spacing {
         padding: 25px;
@@ -64,7 +64,7 @@ export default {
         padding: 25px; 
         overflow-x: hidden; 
         overflow-y: scroll;
-        width: 500px;
+        width: 100%;
     }
     .pdf-upload-text {
         margin: 0;
