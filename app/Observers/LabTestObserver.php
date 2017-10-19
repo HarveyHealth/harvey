@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\LabTest;
-use App\Events\LabTestReceived;
+use App\Events\LabTestProcessing;
 use Carbon;
 
 class LabTestObserver
@@ -22,8 +22,8 @@ class LabTestObserver
                     $lab_test->completed_at = Carbon::now();
                     break;
 
-                case LabTest::RECEIVED_STATUS_ID:
-                    event(new LabTestReceived($lab_test));
+                case LabTest::PROCESSING_STATUS_ID:
+                    event(new \App\Events\LabTestProcessing($lab_test));
                     break;
 
                 default:

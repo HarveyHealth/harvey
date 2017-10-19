@@ -4,7 +4,7 @@ namespace Tests\Feature;
 
 use App\Events\{AppointmentCanceled, AppointmentScheduled, AppointmentUpdated, UserRegistered};
 use App\Jobs\SendTransactionalEmail;
-use App\Models\{Appointment,Patient,User};
+use App\Models\{Appointment,Patient,User,LabOrder,LabTest,LabTestInformation};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 use Log;
@@ -190,6 +190,46 @@ class TransactionalEmailTest extends TestCase
             'practitioner_state' => $appointment->practitioner->user->state,
             'reschedule_url' => config('app.url') . '/dashboard#/appointments',
         ]);
+    }
+
+
+    public function test_labtest_processing_notification()
+    {
+      // create Lab Test instance
+      $lab_test = factory(LabTest::class)->create();
+
+      $information = factory(LabTestInformation::class)->create(['sku_id'=>$lab_test->sku_id]);
+
+      // change its status to processing
+      $lab_test->status_id = LabTest::PROCESSING_STATUS_ID;
+      $lab_test->save();
+
+      // test email is being sent
+      $this->assertEmailWasSentTo($lab_test->patient->user->email);
+      $this->assertEmailTemplateNameWas('patient.lab_test.processing');
+
+      $this->assertEmailTemplateDataWas([
+        'lab_test_name' => $lab_test->sku->name,
+        'lab_name' =>   $lab_test->information->lab_name,
+      ]);
+    }
+
+
+    public function test_laborder_shipped_notification()
+    {
+      // create a Lab Order
+      $labOrder = factory(LabOrder::class)->create();
+
+      // change its status to Shipped
+      $labOrder->status_id = LabOrder::SHIPPED_STATUS_ID;
+      $labOrder->save();
+
+      // assert the notification email was sent to the patient
+      $this->assertEmailWasSentTo($labOrder->patient->user->email);
+
+      // assert the information sent was correct
+      $this->assertEmailTemplateNameWas('patient.lab_order.shipped');
+
     }
 
 }

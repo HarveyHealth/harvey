@@ -299,6 +299,19 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => function () {
+            return factory(SKU::class)->create()->id;
+        },
+        'description' => $faker->randomHtml(2,3),
+        'image' => $faker->url,
+        'lab_name' => $faker->sentence(3),
+        'sample' => $faker->sentence(2),
+        'quote' => $faker->text,
+    ];
+});
+
 $factory->define(Condition::class, function (Faker\Generator $faker) {
     $name = $faker->unique()->word;
     return [
