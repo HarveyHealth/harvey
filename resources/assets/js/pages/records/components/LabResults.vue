@@ -88,7 +88,7 @@ export default {
     }
     .border-upload-container {
         border: 1px solid #ccc;
-        background-color: #ebebeb;
+        background-color: #ececec;
         border-radius: 5px;
         height: 35px;
         padding: 0 10px 0 0;

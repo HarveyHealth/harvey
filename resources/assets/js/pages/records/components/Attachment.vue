@@ -66,4 +66,27 @@ export default {
         overflow-y: scroll;
         width: 100%;
     }
+    .pdf-upload-text {
+        margin: 0;
+    }
+    .upload-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+    .border-upload-container {
+        border: 1px solid #ccc;
+        background-color: #ececec;
+        border-radius: 5px;
+        height: 35px;
+        padding: 0 10px 0 0;
+        cursor: pointer;
+    }
+    .pdf-icons{
+        padding: 0 10px;
+    }
+    .bg-white {
+        background-color: white !important;
+    }
 </style>
