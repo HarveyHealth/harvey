@@ -125,7 +125,7 @@
             },
             handleFilter(name, index) {
                 this.activeFilter = index;
-                switch (name) {
+                switch (name.name) {
                     case "Recommended":
                         this.currentData = this.cache.Recommended
                         break;
