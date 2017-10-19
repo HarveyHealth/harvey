@@ -45,21 +45,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .filter-bubble {
-    height: 17.5px;
-    width: 17.5px;
-    color: white;
-    float: right;
-    background-color: #82BEF2;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-    font-size: 1em;
-    /* position: relative;
-    bottom: 10px; */
-  }
-</style>
