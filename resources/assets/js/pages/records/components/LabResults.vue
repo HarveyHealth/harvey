@@ -9,7 +9,7 @@
                 The only file format accepted is a PDF.
             </p>
         </div>
-        <div class="card-heading-container records-spacing">
+        <div class="card-heading-container lab-spacing">
             <div style="width: 175px">
                 <label class="input__label">lab name</label>
                 <span class="custom-select bg-white">
@@ -62,7 +62,7 @@ export default {
 </script>
 
 <style lang="scss">
-    .records-spacing {
+    .lab-spacing {
         display: flex;
         justify-content: space-around;
         width: 700px;
