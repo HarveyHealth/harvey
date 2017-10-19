@@ -19,7 +19,14 @@ mix.options({processCssUrls: false})
    .sass('resources/assets/scss/application.scss', 'public/css')
    .sass('resources/assets/scss/public/app_public.scss', 'public/css')
    .copy('resources/assets/images', 'public/images', false)
-   .sourceMaps();
+   .sourceMaps()
+   .options({
+     postCss: [
+       require('autoprefixer')({
+         browsers: 'last 3 versions',
+       }),
+     ]
+   });
 
 if (mix.inProduction()) {
     mix.version();

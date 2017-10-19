@@ -70,7 +70,6 @@
         },
         data() {
             return {
-                filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -231,6 +230,17 @@
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
             },
+            filters() { 
+                return [
+                    {name: `Recommended`, count: this.cache.Recommended.length}, 
+                    {name: `Confirmed`, count: this.cache.Confirmed.length}, 
+                    {name: `Shipped`, count: this.cache.Shipped.length}, 
+                    {name: `Received`, count: this.cache.Received.length}, 
+                    {name: `Mailed`, count: this.cache.Mailed.length}, 
+                    {name: `Processing`, count: this.cache.Processing.length}, 
+                    {name: `Complete`, count: this.cache.Complete.length}
+                ];
+            },
             loadingLabs() {
                 const global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
@@ -238,14 +248,17 @@
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
                     global.loadingPatients ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners
                 } else if (permissions === 'practitioner') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPatients
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners ||
                     global.loadingUser ||
                     global.loadingCreditCards
@@ -275,6 +288,7 @@
                 !global.loadingLabOrders ||
                 !global.loadingPractitioners ||
                 !global.loadingUser ||
+                !global.loadingTestTypes ||
                 !global.loadingCreditCards) {
                 this.setupLabData();
             }
@@ -316,8 +330,12 @@
 
             axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
+                     let sku_ids = {}
+                    response.data.included.forEach(e => {
+                        sku_ids[e.id] = e;
+                    })
                     this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i]
+                        e.included = sku_ids[e.relationships.sku.data.id]
                         return e;
                     })
                 })

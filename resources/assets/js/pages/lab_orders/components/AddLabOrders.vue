@@ -172,7 +172,7 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
             .then(response => {
                 this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                     e['included'] = response.data.included[i]
@@ -181,8 +181,12 @@ export default {
                 this.$root.$data.global.loadingLabOrders = false
                 axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                     .then(response => {
+                        let sku_ids = {}
+                        response.data.included.forEach(e => {
+                            sku_ids[e.id] = e;
+                        })
                         this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                            e['included'] = response.data.included[i]
+                            e.included = sku_ids[e.relationships.sku.data.id]
                             return e;
                         })
                         this.$root.$data.global.loadingLabTests = false
