@@ -70,7 +70,6 @@
         },
         data() {
             return {
-                filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -231,6 +230,17 @@
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
             },
+            filters() { 
+                return [
+                    `Recommended (${this.cache.Recommended.length})`, 
+                    `Confirmed (${this.cache.Confirmed.length})`, 
+                    `Shipped (${this.cache.Shipped.length})`, 
+                    `Received (${this.cache.Received.length})`, 
+                    `Mailed (${this.cache.Mailed.length})`, 
+                    `Processing (${this.cache.Processing.length})`, 
+                    `Complete (${this.cache.Complete.length})`
+                ];
+            },
             loadingLabs() {
                 const global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
@@ -238,14 +248,17 @@
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
                     global.loadingPatients ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners
                 } else if (permissions === 'practitioner') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPatients
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners ||
                     global.loadingUser ||
                     global.loadingCreditCards
@@ -275,6 +288,7 @@
                 !global.loadingLabOrders ||
                 !global.loadingPractitioners ||
                 !global.loadingUser ||
+                !global.loadingTestTypes ||
                 !global.loadingCreditCards) {
                 this.setupLabData();
             }
