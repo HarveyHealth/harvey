@@ -70,7 +70,6 @@
         },
         data() {
             return {
-                filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
                 activeFilter: 0,
                 selectedRowData: null,
                 selectedRowUpdating: null,
@@ -230,6 +229,17 @@
         computed: {
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
+            },
+            filters() { 
+                return [
+                    `Recommended (${this.cache.Recommended.length})`, 
+                    `Confirmed (${this.cache.Confirmed.length})`, 
+                    `Shipped (${this.cache.Shipped.length})`, 
+                    `Received (${this.cache.Received.length})`, 
+                    `Mailed (${this.cache.Mailed.length})`, 
+                    `Processing (${this.cache.Processing.length})`, 
+                    `Complete (${this.cache.Complete.length})`
+                ];
             },
             loadingLabs() {
                 const global = this.$root.$data.global
