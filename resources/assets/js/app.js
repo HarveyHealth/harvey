@@ -261,7 +261,8 @@ const app = new Vue({
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
         getPatients() {
-            axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+            axios.get(`${this.apiUrl}/patients?include=user,intake`).then(response => {
+                console.log(response)
                 const include = response.data.included;
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
