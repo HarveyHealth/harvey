@@ -172,7 +172,7 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
             .then(response => {
                 this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                     e['included'] = response.data.included[i]
