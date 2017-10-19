@@ -238,14 +238,17 @@
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
                     global.loadingPatients ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners
                 } else if (permissions === 'practitioner') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPatients
                 } else if (permissions === 'patient') {
                     return global.loadingLabTests ||
                     global.loadingLabOrders ||
+                    global.loadingTestTypes ||
                     global.loadingPractitioners ||
                     global.loadingUser ||
                     global.loadingCreditCards
@@ -275,6 +278,7 @@
                 !global.loadingLabOrders ||
                 !global.loadingPractitioners ||
                 !global.loadingUser ||
+                !global.loadingTestTypes ||
                 !global.loadingCreditCards) {
                 this.setupLabData();
             }
