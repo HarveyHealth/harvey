@@ -65,7 +65,7 @@ export default {
     .records-spacing {
         display: flex;
         justify-content: space-around;
-        width: 500px;
+        width: 700px;
     }
     .p-spacing {
         padding: 25px;
