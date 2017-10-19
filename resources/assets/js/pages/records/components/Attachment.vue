@@ -11,7 +11,7 @@
             </p>
         </div>
         <div class="card-heading-container records-spacing">
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">file upload</label>
                 <span class="custom-select bg-white">
                     <select>
@@ -19,7 +19,7 @@
                     </select>
                 </span>
             </div>
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">upload</label>
                 <div class="border-upload-container">
                     <div class="upload-container">
@@ -64,6 +64,6 @@ export default {
         padding: 25px; 
         overflow-x: hidden; 
         overflow-y: scroll;
-        width: 100%;
+        width: 500px;
     }
 </style>
