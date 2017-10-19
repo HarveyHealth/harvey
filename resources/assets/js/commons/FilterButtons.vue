@@ -4,7 +4,10 @@
       v-for="(name, index) in filters"
       :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
       :disabled="loading"
-      @click="handleFilter(name, index)">{{ name }}</button>
+      @click="handleFilter(name, index)">
+      {{ name.name ? name.name : name }}
+      <div class="filter-bubble" v-if="name.count">{{ name.count }}</div>
+      </button>
   </div>
 </template>
 
@@ -42,3 +45,21 @@ export default {
   }
 }
 </script>
+
+<style>
+  .filter-bubble {
+    height: 17.5px;
+    width: 17.5px;
+    color: white;
+    float: right;
+    background-color: #82BEF2;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    font-size: 1em;
+    /* position: relative;
+    bottom: 10px; */
+  }
+</style>
