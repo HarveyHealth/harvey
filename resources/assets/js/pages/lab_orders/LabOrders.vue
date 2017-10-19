@@ -330,8 +330,12 @@
 
             axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
+                     let sku_ids = {}
+                    response.data.included.forEach(e => {
+                        sku_ids[e.id] = e;
+                    })
                     this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i]
+                        e.included = sku_ids[e.relationships.sku.data.id]
                         return e;
                     })
                 })
