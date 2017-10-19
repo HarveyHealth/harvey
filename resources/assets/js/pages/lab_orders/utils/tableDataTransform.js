@@ -40,7 +40,6 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
         }
 
         tests.forEach(test => {
-            console.log(test)
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
                 data.total_price += eval(test.included.attributes.price)
                 data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample
