@@ -125,7 +125,7 @@
             },
             handleFilter(name, index) {
                 this.activeFilter = index;
-                switch (name) {
+                switch (name.name) {
                     case "Recommended":
                         this.currentData = this.cache.Recommended
                         break;
@@ -232,13 +232,13 @@
             },
             filters() { 
                 return [
-                    `Recommended (${this.cache.Recommended.length})`, 
-                    `Confirmed (${this.cache.Confirmed.length})`, 
-                    `Shipped (${this.cache.Shipped.length})`, 
-                    `Received (${this.cache.Received.length})`, 
-                    `Mailed (${this.cache.Mailed.length})`, 
-                    `Processing (${this.cache.Processing.length})`, 
-                    `Complete (${this.cache.Complete.length})`
+                    {name: `Recommended`, count: this.cache.Recommended.length}, 
+                    {name: `Confirmed`, count: this.cache.Confirmed.length}, 
+                    {name: `Shipped`, count: this.cache.Shipped.length}, 
+                    {name: `Received`, count: this.cache.Received.length}, 
+                    {name: `Mailed`, count: this.cache.Mailed.length}, 
+                    {name: `Processing`, count: this.cache.Processing.length}, 
+                    {name: `Complete`, count: this.cache.Complete.length}
                 ];
             },
             loadingLabs() {
@@ -330,8 +330,12 @@
 
             axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
+                     let sku_ids = {}
+                    response.data.included.forEach(e => {
+                        sku_ids[e.id] = e;
+                    })
                     this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i]
+                        e.included = sku_ids[e.relationships.sku.data.id]
                         return e;
                     })
                 })
