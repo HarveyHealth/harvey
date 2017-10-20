@@ -98,7 +98,7 @@
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
-        <label class="input__label">Google Meet Link</label>
+        <label class="input__label">Meet Link</label>
         <a :href="appointment.googleMeet" target="_blank">{{ appointment.googleMeet }}</a>
       </div>
 
@@ -125,7 +125,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
@@ -173,7 +173,12 @@
             </div>
           </div>
           <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <p v-show="!bookingConflict && !isHandlingAction">Are you sure you want to book the following appointment?</p>
+          <p v-show="!bookingConflict && !isHandlingAction">Are you sure you want to mark this appointment as {{ 
+            appointment.status === 'no_show_patient' ? "no show patient" :
+            appointment.status === 'no_show_doctor' ? "no show doctor" :
+            appointment.status === 'general_conflict' ? "general conflict" :
+            appointment.status
+            }}?</p>
 <!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
           <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction" class="modal-table inline-left">
             <tr v-if="userType !== 'patient'">
@@ -736,6 +741,7 @@ export default {
       // collect data for tracking later
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
+      const appointmentPatientEmail = this.appointment.patientEmail;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -797,9 +803,10 @@ export default {
       axios[action](endpoint, data).then(response => {
         // track the event
         if(this.$root.shouldTrack()) {
-          if((this.userType === 'practitioner' || this.userType === 'admin') && appointmentStatus === 'complete') {
+          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
+              email: appointmentPatientEmail,
             });
           }
         }

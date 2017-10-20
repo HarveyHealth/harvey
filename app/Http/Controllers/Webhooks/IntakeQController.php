@@ -7,6 +7,7 @@ use App\Lib\Slack;
 use App\Notifications\SlackNotification;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 
 class IntakeQController extends BaseWebhookController
 {

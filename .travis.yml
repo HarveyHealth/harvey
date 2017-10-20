@@ -1,4 +1,3 @@
-
 dist: ubuntu trusty
 git:
   depth: 3

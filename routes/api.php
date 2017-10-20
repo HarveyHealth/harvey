@@ -23,9 +23,10 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
-    Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+    Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
         Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
         Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
 
@@ -66,6 +67,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
         Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
+        Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
         Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
@@ -76,7 +78,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
-        
+
         Route::get('skus', 'SkusController@index')->name('skus.index');
         Route::get('skus/lab-tests', 'SkusController@indexLabTests')->name('skus.indexLabTests');
         Route::get('skus/{sku}', 'SkusController@show')->name('skus.show');

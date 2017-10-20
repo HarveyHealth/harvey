@@ -51,8 +51,7 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link
-       v-if="user === 'patient'"
+       <router-link 
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">

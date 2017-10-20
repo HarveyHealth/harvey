@@ -3,7 +3,8 @@
   border-left: 1px solid $color--grey;
   bottom: 0;
   max-width: 25em;
-  overflow-y: auto;
+  overflow-x: visible;
+  overflow-y: scroll;
   @include padding(3em 1.6em 2em);
   position: fixed;
   right: -26em;

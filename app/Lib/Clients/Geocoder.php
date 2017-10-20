@@ -28,7 +28,8 @@ class Geocoder extends BaseClient
         $obj = json_decode($response->getBody());
 
         if ($response->getStatusCode() != 200 || empty($obj->results)) {
-            ops_error('Geocoder', "Could not process geocoding: {$query} / Response Code: '{$response->getStatusCode()}' / Message: '{$obj->error_message}'");
+            $message = empty($obj->error_message) ? '' : " / Message: {$obj->error_message}";
+            ops_error('Geocoder', "Could not process geocoding: {$query} / Response Code: {$response->getStatusCode()}{$message}");
             return false;
         }
 
