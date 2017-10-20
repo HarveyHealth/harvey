@@ -1,15 +1,15 @@
 <template>
-    <div class="sku-table__sku">
-        <div class="sku-table__column sku-table__move-icon"><i class="fa fa-bars"></i></div>
-        <div class="sku-table__column sku-table__sku-name">{{ sku.attributes.name }}</div>
-        <div class="sku-table__column">{{ sku.attributes.lab_test_information.lab_name }}</div>
-        <div class="sku-table__column">{{ sku.attributes.lab_test_information.sample }}</div>
-        <div class="sku-table__column">{{ `${sku.attributes.lab_test_information.description.substr(0,15)}...` }}</div>
-        <div class="sku-table__column">{{ `${sku.attributes.lab_test_information.quote.substr(0,15)}...` }}</div>
-        <div class="sku-table__column">{{ sku.attributes.price }}</div>
-        <div class="sku-table__column">{{ sku.attributes.cost }}</div>
-        <div class="sku-table__column">{{ skuPublic }}</div>
-    </div>
+    <tr class="cell-wrap grabbable">
+        <td class="sku-table__column sku-table__move-icon sort"><i class="fa fa-bars"></i></td>
+        <td class="sku-table__column sku-table__sku-name">{{ sku.attributes.name }}</td>
+        <td class="sku-table__column">{{ sku.attributes.lab_test_information.lab_name }}</td>
+        <td class="sku-table__column">{{ sku.attributes.lab_test_information.sample }}</td>
+        <td class="sku-table__column">{{ `${sku.attributes.lab_test_information.description.substr(0,15)}...` }}</td>
+        <td class="sku-table__column">{{ `${sku.attributes.lab_test_information.quote.substr(0,15)}...` }}</td>
+        <td class="sku-table__column">${{ sku.attributes.price }}</td>
+        <td class="sku-table__column">${{ sku.attributes.cost }}</td>
+        <td class="sku-table__column">{{ skuPublic }}</td>
+    </tr>
 </template>
 
 <script>
@@ -38,26 +38,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-    .sku-table {
-        &__sku {
-            display: flex;
-            justify-content: space-between;
-            height: 50px;
-            border-bottom: 1px solid #e4eaec;
-            align-items: center;
-            background-color: #F4F4F4;
-        }
-
-        &__column {
-            min-width: 9rem;
-        }
-
-        &__move-icon {
-            min-width: 4%;
-            display: flex;
-            justify-content: center;
-        }
-    }
-</style>

@@ -19,33 +19,33 @@
             >
                 <SkuForm :sku=selectedSku @append="appendSkuList"/>
             </Flyout>
-
-            <div v-if="loading" class="copy-muted font-sm font-italic">Loading Lab Tests...</div>
-
-            <div class="sku-table" v-if="!loading">
-                <div class="sku-table__sku">
-                    <div class="sku-table__column sku-table__move-icon"></div>
-                    <div class="sku-table__column sku-table__sku-name">LAB TEST</div>
-                    <div class="sku-table__column">LAB NAME</div>
-                    <div class="sku-table__column">SAMPLE</div>
-                    <div class="sku-table__column">DESCRIPTION</div>
-                    <div class="sku-table__column">QUOTE</div>
-                    <div class="sku-table__column">PRICE</div>
-                    <div class="sku-table__column">COST</div>
-                    <div class="sku-table__column">PUBLIC</div>
-                </div>
-
-                <draggable v-model="skuList" @end="onDragComplete" class="sku-table__skus">
-                    <Sku
-                        v-for="sku in skuList"
-                        :sku=sku
-                        :key=sku.id
-                        @click.native="modalOpenWithSku(sku)"
-                    ></Sku>
-                </draggable>
-            </div>
+            <table class="sku-table tabledata appointments-table" v-if="loading">
+                <td class="font-italic font-sm copy-muted">Loading lab tests inventory...</td>
+            </table>
+            <table class="sku-table tabledata appointments-table" v-if="!loading">
+                <thead>
+                    <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
+                    <th class="sku-table__column sku-table__sku-name heading-2">Lab Test</th>
+                    <th class="sku-table__column heading-2">Lab Name</th>
+                    <th class="sku-table__column heading-2">Sample</th>
+                    <th class="sku-table__column heading-2">Description</th>
+                    <th class="sku-table__column heading-2">Quote</th>
+                    <th class="sku-table__column heading-2">Price</th>
+                    <th class="sku-table__column heading-2">Cost</th>
+                    <th class="sku-table__column heading-2">Public</th>
+                </thead>
+                <tbody class="copy-main">
+                    <draggable v-model="skuList" @end="onDragComplete">
+                        <Sku
+                            v-for="sku in skuList"
+                            :sku=sku
+                            :key=sku.id
+                            @click.native="modalOpenWithSku(sku)"
+                        ></Sku>
+                    </draggable>
+                </tbody>
+            </table>
         </div>
-        <Flyout
     </div>
 </template>
 
@@ -144,21 +144,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-.container-flex {
-    display: flex;
-    justify-content: space-between;
-}
-
-.sku-table {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-
-    &__skus {
-        background-color: #fefefe;
-        color: #5f7278;
-    }
-}
-</style>
