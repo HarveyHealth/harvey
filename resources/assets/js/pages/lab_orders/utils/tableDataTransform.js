@@ -41,10 +41,8 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
 
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
-                if(test.included && test.included.attributes) { 
-                    data.total_price += eval(test.included.attributes.price)
-                    data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample
-                }
+                data.total_price += eval(test.included.attributes.price)
+                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample
                 data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status
@@ -52,9 +50,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
                 data.test_list.push({
-                    item_type: test.included && test.included.attributes ? test.included.attributes.item_type : null,
-                    price: test.included && test.included.attributes ? test.included.attributes.price : null,
-                    name: test.included && test.included.attributes ? test.included.attributes.name : null,
+                    item_type: test.included.attributes.item_type,
+                    price: test.included.attributes.price,
+                    name: test.included.attributes.name,
                     original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
