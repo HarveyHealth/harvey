@@ -4313,3 +4313,127 @@ body.panel-active #page {
 	}
 
 }
+
+/*--------------------------------------------------------------
+	## Custom ( Enter CSS Here )
+--------------------------------------------------------------*/
+
+/* Header */
+
+.related-posts-wrapper,
+#navigation-search-hook {
+	display: none;
+}
+
+#logo {
+    padding: 30px 0;
+}
+
+.logo-subtitle a {
+	font-weight: normal;
+	letter-spacing: 2px;
+	font-size: 13px;
+}
+
+#top-bar-social a {
+	font-size: 25px;
+}
+
+#top-bar-navigation li a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 15px;
+}
+
+/* Carousels */
+
+.carousel {
+	margin: 20px 0;
+}
+
+.blog-post-s3-title a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 23px;
+}
+
+#navigation .menu > li > a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 18px;
+}
+
+.blog-post-s2-title h4 a {
+	font-family: proxima-nova;
+	font-size: 15px;
+}
+
+.promo-box {
+    background-size: auto 100%;
+}
+
+/* Widget */
+
+.about-author-widget-text, .blog-post-s6-title a, .cat-item a, .widget p {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 16px;
+}
+
+.blog-post-s7-title a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 21px;
+	line-height: 27px;
+}
+
+/* Content */
+
+.blog-post-single-pagination > span, .blog-post-single-pagination a, .pagination-load-more a, .pagination-type-numbered a, .pagination-type-prevnext a, .blog-post-read-more a, .section-heading, #footer-widgets .widget-title, #sidebar .widget-title, .promo-box-secondary {
+	font-family: proxima-nova;
+    letter-spacing: 1.5px;
+}
+
+.blog-post-s3-thumb {
+	border: 1px solid #f9f9f9;
+}
+
+/* Footer Widgets */
+
+#footer-widgets a,
+.blog-post-s5-title h2 a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 18px;
+}
+
+.subscribe-widget h4,
+.subscribe-widget h5 {
+	font-family: proxima-nova;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#footer-widgets .widget {
+	margin: 0 0 30px;
+}
+
+/* Footer */
+
+#footer-bottom {
+	background: rgba(203,197,193, 0.7);
+}
+
+#footer-copyright,
+#footer-navigation li a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 13px;
+	letter-spacing: 1px;
+	text-transform: none;
+	color: white;
+}
+
+#footer-navigation li a {
+	font-size: 15px;
+}
