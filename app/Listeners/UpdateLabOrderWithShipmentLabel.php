@@ -16,11 +16,11 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         // TODO: we need to get this from somewhere (found in shippo dashboard)
         // https://app.goshippo.com/carriers
-        $carrier_account_id = '681368507';
+        $carrier_account_id = '7fd02a1418fc4b3490ae6d5aa965ef6d'; // fake USPS account
 
         // Service level token
         // https://goshippo.com/docs/reference/php#servicelevels
-        $carrier_service_level = 'Ground';
+        $carrier_service_level = 'usps_priority';
 
         // From Address
         $address_from = [
@@ -57,9 +57,9 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         });
 
         $carriers = \Shippo_CarrierAccount::all();
-        \Log::info($carriers);
+        // \Log::info($carriers);
 
-        die();
+        // die();
 
         // generate shipping label transaction from a single API call
         $transaction = \Shippo_Transaction::create([
@@ -76,67 +76,5 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         \Log::info($transaction);
         die();
-
-        // $shipment = \Shippo_Shipment::create([
-        //   'address_from' => $fromAddress,
-        //   'address_to' => $toAddress,
-        //   'parcels' => $parcelInfo,
-        //   'async' => false,
-        // ]);
-        //
-        // \Log::info($shipment);
-        //
-        // // make sure addresses are valid
-        // $to_address_id = $shipment['address_to']['object_id'];
-        // $from_address_id = $shipment['address_from']['object_id'];
-        //
-        // $is_to_address_valid = \Shippo_Address::validate($to_address_id)['validation_results']['is_valid'];
-        // $is_from_address_valid = \Shippo_Address::validate($from_address_id)['validation_results']['is_valid'];
-        //
-        // if ($is_to_address_valid && $is_from_address_valid) {
-        //   if (!empty($shipment['rates'])) {
-        //     // for now I'll pick the first rate
-        //     $rate = $shipment['rates'][0];
-        //
-        //     $transaction = \Shippo_Transaction::create([
-        //       'rate' => $rate['object_id'],
-        //       'label_file_type' => "PDF",
-        //       'async' => false,
-        //     ]);
-        //
-        //     if ($transaction["status"] == "SUCCESS") {
-        //         \Log::info($transaction["label_url"]);
-        //         \Log::info($transaction["tracking_number"]);
-        //     } else {
-        //         \Log::info($transaction["messages"]);
-        //     }
-        //   } else {
-        //     \Log::error('There are no avaiable shipping rates'); // TODO: more helpful error
-        //   }
-        // } else {
-        //   \Log::error('Address is invalid'); // TODO: more helpful error
-        // }
-
-        // Rates are stored in the `rates` array
-        // The details on the returned object are here: https://goshippo.com/docs/reference#rates
-        // Get the first rate in the rates results for demo purposes.
-        // $rate = $shipment['rates'][0];
-        // Purchase the desired rate with a transaction request
-        // Set async=false, indicating that the function will wait until the carrier returns a shipping label before it returns
-        // $transaction = Shippo_Transaction::create(array(
-        //     'rate'=> $rate['object_id'],
-        //     'async'=> false,
-        // ));
-        // Print the shipping label from label_url
-        // Get the tracking number from tracking_number
-        // if ($transaction['status'] == 'SUCCESS'){
-        //     echo "--> " . "Shipping label url: " . $transaction['label_url'] . "\n";
-        //     echo "--> " . "Shipping tracking number: " . $transaction['tracking_number'] . "\n";
-        // } else {
-        //     echo "Transaction failed with messages:" . "\n";
-        //     foreach ($transaction['messages'] as $message) {
-        //         echo "--> " . $message . "\n";
-        //     }
-        // }
     }
 }
