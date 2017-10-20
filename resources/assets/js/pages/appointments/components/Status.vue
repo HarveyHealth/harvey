@@ -6,13 +6,14 @@
       :options="list"
       :selected="convertedStatus"
     />
-    <span v-else class="input__item">{{ convertedStatus }}</span>
+    <span v-else class="input__item">{{ displayStatus(convertedStatus, Config.user.info.user_type) }}</span>
   </div>
 </template>
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
 import convertStatus from '../utils/convertStatus';
+import displayStatus from '../utils/displayStatus';
 
 export default {
   props: {
@@ -36,6 +37,7 @@ export default {
     }
   },
   methods: {
+    displayStatus,
     handleSelect(e) {
       this.setStatus(this.list[e.target.selectedIndex]);
     }
