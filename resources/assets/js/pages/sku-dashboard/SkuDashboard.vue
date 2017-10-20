@@ -5,9 +5,11 @@
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
                     <h1 class="heading-1">
-                        <span class="text">Edit Lab Tests</span>
+                        <span class="text">Lab Tests Inventory</span>
+                        <button @click="newSkuModalOpen" class="button main-action circle">
+                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                        </button>
                     </h1>
-                    <button @click="newSkuModalOpen" class="button is-primary">New Lab Test</button>
                 </div>
             </div>
             <Flyout
