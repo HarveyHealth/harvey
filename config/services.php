@@ -63,7 +63,7 @@ return [
                     'reminder' => 2550321,
                 ],
                 'attachment' => [
-                    'uploaded' => 3338765,
+                    'created' => 3338765,
                 ],
             ],
             'patient' => [

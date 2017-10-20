@@ -111,6 +111,12 @@ class User extends Authenticatable implements Mailable
         return app()->make(ZipCodeValidator::class)->setZip($this->zip)->getState();
     }
 
+
+    public function getTruncatedNameAttribute()
+    {
+        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
+    }
+
     public function getFullNameAttribute()
     {
         $fullName = trim("{$this->first_name} {$this->last_name}");
@@ -132,7 +138,7 @@ class User extends Authenticatable implements Mailable
         return Cache::forget("has_an_appointment_user_id_{$this->id}");
     }
 
-    public function getLastDoctorName()
+    public function getLastPractitioner()
     {
         if ($this->isNotPatient()) {
             return null;
@@ -140,20 +146,20 @@ class User extends Authenticatable implements Mailable
 
         $builder = $this->appointments()->ByAppointmentAtDesc();
 
-        return Cache::remember("last_doctor_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
-            return $builder->first()->practitioner->user->full_name ?? false;
+        return Cache::remember("last_practitioner_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
+            return $builder->first()->practitioner->user ?? false;
         });
     }
 
-    public function clearLastDoctorNameCache()
+    public function clearLastPractitionerCache()
     {
-        return Cache::forget("last_doctor_name_user_id_{$this->id}");
+        return Cache::forget("last_practitioner_name_user_id_{$this->id}");
     }
 
     public function clearAppointmentsCache()
     {
         $this->clearHasAnAppointmentCache();
-        $this->clearLastDoctorNameCache();
+        $this->clearLastPractitionerCache();
 
         return true;
     }
@@ -219,11 +225,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function truncatedName()
-    {
-        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function passwordSet()
