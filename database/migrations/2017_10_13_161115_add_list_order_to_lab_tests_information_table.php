@@ -8,11 +8,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddListOrderToLabTestsInformationTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('lab_tests_information', function (Blueprint $table) {
@@ -25,15 +20,9 @@ class AddListOrderToLabTestsInformationTable extends Migration
         ]);
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('lab_tests_information', function (Blueprint $table) {
-            $table->dropColumn('published_at');
             $table->dropColumn('list_order');
         });
     }

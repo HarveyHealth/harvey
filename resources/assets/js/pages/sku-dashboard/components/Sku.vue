@@ -44,10 +44,10 @@ export default {
         &__sku {
             display: flex;
             justify-content: space-between;
-            height: 40px;
-            background-color: white;
-            border-bottom: 1px solid grey;
+            height: 50px;
+            border-bottom: 1px solid #e4eaec;
             align-items: center;
+            background-color: #F4F4F4;
         }
 
         &__column {

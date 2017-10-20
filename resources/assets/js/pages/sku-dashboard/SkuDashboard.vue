@@ -7,7 +7,7 @@
                     <h1 class="heading-1">
                         <span class="text">Edit Lab Tests</span>
                     </h1>
-                    <button @click="modalOpen" class="button is-primary">New Lab Test</button>
+                    <button @click="newSkuModalOpen" class="button is-primary">New Lab Test</button>
                 </div>
             </div>
             <Flyout
@@ -23,17 +23,17 @@
             <div class="sku-table" v-if="!loading">
                 <div class="sku-table__sku">
                     <div class="sku-table__column sku-table__move-icon"></div>
-                    <div class="sku-table__column sku-table__sku-name">Lab Test</div>
-                    <div class="sku-table__column">Lab Name</div>
-                    <div class="sku-table__column">Sample</div>
-                    <div class="sku-table__column">Description</div>
-                    <div class="sku-table__column">Quote</div>
-                    <div class="sku-table__column">Price</div>
-                    <div class="sku-table__column">Cost</div>
-                    <div class="sku-table__column">Public</div>
+                    <div class="sku-table__column sku-table__sku-name">LAB TEST</div>
+                    <div class="sku-table__column">LAB NAME</div>
+                    <div class="sku-table__column">SAMPLE</div>
+                    <div class="sku-table__column">DESCRIPTION</div>
+                    <div class="sku-table__column">QUOTE</div>
+                    <div class="sku-table__column">PRICE</div>
+                    <div class="sku-table__column">COST</div>
+                    <div class="sku-table__column">PUBLIC</div>
                 </div>
 
-                <draggable v-model="skuList" @end="onDragComplete">
+                <draggable v-model="skuList" @end="onDragComplete" class="sku-table__skus">
                     <Sku
                         v-for="sku in skuList"
                         :sku=sku
@@ -85,17 +85,22 @@ export default {
         return {
             loading: true,
             activeModal: false,
-            selectedSku: blankSku,
             skuList: [blankSku],
+            selectedSku: null,
         }
     },
     methods: {
       modalClose() {
         this.activeModal = false;
-        setTimeout(() => this.selectedSku = null, 300);
+        setTimeout(() => this.clearSelectedSku(), 300);
       },
+        newSkuModalOpen() {
+          this.clearSelectedSku();
+          this.modalOpen();
+        },
         modalOpen() {
-          this.activeModal = true;
+          this.activeModal = false;
+          setTimeout(() => this.activeModal = true, 300);
         },
         setSelectedSku(sku) {
           this.selectedSku = sku;
@@ -120,7 +125,7 @@ export default {
     },
     computed: {
         flyoutHeading() {
-            return this.selectedSku ? 'Update Lab Test' : 'New Lab Test';
+            return _.isEmpty(this.selectedSku) ? 'New Lab Test' : 'Update Lab Test';
         }
     },
     watch: {
@@ -139,14 +144,19 @@ export default {
 </script>
 
 <style lang="scss">
-  .container-flex {
+.container-flex {
     display: flex;
     justify-content: space-between;
-  }
+}
 
-    .sku-table {
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
+.sku-table {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    &__skus {
+        background-color: #fefefe;
+        color: #5f7278;
     }
+}
 </style>

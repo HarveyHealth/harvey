@@ -32,32 +32,32 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea rows="10" cols="40" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea rows="10" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
-<!---->
+
             <div class="input__container input-wrap">
                 <label class="input__label" for="image">Image</label>
-                <input name="image" v-model="formSku.attributes.lab_test_information.image"/>
+                <input class="form-input form-input_text input-styles" type="text" name="image" v-model="formSku.attributes.lab_test_information.image"/>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="price">Price</label>
-                <input type="number" step="0.01" name="price" v-model="formSku.attributes.price"/>
+                <input class="form-input form-input_text input-styles" type="number" step="0.01" name="price" v-model="formSku.attributes.price"/>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="cost">Cost</label>
-                <input type="number" step="0.01" name="cost" v-model="formSku.attributes.cost"/>
+                <input class="form-input form-input_text input-styles" type="number" step="0.01" name="cost" v-model="formSku.attributes.cost"/>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="published_at">Public</label>
-                <input type="checkbox" name="published_at" v-model="formSku.attributes.lab_test_information.published_at"/>
+                <input class="form-input form-input_checkbox input-styles" type="checkbox" name="published_at" v-model="formSku.attributes.lab_test_information.published_at"/>
             </div>
 
             <div class="submit inline-centered">
