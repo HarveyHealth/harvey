@@ -19,12 +19,12 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'name' => '',
           'company' => 'Harvey, Inc',
           'street1' => '12655 W Jefferson Blvd',
-          'street2' => '#3-180',
+          'street2' => 'Suite #3-180',
           'city' => 'Playa Vista',
           'state' => 'CA',
           'zip' => '90094',
           'country' => 'US',
-          'phone' => '+1 800 690 9989',
+          'phone' => '+18006909989',
           'email' => 'support@goharvey.com',
           'test' => true,
         ];
@@ -55,21 +55,27 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'async' => false,
         ]);
 
-        \Log::info($shipment);
+        // make sure addresses are valid
+        $to_address_id = $shipment['address_to']['object_id'];
+        $from_address_id = $shipment['address_from']['object_id'];
 
-        if (!empty($shipment['rates'])) {
+        $is_to_address_valid = \Shippo_Address::validate($to_address_id)['validation_results']['is_valid'];
+        $is_from_address_valid = \Shippo_Address::validate($from_address_id)['validation_results']['is_valid'];
 
-          // for now I'll pick the first rate
-          $rate = $shipment['rates'][0];
-          $transaction = Shippo_Transaction::create([
-            'rate' => $rate['object_id'],
-            'async' => false,
-          ]);
+        if ($is_to_address_valid && $is_from_address_valid) {
+          if (!empty($shipment['rates'])) {
+            // for now I'll pick the first rate
+            $rate = $shipment['rates'][0];
+            $transaction = \Shippo_Transaction::create([
+              'rate' => $rate['object_id'],
+              'async' => false,
+            ]);
 
-          \Log::info($transaction);
+            \Log::info($transaction);
+          }
         }
 
-
+        die();
 
         // Rates are stored in the `rates` array
         // The details on the returned object are here: https://goshippo.com/docs/reference#rates
