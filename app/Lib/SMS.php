@@ -15,21 +15,24 @@ class SMS
         $this->twilio = $twilio;
     }
 
-    public function sendMessageToUser(User $user, string $message)
+    public function sendMessageToUser(User $user, string $message, string $from = null)
     {
-        return $this->sendMessageToNumber($user->phone, $message);
+        $from = $from ?? config('services.twilio.sms_number');
+        return $this->sendMessageToNumber($user->phone, $message, $from);
     }
 
-    public function sendMessageToNumber($number, string $message)
+    public function sendMessageToNumber($number, string $message, string $from = null)
     {
         if (!app()->environment(['production','staging'])) {
             return Log::info("Faking sending text message to {$number} with message: {$message}");
         }
 
+        $from = $from ?? config('services.twilio.sms_number');
+
         $this->twilio->messages->create(
             $number,
             [
-                'from' => config('services.twilio.sms_number'),
+                'from' => $from,
                 'body' => $message
             ]
         );
