@@ -1,10 +1,19 @@
 <?php get_header(); ?>
 	
 	<?php
-		// post layout
-		$layout = 'content_sidebar';
+		// post layout global
+		$global_layout = the_essence_get_theme_mod( 'blog_single_layout', 'content_sidebar' );
+
+		// local post layout
+		$local_layout = 'global';
 		if ( the_essence_get_post_meta( get_the_ID(), 'post_layout' ) ) {
-			$layout = the_essence_get_post_meta( get_the_ID(), 'post_layout' );
+			$local_layout = the_essence_get_post_meta( get_the_ID(), 'post_layout' );
+		}
+
+		// actual layout
+		$layout = $global_layout;
+		if ( $local_layout !== 'global' ) {
+			$layout = $local_layout;
 		}
 
 		// content class

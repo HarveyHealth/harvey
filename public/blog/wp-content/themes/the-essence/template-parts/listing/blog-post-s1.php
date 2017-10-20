@@ -87,7 +87,13 @@
 				<div class="blog-post-meta-author-avatar"><?php echo get_avatar( get_the_author_meta('email'), '40' ); ?></div>
 				<div class="blog-post-meta-author-main">
 					<div class="blog-post-meta-author-name" data-mtst-selector=".blog-post-meta-author-name" data-mtst-label="Blog S1 - Author" data-mtst-no-support="border,background"><?php echo esc_html_e( 'by', 'the-essence' ); ?> <?php the_author_posts_link(); ?></div>
-					<div class="blog-post-meta-author-date" data-mtst-selector=".blog-post-meta-author-date" data-mtst-label="Blog S1 - Date" data-mtst-no-support="border,background"><?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); ?></div>
+					<div class="blog-post-meta-author-date" data-mtst-selector=".blog-post-meta-author-date" data-mtst-label="Blog S1 - Date" data-mtst-no-support="border,background"><?php 
+						if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+							printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); 
+						} else {
+							the_time( get_option( 'date_format' ) );
+						}
+					?></div>
 				</div><!-- .blog-post-meta-author-main -->
 			</div><!-- .blog-post-meta-author -->
 			

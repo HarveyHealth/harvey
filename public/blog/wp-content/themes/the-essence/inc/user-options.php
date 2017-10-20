@@ -56,6 +56,14 @@ function the_essence_show_extra_profile_fields( $user ) {
 			</td>
 		</tr>
 
+		<tr>
+			<th><label for="the_essence_linkedin"><?php esc_html_e(  'LinkedIn', 'the-essence' ); ?></label></th>
+			<td>
+				<input type="text" name="the_essence_linkedin" id="the_essence_linkedin" value="<?php echo esc_attr( get_the_author_meta( 'the_essence_linkedin', $user->ID ) ); ?>" class="regular-text" /><br />
+				<span class="description"><?php esc_html_e(  'The full URL to your profile.', 'the-essence' ); ?></span>
+			</td>
+		</tr>
+
 	</table>
 
 	<?php
@@ -73,5 +81,6 @@ function the_essence_save_extra_profile_fields( $user_id ) {
 	update_user_meta( $user_id, 'the_essence_behance', $_POST['the_essence_behance'] );
 	update_user_meta( $user_id, 'the_essence_dribbble', $_POST['the_essence_dribbble'] );
 	update_user_meta( $user_id, 'the_essence_vine', $_POST['the_essence_vine'] );
+	update_user_meta( $user_id, 'the_essence_linkedin', $_POST['the_essence_linkedin'] );
 
 } add_action( 'personal_options_update', 'the_essence_save_extra_profile_fields' ); add_action( 'edit_user_profile_update', 'the_essence_save_extra_profile_fields' );
