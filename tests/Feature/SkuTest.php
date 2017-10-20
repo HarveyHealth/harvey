@@ -26,6 +26,7 @@ class SkuTest extends TestCase
         $response = $this->post(route('skus.store'), [
             'name' => 'Test',
             'price' => 200.00,
+            'cost' => 200.00,
             'description' => '<p>Hello World</p>',
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
@@ -41,6 +42,7 @@ class SkuTest extends TestCase
         $response = $this->post(route('skus.store'), [
             'name' => 'Test',
             'price' => 200.00,
+            'cost' => 200.00,
             'description' => '<p>Hello World</p>',
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
@@ -59,6 +61,7 @@ class SkuTest extends TestCase
         $response = $this->post(route('skus.store'), [
             'name' => 'Test',
             'price' => 200.00,
+            'cost' => 200.00,
             'description' => '<p>Hello World</p>',
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
@@ -95,6 +98,7 @@ class SkuTest extends TestCase
         $response = $this->put(route('skus.update', $sku->id), [
             'name' => 'someothername',
             'price' => 200.00,
+            'cost' => 200.00,
             'description' => '<p>Hello World</p>',
             'image' => '/images/lab_tests/hormones.png',
             'sample' => 'Blood draw',
