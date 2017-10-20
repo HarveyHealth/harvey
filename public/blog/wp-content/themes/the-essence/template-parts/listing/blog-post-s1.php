@@ -99,32 +99,6 @@
 			
 			<div class="blog-post-meta-separator"></div>
 		<?php endif; ?>
-		
-		<?php if ( in_array( 'comments', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-comments-count" data-mtst-selector=".blog-post-meta-comments-count" data-mtst-label="Blog S1 - Comment Count" data-mtst-no-support="border,background">
-				<span class="fa fa-commenting-o" data-mtst-selector=".blog-post-meta-comments-count .fa" data-mtst-label="Blog S1 - Comment Count Icon" data-mtst-no-support="border,background"></span>
-				<span><a href="<?php comments_link(); ?>"><?php comments_number( esc_html__( 'No comments', 'the-essence' ), esc_html__( 'One comment', 'the-essence' ), esc_html__( '% comments', 'the-essence' ) ); ?></a></span>
-			</div><!-- .blog-post-meta-comments-count -->
-
-			<div class="blog-post-meta-separator"></div>
-		<?php endif; ?>
-
-		<?php if ( in_array( 'shares_count', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-share-count">
-				<?php $share_info = the_essence_get_social_count(); ?>
-				<?php $total_shares = $share_info['total']; ?>
-				<span class="blog-post-meta-share-count-num" data-mtst-selector=".blog-post-meta-share-count-num" data-mtst-label="Blog S1 - Share Count" data-mtst-no-support="border,background"><?php echo $share_info['total']; ?></span>
-				<span class="blog-post-meta-share-count-text" data-mtst-selector=".blog-post-meta-share-count-text" data-mtst-label="Blog S1 - Share Count" data-mtst-no-support="border,background"><?php echo _n( 'share', 'shares', $total_shares, 'the-essence' ); ?></span>
-			</div><!-- .blog-post-meta-share-count -->
-			
-			<div class="blog-post-meta-separator"></div>
-		<?php endif; ?>
-
-		<?php if ( in_array( 'shares_actions', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-share">
-				<?php the_essence_social_share_links( get_the_ID() ); ?>
-			</div><!-- .blog-post-meta-share -->
-		<?php endif; ?>
 
 	</div><!-- .blog-post-meta -->
 

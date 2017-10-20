@@ -36,22 +36,6 @@
 		</div><!-- .blog-post-meta-author -->
 		
 		<div class="blog-post-meta-separator"></div>
-		
-		<div class="blog-post-meta-comments-count">
-			<span class="fa fa-commenting-o"></span>
-			<span><a href="<?php comments_link(); ?>"><?php comments_number( esc_html__( 'No comments', 'the-essence' ), esc_html__( 'One comment', 'the-essence' ), esc_html__( '% comments', 'the-essence' ) ); ?></a></span>
-		</div><!-- .blog-post-meta-comments-count -->
-
-		<div class="blog-post-meta-separator"></div>
-
-		<div class="blog-post-meta-share-count">
-			<?php $share_info = the_essence_get_social_count(); ?>
-			<?php $total_shares = $share_info['total']; ?>
-			<span class="blog-post-meta-share-count-num"><?php echo $share_info['total']; ?></span>
-			<span class="blog-post-meta-share-count-text"><?php echo _n( 'share', 'shares', $total_shares, 'the-essence' ); ?></span>
-		</div><!-- .blog-post-meta-share-count -->
-		
-		<div class="blog-post-meta-separator"></div>
 
 		<div class="blog-post-meta-share">
 			<?php
@@ -84,7 +68,7 @@
 		<?php else : ?>
 		
 			<div class="blog-post-thumb">
-				<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'the-essece-with-sidebar' ); ?></a>
+				<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail( 'the-essence-with-sidebar' ); ?></a>
 			</div><!-- .blog-post-thumb -->
 
 		<?php endif; ?>

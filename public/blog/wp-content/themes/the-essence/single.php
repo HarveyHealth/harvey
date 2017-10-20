@@ -46,7 +46,7 @@
 				get_template_part( 'template-parts/main/prev-next-posts' );
 
 				// comments
-				if ( comments_open() || get_comments_number() ) { comments_template(); }
+				// if ( comments_open() || get_comments_number() ) { comments_template(); }
 
 			// end loop
 			endwhile;

@@ -103,7 +103,7 @@ textarea {
 	color: #424242;
 	font-size: 17px;
 	font-weight: 400;
-	font-family: "Source Sans Pro", serif;
+	font-family: proxima-nova,"sans-serif";
 	line-height: 1.36;
 }
 
@@ -4415,7 +4415,11 @@ body.panel-active #page {
 }
 
 #footer-widgets .widget {
-	margin: 0 0 30px;
+	margin: 0 0 15px;
+}
+
+#footer-widgets .widget_media_image {
+	margin-bottom: 0;	
 }
 
 /* Footer */
@@ -4436,4 +4440,23 @@ body.panel-active #page {
 
 #footer-navigation li a {
 	font-size: 15px;
+}
+
+/* Video Wrapper */
+
+.featured-video-plus {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.featured-video-plus iframe,
+.featured-video-plus object,
+.featured-video-plus embed,
+.featured-video-plus video {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
