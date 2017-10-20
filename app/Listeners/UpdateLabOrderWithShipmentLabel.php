@@ -22,7 +22,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'street2' => 'Suite #3-180',
           'city' => 'Playa Vista',
           'state' => 'CA',
-          'zip' => '90094',
+          'zip' => '90066',
           'country' => 'US',
           'phone' => '+18006909989',
           'email' => 'support@goharvey.com',
@@ -66,13 +66,18 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           if (!empty($shipment['rates'])) {
             // for now I'll pick the first rate
             $rate = $shipment['rates'][0];
+
             $transaction = \Shippo_Transaction::create([
               'rate' => $rate['object_id'],
               'async' => false,
             ]);
 
             \Log::info($transaction);
+          } else {
+            \Log::error('There are no avaiable shipping rates'); // TODO: more helpful error
           }
+        } else {
+          \Log::error('Address is invalid'); // TODO: more helpful error
         }
 
         die();
