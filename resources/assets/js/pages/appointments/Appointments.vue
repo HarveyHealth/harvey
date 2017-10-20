@@ -171,7 +171,8 @@
           </div>
         </div>
         <div class="font-centered">
-          <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <p v-show="bookingConflict && !isHandlingAction" class="copy-error font-centered">{{ bookingErrorMsg }}</p>
+          <p v-show="bookingConflict && !isHandlingAction" class="space-top-md">We&rsquo;re sorry, it looks like there was an error booking your appointment. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
           <p v-show="!bookingConflict && !isHandlingAction && statusWasChanged && flyoutMode === 'update'">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
         </div>
         <div class="space-children-sm" v-show="!bookingConflict && !isHandlingAction">
@@ -269,6 +270,7 @@ export default {
         last4: Laravel.user.card_last4
       },
       bookingConflict: false,
+      bookingErrorMsg: '',
       cache: {
         all: [],
         upcoming: [],
@@ -577,6 +579,7 @@ export default {
         this.appointment.status = this.appointment.currentStatus;
       }
       this.modalActive = false;
+      this.overlayActive = false;
       this.bookingConflict = false;
     },
 
@@ -831,13 +834,14 @@ export default {
           })
         });
       }).catch(error => {
-        if (error.response) console.error(error.response)
+        if (error.response) console.warn(error.response)
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
           this.modalActive = true;
           this.bookingConflict = true;
-          this.userActionTitle = 'Booking Conflict';
+          this.userActionTitle = 'Booking Error';
+          this.bookingErrorMsg = error.response.data.errors[0].detail;
         }
       });
 
@@ -1008,7 +1012,6 @@ export default {
   },
 
   mounted() {
-
     this.$root.$data.global.currentPage = 'appointments';
 
     // If data from app.js has loaded prior to mount, set data
