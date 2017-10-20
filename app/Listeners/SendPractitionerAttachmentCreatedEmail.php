@@ -13,9 +13,10 @@ class SendPractitionerAttachmentCreatedEmail implements ShouldQueue
     {
         $attachment = $event->attachment;
         $user = $attachment->patient->user;
+        $to = $user->getLastPractitioner()->email ?? null;
 
-        if (empty($to = $user->getLastPractitioner()->email)) {
-            $message = "Patient {$user->truncated_name} has uploaded an attachment but doesn't have a Practitioner assigned. Practitioner email notification skipped.";
+        if (empty($to)) {
+            $message = "Patient *{$user->truncated_name}* has uploaded an attachment but doesn't have a Practitioner assigned. Practitioner email notification skipped.";
             ops_warning('SendPractitionerAttachmentCreatedEmail', $message, 'practitioners');
             return false;
         }
@@ -30,6 +31,7 @@ class SendPractitionerAttachmentCreatedEmail implements ShouldQueue
                 'patient_first_name' => $user->first_name,
                 'attachment_name' => $attachment->name,
                 'attachment_link' => config('app.url') . "/dashboard#/attachments/{$attachment->id}",
+            ]);
 
         dispatch($transactionalEmailJob);
     }
