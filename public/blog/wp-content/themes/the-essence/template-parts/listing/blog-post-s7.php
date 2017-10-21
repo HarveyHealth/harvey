@@ -109,7 +109,13 @@
 	<div class="blog-post-s7-main">
 		<div class="blog-post-s7-title" data-mtst-selector=".blog-post-s7-title" data-mtst-label="Blog Post S7 - Title" data-mtst-no-support="border,background"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></div>
 		<div class="blog-post-s7-author" data-mtst-selector=".blog-post-s7-author" data-mtst-label="Blog Post S7 - Author" data-mtst-no-support="border,background"><?php esc_html_e( 'by', 'the-essence' ); ?> <?php the_author_posts_link(); ?></div>
-		<div class="blog-post-s7-date" data-mtst-selector=".blog-post-s7-date" data-mtst-label="Blog Post S7 - Date" data-mtst-no-support="border,background"><?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); ?></div>
+		<div class="blog-post-s7-date" data-mtst-selector=".blog-post-s7-date" data-mtst-label="Blog Post S7 - Date" data-mtst-no-support="border,background"><?php 
+			if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+				printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); 
+			} else {
+				the_time( get_option( 'date_format' ) );
+			}
+		?></div>
 		<?php if ( $show_excerpt ) : ?>
 			<div class="blog-post-s7-excerpt" data-mtst-selector=".blog-post-s7-excerpt" data-mtst-label="Blog Post S7 - Excerpt">
 				<?php
