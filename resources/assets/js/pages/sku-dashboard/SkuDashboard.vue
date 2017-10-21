@@ -5,7 +5,7 @@
             <div class="main-header">
                 <div class="container container-backoffice container-flex">
                     <h1 class="heading-1">
-                        <span class="text">Lab Tests Inventory</span>
+                        <span class="text">Lab Test Inventory</span>
                         <button @click="newSkuModalOpen" class="button main-action circle">
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
@@ -13,9 +13,9 @@
                 </div>
             </div>
             <Flyout
-                    :active="activeModal"
-                    :heading="flyoutHeading"
-                    :on-close="modalClose"
+                :active="activeModal"
+                :heading="flyoutHeading"
+                :on-close="modalClose"
             >
                 <SkuForm :sku=selectedSku @append="appendSkuList"/>
             </Flyout>
@@ -25,8 +25,8 @@
             <table class="sku-table tabledata appointments-table" v-if="!loading">
                 <thead>
                     <th class="sku-table__column sku-table__move-icon heading-2 sort">Sort</th>
+                    <th class="sku-table__column heading-2">Partner</th>
                     <th class="sku-table__column sku-table__sku-name heading-2">Lab Test</th>
-                    <th class="sku-table__column heading-2">Lab Name</th>
                     <th class="sku-table__column heading-2">Sample</th>
                     <th class="sku-table__column heading-2">Description</th>
                     <th class="sku-table__column heading-2">Quote</th>

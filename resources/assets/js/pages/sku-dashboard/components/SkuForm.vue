@@ -8,14 +8,15 @@
                 :text="notificationMessage"
         />
         <form v-on:submit.prevent="submitSkuForm" id="skuForm">
+
             <div class="input__container input-wrap">
-                <label class="input__label" for="name">Lab Test</label>
-                <input class="form-input form-input_text input-styles" type="text" name="name" v-model="formSku.attributes.name"/>
+                <label class="input__label" for="name">Partner</label>
+                <input class="form-input form-input_text input-styles" type="text" name="lab_name" v-model="formSku.attributes.lab_test_information.lab_name"/>
             </div>
 
             <div class="input__container input-wrap">
-                <label class="input__label" for="name">Lab Name</label>
-                <input class="form-input form-input_text input-styles" type="text" name="lab_name" v-model="formSku.attributes.lab_test_information.lab_name"/>
+                <label class="input__label" for="name">Test Name</label>
+                <input class="form-input form-input_text input-styles" type="text" name="name" v-model="formSku.attributes.name"/>
             </div>
 
             <div class="input__container">
@@ -37,12 +38,17 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
-                <label class="input__label" for="image">Image</label>
+                <label class="input__label" for="image">Image (PNG)</label>
                 <input class="form-input form-input_text input-styles" type="text" name="image" v-model="formSku.attributes.lab_test_information.image"/>
+            </div>
+
+            <div class="input__container input-wrap">
+                <label class="input__label" for="image">Sample (PDF)</label>
+                <input class="form-input form-input_text input-styles" type="text" name="image" v-model="formSku.attributes.lab_test_information.example"/>
             </div>
 
             <div class="input__container input-wrap">
@@ -114,6 +120,7 @@
                 cost: sku.attributes.cost,
                 description: sku.attributes.lab_test_information.description,
                 image: sku.attributes.lab_test_information.image,
+                example: sku.attributes.lab_test_information.example,
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
@@ -137,6 +144,7 @@
                 cost: sku.attributes.cost,
                 description: sku.attributes.lab_test_information.description,
                 image: sku.attributes.lab_test_information.image,
+                example: sku.attributes.lab_test_information.example,
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
@@ -160,11 +168,11 @@
             return this.sku || this.blankSku;
         },
         notificationMessage() {
-            return this.sku ? "Lab Test Updated!" : "Lab Test Saved";
+            return this.sku ? "Lab test updated" : "Lab test saved";
         },
         checkboxValue() {
             return formSku.attributes.lab_test_information.published_at ? "true" : "false"
-        },
+        }
     },
     props: {
         sku: {
