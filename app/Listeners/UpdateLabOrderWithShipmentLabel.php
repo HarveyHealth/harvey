@@ -14,13 +14,9 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         $labTests = $event->labOrder->labTests;
         $user = $event->labOrder->patient->user;
 
-        // TODO: we need to get this from somewhere (found in shippo dashboard)
-        // https://app.goshippo.com/carriers
-        $carrier_account_id = '7fd02a1418fc4b3490ae6d5aa965ef6d'; // fake USPS account
-
         // Service level token
         // https://goshippo.com/docs/reference/php#servicelevels
-        $carrier_service_level = 'usps_priority';
+        $carrier_service_level = 'fedex_ground';
 
         // From Address
         $address_from = [
@@ -56,10 +52,9 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           return collect($sku->getAttributes())->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
         });
 
-        $carriers = \Shippo_CarrierAccount::all();
-        // \Log::info($carriers);
-
-        // die();
+        // make sure we get our fedex account
+        $carriers = \Shippo_CarrierAccount::all(array('carrier' => 'fedex'));
+        $carrier_object_id = $carriers['results'][0]['object_id'];
 
         // generate shipping label transaction from a single API call
         $transaction = \Shippo_Transaction::create([
@@ -68,10 +63,11 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
             'address_from' => $address_from,
             'parcels' => $parcel_info,
           ],
-          'carrier_account' => $carrier_account_id,
+          'carrier_account' => $carrier_object_id,
           'servicelevel_token' => $carrier_service_level,
           'label_file_type' => 'PDF',
           'async' => false,
+          'test' => true,
         ]);
 
         \Log::info($transaction);
