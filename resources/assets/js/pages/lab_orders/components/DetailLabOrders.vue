@@ -500,7 +500,7 @@ export default {
     },
     validDiscountCode() {
       if (this.discountCode !== '') {
-        axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
+        axios.get(`${this.$root.$data.apiUrl}/discount_code?code=${this.discountCode}&applies_to=lab-test`)
           .then(response => {
             if (response.data.data.attributes.valid) {
               this.disabledDiscount = false

@@ -66,11 +66,11 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeIntake(Patient $patient)
     {
-        if (empty($patient->getIntakeData())) {
+        if (empty($intake = $patient->getIntakeData())) {
             return $this->null();
         }
 
-        return $this->item($patient, new IntakeTransformer())->setResourceKey('intake');
+        return $this->item($intake, new IntakeTransformer())->setResourceKey('intake');
     }
 
     /**

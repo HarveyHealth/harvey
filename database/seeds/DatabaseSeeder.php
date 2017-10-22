@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        foreach ([Appointment::class, User::class, LabTest::class, LabOrder::class, Message::class] as $model) {
+        foreach ([Appointment::class, User::class, LabTest::class, LabOrder::class, Message::class, Attachment::class] as $model) {
             $model::flushEventListeners();
         }
 

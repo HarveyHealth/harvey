@@ -157,7 +157,7 @@ export default {
 
     },
     validateDiscount(resolve) {
-      const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+      const endpoint = `${this.$root.$data.apiUrl}/discount_code?code=${this.discountCode}&applies_to=consultation`;
       axios.get(endpoint).then(response => {
         if (response.data.errors) {
           this.discountError = 'Invalid discount code';

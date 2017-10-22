@@ -26,11 +26,11 @@ class DiscountCodesController extends BaseAPIController
     public function index(Request $request)
     {
         StrictValidator::check($request->all(), [
-            'discount_code' => 'required',
+            'code' => 'required',
             'applies_to' => 'required'
         ]);
 
-        $code = $request->input('discount_code');
+        $code = $request->input('code');
         $applies_to = $request->input('applies_to');
 
         $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, currentUser());
