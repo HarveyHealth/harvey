@@ -62,14 +62,14 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('intakes', 'IntakesController@getAll')->name('intakes.get-all');
         Route::get('intakes/{token}', 'IntakesController@getOne')->name('intakes.get-one');
 
-        Route::get('appointments', 'AppointmentsController@index')->name('appointments.index');
-        Route::get('appointments/{appointment}', 'AppointmentsController@show')->name('appointments.show');
+        Route::get('appointments', 'AppointmentsController@getAll')->name('appointments.get-all');
+        Route::get('appointments/{appointment}', 'AppointmentsController@getOne')->name('appointments.get-one');
         Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
 
-        Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
-        Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
+        Route::get('practitioners', 'PractitionersController@getAll')->name('practitioner.get-all');
+        Route::get('practitioners/{practitioner}', 'PractitionersController@getOne')->name('practitioner.get-one');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
         Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
         Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
@@ -77,8 +77,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
 
-        Route::get('messages', 'MessagesController@index')->name('messages.index');
-        Route::get('messages/{message}', 'MessagesController@show')->name('messages.show');
+        Route::get('messages', 'MessagesController@getAll')->name('messages.get-all');
+        Route::get('messages/{message}', 'MessagesController@getOne')->name('messages.get-one');
         Route::post('messages', 'MessagesController@new')->name('messages.new');
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');

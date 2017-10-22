@@ -28,7 +28,7 @@ class AppointmentsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
             $builder = Appointment::orderBy('appointment_at', 'asc');
@@ -49,7 +49,7 @@ class AppointmentsController extends BaseAPIController
      * @param Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Appointment $appointment)
+    public function getOne(Appointment $appointment)
     {
         if (currentUser()->can('view', $appointment)) {
             return $this->baseTransformItem($appointment, request('include'))->respond();
