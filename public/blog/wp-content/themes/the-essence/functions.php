@@ -17,7 +17,7 @@
  */
 
 define( 'THE_ESSENCE_SOURCE', 'shop' );
-define( 'THE_ESSENCE_THEME_VER', '1.1.8' );
+define( 'THE_ESSENCE_THEME_VER', '1.2.3' );
 define( 'THE_ESSENCE_CUSTOMIZER_PREPEND', 'the_essence_' );
 define( 'THE_ESSENCE_CMB2_PATH', get_template_directory() . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'CMB2' );
 
@@ -287,6 +287,16 @@ function the_essence_excerpt( $length = 130 ) {
 
 }
 
+function the_essence_body_class( $classes ) {
+
+	if ( the_essence_get_theme_mod( 'capitalize_letter', 'enabled' ) == 'enabled' ) {
+		$classes[] = 'body-capitalize-letter-enabled';
+	}
+
+	return $classes;
+
+} add_filter( 'body_class', 'the_essence_body_class' );
+
 // include TGM init ( for plugin activate )
 include get_template_directory() . '/inc/tgm/tgm-init.php';
 
@@ -308,6 +318,7 @@ include get_template_directory() . '/inc/widgets/widget.posts-alt.php';
 include get_template_directory() . '/inc/widgets/widget.subscribe.php';
 include get_template_directory() . '/inc/widgets/widget.social.php';
 include get_template_directory() . '/inc/widgets/widget.instagram.php';
+include get_template_directory() . '/inc/widgets/widget.call-to-action.php';
 
 // updates
 if ( THE_ESSENCE_SOURCE == 'themeforest' ) {

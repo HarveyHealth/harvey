@@ -214,7 +214,13 @@ function the_essence_related_posts() {
 							<div class="blog-post-s4-meta">
 								<span class="blog-post-s4-meta-author" data-mtst-selector=".related-posts .blog-post-s4-meta-author a" data-mtst-label="Related Post - Author" data-mtst-no-support="background,border,spacing"><a href="<?php echo get_author_posts_url( $author_id, $author_nicename ); ?>"><?php echo $author_nicename; ?></a></span>
 								<span class="blog-post-s4-meta-separator"></span>
-								<span class="blog-post-s4-meta-date" data-mtst-selector=".related-posts .blog-post-s4-meta-date" data-mtst-label="Related Post - Date" data-mtst-no-support="background,border,spacing"><?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time( 'U', $related_post->ID ), current_time('timestamp') ) ); ?></span>
+								<span class="blog-post-s4-meta-date" data-mtst-selector=".related-posts .blog-post-s4-meta-date" data-mtst-label="Related Post - Date" data-mtst-no-support="background,border,spacing"><?php 
+									if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+										printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time( 'U', $related_post->ID ), current_time('timestamp') ) ); 
+									} else {
+										the_time( get_option( 'date_format' ) );
+									}
+								?></span>
 							</div><!-- .blog-post-s4-meta -->
 
 							<h4 class="blog-post-s4-title" data-mtst-selector=".related-posts .blog-post-s4-title" data-mtst-label="Related Post - Title" data-mtst-no-support="background,border,spacing"><a href="<?php echo get_permalink( $related_post->ID ); ?>"><?php echo get_the_title( $related_post->ID ); ?></a></h4>
@@ -254,6 +260,7 @@ if ( ! function_exists( 'the_essence_social_share_links' ) ) :
 		<a href="#" class="social-link-pinterest" onClick="return the_essence_social_share(400, 300, 'https://pinterest.com/pin/create/button/?url=<?php echo esc_html( $post_permalink ); ?>&amp;media=<?php echo esc_html( $post_img ); ?>')"><span class="fa fa-pinterest-square"></span></a>
 		<a href="#" class="social-link-twitter" onClick="return the_essence_social_share(400, 300, 'https://twitter.com/home?status=<?php echo esc_html( $post_title . ' ' . $post_permalink ); ?>')" ><span class="fa fa-twitter"></span></a>
 		<a href="#" class="social-link-google-plus" onClick="return the_essence_social_share(400, 300, 'https://plus.google.com/share?url=<?php echo esc_html( $post_permalink ); ?>')" ><span class="fa fa-google-plus"></span></a>
+		<a href="#" class="social-link-linkedin" onClick="return the_essence_social_share(400, 300, 'https://www.linkedin.com/shareArticle?mini=true&amp;url=<?php echo esc_html( $post_permalink ); ?>&amp;title=<?php echo esc_html( $post_title ); ?>')" ><span class="fa fa-linkedin"></span></a>
 		<a href="mailto:someone@example.com?subject=<?php echo rawurlencode( $post_title ); ?>&amp;body=<?php echo rawurlencode( $post_title . ' ' . $post_permalink ); ?>" class="social-link-email"><span class="fa fa-envelope-o"></span></a>
 		<?php
 

@@ -61,7 +61,13 @@
 		</div><!-- .blog-post-s5-meta-author -->
 
 		<div class="blog-post-s5-meta-date" data-mtst-selector=".blog-post-s5-meta-date" data-mtst-label="Blog Post S5 - Date" data-mtst-no-support="background,border">
-			<?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); ?>
+			<?php
+				if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+					printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); 
+				} else {
+					the_time( get_option( 'date_format' ) );
+				}
+			?>
 		</div><!-- .blog-post-s5-meta-date -->
 
 	</div><!-- .blog-post-s5-meta -->
