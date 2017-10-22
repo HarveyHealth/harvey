@@ -86,11 +86,12 @@ function the_essence_post_options() {
 
 		$post_opts->add_field( array(
 			'name'       => esc_html__( 'Layout', 'the-essence' ),
-			'desc'       => esc_html__( 'Choose the layout for this post ( full content or with sidebar ).', 'the-essence' ),
+			'desc'       => esc_html__( 'Choose the layout for this post ( full content or with sidebar ). If set to default it will use the global option from Customize > Blog Post Single.', 'the-essence' ),
 			'id'         => $prefix . 'post_layout',
 			'type'       => 'select',
-			'default'    => 'content_sidebar',
+			'default'    => 'global',
 			'options'    => array(
+				'global' => esc_html__( 'Default', 'the-essence' ),
 				'full_content' => esc_html__( 'Full Content', 'the-essence' ),
 				'content_sidebar' => esc_html__( 'Content + Sidebar', 'the-essence' ),
 			),
