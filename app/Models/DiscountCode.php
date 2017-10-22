@@ -15,8 +15,8 @@ class DiscountCode extends Model
             return false;
 
         // make sure this is a patient
-        if (!$user->isPatient()) {
-            ops_warning('A non-patient is trying to use a coupon code');
+        if ($user->isNotPatient()) {
+            ops_warning('DiscountCode', "User ID #{$user->id} (non-patient) is trying to use a coupon code.");
             return false;
         }
 

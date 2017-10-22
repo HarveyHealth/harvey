@@ -10,6 +10,8 @@ use ResponseCode;
 
 class DiscountCodesController extends BaseAPIController
 {
+    protected $resource_name = 'discount_code';
+
     /**
      * LabOrdersController constructor.
      * @param DiscountCodeTransformer $transformer
@@ -23,14 +25,12 @@ class DiscountCodesController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request)
+    public function getOne(Request $request, string $code)
     {
         StrictValidator::check($request->all(), [
-            'code' => 'required',
             'applies_to' => 'required'
         ]);
 
-        $code = $request->input('code');
         $applies_to = $request->input('applies_to');
 
         $discount_code = DiscountCode::findByValidCodeApplicationAndUser($code, $applies_to, currentUser());

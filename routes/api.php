@@ -26,7 +26,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('discount_code', 'DiscountCodesController@index')->name('discount-codes.index');
+        Route::get('discount_code/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
 
         Route::get('users', 'UsersController@getAll')->name('users.get-all');
         Route::get('users/{user}', 'UsersController@getOne')->name('users.get-one');
