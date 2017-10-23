@@ -14,6 +14,7 @@
     "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
+    "lint": "eslint -c .eslintrc --ignore-path .eslintignore resources/assets/js --ext .vue --ext .js --fix",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json",
     "test": "NODE_ENV=test karma start karma.conf.js",
@@ -51,8 +52,13 @@
     "webpack-spritesmith": "^0.3.3"
   },
   "devDependencies": {
+    "babel-eslint": "^8.0.1",
     "babel-loader": "^7.1.2",
     "chai": "^4.1.2",
+    "eslint": "^3.19.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-vue": "^2.1.0",
     "jsdom": "^11.2.0",
     "karma": "^1.7.1",
     "karma-jsdom-launcher": "^6.1.2",
@@ -65,6 +71,7 @@
     "sassdoc": "^2.3.0",
     "sassdoc-theme-flippant": "^0.1.0",
     "sinon": "^2.4.1",
-    "sinon-chai": "^2.14.0"
+    "sinon-chai": "^2.14.0",
+    "vue-eslint-parser": "^1.0.0"
   }
 }
