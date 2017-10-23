@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasDiscountCodeIdColumn, HasStatusColumn, Invoiceable};
 use App\Models\{LabTest, SKU};
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use App\Models\DiscountCode;
 
 class LabOrder extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
+    use SoftDeletes, HasDiscountCodeIdColumn, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -31,6 +31,7 @@ class LabOrder extends Model
         'created_at',
         'completed_at',
         'deleted_at',
+        'discount_code_id',
         'status_id',
     ];
 

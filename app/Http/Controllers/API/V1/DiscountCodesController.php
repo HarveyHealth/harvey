@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Transformers\V1\DiscountCodeTransformer;
-use App\Models\DiscountCode;
-use Illuminate\Http\Request;
 use App\Lib\Validation\StrictValidator;
+use App\Models\DiscountCode;
+use App\Transformers\V1\DiscountCodeTransformer;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use ResponseCode;
 
 class DiscountCodesController extends BaseAPIController
@@ -28,7 +29,7 @@ class DiscountCodesController extends BaseAPIController
     public function getOne(Request $request, string $code)
     {
         StrictValidator::check($request->all(), [
-            'applies_to' => 'required'
+            'applies_to' => ['required', Rule::in(DiscountCode::ALLOWED_APPLIES_TO)],
         ]);
 
         $applies_to = $request->input('applies_to');

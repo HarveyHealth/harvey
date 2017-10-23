@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscountCode extends Model
 {
+    protected $dates = [
+        'created_at',
+        'expires_at',
+        'updated_at',
+    ];
+
     public static function findByValidCodeApplicationAndUser($code, $applies_to, $user)
     {
         $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->limit(1)->first();
