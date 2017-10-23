@@ -56,13 +56,16 @@
 
 <script>
     import moment from 'moment';
-    import Form from '../../utils/objects/Form.js';
     import DatePicker from './components/DatePicker.vue';
     import TimePicker from './components/TimePicker.vue';
 
     export default {
         name: 'new-appointment',
-        props: ['user', 'includeCta', 'form'],
+        props: {
+            user: Object,
+            includeCta: Boolean,
+            form: Object
+        },
         data() {
             return {
                 // form: new Form({

@@ -12,7 +12,7 @@
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Payment Options
-                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                        <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
                     </h2>
                 </div>
                 <div class="card-content-wrap">
@@ -21,15 +21,17 @@
                             <p class="copy-muted font-md font-italic">Your credit cards are loading...</p>
                         </div>
                     </div>
-                    <div v-if="!details && !$root.$data.global.loadingCreditCards" v-for="card in $root.$data.global.creditCards">
-                        <div class="card-object">
-                            <p class="copy-main font-md font-italic">
-                                <i class="fa fa-credit-card"></i>
-                                {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
-                            </p>
-                        </div>
-                        <div class="button-wrapper">
-                            <button @click="openModal(card)" class="button">Delete Card</button>
+                    <div v-if="!details && !$root.$data.global.loadingCreditCards" >
+                        <div v-for="card in $root.$data.global.creditCards">
+                            <div class="card-object">
+                                <p class="copy-main font-md font-italic">
+                                    <i class="fa fa-credit-card"></i>
+                                    {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
+                                </p>
+                            </div>
+                            <div class="button-wrapper">
+                                <button @click="openModal(card)" class="button">Delete Card</button>
+                            </div>
                         </div>
                     </div>
 
@@ -156,7 +158,7 @@ export default {
         },
         deleteCard() {
             axios.delete(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards/${this.currentCard.id}`)
-                .then(response => {
+                .then(() => {
                     this.$root.$data.global.creditCards = [];
                     this.notificationMessage = "Your card has been deleted.";
                     this.notificationActive = true;
@@ -182,7 +184,7 @@ export default {
                 exp_year: this.year || this.currentCard.exp_year,
                 name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
             })
-            .then(response => {
+            .then(() => {
                 axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                     .then(respond => {
                         this.$root.$data.global.creditCards = respond.data.cards;
@@ -200,7 +202,7 @@ export default {
         },
         submitNewCard(token) {
             axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {id: token})
-                .then(resp => {
+                .then(() => {
                     this.$root.$data.global.loadingCreditCards = true;
                     this.notificationMessage = "Successfully added!";
                     this.notificationActive = true;
@@ -229,7 +231,7 @@ export default {
                 .then(response => {
                   this.user = response.data.data;
                 })
-                .catch(error => {
+                .catch(() => {
                     this.$router.push('/profile');
                 });
         },
@@ -277,6 +279,9 @@ export default {
         },
         stopListeningForStripeFormErrors() {
             this.card.removeEventListener('change', this.handleStripeFormChange);
+        },
+        setUserId(id) {
+            this.user_id = id;
         }
     },
     mounted() {
@@ -289,10 +294,10 @@ export default {
     watch: {
         _user_id(id) {
             if (id && 'admin' === Laravel.user.user_type) {
-                this.user_id = id;
+                this.setUserId(id);
                 this.getUser();
             } else {
-                this.user_id = null;
+                this.setUserId(null);
             }
             this.getCards();
         }

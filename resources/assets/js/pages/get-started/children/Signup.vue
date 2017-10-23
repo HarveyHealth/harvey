@@ -174,9 +174,9 @@ export default {
     onSubmit() {
       this.signupData.terms = this.terms ? true : '';
       // Validate the form
-      this.$validator.validateAll(this.signupData).then(response => {
+      this.$validator.validateAll(this.signupData).then(valid => {
 
-        if (!response) return;
+        if (!valid) return;
 
         this.isProcessing = true;
 

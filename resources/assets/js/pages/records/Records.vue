@@ -7,7 +7,7 @@
           <div class="main-content">
             <form class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-modal="search" placeholder="Search by name, email or date of birth..." type="text" class="search-bar" />
             </form>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
@@ -228,15 +228,6 @@ export default {
         };
     },
     methods: {
-      updateInput(e) {
-        let array = this.$root.$data.global.patients;
-        let matcher = new RegExp(e.target.value, 'ig');
-        this.results = array.filter(ele => {
-          return matcher.test(ele.search_name) ||
-                      matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth);
-        });
-      },
       selectPatient(patient) {
         this.selectedPatient = patient;
         this.name = patient.search_name;
@@ -254,7 +245,7 @@ export default {
         let array = this.$root.$data.global.patients;
         if (!array.length) return [];
         let matcher = new RegExp(this.value, 'ig');
-        this.results = array.filter(ele => {
+        return array.filter(ele => {
           return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
                       matcher.test(ele.date_of_birth);
@@ -262,6 +253,18 @@ export default {
       }
     },
     watch: {
+      results(val, old) {
+        if (val !== old) {
+          let array = this.$root.$data.global.patients;
+          if (!array.length) return [];
+          let matcher = new RegExp(this.value, 'ig');
+          return array.filter(ele => {
+            return matcher.test(ele.search_name) ||
+                        matcher.test(ele.email) ||
+                        matcher.test(ele.date_of_birth);
+          });
+        }
+      }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';

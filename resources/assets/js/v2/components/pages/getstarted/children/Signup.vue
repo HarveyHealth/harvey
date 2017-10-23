@@ -259,7 +259,7 @@ export default {
           });
 
       // Error catch for vee-validate of signup form fields
-      }).catch(error => {
+      }).catch(() => {
         console.error('There are errors in the signup form fields.');
       });
     },
@@ -268,13 +268,13 @@ export default {
         email: email,
         password: password
       })
-      .then(resp => {
+      .then(() => {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
         window.location.href = '/get-started';
       })
-      .catch(error => {
+      .catch(() => {
         // TODO: catch error
       });
     }
