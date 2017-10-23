@@ -72,12 +72,17 @@ module.exports = function(config) {
     browsers: ['jsdom'],
 
     webpack: {
+      resolve: {
+        alias: {
+            moment$: 'moment/moment.js'
+        },
+      },
       module: {
         loaders: [
           {
             test: /\.js?$/,
             exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader' + Mix.babelConfig(),
+            loader: 'babel-loader',
             include: [
               path.join(__dirname, 'tests/Frontend')
             ],
