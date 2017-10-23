@@ -29,7 +29,11 @@
 
   export default {
     mixins: [Contact],
-    props: ['appointment', 'patientData', 'userType'],
+    props: {
+        appointment: Object, 
+        patientData: Object, 
+        userType: String
+      },
     data() {
       return {
         local_timezone: ''

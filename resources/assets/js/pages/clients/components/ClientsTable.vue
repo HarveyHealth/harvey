@@ -44,29 +44,31 @@ export default {
         // Passed from Appointments so we can modify the appointment data and trigger
         // other things within Appointments
         handleRowClick: {
-        type: Function
+            type: Function
         },
         // Passed from Appointments because it is waiting for the app.js Promise to resolve
         loading: {
-        type: Boolean,
-        required: true
+            type: Boolean,
+            required: true
         },
         // See TableData
         selectedRow: {
-        type: Object
+            type: Object
         },
         // See TableData
         tableRowData: {
-        type: Array,
-        required: true
+            type: Array,
+            required: true
         },
         // See TableData
         updatedRow: {
-        required: false
+            type: Number,
+            required: false
         },
         // See TableData
         updatingRow: {
-        required: false
+            type: Number,
+            required: false
         }
     }
 };

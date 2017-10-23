@@ -39,7 +39,7 @@
         };
       },
       methods: {
-        handleRowClick(obj, index) {
+        handleRowClick() {
             return null;
         },
         $$rowClasses(data, index) {
@@ -63,7 +63,7 @@
         }
     },
     watch: {
-        loadingClients(val, old) {
+        loadingClients(val) {
             if (!val) {
                 this.setupLabData();
             }

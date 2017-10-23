@@ -69,7 +69,7 @@
       </div>
 
       <Days
-        :day="this.appointment.day"
+        :day="appointment.day"
         :editable="editableDays"
         :is-loading="loadingDays"
         :is-visible="visibleDays"
@@ -255,7 +255,7 @@ import Times from './components/Times.vue';
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
-import tableColumns from './utils/tableColumns';
+// import tableColumns from './utils/tableColumns';
 import tableDataTransform from './utils/tableDataTransform';
 import tableSort from '../../utils/methods/tableSort';
 import transformAvailability from '../../utils/methods/transformAvailability';
@@ -732,7 +732,6 @@ export default {
         practitioner_id: this.appointment.practitionerId * 1
       };
 
-      let doctorSwitch = false;
       let action = this.userAction === 'new' ? 'post' : 'patch';
       let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
@@ -751,7 +750,6 @@ export default {
       const isCancel = this.userAction === 'cancel';
       const isNew = this.userAction === 'new';
       const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
-      const hasStatusSwitch = this.appointment.currentStatus !== this.appointment.status;
       const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
       const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
@@ -800,7 +798,7 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then(response => {
+      axios[action](endpoint, data).then(() => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {

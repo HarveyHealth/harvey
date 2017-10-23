@@ -81,10 +81,7 @@
 
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
-  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
-  import Contact from '../../utils/mixins/Contact';
-  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
-  import getAppointments from '../../utils/methods/getAppointments';
+  import { phone } from '../../utils/filters/textformat.js';
 
   export default {
     name: 'dashboard',
