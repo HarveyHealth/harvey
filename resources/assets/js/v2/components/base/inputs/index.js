@@ -1,6 +1,6 @@
-import ButtonInput from './ButtonInput';
-import FacebookSignin from './FacebookSignin';
-import MultiInput from './MultiInput';
+import ButtonInput from './ButtonInput.vue';
+import FacebookSignin from './FacebookSignin.vue';
+import MultiInput from './MultiInput.vue';
 
 export default {
   ButtonInput,

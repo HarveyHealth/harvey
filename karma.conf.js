@@ -2,6 +2,7 @@
 // Generated on Fri Sep 29 2017 10:58:07 GMT-0400 (EDT)
 const argv = require('yargs').argv;
 const Mix = require('laravel-mix').config;
+const path = require('path');
 
 module.exports = function(config) {
   config.set({
@@ -37,7 +38,7 @@ module.exports = function(config) {
     },
 
     plugins: [
-      'karma-jsdom-launcher',
+      'karma-chrome-launcher',
       'karma-mocha',
       'karma-sinon-chai',
       'karma-webpack',
@@ -69,7 +70,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['jsdom'],
+    browsers: ['ChromeHeadless'],
 
     webpack: {
       resolve: {
@@ -82,7 +83,7 @@ module.exports = function(config) {
           {
             test: /\.js?$/,
             exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader' + Mix.babelConfig(),
+            loader: 'babel-loader',
             include: [
               path.join(__dirname, 'tests/Frontend')
             ],
