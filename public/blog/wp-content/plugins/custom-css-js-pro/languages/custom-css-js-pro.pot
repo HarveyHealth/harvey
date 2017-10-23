@@ -1,0 +1,694 @@
+# Copyright (C) 2017 Simple Custom CSS and JS PRO
+# This file is distributed under the same license as the Simple Custom CSS and JS PRO package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple Custom CSS and JS PRO 3.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/custom-css-js-"
+"pro\n"
+"POT-Creation-Date: 2017-07-27 21:33:20+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: custom-css-js.php:63 custom-css-js.php:70
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: custom-css-js.php:166
+msgid "Please activate the license"
+msgstr ""
+
+#: custom-css-js.php:176
+msgid ""
+"Don't forget to activate <a href=\"%s\">here</a> the license key you "
+"received in the email."
+msgstr ""
+
+#: custom-css-js.php:209
+msgctxt "post type general name"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:210
+msgctxt "post type singular name"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:211
+msgctxt "admin menu"
+msgid "Custom CSS & JS"
+msgstr ""
+
+#: custom-css-js.php:212
+msgctxt "add new on admin bar"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:213
+msgctxt "add new"
+msgid "Add Custom Code"
+msgstr ""
+
+#: custom-css-js.php:214
+msgid "Add Custom Code"
+msgstr ""
+
+#: custom-css-js.php:215
+msgid "New Custom Code"
+msgstr ""
+
+#: custom-css-js.php:216
+msgid "Edit Custom Code"
+msgstr ""
+
+#: custom-css-js.php:217
+msgid "View Custom Code"
+msgstr ""
+
+#: custom-css-js.php:218
+msgid "All Custom Code"
+msgstr ""
+
+#: custom-css-js.php:219
+msgid "Search Custom Code"
+msgstr ""
+
+#: custom-css-js.php:220
+msgid "Parent Custom Code:"
+msgstr ""
+
+#: custom-css-js.php:221
+msgid "No Custom Code found."
+msgstr ""
+
+#: custom-css-js.php:222
+msgid "No Custom Code found in Trash."
+msgstr ""
+
+#: custom-css-js.php:227
+msgid "Custom CSS and JS code"
+msgstr ""
+
+#: custom-css-js.php:307 includes/admin-config.php:53
+msgid "Settings"
+msgstr ""
+
+#: includes/admin-choose-theme.php:64
+msgid "Changing the editor's theme will affect all the users, not only you."
+msgstr ""
+
+#: includes/admin-choose-theme.php:69
+msgid "Editor theme"
+msgstr ""
+
+#: includes/admin-choose-theme.php:184
+msgid "Theme preview"
+msgstr ""
+
+#: includes/admin-config-template.php:2
+msgid "Custom CSS & JS Settings"
+msgstr ""
+
+#: includes/admin-config-template.php:8
+msgid "Site Title"
+msgstr ""
+
+#: includes/admin-config-template.php:12 includes/admin-config-template.php:13
+msgid "Membership"
+msgstr ""
+
+#: includes/admin-config-template.php:15
+msgid "Anyone can register"
+msgstr ""
+
+#: includes/admin-config-template.php:20
+msgid "Save Changes"
+msgstr ""
+
+#: includes/admin-config.php:120
+msgid "Save"
+msgstr ""
+
+#: includes/admin-config.php:143
+msgid "Custom CSS & JS PRO"
+msgstr ""
+
+#: includes/admin-config.php:146
+msgid "General Settings"
+msgstr ""
+
+#: includes/admin-config.php:147 includes/edd/edd-plugin.php:35
+msgid "License Key"
+msgstr ""
+
+#: includes/admin-config.php:148
+msgid "Debug"
+msgstr ""
+
+#: includes/admin-config.php:268
+msgid ""
+"Please copy and paste this information in your ticket when contacting support"
+msgstr ""
+
+#: includes/admin-config.php:276
+msgid "URL for which you want to generate the report"
+msgstr ""
+
+#: includes/admin-config.php:278
+msgid "Regenerate the debug info"
+msgstr ""
+
+#: includes/admin-preview.php:45
+msgid "Preview"
+msgstr ""
+
+#: includes/admin-preview.php:64
+msgid "Full URL on which to preview the changes ..."
+msgstr ""
+
+#: includes/admin-preview.php:65
+msgid "Preview Changes"
+msgstr ""
+
+#: includes/admin-preview.php:90
+msgid "Error: _nonce is not correct. Refresh your browser and try again"
+msgstr ""
+
+#: includes/admin-preview.php:168
+msgid "How long will last a preview generated for a code."
+msgstr ""
+
+#: includes/admin-preview.php:172
+msgid "Duration of Preview"
+msgstr ""
+
+#: includes/admin-preview.php:173
+msgid "seconds"
+msgstr ""
+
+#: includes/admin-revisions.php:145
+msgid "Error: Please choose two revisions to compare"
+msgstr ""
+
+#: includes/admin-revisions.php:154
+msgid "Error: One of the revisions is missing"
+msgstr ""
+
+#: includes/admin-revisions.php:160
+msgid "Error: You do not have enough permissions to read the revisions"
+msgstr ""
+
+#: includes/admin-revisions.php:165
+msgid "Error: The revisions are unrelated. You cannot compare them"
+msgstr ""
+
+#: includes/admin-revisions.php:170
+msgid "Error: You are trying to compare the same revision to itself"
+msgstr ""
+
+#: includes/admin-revisions.php:175
+msgid "Error: You are trying to compare two posts, not two revisions"
+msgstr ""
+
+#: includes/admin-revisions.php:199
+msgid "<span class='bold'>%s</span> by <span class='bold'>%s</span>"
+msgstr ""
+
+#: includes/admin-revisions.php:340
+msgid "Code Revisions"
+msgstr ""
+
+#: includes/admin-revisions.php:376
+msgid "There are no revisions yet"
+msgstr ""
+
+#: includes/admin-revisions.php:434 includes/admin-revisions.php:494
+msgid "Compare"
+msgstr ""
+
+#: includes/admin-revisions.php:435
+msgid "Revision"
+msgstr ""
+
+#: includes/admin-revisions.php:436 includes/admin-screens.php:313
+msgid "Author"
+msgstr ""
+
+#: includes/admin-revisions.php:437 includes/admin-revisions.php:498
+msgid "Delete"
+msgstr ""
+
+#: includes/admin-revisions.php:438 includes/admin-revisions.php:488
+msgid "Restore"
+msgstr ""
+
+#: includes/admin-revisions.php:465
+msgid "This is the current version. You cannot delete it"
+msgstr ""
+
+#: includes/admin-revisions.php:470
+msgid "This is an autosave revision. You cannot delete it"
+msgstr ""
+
+#: includes/admin-revisions.php:474
+msgid "You do not have the right to edit this Custom Code."
+msgstr ""
+
+#: includes/admin-screens.php:118
+msgid "Add Custom CSS"
+msgstr ""
+
+#: includes/admin-screens.php:121
+msgid "Add Custom JS"
+msgstr ""
+
+#: includes/admin-screens.php:124
+msgid "Add Custom HTML"
+msgstr ""
+
+#: includes/admin-screens.php:219 includes/admin-screens.php:310
+#: includes/admin-screens.php:1088
+msgid "Active"
+msgstr ""
+
+#: includes/admin-screens.php:220 includes/admin-screens.php:1091
+msgid "Inactive"
+msgstr ""
+
+#: includes/admin-screens.php:221 includes/admin-screens.php:1064
+#: includes/admin-screens.php:1092
+msgid "Activate"
+msgstr ""
+
+#: includes/admin-screens.php:222 includes/admin-screens.php:1061
+#: includes/admin-screens.php:1089
+msgid "Deactivate"
+msgstr ""
+
+#: includes/admin-screens.php:223 includes/admin-screens.php:357
+#: includes/admin-screens.php:1060
+msgid "The code is active. Click to deactivate it"
+msgstr ""
+
+#: includes/admin-screens.php:224 includes/admin-screens.php:360
+#: includes/admin-screens.php:1063
+msgid "The code is inactive. Click to activate it"
+msgstr ""
+
+#: includes/admin-screens.php:255
+msgid "Options "
+msgstr ""
+
+#: includes/admin-screens.php:257 includes/admin-screens.php:316
+msgid "Options"
+msgstr ""
+
+#: includes/admin-screens.php:295
+msgid "Add CSS code"
+msgstr ""
+
+#: includes/admin-screens.php:296
+msgid "Add JS code"
+msgstr ""
+
+#: includes/admin-screens.php:297
+msgid "Add HTML code"
+msgstr ""
+
+#: includes/admin-screens.php:311
+msgid "Type"
+msgstr ""
+
+#: includes/admin-screens.php:312
+msgid "Title"
+msgstr ""
+
+#: includes/admin-screens.php:314
+msgid "Date"
+msgstr ""
+
+#: includes/admin-screens.php:315
+msgid "Modified"
+msgstr ""
+
+#: includes/admin-screens.php:346
+msgid "%s ago"
+msgstr ""
+
+#: includes/admin-screens.php:348
+msgid "Y/m/d"
+msgstr ""
+
+#: includes/admin-screens.php:388
+msgid "Where on the page: As shortcode"
+msgstr ""
+
+#: includes/admin-screens.php:390
+msgid " Shortcode without id"
+msgstr ""
+
+#: includes/admin-screens.php:406
+msgid "Priority %d"
+msgstr ""
+
+#: includes/admin-screens.php:502
+msgid "Custom Code"
+msgstr ""
+
+#: includes/admin-screens.php:503 includes/admin-screens.php:533
+msgid "Add CSS Code"
+msgstr ""
+
+#: includes/admin-screens.php:504 includes/admin-screens.php:534
+msgid "Add JS Code"
+msgstr ""
+
+#: includes/admin-screens.php:505 includes/admin-screens.php:535
+msgid "Add HTML Code"
+msgstr ""
+
+#: includes/admin-screens.php:522
+msgid "Edit %s code"
+msgstr ""
+
+#: includes/admin-screens.php:525
+msgid "Add %s code"
+msgstr ""
+
+#: includes/admin-screens.php:543
+msgid "Code updated"
+msgstr ""
+
+#: includes/admin-screens.php:601
+msgid ""
+"/* Add your JavaScript code here.\n"
+"                     \n"
+"If you are using the jQuery library, then don't forget to wrap your code "
+"inside jQuery.ready() as follows:\n"
+"\n"
+"jQuery(document).ready(function( $ ){\n"
+"    // Your code in here \n"
+"});\n"
+"\n"
+"End of comment */ "
+msgstr ""
+
+#: includes/admin-screens.php:617
+msgid ""
+"<!-- Add HTML code in the header, the footer or in the content as a "
+"shortcode. \n"
+"\n"
+"## In the header\n"
+"\tFor example, you can add the following code to the header for loading the "
+"jQuery library from Google CDN:\n"
+"\t<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery."
+"min.js\"></script>\n"
+"\n"
+"\tor the following one for loading the Bootstrap library from MaxCDN:\n"
+"\t<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/"
+"bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-"
+"BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" "
+"crossorigin=\"anonymous\">\n"
+"\n"
+"## As shortcode\n"
+"\tYou can use it in a post/page as [ccj id=\"shortcode_id\"]. (\"ccj\" "
+"stands for \"Custom CSS and JS\").\n"
+"\n"
+"## Shortcode variables:\n"
+"\tFor the shortcode: [ccj id=\"shortcode_id\" variable=\"Ana\"]\n"
+"\n"
+"\tand the shortcode content: Good morning, {$variable}!\n"
+"    OR, equivalently, the content: Good morning, <?php echo $variable; ?>\n"
+"\n"
+"\tthis will be output on the website: Good morning, Ana!\n"
+"\n"
+"-- End of the comment --> "
+msgstr ""
+
+#: includes/admin-screens.php:647
+msgid ""
+"/* The following will be executed as if it were written in functions.php. */"
+msgstr ""
+
+#: includes/admin-screens.php:656
+msgid ""
+"/* Add your CSS code here.\n"
+"                     \n"
+"For example:\n"
+".example {\n"
+"    color: red;\n"
+"}\n"
+"\n"
+"For brushing up on your CSS knowledge, check out http://www.w3schools.com/"
+"css/css_syntax.asp\n"
+"\n"
+"End of comment */ "
+msgstr ""
+
+#: includes/admin-screens.php:680
+msgid "Beautify Code"
+msgstr ""
+
+#: includes/admin-screens.php:681
+msgid "Distraction-free writing mode"
+msgstr ""
+
+#: includes/admin-screens.php:681
+msgid "Fullscreen"
+msgstr ""
+
+#: includes/admin-screens.php:698
+msgid "Last edited by %1$s on %2$s at %3$s"
+msgstr ""
+
+#: includes/admin-screens.php:700
+msgid "Last edited on %1$s at %2$s"
+msgstr ""
+
+#: includes/admin-screens.php:890
+msgid "The <b>custom-css-js</b> directory could not be created"
+msgstr ""
+
+#: includes/admin-screens.php:891
+msgid "Please run the following commands in order to make the directory"
+msgstr ""
+
+#: includes/admin-screens.php:899
+msgid ""
+"The <b>%</b> directory is not writable, therefore the CSS and JS files "
+"cannot be saved."
+msgstr ""
+
+#: includes/admin-screens.php:900
+msgid "Please run the following command to make the directory writable"
+msgstr ""
+
+#: includes/admin-screens.php:992
+msgid "Shortcode id"
+msgstr ""
+
+#: includes/admin-url-rules.php:30 includes/admin-url-rules2.php:153
+msgid "All Website"
+msgstr ""
+
+#: includes/admin-url-rules.php:31 includes/admin-url-rules2.php:154
+msgid "First Page"
+msgstr ""
+
+#: includes/admin-url-rules.php:32 includes/admin-url-rules2.php:155
+msgid "URL contains .."
+msgstr ""
+
+#: includes/admin-url-rules.php:33 includes/admin-url-rules2.php:156
+msgid "URL not contains .."
+msgstr ""
+
+#: includes/admin-url-rules.php:34 includes/admin-url-rules2.php:157
+msgid "URL is equal to .."
+msgstr ""
+
+#: includes/admin-url-rules.php:35 includes/admin-url-rules2.php:158
+msgid "URL not equal to .."
+msgstr ""
+
+#: includes/admin-url-rules.php:36 includes/admin-url-rules2.php:159
+msgid "URL starts with .."
+msgstr ""
+
+#: includes/admin-url-rules.php:37 includes/admin-url-rules2.php:160
+msgid "URL ends by .."
+msgstr ""
+
+#: includes/admin-url-rules.php:38 includes/admin-url-rules2.php:161
+msgid "WP Conditional Tag .."
+msgstr ""
+
+#: includes/admin-url-rules.php:47 includes/admin-url-rules2.php:210
+msgid "Apply only on these Pages"
+msgstr ""
+
+#: includes/admin-url-rules.php:78
+msgid "Add Rule"
+msgstr ""
+
+#: includes/admin-warnings.php:54
+msgid ""
+"Please remove the <b>custom-css-js</b> post type from the <b>qTranslate "
+"settings</b> in order to avoid some malfunctions in the Simple Custom CSS & "
+"JS plugin. Check out <a href=\"%s\" target=\"_blank\">this screenshot</a> "
+"for more details on how to do that."
+msgstr ""
+
+#: includes/class-show-codes.php:293
+msgid ""
+"The preview id you are using is already expired. Please generate the preview "
+"again."
+msgstr ""
+
+#: includes/edd/EDD_SL_Plugin_Updater.php:176
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+msgstr ""
+
+#: includes/edd/EDD_SL_Plugin_Updater.php:183
+msgid ""
+"There is a new version of %1$s available. <a target=\"_blank\" class="
+"\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+"\">update now</a>."
+msgstr ""
+
+#: includes/edd/EDD_SL_Plugin_Updater.php:323
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/edd/EDD_SL_Plugin_Updater.php:323
+msgid "Error"
+msgstr ""
+
+#: includes/edd/edd-plugin.php:39
+msgid "Enter your license key"
+msgstr ""
+
+#: includes/edd/edd-plugin.php:45 includes/edd/edd-plugin.php:54
+msgid "Activate License"
+msgstr ""
+
+#: includes/edd/edd-plugin.php:49
+msgid "active"
+msgstr ""
+
+#: includes/edd/edd-plugin.php:51
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/functions.php:282
+msgid "Linking type"
+msgstr ""
+
+#: includes/functions.php:287
+msgid "External File"
+msgstr ""
+
+#: includes/functions.php:291
+msgid "Internal"
+msgstr ""
+
+#: includes/functions.php:297 includes/functions.php:384
+msgid "Where on page"
+msgstr ""
+
+#: includes/functions.php:302 includes/functions.php:389
+msgid "Header"
+msgstr ""
+
+#: includes/functions.php:306 includes/functions.php:393
+msgid "Footer"
+msgstr ""
+
+#: includes/functions.php:312 includes/functions.php:403
+msgid "Where in site"
+msgstr ""
+
+#: includes/functions.php:317 includes/functions.php:408
+msgid "In Frontend"
+msgstr ""
+
+#: includes/functions.php:321 includes/functions.php:412
+msgid "In Admin"
+msgstr ""
+
+#: includes/functions.php:325
+msgid "On Login Page"
+msgstr ""
+
+#: includes/functions.php:331
+msgid "CSS Preprocessor"
+msgstr ""
+
+#: includes/functions.php:336
+msgid "None"
+msgstr ""
+
+#: includes/functions.php:342
+msgid "SASS (only SCSS syntax)"
+msgstr ""
+
+#: includes/functions.php:347
+msgid "Minify the code"
+msgstr ""
+
+#: includes/functions.php:353 includes/functions.php:438
+msgid "Priority"
+msgstr ""
+
+#: includes/functions.php:358 includes/functions.php:443
+msgid "1 (highest)"
+msgstr ""
+
+#: includes/functions.php:367 includes/functions.php:452
+msgid "10 (lowest)"
+msgstr ""
+
+#: includes/functions.php:397
+msgid "As shortcode"
+msgstr ""
+
+#: includes/functions.php:418
+msgid "On which device"
+msgstr ""
+
+#: includes/functions.php:424
+msgid "Desktop"
+msgstr ""
+
+#: includes/functions.php:428
+msgid "Mobile"
+msgstr ""
+
+#: includes/functions.php:432
+msgid "Both"
+msgstr ""
+
+#: includes/functions.php:468
+msgid "Click for the documentation"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.silkypress.com/simple-custom-css-js-pro/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Easily add Custom CSS or JS to your website with an awesome editor."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "SilkyPress.com"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.silkypress.com"
+msgstr ""

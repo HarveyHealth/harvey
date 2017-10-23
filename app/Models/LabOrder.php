@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Models\{LabTest, SKU};
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
+use App\Models\DiscountCode;
 
 class LabOrder extends Model
 {
@@ -60,7 +61,7 @@ class LabOrder extends Model
             $this->status_id = $this->labTests->pluck('status_id')->diff([LabTest::CANCELED_STATUS_ID])->min();
         }
 
-        return $this->status;
+        return $this;
     }
 
     public function dataForInvoice()
@@ -79,6 +80,8 @@ class LabOrder extends Model
             'description' => "Lab Tests order #{$this->id} on " . date('n/j/Y'),
         ];
 
+        $subtotal = 0;
+
         foreach ($labTests as $labTest) {
             $invoiceData['invoice_items'][] = [
                 'amount' => $labTest->sku->price,
@@ -87,15 +90,36 @@ class LabOrder extends Model
                 'item_id' => $labTest->id,
                 'sku_id' => $labTest->sku->id,
             ];
+
+            $subtotal += $labTest->sku->price;
         }
 
         $sku = SKU::findBySlugOrFail('processing-fee-self');
+
+        $subtotal += $sku->price;
 
         $invoiceData['invoice_items'][] = [
             'amount' => $sku->price,
             'description' => $sku->name,
             'sku_id' => $sku->id,
         ];
+
+        // if we have a discount code,
+        // add another invoice item
+        if ($this->discount_code_id) {
+
+            $sku = SKU::findBySlugOrFail('discount');
+            $discount_code = DiscountCode::find($this->discount_code_id);
+            $amount = $discount_code->discountForSubtotal($subtotal);
+
+            $invoiceData['invoice_items'][] = [
+                'item_id' => $discount_code->id,
+                'item_class' => get_class($discount_code),
+                'description' => $discount_code->itemDescription(),
+                'amount' => $amount,
+                'sku_id' => $sku->id,
+            ];
+        }
 
         return $invoiceData;
     }

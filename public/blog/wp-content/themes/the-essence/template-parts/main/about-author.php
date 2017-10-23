@@ -45,6 +45,9 @@
 			<?php if ( get_the_author_meta( 'the_essence_vine', $author_id ) ) : ?>
 				<a class="social-link-vine" href="<?php echo get_the_author_meta( 'the_essence_dribbble' ); ?>"><span class="fa fa-vine"></span></a>
 			<?php endif; ?>
+			<?php if ( get_the_author_meta( 'the_essence_linkedin', $author_id ) ) : ?>
+				<a class="social-link-linkedin" href="<?php echo get_the_author_meta( 'the_essence_linkedin' ); ?>"><span class="fa fa-linkedin"></span></a>
+			<?php endif; ?>
 		</div><!-- .about-author-social -->
 
 	</div><!-- .about-author-main -->

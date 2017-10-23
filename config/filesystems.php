@@ -54,7 +54,7 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-    
+
         'resources' => [
             'driver' => 'local',
             'root' => resource_path(),
@@ -68,6 +68,10 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+    ],
+
+    'cloudfront' => [
+        'domain' => env('CLOUDFRONT_DOMAIN','d35oe889gdmcln.cloudfront.net'),
     ],
 
 ];

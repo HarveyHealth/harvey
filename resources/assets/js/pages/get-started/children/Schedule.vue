@@ -1,51 +1,53 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
-      <StagesNav :current="'schedule'" />
-      <h2 class="heading-1">Choose Date & Time</h2>
-      <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
-    </div>
-    <div class="signup-container large router">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
-        <i class="fa fa-long-arrow-left"></i>
-        <span class="font-sm">{{ prevStage.display }}</span>
-      </router-link>
-      <div class="signup-schedule-wrapper cf">
-        <div class="schedule-section schedule-days">
-          <h3 class="heading-2 font-normal font-centered">Choose Date</h3>
-          <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
-            <div class="schedule-week-info copy-muted">
-              <span class="week font-xs">{{ weekReference(i) }}</span>
-              <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
+    <div class="vertical-center">
+      <div class="signup-stage-instructions color-white">
+        <StagesNav :current="'schedule'" />
+        <h2 class="heading-1 color-white">Choose Date & Time</h2>
+        <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
+      </div>
+      <div class="signup-container large router">
+        <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
+          <i class="fa fa-long-arrow-left"></i>
+          <span class="font-sm">{{ prevStage.display }}</span>
+        </router-link>
+        <div class="signup-schedule-wrapper cf">
+          <div class="schedule-section schedule-days">
+            <h3 class="heading-2 font-normal font-centered">Choose Date</h3>
+            <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
+              <div class="schedule-week-info copy-muted">
+                <span class="week font-xs">{{ weekReference(i) }}</span>
+                <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
+              </div>
+              <ol>
+                <li v-for="(dayObj, key) in week.days"
+                    v-show="dayObj !== null"
+                    v-text="key"
+                    @click="handleSelectDay(i, key, dayObj)"
+                    :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
+                ></li>
+              </ol>
             </div>
-            <ol>
-              <li v-for="(dayObj, key) in week.days"
-                  v-show="dayObj !== null"
-                  v-text="key"
-                  @click="handleSelectDay(i, key, dayObj)"
-                  :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
-              ></li>
+          </div>
+          <div class="schedule-section schedule-times" ref="timeBox">
+            <h3 class="heading-2 font-normal font-centered">Choose Time</h3>
+            <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
+            <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
+            <ol v-show="selectedDate">
+              <li v-for="(time, j) in availableTimes"
+                  :class="{ 'available': true, 'selected': selectedTime === j }"
+                  @click="handleSelectTime(time, j)"
+              >{{ time | timeDisplay }}</li>
             </ol>
+            <div v-if="!selectedDate" class="left-arrow"><i class="fa fa-hand-o-left" aria-hidden="true"></i></div>
           </div>
         </div>
-        <div class="schedule-section schedule-times" ref="timeBox">
-          <h3 class="heading-2 font-normal font-centered">Choose Time</h3>
-          <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
-          <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
-          <ol v-show="selectedDate">
-            <li v-for="(time, j) in availableTimes"
-                :class="{ 'available': true, 'selected': selectedTime === j }"
-                @click="handleSelectTime(time, j)"
-            >{{ time | timeDisplay }}</li>
-          </ol>
-          <div v-if="!selectedDate" class="left-arrow"><i class="fa fa-hand-o-left" aria-hidden="true"></i></div>
-        </div>
+        <p class="closing-selection" v-if="selectedDate" v-show="!errorText" >
+          Your consultation will be on <span class="font-bold">{{ selectedDate | fullDate }}.</span>
+        </p>
+        <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
+        <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
       </div>
-      <p class="closing-selection" v-if="selectedDate" v-show="!errorText" >
-        Your consultation will be on <span class="font-bold">{{ selectedDate | fullDate }}.</span>
-      </p>
-      <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
-      <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
     </div>
   </div>
 </template>
@@ -65,6 +67,10 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true,
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       errorText: null,
       isProcessing: false,
@@ -179,7 +185,7 @@ export default {
         case 1:
           return 'Next week';
         case 2:
-          return 'In two weeks';
+          return 'The week after';
         case 3:
           return 'In three weeks';
       }
