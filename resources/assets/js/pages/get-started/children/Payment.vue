@@ -58,7 +58,6 @@
 </template>
 
 <script>
-import card from 'card';
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import StagesNav from '../util/StagesNav.vue';
 
@@ -177,7 +176,7 @@ export default {
             break;
         }
         if (resolve) resolve();
-      }).catch(error => {});
+      }).catch(() => {});
     },
     createStripeToken(cardData) {
       Stripe.card.createToken(cardData, (status, response) => {
@@ -187,7 +186,7 @@ export default {
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
           this.$root.$data.signup.data.discount_code = this.discountCode;
-          axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(res => {
+          axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
             this.$router.push({ name: 'confirmation', path: '/confirmation' });
             this.markComplete();
           }).catch(error => {

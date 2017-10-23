@@ -79,11 +79,11 @@
                                                 v-on:uploaded="uploadedProfileImage"
                                                 v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${this.user.id}/image/`"
+                                                :route="`api/v1/users/${user.id}/image/`"
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
-                                            <img :src="this.user.attributes.image_url" />
+                                            <img :src="user.attributes.image_url" />
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
@@ -140,7 +140,7 @@
           <h2 class="text-centered">Enter Phone Verification Code</h2>
           <div style="text-align: center;">
             <!-- confirmation inputs -->
-            <ConfirmInput ref="confirmInputs" :get-value="(val) => this.phoneConfirmation = val" />
+            <ConfirmInput ref="confirmInputs" :get-value="(val) => phoneConfirmation = val" />
 
             <!-- send text again button -->
             <button class="phone-process-button text-again" @click="handleTextResend">
@@ -279,7 +279,7 @@
               // If phone was changed, patch the user's account to trigger text send
               if (shouldPatch) {
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
-                  .then(response => {
+                  .then(() => {
                     // Update the Laravel object in case the user wants to update phone before refreshing
                     Laravel.user.phone = updatedPhone;
                   })
@@ -403,6 +403,12 @@
                           this.callErrorNotification();
                         }
                     });
+            },
+            setUserId(id) {
+                this.user_id = id;
+            },
+            setUser(data) {
+                this.user = data;
             }
         },
         mounted() {
@@ -419,7 +425,7 @@
         watch: {
             _user_id(id) {
                 if (id && this.canEditUsers) {
-                    this.user_id = id;
+                    this.setUserId(id);
                     this.getData(this.user_id);
                 } else {
                     this.$router.push('/profile');
@@ -451,7 +457,8 @@
                 if (this.canEditUsers) {
                     this.getData(this.user_id);
                 } else if (!this.$root.$data.global.loadingUser) {
-                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                    let user = _.cloneDeep(this.$root.$data.global.user);
+                    this.setUser(user);
                 }
                 return '';
             },

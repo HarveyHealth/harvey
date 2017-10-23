@@ -38,7 +38,6 @@
     import _ from 'lodash';
     import Flyout from '../../../commons/Flyout.vue';
     export default {
-        props: [],
         name: 'Preview',
         components: {
             Flyout

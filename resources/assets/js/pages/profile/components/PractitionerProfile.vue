@@ -192,7 +192,7 @@
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
                     this.$root.$data.global.practitionerProfileLoading = false;
                 })
-                .catch(error => this.practitioner = {});
+                .catch(() => this.practitioner = {});
         },
         props: {
             flashSuccess: {

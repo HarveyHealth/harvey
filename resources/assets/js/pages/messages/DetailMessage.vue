@@ -25,8 +25,8 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message">
-                    <div class="detail-wrap" v-if="detailList" v-for="detail in detailList">
+                <div class="container-message" v-if="detailList">
+                    <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
                         :name="detail.attributes.sender_full_name"
@@ -59,7 +59,14 @@
     import socket from './websocket';
     import _ from 'lodash';
     export default {
-        props: ['sender_id', 'subject', 'recipient_id', 'sender_name', 'recipient_full_name', 'thread_id'],
+        props: {
+            sender_id: String,
+            subject: String,
+            recipient_id: String,
+            sender_name: String,
+            recipient_full_name: String,
+            thread_id: String
+        },
         name: 'messages',
         components: {
           Preview,

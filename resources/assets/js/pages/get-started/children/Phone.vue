@@ -154,7 +154,7 @@ export default {
           } else {
             this.setInvalidCode();
           }
-        }).catch(error => {
+        }).catch(() => {
           this.clearCodeInputs();
           this.setInvalidCode();
         });
@@ -187,7 +187,6 @@ export default {
           // track the number patch
           if(this.$root.shouldTrack()) {
             // collect response information
-            const userData = response.data.data.attributes;
             const userId = response.data.data.id || '';
 
             // Segment Identify update
@@ -195,7 +194,7 @@ export default {
               phone: number
             });
           }
-        }).catch(error => {
+        }).catch(() => {
           this.isUserPatchError = true;
           this.isPhoneProcessing = false;
         });

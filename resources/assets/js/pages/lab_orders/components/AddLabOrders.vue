@@ -70,7 +70,10 @@ import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
-  props: ['reset', 'labTests'],
+  props: {
+    reset: Function, 
+    labTests: Object
+  },
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -109,7 +112,7 @@ export default {
       this.$parent.addActiveModal = true;
     },
     updateTestSelection(test, index) {
-      if (this.testNameList[index].checked = !this.testNameList[index].checked) {
+      if (this.testNameList[index].checked !== this.testNameList[index].checked) {
         this.selectedTests.push(test);
       } else {
         _.pull(this.selectedTests, test);
@@ -144,7 +147,7 @@ export default {
         };
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
-          this.selectedTests.forEach((e, i)=> {
+          this.selectedTests.forEach((e)=> {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
                 sku_id: Number(e.attributes.sku_id),
@@ -185,7 +188,7 @@ export default {
                         response.data.included.forEach(e => {
                             sku_ids[e.id] = e;
                         });
-                        this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                        this.$root.$data.global.labTests = response.data.data.map((e) => {
                             e.included = sku_ids[e.relationships.sku.data.id];
                             return e;
                         });
@@ -206,13 +209,17 @@ export default {
       if (this.step == 2) return "Enter Tracking #s";
     },
     testNameList() {
-      return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id);
+      let prop = this.$props.labTests;
+      let array = Object.values(prop).sort((a,b) => a.id - b.id);
+      return array;
     }
   },
   watch: {
     testNameList(val) {
       if (val) {
-        return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id);
+        let prop = this.$props.labTests;
+        let array = Object.values(prop).sort((a,b) => a.id - b.id);
+        return array;
       }
     }
   },

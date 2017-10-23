@@ -55,7 +55,6 @@
     import AddLabOrders from './components/AddLabOrders.vue';
     import DetailLabOrders from './components/DetailLabOrders.vue';
     import tableDataTransform from './utils/tableDataTransform';
-    import _ from 'lodash';
 
     export default {
         name: 'LabOrders',
@@ -90,7 +89,6 @@
                 },
                 labData: [],
                 step: 1,
-                tests: null,
                 currentData: [],
                 notificationSymbol: '&#10003;',
                 notificationMessage: '',
@@ -266,12 +264,14 @@
                 return false;
             },
             labTests() {
-                this.tests = this.$root.$data.labTests;
                 return this.$root.$data.labTests.length > 0;
+            },
+            tests() {
+                return this.$root.$data.labTests;
             }
         },
         watch: {
-            loadingLabs(val, old) {
+            loadingLabs(val) {
                 if (!val) {
                     this.setupLabData();
                 }
@@ -334,7 +334,7 @@
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
                     });
-                    this.$root.$data.global.labTests = response.data.data.map((e, i) => {
+                    this.$root.$data.global.labTests = response.data.data.map((e) => {
                         e.included = sku_ids[e.relationships.sku.data.id];
                         return e;
                     });

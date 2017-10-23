@@ -32,15 +32,18 @@
 
           <!-- Confirmed -->
 
-          <div v-if="status === 'Confirmed'" v-for="test in testList" class="sub-items">
+        <div v-if="status === 'Confirmed'">
+          <div v-for="test in testList" class="sub-items">
             <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
           </div>
+        </div>
 
           <!-- Shipped or greater -->
-
-          <a v-if="status !== 'Recommended' && status !== 'Confirmed'" v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-            <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
-          </a>
+          <div v-if="status !== 'Recommended' && status !== 'Confirmed'">
+            <a v-for="test in testList" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
+            </a>
+          </div>
 
         </div>
 
@@ -377,14 +380,14 @@ import Flyout from '../../../commons/Flyout.vue';
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import {
-  capitalize
-} from '../../../utils/filters/textformat';
 import axios from 'axios';
 import _ from 'lodash';
 export default {
   name: 'DetailLabOrders',
-  props: ['row-data', 'reset'],
+  props: {
+    'row-data': Object, 
+    reset: Function
+  },
   components: {
     Flyout,
     SelectOptions,
@@ -429,8 +432,6 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
-      hasCard: this.$root.$data.global.creditCards.length,
-      capitalize: _.capitalize,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
   },
@@ -518,7 +519,7 @@ export default {
             }
             this.stepThree();
           })
-          .catch(error => {
+          .catch(() => {
             this.disabledDiscount = true;
           });
       } else {
@@ -556,7 +557,7 @@ export default {
     patientLabUpdate() {
       this.loading = true;
       let promises = [];
-      _.each(this.patientTestList, (e, i, a) => {
+      _.each(this.patientTestList, (e) => {
         if (e.patient && !e.checked) {
           let id = null;
           this.$props.rowData.test_list.forEach(ele => {
@@ -822,10 +823,6 @@ export default {
       return ["State", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
     },
     oldCard() {
-      if (this.$props.rowData && this.$props.rowData.card && this.$props.rowData.card.last4 && this.$props.rowData.card
-        .brand) {
-        this.hasCard = true;
-      }
       return this.$props.rowData ? this.$props.rowData.card : null;
     },
     price() {
@@ -839,14 +836,17 @@ export default {
     },
     doctorList() {
       let data = {};
-      if (!this.$props.rowData) return [];
-      data.name =
-        `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}`;
-      data.id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].id;
-      data.user_id = this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes
-        .user_id;
-      let arr = _.pull(this.$root.$data.global.practitioners, data);
-      return [data].concat(arr);
+      let prop = this.$props.rowData;
+      if (!prop) return [];
+      let id = this.$props.rowData.practitioner_id;
+      let lookUp = this.$root.$data.global.practitionerLookUp;
+      data.name = `Dr. ${lookUp[Number(id)].attributes.name}`;
+      data.id = lookUp[Number(id)].id;
+      data.user_id = lookUp[Number(id)].attributes.user_id;
+      let practitioners = this.$root.$data.global.practitioners;
+      let arr = _.pull(practitioners, data);
+      let array =  [data].concat(arr);
+      return array;
     },
     statusList() {
       if (!this.$props.rowData) return "";

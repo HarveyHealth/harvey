@@ -1,5 +1,3 @@
-import convertStatus from './convertStatus';
-import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 import moment from 'moment';
 import _ from 'lodash';
@@ -7,7 +5,6 @@ import _ from 'lodash';
 export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
     if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return [];
     return orders.map(obj => {
-        let count = 0;
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,

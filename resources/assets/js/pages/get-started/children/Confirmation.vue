@@ -117,7 +117,7 @@ export default {
         App.Util.data.killStorage('zip_validation');
         this.$router.push({ name: 'success', path: 'success' });
       })
-      .catch(error => {
+      .catch(() => {
         // 400 Bad request means the time was booked just before the signup user confirmed but after they
         // loaded availability for their selected practitioner.
         this.showModal = true;
