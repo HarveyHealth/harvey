@@ -87,37 +87,17 @@
 				<div class="blog-post-meta-author-avatar"><?php echo get_avatar( get_the_author_meta('email'), '40' ); ?></div>
 				<div class="blog-post-meta-author-main">
 					<div class="blog-post-meta-author-name" data-mtst-selector=".blog-post-meta-author-name" data-mtst-label="Blog S1 - Author" data-mtst-no-support="border,background"><?php echo esc_html_e( 'by', 'the-essence' ); ?> <?php the_author_posts_link(); ?></div>
-					<div class="blog-post-meta-author-date" data-mtst-selector=".blog-post-meta-author-date" data-mtst-label="Blog S1 - Date" data-mtst-no-support="border,background"><?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); ?></div>
+					<div class="blog-post-meta-author-date" data-mtst-selector=".blog-post-meta-author-date" data-mtst-label="Blog S1 - Date" data-mtst-no-support="border,background"><?php 
+						if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+							printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); 
+						} else {
+							the_time( get_option( 'date_format' ) );
+						}
+					?></div>
 				</div><!-- .blog-post-meta-author-main -->
 			</div><!-- .blog-post-meta-author -->
 			
 			<div class="blog-post-meta-separator"></div>
-		<?php endif; ?>
-		
-		<?php if ( in_array( 'comments', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-comments-count" data-mtst-selector=".blog-post-meta-comments-count" data-mtst-label="Blog S1 - Comment Count" data-mtst-no-support="border,background">
-				<span class="fa fa-commenting-o" data-mtst-selector=".blog-post-meta-comments-count .fa" data-mtst-label="Blog S1 - Comment Count Icon" data-mtst-no-support="border,background"></span>
-				<span><a href="<?php comments_link(); ?>"><?php comments_number( esc_html__( 'No comments', 'the-essence' ), esc_html__( 'One comment', 'the-essence' ), esc_html__( '% comments', 'the-essence' ) ); ?></a></span>
-			</div><!-- .blog-post-meta-comments-count -->
-
-			<div class="blog-post-meta-separator"></div>
-		<?php endif; ?>
-
-		<?php if ( in_array( 'shares_count', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-share-count">
-				<?php $share_info = the_essence_get_social_count(); ?>
-				<?php $total_shares = $share_info['total']; ?>
-				<span class="blog-post-meta-share-count-num" data-mtst-selector=".blog-post-meta-share-count-num" data-mtst-label="Blog S1 - Share Count" data-mtst-no-support="border,background"><?php echo $share_info['total']; ?></span>
-				<span class="blog-post-meta-share-count-text" data-mtst-selector=".blog-post-meta-share-count-text" data-mtst-label="Blog S1 - Share Count" data-mtst-no-support="border,background"><?php echo _n( 'share', 'shares', $total_shares, 'the-essence' ); ?></span>
-			</div><!-- .blog-post-meta-share-count -->
-			
-			<div class="blog-post-meta-separator"></div>
-		<?php endif; ?>
-
-		<?php if ( in_array( 'shares_actions', $meta_elements ) ) : ?>
-			<div class="blog-post-meta-share">
-				<?php the_essence_social_share_links( get_the_ID() ); ?>
-			</div><!-- .blog-post-meta-share -->
 		<?php endif; ?>
 
 	</div><!-- .blog-post-meta -->

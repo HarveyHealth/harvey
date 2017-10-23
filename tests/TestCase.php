@@ -14,17 +14,22 @@ abstract class TestCase extends BaseTestCase
 
     protected function assertEmailWasSentTo($to = '')
     {
-        $this->assertNotEmpty($this->emailMock->shouldHaveReceived('setTo')->with($to));
+        $this->assertNotEmpty($this->email_mock->shouldHaveReceived('setTo')->with($to));
     }
 
-    protected function assertEmailTemplateNameWas($templateName = '')
+    protected function assertEmailTemplateNameWas($template_name = '')
     {
-        $this->assertNotEmpty($this->emailMock->shouldHaveReceived('setTemplate')->with($templateName));
+        $this->assertNotEmpty($this->email_mock->shouldHaveReceived('setTemplate')->with($template_name));
     }
 
-    protected function assertEmailTemplateDataWas(Array $templateData = [])
+    protected function assertEmailTemplateDataWas(array $template_data = [])
     {
-        $this->assertNotEmpty($this->emailMock->shouldHaveReceived('setTemplateModel')->with($templateData));
+        $this->assertNotEmpty($this->email_mock->shouldHaveReceived('setTemplateModel')->with($template_data));
+    }
+
+    protected function assertTextWasSent(int $number, string $message)
+    {
+        $this->assertNotEmpty($this->sms_mock->shouldHaveReceived('sendMessageToNumber')->withArgs([$number, $message]));
     }
 
     protected function getCommandOutput(string $command)
