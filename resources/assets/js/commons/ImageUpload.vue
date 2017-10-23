@@ -17,7 +17,11 @@
 <script>
     export default {
         name: 'image-upload',
-        props: ['label', 'type', 'route'],
+        props: {
+            label: String,
+            type: String,
+            route: String
+        },
         methods: {
             upload() {
                 this.$emit('uploading');

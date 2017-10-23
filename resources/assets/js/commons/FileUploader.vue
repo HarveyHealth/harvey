@@ -40,7 +40,9 @@
 
 <script>
     export default {
-        props: ['action'],
+        props: {
+            action: String
+        },
         data() {
             return {
                 hasFile: false,

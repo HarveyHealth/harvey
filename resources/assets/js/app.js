@@ -144,8 +144,6 @@ const app = new Vue({
             test_results: [],
             upcoming_appointments: [],
             unreadMessages: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
             labOrders: [],
             labTests: [],
             patientLookUp: {},
@@ -360,7 +358,7 @@ const app = new Vue({
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
                     });
-                    this.global.labTests = response.data.data.map((e, i) => {
+                    this.global.labTests = response.data.data.map((e) => {
                         e.included = sku_ids[e.relationships.sku.data.id];
                         return e;
                     });
@@ -386,7 +384,7 @@ const app = new Vue({
                     this.global.user = data;
                     this.global.loadingUser = false;
                 })
-                .catch(error => this.global.user = {});
+                .catch(() => this.global.user = {});
         },
         getMessages() {
             let makeThreadId = (userOne, userTwo) => {
@@ -487,3 +485,5 @@ const app = new Vue({
         if (Laravel.user.signedIn) this.setup();
     }
 }).$mount('#app');
+
+export default app;

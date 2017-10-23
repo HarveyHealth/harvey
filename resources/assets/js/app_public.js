@@ -9,9 +9,6 @@
 
 import './bootstrap';
 
-// HELPERS
-import {throttle, debounce} from 'lodash';
-
 // Forms handling, such as error handling, submit request, response handling, is extracted to a class
 // it is used for log in, register form on the public pages
 import Form from './utils/objects/Form.js';
@@ -145,7 +142,7 @@ const app = new Vue({
           e.preventDefault();
           window.location.href = '/auth/facebook';
         },
-        onEmailCaptureSubmit(e) {
+        onEmailCaptureSubmit() {
           this.emailCaptureClasses['is-visible'] = false;
           const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
           if (passes) {
@@ -154,7 +151,7 @@ const app = new Vue({
               template: 'subscribe',
               _token: Laravel.app.csrfToken
             };
-            axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
+            axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
               this.emailCaptureSuccess = true;
               if (this.shouldTrack()) {
                 analytics.identify({
@@ -191,9 +188,9 @@ const app = new Vue({
         onSuccess(redirectUrl) {
             location.href = redirectUrl;
 
-            if (formId == 'register') {
-                // if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
-            }
+            // if (formId == 'register') {
+            //     if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
+            // }
         },
         // Symptoms selector
         onChanged() {
@@ -206,10 +203,12 @@ const app = new Vue({
                     .reduce( (ret, key) => {
                         ret[key] = this.symptomsStats[key].value;
                         return ret;
-                    }, {} );
+                    }, {});
                 try {
                     sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
-                } catch(e) {}
+                } catch(e) {
+                    sessionStorage.removeItem('symptoms');
+                }
             }
 
             this.symptomsSaving = true;
@@ -225,7 +224,7 @@ const app = new Vue({
             });
             return result;
         },
-        invertNavOnScroll(e) {
+        invertNavOnScroll() {
             if (window.pageYOffset > this.navScrollThreshold) {
                 if (this.navIsInverted) this.navIsInverted = false;
             } else {
@@ -299,3 +298,5 @@ const app = new Vue({
         }
     }
 }).$mount('#app');
+
+export default app;

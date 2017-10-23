@@ -220,11 +220,13 @@
 
 <script>
     import {assign} from 'lodash';
-    import Form from '../utils/objects/Form.js';
 
     export default {
         name: 'profile',
-        props: ['user', 'includeCta', 'form'],
+        props: {
+            form: Object,
+            includeCta: Boolean
+        },
         // data() {
         //     return {
         //         form: new Form({
@@ -251,7 +253,7 @@
         },
         watch: {
             user() {
-                _.assign(this.form, this.user);
+                assign(this.form, this.user);
             }
         },
         mounted() {
