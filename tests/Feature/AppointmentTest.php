@@ -14,9 +14,9 @@ use App\Models\{
 use App\Lib\PractitionerAvailability;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
-use Carbon;
-use ResponseCode;
 use Tests\TestCase;
+use Carbon, Log, ResponseCode;
+
 
 class AppointmentTest extends TestCase
 {
