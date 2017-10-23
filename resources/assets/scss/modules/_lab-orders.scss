@@ -1,24 +1,99 @@
-.products-side {
-    width: 80%;
+.left-column {
+    width: 70%;
+    display: table;
     float: left;
+    .checkout-container & {
+        @include margin(0 0 1em 0);
+    }
 }
 
-.total-side {
-    width: 20%;
-    float: left;
+.custom-padding {
+    margin: 5px 0;
+}
+
+.right-column  {
+    width: 30%;
+    display: table;
+    text-align: right;
+    .checkout-container & {
+        @include margin(0 0 1em 0);
+    }
+}
+
+.input__item {
+    display: table;
+    .left-column & {
+        &:hover {
+            cursor: text;
+        }
+    }
+}
+
+.checkout-container {
+    @include margin(0);
+}
+
+.discount-error {
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    @include padding(20px 0 0 0);
 }
 
 .sub-items {
     width: 100%;
-    float: left;
+    font-size: 15px;
+    display: table;
+    @include margin(.25em 0);
+
+    &.discount {
+        em {
+            color: $casper;
+            font-size: 15px;
+        }
+    }
+
+    &.summary {
+        font-weight: 500;
+    }
+
+    &.total {
+        color: $color-good;
+        @include margin(.25em 0);
+    }
 }
 
-.sub-billing1 {
+.address, .city, .zip, .state {
+   @include margin(0 0 .5em);
+}
+
+.city {
     width: 70%;
     float: left;
+    display: inline-block;
 }
 
-.sub-billing2 {
-    width: 30%;
-    float: left;
+.state {
+    &.custom-select{
+        width: 28%;
+        left: 2%;
+        @include margin(0);
+        display: inline-block !important;
+    }
+}
+
+.last-container{
+    @include margin(0);
+}
+
+.color-good {
+    color: $color-good;
+}
+
+.is-padding-bottom {
+    @include padding(null null .75em null);
+    &:last-of-type {
+        @include padding(0);
+    }
 }

@@ -19,65 +19,56 @@ const rootRoute = {
     children: []
 };
 
-// For when intake FE is ready
-// rootRoute.name = context === 'get-started'
-//   ? 'get-started' : context === 'intake'
-//   ? 'intake' : context !== 'get-started' || context !== 'intake'
-//   ? 'dashboard' : 'get-started';
-
-// rootRoute.component = context === 'get-started'
-//   ? require('./pages/get-started/GetStarted.vue') : context === 'intake'
-//   ? require('./pages/intake/Intake.vue') : context !== 'get-started' || context !== 'intake'
-//   ? require('./pages/dashboard/Dashboard.vue') : require('./pages/get-started/GetStarted.vue');
-
-rootRoute.name = context === 'get-started'
-    ? 'get-started'
-    : 'dashboard';
-
-rootRoute.component = context === 'get-started'
-    ? require('./pages/get-started/GetStarted.vue')
-    : require('./pages/dashboard/Dashboard.vue');
+switch(context) {
+  case 'get-started':
+    rootRoute.name = 'get-started';
+    rootRoute.component = require('./pages/get-started/GetStarted');
+    break;
+  case 'dashboard':
+    rootRoute.name = 'dashboard';
+    rootRoute.component = require('./pages/dashboard/Dashboard');
+    break;
+  case 'conditions':
+    rootRoute.name = 'conditions';
+    rootRoute.component = require('./v2/components/pages/conditions/Conditions');
+    break;
+  // case 'intake':
+  //   rootRoute.name = 'intake';
+  //   rootRoute.component = require('./pages/intake/Intake');
+  //   break;
+}
 
 if (context === 'get-started' && loggedIn) {
-    rootRoute.children = [
-        { path: 'welcome',
-            name: 'welcome',
-            component: require('./pages/get-started/children/Welcome.vue') },
-        { path: 'out-of-range',
-            name: 'out-of-range',
-            component: require('./pages/get-started/children/OutOfRange.vue') },
-        { path: 'practitioner',
-            name: 'practitioner',
-            component: require('./pages/get-started/children/Practitioner.vue') },
-        { path: 'phone',
-            name: 'phone',
-            component: require('./pages/get-started/children/Phone.vue') },
-        { path: 'schedule',
-            name: 'schedule',
-            component: require('./pages/get-started/children/Schedule.vue') },
-        { path: 'payment',
-            name: 'payment',
-            component: require('./pages/get-started/children/Payment.vue') },
-        { path: 'confirmation',
-            name: 'confirmation',
-            component: require('./pages/get-started/children/Confirmation.vue') },
-        { path: 'success',
-            name: 'success',
-            component: require('./pages/get-started/children/Success.vue') }
-    ];
-} else if (context === 'get-started') {
-    rootRoute.children.push({
-        path: 'out-of-range',
-        name: 'out-of-range',
-        component: require('./pages/get-started/children/OutOfRange.vue')
-    });
+  rootRoute.children = [
+    { path: 'welcome',
+      name: 'welcome',
+      component: require('./pages/get-started/children/Welcome.vue') },
+    { path: 'practitioner',
+      name: 'practitioner',
+      component: require('./pages/get-started/children/Practitioner.vue') },
+    { path: 'phone',
+      name: 'phone',
+      component: require('./pages/get-started/children/Phone.vue') },
+    { path: 'schedule',
+      name: 'schedule',
+      component: require('./pages/get-started/children/Schedule.vue') },
+    { path: 'payment',
+      name: 'payment',
+      component: require('./pages/get-started/children/Payment.vue') },
+    { path: 'confirmation',
+      name: 'confirmation',
+      component: require('./pages/get-started/children/Confirmation.vue') },
+    { path: 'success',
+      name: 'success',
+      component: require('./pages/get-started/children/Success.vue') }
+  ];
 }
 
 rootRoute.children.push({
-    path: 'signup',
-    name: 'sign-up',
-    component: require('./pages/get-started/children/Signup.vue')
-});
+  path: 'signup',
+  name: 'sign-up',
+  component: require('./v2/components/pages/getstarted/children/Signup')
+})
 
 const routes = [
 
@@ -113,6 +104,10 @@ const routes = [
     },
     {
         path: '/settings',
+        component: require('./pages/settings/Settings.vue')
+    },
+    {
+        path: '/settings/:id',
         component: require('./pages/settings/Settings.vue')
     },
     {

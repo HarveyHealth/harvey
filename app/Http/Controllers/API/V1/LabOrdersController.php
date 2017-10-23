@@ -8,6 +8,7 @@ use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -34,7 +35,9 @@ class LabOrdersController extends BaseAPIController
             $builder = LabOrder::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), new LabOrderTransformer, request('per_page'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user')->with('invoice');
+
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
@@ -62,15 +65,15 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::check($request->all(), [
-            'address_1' => 'required|max:100',
+            'address_1' => 'filled|max:100',
             'address_2' => 'filled|max:100',
-            'city' => 'required|max:100',
+            'city' => 'filled|max:100',
             'patient_id' => 'required|exists:patients,id',
             'practitioner_id' => 'required|exists:practitioners,id',
-            'shipment_code' => 'string',
-            'state' => 'required|max:2',
+            'shipment_code' => 'filled|string',
+            'state' => 'filled|max:2',
             'status' => ['filled', Rule::in(LabOrder::STATUSES)],
-            'zip' => 'required|digits:5|serviceable',
+            'zip' => 'filled|digits:5|serviceable',
         ], [
             'serviceable' => "Sorry, Lab Orders can't be delivered to that :attribute."
         ]);
@@ -89,18 +92,33 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
+        $input_data = $request->all();
+
         StrictValidator::checkUpdate($request->all(), [
-            'shipment_code' => 'string',
+            'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes',
         ]);
 
-        $labOrder->update($request->all());
+        if (!empty($input_data['discount_code'])) {
+            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($input_data['discount_code'], 'lab-test', currentUser());
 
-        return $this->baseTransformItem($labOrder)->respond();
+            \Log::info($discount_code);
+
+            if ($discount_code) {
+                $input_data['discount_code_id'] = $discount_code->id;
+            }
+
+            unset($input_data['discount_code']);
+        }
+
+        $labOrder->update($input_data);
+
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**

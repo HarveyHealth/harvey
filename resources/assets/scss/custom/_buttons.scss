@@ -2,7 +2,7 @@
 input[type="submit"] {
   @extend %sans--medium;
   appearance: none;
-  background-color: $harvey-primary;
+  background-color: $turquoise;
   border: 0;
   border-radius: 3px;
   color: #fff;
@@ -17,36 +17,37 @@ input[type="submit"] {
   transition: background-color .25s ease-in-out;
   user-select: none;
   vertical-align: middle;
+  min-width: 10rem;
   width: auto;
 
   &.is-outlined {
-    color: $harvey-tertiary;
-    border-color: $harvey-tertiary;
+    color: $turquoise;
+    border-color: $turquoise;
     background-color: transparent;
     padding: 9px 16px;
     border: 1px solid;
     &:hover,
     &:focus{
-      color: $harvey-tertiary;
-      border-color: $harvey-tertiary;
+      color: $turquoise;
+      border-color: $turquoise;
       background-color: transparent;
     }
   }
 
   &:hover,
   &:focus {
-    background-color: darken($harvey-primary, 10);
+    background-color: darken($turquoise, 10);
     color: white;
   }
 
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
-
     &:hover {
       background-color: $green;
     }
   }
+
 }
 
 .button--cancel {
@@ -57,14 +58,6 @@ input[type="submit"] {
   &:focus {
     background-color: $dark-gray;
   }
-}
-
-.button--close {
-  background: none;
-  border: none;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
 }
 
 .button--close.flyout-close,
@@ -82,7 +75,8 @@ input[type="submit"] {
     stroke: $gray;
     stroke-width: 6px;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,-50%);
+
     width: 1em;
   }
 
@@ -103,7 +97,7 @@ input[type="submit"] {
   padding: 0.5em 0;
 
   &.isactive {
-    border-bottom: 3px solid $harvey-primary;
+    border-bottom: 3px solid $turquoise;
   }
 
   &:hover,

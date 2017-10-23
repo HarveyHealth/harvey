@@ -6,6 +6,7 @@ use App\Http\Traits\HasStatusColumn;
 use App\Models\{LabOrder, SKU};
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class LabTest extends Model
 {
@@ -75,5 +76,10 @@ class LabTest extends Model
         return $query->whereHas('labOrder', function ($query) use ($user) {
             $query->patientOrPractitioner($user);
         });
+    }
+
+    public function scopeShipped(Builder $builder)
+    {
+        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
     }
 }

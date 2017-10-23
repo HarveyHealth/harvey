@@ -13,7 +13,7 @@
 
 span.stage-nav-link {
   &.current-stage {
-    background-color: darken($harvey-tertiary, 15%) !important;
+    background-color: darken($turquoise, 15%) !important;
   }
   &:not(.current-stage) {
     background-color: #ddd !important;
@@ -21,7 +21,7 @@ span.stage-nav-link {
 }
 
 a.stage-nav-link {
-  background-color: darken($harvey-tertiary, 15%) !important;
+  background-color: darken($turquoise, 15%) !important;
   opacity: 0.4;
   transition: opacity 200ms ease-in-out;
   &:hover {

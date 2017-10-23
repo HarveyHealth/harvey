@@ -2,7 +2,7 @@
 input[type="submit"] {
   @extend %sans--medium;
   appearance: none;
-  background-color: $harvey-primary;
+  background-color: $turquoise;
   border: 0;
   border-radius: 3px;
   color: #fff;
@@ -20,23 +20,23 @@ input[type="submit"] {
   -webkit-font-smoothing: antialiased;
 
   &.is-outlined {
-    color: $harvey-tertiary;
-    @include border-color($harvey-tertiary);
+    color: $turquoise;
+    @include border-color($turquoise);
     background-color: transparent;
     @include padding(9px 16px);
     border: 2px solid;
     font-weight: 600;
     &:hover,
     &:focus{
-      color: $harvey-tertiary;
-      @include border-color($harvey-tertiary);
+      color: $turquoise;
+      @include border-color($turquoise);
       background-color: transparent;
     }
   }
 
   &:hover,
   &:focus {
-    background-color: darken($harvey-primary, 10);
+    background-color: darken($turquoise, 10);
     color: white;
   }
 
@@ -48,28 +48,25 @@ input[type="submit"] {
       background-color: $green;
     }
   }
-}
 
-.flyout .button {
-  @include margin(1em null 1em null);
 }
 
 .button--blue {
-  background-color: $harvey-tertiary;
+  background-color: $turquoise;
   color: $white;
 
   &:focus,
   &:hover {
-    background-color: lighten($harvey-tertiary, 4%);
+    background-color: lighten($turquoise, 4%);
   }
 }
 button.button--blue:disabled {
-  background-color: lighten($harvey-tertiary, 4%);
+  background-color: lighten($turquoise, 4%);
   color: rgba(black, 0.5);
   opacity: 1;
 
   &:hover {
-    background-color: lighten($harvey-tertiary, 4%);
+    background-color: lighten($turquoise, 4%);
   }
 }
 
@@ -89,32 +86,39 @@ button.button--blue:disabled {
   cursor: pointer;
   height: 30px;
   width: 30px;
+  &.left {
+    float: left;
+    right: 0px;
+    left: 1em;
+    color: $turquoise;
+  }
 }
 
 .button--close.flyout-close,
 .button--cancel.modal-close {
   position: absolute;
-  right: 1em;
-  top: 1em;
+  right: 15px;
+  top: 15px;
   background: none;
   border: none;
-  @include padding(8px 10px);
+  padding: 0;
+  @include padding(0);
 
   &.button--close-large {
     svg {
-      height: 1.5em;
-      width: 1.5em;
+      height: 2em;
+      width: 2em;
     }
   }
 
   & svg {
-    height: 1em;
     position: absolute;
-    stroke: $gray;
-    stroke-width: 6px;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 1em;
+    stroke: #82BEF2;
+    stroke-width: 7px;
+    height: 20px;
+    width: 20px;
+    top: 5px;
+    right: 5px;
   }
 
   &:hover {

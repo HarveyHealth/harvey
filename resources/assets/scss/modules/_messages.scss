@@ -1,29 +1,26 @@
 .container-message {
-    background-color: white;
     border: none;
-    @include padding(25px 30px);
+    background-color: white;
     border-bottom: 1px solid $color--grey;
+    @include padding(15px 20px);
     position: relative;
     min-height: 100px;
     width: 100%;
-    &.unread {
-        .unread-dot {
-            display: block;
-            border: 1px solid $harvey-primary;
-            border-radius: 100px;
-            height: 10px;
-            width: 10px;
-            background: $harvey-primary;
-            position: absolute;
-            left: 10px;
-            top: 40px;
-        }
+
+    @media screen and (min-width: 960px) {
+      @include padding(25px 30px);
     }
+
     .message-post-details {
-        width: 25%;
-        float: left;
-        position: relative;
-        @include margin(null null 20px null);
+        @media screen and (min-width: 960px) {
+          width: 35%; float: left; clear: none;
+          @include margin(0 null 1.5em null);
+        }
+
+        // Minimized
+        width: 100%; clear: both; float: none;
+        @include margin(1em null 1em null);
+
         .message-post-avatar {
             @include margin(null 15px null null);
             border: 2px solid $color-gray-0;
@@ -37,32 +34,50 @@
                 width: 100%;
             }
         }
-        .highlight {
-            color: $color-copy-alt;
-        }
     }
+
     .message-post-body {
-        width: 75%;
-        position: relative;
+        @media screen and (min-width: 960px) {
+            width: 65%; clear: none; float: none;
+          @include margin(0 0 .5em 35%);
+        }
+
+        // Minimized
+        width: 100%; clear: both; float: none;
+        @include margin(0 0 .5em 0);
+
         h2 {
             @include margin(null);
         }
     }
+
     .detail-wrap {
-        width: 100%;
-        min-height: 50px;
-        margin-bottom: 1em;
-        .message-post-body {
-            @include margin(.75em null null 25%);
-            &.highlight {
-                color: $color-copy-alt;
-            }
+        width: 100%; clear: both; float: none;
+    }
+
+    &.unread {
+        .unread-dot {
+            display: block;
+            border: 1px solid $turquoise;
+            border-radius: 100px;
+            height: 10px;
+            width: 10px;
+            background: $turquoise;
+            position: absolute;
+            left: 10px;
+            top: 40px;
         }
     }
+
 }
 
 .button-wrapper {
     width: 100%;
     text-align: center;
+    clear: both;
     @include margin(2em null .5em null);
+}
+
+.highlight {
+    color: $color-copy-alt;
 }

@@ -14,7 +14,7 @@
     left: 15%;
     position: absolute;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%,-50%);
   }
 
   .text {
@@ -45,7 +45,7 @@
 
 .nav-bar {
   background: white;
-  border-right: 1px solid $color-gray-0;
+  border-right: 1px solid $color-gray-5;
   bottom: 0;
   left: -150px;
   position: fixed;
@@ -74,7 +74,6 @@
   top: 25px;
   left: 49%;
   position: absolute;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   transition: border-color 100ms ease-in-out;
   width: 100px;
@@ -84,7 +83,7 @@
 }
 
 .release {
-  color: #E4EAEC;
+  color: $color-gray-5;
   font-size: 10px;
   bottom: 68px;
   position: absolute;

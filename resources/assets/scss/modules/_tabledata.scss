@@ -72,7 +72,7 @@
       opacity: 1;
     }
     td {
-        background: lighten($harvey-primary,15%);
+        background: lighten($color-accent,15%);
       }
   }
 
@@ -128,12 +128,15 @@
   & {
     @include padding(0);
   }
+  thead th {
+    @include padding(10px 20px);
+  }
   th, td {
     border: none;
-    border-bottom: 1px solid $color-gray-0;
+    border-bottom: 1px solid $color-gray-5;
     display: table-cell;
     width: auto;
-    @include padding(25px);
+    @include padding(20px);
   }
   td {
     font-size: 16px;

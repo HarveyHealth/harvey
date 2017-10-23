@@ -35,11 +35,11 @@ export default {
     },
     data() {
         return {
-            currentData: []
-        };
-    },
-    methods: {
-        handleRowClick() {
+          currentData: []
+        }
+      },
+      methods: {
+        handleRowClick(obj, index) {
             return null;
         },
         $$rowClasses(data, index) {
@@ -72,7 +72,11 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
         const clientList = this.$root.$data.clientList;
-        if (clientList.length) this.setupLabData();
+
+        // only load if we have no local clients, but available clients in-app
+        if (this.currentData.length === 0 && clientList.length != 0) {
+            this.setupLabData();
+        }
     }
 };
 </script>

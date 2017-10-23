@@ -3,11 +3,7 @@
     <div class="container">
         <div class="content has-text-centered">
             <a href="/">
-                @if (Auth::guest())
-                    <img src="/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
-                @else
-                    <img src="/images/logos/main-logo.png" class="footer-logo" alt="Harvey Logo">
-                @endif
+                <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/logos/white-logo.png" class="footer-logo" alt="Harvey Logo">
             </a>
             <div id="social-icons">
                 <!-- Facebook -->
@@ -34,11 +30,22 @@
             <p class="nav-center">
                 <a href="/" class="nav-item">Home</a>
                 <a href="/about" class="nav-item">About</a>
-                <a href="/lab-tests" class="nav-item">Lab Tests</a>
-                <a href="//blog.goharvey.com" class="nav-item">Blog</a>
+                <a href="/lab-tests" class="nav-item">Labs</a>
+                <a href="/blog" class="nav-item">Blog</a>
                 <a href="http://help.goharvey.com" class="nav-item">Help</a>
                 <a href="http://help.goharvey.com/legal/terms" class="nav-item is-hidden-mobile">Terms</a>
                 <a href="http://help.goharvey.com/legal/privacy" class="nav-item is-hidden-mobile">Privacy</a>
+            </p>
+            <p class="nav-center">
+                <a href="https://bbb.org" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/bbb.png">
+                </a>
+                <a href="https://us.norton.com" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/norton.png">
+                </a>
+                <a href="https://stripe.com" class="nav-item" target="_blank">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/footer/stripe.png">
+                </a>
             </p>
             <p class="has-small-lineheight">
                 <small>&copy;{{date("Y")}} Harvey, Inc. All rights reserved.<br/>

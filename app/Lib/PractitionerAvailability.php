@@ -10,13 +10,26 @@ use Carbon\Carbon;
 
 class PractitionerAvailability
 {
+    protected $buffer_in_hours;
+    protected $only_predefined_blocks;
     protected $practitioner;
-    protected $bufferInHours;
 
-    public function __construct(Practitioner $practitioner, int $bufferInHours = 0)
+    const PREDEFINED_BLOCKS = [
+        '09:00',
+        '10:30',
+        '12:00',
+        '13:30',
+        '15:00',
+        '16:30',
+        '18:00',
+        '19:30',
+    ];
+
+    public function __construct(Practitioner $practitioner, int $buffer_in_hours = 0, bool $only_predefined_blocks = true)
     {
+        $this->buffer_in_hours = $buffer_in_hours;
+        $this->only_predefined_blocks = $only_predefined_blocks;
         $this->practitioner = $practitioner;
-        $this->bufferInHours = $bufferInHours;
     }
 
     /**
@@ -73,37 +86,33 @@ class PractitionerAvailability
 
     public function availabilityAsCollection()
     {
-        $startOfCurrentWeek = Carbon::now()->startOfWeek();
+        $start_of_current_week = Carbon::now()->startOfWeek();
+        $after_than = Carbon::parse("+{$this->buffer_in_hours} hours");
         $output = [];
 
         foreach ($this->availability() as $key => $slots) {
-            $weekNumber = substr($key, 5) - 1;
+            $week_number = substr($key, 5) - 1;
 
-            $startOfWeekProcessing = $startOfCurrentWeek->copy()->addWeek($weekNumber);
+            $start_of_week_processing = $start_of_current_week->copy()->addWeek($week_number);
 
             foreach ($slots as $slot) {
-                $dayAndTime = explode(' ', $slot);
-                $dayNumber = date('N', strtotime($dayAndTime[0])) - 1;
-                $hourAndMinutes = explode(':', $dayAndTime[1]);
+                $day_and_time = explode(' ', $slot);
+                $day_number = date('N', strtotime($day_and_time[0])) - 1;
+                $hour_and_minutes = explode(':', $day_and_time[1]);
 
-                $output[] = $startOfWeekProcessing->copy()
-                    ->addDays($dayNumber)
-                    ->addHours($hourAndMinutes[0])
-                    ->addMinutes($hourAndMinutes[1])
-                    ->toW3cString();
-            }
-        }
+                $output_slot = $start_of_week_processing->copy()
+                    ->addDays($day_number)
+                    ->addHours($hour_and_minutes[0])
+                    ->addMinutes($hour_and_minutes[1]);
 
-        if (!empty($this->bufferInHours)) {
-            $startingFrom = Carbon::parse("+{$this->bufferInHours} hours");
-            foreach ($output as $key => $w3cString) {
-                if ($startingFrom->gt(Carbon::parse($w3cString))) {
-                    unset($output[$key]);
+                if ((empty($this->buffer_in_hours) || $output_slot->gt($after_than)) &&
+                    (empty($this->only_predefined_blocks) || in_array($output_slot->copy()->timezone($this->practitioner->timezone)->format('H:i'), self::PREDEFINED_BLOCKS))) {
+                        $output[] = $output_slot->toW3cString();
                 }
             }
         }
 
-        return collect($output)->values();
+        return collect($output);
     }
 
     /**

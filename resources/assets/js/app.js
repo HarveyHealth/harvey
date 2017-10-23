@@ -37,6 +37,53 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
+import Config from './v2/config';
+import Filters from './v2/filters';
+import Http from './v2/http';
+import Logic from './v2/logic';
+import State from './v2/state';
+import Util from './v2/util';
+
+window.App = {};
+App.Config = Config(Laravel);
+App.Util = Util;
+App.Filters = Filters;
+App.Http = Http;
+App.Logic = Logic;
+App.Router = router;
+
+// Register global filters
+Vue.filter('formatPhone', Filters.formatPhone);
+Vue.filter('fullName', App.Util.misc.fullName);
+Vue.filter('jsonParse', Filters.jsonParse);
+
+// Adding these objects to the Vue prototype makes them available from
+// within Vue templates directly, cutting back on our use of computed
+// properties, component props, and placeholder data.
+Vue.prototype.Config = App.Config;
+Vue.prototype.Http = App.Http;
+Vue.prototype.Logic = App.Logic;
+Vue.prototype.Util = App.Util;
+
+// Turning State into a function allows you to query global state within
+// Vue templates, providing default values to fall back on if a particular
+// property is undefined. This is helpful when awaiting data structures from
+// api calls. NOTE: this should be used as READ ONLY function.
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
+}
+
+// State() is internally read only and setState() is globally write-only.
+//    App.setState('practitioners.data.all', 'practitioners');
+//    State.practitioners.data.all yields 'practitioners'
+App.setState = (state, value) => {
+  const path = state.split('.');
+  const prop = path.pop();
+  return App.Util.data.propDeep(path, State)[prop] = value;
+}
+
+Vue.prototype.setState = App.setState;
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -46,6 +93,11 @@ const app = new Vue({
         Usernav
     },
     data: {
+        // Adding State to the root data object makes it globally reactive.
+        // We do not attach this to window.App for HIPPA compliance. User
+        // App.setState to mutate this object.
+        State: State,
+
         apiUrl: '/api/v1',
         appointmentData: null,
         colors: {
@@ -101,36 +153,38 @@ const app = new Vue({
             user_editing: {}
         },
         signup: {
-            availability: [],
-            availableTimes: [],
-            billingConfirmed: false,
-            cardBrand: '',
-            cardCvc: '',
-            cardExpiration: '',
-            cardName: '',
-            cardNumber: '',
-            cardLastFour: '',
-            code: '',
-            completedSignup: false,
-            codeConfirmed: false,
-            cost: '',
-            data: {
-                appointment_at: null,
-                reason_for_visit: 'First appointment',
-                practitioner_id: null
-            },
-            googleMeetLink: '',
-            phone: '',
-            phonePending: false,
-            phoneConfirmed: false,
-            practitionerName: '',
-            practitionerState: '',
-            selectedDate: null,
-            selectedDay: null,
-            selectedPractitioner: 0,
-            selectedWeek: null,
-            selectedTime: null,
-            visistedStages: []
+          availability: [],
+          availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
+          code: '',
+          completedSignup: false,
+          codeConfirmed: false,
+          cost: '',
+          data: {
+            appointment_at: null,
+            discount_code: null,
+            reason_for_visit: 'First appointment',
+            practitioner_id: null,
+          },
+          discountCode: '',
+          googleMeetLink: '',
+          phone: '',
+          phonePending: false,
+          phoneConfirmed: false,
+          practitionerName: '',
+          practitionerState: '',
+          selectedDate: null,
+          selectedDay: null,
+          selectedPractitioner: 0,
+          selectedWeek: null,
+          selectedTime: null,
+          visistedStages: [],
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -138,12 +192,48 @@ const app = new Vue({
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
+    computed: {
+      isSignupBookingAllowed() {
+        return this.signup.billingConfirmed &&
+          this.signup.phoneConfirmed &&
+          this.signup.data.appointment_at &&
+          this.signup.data.practitioner_id
+      }
+    },
     methods: {
         addTimezone (value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
             else return this.timezoneAbbr;
         },
-        getAppointments (cb) {
+        // Filters patient list for practitioners according to state licensing regulations
+        // patients = patient list
+        // states = array of states practitioner is licensed in
+        filterPatients(patients, states) {
+          const stateList = states.map(s => s.state);
+          return patients.filter(patient => {
+            if (this.global.regulatedStates.indexOf(patient.state) > -1) {
+              return stateList.indexOf(patient.state) > -1;
+            } else {
+              return true;
+            }
+          })
+        },
+        // Filters practitioner list by state licensing regulations
+        // practitioners = practitioner list from backend or from appointments page
+        // state = user state to test against
+        filterPractitioners(practitioners, state) {
+          return practitioners.filter(practitioner => {
+            // First check if the user's state is regulated or not
+            const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
+            // Get licenses from global list or from appointments page list
+            const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
+            // If the user's state is regulated, filter dr list for drs with licenses in that state
+            return userRegulatedState
+              ? licenses.filter(license => license.state === state).length
+              : true
+          })
+        },
+        getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
@@ -187,6 +277,9 @@ const app = new Vue({
                     });
                 });
                 this.global.patients = sortByLastName(this.global.patients);
+                if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
+                  this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                }
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e;
                 });
@@ -196,30 +289,24 @@ const app = new Vue({
         getPractitioners () {
             if (Laravel.user.user_type !== 'practitioner') {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
-                    this.global.practitioners = response.data.data
-                        .filter(dr => {
-                            // We only filter by regulation if the user is a patient
-                            if (Laravel.user.user_type !== 'patient') return true;
-                            const userState = Laravel.user.state;
-                            // First check if the user's state is regulated or not
-                            const userRegulatedState = this.global.regulatedStates.indexOf(userState) > -1;
-                            // If the user's state is regulated, filter dr list for drs with licenses in that state
-                            return userRegulatedState
-                                ? dr.attributes.licenses.filter(lic => lic.state === userState).length
-                                : true;
-                        })
-                        .map(dr => {
-                            return {
-                                info: dr.attributes,
-                                name: `Dr. ${dr.attributes.name}`,
-                                id: dr.id,
-                                user_id: dr.attributes.user_id };
-                        });
-                    response.data.data.forEach(e => {
-                        this.global.practitionerLookUp[e.id] = e;
-                    });
-                    this.global.loadingPractitioners = false;
-                });
+                  if (Laravel.user.user_type === 'patient') {
+                    this.global.practitioners = this.filterPractitioners(response.data.data, Laravel.user.state);
+                  } else {
+                    this.global.practitioners = response.data.data;
+                  }
+                  this.global.practitioners = this.global.practitioners.map(dr => {
+                    return {
+                      id: dr.id,
+                      info: dr.attributes,
+                      name: `Dr. ${dr.attributes.name}`,
+                      user_id: dr.attributes.user_id
+                    }
+                  });
+                  response.data.data.forEach(e => {
+                      this.global.practitionerLookUp[e.id] = e
+                  });
+                  this.global.loadingPractitioners = false;
+                })
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
@@ -234,6 +321,9 @@ const app = new Vue({
                     response.data.data.forEach(e => {
                         this.global.practitionerLookUp[e.id] = e;
                     });
+                    if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
+                      this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                    }
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
@@ -242,17 +332,34 @@ const app = new Vue({
         getLabData () {
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
-                    this.global.labOrders = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i];
-                        return e;
-                    });
-                    this.global.loadingLabOrders = false;
-                });
+                    if (response.data.included) {
+                        let user = response.data.included.filter(e => e.type === 'users')
+                        let patient = response.data.included.filter(e => e.type === 'patients')
+                        let invoices = response.data.included.filter(e => e.type === 'invoices')
+                        let obj = {};
+                        invoices.forEach(e => {
+                            obj[e.id] = e;
+                        })
+                        this.global.labOrders = response.data.data.map((e, i) => {
+                            e.user = user[i];
+                            e.patient = patient[i];
+                            if (e.relationships.invoice) {
+                                e.invoice = obj[e.relationships.invoice.data.id]
+                            }
+                            return e;
+                        })
+                    }
+                    this.global.loadingLabOrders = false
+                })
 
             axios.get(`${this.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
+                    let sku_ids = {}
+                    response.data.included.forEach(e => {
+                        sku_ids[e.id] = e;
+                    })
                     this.global.labTests = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i];
+                        e.included = sku_ids[e.relationships.sku.data.id]
                         return e;
                     });
                     this.global.loadingLabTests = false;
@@ -304,10 +411,12 @@ const app = new Vue({
         },
         getCreditCards () {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
-                .then(response => {
-                    this.global.creditCards = response.data.cards;
-                    this.global.loadingCreditCards = false;
-                });
+            .then(response => {
+                this.global.creditCards = response.data.cards
+            })
+            .then(() => {
+                this.global.loadingCreditCards = false;
+            })
         },
         getConfirmedUsers () {
             this.global.confirmedDoctors = this.global.appointments
@@ -330,21 +439,21 @@ const app = new Vue({
         },
         getClientList () {
             axios.get(`${this.apiUrl}/users?type=patient`)
-                .then(response => {
-                    this.clientList = response.data.data;
-                    this.global.loadingClients = false;
-                });
+            .then(response => {
+                this.clientList = response.data;
+                this.global.loadingClients = false;
+            })
         },
-        setup () {
-            this.getUser();
-            this.getAppointments();
-            this.getPractitioners();
-            this.getMessages();
-            this.getLabData();
-            this.getCreditCards();
-            this.getConfirmedUsers();
-            if (Laravel.user.user_type !== 'patient') this.getPatients();
-            if (Laravel.user.user_type === 'admin') this.getClientList();
+        setup() {
+          this.getUser()
+          this.getAppointments();
+          this.getPractitioners();
+          this.getMessages();
+          this.getLabData();
+          this.getConfirmedUsers();
+          if (Laravel.user.user_type !== 'admin') this.getCreditCards();
+          if (Laravel.user.user_type !== 'patient') this.getPatients();
+          if (Laravel.user.user_type === 'admin') this.getClientList();
         },
         toDashboard () {
             if (this.signup.completedSignup) {
@@ -357,7 +466,20 @@ const app = new Vue({
     },
     mounted () {
         this.stripe = Stripe(Laravel.services.stripe.key);
-        window.debug = () => console.log(this.$data);
+
+        // This is helpful to have for development because you can test internal methods
+        // that require application state
+        if (App.Config.misc.environment === 'dev') {
+          window.Root = window.Root || this;
+        }
+
+        // For conditions, we could either create an endpoint that will need to be hit
+        // as soon as the page loads, or we expose a function on the window object that
+        // will set the application state.
+        window.setConditions = (data, index) => {
+          this.State.conditions.all = data;
+          this.State.conditions.selectedIndex = index;
+        }
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();

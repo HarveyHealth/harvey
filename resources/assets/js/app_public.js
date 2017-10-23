@@ -21,10 +21,11 @@ import TopNav from './utils/mixins/TopNav';
 
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
-import loadinggraphic from './commons/LoadingGraphic.vue';
+import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
+import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
 
 // for environment conditionals
 const env = require('get-env')();
@@ -32,12 +33,14 @@ const env = require('get-env')();
 const app = new Vue({
     mixins: [TopNav],
     components: {
-        loadinggraphic,
+        LoadingGraphic,
+        FacebookSignin,
         Symptoms,
         VerticalTab,
         VerticalTabs
     },
     data: {
+        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
         guest: true,
         appLoaded: false,
         isProcessing: false,
@@ -129,34 +132,32 @@ const app = new Vue({
         bodyClassNames () {
             return document.getElementsByTagName('body')[0].classList;
         },
-        isHomePage () {
-            return window.location.pathname === '/';
+        isHomePage() {
+          return window.location.pathname === '/';
+        },
+        getStartedLink() {
+          return this.hasZipValidation ? '/get-started' : '/conditions'
         }
     },
     methods: {
-        onEmailCaptureSubmit () {
-            this.emailCaptureClasses['is-visible'] = false;
-            const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
-            if (passes) {
-                const visitorData = {
-                    to: this.guestEmail,
-                    template: 'subscribe',
-                    _token: Laravel.app.csrfToken
-                };
-                axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
-                    this.emailCaptureSuccess = true;
-                    if (this.shouldTrack()) {
-                        analytics.identify({
-                            email: this.guestEmail
-                        });
-                    }
-                }).catch(error => {
-                    if (error.response.status === 429) {
-                        this.emailCaptureError = 'Oops, we\'ve already registered that email.';
-                    } else {
-                        this.emailCaptureError = 'Oops, error sending email. Please contact support.';
-                    }
-                    this.emailCaptureClasses['is-visible'] = true;
+        facebookLogin(e) {
+          e.preventDefault();
+          window.location.href = '/auth/facebook';
+        },
+        onEmailCaptureSubmit(e) {
+          this.emailCaptureClasses['is-visible'] = false;
+          const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
+          if (passes) {
+            const visitorData = {
+                to: this.guestEmail,
+                template: 'subscribe',
+                _token: Laravel.app.csrfToken
+            }
+            axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
+              this.emailCaptureSuccess = true;
+              if (this.shouldTrack()) {
+                analytics.identify({
+                    email: this.guestEmail
                 });
             } else {
                 this.emailCaptureError = 'Oops, that is not a valid email address.';
@@ -167,11 +168,11 @@ const app = new Vue({
         // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
         onSubmit (e) {
             this.isProcessing = true;
-            let target = e.target,
-                formId = target.id,
-                formMethod = target.method,
-                formAction = target.action,
-                formRedirectUrl = target.getAttribute('redirect-url');
+            let target = e.target;
+            let formId = target.id;
+            let formMethod = target.method;
+            let formAction = target.action;
+            let formRedirectUrl = target.getAttribute('redirect-url');
 
             const cancelProcessing = () => this.isProcessing = false;
 
@@ -180,7 +181,7 @@ const app = new Vue({
         onSuccess (redirectUrl) {
             location.href = redirectUrl;
 
-            if (formId == 'register') {
+            if (formId === 'register') {
                 // if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },

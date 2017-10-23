@@ -1,55 +1,53 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
-      <StagesNav :current="'schedule'" />
-      <h2 class="heading-3-expand">Choose date and time...</h2>
-      <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
-    </div>
-    <div class="signup-container signup-stage-container signup-schedule-container">
-      <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
-        <i class="fa fa-long-arrow-left"></i>
-        <span class="font-sm">{{ prevStage.display }}</span>
-      </router-link>
-
-      <div class="signup-schedule-wrapper cf">
-        <div class="schedule-section schedule-days">
-          <h3 class="heading-2 font-normal font-centered">Choose date</h3>
-
-          <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
-            <div class="schedule-week-info copy-muted">
-              <span class="week font-xs">{{ weekReference(i) }}</span>
-              <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
-            </div>
-            <ol>
-              <li v-for="(dayObj, key) in week.days"
-                  v-show="dayObj !== null"
-                  v-text="key"
-                  @click="handleSelectDay(i, key, dayObj)"
-                  :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
-              ></li>
-            </ol>
-          </div>
-
-        </div>
-        <div class="schedule-section schedule-times" ref="timeBox">
-          <h3 class="heading-2 font-normal font-centered">Choose time</h3>
-          <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
-          <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
-          <ol v-show="selectedDate">
-            <li v-for="(time, j) in availableTimes"
-                :class="{ 'available': true, 'selected': selectedTime === j }"
-                @click="handleSelectTime(time, j)"
-            >{{ time | timeDisplay }}</li>
-          </ol>
-          <div v-if="!selectedDate" class="left-arrow"><i class="fa fa-hand-o-left" aria-hidden="true"></i></div>
-        </div>
+    <div class="vertical-center">
+      <div class="signup-stage-instructions color-white">
+        <StagesNav :current="'schedule'" />
+        <h2 class="heading-1 color-white">Choose Date & Time</h2>
+        <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
       </div>
-      <p class="closing-selection" v-if="selectedDate" v-show="!errorText" >
-        Your consultation will be on <span class="font-bold">{{ selectedDate | fullDate }}.</span>
-      </p>
-      <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
-      <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
-
+      <div class="signup-container large router">
+        <router-link class="signup-back-button" :to="{ name: prevStage.name, path: '/' + prevStage.name }">
+          <i class="fa fa-long-arrow-left"></i>
+          <span class="font-sm">{{ prevStage.display }}</span>
+        </router-link>
+        <div class="signup-schedule-wrapper cf">
+          <div class="schedule-section schedule-days">
+            <h3 class="heading-2 font-normal font-centered">Choose Date</h3>
+            <div v-for="(week, i) in weekData" class="schedule-week" v-show="hasAvailableDays(week.days)">
+              <div class="schedule-week-info copy-muted">
+                <span class="week font-xs">{{ weekReference(i) }}</span>
+                <span class="dates font-xs">{{ week.start | weekDay }} - {{ week.end | weekDay }}</span>
+              </div>
+              <ol>
+                <li v-for="(dayObj, key) in week.days"
+                    v-show="dayObj !== null"
+                    v-text="key"
+                    @click="handleSelectDay(i, key, dayObj)"
+                    :class="{ 'available': dayObj !== null && dayObj.times.length, 'selected': selectedWeek === i && selectedDay === key }"
+                ></li>
+              </ol>
+            </div>
+          </div>
+          <div class="schedule-section schedule-times" ref="timeBox">
+            <h3 class="heading-2 font-normal font-centered">Choose Time</h3>
+            <h4 class="schedule-info-text heading-3" v-show="selectedDate">{{ selectedDate | fullDate }}</h4>
+            <p class="time-zone font-xs font-centered font-normal">Time Zone: {{ $root.addTimezone() }}</p>
+            <ol v-show="selectedDate">
+              <li v-for="(time, j) in availableTimes"
+                  :class="{ 'available': true, 'selected': selectedTime === j }"
+                  @click="handleSelectTime(time, j)"
+              >{{ time | timeDisplay }}</li>
+            </ol>
+            <div v-if="!selectedDate" class="left-arrow"><i class="fa fa-hand-o-left" aria-hidden="true"></i></div>
+          </div>
+        </div>
+        <p class="closing-selection" v-if="selectedDate" v-show="!errorText" >
+          Your consultation will be on <span class="font-bold">{{ selectedDate | fullDate }}.</span>
+        </p>
+        <p class="copy-error" v-html="errorText" v-show="errorText" style="margin-bottom: 12px;"></p>
+        <button class="button button--blue" style="width: 160px" @click="checkAppointment">Continue</button>
+      </div>
     </div>
   </div>
 </template>
@@ -59,9 +57,49 @@ import moment from 'moment';
 import StagesNav from '../util/StagesNav.vue';
 
 export default {
-    name: 'schedule',
-    components: {
-        StagesNav
+  name: 'schedule',
+  components: {
+    StagesNav
+  },
+  data() {
+    return {
+      containerClasses: {
+        'anim-fade-slideup': true,
+        'anim-fade-slideup-in': false,
+        'container': true,
+        'pad-md': true,
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
+      },
+      errorText: null,
+      isProcessing: false,
+      weeks: 4,
+      weekStart: moment().startOf('week')
+    }
+  },
+  filters: {
+    fullDate(value) {
+      return moment(value).format('dddd, MMMM Do');
+    },
+    timeDisplay(value) {
+      return moment(value)
+        .format('h:mm a')
+        .replace(/[m ]*/g,'')
+        .replace(/:00/,'');
+    },
+    weekDay(value) {
+      return moment(value).format('MMM D');
+    }
+  },
+  computed: {
+    availableTimes() {
+      return this.$root.$data.signup.availableTimes;
+    },
+    prevStage() {
+      return Laravel.user.phone_verified_at
+        ? { name: 'practitioner', display: 'Practitioner' }
+        : { name: 'phone', display: 'Phone' };
     },
     data() {
         return {
@@ -189,10 +227,23 @@ export default {
             }
         }
     },
-    mounted () {
-        this.$root.toDashboard();
-        this.$root.$data.signup.visistedStages.push('schedule');
-        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+    weekReference(index) {
+      switch (index) {
+        case 0:
+          return 'This week';
+        case 1:
+          return 'Next week';
+        case 2:
+          return 'The week after';
+        case 3:
+          return 'In three weeks';
+      }
+    }
+  },
+  mounted () {
+    this.$root.toDashboard();
+    this.$root.$data.signup.visistedStages.push('schedule');
+    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
         if(this.$root.shouldTrack()) {
             analytics.page('Schedule');

@@ -3,10 +3,19 @@
 /* Container used for styling the custom select, the buttom class below adds the
  * bg gradient, corners, etc. */
 .custom-select {
-  border: 1px solid $color-gray-0;
-  border-radius: 3px;
-  display: block;
-	position: relative;
+    border: 1px solid $color-gray-5;
+    border-radius: 3px;
+    display: block;
+    position: relative;
+    @include margin(.25em 0 0);
+    select {
+        &.disabled {
+            opacity: .9;
+            &:hover {
+                cursor: not-allowed;
+            }
+        }
+    }
 }
 .custom-select.show-day-label:before,
 .custom-select.show-time-label:before,
@@ -93,12 +102,4 @@
 		-moz-appearance: none;
 		appearance: none;
 	}
-}
-
-.highlightCheckbox {
-	background-color: rgba(84, 166, 237, 0.6);
-}
-
-.highlightTextColor {
-	color: white;
 }

@@ -271,7 +271,7 @@ class MessageTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_UNAUTHORIZED);
     }
 
-    public function test_it_does_not_allows_an_user_to_send_more_than_5_messages_in_a_short_period_of_time()
+    public function test_it_does_not_allows_an_user_to_send_more_than_50_messages_in_a_short_period_of_time()
     {
         $patient = factory(Patient::class)->create();
 
@@ -281,7 +281,7 @@ class MessageTest extends TestCase
             'subject' => 'Hello',
         ];
 
-        for ($i = 0; $i <= 5; $i++) {
+        for ($i = 0; $i <= 50; $i++) {
             Passport::actingAs($patient->user);
             $response = $this->json('POST', 'api/v1/messages', $parameters);
             $response->assertStatus(ResponseCode::HTTP_CREATED);

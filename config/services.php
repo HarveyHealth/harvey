@@ -62,13 +62,27 @@ return [
                     'updated' => 1929883,
                     'reminder' => 2550321,
                 ],
+                'attachment' => [
+                    'uploaded' => 3338765,
+                ],
             ],
             'patient' => [
                 'appointment' => [
                     'canceled' => 1687742,
+                    'complete' => 3376781,
                     'new' => 1492142,
                     'updated' => 1929884,
                     'reminder' => 1497642,
+                ],
+                'charge' => [
+                    'failed' => 3372981,
+                ],
+                'lab_order' => [
+                    'confirmed' => 3372143,
+                    'shipped' => 2741642,
+                ],
+                'lab_test' => [
+                    'received' => 3148942,
                 ],
                 'welcome' => 1450461,
             ],
@@ -92,5 +106,15 @@ return [
         'client_secret_file' => env('GCALENDAR_SECRET_FILE', storage_path('calendar_api/client_secret.json')),
         'access_token_file' => env('GCALENDAR_TOKEN_FILE', storage_path('calendar_api/access_token.json')),
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
+    ],
+
+    'google_geocoder' => [
+        'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
+    ],
+
+    'facebook' => [
+        'client_id'     => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect'      => env('FACEBOOK_URL'),
     ],
 ];

@@ -2,23 +2,111 @@
 .signup-content {
   text-align: center;
   @include padding(50px null null null);
+  @include padding(25px 0 0);
   @include margin(null null 60px null);
 }
 
 .signup-container {
   background: $white;
+  position: relative;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  position: relative;
-  @include padding(30px 25px);
-  @include margin(0 0 2px);
+  @include padding(30px 40px);
+  @include margin(0 auto 5px);
+
+  &.small {
+    max-width: 500px;
+  }
+  &.large {
+    max-width: 770px;
+  }
+  &.router {
+    @include padding(60px 30px 30px 30px);
+  }
+
+  // Main Signup Page
+
+  &.signup {
+    h1 {
+      @include margin(0 0 1em);
+    }
+    .form-label {
+      .form-input_checkbox {
+        @include margin(4px 10px 0 0);
+      }
+    }
+  }
+
+  .button {
+    @include margin(.5em null null);
+    min-height: 40px;
+    min-width: 160px;
+  }
+
 }
+
+.signup-aside-text{
+  .logo-wrapper {
+    @include margin(0 auto);
+    .MainNav_Logo {
+      color: #fff;
+      width: 200px;
+      height: 60px;
+    }
+  }
+}
+
+.signup-aside-icon-row {
+  text-align: center;
+
+  span {
+    display: inline-block;
+    padding: $space-sm;
+    width: 80px;
+  }
+
+  svg {
+    max-height: 80px;
+    width: 100%;
+    fill: #ddd;
+  }
+
+  svg.use-stroke {
+    stroke: #ddd;
+  }
+}
+
+.error-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// We should merge these at some point
+
+.error-text, .copy-error, .copy-good {
+  width: 100%;
+  line-height: 1.3;
+  @include margin(0);
+  @include padding(8px 0 0);
+  text-align: left;
+  .flyout & {
+    text-align: left;
+    @include padding(0);
+  }
+  .error-list & {
+    line-height: 1em;
+    font-size: 15px;
+  }
+}
+
+// Signup Back Button
+
 .signup-back-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 20px;
   opacity: .7;
+  position: absolute;
+  top: 0; left: 0;
+  @include padding(20px);
   transition: opacity 200ms ease-out;
 
   i {
@@ -35,7 +123,7 @@
   }
 
   &:hover {
-    color: $harvey-tertiary;
+    color: $turquoise;
     opacity: 1;
 
     i {
@@ -44,54 +132,20 @@
   }
 }
 
-.signup-form-container,
-.signup-interstitial-container {
-  max-width: 510px;
-  padding-top: 22px;
-  h1 {
-    margin-bottom: 22px;
-  }
-  @include query(md) {
-    @include padding(40px 70px);
-  }
-  &.large {
-    max-width: 775px;
-    @include padding(30px);
-    @include query(md) {
-      @include padding(60px 75px);
-    }
-  }
-}
-
-.signup-interstitial-container > *:not(:first-child) {
-  @include margin(22px null null);
-}
-
-.signup-interstitial-container {
-  @include margin(3px auto 3px);
-  @include query(md) {
-    @include margin(50px null null);
-    max-width: 550px;
-  }
-}
+// Signup Icons
 
 .signup-main-icon {
-  @include margin(0 auto);
+  width: 100px;
+  height: 100px;
+  @include margin(0 auto 2em);
   fill: $color-gray-1;
-  width: 70px;
-  @include query(md) {
-    width: 100px;
-    height: 130px;
-    margin-top: 0 !important;
-  }
 
   svg {
     width: 100%;
-  }
-
-  .icon-rocket,
-  .icon-globe {
-    height: 80px;
+    height: 100%;
+    &#rocket {
+      height: 120px;
+    }
   }
 
   .icon-phone-sms {
@@ -104,11 +158,6 @@
     height: 100px;
   }
 
-  .interstitial-icon {
-    @include query(md) {
-      height: auto;
-    }
-  }
 }
 
 .social-icon-wrapper a {
@@ -121,17 +170,8 @@
   }
 }
 
-.signup-stage-container {
-  max-width: 740px;
-  @include margin(0 auto 2px);
-  @include padding($space-sm $space-sm $space-lg);
+// Signup Header
 
-  .error-text {
-    width: 80%;
-    line-height: 1.3;
-    @include padding(10px);
-  }
-}
 .signup-stage-instructions {
   max-width: 540px;
   @include margin(0 auto 22px);
@@ -141,47 +181,32 @@
   }
 }
 
-// =============== old
-
-  .message-container-interstitial {
-    margin-bottom: 25px;
-  }
-
-// Registration specific styles
-.registration-tree, .interstitial {
-  @include margin(null null 25px null);
-  max-width: 470px;
-  width: 100%;
-}
-
-.interstitial {
-  @include margin(20px null null null);
-}
-
 // Progress Indicator
+
 .signup_progress-indicator {
   @include margin(25px 0);
   text-align: center;
 }
-  .signup_progress-step {
-    background: #DDD;
-    border-radius: 50%;
-    display: inline-block;
-    height: 18px;
-    @include margin(null 10px null null);
-    width: 18px;
 
-    &:last-child {
-      @include margin(null 0 null null);
-    }
+.signup_progress-step {
+  background: #DDD;
+  border-radius: 50%;
+  display: inline-block;
+  height: 18px;
+  @include margin(null 10px null null);
+  width: 18px;
 
-    &.current {
-      background: $gray;
-    }
+  &:last-child {
+    @include margin(null 0 null null);
   }
 
+  &.current {
+    background: $gray;
+  }
+}
 
 // Checked Radio
+
 .radio-block {
   @include margin(null null 40px null);
   width: 100%;
@@ -215,8 +240,7 @@
 }
 
 .closing-selection{
-  text-align: center;
-  @include padding(0 0 1rem 0);
+  @include margin(1em null 1.5em);
   span {
     background: $color-gray-0;
     @include padding(.25em 0.4em);
@@ -224,13 +248,19 @@
   }
 }
 
-// Input fields
+// Input Fields
 
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
   outline: none;
+}
+
+.form-input_text {
+  border: none;
+  border-bottom: 1px solid $color-gray-5;
+  @include padding(7px);
 }
 
 // Add event button overrides
@@ -241,7 +271,7 @@ button:focus {
   color: #888 !important;
   @include border-color( #ccc);
   font-weight: 400 !important;
-  @include margin(null null 20px null);
+  @include margin(10px auto 25px);
   transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;
@@ -250,14 +280,12 @@ button:focus {
     opacity: 1 !important;
   }
 }
-.addeventatc_dropdown .copyx {
+.addeventatc_dropdown .copy {
   height: 8px !important;
 }
 .addeventatc_dropdown .copyx em {
   display: none !important;
 }
-
-
 
 // New grid layout
 $signup-grid: (
@@ -279,7 +307,7 @@ $signup-grid: (
   .signup-wrapper {
     // If desktop, give margin. Otherwise, tablets shouldn't get margin-top
     @media (min-height: 780px) {
-        margin-top: 100px;
+        margin-top: 80px;
     }
   }
 
@@ -292,17 +320,5 @@ $signup-grid: (
   }
   .signup-form-inputs {
     @include grid-column(6, $signup-grid);
-  }
-}
-
-.signup-form-container {
-  @include padding(60px 12%);
-  .input-wrap {
-    margin-bottom: 20px;
-    line-height: 40px;
-    .font-base{
-      line-height: 30px;
-      padding: 0 3%;
-    }
   }
 }

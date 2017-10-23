@@ -1,5 +1,5 @@
 <template>
-  <div v-if="visible" class="input__container">
+  <div v-if="isVisible" class="input__container">
     <label class="input__label">status</label>
     <SelectOptions v-if="editable"
       :on-select="handleSelect"
@@ -17,28 +17,22 @@ import convertStatus from '../utils/convertStatus';
 export default {
     props: {
     // Is the status editable or display only?
-        editable: Boolean,
-        // List of status objects (see SelectOptions for structure)
-        list: Array,
-        // What happens when a user selects a status?
-        setStatus: Function,
-        // Status string to be converted for SelectOptions
-        status: String,
-        // Should we even display appointment status?
-        visible: Boolean
-    },
-    components: {
-        SelectOptions
-    },
-    computed: {
-        convertedStatus() {
-            return convertStatus(this.status) || '';
-        }
-    },
-    methods: {
-        handleSelect(e) {
-            this.setStatus(this.list[e.target.selectedIndex]);
-        }
+    editable: Boolean,
+    // List of status objects (see SelectOptions for structure)
+    list: Array,
+    // What happens when a user selects a status?
+    setStatus: Function,
+    // Status string to be converted for SelectOptions
+    status: String,
+    // Should we even display appointment status?
+    isVisible: Boolean,
+  },
+  components: {
+    SelectOptions
+  },
+  computed: {
+    convertedStatus() {
+      return convertStatus(this.status) || '';
     }
 };
 </script>

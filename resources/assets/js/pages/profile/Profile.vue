@@ -2,6 +2,7 @@
     <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
+                v-if="notificationError !== undefined && notificationActive !== undefined && notificationDirection !== undefined && notificationSymbol !== undefined && notificationMessage !== undefined"
                 :as-error="notificationError"
                 :active="notificationActive"
                 :comes-from="notificationDirection"
@@ -17,7 +18,11 @@
             </div>
             <div class="card card-info">
                 <div class="card-heading-container">
-                    <h2 class="heading-2">Contact Info</h2>
+                    <h2 class="heading-2">
+                        Contact Info
+                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id}})</span>
+                        <span v-if="!user_id && !loading">(#{{ thisUserId }})</span>
+                    </h2>
                 </div>
                 <div class="card-content-container topPadding">
                     <div class="card-content-wrap">
@@ -215,20 +220,49 @@ export default {
             this.notificationActive = true;
             setTimeout(() => this.notificationActive = false, 3000);
         },
-        resetErrorMessages() {
-            this.errorMessages = null;
-        },
-        callErrorNotification(msg) {
-            this.notificationError = true;
-            this.notificationSymbol = this.errorSymbol;
-            this.notificationMessage = msg || this.errorMessage;
-            this.flashNotification();
-        },
-        callSuccessNotification() {
-            this.notificationError = false;
-            this.notificationSymbol = this.successSymbol;
-            this.notificationMessage = this.successMessage;
-            this.flashNotification();
+        data() {
+            return {
+                loadingProfileImage: false, // loading of the image on image upload
+                previousProfileImage: '',
+                user: {
+                    attributes: {
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        gender: '',
+                        phone: '',
+                        timezone: '',
+                        address_1: '',
+                        address_2: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                    },
+                },
+                thisUserId: Laravel.user.id,
+                practitioner: `${Laravel.user.practitionerId}` || null,
+                user_data: null,
+                user_id: this.$route.params.id,
+                timezones: timezones,
+                states: states,
+                errorSymbol: '!',
+                errorMessage: 'Error retrieving data',
+                successSymbol: '&#10003;',
+                successMessage: 'Changes Saved',
+                notificationError: false,
+                notificationSymbol: '&#10003;',
+                notificationMessage: 'Changes Saved',
+                notificationActive: false,
+                notificationDirection: 'top-right',
+                errorMessages: null,
+                submitting: false,
+                phoneModal: false,
+                phoneConfirmation: '',
+                phoneVerified: Laravel.user.phone_verified_at,
+                currentUserId: Laravel.user.id,
+                isInvalidCode: false,
+                isPhoneConfirming: false,
+            }
         },
         handleVerifyClick() {
             this.phoneModal = true;
@@ -556,10 +590,8 @@ export default {
     .error-text {
         width: 100%;
         text-align: center;
-    }
-
-    .v-spinner {
-        align-self: center;
-        text-align: left !important;
+        .flyout & {
+            text-align: left;
+        }
     }
 </style>

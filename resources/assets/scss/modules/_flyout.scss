@@ -3,7 +3,8 @@
   border-left: 1px solid $color--grey;
   bottom: 0;
   max-width: 25em;
-  overflow-y: auto;
+  overflow-x: visible;
+  overflow-y: scroll;
   @include padding(3em 1.6em 2em);
   position: fixed;
   right: -26em;
@@ -50,7 +51,7 @@
   .title, h2 {
     border-bottom: 1px solid $light-gray;
     @include padding(null null 15px null);
-    @include margin(null null 15px null);
+    @include margin(15px null);
   }
 
 }

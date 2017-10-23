@@ -1,6 +1,10 @@
 .text-centered {
   text-align: center;
 }
+.vertical-center {
+  align-self: center;
+  margin: auto;
+}
 
 em.bold {
   @extend %sans--bold;
@@ -9,6 +13,10 @@ em.bold {
 
 .flex-wrapper {
   @media (min-width: 850px) { display: flex; }
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .block {

@@ -28,7 +28,11 @@ class SlackNotification extends Notification
 
         if (isNotProd()) {
             $this->channel = config('services.slack.testing_channel');
-            $this->message = '[' . ucfirst(app()->environment()) . "] {$message}";
+            $this->message = '[' . ucfirst(app()->environment());
+            if (isLocal()) {
+                $this->message .= ' (_' . gethostname() . '_)';
+            }
+            $this->message .= "] {$message}";
         } else {
             $this->message = $message;
             $this->channel = $channel;

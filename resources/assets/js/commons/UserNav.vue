@@ -38,6 +38,7 @@
         :class="currentPageCheck('messages', unread)"
         @click.native="handleMenu(false, 'messages')">
         <i class="fa fa-envelope-o icon icon-nav-bar"></i>
+        <div class="unread-dot"></div>
         <div class="text">Messages</div>
       </router-link>
 
@@ -51,7 +52,6 @@
       </router-link>  -->
 
        <router-link 
-       v-if="user === 'patient'"
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">

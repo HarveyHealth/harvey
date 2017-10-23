@@ -34,7 +34,7 @@
   .admin-nav-link {
     background-color: $white;
     border-bottom: 1px solid $color--grey;
-    color: lighten($harvey-secondary, 20%);
+    color: lighten($slategrey, 20%);
     display: block;
     height: 52px;
     position: relative;
@@ -42,6 +42,20 @@
 
     &.current {
       color: $fiord;
+    }
+
+    &.unread {
+        .unread-dot {
+          display: block;
+          border: 1px solid #82BEF2;
+          border-radius: 100px;
+          height: 10px;
+          width: 10px;
+          background: #82BEF2;
+          position: absolute;
+          left: 17px;
+          top: 14px;
+        }
     }
 
     &.logout {
@@ -66,7 +80,8 @@
       left: 15%;
       top: 49%;
       position: absolute;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%,-50%);
+
       font-size: 18px;
     }
     .text {
@@ -89,10 +104,10 @@
 
 .nav-bar-account {
   .harvey-mark {
+    color: #5F7278;
     top: 25px;
     left: 49%;
     position: absolute;
-    -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     transition: border-color .25s ease-in-out;
     width: 100px;

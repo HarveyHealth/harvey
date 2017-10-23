@@ -20,7 +20,7 @@ class ZipcodeValidatorTest extends TestCase
 
         $state = $zip_code_validator->getState();
 
-        $this->assertEquals($state, "CA");
+        $this->assertEquals('CA', $state);
         $this->assertTrue($zip_code_validator->isServiceable());
     }
 
@@ -31,7 +31,7 @@ class ZipcodeValidatorTest extends TestCase
 
         $state = $zip_code_validator->getState();
 
-        $this->assertEquals($state, "CA");
+        $this->assertEquals('CA', $state);
         $this->assertFalse($zip_code_validator->isServiceable());
     }
 

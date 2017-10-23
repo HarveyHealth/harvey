@@ -11,7 +11,7 @@ $practitioner-grid: (
   }
   span {
     background: $color-gray-0;
-    //border: 2px solid $harvey-tertiary;
+    //border: 2px solid $turquoise;
     @include padding(.25em 0.4em);
     border-radius: 5px;
   }
@@ -40,7 +40,7 @@ $practitioner-grid: (
   &:active,
   &:hover,
   &:focus {
-    border-color: $harvey-tertiary;
+    border-color: $turquoise;
   }
 
   &-name {

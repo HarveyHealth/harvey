@@ -6,6 +6,7 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer};
 use Illuminate\Http\Request;
+use Illuminate\Support\Pluralizer;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
 use ResponseCode;
@@ -35,7 +36,7 @@ class LabTestsController extends BaseAPIController
             $builder = LabTest::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder->with('sku'), request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
@@ -70,7 +71,7 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all())->fresh())->respond();
+        return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
     }
 
     public function update(Request $request, LabTest $labTest)
@@ -81,12 +82,12 @@ class LabTestsController extends BaseAPIController
 
         StrictValidator::checkUpdate($request->all(), [
             'status' => ['filled', Rule::in(LabTest::STATUSES)],
-            'shipment_code' => 'string',
+            'shipment_code' => 'filled|string',
         ]);
 
         $labTest->update($request->all());
 
-        return $this->baseTransformItem($labTest)->respond();
+        return $this->baseTransformItem($labTest, request('include'))->respond();
     }
 
     /**
@@ -112,7 +113,17 @@ class LabTestsController extends BaseAPIController
     public function information()
     {
         $this->serializer = new JsonApiSerializer();
-        return $this->baseTransformBuilder(LabTestInformation::make(), request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
+
+        $builder = LabTestInformation::with('sku');
+
+        if ($user = currentUser()) {
+            $scope = Pluralizer::plural($user->type);
+            $builder = $builder->$scope();
+        } else {
+            $builder = $builder->public();
+        }
+
+        return $this->baseTransformBuilder($builder, request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
 }

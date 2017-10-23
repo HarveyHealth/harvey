@@ -11,27 +11,25 @@ $darkest-gray: #444444;
 $color--grey: #E4EAEC;
 
 // Brand
-$harvey-primary: #82BEF2;
-$harvey-secondary: #5F7278;
-$harvey-tertiary: #82BEF2;
 
-$harvey-green: #B4E7A0;
 $fiord: #4C586F;
 $lime: #E3EAA7;
 $pink: #EDA1A6;
 $brown: #ADA397;
 $purple: #BAA7B5;
 $turquoise: #82BEF2;
+$camouflage: #849974;
 $slategrey: #5F7278;
 $green: #BDCEBE;
+$harvey-green: #B4E7A0;
 $red: #FF0000;
 
 .bg-tertiary {
-  background-color: $harvey-tertiary;
+  background-color: $turquoise;
 }
 
 .color-tertiary {
-  color: $harvey-tertiary;
+  color: $turquoise;
 }
 
 .color-white {
@@ -51,5 +49,10 @@ $red: #FF0000;
 }
 
 .link-color {
-  color: $turquoise;
+  color: $turquoise !important;
+  cursor: pointer;
+}
+
+.error-color {
+  color: $pink !important;
 }

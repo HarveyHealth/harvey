@@ -29,6 +29,20 @@
 // Jordy Blue: #82BEF2
 // Rose Fog: #E3BAB3
 
+// Brand
+
+$fiord: #4C586F;
+$lime: #E3EAA7;
+$pink: #EDA1A6;
+$brown: #ADA397;
+$purple: #BAA7B5;
+$turquoise: #82BEF2;
+$camouflage: #849974;
+$slategrey: #5F7278;
+$casper: #A1BBD0;
+$green: #BDCEBE;
+$red: #FF0000;
+
 /// Accent color for use in CTAs
 $color-accent:	#82bef2;
 
@@ -47,6 +61,9 @@ $color-callout: #e0aaa6;
 /// Default font color defined globally
 $color-copy: #5f7278;
 
+/// Used for alternative colored text
+$color-copy-alt: #e3bab3;
+
 /// Typically used for subheadings
 $color-copy-muted-1: #8fa2a8;
 
@@ -59,6 +76,8 @@ $color-error:	#ed4146;
 /// Used for dark overlays like the Overlay
 $color-fade-dark: rgba(0, 0, 0, 0.3);
 
+$color-fade-darker: rgba(0, 0, 0, 0.85);
+
 /// Used for light overlays or transparent backgrounds
 $color-fade-light: rgba(255, 255, 255, 0.75);
 
@@ -68,7 +87,7 @@ $color-fade-light-muted: rgba(255, 255, 255, 0.4);
 /// Used for success notifications or positive feedback
 $color-good: #b4e7a0;
 
-/// White
+// White
 $color-white:   #ffffff;
 
 /// Backgrounds
@@ -84,7 +103,7 @@ $color-gray-2:  #f2f2f2;
 $color-gray-3:	#fafafa;
 
 /// Even darker dividers
-$color-gray-4:  #eee;
+$color-gray-4:  #eeeeee;
 
-/// Used for alternative colored text
-$color-copy-alt: #e3bab3;
+// Text border
+$color-gray-5: #e4eaec;

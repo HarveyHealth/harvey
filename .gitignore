@@ -7,7 +7,7 @@
 *.swp
 /.idea
 /.vagrant
-/.vscode/*
+/.vscode
 /ngrok
 /node_modules
 /public/build/*
@@ -21,6 +21,7 @@
 /tests/Browser/console/*.*
 /vendor
 /yarn.lock
+/package-lock.json
 Homestead.json
 public/css/
 public/images/

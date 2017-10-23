@@ -36,17 +36,32 @@ export default function (appointments, zone, userType) {
                 _duration: obj.attributes.duration_in_minutes,
                 _patientPhone: obj.patientData.phone
 
-            };
-            return {
-                data,
-                values: [
-                    data.date,
-                    data.time,
-                    data.client,
-                    data.doctor,
-                    data.status,
-                    data.purpose
-                ]
-            };
-        });
+      _appointmentId: obj.id,
+      _date: obj.attributes.appointment_at.date,
+      _doctorId: obj.attributes.practitioner_id,
+      _hasCard: obj.patientData.has_a_card,
+      _google_meet_link: obj.attributes.google_meet_link,
+      _patientEmail: obj.patientData.email,
+      _patientId: obj.patientData.id,
+      _patientFirst: obj.patientData.first_name,
+      _patientLast: obj.patientData.last_name,
+      _doctorId: obj.attributes.practitioner_id,
+      _appointmentId: obj.id,
+      _date: obj.attributes.appointment_at.date,
+      _duration: obj.attributes.duration_in_minutes,
+      _patientPhone: obj.patientData.phone,
+
+    }
+    return {
+      data,
+      values: [
+        data.date,
+        data.time,
+        data.client,
+        data.doctor,
+        data.status,
+        data.purpose
+      ]
+    }
+  })
 }
