@@ -29,7 +29,7 @@
     export default {
         props: {
             userType: String, 
-            upcomingAppointments: Object
+            upcomingAppointments: [Object, Array]
         },
         components: {
             DashboardAppointment

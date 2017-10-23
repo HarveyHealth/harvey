@@ -86,7 +86,7 @@
         },
         computed: {
           messageList() {
-            let messages = this.$root.$data.global.messages;
+            let messages = this.$root.$data.global.messages || [];
             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           }
         },

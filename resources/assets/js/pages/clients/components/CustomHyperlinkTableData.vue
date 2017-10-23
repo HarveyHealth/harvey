@@ -124,8 +124,8 @@ export default {
     },
     // Can be null to start but should be used to store the index of the row clicked
     selectedRow: {
-      type: Number,
-      required: true
+      type: Object,
+      required: false
     },
     // To add custom class to the table for additional styling
     tableClass: {
