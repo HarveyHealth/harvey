@@ -13,8 +13,8 @@ class AttachmentTransformer extends TransformerAbstract
     public function transform(Attachment $attachment)
     {
         return [
-            'id' => (string) $attachment->id,
-            'created_by_user_id' => (string) $attachment->creator->id,
+            'id' => cast_to_string($attachment->id),
+            'created_by_user_id' => cast_to_string($attachment->creator->id),
             'name' => $attachment->name,
             'notes' => $attachment->notes,
             'url' => $attachment->url,

@@ -647,5 +647,4 @@ class AppointmentTest extends TestCase
 
         $this->assertDatabaseHas('appointments', ['discount_code_id' => null]);
     }
-
 }
