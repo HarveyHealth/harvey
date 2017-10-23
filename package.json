@@ -67,8 +67,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.5",
     "mocha": "^3.5.3",
-    "sassdoc": "^2.3.0",
-    "sassdoc-theme-flippant": "^0.1.0",
     "sinon": "^2.4.1",
     "sinon-chai": "^2.14.0",
     "vue-eslint-parser": "^1.0.0"
