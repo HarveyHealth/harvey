@@ -1,0 +1,25 @@
+.Divider-text {
+  border-bottom: 1px dashed $color-copy-muted-2;
+  position: relative;
+  margin: 24px auto;
+  max-width: 300px;
+
+  &::after {
+    color: $color-copy-muted-2;
+    content: attr(data-text);
+    font-size: 12px;
+    padding: 12px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+
+  &.is-white::after {
+    background: $color-white;
+  }
+
+  &.is-gray::after {
+    background: $color-gray-0;
+  }
+}

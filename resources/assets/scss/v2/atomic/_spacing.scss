@@ -1,0 +1,25 @@
+@include space-children;
+
+.space-children-none-md {
+  @include query(md) {
+    > *:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.space-bottom-xxs {
+  margin-bottom: $space-xxs;
+}
+
+.space-bottom-md {
+  margin-bottom: $space-md;
+}
+
+.space-top-lg {
+  margin-top: $space-lg;
+}
+
+.space-top-xl {
+  margin-top: $space-xl;
+}

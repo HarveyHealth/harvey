@@ -71,12 +71,24 @@ Database Seeding will provide you with these accounts:
 - email: `admin@goharvey.com`
 - password: `secret`
 
+#### Admin: Staging
+- email: `admin@goharvey.com`
+- password: `secret`
+
 #### Patient
+- email: `patient@goharvey.com`
+- password: `secret`
+
+#### Patient: Staging
 - email: `patient@goharvey.com`
 - password: `secret`
 
 #### Practitioner
 - email: `practitioner@goharvey.com`
+- password: `secret`
+
+#### Practitioner: Staging
+- email: `alex@goharvey.com`
 - password: `secret`
 
 ### Standardization Notes:

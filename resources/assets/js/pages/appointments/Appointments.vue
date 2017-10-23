@@ -99,7 +99,7 @@
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
-        <label class="input__label">Google Meet Link</label>
+        <label class="input__label">Meet Link</label>
         <a :href="appointment.googleMeet" target="_blank">{{ appointment.googleMeet }}</a>
       </div>
 
@@ -126,7 +126,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="error-text" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
@@ -158,68 +158,66 @@
 
     <Modal
       :active="modalActive"
-      :container-class="'appointment-modal'"
-      :on-close="handleModalClose"
       :hide-close="isHandlingAction"
-      class="modal-wrapper"
       data-test="modal_confirmation"
+      :is-simple="isHandlingAction"
+      :on-close="handleModalClose"
     >
-      <div class="card-content-wrap">
-        <div class="inline-centered">
-          <h1 class="header-xlarge" v-show="!isHandlingAction">
-            <span class="text">{{ userActionTitle }}</span>
-          </h1>
-          <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
-            <p>Updating appointments</p><br>
-            <div style="width: 24px; margin: 0 auto;">
-              <ClipLoader :size="'24px'" :color="'#4f6268'" />
-            </div>
-          </div>
-          <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <p v-show="!bookingConflict && !isHandlingAction">Are you sure you want to book the following appointment?</p>
-<!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
-          <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction" class="modal-table inline-left">
-            <tr v-if="userType !== 'patient'">
-              <td width="25%"><strong>Client:</strong></td>
-              <td>{{ appointment.patientName }}</td>
-            </tr>
-            <tr v-if="userType !== 'practitioner'">
-              <td width="25%"><strong>Doctor:</strong></td>
-              <td>{{ appointment.practitionerName }}</td>
-            </tr>
-            <tr>
-              <td width="25%"><strong>Date/Time:</strong></td>
-              <td>{{ confirmDate(appointment.date) }}</td>
-            </tr>
-            <tr v-if="flyoutMode === 'update'">
-              <td width="25%"><strong>Status:</strong></td>
-              <td>{{ appointment.status | confirmStatus }}</td>
-            </tr>
-            <tr v-if="appointment.status === 'complete'">
-              <td width="25%"><strong>Duration:</strong></td>
-              <td>{{ appointment.duration.value }}</td>
-            </tr>
-            <tr>
-              <td width="25%"><strong>Purpose:</strong></td>
-              <td>{{ appointment.purpose }}</td>
-            </tr>
-            <tr v-show="userType === 'patient' && appointment.status === 'canceled'">
-              <td width="25%"><p><strong>Reason:</strong></p></td>
-              <td>
-                <textarea v-model="cancellationReason"
-                  class="input--textarea"
-                  maxlength="1024"
-                  placeholder="Reason for cancelling appointment">
-                </textarea>
-              </td>
-            </tr>
-          </table>
-          <div class="button-wrapper" v-show="!isHandlingAction">
-            <button class="button button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
-            <button class="button button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
-            <button class="button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
+      <div class="space-children-md" slot="content">
+        <h2 class="heading-1 font-centered" v-show="!isHandlingAction">
+          <span class="text">{{ userActionTitle }}</span>
+        </h2>
+        <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
+          <p>Updating appointments</p><br>
+          <div style="width: 24px; margin: 0 auto;">
+            <ClipLoader :size="'24px'" :color="'#4f6268'" />
           </div>
         </div>
+        <div class="font-centered">
+          <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <p v-show="!bookingConflict && !isHandlingAction && statusWasChanged && flyoutMode === 'update'">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
+        </div>
+        <div class="space-children-sm" v-show="!bookingConflict && !isHandlingAction">
+          <div class="Row-md" v-if="userType !== 'patient'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Client:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.patientName }}</div>
+          </div>
+          <div class="Row-md" v-if="userType !== 'practitioner'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Doctor:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.practitionerName }}</div>
+          </div>
+          <div class="Row-md">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Date/Time:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ confirmDate(appointment.date) }}</div>
+          </div>
+          <div class="Row-md" v-if="flyoutMode === 'update'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Status:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.status | confirmStatus }}</div>
+          </div>
+          <div class="Row-md" v-if="appointment.status === 'complete'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Duration:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.duration.value }}</div>
+          </div>
+          <div class="Row-md" v-show="appointment.status !== 'canceled'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Purpose:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.purpose }}</div>
+          </div>
+          <div class="Row-md" v-show="appointment.status === 'canceled'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Reason:</strong></div>
+            <div class="Column-md-4of5 font-thin">
+              <textarea v-model="cancellationReason"
+                class="input--textarea"
+                maxlength="1024"
+                placeholder="Reason for cancelling appointment">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="font-centered" slot="footer" v-if="!isHandlingAction">
+        <button class="Button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
+        <button class="Button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
+        <button class="Button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
       </div>
     </Modal>
 
@@ -240,7 +238,7 @@ import Days from './components/Days.vue';
 import Duration from './components/Duration.vue';
 import FilterButtons from '../../commons/FilterButtons.vue';
 import Flyout from '../../commons/Flyout.vue';
-import Modal from '../../commons/Modal.vue';
+import Modal from '../../v2/components/shared/Modal.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
 import Overlay from '../../commons/Overlay.vue';
 import Patient from './components/Patient.vue';
@@ -413,6 +411,9 @@ export default {
         this.userType === 'patient'
       );
     },
+    statusWasChanged() {
+      return this.appointment.status !== this.appointment.currentStatus;
+    },
     visibleDays() {
       return this.flyoutMode === 'update' ||
         (this.userType === 'practitioner' && this.appointment.patientName !== '') ||
@@ -523,12 +524,13 @@ export default {
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
       switch(action) {
         case 'cancel':
-          this.userActionTitle = 'Confirm Cancellation';
+          this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
           break;
         case 'update':
-          this.userActionTitle = 'Confirm Update';
+          // If an admin/practitioner updates an appointment status to anything other than pending, they are cancelling it
+          this.userActionTitle = this.appointment.status !== 'pending' ? 'Cancel Appointment' : 'Update Appointment';
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }

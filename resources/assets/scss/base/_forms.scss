@@ -17,7 +17,7 @@
 
   &_text {
     border: none;
-    border-bottom: 1px solid $color-gray-0;
+    border-bottom: 1px solid $color-gray-5;
     @include padding(0 0 6px 0);
 
     &:disabled {
@@ -26,9 +26,9 @@
   }
 
   &_checkbox {
-    @include margin($font-sm 10px 0 0);
+    @include margin($space-xxs 10px 0 0);
+    display: inline-table;
     width: auto;
-    float: left;
   }
 
 }
@@ -48,6 +48,7 @@
     display: inline-block;
     width: calc(100% - 30px);
     position: relative;
+    text-align: center;
     &:hover{
       cursor: pointer;
     }

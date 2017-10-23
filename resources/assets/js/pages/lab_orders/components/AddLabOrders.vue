@@ -22,10 +22,11 @@
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Lab Tests</label>
-      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
-          <label :class="{highlightText: tests.checked}" class="radio--text">
-            <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
-            {{ tests.attributes.name }}
+      <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
+          <label :class="{highlightText: test.checked}" class="radio--text">
+            <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
+            {{ test.attributes.name }}
+            </input>
           </label>
       </div>
     </div>
@@ -88,6 +89,7 @@ export default {
       city: '',
       zip: '',
       state: '',
+      resetting: false,
       selectedTests: [],
       shippingCodes: {},
       prevDoctor: '',
@@ -106,28 +108,30 @@ export default {
     openModal() {
       this.$parent.addActiveModal = true
     },
-    updateTestSelection(e, obj) {
-      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
-      if (this.testNameList[obj.id - 1].checked) {
-        this.selectedTests.push(obj)
+    updateTestSelection(test, index) {
+      if (this.testNameList[index].checked = !this.testNameList[index].checked) {
+        this.selectedTests.push(test)
       } else {
-        _.pull(this.selectedTests, obj)
+        _.pull(this.selectedTests, test)
       }
     },
     formatName(str) {
       return str.split(', ').reverse().join(' ')
     },
     updateClient(e) {
+        this.resetting = false;
         this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedClientName = this.formatName(e.target.value);
     },
     updateDoctor(e) {
+        this.resetting = false;
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
         this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
       this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
       this.$parent.addActiveModal = false
+      this.resetting = true;
     },
     createLabOrder() {
         this.selectedTests.map(e => {
@@ -143,7 +147,7 @@ export default {
           this.selectedTests.forEach((e, i)=> {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
-                sku_id: Number(e.id),
+                sku_id: Number(e.attributes.sku_id),
                 shipment_code: this.shippingCodes[e.id]
               })
           })

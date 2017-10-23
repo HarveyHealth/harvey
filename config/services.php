@@ -82,7 +82,7 @@ return [
                     'shipped' => 2741642,
                 ],
                 'lab_test' => [
-                    'received' => 3148942,
+                    'processing' => 3148942,
                 ],
                 'welcome' => 1450461,
             ],
@@ -110,5 +110,11 @@ return [
 
     'google_geocoder' => [
         'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
+    ],
+
+    'facebook' => [
+        'client_id'     => env('FACEBOOK_ID'),
+        'client_secret' => env('FACEBOOK_SECRET'),
+        'redirect'      => env('FACEBOOK_URL'),
     ],
 ];

@@ -21,10 +21,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
-// STORE
-import store from './store';
-const Store = store(Laravel);
-
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
 
@@ -42,6 +38,59 @@ eventHub.$on('animate', (classes, classname, state, delay) => {
     }
 });
 
+import Config from './v2/config';
+import Filters from './v2/filters';
+import Http from './v2/http';
+import Logic from './v2/logic';
+import State from './v2/state';
+import Util from './v2/util';
+
+window.App = {};
+App.Config = Config(Laravel);
+App.Util = Util;
+App.Filters = Filters;
+App.Http = Http;
+App.Logic = Logic;
+App.Router = router;
+
+// Register global filters
+Vue.filter('formatPhone', Filters.formatPhone);
+Vue.filter('fullName', App.Util.misc.fullName);
+Vue.filter('jsonParse', Filters.jsonParse);
+
+// Adding these objects to the Vue prototype makes them available from
+// within Vue templates directly, cutting back on our use of computed
+// properties, component props, and placeholder data.
+Vue.prototype.Config = App.Config;
+Vue.prototype.Http = App.Http;
+Vue.prototype.Logic = App.Logic;
+Vue.prototype.Util = App.Util;
+
+// Turning State into a function allows you to query global state within
+// Vue templates, providing default values to fall back on if a particular
+// property is undefined. This is helpful when awaiting data structures from
+// api calls. NOTE: this should be used as READ ONLY function.
+Vue.prototype.State = (path, ifUndefined) => {
+  return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
+}
+
+// State() is internally read only and setState() is globally write-only.
+//    App.setState('practitioners.data.all', 'practitioners');
+//    State.practitioners.data.all yields 'practitioners'
+App.setState = (state, value) => {
+  const path = state.split('.');
+  const prop = path.pop();
+  return App.Util.data.propDeep(path, State)[prop] = value;
+}
+
+Vue.prototype.setState = App.setState;
+
+// STORE
+// The data object for the root Vue instance. We're abstracting this to its own file
+// so it can be imported into our app stub for unit testing
+import store from './store';
+const Store = store(Laravel, State);
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -50,9 +99,15 @@ const app = new Vue({
         Dashboard,
         Usernav,
     },
-
     data: Store,
-
+    computed: {
+      isSignupBookingAllowed() {
+        return this.signup.billingConfirmed &&
+          this.signup.phoneConfirmed &&
+          this.signup.data.appointment_at &&
+          this.signup.data.practitioner_id
+      }
+    },
     methods: {
         addTimezone(value) {
             if (value) return `${value} (${this.timezoneAbbr})`;
@@ -287,10 +342,10 @@ const app = new Vue({
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
-                this.clientList = response.data.data
+                this.clientList = response.data;
             })
             .then(() => {
-                this.global.loadingClients = false
+                this.global.loadingClients = false;
             })
         },
         setup() {
@@ -315,7 +370,20 @@ const app = new Vue({
     },
     mounted() {
         this.stripe = Stripe(Laravel.services.stripe.key);
-        window.debug = () => this;
+
+        // This is helpful to have for development because you can test internal methods
+        // that require application state
+        if (App.Config.misc.environment === 'dev') {
+          window.Root = window.Root || this;
+        }
+
+        // For conditions, we could either create an endpoint that will need to be hit
+        // as soon as the page loads, or we expose a function on the window object that
+        // will set the application state.
+        window.setConditions = (data, index) => {
+          this.State.conditions.all = data;
+          this.State.conditions.selectedIndex = index;
+        }
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();

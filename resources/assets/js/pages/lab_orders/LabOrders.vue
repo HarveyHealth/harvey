@@ -178,7 +178,7 @@
                 let global = this.$root.$data.global
                 let permissions = this.$root.$data.permissions
                 let patient = null
-                if (permissions === 'patient') {
+                if (permissions === 'patient' && global.user && global.user.included) {
                     patient = {}
                     patient[global.user.included.id] = global.user.included
                 } else {

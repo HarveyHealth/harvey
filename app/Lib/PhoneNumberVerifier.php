@@ -4,7 +4,7 @@ namespace App\Lib;
 
 use App\Models\User;
 use App\Lib\TimeInterval;
-use Redis;
+use Illuminate\Support\Facades\Redis;
 
 class PhoneNumberVerifier
 {

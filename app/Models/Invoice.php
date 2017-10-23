@@ -109,7 +109,7 @@ class Invoice extends Model
                 $this->discount = $discount_code->discountForSubtotal($this->subtotal);
             }
 
-            $this->amount = $this->subtotal - $this->discount;
+            $this->amount = $this->subtotal + $this->discount;
 
             if ($this->amount < 0) {
                 $this->amount = 0;

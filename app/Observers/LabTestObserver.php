@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\LabTest;
-use App\Events\LabTestReceived;
+use App\Events\LabTestProcessing;
 use Carbon;
 
 class LabTestObserver
@@ -22,30 +22,33 @@ class LabTestObserver
                     $lab_test->completed_at = Carbon::now();
                     break;
 
-                case LabTest::RECEIVED_STATUS_ID:
-                    event(new LabTestReceived($lab_test));
-                    $lab_test->labOrder->setStatus();
-                    $lab_test->labOrder->save();
-                    break;
-
-                case LabTest::COMPLETE_STATUS_ID:
-                    $lab_test->labOrder->setStatus();
-                    $lab_test->labOrder->save();
-                    break;
-
-                case LabTest::MAILED_STATUS_ID:
-                    $lab_test->labOrder->setStatus();
-                    $lab_test->labOrder->save();
-                    break;
-
                 case LabTest::PROCESSING_STATUS_ID:
-                    $lab_test->labOrder->setStatus();
-                    $lab_test->labOrder->save();
+                    event(new \App\Events\LabTestProcessing($lab_test));
                     break;
 
                 default:
                     break;
             }
+        }
+    }
+
+    /**
+     * Listen to the LabTest updated event.
+     *
+     * @param  LabTest $lab_test
+     * @return void
+     */
+    public function updated(LabTest $lab_test)
+    {
+        $labOrderSetStatusTriggers = collect([
+            LabTest::RECEIVED_STATUS_ID,
+            LabTest::COMPLETE_STATUS_ID,
+            LabTest::MAILED_STATUS_ID,
+            LabTest::PROCESSING_STATUS_ID,
+        ]);
+
+        if ($labOrderSetStatusTriggers->contains($lab_test->status_id)) {
+            $lab_test->labOrder->setStatus()->save();
         }
     }
 }

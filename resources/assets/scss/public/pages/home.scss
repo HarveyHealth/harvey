@@ -9,6 +9,10 @@ body[class*="lab-tests"] {
         color: $text-secondary;
     }
 
+    strong {
+        font-weight: 600;
+    }
+
     // Hero Images
 
     .hero {
@@ -162,7 +166,7 @@ body[class*="lab-tests"] {
                 display: table-cell;
                 content: ' ';
                 width: 50%;
-                border-top: 1px solid $border;
+                border-top: $border;
                 position: relative;
                 top: 0.7em;
             }
@@ -370,7 +374,7 @@ body[class*="lab-tests"] {
         @include until($desktop) {
             .columns {
                 .column {
-                    text-align: left;
+                    text-align: center !important;
                     @include padding(null null 0 null);
                     .column {
                         @include padding(null null 0 0);
@@ -506,18 +510,18 @@ body[class*="lab-tests"] {
 
 body.home {
     #video-cover {
-        background: #5F7278 url('/images/home/hero-cover-home.jpg') no-repeat;
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/home/hero-cover-home.jpg') no-repeat;
     }
 }
 
 body.about {
     #video-cover {
-        background: #5F7278 url('/images/about/hero-cover-about.jpg') no-repeat;
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-about.jpg') no-repeat;
     }
 }
 
 body[class*="lab-tests"] {
     #video-cover {
-        background: #5F7278 url('/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
     }
 }

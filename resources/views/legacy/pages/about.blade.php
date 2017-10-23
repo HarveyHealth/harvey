@@ -13,7 +13,7 @@
                 <div class="columns">
                     <div class="column is-7 is-6-desktop is-offset-5">
                         <h1 class="title is-1">About Harvey</h1>
-                        <p class="subtitle is-5">Harvey combines conventional Western therapies with scientifically-validated philosophies of Eastern medicine, such as nutrition and prevention, to treat the whole body, not just a set of symptoms.</p>
+                        <p class="subtitle is-5">Harvey empowers people to find natural and holistic remedies to chronic health conditions. We believe in science, and we believe in treating your whole body, not just your symptoms.</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
         <div class="container">
             <div class="columns is-narrow is-multiline">
                 <figure class="image">
-                    <img src="/images/about/diabetes.gif" alt="">
+                    <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/diabetes.gif" alt="">
                 </figure>
                 <div class="column is-5-desktop is-12-tablet has-content-vertical-aligned">
                     <div class="content">
@@ -105,7 +105,7 @@
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ZyTK8qn_GAI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/kyle.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/kyle.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Kyle Hill</p>
                     <em>Founder & CEO</em>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=DBjYDaecNgM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/mike.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/mike.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Mike Townsend</p>
                     <em>Founder & COO</em>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ch1GOHj5VOQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/rachel.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/rachel.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Rachel West, D.O.</p>
                     <em>Chief Medical Officer</em>
@@ -131,7 +131,7 @@
             <div class="columns is-narrow">
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=2bjmlYCDOjI&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/amanda.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/amanda.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Dr. Amanda Frick, N.D., LAc</p>
                     <em>Lead Naturopathic Doctor</em>
@@ -139,7 +139,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=ewrP5mzbspM&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/layne.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/layne.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Layne Thrasher</strong></p>
                     <em>VP of Finance/Operations</em>
@@ -147,7 +147,7 @@
                 </div>
                 <div class="column is-3-desktop is-half-tablet is-auto-desktop">
                     <a href="//www.youtube.com/watch?v=wAUQgwbUUYA&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="/images/about/sandra.jpg" alt="">
+                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/sandra.jpg" alt="">
                     </a>
                     <p class="video-title is-5 is-marginless-bottom">Sandra Walker</p>
                     <em>Senior Operations Manager</em>
@@ -165,7 +165,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-11.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-11.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Cardiovascular</label>
@@ -174,7 +174,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-48.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-48.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Digestive</label>
@@ -185,7 +185,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-2.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-2.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Endocrine/Hormonal</label>
@@ -194,7 +194,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-28.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-28.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Dermatological</label>
@@ -205,7 +205,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-26.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-26.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Immune</label>
@@ -214,7 +214,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-20.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-20.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Musculoskeletal</label>
@@ -225,7 +225,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-14.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-14.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Nervous</label>
@@ -234,7 +234,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-51.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-51.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Renal/Urinary</label>
@@ -245,7 +245,7 @@
                 <div class="columns is-multiline is-narrow">
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-4.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-4.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Fertility/Reproductive</label>
@@ -254,7 +254,7 @@
                     </div>
                     <div class="column columns is-half-tablet is-auto-desktop is-marginless is-paddingless-bottom">
                         <figure class="has-text-centered has-margin circle">
-                            <img src="/images/about/square-52.png" alt="">
+                            <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/about/square-52.png" alt="">
                         </figure>
                         <div class="column is-paddingless">
                             <label class="label">Respiratory</label>
@@ -271,7 +271,7 @@
             <div class="has-text-centered">
                 <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
                 <div class="button-wrapper">
-                    <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                    <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
                 </div>
             </div>
         </div>

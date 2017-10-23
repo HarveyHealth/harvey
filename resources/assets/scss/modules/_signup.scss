@@ -11,7 +11,7 @@
   position: relative;
   border-bottom: 1px solid $light-gray;
   box-shadow: 0 1px 1px rgba(0,0,0,.1);
-  @include padding(30px);
+  @include padding(30px 40px);
   @include margin(0 auto 5px);
 
   &.small {
@@ -20,14 +20,8 @@
   &.large {
     max-width: 770px;
   }
-  &.naked {
-    @include margin(3em auto 5px);
-  }
   &.router {
     @include padding(60px 30px 30px 30px);
-  }
-  p {
-    @include margin(1em 0);
   }
 
   // Main Signup Page
@@ -45,26 +39,64 @@
 
   .button {
     @include margin(.5em null null);
+    min-height: 40px;
+    min-width: 160px;
   }
 
 }
 
+.signup-aside-text{
+  .logo-wrapper {
+    @include margin(0 auto);
+    .MainNav_Logo {
+      color: #fff;
+      width: 200px;
+      height: 60px;
+    }
+  }
+}
+
+.signup-aside-icon-row {
+  text-align: center;
+
+  span {
+    display: inline-block;
+    padding: $space-sm;
+    width: 80px;
+  }
+
+  svg {
+    max-height: 80px;
+    width: 100%;
+    fill: #ddd;
+  }
+
+  svg.use-stroke {
+    stroke: #ddd;
+  }
+}
+
+.error-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 // We should merge these at some point
 
-.error-text, .copy-error {
+.error-text, .copy-error, .copy-good {
   width: 100%;
   line-height: 1.3;
   @include margin(0);
-  @include padding(10px 0 0);
+  @include padding(8px 0 0);
   text-align: left;
   .flyout & {
     text-align: left;
+    @include padding(0);
   }
   .error-list & {
-    @include margin(0 0 0 15%);
     line-height: 1em;
     font-size: 15px;
-    width: 85%;
   }
 }
 
@@ -127,8 +159,6 @@
   }
 
 }
-
-// Social Icons
 
 .social-icon-wrapper a {
   display: inline-block;
@@ -229,7 +259,7 @@ button:focus {
 
 .form-input_text {
   border: none;
-  border-bottom: 2px solid $color-gray-3;
+  border-bottom: 1px solid $color-gray-5;
   @include padding(7px);
 }
 
@@ -241,7 +271,7 @@ button:focus {
   color: #888 !important;
   @include border-color( #ccc);
   font-weight: 400 !important;
-  @include margin(null null 20px null);
+  @include margin(10px auto 25px);
   transition: opacity 200ms ease-in !important;
   &:hover{
     opacity: .75 !important;
@@ -277,7 +307,7 @@ $signup-grid: (
   .signup-wrapper {
     // If desktop, give margin. Otherwise, tablets shouldn't get margin-top
     @media (min-height: 780px) {
-        margin-top: 100px;
+        margin-top: 80px;
     }
   }
 

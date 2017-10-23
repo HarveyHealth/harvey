@@ -1,7 +1,9 @@
 import moment from 'moment-timezone';
 
-export default function(laravel) {
+export default function(laravel, State) {
   return {
+      State, // v2 state management
+
       apiUrl: '/api/v1',
       appointmentData: null,
       colors: {
@@ -74,9 +76,11 @@ export default function(laravel) {
         cost: '',
         data: {
           appointment_at: null,
+          discount_code: null,
           reason_for_visit: 'First appointment',
           practitioner_id: null,
         },
+        discountCode: '',
         googleMeetLink: '',
         phone: '',
         phonePending: false,

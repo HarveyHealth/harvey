@@ -1,0 +1,60 @@
+.Row {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1152px;
+  @include margin(0 auto);
+  overflow: hidden;
+}
+
+@include query(md) {
+  .Row-md {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+
+    @include margin(0 auto);
+  }
+}
+
+@include query(lg) {
+  .Row-lg {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1152px;
+    @include margin(0 auto);
+    overflow: hidden;
+  }
+}
+
+[class*="Row"].align-middle {
+  align-items: center;
+}
+
+[class*="Row"].align-top {
+  align-items: flex-start;
+}
+
+[class*="Row"].align-bottom {
+  align-items: flex-end;
+}
+
+@each $size, $value in $space-list {
+  @include generate-row-gutter-classes($size, $value);
+  @include generate-row-gutter-classes($size, $value, lg);
+}
+
+*[class*="Column"] {
+  flex-basis: 100%;
+}
+
+// Generate grid column classes as needed to keep the CSS output small
+@include generate-grid-columns(xs, 1, 2, md);
+@include generate-grid-columns(md, 1, 2, md);
+@include generate-grid-columns(md, 1, 3, md);
+@include generate-grid-columns(md, 1, 5, md);
+@include generate-grid-columns(md, 4, 5, md);
+@include generate-grid-columns(md, 3, 7, md);
+@include generate-grid-columns(md, 4, 7, md);
+@include generate-grid-columns(lg, 1, 2, md);
+@include generate-grid-columns(xl, 3, 7, md);
+@include generate-grid-columns(xl, 4, 7, md);
