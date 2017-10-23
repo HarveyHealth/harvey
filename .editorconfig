@@ -5,3 +5,7 @@ root = true
 [resources/assets/js/**/**.js]
 indent_style = space
 indent_size = 4
+
+[resources/assets/js/**/**.vue]
+indent_style = space
+indent_size = 4
