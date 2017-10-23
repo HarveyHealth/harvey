@@ -82,6 +82,22 @@
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../../commons/NotificationPopup.vue';
 
+    const defaultBlankSku = {
+            attributes: {
+            name: null,
+            price: 0,
+            cost: 0,
+            lab_test_information: {
+                lab_name: null,
+                sample: null,
+                description: null,
+                quote: null,
+                image: null,
+                published_at: null,
+            }
+        }
+    };
+
     export default {
     data() {
         return {
@@ -130,6 +146,7 @@
                 this.submitting = false;
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);
+                this.$emit('saved');
             })
             .catch(e => {
                 console.log(e);
@@ -148,19 +165,38 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                published_at: !!sku.attributes.lab_test_information.published_at
+                published_at: !!    sku.attributes.lab_test_information.published_at
             })
                 .then(response => {
                     this.submitting = false;
                     this.notificationActive = true;
                     this.$emit('append', response.data.data);
                     setTimeout(() => this.notificationActive = false, 3000);
+                    this.resetSkuForm();
+                    this.$emit('saved');
                 })
                 .catch(e => console.log(e));
         },
         submitSkuForm() {
             this.submitting = true;
             this.sku ? this.putSkuForm() : this.postSkuForm();
+        },
+        resetSkuForm() {
+            this.blankSku = {
+                attributes: {
+                    name: null,
+                    price: 0,
+                    cost: 0,
+                    lab_test_information: {
+                        lab_name: null,
+                        sample: null,
+                        description: null,
+                        quote: null,
+                        image: null,
+                        published_at: null,
+                    }
+                }
+            };
         }
     },
     computed: {

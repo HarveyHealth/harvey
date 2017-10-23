@@ -36,7 +36,7 @@
 
       <router-link
         v-if="user === 'admin'"
-        to="/lab-tests/edit" title="Lab Tests"
+        to="/lab_tests/edit" title="Lab Tests"
         :class="currentPageCheck('sku-dashboard')"
         @click.native="handleMenu(false, 'sku-dashboard')">
         <i class="fa fa-flask icon icon-nav-bar"></i>
@@ -76,7 +76,7 @@
         <div class="text">Profile</div>
       </router-link>
 
-       <router-link 
+       <router-link
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">

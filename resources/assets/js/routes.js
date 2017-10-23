@@ -118,7 +118,7 @@ let routes = [
         component: require('./pages/profile/Profile.vue')
     },
     {
-        path: '/lab-tests/edit',
+        path: '/lab_tests/edit',
         props: true,
         component: require('./pages/sku-dashboard/SkuDashboard.vue')
     },

@@ -17,7 +17,7 @@
                 :heading="flyoutHeading"
                 :on-close="modalClose"
             >
-                <SkuForm :sku=selectedSku @append="appendSkuList"/>
+                <SkuForm :sku=selectedSku @append="appendSkuList" @saved="modalClose"/>
             </Flyout>
             <table class="sku-table tabledata appointments-table" v-if="loading">
                 <td class="font-italic font-sm copy-muted">Loading lab tests inventory...</td>
@@ -40,6 +40,7 @@
                             v-for="sku in skuList"
                             :sku=sku
                             :key=sku.id
+                            :selectedSku="selectedSku"
                             @click.native="modalOpenWithSku(sku)"
                         ></Sku>
                     </draggable>

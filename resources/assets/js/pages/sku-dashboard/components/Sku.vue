@@ -1,5 +1,5 @@
 <template>
-    <tr class="cell-wrap grabbable">
+    <tr class="cell-wrap grabbable" :class="isSelected">
         <td class="sku-table__column sku-table__move-icon sort"><i class="fa fa-bars"></i></td>
         <td class="sku-table__column">{{ sku.attributes.lab_test_information.lab_name }}</td>
         <td class="sku-table__column sku-table__sku-name">{{ sku.attributes.name }}</td>
@@ -26,6 +26,12 @@ export default {
     computed: {
         skuPublic() {
             return this.sku.attributes.lab_test_information.published_at ? "Yes" : "No";
+        },
+        isSelected() {
+            if(this.selectedSku) {
+                return this.sku.id === this.selectedSku.id ? 'is-selected' : '';
+            }
+            return '';
         }
     },
     props: {
@@ -35,6 +41,9 @@ export default {
         index: {
             type: Number,
         },
+        selectedSku: {
+            type: Object,
+        }
     }
 }
 </script>
