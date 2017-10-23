@@ -33,7 +33,7 @@
         "no-console": "off",
         "no-useless-escape": "off",
         "comma-dangle": [ 2, "never"],
-        "indent": [0, 4],
+        "indent": [0, "4"],
         "vue/no-dupe-keys": [2, { "groups": ["asyncComputed"]}],
         "vue/no-reserved-keys": [2, { "groups": ["asyncComputed"] }],
         "vue/no-template-key": [2],
