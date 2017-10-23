@@ -1,10 +1,10 @@
 import moment from 'moment';
 
-const cleanTime = t => {
-  return t
-    .replace(/( am| pm)$/, ':00')
-    .replace(/^(\d\:)/, '0$1');
-};
+// const cleanTime = t => {
+//   return t
+//     .replace(/( am| pm)$/, ':00')
+//     .replace(/^(\d\:)/, '0$1');
+// };
 
 export default {
 
