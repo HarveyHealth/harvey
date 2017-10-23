@@ -47,26 +47,72 @@
 </template>
 
 <script>
-    import UserNav from '../../commons/UserNav.vue'
-    import Overlay from '../../commons/Overlay.vue'
-    import NotificationPopup from '../../commons/NotificationPopup.vue'
-    import FilterButtons from '../../commons/FilterButtons.vue'
-    import LabOrderTable from './components/LabOrderTable.vue'
-    import AddLabOrders from './components/AddLabOrders.vue'
-    import DetailLabOrders from './components/DetailLabOrders.vue'
-    import tableDataTransform from './utils/tableDataTransform'
-    import _ from 'lodash'
+import UserNav from '../../commons/UserNav.vue';
+import Overlay from '../../commons/Overlay.vue';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
+import FilterButtons from '../../commons/FilterButtons.vue';
+import LabOrderTable from './components/LabOrderTable.vue';
+import AddLabOrders from './components/AddLabOrders.vue';
+import DetailLabOrders from './components/DetailLabOrders.vue';
+import tableDataTransform from './utils/tableDataTransform';
 
-    export default {
-        name: 'LabOrders',
-        components: {
-            UserNav,
-            LabOrderTable,
-            AddLabOrders,
-            Overlay,
-            DetailLabOrders,
-            FilterButtons,
-            NotificationPopup
+export default {
+    name: 'LabOrders',
+    components: {
+        UserNav,
+        LabOrderTable,
+        AddLabOrders,
+        Overlay,
+        DetailLabOrders,
+        FilterButtons,
+        NotificationPopup
+    },
+    data() {
+        return {
+            filters: ['Recommended', 'Confirmed', 'Shipped', 'Received', 'Mailed', 'Processing', 'Complete'],
+            activeFilter: 0,
+            selectedRowData: {},
+            selectedRowUpdating: null,
+            selectedRowHasUpdated: null,
+            addFlyoutActive: false,
+            detailFlyoutActive: false,
+            addActiveModal: false,
+            cache: {
+                Recommended: [],
+                Confirmed: [],
+                Shipped: [],
+                Received: [],
+                Mailed: [],
+                Processing: [],
+                Complete: []
+            },
+            labData: [],
+            currentData: [],
+            notificationSymbol: '&#10003;',
+            notificationMessage: '',
+            notificationActive: false,
+            notificationDirection: 'top-right',
+            userType: null
+        };
+    },
+    methods: {
+        handleRowClick(obj, index) {
+            let data;
+            if (obj) {
+                data = obj.data === this.selectedRowData ? {} : obj.data;
+            } else {
+                data = null;
+            }
+            this.detailFlyoutActive = !this.detailFlyoutActive;
+            if (data) {
+                this.detailFlyoutActive = true;
+                this.selectedRowData = data;
+                this.selectedRowIndex = index;
+            } else {
+                this.selectedRowData = {};
+                this.selectedRowIndex = null;
+                this.detailFlyoutActive = false;
+            }
         },
         data() {
             return {
@@ -269,17 +315,19 @@
                 this.tests = this.$root.$data.labTests
                 return this.$root.$data.labTests.length > 0
             }
+            return false;
         },
-        watch: {
-            loadingLabs(val, old) {
-                if (!val) {
-                    this.setupLabData()
-                }
-            },
-            labTests(val) {
-                if (!val) {
-                    this.getLabTests()
-                }
+        tests() {
+            return this.$root.$data.labTests;
+        },
+        labTests() {
+            return this.$root.$data.labTests.length > 0;
+        }
+    },
+    watch: {
+        loadingLabs(val) {
+            if (!val) {
+                this.setupLabData();
             }
         },
         mounted() {
@@ -354,5 +402,7 @@
                     this.$root.$data.global.loadingTestTypes = false
                 })
         }
+
     }
+};
 </script>

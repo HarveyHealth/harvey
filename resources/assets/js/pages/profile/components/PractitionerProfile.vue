@@ -111,11 +111,11 @@
 </template>
 
 <script>
-    import _ from 'lodash';
-    import ImageUpload from '../../../commons/ImageUpload.vue';
-    import LicenseTypes from '../../../../../../public/licensetypes.json';
-    import states from '../../../../../../public/states.json';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+import _ from 'lodash';
+import ImageUpload from '../../../commons/ImageUpload.vue';
+import LicenseTypes from '../../../../../../public/licensetypes.json';
+import states from '../../../../../../public/states.json';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 
     export default {
         name: 'practitioner-profile',
@@ -171,39 +171,82 @@
                 this.uploading_profile_image = false;
                 this.flashSuccess();
             },
-            uploadingBackgroundImage() {
-                this.uploading_bg_image = true;
-            },
-            uploadedBackgroundImage(response) {
-                this.practitioner.background_picture_url = response.data.attributes.background_picture_url;
-                this.uploading_bg_image = false;
-                this.flashSuccess();
-            },
-        },
-        computed: {
-          loading() {
-            return this.$root.$data.global.practitionerProfileLoading;
-          }
-        },
-        mounted() {
-            axios.get(`/api/v1/practitioners/${this.practitioner_id}`)
+            license_types: Object.keys(LicenseTypes),
+            license_names: LicenseTypes,
+            previousProfileImage: null,
+            previousBackgroundImage: null,
+            states: states,
+            uploading_bg_image: false,
+            uploading_profile_image: false,
+            errorMessages: null,
+            submitting: false
+        };
+    },
+    components: {
+        ImageUpload,
+        ClipLoader
+    },
+    methods: {
+        submit() {
+            this.submitting = true;
+            this.resetErrors();
+            const payload =  _.omit(this.practitioner, 'type_name', 'background_picture_url', 'picture_url',);
+            axios.patch(`/api/v1/practitioners/${this.practitioner_id}`, payload)
                 .then(response => {
                     this.practitioner = response.data.data.attributes;
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
-                    this.$root.$data.global.practitionerProfileLoading = false;
+                    this.submitting = false;
+                    this.flashSuccess();
                 })
-                .catch(error => this.practitioner = {});
+                .catch((err) => {
+                    this.submitting = false;
+                    this.errorMessages = err.response.data.errors;
+                });
         },
-        props: {
-            flashSuccess: {
-                type: Function,
-            },
-            practitionerIdEditing: {
-                type: String,
-                default: null
-            }
+        resetErrors() {
+            this.errorMessages = null;
+        },
+        uploadingProfileImage() {
+            this.uploading_profile_image = true;
+        },
+        uploadedProfileImage(response) {
+            this.practitioner.picture_url = response.data.attributes.picture_url;
+            this.uploading_profile_image = false;
+            this.flashSuccess();
+        },
+        uploadingBackgroundImage() {
+            this.uploading_bg_image = true;
+        },
+        uploadedBackgroundImage(response) {
+            this.practitioner.background_picture_url = response.data.attributes.background_picture_url;
+            this.uploading_bg_image = false;
+            this.flashSuccess();
+        }
+    },
+    computed: {
+        loading() {
+            return this.$root.$data.global.practitionerProfileLoading;
+        }
+    },
+    mounted() {
+        axios.get(`/api/v1/practitioners/${this.practitioner_id}`)
+            .then(response => {
+                this.practitioner = response.data.data.attributes;
+                this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
+                this.$root.$data.global.practitionerProfileLoading = false;
+            })
+            .catch(() => this.practitioner = {});
+    },
+    props: {
+        flashSuccess: {
+            type: Function
+        },
+        practitionerIdEditing: {
+            type: String,
+            default: null
         }
     }
+};
 </script>
 
 <style lang="scss">

@@ -1,6 +1,5 @@
 import tableSort from '../../../utils/methods/tableSort';
 
-
 export default [
   {
     key: 'client',

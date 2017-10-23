@@ -107,20 +107,57 @@ export default {
         needSave: !this.isComplete,
       }
     },
-    cardData() {
-      return {
-        number: this.cardNumber,
-        exp_month: this.cardExpiration.substring(0, 2),
-        exp_year: this.cardExpiration.substring(5),
-        cvc: this.cardCvc,
-        address_zip: Laravel.user.zip,
-        name: this.cardName,
-      }
+    data() {
+        return {
+            card: null,
+            cardCvc: this.$root.$data.signup.cardCvc || '',
+            cardExpiration: this.$root.$data.signup.cardExpiration || '',
+            cardName: this.$root.$data.signup.cardName || '',
+            cardNumber: this.$root.$data.signup.cardNumber || '',
+            hasCardStored: Laravel.user.has_a_card,
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true
+            },
+            isComplete: this.$root.$data.signup.billingConfirmed,
+            isProcessing: false,
+            postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
+            stripeKey: Laravel.services.stripe.key,
+            stripeError: ''
+        };
     },
-    subtext() {
-      return this.$root.$data.signup.billingConfirmed
-        ? ''
-        : 'Please enter a credit or debit card to save on file. We will not charge your card until after your first consultation is complete.';
+    computed: {
+        pageLogic() {
+            return {
+                submitContinue: this.isComplete,
+                submitDisabled: this.isProcessing,
+                editButton: this.isComplete,
+                showForm: (this.hasCardStored && !this.isComplete) || !this.hasCardStored,
+                formProcessing: this.isProcessing && !this.isComplete,
+                needSave: !this.isComplete
+            };
+        },
+        cardData() {
+            return {
+                number: this.cardNumber,
+                exp_month: this.cardExpiration.substring(0, 2),
+                exp_year: this.cardExpiration.substring(5),
+                cvc: this.cardCvc,
+                address_zip: Laravel.user.zip,
+                name: this.cardName
+            };
+        },
+        subtext() {
+            return this.$root.$data.signup.billingConfirmed
+                ? ''
+                : 'Please enter a credit or debit card to save on file. We will not charge your card until after your first consultation is complete.';
+        },
+        title() {
+            return this.$root.$data.signup.billingConfirmed
+                ? 'Payment Method'
+                : 'Enter Payment Method';
+        }
     },
     title() {
       return this.$root.$data.signup.billingConfirmed
@@ -194,40 +231,83 @@ export default {
             if (error.response) {
               this.setStripeError(this.postError);
             }
-          });
+
+            // Setup stripe and create user token
+            // Send user token up the wire for storage
+            Stripe.card.createToken(this.cardData, (status, response) => {
+                if (response.error) {
+                    this.setStripeError(response.error.message);
+                } else {
+                    this.$root.$data.signup.cardBrand = response.card.brand;
+                    this.$root.$data.signup.cardLastFour = response.card.last4;
+                    axios.post(`/api/v1/users/${Laravel.user.id}/cards`, { id: response.id }).then(() => {
+                        this.$router.push({ name: 'confirmation', path: '/confirmation' });
+                        this.markComplete();
+                    }).catch(error => {
+                        if (error.response) {
+                            this.setStripeError(this.postError);
+                        }
+                    });
+                }
+            });
+        },
+        markComplete() {
+            this.isComplete = true;
+            this.$root.$data.signup.billingConfirmed = true;
+            this.$root.$data.signup.cardCvc = this.cardCvc;
+            this.$root.$data.signup.cardExpiration = this.cardExpiration;
+            this.$root.$data.signup.cardName = this.cardName;
+            this.$root.$data.signup.cardNumber = this.cardNumber;
+            this.isProcessing = false;
+        },
+        resetCardData() {
+            this.$root.$data.signup.cardCvc = '';
+            this.$root.$data.signup.cardExpiration = '';
+            this.$root.$data.signup.cardName = '';
+            this.$root.$data.signup.cardNumber = '';
+            this.$root.$data.signup.cardBrand = '';
+            this.$root.$data.signup.cardLastFour = '';
+            this.cardCvc = '';
+            this.cardExpiration = '';
+            this.cardName = '';
+            this.cardNumber = '';
+            this.$root.$data.signup.billingConfirmed = false;
+            this.isComplete = false;
+            Laravel.user.has_a_card = false;
+        },
+        setStripeError(msg) {
+            this.toggleProcessing();
+            this.stripeError = msg;
+        },
+        toggleProcessing() {
+            this.isProcessing = !this.isProcessing;
+        },
+        validateCardInputs() {
+            let result = '';
+            if (!this.cardNumber.length) result += 'Card number is blank<br>';
+            if (!this.cardName.length) result += 'Card name is blank<br>';
+            if (!this.cardExpiration.length) result += 'Card expiration is blank<br>';
+            if (!this.cardCvc.length) result += 'Card CVC is blank<br>';
+            return result;
         }
-      });
     },
-    markComplete() {
-      this.isComplete = true;
-      this.$root.$data.signup.billingConfirmed = true;
-      this.$root.$data.signup.cardCvc = this.cardCvc;
-      this.$root.$data.signup.cardExpiration = this.cardExpiration;
-      this.$root.$data.signup.cardName = this.cardName;
-      this.$root.$data.signup.cardNumber = this.cardNumber;
-      this.isProcessing = false;
-    },
-    resetCardData() {
-      this.$root.$data.signup.cardCvc = '';
-      this.$root.$data.signup.cardExpiration = '';
-      this.$root.$data.signup.cardName = '';
-      this.$root.$data.signup.cardNumber = '';
-      this.$root.$data.signup.cardBrand = '';
-      this.$root.$data.signup.cardLastFour = '';
-      this.cardCvc = '';
-      this.cardExpiration = '';
-      this.cardName = '';
-      this.cardNumber = '';
-      this.$root.$data.signup.billingConfirmed = false;
-      this.isComplete = false;
-      Laravel.user.has_a_card = false;
-    },
-    setStripeError(msg) {
-      this.toggleProcessing();
-      this.stripeError = msg;
-    },
-    toggleProcessing() {
-      this.isProcessing = !this.isProcessing;
+    mounted () {
+        this.$root.toDashboard();
+        Stripe.setPublishableKey(this.stripeKey);
+        this.$root.$data.signup.visistedStages.push('payment');
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+        // Card.js - https://github.com/jessepollak/card
+        this.card = new Card({
+            container: '.credit-card',
+            form: '#credit-card-form',
+            formSelectors: {
+                numberInput: 'input[name="card_number"]',
+                expiryInput: 'input[name="card_expiration"]',
+                cvcInput: 'input[name="card_cvc"]',
+                nameInput: 'input[name="card_name"]'
+            }
+        });
     },
     validateCardInputs() {
       let result = '';

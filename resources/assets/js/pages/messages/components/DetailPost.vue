@@ -12,27 +12,37 @@
 </template>
 
 <script>
-    import moment from 'moment'
-    import _ from 'lodash'
-    export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'userId', 'timezone', 'yourId'],
-        name: 'DetailPost',
-        data() {
-            return {  }
-        },
-        computed: {
-            momentDate() {
-                moment.tz.add(this.$props.timezone);
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
-            }
-        },
-        mounted() {
-            if (this.$root.$data.global.user.id == this.$props.userId) {
-                axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
-                    .then(response => {
-                        this.$root.$data.global.unreadMessages = this.$root.$data.global.unreadMessages.filter(e => e.id !== this.$props.id)
-                    })
-            }
+import moment from 'moment';
+export default {
+    props: {
+        name: String,
+        day: String,
+        time: String,
+        header: String,
+        message: String,
+        image: String,
+        id: String,
+        userId: String,
+        yourId: String,
+        timezone: String
+    },
+    name: 'DetailPost',
+    data() {
+        return {  };
+    },
+    computed: {
+        momentDate() {
+            moment.tz.add(this.$props.timezone);
+            return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
+        }
+    },
+    mounted() {
+        if (this.$root.$data.global.user.id == this.$props.userId) {
+            axios.put(`${this.$root.$data.apiUrl}/messages/${this.$props.id}/read`)
+                .then(() => {
+                    this.$root.$data.global.unreadMessages = this.$root.$data.global.unreadMessages.filter(e => e.id !== this.$props.id);
+                });
         }
     }
+};
 </script>

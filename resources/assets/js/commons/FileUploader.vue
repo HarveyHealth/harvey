@@ -39,64 +39,66 @@
 </template>
 
 <script>
-    export default {
-        props: ['action'],
-        data() {
-            return {
-                hasFile: false,
-                fileName: '',
-                uploading: false,
-                upload_success: false,
-                form: new FormData()
+export default {
+    data() {
+        return {
+            hasFile: false,
+            fileName: '',
+            uploading: false,
+            upload_success: false,
+            form: new FormData()
+        };
+    },
+    props: {
+        action: String
+    },
+    methods: {
+        onFileChange(e) {
+            let files = e.target.files || e.dataTransfer.files,
+                error = this.validateFiles(files);
+
+            if (!error) {
+                this.updateFiles(files);
+            } else {
+                // this.onError();
             }
+            e.target.value = null;
         },
-        methods: {
-            onFileChange(e) {
-                let files = e.target.files || e.dataTransfer.files,
-                    error = this.validateFiles(files);
+        validateFiles(files) {
+            let error = false;
+            if (!files.length) error = true;
+            return error;
+        },
+        updateFiles(files) {
+            let file = files[0];
 
-                if (!error) {
-                    this.updateFiles(files);
-                } else {
-                    // this.onError();
-                }
-                e.target.value = null;
-            },
-            validateFiles(files) {
-                let error = false;
-                if (!files.length) error = true;
-                return error;
-            },
-            updateFiles(files) {
-                let file = files[0];
+            this.form.append('file', file);
+            this.hasFile = true;
+            this.fileName = file.name;
+        },
+        removeFile() {
+            this.form.delete('file');
+            this.hasFile = false;
+            this.fileName = '';
+        },
+        onSubmit() {
+            this.uploading = true;
 
-                this.form.append('file', file);
-                this.hasFile = true;
-                this.fileName = file.name;
-            },
-            removeFile() {
-                this.form.delete('file');
-                this.hasFile = false;
-                this.fileName = '';
-            },
-            onSubmit() {
-                this.uploading = true;
+            this.$http.post(this.$root.apiUrl + this.action, this.form)
+                .then(this.onSuccess)
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+        onSuccess(data) {
+            this.upload_success = true;
+            setTimeout(()=> {
+                this.$emit('uploaded', data);
+            }, 400);
+        },
+        onError() {
 
-                this.$http.post(this.$root.apiUrl + this.action, this.form)
-                    .then(this.onSuccess)
-                    .catch((error) => {
-                        console.log(error)
-                    });
-            },
-            onSuccess(data) {
-                this.upload_success = true;
-                setTimeout(()=> {
-                    this.$emit('uploaded', data);
-                }, 400);
-            },
-            onError() {
-
-            }
         }
     }
+};
 </script>

@@ -18,16 +18,15 @@ Vue.prototype.$http = Axios;
  * included with Laravel will automatically verify the header's value.
  */
 
-Axios.interceptors.request.use(function(config){
+Axios.interceptors.request.use(function (config) {
     // Attach the csrf token to every request in the header
     config.headers['X-CSRF-TOKEN'] = Laravel.app.csrfToken;
-
 
     // Notifies the back-end that this is an ajax request
     config.headers['X-Requested-With'] = 'XMLHttpRequest';
 
     return config;
-})
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

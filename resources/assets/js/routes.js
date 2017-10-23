@@ -9,14 +9,14 @@ const loggedIn = Laravel.user.signedIn;
 const context = window.$$context;
 
 const rootRedirect = context === 'get-started'
-  ? loggedIn ? '/welcome' : '/signup'
-  : '/';
+    ? loggedIn ? '/welcome' : '/signup'
+    : '/';
 
-let rootRoute = {
-  path: '/',
-  name: null,
-  component: null,
-  children: []
+const rootRoute = {
+    path: '/',
+    name: null,
+    component: null,
+    children: []
 };
 
 switch(context) {
@@ -70,7 +70,7 @@ rootRoute.children.push({
   component: require('./v2/components/pages/getstarted/children/Signup')
 })
 
-let routes = [
+const routes = [
 
     rootRoute,
 
@@ -78,7 +78,7 @@ let routes = [
         path: '/appointments',
         name: 'appointments',
         props: true,
-        component: require('./pages/appointments/Appointments.vue'),
+        component: require('./pages/appointments/Appointments.vue')
     },
     {
         path: '/messages',
@@ -121,11 +121,11 @@ let routes = [
     },
     {
         path: '*',
-        redirect:  rootRedirect
+        redirect: rootRedirect
     }
 ];
 
-let router = new VueRouter({
+const router = new VueRouter({
     routes,
     linkActiveClass: 'is-active'
 });
@@ -136,4 +136,4 @@ router.afterEach(() => {
     }
 });
 
-export default router
+export default router;

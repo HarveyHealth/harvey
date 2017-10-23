@@ -18,51 +18,60 @@
 </template>
 
 <script>
-    import moment from 'moment';
+import moment from 'moment';
 
-    export default {
-        props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
-        methods: {
-            range(start, stop, step) {
-                if (stop == null) {
-                    stop = start || 0
-                    start = 0
-                }
-                step = step || 1
-
-                var length = Math.max(Math.ceil((stop - start) / step), 0),
-                    range = [],
-                    index = 0
-
-                for (index; index < length; index++, start += step) {
-                    range[index] = start
-                }
-
-                return range
-            },
-            setsTimeObject(hour, hourOffset = 0) {
-                return moment({hour: hour + hourOffset, minute: 0});
-            },
-            onTimeChange(time) {
-                if (time >= this.startTime) {
-                    this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
-                }
+export default {
+    props: {
+        selectedDate: String,
+        selectedTime: String,
+        now: String,
+        startOfDayHour: String,
+        endOfDayHour: String,
+        minimumNotice: String,
+        duration: String,
+        startDateTime: String
+    },
+    methods: {
+        range(start, stop, step) {
+            if (stop == null) {
+                stop = start || 0;
+                start = 0;
             }
-        },
-        computed: {
-            times() {
-                 return this.range(this.startOfDayHour, this.endOfDayHour, this.duration);
-            },
-            startTime() {
-                if (this.selectedDate > this.startDateTime) {
-                    return this.startOfDayHour;
-                } else {
-                    return moment(this.startDateTime).local().hour();
-                }
+            step = step || 1;
+
+            var length = Math.max(Math.ceil((stop - start) / step), 0),
+                range = [],
+                index = 0;
+
+            for (index; index < length; index++, start += step) {
+                range[index] = start;
             }
+
+            return range;
         },
-        mounted() {
-            this.onTimeChange(this.startTime);
+        setsTimeObject(hour, hourOffset = 0) {
+            return moment({hour: hour + hourOffset, minute: 0});
+        },
+        onTimeChange(time) {
+            if (time >= this.startTime) {
+                this.$eventHub.$emit('datetime-change', {type: 'time', value: time});
+            }
         }
+    },
+    computed: {
+        times() {
+            return this.range(this.startOfDayHour, this.endOfDayHour, this.duration);
+        },
+        startTime() {
+            if (this.selectedDate > this.startDateTime) {
+                return this.startOfDayHour;
+            } else {
+                return moment(this.startDateTime).local().hour();
+            }
+        }
+    },
+    mounted() {
+        this.onTimeChange(this.startTime);
     }
+};
 </script>

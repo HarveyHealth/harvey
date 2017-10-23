@@ -57,20 +57,20 @@
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date))
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
-                })
-                this.$parent.reply();
-            }
-        },
-        computed: {
-            toUserType() {
-                if (this.$root.$data.permissions === 'patient') {
-                    return "Doctor";
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    return "Client";
-                } else if (this.$root.$data.permissions === 'admin') {
-                    return "Recipient";
-                }
+                });
+            this.$parent.reply();
+        }
+    },
+    computed: {
+        toUserType() {
+            if (this.$root.$data.permissions === 'patient') {
+                return "Doctor";
+            } else if (this.$root.$data.permissions === 'practitioner') {
+                return "Client";
+            } else if (this.$root.$data.permissions === 'admin') {
+                return "Recipient";
             }
         }
     }
+};
 </script>

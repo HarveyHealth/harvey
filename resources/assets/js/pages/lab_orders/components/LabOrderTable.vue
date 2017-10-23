@@ -14,58 +14,61 @@
 </template>
 
 <script>
-import TableData from '../../../commons/TableData.vue'
+import TableData from '../../../commons/TableData.vue';
 import tableColumns from '../utils/tableColumns';
-import tableSort from '../../../utils/methods/tableSort';
 
 export default {
-  name: 'LabOrderTable',
-  components: {
-    TableData
-  },
-  data() {
-      return {
-        tableColumns
-      }
-  },
-  computed: {
-    tableData() {
-      return this.tableRowData;
-    }
-  },
-  methods: {
-    handleSort(colObj) {
-      this.tableData.sort(colObj.sort);
-    }
-  },
-  props: {
+    name: 'LabOrderTable',
+    components: {
+        TableData
+    },
+    data() {
+        return {
+            tableColumns
+        };
+    },
+    computed: {
+        tableData() {
+            return this.tableRowData;
+        }
+    },
+    methods: {
+        handleSort(colObj) {
+            this.tableData.sort(colObj.sort);
+        }
+    },
+    props: {
     // Passed from Appointments so we can modify the appointment data and trigger
     // other things within Appointments
-    handleRowClick: {
-      type: Function,
-    },
-    // Passed from Appointments because it is waiting for the app.js Promise to resolve
-    loading: {
-      type: Boolean,
-      required: true
-    },
-    // See TableData
-    selectedRow: {
-      type: Object,
-    },
-    // See TableData
-    tableRowData: {
-      type: Array,
-      required: true
-    },
-    // See TableData
-    updatedRow: {
-      required: false
-    },
-    // See TableData
-    updatingRow: {
-      required: false
+        handleRowClick: {
+            type: Function
+        },
+        // Passed from Appointments because it is waiting for the app.js Promise to resolve
+        loading: {
+            type: Boolean,
+            required: true
+        },
+        // See TableData
+        selectedRow: {
+            type: Object
+        },
+        // See TableData
+        tableRowData: {
+            type: Array,
+            required: true
+        },
+        // See TableData
+        updatedRow: {
+            type: String,
+            default: null,
+            required: false
+        },
+        // See TableData
+        updatingRow: {
+            type: String,
+            default: null,
+            required: false
+        }
     }
-  }
-}
+};
 </script>

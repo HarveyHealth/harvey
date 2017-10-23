@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import Flyout from '../../../commons/Flyout.vue'
-import Modal from '../../../commons/Modal.vue'
-import SelectOptions from '../../../commons/SelectOptions.vue'
-import axios from 'axios'
-import _ from 'lodash'
+import Flyout from '../../../commons/Flyout.vue';
+import Modal from '../../../commons/Modal.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
+import axios from 'axios';
+import _ from 'lodash';
 export default {
   props: ['reset', 'labTests'],
   name: 'AddLabOrders',
@@ -152,22 +152,22 @@ export default {
               })
           })
 
-          this.selectedClient = ''
-          this.step = 1
-          this.masterTracking = ''
-          this.address1 = ''
-          this.selectedDoctor = ''
-          this.address2 = ''
-          this.city = ''
-          this.zip = ''
-          this.state = ''
-          this.selectedTests = []
-          this.shippingCodes = {}
-          this.prevDoctor = ''
-          this.prevClient = ''
-          this.doctorList = [''].concat(this.$root.$data.global.practitioners)
-          this.clientList = [''].concat(this.$root.$data.global.patients)
-          Object.values(this.$props.labTests).map(e => e.checked = false)
+                    this.selectedClient = '';
+                    this.step = 1;
+                    this.masterTracking = '';
+                    this.address1 = '';
+                    this.selectedDoctor = '';
+                    this.address2 = '';
+                    this.city = '';
+                    this.zip = '';
+                    this.state = '';
+                    this.selectedTests = [];
+                    this.shippingCodes = {};
+                    this.prevDoctor = '';
+                    this.prevClient = '';
+                    this.doctorList = [''].concat(this.$root.$data.global.practitioners);
+                    this.clientList = [''].concat(this.$root.$data.global.patients);
+                    Object.values(this.$props.labTests).map(e => e.checked = false);
 
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
@@ -205,23 +205,28 @@ export default {
       if (this.step == 1) return "New Lab Order"
       if (this.step == 2) return "Enter Tracking #s"
     },
-    testNameList() {
-      return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
+    computed: {
+        flyoutHeading() {
+            if (this.step == 1) return "New Lab Order";
+            if (this.step == 2) return "Enter Tracking #s";
+        },
+        testNameList() {
+            return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
+        }
+    },
+    watch: {
+        testNameList(val) {
+            if (val) {
+                return Object.values(this.$props.labTests).slice(0).sort((a,b) => a.id - b.id);
+            }
+        }
+    },
+    mounted() {
+        let selfPractitioner = this.$root.$data.global.selfPractitionerInfo;
+        if (selfPractitioner) {
+            this.selectedDoctor = selfPractitioner.id;
+            this.selectedDoctorName = selfPractitioner.name;
+        }
     }
-  },
-  watch: {
-    testNameList(val) {
-      if (val) {
-        return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
-      }
-    }
-  },
-  mounted() {
-    let selfPractitioner = this.$root.$data.global.selfPractitionerInfo
-    if (selfPractitioner) {
-      this.selectedDoctor = selfPractitioner.id
-      this.selectedDoctorName = selfPractitioner.name
-    }
-  }
-}
+};
 </script>

@@ -1,22 +1,22 @@
-import {capitalize} from '../filters/textformat.js';
+import { capitalize } from '../filters/textformat.js';
 
 export default {
-    data() {
+    data () {
         return {
             nav_is_open: false
-        }
+        };
     },
     methods: {
         capitalize,
-        toggleNav() {
+        toggleNav () {
             this.nav_is_open = !this.nav_is_open;
         },
-        logout() {
-            this.$http.post('/logout').then(response => {
+        logout () {
+            this.$http.post('/logout').then(() => {
                 location.href = '/';
             });
         },
-        isDescendant(parent, child) {
+        isDescendant (parent, child) {
             let node = child.parentNode;
             while (node != null) {
                 if (node == parent) {
@@ -26,10 +26,10 @@ export default {
             }
             return false;
         },
-        onBlur(e) {
+        onBlur (e) {
             if (e.relatedTarget === null || !this.isDescendant(e.target, e.relatedTarget)) {
                 this.toggleNav();
             }
         }
     }
-}
+};

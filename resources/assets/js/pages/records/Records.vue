@@ -208,9 +208,9 @@
 </template>
 
 <script>
-import UserNav from '../../commons/UserNav.vue'
-import Modal from '../../commons/Modal.vue'
-import Flyout from '../../commons/Flyout.vue'
+import UserNav from '../../commons/UserNav.vue';
+import Modal from '../../commons/Modal.vue';
+import Flyout from '../../commons/Flyout.vue';
 export default {
     name: 'Records',
     components: {
@@ -220,53 +220,52 @@ export default {
     },
     data() {
         return {
-          step: 1,
-          results: [],
-          search: '',
-          selectedPatient: null,
-          activeModal: false,
-          name: ''
-        }
+            step: 1,
+            search: '',
+            selectedPatient: null,
+            activeModal: false,
+            name: ''
+        };
     },
     methods: {
-      updateInput(e) {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(e.target.value, 'ig')
-        this.results = array.filter(ele => {
-          return matcher.test(ele.search_name) ||
+        updateInput(e) {
+            let array = this.$root.$data.global.patients;
+            let matcher = new RegExp(e.target.value, 'ig');
+            this.results = array.filter(ele => {
+                return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
-      },
-      selectPatient(patient) {
-        this.selectedPatient = patient
-        this.name = patient.search_name
-        this.activeModal = true
-      },
-      nextStep() {
-        this.step = 2
-      },
-      modalClose() {
-        this.activeModal = false
-      }
+                      matcher.test(ele.date_of_birth);
+            });
+        },
+        selectPatient(patient) {
+            this.selectedPatient = patient;
+            this.name = patient.search_name;
+            this.activeModal = true;
+        },
+        nextStep() {
+            this.step = 2;
+        },
+        modalClose() {
+            this.activeModal = false;
+        }
     },
     computed: {
-      results() {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(this.value, 'ig')
-        this.results = array.filter(ele => {
-          return matcher.test(ele.search_name) ||
+        results() {
+            let array = this.$root.$data.global.patients;
+            let matcher = new RegExp(this.value, 'ig');
+            return array.filter(ele => {
+                return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
-      }
+                      matcher.test(ele.date_of_birth);
+            });
+        }
     },
     watch: {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
     }
-}
+};
 </script>
 
 <style lang="scss">

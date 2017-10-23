@@ -34,17 +34,17 @@ export default {
     this.$root.toDashboard();
     this.$root.setup();
 
-    if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
-    if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
+        if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
+        if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
 
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Welcome');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Welcome');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

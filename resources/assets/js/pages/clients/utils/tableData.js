@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import moment from 'moment'
+import _ from 'lodash';
+import moment from 'moment';
 
 export default function(clientList) {
     return clientList.data

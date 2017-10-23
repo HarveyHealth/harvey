@@ -10,7 +10,7 @@
   import Signup from './children/Signup.vue';
   import Welcome from './children/Welcome.vue';
 
-  export default {
+export default {
     name: 'get-started',
     components: {
       MainNav: Shared.MainNav,
@@ -33,5 +33,5 @@
         }
       }
     }
-  }
+};
 </script>

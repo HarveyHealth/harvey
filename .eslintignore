@@ -1,0 +1,17 @@
+.vagrant
+app
+august
+bootstrap
+config
+database
+extensions
+helpers
+node_modules
+public
+routes
+storage
+tests
+vagrant_files
+vendor
+resources/assets/vendors/**
+*.json

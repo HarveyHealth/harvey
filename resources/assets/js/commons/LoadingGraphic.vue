@@ -21,17 +21,17 @@
 
 <script>
 export default {
-  props: {
-    fill: String,
-    size: Number,
-  },
-  computed: {
-    _fill() {
-      return this.fill || '#fff';
+    props: {
+        fill: String,
+        size: Number
     },
-    _size() {
-      return this.size ? `${this.size}px` : '30px';
+    computed: {
+        _fill() {
+            return this.fill || '#fff';
+        },
+        _size() {
+            return this.size ? `${this.size}px` : '30px';
+        }
     }
-  }
-}
+};
 </script>

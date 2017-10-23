@@ -55,93 +55,96 @@
 </template>
 
 <script>
-    import moment from 'moment';
-    import Form from '../../utils/objects/Form.js';
-    import DatePicker from './components/DatePicker.vue';
-    import TimePicker from './components/TimePicker.vue';
+import moment from 'moment';
+import DatePicker from './components/DatePicker.vue';
+import TimePicker from './components/TimePicker.vue';
 
-    export default {
-        name: 'new-appointment',
-        props: ['user', 'includeCta', 'form'],
-        data() {
-            return {
-                // form: new Form({
-                //     selectedDate: '',
-                //     selectedTime: '',
-                //     details: '',
-                // }),
-                now: moment(),
-                startOfDayHour: 9,
-                endOfDayHour: 18,
-                maximumDays: 7,
-                minimumNotice: 0, // hours
-                duration: 1 // hours
-            }
+export default {
+    name: 'new-appointment',
+    props: {
+        user: Object,
+        includeCta: Boolean,
+        form: Object
+    },
+    data() {
+        return {
+            // form: new Form({
+            //     selectedDate: '',
+            //     selectedTime: '',
+            //     details: '',
+            // }),
+            now: moment(),
+            startOfDayHour: 9,
+            endOfDayHour: 18,
+            maximumDays: 7,
+            minimumNotice: 0, // hours
+            duration: 1 // hours
+        };
+    },
+    components: {
+        DatePicker,
+        TimePicker
+    },
+    methods: {
+        canBookToday() {
+            let acceptableTime = moment(this.now).add(this.minimumNotice, 'hours');
+            let endOfDayTime = moment(this.now).set({hour: this.endOfDayHour, minute: 0, second:0, millisecond:0}).subtract(this.duration, 'hours');
+
+            return acceptableTime <= endOfDayTime;
         },
-        components: {
-            DatePicker,
-            TimePicker
-        },
-        methods: {
-            canBookToday() {
-                let acceptableTime = moment(this.now).add(this.minimumNotice, 'hours');
-                let endOfDayTime = moment(this.now).set({hour: this.endOfDayHour, minute: 0, second:0, millisecond:0}).subtract(this.duration, 'hours');
+        getNearestTime(time, interval) {
+            var minutes = Math.ceil(Math.max(1, time.minutes()) / interval) * interval,
+                hours = time.hours();
 
-                return acceptableTime <= endOfDayTime;
-            },
-            getNearestTime(time, interval) {
-                var minutes = Math.ceil(Math.max(1, time.minutes()) / interval) * interval,
-                    hours = time.hours()
-
-                if (minutes == 60) {
-                    hours++
-                    minutes = 0
-                    if (hours >= 24) {
-                        hours = hours - 24
-                    }
-                }
-                return hours
-            },
-            updateSelectedTime() {
-                if ( this.form.selectedTime < this.startDateTime.hour() ) {
-                    this.form.selectedTime = this.startDateTime.hour();
-                }
-            },
-            onDateTimeChange(obj) {
-                let field = 'selected' + obj.type.charAt(0).toUpperCase() + obj.type.slice(1);
-
-                if (this.form[field] != obj.value) {
-                    this.form[field] = obj.value;
-                }
-
-                // if date is changed to start day date
-                if ( obj.type == 'date' && obj.value.day() == this.startDateTime.day() ) {
-                    // need to make sure selected time doesn't go over the minimum time
-                    this.updateSelectedTime();
-                }
-            },
-            onSubmit() {
-                this.form.submit('post', 'api/appointments', this.onSuccess);
-            },
-            onSuccess() {
-                // this.$eventHub.$emit('mixpanel', "New Appointment Created");
-            }
-        },
-        computed: {
-            startDateTime() {
-                let canBookToday = this.canBookToday();
-
-                if (canBookToday) {
-                    let hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
-
-                    return this.now.set({hour: hour, minute: 0, second:0, millisecond:0}).utc();
-                } else {
-                    return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0}).utc();
+            if (minutes == 60) {
+                hours++;
+                minutes = 0;
+                if (hours >= 24) {
+                    hours = hours - 24;
                 }
             }
+            return hours;
         },
-        created() {
-            this.$eventHub.$on('datetime-change', this.onDateTimeChange);
+        updateSelectedTime() {
+            if ( this.form.selectedTime < this.startDateTime.hour() ) {
+                this.form.selectedTime = this.startDateTime.hour();
+            }
+        },
+        onDateTimeChange(obj) {
+            let field = 'selected' + obj.type.charAt(0).toUpperCase() + obj.type.slice(1);
+
+            if (this.form[field] != obj.value) {
+                this.form[field] = obj.value;
+            }
+
+            // if date is changed to start day date
+            if ( obj.type == 'date' && obj.value.day() == this.startDateTime.day() ) {
+                // need to make sure selected time doesn't go over the minimum time
+                this.updateSelectedTime();
+            }
+        },
+        onSubmit() {
+            this.form.submit('post', 'api/appointments', this.onSuccess);
+        },
+        onSuccess() {
+            // this.$eventHub.$emit('mixpanel', "New Appointment Created");
         }
+    },
+    computed: {
+        startDateTime() {
+            let canBookToday = this.canBookToday();
+
+            if (canBookToday) {
+                let hour = this.getNearestTime(this.now, 60) + this.minimumNotice;
+
+                return this.now.set({hour: hour, minute: 0, second:0, millisecond:0}).utc();
+            } else {
+                return this.now.add(1, 'days').set({hour: this.startOfDayHour, minute: 0, second:0, millisecond:0}).utc();
+            }
+        }
+    },
+    created() {
+        this.$eventHub.$on('datetime-change', this.onDateTimeChange);
     }
+};
 </script>

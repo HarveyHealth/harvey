@@ -15,38 +15,42 @@
 </template>
 
 <script>
-    export default {
-        name: 'image-upload',
-        props: ['label', 'type', 'route'],
-        methods: {
-            upload() {
-                this.$emit('uploading');
-                const send = new Promise((resolve, reject) => {
-                    const formData = new FormData(document.getElementById(this.type));
-                    let request = new XMLHttpRequest();
-                    request.open('POST', this.route);
-                    request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
-                    request.send(formData);
-                    request.onreadystatechange = function() {
-                        if (request.readyState === 4) {
-                            if (request.status === 200) {
-                                resolve(request.response);
-                            } else {
-                                reject(request.response)
-                            }
+export default {
+    name: 'image-upload',
+    props: {
+        label: String,
+        type: String,
+        route: String
+    },
+    methods: {
+        upload() {
+            this.$emit('uploading');
+            const send = new Promise((resolve, reject) => {
+                const formData = new FormData(document.getElementById(this.type));
+                let request = new XMLHttpRequest();
+                request.open('POST', this.route);
+                request.setRequestHeader('X-CSRF-TOKEN', Laravel.app.csrfToken);
+                request.send(formData);
+                request.onreadystatechange = function() {
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            resolve(request.response);
+                        } else {
+                            reject(request.response);
                         }
                     }
-                });
+                };
+            });
 
-                send.then(data => {
-                    this.$emit('uploaded', JSON.parse(data));
-                })
+            send.then(data => {
+                this.$emit('uploaded', JSON.parse(data));
+            })
                 .catch(err => {
                     this.$emit('uploadError', JSON.parse(err));
                 });
-            },
-        },
+        }
     }
+};
 </script>
 
 <style>

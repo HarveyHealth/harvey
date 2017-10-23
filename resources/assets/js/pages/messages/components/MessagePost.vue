@@ -10,43 +10,52 @@
         </div>
         <div class="message-post-body">
           <h2 class="heading-3-expand">{{ subjects }}</h2>
-          <p class="message-post-message copy-muted" :class="">{{ messages }}</p>
+          <p class="message-post-message copy-muted">{{ messages }}</p>
         </div>
     </div>
 </template>
 
 <script>
-    import moment from 'moment'
-    export default {
-        props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'timezone'],
-        name: 'MessagingPost',
-        data() {
-            return {  }
-        },
-        computed: {
-            messages() {
-                if (this.$props.message.split('').length > 50) {
-                    let message = this.$props.message.split('').splice(0, 47);
-                    message[47] === ' ' ? message.push('...') : message.push(' ...');
-                    return message.join('');
-                }
-                return this.$props.message;
-            },
-            momemtDate() {
-                moment.tz.add(this.$props.timezone);
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
-            },
-            subjects() {
-                if (this.$props.header.split('').length > 50) {
-                    let header = this.$props.header.split('').splice(0, 47);
-                    header[47] === ' ' ? header.push('...') : header.push(' ...');
-                    return header.join('');
-                }
-                return this.$props.header;
-            },
-            read() {
-                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0
+import moment from 'moment';
+export default {
+    props: {
+        name: String,
+        day: String,
+        time: String,
+        header: String,
+        message: String,
+        image: String,
+        id: String,
+        timezone: String
+    },
+    name: 'MessagingPost',
+    data() {
+        return {  };
+    },
+    computed: {
+        messages() {
+            if (this.$props.message.slice(0).split('').length > 50) {
+                let message = this.$props.message.slice(0).split('').splice(0, 47);
+                message[47] === ' ' ? message.push('...') : message.push(' ...');
+                return message.join('');
             }
+            return this.$props.message;
+        },
+        momemtDate() {
+            moment.tz.add(this.$props.timezone);
+            return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
+        },
+        subjects() {
+            if (this.$props.header.slice(0).split('').length > 50) {
+                let header = this.$props.header.slice(0).split('').splice(0, 47);
+                header[47] === ' ' ? header.push('...') : header.push(' ...');
+                return header.join('');
+            }
+            return this.$props.header;
+        },
+        read() {
+            return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0;
         }
     }
+};
 </script>

@@ -127,8 +127,22 @@ export default {
       this.isInvalidCode = false;
       this.clearCodeInputs();
     },
-    storeCode(value) {
-      this.code = value;
+    computed: {
+        title() {
+            return this.$root.$data.signup.phonePending
+                ? 'Enter Confirmation Code'
+                : 'Validate Phone Number';
+        },
+        subtext() {
+            return this.$root.$data.signup.phonePending
+                ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
+                : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
+        },
+        confirmInputComponent() {
+            return this.$children.filter(child => {
+                return child.hasOwnProperty('distribute');
+            })[0];
+        }
     },
     processConfirmation(code) {
       this.isInvalidCode = false;
@@ -211,22 +225,17 @@ export default {
       this.$root.$data.signup.phonePending = true;
       Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
     },
-    setInvalidCode() {
-      this.isPhoneConfirming = false;
-      this.isInvalidCode = true;
-    },
-  },
-  mounted () {
-    this.$root.toDashboard();
-    this.$root.$data.signup.visistedStages.push('phone');
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+    mounted () {
+        this.$root.toDashboard();
+        this.$root.$data.signup.visistedStages.push('phone');
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Phone');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Phone');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

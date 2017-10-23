@@ -10,7 +10,6 @@
 import './bootstrap';
 
 // HELPERS
-import {throttle, debounce} from 'lodash';
 
 // Forms handling, such as error handling, submit request, response handling, is extracted to a class
 // it is used for log in, register form on the public pages
@@ -49,7 +48,7 @@ const app = new Vue({
             form: new Form({
                 email: '',
                 password: '',
-                remember: false,
+                remember: false
             })
         },
         register: {
@@ -124,14 +123,14 @@ const app = new Vue({
         guestEmail: '',
         emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
-          'error-text': true,
-          'is-visible': false
+            'error-text': true,
+            'is-visible': false
         },
         emailCaptureSuccess: false
     },
     computed: {
-        bodyClassNames() {
-          return document.getElementsByTagName('body')[0].classList;
+        bodyClassNames () {
+            return document.getElementsByTagName('body')[0].classList;
         },
         isHomePage() {
           return window.location.pathname === '/';
@@ -150,90 +149,83 @@ const app = new Vue({
           const passes = (/[^@]+@\w+\.\w{2,}/).test(this.guestEmail);
           if (passes) {
             const visitorData = {
-              to: this.guestEmail,
-              template: 'subscribe',
-              _token: Laravel.app.csrfToken
+                to: this.guestEmail,
+                template: 'subscribe',
+                _token: Laravel.app.csrfToken
             }
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
               if (this.shouldTrack()) {
                 analytics.identify({
-                  email: this.guestEmail
+                    email: this.guestEmail
                 });
-              }
-            }).catch(error => {
-              if (error.response.status === 429) {
-                this.emailCaptureError = 'Oops, we\'ve already registered that email.';
-              } else {
-                this.emailCaptureError = 'Oops, error sending email. Please contact support.';
-              }
-              this.emailCaptureClasses['is-visible'] = true;
-            })
-          } else {
-            this.emailCaptureError = 'Oops, that is not a valid email address.';
-            this.emailCaptureClasses['is-visible'] = true;
-          }
+            } else {
+                this.emailCaptureError = 'Oops, that is not a valid email address.';
+                this.emailCaptureClasses['is-visible'] = true;
+            }
         },
         // Passed as props to log in and register forms
         // in `resources/views/auth/login.blade.php` & `resources/views/auth/register.blade.php`
-        onSubmit(e) {
+        onSubmit (e) {
             this.isProcessing = true;
-            let target = e.target,
-                formId = target.id,
-                formMethod = target.method,
-                formAction = target.action,
-                formRedirectUrl = target.getAttribute('redirect-url');
+            let target = e.target;
+            let formId = target.id;
+            let formMethod = target.method;
+            let formAction = target.action;
+            let formRedirectUrl = target.getAttribute('redirect-url');
 
             const cancelProcessing = () => this.isProcessing = false;
 
             this[formId].form.submit(formMethod, formAction, this.onSuccess.bind(null, formRedirectUrl), cancelProcessing);
         },
-        onSuccess(redirectUrl) {
+        onSuccess (redirectUrl) {
             location.href = redirectUrl;
 
-            if (formId == 'register') {
+            if (formId === 'register') {
                 // if (typeof mixpanel !== 'undefined') mixpanel.track("New Signup");
             }
         },
         // Symptoms selector
-        onChanged() {
+        onChanged () {
             this.symptomsChanged = true;
         },
-        getStarted() {
+        getStarted () {
             if (this.symptomsChanged) {
                 // user interacted with symptoms, save it to session storage
-                let formattedStats = Object.keys(this.symptomsStats)
-                    .reduce( (ret, key) => {
+                const formattedStats = Object.keys(this.symptomsStats)
+                    .reduce((ret, key) => {
                         ret[key] = this.symptomsStats[key].value;
                         return ret;
-                    }, {} );
+                    }, {});
                 try {
                     sessionStorage.setItem('symptoms', JSON.stringify(formattedStats));
-                } catch(e) {}
+                } catch (e) {
+                    sessionStorage.removeItem('symptoms');
+                }
             }
 
             this.symptomsSaving = true;
 
-            setTimeout(()=> {
+            setTimeout(() => {
                 location.href = '/signup';
             }, 400);
         },
-        checkWhichPage(...args) {
+        checkWhichPage (...args) {
             let result = false;
             result = [...args].some(arg => {
                 return this.bodyClassNames.contains(arg);
             });
             return result;
         },
-        invertNavOnScroll(e) {
+        invertNavOnScroll () {
             if (window.pageYOffset > this.navScrollThreshold) {
                 if (this.navIsInverted) this.navIsInverted = false;
             } else {
                 if (!this.navIsInverted) this.navIsInverted = true;
             }
         },
-        onIframeClick() {
-            if(document.activeElement === document.querySelector('iframe')) {
+        onIframeClick () {
+            if (document.activeElement === document.querySelector('iframe')) {
                 setTimeout(() => {
                     this.showSignupContent = false;
                 }, 200);
@@ -244,25 +236,25 @@ const app = new Vue({
                 window.removeEventListener('blur', this.onIframeClick);
             }
         },
-        shouldTrack() {
-          return env === 'production' || env === 'prod';
+        shouldTrack () {
+            return env === 'production' || env === 'prod';
         },
-        getUrlParams() {
-          const url = window.location.search;
-          if (!url) return null;
+        getUrlParams () {
+            const url = window.location.search;
+            if (!url) return null;
 
-          return (/^[?#]/.test(url) ? url.slice(1) : url)
-            .split('&')
-            .reduce((params, param) => {
-              let [key, value] = param.split('=');
-              params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-              return params;
-            }, {});
-        },
+            return (/^[?#]/.test(url) ? url.slice(1) : url)
+                .split('&')
+                .reduce((params, param) => {
+                    const [key, value] = param.split('=');
+                    params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                    return params;
+                }, {});
+        }
     },
-    mounted() {
+    mounted () {
         this.$nextTick(() => {
-          this.appLoaded = true;
+            this.appLoaded = true;
         });
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
 
@@ -271,27 +263,27 @@ const app = new Vue({
         const path = window.location.pathname;
 
         if (this.shouldTrack()) {
-          let currentPage = '';
+            let currentPage = '';
 
-          if(this.isHomePage) {
-            currentPage = 'Homepage';
-          } else if (path === '/about') {
-            currentPage = 'About';
-          } else if (path === '/lab-tests') {
-            currentPage = 'Lab Tests';
-          }
+            if (this.isHomePage) {
+                currentPage = 'Homepage';
+            } else if (path === '/about') {
+                currentPage = 'About';
+            } else if (path === '/lab-tests') {
+                currentPage = 'Lab Tests';
+            }
 
-          // send the page event
-          analytics.page(currentPage);
+            // send the page event
+            analytics.page(currentPage);
 
-          // indentify and send along any url paramaters if they exist
-          const parameterObject = this.getUrlParams();
-          if(parameterObject !== null) {
-            analytics.identify(parameterObject);
-          }
+            // indentify and send along any url paramaters if they exist
+            const parameterObject = this.getUrlParams();
+            if (parameterObject !== null) {
+                analytics.identify(parameterObject);
+            }
         }
     },
-    destroyed() {
+    destroyed () {
         if (this.isHomePage) {
             window.removeEventListener('scroll');
         } else if (this.checkWhichPage('signup', 'register')) {
@@ -299,3 +291,5 @@ const app = new Vue({
         }
     }
 }).$mount('#app');
+
+export default app;

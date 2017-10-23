@@ -16,7 +16,7 @@
 import SelectOptions from '../../../commons/SelectOptions.vue';
 
 export default {
-  props: {
+    props: {
     // Status string to be converted for SelectOptions
     duration: String,
     // Is the status editable or display only?
@@ -35,6 +35,5 @@ export default {
     handleSelect(e) {
       this.setDuration(this.list[e.target.selectedIndex - 1]);
     }
-  }
-}
+};
 </script>

@@ -97,34 +97,34 @@
 </template>
 
 <script>
-    import Form from '../utils/objects/Form.js';
-
-    export default {
-        name: 'payment',
-        props: ['user', 'form'],
-        // data() {
-        //     return {
-        //         form: new Form({
-        //             number: '',
-        //             exp_month: '',
-        //             exp_year: '',
-        //             cvc: '',
-        //             address_zip: ''
-        //         })
-        //     }
-        // },
-        methods: {
-            onSubmit() {
-                // Request a token from Stripe:
-                Stripe.card.createToken(this.form.data(), this.stripeResponseHandler);
-            },
-            stripeResponseHandler(status, response) {
-                console.log(status)
-                console.log(response)
-            }
+export default {
+    name: 'payment',
+    props: {
+        form: Object
+    },
+    // data() {
+    //     return {
+    //         form: new Form({
+    //             number: '',
+    //             exp_month: '',
+    //             exp_year: '',
+    //             cvc: '',
+    //             address_zip: ''
+    //         })
+    //     }
+    // },
+    methods: {
+        onSubmit() {
+            // Request a token from Stripe:
+            Stripe.card.createToken(this.form.data(), this.stripeResponseHandler);
         },
-        mounted() {
-          // this.$eventHub.$emit('mixpanel', "View Payments Page");
+        stripeResponseHandler(status, response) {
+            console.log(status);
+            console.log(response);
         }
+    },
+    mounted() {
+        // this.$eventHub.$emit('mixpanel', "View Payments Page");
     }
+};
 </script>

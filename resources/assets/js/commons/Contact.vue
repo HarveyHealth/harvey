@@ -18,26 +18,26 @@
 </template>
 
 <script>
-    import {capitalize, hyperlink} from '../utils/filters/textformat.js';
+import {capitalize, hyperlink} from '../utils/filters/textformat.js';
 
-    export default {
-        data() {
-            return {
-                show: false,
-                types: {
-                    phone: '(310) 907-5302',
-                    email: 'support@goharvey.com'
-                }
+export default {
+    data() {
+        return {
+            show: false,
+            types: {
+                phone: '(310) 907-5302',
+                email: 'support@goharvey.com'
             }
-        },
-        methods: {
-            capitalize,
-            hyperlink
-        },
-        created() {
-            this.$eventHub.$on('toggle-contact', () => {
-                this.show = !this.show;
-            });
-        }
+        };
+    },
+    methods: {
+        capitalize,
+        hyperlink
+    },
+    created() {
+        this.$eventHub.$on('toggle-contact', () => {
+            this.show = !this.show;
+        });
     }
+};
 </script>

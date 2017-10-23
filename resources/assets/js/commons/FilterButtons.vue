@@ -43,5 +43,5 @@ export default {
       if (this.flyout) this.flyout();
     }
   }
-}
+};
 </script>

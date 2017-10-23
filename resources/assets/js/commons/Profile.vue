@@ -219,43 +219,46 @@
 </template>
 
 <script>
-    import {assign} from 'lodash';
-    import Form from '../utils/objects/Form.js';
+import {assign} from 'lodash';
 
-    export default {
-        name: 'profile',
-        props: ['user', 'includeCta', 'form'],
-        // data() {
-        //     return {
-        //         form: new Form({
-        //             first_name: '',
-        //             last_name: '',
-        //             email: '',
-        //             phone: '',
-        //             gender: '',
-        //             birthdate: '',
-        //             height_feet: '',
-        //             height_inches: '',
-        //             weight: ''
-        //         })
-        //     }
-        // },
-        methods: {
-            onSubmit() {
-                this.form.submit('put', 'api/users', this.onSuccess);
-            },
-            onSuccess() {
-                // this.$eventHub.$emit('mixpanel', "Profile Updated");
-                this.$router.push('/payment');
-            }
+export default {
+    name: 'profile',
+    props: {
+        form: Object,
+        includeCta: Boolean,
+        user: Object
+    },
+    // data() {
+    //     return {
+    //         form: new Form({
+    //             first_name: '',
+    //             last_name: '',
+    //             email: '',
+    //             phone: '',
+    //             gender: '',
+    //             birthdate: '',
+    //             height_feet: '',
+    //             height_inches: '',
+    //             weight: ''
+    //         })
+    //     }
+    // },
+    methods: {
+        onSubmit() {
+            this.form.submit('put', 'api/users', this.onSuccess);
         },
-        watch: {
-            user() {
-                _.assign(this.form, this.user);
-            }
-        },
-        mounted() {
-            // this.$eventHub.$emit('mixpanel', "View Profile Page");
+        onSuccess() {
+            // this.$eventHub.$emit('mixpanel', "Profile Updated");
+            this.$router.push('/payment');
         }
+    },
+    watch: {
+        user() {
+            assign(this.form, this.user);
+        }
+    },
+    mounted() {
+        // this.$eventHub.$emit('mixpanel', "View Profile Page");
     }
+};
 </script>

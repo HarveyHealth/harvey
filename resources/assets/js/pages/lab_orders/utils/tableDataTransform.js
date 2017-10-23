@@ -1,5 +1,3 @@
-import convertStatus from './convertStatus';
-import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 import moment from 'moment';
 import _ from 'lodash';
@@ -15,7 +13,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             practitioner_id: obj.attributes.practitioner_id,
             status_id: obj.attributes.status_id,
             shipment_code: obj.attributes.shipment_code,
-            completed_at: obj.attributes.status == "complete" ? "Complete" : capitalize(obj.attributes.status),
+            completed_at: obj.attributes.status == 'complete' ? 'Complete' : capitalize(obj.attributes.status),
             tests_status: {},
             sku_ids: {},
             result_urls: {},
@@ -63,7 +61,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     current_status: capitalize(test.attributes.status),
                     sku: test.included,
                     shipment_code: test.attributes.shipment_code
-                })
+                });
             }
         })
         data.test_list = data.test_list.filter(e => e.original_status !== 'canceled')
@@ -77,6 +75,6 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 data.number_of_tests,
                 data.completed_at
             ]
-        }
-    })
+        };
+    });
 }

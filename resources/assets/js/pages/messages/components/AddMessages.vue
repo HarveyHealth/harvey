@@ -34,14 +34,25 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    import _ from 'lodash';
-    import Flyout from '../../../commons/Flyout.vue';
-    export default {
-        props: [],
-        name: 'Preview',
-        components: {
-            Flyout
+import axios from 'axios';
+import _ from 'lodash';
+import Flyout from '../../../commons/Flyout.vue';
+export default {
+    name: 'Preview',
+    components: {
+        Flyout
+    },
+    data() {
+        return {
+            close: this.$parent.close,
+            selected: '',
+            subject: '',
+            message: ''
+        };
+    },
+    methods: {
+        updateUser(e) {
+            this.selected = e.target.children[e.target.selectedIndex].dataset.id;
         },
         data() {
             return {
@@ -67,45 +78,45 @@
                 .then(response => {
                     this.$root.$data.global.detailMessages[`${this.makeThreadId(response.data.data.attributes.sender_user_id, response.data.data.attributes.recipient_user_id)}-${response.data.data.attributes.subject}`] = [response.data.data];
                     this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages).map(e => e[e.length - 1]).sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
-                    this.$parent.messageList = this.$root.$data.global.messages
+                    this.$parent.messageList = this.$root.$data.global.messages;
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
                 })
                 .catch(error => {
                     console.log(`ERROR`, error);
-                })
-                this.$parent.close();
+                });
+            this.$parent.close();
+        }
+    },
+    computed: {
+        userList() {
+            const store = this.$root.$data.global;
+            if (this.$root.$data.permissions === 'patient') {
+                store.confirmedDoctors = store.appointments
+                    .filter(e =>  e.attributes.status === 'complete')
+                    .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e));
+                return [''].concat(store.confirmedDoctors);
+            } else if (this.$root.$data.permissions === 'practitioner') {
+                store.confirmedPatients = store.appointments
+                    .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
+                    .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+                store.confirmedPatients = _.uniq(store.confirmedPatients);
+                return [''].concat(store.confirmedPatients);
+            } else if (this.$root.$data.permissions === 'admin') {
+                return [''].concat(store.practitioners).concat(store.patients);
             }
         },
-        computed: {
-            userList() {
-              const store = this.$root.$data.global;
-                if (this.$root.$data.permissions === 'patient') {
-                    store.confirmedDoctors = store.appointments
-                        .filter(e =>  e.attributes.status === 'complete')
-                        .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-                    store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e))
-                    return [''].concat(store.confirmedDoctors);
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    store.confirmedPatients = store.appointments
-                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                        .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
-                    store.confirmedPatients = _.uniq(store.confirmedPatients)
-                    return [''].concat(store.confirmedPatients);
-                } else if (this.$root.$data.permissions === 'admin') {
-                    return [''].concat(store.practitioners).concat(store.patients);
-                }
-            },
-            toUserType() {
-                const store = this.$root.$data.global;
-                if (store.user.attributes.user_type === 'patient') {
-                    return "doctor";
-                } else if (store.user.attributes.user_type === 'practitioner') {
-                    return "patient";
-                } else if (store.user.attributes.user_type === 'admin') {
-                    return "all";
-                }
+        toUserType() {
+            const store = this.$root.$data.global;
+            if (store.user.attributes.user_type === 'patient') {
+                return "doctor";
+            } else if (store.user.attributes.user_type === 'practitioner') {
+                return "patient";
+            } else if (store.user.attributes.user_type === 'admin') {
+                return "all";
             }
         }
     }
+};
 </script>

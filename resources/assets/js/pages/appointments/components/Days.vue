@@ -17,11 +17,10 @@
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
-  props: {
+    props: {
     // A given day string to set as the selection or display
     day: String,
     // Do we need to give options, or just display given day?
@@ -49,14 +48,23 @@ export default {
       if (this.editable && this.mode === 'update') return 'Reschedule';
       return 'booked for';
     },
-    $$selectedDay() {
-      return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
+    components: {
+        SelectOptions
+    },
+    computed: {
+        $$label() {
+            if (this.editable && this.mode === 'new') return 'Date & Time';
+            if (this.editable && this.mode === 'update') return 'Reschedule';
+            return 'booked for';
+        },
+        $$selectedDay() {
+            return this.time ? toLocal(this.time, 'dddd, MMMM Do') : '';
+        }
+    },
+    methods: {
+        handleSelect(e) {
+            this.setTimes(e.target.value, e.target.selectedIndex);
+        }
     }
-  },
-  methods: {
-    handleSelect(e) {
-      this.setTimes(e.target.value, e.target.selectedIndex);
-    }
-  }
-}
+};
 </script>

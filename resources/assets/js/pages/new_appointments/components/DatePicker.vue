@@ -14,33 +14,37 @@
 </template>
 
 <script>
-    import moment from 'moment';
+import moment from 'moment';
 
-    export default {
-        props: ['selectedDate', 'maximumDays', 'startDateTime'],
-        methods: {
-            onDateChange(date) {
-                this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});
-            },
-            isSameDate(a, b) {
-                return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
-            }
+export default {
+    props: {
+        selectedDate: String,
+        maximumDays: String,
+        startDateTime: String
+    },
+    methods: {
+        onDateChange(date) {
+            this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});
         },
-        computed: {
-            dates() {
-                let dates = new Array();
-                let currentDate = moment(this.startDateTime).local();
-
-                for (var i = 1; i <= this.maximumDays; i++) {
-                    dates.push( currentDate );
-                    currentDate = moment(this.startDateTime).local().add(i, 'days');
-                }
-
-                return dates;
-            }
-        },
-        mounted() {
-            this.onDateChange(this.dates[0]);
+        isSameDate(a, b) {
+            return a == b || (moment(a).isValid() && moment(a).diff(b) == 0);
         }
+    },
+    computed: {
+        dates() {
+            let dates = new Array();
+            let currentDate = moment(this.startDateTime).local();
+
+            for (var i = 1; i <= this.maximumDays; i++) {
+                dates.push( currentDate );
+                currentDate = moment(this.startDateTime).local().add(i, 'days');
+            }
+
+            return dates;
+        }
+    },
+    mounted() {
+        this.onDateChange(this.dates[0]);
     }
+};
 </script>

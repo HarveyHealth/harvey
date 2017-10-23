@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  props: {
+    props: {
     // Whether the modal is open or not
     active: {
       type: Boolean,
@@ -28,5 +28,5 @@ export default {
       required: true
     }
   }
-}
+};
 </script>

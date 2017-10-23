@@ -296,18 +296,17 @@ export default {
     persistTextFields(field, value) {
       localStorage.setItem(`sign up ${field}`, value)
     },
-  },
-  mounted () {
-    this.$root.toDashboard();
+    mounted () {
+        this.$root.toDashboard();
 
-    this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
+        this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page("Signup");
+        if(this.$root.shouldTrack()) {
+            analytics.page("Signup");
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

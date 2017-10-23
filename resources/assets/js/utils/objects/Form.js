@@ -1,19 +1,19 @@
-import {assign} from 'lodash';
+import { assign } from 'lodash';
 import Errors from './Errors.js';
 
 export default class Form {
-    constructor(data) {
+    constructor (data) {
         this.originalData = data;
 
-        for (let field in data) {
+        for (const field in data) {
             this[field] = data[field];
         }
 
         this.errors = new Errors();
     }
 
-    data() {
-        let data = _.assign({}, this);
+    data () {
+        const data = assign({}, this);
 
         delete data.originalData;
         delete data.errors;
@@ -21,19 +21,19 @@ export default class Form {
         return data;
     }
 
-    reset() {
-        for (let field in this.originalData) {
+    reset () {
+        for (const field in this.originalData) {
             this[field] = '';
         }
     }
 
-    submit(requestType, url, successCallback, failCallback) {
-        axios[requestType]( url, this.data() )
-            .then( this.onSuccess.bind(this, successCallback) )
+    submit (requestType, url, successCallback, failCallback) {
+        axios[requestType](url, this.data())
+            .then(this.onSuccess.bind(this, successCallback))
             .catch(error => this.onFail(error, failCallback));
     }
 
-    onSuccess(successCallback) {
+    onSuccess (successCallback) {
         this.errors.clear();
 
         if (successCallback && typeof successCallback === 'function') {
@@ -41,7 +41,7 @@ export default class Form {
         }
     }
 
-    onFail(error, failCallback) {
+    onFail (error, failCallback) {
         if (error.response && error.response.data) {
             this.errors.record(error.response.data);
         }

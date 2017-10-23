@@ -125,28 +125,33 @@ export default {
     specialty(list) {
       return list.join(', ');
     },
-    year(value) {
-      return moment(value).format('YYYY');
-    }
-  },
-  // This is for when the component loads before the practitioner list has finished loading
-  watch: {
-    practitioners(list) {
-      if (list.length) {
-        this.select(list[0], 0, true);
-      }
-    }
-  },
-  computed: {
-    hasSelection() {
-      return this.selected !== null;
+    data() {
+        return {
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true
+            },
+            errorText: null,
+            isProcessing: false,
+            store: this.$root.$data
+        };
     },
-    // Grab up to 8 practitioners
-    practitioners() {
-      return this.store.global.practitioners.slice(0, 8);
+    filters: {
+        specialty(list) {
+            return list.join(', ');
+        },
+        year(value) {
+            return moment(value).format('YYYY');
+        }
     },
-    selected() {
-      return this.store.signup.selectedPractitioner;
+    // This is for when the component loads before the practitioner list has finished loading
+    watch: {
+        practitioners(list) {
+            if (list.length) {
+                this.select(list[0], 0, true);
+            }
+        }
     },
     nextStage() {
       return Laravel.user.phone_verified_at
@@ -158,48 +163,52 @@ export default {
     determineImage(image, type) {
       return image ? image : `https://d35oe889gdmcln.cloudfront.net/assets/images/default_${type}_image.png`;
     },
-    getAvailability(id) {
-      this.isProcessing = true;
-      if (!this.store.signup.data.practitioner_id) {
-        this.errorText = 'Please select a practitioner by clicking their box.';
-        this.isProcessing = false;
-        return;
-      }
-      this.$root.getAvailability(id, response => {
-        this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
-        if (!this.store.signup.availability.length) {
-          this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
-          this.isProcessing = false;
-        } else {
-          this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
+    methods: {
+        determineImage(image, type) {
+            return image ? image : `/images/default_${type}_image.png`;
+        },
+        getAvailability(id) {
+            this.isProcessing = true;
+            if (!this.store.signup.data.practitioner_id) {
+                this.errorText = 'Please select a practitioner by clicking their box.';
+                this.isProcessing = false;
+                return;
+            }
+            this.$root.getAvailability(id, response => {
+                this.store.signup.availability = transformAvailability(response.data.meta.availability, Laravel.user.user_type);
+                if (!this.store.signup.availability.length) {
+                    this.errorText = 'Unfortunately, we don\'t have any availability for that doctor in the next month, please choose another doctor. If you\'re stuck, give us a call at <a class="font-sm" href="tel:8006909989">800-690-9989</a>.';
+                    this.isProcessing = false;
+                } else {
+                    this.$router.push({ name: this.nextStage, path: `/${this.nextStage}` });
+                }
+            });
+        },
+        select(dr, index, noScroll) {
+            // We've added noScroll for the initial selection of the first practitioner.
+            // The ref hasn't registered yet so it throws a console error
+            const shouldScroll = !noScroll || false;
+            if (shouldScroll) this.$refs.button.scrollIntoView();
+            this.store.signup.selectedPractitioner = index;
+            this.store.signup.data.practitioner_id = dr.id;
+            this.store.signup.practitionerName = dr.info.name;
+            this.store.signup.practitionerState = dr.info.license_state;
+            this.errorText = null;
         }
-      });
     },
-    select(dr, index, noScroll) {
-      // We've added noScroll for the initial selection of the first practitioner.
-      // The ref hasn't registered yet so it throws a console error
-      const shouldScroll = !noScroll || false;
-      if (shouldScroll) this.$refs.button.scrollIntoView();
-      this.store.signup.selectedPractitioner = index;
-      this.store.signup.data.practitioner_id = dr.id;
-      this.store.signup.practitionerName = dr.info.name;
-      this.store.signup.practitionerState = dr.info.license_state;
-      this.errorText = null;
-    }
-  },
-  mounted () {
-    this.$root.toDashboard();
-    this.$root.$data.signup.visistedStages.push('practitioner');
-    // This is for when the component loads after the practitioners had loaded
-    if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+    mounted () {
+        this.$root.toDashboard();
+        this.$root.$data.signup.visistedStages.push('practitioner');
+        // This is for when the component loads after the practitioners had loaded
+        if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Practitioner');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Practitioner');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

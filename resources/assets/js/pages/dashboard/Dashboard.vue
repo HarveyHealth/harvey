@@ -80,13 +80,10 @@
 </template>
 
 <script>
-  import DashboardAppointments from './components/DashboardAppointments.vue';
-  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
-  import Contact from '../../utils/mixins/Contact';
-  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
-  import getAppointments from '../../utils/methods/getAppointments';
+import DashboardAppointments from './components/DashboardAppointments.vue';
+import { phone } from '../../utils/filters/textformat.js';
 
-  export default {
+export default {
     name: 'dashboard',
     data() {
       return {
@@ -96,12 +93,12 @@
       };
     },
     components: {
-      DashboardAppointments,
+        DashboardAppointments
     },
     methods: {
-      viewAppointmentPage() {
+        viewAppointmentPage() {
         // add tracking for Appointments Page view here
-      }
+        }
     },
     computed: {
       dashboardTitle() {
@@ -180,17 +177,17 @@
       }
     },
     beforeMount() {
-      let flag = localStorage.getItem('signed up');
-      if (flag) {
-        localStorage.removeItem('signed up');
-      }
+        let flag = localStorage.getItem('signed up');
+        if (flag) {
+            localStorage.removeItem('signed up');
+        }
     },
     mounted() {
-      this.$root.$data.global.currentPage = 'dashboard';
-      if (localStorage.getItem('signed up')) return null;
-      if(this.$root.shouldTrack()) {
+        this.$root.$data.global.currentPage = 'dashboard';
+        if (localStorage.getItem('signed up')) return null;
+        if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
-      }
+        }
     }
-  }
+};
 </script>

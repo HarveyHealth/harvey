@@ -13,7 +13,7 @@
       <ClientsTable
           :handle-row-click="handleRowClick"
           :loading="loadingClients"
-          :selected-row="null"
+          :selected-row="{}"
           :updating-row="null"
           :updated-row="null"
           :tableRowData="currentData"
@@ -24,16 +24,16 @@
 </template>
 
 <script>
-  import ClientsTable from './components/ClientsTable.vue'
-  import UserNav from '../../commons/UserNav.vue'
-  import tableDataTransform from './utils/tableData'
-  export default {
-      name: 'Clients',
-      components: {
+import ClientsTable from './components/ClientsTable.vue';
+import UserNav from '../../commons/UserNav.vue';
+import tableDataTransform from './utils/tableData';
+export default {
+    name: 'Clients',
+    components: {
         ClientsTable,
         UserNav
-      },
-      data() {
+    },
+    data() {
         return {
           currentData: []
         }
@@ -46,8 +46,8 @@
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
-            }
+                'has-updated': this.updatedRow === index
+            };
         },
         setupLabData() {
             let data = tableDataTransform(this.$root.$data.clientList);
@@ -63,7 +63,7 @@
         }
     },
     watch: {
-        loadingClients(val, old) {
+        loadingClients(val) {
             if (!val) {
                 this.setupLabData();
             }
@@ -78,5 +78,5 @@
             this.setupLabData();
         }
     }
-  }
+};
 </script>

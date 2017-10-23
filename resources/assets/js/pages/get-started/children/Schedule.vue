@@ -101,82 +101,131 @@ export default {
         ? { name: 'practitioner', display: 'Practitioner' }
         : { name: 'phone', display: 'Phone' };
     },
-    selectedWeek() {
-      return this.$root.$data.signup.selectedWeek;
+    data() {
+        return {
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true
+            },
+            errorText: null,
+            isProcessing: false,
+            weeks: 4,
+            weekStart: moment().startOf('week')
+        };
     },
-    selectedDate() {
-      return this.$root.$data.signup.selectedDate;
+    filters: {
+        fullDate(value) {
+            return moment(value).format('dddd, MMMM Do');
+        },
+        timeDisplay(value) {
+            return moment(value)
+                .format('h:mm a')
+                .replace(/[m ]*/g,'')
+                .replace(/:00/,'');
+        },
+        weekDay(value) {
+            return moment(value).format('MMM D');
+        }
     },
-    selectedDay() {
-      return this.$root.$data.signup.selectedDay;
-    },
-    selectedTime() {
-      return this.$root.$data.signup.selectedTime;
-    },
-    weekData() {
-      const list = this.$root.$data.signup.availability;
-      const weeks = [];
-      for (let i = 1; i <= this.weeks; i++) {
-        weeks.push(this.createWeek(this.weekStart));
-      }
-      list.forEach(dayObj => {
-        // Cycle through week objects and compare with date
-        weeks.forEach(weekObj => {
-          if (this.dayWithWeek(dayObj.date, weekObj.start)) {
-            weekObj.days[dayObj.day.substring(0,3)] = {
-              date: dayObj.date,
-              times: dayObj.times.map(t => t.stored)
+    computed: {
+        availableTimes() {
+            return this.$root.$data.signup.availableTimes;
+        },
+        prevStage() {
+            return Laravel.user.phone_verified_at
+                ? { name: 'practitioner', display: 'Practitioner' }
+                : { name: 'phone', display: 'Phone' };
+        },
+        selectedWeek() {
+            return this.$root.$data.signup.selectedWeek;
+        },
+        selectedDate() {
+            return this.$root.$data.signup.selectedDate;
+        },
+        selectedDay() {
+            return this.$root.$data.signup.selectedDay;
+        },
+        selectedTime() {
+            return this.$root.$data.signup.selectedTime;
+        },
+        weekData() {
+            const list = this.$root.$data.signup.availability;
+            const weeks = [];
+            for (let i = 1; i <= this.weeks; i++) {
+                weeks.push(this.createWeek(this.weekStart));
             }
-          }
-        })
-      })
-      return weeks;
-    }
-  },
-  methods: {
-    checkAppointment() {
-      this.errorText = null;
-      if (this.selectedTime === null) {
-        this.errorText = 'Please select a valid date and time.';
-        return;
-      }
-      this.isProcessing = true;
-      this.$router.push({ name: 'payment', path: '/payment' });
+            list.forEach(dayObj => {
+                // Cycle through week objects and compare with date
+                weeks.forEach(weekObj => {
+                    if (this.dayWithWeek(dayObj.date, weekObj.start)) {
+                        weekObj.days[dayObj.day.substring(0,3)] = {
+                            date: dayObj.date,
+                            times: dayObj.times.map(t => t.stored)
+                        };
+                    }
+                });
+            });
+            return weeks;
+        }
     },
-    createWeek(start) {
-      return {
-        start: start.add(1, 'days').format('YYYY-MM-DD'),
-        end: start.add(6, 'days').format('YYYY-MM-DD'),
-        days: { Mon: null, Tue: null, Wed: null, Thu: null, Fri: null, Sat: null, Sun: null }
-      };
-    },
-    dayWithWeek(date, start) {
-      return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
-    },
-    handleSelectDay(index, day, dayObj) {
-      if (dayObj && dayObj.times.length) {
-        // reset
-        this.$root.$data.signup.selectedTime = null;
-        this.$root.$data.signup.selectedDate = null;
+    methods: {
+        checkAppointment() {
+            this.errorText = null;
+            if (this.selectedTime === null) {
+                this.errorText = 'Please select a valid date and time.';
+                return;
+            }
+            this.isProcessing = true;
+            this.$router.push({ name: 'payment', path: '/payment' });
+        },
+        createWeek(start) {
+            return {
+                start: start.add(1, 'days').format('YYYY-MM-DD'),
+                end: start.add(6, 'days').format('YYYY-MM-DD'),
+                days: { Mon: null, Tue: null, Wed: null, Thu: null, Fri: null, Sat: null, Sun: null }
+            };
+        },
+        dayWithWeek(date, start) {
+            return moment(date).startOf('week').add(1, 'days').format('YYYY-MM-DD') === start;
+        },
+        handleSelectDay(index, day, dayObj) {
+            if (dayObj && dayObj.times.length) {
+                // reset
+                this.$root.$data.signup.selectedTime = null;
+                this.$root.$data.signup.selectedDate = null;
 
-        if (window.outerWidth < 641) this.$refs.timeBox.scrollIntoView();
+                if (window.outerWidth < 641) this.$refs.timeBox.scrollIntoView();
 
-        this.$root.$data.signup.selectedWeek = index;
-        this.$root.$data.signup.selectedDate = dayObj.date;
-        this.$root.$data.signup.selectedDay = day;
-        this.$root.$data.signup.availableTimes = dayObj.times;
-      }
-    },
-    handleSelectTime(time, index) {
-      this.$root.$data.signup.selectedTime = index;
-      this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
-    },
-    hasAvailableDays(days) {
-      let pass = false;
-      for (let day in days) {
-        if (days[day] !== null) pass = true;
-      }
-      return pass;
+                this.$root.$data.signup.selectedWeek = index;
+                this.$root.$data.signup.selectedDate = dayObj.date;
+                this.$root.$data.signup.selectedDay = day;
+                this.$root.$data.signup.availableTimes = dayObj.times;
+            }
+        },
+        handleSelectTime(time, index) {
+            this.$root.$data.signup.selectedTime = index;
+            this.$root.$data.signup.data.appointment_at = moment(time).utc().format('YYYY-MM-DD HH:mm:ss');
+        },
+        hasAvailableDays(days) {
+            let pass = false;
+            for (let day in days) {
+                if (days[day] !== null) pass = true;
+            }
+            return pass;
+        },
+        weekReference(index) {
+            switch (index) {
+            case 0:
+                return 'This week';
+            case 1:
+                return 'Next week';
+            case 2:
+                return 'In two weeks';
+            case 3:
+                return 'In three weeks';
+            }
+        }
     },
     weekReference(index) {
       switch (index) {
@@ -196,12 +245,12 @@ export default {
     this.$root.$data.signup.visistedStages.push('schedule');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Schedule');
+        if(this.$root.shouldTrack()) {
+            analytics.page('Schedule');
+        }
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
     }
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+};
 </script>

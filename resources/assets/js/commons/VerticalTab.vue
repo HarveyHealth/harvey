@@ -14,29 +14,29 @@
 </template>
 
 <script>
-    import {uniqueId} from 'lodash';
+import {uniqueId} from 'lodash';
 
-    export default {
-        props: {
-            id: [String, Number],
-            label: [String, Number],
-            url: String,
-        },
-        data() {
-            return {
-                tabId: this.id || 'tab-' + _.uniqueId()
-            }
-        },
-        mounted() {
-            let parent = this.$parent;
+export default {
+    props: {
+        id: [String, Number],
+        label: [String, Number],
+        url: String
+    },
+    data() {
+        return {
+            tabId: this.id || 'tab-' + uniqueId()
+        };
+    },
+    mounted() {
+        let parent = this.$parent;
 
-            if (parent) {
-                parent.updateTab({
-                    id: this.tabId,
-                    label: this.label,
-                    url: this.url,
-                });
-            }
+        if (parent) {
+            parent.updateTab({
+                id: this.tabId,
+                label: this.label,
+                url: this.url
+            });
         }
     }
+};
 </script>

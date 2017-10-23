@@ -504,7 +504,7 @@ jQuery(window).load(function(){
 			var startID;
 
 			if ( startWidth < 480 )
-				startID = 'portrait'
+				startID = 'portrait';
 			else if ( startWidth < 768 )
 				startID = 'landscape';
 			else if ( startWidth < 959 )
@@ -514,7 +514,7 @@ jQuery(window).load(function(){
 			else if ( startWidth < 1425 )
 				startID = 'monitor-standard';
 			else
-				startID = 'big'
+				startID = 'big';
 
 			if ( ! jQuery('body').hasClass('single-post') ) {
 

@@ -85,69 +85,69 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import socket from '../pages/messages/websocket'
-  export default {
+import axios from 'axios';
+import socket from '../pages/messages/websocket';
+export default {
     computed: {
-      // Toggles font-awesome class name depending on state of menu
-      menuIcon() {
-        return {
-          'fa': true,
-          'fa-close': this.$root.$data.global.menuOpen,
-          'fa-navicon': !this.$root.$data.global.menuOpen
+        // Toggles font-awesome class name depending on state of menu
+        menuIcon() {
+            return {
+                'fa': true,
+                'fa-close': this.$root.$data.global.menuOpen,
+                'fa-navicon': !this.$root.$data.global.menuOpen
+            };
+        },
+        // Checks to see if there are any unread messages
+        unread() {
+            return this.$root.$data.global.unreadMessages.length > 0;
+        },
+        user() {
+            return this.$root.$data.permissions;
         }
-      },
-      // Checks to see if there are any unread messages
-      unread() {
-        return this.$root.$data.global.unreadMessages.length > 0;
-      },
-      user() {
-        return this.$root.$data.permissions
-      }
     },
     methods: {
-      // Updates class list with current page and unread information
-      currentPageCheck(page, unread) {
-        return {
-          'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
-          'unread': unread
+        // Updates class list with current page and unread information
+        currentPageCheck(page, unread) {
+            return {
+                'admin-nav-link': true,
+                'current': this.$root.$data.global.currentPage === page,
+                'unread': unread
+            };
+        },
+        // ** Handles mobile menu state and currentPage **
+        // When force = null the menu state will toggle
+        // force can also be false which will close the menu after a defined delay
+        // if an item is given, the currentPage will be set to that item
+        handleMenu(force, item) {
+            this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+            // Added delay to allow time for new component to render in the router-view
+            if (force === null) {
+                this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
+            } else {
+                setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
+            }
         }
-      },
-      // ** Handles mobile menu state and currentPage **
-      // When force = null the menu state will toggle
-      // force can also be false which will close the menu after a defined delay
-      // if an item is given, the currentPage will be set to that item
-      handleMenu(force, item) {
-        this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
-        // Added delay to allow time for new component to render in the router-view
-        if (force === null) {
-          this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
-        } else {
-          setTimeout(() => this.$root.$data.global.menuOpen = force, 200);
-        }
-      }
     },
     beforeMount() {
-      // Grabs messages to determine unread state for messages button
-      axios.get(`${this.$root.$data.apiUrl}/messages`)
-        .then(response => {
-          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-        })
+        // Grabs messages to determine unread state for messages button
+        axios.get(`${this.$root.$data.apiUrl}/messages`)
+            .then(response => {
+                this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id);
+            });
     },
     mounted() {
-      let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
-      let userId = this.$root.$data.global.user.id
-      channel.bind('App\\Events\\MessageCreated', (data) => {
-        let subject = data.data.attributes.subject
-          this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
-          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
-          this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
-            .map(e => e[e.length - 1])
-            .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-      })
+        let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
+        let userId = this.$root.$data.global.user.id;
+        channel.bind('App\\Events\\MessageCreated', (data) => {
+            let subject = data.data.attributes.subject;
+            this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
+            this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+            this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
+            this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
+                .map(e => e[e.length - 1])
+                .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
+        });
     }
-  }
+};
 </script>

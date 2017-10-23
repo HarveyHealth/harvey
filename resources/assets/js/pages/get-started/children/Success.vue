@@ -92,24 +92,38 @@ export default {
       const timeObject = this.appointmentDate.format('h:mm a');
       return timeObject;
     },
-    date() {
-      const dateObject = this.appointmentDate;
-      return dateObject;
-    }
-  },
-  methods: {
-    showIntakeModal() {
-      this.showModal = true;
+    data() {
+        return {
+            containerClasses: {
+                'anim-fade-slideup': true,
+                'anim-fade-slideup-in': false,
+                'container': true
+            },
+            showModal: false,
+            title: 'Your appointment is confirmed!',
+            note: 'You must complete the patient intake form (below) before talking with your doctor. We will send you text and email reminders before your appointment. Chat with us on this screen if you have any questions.',
+            intakeUrl: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${Laravel.user.id}`,
+            appointmentDate: this.$root.$data.signup.data.appointment_at,
+            appointmentInformation: this.$root.$data.signup.data,
+            env: this.$root.$data.environment,
+            calendarVisible: false,
+            calendarSummary: `Appointment with ${this.$root.$data.signup.practitionerName}`,
+            calendarStart: moment.utc(this.$root.$data.signup.data.appointment_at).local().format('MM/DD/YYYY hh:mm A'),
+            calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
+            calendarZone: '',
+            calendarLocation: '',
+            calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : ''
+        };
     },
-    sendToIntake() {
-      if (this.$root.isOnProduction()) {
-        // place intake tracking here
-      }
-    }
-  },
-  filters: {
-    toDate(date) {
-      return moment.utc(date).local().format('dddd, MMMM Do');
+    computed: {
+        time() {
+            const timeObject = this.appointmentDate.format('h:mm a');
+            return timeObject;
+        },
+        date() {
+            const dateObject = this.appointmentDate;
+            return dateObject;
+        }
     },
     toTime(date) {
       return moment.utc(date).local().format('h:mm a');
@@ -131,22 +145,22 @@ export default {
       analytics.page('Success');
     }
 
-    // From https://www.addevent.com/buttons/add-to-calendar
-    // Has to be added on component mount because it needs to be able to find
-    // the corresponding button in the DOM.
-    (function (context) {
-      var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-      s.type = 'text/javascript';
-      s.charset = 'UTF-8';
-      s.async = true;
-      s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addevent.com/libs/atc/1.6.1/atc.min.js';
-      var h = d[g]('body')[0];
-      h.appendChild(s)
-      s.onload = () => context.calendarVisible = true;
-    })(this);
-  },
-  beforeDestroy() {
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
-  }
-}
+        // From https://www.addevent.com/buttons/add-to-calendar
+        // Has to be added on component mount because it needs to be able to find
+        // the corresponding button in the DOM.
+        (function (context) {
+            var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+            s.type = 'text/javascript';
+            s.charset = 'UTF-8';
+            s.async = true;
+            s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addevent.com/libs/atc/1.6.1/atc.min.js';
+            var h = d[g]('body')[0];
+            h.appendChild(s);
+            s.onload = () => context.calendarVisible = true;
+        })(this);
+    },
+    beforeDestroy() {
+        this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
+    }
+};
 </script>

@@ -18,7 +18,7 @@
 import SelectOptions from '../../../commons/SelectOptions.vue';
 
 export default {
-  props: {
+    props: {
     // Is the practitioner list editable?
     editable: Boolean,
     // List should be visible, but disabled if the patient dropdown is editable and has not been selected yet
@@ -39,12 +39,5 @@ export default {
     isPatient() {
       return Laravel.user.user_type === 'patient';
     }
-  },
-  methods: {
-    handleSelect(e) {
-      // Subtract 1 from selectedIndex since there is an empty option in the list
-      this.setPractitioner(this.list[e.target.selectedIndex - 1].data);
-    }
-  }
-}
+};
 </script>

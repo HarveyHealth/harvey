@@ -15,7 +15,7 @@ import SelectOptions from '../../../commons/SelectOptions.vue';
 import convertStatus from '../utils/convertStatus';
 
 export default {
-  props: {
+    props: {
     // Is the status editable or display only?
     editable: Boolean,
     // List of status objects (see SelectOptions for structure)
@@ -34,11 +34,5 @@ export default {
     convertedStatus() {
       return convertStatus(this.status) || '';
     }
-  },
-  methods: {
-    handleSelect(e) {
-      this.setStatus(this.list[e.target.selectedIndex]);
-    }
-  }
-}
+};
 </script>

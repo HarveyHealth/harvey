@@ -66,7 +66,7 @@ function prepareMediaItem(fileObj, serverData) {
 	}
 	// New style: server data is just the attachment ID, fetch the thumbnail and form html from the server
 	else {
-		item.load('async-upload.php', {attachment_id:serverData, fetch:f}, function(){prepareMediaItemInit(fileObj);updateMediaForm()});
+		item.load('async-upload.php', {attachment_id:serverData, fetch:f}, function(){prepareMediaItemInit(fileObj);updateMediaForm();});
 	}
 }
 
@@ -158,7 +158,7 @@ function itemAjaxError(id, html) {
 				+ '<strong>' + swfuploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
 				+ html
 				+ '</div>');
-	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
+	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();});});
 }
 
 function deleteSuccess(data, textStatus) {
@@ -261,7 +261,7 @@ function wpFileError(fileObj, message) {
 				+ '<strong>' + swfuploadL10n.error_uploading.replace('%s', filename) + '</strong><br />'
 				+ message
 				+ '</div>');
-	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();})});
+	item.find('a.dismiss').click(function(){jQuery(this).parents('.media-item').slideUp(200, function(){jQuery(this).remove();});});
 }
 
 function fileQueueError(fileObj, error_code, message)  {

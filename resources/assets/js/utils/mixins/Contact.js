@@ -5,8 +5,8 @@ export default {
         Contact
     },
     methods: {
-        toggleContact() {
+        toggleContact () {
             this.$eventHub.$emit('toggle-contact');
         }
     }
-}
+};

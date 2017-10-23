@@ -34,7 +34,7 @@
 			.on( 'resize', resetPosition );
 
 		$input.blur(function() {
-			setTimeout(function() { $results.hide() }, 200);
+			setTimeout(function() { $results.hide(); }, 200);
 		});
 
 		$input.keydown(processKey);
@@ -210,7 +210,7 @@
 				if (token) {
 					token = token.replace(
 						new RegExp(q, 'ig'),
-						function(q) { return '<span class="' + options.matchClass + '">' + q + '</span>' }
+						function(q) { return '<span class="' + options.matchClass + '">' + q + '</span>'; }
 						);
 					items[items.length] = token;
 				}
@@ -285,7 +285,7 @@
 				$results.children('li:last-child').addClass(options.selectClass);
 
 		}
-	}
+	};
 
 	$.fn.suggest = function(source, options) {
 

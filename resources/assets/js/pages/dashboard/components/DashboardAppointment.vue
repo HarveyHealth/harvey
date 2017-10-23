@@ -23,39 +23,43 @@
 </template>
 
 <script>
-  import moment from 'moment-timezone';
-  import { capitalize, phone, hyperlink } from '../../../utils/filters/textformat.js';
-  import Contact from '../../../utils/mixins/Contact';
+import moment from 'moment-timezone';
+import { capitalize, phone, hyperlink } from '../../../utils/filters/textformat.js';
+import Contact from '../../../utils/mixins/Contact';
 
-  export default {
+export default {
     mixins: [Contact],
-    props: ['appointment', 'patientData', 'userType'],
+    props: {
+        appointment: Object,
+        patientData: Object,
+        userType: String
+    },
     data() {
-      return {
-        local_timezone: ''
-      }
+        return {
+            local_timezone: ''
+        };
     },
     methods: {
-      capitalize,
-      phone,
-      hyperlink
+        capitalize,
+        phone,
+        hyperlink
     },
     computed: {
-      localAppointmentTime() {
-        return this.$root.addTimezone(moment.utc(this.appointment.attributes.appointment_at.date).local().format('ddd, MMM Do [at] h:mm a'));
-      },
-      fullName() {
-        if (this.patientData.first_name) {
-          return `${capitalize(this.patientData.first_name)} ${capitalize(this.patientData.last_name)}`;
+        localAppointmentTime() {
+            return this.$root.addTimezone(moment.utc(this.appointment.attributes.appointment_at.date).local().format('ddd, MMM Do [at] h:mm a'));
+        },
+        fullName() {
+            if (this.patientData.first_name) {
+                return `${capitalize(this.patientData.first_name)} ${capitalize(this.patientData.last_name)}`;
+            }
+            return 'Patient';
+        },
+        user_type() {
+            return this.userType;
         }
-        return 'Patient';
-      },
-      user_type() {
-        return this.userType;
-      }
     },
     mounted() {
-      this.local_timezone = moment.tz.guess();
+        this.local_timezone = moment.tz.guess();
     }
-  }
+};
 </script>

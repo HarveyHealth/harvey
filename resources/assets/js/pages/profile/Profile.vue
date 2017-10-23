@@ -79,11 +79,11 @@
                                                 v-on:uploaded="uploadedProfileImage"
                                                 v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${this.user.id}/image/`"
+                                                :route="`api/v1/users/${user.id}/image/`"
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
-                                            <img :src="this.user.attributes.image_url" />
+                                            <img :src="user.attributes.image_url" />
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
@@ -140,7 +140,7 @@
           <h2 class="text-centered">Enter Phone Verification Code</h2>
           <div style="text-align: center;">
             <!-- confirmation inputs -->
-            <ConfirmInput ref="confirmInputs" :get-value="(val) => this.phoneConfirmation = val" />
+            <ConfirmInput ref="confirmInputs" :get-value="(val) => phoneConfirmation = val" />
 
             <!-- send text again button -->
             <button class="phone-process-button text-again" @click="handleTextResend">
@@ -166,26 +166,59 @@
 </template>
 
 <script>
-    import diff from 'object-diff';
-    import _ from 'lodash';
-    import timezones from '../../../../../public/timezones.json';
-    import states from '../../../../../public/states.json';
-    import NotificationPopup from '../../commons/NotificationPopup.vue';
-    import ImageUpload from '../../commons/ImageUpload.vue';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
-    import PractitionerProfile from './components/PractitionerProfile.vue';
-    import Modal from '../../commons/Modal.vue';
-    import ConfirmInput from '../../commons/ConfirmInput.vue';
+import diff from 'object-diff';
+import _ from 'lodash';
+import timezones from '../../../../../public/timezones.json';
+import states from '../../../../../public/states.json';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
+import ImageUpload from '../../commons/ImageUpload.vue';
+import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import PractitionerProfile from './components/PractitionerProfile.vue';
+import Modal from '../../commons/Modal.vue';
+import ConfirmInput from '../../commons/ConfirmInput.vue';
 
-    export default {
-        name: 'profile',
-        components: {
-          NotificationPopup,
-          ImageUpload,
-          ClipLoader,
-          PractitionerProfile,
-          Modal,
-          ConfirmInput
+export default {
+    name: 'profile',
+    components: {
+        NotificationPopup,
+        ImageUpload,
+        ClipLoader,
+        PractitionerProfile,
+        Modal,
+        ConfirmInput
+    },
+    data() {
+        return {
+            loadingProfileImage: false, // loading of the image on image upload
+            previousProfileImage: '',
+            practitioner: `${Laravel.user.practitionerId}` || null,
+            user_data: null,
+            user_id: this.$route.params.id,
+            timezones: timezones,
+            states: states,
+            errorSymbol: '!',
+            errorMessage: 'Error retrieving data',
+            successSymbol: '&#10003;',
+            successMessage: 'Changes Saved',
+            notificationError: false,
+            notificationSymbol: '&#10003;',
+            notificationMessage: 'Changes Saved',
+            notificationActive: false,
+            notificationDirection: 'top-right',
+            errorMessages: null,
+            submitting: false,
+            phoneModal: false,
+            phoneConfirmation: '',
+            phoneVerified: Laravel.user.phone_verified_at,
+            currentUserId: Laravel.user.id,
+            isInvalidCode: false,
+            isPhoneConfirming: false
+        };
+    },
+    methods: {
+        flashNotification() {
+            this.notificationActive = true;
+            setTimeout(() => this.notificationActive = false, 3000);
         },
         data() {
             return {
@@ -231,236 +264,232 @@
                 isPhoneConfirming: false,
             }
         },
-        methods: {
-            flashNotification() {
-                this.notificationActive = true;
-                setTimeout(() => this.notificationActive = false, 3000);
-            },
-            resetErrorMessages() {
-                this.errorMessages = null;
-            },
-            callErrorNotification(msg) {
-                this.notificationError = true;
-                this.notificationSymbol = this.errorSymbol;
-                this.notificationMessage = msg || this.errorMessage;
-                this.flashNotification();
-            },
-            callSuccessNotification() {
-              this.notificationError = false;
-              this.notificationSymbol = this.successSymbol;
-              this.notificationMessage = this.successMessage;
-              this.flashNotification();
-            },
-            handleVerifyClick() {
-              this.phoneModal = true;
-              this.handleTextSend(true);
-            },
-            handleTextSend(force) {
-              // If admin is editing someone else's phone number, do not call confirmation modal
-              if (this.$route.params.id) return;
+        handleVerifyClick() {
+            this.phoneModal = true;
+            this.handleTextSend(true);
+        },
+        handleTextSend(force) {
+            // If admin is editing someone else's phone number, do not call confirmation modal
+            if (this.$route.params.id) return;
 
-              const currentPhone = Laravel.user.phone;
-              const updatedPhone = this.updates.phone;
-              const shouldPatch = updatedPhone && (updatedPhone !== currentPhone);
+            const currentPhone = Laravel.user.phone;
+            const updatedPhone = this.updates.phone;
+            const shouldPatch = updatedPhone && (updatedPhone !== currentPhone);
 
-              // If force is true, send text verification no matter what
-              // If it is not true, check to see if verification should be sent
-              if (!force && !updatedPhone) {
+            // If force is true, send text verification no matter what
+            // If it is not true, check to see if verification should be sent
+            if (!force && !updatedPhone) {
                 return;
-              } else if (!force && updatedPhone) {
+            } else if (!force && updatedPhone) {
                 this.phoneModal = true;
                 this.isInvalidCode = false;
                 return;
-              }
+            }
 
-              this.phoneModal = true;
-              this.isInvalidCode = false;
+            this.phoneModal = true;
+            this.isInvalidCode = false;
 
-              // If phone was changed, patch the user's account to trigger text send
-              if (shouldPatch) {
+            // If phone was changed, patch the user's account to trigger text send
+            if (shouldPatch) {
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
-                  .then(response => {
+                    .then(() => {
                     // Update the Laravel object in case the user wants to update phone before refreshing
-                    Laravel.user.phone = updatedPhone;
-                  })
-                  .catch(error => {
-                    if (error.response) {
-                      console.log(error.response);
-                      this.callErrorNotification('Could not update user information');
-                    }
-                  })
-              // If phone is the same, post to send verification text again
-              } else if (!this.phoneVerified) {
-                axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
-                  .catch(error => {
-                    if (error.response) {
-                      console.log(error.response);
-                      this.callErrorNotification('Error sending verification text message');
-                    }
-                  })
-              }
-            },
-            handleTextResend() {
-              this.isInvalidCode = false;
-              this.resetConfirmInputs();
-              this.handleTextSend(true);
-            },
-            handleCodeConfirmation() {
-              // Simple validation to check if valid inputs
-              const isCodeValid = (/\d{5}/).test(this.phoneConfirmation);
-              if (!isCodeValid) {
-                this.isInvalidCode = true;
-                return;
-              }
-
-              this.isPhoneConfirming = true;
-
-              axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/verify?code=${this.phoneConfirmation}`)
-                .then(response => {
-                  this.isPhoneConfirming = false;
-                  // a successful return object is sent even if verification was unsuccessful
-                  if (response.data.verified) {
-                    this.phoneModal = false;
-                    this.phoneVerified = true;
-                    this.callSuccessNotification();
-                  } else {
-                    this.isInvalidCode = true;
-                    this.resetConfirmInputs();
-                  }
-                })
-                .catch(error => {
-                  if (error.response) {
-                    console.log(error.response)
-                    this.phoneModal = false;
-                    this.callErrorNotification('Verification could not be sent');
-                  }
-                })
-            },
-            resetConfirmInputs() {
-              this.phoneConfirmation = '';
-              Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
-                this.$refs.confirmInputs.$refs[i].value = '';
-              })
-              this.$refs.confirmInputs.$refs[0].focus();
-            },
-            submit() {
-                if(_.isEmpty(this.updates))
-                    return;
-
-                this.resetErrorMessages();
-
-                this.submitting = true;
-
-                axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
-                    .then(response => {
-                      this.callSuccessNotification();
-                      this.handleTextSend();
-                        if (this.canEditUsers) {
-                            this.user_data = response.data.data;
-                        } else {
-                            this.$root.$data.global.user = response.data.data;
-                        }
-                        this.submitting = false;
-                    })
-                    .catch(err => {
-                        this.errorMessages = err.response.data.errors;
-                        this.submitting = false;
-                    });
-            },
-            uploadingProfileImage() {
-                this.previousProfileImage = this.user.attributes.image_url;
-                this.loadingProfileImage = true;
-            },
-            uploadedProfileImage(response) {
-                this.user.attributes.image_url = response.data.attributes.image_url;
-                this.loadingProfileImage = false;
-                this.callSuccessNotification();
-            },
-            uploadError(err) {
-                this.user.attributes.image_url = this.previousProfileImage;
-                this.loadingProfileImage = false;
-                this.errorMessages = err.errors;
-            },
-            getData(userId) {
-                this.$root.$data.global.loadingUser = true;
-                axios.get(`${this.$root.$data.apiUrl}/users/${userId}?include=patient,practitioner`)
-                    .then(response => {
-                        // this.user_data persists the data retrieved from the server
-                        // so we can diff against it on PATCH
-                        this.$root.$data.global.loadingUser = false;
-                        this.user_data = response.data.data;
-                        this.user = _.cloneDeep(response.data.data);
-                        this.practitioner = response.data.data.relationships.practitioner.data.id;
+                        Laravel.user.phone = updatedPhone;
                     })
                     .catch(error => {
                         if (error.response) {
-                          if (error.response.status === 404) {
-                            this.errorMessage = 'Not a valid user id';
-                          }
-                          this.$router.push('/profile');
-                          this.user_id = null;
-                          this.$root.$data.global.loadingUser = false;
-                          this.callErrorNotification();
+                            console.log(error.response);
+                            this.callErrorNotification('Could not update user information');
+                        }
+                    });
+                // If phone is the same, post to send verification text again
+            } else if (!this.phoneVerified) {
+                axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
+                    .catch(error => {
+                        if (error.response) {
+                            console.log(error.response);
+                            this.callErrorNotification('Error sending verification text message');
                         }
                     });
             }
         },
-        mounted() {
-            // We need to bar non admins from hitting profile/:id
-            if (this.canEditUsers) {
-                this.user_id = this.$route.params.id;
-            } else if (this._user_id) {
+        handleTextResend() {
+            this.isInvalidCode = false;
+            this.resetConfirmInputs();
+            this.handleTextSend(true);
+        },
+        handleCodeConfirmation() {
+            // Simple validation to check if valid inputs
+            const isCodeValid = (/\d{5}/).test(this.phoneConfirmation);
+            if (!isCodeValid) {
+                this.isInvalidCode = true;
+                return;
+            }
+
+            this.isPhoneConfirming = true;
+
+            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/verify?code=${this.phoneConfirmation}`)
+                .then(response => {
+                    this.isPhoneConfirming = false;
+                    // a successful return object is sent even if verification was unsuccessful
+                    if (response.data.verified) {
+                        this.phoneModal = false;
+                        this.phoneVerified = true;
+                        this.callSuccessNotification();
+                    } else {
+                        this.isInvalidCode = true;
+                        this.resetConfirmInputs();
+                    }
+                })
+                .catch(error => {
+                    if (error.response) {
+                        console.log(error.response);
+                        this.phoneModal = false;
+                        this.callErrorNotification('Verification could not be sent');
+                    }
+                });
+        },
+        resetConfirmInputs() {
+            this.phoneConfirmation = '';
+            Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
+                this.$refs.confirmInputs.$refs[i].value = '';
+            });
+            this.$refs.confirmInputs.$refs[0].focus();
+        },
+        submit() {
+            if(_.isEmpty(this.updates))
+                return;
+
+            this.resetErrorMessages();
+
+            this.submitting = true;
+
+            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, this.updates)
+                .then(response => {
+                    this.callSuccessNotification();
+                    this.handleTextSend();
+                    if (this.canEditUsers) {
+                        this.user_data = response.data.data;
+                    } else {
+                        this.$root.$data.global.user = response.data.data;
+                    }
+                    this.submitting = false;
+                })
+                .catch(err => {
+                    this.errorMessages = err.response.data.errors;
+                    this.submitting = false;
+                });
+        },
+        uploadingProfileImage() {
+            this.previousProfileImage = this.user.attributes.image_url;
+            this.loadingProfileImage = true;
+        },
+        uploadedProfileImage(response) {
+            this.user.attributes.image_url = response.data.attributes.image_url;
+            this.loadingProfileImage = false;
+            this.callSuccessNotification();
+        },
+        uploadError(err) {
+            this.user.attributes.image_url = this.previousProfileImage;
+            this.loadingProfileImage = false;
+            this.errorMessages = err.errors;
+        },
+        getData(userId) {
+            this.$root.$data.global.loadingUser = true;
+            axios.get(`${this.$root.$data.apiUrl}/users/${userId}?include=patient,practitioner`)
+                .then(response => {
+                    // this.user_data persists the data retrieved from the server
+                    // so we can diff against it on PATCH
+                    this.$root.$data.global.loadingUser = false;
+                    this.user_data = response.data.data;
+                    this.user = _.cloneDeep(response.data.data);
+                    this.practitioner = response.data.data.relationships.practitioner.data.id;
+                })
+                .catch(error => {
+                    if (error.response) {
+                        if (error.response.status === 404) {
+                            this.errorMessage = 'Not a valid user id';
+                        }
+                        this.$router.push('/profile');
+                        this.user_id = null;
+                        this.$root.$data.global.loadingUser = false;
+                        this.callErrorNotification();
+                    }
+                });
+        }
+    },
+    mounted() {
+        // We need to bar non admins from hitting profile/:id
+        if (this.canEditUsers) {
+            this.user_id = this.$route.params.id;
+        } else if (this._user_id) {
+            this.$router.push('/profile');
+        }
+        this.$root.$data.global.currentPage = 'profile';
+    },
+    // If the user id parameter changes in the URL we want to trigger getData to populate fields
+    // with new user data corresponding to the id
+    watch: {
+        _user_id(id) {
+            if (id && this.canEditUsers) {
+                this.user_id = id;
+                this.getData(this.user_id);
+            } else {
                 this.$router.push('/profile');
             }
-            this.$root.$data.global.currentPage = 'profile';
+        }
+    },
+    computed: {
+        canEditUsers() {
+            return this._user_id && Laravel.user.user_type === 'admin';
         },
-        // If the user id parameter changes in the URL we want to trigger getData to populate fields
-        // with new user data corresponding to the id
-        watch: {
-            _user_id(id) {
-                if (id && this.canEditUsers) {
-                    this.user_id = id;
-                    this.getData(this.user_id);
-                } else {
-                    this.$router.push('/profile')
-                }
-            }
+        canEditPractitioners() {
+            return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
         },
-        computed: {
-            canEditUsers() {
-                return this._user_id && Laravel.user.user_type === 'admin';
-            },
-            canEditPractitioners() {
-                return Laravel.user.practitionerId || (this.canEditUsers && 'practitioner' == this.user.attributes.user_type);
-            },
-            // loading is connected to global state since that's where the main user api call is made
-            loading() {
-                return this.$root.$data.global.loadingUser;
-            },
-            phoneNotVerified() {
-              return !this.$route.params.id && !this.phoneVerified;
-            },
-            updates() {
-                // We want to diff against the correct user attributes
-                const oldUserAttributes = this.canEditUsers ? this.user_data.attributes : this.$root.$data.global.user.attributes;
-                return _.omit(diff(oldUserAttributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
-            },
-            // This computed property is used solely to populate this.user once the api call
-            // from app.js is finished running. Sort of like a watch for parent components.
-            _user() {
-                if (this.canEditUsers) {
-                    this.getData(this.user_id);
-                } else if (!this.$root.$data.global.loadingUser) {
-                    this.user = _.cloneDeep(this.$root.$data.global.user);
+        // loading is connected to global state since that's where the main user api call is made
+        loading() {
+            return this.$root.$data.global.loadingUser;
+        },
+        phoneNotVerified() {
+            return !this.$route.params.id && !this.phoneVerified;
+        },
+        updates() {
+            // We want to diff against the correct user attributes
+            const oldUserAttributes = this.canEditUsers ? this.user_data.attributes : this.$root.$data.global.user.attributes;
+            return _.omit(diff(oldUserAttributes, this.user.attributes), 'created_at', 'email_verified_at', 'phone_verified_at', 'doctor_name', 'image_url');
+        },
+        // This computed property is used solely to populate this.user once the api call
+        // from app.js is finished running. Sort of like a watch for parent components.
+        user() {
+            let user = this.$root.$data.global.user;
+            return !this.$root.$data.global.loadingUser ? _.cloneDeep(user) : {
+                attributes: {
+                    first_name: '',
+                    last_name: '',
+                    email: '',
+                    gender: '',
+                    phone: '',
+                    timezone: '',
+                    address_1: '',
+                    address_2: '',
+                    city: '',
+                    state: '',
+                    zip: ''
                 }
-                return '';
-            },
-            // We set the user_id as a computed property so we can set a watch on it for when the url changes
-            _user_id() {
-                return this.$route.params.id;
+            };
+        },
+        _user() {
+            if (this.canEditUsers) {
+                this.getData(this.user_id);
             }
+            return '';
+        },
+        // We set the user_id as a computed property so we can set a watch on it for when the url changes
+        _user_id() {
+            return this.$route.params.id;
         }
     }
+};
 </script>
 
 <style lang="scss">

@@ -650,7 +650,7 @@ export default {
             })
             this.$parent.notificationMessage = "Successfully updated!";
             this.$parent.notificationActive = true;
-            this.$parent.selectedRowData = null;
+            this.$parent.selectedRowData = {};
             setTimeout(() => this.$parent.notificationActive = false, 3000);
             this.handleFlyoutClose()
           })
