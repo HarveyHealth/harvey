@@ -98,7 +98,7 @@ export default {
       selectedClientName: '',
       selectedDoctorName: '',
       doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
-      clientList: [''].concat(this.$root.$data.global.patients)
+      clientList: [''].concat(this.$root.$data.global.patients).filter(e => e.name !== 'null, null')
     }
   },
   methods: {
