@@ -24,7 +24,7 @@
         },
         data() {
             return {
-                tabId: this.id || 'tab-' + _.uniqueId()
+                tabId: this.id || 'tab-' + uniqueId()
             };
         },
         mounted() {
