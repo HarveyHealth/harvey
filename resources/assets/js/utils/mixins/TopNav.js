@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             nav_is_open: false
-        }
+        };
     },
     methods: {
         capitalize,
@@ -32,4 +32,4 @@ export default {
             }
         }
     }
-}
+};

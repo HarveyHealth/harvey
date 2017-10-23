@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import TableData from '../../../commons/TableData.vue'
+import TableData from '../../../commons/TableData.vue';
 import tableColumns from '../utils/tableColumns';
 import tableSort from '../../../utils/methods/tableSort';
 
@@ -26,7 +26,7 @@ export default {
   data() {
       return {
         tableColumns
-      }
+      };
   },
   computed: {
     tableData() {
@@ -42,7 +42,7 @@ export default {
     // Passed from Appointments so we can modify the appointment data and trigger
     // other things within Appointments
     handleRowClick: {
-      type: Function,
+      type: Function
     },
     // Passed from Appointments because it is waiting for the app.js Promise to resolve
     loading: {
@@ -51,7 +51,7 @@ export default {
     },
     // See TableData
     selectedRow: {
-      type: Object,
+      type: Object
     },
     // See TableData
     tableRowData: {
@@ -67,5 +67,5 @@ export default {
       required: false
     }
   }
-}
+};
 </script>

@@ -92,11 +92,11 @@
       return {
         patientName: Laravel.user.fullName, // because it's already there
         flag: false,
-        user: this.$root.$data.global.user,
+        user: this.$root.$data.global.user
       };
     },
     components: {
-      DashboardAppointments,
+      DashboardAppointments
     },
     methods: {
       viewAppointmentPage() {
@@ -139,7 +139,7 @@
               description: dr.info.description,
               name: `${dr.name}, ${typeAbbr}`,
               status: ''
-            }
+            };
           })[0];
         } else {
           return {
@@ -147,7 +147,7 @@
             avatar: '',
             description: '',
             name: ''
-          }
+          };
         }
       },
       recent_appointments() {
@@ -159,7 +159,7 @@
       userClass() {
         return {
           [`is-${this.userType}`]: true
-        }
+        };
       },
       user_id() {
         return this.user.id || '';
@@ -192,5 +192,5 @@
         // Add tracking for Dashboard here
       }
     }
-  }
+  };
 </script>

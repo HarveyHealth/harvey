@@ -257,5 +257,5 @@
         mounted() {
             // this.$eventHub.$emit('mixpanel', "View Profile Page");
         }
-    }
+    };
 </script>

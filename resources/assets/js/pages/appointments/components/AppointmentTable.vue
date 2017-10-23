@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       tableColumns
-    }
+    };
   },
   components: {
     TableData
@@ -41,13 +41,13 @@ export default {
     handleSort(colObj) {
       // computed properties can be mutated, apparently?
       this.tableData.sort(colObj.sort);
-    },
+    }
   },
   props: {
     // Passed from Appointments so we can modify the appointment data and trigger
     // other things within Appointments
     handleRowClick: {
-      type: Function,
+      type: Function
     },
     // Passed from Appointments because it is waiting for the app.js Promise to resolve
     loading: {
@@ -56,7 +56,7 @@ export default {
     },
     // See TableData
     selectedRow: {
-      type: Object,
+      type: Object
     },
     // See TableData
     tableRowData: {
@@ -70,7 +70,7 @@ export default {
     // See TableData
     updatingRow: {
       required: false
-    },
+    }
   }
-}
+};
 </script>

@@ -66,7 +66,7 @@ export default {
   name: 'payment',
   components: {
     ClipLoader,
-    StagesNav,
+    StagesNav
   },
   data() {
     return {
@@ -94,7 +94,7 @@ export default {
       postError: 'There was an unexpected error. Please try again or contact support at <a href="tel:8006909989">800-690-9989</a>',
       stripeKey: Laravel.services.stripe.key,
       stripeError: ''
-    }
+    };
   },
   computed: {
     pageLogic() {
@@ -104,8 +104,8 @@ export default {
         editButton: this.isComplete,
         showForm: (this.hasCardStored && !this.isComplete) || !this.hasCardStored,
         formProcessing: this.isProcessing && !this.isComplete,
-        needSave: !this.isComplete,
-      }
+        needSave: !this.isComplete
+      };
     },
     cardData() {
       return {
@@ -114,8 +114,8 @@ export default {
         exp_year: this.cardExpiration.substring(5),
         cvc: this.cardCvc,
         address_zip: Laravel.user.zip,
-        name: this.cardName,
-      }
+        name: this.cardName
+      };
     },
     subtext() {
       return this.$root.$data.signup.billingConfirmed
@@ -182,7 +182,7 @@ export default {
     createStripeToken(cardData) {
       Stripe.card.createToken(cardData, (status, response) => {
         if (response.error) {
-          this.setStripeError(response.error.message)
+          this.setStripeError(response.error.message);
         } else {
           this.$root.$data.signup.cardBrand = response.card.brand;
           this.$root.$data.signup.cardLastFour = response.card.last4;
@@ -231,10 +231,10 @@ export default {
     },
     validateCardInputs() {
       let result = '';
-      if (!this.cardNumber.length) result += 'Your card number is blank.<br>'
-      if (!this.cardName.length) result += 'Your card name is blank.<br>'
-      if (!this.cardExpiration.length) result += 'Your card expiration is blank.<br>'
-      if (!this.cardCvc.length) result += 'Your card CVC is blank.<br>'
+      if (!this.cardNumber.length) result += 'Your card number is blank.<br>';
+      if (!this.cardName.length) result += 'Your card name is blank.<br>';
+      if (!this.cardExpiration.length) result += 'Your card expiration is blank.<br>';
+      if (!this.cardCvc.length) result += 'Your card CVC is blank.<br>';
       return result;
     }
   },
@@ -252,11 +252,11 @@ export default {
         expiryInput: 'input[name="card_expiration"]',
         cvcInput: 'input[name="card_cvc"]',
         nameInput: 'input[name="card_name"]'
-      },
+      }
     });
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

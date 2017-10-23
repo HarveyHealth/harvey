@@ -42,5 +42,5 @@
         mounted() {
             this.onDateChange(this.dates[0]);
         }
-    }
+    };
 </script>

@@ -42,9 +42,9 @@
                    setTimeout(
                         () => this.show = false,
                         this.alertData.timeout
-                   )
+                   );
                }
             });
         }
-    }
+    };
 </script>

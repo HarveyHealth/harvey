@@ -32,10 +32,10 @@
                             if (request.status === 200) {
                                 resolve(request.response);
                             } else {
-                                reject(request.response)
+                                reject(request.response);
                             }
                         }
-                    }
+                    };
                 });
 
                 send.then(data => {
@@ -44,9 +44,9 @@
                 .catch(err => {
                     this.$emit('uploadError', JSON.parse(err));
                 });
-            },
-        },
-    }
+            }
+        }
+    };
 </script>
 
 <style>

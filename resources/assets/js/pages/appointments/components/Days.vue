@@ -58,5 +58,5 @@ export default {
       this.setTimes(e.target.value, e.target.selectedIndex);
     }
   }
-}
+};
 </script>

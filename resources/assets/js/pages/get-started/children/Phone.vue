@@ -72,7 +72,7 @@ export default {
     ClipLoader,
     ConfirmInput,
     StagesNav,
-    TheMask,
+    TheMask
   },
   data() {
     return {
@@ -92,8 +92,8 @@ export default {
       phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
       isPhoneConfirming: false,
       isPhoneProcessing: false,
-      isUserPatchError: false,
-    }
+      isUserPatchError: false
+    };
   },
   computed: {
     title() {
@@ -116,7 +116,7 @@ export default {
     clearCodeInputs() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
         this.confirmInputComponent.$refs[i].value = '';
-      })
+      });
     },
     newPhoneNumber() {
       this.isPhoneProcessing = false;
@@ -157,7 +157,7 @@ export default {
         }).catch(error => {
           this.clearCodeInputs();
           this.setInvalidCode();
-        })
+        });
       }
 
     },
@@ -192,7 +192,7 @@ export default {
 
             // Segment Identify update
             analytics.identify(userId, {
-              phone: number,
+              phone: number
             });
           }
         }).catch(error => {
@@ -214,7 +214,7 @@ export default {
     setInvalidCode() {
       this.isPhoneConfirming = false;
       this.isInvalidCode = true;
-    },
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -228,5 +228,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

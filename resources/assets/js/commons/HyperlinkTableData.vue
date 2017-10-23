@@ -38,14 +38,14 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   name: 'TableData',
-  data() {return {}},
+  data() {return {};},
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {
       return {
         tabledata: true,
-        [`${this.tableClass}`]: true,
-      }
+        [`${this.tableClass}`]: true
+      };
     }
   },
   filters: {
@@ -59,8 +59,8 @@ export default {
       return {
         'is-selected': this.selectedRow === data,
         'is-updating': this.updatingRow === index,
-        'has-updated': this.updatedRow === index,
-      }
+        'has-updated': this.updatedRow === index
+      };
     }
   },
   props: {
@@ -91,7 +91,7 @@ export default {
     },
     // Whether the table data is still loading or not
     loading: {
-      type: Boolean,
+      type: Boolean
     },
     // The message to display if the component mounts and loading is still true
     loadingMsg: {
@@ -106,7 +106,7 @@ export default {
     // What happens when a table column header is clicked.
     // Function takes the column data as an argument
     onSort: {
-      type: Function,
+      type: Function
     },
     // The set of row data rendered based on the following structure:
     // [
@@ -139,5 +139,5 @@ export default {
       required: false
     }
   }
-}
+};
 </script>

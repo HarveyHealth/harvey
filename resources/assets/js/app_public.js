@@ -49,7 +49,7 @@ const app = new Vue({
             form: new Form({
                 email: '',
                 password: '',
-                remember: false,
+                remember: false
             })
         },
         register: {
@@ -137,7 +137,7 @@ const app = new Vue({
           return window.location.pathname === '/';
         },
         getStartedLink() {
-          return this.hasZipValidation ? '/get-started' : '/conditions'
+          return this.hasZipValidation ? '/get-started' : '/conditions';
         }
     },
     methods: {
@@ -153,7 +153,7 @@ const app = new Vue({
               to: this.guestEmail,
               template: 'subscribe',
               _token: Laravel.app.csrfToken
-            }
+            };
             axios.post('/api/v1/visitors/send_email', visitorData).then(response => {
               this.emailCaptureSuccess = true;
               if (this.shouldTrack()) {
@@ -168,7 +168,7 @@ const app = new Vue({
                 this.emailCaptureError = 'Oops, error sending email. Please contact support.';
               }
               this.emailCaptureClasses['is-visible'] = true;
-            })
+            });
           } else {
             this.emailCaptureError = 'Oops, that is not a valid email address.';
             this.emailCaptureClasses['is-visible'] = true;
@@ -258,7 +258,7 @@ const app = new Vue({
               params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
               return params;
             }, {});
-        },
+        }
     },
     mounted() {
         this.$nextTick(() => {

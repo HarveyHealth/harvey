@@ -63,7 +63,7 @@ export default {
     ClipLoader,
     Modal,
     Overlay,
-    StagesNav,
+    StagesNav
   },
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
       phone: this.$root.$data.signup.phone || this.$root.$data.global.user.attributes.phone,
       showModal: false,
       state: this.$root.$data.signup.practitionerState
-    }
+    };
   },
   computed: {
     dateDisplay() {
@@ -99,10 +99,10 @@ export default {
     },
     phoneDisplay() {
       return this.phone.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-    },
+    }
   },
   filters: {
-    getState,
+    getState
   },
   methods: {
     confirmSignup() {
@@ -121,7 +121,7 @@ export default {
         // 400 Bad request means the time was booked just before the signup user confirmed but after they
         // loaded availability for their selected practitioner.
         this.showModal = true;
-      })
+      });
     },
     handleNewAvailability() {
       this.isBackProcessing = true;
@@ -134,7 +134,7 @@ export default {
         this.isBackProcessing = false;
         this.$router.push({ name: 'schedule', path: '/schedule' });
       });
-    },
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -149,5 +149,5 @@ export default {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
 
-}
+};
 </script>

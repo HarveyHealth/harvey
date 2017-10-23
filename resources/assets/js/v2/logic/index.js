@@ -5,5 +5,5 @@ import practitioners from './practitioners';
 export default {
   getstarted,
   misc,
-  practitioners,
-}
+  practitioners
+};

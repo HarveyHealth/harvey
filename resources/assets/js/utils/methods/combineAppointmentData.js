@@ -13,7 +13,7 @@ export default function(appointmentData) {
   const getIncludedPatient = (_included, _appointment) => {
       const patientId = _appointment.attributes.patient_id;
       const patientData = {
-          id: patientId,
+          id: patientId
       };
 
       // first, get the patient information from the provided patient_id from appointment

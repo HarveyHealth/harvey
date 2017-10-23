@@ -5,7 +5,7 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
-    if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return []
+    if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return [];
     return orders.map(obj => {
         let count = 0;
         let data = {
@@ -37,18 +37,18 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 last4: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.card_last_four : null
             },
             samples: {}
-        }
+        };
 
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
-                data.total_price += eval(test.included.attributes.price)
-                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample
-                data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
-                data.sku_ids[test.attributes.sku_id] = test.included
-                data.tests_status[test.attributes.lab_order_id] = test.attributes.status
-                data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url
-                data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
-                data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
+                data.total_price += eval(test.included.attributes.price);
+                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample;
+                data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1;
+                data.sku_ids[test.attributes.sku_id] = test.included;
+                data.tests_status[test.attributes.lab_order_id] = test.attributes.status;
+                data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url;
+                data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code;
+                data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at;
                 data.test_list.push({
                     item_type: test.included.attributes.item_type,
                     price: test.included.attributes.price,
@@ -63,10 +63,10 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     current_status: capitalize(test.attributes.status),
                     sku: test.included,
                     shipment_code: test.attributes.shipment_code
-                })
+                });
             }
-        })
-        data.test_list = data.test_list.filter(e => e.original_status !== 'canceled')
+        });
+        data.test_list = data.test_list.filter(e => e.original_status !== 'canceled');
         return {
             data,
             values: [
@@ -77,6 +77,6 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 data.number_of_tests,
                 data.completed_at
             ]
-        }
-    })
+        };
+    });
 }

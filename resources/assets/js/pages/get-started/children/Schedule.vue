@@ -76,7 +76,7 @@ export default {
       isProcessing: false,
       weeks: 4,
       weekStart: moment().startOf('week')
-    }
+    };
   },
   filters: {
     fullDate(value) {
@@ -126,10 +126,10 @@ export default {
             weekObj.days[dayObj.day.substring(0,3)] = {
               date: dayObj.date,
               times: dayObj.times.map(t => t.stored)
-            }
+            };
           }
-        })
-      })
+        });
+      });
       return weeks;
     }
   },
@@ -203,5 +203,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

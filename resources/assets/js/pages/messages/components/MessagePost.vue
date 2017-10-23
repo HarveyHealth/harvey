@@ -16,12 +16,12 @@
 </template>
 
 <script>
-    import moment from 'moment'
+    import moment from 'moment';
     export default {
         props: ['name', 'day', 'time', 'header', 'message', 'image', 'id', 'timezone'],
         name: 'MessagingPost',
         data() {
-            return {  }
+            return {  };
         },
         computed: {
             messages() {
@@ -34,7 +34,7 @@
             },
             momemtDate() {
                 moment.tz.add(this.$props.timezone);
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`
+                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
             },
             subjects() {
                 if (this.$props.header.split('').length > 50) {
@@ -45,8 +45,8 @@
                 return this.$props.header;
             },
             read() {
-                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0
+                return this.$root.$data.global.unreadMessages.filter(e => e.id == this.$props.id).length > 0;
             }
         }
-    }
+    };
 </script>

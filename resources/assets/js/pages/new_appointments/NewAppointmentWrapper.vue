@@ -64,7 +64,7 @@
                         birthdate: 'Please tell us your birthdate.',
                         height_feet: 'The height(feet) field is required.',
                         // height_inches: 'The height(inches) field is required.',
-                        weight: 'The weight field is required.',
+                        weight: 'The weight field is required.'
                     },
                     'payment': {
                         number: 'The card number field is required.',
@@ -97,7 +97,7 @@
                         cvc: ''
                     })
                 }
-            }
+            };
         },
         components: {
             NewAppointment,
@@ -126,7 +126,7 @@
                         // error object in Laravel error format
                         errorData[field] = [currentStepValidator[field]];
                     }
-                })
+                });
 
                 if (_.isEmpty(errorData)) {
                     // extra validation
@@ -241,7 +241,7 @@
                             })
                             .catch((error) => {
                                 this.goBackToErrorComponent(error.response.data.error.message, 0);
-                            })
+                            });
                     })
                     .catch((error) => {
                         this.goBackToErrorComponent(error.response.data.error.message, 1);
@@ -296,5 +296,5 @@
                 this.assignUserData();
             }
         }
-    }
+    };
 </script>

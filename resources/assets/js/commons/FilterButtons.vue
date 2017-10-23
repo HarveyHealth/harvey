@@ -20,10 +20,10 @@ export default {
     },
     filters: {
       type: Array,
-      required: true,
+      required: true
     },
     loading: {
-      type: Boolean,
+      type: Boolean
     },
     onFilter: {
       type: Function,
@@ -43,5 +43,5 @@ export default {
       if (this.flyout) this.flyout();
     }
   }
-}
+};
 </script>

@@ -172,7 +172,7 @@
     import states from '../../../../../public/states.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import ImageUpload from '../../commons/ImageUpload.vue';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import PractitionerProfile from './components/PractitionerProfile.vue';
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
@@ -203,8 +203,8 @@
                         address_2: '',
                         city: '',
                         state: '',
-                        zip: '',
-                    },
+                        zip: ''
+                    }
                 },
                 thisUserId: Laravel.user.id,
                 practitioner: `${Laravel.user.practitionerId}` || null,
@@ -228,8 +228,8 @@
                 phoneVerified: Laravel.user.phone_verified_at,
                 currentUserId: Laravel.user.id,
                 isInvalidCode: false,
-                isPhoneConfirming: false,
-            }
+                isPhoneConfirming: false
+            };
         },
         methods: {
             flashNotification() {
@@ -288,7 +288,7 @@
                       console.log(error.response);
                       this.callErrorNotification('Could not update user information');
                     }
-                  })
+                  });
               // If phone is the same, post to send verification text again
               } else if (!this.phoneVerified) {
                 axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
@@ -297,7 +297,7 @@
                       console.log(error.response);
                       this.callErrorNotification('Error sending verification text message');
                     }
-                  })
+                  });
               }
             },
             handleTextResend() {
@@ -330,17 +330,17 @@
                 })
                 .catch(error => {
                   if (error.response) {
-                    console.log(error.response)
+                    console.log(error.response);
                     this.phoneModal = false;
                     this.callErrorNotification('Verification could not be sent');
                   }
-                })
+                });
             },
             resetConfirmInputs() {
               this.phoneConfirmation = '';
               Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
                 this.$refs.confirmInputs.$refs[i].value = '';
-              })
+              });
               this.$refs.confirmInputs.$refs[0].focus();
             },
             submit() {
@@ -422,7 +422,7 @@
                     this.user_id = id;
                     this.getData(this.user_id);
                 } else {
-                    this.$router.push('/profile')
+                    this.$router.push('/profile');
                 }
             }
         },
@@ -460,7 +460,7 @@
                 return this.$route.params.id;
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

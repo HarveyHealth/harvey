@@ -24,9 +24,9 @@
 </template>
 
 <script>
-  import ClientsTable from './components/ClientsTable.vue'
-  import UserNav from '../../commons/UserNav.vue'
-  import tableDataTransform from './utils/tableData'
+  import ClientsTable from './components/ClientsTable.vue';
+  import UserNav from '../../commons/UserNav.vue';
+  import tableDataTransform from './utils/tableData';
   export default {
       name: 'Clients',
       components: {
@@ -36,7 +36,7 @@
       data() {
         return {
           currentData: []
-        }
+        };
       },
       methods: {
         handleRowClick(obj, index) {
@@ -46,8 +46,8 @@
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
-            }
+                'has-updated': this.updatedRow === index
+            };
         },
         setupLabData() {
             let data = tableDataTransform(this.$root.$data.clientList);
@@ -78,5 +78,5 @@
             this.setupLabData();
         }
     }
-  }
+  };
 </script>

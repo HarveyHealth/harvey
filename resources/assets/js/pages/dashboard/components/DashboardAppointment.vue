@@ -33,7 +33,7 @@
     data() {
       return {
         local_timezone: ''
-      }
+      };
     },
     methods: {
       capitalize,
@@ -57,5 +57,5 @@
     mounted() {
       this.local_timezone = moment.tz.guess();
     }
-  }
+  };
 </script>

@@ -29,14 +29,14 @@ export default {
     disabled: Boolean,
     getValue: {
       type: Function,
-      required: true,
+      required: true
     },
     stored: String
   },
   data() {
     return {
       inputs: []
-    }
+    };
   },
   watch: {
     inputs() {
@@ -91,5 +91,5 @@ export default {
       this.distribute(this.stored, 0);
     }
   }
-}
+};
 </script>
