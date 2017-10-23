@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Message;
 use App\Lib\{TimeInterval, TransactionalEmail};
-use Carbon, Redis;
+use Carbon;
+use Illuminate\Support\Facades\Redis;
 
 class SendUnreadMessageEmailNotificationsCommand extends Command
 {
