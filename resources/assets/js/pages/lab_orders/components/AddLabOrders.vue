@@ -33,7 +33,7 @@
     <div class="button-wrapper">
         <button class="button"
         @click="openModal()"
-        :disabled="!selectedClient || !selectedDoctor || selectedTests.length == 0">Create Lab Order</button>
+        :disabled="!selectedClient || !selectedDoctor || !selectedTests.length">Create Lab Order</button>
     </div>
     <Modal
       :active="$parent.addActiveModal"
@@ -112,7 +112,8 @@ export default {
       this.$parent.addActiveModal = true;
     },
     updateTestSelection(test, index) {
-      if (this.testNameList[index].checked !== this.testNameList[index].checked) {
+      this.testNameList[index].checked = !this.testNameList[index].checked
+      if (this.testNameList[index].checked) {
         this.selectedTests.push(test);
       } else {
         _.pull(this.selectedTests, test);
