@@ -46,5 +46,5 @@ export default {
       this.setPractitioner(this.list[e.target.selectedIndex - 1].data);
     }
   }
-}
+};
 </script>

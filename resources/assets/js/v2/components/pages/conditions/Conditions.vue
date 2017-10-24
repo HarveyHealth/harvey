@@ -41,12 +41,12 @@ export default {
     ConditionsAll,
     MainNav: Shared.MainNav,
     SvgIcon: Util.SvgIcon,
-    VerifyZip,
+    VerifyZip
   },
   data() {
     return {
       imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
-    }
+    };
   },
   computed: {
     hasZip() {
@@ -69,5 +69,5 @@ export default {
   beforeCreate() {
     App.setState('getstarted.userPost.zip', App.Logic.getstarted.getZipValidation());
   }
-}
+};
 </script>

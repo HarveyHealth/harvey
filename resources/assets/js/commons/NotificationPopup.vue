@@ -24,7 +24,7 @@ export default {
     },
     // Changes the background for error indication
     asError: {
-      type: Boolean,
+      type: Boolean
     },
     // Linked to CSS classes for various starting positions
     // and transition positions
@@ -44,5 +44,5 @@ export default {
       required: true
     }
   }
-}
+};
 </script>

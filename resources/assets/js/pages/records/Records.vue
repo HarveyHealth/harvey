@@ -280,16 +280,16 @@ export default {
         this.index = idx;
       },
       selectPatient(patient) {
-        this.selectedPatient = patient
-        this.name = patient.search_name
-        this.activeModal = true
+        this.selectedPatient = patient;
+        this.name = patient.search_name;
+        this.activeModal = true;
       },
       nextStep() {
         this.step = 2
         this.search = '';
       },
       modalClose() {
-        this.activeModal = false
+        this.activeModal = false;
       }
     },
     computed: {
@@ -323,7 +323,7 @@ export default {
     mounted() {
         this.$root.$data.global.currentPage = 'records';
     }
-}
+};
 </script>
 
 <style lang="scss">

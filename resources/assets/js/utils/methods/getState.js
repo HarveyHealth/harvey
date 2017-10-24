@@ -59,7 +59,7 @@ export default function(abbr) {
     "WV": "West Virginia",
     "WI": "Wisconsin",
     "WY": "Wyoming"
-  }
+  };
 
   return states[abbr];
 }

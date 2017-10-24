@@ -35,13 +35,10 @@ export default function(appointments, zone, userType) {
       _patientId: obj.patientData.id,
       _patientFirst: obj.patientData.first_name,
       _patientLast: obj.patientData.last_name,
-      _doctorId: obj.attributes.practitioner_id,
-      _appointmentId: obj.id,
-      _date: obj.attributes.appointment_at.date,
       _duration: obj.attributes.duration_in_minutes,
-      _patientPhone: obj.patientData.phone,
+      _patientPhone: obj.patientData.phone
 
-    }
+    };
     return {
       data,
       values: [
@@ -52,6 +49,6 @@ export default function(appointments, zone, userType) {
         data.status,
         data.purpose
       ]
-    }
-  })
+    };
+  });
 }

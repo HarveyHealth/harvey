@@ -15,5 +15,5 @@ export default {
   misc,
   patients,
   practitioners,
-  wasRequested,
-}
+  wasRequested
+};

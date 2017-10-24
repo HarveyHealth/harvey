@@ -1,25 +1,25 @@
 <template>
   <div class="phone-confirm-input-wrapper">
     <input ref="0" type="text"
-           :disabled="disabled"
-           @keydown="keyed($event, 0)"
-           @input="distribute($event, 0)" />
+        :disabled="disabled"
+        @keydown="keyed($event, 0)"
+        @input="distribute($event, 0)" />
     <input ref="1" type="text"
-           :disabled="disabled"
-           @keydown="keyed($event, 1)"
-           @input="distribute($event, 1)" />
+        :disabled="disabled"
+        @keydown="keyed($event, 1)"
+        @input="distribute($event, 1)" />
     <input ref="2" type="text"
-           :disabled="disabled"
-           @keydown="keyed($event, 2)"
-           @input="distribute($event, 2)" />
+        :disabled="disabled"
+        @keydown="keyed($event, 2)"
+        @input="distribute($event, 2)" />
     <input ref="3" type="text"
-           :disabled="disabled"
-           @keydown="keyed($event, 3)"
-           @input="distribute($event, 3)" />
+        :disabled="disabled"
+        @keydown="keyed($event, 3)"
+        @input="distribute($event, 3)" />
     <input ref="4" type="text"
-           :disabled="disabled"
-           @keydown="keyed($event, 4)"
-           @input="distribute($event, 4)" />
+        :disabled="disabled"
+        @keydown="keyed($event, 4)"
+        @input="distribute($event, 4)" />
   </div>
 </template>
 
@@ -29,14 +29,14 @@ export default {
     disabled: Boolean,
     getValue: {
       type: Function,
-      required: true,
+      required: true
     },
     stored: String
   },
   data() {
     return {
       inputs: []
-    }
+    };
   },
   watch: {
     inputs() {
@@ -91,5 +91,5 @@ export default {
       this.distribute(this.stored, 0);
     }
   }
-}
+};
 </script>

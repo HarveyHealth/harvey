@@ -31,9 +31,9 @@ Vue.prototype.$eventHub = eventHub;
 
 eventHub.$on('animate', (classes, classname, state, delay) => {
     if (delay) {
-        setTimeout(() => classes[classname] = state, delay)
+        setTimeout(() => classes[classname] = state, delay);
     } else {
-        classes[classname] = state
+        classes[classname] = state;
     }
 });
 
@@ -71,7 +71,7 @@ Vue.prototype.Util = App.Util;
 // api calls. NOTE: this should be used as READ ONLY function.
 Vue.prototype.State = (path, ifUndefined) => {
   return App.Util.data.propDeep(path.split('.'), State, ifUndefined);
-}
+};
 
 // State() is internally read only and setState() is globally write-only.
 //    App.setState('practitioners.data.all', 'practitioners');
@@ -80,7 +80,7 @@ App.setState = (state, value) => {
   const path = state.split('.');
   const prop = path.pop();
   return App.Util.data.propDeep(path, State)[prop] = value;
-}
+};
 
 Vue.prototype.setState = App.setState;
 
@@ -90,7 +90,7 @@ const app = new Vue({
     components: {
         Alert,
         Dashboard,
-        Usernav,
+        Usernav
     },
     data: {
         // Adding State to the root data object makes it globally reactive.
@@ -144,8 +144,6 @@ const app = new Vue({
             test_results: [],
             upcoming_appointments: [],
             unreadMessages: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
             labOrders: [],
             labTests: [],
             patientLookUp: {},
@@ -155,7 +153,7 @@ const app = new Vue({
             user_editing: {},
             soapNotes: {},
             prescriptions: {},
-            attachments: {},
+            attachments: {}
         },
         signup: {
           availability: [],
@@ -175,7 +173,7 @@ const app = new Vue({
             appointment_at: null,
             discount_code: null,
             reason_for_visit: 'First appointment',
-            practitioner_id: null,
+            practitioner_id: null
           },
           discountCode: '',
           googleMeetLink: '',
@@ -189,7 +187,7 @@ const app = new Vue({
           selectedPractitioner: 0,
           selectedWeek: null,
           selectedTime: null,
-          visistedStages: [],
+          visistedStages: []
         },
         initialAppointment: {},
         initialAppointmentComplete: false,
@@ -202,7 +200,7 @@ const app = new Vue({
         return this.signup.billingConfirmed &&
           this.signup.phoneConfirmed &&
           this.signup.data.appointment_at &&
-          this.signup.data.practitioner_id
+          this.signup.data.practitioner_id;
       }
     },
     methods: {
@@ -221,7 +219,7 @@ const app = new Vue({
             } else {
               return true;
             }
-          })
+          });
         },
         // Filters practitioner list by state licensing regulations
         // practitioners = practitioner list from backend or from appointments page
@@ -235,8 +233,8 @@ const app = new Vue({
             // If the user's state is regulated, filter dr list for drs with licenses in that state
             return userRegulatedState
               ? licenses.filter(license => license.state === state).length
-              : true
-          })
+              : true;
+          });
         },
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
@@ -244,7 +242,7 @@ const app = new Vue({
                     this.global.appointments = combineAppointmentData(response.data).reverse();
                     this.global.loadingAppointments = true;
                     Vue.nextTick(() => {
-                        this.global.loadingAppointments = false
+                        this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
                 }).catch(error => console.log(error.response));
@@ -262,7 +260,7 @@ const app = new Vue({
         },
         getPatients() {
             axios.get(`${this.apiUrl}/patients?include=user,intake`).then(response => {
-                console.log(response)
+                console.log(response);
                 const include = response.data.included;
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
@@ -281,15 +279,15 @@ const app = new Vue({
                         user_id: obj.attributes.user_id,
                         zip: includeData.zip,
                         image: includeData.image_url,
-                        created_at: moment(includeData.created_at.date).format("MM/DD/YY"),
-                    })
+                        created_at: moment(includeData.created_at.date).format("MM/DD/YY")
+                    });
                 });
                 this.global.patients = sortByLastName(this.global.patients);
                 if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
                   this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
                 }
                 response.data.data.forEach(e => {
-                    this.global.patientLookUp[e.id] = e
+                    this.global.patientLookUp[e.id] = e;
                 });
                 this.global.loadingPatients = false;
             });
@@ -308,13 +306,13 @@ const app = new Vue({
                       info: dr.attributes,
                       name: `Dr. ${dr.attributes.name}`,
                       user_id: dr.attributes.user_id
-                    }
+                    };
                   });
                   response.data.data.forEach(e => {
-                      this.global.practitionerLookUp[e.id] = e
+                      this.global.practitionerLookUp[e.id] = e;
                   });
                   this.global.loadingPractitioners = false;
-                })
+                });
             } else {
                 axios.get(`${this.apiUrl}/practitioners?include=user`).then(response => {
                     this.global.practitioners = response.data.data.filter(dr => {
@@ -327,60 +325,60 @@ const app = new Vue({
                           user_id: obj.attributes.user_id };
                     });
                     response.data.data.forEach(e => {
-                        this.global.practitionerLookUp[e.id] = e
+                        this.global.practitionerLookUp[e.id] = e;
                     });
                     if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
                       this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
                     }
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
-                })
+                });
             }
         },
         getLabData() {
             axios.get(`${this.apiUrl}/lab/orders?include=patient,user,invoice`)
                 .then(response => {
                     if (response.data.included) {
-                        let user = response.data.included.filter(e => e.type === 'users')
-                        let patient = response.data.included.filter(e => e.type === 'patients')
-                        let invoices = response.data.included.filter(e => e.type === 'invoices')
+                        let user = response.data.included.filter(e => e.type === 'users');
+                        let patient = response.data.included.filter(e => e.type === 'patients');
+                        let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
                         invoices.forEach(e => {
                             obj[e.id] = e;
-                        })
+                        });
                         this.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];
                             if (e.relationships.invoice) {
-                                e.invoice = obj[e.relationships.invoice.data.id]
+                                e.invoice = obj[e.relationships.invoice.data.id];
                             }
                             return e;
-                        })
+                        });
                     }
-                    this.global.loadingLabOrders = false
-                })
+                    this.global.loadingLabOrders = false;
+                });
 
             axios.get(`${this.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
-                    let sku_ids = {}
+                    let sku_ids = {};
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
-                    })
-                    this.global.labTests = response.data.data.map((e, i) => {
-                        e.included = sku_ids[e.relationships.sku.data.id]
+                    });
+                    this.global.labTests = response.data.data.map((e) => {
+                        e.included = sku_ids[e.relationships.sku.data.id];
                         return e;
-                    })
-                    this.global.loadingLabTests = false
-                })
+                    });
+                    this.global.loadingLabTests = false;
+                });
 
             axios.get(`${this.apiUrl}/lab/tests/information`)
                 .then(response => {
                     response.data.data.forEach(e => {
-                        this.labTests[e.id] = e
-                        this.labTests[e.id]['checked'] = false
-                    })
-                    this.global.loadingTestTypes = false
-                })
+                        this.labTests[e.id] = e;
+                        this.labTests[e.id]['checked'] = false;
+                    });
+                    this.global.loadingTestTypes = false;
+                });
         },
         getUser() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}?include=patient,practitioner`)
@@ -392,11 +390,11 @@ const app = new Vue({
                     this.global.user = data;
                     this.global.loadingUser = false;
                 })
-                .catch(error => this.global.user = {});
+                .catch(() => this.global.user = {});
         },
         getMessages() {
             let makeThreadId = (userOne, userTwo) => {
-                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`
+                return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
             };
             axios.get(`${this.apiUrl}/messages`)
                 .then(response => {
@@ -412,48 +410,48 @@ const app = new Vue({
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
-                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
+                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
-                    this.global.loadingMessages = false
-                })
+                    this.global.loadingMessages = false;
+                });
         },
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCards = response.data.cards
+                this.global.creditCards = response.data.cards;
             })
             .then(() => {
                 this.global.loadingCreditCards = false;
-            })
+            });
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0])
+                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0])
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e))
-            this.global.confirmedPatients = _.uniq(this.global.confirmedPatients)
+                .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e));
+            this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
         },
         getSelfPractitionerInfo() {
-            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0]
+            let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
             this.global.selfPractitionerInfo = {
                 id: self.id,
                 name: `Dr. ${self.attributes.name}`,
                 info: self.attributes,
                 user_id: self.attributes.user_id
-            }
+            };
         },
         getClientList() {
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
                 this.clientList = response.data;
                 this.global.loadingClients = false;
-            })
+            });
         },
         setup() {
-          this.getUser()
+          this.getUser();
           this.getAppointments();
           this.getPractitioners();
           this.getMessages();
@@ -487,9 +485,11 @@ const app = new Vue({
         window.setConditions = (data, index) => {
           this.State.conditions.all = data;
           this.State.conditions.selectedIndex = index;
-        }
+        };
 
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
     }
 }).$mount('#app');
+
+export default app;

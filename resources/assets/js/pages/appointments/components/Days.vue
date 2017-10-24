@@ -17,7 +17,6 @@
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
@@ -58,5 +57,5 @@ export default {
       this.setTimes(e.target.value, e.target.selectedIndex);
     }
   }
-}
+};
 </script>

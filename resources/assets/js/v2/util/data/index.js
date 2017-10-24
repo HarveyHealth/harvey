@@ -11,5 +11,5 @@ export default {
   jsonParse,
   killStorage,
   propDeep,
-  toStorage,
-}
+  toStorage
+};
