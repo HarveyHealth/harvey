@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Layout, Util } from '../../../base';
+import { Layout, Util } from 'base';
 
 export default {
   components: {
@@ -22,3 +22,7 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+
+</style>

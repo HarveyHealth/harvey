@@ -46,7 +46,10 @@ if (mix.inProduction()) {
 mix.webpackConfig({
     resolve: {
         alias: {
-            moment$: 'moment/moment.js'
+            moment$: 'moment/moment.js',
+            sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
+            base: path.resolve(__dirname, 'resources/assets/js/v2/components/base/index.js'),
+            shared: path.resolve(__dirname, 'resources/assets/js/v2/components/shared')
         },
     },
     plugins: [
