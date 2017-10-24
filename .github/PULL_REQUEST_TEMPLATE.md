@@ -8,9 +8,9 @@ This is where you explain the impetus behind the PR. Why was it necessary?
 - This is another thing that was changed
 
 # Checklist
-[ ] - Link to Jira ticket included
-[ ] - Unit tests pass
-[ ] - Tested in IE, Chrome, Firefox
+- [ ] Link to Jira ticket included
+- [ ] Unit tests pass
+- [ ] Tested in IE, Chrome, Firefox
 
 # Screenshots
 
