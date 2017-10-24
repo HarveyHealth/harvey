@@ -51,7 +51,13 @@ class The_Essence_Subscribe_Widget extends WP_Widget {
 
 					<h4 data-mtst-selector=".subscribe-widget h4" data-mtst-label="Subscribe Title" data-mtst-no-support="background,border"><?php echo esc_html( $heading_primary ); ?></h4>
 
-					<?php echo do_shortcode( '[wysija_form id="' . $subscribe_id . '"]' ); ?>
+					<?php 
+						if ( shortcode_exists( 'mailpoet_form' ) ) {
+							echo do_shortcode( '[mailpoet_form id="' . $subscribe_id . '"]' );
+						} else {
+							echo do_shortcode( '[wysija_form id="' . $subscribe_id . '"]' );
+						}
+					?>
 
 					<h5 data-mtst-selector=".subscribe-widget h5" data-mtst-label="Subscribe Subtitle" data-mtst-no-support="background,border"><?php echo esc_html( $heading_secondary ); ?></h5>
 

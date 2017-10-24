@@ -39,6 +39,9 @@ function the_essence_customizer_register_options( $options ) {
 			'def'	=> '',
 		);
 
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_general', $options );
+
 	// Social
 	$options[] = array(
 		'type'	=> 'section',
@@ -59,12 +62,48 @@ function the_essence_customizer_register_options( $options ) {
 			'def'   => array( 'author', 'comments', 'shares_count', 'shares_actions' ),
 		);
 
+		$options[] = array(
+			'type'	=> 'option_select',
+			'opts'  => array(
+				'enabled' => 'Enabled',
+				'disabled' => 'Disabled',
+			),
+			'title' => esc_attr__( 'Capitalize first letter', 'the-essence' ),
+			'id'	=> $prefix . 'capitalize_letter',
+			'def'	=> 'enabled',
+		);
+
+		$options[] = array(
+			'type'	=> 'option_select',
+			'opts'  => array(
+				'timeago' => 'Time Ago',
+				'date' => 'Date',
+			),
+			'title' => esc_attr__( 'Date or Time Ago', 'the-essence' ),
+			'id'	=> $prefix . 'date_format',
+			'def'	=> 'timeago',
+		);
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_blog_post_listing', $options );
+
 	// blog post single
 	$options[] = array(
 		'type'	=> 'section',
 		'id'	=> 'the_essence_blog_post_single',
 		'title' => __( '- Blog Post Single', 'the-essence' ),
 	);
+
+		$options[] = array(
+			'type'	=> 'option_select',
+			'opts'  => array(
+				'full_content' => esc_html__( 'Full Content', 'the-essence' ),
+				'content_sidebar' => esc_html__( 'Content + Sidebar', 'the-essence' ),
+			),
+			'title' => esc_attr__( 'Layout', 'the-essence' ),
+			'id'	=> $prefix . 'blog_single_layout',
+			'def'	=> 'content_sidebar',
+		);
 
 		$options[] = array(
 			'type'	=> 'option_multi_checkbox',
@@ -74,7 +113,7 @@ function the_essence_customizer_register_options( $options ) {
 				'comments' => 'Comments',
 				'shares' => 'Shares',
 			),
-			'title' => esc_attr__( 'Blog Post Single - Meta Elements', 'the-essence' ),
+			'title' => esc_attr__( 'Meta Elements', 'the-essence' ),
 			'id'	=> $prefix . 'blog_single_meta_elements',
 			'def'   => array( 'author', 'category', 'comments', 'shares' ),
 		);
@@ -85,7 +124,7 @@ function the_essence_customizer_register_options( $options ) {
 				'enabled' => 'Enabled',
 				'disabled' => 'Disabled',
 			),
-			'title' => esc_attr__( 'Blog Post Single - Related Posts Section', 'the-essence' ),
+			'title' => esc_attr__( 'Related Posts Section', 'the-essence' ),
 			'id'	=> $prefix . 'blog_single_related_posts_section',
 			'def'	=> 'enabled',
 		);
@@ -96,10 +135,24 @@ function the_essence_customizer_register_options( $options ) {
 				'enabled' => 'Enabled',
 				'disabled' => 'Disabled',
 			),
-			'title' => esc_attr__( 'Blog Post Single - About Author Section', 'the-essence' ),
+			'title' => esc_attr__( 'About Author Section', 'the-essence' ),
 			'id'	=> $prefix . 'blog_single_about_author_section',
 			'def'	=> 'enabled',
 		);
+
+		$options[] = array(
+			'type'	=> 'option_select',
+			'opts'  => array(
+				'prevnext' => 'Previous and Next',
+				'titles' => 'Post Titles',
+			),
+			'title' => esc_attr__( 'Prev/Next labels', 'the-essence' ),
+			'id'	=> $prefix . 'blog_single_prev_next_labels',
+			'def'	=> 'prevnext',
+		);
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_blog_post_single', $options );
 
 	// Header
 	$options[] = array(
@@ -151,6 +204,9 @@ function the_essence_customizer_register_options( $options ) {
 			'id'	=> $prefix . 'header_big_carousel',
 			'def'	=> 'enabled',
 		);
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_header', $options );
 
 	// promo boxes
 	$options[] = array(
@@ -338,6 +394,9 @@ function the_essence_customizer_register_options( $options ) {
 			'def'	=> '',
 		);
 
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_promo_boxes', $options );
+
 	// footer
 	$options[] = array(
 		'type'	=> 'section',
@@ -438,6 +497,9 @@ function the_essence_customizer_register_options( $options ) {
 			'id'	=> $prefix . 'footer_copy_text',
 			'def'	=> 'Designed &amp; Developed by <a href="http://meridianthemes.net/" rel="nofollow">MeridianThemes</a>',
 		);		
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_footer', $options );
 
 	// Social
 	$options[] = array(
@@ -565,6 +627,9 @@ function the_essence_customizer_register_options( $options ) {
 			'def'	=> '',
 		);
 
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_social', $options );
+
 	// side panel
 	$options[] = array(
 		'type'	=> 'section',
@@ -589,6 +654,9 @@ function the_essence_customizer_register_options( $options ) {
 			'id'	=> $prefix . 'logo_panel',
 			'def'	=> '',
 		);		
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_side_panel', $options );
 
 	// Other
 	$options[] = array(
@@ -694,6 +762,9 @@ function the_essence_customizer_register_options( $options ) {
 			'id'	=> $prefix . 'show_one_cat_in_listings',
 			'def'	=> 'disabled',
 		);
+
+		// allows devs to add options
+		$options = apply_filters( 'the_essence_options_other', $options );
 
 	return $options;
 
