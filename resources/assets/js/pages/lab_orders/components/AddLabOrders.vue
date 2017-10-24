@@ -64,13 +64,16 @@
 </template>
 
 <script>
-import Flyout from '../../../commons/Flyout.vue'
-import Modal from '../../../commons/Modal.vue'
-import SelectOptions from '../../../commons/SelectOptions.vue'
-import axios from 'axios'
-import _ from 'lodash'
+import Flyout from '../../../commons/Flyout.vue';
+import Modal from '../../../commons/Modal.vue';
+import SelectOptions from '../../../commons/SelectOptions.vue';
+import axios from 'axios';
+import _ from 'lodash';
 export default {
-  props: ['reset', 'labTests'],
+  props: {
+    reset: Function, 
+    labTests: Object
+  },
   name: 'AddLabOrders',
   components: {
     Flyout,
@@ -99,24 +102,24 @@ export default {
       selectedDoctorName: '',
       doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
       clientList: [''].concat(this.$root.$data.global.patients)
-    }
+    };
   },
   methods: {
     modalClose() {
-      this.$parent.addActiveModal = false
+      this.$parent.addActiveModal = false;
     },
     openModal() {
-      this.$parent.addActiveModal = true
+      this.$parent.addActiveModal = true;
     },
     updateTestSelection(test, index) {
-      if (this.testNameList[index].checked = !this.testNameList[index].checked) {
-        this.selectedTests.push(test)
+      if (this.testNameList[index].checked !== this.testNameList[index].checked) {
+        this.selectedTests.push(test);
       } else {
-        _.pull(this.selectedTests, test)
+        _.pull(this.selectedTests, test);
       }
     },
     formatName(str) {
-      return str.split(', ').reverse().join(' ')
+      return str.split(', ').reverse().join(' ');
     },
     updateClient(e) {
         this.resetting = false;
@@ -129,45 +132,45 @@ export default {
         this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
-      this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive
-      this.$parent.addActiveModal = false
+      this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
+      this.$parent.addActiveModal = false;
       this.resetting = true;
     },
     createLabOrder() {
         this.selectedTests.map(e => {
-          e.shipping_code = this.shippingCodes[e.id]
-          return e
-        })
+          e.shipping_code = this.shippingCodes[e.id];
+          return e;
+        });
         let data =  {
           practitioner_id: this.selectedDoctor,
-          patient_id: this.selectedClient,
+          patient_id: this.selectedClient
         };
         axios.post(`${this.$root.$data.apiUrl}/lab/orders`, data)
         .then(response => {
-          this.selectedTests.forEach((e, i)=> {
+          this.selectedTests.forEach((e)=> {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
                 sku_id: Number(e.attributes.sku_id),
                 shipment_code: this.shippingCodes[e.id]
-              })
-          })
+              });
+          });
 
-          this.selectedClient = ''
-          this.step = 1
-          this.masterTracking = ''
-          this.address1 = ''
-          this.selectedDoctor = ''
-          this.address2 = ''
-          this.city = ''
-          this.zip = ''
-          this.state = ''
-          this.selectedTests = []
-          this.shippingCodes = {}
-          this.prevDoctor = ''
-          this.prevClient = ''
-          this.doctorList = [''].concat(this.$root.$data.global.practitioners)
-          this.clientList = [''].concat(this.$root.$data.global.patients)
-          Object.values(this.$props.labTests).map(e => e.checked = false)
+          this.selectedClient = '';
+          this.step = 1;
+          this.masterTracking = '';
+          this.address1 = '';
+          this.selectedDoctor = '';
+          this.address2 = '';
+          this.city = '';
+          this.zip = '';
+          this.state = '';
+          this.selectedTests = [];
+          this.shippingCodes = {};
+          this.prevDoctor = '';
+          this.prevClient = '';
+          this.doctorList = [''].concat(this.$root.$data.global.practitioners);
+          this.clientList = [''].concat(this.$root.$data.global.patients);
+          Object.values(this.$props.labTests).map(e => e.checked = false);
 
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
@@ -175,53 +178,57 @@ export default {
           axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
             .then(response => {
                 this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
-                    e['included'] = response.data.included[i]
+                    e['included'] = response.data.included[i];
                     return e;
-                })
-                this.$root.$data.global.loadingLabOrders = false
+                });
+                this.$root.$data.global.loadingLabOrders = false;
                 axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                     .then(response => {
-                        let sku_ids = {}
+                        let sku_ids = {};
                         response.data.included.forEach(e => {
                             sku_ids[e.id] = e;
-                        })
-                        this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                            e.included = sku_ids[e.relationships.sku.data.id]
+                        });
+                        this.$root.$data.global.labTests = response.data.data.map((e) => {
+                            e.included = sku_ids[e.relationships.sku.data.id];
                             return e;
-                        })
-                        this.$root.$data.global.loadingLabTests = false
+                        });
+                        this.$root.$data.global.loadingLabTests = false;
                         this.$props.reset();
-                    })
-                })
+                    });
+                });
             })
             .then(() => {
               this.handleFlyoutClose();
               this.modalClose();
-            })
+            });
     }
   },
   computed: {
     flyoutHeading() {
-      if (this.step == 1) return "New Lab Order"
-      if (this.step == 2) return "Enter Tracking #s"
+      if (this.step == 1) return "New Lab Order";
+      if (this.step == 2) return "Enter Tracking #s";
     },
     testNameList() {
-      return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
+      let prop = this.$props.labTests;
+      let array = Object.values(prop).sort((a,b) => a.id - b.id);
+      return array;
     }
   },
   watch: {
     testNameList(val) {
       if (val) {
-        return Object.values(this.$props.labTests).sort((a,b) => a.id - b.id)
+        let prop = this.$props.labTests;
+        let array = Object.values(prop).sort((a,b) => a.id - b.id);
+        return array;
       }
     }
   },
   mounted() {
-    let selfPractitioner = this.$root.$data.global.selfPractitionerInfo
+    let selfPractitioner = this.$root.$data.global.selfPractitionerInfo;
     if (selfPractitioner) {
-      this.selectedDoctor = selfPractitioner.id
-      this.selectedDoctorName = selfPractitioner.name
+      this.selectedDoctor = selfPractitioner.id;
+      this.selectedDoctorName = selfPractitioner.name;
     }
   }
-}
+};
 </script>

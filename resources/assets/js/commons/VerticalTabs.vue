@@ -29,15 +29,15 @@
                 tabList: {},
                 activeTab: `tab-${this.loadWithId}` || null,
                 currentUrl: null,
-                previousTab: null,
-            }
+                previousTab: null
+            };
         },
         props: {
-            loadWithId: String,
+            loadWithId: String
         },
         methods: {
             updateTab(tabData) {
-                this.tabList = _.assign({}, this.tabList, {
+                this.tabList = assign({}, this.tabList, {
                     [tabData.id]: tabData
                 });
             },
@@ -79,5 +79,5 @@
               this.setActiveTab(historyTab);
             };
         }
-    }
+    };
 </script>

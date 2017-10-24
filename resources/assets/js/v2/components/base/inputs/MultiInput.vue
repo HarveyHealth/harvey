@@ -22,7 +22,7 @@ export default {
     disabled: Boolean,
     getValue: {
       type: Function,
-      required: true,
+      required: true
     },
     // { refs: $refs, ref: 'name' }
     // will auto focus ref after last input is filled in
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       inputs: []
-    }
+    };
   },
   watch: {
     inputs() {
@@ -106,5 +106,5 @@ export default {
       this.$refs[1][0].focus();
     }
   }
-}
+};
 </script>

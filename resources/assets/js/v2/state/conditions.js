@@ -7,5 +7,5 @@ export default {
   selectedIndex: null,
   prefaceRead: false,
   zip: '',
-  zipValidation: null,
-}
+  zipValidation: null
+};

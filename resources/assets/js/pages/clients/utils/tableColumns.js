@@ -38,4 +38,4 @@ export default [
     width: '10%',
     sort: tableSort.byString('done')
   }
-]
+];

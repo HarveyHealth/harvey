@@ -3,7 +3,7 @@
     <div class="vertical-center">
       <div class="signup-stage-instructions color-white">
         <StagesNav :current="'schedule'" />
-        <h2 class="heading-1 color-white">Choose Date & Time</h2>
+        <h2 class="heading-1 color-white">Choose Date &amp; Time</h2>
         <p>Tell us the best date and time to schedule a video consultation with your doctor. You can book it 2 days from now, or as far out as 4 weeks.</p>
       </div>
       <div class="signup-container large router">
@@ -76,7 +76,7 @@ export default {
       isProcessing: false,
       weeks: 4,
       weekStart: moment().startOf('week')
-    }
+    };
   },
   filters: {
     fullDate(value) {
@@ -126,10 +126,10 @@ export default {
             weekObj.days[dayObj.day.substring(0,3)] = {
               date: dayObj.date,
               times: dayObj.times.map(t => t.stored)
-            }
+            };
           }
-        })
-      })
+        });
+      });
       return weeks;
     }
   },
@@ -203,5 +203,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

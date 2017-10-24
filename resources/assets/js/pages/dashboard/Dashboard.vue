@@ -81,10 +81,7 @@
 
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
-  import { capitalize, phone, hyperlink } from '../../utils/filters/textformat.js';
-  import Contact from '../../utils/mixins/Contact';
-  import combineAppointmentData from '../../utils/methods/combineAppointmentData';
-  import getAppointments from '../../utils/methods/getAppointments';
+  import { phone } from '../../utils/filters/textformat.js';
 
   export default {
     name: 'dashboard',
@@ -92,11 +89,11 @@
       return {
         patientName: Laravel.user.fullName, // because it's already there
         flag: false,
-        user: this.$root.$data.global.user,
+        user: this.$root.$data.global.user
       };
     },
     components: {
-      DashboardAppointments,
+      DashboardAppointments
     },
     methods: {
       viewAppointmentPage() {
@@ -139,7 +136,7 @@
               description: dr.info.description,
               name: `${dr.name}, ${typeAbbr}`,
               status: ''
-            }
+            };
           })[0];
         } else {
           return {
@@ -147,7 +144,7 @@
             avatar: '',
             description: '',
             name: ''
-          }
+          };
         }
       },
       recent_appointments() {
@@ -159,7 +156,7 @@
       userClass() {
         return {
           [`is-${this.userType}`]: true
-        }
+        };
       },
       user_id() {
         return this.user.id || '';
@@ -192,5 +189,5 @@
         // Add tracking for Dashboard here
       }
     }
-  }
+  };
 </script>
