@@ -335,6 +335,7 @@
                      let sku_ids = {};
                      if (!response.data.included) {
                          this.$root.$data.global.labTests = response.data.data;
+                         this.$root.$data.global.loadingLabTests = false;
                          return;
                     }
                     response.data.included.forEach(e => {
@@ -344,8 +345,6 @@
                         e.included = sku_ids[e.relationships.sku.data.id];
                         return e;
                     });
-                })
-                .then(() => {
                     this.$root.$data.global.loadingLabTests = false;
                 });
 

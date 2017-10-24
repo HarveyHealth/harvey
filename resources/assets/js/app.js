@@ -359,6 +359,7 @@ const app = new Vue({
                     let sku_ids = {};
                     if (!response.data.included) {
                         this.global.labTests = response.data.data;
+                        this.global.loadingLabTests = false;
                         return;
                     }
                     response.data.included.forEach(e => {
