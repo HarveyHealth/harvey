@@ -12,12 +12,7 @@ class AddListOrderToLabTestsInformationTable extends Migration
     {
         Schema::table('lab_tests_information', function (Blueprint $table) {
             $table->unsignedSmallInteger('list_order')->after('sku_id')->default(0);
-            $table->timestamp('published_at')->after('quote')->nullable();
         });
-   
-        LabTestInformation::all()->each->update([
-            'published_at' => Carbon::now(),
-        ]);
     }
 
     public function down()

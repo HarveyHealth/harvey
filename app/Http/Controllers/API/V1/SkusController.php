@@ -55,7 +55,7 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required',
             'lab_name' => 'required',
-            'published_at' => 'boolean',
+            'visibility' => 'required|integer',
         ]);
     
         $sku = new SKU($request->only(['name', 'price', 'cost']));
@@ -65,14 +65,9 @@ class SkusController extends BaseAPIController
         }
         
         $sku->save();
-        $sku->labTestInformation()->save(new LabTestInformation([
-            'lab_name' => $request->get('lab_name'),
-            'description' => $request->get('description'),
-            'image' => $request->get('image'),
-            'sample' => $request->get('sample'),
-            'quote' => $request->get('quote'),
-            'published_at' => $request->get('published_at') ? Carbon::now() : null
-        ]));
+        $sku->labTestInformation()->save(new LabTestInformation(
+            $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility_id'])
+        ));
         $sku->refresh();
         
         return $this->baseTransformItem($sku, request('include'))->respond();
@@ -93,20 +88,15 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required',
             'lab_name' => 'required',
-            'published_at' => 'boolean',
+            'visibility_id' => 'required|integer',
         ]);
     
         try {
             DB::transaction(function () use ($request, $sku) {
                 $sku->update($request->only(['name', 'price', 'cost']));
-                $sku->labTestInformation()->update([
-                    'lab_name' => $request->get('lab_name'),
-                    'description' => $request->get('description'),
-                    'image' => $request->get('image'),
-                    'sample' => $request->get('sample'),
-                    'quote' => $request->get('quote'),
-                    'published_at' => $request->get('published_at') ? Carbon::now() : null
-                ]);
+                $sku->labTestInformation()->update(
+                    $request->only(['lab_name', 'description', 'image', 'sample', 'quote', 'visibility_id'])
+                );
             });
             $sku->refresh();
             $sku->load('labTestInformation');

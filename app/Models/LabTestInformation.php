@@ -25,7 +25,7 @@ class LabTestInformation extends Model
     ];
 
     protected $table = 'lab_tests_information';
-    protected $fillable = ['description', 'image', 'sample', 'quote', 'lab_name'];
+    protected $fillable = ['description', 'image', 'sample', 'quote', 'lab_name', 'visibility_id'];
 
     public function sku()
     {

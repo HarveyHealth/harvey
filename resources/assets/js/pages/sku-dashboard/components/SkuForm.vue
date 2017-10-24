@@ -61,9 +61,14 @@
                 <input class="form-input form-input_text input-styles" type="number" step="0.01" name="cost" v-model="formSku.attributes.cost"/>
             </div>
 
-            <div class="input__container input-wrap">
-                <label class="input__label" for="published_at">Public</label>
-                <input class="form-input form-input_checkbox input-styles" type="checkbox" name="published_at" v-model="formSku.attributes.lab_test_information.published_at"/>
+            <div class="input__container">
+                <label class="input__label" for="visibility_id">Public</label>
+                <span class="custom-select">
+                    <select name="visibility_id" id="visibility_id" v-model="formSku.attributes.lab_test_information.visibility_id">
+                        <option value=0>Yes</option>
+                        <option value=4>No</option>
+                    </select>
+                </span>
             </div>
 
             <div class="submit inline-centered">
@@ -93,7 +98,7 @@
                 description: null,
                 quote: null,
                 image: null,
-                published_at: null,
+                visibility_id: 4,
             }
         }
     };
@@ -112,7 +117,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        published_at: null,
+                        visibility_id: 4,
                     }
                 }
             },
@@ -140,7 +145,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                published_at: !!sku.attributes.lab_test_information.published_at
+                visibility_id: sku.attributes.lab_test_information.visibility_id,
             })
             .then(response => {
                 this.submitting = false;
@@ -165,7 +170,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                published_at: !!    sku.attributes.lab_test_information.published_at
+                visibility_id: sku.attributes.lab_test_information.visibility_id,
             })
                 .then(response => {
                     this.submitting = false;
@@ -193,7 +198,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        published_at: null,
+                        visibility_id: 4,
                     }
                 }
             };
@@ -206,9 +211,6 @@
         notificationMessage() {
             return this.sku ? "Lab test updated" : "Lab test saved";
         },
-        checkboxValue() {
-            return formSku.attributes.lab_test_information.published_at ? "true" : "false"
-        }
     },
     props: {
         sku: {
