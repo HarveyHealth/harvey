@@ -24,7 +24,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
           'company' => 'Harvey, Inc',
           'street1' => '12655 W Jefferson Blvd',
           'street2' => 'Suite #3-180',
-          'city' => 'Playa Vista',
+          'city' => 'Los Angeles',
           'state' => 'CA',
           'zip' => '90066',
           'country' => 'US',
