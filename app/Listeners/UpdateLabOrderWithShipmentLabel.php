@@ -72,5 +72,13 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         \Log::info($transaction);
         die();
+
+        // TODO: add object_id to the lab order table (so it can be used elsewhere)
+        // $shippo_object_id = $transaction['object_id'];
+        // $label = $transaction['label_url']; // gotten from the current transaction
+        // put it somewhere
+
+        // get shipping label too
+        // $label = \Shippo_Transaction::retrieve($shippo_object_id)['label_url']; // can be retreived at any time with id
     }
 }
