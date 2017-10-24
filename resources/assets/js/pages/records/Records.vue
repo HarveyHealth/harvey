@@ -28,8 +28,8 @@
                 <button @click="nextStep" class="button">Yes, I agree</button>
               </div>
             </Modal>
-            <div class="container container-backoffice">
-                <div v-if="search !== ''" v-for="patient in results" @click="selectPatient(patient)" class="results">
+            <div class="container container-backoffice" v-if="search !== ''">
+                <div v-for="patient in results" @click="selectPatient(patient)" class="results">
                     <div class="spacing">{{ patient.search_name }}</div>
                     <div class="spacing">{{ patient.email }}</div>
                     <div class="spacing">{{ patient.date_of_birth }}</div>
@@ -107,8 +107,8 @@
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
-                          this.setIndex(0);
-                          this.intake();
+                          setIndex(0);
+                          intake();
                         }
                       },
                       {
@@ -116,8 +116,8 @@
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
-                          this.labResults();
-                          this.setIndex(1);
+                          labResults();
+                          setIndex(1);
                         }
                       },
                       {
@@ -125,8 +125,8 @@
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
-                          this.setIndex(2);
-                          this.treatment();
+                          setIndex(2);
+                          treatment();
                         }
                       },
                       {
@@ -134,8 +134,8 @@
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
-                          this.prescription();
-                          this.setIndex(3);
+                          prescription();
+                          setIndex(3);
                         }
                       },
                       {
@@ -143,8 +143,8 @@
                         date: 'Wednesday, July 26th 2017',
                         doctor: 'Dr. Amanda Frick, ND',
                         onClick: () => {
-                          this.attachment();
-                          this.setIndex(4);
+                          attachment();
+                          setIndex(4);
                         }
                       }
                     ]" />
@@ -212,16 +212,16 @@
 </template>
 
 <script>
-import UserNav from '../../commons/UserNav.vue'
-import Modal from '../../commons/Modal.vue'
-import Flyout from '../../commons/Flyout.vue'
-import Timeline from '../../commons/Timeline.vue'
-import SoapNote from './components/SoapNote.vue'
-import LabResults from './components/LabResults.vue'
-import Prescription from './components/Prescription.vue'
-import Attachment from './components/Attachment.vue'
-import Intake from './components/Intake.vue'
-import Treatment from './components/Treatment.vue'
+import UserNav from '../../commons/UserNav.vue';
+import Modal from '../../commons/Modal.vue';
+import Flyout from '../../commons/Flyout.vue';
+import Timeline from '../../commons/Timeline.vue';
+import SoapNote from './components/SoapNote.vue';
+import LabResults from './components/LabResults.vue';
+import Prescription from './components/Prescription.vue';
+import Attachment from './components/Attachment.vue';
+import Intake from './components/Intake.vue';
+import Treatment from './components/Treatment.vue';
 export default {
     name: 'Records',
     components: {
@@ -246,7 +246,7 @@ export default {
           showing: [],
           page: 1,
           index: null
-        }
+        };
     },
     methods: {
       updateInput(e) {
@@ -285,7 +285,7 @@ export default {
         this.activeModal = true;
       },
       nextStep() {
-        this.step = 2
+        this.step = 2;
         this.search = '';
       },
       modalClose() {
@@ -294,14 +294,13 @@ export default {
     },
     computed: {
       results() {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(this.search, 'ig')
+        let array = this.$root.$data.global.patients;
+        let matcher = new RegExp(this.search, 'ig');
         return array.filter(ele => {
           return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
-        return this.showing;
+                      matcher.test(ele.date_of_birth);
+        });
       }
     },
     watch: {
@@ -310,13 +309,13 @@ export default {
           this.step = 1;
           this.activeModal = false;
           this.selectedPatient = null;
-          let array = this.$root.$data.global.patients
-          let matcher = new RegExp(this.search, 'ig')
+          let array = this.$root.$data.global.patients;
+          let matcher = new RegExp(this.search, 'ig');
           return array.filter(ele => {
             return matcher.test(ele.search_name) ||
                         matcher.test(ele.email) ||
-                        matcher.test(ele.date_of_birth)
-          })
+                        matcher.test(ele.date_of_birth);
+          });
         }
       }
     },

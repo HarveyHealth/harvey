@@ -172,7 +172,7 @@ export default {
             }
         },
         updateCard() {
-            let userId = this.user_id || window.Laravel.user.id
+            let userId = this.user_id || window.Laravel.user.id;
             axios.patch(`${this.$root.$data.apiUrl}/users/${userId}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,

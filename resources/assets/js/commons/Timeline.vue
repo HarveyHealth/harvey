@@ -26,7 +26,7 @@ export default {
           type: Number
       }
   }
-}
+};
 </script>
 
 <style lang="scss">

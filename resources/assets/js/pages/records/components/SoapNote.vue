@@ -1,6 +1,6 @@
 <template>
-  <div class="records-container">  
-                        
+  <div class="records-container">
+
         <div class="top-soap-note">
             <h7 name="Subject" class="card-header top-header">Subject</h7>
             <textarea :maxlength="2048" v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
@@ -24,7 +24,7 @@
             <h7 name="Treatment" class="card-header top-header">Treatment</h7>
             <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
-            
+
         <div class="inline-centered padding15">
             <button @click="createSoapNote()" :disabled="!subjective || !objective || !assessment || !plan" class="button margin35">Save Changes</button>
         </div>
@@ -34,14 +34,16 @@
 <script>
 import axios from 'axios';
 export default {
-    props: ['patient'],
+    props: {
+      patient: Object
+    },
     data() {
       return {
           subjective: '',
           objective: '',
           assessment: '',
-          plan: '',
-      }
+          plan: ''
+      };
   },
   methods: {
       createSoapNote() {
@@ -58,51 +60,51 @@ export default {
             global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] = global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id]
                 ? global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] : {};
               global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] = response.data.data;
-          })
+          });
       }
   }
-}
+};
 </script>
 
 <style lang="scss">
     .records-container {
-        height: auto; 
-        padding: 10px; 
-        overflow-x: hidden; 
-        overflow-y: scroll; 
+        height: auto;
+        padding: 10px;
+        overflow-x: hidden;
+        overflow-y: scroll;
         width: 100%;
     }
     .top-soap-note {
-        width: 97%; 
-        position: relative; 
+        width: 97%;
+        position: relative;
         top: 25px;
 
         .top-header {
-            height: 20px; 
-            margin: 15px; 
+            height: 20px;
+            margin: 15px;
             padding: 5px;
         }
     }
     .mid-soap-note {
-        width: 97%; 
-        position: relative; 
+        width: 97%;
+        position: relative;
         top: 15px;
 
         .mid-header {
-            height: 20px; 
-            margin: 20px 15px; 
+            height: 20px;
+            margin: 20px 15px;
             padding: 5px;
         }
     }
     .soap-divider {
-        color: #EDA1A6; 
-        padding: 5px; 
-        padding-top: 10px; 
-        width: 97%; 
+        color: #EDA1A6;
+        padding: 5px;
+        padding-top: 10px;
+        width: 97%;
         margin: 0 20px;
     }
     .soap-textarea {
-        min-height: 100px; 
+        min-height: 100px;
         margin: 15px;
     }
     .padding15 {

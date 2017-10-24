@@ -40,14 +40,14 @@ export default {
     data() {
         return {
 
-        }
+        };
     },
     computed: {
         attachmentList() {
             return [{name: ''}].concat([]);
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

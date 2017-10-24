@@ -47,18 +47,18 @@ export default {
     data() {
         return {
 
-        }
+        };
     },
     computed: {
         labNameList() {
             return [{name: ''}].concat([{name: 'SpectraCell'}]);
         },
         labTestList() {
-            let labTests = Object.values(this.$root.$data.labTests)
-            return [{attributes: {name: ''}}].concat(labTests)
+            let labTests = Object.values(this.$root.$data.labTests);
+            return [{attributes: {name: ''}}].concat(labTests);
         }
     }
-}
+};
 </script>
 
 <style lang="scss">
