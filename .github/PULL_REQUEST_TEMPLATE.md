@@ -7,10 +7,13 @@ This is where you explain the impetus behind the PR. Why was it necessary?
 - This is something that was changed
 - This is another thing that was changed
 
-# Checklist
+# Front-end Checklist
 - [ ] Link to Jira ticket included
 - [ ] Unit tests pass
 - [ ] Tested in IE, Chrome, Firefox
+
+# Back-end Checklist
+- [ ] Unit tests pass
 
 # Screenshots
 
