@@ -12,9 +12,4 @@ trait Invoiceable
     {
         return $this->belongsTo(Invoice::class);
     }
-
-    public function discountCode()
-    {
-        return $this->belongsTo(DiscountCode::class);
-    }
 }
