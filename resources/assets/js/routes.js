@@ -68,7 +68,7 @@ rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
   component: require('./v2/components/pages/getstarted/children/Signup')
-})
+});
 
 let routes = [
 
@@ -78,7 +78,7 @@ let routes = [
         path: '/appointments',
         name: 'appointments',
         props: true,
-        component: require('./pages/appointments/Appointments.vue'),
+        component: require('./pages/appointments/Appointments.vue')
     },
     {
         path: '/messages',
@@ -136,4 +136,4 @@ router.afterEach(() => {
     }
 });
 
-export default router
+export default router;

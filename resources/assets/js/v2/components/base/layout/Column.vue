@@ -16,5 +16,5 @@ export default {
       return Object.keys(this.config).map(key => `Column-${key}-${this.config[key]}`).join(' ');
     }
   }
-}
+};
 </script>

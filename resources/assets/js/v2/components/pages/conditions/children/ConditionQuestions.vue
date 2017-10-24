@@ -41,12 +41,12 @@ export default {
     Column: Layout.Column,
     Row: Layout.Row,
     SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon,
+    SvgIcon: Util.SvgIcon
   },
   data() {
     return {
       hasAnswered: 0
-    }
+    };
   },
   computed: {
     answerIndex() {
@@ -76,9 +76,9 @@ export default {
     },
     next(question, answer, index) {
       const questionIndex = this.State('conditions.questionIndex');
-      Vue.set(this.State('conditions.answers'), questionIndex, { question, answer, index })
+      Vue.set(this.State('conditions.answers'), questionIndex, { question, answer, index });
       setTimeout(this.goForward, 400);
     }
   }
-}
+};
 </script>

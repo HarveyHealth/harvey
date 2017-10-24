@@ -8,16 +8,16 @@
 export default {
   props: {
     align: String,
-    gutter: String,
+    gutter: String
   },
   computed: {
     classes() {
       return {
         Row: true,
         [`align-${this.align}`]: this.align,
-        [`gutter-${this.gutter}`]: this.gutter,
-      }
+        [`gutter-${this.gutter}`]: this.gutter
+      };
     }
   }
-}
+};
 </script>

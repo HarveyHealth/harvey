@@ -12,7 +12,7 @@
     name: 'get-started',
     components: {
       Signup,
-      Welcome,
+      Welcome
     },
     beforeCreate() {
       // The /get-started funnel is technically now only for users with a
@@ -34,8 +34,8 @@
       if (App.Config.user.isLoggedIn) {
         window.onbeforeunload = () => {
           return 'All your information will be reset.';
-        }
+        };
       }
     }
-  }
+  };
 </script>

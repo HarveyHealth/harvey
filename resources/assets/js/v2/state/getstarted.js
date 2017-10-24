@@ -7,7 +7,7 @@ export default {
     last_name: Util.data.fromStorage('last_name') || '',
     password: Util.data.fromStorage('password') || '',
     terms: '',
-    zip: '',
+    zip: ''
   },
-  zipValidation: null,
-}
+  zipValidation: null
+};
