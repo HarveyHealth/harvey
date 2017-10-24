@@ -112,7 +112,7 @@ export default {
       this.$parent.addActiveModal = true;
     },
     updateTestSelection(test, index) {
-      this.testNameList[index].checked = !this.testNameList[index].checked
+      this.testNameList[index].checked = !this.testNameList[index].checked;
       if (this.testNameList[index].checked) {
         this.selectedTests.push(test);
       } else {
@@ -133,9 +133,9 @@ export default {
         this.selectedDoctorName = e.target.value;
     },
     handleFlyoutClose() {
-      this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
-      this.$parent.addActiveModal = false;
-      this.resetting = true;
+        this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
+        this.$parent.addActiveModal = false;
+        this.resetting = true;
     },
     createLabOrder() {
         this.selectedTests.map(e => {
