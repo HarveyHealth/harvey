@@ -1,15 +1,15 @@
 <template>
-  <div v-if="isVisible" class="input__container" :style="{ 'margin-bottom': editable ? '0.5em' : false }">
-	<label class="input__label">duration</label>
-	<SelectOptions v-if="editable"
-	  :attached-label="'Select duration'"
-	  :on-select="handleSelect"
-	  :options="list"
-	  :selected="duration"
-	/>
-	<span v-else class="input__item">{{ duration }}</span>
-	<span class="error-text" v-show="editable && !duration.length">Duration is required</span>
-  </div>
+    <div v-if="isVisible" class="input__container" :style="{ 'margin-bottom': editable ? '0.5em' : false }">
+        <label class="input__label">duration</label>
+        <SelectOptions v-if="editable"
+            :attached-label="'Select duration'"
+            :on-select="handleSelect"
+            :options="list"
+            :selected="duration"
+        />
+        <span v-else class="input__item">{{ duration }}</span>
+        <span class="error-text" v-show="editable && !duration.length">Duration is required</span>
+    </div>
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
 	handleSelect(e) {
-	  this.setDuration(this.list[e.target.selectedIndex - 1]);
+        this.setDuration(this.list[e.target.selectedIndex - 1]);
 	}
   }
 };
