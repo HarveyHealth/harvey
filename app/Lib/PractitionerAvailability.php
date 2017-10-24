@@ -106,7 +106,7 @@ class PractitionerAvailability
                     ->addMinutes($hour_and_minutes[1]);
 
                 if ((empty($this->buffer_in_hours) || $output_slot->gt($after_than)) &&
-                    (empty($this->only_predefined_blocks) || in_array($output_slot->format('H:i'), self::PREDEFINED_BLOCKS))) {
+                    (empty($this->only_predefined_blocks) || in_array($output_slot->copy()->timezone($this->practitioner->timezone)->format('H:i'), self::PREDEFINED_BLOCKS))) {
                         $output[] = $output_slot->toW3cString();
                 }
             }

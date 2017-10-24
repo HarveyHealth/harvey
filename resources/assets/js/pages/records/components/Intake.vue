@@ -21,7 +21,22 @@
 
 <script>
 export default {
-  
+    props: {
+        patient: Object
+    },
+    data() {
+        return {
+            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id],
+        }
+    },
+    questionsList() {
+        return [
+            {
+                question: `What is your gender?`,
+                answer: "",
+            },
+        ]
+    }
 }
 </script>
 

@@ -11,14 +11,21 @@
             </p>
         </div>
         <div class="card-heading-container records-spacing">
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">file upload</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="attach in attachmentList">{{ attach.name }}</option>
+                    </select>
+                </span>
             </div>
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">upload</label>
-                <div>
-
+                <div class="border-upload-container">
+                    <div class="upload-container">
+                        <i class="fa fa-book pdf-icons"></i>
+                        <p class="pdf-upload-text">Attachment (PDF)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,6 +41,11 @@ export default {
         return {
 
         }
+    },
+    computed: {
+        attachmentList() {
+            return [{name: ''}].concat([]);
+        }
     }
 }
 </script>
@@ -42,7 +54,7 @@ export default {
     .records-spacing {
         display: flex;
         justify-content: space-around;
-        width: 60%;
+        width: 500px;
     }
     .p-spacing {
         padding: 25px;
@@ -53,5 +65,28 @@ export default {
         overflow-x: hidden; 
         overflow-y: scroll;
         width: 100%;
+    }
+    .pdf-upload-text {
+        margin: 0;
+    }
+    .upload-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+    .border-upload-container {
+        border: 1px solid #ccc;
+        background-color: #ececec;
+        border-radius: 5px;
+        height: 35px;
+        padding: 0 10px 0 0;
+        cursor: pointer;
+    }
+    .pdf-icons{
+        padding: 0 10px;
+    }
+    .bg-white {
+        background-color: white !important;
     }
 </style>

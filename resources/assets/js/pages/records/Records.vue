@@ -43,10 +43,11 @@
               <i class="fa fa-search search-icon"></i>
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </div>
-            <button @click="newSoapNote" class="button" style="background-color: #ccc; top: 5px; position: absolute; right: 36%; z-index: 100; width: 10%;">SOAP Note</button>
-            <button class="button" style="top: 5px; position: absolute; right: 25%; z-index: 100; width: 10%;">New Record</button>
-
-              <div style="height: auto;">  
+            <div style="top: 5px; position: absolute; right: 350px; z-index: 100; width: 330px;">
+              <button @click="newSoapNote" class="button" style="background-color: #ccc; width: 150px; margin-right: 15px; float: left;">SOAP Note</button>
+              <button class="button" style="width: 150px; margin-right: 15px; float: left;">New Record</button>
+            </div>
+              <div style="height: auto;">
                 <div class="card" style="width: 70%;">
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
@@ -61,7 +62,7 @@
                         {{ selectedPatient.search_name }}
                       </h2>
                   </div>
-                    
+
                     <div v-if="page === 1">
                       <SoapNote :patient="selectedPatient" />
                     </div>
@@ -170,7 +171,7 @@
                     {{ $root.$data.global.user.attributes.doctor_name }} with {{ $root.$data.global.user.attributes.first_name }} {{ $root.$data.global.user.attributes.last_name }}
                   </div>
               </div>
-              <div style="height: 600px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
+              <div style="height: 600px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">
                   <div style="float: left; height: 400px; width: 60%; position: relative; top: 15px;">
                     <h7 name="" class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
                     <p style="margin: 15px; padding: 5px;">
@@ -367,8 +368,8 @@ export default {
     }
   }
   .spacing {
-    font-size: 22px; 
-    float: left; 
+    font-size: 22px;
+    float: left;
     width: 33.3%;
     padding: 5px;
   }

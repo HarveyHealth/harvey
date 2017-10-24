@@ -5,8 +5,9 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default function (orders, tests, patientLookUp, practitionerLookup, testList) {
-    if (orders.length === 0 || tests.length === 0 || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return []
+    if (!orders.length || !tests.length || _.isEmpty(patientLookUp) || _.isEmpty(practitionerLookup) || _.isEmpty(testList)) return []
     return orders.map(obj => {
+        let count = 0;
         let data = {
             id: obj.id,
             patient_id: obj.attributes.patient_id,
@@ -37,11 +38,11 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             },
             samples: {}
         }
+
         tests.forEach(test => {
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
-                data.total_price += Number(testList[Number(test.attributes.sku_id)].attributes.price)
-                data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] = data.samples[testList[Number(test.attributes.sku_id)].attributes.sample] ?
-                    data.samples[testList[Number(test.attributes.sku_id)].attributes.sample]++ : 1
+                data.total_price += eval(test.included.attributes.price)
+                data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample
                 data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1
                 data.sku_ids[test.attributes.sku_id] = test.included
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status
@@ -49,9 +50,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                 data.shipment_codes[test.attributes.lab_order_id] = test.attributes.shipment_code
                 data.completed_ats[test.attributes.lab_order_id] = test.attributes.completed_at
                 data.test_list.push({
-                    item_type: testList[Number(test.attributes.sku_id)].attributes.item_type,
-                    price: testList[Number(test.attributes.sku_id)].attributes.price,
-                    name: testList[Number(test.attributes.sku_id)].attributes.name,
+                    item_type: test.included.attributes.item_type,
+                    price: test.included.attributes.price,
+                    name: test.included.attributes.name,
                     original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
                         [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
@@ -60,13 +61,12 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                             [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),
-                    sku: testList[Number(test.id)],
+                    sku: test.included,
                     shipment_code: test.attributes.shipment_code
                 })
             }
         })
         data.test_list = data.test_list.filter(e => e.original_status !== 'canceled')
-        data.number_of_tests = !data.number_of_tests ? 0 : data.number_of_tests
         return {
             data,
             values: [

@@ -9,19 +9,30 @@
                 The only file format accepted is a PDF.
             </p>
         </div>
-        <div class="card-heading-container records-spacing">
-            <div>
+        <div class="card-heading-container lab-spacing">
+            <div style="width: 175px">
                 <label class="input__label">lab name</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="lab in labNameList">{{ lab.name }}</option>
+                    </select>
+                </span>
             </div>
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">lab test</label>
-                <div></div>
+                <span class="custom-select bg-white">
+                    <select>
+                        <option v-for="lab in labTestList">{{ lab.attributes.name }}</option>
+                    </select>
+                </span>
             </div>
-            <div>
+            <div style="width: 175px">
                 <label class="input__label">upload</label>
-                <div>
-
+                <div class="border-upload-container">
+                    <div class="upload-container">
+                        <i class="fa fa-book pdf-icons"></i>
+                        <p class="pdf-upload-text">Lab Result (PDF)</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,15 +48,24 @@ export default {
         return {
 
         }
+    },
+    computed: {
+        labNameList() {
+            return [{name: ''}].concat([{name: 'SpectraCell'}]);
+        },
+        labTestList() {
+            let labTests = Object.values(this.$root.$data.labTests)
+            return [{attributes: {name: ''}}].concat(labTests)
+        }
     }
 }
 </script>
 
 <style lang="scss">
-    .records-spacing {
+    .lab-spacing {
         display: flex;
         justify-content: space-around;
-        width: 60%;
+        width: 700px;
     }
     .p-spacing {
         padding: 25px;
@@ -56,5 +76,28 @@ export default {
         overflow-x: hidden; 
         overflow-y: scroll;
         width: 100%;
+    }
+    .pdf-upload-text {
+        margin: 0;
+    }
+    .upload-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+    }
+    .border-upload-container {
+        border: 1px solid #ccc;
+        background-color: #ececec;
+        border-radius: 5px;
+        height: 35px;
+        padding: 0 10px 0 0;
+        cursor: pointer;
+    }
+    .pdf-icons{
+        padding: 0 10px;
+    }
+    .bg-white {
+        background-color: white !important;
     }
 </style>

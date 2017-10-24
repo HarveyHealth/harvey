@@ -22,10 +22,11 @@
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Lab Tests</label>
-      <div v-for="tests in testNameList" :class="{highlightCheckbox: tests.checked}" class="inventory-left">
-          <label :class="{highlightText: tests.checked}" class="radio--text">
-            <input :checked="tests.checked" @click="updateTestSelection($event, tests)" class="form-radio" type="checkbox">
-            {{ tests.attributes.name }}
+      <div v-for="(test, index) in testNameList" :class="{highlightCheckbox: test.checked}" class="inventory-left custom-padding">
+          <label :class="{highlightText: test.checked}" class="radio--text">
+            <input :checked="test.checked" @click="updateTestSelection(test, index)" class="form-radio" type="checkbox">
+            {{ test.attributes.name }}
+            </input>
           </label>
       </div>
     </div>
@@ -107,12 +108,11 @@ export default {
     openModal() {
       this.$parent.addActiveModal = true
     },
-    updateTestSelection(e, obj) {
-      this.testNameList[obj.id - 1].checked = !this.testNameList[obj.id - 1].checked
-      if (this.testNameList[obj.id - 1].checked) {
-        this.selectedTests.push(obj)
+    updateTestSelection(test, index) {
+      if (this.testNameList[index].checked = !this.testNameList[index].checked) {
+        this.selectedTests.push(test)
       } else {
-        _.pull(this.selectedTests, obj)
+        _.pull(this.selectedTests, test)
       }
     },
     formatName(str) {
@@ -147,7 +147,7 @@ export default {
           this.selectedTests.forEach((e, i)=> {
             axios.post(`${this.$root.$data.apiUrl}/lab/tests`, {
                 lab_order_id: Number(response.data.data.id),
-                sku_id: Number(e.id),
+                sku_id: Number(e.attributes.sku_id),
                 shipment_code: this.shippingCodes[e.id]
               })
           })
@@ -172,7 +172,7 @@ export default {
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
           setTimeout(() => this.$parent.notificationActive = false, 3000);
-          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user`)
+          axios.get(`${this.$root.$data.apiUrl}/lab/orders?include=patient,user,invoice`)
             .then(response => {
                 this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                     e['included'] = response.data.included[i]
@@ -181,8 +181,12 @@ export default {
                 this.$root.$data.global.loadingLabOrders = false
                 axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                     .then(response => {
+                        let sku_ids = {}
+                        response.data.included.forEach(e => {
+                            sku_ids[e.id] = e;
+                        })
                         this.$root.$data.global.labTests = response.data.data.map((e, i) => {
-                            e['included'] = response.data.included[i]
+                            e.included = sku_ids[e.relationships.sku.data.id]
                             return e;
                         })
                         this.$root.$data.global.loadingLabTests = false

@@ -153,6 +153,9 @@ const app = new Vue({
             user: {},
             selfPractitionerInfo: null,
             user_editing: {},
+            soapNotes: {},
+            prescriptions: {},
+            attachments: {},
         },
         signup: {
           availability: [],
@@ -258,7 +261,8 @@ const app = new Vue({
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
         getPatients() {
-            axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+            axios.get(`${this.apiUrl}/patients?include=user,intake`).then(response => {
+                console.log(response)
                 const include = response.data.included;
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
@@ -358,12 +362,14 @@ const app = new Vue({
 
             axios.get(`${this.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
+                    let sku_ids = {}
+                    response.data.included.forEach(e => {
+                        sku_ids[e.id] = e;
+                    })
                     this.global.labTests = response.data.data.map((e, i) => {
-                        e['included'] = response.data.included[i]
+                        e.included = sku_ids[e.relationships.sku.data.id]
                         return e;
                     })
-                })
-                .then(() => {
                     this.global.loadingLabTests = false
                 })
 
@@ -373,8 +379,6 @@ const app = new Vue({
                         this.labTests[e.id] = e
                         this.labTests[e.id]['checked'] = false
                     })
-                })
-                .then(() => {
                     this.global.loadingTestTypes = false
                 })
         },
@@ -410,8 +414,6 @@ const app = new Vue({
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
                         this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id)
                     }
-                })
-                .then(() => {
                     this.global.loadingMessages = false
                 })
         },
@@ -447,8 +449,6 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/users?type=patient`)
             .then(response => {
                 this.clientList = response.data;
-            })
-            .then(() => {
                 this.global.loadingClients = false;
             })
         },

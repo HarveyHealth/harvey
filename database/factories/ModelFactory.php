@@ -67,7 +67,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'zip' => $zip,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
-        'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York']),
+        'timezone' => $faker->randomElement(['America/Juneau', 'America/Los_Angeles', 'America/Chicago', 'America/New_York', 'UTC']),
         'remember_token' => str_random(10)
     ];
 });
@@ -121,10 +121,8 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
         $workableDays->push(Carbon::parse('next Monday')->addDay($i)->format('l'));
     }
 
-    $start_block = collect(PractitionerAvailability::PREDEFINED_BLOCKS)->random();
-
-    list($start_hour, $star_minute) = explode(':', $start_block);
-    $start_time = "{$start_hour}:{$star_minute}:00";
+    $start_hour = rand(0, 22);
+    $start_time = "{$start_hour}:{$faker->randomElement([0, 30])}:00";
 
     $stop_hour = rand($start_hour + 2, 24);
     $stop_minutes = (24 == $stop_hour) ? '00' : $faker->randomElement([0, 30]);
