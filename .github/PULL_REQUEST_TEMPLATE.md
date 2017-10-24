@@ -11,9 +11,11 @@ This is where you explain the impetus behind the PR. Why was it necessary?
 - [ ] Link to Jira ticket included
 - [ ] Unit tests pass
 - [ ] Tested in IE, Chrome, Firefox
+- [ ] Added/updated documentation
 
 # Back-end Checklist
 - [ ] Unit tests pass
+- [ ] Added/updated documentation
 
 # Screenshots
 
