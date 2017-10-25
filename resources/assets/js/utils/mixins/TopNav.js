@@ -4,7 +4,7 @@ export default {
     data() {
         return {
             nav_is_open: false
-        }
+        };
     },
     methods: {
         capitalize,
@@ -12,7 +12,7 @@ export default {
             this.nav_is_open = !this.nav_is_open;
         },
         logout() {
-            this.$http.post('/logout').then(response => {
+            this.$http.post('/logout').then(() => {
                 location.href = '/';
             });
         },
@@ -32,4 +32,4 @@ export default {
             }
         }
     }
-}
+};

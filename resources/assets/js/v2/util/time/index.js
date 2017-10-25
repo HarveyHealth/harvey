@@ -5,5 +5,5 @@ import toLocal from './toLocal';
 export default {
   betweenNowAnd,
   format,
-  toLocal,
-}
+  toLocal
+};

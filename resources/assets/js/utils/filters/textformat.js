@@ -28,4 +28,4 @@ function hyperlink(value, type) {
     return ret;
 }
 
-export {capitalize, phone, hyperlink}
+export {capitalize, phone, hyperlink};

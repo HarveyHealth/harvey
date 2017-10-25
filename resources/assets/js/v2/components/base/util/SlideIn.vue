@@ -22,15 +22,15 @@ export default {
         'opacity': '0',
         'position': 'relative',
         [`${this.to}`]: '16px',
-        'transition': `${this.to} 300ms ease-in-out, opacity 200ms ease-in-out`,
+        'transition': `${this.to} 300ms ease-in-out, opacity 200ms ease-in-out`
       }
-    }
+    };
   },
   mounted() {
     setTimeout(() => {
       this.style.opacity = '1';
       this.style[this.to] = '0';
-    }, this.delay)
+    }, this.delay);
   }
-}
+};
 </script>

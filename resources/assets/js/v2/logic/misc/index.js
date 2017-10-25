@@ -5,5 +5,5 @@ import shouldTrack from './shouldTrack';
 export default {
   requested,
   setCurrentPage,
-  shouldTrack,
-}
+  shouldTrack
+};
