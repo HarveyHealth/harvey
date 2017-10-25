@@ -1,5 +1,7 @@
-import MainNav from './MainNav';
+import MainNav from './MainNav.vue';
+import Modal from './Modal.vue';
 
 export default {
-  MainNav
-};
+  MainNav,
+  Modal,
+}

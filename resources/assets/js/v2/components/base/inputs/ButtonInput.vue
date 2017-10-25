@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Util from '../util';
+import Util from '../util/index.js';
 
 export default {
   props: {

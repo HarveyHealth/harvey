@@ -1,5 +1,5 @@
-import Column from './Column';
-import Row from './Row';
+import Column from './Column.vue';
+import Row from './Row.vue';
 
 export default {
     Column,

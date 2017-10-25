@@ -15,8 +15,9 @@ import Alert from './commons/Alert.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
-// HELPERS
+// METHODS
 import combineAppointmentData from './utils/methods/combineAppointmentData';
+import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
@@ -24,6 +25,7 @@ Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
+window.Card = require('card');
 
 // Centralized event handler to easily share among components
 const eventHub = new Vue();
@@ -84,6 +86,12 @@ App.setState = (state, value) => {
 
 Vue.prototype.setState = App.setState;
 
+// STORE
+// The data object for the root Vue instance. We're abstracting this to its own file
+// so it can be imported into our app stub for unit testing
+import store from './store';
+const Store = store(Laravel, State);
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -92,6 +100,7 @@ const app = new Vue({
         Dashboard,
         Usernav
     },
+<<<<<<< HEAD
     data: {
         // Adding State to the root data object makes it globally reactive.
         // We do not attach this to window.App for HIPPA compliance. User
@@ -195,6 +204,9 @@ const app = new Vue({
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
+=======
+    data: Store,
+>>>>>>> 69ace169ed4193abaedfef3013894f5750bdde7b
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
@@ -221,21 +233,13 @@ const app = new Vue({
             }
           });
         },
-        // Filters practitioner list by state licensing regulations
-        // practitioners = practitioner list from backend or from appointments page
-        // state = user state to test against
+
+        // Cannot just bind this to filterPractitioners. You must wrap it in a function
+        // for 'this' to refer to the Vue instance
         filterPractitioners(practitioners, state) {
-          return practitioners.filter(practitioner => {
-            // First check if the user's state is regulated or not
-            const userRegulatedState = this.global.regulatedStates.indexOf(state) > -1;
-            // Get licenses from global list or from appointments page list
-            const licenses = practitioner.attributes ? practitioner.attributes.licenses : practitioner.data.info.licenses;
-            // If the user's state is regulated, filter dr list for drs with licenses in that state
-            return userRegulatedState
-              ? licenses.filter(license => license.state === state).length
-              : true;
-          });
+          return filterPractitioners.call(this, practitioners, state);
         },
+
         getAppointments(cb) {
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
@@ -343,9 +347,11 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        invoices.forEach(e => {
-                            obj[e.id] = e;
-                        });
+                        if (!invoices.length) {
+                            invoices.forEach(e => {
+                                obj[e.id] = e;
+                            });
+                        }
                         this.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];
@@ -361,6 +367,11 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
                     let sku_ids = {};
+                    if (!response.data.included) {
+                        this.global.labTests = response.data.data;
+                        this.global.loadingLabTests = false;
+                        return;
+                    }
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
                     });
@@ -490,6 +501,6 @@ const app = new Vue({
         // Initial GET requests
         if (Laravel.user.signedIn) this.setup();
     }
-}).$mount('#app');
+});
 
-export default app;
+app.$mount('#app');
