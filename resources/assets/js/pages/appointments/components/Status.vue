@@ -25,7 +25,7 @@ export default {
     // Status string to be converted for SelectOptions
     status: String,
     // Should we even display appointment status?
-    isVisible: Boolean,
+    isVisible: Boolean
   },
   components: {
     SelectOptions
@@ -40,5 +40,5 @@ export default {
       this.setStatus(this.list[e.target.selectedIndex]);
     }
   }
-}
+};
 </script>

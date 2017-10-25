@@ -20,5 +20,5 @@ export default {
     Row: Layout.Row,
     SvgIcon: Util.SvgIcon
   }
-}
+};
 </script>

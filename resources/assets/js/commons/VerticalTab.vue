@@ -20,12 +20,12 @@
         props: {
             id: [String, Number],
             label: [String, Number],
-            url: String,
+            url: String
         },
         data() {
             return {
-                tabId: this.id || 'tab-' + _.uniqueId()
-            }
+                tabId: this.id || 'tab-' + uniqueId()
+            };
         },
         mounted() {
             let parent = this.$parent;
@@ -34,9 +34,9 @@
                 parent.updateTab({
                     id: this.tabId,
                     label: this.label,
-                    url: this.url,
+                    url: this.url
                 });
             }
         }
-    }
+    };
 </script>

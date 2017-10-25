@@ -5,5 +5,5 @@ import SvgIcon from './SvgIcon';
 export default {
   Loading,
   SlideIn,
-  SvgIcon,
-}
+  SvgIcon
+};

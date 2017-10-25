@@ -1,13 +1,13 @@
 <template>
   <div class="filters">
-    <button
-      v-for="(name, index) in filters"
-      :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
-      :disabled="loading"
-      @click="handleFilter(name, index)">
-      {{ name.name ? name.name : name }}
-      <div class="filter-bubble" v-if="name.count">{{ name.count }}</div>
-      </button>
+        <button
+            v-for="(name, index) in filters"
+            :class="{'button--filter': true, 'isactive': activeFilter === index && !loading}"
+            :disabled="loading"
+            @click="handleFilter(name, index)">
+            {{ name.name ? name.name : name }}
+            <div class="filter-bubble" v-if="name.count">{{ name.count }}</div>
+        </button>
   </div>
 </template>
 
@@ -20,10 +20,10 @@ export default {
     },
     filters: {
       type: Array,
-      required: true,
+      required: true
     },
     loading: {
-      type: Boolean,
+      type: Boolean
     },
     onFilter: {
       type: Function,
@@ -43,5 +43,5 @@ export default {
       if (this.flyout) this.flyout();
     }
   }
-}
+};
 </script>

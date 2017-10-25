@@ -7,7 +7,7 @@
           <div class="main-content">
             <form class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-modal="search" placeholder="Search by name, email or date of birth..." type="text" class="search-bar" />
             </form>
             <Modal :active="activeModal" :onClose="modalClose">
               <div class="inline-centered">
@@ -208,9 +208,9 @@
 </template>
 
 <script>
-import UserNav from '../../commons/UserNav.vue'
-import Modal from '../../commons/Modal.vue'
-import Flyout from '../../commons/Flyout.vue'
+import UserNav from '../../commons/UserNav.vue';
+import Modal from '../../commons/Modal.vue';
+import Flyout from '../../commons/Flyout.vue';
 export default {
     name: 'Records',
     components: {
@@ -221,52 +221,55 @@ export default {
     data() {
         return {
           step: 1,
-          results: [],
           search: '',
           selectedPatient: null,
           activeModal: false,
           name: ''
-        }
+        };
     },
     methods: {
-      updateInput(e) {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(e.target.value, 'ig')
-        this.results = array.filter(ele => {
-          return matcher.test(ele.search_name) ||
-                      matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
-      },
       selectPatient(patient) {
-        this.selectedPatient = patient
-        this.name = patient.search_name
-        this.activeModal = true
+        this.selectedPatient = patient;
+        this.name = patient.search_name;
+        this.activeModal = true;
       },
       nextStep() {
-        this.step = 2
+        this.step = 2;
       },
       modalClose() {
-        this.activeModal = false
+        this.activeModal = false;
       }
     },
     computed: {
       results() {
-        let array = this.$root.$data.global.patients
-        let matcher = new RegExp(this.value, 'ig')
-        this.results = array.filter(ele => {
+        let array = this.$root.$data.global.patients;
+        if (!array.length) return [];
+        let matcher = new RegExp(this.value, 'ig');
+        return array.filter(ele => {
           return matcher.test(ele.search_name) ||
                       matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth)
-        })
+                      matcher.test(ele.date_of_birth);
+        });
       }
     },
     watch: {
+      results(val, old) {
+        if (val !== old) {
+          let array = this.$root.$data.global.patients;
+          if (!array.length) return [];
+          let matcher = new RegExp(this.value, 'ig');
+          return array.filter(ele => {
+            return matcher.test(ele.search_name) ||
+                        matcher.test(ele.email) ||
+                        matcher.test(ele.date_of_birth);
+          });
+        }
+      }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
     }
-}
+};
 </script>
 
 <style lang="scss">

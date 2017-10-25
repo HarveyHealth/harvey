@@ -17,7 +17,11 @@
 <script>
     export default {
         name: 'image-upload',
-        props: ['label', 'type', 'route'],
+        props: {
+            label: String,
+            type: String,
+            route: String
+        },
         methods: {
             upload() {
                 this.$emit('uploading');
@@ -32,10 +36,10 @@
                             if (request.status === 200) {
                                 resolve(request.response);
                             } else {
-                                reject(request.response)
+                                reject(request.response);
                             }
                         }
-                    }
+                    };
                 });
 
                 send.then(data => {
@@ -44,9 +48,9 @@
                 .catch(err => {
                     this.$emit('uploadError', JSON.parse(err));
                 });
-            },
-        },
-    }
+            }
+        }
+    };
 </script>
 
 <style>

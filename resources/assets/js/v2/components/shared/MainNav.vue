@@ -136,8 +136,8 @@ export default {
   },
   data() {
     return {
-      isOpen: false,
-    }
+      isOpen: false
+    };
   },
   computed: {
     classes() {
@@ -147,7 +147,7 @@ export default {
       return `fa ${this.isOpen ? 'fa-close' : 'fa-bars'}`;
     },
     showMenu () {
-      return this.context === 'conditions'
+      return this.context === 'conditions';
     }
   },
   methods: {
@@ -155,5 +155,5 @@ export default {
       return this.isOpen = !this.isOpen;
     }
   }
-}
+};
 </script>

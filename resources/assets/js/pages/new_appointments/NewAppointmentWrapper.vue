@@ -38,7 +38,9 @@
 
     export default {
         name: 'new-appointment-wrapper',
-        props: ['user'],
+        props: {
+            user: Object
+        },
         data() {
             return {
                 steps: ['new-appointment', 'profile', 'payment'],
@@ -64,7 +66,7 @@
                         birthdate: 'Please tell us your birthdate.',
                         height_feet: 'The height(feet) field is required.',
                         // height_inches: 'The height(inches) field is required.',
-                        weight: 'The weight field is required.',
+                        weight: 'The weight field is required.'
                     },
                     'payment': {
                         number: 'The card number field is required.',
@@ -97,7 +99,7 @@
                         cvc: ''
                     })
                 }
-            }
+            };
         },
         components: {
             NewAppointment,
@@ -126,9 +128,9 @@
                         // error object in Laravel error format
                         errorData[field] = [currentStepValidator[field]];
                     }
-                })
+                });
 
-                if (_.isEmpty(errorData)) {
+                if (isEmpty(errorData)) {
                     // extra validation
                     let currentForm = this.forms[this.currentStepName];
 
@@ -162,7 +164,7 @@
                     }
                 }
 
-                if (!_.isEmpty(errorData)) {
+                if (!isEmpty(errorData)) {
                     error = true;
                     this.formOnError(errorData);
                 }
@@ -218,7 +220,7 @@
                 let profileFormData = this.forms['profile'].data(),
                     formattedBirthdate = this.formatBirthdate(profileFormData.birthdate);
 
-                return _.assign({}, profileFormData, {
+                return assign({}, profileFormData, {
                     'birthdate': formattedBirthdate,
                     'stripe_token': stripe_token
                 });
@@ -241,7 +243,7 @@
                             })
                             .catch((error) => {
                                 this.goBackToErrorComponent(error.response.data.error.message, 0);
-                            })
+                            });
                     })
                     .catch((error) => {
                         this.goBackToErrorComponent(error.response.data.error.message, 1);
@@ -260,8 +262,8 @@
                 this.formOnError(error);
             },
             assignUserData() {
-                if (!_.isEmpty(this.user)) {
-                    this.forms.profile = _.assign(this.forms.profile, _.pick(this.user, _.keys(this.forms.profile)));
+                if (!isEmpty(this.user)) {
+                    this.forms.profile = assign(this.forms.profile, pick(this.user, keys(this.forms.profile)));
                     this.saveSymptomsData();
                 }
             },
@@ -276,7 +278,7 @@
                         .then(() => {
                             sessionStorage.removeItem(sessionKey);
                         })
-                        .catch((error) => {});
+                        .catch(() => {});
                 }
             }
         },
@@ -296,5 +298,5 @@
                 this.assignUserData();
             }
         }
-    }
+    };
 </script>

@@ -3,5 +3,5 @@ import Row from './Row';
 
 export default {
     Column,
-    Row,
-}
+    Row
+};
