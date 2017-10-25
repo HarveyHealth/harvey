@@ -8,8 +8,8 @@
           <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <p class="font-normal font-xxl">Personalized for better health.</p>
-          <p class="font-lg is-padding is-paddingless-top">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
+          <h2 class="main-heading">Personalized for better health.</h2>
+          <Copy class="lead-copy">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Copy>
         </div>
         <ConditionsAll class="space-top-lg is-padding-lg" />
       </div>
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import { Util } from '../../base';
-import Shared from '../../shared';
+import { Util, Typography } from 'base';
+import Shared from 'shared';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -39,6 +39,7 @@ export default {
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,
+    Copy: Typography.Copy,
     MainNav: Shared.MainNav,
     SvgIcon: Util.SvgIcon,
     VerifyZip
@@ -73,5 +74,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~sass';
 
+.lead-copy {
+  color: $color-white;
+  margin-bottom: $space-md;
+}
+
+.main-heading {
+  font-size: $font-xxl;
+  font-weight: $font-normal;
+}
 </style>
