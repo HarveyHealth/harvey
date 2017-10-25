@@ -1,5 +1,5 @@
 <template>
-  <div class="records-container">
+    <div class="records-container">
 
         <div class="top-soap-note">
             <h7 name="Subject" class="card-header top-header">Subject</h7>

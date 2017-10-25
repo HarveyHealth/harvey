@@ -11,7 +11,7 @@
             </p>
         </div>
         <div class="card-heading-container records-spacing">
-            <div style="width: 175px">
+            <div class="width-175">
                 <label class="input__label">pharmacy</label>
                 <span class="custom-select bg-white">
                     <select>
@@ -19,7 +19,7 @@
                     </select>
                 </span>
             </div>
-            <div style="width: 175px">
+            <div class="width-175">
                 <label class="input__label">upload</label>
                 <div class="border-upload-container">
                     <div class="upload-container">
@@ -55,6 +55,9 @@ export default {
         display: flex;
         justify-content: space-around;
         width: 500px;
+    }
+    .width-175 {
+        width: 175px;
     }
     .p-spacing {
         padding: 25px;

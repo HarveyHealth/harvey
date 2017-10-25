@@ -11,7 +11,7 @@
             </p>
         </div>
         <div class="card-heading-container records-spacing">
-            <div style="width: 175px">
+            <div class="width-175">
                 <label class="input__label">file upload</label>
                 <span class="custom-select bg-white">
                     <select>
@@ -19,7 +19,7 @@
                     </select>
                 </span>
             </div>
-            <div style="width: 175px">
+            <div class="width-175">
                 <label class="input__label">upload</label>
                 <div class="border-upload-container">
                     <div class="upload-container">
@@ -58,6 +58,9 @@ export default {
     }
     .p-spacing {
         padding: 25px;
+    }
+    .width-175 {
+        width: 175px;
     }
     .lab-body {
         height: auto; 
