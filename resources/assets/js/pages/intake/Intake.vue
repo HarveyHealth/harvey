@@ -54,7 +54,7 @@
           'anim-fade-slideup': true,
           'anim-fade-slideup-in': false
         },
-        typeformUrl: `https://hello.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
+        typeformUrl: `https://goharvey.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
       }
     },
     mounted() {
