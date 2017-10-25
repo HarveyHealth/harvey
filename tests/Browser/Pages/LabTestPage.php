@@ -8,7 +8,7 @@ use Laravel\Dusk\Page as BasePage;
 class LabTestPage extends BasePage
 {
 
-    public $bookNowPage = "I agree to Harvey's terms and policies.";
+    public $bookNowPage = "Personalized for better health.";
 
     public function url()
     {

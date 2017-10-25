@@ -33,8 +33,8 @@ class loginTest extends DuskTestCase
                  ->type('email', $patient)
                  ->type('password', 'secret')
                  ->click('@login')
-                 ->waitForText('Your Dashboard')
-                 ->assertSee('Your Dashboard')
+                 ->waitForText('Dashboard')
+                 ->assertSee('Dashboard')
                  ->click('@logout');
 
                });
@@ -55,8 +55,8 @@ class loginTest extends DuskTestCase
                     ->type('email', $practitioner)
                     ->type('password', 'secret')
                     ->click('@login')
-                    ->waitForText('Your Dashboard')
-                    ->assertSee('Your Dashboard')
+                    ->waitForText('Dashboard')
+                    ->assertSee('Dashboard')
                     ->click('@logout');
         });
     }
@@ -74,30 +74,13 @@ class loginTest extends DuskTestCase
                     ->type('email', $admin)
                     ->type('password', 'secret')
                     ->click('@login')
-                    ->waitForText('Admin Dashboard')
-                    ->assertSee('Admin Dashboard')
+                    ->waitForText('APPOINTMENTS')
+                    ->assertSee('APPOINTMENTS')
                     ->click('@logout');
         });
 
     }
-    public function test_if_a_patient_is_redirected_to_get_started_no_appointment()
-    {
 
-        //creates the patient user modelfactory
-        $user = factory(Patient::class)->create();
-        //grabs email from the users table
-        $patient = DB::table('users')->where('id', $user['id'])->value('email');
-
-        $this->browse(function ($browser) use ($patient) {
-            $browser->visit(new LoginPage)
-                    ->type('email', $patient)
-                    ->type('password', 'secret')
-                    ->click('@login')
-                    ->waitForText('You will need to answer a few basic questions')
-                    ->assertSee('You will need to answer a few basic questions');
-
-        });
-    }
 
 
 

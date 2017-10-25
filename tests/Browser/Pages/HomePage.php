@@ -10,11 +10,11 @@ class HomePage extends Page
 {
 
 
-    public $signupText = "I agree to Harvey's terms and policies.";
+    public $signupText = "Personalized for better health.";
     public $coverTitle = "Choose better health.";
     public $labsPage = 'Micronutrients Test';
     public $helpPage =  'Advice and answers from the Harvey Team';
-    public $aboutPage = 'Harvey combines conventional Western therapies';
+    public $aboutPage = 'Harvey empowers people to find natural and holistic remedies to chronic health conditions.';
 
 
     public function url()
@@ -104,8 +104,7 @@ class HomePage extends Page
 
     public function labsButton(Browser $browser)
     {
-            $browser->pause(3000)
-                    ->mouseover('@joinDiscussion')
+            $browser->waitFor('@labsTestButton')
                     ->click('@labsTestButton')
                     ->assertSee($this->labsPage);
 
@@ -114,8 +113,7 @@ class HomePage extends Page
     //Test footer
     public function homeFooter(Browser $browser)
     {
-          $browser->mouseover('@footerBottom')
-                  ->pause(1000)
+          $browser->pause(1000)
                   ->click('#app > footer > div > div > p.nav-center > a:nth-child(1)')
                   ->assertSee($this->coverTitle);
     }
@@ -177,7 +175,7 @@ class HomePage extends Page
             '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
             '@bookCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
-            '@joinDiscussion' => '.title is-3 is-padding-top',
+            '@labMouseOver' => '#feature > div',
             '@labsTestButton' => '#feature > div > div > div > div > div > a',
             '@footer' => '#app > footer > div > div > a > img',
             '@footerBottom' => '#app > footer > div > div > p.has-small-lineheight > small',

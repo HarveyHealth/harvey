@@ -36,13 +36,6 @@ class HomepageTest extends DuskTestCase
           });
     }
 
-    // public function test_pricing_button_in_header()
-    // {
-    //       $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->pricingHeader();
-    //       });
-    // }
 
     public function test_get_started_in_header()
     {
@@ -78,17 +71,14 @@ class HomepageTest extends DuskTestCase
               });
     }
 
-    // public function test_second_book_appointment_button_on_page()
-    // {
-    //       $this->browse(function ($browser) {
-    //         $browser->visit(new HomePage)
-    //                 ->bookAppTwo();
-    //           });
-    // }
 
     public function test_if_labs_tests_button_works()
-    {
+    {   $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->script('window.scrollTo(0,2000)');
+    });
         $this->browse(function ($browser) {
+
             $browser->visit(new HomePage)
                     ->labsButton();
         });
@@ -96,6 +86,10 @@ class HomepageTest extends DuskTestCase
 
     public function test_if_home_button_works_in_footer()
     {
+        $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
+                    ->script('window.scrollTo(0,document.body.scrollHeight)');
+    });
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
                     ->homeFooter();
@@ -107,20 +101,21 @@ class HomepageTest extends DuskTestCase
     {
         $this->browse(function ($browser) {
             $browser->visit(new HomePage)
+                    ->script('window.scrollTo(0,document.body.scrollHeight)');
+    });
+        $this->browse(function ($browser) {
+            $browser->visit(new HomePage)
                     ->labsFooter();
         });
      }
 
-    //  public function test_if_blog_button_works_in_footer()
-    //  {
-    //      $this->browse(function ($browser) {
-    //          $browser->visit(new HomePage)
-    //                  ->blogFooter();
-    //      });
-    //   }
 
       public function test_if_help_button_works_in_footer()
       {
+          $this->browse(function ($browser) {
+              $browser->visit(new HomePage)
+                      ->script('window.scrollTo(0,document.body.scrollHeight)');
+      });
           $this->browse(function ($browser) {
               $browser->visit(new HomePage)
                       ->helpFooter();
@@ -129,6 +124,10 @@ class HomepageTest extends DuskTestCase
 
      public function test_if_terms_button_work_in_footer()
      {
+        $this->browse(function ($browser) {
+             $browser->visit(new HomePage)
+                     ->script('window.scrollTo(0,document.body.scrollHeight)');
+     });
          $this->browse(function ($browser) {
              $browser->visit(new HomePage)
                      ->termsFooter();
@@ -137,6 +136,10 @@ class HomepageTest extends DuskTestCase
 
       public function test_if_privacy_button_work_in_footer()
       {
+          $this->browse(function ($browser) {
+              $browser->visit(new HomePage)
+                      ->script('window.scrollTo(0,document.body.scrollHeight)');
+      });
           $this->browse(function ($browser) {
               $browser->visit(new HomePage)
                       ->privacyFooter();
