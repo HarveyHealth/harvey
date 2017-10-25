@@ -5,7 +5,7 @@ namespace App\Lib;
 use App\Lib\Clients\Geocoder;
 use App\Models\License;
 use Cache;
-use use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Redis;
 
 class ZipCodeValidator
 {
