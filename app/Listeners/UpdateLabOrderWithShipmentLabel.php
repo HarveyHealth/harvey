@@ -16,7 +16,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         // Service level token
         // https://goshippo.com/docs/reference/php#servicelevels
-        $carrier_service_level = 'fedex_ground';
+        $carrier_service_level = 'usps_priority'; //'fedex_ground';
 
         // From Address
         $address_from = [
@@ -52,8 +52,8 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
             return collect($sku->getAttributes())->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
         });
 
-        // make sure we get our fedex account
-        $carriers = \Shippo_CarrierAccount::all(array('carrier' => 'fedex'));
+        // make sure we get our shipment account
+        $carriers = \Shippo_CarrierAccount::all(array('carrier' => 'usps')); // usps for now
         $carrier_object_id = $carriers['results'][0]['object_id'];
 
         // generate shipping label transaction from a single API call
