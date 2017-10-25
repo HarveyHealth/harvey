@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
+use Illuminate\Support\Facades\Redis;
 use App\Models\{DiscountCode, SKU};
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
-use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, Redis, View;
-
+use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
