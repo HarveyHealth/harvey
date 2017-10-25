@@ -49,10 +49,10 @@
 
         <!-- Tracking -->
 
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+        <!-- <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label">Master Tracking</label>
           <label class="input__item">{{ shipmentCode }}</label>
-        </div>
+        </div> -->
 
         <!-- Address -->
 
@@ -253,12 +253,12 @@
 
         <!-- Master Tracking -->
 
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+        <!-- <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
           <label class="input__label">Master Tracking</label>
           <a :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="input__item link-color" target="_blank">
             <i class="fa fa-truck" aria-hidden="true"></i> {{ shipmentCode }}
           </a>
-        </div>
+        </div> -->
 
         <!-- Address -->
 
@@ -332,10 +332,10 @@
 
       <!-- Master Tracking -->
 
-      <div class="input__container">
+      <!-- <div class="input__container">
         <label class="input__label">Master Tracking</label>
         <input v-model="masterTracking" class="input--text" type="text">
-      </div>
+      </div> -->
 
       <!-- Address -->
 
@@ -350,9 +350,13 @@
       </div>
 
       <!-- Mark as Shipped -->
-
+<!--
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
+      </div> -->
+
+      <div class="button-wrapper">
+        <button class="button" @click="startShipment">Start Shipment</button>
       </div>
 
       <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -385,7 +389,7 @@ import _ from 'lodash';
 export default {
   name: 'DetailLabOrders',
   props: {
-    'row-data': Object, 
+    'row-data': Object,
     reset: Function
   },
   components: {
@@ -656,6 +660,15 @@ export default {
             this.handleFlyoutClose();
           });
       });
+    },
+    startShipment() {
+        this.loading = true;
+        let promises = [];
+        console.log(this.$props.rowData.test_list);
+
+        // mark each test as shipped
+
+        // update local data without need to push master tracking code (that needs to be done on the BE)
     },
     markedShipped() {
       this.loading = true;
