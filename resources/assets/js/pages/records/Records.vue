@@ -254,6 +254,7 @@ export default {
     methods: {
       updateInput(e) {
         this.step = 1;
+        this.page = 0;
         this.activeModal = false;
         this.search = e.target.value;
       },
