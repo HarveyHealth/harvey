@@ -52,7 +52,6 @@
       </router-link>  -->
 
        <router-link 
-       v-if="user === 'patient'"
        to="/settings" title="Settings"
         :class="currentPageCheck('settings')"
         @click.native="handleMenu(false, 'settings')">
@@ -86,8 +85,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import socket from '../pages/messages/websocket'
+  import axios from 'axios';
+  import socket from '../pages/messages/websocket';
   export default {
     computed: {
       // Toggles font-awesome class name depending on state of menu
@@ -96,14 +95,14 @@
           'fa': true,
           'fa-close': this.$root.$data.global.menuOpen,
           'fa-navicon': !this.$root.$data.global.menuOpen
-        }
+        };
       },
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
       },
       user() {
-        return this.$root.$data.permissions
+        return this.$root.$data.permissions;
       }
     },
     methods: {
@@ -113,7 +112,7 @@
           'admin-nav-link': true,
           'current': this.$root.$data.global.currentPage === page,
           'unread': unread
-        }
+        };
       },
       // ** Handles mobile menu state and currentPage **
       // When force = null the menu state will toggle
@@ -133,22 +132,22 @@
       // Grabs messages to determine unread state for messages button
       axios.get(`${this.$root.$data.apiUrl}/messages`)
         .then(response => {
-          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-        })
+          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id);
+        });
     },
     mounted() {
       let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
-      let userId = this.$root.$data.global.user.id
+      let userId = this.$root.$data.global.user.id;
       channel.bind('App\\Events\\MessageCreated', (data) => {
-        let subject = data.data.attributes.subject
+        let subject = data.data.attributes.subject;
           this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
-          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
+          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
           this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
             .map(e => e[e.length - 1])
             .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-      })
+      });
     }
-  }
+  };
 </script>

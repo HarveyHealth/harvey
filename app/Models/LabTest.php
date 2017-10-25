@@ -4,8 +4,7 @@ namespace App\Models;
 
 use App\Http\Traits\HasStatusColumn;
 use App\Models\{LabOrder, SKU};
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
 class LabTest extends Model
 {
@@ -70,10 +69,20 @@ class LabTest extends Model
         return $this->labOrder->practitioner();
     }
 
-    public function scopePatientOrPractitioner($query, User $user)
+    public function scopePatientOrPractitioner(Builder $builder, User $user)
     {
-        return $query->whereHas('labOrder', function ($query) use ($user) {
-            $query->patientOrPractitioner($user);
+        return $builder->whereHas('labOrder', function ($builder) use ($user) {
+            $builder->patientOrPractitioner($user);
         });
+    }
+
+    public function scopeBySkuName(Builder $builder)
+    {
+      return $builder->leftJoin('skus', 'skus.id', '=', 'sku_id')->orderBy('skus.name');
+    }
+
+    public function scopeShipped(Builder $builder)
+    {
+        return $builder->where('status_id', self::SHIPPED_STATUS_ID);
     }
 }

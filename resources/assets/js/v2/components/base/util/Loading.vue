@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 
 // Standard loading graphic with adjustable color and size
 export default {
@@ -17,7 +17,7 @@ export default {
       default: 'md'
     }
   },
-  components: { 
+  components: {
     ClipLoader
   },
   data() {
@@ -28,11 +28,11 @@ export default {
         muted: this.Config.misc.colors.muted
       },
       sizes: {
-        sm: '12px',
+        sm: '10px',
         md: '22px',
-        lg: '34px',
+        lg: '34px'
       }
-    }
+    };
   }
-}
+};
 </script>

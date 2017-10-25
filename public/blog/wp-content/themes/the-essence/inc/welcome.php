@@ -24,7 +24,11 @@ function the_essence_welcome_vars() {
 		'docs_text' => 'The documentation can be found in the package you downloaded from Themeforest, in the directory called Documentation.',
 	);
 
-	if ( THE_ESSENCE_SOURCE !== 'themeforest' ) {
+	if ( THE_ESSENCE_SOURCE == 'creativemarket' ) {
+		$vars['docs_text'] = 'The documentation can be found in the package you downloaded from Creative Market, in the directory called Documentation.';
+	}
+
+	if ( THE_ESSENCE_SOURCE == 'shop' ) {
 		$vars['support_url'] = 'https://meridianthemes.net/dashboard';
 		$vars['docs_text'] = 'The usage documentation can be found at <a href="http://docs.meridianthemes.net/">docs.meridianthemes.net</a>';
 	}
@@ -298,13 +302,25 @@ class The_Essence_Welcome {
 							<?php endif; ?>
 						</div><!-- .mt-welcome-form -->
 
-					<?php else : ?>
+					<?php elseif ( THE_ESSENCE_SOURCE == 'shop' ) : ?>
 
 						<p>To enable dashboard updates for the theme please fill in the form below. You can find the license key in the email you received after purchase or by going to <a target="_blank" href="https://meridianthemes.net/dashboard/">meridianthemes.net/dashboard</a> ( view receipt ).</p>
 
 						<div class="mt-welcome-form">
 							<?php do_action( 'mt_updates_form' ); ?>
 						</div><!-- .mt-welcome-form -->
+
+					<?php else : ?>
+
+						<p>When a new update is released you can download it from Creative Market. To install the updated version:</p>
+
+						<ol style="font-size: 14px;">
+							<li>Download the latest version from Creative Market</li>
+							<li>Go to WP Admin > Appearance > Themes</li>
+							<li>Switch to a default WordPress theme ( Twenty Seventeen )</li>
+							<li>Click on "The Essence" and delete it ( lower right corner )</li>
+							<li>Install and activate the latest version you downloaded from Creative Market</li>
+						</ol>
 
 					<?php endif; ?>
 
@@ -326,7 +342,11 @@ class The_Essence_Welcome {
 
 				<div class="feature-section">
 
-					<p>If you have any questions about the theme or run into any issues using it, please submit a support request <a target="_blank" href="<?php echo esc_url( $vars['support_url'] ); ?>">here</a>.</p>
+					<?php if ( THE_ESSENCE_SOURCE == 'creativemarket' ) : ?>
+						<p>If you have any questions about the theme or run into any issues using it, let us know in the comments on Creative Market product page or by sending us a private message on Creative Market.
+					<?php else : ?>
+						<p>If you have any questions about the theme or run into any issues using it, please submit a support request <a target="_blank" href="<?php echo esc_url( $vars['support_url'] ); ?>">here</a>.
+					<?php endif; ?>
 
 				</div><!-- .feature-section -->
 

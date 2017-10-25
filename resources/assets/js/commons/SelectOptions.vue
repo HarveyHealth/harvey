@@ -18,14 +18,14 @@ export default {
     // value as well as a prompt to the user. This is typically used
     // if the selection is required for a form submission
     attachedLabel: {
-      type: String,
+      type: String
     },
     // Detached Labels use CSS pseudo selectors and the data-detached-label
     // attribute to display a label over top an empty selection input.
     // This option is typically used if you want to give the user a blank
     // option because the selection is not required for form submission
     detachedLabel: {
-      type: String,
+      type: String
     },
     // Whether the entire selection input is diabled or not
     isDisabled: {
@@ -86,8 +86,8 @@ export default {
         'custom-select': true,
         'detached-label': this.detachedLabel && this.selected === '',
         'isdisabled': this.isDisabled
-      }
+      };
     }
   }
-}
+};
 </script>

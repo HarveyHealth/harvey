@@ -21,9 +21,14 @@
 /tests/Browser/console/*.*
 /vendor
 /yarn.lock
+/package-lock.json
 Homestead.json
 public/css/
 public/images/
 public/js/
 npm-debug.log
 dump.rdb
+Vagrantfile 2
+Vagrantfile 3
+Homestead 2.yaml
+Procfile 2

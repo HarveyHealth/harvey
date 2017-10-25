@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
-use Bugsnag, Cache, Exception, Lang, Log, View;
 use Illuminate\Support\Facades\Redis;
+use App\Models\{DiscountCode, SKU};
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, View;
 
 class Appointment extends Model
 {
@@ -55,14 +56,14 @@ class Appointment extends Model
         parent::boot();
 
         static::addGlobalScope('enabledPractitioner', function (Builder $builder) {
-            return $builder->whereHas('practitioner.user', function ($query) {
-                $query->where('enabled', true);
+            return $builder->whereHas('practitioner.user', function (Builder $builder) {
+                $builder->where('enabled', true);
             });
         });
 
         static::addGlobalScope('enabledPatient', function (Builder $builder) {
-            return $builder->whereHas('patient.user', function ($query) {
-                $query->where('enabled', true);
+            return $builder->whereHas('patient.user', function (Builder $builder) {
+                $builder->where('enabled', true);
             });
         });
     }
@@ -86,9 +87,31 @@ class Appointment extends Model
             return null;
         }
 
-        return Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () {
-            return GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
-        });
+        $redis_key = "google-meet-link-appointment-id-{$this->id}";
+        $google_meet_link = Redis::get($redis_key);
+
+        if (is_null($google_meet_link)) {
+            try {
+                $google_meet_link = GoogleCalendar::getEvent($this->google_calendar_event_id)->hangoutLink;
+                Redis::set($redis_key, $google_meet_link);
+                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0,100))->toSeconds());
+            } catch (Google_Service_Exception $e) {
+                if (404 == $e->getCode()) {
+                    $message = "Got a 404 when retrieving google_calendar_event_id #{$this->google_calendar_event_id} (Appointment ID #{$this->id}).";
+                    $message .= "\nPatient: *{$this->patient->user->full_name}*  on {$this->appointment_at->format('M j')} at {$this->appointment_at->format('g:ia')}. Appointment unsynced from Google Calendar.";
+                    ops_warning('Google Calendar', $message, 'practitioners');
+                    $this->google_calendar_event_id = null;
+                    $this->save();
+                } else {
+                    $google_meet_link = false;
+                    Redis::set($redis_key, $google_meet_link);
+                    Redis::expire($redis_key, TimeInterval::days(1)->toSeconds());
+                    throw $e;
+                }
+            }
+        }
+
+        return $google_meet_link;
     }
 
     public function isLocked()
@@ -275,9 +298,10 @@ class Appointment extends Model
 
         $this->google_calendar_event_id = $event->id;
 
-        Cache::remember("google-meet-link-appointment-id-{$this->id}", TimeInterval::weeks(2)->toMinutes(), function () use ($event) {
-            return $event->hangoutLink;
-        });
+        $redis_key = "google-meet-link-appointment-id-{$this->id}";
+
+        Redis::set($redis_key, $event->hangoutLink);
+        Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0,100))->toSeconds());
 
         try {
             $update = GoogleCalendar::updateEvent($event->id, $this->getEventParams($event->hangoutLink));
@@ -428,8 +452,8 @@ class Appointment extends Model
 
     public function scopeEmptyPatientIntake(Builder $builder)
     {
-        return $builder->whereHas('patient.user', function ($query) {
-            $query->whereNull('intake_completed_at');
+        return $builder->whereHas('patient.user', function (Builder $builder) {
+            $builder->whereNull('intake_completed_at');
         });
     }
 
@@ -441,7 +465,7 @@ class Appointment extends Model
 
         $description = "{$sku->name}, Appointment #{$this->id} with {$this->practitioner->user->full_name} on {$this->appointment_at->format('n/j/y')}";
 
-        return [
+        $data = [
             'patient_id' => $this->patient_id,
             'practitioner_id' => $this->practitioner_id,
             'description' => $description,
@@ -456,5 +480,25 @@ class Appointment extends Model
                 ],
             ],
         ];
+
+        // if we have a discount code,
+        // add another invoice item
+        if ($this->discount_code_id) {
+
+            $sku = SKU::findBySlugOrFail('discount');
+            $discount_code = DiscountCode::find($this->discount_code_id);
+
+            $amount = $discount_code->discountForSubtotal($data['invoice_items'][0]['amount']);
+
+            $data['invoice_items'][] = [
+                'item_id' => $discount_code->id,
+                'item_class' => get_class($discount_code),
+                'description' => $discount_code->itemDescription(),
+                'amount' => $amount,
+                'sku_id' => $sku->id,
+            ];
+        }
+
+        return $data;
     }
 }

@@ -1,1 +1,49 @@
 @include pad;
+
+.pad-sm-sides {
+  @include padding(null $space-sm);
+}
+
+.is-padding {
+  @include padding(1em);
+}
+
+.is-padding-lg {
+  @include padding(1.5em);
+}
+
+.is-paddingless {
+  @include padding(0);
+}
+
+.is-padding-top {
+  @include padding(1em null null null);
+}
+
+.is-padding-top-lg {
+  @include padding(1em null null null);
+}
+
+.is-padding-top-xl {
+  @include padding(2em null null null);
+}
+
+.is-padding-right {
+  @include padding(null 1em null null);
+}
+
+.is-padding-bottom {
+  @include padding(null null 1em null);
+}
+
+.is-padding-left {
+  @include padding(null null null 1em);
+}
+
+.is-paddingless-top {
+  @include padding(0 null null null);
+}
+
+.is-paddingless-bottom {
+  @include padding(null null 0 null);
+}

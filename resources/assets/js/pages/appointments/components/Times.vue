@@ -33,7 +33,7 @@ export default {
     // What happens when a user selects a time?
     setTime: Function,
     // Hours and minutes string that corresponds to a given time option
-    time: String,
+    time: String
   },
   components: {
     SelectOptions
@@ -46,7 +46,7 @@ export default {
           return {
             value: this.$root.addTimezone(moment(timeObj.stored).format('h:mm a')),
             data: timeObj
-          }
+          };
         });
       } else {
         return [];
@@ -67,5 +67,5 @@ export default {
       this.setTime(timeObj);
     }
   }
-}
+};
 </script>

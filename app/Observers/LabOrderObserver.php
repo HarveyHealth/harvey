@@ -2,27 +2,29 @@
 
 namespace App\Observers;
 
-use App\Events\{LabOrderApproved, LabOrderShipped};
+use App\Events\{LabOrderConfirmed, LabOrderShipped};
 use App\Models\LabOrder;
 
 class LabOrderObserver
 {
     /**
-     * Listen to the LabOrder updating event.
+     * Listen to the LabOrder saved event.
      *
-     * @param  LabOrder $labOrder
+     * @param  LabOrder $lab_order
      * @return void
      */
-    public function updating(LabOrder $labOrder)
+    public function saving(LabOrder $lab_order)
     {
-        if ($labOrder->isDirty('status_id')) {
-            switch ($labOrder->status_id) {
+        $lab_order->setStatus();
+
+        if ($lab_order->isDirty('status_id')) {
+            switch ($lab_order->status_id) {
                 case LabOrder::CONFIRMED_STATUS_ID:
-                    event(new LabOrderApproved($labOrder));
+                    event(new LabOrderConfirmed($lab_order));
                     break;
 
                 case LabOrder::SHIPPED_STATUS_ID:
-                    event(new LabOrderShipped($labOrder));
+                    event(new LabOrderShipped($lab_order));
                     break;
 
                 default:

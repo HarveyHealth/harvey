@@ -4,7 +4,7 @@
 
 	<?php if ( has_post_thumbnail() ) : ?>
 		<div class="page-thumb">
-			<?php the_post_thumbnail( 'the-essence-full' ); ?>
+			<?php the_post_thumbnail( 'large' ); ?>
 		</div><!-- .page-thumb -->
 	<?php endif; ?>
 
