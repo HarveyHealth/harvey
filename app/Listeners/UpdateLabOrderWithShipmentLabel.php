@@ -78,6 +78,8 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         // $label = $transaction['label_url']; // gotten from the current transaction
         // put it somewhere
 
+        // update 'shipment_code'
+
         // get shipping label too
         // $label = \Shippo_Transaction::retrieve($shippo_object_id)['label_url']; // can be retreived at any time with id
     }
