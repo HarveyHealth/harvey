@@ -9,4 +9,4 @@ export default {
             this.$eventHub.$emit('toggle-contact');
         }
     }
-}
+};

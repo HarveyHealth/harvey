@@ -49,8 +49,8 @@ export default {
       return {
         'charcount': true,
         'input--warning': this.$$count === 0
-      }
+      };
     }
   }
-}
+};
 </script>

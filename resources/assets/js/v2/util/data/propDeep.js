@@ -16,7 +16,7 @@ export default function(path, object, ifEmpty) {
   path.map((prop, i) => {
     const isObj = typeof output === 'object';
     const isLast = i === last;
-    const notFalsy = output !== null && output !== false && output !== undefined
+    const notFalsy = output !== null && output !== false && output !== undefined;
     const valid = isObj && notFalsy;
 
     if (valid && !isLast) {

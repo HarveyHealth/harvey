@@ -53,5 +53,5 @@ export default {
       App.setState('conditions.zipValidation', null);
     }
   }
-}
+};
 </script>

@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import moment from 'moment'
+import _ from 'lodash';
+import moment from 'moment';
 
 export default function(clientList) {
     return clientList.data
@@ -16,9 +16,9 @@ export default function(clientList) {
                 data.city && data.state ? `${data.city}, ${data.state}` : 'N/A',
                 data.doctor_name ? `Dr. ${data.doctor_name}` : 'N/A',
                 data.has_an_appointment ? 'Yes' : 'No',
-                data.has_completed_an_appointment ? 'Yes' : 'No',
-            ],
-        }
+                data.has_completed_an_appointment ? 'Yes' : 'No'
+            ]
+        };
     })
     .splice(0, 50);
 }

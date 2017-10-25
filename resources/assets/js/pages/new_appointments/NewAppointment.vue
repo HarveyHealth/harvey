@@ -56,13 +56,16 @@
 
 <script>
     import moment from 'moment';
-    import Form from '../../utils/objects/Form.js';
     import DatePicker from './components/DatePicker.vue';
     import TimePicker from './components/TimePicker.vue';
 
     export default {
         name: 'new-appointment',
-        props: ['user', 'includeCta', 'form'],
+        props: {
+            user: Object,
+            includeCta: Boolean,
+            form: Object
+        },
         data() {
             return {
                 // form: new Form({
@@ -76,7 +79,7 @@
                 maximumDays: 7,
                 minimumNotice: 0, // hours
                 duration: 1 // hours
-            }
+            };
         },
         components: {
             DatePicker,
@@ -91,16 +94,16 @@
             },
             getNearestTime(time, interval) {
                 var minutes = Math.ceil(Math.max(1, time.minutes()) / interval) * interval,
-                    hours = time.hours()
+                    hours = time.hours();
 
                 if (minutes == 60) {
-                    hours++
-                    minutes = 0
+                    hours++;
+                    minutes = 0;
                     if (hours >= 24) {
-                        hours = hours - 24
+                        hours = hours - 24;
                     }
                 }
-                return hours
+                return hours;
             },
             updateSelectedTime() {
                 if ( this.form.selectedTime < this.startDateTime.hour() ) {
@@ -143,5 +146,5 @@
         created() {
             this.$eventHub.$on('datetime-change', this.onDateTimeChange);
         }
-    }
+    };
 </script>
