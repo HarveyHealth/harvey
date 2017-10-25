@@ -27,34 +27,37 @@
     import moment from 'moment';
 
     export default {
-        props: ['userType', 'upcomingAppointments'],
+        props: {
+            userType: String, 
+            upcomingAppointments: [Object, Array]
+        },
         components: {
-            DashboardAppointment,
+            DashboardAppointment
         },
         methods: {
             getIncludedPatient(_included, _appointment) {
                 const patientId = _appointment.attributes.patient_id;
                 const patientData = {
-                    id: patientId,
+                    id: patientId
                 };
 
                 // first, get the patient information from the provided patient_id from appointment
-                const relatedPatient = _included.map((item) => {
-                    if (item.type === 'patients' && item.id === patientData.id.toString()) {
-                        patientData.user_id = item.attributes.user_id;
-                    }
-                });
+                // const relatedPatient = _included.map((item) => {
+                //     if (item.type === 'patients' && item.id === patientData.id.toString()) {
+                //         patientData.user_id = item.attributes.user_id;
+                //     }
+                // });
 
                 // now find the related user
-                const relatedUser = _included.map((item) => {
-                    // needed since the data types are different
-                    if (item.type === 'users' && item.id === patientData.user_id.toString()) {
-                        patientData.first_name = item.attributes.first_name;
-                        patientData.last_name = item.attributes.last_name;
-                        patientData.email = item.attributes.email;
-                        patientData.phone = item.attributes.phone;
-                    }
-                });
+                // const relatedUser = _included.map((item) => {
+                //     // needed since the data types are different
+                //     if (item.type === 'users' && item.id === patientData.user_id.toString()) {
+                //         patientData.first_name = item.attributes.first_name;
+                //         patientData.last_name = item.attributes.last_name;
+                //         patientData.email = item.attributes.email;
+                //         patientData.phone = item.attributes.phone;
+                //     }
+                // });
 
                 return patientData;
             },
@@ -78,5 +81,5 @@
                 return this.upcomingAppointments.included;
             }
         }
-    }
+    };
 </script>

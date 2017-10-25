@@ -5,5 +5,5 @@ import SvgIcon from './SvgIcon.vue';
 export default {
   Loading,
   SlideIn,
-  SvgIcon,
-}
+  SvgIcon
+};

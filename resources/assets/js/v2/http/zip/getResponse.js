@@ -15,7 +15,7 @@ export default function(response) {
       analytics.track('Account Failed', {
         city: response.data.city,
         state: response.data.state,
-        zip: response.data.zip,
+        zip: response.data.zip
       });
     }
   }

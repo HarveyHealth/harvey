@@ -34,7 +34,7 @@ export default {
     width: String
   },
   components: {
-    Loading: Util.Loading,
+    Loading: Util.Loading
   },
   data() {
     return {
@@ -44,17 +44,17 @@ export default {
           doneIcon: this.doneIcon,
           doneText: this.doneText,
           loadingColor: 'light',
-          loadingSize: 'sm',
+          loadingSize: 'sm'
         },
         whiteFilled: {
           class: 'Button--white-filled',
           doneIcon: this.doneIcon,
           doneText: this.doneText,
           loadingColor: 'dark',
-          loadingSize: 'sm',
+          loadingSize: 'sm'
         }
       }
-    }
-  },
-}
+    };
+  }
+};
 </script>

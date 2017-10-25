@@ -3,5 +3,5 @@ import zip from './zip';
 
 export default {
   practitioners,
-  zip,
-}
+  zip
+};

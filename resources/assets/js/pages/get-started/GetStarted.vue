@@ -15,7 +15,7 @@
     components: {
       MainNav: Shared.MainNav,
       Signup,
-      Welcome,
+      Welcome
     },
     beforeMount() {
       const zipValidation = App.Logic.getstarted.getZipValidation();
@@ -30,8 +30,8 @@
       if (App.Config.user.isLoggedIn) {
         window.onbeforeunload = () => {
           return 'All your information will be reset.';
-        }
+        };
       }
     }
-  }
+  };
 </script>

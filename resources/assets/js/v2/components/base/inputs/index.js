@@ -5,5 +5,5 @@ import MultiInput from './MultiInput.vue';
 export default {
   ButtonInput,
   FacebookSignin,
-  MultiInput,
-}
+  MultiInput
+};

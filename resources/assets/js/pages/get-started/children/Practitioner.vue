@@ -96,7 +96,7 @@ export default {
   name: 'practitioner',
   components: {
     ClipLoader,
-    StagesNav,
+    StagesNav
   },
   data() {
     return {
@@ -117,9 +117,9 @@ export default {
         { class: 'fa fa-instagram', href: 'https://www.instagram.com/go_harvey' },
         { class: 'fa fa-facebook', href: 'https://www.facebook.com/goharveyapp' },
         { class: 'fa fa-twitter', href: 'https://twitter.com/goharveyapp' },
-        { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' },
+        { class: 'fa fa-youtube', href: 'https://www.youtube.com/channel/UCNW4aHA1yCPUdk7OM65oNDw' }
       ]
-    }
+    };
   },
   filters: {
     specialty(list) {
@@ -201,5 +201,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

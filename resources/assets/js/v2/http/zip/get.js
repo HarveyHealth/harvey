@@ -17,5 +17,5 @@ export default function(zip, response) {
       if (error.response) {
         console.warn(error.response);
       }
-    })
+    });
 }

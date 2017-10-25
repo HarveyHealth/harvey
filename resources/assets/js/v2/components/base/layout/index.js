@@ -3,5 +3,5 @@ import Row from './Row.vue';
 
 export default {
     Column,
-    Row,
-}
+    Row
+};

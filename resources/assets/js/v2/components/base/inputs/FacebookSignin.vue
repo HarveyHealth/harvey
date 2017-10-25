@@ -10,24 +10,24 @@ export default {
     onClick: Function,
     type: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   components: {
-    ButtonInput,
+    ButtonInput
   },
   data() {
     return {
       config: {
         login: '<i class="fa fa-facebook"></i><span>Login With Facebook</span>',
-        signup: '<i class="fa fa-facebook"></i><span>Sign In With Facebook</span>',
+        signup: '<i class="fa fa-facebook"></i><span>Sign In With Facebook</span>'
       }
-    }
+    };
   },
   methods: {
     handleClick(e) {
       this.onClick(e);
     }
   }
-}
+};
 </script>
