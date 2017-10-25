@@ -94,7 +94,7 @@ export default {
     return {
       animClasses: {
         'anim-fade-slideup': true,
-        'anim-fade-slideup-in': false,
+        'anim-fade-slideup-in': false
       },
       env: this.$root.$data.environment,
       isComplete: false,
@@ -111,13 +111,13 @@ export default {
         last_name: localStorage.getItem('sign up last_name') || '',
         password: localStorage.getItem('sign up password') || '',
         terms: '',
-        zip: localStorage.getItem('sign up zip') || '',
+        zip: localStorage.getItem('sign up zip') || ''
       },
       subtitle: '',
       terms: false,
       title: 'Your health journey<br>starts with us.',
-      zipInRange: false,
-    }
+      zipInRange: false
+    };
   },
   // These are necessary because VeeValidate's custom messages are just not working
   // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
@@ -126,14 +126,14 @@ export default {
       if (this.errors.has('first_name')) {
         return this.errors.firstByRule('first_name', 'required')
           ? 'First name is required'
-          : 'First name only takes alphabetic characters.'
+          : 'First name only takes alphabetic characters.';
       }
     },
     lastNameError() {
       if (this.errors.has('last_name')) {
         return this.errors.firstByRule('last_name', 'required')
           ? 'Last name is required'
-          : 'Last name only takes alphabetic characters.'
+          : 'Last name only takes alphabetic characters.';
       }
     },
     emailError() {
@@ -144,7 +144,7 @@ export default {
         } else {
           return this.errors.firstByRule('email', 'required')
             ? 'Email is required'
-            : 'That is not a valid email address.'
+            : 'That is not a valid email address.';
         }
       }
     },
@@ -152,21 +152,21 @@ export default {
       if (this.errors.has('zip')) {
         return this.errors.firstByRule('zip', 'required')
           ? 'Zipcode is required'
-          : 'Zipcode must contain 5 numeric characters.'
+          : 'Zipcode must contain 5 numeric characters.';
       }
     },
     passwordError() {
       if (this.errors.has('password')) {
         return this.errors.firstByRule('password', 'required')
           ? 'Password is required'
-          : 'Password needs minimum of 6 characters.'
+          : 'Password needs minimum of 6 characters.';
       }
     },
     termsError() {
       if (this.errors.has('terms')) {
         return this.errors.firstByRule('terms', 'required')
           ? 'Please agree to terms and privacy policy.'
-          : ''
+          : '';
       }
     }
   },
@@ -174,9 +174,9 @@ export default {
     onSubmit() {
       this.signupData.terms = this.terms ? true : '';
       // Validate the form
-      this.$validator.validateAll(this.signupData).then(response => {
+      this.$validator.validateAll(this.signupData).then(valid => {
 
-        if (!response) return;
+        if (!valid) return;
 
         this.isProcessing = true;
 
@@ -212,7 +212,7 @@ export default {
                 email: email,
                 city: city,
                 state: state,
-                zip: zip,
+                zip: zip
               });
             }
 
@@ -260,7 +260,7 @@ export default {
                     email: email,
                     city: outOfRangeCity,
                     state: outOfRangeState,
-                    zip: zip,
+                    zip: zip
                   });
                 }
 
@@ -274,28 +274,28 @@ export default {
           });
 
       // Error catch for vee-validate of signup form fields
-      }).catch(error => {
+      }).catch(() => {
         console.error('There are errors in the signup form fields.');
       });
     },
     login(email, password) {
       axios.post('login', {
         email: email,
-        password: password,
+        password: password
       })
-      .then(resp => {
+      .then(() => {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
         window.location.href = '/get-started';
       })
-      .catch(error => {
+      .catch(() => {
         // TODO: catch error
       });
     },
     persistTextFields(field, value) {
-      localStorage.setItem(`sign up ${field}`, value)
-    },
+      localStorage.setItem(`sign up ${field}`, value);
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -309,5 +309,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

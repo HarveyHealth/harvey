@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       inputs: []
-    }
+    };
   },
   watch: {
     inputs() {
@@ -132,5 +132,5 @@ export default {
       this.$refs[1][0].focus();
     }
   }
-}
+};
 </script>

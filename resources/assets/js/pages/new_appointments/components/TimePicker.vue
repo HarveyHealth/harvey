@@ -21,24 +21,33 @@
     import moment from 'moment';
 
     export default {
-        props: ['selectedDate', 'selectedTime', 'now', 'startOfDayHour', 'endOfDayHour', 'minimumNotice', 'duration', 'startDateTime'],
+        props: {
+            selectedDate: String,
+            selectedTime: String,
+            now: String,
+            startOfDayHour: String,
+            endOfDayHour: String,
+            minimumNotice: String,
+            duration: String,
+            startDateTime: String
+        },
         methods: {
             range(start, stop, step) {
                 if (stop == null) {
-                    stop = start || 0
-                    start = 0
+                    stop = start || 0;
+                    start = 0;
                 }
-                step = step || 1
+                step = step || 1;
 
                 var length = Math.max(Math.ceil((stop - start) / step), 0),
                     range = [],
-                    index = 0
+                    index = 0;
 
                 for (index; index < length; index++, start += step) {
-                    range[index] = start
+                    range[index] = start;
                 }
 
-                return range
+                return range;
             },
             setsTimeObject(hour, hourOffset = 0) {
                 return moment({hour: hour + hourOffset, minute: 0});
@@ -64,5 +73,5 @@
         mounted() {
             this.onTimeChange(this.startTime);
         }
-    }
+    };
 </script>

@@ -55,7 +55,7 @@
             onChange(e) {
                 if (this.dataReady) {
                     this.$emit('changed');
-                    this.$children.forEach( (child) => {
+                    this.$children.forEach((child) => {
                         child.$off('callback');
                     });
                 }

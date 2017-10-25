@@ -58,7 +58,7 @@ export default {
   name: 'success',
   components: {
     Modal,
-    Overlay,
+    Overlay
   },
   data() {
     return {
@@ -84,8 +84,8 @@ export default {
       calendarEnd: moment.utc(this.$root.$data.signup.data.appointment_at).add(60, 'm').local().format('MM/DD/YYYY hh:mm A'),
       calendarZone: '',
       calendarLocation: '',
-      calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : '',
-    }
+      calendarDescription: this.$root.$data.signup.googleMeetLink ? `Your Google Meet link: ${this.$root.$data.signup.googleMeetLink}` : ''
+    };
   },
   computed: {
     time() {
@@ -141,12 +141,12 @@ export default {
       s.async = true;
       s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addevent.com/libs/atc/1.6.1/atc.min.js';
       var h = d[g]('body')[0];
-      h.appendChild(s)
+      h.appendChild(s);
       s.onload = () => context.calendarVisible = true;
     })(this);
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

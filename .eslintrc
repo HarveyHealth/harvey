@@ -1,0 +1,57 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended"
+    ],
+    "plugins": ["vue"],
+    "parserOptions": {
+        "parser": "babel-eslint",
+        "ecmaVersion": "2017",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "arrowFunctions": true,
+            "destructuring": true,
+            "classes": true,
+            "defaultParams": true,
+            "blockBindings": true,
+            "modules": true,
+            "objectLiteralComputedProperties": true,
+            "objectLiteralShorthandMethods": true,
+            "objectLiteralShorthandProperties": true,
+            "restParams": true,
+            "spread": true,
+            "forOf": true,
+            "generators": true,
+            "templateStrings": true,
+            "superInFunctions": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "rules": {
+        "semi": [2, "always"],
+        "no-undef": "off",
+        "no-console": "off",
+        "no-useless-escape": "off",
+        "comma-dangle": [ 2, "never"],
+        "indent": [0, "4"],
+        "vue/no-dupe-keys": [2, { "groups": ["asyncComputed"]}],
+        "vue/no-reserved-keys": [2, { "groups": ["asyncComputed"] }],
+        "vue/no-template-key": [2],
+        "vue/require-render-return": [2],
+        "vue/require-v-for-key": "off",
+        "vue/valid-v-for": "off",
+        "vue/no-async-in-computed-properties": [2],
+        "vue/no-duplicate-attributes": [2],
+        "vue/require-prop-types": [2],
+        "vue/this-in-template": [2, "never"],
+        // "vue/max-attributes-per-line": [2, {
+        //     "singleline": 3,
+        //     "multiline": {
+        //       "max": 1,
+        //       "allowFirstLine": false
+        //     }
+        //   }],
+        "vue/no-side-effects-in-computed-properties": [2],
+        "vue/return-in-computed-property": [2, { "treatUndefinedAsUnspecified": true }]
+    }
+}

@@ -4,6 +4,6 @@ export default {
     canceled: [],
     recent: [],
     past: [],
-    upcoming: [],
-  },
-}
+    upcoming: []
+  }
+};

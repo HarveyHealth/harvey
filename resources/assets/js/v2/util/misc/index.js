@@ -4,4 +4,4 @@ import getState from './getState';
 export default {
   fullName,
   getState
-}
+};
