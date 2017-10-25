@@ -16,7 +16,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
 
         // Service level token
         // https://goshippo.com/docs/reference/php#servicelevels
-        $carrier_service_level = 'usps_priority'; //'fedex_ground';
+        $carrier_service_level = 'fedex_ground';
 
         // From Address
         $address_from = [
@@ -53,7 +53,7 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         });
 
         // make sure we get our shipment account
-        $carriers = \Shippo_CarrierAccount::all(array('carrier' => 'usps')); // usps for now
+        $carriers = \Shippo_CarrierAccount::all(array('carrier' => 'fedex'));
         $carrier_object_id = $carriers['results'][0]['object_id'];
 
         // generate shipping label transaction from a single API call
@@ -71,6 +71,11 @@ class UpdateLabOrderWithShipmentLabel implements ShouldQueue
         ]);
 
         \Log::info($transaction);
+        $update_data = [
+            'shippo_id' => $transaction['object_id'] || '',
+            'shipment_code' => $transaction['tracking_number'] || '',
+        ];
+
         die();
 
         // TODO: add object_id to the lab order table (so it can be used elsewhere)
