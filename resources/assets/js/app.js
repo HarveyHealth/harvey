@@ -24,6 +24,7 @@ Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
+window.Card = require('card');
 
 // Centralized event handler to easily share among components
 const eventHub = new Vue();
