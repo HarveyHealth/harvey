@@ -6,7 +6,6 @@ use App\Lib\Validation\StrictValidator;
 use App\Models\{LabTest, LabTestInformation};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
-use Illuminate\Support\Pluralizer;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Exception, ResponseCode, Storage;
@@ -174,7 +173,7 @@ class LabTestsController extends BaseAPIController
         $builder = LabTestInformation::with('sku');
 
         if ($user = currentUser()) {
-            $scope = Pluralizer::plural($user->type);
+            $scope = str_plural($user->type);
             $builder = $builder->$scope();
         } else {
             $builder = $builder->public();

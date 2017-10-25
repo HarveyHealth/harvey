@@ -5,5 +5,5 @@ import time from './time';
 export default {
   data,
   misc,
-  time,
-}
+  time
+};

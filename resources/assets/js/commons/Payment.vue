@@ -97,11 +97,11 @@
 </template>
 
 <script>
-    import Form from '../utils/objects/Form.js';
-
     export default {
         name: 'payment',
-        props: ['user', 'form'],
+        props: {
+            form: Object
+        },
         // data() {
         //     return {
         //         form: new Form({
@@ -119,12 +119,12 @@
                 Stripe.card.createToken(this.form.data(), this.stripeResponseHandler);
             },
             stripeResponseHandler(status, response) {
-                console.log(status)
-                console.log(response)
+                console.log(status);
+                console.log(response);
             }
         },
         mounted() {
           // this.$eventHub.$emit('mixpanel', "View Payments Page");
         }
-    }
+    };
 </script>

@@ -40,7 +40,9 @@
 
 <script>
     export default {
-        props: ['action'],
+        props: {
+            action: String
+        },
         data() {
             return {
                 hasFile: false,
@@ -48,7 +50,7 @@
                 uploading: false,
                 upload_success: false,
                 form: new FormData()
-            }
+            };
         },
         methods: {
             onFileChange(e) {
@@ -85,7 +87,7 @@
                 this.$http.post(this.$root.apiUrl + this.action, this.form)
                     .then(this.onSuccess)
                     .catch((error) => {
-                        console.log(error)
+                        console.log(error);
                     });
             },
             onSuccess(data) {
@@ -98,5 +100,5 @@
 
             }
         }
-    }
+    };
 </script>

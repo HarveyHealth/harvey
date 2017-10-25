@@ -17,7 +17,11 @@
     import moment from 'moment';
 
     export default {
-        props: ['selectedDate', 'maximumDays', 'startDateTime'],
+        props: {
+            selectedDate: String,
+            maximumDays: Number,
+            startDateTime: String
+        },
         methods: {
             onDateChange(date) {
                 this.$eventHub.$emit('datetime-change', {type: 'date', value: moment(date).utc()});
@@ -42,5 +46,5 @@
         mounted() {
             this.onDateChange(this.dates[0]);
         }
-    }
+    };
 </script>

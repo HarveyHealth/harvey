@@ -5,9 +5,9 @@ export default function(names) {
     if (nameA < nameB) {
       return -1;
     } else if (nameA > nameB) {
-      return 1
+      return 1;
     } else {
       return 0;
     }
-  })
+  });
 }

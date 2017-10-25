@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
+use App\Http\Traits\{BelongsToPatientAndPractitioner, HasDiscountCodeIdColumn, HasStatusColumn, Invoiceable};
 use App\Lib\{GoogleCalendar, TimeInterval, TransactionalEmail};
 use App\Models\{DiscountCode, SKU};
 use Carbon\Carbon;
@@ -12,7 +12,7 @@ use Bugsnag, Cache, Exception, Google_Service_Exception, Lang, Log, Redis, View;
 
 class Appointment extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
+    use SoftDeletes, HasDiscountCodeIdColumn, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     /**
      * An appointment will lock when less than 4 hours away.
@@ -37,6 +37,8 @@ class Appointment extends Model
         'id',
         'created_at',
         'deleted_at',
+        'discount_code',
+        'discount_code_id',
         'google_calendar_event_id',
         'status_id',
         'updated_at',

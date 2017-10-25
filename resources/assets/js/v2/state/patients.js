@@ -1,6 +1,6 @@
 export default {
   data: {
     all: [],
-    recent: [],
-  },
-}
+    recent: []
+  }
+};

@@ -246,9 +246,10 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = (rand(0,1))?null:function () {
+    $discount_code_id = rand(0,1) ? null : function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
     };
+
     return [
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),

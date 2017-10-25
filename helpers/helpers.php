@@ -144,3 +144,8 @@ function log_mark()
     \Log::info($marker);
     $log_mark++;
 }
+
+function cast_to_string($value)
+{
+    return empty($value) ? null : (string) $value;
+}

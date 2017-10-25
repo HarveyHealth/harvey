@@ -21,21 +21,19 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 });
 
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
-    Route::post('users', 'UsersController@create')->name('users.create');
+    Route::post('users', 'UsersController@store')->name('users.store');
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
-        Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
-        Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
+        Route::get('discount_code/{code}', 'DiscountCodesController@getOne')->name('discount-codes.index');
 
-        Route::get('users', 'UsersController@index')->name('users.index');
-        Route::get('users/{user}', 'UsersController@show')->name('users.show');
+        Route::get('users', 'UsersController@getAll')->name('users.get-all');
+        Route::get('users/{user}', 'UsersController@getOne')->name('users.get-one');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
         Route::post('users/{user}/image', 'UsersController@profileImageUpload')->name('users.profile-image-upload');
-        Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phoneVerify');
-        Route::post('users/{user}/phone/send_verification_code', 'UsersController@sendVerificationCode')->name('users.sendVerificationCode');
+        Route::get('users/{user}/phone/verify', 'UsersController@phoneVerify')->name('users.phone-verify');
+        Route::post('users/{user}/phone/send_verification_code', 'UsersController@sendVerificationCode')->name('users.send-verification-code');
         Route::delete('users/{user}/cards/{cardId}', 'UsersController@deleteCard')->name('users.delete-card');
         Route::get('users/{user}/cards', 'UsersController@getCards')->name('users.get-cards');
         Route::get('users/{user}/cards/{cardId}', 'UsersController@getCard')->name('users.get-card');
@@ -61,16 +59,17 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');
         Route::delete('soap_notes/{soapNote}', 'SoapNotesController@delete')->name('soap_notes.delete');
 
-        Route::get('intakes/{typeformToken}', 'IntakesController@getOne')->name('intakes.get-one');
+        Route::get('intakes', 'IntakesController@getAll')->name('intakes.get-all');
+        Route::get('intakes/{token}', 'IntakesController@getOne')->name('intakes.get-one');
 
-        Route::get('appointments', 'AppointmentsController@index')->name('appointments.index');
-        Route::get('appointments/{appointment}', 'AppointmentsController@show')->name('appointments.show');
+        Route::get('appointments', 'AppointmentsController@getAll')->name('appointments.get-all');
+        Route::get('appointments/{appointment}', 'AppointmentsController@getOne')->name('appointments.get-one');
         Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
 
-        Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
-        Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
+        Route::get('practitioners', 'PractitionersController@getAll')->name('practitioner.get-all');
+        Route::get('practitioners/{practitioner}', 'PractitionersController@getOne')->name('practitioner.get-one');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
         Route::post('practitioners/{practitioner}/profile-image', 'PractitionersController@profileImageUpload')->name('practitioners.profile-image-upload');
         Route::post('practitioners/{practitioner}/bg-image', 'PractitionersController@backgroundImageUpload')->name('practitioners.bg-image-upload');
@@ -78,8 +77,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::get('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@show')->name('practitioner-schedule.show');
         Route::patch('practitioner/{practitioner}/schedule', 'PractitionerScheduleController@update')->name('practitioner-schedule.update');
 
-        Route::get('messages', 'MessagesController@index')->name('messages.index');
-        Route::get('messages/{message}', 'MessagesController@show')->name('messages.show');
+        Route::get('messages', 'MessagesController@getAll')->name('messages.get-all');
+        Route::get('messages/{message}', 'MessagesController@getOne')->name('messages.get-one');
         Route::post('messages', 'MessagesController@new')->name('messages.new');
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');

@@ -161,14 +161,18 @@ function the_essence_retina_img_replace() {
  */
 function the_essence_first_letter_cap() {
 
-	jQuery('.page-content:not(:has(.blog-post-excerpt-big-cap)) > p:first-child, .blog-post-excerpt:not(:has(.blog-post-excerpt-big-cap)) > p:first-child, .blog-post-single-content:not(:has(.blog-post-excerpt-big-cap)) > p:first-of-type').html(function (i, html) {
-		
-		var firstLetter = html.charAt(0);
-		if ( firstLetter !== '<' ) {
-			return html.replace( firstLetter, '<span class="blog-post-excerpt-big-cap">' + firstLetter + '</span>');
-		}
+	if ( jQuery('body').hasClass('body-capitalize-letter-enabled') ) {
 
-	});
+		jQuery('.page-content:not(:has(.blog-post-excerpt-big-cap)) > p:first-child, .blog-post-excerpt:not(:has(.blog-post-excerpt-big-cap)) > p:first-child, .blog-post-single-content:not(:has(.blog-post-excerpt-big-cap)) > p:first-of-type').html(function (i, html) {
+			
+			var firstLetter = html.charAt(0);
+			if ( firstLetter !== '<' ) {
+				return html.replace( firstLetter, '<span class="blog-post-excerpt-big-cap">' + firstLetter + '</span>');
+			}
+
+		});
+
+	}
 
 }
 
@@ -512,24 +516,28 @@ jQuery(window).load(function(){
 			else
 				startID = 'big'
 
-			if ( startID == 'big' && currentWidth < 1425 ) {
-				location.reload();
-				jQuery('#page').addClass('reloading');
-			} else if ( startID == 'monitor-standard' && currentWidth < 1200 ) {
-				location.reload();
-				jQuery('#page').addClass('reloading');
-			} else if ( startID == 'monitor' && ( currentWidth < 959 || currentWidth > 1200 ) ) {
-				location.reload();
-				jQuery('#page').addClass('reloading');
-			} else if ( startID == 'tablet' && ( currentWidth < 768 || currentWidth > 959 ) ) {
-				location.reload();
-				jQuery('#page').addClass('reloading');
-			} else if ( startID == 'landscape' && ( currentWidth < 480 || currentWidth > 768 ) ) {
-				location.reload();			
-				jQuery('#page').addClass('reloading');
-			} else if ( startID == 'portrait' && ( currentWidth > 479 ) ) {
-				location.reload();
-				jQuery('#page').addClass('reloading');
+			if ( ! jQuery('body').hasClass('single-post') ) {
+
+				if ( startID == 'big' && currentWidth < 1425 ) {
+					location.reload();
+					jQuery('#page').addClass('reloading');
+				} else if ( startID == 'monitor-standard' && currentWidth < 1200 ) {
+					location.reload();
+					jQuery('#page').addClass('reloading');
+				} else if ( startID == 'monitor' && ( currentWidth < 959 || currentWidth > 1200 ) ) {
+					location.reload();
+					jQuery('#page').addClass('reloading');
+				} else if ( startID == 'tablet' && ( currentWidth < 768 || currentWidth > 959 ) ) {
+					location.reload();
+					jQuery('#page').addClass('reloading');
+				} else if ( startID == 'landscape' && ( currentWidth < 480 || currentWidth > 768 ) ) {
+					location.reload();			
+					jQuery('#page').addClass('reloading');
+				} else if ( startID == 'portrait' && ( currentWidth > 479 ) ) {
+					location.reload();
+					jQuery('#page').addClass('reloading');
+				}
+
 			}
 
 		}
