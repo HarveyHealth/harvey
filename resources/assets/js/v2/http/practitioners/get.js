@@ -12,5 +12,5 @@ export default function(response) {
       if (error.response) {
         console.warn(error.response);
       }
-    })
+    });
 }

@@ -115,7 +115,7 @@
     import ImageUpload from '../../../commons/ImageUpload.vue';
     import LicenseTypes from '../../../../../../public/licensetypes.json';
     import states from '../../../../../../public/states.json';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 
     export default {
         name: 'practitioner-profile',
@@ -136,12 +136,12 @@
                 uploading_bg_image: false,
                 uploading_profile_image: false,
                 errorMessages: null,
-                submitting: false,
-            }
+                submitting: false
+            };
         },
         components: {
             ImageUpload,
-            ClipLoader,
+            ClipLoader
         },
         methods: {
             submit() {
@@ -178,7 +178,7 @@
                 this.practitioner.background_picture_url = response.data.attributes.background_picture_url;
                 this.uploading_bg_image = false;
                 this.flashSuccess();
-            },
+            }
         },
         computed: {
           loading() {
@@ -192,18 +192,18 @@
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
                     this.$root.$data.global.practitionerProfileLoading = false;
                 })
-                .catch(error => this.practitioner = {});
+                .catch(() => this.practitioner = {});
         },
         props: {
             flashSuccess: {
-                type: Function,
+                type: Function
             },
             practitionerIdEditing: {
                 type: String,
                 default: null
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">

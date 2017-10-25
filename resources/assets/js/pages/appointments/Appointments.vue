@@ -69,7 +69,7 @@
       </div>
 
       <Days
-        :day="this.appointment.day"
+        :day="appointment.day"
         :editable="editableDays"
         :is-loading="loadingDays"
         :is-visible="visibleDays"
@@ -248,7 +248,7 @@ import Times from './components/Times.vue';
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
-import tableColumns from './utils/tableColumns';
+// import tableColumns from './utils/tableColumns';
 import tableDataTransform from './utils/tableDataTransform';
 import tableSort from '../../utils/methods/tableSort';
 import transformAvailability from '../../utils/methods/transformAvailability';
@@ -277,7 +277,7 @@ export default {
       cancellationReason: '',
       durationList: [
         { data: 30, value: '30 minutes' },
-        { data: 60, value: '60 minutes' },
+        { data: 60, value: '60 minutes' }
       ],
       filters: ['Upcoming', 'Complete', 'Cancelled'],
       flyoutActive: false,
@@ -315,7 +315,7 @@ export default {
       userAction: '',
       userActionTitle: '',
       userType: Laravel.user.user_type
-    }
+    };
   },
 
   name: 'appointments',
@@ -334,7 +334,7 @@ export default {
     Practitioner,
     Purpose,
     Status,
-    Times,
+    Times
   },
 
   filters: {
@@ -364,7 +364,7 @@ export default {
           (this.appointment.date === '' || this.appointment.date === this.appointment.currentDate) &&
           (this.appointment.purpose === this.appointment.currentPurpose) &&
           (this.appointment.status === this.appointment.currentStatus)
-        )
+        );
 
     },
     editableDays() {
@@ -440,8 +440,8 @@ export default {
       return this.flyoutMode === 'update' &&
         (this.userType !== 'patient' && this.appointment.currentStatus === 'pending') ||
         (this.userType === 'patient' && this.checkPastAppointment()) &&
-        (this.userType === 'patient' && this.appointment.status === 'pending')
-    },
+        (this.userType === 'patient' && this.appointment.status === 'pending');
+    }
   },
 
   // These watches are setup to look at computed properties that receive data from global state.
@@ -727,9 +727,8 @@ export default {
         status: this.appointment.status,
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
-      }
+      };
 
-      let doctorSwitch = false;
       let action = this.userAction === 'new' ? 'post' : 'patch';
       let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
@@ -748,7 +747,6 @@ export default {
       const isCancel = this.userAction === 'cancel';
       const isNew = this.userAction === 'new';
       const hasDoctorSwitch = isUpdate && (this.appointment.currentPractitionerId !== this.appointment.practitionerId);
-      const hasStatusSwitch = this.appointment.currentStatus !== this.appointment.status;
       const hasTimeSwitch = this.appointment.currentDate !== this.appointment.date;
       const adminSwitchesDoctor = isAdmin && hasDoctorSwitch;
 
@@ -797,13 +795,13 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then(response => {
+      axios[action](endpoint, data).then(() => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
-              email: appointmentPatientEmail,
+              email: appointmentPatientEmail
             });
           }
         }
@@ -828,10 +826,10 @@ export default {
               this.selectedRowHasUpdated = newIds.indexOf(apptId);
             }
             setTimeout(() => this.selectedRowHasUpdated = null, 2000);
-          })
+          });
         });
       }).catch(error => {
-        if (error.response) console.error(error.response)
+        if (error.response) console.error(error.response);
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
@@ -874,8 +872,8 @@ export default {
         practitionerId: '',
         practitionerName: '',
         purpose: '',
-        time: '',
-      }
+        time: ''
+      };
     },
 
     setAvailableTimes(value, index) {
@@ -931,7 +929,7 @@ export default {
       Vue.nextTick(() => {
         this.setupPractitionerList(this.$root.$data.global.practitioners);
         this.practitionerList = this.$root.filterPractitioners(this.practitionerList, data.state);
-      })
+      });
     },
 
     // Set practitioner info with data from list object
@@ -978,13 +976,13 @@ export default {
             index = i;
             appt = obj;
           }
-        })
+        });
         this.handleRowClick(appt, index);
       }
 
       Vue.nextTick(() => {
         this.checkTableData();
-      })
+      });
     },
 
     setupPatientList(list) {
@@ -1003,7 +1001,7 @@ export default {
       if (this.userType === 'admin' && this.appointment.patientState) {
         this.practitionerList = this.$root.filterPractitioners(this.practitionerList, this.appointment.patientState);
       }
-    },
+    }
 
   },
 
@@ -1021,5 +1019,5 @@ export default {
     if (practitioners.length) this.setupPractitionerList(practitioners);
 
   }
-}
+};
 </script>

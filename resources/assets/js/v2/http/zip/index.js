@@ -3,5 +3,5 @@ import getResponse from './getResponse';
 
 export default {
   get,
-  getResponse,
-}
+  getResponse
+};

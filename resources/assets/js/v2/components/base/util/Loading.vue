@@ -30,9 +30,9 @@ export default {
       sizes: {
         sm: '10px',
         md: '22px',
-        lg: '34px',
+        lg: '34px'
       }
-    }
+    };
   }
-}
+};
 </script>
