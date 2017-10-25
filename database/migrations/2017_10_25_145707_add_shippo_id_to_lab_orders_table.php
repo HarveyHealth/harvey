@@ -14,7 +14,7 @@ class AddShippoIdToLabOrdersTable extends Migration
     public function up()
     {
         Schema::table('lab_orders', function (Blueprint $table) {
-            $table->string('shippo_id')->nullable();
+            $table->string('shippo_id')->after('shipment_code')->nullable();
         });
     }
 
