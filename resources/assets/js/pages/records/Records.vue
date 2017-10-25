@@ -48,7 +48,10 @@
               <button class="button" style="width: 150px; margin-right: 15px; float: left;">New Record</button>
             </div>
               <div style="height: auto;">
-                <div class="card" style="width: 70%;">
+                <div v-if="page === 0">
+                  <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
+                </div>
+                <div class="card" style="width: 70%;" v-if="page !== 0">
                   <div class="card-heading-container" style="height: 65px;">
                       <h2 style="font-weight: 400; float: left; color: #777777;">
                         {{ page === 1 ? 'New SOAP Note' : null }}
@@ -244,7 +247,7 @@ export default {
           activeModal: false,
           name: '',
           showing: [],
-          page: 1,
+          page: 0,
           index: null
         };
     },
