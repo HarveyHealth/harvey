@@ -104,53 +104,7 @@
                     </div>
                   </div>
                   <div class="input__container">
-                    <Timeline :index="index" :items="[
-                      {
-                        type: 'Intake Form',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {
-                          setIndex(0);
-                          intake();
-                        }
-                      },
-                      {
-                        type: 'Lab Results',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {
-                          labResults();
-                          setIndex(1);
-                        }
-                      },
-                      {
-                        type: 'Treatment Plan',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {
-                          setIndex(2);
-                          treatment();
-                        }
-                      },
-                      {
-                        type: 'Prescription',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {
-                          prescription();
-                          setIndex(3);
-                        }
-                      },
-                      {
-                        type: 'Attachment',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
-                        onClick: () => {
-                          attachment();
-                          setIndex(4);
-                        }
-                      }
-                    ]" />
+                    <Timeline :index="index" :items="timelineData" />
                   </div>
                 </Flyout>
 
@@ -256,28 +210,59 @@ export default {
         },
         timelineData() {
                 let onClickFunctions = {
-                    0: () => {
+                    'Intake Form': () => {
                         this.setIndex(0);
                         this.intake();
                     },
-                    1: () => {
+                    'Lab Results': () => {
                         this.setIndex(1);
                         this.labResults();
                     },
-                    2: () => {
+                    'Treatment Plan': () => {
                         this.setIndex(2);
                         this.treatment();
                     },
-                    3: () => {
+                    'Prescription': () => {
                         this.setIndex(3);
                         this.prescription();
                     },
-                    4: () => {
+                    'Attachment': () => {
                         this.setIndex(4);
                         this.attachment();
                     },
                 };
-            
+                let arrays = [
+                    {
+                        type: 'Intake Form',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                      },
+                      {
+                        type: 'Lab Results',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                      },
+                      {
+                        type: 'Treatment Plan',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                      },
+                      {
+                        type: 'Prescription',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                      },
+                      {
+                        type: 'Attachment',
+                        date: 'Wednesday, July 26th 2017',
+                        doctor: 'Dr. Amanda Frick, ND',
+                      }
+                ];
+                arrays.map(e => {
+                    e.onClick = onClickFunctions[e.type];
+                    return e;
+                });
+                return arrays;
             }
         },
         watch: {
