@@ -343,9 +343,11 @@ const app = new Vue({
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        invoices.forEach(e => {
-                            obj[e.id] = e;
-                        });
+                        if (!invoices.length) {
+                            invoices.forEach(e => {
+                                obj[e.id] = e;
+                            });
+                        }
                         this.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];
@@ -361,6 +363,11 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
                     let sku_ids = {};
+                    if (!response.data.included) {
+                        this.global.labTests = response.data.data;
+                        this.global.loadingLabTests = false;
+                        return;
+                    }
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
                     });

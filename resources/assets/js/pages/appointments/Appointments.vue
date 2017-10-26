@@ -31,7 +31,7 @@
     </div>
 
     <Flyout
-      :active="flyoutActive"
+      :active="isFlyoutActive"
       :heading="flyoutHeading"
       :on-close="handleFlyoutClose"
     >
@@ -71,19 +71,19 @@
       <Days
         :day="appointment.day"
         :editable="editableDays"
-        :is-loading="loadingDays"
+        :is-loading="isLoadingDays"
         :is-visible="visibleDays"
         :list="appointment.practitionerAvailability"
         :mode="flyoutMode"
         :set-times="setAvailableTimes"
         :time="appointment.currentDate"
-        :no-availability="noAvailability"
+        :no-availability="isNoAvailability"
       />
 
       <Times
         :current-time="appointment.currentDate"
         :editable="editableDays"
-        :is-loading="loadingDays"
+        :is-loading="isLoadingDays"
         :list="appointment.availableTimes"
         :set-time="setTime"
         :time="appointment.time"
@@ -125,7 +125,7 @@
         :text-value="appointment.purpose"
       />
 
-      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="shouldShowBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
@@ -150,83 +150,77 @@
     </Flyout>
 
     <Overlay
-      :active="overlayActive"
+      :active="isOverlayActive"
       :on-click="handleOverlayClick"
     />
 
     <Modal
-      :active="modalActive"
-      :container-class="'appointment-modal'"
-      :on-close="handleModalClose"
+      :active="isModalActive"
       :hide-close="isHandlingAction"
-      class="modal-wrapper"
+      :is-simple="isHandlingAction"
+      :on-close="handleModalClose"
     >
-      <div class="card-content-wrap">
-        <div class="inline-centered">
-          <h1 class="header-xlarge" v-show="!isHandlingAction">
-            <span class="text">{{ userActionTitle }}</span>
-          </h1>
-          <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
-            <p>Updating appointments</p><br>
-            <div style="width: 24px; margin: 0 auto;">
-              <ClipLoader :size="'24px'" :color="'#4f6268'" />
-            </div>
-          </div>
-          <p v-show="bookingConflict && !isHandlingAction">We&rsquo;re sorry, it looks like that date and time is no longer available. Please try another time. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
-          <p v-show="!bookingConflict && !isHandlingAction">Are you sure you want to mark this appointment as {{ 
-            appointment.status === 'no_show_patient' ? "no show patient" :
-            appointment.status === 'no_show_doctor' ? "no show doctor" :
-            appointment.status === 'general_conflict' ? "general conflict" :
-            appointment.status
-            }}?</p>
-<!--      <p v-if="userAction !== 'cancel'">You will receive an email confirmation of your updated appointment. We will send you another notification one hour before your appointment.</p> -->
-          <table border="0" cellpadding="0" cellspacing="0" v-show="!bookingConflict && !isHandlingAction" class="modal-table inline-left">
-            <tr v-if="userType !== 'patient'">
-              <td width="25%"><strong>Client:</strong></td>
-              <td>{{ appointment.patientName }}</td>
-            </tr>
-            <tr v-if="userType !== 'practitioner'">
-              <td width="25%"><strong>Doctor:</strong></td>
-              <td>{{ appointment.practitionerName }}</td>
-            </tr>
-            <tr>
-              <td width="25%"><strong>Date/Time:</strong></td>
-              <td>{{ appointment.date | confirmDate }}</td>
-            </tr>
-            <tr v-if="flyoutMode === 'update'">
-              <td width="25%"><strong>Status:</strong></td>
-              <td>{{ appointment.status | confirmStatus }}</td>
-            </tr>
-            <tr v-if="appointment.status === 'complete'">
-              <td width="25%"><strong>Duration:</strong></td>
-              <td>{{ appointment.duration.value }}</td>
-            </tr>
-            <tr>
-              <td width="25%"><strong>Purpose:</strong></td>
-              <td>{{ appointment.purpose }}</td>
-            </tr>
-            <tr v-show="userType === 'patient' && appointment.status === 'canceled'">
-              <td width="25%"><p><strong>Reason:</strong></p></td>
-              <td>
-                <textarea v-model="cancellationReason"
-                  class="input--textarea"
-                  maxlength="1024"
-                  placeholder="Reason for cancelling appointment">
-                </textarea>
-              </td>
-            </tr>
-          </table>
-          <div class="button-wrapper" v-show="!isHandlingAction">
-            <button class="button button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
-            <button class="button button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
-            <button class="button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
+      <div class="space-children-md" slot="content">
+        <h2 class="heading-1 font-centered" v-show="!isHandlingAction">
+          <span class="text">{{ userActionTitle }}</span>
+        </h2>
+        <div v-show="isHandlingAction" style="text-align: center; font-size: 22px;">
+          <p>Updating appointments</p><br>
+          <div style="width: 24px; margin: 0 auto;">
+            <ClipLoader :size="'24px'" :color="'#4f6268'" />
           </div>
         </div>
+        <div class="font-centered">
+          <p v-show="isBookingConflict && !isHandlingAction" class="copy-error font-centered">{{ bookingErrorMsg }}</p>
+          <p v-show="isBookingConflict && !isHandlingAction" class="space-top-md">We&rsquo;re sorry, it looks like there was an error booking your appointment. For general questions, please give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.</p>
+          <p v-show="!isBookingConflict && !isHandlingAction && statusWasChanged && flyoutMode === 'update'">Are you sure you want to mark this appointment as {{ appointment.status | confirmStatus }}?</p>
+        </div>
+        <div class="space-children-sm" v-show="!isBookingConflict && !isHandlingAction">
+          <div class="Row-md" v-if="userType !== 'patient'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Client:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.patientName }}</div>
+          </div>
+          <div class="Row-md" v-if="userType !== 'practitioner'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Doctor:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.practitionerName }}</div>
+          </div>
+          <div class="Row-md">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Date/Time:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.date | confirmDate }}</div>
+          </div>
+          <div class="Row-md" v-if="flyoutMode === 'update'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Status:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.status | confirmStatus }}</div>
+          </div>
+          <div class="Row-md" v-if="appointment.status === 'complete'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Duration:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.duration.value }}</div>
+          </div>
+          <div class="Row-md" v-show="appointment.status !== 'canceled'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Purpose:</strong></div>
+            <div class="Column-md-4of5 font-thin">{{ appointment.purpose }}</div>
+          </div>
+          <div class="Row-md" v-show="appointment.status === 'canceled'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Reason:</strong></div>
+            <div class="Column-md-4of5 font-thin">
+              <textarea v-model="cancellationReason"
+                class="input--textarea"
+                maxlength="1024"
+                placeholder="Reason for cancelling appointment">
+              </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="font-centered" slot="footer" v-if="!isHandlingAction">
+        <button class="Button--cancel" @click="handleModalClose" v-show="isBookingConflict">Continue</button>
+        <button class="Button--cancel" @click="handleModalClose" v-show="!isBookingConflict">Cancel</button>
+        <button class="Button" @click="handleUserAction" v-show="!isBookingConflict">Yes, Confirm</button>
       </div>
     </Modal>
 
     <NotificationPopup
-      :active="notificationActive"
+      :active="isNotificationActive"
       :comes-from="notificationDirection"
       :symbol="notificationSymbol"
       :text="notificationMessage"
@@ -242,7 +236,7 @@ import Days from './components/Days.vue';
 import Duration from './components/Duration.vue';
 import FilterButtons from '../../commons/FilterButtons.vue';
 import Flyout from '../../commons/Flyout.vue';
-import Modal from '../../commons/Modal.vue';
+import Modal from '../../v2/components/shared/Modal.vue';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
 import Overlay from '../../commons/Overlay.vue';
 import Patient from './components/Patient.vue';
@@ -275,7 +269,8 @@ export default {
         brand: Laravel.user.card_brand,
         last4: Laravel.user.card_last4
       },
-      bookingConflict: false,
+      isBookingConflict: false,
+      bookingErrorMsg: '',
       cache: {
         all: [],
         upcoming: [],
@@ -287,21 +282,21 @@ export default {
         { data: 60, value: '60 minutes' }
       ],
       filters: ['Upcoming', 'Complete', 'Cancelled'],
-      flyoutActive: false,
+      isFlyoutActive: false,
+      isHandlingAction: false,
+      isLoadingDays: false,
+      isLoadingPatients: !this.$root.$data.global.patients.length,
+      isLoadingTableData: true,
+      isModalActive: false,
+      isNoAvailability: false,
+      isNotificationActive: false,
+      isOverlayActive: false,
       flyoutHeading: '',
       flyoutMode: null,
-      isHandlingAction: false,
-      loadingDays: false,
-      loadingPatients: !this.$root.$data.global.patients.length,
-      loadingTableData: true,
-      modalActive: false,
-      noAvailability: false,
-      notificationActive: false,
       notificationDirection: 'top-right',
       notificationDuration: 3000,
       notificationMessage: '',
       notificationSymbol: '&#10003;',
-      overlayActive: false,
       patientDisplay: '',
       patientList: [],
       practitionerList: [],
@@ -310,7 +305,7 @@ export default {
       selectedRowHasUpdated: null,
       selectedRowIndex: null,
       selectedRowUpdating: null,
-      showBillingError: false,
+      shouldShowBillingError: false,
       statuses: [
         { value: 'Pending', data: 'pending' },
         { value: 'No-Show-Patient', data: 'no_show_patient' },
@@ -405,7 +400,7 @@ export default {
       return this.$root.$data.global.loadingAppointments;
     },
     loadedPatients() {
-      return this.$root.$data.global.loadingPatients;
+      return this.$root.$data.global.isLoadingPatients;
     },
     loadedPractitioners() {
       return this.$root.$data.global.loadingPractitioners;
@@ -416,6 +411,9 @@ export default {
         this.visibleUpdateButtons &&
         this.userType === 'patient'
       );
+    },
+    statusWasChanged() {
+      return this.appointment.status !== this.appointment.currentStatus;
     },
     visibleDays() {
       return this.flyoutMode === 'update' ||
@@ -487,10 +485,10 @@ export default {
 
     // Get availability for appointment practitioner
     getAvailability(id) {
-      // If Days is editable we want to reset loadingDays to see the loading message
-      if (this.editableDays) this.loadingDays = true;
-      // Reset noAvailability before new data set is fetched
-      this.noAvailability = false;
+      // If Days is editable we want to reset isLoadingDays to see the loading message
+      if (this.editableDays) this.isLoadingDays = true;
+      // Reset isNoAvailability before new data set is fetched
+      this.isNoAvailability = false;
       axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => {
         // The returned data structure is a bit odd so we need to perform some hefty transformations
         // in order to use it.
@@ -504,11 +502,11 @@ export default {
           });
         // if no availabilty, show warning message
         if (!list.filter(obj => obj.times.length).length) {
-          this.noAvailability = true;
-          this.loadingDays = false;
+          this.isNoAvailability = true;
+          this.isLoadingDays = false;
         // else turn off loading display
         } else {
-          this.loadingDays = false;
+          this.isLoadingDays = false;
         }
       });
     },
@@ -521,19 +519,20 @@ export default {
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
       switch(action) {
         case 'cancel':
-          this.userActionTitle = 'Confirm Cancellation';
+          this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
           break;
         case 'update':
-          this.userActionTitle = 'Confirm Update';
+          // If an admin/practitioner updates an appointment status to anything other than pending, they are cancelling it
+          this.userActionTitle = this.appointment.status !== 'pending' ? 'Cancel Appointment' : 'Update Appointment';
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
           break;
         case 'new':
           if (!this.billingConfirmed && this.userType === 'patient') {
-            this.showBillingError = true;
+            this.shouldShowBillingError = true;
             return;
           }
           if (this.$root.shouldTrack()) {
@@ -543,7 +542,7 @@ export default {
           this.appointment.status = 'pending';
           break;
       }
-      this.modalActive = true;
+      this.isModalActive = true;
     },
 
     // When getAppointments is run we save three copies of the data to match
@@ -568,9 +567,9 @@ export default {
 
     // When the flyout closes we want to reset certain pieces of state
     handleFlyoutClose() {
-      this.flyoutActive = false;
+      this.isFlyoutActive = false;
       this.flyoutMode = null;
-      this.overlayActive = false;
+      this.isOverlayActive = false;
       this.handleRowClick(null, null);
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
@@ -579,8 +578,9 @@ export default {
       if (this.appointment.status === 'canceled') {
         this.appointment.status = this.appointment.currentStatus;
       }
-      this.modalActive = false;
-      this.bookingConflict = false;
+      this.isModalActive = false;
+      this.isOverlayActive = false;
+      this.isBookingConflict = false;
     },
 
 
@@ -604,22 +604,22 @@ export default {
       this.appointment.purpose = 'New appointment';
       this.flyoutHeading = 'Book Appointment';
       this.flyoutMode = 'new';
-      this.flyoutActive = true;
-      this.overlayActive = true;
+      this.isFlyoutActive = true;
+      this.isOverlayActive = true;
       this.selectedRowData = null;
       this.selectedRowIndex = null;
     },
 
     handleNotificationInit() {
-      this.notificationActive = true;
-      setTimeout(() => this.notificationActive = false, this.notificationDuration);
+      this.isNotificationActive = true;
+      setTimeout(() => this.isNotificationActive = false, this.notificationDuration);
     },
 
     handleOverlayClick() {
-      this.flyoutActive = false;
+      this.isFlyoutActive = false;
       this.flyoutMode = null;
-      this.overlayActive = false;
-      this.modalActive = false;
+      this.isOverlayActive = false;
+      this.isModalActive = false;
       setTimeout(() => this.appointment = this.resetAppointment(), 300);
     },
 
@@ -691,7 +691,7 @@ export default {
         }
 
         // Availability
-        if (!this.editableDays) this.loadingDays = false;
+        if (!this.editableDays) this.isLoadingDays = false;
         if (!this.appointment.practitionerAvailability.length
             || this.appointment.practitionerId !== data._doctorId) {
           this.appointment.practitionerAvailability = [];
@@ -709,12 +709,12 @@ export default {
         // Activate flyout
         this.flyoutHeading = 'Update Appointment';
         this.flyoutMode = 'update';
-        this.flyoutActive = true;
+        this.isFlyoutActive = true;
 
       } else {
 
         // Reset everything
-        this.flyoutActive = false;
+        this.isFlyoutActive = false;
         this.flyoutMode = null;
         this.selectedRowData = null;
         this.selectedRowIndex = null;
@@ -812,8 +812,8 @@ export default {
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
             if (succesPopup) this.handleNotificationInit();
-            this.overlayActive = false;
-            this.modalActive = false;
+            this.isOverlayActive = false;
+            this.isModalActive = false;
             this.isHandlingAction = false;
 
             const newIds = this.appointments.map(appt => appt.data._appointmentId);
@@ -832,23 +832,24 @@ export default {
           });
         });
       }).catch(error => {
-        if (error.response) console.error(error.response);
+        if (error.response) console.warn(error.response)
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {
-          this.modalActive = true;
-          this.bookingConflict = true;
-          this.userActionTitle = 'Booking Conflict';
+          this.isModalActive = true;
+          this.isBookingConflict = true;
+          this.userActionTitle = 'Booking Error';
+          this.bookingErrorMsg = error.response.data.errors[0].detail;
         }
       });
 
       this.selectedRowData = null;
-      this.flyoutActive = false;
+      this.isFlyoutActive = false;
       this.flyoutMode = null;
     },
 
     resetAppointment() {
-      this.noAvailability = false;
+      this.isNoAvailability = false;
       this.patientDisplay = '';
       return {
         availableTimes: [],
@@ -1009,7 +1010,6 @@ export default {
   },
 
   mounted() {
-
     this.$root.$data.global.currentPage = 'appointments';
 
     // If data from app.js has loaded prior to mount, set data

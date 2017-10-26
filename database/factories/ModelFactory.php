@@ -6,9 +6,12 @@ use App\Lib\PractitionerAvailability;
 use App\Models\{
     Admin,
     Appointment,
+    Attachment,
     Condition,
+    DiscountCode,
     LabOrder,
     LabTest,
+    LabTestResult,
     LabTestInformation,
     License,
     Message,
@@ -17,10 +20,11 @@ use App\Models\{
     Practitioner,
     PractitionerSchedule,
     PractitionerType,
+    Prescription,
     SKU,
+    SoapNote,
     Test,
-    User,
-    DiscountCode
+    User
 };
 
 /*
@@ -74,10 +78,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
-        },
+        'user_id' => factory(User::class),
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
         'height_inches' => $faker->numberBetween(0, 12),
@@ -97,9 +98,7 @@ $factory->define(Practitioner::class, function (Faker\Generator $faker) {
                 'email' => strtolower($faker->firstName.$faker->unique()->lastName).'@goharvey.com',
             ])->id;
         },
-        'practitioner_type' => function () {
-            return factory(PractitionerType::class)->create()->id;
-        },
+        'practitioner_type' => factory(PractitionerType::class),
         'specialty' => [$faker->word, $faker->jobTitle],
         'description' => $faker->text,
         'school' => "{$faker->word} {$faker->word} {$faker->word}",
@@ -129,9 +128,7 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
     $stop_time = "{$stop_hour}:{$stop_minutes}:00";
 
     return [
-        'practitioner_id' => function () {
-            return factory(Practitioner::class)->create()->id;
-        },
+        'practitioner_id' => factory(Practitioner::class),
         'day_of_week' => $workableDays->random(),
         'start_time' => $start_time,
         'stop_time' => $stop_time,
@@ -140,10 +137,7 @@ $factory->define(PractitionerSchedule::class, function (Faker\Generator $faker) 
 
 $factory->define(Admin::class, function (Faker\Generator $faker) {
     return [
-        'enabled' => true,
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
-        },
+        'user_id' => factory(User::class),
     ];
 });
 
@@ -160,9 +154,7 @@ $factory->define(License::class, function (Faker\Generator $faker) {
         'title' => $faker->randomElement(['ND', 'MD', 'DO']),
         'number' => $faker->randomNumber(4),
         'state' => $faker->randomElement(['CA', 'NV', 'AZ']),
-        'user_id' => function () {
-            return factory(User::class)->create()->id;
-        },
+        'user_id' => factory(User::class),
     ];
 });
 
@@ -186,12 +178,8 @@ $factory->define(Appointment::class, function (Faker\Generator $faker) {
     return [
         'duration_in_minutes' => $durationInMinutes,
         'status_id' => $statusId,
-        'patient_id' => function () {
-            return factory(Patient::class)->create()->id;
-        },
-        'practitioner_id' => function () {
-            return factory(Practitioner::class)->create()->id;
-        },
+        'patient_id' => factory(Patient::class),
+        'practitioner_id' => factory(Practitioner::class),
         'appointment_at' => $start_time->toDateTimeString(),
         'reason_for_visit' => $faker->sentence,
         'discount_code_id' => $discount_code_id,
@@ -210,16 +198,6 @@ $factory->state(Appointment::class, 'past', function ($faker) {
 
 $factory->state(Appointment::class, 'soon', function ($faker) {
     return ['appointment_at' => Carbon::now()->addMinutes(30)];
-});
-
-$factory->define(Test::class, function (Faker\Generator $faker) {
-    return [
-        'patient_id' => factory(Patient::class)->create()->id,
-        'practitioner_id' => factory(Practitioner::class)->create()->id,
-        'sku_id' => function () {
-            return factory(SKU::class)->create()->id;
-        },
-    ];
 });
 
 $factory->define(PatientNote::class, function (Faker\Generator $faker) {
@@ -268,16 +246,13 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = (rand(0,1))?null:function () {
+    $discount_code_id = rand(0,1) ? null : function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
     };
+
     return [
-        'patient_id' => function () {
-            return factory(Patient::class)->create()->id;
-        },
-        'practitioner_id' => function () {
-            return factory(Practitioner::class)->create()->id;
-        },
+        'patient_id' => factory(Patient::class),
+        'practitioner_id' => factory(Practitioner::class),
         'shipment_code' => $faker->isbn13,
         'address_1' => $faker->buildingNumber . ' ' . $faker->streetName,
         'city' => $faker->city,
@@ -289,13 +264,70 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
 
 $factory->define(LabTest::class, function (Faker\Generator $faker) {
     return [
-        'lab_order_id' => function () {
-            return factory(LabOrder::class)->create()->id;
-        },
+        'lab_order_id' => factory(LabOrder::class),
         'sku_id' => function () {
             return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
         },
         'shipment_code' => $faker->isbn13,
+    ];
+});
+
+$factory->define(LabTestResult::class, function (Faker\Generator $faker) {
+    return [
+        'lab_test_id' => factory(LabTest::class),
+        'key' => function () {
+            return 'WIP';
+        },
+        'notes' => $faker->text,
+    ];
+});
+
+$factory->define(Attachment::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'key' => 'testing/testFile.pdf',
+        'name' => $faker->word,
+        'notes' => $faker->text,
+    ];
+});
+
+$factory->define(SoapNote::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'subjective' => $faker->text,
+        'objective' => $faker->text,
+        'assessment' => $faker->text,
+        'plan' => $faker->text,
+    ];
+});
+
+$factory->define(Prescription::class, function (Faker\Generator $faker) {
+    return [
+        'patient_id' => factory(Patient::class),
+        'created_by_user_id' => function () {
+            return factory(Practitioner::class)->create()->user->id;
+        },
+        'key' => 'testing/testFile.pdf',
+        'notes' => $faker->text,
+    ];
+});
+
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => function () {
+            return factory(SKU::class)->create()->id;
+        },
+        'description' => $faker->randomHtml(2,3),
+        'image' => $faker->url,
+        'lab_name' => $faker->sentence(3),
+        'sample' => $faker->sentence(2),
+        'quote' => $faker->text,
     ];
 });
 

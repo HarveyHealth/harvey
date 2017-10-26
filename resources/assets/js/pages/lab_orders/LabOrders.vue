@@ -313,9 +313,11 @@
                         let patient = response.data.included.filter(e => e.type === 'patients');
                         let invoices = response.data.included.filter(e => e.type === 'invoices');
                         let obj = {};
-                        invoices.forEach(e => {
-                            obj[e.id] = e;
-                        });
+                        if (invoices.length > 0) {
+                            invoices.forEach(e => {
+                                obj[e.id] = e;
+                            });
+                        }
                         this.$root.$data.global.labOrders = response.data.data.map((e, i) => {
                             e.user = user[i];
                             e.patient = patient[i];
@@ -331,6 +333,11 @@
             axios.get(`${this.$root.$data.apiUrl}/lab/tests?include=sku`)
                 .then(response => {
                      let sku_ids = {};
+                     if (!response.data.included) {
+                         this.$root.$data.global.labTests = response.data.data;
+                         this.$root.$data.global.loadingLabTests = false;
+                         return;
+                    }
                     response.data.included.forEach(e => {
                         sku_ids[e.id] = e;
                     });
@@ -338,8 +345,6 @@
                         e.included = sku_ids[e.relationships.sku.data.id];
                         return e;
                     });
-                })
-                .then(() => {
                     this.$root.$data.global.loadingLabTests = false;
                 });
 
