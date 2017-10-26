@@ -127,6 +127,7 @@ import Attachment from './components/Attachment.vue';
 import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
 import axios from 'axios';
+import { capitalize } from 'lodash';
 export default {
     name: 'Records',
     components: {
@@ -143,14 +144,16 @@ export default {
     },
     data() {
         return {
-          step: 1,
-          search: '',
-          selectedPatient: null,
-          activeModal: false,
-          name: '',
-          showing: [],
-          page: 0,
-          index: null
+            step: 1,
+            search: '',
+            selectedPatient: null,
+            activeModal: false,
+            name: '',
+            showing: [],
+            page: 0,
+            index: null,
+            timeline: [],
+            loading: true,
         };
     },
     methods: {
@@ -160,6 +163,7 @@ export default {
             this.setIndex(null);
             this.activeModal = false;
             this.search = e.target.value;
+            this.loading = true;
         },
         newSoatNote() {
             this.page = 1;
@@ -185,9 +189,22 @@ export default {
             this.activeModal = false;
         },
         getTimelineData() {
-            axios.get(`${this.$root.$data.apiUrl}/patient/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
+            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
                 .then(response => {
                     console.log(`RESPONSE`, response);
+                    this.timeline = [];
+                    if (response.data.included) {
+                        response.data.included.forEach((e, i) => {
+                            let object = {};
+                            object.doctor = "Dr. Amanda Frick, ND";
+                            object.date = "Wednesday, July 26th 2017";
+                            object.target = e.type.split('_').map(e => capitalize(e)).join(' ');
+                            // object.type = e.attributes.name + ' ' + object.target;
+                            object.type = object.target;
+                            this.timeline.push(object);
+                        })
+                    }
+                    this.loading = false;
                 });
         }
     },
@@ -215,44 +232,22 @@ export default {
                         this.setIndex(index);
                         this.setPage(6);
                     },
-                    'Prescription': (index) => {
+                    'Prescriptions': (index) => {
                         this.setIndex(index);
                         this.setPage(3);
                     },
-                    'Attachment': (index) => {
+                    'Attachments': (index) => {
                         this.setIndex(index);
                         this.setPage(4);
-                    }
+                    },
+                    'Soap Notes': (index) => {
+                        this.setIndex(index);
+                        this.setPage(1);
+                    },
                 };
-                let arrays = [
-                    {
-                        type: 'Intake Form',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND'
-                      },
-                      {
-                        type: 'Lab Results',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND'
-                      },
-                      {
-                        type: 'Treatment Plan',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND'
-                      },
-                      {
-                        type: 'Prescription',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND'
-                      },
-                      {
-                        type: 'Attachment',
-                        date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND'
-                      }
-                ];
+                let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.type].bind(this, i);
+                    e.onClick = onClickFunctions[e.target].bind(this, i);
                     return e;
                 });
                 return arrays;

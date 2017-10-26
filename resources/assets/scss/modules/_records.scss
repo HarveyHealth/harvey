@@ -20,6 +20,10 @@
     width: 150px; 
     margin-right: 15px; 
     float: left;
+    &:hover,
+    &:focus {
+        background-color: darken(#ccc, 10);
+    }
 }
 .full-left {
     width: 100%; 
