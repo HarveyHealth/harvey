@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="intake">
         <div>
             <h2>Basic Info</h2>
             <ul>
@@ -41,5 +41,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+    #intake {
+        h2 {
+            margin: 0 !important;
+        }
+    }
 </style>
