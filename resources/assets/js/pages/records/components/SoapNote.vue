@@ -63,16 +63,16 @@ export default {
     },
     computed: {
         subjective() {
-            return this.$parent.propData.attributes.subjective || '';
+            return this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
         },
         objective() {
-            return this.$parent.propData.attributes.objective || '';
+            return this.$parent.news ? '' : this.$parent.propData.attributes.objective;
         },
         assessment() {
-            return this.$parent.propData.attributes.assessment || '';
+            return this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
         },
         plan() {
-            return this.$parent.propData.attributes.plan || '';
+            return this.$parent.news ? '' : this.$parent.propData.attributes.plan;
         }
     }
 };
