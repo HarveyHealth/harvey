@@ -87,7 +87,7 @@
 
                   </div>
                 </div>
-                <Flyout :active="true" :onClose="() => {}" :button="true" :header="true" :heading="selectedPatient.search_name" class="disable-flyout">
+                <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
                   <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
                   <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
                   <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
