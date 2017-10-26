@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\{Appointment, User, LabTest, LabOrder, Message};
+use App\Models\{Appointment, Attachment, User, LabTest, LabOrder, Message};
 
 class DatabaseSeeder extends Seeder
 {
