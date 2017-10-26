@@ -279,7 +279,9 @@ const app = new Vue({
                 .then(response => {
                     response.data.data.forEach(e => {
                         this.labTests[e.id] = e;
-                        this.labTypes[e.lab_name] = e.lab_name;
+                        if (!this.labTypes[e.attributes.lab_name]) { 
+                            this.labTypes[e.attributes.lab_name] = e.attributes.lab_name; 
+                        }
                         this.labTests[e.id]['checked'] = false;
                     });
                     this.global.loadingTestTypes = false;

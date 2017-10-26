@@ -14,7 +14,7 @@
                 <label class="input__label">lab name</label>
                 <span class="custom-select bg-white">
                     <select>
-                        <option v-for="lab in labNameList">{{ lab.name }}</option>
+                        <option v-for="lab in labNameList">{{ lab }}</option>
                     </select>
                 </span>
             </div>
@@ -52,7 +52,7 @@ export default {
     computed: {
         labNameList() {
             let labNames = Object.keys(this.$root.$data.labTypes);
-            return [{name: ''}].concat(labNames);
+            return [''].concat(labNames);
         },
         labTestList() {
             let labTests = Object.values(this.$root.$data.labTests);
