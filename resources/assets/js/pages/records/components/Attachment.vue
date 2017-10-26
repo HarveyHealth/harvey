@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         attachmentList() {
-            return [{name: ''}].concat([]);
+            return [{name: ''}].concat(this.$parent.propData.attributes);
         }
     }
 };
