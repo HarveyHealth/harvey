@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import { isEmpty } from 'lodash';
 export default {
     props: {
       patient: Object

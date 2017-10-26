@@ -171,9 +171,10 @@ export default {
             this.loading = true;
         },
         newSoapNote() {
-            this.page = 1;
             this.index = null;
             this.news = true;
+            this.propData = {};
+            this.page = 1;
         },
         setPage(page) {
             this.page = page;
