@@ -126,6 +126,7 @@ import Prescription from './components/Prescription.vue';
 import Attachment from './components/Attachment.vue';
 import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
+import axios from 'axios';
 export default {
     name: 'Records',
     components: {
@@ -164,23 +165,8 @@ export default {
             this.page = 1;
             this.index = null;
         },
-        soaTNote() {
-            this.page = 1;
-        },
-        labResults() {
-            this.page = 2;
-        },
-        prescription() {
-            this.page = 3;
-        },
-        attachment() {
-            this.page = 4;
-        },
-        intake() {
-            this.page = 5;
-        },
-        treatment() {
-            this.page = 6;
+        setPage(page) {
+            this.page = page;
         },
         setIndex(idx) {
             this.index = idx;
@@ -193,9 +179,16 @@ export default {
         nextStep() {
             this.step = 2;
             this.search = '';
+            this.getTimelineData();
         },
         modalClose() {
             this.activeModal = false;
+        },
+        getTimelineData() {
+            axios.get(`${this.$root.$data.apiUrl}/patient/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions`)
+                .then(response => {
+                    console.log(`RESPONSE`, response);
+                })
         }
     },
     computed: {
@@ -212,23 +205,23 @@ export default {
                 let onClickFunctions = {
                     'Intake Form': () => {
                         this.setIndex(0);
-                        this.intake();
+                        this.setPage(1);
                     },
                     'Lab Results': () => {
                         this.setIndex(1);
-                        this.labResults();
+                        this.setPage(2);
                     },
                     'Treatment Plan': () => {
                         this.setIndex(2);
-                        this.treatment();
+                        this.setPage(3);
                     },
                     'Prescription': () => {
                         this.setIndex(3);
-                        this.prescription();
+                        this.setPage(4);
                     },
                     'Attachment': () => {
                         this.setIndex(4);
-                        this.attachment();
+                        this.setPage(5);
                     },
                 };
                 let arrays = [
