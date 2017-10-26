@@ -2,17 +2,17 @@
     <div class="records-container">
 
         <div class="top-soap-note">
-            <h7 name="Subject" class="card-header top-header">Subject</h7>
+            <label name="Subject" class="card-header top-header">Subject</label>
             <textarea :maxlength="2048" v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
-            <h7 name="Objective" class="card-header mid-header">Objective</h7>
+            <label name="Objective" class="card-header mid-header">Objective</label>
             <textarea :maxlength="2048" v-model="objective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
-            <h7 name="Assessment" class="card-header mid-header">Assessment</h7>
+            <label name="Assessment" class="card-header mid-header">Assessment</label>
             <textarea :maxlength="2048" v-model="assessment" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
         </div>
 
@@ -21,7 +21,7 @@
         </div>
 
         <div class="top-soap-note">
-            <h7 name="Treatment" class="card-header top-header">Treatment/Plan</h7>
+            <label name="Treatment" class="card-header top-header">Treatment/Plan</label>
             <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
