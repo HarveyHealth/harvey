@@ -81,7 +81,7 @@
                     <div v-if="page === 5">
                       <Intake :patient="selectedPatient" />
                     </div>
-                    <div v-if="page === 5">
+                    <div v-if="page === 6">
                       <Treatment :patient="selectedPatient" />
                     </div>
 
@@ -203,25 +203,25 @@ export default {
         },
         timelineData() {
                 let onClickFunctions = {
-                    'Intake Form': () => {
-                        this.setIndex(0);
-                        this.setPage(1);
+                    'Intake Form': (index) => {
+                        this.setIndex(index);
+                        this.setPage(5);
                     },
-                    'Lab Results': () => {
-                        this.setIndex(1);
+                    'Lab Results': (index) => {
+                        this.setIndex(index);
                         this.setPage(2);
                     },
-                    'Treatment Plan': () => {
-                        this.setIndex(2);
+                    'Treatment Plan': (index) => {
+                        this.setIndex(index);
+                        this.setPage(6);
+                    },
+                    'Prescription': (index) => {
+                        this.setIndex(index);
                         this.setPage(3);
                     },
-                    'Prescription': () => {
-                        this.setIndex(3);
+                    'Attachment': (index) => {
+                        this.setIndex(index);
                         this.setPage(4);
-                    },
-                    'Attachment': () => {
-                        this.setIndex(4);
-                        this.setPage(5);
                     },
                 };
                 let arrays = [
@@ -251,8 +251,8 @@ export default {
                         doctor: 'Dr. Amanda Frick, ND',
                       }
                 ];
-                arrays.map(e => {
-                    e.onClick = onClickFunctions[e.type];
+                arrays.map((e, i)=> {
+                    e.onClick = onClickFunctions[e.type].bind(this, i);
                     return e;
                 });
                 return arrays;
