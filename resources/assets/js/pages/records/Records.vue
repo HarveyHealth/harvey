@@ -185,7 +185,7 @@ export default {
             this.activeModal = false;
         },
         getTimelineData() {
-            axios.get(`${this.$root.$data.apiUrl}/patient/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions`)
+            axios.get(`${this.$root.$data.apiUrl}/patient/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
                 .then(response => {
                     console.log(`RESPONSE`, response);
                 });
