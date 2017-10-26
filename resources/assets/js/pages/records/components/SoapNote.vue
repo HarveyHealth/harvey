@@ -72,7 +72,7 @@ export default {
         },
         plan() {
             return this.$parent.propData.attributes.plan || '';
-        },
+        }
     }
 };
 </script>

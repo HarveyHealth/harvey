@@ -158,7 +158,7 @@ export default {
             soap_notes: {},
             attachments: {},
             prescriptions: {},
-            propData: {},
+            propData: {}
         };
     },
     methods: {
@@ -199,7 +199,7 @@ export default {
                 .then(response => {
                     this.timeline = [];
                     if (response.data.included) {
-                        response.data.included.forEach((e, i) => {
+                        response.data.included.forEach((e) => {
                             e.type === 'soap_notes' ? 
                                 this.soap_notes[e.id] = e :
                             e.type === 'attachments' ?
@@ -216,10 +216,14 @@ export default {
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
-                        })
+                        });
                     }
                     this.loading = false;
                 });
+        },
+        setProps(data) {
+            this.news = false;
+            this.propData = data;
         }
     },
     computed: {
@@ -237,39 +241,33 @@ export default {
                     'Intake Form': (data, index) => {
                         this.setIndex(index);
                         this.setPage(5);
-                        this.news = false;
-                        this.propData = data;
+                        this.setProps(data);
                     },
                     'Lab Results': (data, index) => {
                         this.setIndex(index);
                         this.setPage(2);
-                        this.news = false;
-                        this.propData = data;
+                        this.setProps(data);
                     },
                     'Treatment Plan': (data, index) => {
                         this.setIndex(index);
                         this.setPage(6);
-                        this.news = false;
-                        this.propData = data;
+                        this.setProps(data);
                     },
                     'Prescriptions': (data, index) => {
                         this.setIndex(index);
                         this.setPage(3);
-                        this.news = false;
-                        this.propData = data;
+                        this.setProps(data);
                     },
                     'Attachments': (data, index) => {
                         this.setIndex(index);
                         this.setPage(4);
-                        this.news = false;
-                        this.propData = data;
+                        this.setProps(data);
                     },
                     'Soap Notes': (data, index) => {
                         this.setIndex(index);
                         this.setPage(1);
-                        this.news = false;
-                        this.propData = data;
-                    },
+                        this.setProps(data);
+                    }
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {

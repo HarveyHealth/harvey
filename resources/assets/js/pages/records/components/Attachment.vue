@@ -46,6 +46,13 @@ export default {
         attachmentList() {
             return [{name: ''}].concat(this.$parent.propData.attributes);
         }
+    },
+    watch: {
+        attachmentList(val) {
+            if (!val) {
+                return [{name: ''}].concat(this.$parent.propData.attributes);
+            }
+        }
     }
 };
 </script>
