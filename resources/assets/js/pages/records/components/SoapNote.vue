@@ -21,7 +21,7 @@
         </div>
 
         <div class="top-soap-note">
-            <label name="Treatment" class="card-header top-header">Treatment/Plan</label>
+            <label name="Treatment" class="card-header top-header">Plan/Treatment</label>
             <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
@@ -39,10 +39,7 @@ export default {
     },
     data() {
       return {
-          subjective: '',
-          objective: '',
-          assessment: '',
-          plan: ''
+          
       };
   },
   methods: {
@@ -62,6 +59,20 @@ export default {
               global.soapNotes[response.data.data.attributes.created_by_user_id][response.data.data.id] = response.data.data;
           });
       }
-  }
+    },
+    computed: {
+        subjective() {
+            return this.$parent.propData.attributes.subjective || '';
+        },
+        objective() {
+            return this.$parent.propData.attributes.objective || '';
+        },
+        assessment() {
+            return this.$parent.propData.attributes.assessment || '';
+        },
+        plan() {
+            return this.$parent.propData.attributes.plan || '';
+        },
+    }
 };
 </script>

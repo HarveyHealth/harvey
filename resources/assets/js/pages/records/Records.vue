@@ -44,7 +44,7 @@
               <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </div>
             <div class="records-button-container">
-              <button @click="newSoatNote" class="button soat-button">SOAT Note</button>
+              <button @click="newSoapNote" class="button soat-button">SOAP Note</button>
               <button class="button records-button">New Record</button>
             </div>
               <div class="auto-height">
@@ -54,12 +54,12 @@
                 <div class="card width70" v-if="page !== 0">
                   <div class="card-heading-container height65">
                       <h2 class="left-records-label">
-                        {{ page === 1 ? 'New SOAT Note' : null }}
-                        {{ page === 2 ? 'New Lab Results' : null }}
-                        {{ page === 3 ? 'New Prescription' : null }}
-                        {{ page === 4 ? 'New Attachment' : null }}
-                        {{ page === 5 ? 'Intake Form' : null }}
-                        {{ page === 6 ? 'Treatment Plan' : null }}
+                        {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
+                        {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
+                        {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
+                        {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
+                        {{ page === 5 ? `Intake Form` : null }}
+                        {{ page === 6 ? `Treatment Plan` : null }}
                       </h2>
                       <h2 class="search-name-label">
                         {{ selectedPatient.search_name }}
@@ -67,22 +67,22 @@
                   </div>
 
                     <div v-if="page === 1">
-                      <SoapNote :patient="selectedPatient" />
+                      <SoapNote :patient="selectedPatient" :selectedData="propData" />
                     </div>
                     <div v-if="page === 2">
-                      <LabResults :patient="selectedPatient" />
+                      <LabResults :patient="selectedPatient" :selectedData="propData" />
                     </div>
                     <div v-if="page === 3">
-                      <Prescription :patient="selectedPatient" />
+                      <Prescription :patient="selectedPatient" :selectedData="propData" />
                     </div>
                     <div v-if="page === 4">
-                      <Attachment :patient="selectedPatient" />
+                      <Attachment :patient="selectedPatient" :selectedData="propData" />
                     </div>
                     <div v-if="page === 5">
-                      <Intake :patient="selectedPatient" />
+                      <Intake :patient="selectedPatient" :selectedData="propData" />
                     </div>
                     <div v-if="page === 6">
-                      <Treatment :patient="selectedPatient" />
+                      <Treatment :patient="selectedPatient" :selectedData="propData" />
                     </div>
 
                   </div>
@@ -154,6 +154,11 @@ export default {
             index: null,
             timeline: [],
             loading: true,
+            news: true,
+            soap_notes: {},
+            attachments: {},
+            prescriptions: {},
+            propData: {},
         };
     },
     methods: {
@@ -165,9 +170,10 @@ export default {
             this.search = e.target.value;
             this.loading = true;
         },
-        newSoatNote() {
+        newSoapNote() {
             this.page = 1;
             this.index = null;
+            this.news = true;
         },
         setPage(page) {
             this.page = page;
@@ -191,16 +197,24 @@ export default {
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
                 .then(response => {
-                    console.log(`RESPONSE`, response);
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e, i) => {
+                            e.type === 'soap_notes' ? 
+                                this.soap_notes[e.id] = e :
+                            e.type === 'attachments' ?
+                                this.attachments[e.id] = e :
+                            e.type === 'prescriptions' ?
+                                this.prescriptions[e.id] = e :
+                            null;
                             let object = {};
                             object.doctor = "Dr. Amanda Frick, ND";
                             object.date = "Wednesday, July 26th 2017";
                             object.target = e.type.split('_').map(e => capitalize(e)).join(' ');
                             // object.type = e.attributes.name + ' ' + object.target;
                             object.type = object.target;
+                            object.id = e.id;
+                            object.data = e;
                             this.timeline.push(object);
                         })
                     }
@@ -220,34 +234,46 @@ export default {
         },
         timelineData() {
                 let onClickFunctions = {
-                    'Intake Form': (index) => {
+                    'Intake Form': (data, index) => {
                         this.setIndex(index);
                         this.setPage(5);
+                        this.news = false;
+                        this.propData = data;
                     },
-                    'Lab Results': (index) => {
+                    'Lab Results': (data, index) => {
                         this.setIndex(index);
                         this.setPage(2);
+                        this.news = false;
+                        this.propData = data;
                     },
-                    'Treatment Plan': (index) => {
+                    'Treatment Plan': (data, index) => {
                         this.setIndex(index);
                         this.setPage(6);
+                        this.news = false;
+                        this.propData = data;
                     },
-                    'Prescriptions': (index) => {
+                    'Prescriptions': (data, index) => {
                         this.setIndex(index);
                         this.setPage(3);
+                        this.news = false;
+                        this.propData = data;
                     },
-                    'Attachments': (index) => {
+                    'Attachments': (data, index) => {
                         this.setIndex(index);
                         this.setPage(4);
+                        this.news = false;
+                        this.propData = data;
                     },
-                    'Soap Notes': (index) => {
+                    'Soap Notes': (data, index) => {
                         this.setIndex(index);
                         this.setPage(1);
+                        this.news = false;
+                        this.propData = data;
                     },
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.target].bind(this, i);
+                    e.onClick = onClickFunctions[e.target].bind(this, e.data, i);
                     return e;
                 });
                 return arrays;
