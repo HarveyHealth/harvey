@@ -41,9 +41,5 @@ export default {
 </script>
 
 <style lang="scss">
-    #intake {
-        h2 {
-            margin: 0 !important;
-        }
-    }
+
 </style>
