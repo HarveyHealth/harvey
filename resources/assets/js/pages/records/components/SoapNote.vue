@@ -21,7 +21,7 @@
         </div>
 
         <div class="top-soap-note">
-            <h7 name="Treatment" class="card-header top-header">Treatment</h7>
+            <h7 name="Treatment" class="card-header top-header">Treatment/Plan</h7>
             <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 

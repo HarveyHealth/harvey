@@ -199,77 +199,102 @@ export default {
         };
     },
     methods: {
-      updateInput(e) {
-        this.step = 1;
-        this.page = 0;
-        this.setIndex(null);
-        this.activeModal = false;
-        this.search = e.target.value;
-      },
-      newSoatNote() {
-        this.page = 1;
-        this.index = null;
-      },
-      soaTNote() {
-        this.page = 1;
-      },
-      labResults() {
-        this.page = 2;
-      },
-      prescription() {
-        this.page = 3;
-      },
-      attachment() {
-        this.page = 4;
-      },
-      intake() {
-        this.page = 5;
-      },
-      treatment() {
-        this.page = 6;
-      },
-      setIndex(idx) {
-        this.index = idx;
-      },
-      selectPatient(patient) {
-        this.selectedPatient = patient;
-        this.name = patient.search_name;
-        this.activeModal = true;
-      },
-      nextStep() {
-        this.step = 2;
-        this.search = '';
-      },
-      modalClose() {
-        this.activeModal = false;
-      }
+        updateInput(e) {
+            this.step = 1;
+            this.page = 0;
+            this.setIndex(null);
+            this.activeModal = false;
+            this.search = e.target.value;
+        },
+        newSoatNote() {
+            this.page = 1;
+            this.index = null;
+        },
+        soaTNote() {
+            this.page = 1;
+        },
+        labResults() {
+            this.page = 2;
+        },
+        prescription() {
+            this.page = 3;
+        },
+        attachment() {
+            this.page = 4;
+        },
+        intake() {
+            this.page = 5;
+        },
+        treatment() {
+            this.page = 6;
+        },
+        setIndex(idx) {
+            this.index = idx;
+        },
+        selectPatient(patient) {
+            this.selectedPatient = patient;
+            this.name = patient.search_name;
+            this.activeModal = true;
+        },
+        nextStep() {
+            this.step = 2;
+            this.search = '';
+        },
+        modalClose() {
+            this.activeModal = false;
+        }
     },
     computed: {
-      results() {
-        let array = this.$root.$data.global.patients;
-        let matcher = new RegExp(this.search, 'ig');
-        return array.filter(ele => {
-          return matcher.test(ele.search_name) ||
-                      matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth);
-        });
-      }
-    },
-    watch: {
-      results() {
-        if (this.search !== '') {
-          this.step = 1;
-          this.activeModal = false;
-          this.selectedPatient = null;
-          let array = this.$root.$data.global.patients;
-          let matcher = new RegExp(this.search, 'ig');
-          return array.filter(ele => {
+        results() {
+            let array = this.$root.$data.global.patients;
+            let matcher = new RegExp(this.search, 'ig');
+            return array.filter(ele => {
             return matcher.test(ele.search_name) ||
                         matcher.test(ele.email) ||
                         matcher.test(ele.date_of_birth);
-          });
+            });
+        },
+        timelineData() {
+                let onClickFunctions = {
+                    0: () => {
+                        this.setIndex(0);
+                        this.intake();
+                    },
+                    1: () => {
+                        this.setIndex(1);
+                        this.labResults();
+                    },
+                    2: () => {
+                        this.setIndex(2);
+                        this.treatment();
+                    },
+                    3: () => {
+                        this.setIndex(3);
+                        this.prescription();
+                    },
+                    4: () => {
+                        this.setIndex(4);
+                        this.attachment();
+                    },
+                };
+            
+            }
+        },
+        watch: {
+            results() {
+                if (this.search !== '') {
+                this.step = 1;
+                this.activeModal = false;
+                this.selectedPatient = null;
+                let array = this.$root.$data.global.patients;
+                let matcher = new RegExp(this.search, 'ig');
+                return array.filter(ele => {
+                    return matcher.test(ele.search_name) ||
+                                matcher.test(ele.email) ||
+                                matcher.test(ele.date_of_birth);
+                });
+            }
         }
-      }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';

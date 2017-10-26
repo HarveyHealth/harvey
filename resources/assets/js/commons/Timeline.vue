@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-for="(item, key) in items" class="timeline-height">
+        <div v-for="(item, key) in items" class="timeline-height" :name="'key-' + key">
             <div @click="item.onClick" :class="key === index ? 'on' : ''" class="timeline-selection">
                 <div :class="key === index ? 'subOn' : ''" />
             </div>
             <div @click="item.onClick" class="timeline-info">
                 <div class="width-70 float-left">
-                    <h7 class="full-width float-left">{{ item.type }}</h7>
+                    <span class="full-width float-left">{{ item.type }}</span>
                     <span class="full-width float-left">{{ item.date }}</span>
                     <span class="full-width float-left">{{ item.doctor }}</span>
                 </div>
