@@ -74,13 +74,13 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         $this->assertEquals('Done. [2 emails sent.]', $output[2]);
     }
 
-    public function test_email_is_sent()
+    public function test_email_is_sent_if_message_is_almost_15_minutes_in_the_past()
     {
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
         $patient = factory(Patient::class)->create();
 
         $message = factory(Message::class)->create([
-            'created_at' => Carbon::parse("-5 minutes"),
+            'created_at' => Carbon::parse("-14 minutes 59 seconds"),
             'read_at' => null,
             'recipient_user_id' => $patient->user->id,
         ]);
@@ -101,5 +101,23 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         ]);
 
         $this->assertEquals('Done. [1 emails sent.]', $output[3]);
+    }
+
+    public function test_email_is_not_sent_if_message_is_5_minutes_in_the_past()
+    {
+        Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
+        $patient = factory(Patient::class)->create();
+
+        $message = factory(Message::class)->create([
+            'created_at' => Carbon::parse("-5 minutes"),
+            'read_at' => null,
+            'recipient_user_id' => $patient->user->id,
+        ]);
+        $timezone = $message->recipient->timezone;
+        $createdAt = $message->created_at->timezone($timezone);
+
+        $output = $this->getMessageEmailCommandOutput();
+
+        $this->assertEquals('Done. [0 emails sent.]', $output[3]);
     }
 }
