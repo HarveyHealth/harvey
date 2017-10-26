@@ -1,16 +1,16 @@
 <template>
-  <div class="main-container" :class="userClass">
+  <div class="main-container" :class="'is-' + Config.user.info.user_type">
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="heading-1">{{ dashboardTitle }}</h1>
+          <h1 class="heading-1">{{ Config.user.isAdmin && 'Admin' }} Dashboard</h1>
         </div>
       </div>
       <div class="card-wrapper">
         <div class="card card-panel">
-          <DashboardAppointments :user-type="userType" :upcoming-appointments="upcoming_appointments" />
+          <DashboardAppointments :user-type="user.user_type" :upcoming-appointments="upcoming_appointments" />
         </div>
-        <div class="card card-panel" v-if="userType === 'patient'">
+        <div class="card card-panel" v-if="Config.user.isPatient">
           <div class="card-heading-container">
             <h2 class="heading-2">Practitioner</h2>
           </div>
@@ -37,20 +37,20 @@
             <h2 class="heading-2">Contact Info</h2>
           </div>
           <div class="card-content-container">
-            <div class="card-content-wrap" v-if="patientName">
+            <div class="card-content-wrap" v-if="user.first_name">
               <h3 class="card-contact-name">
-                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ displayName }}
+                <svg class="icon-person"><use xlink:href="#small-person" /></svg>{{ Util.misc.fullName(user) }}
               </h3>
             </div>
             <div class="card-content-wrap">
-              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="displayName">Name</h4>
-              <p class="card-contact-info" v-if="displayName">{{ displayName }}</p>
-              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="email">Email</h4>
-              <p class="card-contact-info" v-if="email"><a :href="'mailto:'+email">{{ email }}</a></p>
-              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="phone">Phone</h4>
-              <p class="card-contact-info" v-if="phone"><a :href="'tel:'+phone">{{ phone }}</a></p>
-              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="cityState">Location</h4>
-              <p class="card-contact-info" v-if="cityState">{{ cityState }}</p>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user.first_name">Name</h4>
+              <p class="card-contact-info" v-if="user.first_name">{{ Util.misc.fullName(user) }}</p>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user.email">Email</h4>
+              <p class="card-contact-info" v-if="user.email"><a :href="'mailto:'+user.email">{{ user.email }}</a></p>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user.phone">Phone</h4>
+              <p class="card-contact-info" v-if="user.phone"><a :href="'tel:'+user.phone">{{ user.phone | formatPhone }}</a></p>
+              <h4 class="copy-muted-2 font-xs font-bold font-uppercase font-spaced" v-if="user.city">Location</h4>
+              <p class="card-contact-info" v-if="user.city">{{ user.city }}, {{ user.state}}</p>
             </div>
           </div>
         </div>
@@ -85,15 +85,13 @@
 
   export default {
     name: 'dashboard',
-    data() {
-      return {
-        patientName: Laravel.user.fullName, // because it's already there
-        flag: false,
-        user: this.$root.$data.global.user
-      };
-    },
     components: {
       DashboardAppointments
+    },
+    data() {
+      return {
+        user: this.Config.user.info
+      }
     },
     methods: {
       viewAppointmentPage() {
@@ -101,26 +99,6 @@
       }
     },
     computed: {
-      dashboardTitle() {
-        if (this.userType === 'admin') {
-          return 'Admin Dashboard';
-        } else {
-          return 'Dashboard';
-        }
-      },
-      displayName() {
-        if(this.user.attributes === undefined) {
-          return '';
-        } else {
-          return `${this.user.attributes.first_name} ${this.user.attributes.last_name}`;
-        }
-      },
-      email() {
-        return this.user.attributes ? this.user.attributes.email : '';
-      },
-      phone() {
-        return this.user.attributes ? phone(this.user.attributes.phone) : '';
-      },
       practitioner() {
         if (this.$root.$data.global.practitioners.length) {
           const name = Laravel.user.doctor_name;
@@ -153,38 +131,17 @@
       upcoming_appointments() {
         return this.$root.$data.global.upcoming_appointments || [];
       },
-      userClass() {
-        return {
-          [`is-${this.userType}`]: true
-        };
-      },
-      user_id() {
-        return this.user.id || '';
-      },
-      userType() {
-        return Laravel.user.user_type;
-      },
       viewableIntakeAlert() {
         return !this.$root.$data.global.loadingAppointments &&
                !this.$root.$data.global.appointments.length &&
-               this.userType === 'patient';
-      },
-      cityState() {
-        return this.user.attributes ? `${this.user.attributes.city}, ${this.user.attributes.state}` : '';
+               this.user.user_type === 'patient';
       },
       appointments() {
         return this.$root.$data.global.appointments;
       }
     },
-    beforeMount() {
-      let flag = localStorage.getItem('signed up');
-      if (flag) {
-        localStorage.removeItem('signed up');
-      }
-    },
     mounted() {
       this.$root.$data.global.currentPage = 'dashboard';
-      if (localStorage.getItem('signed up')) return null;
       if(this.$root.shouldTrack()) {
         // Add tracking for Dashboard here
       }
