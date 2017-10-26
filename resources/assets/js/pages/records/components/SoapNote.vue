@@ -3,17 +3,17 @@
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subject</label>
-            <textarea :maxlength="2048" v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
-            <textarea :maxlength="2048" v-model="objective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="objective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <textarea :maxlength="2048" v-model="assessment" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
+            <textarea v-model="assessment" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
         </div>
 
         <div class="soap-divider">
@@ -22,7 +22,7 @@
 
         <div class="top-soap-note">
             <label name="Treatment" class="card-header top-header">Plan/Treatment</label>
-            <textarea :maxlength="2048" v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="inline-centered padding15">
