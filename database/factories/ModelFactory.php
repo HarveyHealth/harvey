@@ -240,13 +240,13 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
     $output['message'] = $faker->text;
     $output['subject'] = $faker->sentence;
     $output['is_admin'] = Admin::class == $senderClassName;
-    $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
+    $output['read_at'] = maybe() ? null : Carbon::parse('+ 10 seconds');
 
     return $output;
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = rand(0,1) ? null : function () {
+    $discount_code_id = maybe() ? null : function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
     };
 
@@ -275,9 +275,7 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
 $factory->define(LabTestResult::class, function (Faker\Generator $faker) {
     return [
         'lab_test_id' => factory(LabTest::class),
-        'key' => function () {
-            return 'WIP';
-        },
+        'key' => 'testing/testFile.pdf',
         'notes' => $faker->text,
     ];
 });

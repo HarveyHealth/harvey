@@ -149,3 +149,8 @@ function cast_to_string($value)
 {
     return empty($value) ? null : (string) $value;
 }
+
+function maybe()
+{
+    return (bool) rand(0,1);
+}

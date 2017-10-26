@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             $this->call(LabOrdersSeeder::class);
             $this->call(MessagesSeeder::class);
             $this->call(DiscountCodesSeeder::class);
+            $this->call(AttachmentsSeeder::class);
+            $this->call(PrescriptionsSeeder::class);
+            $this->call(SoapNotesSeeder::class);
 
             $this->command->getOutput()->writeln('Seeding Successful!');
             $this->command->getOutput()->writeln('');

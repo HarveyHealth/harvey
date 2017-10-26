@@ -39,7 +39,7 @@ class AppointmentTest extends TestCase
         $start_time = "{$start_hour}:{$start_minute}:00";
 
         $stop_hour = rand($start_hour + 2, 24);
-        $stop_minutes = (24 == $stop_hour) ? '00' : rand(0,1) ? '00' : '30';
+        $stop_minutes = (24 == $stop_hour) ? '00' : maybe() ? '00' : '30';
         $stop_time = "{$stop_hour}:{$stop_minutes}:00";
 
         $practitionerSchedule = factory(PractitionerSchedule::class)->create([
