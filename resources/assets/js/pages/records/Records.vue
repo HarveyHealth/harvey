@@ -67,7 +67,7 @@
                   </div>
 
                     <div v-if="page === 1">
-                      <SoaTNote :patient="selectedPatient" />
+                      <SoapNote :patient="selectedPatient" />
                     </div>
                     <div v-if="page === 2">
                       <LabResults :patient="selectedPatient" />
@@ -166,7 +166,7 @@ import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
 import Flyout from '../../commons/Flyout.vue';
 import Timeline from '../../commons/Timeline.vue';
-import SoaTNote from './components/SoaTNote.vue';
+import SoapNote from './components/SoapNote.vue';
 import LabResults from './components/LabResults.vue';
 import Prescription from './components/Prescription.vue';
 import Attachment from './components/Attachment.vue';
@@ -179,7 +179,7 @@ export default {
         Modal,
         Flyout,
         Timeline,
-        SoaTNote,
+        SoapNote,
         LabResults,
         Prescription,
         Attachment,

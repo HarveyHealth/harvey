@@ -27,7 +27,7 @@
                                 <p class="copy-main font-md font-italic">
                                     <i class="fa fa-credit-card"></i>
                                     {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
-                            <div class="button-wrapper">
+                                <div class="button-wrapper"></div>
                             </div>
                         </div>
                     </div>
