@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Carbon;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
-use App\Models\User;
+use Carbon;
 
 class Message extends Model
 {

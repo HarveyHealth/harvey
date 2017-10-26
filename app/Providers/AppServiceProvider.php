@@ -2,8 +2,22 @@
 
 namespace App\Providers;
 
-use App\Models\{Appointment, LabTest, Message, User, LabOrder};
-use App\Observers\{AppointmentObserver, LabTestObserver, MessageObserver, UserObserver, LabOrderObserver};
+use App\Models\{
+    Appointment,
+    Attachment,
+    LabTest,
+    Message,
+    User,
+    LabOrder
+};
+use App\Observers\{
+    AppointmentObserver,
+    AttachmentObserver,
+    LabTestObserver,
+    MessageObserver,
+    UserObserver,
+    LabOrderObserver
+};
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Stripe\Stripe;
@@ -25,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/validator.php');
 
         Appointment::observe(AppointmentObserver::class);
+        Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
         Message::observe(MessageObserver::class);
