@@ -188,7 +188,7 @@ export default {
             axios.get(`${this.$root.$data.apiUrl}/patient/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions`)
                 .then(response => {
                     console.log(`RESPONSE`, response);
-                })
+                });
         }
     },
     computed: {
@@ -222,33 +222,33 @@ export default {
                     'Attachment': (index) => {
                         this.setIndex(index);
                         this.setPage(4);
-                    },
+                    }
                 };
                 let arrays = [
                     {
                         type: 'Intake Form',
                         date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
+                        doctor: 'Dr. Amanda Frick, ND'
                       },
                       {
                         type: 'Lab Results',
                         date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
+                        doctor: 'Dr. Amanda Frick, ND'
                       },
                       {
                         type: 'Treatment Plan',
                         date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
+                        doctor: 'Dr. Amanda Frick, ND'
                       },
                       {
                         type: 'Prescription',
                         date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
+                        doctor: 'Dr. Amanda Frick, ND'
                       },
                       {
                         type: 'Attachment',
                         date: 'Wednesday, July 26th 2017',
-                        doctor: 'Dr. Amanda Frick, ND',
+                        doctor: 'Dr. Amanda Frick, ND'
                       }
                 ];
                 arrays.map((e, i)=> {

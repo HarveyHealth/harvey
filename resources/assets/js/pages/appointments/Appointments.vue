@@ -513,7 +513,7 @@ export default {
         } else {
           this.isLoadingDays = false;
         }
-      }).catch(error => {
+      }).catch(() => {
 
       });
     },
@@ -839,7 +839,7 @@ export default {
           });
         });
       }).catch(error => {
-        if (error.response) console.warn(error.response)
+        if (error.response) console.warn(error.response);
         this.selectedRowUpdating = null;
         this.isHandlingAction = false;
         if (this.userAction === 'update' || this.userAction === 'new') {

@@ -51,7 +51,8 @@ export default {
     },
     computed: {
         labNameList() {
-            return [{name: ''}].concat([{name: 'SpectraCell'}]);
+            let labNames = Object.keys(this.$root.$data.labTypes);
+            return [{name: ''}].concat(labNames);
         },
         labTestList() {
             let labTests = Object.values(this.$root.$data.labTests);
