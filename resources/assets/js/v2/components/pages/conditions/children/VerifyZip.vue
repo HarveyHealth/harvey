@@ -8,11 +8,12 @@
       <Paragraph isLight>Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
       <Space isBottom :size="4" />
       <MultiInput
-        :auto-focus="true"
-        :quantity="5"
         :color="'light'"
         :focus-next="{ refs: $refs, ref: 'submit' }"
-        :get-value="zip => setState('conditions.zip', zip)" />
+        :get-value="zip => setState('conditions.zip', zip)"
+        :is-auto-focused="true"
+        :quantity="5"
+        :validation="/\d/" />
       <Space isBottom :size="4" />
       <ButtonInput
         :is-disabled="State('conditions.zip').length < 5"

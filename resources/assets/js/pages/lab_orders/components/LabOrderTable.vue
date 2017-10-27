@@ -50,7 +50,8 @@ export default {
     },
     // See TableData
     selectedRow: {
-      type: Object
+      type: Object,
+      require: false
     },
     // See TableData
     tableRowData: {
