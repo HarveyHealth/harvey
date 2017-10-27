@@ -19,12 +19,12 @@ class ZipCodeValidator
     // practitioners to send to the frontend
     protected $regulated_states = [
       'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME',
-      'MD', 'MA', 'NH', 'VT', 'DC',
+      'MD', 'NH', 'VT', 'DC',
     ];
 
     protected $unregulated_states = [
-        'AR', 'DE', 'GA', 'ID', 'IL', 'IN', 'IA', 'KY', 'LA', 'MI', 'MS', 'MO', 'NE', 'NV',
-        'NJ', 'NM', 'NC', 'OH', 'OK', 'PA', 'RI', 'SD', 'TX', 'VA', 'WV', 'WI', 'WY'
+        'AR', 'DE', 'GA', 'ID', 'IL', 'IN', 'IA', 'KY', 'LA', 'MA', 'MI', 'MS', 'MO', 'NE',
+        'NV', 'NJ', 'NM', 'NC', 'OH', 'OK', 'PA', 'RI', 'SD', 'TX', 'VA', 'WV', 'WI', 'WY'
     ];
 
     public function __construct(Geocoder $geocoder)
