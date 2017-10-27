@@ -28,10 +28,10 @@
 <script>
 import { Util } from '../../base';
 import Shared from '../../shared';
-import ConditionQuestions from './children/ConditionQuestions';
-import ConditionPreface from './children/ConditionPreface';
-import ConditionsAll from './children/ConditionsAll';
-import VerifyZip from './children/VerifyZip';
+import ConditionQuestions from './children/ConditionQuestions.vue';
+import ConditionPreface from './children/ConditionPreface.vue';
+import ConditionsAll from './children/ConditionsAll.vue';
+import VerifyZip from './children/VerifyZip.vue';
 
 export default {
   name: 'conditions',

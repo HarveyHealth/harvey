@@ -65,7 +65,7 @@
 
       <div class="input__container" v-if="editableDays && flyoutMode === 'update'">
         <label class="input__label">Appointment</label>
-        <span class="input__item">{{ appointment.currentDate | confirmDate }}</span>
+        <span class="input__item">{{ confirmDate(appointment.currentDate) }}</span>
       </div>
 
       <Days
@@ -95,6 +95,7 @@
         :is-visible="visibleDuration"
         :list="durationList"
         :set-duration="setDuration"
+        data-test="duration"
       />
 
       <div class="input__container" v-if="appointment.googleMeet && appointment.currentStatus === 'pending'">
@@ -110,11 +111,11 @@
         :status="appointment.status"
       />
 
-      <div class="input__container" v-if="appointment.currentStatus === 'complete'">
+      <div class="input__container" v-if="appointment.currentStatus === 'complete'" data-test="section_billing">
         <label class="input__label">Billing Info</label>
         <div class="input__item">Duration: {{ appointment.currentDuration }}</div>
         <div class="input__item">Billed to: {{ billing.brand }} ****{{ billing.last4 }}</div>
-        <div class="input__item">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
+        <div class="input__item" data-test="appointment_amount_charged">Charged: {{ appointment.duration.data === '60' ? '$150' : '$75' }}</div>
       </div>
 
       <Purpose
@@ -138,6 +139,7 @@
           v-if="visibleUpdateButtons"
           class="button"
           @click="handleConfirmationModal('update')"
+          data-test="button_update"
           :disabled="disableUpdateButton">Update Appointment</button>
 
         <a v-if="visibleCancelButton"
@@ -157,6 +159,7 @@
     <Modal
       :active="isModalActive"
       :hide-close="isHandlingAction"
+      data-test="modal_confirmation"
       :is-simple="isHandlingAction"
       :on-close="handleModalClose"
     >
@@ -186,7 +189,7 @@
           </div>
           <div class="Row-md">
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Date/Time:</strong></div>
-            <div class="Column-md-4of5 font-thin">{{ appointment.date | confirmDate }}</div>
+            <div class="Column-md-4of5 font-thin">{{ confirmDate(appointment.date) }}</div>
           </div>
           <div class="Row-md" v-if="flyoutMode === 'update'">
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Status:</strong></div>
@@ -245,8 +248,9 @@ import Purpose from './components/Purpose.vue';
 import Status from './components/Status.vue';
 import Times from './components/Times.vue';
 
-// other
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+// ClipLoader must be imported from the src and the .vue extension
+// must be included or Karma yells at your
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import convertStatus from './utils/convertStatus';
 import moment from 'moment';
 // import tableColumns from './utils/tableColumns';
@@ -272,9 +276,9 @@ export default {
       isBookingConflict: false,
       bookingErrorMsg: '',
       cache: {
-        all: [],
         upcoming: [],
-        completed: []
+        past: [],
+        cancelled: []
       },
       cancellationReason: '',
       durationList: [
@@ -340,9 +344,6 @@ export default {
   },
 
   filters: {
-    confirmDate(date) {
-      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
-    },
     confirmStatus(status) {
       return convertStatus(status);
     }
@@ -469,6 +470,10 @@ export default {
 
   methods: {
 
+    confirmDate(date) {
+      return `${toLocal(date, 'dddd, MMMM Do [at] h:mm a')} (${moment.tz(moment.tz.guess()).format('z')})`;
+    },
+
     checkPastAppointment() {
       return this.userType === 'patient'
         ? moment.utc(this.appointment.currentDate).local().diff(moment(), 'hours') > 4
@@ -508,6 +513,8 @@ export default {
         } else {
           this.isLoadingDays = false;
         }
+      }).catch(error => {
+
       });
     },
 
@@ -963,6 +970,7 @@ export default {
     setupAppointments(list) {
       const zone = this.$root.addTimezone();
       const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
+
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');
