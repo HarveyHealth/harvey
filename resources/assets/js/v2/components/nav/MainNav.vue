@@ -24,12 +24,10 @@
 </template>
 
 <script>
-import { Util } from '../base';
+import { SvgIcon } from 'icons';
 
 export default {
-  components: {
-    SvgIcon: Util.SvgIcon
-  },
+  components: { SvgIcon },
   props: {
     context: String
   },

@@ -102,17 +102,19 @@
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import { ButtonInput, FacebookSignin } from 'inputs';
+import { SlideIn } from 'layout';
+import { SvgIcon } from 'icons';
 import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
-    ButtonInput: Inputs.ButtonInput,
-    FacebookSignin: Inputs.FacebookSignin,
+    ButtonInput,
+    FacebookSignin,
     LoadingGraphic,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
+    SlideIn,
+    SvgIcon
   },
   data() {
     return {

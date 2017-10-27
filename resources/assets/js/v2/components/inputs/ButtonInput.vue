@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Util from '../util/index.js';
+import { Loading } from 'feedback';
 
 export default {
   props: {
@@ -34,7 +34,7 @@ export default {
     width: String
   },
   components: {
-    Loading: Util.Loading
+    Loading
   },
   data() {
     return {

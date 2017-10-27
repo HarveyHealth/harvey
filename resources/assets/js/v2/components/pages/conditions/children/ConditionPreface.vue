@@ -18,10 +18,13 @@
 </template>
 
 <script>
-import components from 'components';
+import { ButtonInput } from 'inputs';
+import { SlideIn, Space } from 'layout';
+import { SvgIcon } from 'icons';
+import { Paragraph, Heading1 } from 'typography';
 
 export default {
-  components,
+  components: { ButtonInput, SlideIn, Space, SvgIcon, Paragraph, Heading1 },
   data() {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Continue</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'

@@ -6,14 +6,14 @@
 </template>
 
 <script>
-  import Shared from '../../v2/components/shared';
+  import { MainNav } from 'nav';
   import Signup from './children/Signup.vue';
   import Welcome from './children/Welcome.vue';
 
   export default {
     name: 'get-started',
     components: {
-      MainNav: Shared.MainNav,
+      MainNav,
       Signup,
       Welcome
     },

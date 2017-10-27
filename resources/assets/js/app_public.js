@@ -23,7 +23,7 @@ import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
-import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
+import { FacebookSignin } from 'inputs';
 
 // for environment conditionals
 const env = require('get-env')();

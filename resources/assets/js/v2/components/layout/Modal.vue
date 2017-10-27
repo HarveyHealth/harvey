@@ -17,9 +17,12 @@
 </template>
 
 <script>
-import { Util } from '../base';
+import { SlideIn } from 'layout';
+
 export default {
-  components: { SlideIn: Util.SlideIn },
+  components: {
+    SlideIn
+  },
   props: {
     // Whether the modal is open or not
     active: {

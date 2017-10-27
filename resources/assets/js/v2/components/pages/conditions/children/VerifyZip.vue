@@ -46,10 +46,13 @@
 </template>
 
 <script>
-import components from 'components';
+import { ButtonInput, MultiInput } from 'inputs';
+import { Heading1, Paragraph } from 'typography';
+import { SlideIn, Space } from 'layout';
+import { SvgIcon } from 'icons';
 
 export default {
-  components,
+  components: { ButtonInput, Heading1, MultiInput, Paragraph, SlideIn, Space, SvgIcon },
   methods: {
     reEnterZip() {
       App.setState('wasRequested.zip', false);

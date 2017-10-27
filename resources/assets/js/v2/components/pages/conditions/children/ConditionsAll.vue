@@ -14,6 +14,11 @@
 </template>
 
 <script>
-import components from 'components';
-export default { components };
+import { Row, Column, Space } from 'layout';
+import { Paragraph } from 'typography';
+import { SvgIcon } from 'icons';
+
+export default {
+  components: { Row, Column, Space, Paragraph, SvgIcon }
+};
 </script>

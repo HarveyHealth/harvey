@@ -34,10 +34,12 @@
 </template>
 
 <script>
-import components from 'components';
+import { Heading1 } from 'typography';
+import { SvgIcon } from 'icons';
+import { SlideIn, Column, Row } from 'layout';
 
 export default {
-  components,
+  components: { SvgIcon, SlideIn, Heading1, Column, Row },
   data() {
     return {
       hasAnswered: 0

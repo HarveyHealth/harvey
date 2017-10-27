@@ -6,7 +6,7 @@
       <div class="center mw8 pa3 pa4-m">
         <div class="center mw6 tc">
           <div class="center mw4">
-            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
+            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
           </div>
           <Space isBottom :size="3" />
           <Heading1 isLight>Personalized for better health.</Heading1>
@@ -29,20 +29,24 @@
 </template>
 
 <script>
-import components from 'components';
+import { Heading1, Paragraph } from 'typography';
+import { Space } from 'layout';
+import { SvgIcon } from 'icons';
+import { MainNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
 import VerifyZip from './children/VerifyZip';
 
-components.ConditionQuestions = ConditionQuestions;
-components.ConditionPreface = ConditionPreface;
-components.ConditionsAll = ConditionsAll;
-components.VerifyZip = VerifyZip;
-
 export default {
   name: 'conditions',
-  components,
+  components: {
+    MainNav, Heading1, Paragraph, Space, SvgIcon,
+    ConditionQuestions,
+    ConditionPreface,
+    ConditionsAll,
+    VerifyZip
+  },
   data() {
     return {
       imgStyles: 'display: inline-block; max-width: 80px; margin: 8px; vertical-align: middle;'
