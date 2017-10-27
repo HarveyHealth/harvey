@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\SoapNote;
+use App\Models\{Patient, SoapNote};
 use App\Transformers\V1\SoapNoteTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
