@@ -13,8 +13,8 @@
                     </div>
                 </div>
             </div>
-            <div v-if="items.length === 0">
-                {{ emptyMessage }}
+            <div class="full-width" v-if="items.length === 0">
+                <p class="timeline-empty-message">{{ emptyMessage }}</p>
             </div>
         </div>
         <div v-if="loading">
@@ -90,5 +90,10 @@ export default {
     }
     .timeline-height {
         height: 80px;
+    }
+    .timeline-empty-message {
+        text-align: center;
+        font-size: 1.2rem !important;
+        color: #EDA1A6 !important;
     }
 </style>
