@@ -13,6 +13,7 @@ export default {
   computed: {
     styles() {
       return {
+        'dark-gray': !this.isLight,
         'Heading1': true,
         'f3': this.doesExpand,
         'f2': !this.doesExpand,
