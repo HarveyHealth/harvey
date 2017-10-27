@@ -33,6 +33,8 @@
 
 <script>
 import axios from 'axios';
+import { capitalize } from 'lodash';
+import moment from 'moment';
 export default {
     props: {
       patient: Object
