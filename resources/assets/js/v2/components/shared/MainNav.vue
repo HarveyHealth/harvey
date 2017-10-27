@@ -23,6 +23,40 @@
   </div>
 </template>
 
+<script>
+import { Util } from '../base';
+
+export default {
+  components: {
+    SvgIcon: Util.SvgIcon
+  },
+  props: {
+    context: String
+  },
+  data() {
+    return {
+      isOpen: false,
+    }
+  },
+  computed: {
+    classes() {
+      return `MainNav${this.context ? '--' + this.context : ''} ${this.isOpen ? 'is-open' : ''}`;
+    },
+    menuClass() {
+      return `fa ${this.isOpen ? 'fa-close' : 'fa-bars'}`;
+    },
+    showMenu () {
+      return this.context === 'conditions'
+    }
+  },
+  methods: {
+    toggleMenu() {
+      return this.isOpen = !this.isOpen;
+    }
+  }
+}
+</script>
+
 <style scoped>
   @media screen and (max-width: 767px) {
     .is-hidden-mobile {
@@ -121,39 +155,4 @@
     height: 2.285em;
     line-height: 1.5;
   }
-
 </style>
-
-<script>
-import { Util } from '../base';
-
-export default {
-  components: {
-    SvgIcon: Util.SvgIcon
-  },
-  props: {
-    context: String
-  },
-  data() {
-    return {
-      isOpen: false
-    };
-  },
-  computed: {
-    classes() {
-      return `MainNav${this.context ? '--' + this.context : ''} ${this.isOpen ? 'is-open' : ''}`;
-    },
-    menuClass() {
-      return `fa ${this.isOpen ? 'fa-close' : 'fa-bars'}`;
-    },
-    showMenu () {
-      return this.context === 'conditions';
-    }
-  },
-  methods: {
-    toggleMenu() {
-      return this.isOpen = !this.isOpen;
-    }
-  }
-};
-</script>

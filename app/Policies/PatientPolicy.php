@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class PatientPolicy
 {
     use HandlesAuthorization;
-    
+
     /**
      * @param User $user
      * @param      $ability
@@ -17,11 +17,9 @@ class PatientPolicy
      */
     public function before(User $user, $ability)
     {
-        if ($user->isAdmin()) {
-            return true;
-        }
+        return $user->isAdmin() ?: null;
     }
-    
+
     /**
      * @param User    $user
      * @param Patient $patient
@@ -29,20 +27,9 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $user->id == $patient->user_id;
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
-    /**
-     * Determine whether the user can create patients.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
-    {
-        //
-    }
-    
     /**
      * @param User    $user
      * @param Patient $patient
@@ -50,18 +37,42 @@ class PatientPolicy
      */
     public function update(User $user, Patient $patient)
     {
-        return $user->id == $patient->user_id;
+        return $patient->user->is($user) || $user->isPractitioner();
     }
 
     /**
-     * Determine whether the user can delete the patient.
+     * Determine whether the user can store an Attachment to the patient.
      *
      * @param  \App\User  $user
      * @param  \App\Patient  $patient
      * @return mixed
      */
-    public function delete(User $user, Patient $patient)
+    public function storeAttachment(User $user, Patient $patient)
     {
-        //
+        return $user->is($patient->user) || $user->isPractitioner();
+    }
+
+    /**
+     * Determine whether the user can store a Prescription to the patient.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
+     * @return mixed
+     */
+    public function storePrescription(User $user, Patient $patient)
+    {
+        return $user->is($patient->user) || $user->isPractitioner();
+    }
+
+    /**
+     * Determine whether the user can store a SoapNote to the patient.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Patient  $patient
+     * @return mixed
+     */
+    public function storeSoapNote(User $user, Patient $patient)
+    {
+        return $user->is($patient->user) || $user->isPractitioner();
     }
 }

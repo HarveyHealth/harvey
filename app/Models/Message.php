@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Carbon;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
-use App\Models\User;
+use Carbon;
 
 class Message extends Model
 {
@@ -117,6 +116,11 @@ class Message extends Model
     public function scopeCreatedAfter(Builder $builder, Carbon $date)
     {
         return $builder->where('created_at', '>', $date);
+    }
+
+    public function scopeCreatedBefore(Builder $builder, Carbon $date)
+    {
+        return $builder->where('created_at', '<', $date);
     }
 
     public function scopeIdGreaterThan(Builder $builder, int $id)

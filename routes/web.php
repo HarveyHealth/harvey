@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Routing\Controller;
 
 /*
@@ -50,9 +51,6 @@ Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
 Route::get('/conditions/{condition?}', 'PagesController@getConditions');
 
-// INTAKE
-// Route::get('/intake', 'IntakeController@index')->name('intake');
-
-if (\App::environment(['local'])) {
-	Route::get('test', 'TestController@index');
+if (isLocal()) {
+    Route::get('test', 'TestController@index');
 }

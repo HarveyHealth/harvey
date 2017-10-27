@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class AppointmentTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = ['patient', 'practitioner'];
+    protected $availableIncludes = ['patient', 'practitioner', 'discount_code'];
 
     /**
      * @param Appointment $appointment
@@ -16,14 +16,15 @@ class AppointmentTransformer extends TransformerAbstract
     public function transform(Appointment $appointment)
     {
         return [
-            'id' => (string) $appointment->id,
+            'id' => cast_to_string($appointment->id),
             'appointment_at' => $appointment->appointment_at,
-            'duration_in_minutes' => is_null($appointment->duration_in_minutes) ? null : (string) $appointment->duration_in_minutes,
+            'discount_code_id' => cast_to_string($appointment->discount_code_id),
+            'duration_in_minutes' => cast_to_string($appointment->duration_in_minutes),
             'google_meet_link' => $appointment->google_meet_link,
-            'patient_id' => (string) $appointment->patient_id,
-            'practitioner_id' => (string) $appointment->practitioner_id,
-            'practitioner_name' => (string) $appointment->practitioner->user->full_name,
-            'reason_for_visit' => (string) $appointment->reason_for_visit,
+            'patient_id' => cast_to_string($appointment->patient_id),
+            'practitioner_id' => cast_to_string($appointment->practitioner_id),
+            'practitioner_name' => cast_to_string($appointment->practitioner->user->full_name),
+            'reason_for_visit' => cast_to_string($appointment->reason_for_visit),
             'status' => $appointment->status,
         ];
     }
@@ -53,4 +54,16 @@ class AppointmentTransformer extends TransformerAbstract
             new PractitionerTransformer()
         )->setResourceKey('practitioners');
     }
+
+    /**
+     * @param Appointment $appointment
+     * @return mixed
+     */
+    public function includeDiscountCode(Appointment $appointment)
+    {
+        if ($discount_code = $appointment->discountCode) {
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+        }
+    }
+
 }

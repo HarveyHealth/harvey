@@ -10,6 +10,11 @@ indent_size = 4
 indent_style = space
 indent_size = 4
 
+# Indentation for style sheets
+[*.scss]
+indent_style = space
+indent_size = 4
+
 # Indentation for all PHP files
 [*.php]
 indent_style = space

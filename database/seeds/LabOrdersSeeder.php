@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\{LabOrder, LabTest, SKU};
+use App\Models\{LabOrder, LabTest, LabTestResult, SKU};
 use Illuminate\Database\Seeder;
 
 class LabOrdersSeeder extends Seeder
@@ -20,6 +20,11 @@ class LabOrdersSeeder extends Seeder
                 'lab_order_id' => $labOrder->id,
                 'sku_id' => $SKUs->pop()->id,
             ]);
+            if (maybe()) {
+                factory(LabTestResult::class)->create([
+                    'lab_test_id' => $labTest->id,
+                ]);
+            }
         }
     }
 }

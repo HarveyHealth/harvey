@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6379a12e4c5c0190dc8d73213c9524ff",
+    "content-hash": "cc81be8ab507d7f2c85c951fda1e3968",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.31",
+            "version": "3.36.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e"
+                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
-                "reference": "e3135c1f6bc797ca0e0fbba7b2a27faae4e09d5e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/adc4e9928730cb65b9b7914084cbf1d8c988419a",
+                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-10-20T16:43:56+00:00"
+            "time": "2017-10-26T20:45:00+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.30",
+            "version": "v0.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "a7d43aa8748d74e7a8fd1617e4ec9e7af4974bec"
+                "reference": "81eded7af428ae49e1ba8ddb44689fa5995d9bb5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/a7d43aa8748d74e7a8fd1617e4ec9e7af4974bec",
-                "reference": "a7d43aa8748d74e7a8fd1617e4ec9e7af4974bec",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/81eded7af428ae49e1ba8ddb44689fa5995d9bb5",
+                "reference": "81eded7af428ae49e1ba8ddb44689fa5995d9bb5",
                 "shasum": ""
             },
             "require": {
@@ -1565,7 +1565,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-10-14T00:23:32+00:00"
+            "time": "2017-10-21T00:23:31+00:00"
         },
         {
             "name": "google/auth",
@@ -2515,16 +2515,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.15.6",
+            "version": "0.15.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "91742543c25fecedc84a4883d2919213e04a73b7"
+                "reference": "36d82f166e441dfa28643f8d01dd8bdd3a579adf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/91742543c25fecedc84a4883d2919213e04a73b7",
-                "reference": "91742543c25fecedc84a4883d2919213e04a73b7",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/36d82f166e441dfa28643f8d01dd8bdd3a579adf",
+                "reference": "36d82f166e441dfa28643f8d01dd8bdd3a579adf",
                 "shasum": ""
             },
             "require": {
@@ -2580,7 +2580,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2017-08-08T11:47:33+00:00"
+            "time": "2017-10-26T15:41:07+00:00"
         },
         {
             "name": "league/event",
@@ -2764,22 +2764,23 @@
         },
         {
             "name": "league/fractal",
-            "version": "0.15.0",
+            "version": "0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/fractal.git",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5"
+                "reference": "a0b350824f22fc2fdde2500ce9d6851a3f275b0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/0546bd5c2aba414ba50c6ac676f507d42c6150a5",
-                "reference": "0546bd5c2aba414ba50c6ac676f507d42c6150a5",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/a0b350824f22fc2fdde2500ce9d6851a3f275b0e",
+                "reference": "a0b350824f22fc2fdde2500ce9d6851a3f275b0e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4"
             },
             "require-dev": {
+                "doctrine/orm": "^2.5",
                 "illuminate/contracts": "~5.0",
                 "mockery/mockery": "~0.9",
                 "pagerfanta/pagerfanta": "~1.0.0",
@@ -2823,7 +2824,7 @@
                 "league",
                 "rest"
             ],
-            "time": "2016-12-28T01:30:30+00:00"
+            "time": "2017-06-12T11:04:56+00:00"
         },
         {
             "name": "league/oauth1-client",
@@ -3465,16 +3466,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa"
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/34a7699e6f31b1ef4035ee36444407cecf9f56aa",
-                "reference": "34a7699e6f31b1ef4035ee36444407cecf9f56aa",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
+                "reference": "f4b6a522dfa1fd1e477c9cfe5909d5b31f098c0b",
                 "shasum": ""
             },
             "require": {
@@ -3553,7 +3554,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2017-06-05T06:31:10+00:00"
+            "time": "2017-10-23T05:04:54+00:00"
         },
         {
             "name": "predis/predis",
@@ -4012,25 +4013,25 @@
         },
         {
             "name": "spatie/fractalistic",
-            "version": "1.0.2",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/fractalistic.git",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9"
+                "reference": "f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
-                "reference": "59a2e7dfbd49e58b7de7d5621c1e7365786809f9",
+                "url": "https://api.github.com/repos/spatie/fractalistic/zipball/f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e",
+                "reference": "f9e7fc7a5bbd3ef3dcc611612d656e0aad8b961e",
                 "shasum": ""
             },
             "require": {
-                "league/fractal": "^0.14.0|^0.15.0",
+                "league/fractal": "^0.17.0",
                 "php": "^5.6|^7.0"
             },
             "require-dev": {
-                "illuminate/pagination": "^5.3",
-                "phpunit/phpunit": "^5.7"
+                "illuminate/pagination": "~5.3.0|~5.4.0",
+                "phpunit/phpunit": "^5.7.21"
             },
             "type": "library",
             "autoload": {
@@ -4059,33 +4060,43 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-01-19T20:51:03+00:00"
+            "time": "2017-09-08T08:26:54+00:00"
         },
         {
             "name": "spatie/laravel-fractal",
-            "version": "3.5.0",
+            "version": "4.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-fractal.git",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254"
+                "reference": "445364122d4e6d6da6f599939962e689668c2b5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/16689b0ce340bc139ba767f0bf2904e4eab2b254",
-                "reference": "16689b0ce340bc139ba767f0bf2904e4eab2b254",
+                "url": "https://api.github.com/repos/spatie/laravel-fractal/zipball/445364122d4e6d6da6f599939962e689668c2b5f",
+                "reference": "445364122d4e6d6da6f599939962e689668c2b5f",
                 "shasum": ""
             },
             "require": {
                 "illuminate/contracts": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
                 "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
                 "php": "^5.6|^7.0",
-                "spatie/fractalistic": "^1.0"
+                "spatie/fractalistic": "^2.5"
             },
             "require-dev": {
                 "orchestra/testbench": "~3.2.0|3.3.0|~3.4.0",
                 "phpunit/phpunit": "^5.7.5"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Fractal\\FractalServiceProvider"
+                    ],
+                    "aliases": {
+                        "Fractal": "Spatie\\Fractal\\FractalFacade"
+                    }
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Spatie\\Fractal\\": "src"
@@ -4106,7 +4117,7 @@
                     "role": "Developer"
                 }
             ],
-            "description": "A Fractal service provider for Laravel and Lumen",
+            "description": "An easy to use Fractal integration for Laravel applications",
             "homepage": "https://github.com/spatie/laravel-fractal",
             "keywords": [
                 "api",
@@ -4117,7 +4128,7 @@
                 "spatie",
                 "transform"
             ],
-            "time": "2017-02-21T23:17:02+00:00"
+            "time": "2017-08-22T17:52:05+00:00"
         },
         {
             "name": "stripe/stripe-php",
@@ -5262,16 +5273,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.15.2",
+            "version": "5.15.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "39dd4ae7e2d8b8ae33e5aa80d67cf55bcc2fd5d2"
+                "reference": "3d89aabdf3f7bec20aeb3850562db17bd46ff7f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/39dd4ae7e2d8b8ae33e5aa80d67cf55bcc2fd5d2",
-                "reference": "39dd4ae7e2d8b8ae33e5aa80d67cf55bcc2fd5d2",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/3d89aabdf3f7bec20aeb3850562db17bd46ff7f9",
+                "reference": "3d89aabdf3f7bec20aeb3850562db17bd46ff7f9",
                 "shasum": ""
             },
             "require": {
@@ -5304,7 +5315,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-10-13T22:01:55+00:00"
+            "time": "2017-10-20T22:58:45+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
