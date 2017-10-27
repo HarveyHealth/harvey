@@ -3,17 +3,17 @@
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subject</label>
-            <textarea v-model="subjective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="subjectiveTextarea" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
-            <textarea v-model="objective" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="objectiveTextarea" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <textarea v-model="assessment" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
+            <textarea v-model="assessmentTextarea" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
         </div>
 
         <div class="soap-divider">
@@ -22,25 +22,27 @@
 
         <div class="top-soap-note">
             <label name="Treatment" class="card-header top-header">Plan/Treatment</label>
-            <textarea v-model="plan" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea v-model="planTextarea" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="inline-centered padding15">
-            <button @click="createSoapNote()" :disabled="!subjective || !objective || !assessment || !plan" class="button margin35">Save Changes</button>
+            <button @click="createSoapNote()" :disabled="!subjectiveTextarea || !objectiveTextarea || !assessmentTextarea || !planTextarea" class="button margin35">Save Changes</button>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { isEmpty } from 'lodash';
 export default {
     props: {
       patient: Object
     },
     data() {
       return {
-          
+          subjectiveTextarea: '',
+          objectiveTextarea: '',
+          assessmentTextarea: '',
+          planTextarea: ''
       };
   },
   methods: {
@@ -55,19 +57,40 @@ export default {
               this.$parent.soap_notes[response.data.data.id] = response.data.data;
               this.$parent.timeline.push(response.data.data);
           });
+      },
+      setTextareas() {
+          let self = this;
+          return {
+              subjective: (data) => {
+                  self.subjectiveTextarea = data;
+              },
+              objective: (data) => {
+                  self.objectiveTextarea = data;
+              },
+              assessment: (data) => {
+                  self.assessmentTextarea = data;
+              },
+              plan: (data) => {
+                  self.planTextarea = data;
+              }
+          };
       }
     },
     computed: {
         subjective() {
+            this.setTextareas().subjective(this.$parent.news ? '' : this.$parent.propData.attributes.subjective);
             return this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
         },
         objective() {
+            this.setTextareas().objective(this.$parent.news ? '' : this.$parent.propData.attributes.objective);
             return this.$parent.news ? '' : this.$parent.propData.attributes.objective;
         },
         assessment() {
+            this.setTextareas().assessment(this.$parent.news ? '' : this.$parent.propData.attributes.assessment);
             return this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
         },
         plan() {
+            this.setTextareas().plan(this.$parent.news ? '' : this.$parent.propData.attributes.plan);
             return this.$parent.news ? '' : this.$parent.propData.attributes.plan;
         }
     }
