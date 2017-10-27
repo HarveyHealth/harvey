@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\{Appointment, User, LabTest, LabOrder, Message};
+use App\Models\{Appointment, Attachment, User, LabTest, LabOrder, Message};
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        foreach ([Appointment::class, User::class, LabTest::class, LabOrder::class, Message::class] as $model) {
+        foreach ([Appointment::class, User::class, LabTest::class, LabOrder::class, Message::class, Attachment::class] as $model) {
             $model::flushEventListeners();
         }
 
@@ -21,11 +21,14 @@ class DatabaseSeeder extends Seeder
         } else {
             $this->call(PractitionerTypesSeeder::class);
             $this->call(UserSeeder::class);
-            $this->call(TestsTableSeeder::class);
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
             $this->call(LabOrdersSeeder::class);
             $this->call(MessagesSeeder::class);
+            $this->call(DiscountCodesSeeder::class);
+            $this->call(AttachmentsSeeder::class);
+            $this->call(PrescriptionsSeeder::class);
+            $this->call(SoapNotesSeeder::class);
 
             $this->command->getOutput()->writeln('Seeding Successful!');
             $this->command->getOutput()->writeln('');

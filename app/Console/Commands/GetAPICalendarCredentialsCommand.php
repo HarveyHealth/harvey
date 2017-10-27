@@ -25,7 +25,7 @@ class GetAPICalendarCredentialsCommand extends Command
             $clientSecret = Storage::disk('s3')->get('calendar/client_secret.json');
             file_put_contents('storage/calendar_api/client_secret.json', $clientSecret);
 
-            $this->info('Harvey Google Calendar API credentials successfully!');
+            $this->info('Harvey Google Calendar API credentials downloaded successfully!');
         } catch (Exception $e) {
             $this->error("Unable to download passport keys. {$e->getMessage()}");
             throw new Exception($e);

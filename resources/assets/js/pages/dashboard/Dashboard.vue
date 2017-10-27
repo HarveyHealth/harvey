@@ -3,7 +3,7 @@
     <div class="main-content">
       <div class="main-header">
         <div class="container container-backoffice">
-          <h1 class="heading-1">{{ Config.user.isAdmin && 'Admin' }} Dashboard</h1>
+          <h1 class="heading-1">{{ Config.user.isAdmin ? 'Admin' : '' }} Dashboard</h1>
         </div>
       </div>
       <div class="card-wrapper">
