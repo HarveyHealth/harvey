@@ -107,7 +107,7 @@
                     <Timeline 
                         :index="index" 
                         :items="timelineData" 
-                        :emptyMessage="`No Records for this patient`"
+                        :emptyMessage="`No records for this patient`"
                         :loading="loading" />
                   </div>
                 </Flyout>
