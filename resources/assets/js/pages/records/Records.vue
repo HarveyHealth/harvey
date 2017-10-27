@@ -41,7 +41,7 @@
            <div v-if="$root.$data.permissions !== 'patient'">
             <div class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </div>
             <div class="records-button-container">
               <button @click="newSoapNote" class="button soat-button">SOAP Note</button>
