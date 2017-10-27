@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ButtonInput from './ButtonInput';
+import ButtonInput from './ButtonInput.vue';
 
 export default {
   props: {
