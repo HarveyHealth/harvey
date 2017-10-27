@@ -215,7 +215,7 @@ export default {
                                 this.prescriptions[e.id] = e :
                             null;
                             let object = {};
-                            object.doctor = e.attributes.doctor || "No Doctor";
+                            object.doctor = e.attributes.doctor_name || "No Doctor";
                             object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
                             object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
                             object.id = e.id;
@@ -276,7 +276,7 @@ export default {
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.target].bind(this, e.data, i);
+                    e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
                     return e;
                 });
                 return arrays;
