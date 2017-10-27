@@ -48,8 +48,8 @@ mix.webpackConfig({
         alias: {
             moment$: 'moment/moment.js',
             sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
-            base: path.resolve(__dirname, 'resources/assets/js/v2/components/base/index.js'),
-            shared: path.resolve(__dirname, 'resources/assets/js/v2/components/shared')
+            shared: path.resolve(__dirname, 'resources/assets/js/v2/components/shared'),
+            components: path.resolve(__dirname, 'resources/assets/js/v2/components/components.js')
         },
     },
     plugins: [

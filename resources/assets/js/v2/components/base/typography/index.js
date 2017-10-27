@@ -1,5 +1,5 @@
-import Copy from './Copy';
+import Paragraph from './Paragraph';
 
 export default {
-  Copy
+  Paragraph
 }

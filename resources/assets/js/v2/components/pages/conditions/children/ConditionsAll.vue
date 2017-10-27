@@ -12,17 +12,6 @@
 </template>
 
 <script>
-import { Layout, Util } from 'base';
-
-export default {
-  components: {
-    Column: Layout.Column,
-    Row: Layout.Row,
-    SvgIcon: Util.SvgIcon
-  }
-};
+import components from 'components';
+export default { components };
 </script>
-
-<style lang="scss" scoped>
-
-</style>
