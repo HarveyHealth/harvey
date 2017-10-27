@@ -38,22 +38,23 @@ class DiscoveryPage extends BasePage
         $browser->assertPathIs($this->url());
     }
 
-    //**** Below functions test zipcode location logic
     public function regulatedNoStates(Browser $browser)
     {
-      $browser->toZip()
-              ->type('@box1', '3') //32035
-              ->type('@box2', '2')
-              ->type('@box3', '0')
-              ->type('@box4', '3')
-              ->type('@box5', '5')
+      $zips = $browser->zipRand($this->regulatedNoStates);
+
+      $browser->toZipForm()
+              ->type('@box1', $zips[0])
+              ->type('@box2', $zips[1])
+              ->type('@box3', $zips[2])
+              ->type('@box4', $zips[3])
+              ->type('@box5', $zips[4])
               ->click('@verify')
               ->waitForText($this->noService)
               ->assertSee($this->noService);
     }
 
 
-        public function toZip(Browser $browser)
+        public function toZipForm(Browser $browser)
         {
           $browser->click('@allergies')
                   ->press('Continue')

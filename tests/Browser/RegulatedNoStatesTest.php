@@ -16,10 +16,11 @@ class RegulatedNoStatesTest extends DuskTestCase
      *
      * @return void
      */
+
+
+
     public function test_if_user_is_sent_to_no_service_page()
     {
-        $user = factory(User::class)->make();
-
         $this->browse(function (Browser $browser) {
            $browser->visit(new DiscoveryPage)
                    ->regulatedNoStates();
