@@ -73,7 +73,7 @@ class PatientTest extends TestCase
         $response->assertStatus(200);
 
         // And they see their birthdate
-        $response->assertJsonFragment(['birthdate' => '1950-09-30']);
+        $response->assertJsonFragment(['birthdate' => ["date" => "1950-09-30 00:00:00.000000", "timezone" => "UTC", "timezone_type" => 3]]);
     }
 
     public function test_a_patient_can_modify_their_patient_data()
@@ -92,7 +92,7 @@ class PatientTest extends TestCase
         $response->assertStatus(200);
 
         // And they see their birthdate in the response as well as the database
-        $response->assertJsonFragment(['birthdate' => '1999-01-01']);
+        $response->assertJsonFragment(['birthdate' => ["date" => "1999-01-01 00:00:00.000000", "timezone" => "UTC", "timezone_type" => 3]]);
         $this->assertDatabaseHas('patients', ['birthdate' => '1999-01-01']);
     }
 
