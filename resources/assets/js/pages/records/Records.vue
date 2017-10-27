@@ -132,6 +132,7 @@ import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
 import axios from 'axios';
 import { capitalize } from 'lodash';
+import moment from 'moment';
 export default {
     name: 'Records',
     components: {
@@ -202,6 +203,7 @@ export default {
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
                 .then(response => {
+                    console.log(`RESPONSE`, response)
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e) => {
@@ -213,11 +215,9 @@ export default {
                                 this.prescriptions[e.id] = e :
                             null;
                             let object = {};
-                            object.doctor = "Dr. Amanda Frick, ND";
-                            object.date = "Wednesday, July 26th 2017";
-                            object.target = e.type.split('_').map(e => capitalize(e)).join(' ');
-                            // object.type = e.attributes.name + ' ' + object.target;
-                            object.type = object.target;
+                            object.doctor = e.attributes.doctor || "No Doctor";
+                            object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                            object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
