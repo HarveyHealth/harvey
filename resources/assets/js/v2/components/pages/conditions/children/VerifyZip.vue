@@ -26,15 +26,16 @@
     </SlideIn>
     <div v-if="State('conditions.zipValidation.is_serviceable') === false">
       <SlideIn>
-        <Heading1 isLight>Unfortunately, we cannot service patients in your state yet.</Heading1>
+        <Heading1 isLight doesExpand>Unfortunately, we cannot service patients in your state yet.</Heading1>
         <Space isBottom :size="4" />
         <Paragraph isLight>We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</Paragraph>
         <Space isBottom :size="4" />
         <a href="#" class="white" @click="reEnterZip">
-          <i class="fa fa-undo margin-right-xs"></i> Try Again
+          <i class="fa fa-undo"></i><Space isRight :size="3" />Try Again
         </a>
+        <Space isBottom :size="4" />
         <div>
-          <a class="social-icon white" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
+          <a class="social-icon f2 white" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
             <i :class="icon.class"></i>
           </a>
         </div>
