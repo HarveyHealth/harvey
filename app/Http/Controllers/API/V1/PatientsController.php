@@ -27,7 +27,14 @@ class PatientsController extends BaseAPIController
     public function index()
     {
         if (auth()->user()->isAdminOrPractitioner()) {
-            return $this->baseTransformBuilder(Patient::make()->with('user'), request('include'), $this->transformer, request('per_page'))->respond();
+            $term = request('term');
+            $builder = Patient::make()->with('user');
+
+            if ($term) {
+                $builder = $builder->whereIn('id', Patient::search($term)->get()->pluck('id'));
+            }
+
+            return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
         }
 
         return $this->respondNotAuthorized('You are not authorized to access this patient.');

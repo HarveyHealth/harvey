@@ -2,15 +2,14 @@
   <div>
     <span v-if="isLoading" v-html="loadingMsg"></span>
     <span v-else :class="$$selectionClasses" :data-detached-label="detachedLabel">
-      <select :value="selected" @change="onSelect($event)" :disabled="isDisabled">
-        <option v-if="$$hasAttachedLabel" disabled value="">{{ attachedLabel }}</option>
-        <option v-if="!isRequired"></option>
-        <option v-for="item in options">{{ item.value }}</option>
-      </select>
+        <select :value="selected" @change="onSelect($event)" :disabled="isDisabled">
+            <option v-if="$$hasAttachedLabel" disabled value="">{{ attachedLabel }}</option>
+            <option v-if="!isRequired"></option>
+            <option v-for="item in options">{{ item.value }}</option>
+        </select>
     </span>
   </div>
 </template>
-
 <script>
 export default {
   props: {

@@ -7,11 +7,14 @@
   >
     <div class="input__container">
         <label class="input__label" for="patient_name">Client</label>
-        <span class="custom-select">
-            <select @change="updateClient($event)">
-                <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
-            </select>
-        </span>
+        <autocomplete
+            anchor="search_name"
+            label=false
+            url=true
+            :onShouldGetData="getData"
+            :on-select="handlePatientSelect"
+        >
+        </autocomplete>
     </div>
     <div class="input__container">
       <label class="input__label" for="patient_name">Doctor</label>
@@ -70,16 +73,20 @@ import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
 import _ from 'lodash';
+import Autocomplete from '../../../commons/Autocomplete.vue';
+require("../../../../css/vendors/vue2-autocomplete.css");
+
 export default {
   props: {
-    reset: Function, 
+    reset: Function,
     labTests: Object
   },
   name: 'AddLabOrders',
   components: {
     Flyout,
     Modal,
-    SelectOptions
+    SelectOptions,
+    Autocomplete
   },
   data() {
     return {
@@ -106,6 +113,26 @@ export default {
     };
   },
   methods: {
+      getData(value){
+          return new Promise((resolve, reject) => {
+              if (value != ""){
+                  this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                      resolve(patients);
+                  });
+              }
+              else{
+                  resolve([]);
+              }
+          });
+      },
+      handlePatientSelect(obj) {
+
+        //console.log(obj);
+        this.resetting = false;
+        this.selectedClient = obj.id;
+        this.selectedClientName = this.formatName(obj.search_name);
+        //console.log(this.selectedClient);
+      },
     modalClose() {
       this.$parent.addActiveModal = false;
     },
@@ -123,11 +150,7 @@ export default {
     formatName(str) {
       return str.split(', ').reverse().join(' ');
     },
-    updateClient(e) {
-        this.resetting = false;
-        this.selectedClient = e.target.children[e.target.selectedIndex].dataset.id;
-        this.selectedClientName = this.formatName(e.target.value);
-    },
+    
     updateDoctor(e) {
         this.resetting = false;
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
