@@ -203,7 +203,6 @@ export default {
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
                 .then(response => {
-                    console.log(`RESPONSE`, response);
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e) => {
