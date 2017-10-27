@@ -1,17 +1,10 @@
 import './bootstrap';
 import router from './routes';
 
-// FILTERS
-import filter_datetime from './utils/filters/datetime';
-
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
 
-// MIXINS
-import TopNav from './utils/mixins/TopNav';
-
 // COMPONENETS
-import Alert from './commons/Alert.vue';
 import Dashboard from './pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
@@ -21,7 +14,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
-Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
@@ -94,9 +86,7 @@ const Store = store(Laravel, State);
 
 const app = new Vue({
     router,
-    mixins: [TopNav],
     components: {
-        Alert,
         Dashboard,
         Usernav
     },

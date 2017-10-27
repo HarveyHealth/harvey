@@ -25,10 +25,8 @@
 <script>
   import moment from 'moment-timezone';
   import { capitalize, phone, hyperlink } from '../../../utils/filters/textformat.js';
-  import Contact from '../../../utils/mixins/Contact';
 
   export default {
-    mixins: [Contact],
     props: {
         appointment: Object,
         patientData: Object,
