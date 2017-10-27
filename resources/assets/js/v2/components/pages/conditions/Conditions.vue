@@ -8,9 +8,10 @@
           <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
         </div>
         <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <h2 class="main-heading">Personalized for better health.</h2>
-          <Paragraph class="lead-copy">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
+          <h2>Personalized for better health.</h2>
+          <Paragraph>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
         </div>
+        <Space isBottom :size="3" />
         <ConditionsAll class="space-top-lg is-padding-lg" />
       </div>
     </div>

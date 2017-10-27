@@ -14,10 +14,10 @@ export default {
     styles() {
       return {
         'ma0': true,
-        'fw2': this.isThin,
+        'fw2': this.isThin || !this.isBold, // default
         'fw6': this.isBold,
         'white': this.isLight,
-        'dark-gray': this.isError
+        'dark-gray': !this.isLight // default
       }
     }
   }
