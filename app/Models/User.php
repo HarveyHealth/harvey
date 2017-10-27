@@ -99,7 +99,6 @@ class User extends Authenticatable implements Mailable
         }
 
         throw new Exception("Unable to determine type of User ID #{$this->id}.");
-
     }
 
     public function getStateAttribute()
