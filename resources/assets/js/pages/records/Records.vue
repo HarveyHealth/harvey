@@ -217,11 +217,13 @@ export default {
                             let object = {};
                             object.doctor = e.attributes.doctor_name || "No Doctor";
                             object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                            object.original_date = e.attributes.created_at.date;
                             object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
                         });
+                        this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
                     }
                     this.loading = false;
                 });
