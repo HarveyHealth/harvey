@@ -93,7 +93,7 @@ class PatientTest extends TestCase
 
         // And they see their birthdate in the response as well as the database
         $response->assertJsonFragment(['birthdate' => ["date" => "1999-01-01 00:00:00.000000", "timezone" => "UTC", "timezone_type" => 3]]);
-        $this->assertDatabaseHas('patients', ['birthdate' => '1999-01-01']);
+        $this->assertDatabaseHas('patients', ['birthdate' => '1999-01-01 00:00:00']);
     }
 
     public function test_birthdate_should_be_a_valid_date_when_updating()
