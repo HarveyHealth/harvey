@@ -104,7 +104,11 @@
                     </div>
                   </div>
                   <div class="input__container">
-                    <Timeline :index="index" :items="timelineData" />
+                    <Timeline 
+                        :index="index" 
+                        :items="timelineData" 
+                        :emptyMessage="`No Records for this patient`"
+                        :loading="loading" />
                   </div>
                 </Flyout>
 
