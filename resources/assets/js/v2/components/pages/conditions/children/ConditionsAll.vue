@@ -6,7 +6,7 @@
           <SvgIcon :id="condition.image_url" :width="'60px'" :height="'60px'" />
         </div>
         <Space isBottom :size="3" />
-        <Paragraph>{{ condition.name }}</Paragraph>
+        <Paragraph isLight>{{ condition.name }}</Paragraph>
       </a>
       <Space isBottom :size="4" />
     </Column>

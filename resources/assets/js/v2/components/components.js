@@ -9,7 +9,7 @@ import Row from './base/layout/Row.vue';
 import Space from './base/layout/Space.vue';
 
 // typography
-import Heading from './base/typography/Heading.vue';
+import Heading1 from './base/typography/Heading1.vue';
 import Paragraph from './base/typography/Paragraph.vue';
 
 // util
@@ -32,7 +32,7 @@ export default {
   Space,
 
   // typography
-  Heading,
+  Heading1,
   Paragraph,
 
   // util

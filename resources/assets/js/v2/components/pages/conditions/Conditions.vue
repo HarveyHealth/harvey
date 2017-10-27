@@ -3,21 +3,23 @@
     <div class="bg-blue-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
       <MainNav :context="'conditions'" />
-      <div class="margin-0a max-width-xl pad-md color-white">
-        <div class="margin-0a max-width-icon">
-          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
+      <div class="center mw8 pa3 pa4-m">
+        <div class="center mw6 tc">
+          <div class="center mw4">
+            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
+          </div>
+          <Space isBottom :size="3" />
+          <Heading1 isLight>Personalized for better health.</Heading1>
+          <Space isBottom :size="4" />
+          <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
         </div>
-        <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <h2>Personalized for better health.</h2>
-          <Paragraph>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
-        </div>
-        <Space isBottom :size="3" />
-        <ConditionsAll class="space-top-lg is-padding-lg" />
+        <Space isBottom :size="4" />
+        <ConditionsAll />
       </div>
     </div>
     <div v-else>
       <MainNav :context="'questions'" />
-      <div class="margin-0a max-width-lg pad-md color-white">
+      <div class="center mw8 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />

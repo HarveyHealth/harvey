@@ -1,11 +1,11 @@
 <template>
-  <div class="space-children-sm">
-    <div class="block font-centered margin-0a max-width-md">
+  <div>
+    <div class="center db tc mw6">
       <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
-    <div class="margin-0a max-width-md" style="position: relative">
+    <div class="center mw6 relative">
       <button class="Button Button--condition-nav is-left" v-show="goToConditions()">
-        <a href="/conditions" class="color-white">
+        <a href="/conditions" class="white">
           <i class="fa fa-undo"></i> Start Over
         </a>
       </button>
@@ -17,10 +17,10 @@
       </button>
     </div>
     <SlideIn v-for="(obj, qIndex) in State('conditions.condition.questions')" v-if="State('conditions.questionIndex') === qIndex" :key="qIndex">
-      <div class="font-centered margin-0a max-width-md">
-        <p class="heading-1">{{ obj.question }}</p>
+      <div class="center db tc mw6">
+        <Heading1 isLight doesExpand>{{ obj.question }}</Heading1>
       </div>
-      <Row :gutter="'md'" class="space-top-lg is-padding-lg">
+      <Row :gutter="'md'" class="pa4">
         <Column v-for="(answer, aIndex) in obj.answers" :config="{ md: '1of2' }" :key="aIndex">
           <div :class="{'Button Button--answer':true, 'is-selected': answerIndex === aIndex}"
                @click="next(obj.question, answer, aIndex)">
@@ -34,15 +34,10 @@
 </template>
 
 <script>
-import { Layout, Util } from '../../../base';
+import components from 'components';
 
 export default {
-  components: {
-    Column: Layout.Column,
-    Row: Layout.Row,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
-  },
+  components,
   data() {
     return {
       hasAnswered: 0

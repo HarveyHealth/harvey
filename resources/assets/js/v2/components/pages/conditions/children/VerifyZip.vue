@@ -1,15 +1,19 @@
 <template>
-  <div class="font-centered margin-0a max-width-md space-children-lg">
+  <div class="center tc mw6">
     <SvgIcon :id="'map'" :width="'120px'" :height="'120px'" />
-    <SlideIn class="space-children-lg" v-if="!State('conditions.zipValidation')">
-      <p class="heading-1">What is your zip code?</p>
-      <p class="font-lg">Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</p>
+    <Space isBottom :size="4" />
+    <SlideIn v-if="!State('conditions.zipValidation')">
+      <Heading1 isLight>What is your zip code?</Heading1>
+      <Space isBottom :size="4" />
+      <Paragraph isLight>Harvey does not have licensed doctors in every state. Please enter your zip code to verify that we can work together.</Paragraph>
+      <Space isBottom :size="4" />
       <MultiInput
         :auto-focus="true"
         :quantity="5"
         :color="'light'"
         :focus-next="{ refs: $refs, ref: 'submit' }"
         :get-value="zip => setState('conditions.zip', zip)" />
+      <Space isBottom :size="4" />
       <ButtonInput
         :is-disabled="State('conditions.zip').length < 5"
         :is-done="State('wasRequested.zip') && !State('isLoading.zip')"
@@ -21,14 +25,16 @@
         :width="'140px'" />
     </SlideIn>
     <div v-if="State('conditions.zipValidation.is_serviceable') === false">
-      <SlideIn class="space-children-lg">
-        <p class="heading-1">Unfortunately, we cannot service patients in your state yet.</p>
-        <p class="font-lg">We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</p>
-        <a href="#" class="font-md color-white" @click="reEnterZip">
+      <SlideIn>
+        <Heading1 isLight>Unfortunately, we cannot service patients in your state yet.</Heading1>
+        <Space isBottom :size="4" />
+        <Paragraph isLight>We will let you know as soon as we launch in your state. In the meantime, you can follow on us social media for free health tips from our team of Naturopathic Doctors.</Paragraph>
+        <Space isBottom :size="4" />
+        <a href="#" class="white" @click="reEnterZip">
           <i class="fa fa-undo margin-right-xs"></i> Try Again
         </a>
-        <div class="is-paddingless">
-          <a class="color-white inline font-xxl" style="padding: 4%" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
+        <div>
+          <a class="social-icon white" v-for="icon in Config.misc.socialMedia" :href="icon.href" target="_blank">
             <i :class="icon.class"></i>
           </a>
         </div>
@@ -38,15 +44,10 @@
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import components from 'components';
 
 export default {
-  components: {
-    ButtonInput: Inputs.ButtonInput,
-    MultiInput: Inputs.MultiInput,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
-  },
+  components,
   methods: {
     reEnterZip() {
       App.setState('wasRequested.zip', false);
@@ -55,3 +56,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .social-icon {
+    padding: 4%;
+  }
+</style>

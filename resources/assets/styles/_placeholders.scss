@@ -1,7 +1,3 @@
-// === TYPOGRAPHY ============================================================
-
-%copy--default {
-  font-family: $font-family-main;
-  font-size: $font-md;
-  font-weight: $font-thin;
+%font-smooth {
+  -webkit-font-smoothing: antialiased;
 }
