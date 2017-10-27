@@ -122,8 +122,6 @@ class SignUpPage extends BasePage
 
     }
 
-
-
     public function clickSignUp(Browser $browser)
     {
       $browser->waitFor('@signUp')
@@ -160,26 +158,28 @@ class SignUpPage extends BasePage
 
 
     }
-
-    public function addUserRegulatedNoStates(Browser $browser, $user)
-    {
-      $id = array_rand($this->regulatedNoStates, 1);
-      $browser->waitFor('@first_name')
-              ->type('@first_name', $user->first_name)
-              ->type('last_name' , $user->last_name)
-              ->type('email' , $user->email)
-              ->type('zip', $this->regulatedNoStates[$id])
-              ->type('password', bcrypt('secret'))
-              ->checkTerms()
-              ->clickSignUp()
-              ->waitForText("We’re sorry!")
-              ->assertSee("We’re sorry!");
-
-
-
-
-
-    }
+    //
+    // *** Test invalid since we added a discoverpage before the sign up. User can add zipcode there
+    //
+    // public function addUserRegulatedNoStates(Browser $browser, $user)
+    // {
+    //   $id = array_rand($this->regulatedNoStates, 1);
+    //   $browser->waitFor('@first_name')
+    //           ->type('@first_name', $user->first_name)
+    //           ->type('last_name' , $user->last_name)
+    //           ->type('email' , $user->email)
+    //           ->type('zip', $this->regulatedNoStates[$id])
+    //           ->type('password', bcrypt('secret'))
+    //           ->checkTerms()
+    //           ->clickSignUp()
+    //           ->waitForText("Unfortunately, we cannot service patients in your state yet.")
+    //           ->assertSee("Unfortunately, we cannot service patients in your state yet.");
+    //
+    //
+    //
+    //
+    //
+    // }
 
     public function addUserUnregulatedStates(Browser $browser, $user)
     {
@@ -188,7 +188,6 @@ class SignUpPage extends BasePage
               ->type('@first_name', $user->first_name)
               ->type('last_name' , $user->last_name)
               ->type('email' , $user->email)
-              ->type('zip', $this->unRegulatedStates[$id])
               ->type('password', bcrypt('secret'))
               ->checkTerms()
               ->clickSignUp()
@@ -208,8 +207,8 @@ class SignUpPage extends BasePage
                       ->type('password', bcrypt('secret'))
                       ->checkTerms()
                       ->clickSignUp()
-                      ->waitForText('We’re sorry!')
-                      ->assertSee('We’re sorry!');
+                      ->waitForText('Unfortunately, we cannot service patients in your state yet.')
+                      ->assertSee('Unfortunately, we cannot service patients in your state yet.');
 
                     }
 
@@ -358,19 +357,18 @@ class SignUpPage extends BasePage
     {
         return [
             '@element' => '#selector',
-            '@signUp' => '#app > div > form > div > div > div > div.font-centered > button',
+            '@signUp' => '#app > div > div.height-100 > form > div > div > div > div.font-centered > button:nth-child(1)',
             '@continue' => '#app > div > div > div > button',
             '@practitioner' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div:nth-child(1)',
             '@continuePract' => '#app > div > div > div.signup-container.signup-stage-container > div.text-centered > button',
             '@phone_number' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > div.input-wrap > input',
             '@sendText' => '#app > div > div > div.signup-container.signup-phone-container.text-centered > div:nth-child(2) > button',
-            '@first_name' => '#app > div > form > div > div > div > div:nth-child(2) > input',
-            '@last_name' => '#app > div > form > div > div > div > div:nth-child(3) > input',
-            '@email' => '#app > div > form > div > div > div > div:nth-child(4) > input',
-            '@zipcode' => '#app > div > form > div > div > div > div:nth-child(5) > input',
-            '@password' => '#app > div > form > div > div > div > div:nth-child(6) > input',
-            '@terms&conditions' => '#app > div > form > div > div > div > div.input-wrap.last',
-            '@letsGo' => '#app > div > div > div > button',
+            '@first_name' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(2) > input',
+            '@last_name' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(3) > input',
+            '@email' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(4) > input',
+            '@password' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(5) > input',
+            '@terms&conditions' => '#checkbox',
+            '@letsGo' => '#app > div > div.height-100 > form > div > div > div > div.font-centered > button:nth-child(1)',
             '#practitionerSelectOne' => '#app > div > div > div.signup-container.signup-stage-container > div.signup-practitioner-wrapper.cf > div:nth-child(1) > div:nth-child(3) > button'
 
         ];
