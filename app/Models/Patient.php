@@ -23,7 +23,11 @@ class Patient extends Model
         'user_id',
     ];
 
-    protected $dates = ['created_at','updated_at'];
+    protected $dates = [
+        'birthdate',
+        'created_at',
+        'updated_at'
+    ];
 
     protected static function boot()
     {
