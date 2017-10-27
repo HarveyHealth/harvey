@@ -14,7 +14,9 @@ class PrescriptionTransformer extends TransformerAbstract
     {
         return [
             'id' => (string) $prescription->id,
+            'created_at' => $prescription->created_at,
             'created_by_user_id' => (string) $prescription->creator->id,
+            'doctor_name' => $prescription->doctor_name,
             'notes' => $prescription->notes,
             'url' => $prescription->url,
         ];
