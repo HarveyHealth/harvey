@@ -26,7 +26,7 @@
         </div>
 
         <div class="inline-centered padding15">
-            <button @click="createSoapNote()" :disabled="!subjectiveTextarea || !objectiveTextarea || !assessmentTextarea || !planTextarea" class="button margin35">Save Changes</button>
+            <button @click="submit()" :disabled="!subjectiveTextarea || !objectiveTextarea || !assessmentTextarea || !planTextarea" class="button margin35">Save Changes</button>
         </div>
     </div>
 </template>
@@ -48,15 +48,29 @@ export default {
   methods: {
       createSoapNote() {
           axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
-              subjective: this.subjective,
-              objective: this.objective,
-              assessment: this.assessment,
-              plan: this.plan
+              subjective: this.subjectiveTextarea,
+              objective: this.objectiveTextarea,
+              assessment: this.assessmentTextarea,
+              plan: this.planTextarea
           })
           .then(response => {
               this.$parent.soap_notes[response.data.data.id] = response.data.data;
               this.$parent.timeline.push(response.data.data);
           });
+      },
+      editSoapNote() {
+          axios.patch(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
+              subjective: this.subjectiveTextarea,
+              objective: this.objectiveTextarea,
+              assessment: this.assessmentTextarea,
+              plan: this.planTextarea
+          })
+          .then(response => {
+              this.$parent.soap_notes[response.data.data.id] = response.data.data;
+          });
+      },
+      submit() {
+          return this.$parent.news ? createSoapNote() : editSoapNote();
       },
       setTextareas() {
           let self = this;
