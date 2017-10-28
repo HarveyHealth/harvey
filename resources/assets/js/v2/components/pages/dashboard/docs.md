@@ -25,7 +25,8 @@
 - Name, email, phone, availability
 
 ## Components to Build
-- Header [NEW] (can take heading, filters, and/or action)
+- PageContainer [NEW] (for handling the menu open state)
+- PageHeader [NEW] (can take heading, filters, and/or action)
 - Row (refactor with Tachyons)
 - Column (refactor with Tachyons)
 - Card [NEW] (takes heading and slot for children)
