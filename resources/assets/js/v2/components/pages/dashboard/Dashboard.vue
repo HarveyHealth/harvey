@@ -1,33 +1,29 @@
 <template>
   <PageContainer>
     <PageHeader :heading="heading" />
-    <Row2 :at="'large'" :columns="columns">
-      <h3 slot="1" class="bg-blue ma0">First</h3>
-      <Row2 slot="2" :columns="[{'not-small':'2of3'},{'not-small':'1of3'}]" class="bg-black-10">
-        <h4 slot="1" class="bg-red pa3 ma0">Inner</h4>
-        <h4 slot="2" class="pa5 ma0">Second</h4>
-      </Row2>
-    </Row2>
+    <Grid :flexAt="'l'" :columns="[{ l:'1of3' }, { l:'2of3' }]" :gutters="{ s:3 }">
+      <h3 slot="1" class="bg-blue ma0 p4">First</h3>
+      <Grid slot="2" :columns="[{ ns:'2of3' }, { ns:'1of3' }]" :gutters="{ s:3 }">
+        <h4 slot="1" class="bg-red pa2 ma0">Inner</h4>
+        <h4 slot="2" class="bg-yellow pa2 ma0">Second</h4>
+      </Grid>
+    </Grid>
   </PageContainer>
 </template>
 
 <script>
-import { PageHeader, PageContainer, Row2 } from 'layout';
+import { Grid, PageHeader, PageContainer } from 'layout';
 
 export default {
   name: 'dashboard',
   components: {
+    Grid,
     PageHeader,
-    PageContainer,
-    Row2
+    PageContainer
   },
   data() {
     return {
-      heading: `${App.Config.user.isAdmin ? 'Admin ' : ''}Dashboard`,
-      columns: [
-        { large: '1of3' },
-        { large: '2of3' }
-      ]
+      heading: `${App.Config.user.isAdmin ? 'Admin ' : ''}Dashboard`
     }
   },
   mounted() {
