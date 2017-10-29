@@ -125,6 +125,7 @@ const app = new Vue({
         },
 
         getAppointments(cb) {
+            App.setState('appointments.isLoading.upcoming', true);
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
@@ -136,7 +137,11 @@ const app = new Vue({
                 }).catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
-                .then((response) => this.global.upcoming_appointments = response.data)
+                .then((response) => {
+                  this.global.upcoming_appointments = response.data;
+                  // to update v2 Dashboard
+                  App.Http.appointments.getUpcomingResponse(response);
+                })
                 .catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)

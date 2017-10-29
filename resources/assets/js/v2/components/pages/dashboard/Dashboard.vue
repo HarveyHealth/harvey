@@ -6,9 +6,9 @@
       <SlideIn v-else>
         <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
-            <AppointmentCardInfo v-for="(appt, i) in State('appointments.data.upcoming')"
+            <AppointmentCardInfo v-for="(appt, i) in upcomingAppointments"
               :appointment="appt"
-              :hasBorder="i < State('appointments.data.upcoming').length - 1"
+              :hasBorder="i < upcomingAppointments.length - 1"
               :key="appt.id" />
           </Card>
           <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
@@ -35,13 +35,16 @@ export default {
   components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, Loading, PageHeader, PageContainer, Paragraph, SlideIn, Space },
   computed: {
     isDoneLoading() {
-      return this.State('practitioners.data.all').length;
+      return this.State('practitioners.data.all').length && this.State('appointments.wasRequested.upcoming') && !this.State('appointments.isLoading.upcoming');
     },
     shouldShowDoctorInfo() {
       return App.Config.user.isPatient && this.State('practitioners.userDoctor');
     },
     topRowColumnConfig() {
       return this.shouldShowDoctorInfo ? [{ l:'1of2' }, { l:'1of2' }] : [{ l:'1of1' }];
+    },
+    upcomingAppointments() {
+      return this.State('appointments.data.upcoming').filter(a => a.attributes.status === 'pending');
     }
   },
   mounted() {
