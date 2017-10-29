@@ -13,6 +13,6 @@ export default function (laravel) {
     guest: false,
     intakeLink: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${laravel.user.id}`,
     regulatedStates,
-    socialMedia,
+    socialMedia
   }
 }

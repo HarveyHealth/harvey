@@ -18,6 +18,30 @@
             </CardContent>
           </Card>
         </Grid>
+        <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+          <Card :slot="1" :heading="'Contact Info'">
+            <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
+            <CardContent>
+              <LabeledTextBlock :label="'Name'">{{ Util.misc.fullName(Config.user.info) }}</LabeledTextBlock>
+              <Space isBottom :size="3" />
+              <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
+              <Space isBottom :size="3" />
+              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone }}</a></LabeledTextBlock>
+              <Space isBottom :size="3" />
+              <LabeledTextBlock :label="'Location'">{{ Config.user.info.city }}, {{ Config.user.info.state }}</LabeledTextBlock>
+            </CardContent>
+          </Card>
+          <Card :slot="2" :heading="'Support'">
+            <AvatarCardHeading :heading="Config.support.name" />
+            <CardContent>
+              <LabeledTextBlock :label="'Support'"><a :href="'mailto:'+Config.support.email">{{ Config.support.email }}</a></LabeledTextBlock>
+              <Space isBottom :size="3" />
+              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.support.phone">{{ Config.support.phone }}</a></LabeledTextBlock>
+              <Space isBottom :size="3" />
+              <LabeledTextBlock :label="'Available'">{{ Config.support.available }}</LabeledTextBlock>
+            </CardContent>
+          </Card>
+        </Grid>
       </SlideIn>
     </div>
   </PageContainer>
@@ -29,10 +53,11 @@ import { Paragraph } from 'typography';
 import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Space } from 'layout';
 import AppointmentCardInfo from './AppointmentCardInfo.vue';
 import AvatarCardHeading from './AvatarCardHeading.vue';
+import LabeledTextBlock from './LabeledTextBlock.vue';
 
 export default {
   name: 'dashboard',
-  components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, Loading, PageHeader, PageContainer, Paragraph, SlideIn, Space },
+  components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, LabeledTextBlock, Loading, PageHeader, PageContainer, Paragraph, SlideIn, Space },
   computed: {
     isDoneLoading() {
       return this.State('practitioners.data.all').length && this.State('appointments.wasRequested.upcoming') && !this.State('appointments.isLoading.upcoming');
