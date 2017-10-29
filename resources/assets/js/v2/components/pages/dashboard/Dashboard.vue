@@ -1,14 +1,12 @@
 <template>
   <PageContainer>
-    <PageHeader :heading="heading" />
+    <PageHeader :heading="Config.user.isAdmin ? 'Admin Dashboard' : 'Dashboard'" />
     <div class="mw8 pa2 pa3-m">
       <Loading v-if="!isDoneLoading" class="mt3" />
       <SlideIn v-else>
         <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
-            <CardContent>
-
-            </CardContent>
+            <AppointmentCardInfo v-for="appt in State('appointments.data.upcoming')" :appointment="appt" :key="appt.id" />
           </Card>
           <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
             <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
@@ -26,16 +24,12 @@
 import { Loading } from 'feedback';
 import { Paragraph } from 'typography';
 import { Card, CardContent, Grid, PageHeader, PageContainer, SlideIn, Space } from 'layout';
+import AppointmentCardInfo from './AppointmentCardInfo.vue';
 import AvatarCardHeading from './AvatarCardHeading.vue';
 
 export default {
   name: 'dashboard',
-  components: { AvatarCardHeading, Card, CardContent, Grid, Loading, PageHeader, PageContainer, Paragraph, SlideIn, Space },
-  data() {
-    return {
-      heading: `${App.Config.user.isAdmin ? 'Admin ' : ''}Dashboard`
-    }
-  },
+  components: { AppointmentCardInfo, AvatarCardHeading, Card, CardContent, Grid, Loading, PageHeader, PageContainer, Paragraph, SlideIn, Space },
   computed: {
     isDoneLoading() {
       return this.State('practitioners.data.all').length;
@@ -49,6 +43,10 @@ export default {
   },
   mounted() {
     App.setState('misc.currentPage', 'dashboard');
+
+    if (!this.State('appointments.wasRequested.upcoming')) {
+      App.Http.appointments.getUpcoming(App.Http.appointments.getUpcomingResponse);
+    }
 
     if (!this.State('practitioners.wasRequested')) {
       App.Http.practitioners.get(App.Http.practitioners.getResponse);
