@@ -18,7 +18,7 @@
             </CardContent>
           </Card>
         </Grid>
-        <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
+        <Grid :flexAt="'l'" :columns="[{ l:'1of2' }, { l:'1of2' }]" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Contact Info'">
             <AvatarCardHeading :heading="Util.misc.fullName(Config.user.info)" />
             <CardContent>
@@ -26,7 +26,7 @@
               <Space isBottom :size="3" />
               <LabeledTextBlock :label="'Email'"><a :href="'tel:'+Config.user.info.email">{{ Config.user.info.email }}</a></LabeledTextBlock>
               <Space isBottom :size="3" />
-              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone }}</a></LabeledTextBlock>
+              <LabeledTextBlock :label="'Phone'"><a :href="'tel:'+Config.user.info.phone">{{ Config.user.info.phone | formatPhone }}</a></LabeledTextBlock>
               <Space isBottom :size="3" />
               <LabeledTextBlock :label="'Location'">{{ Config.user.info.city }}, {{ Config.user.info.state }}</LabeledTextBlock>
             </CardContent>
