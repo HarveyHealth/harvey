@@ -80,10 +80,10 @@ export default {
 
       switch (breakpoint) {
         case 's': return styles
-        case 'ns': return this.atQuery('not-small', styles)
-        case 'm': return this.atQuery('medium', styles)
-        case 'l': return this.atQuery('large', styles)
-        case 'xl': return this.atQuery('xlarge', styles)
+        case 'ns': return this.atQuery('ns', styles)
+        case 'm': return this.atQuery('m', styles)
+        case 'l': return this.atQuery('l', styles)
+        case 'xl': return this.atQuery('xl', styles)
       }
     },
     gutterValue(value) {

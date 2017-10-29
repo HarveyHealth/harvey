@@ -1,29 +1,35 @@
 <template>
   <PageContainer>
     <PageHeader :heading="heading" />
-    <Grid :flexAt="'l'" :columns="[{ l:'1of3' }, { l:'2of3' }]" :gutters="{ s:3 }">
-      <h3 slot="1" class="bg-blue ma0 p4">First</h3>
-      <Grid slot="2" :columns="[{ ns:'2of3' }, { ns:'1of3' }]" :gutters="{ s:3 }">
-        <h4 slot="1" class="bg-red pa2 ma0">Inner</h4>
-        <h4 slot="2" class="bg-yellow pa2 ma0">Second</h4>
+    <div class="mw8 pa2 pa3-m">
+      <Grid :flexAt="'m'" :columns="topRowColumns" :gutters="{ s:2, m:3 }">
+        <Card :slot="1" :heading="'Appointments'">
+          <CardContent>Oh, boy</CardContent>
+        </Card>
+        <Card :slot="2" :heading="'Practitioner'" v-if="Config.user.isPatient">
+          <CardContent>Oh, boy</CardContent>
+        </Card>
       </Grid>
-    </Grid>
+    </div>
   </PageContainer>
 </template>
 
 <script>
-import { Grid, PageHeader, PageContainer } from 'layout';
+import { Card, CardContent, Grid, PageHeader, PageContainer } from 'layout';
 
 export default {
   name: 'dashboard',
   components: {
+    Card,
+    CardContent,
     Grid,
     PageHeader,
     PageContainer
   },
   data() {
     return {
-      heading: `${App.Config.user.isAdmin ? 'Admin ' : ''}Dashboard`
+      heading: `${App.Config.user.isAdmin ? 'Admin ' : ''}Dashboard`,
+      topRowColumns: App.Config.user.isPatient ? [{ m:'1of2' }, { m:'1of2' }] : [{ m:'1of1' }]
     }
   },
   mounted() {
