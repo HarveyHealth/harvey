@@ -107,6 +107,7 @@ export default {
                     this.$parent.page = 0;
                     this.$parent.index = null;
                     this.$parent.timeline = [];
+                    this.$parent.loading = true;
                     this.$parent.getTimelineData();
                     this.$parent.notificationMessage = "Successfully deleted!";
                     this.$parent.notificationActive = true;
