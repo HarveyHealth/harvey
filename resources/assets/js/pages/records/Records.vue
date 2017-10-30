@@ -112,6 +112,13 @@
                   </div>
                 </Flyout>
 
+                <NotificationPopup
+                    :active="notificationActive"
+                    :comes-from="notificationDirection"
+                    :symbol="notificationSymbol"
+                    :text="notificationMessage"
+                />
+                
               </div>
           </div>
         </div>
@@ -130,6 +137,7 @@ import Prescription from './components/Prescription.vue';
 import Attachment from './components/Attachment.vue';
 import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
 import axios from 'axios';
 import { capitalize } from 'lodash';
 import moment from 'moment';
@@ -145,7 +153,8 @@ export default {
         Prescription,
         Attachment,
         Intake,
-        Treatment
+        Treatment,
+        NotificationPopup
     },
     data() {
         return {
@@ -163,7 +172,11 @@ export default {
             soap_notes: {},
             attachments: {},
             prescriptions: {},
-            propData: {}
+            propData: {},
+            notificationSymbol: '&#10003;',
+            notificationMessage: '',
+            notificationActive: false,
+            notificationDirection: 'top-right',
         };
     },
     methods: {

@@ -86,6 +86,9 @@ export default {
                 object.doctor = returns.attributes.doctor_name;
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
                 this.$parent.timeline.shift(object);
+                this.$parent.notificationMessage = "Successfully added!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         },
         editSoapNote() {
@@ -97,6 +100,9 @@ export default {
             })
             .then(response => {
                 this.$parent.soap_notes[response.data.data.id] = response.data.data;
+                this.$parent.notificationMessage = "Successfully updated!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         },
         submit() {
