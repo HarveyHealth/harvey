@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <title>Financing | Harvey</title>
+        <title>0% Financing | Harvey</title>
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
         <meta property="og:locale" content="en_US">
