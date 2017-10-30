@@ -52,6 +52,11 @@ class PagesController extends Controller
         return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
     }
 
+    public function getFinancing()
+    {
+        return view('legacy.pages.financing')->with(['financing']);
+    }
+
     public function getConditions(string $conditionSlug = null)
     {
         $conditions = Condition::all();

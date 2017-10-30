@@ -10,6 +10,7 @@
                 <a href="/about" class="link">About</a>
                 <a href="/lab-tests" class="link is-hidden-mobile">Labs</a>
                 <a href="/#prices" class="link is-hidden-mobile is-hidden-tablet-only">Pricing</a>
+                <a href="/financing" class="link is-hidden-mobile is-hidden-tablet-only">Financing</a>
                 <a href="/login" class="link">Login</a>
             </div>
         </div>
