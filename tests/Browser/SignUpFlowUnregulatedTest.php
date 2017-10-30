@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use App\Models\{User,Practitioner, License};
-use Tests\Browser\Pages\SignUpPage;
+use Tests\Browser\Pages\{SignUpPage, DiscoveryPage};
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -27,7 +27,7 @@ class SignUpFlowUnregulated extends DuskTestCase
         $user = factory(User::class)->make();
 
         $this->browse(function ($browser) use ($user) {
-            $browser->visit(new SignUpPage)
+            $browser->visit(new DiscoveryPage)
                     ->arrayPractitioners()
                     ->addUserUnregulatedStates($user)
                     ->click('@letsGo');

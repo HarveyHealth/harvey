@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use App\Models\{User, License};
-use Tests\Browser\Pages\SignUpPage;
+use Tests\Browser\Pages\{SignUpPage, DiscoveryPage};
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -19,13 +19,11 @@ class RegulatedStatesTest extends DuskTestCase
      */
      public function test_if_practitioner_licence_is_checked_with_zip_on_sign_up_unsuccsefull()
      {
-         //$practitionerLicence = factory(License::class)->create();
+         $user = factory(User::class)->create();
 
-
-         $user = factory(User::class)->make();
 
          $this->browse(function ($browser) use ($user) {
-             $browser->visit(new SignUpPage)
+             $browser->visit(new DiscoveryPage)
                      ->addUserRegulatedStatesFail($user);
 
 
@@ -40,16 +38,11 @@ class RegulatedStatesTest extends DuskTestCase
          $user = factory(User::class)->make();
 
          $this->browse(function ($browser) use ($user) {
-             $browser->visit(new SignUpPage)
+             $browser->visit(new DiscoveryPage)
                      ->addUserRegulatedStatesSuccess($user);
 
-        $city = DB::table('users')->where('email',$user->email)->value('city');
-        $state = DB::table('users')->where('email', $user->email)->value('state');
-        $this->assertDatabaseHas('users', ['city' => $city]);
-        $this->assertDatabaseHas('users', ['state' => $state]);
 
-
-         });
+            });
 
      }
 }
