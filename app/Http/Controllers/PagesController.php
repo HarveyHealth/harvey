@@ -58,12 +58,7 @@ class PagesController extends Controller
         return view('pages.conditions')->with(compact('conditions', 'index'));
     }
 
-    public function getFinancing()
-    {
-        return view('legacy.pages.financing');
-    }
-
-    public function getConditions(string $conditionSlug = null)
+    public function getCondition(string $conditionSlug = null)
     {
         $conditions = Condition::all();
 
@@ -76,5 +71,10 @@ class PagesController extends Controller
         }
 
         return view('pages.conditions')->with(compact('conditions', 'index'));
+    }
+
+    public function getFinancing()
+    {
+        return view('legacy.pages.financing');
     }
 }
