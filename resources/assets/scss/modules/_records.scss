@@ -218,10 +218,11 @@
 }
 .soap-divider {
     color: #EDA1A6;
-    padding: 5px;
-    padding-top: 10px;
     width: 97%;
-    margin: 0 20px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 .soap-textarea {
     min-height: 100px;

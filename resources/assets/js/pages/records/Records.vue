@@ -41,7 +41,7 @@
            <div v-if="$root.$data.permissions !== 'patient'">
             <div class="form">
               <i class="fa fa-search search-icon"></i>
-              <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+              <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
             </div>
             <div class="records-button-container">
               <button @click="newSoapNote" class="button soat-button">SOAP Note</button>
@@ -104,7 +104,11 @@
                     </div>
                   </div>
                   <div class="input__container">
-                    <Timeline :index="index" :items="timelineData" />
+                    <Timeline 
+                        :index="index" 
+                        :items="timelineData" 
+                        :emptyMessage="`No records for this patient`"
+                        :loading="loading" />
                   </div>
                 </Flyout>
 
@@ -128,6 +132,7 @@ import Intake from './components/Intake.vue';
 import Treatment from './components/Treatment.vue';
 import axios from 'axios';
 import { capitalize } from 'lodash';
+import moment from 'moment';
 export default {
     name: 'Records',
     components: {
@@ -209,15 +214,15 @@ export default {
                                 this.prescriptions[e.id] = e :
                             null;
                             let object = {};
-                            object.doctor = "Dr. Amanda Frick, ND";
-                            object.date = "Wednesday, July 26th 2017";
-                            object.target = e.type.split('_').map(e => capitalize(e)).join(' ');
-                            // object.type = e.attributes.name + ' ' + object.target;
-                            object.type = object.target;
+                            object.doctor = e.attributes.doctor_name || "No Doctor";
+                            object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                            object.original_date = e.attributes.created_at.date;
+                            object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
                         });
+                        this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
                     }
                     this.loading = false;
                 });
@@ -272,7 +277,7 @@ export default {
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
-                    e.onClick = onClickFunctions[e.target].bind(this, e.data, i);
+                    e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
                     return e;
                 });
                 return arrays;
