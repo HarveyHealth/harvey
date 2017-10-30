@@ -82,7 +82,7 @@ class SoapNotesController extends BaseAPIController
         return $this->baseTransformItem($soapNote->fresh())->respond();
     }
 
-    public function deleteSoapNote(Request $request, SoapNote $soapNote)
+    public function delete(Request $request, SoapNote $soapNote)
     {
         if (currentUser()->cant('delete', $soapNote)) {
             return $this->respondNotAuthorized('You do not have access to delete this SoapNote.');
