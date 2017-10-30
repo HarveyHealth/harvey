@@ -82,7 +82,7 @@ export default {
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 4,
+                        visibility_id: 3,
                     }
                 }
             };
