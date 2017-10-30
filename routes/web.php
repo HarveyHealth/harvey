@@ -48,7 +48,7 @@ Route::get('about', 'PagesController@getAbout');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
-Route::get('/conditions/{condition?}', 'PagesController@getConditions');
+Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 
 // INTAKE
 // Route::get('/intake', 'IntakeController@index')->name('intake');
