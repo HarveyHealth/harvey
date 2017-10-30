@@ -133,8 +133,7 @@ body[class*="lab-tests"] {
     }
     .columns.is-narrow {
         max-width: 1052px;
-        @include margin(null null null auto);
-        @include margin(null auto null null);
+        @include margin(null auto);
     }
     .has-content-vertical-aligned {
         @include from($desktop) {
@@ -423,6 +422,18 @@ body[class*="lab-tests"] {
         }
     }
 
+    // Financing 
+
+    #financing {
+        figure {
+            @include padding(null 6em);
+        }
+        .columns.is-narrow {
+            max-width: 930px;
+            @include margin(3em auto);
+        }
+    }
+
     // Sub-Footer
 
     #get-started {
@@ -439,7 +450,7 @@ body[class*="lab-tests"] {
             margin-top: 3em;
             p, em {
                 color: gray;
-                font-size: 13px;
+                font-size: 15px;
                 margin-top: 1em;
             }
         }
