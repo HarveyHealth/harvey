@@ -101,7 +101,6 @@ class SkusController extends BaseAPIController
             });
             $sku->refresh();
             $sku->load('labTestInformation');
-            Cache::forget('public_lab_tests_information');
             return $this->baseTransformItem($sku, request('include'))->respond();
         } catch (\Exception $exception) {
             return $this->respondWithError($exception->getMessage());

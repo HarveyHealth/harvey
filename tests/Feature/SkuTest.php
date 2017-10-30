@@ -16,13 +16,13 @@ use Tests\TestCase;
 class SkuTest extends TestCase
 {
     use DatabaseMigrations;
-    
+
     public function test_only_admins_can_create_a_new_sku()
     {
-    
+
         $patient = factory(Patient::class)->create();
         Passport::actingAs($patient->user);
-    
+
         $response = $this->post(route('skus.store'), [
             'name' => 'Test',
             'price' => 200.00,
@@ -32,10 +32,11 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
+            'visibility_id' => 0,
         ]);
-    
+
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
-        
+
         $practitioner = factory(Practitioner::class)->create();
         Passport::actingAs($practitioner->user);
 
@@ -48,6 +49,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
+            'visibility_id' => 0,
         ]);
 
         $response->assertStatus(Response::HTTP_UNAUTHORIZED);
@@ -57,7 +59,7 @@ class SkuTest extends TestCase
     {
         $admin = factory(Admin::class)->create();
         Passport::actingAs($admin->user);
-        
+
         $response = $this->post(route('skus.store'), [
             'name' => 'Test',
             'price' => 200.00,
@@ -67,12 +69,13 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
+            'visibility_id' => 0,
         ]);
-        
+
         $response->assertStatus(Response::HTTP_OK);
         $this->assertDatabaseHas('skus', ['name' => 'Test', 'price' => 200.00]);
     }
-    
+
     public function test_it_shows_a_specific_sku_and_related_lab_test_information()
     {
         $admin = factory(Admin::class)->create();
@@ -86,15 +89,15 @@ class SkuTest extends TestCase
         $response->assertStatus(Response::HTTP_OK);
         $response->assertJsonFragment(['name' => 'somename']);
     }
-    
+
     public function test_it_allows_an_admin_to_modify_a_sku_and_lab_information()
     {
         $admin = factory(Admin::class)->create();
         Passport::actingAs($admin->user);
-    
+
         $sku = factory(SKU::class)->states('lab-test')->create(['name' => 'somename']);
         $sku->labTestInformation()->save(factory(LabTestInformation::class)->make());
-    
+
         $response = $this->put(route('skus.update', $sku->id), [
             'name' => 'someothername',
             'price' => 200.00,
@@ -104,6 +107,7 @@ class SkuTest extends TestCase
             'sample' => 'Blood draw',
             'quote' => 'Take this test!',
             'lab_name' => 'Unknown',
+            'visibility_id' => 0,
         ]);
 
         $response->assertStatus(Response::HTTP_OK);
