@@ -62,7 +62,7 @@ class BillingReport extends Command
         if (!File::isDirectory($path = storage_path() . '/billing_reports/')) {
             File::makeDirectory($path);
         }
-        
+
         $file_path = storage_path() . '/billing_reports/billing_' . $from_date->toDateString() .
                     "_" . $to_date->toDateString() . ".csv";
 

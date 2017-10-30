@@ -86,6 +86,7 @@ class ReportsRepository extends BaseRepository
                 DB::raw("(lab_tests_information.sample = 'Blood draw') as blood_draw"),//Blood Draw (Y/N)
                 //If the line item is a Processing Fee, please also include:
                 'skus.slug as processing_type',//Processing Type (Full/Partial)
+                'skus.cost', // Lab Cost
                 'invoice_items.amount as item_amount',//Consultation Price, Processing Total, Lab Test Price
                 'discount_codes.code as discount_code', // Discount Code
                 'invoices.discount', // Discount Amount
@@ -158,6 +159,10 @@ class ReportsRepository extends BaseRepository
                         $current_row["Lab Total"] = 0;
                     }
                     $current_row["Lab Total"] += $item->item_amount;
+                    if (!is_int($current_row["Lab Cost"])){
+                        $current_row["Lab Cost"] = 0;
+                    }
+                    $current_row["Lab Cost"] += $item->cost;
 
                     break;
                 case 'consultation':
