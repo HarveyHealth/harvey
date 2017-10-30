@@ -3,17 +3,17 @@
 
         <div class="top-soap-note">
             <label name="Subject" class="card-header top-header">Subject</label>
-            <textarea v-model="subjectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea @keydown="keyDownTextarea" v-model="subjectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Objective" class="card-header mid-header">Objective</label>
-            <textarea v-model="objectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea @keydown="keyDownTextarea" v-model="objectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="mid-soap-note">
             <label name="Assessment" class="card-header mid-header">Assessment</label>
-            <textarea v-model="assessmentTA" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
+            <textarea @keydown="keyDownTextarea" v-model="assessmentTA" class="input--textarea soap-textarea" placeholder="Enter your text..."/>
         </div>
 
         <div class="soap-divider">
@@ -22,11 +22,11 @@
 
         <div class="top-soap-note">
             <label name="Treatment" class="card-header top-header">Plan/Treatment</label>
-            <textarea v-model="planTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
+            <textarea @keydown="keyDownTextarea" v-model="planTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 
         <div class="inline-centered padding15">
-            <button @click="submit()" :disabled="!subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
+            <button @click="submit()" :disabled="disabled || !subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
         </div>
     </div>
 </template>
@@ -44,21 +44,29 @@ export default {
             subjectiveTA: null,
             objectiveTA: null,
             assessmentTA: null,
-            planTA: null
+            planTA: null,
+            disabled: true
         };
     },
     methods: {
+        keyDownTextarea() {
+            this.disabled = false;
+        },
         setSubjectiveTA(data) {
             this.subjectiveTA = data;
+            this.disabled = true;
         },
         setObjectiveTA(data) {
             this.objectiveTA = data;
+            this.disabled = true;
         },
         setAssessmentTA(data) {
             this.assessmentTA = data;
+            this.disabled = true;
         },
         setPlanTA(data) {
             this.planTA = data;
+            this.disabled = true;
         },
         createSoapNote() {
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
