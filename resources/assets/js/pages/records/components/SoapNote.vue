@@ -116,6 +116,36 @@ export default {
             this.setPlanTA(data);
             return data;
         }
+    },
+    watch: {
+        subjective(val) {
+            if (!val) {
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.subjective;
+                this.setSubjectiveTA(data);
+                return data;
+            }
+        },
+        objective(val) {
+            if (!val) {
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.objective;
+                this.setObjectiveTA(data);
+                return data;
+            }
+        },
+        assessment(val) {
+            if (!val) {
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.assessment;
+                this.setAssessmentTA(data);
+                return data;
+            }
+        },
+        plan(val) {
+            if (!val) {
+                let data = this.$parent.news ? '' : this.$parent.propData.attributes.plan;
+                this.setPlanTA(data);
+                return data;
+            }
+        }
     }
 };
 </script>
