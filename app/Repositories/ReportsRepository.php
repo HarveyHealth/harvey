@@ -25,6 +25,7 @@ class ReportsRepository extends BaseRepository
             ->join('patients','patients.id','=','patient_id')
             ->join('users','patients.user_id','=','users.id')
             ->leftJoin('discount_codes','invoices.discount_code_id','=','discount_codes.id')
+            ->leftJoin('transactions','invoices.transaction_id','=','transactions.id')
 
             /* consultations */
             ->leftJoin('appointments', function ($join) {
@@ -51,12 +52,13 @@ class ReportsRepository extends BaseRepository
             ->where('invoice_items.created_at','>=', $from_date)
             ->where('invoice_items.created_at','<=',$to_date)
 
-            ->orderBy('invoice_id')
+            ->orderBy('invoices.id')
 
             ->select(
-                DB::raw("(select count(1) from invoice_items as i where i.invoice_id = invoices.id) as item_count"),
+
                 'invoices.id as invoice_id',
-                'invoice_items.id as item_id',
+                'invoices.transaction_id',
+                'transactions.transaction_date',
                 'users.id as client_id', //Client ID
                 'users.first_name as client_first_name',//Client Name
                 'users.last_name as client_last_name',//Client Name
@@ -64,9 +66,10 @@ class ReportsRepository extends BaseRepository
                 //Practitioner Name
                 DB::raw("IF(c_users.first_name IS NULL, l_users.first_name, c_users.first_name) as practitioner_first_name"),
                 DB::raw("IF(c_users.last_name IS NULL, l_users.last_name, c_users.last_name) as practitioner_last_name"),
+                DB::raw("IF(c_users.id IS NULL, l_users.id, c_users.id) as practitioner_id"),
                 'users.state as client_state', //Client State
                 DB::raw("IF(c_users.state IS NULL, l_users.state, c_users.state) as practitioner_state"), // Practitioner State
-                'invoices.transaction_id', //Transaction ID
+
                 'skus.item_type',//Product Type (Consultation/Lab Test/Processing Fee)
 
                 //If the line item is a Consultation
@@ -85,73 +88,88 @@ class ReportsRepository extends BaseRepository
                 'skus.slug as processing_type',//Processing Type (Full/Partial)
                 'invoice_items.amount as item_amount',//Consultation Price, Processing Total, Lab Test Price
                 'discount_codes.code as discount_code', // Discount Code
-                'invoices.discount' // Discount Amount
+                'invoices.discount', // Discount Amount
+                'invoices.amount as total' // Invoice Total
             );
 
         $report = [];
 
-        foreach ($query->get() as $item) {
-            // generate values and apply some formatting
-            $client_name = join(" ", [$item->client_first_name, $item->client_last_name]);
-            $practitioner_name = join(" ", [$item->practitioner_first_name, $item->practitioner_last_name]);
+        $current_invoice_id = NULL;
+        $current_row = [];
 
-            $product_type = ucfirst(str_replace("-"," ",$item->item_type));
+        foreach ($query->cursor() as $item) {
 
-
-
-            if ($item->item_type == 'service-fee'){
-                $processing_type = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
-            }
-            else{
-                $processing_type = "";
-            }
-
-            if ($item->consultation_duration){ // fill info if item is consultation
-                $first_consultation = ($item->first_consultation)?'Y':'N';
-            }
-            else{
-                $first_consultation = "";
-            }
-
-            if ($item->lab_name){
-                $blood_draw = ($item->blood_draw)?'Y':'N';
-            }
-            else{
-                $blood_draw = "";
-            }
-
-            if ($item->item_type == 'lab-test'){
-                $lab_test_name = $item->lab_test_name;
-            }
-            else{
-                $lab_test_name = "";
+            if ($item->invoice_id != $current_invoice_id){
+                // adds the completed invoice to the report
+                $report[] = $current_row;
+                $current_invoice_id = $item->invoice_id;
+                // switches to the new invoice
+                $current_row = [
+                    "Transaction ID" => "--",
+                    "Transaction Date" => "--",
+                    "Client Name" => NULL,
+                    "Practitioner Name" => NULL,
+                    "Client ID" => $item->client_id,
+                    "Practitioner ID" => NULL,
+                    "Client State" => $item->client_state,
+                    "Practitioner State" => NULL,
+                    "Product" => NULL,
+                    "First Consultation" => "--",
+                    "Consultation Duration" => "--", // (30/60 min)
+                    "Consultation Price" => "--",
+                    "Blood Draw" => "--",// (Y/N)
+                    "Processing Type" => "--", //(Full/Partial)
+                    "Lab Names" => "--",
+                    "Lab Cost" => "--",
+                    "Lab Total" => "--",
+                    "Discount Code" => "--",
+                    "Discount Amount" => "--",
+                    "Total" => NULL
+                ];
             }
 
-            $report[] = [
-                "ID" => $item->invoice_id,
-                "Client ID" => $item->client_id,
-                "Client Name" => $client_name,
-                "Client Signup Date" => new Carbon($item->client_signup_date),
-                "Practitioner Name" => $practitioner_name,
-                "Client State" => $item->client_state,
-                "Practitioner State" => $item->practitioner_state,
-                "Transaction ID" => $item->transaction_id,
-                "Product Type" => $product_type,
-                //If the line item is a Consultation
-                "First Consultation" => $first_consultation,
-                "Consultation Duration" => $item->consultation_duration, // (30/60 min)
-                // If the line item is a Lab Test,
-                "Lab Test Name" => $lab_test_name,
-                "Lab Name" => $item->lab_name,
-                "Blood Draw" => $blood_draw,// (Y/N)
-                // If the line item is a Processing Fee
-                "Processing Type" => $processing_type, //(Full/Partial)
-                // general item amounts
-                "Item Cost" => $item->practitioner_cost,
-                "Item Price" => $item->item_amount,
-                "Discount Code" => $item->discount_code,
-                "Discount" => $item->discount / $item->item_count
-            ];
+            if (!empty($item->transaction_id)){
+                $current_row["Transaction ID"] = $item->transaction_id;
+                $current_row["Transaction Date"] = $item->transaction_date;
+            }
+
+            $current_row["Client Name"] = join(" ", [$item->client_first_name, $item->client_last_name]);
+
+            if (!empty($item->practitioner_id)){
+                $current_row["Practitioner Name"] = join(" ", [$item->practitioner_first_name, $item->practitioner_last_name]);
+                $current_row["Practitioner ID"] = $item->practitioner_id;
+                $current_row["Practitioner State"] = $item->practitioner_state;
+            }
+
+            $current_row["Total"] = $item->total;
+
+            if (!empty($item->discount)){
+                $current_row["Discount Code"] = $item->discount_code;
+                $current_row["Discount Amount"] = $item->discount;
+            }
+
+            switch($item->item_type){
+                case 'lab-test':
+                    $current_row["Product"] = "Lab Order";
+                    $current_row["Blood Draw"] = ($item->blood_draw)?'Yes':'No';
+                    $current_row["Lab Names"] .= (empty($current_row["Lab Names"]))?"":";";
+                    $current_row["Lab Names"] .=  $item->lab_test_name;
+                    if (!is_int($current_row["Lab Total"])){
+                        $current_row["Lab Total"] = 0;
+                    }
+                    $current_row["Lab Total"] += $item->item_amount;
+
+                    break;
+                case 'consultation':
+                    $current_row["Product"] = "consultation";
+                    $current_row["First Consultation"] = ($item->first_consultation)?'Yes':'No';
+                    $current_row["Consultation Duration"] = $item->consultation_duration;
+                    $current_row["Consultation Price"] = $item->item_amount;
+                    break;
+                case 'service-fee':
+                    $current_row["Processing Type"] = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
+                    break;
+            }
         }
 
         return $report;
