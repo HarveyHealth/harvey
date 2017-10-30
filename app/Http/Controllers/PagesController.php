@@ -43,18 +43,24 @@ class PagesController extends Controller
             return $item->slug == $labTestSlug;
         });
 
-        if (false === $index) {
+        if (!is_numeric($index)) {
             return redirect(route('lab-tests', $lab_tests->first()->sku->slug));
         }
 
-        $sku_id = $lab_tests->pluck('sku')->get($index)->id;
+        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'index'));
+    }
 
-        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
+    public function getConditions()
+    {
+        $conditions = Condition::all();
+        $index = false;
+
+        return view('pages.conditions')->with(compact('conditions', 'index'));
     }
 
     public function getFinancing()
     {
-        return view('legacy.pages.financing')->with(['financing']);
+        return view('legacy.pages.financing');
     }
 
     public function getConditions(string $conditionSlug = null)
@@ -62,15 +68,11 @@ class PagesController extends Controller
         $conditions = Condition::all();
 
         $index = $conditions->search(function ($item) use ($conditionSlug) {
-            return $item->slug === $conditionSlug;
+            return $item->slug == $conditionSlug;
         });
 
-        if ($index === false && $conditionSlug !== null) {
+        if (!is_numeric($index)) {
             return redirect()->route('conditions');
-        }
-
-        if ($conditionSlug === null) {
-          $index = 'null';
         }
 
         return view('pages.conditions')->with(compact('conditions', 'index'));
