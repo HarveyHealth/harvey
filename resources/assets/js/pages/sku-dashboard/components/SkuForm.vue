@@ -65,8 +65,8 @@
                 <label class="input__label" for="visibility_id">Public</label>
                 <span class="custom-select">
                     <select name="visibility_id" id="visibility_id" v-model="formSku.attributes.lab_test_information.visibility_id">
-                        <option value=0>Yes</option>
-                        <option value=4>No</option>
+                        <option value="0">Yes</option>
+                        <option value="4">No</option>
                     </select>
                 </span>
             </div>
