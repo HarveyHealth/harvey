@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.36.33",
+            "version": "3.36.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "a98d00916b65c89cdbae94cf53f7905a27ff88ca"
+                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/a98d00916b65c89cdbae94cf53f7905a27ff88ca",
-                "reference": "a98d00916b65c89cdbae94cf53f7905a27ff88ca",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/adc4e9928730cb65b9b7914084cbf1d8c988419a",
+                "reference": "adc4e9928730cb65b9b7914084cbf1d8c988419a",
                 "shasum": ""
             },
             "require": {
@@ -84,7 +84,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2017-10-24T18:41:59+00:00"
+            "time": "2017-10-26T20:45:00+00:00"
         },
         {
             "name": "barryvdh/laravel-debugbar",
@@ -1356,16 +1356,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.8.4",
+            "version": "8.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "73b86c897c30a590e1958c003e7225fffdfd48ca"
+                "reference": "a0405e2b3de6497174db4a3fcfa9bfd67f4ef282"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/73b86c897c30a590e1958c003e7225fffdfd48ca",
-                "reference": "73b86c897c30a590e1958c003e7225fffdfd48ca",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/a0405e2b3de6497174db4a3fcfa9bfd67f4ef282",
+                "reference": "a0405e2b3de6497174db4a3fcfa9bfd67f4ef282",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1420,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2017-10-16T14:06:44+00:00"
+            "time": "2017-10-30T15:09:43+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1532,16 +1532,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.31",
+            "version": "v0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client-services.git",
-                "reference": "81eded7af428ae49e1ba8ddb44689fa5995d9bb5"
+                "reference": "297db7f5557dc8beba00a4e824abcaa595382269"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/81eded7af428ae49e1ba8ddb44689fa5995d9bb5",
-                "reference": "81eded7af428ae49e1ba8ddb44689fa5995d9bb5",
+                "url": "https://api.github.com/repos/google/google-api-php-client-services/zipball/297db7f5557dc8beba00a4e824abcaa595382269",
+                "reference": "297db7f5557dc8beba00a4e824abcaa595382269",
                 "shasum": ""
             },
             "require": {
@@ -1565,7 +1565,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2017-10-21T00:23:31+00:00"
+            "time": "2017-10-28T00:23:44+00:00"
         },
         {
             "name": "google/auth",
@@ -2515,16 +2515,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "0.15.6",
+            "version": "0.15.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "91742543c25fecedc84a4883d2919213e04a73b7"
+                "reference": "36d82f166e441dfa28643f8d01dd8bdd3a579adf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/91742543c25fecedc84a4883d2919213e04a73b7",
-                "reference": "91742543c25fecedc84a4883d2919213e04a73b7",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/36d82f166e441dfa28643f8d01dd8bdd3a579adf",
+                "reference": "36d82f166e441dfa28643f8d01dd8bdd3a579adf",
                 "shasum": ""
             },
             "require": {
@@ -2580,7 +2580,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2017-08-08T11:47:33+00:00"
+            "time": "2017-10-26T15:41:07+00:00"
         },
         {
             "name": "league/event",
@@ -5316,16 +5316,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "5.15.3",
+            "version": "5.15.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "3d89aabdf3f7bec20aeb3850562db17bd46ff7f9"
+                "reference": "b39cd4ee5c9699895eb5ca5cf8d3d73b7316fc53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/3d89aabdf3f7bec20aeb3850562db17bd46ff7f9",
-                "reference": "3d89aabdf3f7bec20aeb3850562db17bd46ff7f9",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/b39cd4ee5c9699895eb5ca5cf8d3d73b7316fc53",
+                "reference": "b39cd4ee5c9699895eb5ca5cf8d3d73b7316fc53",
                 "shasum": ""
             },
             "require": {
@@ -5358,7 +5358,7 @@
                 "sms",
                 "twilio"
             ],
-            "time": "2017-10-20T22:58:45+00:00"
+            "time": "2017-10-28T00:32:51+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -5412,16 +5412,16 @@
         },
         {
             "name": "wildbit/postmark-php",
-            "version": "2.3.1",
+            "version": "2.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wildbit/postmark-php.git",
-                "reference": "ef270c6ec44831cde91bab4e53471af04f972974"
+                "reference": "f7902266519652288c1ffa9e2394b06503a9d82e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/ef270c6ec44831cde91bab4e53471af04f972974",
-                "reference": "ef270c6ec44831cde91bab4e53471af04f972974",
+                "url": "https://api.github.com/repos/wildbit/postmark-php/zipball/f7902266519652288c1ffa9e2394b06503a9d82e",
+                "reference": "f7902266519652288c1ffa9e2394b06503a9d82e",
                 "shasum": ""
             },
             "require": {
@@ -5442,7 +5442,7 @@
                 "MIT"
             ],
             "description": "The officially supported client for Postmark (http://postmarkapp.com)",
-            "time": "2017-02-16T17:54:44+00:00"
+            "time": "2017-10-25T19:54:41+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

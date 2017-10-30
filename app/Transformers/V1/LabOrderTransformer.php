@@ -16,18 +16,20 @@ class LabOrderTransformer extends TransformerAbstract
     public function transform(LabOrder $labOrder)
     {
         return [
+            'id' => cast_to_string($labOrder->id),
             'address_1' => $labOrder->address_1,
             'address_2' => $labOrder->address_2,
             'city' => $labOrder->city,
             'completed_at' => $labOrder->completed_at,
             'created_at' => $labOrder->created_at,
-            'id' => (string) $labOrder->id,
-            'patient_id' => (string) $labOrder->patient_id,
-            'practitioner_id' => (string) $labOrder->practitioner_id,
-            'shipment_code' => (string) $labOrder->shipment_code,
+            'patient_id' => cast_to_string($labOrder->patient_id),
+            'practitioner_id' => cast_to_string($labOrder->practitioner_id),
+            'shipment_code' => cast_to_string($labOrder->shipment_code),
+            'shipment_label_url' => $labOrder->shipment_label_url,
+            'shippo_id' => $labOrder->shippo_id,
             'state' => $labOrder->state,
             'status' => $labOrder->status,
-            'zip' => (string) $labOrder->zip,
+            'zip' => cast_to_string($labOrder->zip),
         ];
     }
 
