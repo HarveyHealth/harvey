@@ -30,8 +30,8 @@
   export default {
     mixins: [Contact],
     props: {
-        appointment: Object, 
-        patientData: Object, 
+        appointment: Object,
+        patientData: Object,
         userType: String
       },
     data() {
