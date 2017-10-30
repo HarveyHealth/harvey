@@ -216,6 +216,7 @@
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Discount:</strong></div>
             <div class="Column-md-4of5 font-thin">
               <input v-model="discountCode" class="input--text" />
+              <div class="copy-error" v-show="discountError">{{ discountError }}</div>
             </div>
           </div>
         </div>
@@ -223,7 +224,7 @@
       <div class="font-centered" slot="footer" v-if="!isHandlingAction">
         <button class="Button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
         <button class="Button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
-        <button class="Button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
+        <button class="Button" @click="handleConfirmationSubmission" v-show="!bookingConflict">Yes, Confirm</button>
       </div>
     </Modal>
 
@@ -286,6 +287,7 @@ export default {
       },
       cancellationReason: '',
       discountCode: '',
+      discountError: '',
       durationList: [
         { data: 30, value: '30 minutes' },
         { data: 60, value: '60 minutes' }
@@ -742,7 +744,28 @@ export default {
       }
     },
 
-    handleUserAction() {
+    handleConfirmationSubmission() {
+      this.discountError = '';
+      if (this.discountCode) {
+        const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+        axios.get(endpoint).then(response => {
+          if (response.data.errors) {
+            this.discountError = 'Invalid discount code.';
+          } else {
+            this.handleUserAction(this.discountCode);
+          }
+        }).catch(error => {
+          if (error.response) {
+            console.warn(error.response);
+            // document.body.innerHTML = error.response.data;
+          };
+        })
+      } else {
+        this.handleUserAction();
+      }
+    },
+
+    handleUserAction(discount) {
       // Setup
       let data = {
         appointment_at: this.appointment.date || this.appointment.currentDate,
@@ -751,6 +774,9 @@ export default {
         patient_id: this.appointment.patientId * 1,
         practitioner_id: this.appointment.practitionerId * 1
       };
+
+      //
+      if (discount) data.discount_code = discount;
 
       let action = this.userAction === 'new' ? 'post' : 'patch';
       let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
@@ -818,7 +844,7 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then(() => {
+      axios[action](endpoint, data).then((response) => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
