@@ -176,7 +176,7 @@ export default {
             notificationSymbol: '&#10003;',
             notificationMessage: '',
             notificationActive: false,
-            notificationDirection: 'top-right',
+            notificationDirection: 'top-right'
         };
     },
     methods: {

@@ -71,7 +71,7 @@ export default {
             assessmentTA: null,
             planTA: null,
             disabled: true,
-            deleteModalActive: false,
+            deleteModalActive: false
         };
     },
     methods: {
@@ -102,14 +102,14 @@ export default {
         },
         deleteNote() {
             axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`)
-                .then(response => {
+                .then(() => {
                     this.deleteModalActive = false;
                     this.$parent.page = 0;
                     this.$parent.getTimelineData();
                     this.$parent.notificationMessage = "Successfully deleted!";
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
-                })
+                });
         },
         createSoapNote() {
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
