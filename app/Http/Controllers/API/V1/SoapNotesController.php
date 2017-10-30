@@ -49,7 +49,7 @@ class SoapNotesController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to store SoapNotes for this Patient.');
         }
 
-        $validator = StrictValidator::check($request->all(), [
+        StrictValidator::check($request->all(), [
             'subjective' => 'string|max:2048',
             'objective' => 'string|max:2048',
             'assessment' => 'string|max:2048',
@@ -60,6 +60,24 @@ class SoapNotesController extends BaseAPIController
         $soapNote->created_by_user_id = currentUser()->id;
 
         $patient->soapNotes()->save($soapNote);
+
+        return $this->baseTransformItem($soapNote->fresh())->respond();
+    }
+
+    public function update(Request $request, SoapNote $soapNote)
+    {
+        if (currentUser()->cant('update', $soapNote)) {
+            return $this->respondNotAuthorized('You do not have access to update this SoapNote.');
+        }
+
+        StrictValidator::checkUpdate($request->all(), [
+            'subjective' => 'filled|string|max:2048',
+            'objective' => 'filled|string|max:2048',
+            'assessment' => 'filled|string|max:2048',
+            'plan' => 'filled|string|max:2048',
+        ]);
+
+        $soapNote->update($request->all());
 
         return $this->baseTransformItem($soapNote->fresh())->respond();
     }

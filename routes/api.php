@@ -56,6 +56,7 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
         Route::get('soap_notes', 'SoapNotesController@getAll')->name('soap_notes.get-all');
         Route::get('soap_notes/{soapNote}', 'SoapNotesController@getOne')->name('soap_notes.get-one');
+        Route::patch('soap_notes/{soapNote}', 'SoapNotesController@update')->name('soap_notes.update');
         Route::post('patients/{patient}/soap_notes', 'SoapNotesController@store')->name('soap_notes.store');
         Route::delete('soap_notes/{soapNote}', 'SoapNotesController@delete')->name('soap_notes.delete');
 
