@@ -27,7 +27,28 @@
 
         <div class="inline-centered padding15">
             <button @click="submit()" :disabled="disabled || !subjectiveTA || !objectiveTA || !assessmentTA || !planTA" class="button margin35">Save Changes</button>
+            <button v-if="!$parent.news" @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
         </div>
+
+        <Modal
+            :active="deleteModalActive"
+            :onClose="modalClose"
+            class="modal-wrapper"
+        >
+            <div class="card-content-wrap">
+                <div class="inline-centered">
+                    <h1 class="header-xlarge">
+                        <span class="text">Delete SOAP Note</span>
+                    </h1>
+                    <p>Are you sure you want to delete this soap note?</p>
+                    <div class="button-wrapper">
+                        <button class="button button--cancel" @click="modalClose">Cancel</button>
+                        <button class="button" @click="deleteNote">Yes, Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+
     </div>
 </template>
 
@@ -35,9 +56,13 @@
 import axios from 'axios';
 import { capitalize } from 'lodash';
 import moment from 'moment';
+import Modal from '../../../commons/Modal.vue';
 export default {
     props: {
         patient: Object
+    },
+    components: {
+        Modal
     },
     data() {
         return {
@@ -45,7 +70,8 @@ export default {
             objectiveTA: null,
             assessmentTA: null,
             planTA: null,
-            disabled: true
+            disabled: true,
+            deleteModalActive: false,
         };
     },
     methods: {
@@ -60,6 +86,12 @@ export default {
             this.objectiveTA = data;
             this.disabled = true;
         },
+        deleteModal() {
+            this.deleteModalActive = true;
+        },
+        modalClose() {
+            this.deleteModalActive = false;
+        },
         setAssessmentTA(data) {
             this.assessmentTA = data;
             this.disabled = true;
@@ -67,6 +99,17 @@ export default {
         setPlanTA(data) {
             this.planTA = data;
             this.disabled = true;
+        },
+        deleteNote() {
+            axios.delete(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`)
+                .then(response => {
+                    this.deleteModalActive = false;
+                    this.$parent.page = 0;
+                    this.$parent.getTimelineData();
+                    this.$parent.notificationMessage = "Successfully deleted!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                })
         },
         createSoapNote() {
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
