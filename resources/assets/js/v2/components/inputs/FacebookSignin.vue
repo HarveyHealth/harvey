@@ -1,9 +1,9 @@
 <template>
-  <ButtonInput class="Button--facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
+  <InputButton class="Button--facebook" :text="config[type]" :on-click="handleClick" :width="'240px'" />
 </template>
 
 <script>
-import { ButtonInput } from 'inputs';
+import { InputButton } from 'inputs';
 
 export default {
   props: {
@@ -14,7 +14,7 @@ export default {
     }
   },
   components: {
-    ButtonInput
+    InputButton
   },
   data() {
     return {

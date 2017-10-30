@@ -5,20 +5,20 @@
         <div class="ConditionOption">
           <SvgIcon :id="condition.image_url" :width="'60px'" :height="'60px'" />
         </div>
-        <Space isBottom :size="3" />
+        <Spacer isBottom :size="3" />
         <Paragraph isLight>{{ condition.name }}</Paragraph>
       </a>
-      <Space isBottom :size="4" />
+      <Spacer isBottom :size="4" />
     </Column>
   </Row>
 </template>
 
 <script>
-import { Row, Column, Space } from 'layout';
+import { Row, Column, Spacer } from 'layout';
 import { Paragraph } from 'typography';
 import { SvgIcon } from 'icons';
 
 export default {
-  components: { Row, Column, Space, Paragraph, SvgIcon }
+  components: { Row, Column, Spacer, Paragraph, SvgIcon }
 };
 </script>

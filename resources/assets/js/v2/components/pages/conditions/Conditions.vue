@@ -8,12 +8,12 @@
           <div class="center mw4">
             <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
           </div>
-          <Space isBottom :size="3" />
+          <Spacer isBottom :size="3" />
           <Heading1 isLight>Personalized for better health.</Heading1>
-          <Space isBottom :size="4" />
+          <Spacer isBottom :size="4" />
           <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
         </div>
-        <Space isBottom :size="4" />
+        <Spacer isBottom :size="4" />
         <ConditionsAll />
       </div>
     </div>
@@ -30,7 +30,7 @@
 
 <script>
 import { Heading1, Paragraph } from 'typography';
-import { Space } from 'layout';
+import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { MainNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
@@ -41,7 +41,7 @@ import VerifyZip from './children/VerifyZip';
 export default {
   name: 'conditions',
   components: {
-    MainNav, Heading1, Paragraph, Space, SvgIcon,
+    MainNav, Heading1, Paragraph, Spacer, SvgIcon,
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,
