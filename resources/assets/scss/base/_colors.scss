@@ -36,8 +36,8 @@ $red: #FF0000;
     background-color: $pink !important;
     &:hover,
     &:focus {
-      background-color: darken($pink, 10);
-      color: white;
+      background-color: darken($pink, 10) !important;
+      color: white !important;
     }
 }
 
