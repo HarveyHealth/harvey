@@ -135,7 +135,7 @@ export default {
             });
         },
         editSoapNote() {
-            axios.patch(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/soap_notes`, {
+            axios.patch(`${this.$root.$data.apiUrl}/soap_notes/${this.$parent.propData.id}`, {
                 subjective: this.subjectiveTA,
                 objective: this.objectiveTA,
                 assessment: this.assessmentTA,
