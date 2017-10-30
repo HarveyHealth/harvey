@@ -105,6 +105,7 @@ export default {
                 .then(() => {
                     this.deleteModalActive = false;
                     this.$parent.page = 0;
+                    this.$parent.index = null;
                     this.$parent.getTimelineData();
                     this.$parent.notificationMessage = "Successfully deleted!";
                     this.$parent.notificationActive = true;
