@@ -19,16 +19,28 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         return $this->getCommandOutput('messages:send-unread-messages-notifications');
     }
 
-    public function test_it_finds_unread_messages_older_than_10_newer_than_15_minutes_if_no_redis()
+    public function test_it_finds_unread_messages_older_than_newer_than_no_redis()
     {
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
 
+        $newer_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_NEWER_THAN_MINUTES;
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES;
+        $should_send = 0;
+        $email_address = '';
+
         // create unread Messages sent a different times from now
-        foreach ([-30, -20, -14, -9, -5, 5, 10] as $minutesFromNow) {
-            factory(Message::class)->create([
+        foreach ([-31, -21, -16, -11, -6, 6, 11] as $minutesFromNow) {
+            $message = factory(Message::class)->create([
                 'created_at' => Carbon::parse("{$minutesFromNow} minutes"),
                 'read_at' => null,
             ]);
+            if (Carbon::parse("{$minutesFromNow} minutes")->gt(Carbon::parse("-$newer_than minutes"))
+                and
+                Carbon::parse("{$minutesFromNow} minutes")->lt(Carbon::parse("-$older_than minutes"))){
+
+                $should_send++;
+                $email_address = $message->recipient->email;
+            }
         }
 
         // creates a read message sent 5 minutes ago
@@ -41,26 +53,44 @@ class UnreadMessageEmailNotificationsTest extends TestCase
 
         $this->assertEquals('Looking for unread messages.', $output[0]);
         $this->assertEquals('Last processed ID not found.', $output[1]);
-        $this->assertEquals('Done. [1 emails sent.]', $output[3]);
+        $this->assertEquals("Done. [{$should_send} emails sent.]", $output[3]);
+
+        $this->assertEmailWasSentTo($email_address);
     }
 
-    public function test_it_continues_with_the_last_processed_message_older_than_10_minutes()
+    public function test_it_continues_with_the_last_processed_message_older_than()
     {
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
 
-        // create unread Messages sent a different times from now
-        foreach ([-30, -20, -14, -9, -5, 5, 10] as $minutesFromNow) {
-            factory(Message::class)->create([
+        $newer_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_NEWER_THAN_MINUTES;
+        $older_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_OLDER_THAN_MINUTES;
+        $should_send = 0;
+        $last_processed_id = 0;
+
+
+        // send messages without Redis index of last processed id
+        foreach ([-31, -21, -16, -11, -6, 6, 11] as $minutesFromNow) {
+            $message = factory(Message::class)->create([
                 'created_at' => Carbon::parse("{$minutesFromNow} minutes"),
                 'read_at' => null,
             ]);
+
+            if (Carbon::parse("{$minutesFromNow} minutes")->gt(Carbon::parse("-$newer_than minutes"))
+                and
+                Carbon::parse("{$minutesFromNow} minutes")->lt(Carbon::parse("-$older_than minutes"))){
+                // saves the last processed that is going to be taken from Redis
+                $last_processed_id = $message->id;
+            }
         }
 
         // send the emails and saves last processed id in redis
         $output = $this->getMessageEmailCommandOutput();
 
         // create unread Messages sent a different times from now
-        foreach ([-16, -15, -9, -5, 5, 10] as $minutesFromNow) {
+        foreach ([-31, -21, -16, -11, -6, 6, 11] as $minutesFromNow) {
+            if (Carbon::parse("{$minutesFromNow} minutes")->lt(Carbon::parse("-$older_than minutes"))){
+                $should_send++;
+            }
             factory(Message::class)->create([
                 'created_at' => Carbon::parse("{$minutesFromNow} minutes"),
                 'read_at' => null,
@@ -70,8 +100,8 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         // send emails
         $output = $this->getMessageEmailCommandOutput();
 
-        $this->assertEquals('Last processed ID = 3.', $output[1]);
-        $this->assertEquals('Done. [2 emails sent.]', $output[2]);
+        $this->assertEquals("Last processed ID = {$last_processed_id}.", $output[1]);
+        $this->assertEquals("Done. [{$should_send} emails sent.]", $output[2]);
     }
 
     public function test_email_is_sent_if_message_is_almost_15_minutes_in_the_past()
@@ -79,8 +109,10 @@ class UnreadMessageEmailNotificationsTest extends TestCase
         Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
         $patient = factory(Patient::class)->create();
 
+        $newer_than = SendUnreadMessageEmailNotificationsCommand::UNREAD_NEWER_THAN_MINUTES - 1;
+
         $message = factory(Message::class)->create([
-            'created_at' => Carbon::parse("-14 minutes 59 seconds"),
+            'created_at' => Carbon::parse("-{$newer_than} minutes 59 seconds"),
             'read_at' => null,
             'recipient_user_id' => $patient->user->id,
         ]);
