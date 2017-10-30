@@ -32,8 +32,8 @@ trait BelongsToPatient
         return $builder->limit(0);
     }
 
-    public function getDoctorNameAttribute() {
-
+    public function getDoctorNameAttribute()
+    {
         $builder = $this->patient->appointments()->withoutGlobalScopes()->beforeThan($this->created_at)->byAppointmentAtDesc();
 
         return Cache::remember("practitioner_name_user_id_{$this->patient->user->id}_at_{$this->created_at}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
