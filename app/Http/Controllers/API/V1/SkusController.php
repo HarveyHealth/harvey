@@ -55,7 +55,7 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required',
             'lab_name' => 'required',
-            'visibility' => 'required|integer',
+            'visibility_id' => 'required|integer',
         ]);
     
         $sku = new SKU($request->only(['name', 'price', 'cost']));
@@ -100,6 +100,7 @@ class SkusController extends BaseAPIController
             });
             $sku->refresh();
             $sku->load('labTestInformation');
+            Cache::forget('public_lab_tests_information');
             return $this->baseTransformItem($sku, request('include'))->respond();
         } catch (\Exception $exception) {
             return $this->respondWithError($exception->getMessage());

@@ -26,7 +26,11 @@ export default {
     },
     computed: {
         skuPublic() {
-            return this.sku.attributes.lab_test_information.visibility_id === 0 ? "Yes" : "No"; // visibility id 0 is public
+            // Workaround for not being able to cast the visibility_id to a string
+            return (this.sku.attributes.lab_test_information.visibility_id === "0"
+                || this.sku.attributes.lab_test_information.visibility_id === 0)
+                ? "Yes"
+                : "No";
         },
         isSelected() {
             if(this.selectedSku) {
