@@ -209,7 +209,7 @@
             return this.sku || this.blankSku;
         },
         notificationMessage() {
-            return this.sku ? "Lab test updated" : "Lab test saved";
+            return this.sku ? "Lab test updated" : "Lab Test Updated";
         },
     },
     props: {
