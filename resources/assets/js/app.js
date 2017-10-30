@@ -199,7 +199,6 @@ const app = new Vue({
         labTests: {},
         timezone: moment.tz.guess(),
         timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
->>>>>>> 4bd881dffae93a94e2738868cdca780cbfa778d3
     },
     data: Store,
     computed: {
