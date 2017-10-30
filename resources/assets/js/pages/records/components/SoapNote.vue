@@ -83,9 +83,9 @@ export default {
                 object.id = returns.id;
                 object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
                 object.original_date = returns.attributes.created_at.date;
-                object.doctor = returns.attributes.doctor_name;
+                object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
-                this.$parent.timeline.shift(object);
+                this.$parent.timeline = [object].concat(this.$parent.timeline);
                 this.$parent.notificationMessage = "Successfully added!";
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
