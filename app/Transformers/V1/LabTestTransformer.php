@@ -17,12 +17,12 @@ class LabTestTransformer extends TransformerAbstract
     public function transform(LabTest $labTest)
     {
         return [
-            'id' => (string) $labTest->id,
-            'lab_order_id' => (string) $labTest->lab_order_id,
-            'sku_id' => (string) $labTest->sku_id,
-            'status' => $labTest->status,
-            'shipment_code' => (string) $labTest->shipment_code,
+            'id' => cast_to_string($labTest->id),
             'completed_at' => $labTest->completed_at,
+            'lab_order_id' => cast_to_string($labTest->lab_order_id),
+            'shipment_code' => cast_to_string($labTest->shipment_code),
+            'sku_id' => cast_to_string($labTest->sku_id),
+            'status' => $labTest->status,
         ];
     }
 
