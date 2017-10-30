@@ -198,7 +198,7 @@
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Duration:</strong></div>
             <div class="Column-md-4of5 font-thin">{{ appointment.duration.value }}</div>
           </div>
-          <div class="Row-md" v-show="appointment.status !== 'canceled'">
+          <div class="Row-md" v-show="appointment.status === 'pending'">
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Purpose:</strong></div>
             <div class="Column-md-4of5 font-thin">{{ appointment.purpose }}</div>
           </div>
@@ -210,6 +210,12 @@
                 maxlength="1024"
                 placeholder="Reason for cancelling appointment">
               </textarea>
+            </div>
+          </div>
+          <div class="Row-md" v-show="appointment.status === 'complete'">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Discount:</strong></div>
+            <div class="Column-md-4of5 font-thin">
+              <input v-model="discountCode" class="input--text" />
             </div>
           </div>
         </div>
@@ -279,6 +285,7 @@ export default {
         cancelled: []
       },
       cancellationReason: '',
+      discountCode: '',
       durationList: [
         { data: 30, value: '30 minutes' },
         { data: 60, value: '60 minutes' }
@@ -522,15 +529,24 @@ export default {
 
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
-      switch(action) {
+      switch (action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
           break;
         case 'update':
-          // If an admin/practitioner updates an appointment status to anything other than pending, they are cancelling it
-          this.userActionTitle = this.appointment.status !== 'pending' ? 'Cancel Appointment' : 'Update Appointment';
+          switch (this.appointment.status) {
+            case 'pending':
+              this.userActionTitle = 'Update Appointment';
+              break;
+            case 'complete':
+              this.userActionTitle = 'Complete Appointment';
+              break;
+            default:
+              this.userActionTitle = 'Cancel Appointment';
+              break;
+          }
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
