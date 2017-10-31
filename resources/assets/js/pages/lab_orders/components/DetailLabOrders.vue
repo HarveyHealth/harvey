@@ -349,9 +349,14 @@
         <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
       </div>
 
+      <!-- Shipping Label -->
+      <div>
+        <a v-if="this.shippingLabelUrl" :href="this.shippingLabelUrl" target="_blank">Shipping Label</a>
+      </div>
+
       <!-- Mark as Shipped -->
       <div class="button-wrapper">
-        <button class="button" @click="getShippingInformation">Generate Shipping Information</button>
+        <button class="button" @click="getShippingInformation">Generate Label</button>
       </div>
 
       <div class="button-wrapper">
@@ -403,6 +408,7 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingLabelUrl: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
       firstName: '',
@@ -674,9 +680,9 @@ export default {
             // update the tracking number field for the package
             const trackingNumber = response.data.data.attributes.shipment_code;
             const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
-            console.log(trackingNumber, shippingLabelUrl);
             
             this.masterTracking = trackingNumber;
+            this.shippingLabelUrl = shippingLabelUrl;
             this.loading = false;
 
         });
