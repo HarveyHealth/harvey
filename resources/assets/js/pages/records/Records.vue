@@ -184,6 +184,7 @@ export default {
             dropDownMenu: [
                 'SOAP Note', 
                 'Prescription', 
+                'Lab Results', 
                 'Attachment', 
             ],
             menuIndex: 1,
@@ -194,6 +195,9 @@ export default {
             switch (e.target.value) {
                 case "SOAP Note":
                     this.menuIndex = 1;
+                    break;
+                case "Lab Results":
+                    this.menuIndex = 2;
                     break;
                 case "Prescription":
                     this.menuIndex = 3;
@@ -207,6 +211,7 @@ export default {
         },
         newRecord() {
             this.news = true;
+            this.setIndex(null);
             this.setPage(this.menuIndex);
         },
         updateInput(e) {
@@ -216,12 +221,6 @@ export default {
             this.activeModal = false;
             this.search = e.target.value;
             this.loading = true;
-        },
-        newSoapNote() {
-            this.index = null;
-            this.news = true;
-            this.propData = {};
-            this.page = 1;
         },
         setPage(page) {
             this.page = page;

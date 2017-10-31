@@ -132,6 +132,8 @@ export default {
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
                 this.$parent.timeline = [object].concat(this.$parent.timeline);
+                this.$parent.setIndex(0);
+                this.$parent.propData = returns;
                 this.$parent.notificationMessage = "Successfully added!";
                 this.$parent.notificationActive = true;
                 setTimeout(() => this.$parent.notificationActive = false, 3000);
