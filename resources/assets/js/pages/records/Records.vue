@@ -40,16 +40,16 @@
             <div v-if="step == 2" class="main-content">
                 <div v-if="$root.$data.permissions !== 'patient'">
                     <div class="form">
-                    <i class="fa fa-search search-icon"></i>
-                    <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
+                        <i class="fa fa-search search-icon"></i>
+                        <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
                     </div>
                     <div class="records-button-container">
-                        <span class="custom-select button soat-button">
+                        <span class="custom-select soat-button">
                             <select @change="updateMenu($event)">
                                 <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
                             </select>
                         </span>
-                        <button class="button records-button">New Record</button>
+                        <button @click="newRecord" class="button records-button">New Record</button>
                     </div>
                     <div class="auto-height">
                         <div v-if="page === 0">
@@ -186,15 +186,28 @@ export default {
                 'Prescription', 
                 'Attachment', 
             ],
-            menuIndex: null,
+            menuIndex: 1,
         };
     },
     methods: {
         updateMenu(e) {
-
+            switch (e.target.value) {
+                case "SOAP Note":
+                    this.menuIndex = 1;
+                    break;
+                case "Prescription":
+                    this.menuIndex = 3;
+                    break;
+                case "Attachment":
+                    this.menuIndex = 4;
+                    break;
+                default:
+                    break;
+            }
         },
         newRecord() {
-
+            this.news = true;
+            this.setPage(this.menuIndex);
         },
         updateInput(e) {
             this.step = 1;
