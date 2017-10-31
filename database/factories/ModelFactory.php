@@ -281,7 +281,6 @@ $factory->define(LabTestResult::class, function (Faker\Generator $faker) {
         'key' => function () {
             return 'WIP';
         },
-<<<<<<< HEAD
         'notes' => $faker->text,
     ];
 });
@@ -291,10 +290,10 @@ $factory->define(Attachment::class, function (Faker\Generator $faker) {
         'patient_id' => factory(Patient::class),
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
-=======
+        },
         'sku_id' => function () {
             return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
->>>>>>> release-2.5.5
+
         },
         'key' => 'testing/testFile.pdf',
         'name' => $faker->word,
