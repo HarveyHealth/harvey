@@ -260,6 +260,13 @@
           </a>
         </div>
 
+        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+            <label class="input__label">Shipping Label</label>
+            <a :href="this.shippingLabelUrl" class="input__item link-color" target="_blank">
+                <i class="fa fa-truck" aria-hidden="true"></i> View Label
+            </a>
+        </div>
+
         <!-- Address -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
@@ -408,7 +415,6 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
-      shippingLabelUrl: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
       firstName: '',
@@ -684,7 +690,6 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabelUrl = shippingLabelUrl;
             this.loading = false;
-
         });
 
     },
@@ -831,6 +836,9 @@ export default {
     },
     shipmentCode() {
       return this.$props.rowData ? this.$props.rowData.shipment_code : '';
+    },
+    shippingLabelUrl() {
+        return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
     },
     addressOne() {
       return this.$props.rowData ? this.$props.rowData.address_1 : '';
