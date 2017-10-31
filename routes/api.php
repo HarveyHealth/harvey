@@ -26,13 +26,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
-<<<<<<< HEAD
-=======
         Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
         Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
         Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
 
->>>>>>> release-2.5.5
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
@@ -86,14 +83,9 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
-<<<<<<< HEAD
-        Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
-        Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
-=======
         Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
         Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
         Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
->>>>>>> release-2.5.5
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
