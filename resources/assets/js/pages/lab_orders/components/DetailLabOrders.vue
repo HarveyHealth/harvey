@@ -661,6 +661,7 @@ export default {
       });
     },
     getShippingInformation() {
+        this.loading = true;
         const labOrderId = this.$props.rowData.id;
         console.log('here', labOrderId);
 
@@ -670,7 +671,14 @@ export default {
         axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
 
         }).then((response) => {
-            console.log(response);
+            // update the tracking number field for the package
+            const trackingNumber = response.data.data.attributes.shipment_code;
+            const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
+            console.log(trackingNumber, shippingLabelUrl);
+            
+            this.masterTracking = trackingNumber;
+            this.loading = false;
+
         });
 
     },
