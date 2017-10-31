@@ -51,6 +51,7 @@ class ReportsRepository extends BaseRepository
 
             ->where('invoice_items.created_at','>=', $from_date)
             ->where('invoice_items.created_at','<=',$to_date)
+            ->whereNotNull('invoices.transaction_id')
 
             ->orderBy('invoices.id')
 
@@ -102,10 +103,13 @@ class ReportsRepository extends BaseRepository
 
             if ($item->invoice_id != $current_invoice_id){
                 // adds the completed invoice to the report
-                $report[] = $current_row;
+                if (!empty($current_row) and !empty($current_row["Practitioner ID"])){
+                    $report[] = $current_row;
+                }
                 $current_invoice_id = $item->invoice_id;
                 // switches to the new invoice
                 $current_row = [
+                    //"invoice" => "",
                     "Transaction ID" => "--",
                     "Transaction Date" => "--",
                     "Client Name" => NULL,
@@ -125,7 +129,8 @@ class ReportsRepository extends BaseRepository
                     "Lab Total" => "--",
                     "Discount Code" => "--",
                     "Discount Amount" => "--",
-                    "Total" => NULL
+                    //"Calculated" => NULL,
+                    "Total" => NULL,
                 ];
             }
 
@@ -143,7 +148,10 @@ class ReportsRepository extends BaseRepository
             }
 
             $current_row["Total"] = $item->total;
-
+            // debug
+            /*$current_row["Calculated"] += $item->item_amount;
+            $current_row["invoice"] = $item->invoice_id;
+*/
             if (!empty($item->discount)){
                 $current_row["Discount Code"] = $item->discount_code;
                 $current_row["Discount Amount"] = $item->discount;
@@ -155,11 +163,11 @@ class ReportsRepository extends BaseRepository
                     $current_row["Blood Draw"] = ($item->blood_draw)?'Yes':'No';
                     $current_row["Lab Names"] .= (empty($current_row["Lab Names"]))?"":";";
                     $current_row["Lab Names"] .=  $item->lab_test_name;
-                    if (!is_int($current_row["Lab Total"])){
+                    if (!is_numeric($current_row["Lab Total"])){
                         $current_row["Lab Total"] = 0;
                     }
                     $current_row["Lab Total"] += $item->item_amount;
-                    if (!is_int($current_row["Lab Cost"])){
+                    if (!is_numeric($current_row["Lab Cost"])){
                         $current_row["Lab Cost"] = 0;
                     }
                     $current_row["Lab Cost"] += $item->cost;
@@ -175,6 +183,9 @@ class ReportsRepository extends BaseRepository
                     $current_row["Processing Type"] = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
                     break;
             }
+        }
+        if (!empty($current_row) and !empty($current_row["Practitioner ID"])){
+            $report[] = $current_row;
         }
 
         return $report;
