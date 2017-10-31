@@ -51,7 +51,7 @@ class VueHelperViewComposer
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
-    
+
         if($user->isPractitioner()) {
             $output += ['practitionerId' => $user->practitioner->id];
         }
@@ -67,6 +67,9 @@ class VueHelperViewComposer
             ],
             'pusher' => [
                 'key' => Config::get('broadcasting.connections.pusher.key')
+            ],
+            'segment' => [
+                'key' => Config::get('services.segment.key'),
             ],
         ];
 

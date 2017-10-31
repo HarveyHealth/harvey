@@ -33,7 +33,6 @@ before_script:
 - export DB_CONNECTION=sqlite
 - export DB_DATABASE=/home/travis/build/HomeHero/harvey/harvey_dusk.sqlite
 - phpenv config-rm xdebug.ini
-- composer self-update
 - composer install --no-interaction
 - export DISPLAY=:99.0
 - /usr/bin/Xvfb :99 -ac -screen 0 2560x1440x24 &

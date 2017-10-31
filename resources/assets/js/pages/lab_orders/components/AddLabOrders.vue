@@ -1,5 +1,6 @@
 <template>
   <Flyout
+    :class="$parent.addActiveModal && 'with-active-modal'"
     :active="$parent.addFlyoutActive"
     :heading="flyoutHeading"
     :on-close="handleFlyoutClose"

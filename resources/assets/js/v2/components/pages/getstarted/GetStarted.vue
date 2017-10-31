@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  import Signup from './children/Signup';
-  import Welcome from './children/Welcome';
+  import Signup from './children/Signup.vue';
+  import Welcome from './children/Welcome.vue';
 
   export default {
     name: 'get-started',

@@ -5,11 +5,13 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Message;
 use App\Lib\{TimeInterval, TransactionalEmail};
-use Carbon, Redis;
+use Carbon;
+use Illuminate\Support\Facades\Redis;
 
 class SendUnreadMessageEmailNotificationsCommand extends Command
 {
-    const UNREAD_OLDER_THAN_MINUTES = 15;
+    const UNREAD_OLDER_THAN_MINUTES = 10;
+    const UNREAD_NEWER_THAN_MINUTES = 20;
     const LAST_PROCESSED_ID_REDIS_KEY = 'messages:send-unread-messages-notifications:last_processed_id';
 
     /**
@@ -38,13 +40,22 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
         $lastProcessedId = Redis::get(self::LAST_PROCESSED_ID_REDIS_KEY);
         $builder = Message::unread();
 
+        // defines date to filter messages to be notified
+        $older_than = Carbon::now()->subMinutes(self::UNREAD_OLDER_THAN_MINUTES);
+        $newer_than = Carbon::now()->subMinutes(self::UNREAD_NEWER_THAN_MINUTES);
+
         if (is_numeric($lastProcessedId)) {
+            // retrieves messages after last processed ID (from Redis)
+            // with a buffer of 10 minutes to give time to logged in users to read from the web
             $this->info("Last processed ID = {$lastProcessedId}.");
-            $builder = $builder->idGreaterThan($lastProcessedId);
+            $builder = $builder->idGreaterThan($lastProcessedId)->createdBefore($older_than);
         } else {
+            // if there is not Redis info of last processed ID
+            // retrieves only recent messages
             $this->info("Last processed ID not found.");
-            $this->info('Looking for unread messages in the last ' . self::UNREAD_OLDER_THAN_MINUTES . ' minutes');
-            $builder = $builder->createdAfter(Carbon::now()->subMinutes(self::UNREAD_OLDER_THAN_MINUTES));
+            $this->info('Looking for unread messages in the last ' . self::UNREAD_NEWER_THAN_MINUTES . ' minutes');
+            $builder = $builder->createdBefore($older_than);
+            $builder = $builder->createdAfter($newer_than);
         }
 
         $messages = $builder->get();

@@ -12,7 +12,7 @@ class SendPatientLabOrderShippedEmail implements ShouldQueue
     {
         $labTests = [];
 
-        foreach ($event->labOrder->labTests()->shipped()->get() as $labTest) {
+        foreach ($event->labOrder->labTests()->shipped()->bySkuName()->get() as $labTest) {
             $labTests[] = [
                 'name' => $labTest->sku->name ?? '',
                 'lab_name' => $labTest->information->lab_name ?? '',
