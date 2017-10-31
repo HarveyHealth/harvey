@@ -40,7 +40,7 @@
 
     <footer>
         <!-- Scripts -->
-        @if (App::environment(['production']))
+        @if (isProd())
             <script type="text/javascript" src="https://unpkg.com/gh-intercom@1.0.0/index.js"></script>
             <script type="text/javascript">
                 window.onload = function() {
