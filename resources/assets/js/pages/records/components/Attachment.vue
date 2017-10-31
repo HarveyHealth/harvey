@@ -14,7 +14,7 @@
             <div class="card-heading-container records-spacing">
                 <div class="width-175">
                     <label class="input__label">file upload</label>
-                    <input v-model="fileName" placeholder="Enter file name" class="input--text bg-white">
+                    <input class="bg-white input--text" v-model="fileName" placeholder="Enter file name">
                 </div>
                 <div class="width-175">
                     <label class="input__label">upload</label>
@@ -34,9 +34,13 @@
 </template>
 
 <script>
+import {mask} from 'vue-the-mask'
 export default {
     props: {
         patient: Object
+    },
+    directives: {
+        mask,
     },
     data() {
         return {
@@ -44,11 +48,19 @@ export default {
         };
     },
     computed: {
+        attachmentList() {
+            return [{name: ''}].concat(this.$parent.propData.attributes);
+        },
         attachmentUrl() {
             return this.$parent.propData.attributes.url;
         }
     },
     watch: {
+        attachmentList(val) {
+            if (!val) {
+                return [{name: ''}].concat(this.$parent.propData.attributes);
+            }
+        },
         attachmentUrl(val) {
             if (!val) {
                 return this.$parent.propData.attributes.url;
