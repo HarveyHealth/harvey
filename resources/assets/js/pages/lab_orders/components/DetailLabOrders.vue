@@ -262,7 +262,7 @@
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
             <label class="input__label">Shipping Label</label>
-            <a :href="this.shippingLabelUrl" class="input__item link-color" target="_blank">
+            <a :href="shippingLabelUrl" class="input__item link-color" target="_blank">
                 <i class="fa fa-truck" aria-hidden="true"></i> View Label
             </a>
         </div>
@@ -358,7 +358,7 @@
 
       <!-- Shipping Label -->
       <div>
-        <a v-if="this.shippingLabelUrl" :href="this.shippingLabelUrl" target="_blank">Shipping Label</a>
+        <a v-if="this.shippingLabel" :href="this.shippingLabel" target="_blank">Shipping Label</a>
       </div>
 
       <!-- Mark as Shipped -->
@@ -417,6 +417,7 @@ export default {
       shippingCodes: {},
       selectedAddressOne: null,
       selectedAddressTwo: null,
+      shippingLabel: null,
       firstName: '',
       lastName: '',
       month: '',
@@ -688,7 +689,7 @@ export default {
             const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
             
             this.masterTracking = trackingNumber;
-            this.shippingLabelUrl = shippingLabelUrl;
+            this.shippingLabel = shippingLabelUrl;
             this.loading = false;
         });
 
@@ -838,7 +839,7 @@ export default {
       return this.$props.rowData ? this.$props.rowData.shipment_code : '';
     },
     shippingLabelUrl() {
-        return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
+      return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
     },
     addressOne() {
       return this.$props.rowData ? this.$props.rowData.address_1 : '';
