@@ -2,7 +2,7 @@
     <div class="records-container">
 
         <div class="top-soap-note">
-            <label name="Subject" class="card-header top-header">Subject</label>
+            <label name="Subject" class="card-header top-header">Subjective</label>
             <textarea @keydown="keyDownTextarea" v-model="subjectiveTA" class="input--textarea soap-textarea" placeholder="Enter your text..." />
         </div>
 

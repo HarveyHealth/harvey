@@ -49,7 +49,7 @@ export default {
     },
     computed: {
         prescriptionList() {
-            return [{name: ''}].concat([]);
+            return [{name: ''}].concat([{name: 'Fullscript'}]);
         },
         prescriptionUrl() {
             return this.$parent.propData.attributes.url;

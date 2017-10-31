@@ -22,7 +22,7 @@
                     </div>
                     <Modal :active="activeModal" :onClose="modalClose">
                         <div class="inline-centered">
-                            <h1>HIPAA Warning</h1>
+                            <h1>Warning</h1>
                             <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
                             <button @click="modalClose" class="button grey-background">Go Back</button>
                             <button @click="nextStep" class="button">Yes, I agree</button>
