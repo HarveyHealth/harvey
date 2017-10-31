@@ -71,22 +71,22 @@
                             </div>
 
                             <div v-if="page === 1">
-                                <SoapNote :patient="selectedPatient" :selectedData="propData" />
+                                <SoapNote :patient="selectedPatient" />
                             </div>
                             <div v-if="page === 2">
-                                <LabResults :patient="selectedPatient" :selectedData="propData" />
+                                <LabResults :patient="selectedPatient" />
                             </div>
                             <div v-if="page === 3">
-                                <Prescription :patient="selectedPatient" :selectedData="propData" />
+                                <Prescription :patient="selectedPatient" />
                             </div>
                             <div v-if="page === 4">
-                                <Attachment :patient="selectedPatient" :selectedData="propData" />
+                                <Attachment :patient="selectedPatient" />
                             </div>
                             <div v-if="page === 5">
-                                <Intake :patient="selectedPatient" :selectedData="propData" />
+                                <Intake :patient="selectedPatient" />
                             </div>
                             <div v-if="page === 6">
-                                <Treatment :patient="selectedPatient" :selectedData="propData" />
+                                <Treatment :patient="selectedPatient" />
                             </div>
 
                         </div>
