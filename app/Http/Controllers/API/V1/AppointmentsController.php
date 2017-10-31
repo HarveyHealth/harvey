@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
@@ -30,16 +31,18 @@ class AppointmentsController extends BaseAPIController
     public function index()
     {
         if (currentUser()->isAdmin()) {
-            $appointments = Appointment::orderBy('appointment_at', 'asc');
+            $builder = Appointment::orderBy('appointment_at', 'asc');
         } else {
-            $appointments = currentUser()->appointments();
+            $builder = currentUser()->appointments();
         }
 
         if (in_array($filter = request('filter'), ['recent', 'upcoming'])) {
-            $appointments = $appointments->$filter();
+            $builder = $builder->$filter();
         }
 
-        return $this->baseTransformBuilder($appointments, request('include'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user');
+
+        return $this->baseTransformBuilder($builder, request('include'))->respond();
     }
 
     /**
@@ -76,6 +79,16 @@ class AppointmentsController extends BaseAPIController
             $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
+        }
+
+        if ($request->has('discount_code')) {
+          if ($inputData['discount_code'] !== null) {
+            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($inputData['discount_code'], 'consultation', currentUser());
+            if ($discount_code) {
+                $inputData['discount_code_id'] = $discount_code->id;
+            }
+            unset($inputData['discount_code']);
+          }
         }
 
         $appointment = Appointment::create($inputData);

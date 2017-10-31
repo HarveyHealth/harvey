@@ -1,59 +1,61 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="signup-stage-instructions">
-      <StagesNav :current="'phone'" />
-      <h2 class="heading-1" v-text="title"></h2>
-      <p v-html="subtext"></p>
-    </div>
-    <div class="signup-container signup-phone-container font-centered">
-      <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }">
-        <i class="fa fa-long-arrow-left"></i>
-        <span class="font-sm">Practitioner</span>
-      </router-link>
-
-      <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
-        <div class="signup-main-icon">
-          <svg class="interstitial-icon icon-phone"><use xlink:href="#phone" /></svg>
-        </div>
-        <div class="input-wrap">
-          <TheMask class="form-input form-input_text"
-            name="phone_number"
-            type="phone"
-            v-model="phone"
-            mask="(###) ###-####"
-            placeholder="Mobile Number" />
-          <span v-show="isInvalidNumber" class="error-text">Please supply a valid U.S. phone number.</span>
-          <span v-show="isUserPatchError" class="error-text">There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.</span>
-        </div>
-        <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
-          <span v-if="!isPhoneProcessing">Send Text</span>
-          <ClipLoader v-else-if="isPhoneProcessing" :color="'#ffffff'" :size="'12px'" />
-          <i v-else-if="isComplete" class="fa fa-check"></i>
-        </button>
+    <div class="vertical-center">
+      <div class="signup-stage-instructions color-white">
+        <StagesNav :current="'phone'" />
+        <h2 class="heading-1 color-white" v-text="title"></h2>
+        <p v-html="subtext"></p>
       </div>
+      <div class="signup-container signup-phone-container font-centered">
+        <router-link class="signup-back-button" :to="{ name: 'practitioner', path: '/practitioner' }">
+          <i class="fa fa-long-arrow-left"></i>
+          <span class="font-sm">Practitioner</span>
+        </router-link>
 
-      <div class="phone-input-container" v-show="$root.$data.signup.phonePending">
-        <div class="signup-main-icon">
-          <svg class="interstitial-icon icon-phone-sms"><use xlink:href="#phone-sms" /></svg>
+        <div class="phone-input-container" v-show="!$root.$data.signup.phonePending">
+          <div class="signup-main-icon">
+            <svg class="interstitial-icon icon-phone"><use xlink:href="#phone" /></svg>
+          </div>
+          <div class="input-wrap">
+            <TheMask class="form-input form-input_text"
+              name="phone_number"
+              type="phone"
+              v-model="phone"
+              mask="(###) ###-####"
+              placeholder="Mobile Number" />
+            <span v-show="isInvalidNumber" class="error-text">Please supply a valid U.S. phone number.</span>
+            <span v-show="isUserPatchError" class="error-text">There was an error processing your phone number. Please call us at <a href="tel:8006909989">800-690-9989</a> to speak with our Customer Support.</span>
+          </div>
+          <button class="button button--blue" style="width: 160px" :disabled="isPhoneProcessing" @click="processPhone(phone)">
+            <span v-if="!isPhoneProcessing">Send Text</span>
+            <ClipLoader v-else-if="isPhoneProcessing" :color="'#ffffff'" :size="'12px'" />
+            <i v-else-if="isComplete" class="fa fa-check"></i>
+          </button>
         </div>
 
-        <ConfirmInput :get-value="storeCode" :disabled="$root.$data.signup.codeConfirmed" :stored="code" />
+        <div class="phone-input-container" v-show="$root.$data.signup.phonePending">
+          <div class="signup-main-icon">
+            <svg class="interstitial-icon icon-phone-sms"><use xlink:href="#phone-sms" /></svg>
+          </div>
 
-        <button class="phone-process-button text-again font-sm" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">
-          <i class="fa fa-repeat" aria-hidden="true"></i>
-          Text Me Again
-        </button>
+          <ConfirmInput :get-value="storeCode" :disabled="$root.$data.signup.codeConfirmed" :stored="code" />
 
-        <button class="phone-process-button edit-phone font-sm" @click="newPhoneNumber">Re-Enter Phone</button>
+          <button class="phone-process-button text-again font-sm" @click="handleNewSend" :disabled="$root.$data.signup.codeConfirmed">
+            <i class="fa fa-repeat" aria-hidden="true"></i>
+            Text Me Again
+          </button>
 
-        <p class="copy-error" v-show="isInvalidCode">Invalid code entered.</p>
-        <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
-          <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
-          <span v-else-if="!isPhoneConfirming">Confirm Code</span>
-          <ClipLoader v-else :color="'#ffffff'" :size="'12px'" />
-        </button>
+          <button class="phone-process-button edit-phone font-sm" @click="newPhoneNumber">Re-Enter Phone</button>
+
+          <p class="copy-error" v-show="isInvalidCode">Invalid code entered.</p>
+          <button class="button button--blue phone-confirm-button" style="width: 160px" :disabled="isPhoneConfirming" @click="processConfirmation(code)">
+            <span v-if="$root.$data.signup.codeConfirmed"><i class="fa fa-check"></i><span class="button-text">Continue</span></span>
+            <span v-else-if="!isPhoneConfirming">Confirm Code</span>
+            <ClipLoader v-else :color="'#ffffff'" :size="'12px'" />
+          </button>
+        </div>
+
       </div>
-
     </div>
   </div>
 </template>
@@ -70,7 +72,7 @@ export default {
     ClipLoader,
     ConfirmInput,
     StagesNav,
-    TheMask,
+    TheMask
   },
   data() {
     return {
@@ -80,14 +82,18 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
+        'pad-md': true,
+        'flex-wrapper': true,
+        'height-100': true,
+        'justify-center': true
       },
       isInvalidCode: false,
       isInvalidNumber: false,
       phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
       isPhoneConfirming: false,
       isPhoneProcessing: false,
-      isUserPatchError: false,
-    }
+      isUserPatchError: false
+    };
   },
   computed: {
     title() {
@@ -98,7 +104,7 @@ export default {
     subtext() {
       return this.$root.$data.signup.phonePending
         ? 'Please enter the confirmation code that was just sent to you via text message. You can click "Text Me Again" if you didn&rsquo;t receive it.'
-        : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before each appointment containing a link to your video conference meeting room.';
+        : 'Our doctors require a valid phone number on file for every patient. We will also send you text reminders before every appointment.';
     },
     confirmInputComponent() {
       return this.$children.filter(child => {
@@ -110,7 +116,7 @@ export default {
     clearCodeInputs() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
         this.confirmInputComponent.$refs[i].value = '';
-      })
+      });
     },
     newPhoneNumber() {
       this.isPhoneProcessing = false;
@@ -148,10 +154,10 @@ export default {
           } else {
             this.setInvalidCode();
           }
-        }).catch(error => {
+        }).catch(() => {
           this.clearCodeInputs();
           this.setInvalidCode();
-        })
+        });
       }
 
     },
@@ -181,15 +187,14 @@ export default {
           // track the number patch
           if(this.$root.shouldTrack()) {
             // collect response information
-            const userData = response.data.data.attributes;
             const userId = response.data.data.id || '';
 
             // Segment Identify update
             analytics.identify(userId, {
-              phone: number,
+              phone: number
             });
           }
-        }).catch(error => {
+        }).catch(() => {
           this.isUserPatchError = true;
           this.isPhoneProcessing = false;
         });
@@ -208,7 +213,7 @@ export default {
     setInvalidCode() {
       this.isPhoneConfirming = false;
       this.isInvalidCode = true;
-    },
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -222,5 +227,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

@@ -19,33 +19,30 @@ let rootRoute = {
   children: []
 };
 
-// For when intake FE is ready
-// rootRoute.name = context === 'get-started'
-//   ? 'get-started' : context === 'intake'
-//   ? 'intake' : context !== 'get-started' || context !== 'intake'
-//   ? 'dashboard' : 'get-started';
-
-// rootRoute.component = context === 'get-started'
-//   ? require('./pages/get-started/GetStarted.vue') : context === 'intake'
-//   ? require('./pages/intake/Intake.vue') : context !== 'get-started' || context !== 'intake'
-//   ? require('./pages/dashboard/Dashboard.vue') : require('./pages/get-started/GetStarted.vue');
-
-rootRoute.name = context === 'get-started'
-  ? 'get-started'
-  : 'dashboard';
-
-rootRoute.component = context === 'get-started'
-  ? require('./pages/get-started/GetStarted.vue')
-  : require('./pages/dashboard/Dashboard.vue');
+switch(context) {
+  case 'get-started':
+    rootRoute.name = 'get-started';
+    rootRoute.component = require('./pages/get-started/GetStarted');
+    break;
+  case 'dashboard':
+    rootRoute.name = 'dashboard';
+    rootRoute.component = require('./pages/dashboard/Dashboard');
+    break;
+  case 'conditions':
+    rootRoute.name = 'conditions';
+    rootRoute.component = require('./v2/components/pages/conditions/Conditions');
+    break;
+  // case 'intake':
+  //   rootRoute.name = 'intake';
+  //   rootRoute.component = require('./pages/intake/Intake');
+  //   break;
+}
 
 if (context === 'get-started' && loggedIn) {
   rootRoute.children = [
     { path: 'welcome',
       name: 'welcome',
       component: require('./pages/get-started/children/Welcome.vue') },
-    { path: 'out-of-range',
-      name: 'out-of-range',
-      component: require('./pages/get-started/children/OutOfRange.vue') },
     { path: 'practitioner',
       name: 'practitioner',
       component: require('./pages/get-started/children/Practitioner.vue') },
@@ -65,29 +62,21 @@ if (context === 'get-started' && loggedIn) {
       name: 'success',
       component: require('./pages/get-started/children/Success.vue') }
   ];
-} else if (context === 'get-started') {
-  rootRoute.children.push({
-    path: 'out-of-range',
-    name: 'out-of-range',
-    component: require('./pages/get-started/children/OutOfRange.vue')
-  });
 }
 
 rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
-  component: require('./pages/get-started/children/Signup.vue')
-})
+  component: require('./v2/components/pages/getstarted/children/Signup')
+});
 
 let routes = [
-
     rootRoute,
-
     {
         path: '/appointments',
         name: 'appointments',
         props: true,
-        component: require('./pages/appointments/Appointments.vue'),
+        component: require('./pages/appointments/Appointments.vue')
     },
     {
         path: '/messages',
@@ -129,6 +118,11 @@ let routes = [
         component: require('./pages/profile/Profile.vue')
     },
     {
+        path: '/lab_tests/edit',
+        props: true,
+        component: require('./pages/sku-dashboard/SkuDashboard.vue')
+    },
+    {
         path: '*',
         redirect:  rootRedirect
     }
@@ -145,4 +139,4 @@ router.afterEach(() => {
     }
 });
 
-export default router
+export default router;

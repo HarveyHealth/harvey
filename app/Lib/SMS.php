@@ -22,7 +22,7 @@ class SMS
 
     public function sendMessageToNumber($number, string $message)
     {
-        if (!app()->environment(['production','staging'])) {
+        if (isNotStgOrProd()) {
             return Log::info("Faking sending text message to {$number} with message: {$message}");
         }
 

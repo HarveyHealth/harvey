@@ -2,6 +2,7 @@
     <div class="main-container profile-page">
         <div class="main-content">
             <NotificationPopup
+                v-if="notificationError !== undefined && notificationActive !== undefined && notificationDirection !== undefined && notificationSymbol !== undefined && notificationMessage !== undefined"
                 :as-error="notificationError"
                 :active="notificationActive"
                 :comes-from="notificationDirection"
@@ -19,7 +20,8 @@
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Contact Info
-                        <span v-if="this.user_id">for {{ this.user.attributes.first_name }} {{ this.user.attributes.last_name }} (#{{ this.user_id }})</span>
+                        <span v-if="user_id && !loading">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id}})</span>
+                        <span v-if="!user_id && !loading">(#{{ thisUserId }})</span>
                     </h2>
                 </div>
                 <div class="card-content-container topPadding">
@@ -77,11 +79,11 @@
                                                 v-on:uploaded="uploadedProfileImage"
                                                 v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${this.user.id}/image/`"
+                                                :route="`api/v1/users/${user.id}/image/`"
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">
-                                            <img :src="this.user.attributes.image_url" />
+                                            <img :src="user.attributes.image_url" />
                                         </div>
                                         <ClipLoader class="profile-img-container__img" :color="'#82BEF2'" :loading="loadingProfileImage"></ClipLoader>
                                     </div>
@@ -138,7 +140,7 @@
           <h2 class="text-centered">Enter Phone Verification Code</h2>
           <div style="text-align: center;">
             <!-- confirmation inputs -->
-            <ConfirmInput ref="confirmInputs" :get-value="(val) => this.phoneConfirmation = val" />
+            <ConfirmInput ref="confirmInputs" :get-value="(val) => phoneConfirmation = val" />
 
             <!-- send text again button -->
             <button class="phone-process-button text-again" @click="handleTextResend">
@@ -170,7 +172,7 @@
     import states from '../../../../../public/states.json';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import ImageUpload from '../../commons/ImageUpload.vue';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import PractitionerProfile from './components/PractitionerProfile.vue';
     import Modal from '../../commons/Modal.vue';
     import ConfirmInput from '../../commons/ConfirmInput.vue';
@@ -201,9 +203,10 @@
                         address_2: '',
                         city: '',
                         state: '',
-                        zip: '',
-                    },
+                        zip: ''
+                    }
                 },
+                thisUserId: Laravel.user.id,
                 practitioner: `${Laravel.user.practitionerId}` || null,
                 user_data: null,
                 user_id: this.$route.params.id,
@@ -225,8 +228,8 @@
                 phoneVerified: Laravel.user.phone_verified_at,
                 currentUserId: Laravel.user.id,
                 isInvalidCode: false,
-                isPhoneConfirming: false,
-            }
+                isPhoneConfirming: false
+            };
         },
         methods: {
             flashNotification() {
@@ -276,7 +279,7 @@
               // If phone was changed, patch the user's account to trigger text send
               if (shouldPatch) {
                 axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}`, { phone: updatedPhone })
-                  .then(response => {
+                  .then(() => {
                     // Update the Laravel object in case the user wants to update phone before refreshing
                     Laravel.user.phone = updatedPhone;
                   })
@@ -285,7 +288,7 @@
                       console.log(error.response);
                       this.callErrorNotification('Could not update user information');
                     }
-                  })
+                  });
               // If phone is the same, post to send verification text again
               } else if (!this.phoneVerified) {
                 axios.post(`${this.$root.$data.apiUrl}/users/${this.user_id || this.user.id}/phone/sendverificationcode`)
@@ -294,7 +297,7 @@
                       console.log(error.response);
                       this.callErrorNotification('Error sending verification text message');
                     }
-                  })
+                  });
               }
             },
             handleTextResend() {
@@ -327,17 +330,17 @@
                 })
                 .catch(error => {
                   if (error.response) {
-                    console.log(error.response)
+                    console.log(error.response);
                     this.phoneModal = false;
                     this.callErrorNotification('Verification could not be sent');
                   }
-                })
+                });
             },
             resetConfirmInputs() {
               this.phoneConfirmation = '';
               Object.keys(this.$refs.confirmInputs.$refs).forEach(i => {
                 this.$refs.confirmInputs.$refs[i].value = '';
-              })
+              });
               this.$refs.confirmInputs.$refs[0].focus();
             },
             submit() {
@@ -400,6 +403,12 @@
                           this.callErrorNotification();
                         }
                     });
+            },
+            setUserId(id) {
+                this.user_id = id;
+            },
+            setUser(data) {
+                this.user = data;
             }
         },
         mounted() {
@@ -416,10 +425,10 @@
         watch: {
             _user_id(id) {
                 if (id && this.canEditUsers) {
-                    this.user_id = id;
+                    this.setUserId(id);
                     this.getData(this.user_id);
                 } else {
-                    this.$router.push('/profile')
+                    this.$router.push('/profile');
                 }
             }
         },
@@ -448,7 +457,8 @@
                 if (this.canEditUsers) {
                     this.getData(this.user_id);
                 } else if (!this.$root.$data.global.loadingUser) {
-                    this.user = _.cloneDeep(this.$root.$data.global.user);
+                    let user = _.cloneDeep(this.$root.$data.global.user);
+                    this.setUser(user);
                 }
                 return '';
             },
@@ -457,7 +467,7 @@
                 return this.$route.params.id;
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">
@@ -561,10 +571,5 @@
         .flyout & {
             text-align: left;
         }
-    }
-
-    .v-spinner {
-        align-self: center;
-        text-align: left !important;
     }
 </style>

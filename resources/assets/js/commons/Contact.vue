@@ -28,7 +28,7 @@
                     phone: '(310) 907-5302',
                     email: 'support@goharvey.com'
                 }
-            }
+            };
         },
         methods: {
             capitalize,
@@ -39,5 +39,5 @@
                 this.show = !this.show;
             });
         }
-    }
+    };
 </script>

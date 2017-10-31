@@ -52,23 +52,30 @@
       return {
         animClasses: {
           'anim-fade-slideup': true,
-          'anim-fade-slideup-in': false,
+          'anim-fade-slideup-in': false
         },
+<<<<<<< HEAD
         typeformUrl: `https://hello.typeform.com/to/XGnCna?harvey_id=${Laravel.user.id}&intake_validation_token=${Laravel.user.intake_validation_token}`
       }
+=======
+        typeformUrl: `https://kyleahill.typeform.com/to/XGnCna?harveyid=${Laravel.user.id}`
+      };
+>>>>>>> release-2.5.5
     },
     mounted() {
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
       // add Typeform script
+      /* eslint-disable */
       (function() {
         var qs,js,q,s,d=document, gi=d.getElementById, ce=d.createElement, gt=d.getElementsByTagName, id="typef_orm", b="https://embed.typeform.com/";
         if(!gi.call(d,id)) { js=ce.call(d,"script");
-        js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q) }
+        js.id=id; js.src=b+"embed.js"; q=gt.call(d,"script")[0]; q.parentNode.insertBefore(js,q); }
       })();
+      /* eslint-enable */
     },
     beforeDestroy() {
       this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);
     }
-  }
+  };
 </script>

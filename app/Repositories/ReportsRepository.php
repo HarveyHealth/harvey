@@ -20,7 +20,7 @@ class ReportsRepository extends BaseRepository
     {
         // query database
         $query = DB::table('invoice_items')
-            ->join('invoices','invoices.id','=','invoice_id')
+            ->join('invoices','invoices.id','=','invoice_items.invoice_id')
             ->join('skus','invoice_items.sku_id','=','skus.id')
             ->join('patients','patients.id','=','patient_id')
             ->join('users','patients.user_id','=','users.id')
@@ -29,8 +29,8 @@ class ReportsRepository extends BaseRepository
 
             /* consultations */
             ->leftJoin('appointments', function ($join) {
-                $join->on('appointments.invoice_id', '=', 'invoices.id');
-                $join->on('skus.item_type', '=', DB::raw('"consultation"'));
+                $join->on('appointments.invoice_id', '=', 'invoice_items.invoice_id');
+                //$join->on('skus.item_type', '=', DB::raw('"consultation"'));
             })
             ->leftJoin('practitioners as c_practitioners','c_practitioners.id','=','appointments.practitioner_id')
             ->leftJoin('users as c_users','c_practitioners.user_id','=','c_users.id')
@@ -52,22 +52,23 @@ class ReportsRepository extends BaseRepository
             ->where('invoice_items.created_at','>=', $from_date)
             ->where('invoice_items.created_at','<=',$to_date)
 
-            ->orderBy('invoices.id')
+            ->orderBy('invoice_items.invoice_id')
 
             ->select(
 
-                'invoices.id as invoice_id',
+                'invoice_items.invoice_id as invoice_id',
                 'invoices.transaction_id',
                 'transactions.transaction_date',
                 'users.id as client_id', //Client ID
                 'users.first_name as client_first_name',//Client Name
                 'users.last_name as client_last_name',//Client Name
                 'users.created_at as client_signup_date',//Client Signup Date
+                'users.state as client_state', //Client State
+
                 //Practitioner Name
                 DB::raw("IF(c_users.first_name IS NULL, l_users.first_name, c_users.first_name) as practitioner_first_name"),
                 DB::raw("IF(c_users.last_name IS NULL, l_users.last_name, c_users.last_name) as practitioner_last_name"),
-                DB::raw("IF(c_users.id IS NULL, l_users.id, c_users.id) as practitioner_id"),
-                'users.state as client_state', //Client State
+                DB::raw("IF(c_users.id IS NULL, l_users.id, c_users.id) as c_practitioner_id"),
                 DB::raw("IF(c_users.state IS NULL, l_users.state, c_users.state) as practitioner_state"), // Practitioner State
 
                 'skus.item_type',//Product Type (Consultation/Lab Test/Processing Fee)
@@ -102,10 +103,13 @@ class ReportsRepository extends BaseRepository
 
             if ($item->invoice_id != $current_invoice_id){
                 // adds the completed invoice to the report
-                $report[] = $current_row;
+                if (!empty($current_row)){
+                    $report[] = $current_row;
+                }
                 $current_invoice_id = $item->invoice_id;
                 // switches to the new invoice
                 $current_row = [
+                    "invoice" => "",
                     "Transaction ID" => "--",
                     "Transaction Date" => "--",
                     "Client Name" => NULL,
@@ -125,7 +129,8 @@ class ReportsRepository extends BaseRepository
                     "Lab Total" => "--",
                     "Discount Code" => "--",
                     "Discount Amount" => "--",
-                    "Total" => NULL
+                    "Calculated" => NULL,
+                    "Total" => NULL,
                 ];
             }
 
@@ -136,13 +141,16 @@ class ReportsRepository extends BaseRepository
 
             $current_row["Client Name"] = join(" ", [$item->client_first_name, $item->client_last_name]);
 
-            if (!empty($item->practitioner_id)){
-                $current_row["Practitioner Name"] = join(" ", [$item->practitioner_first_name, $item->practitioner_last_name]);
-                $current_row["Practitioner ID"] = $item->practitioner_id;
+            if (empty($current_row["Practitioner ID"])){
+                $current_row["Practitioner Name"] = trim(join(" ", [$item->practitioner_first_name, $item->practitioner_last_name]));
+                $current_row["Practitioner ID"] = $item->c_practitioner_id;
                 $current_row["Practitioner State"] = $item->practitioner_state;
             }
 
             $current_row["Total"] = $item->total;
+            // debug
+            $current_row["Calculated"] += $item->item_amount;
+            $current_row["invoice"] = $item->invoice_id;
 
             if (!empty($item->discount)){
                 $current_row["Discount Code"] = $item->discount_code;
@@ -152,8 +160,15 @@ class ReportsRepository extends BaseRepository
             switch($item->item_type){
                 case 'lab-test':
                     $current_row["Product"] = "Lab Order";
-                    $current_row["Blood Draw"] = ($item->blood_draw)?'Yes':'No';
-                    $current_row["Lab Names"] .= (empty($current_row["Lab Names"]))?"":";";
+                    if ($current_row["Blood Draw"] != 'Yes'){
+                        $current_row["Blood Draw"] = ($item->blood_draw)?'Yes':'No';
+                    }
+                    if ($current_row["Lab Names"] == '--'){
+                        $current_row["Lab Names"] = '';
+                    }
+                    else{
+                        $current_row["Lab Names"] .= ",";
+                    }
                     $current_row["Lab Names"] .=  $item->lab_test_name;
                     if (!is_int($current_row["Lab Total"])){
                         $current_row["Lab Total"] = 0;
@@ -166,7 +181,7 @@ class ReportsRepository extends BaseRepository
 
                     break;
                 case 'consultation':
-                    $current_row["Product"] = "consultation";
+                    $current_row["Product"] = "Consultation";
                     $current_row["First Consultation"] = ($item->first_consultation)?'Yes':'No';
                     $current_row["Consultation Duration"] = $item->consultation_duration;
                     $current_row["Consultation Price"] = $item->item_amount;
@@ -175,6 +190,9 @@ class ReportsRepository extends BaseRepository
                     $current_row["Processing Type"] = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
                     break;
             }
+        }
+        if (!empty($current_row)){
+            $report[] = $current_row;
         }
 
         return $report;

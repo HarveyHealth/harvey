@@ -20,7 +20,6 @@
     background: $white;
     border-right: 1px solid $color-gray-0;
     border-left: 1px solid $color-gray-0;
-    cursor: pointer;
     display: block;
     transition: color 200ms;
     width: 100%;
@@ -32,15 +31,29 @@
     &:first-child {
       @include padding(1.5em null null null);
     }
-    &:last-child {
-      border-bottom: 1px solid $color-gray-0;
-      @include margin(null null 16px null);
-      @include padding(null null 1.5em null);
+    .flyout & {
+      &:last-child {
+        border-bottom: 1px solid $color-gray-0;
+        @include margin(null null 16px null);
+        @include padding(null null 1.5em null);
+      }
     }
+    &.sku-table__column {
+      @include margin(null null 0 null);
+    }
+  }
+
+  thead {
+    display: table-caption;
   }
 
   tr {
     position: relative;
+    cursor: pointer;
+    display: inline-flex;
+    border: none;
+    border-bottom: 1px solid $color-gray-5;
+    width: 100%;
   }
 
   th {
@@ -61,6 +74,7 @@
         &.copy-muted {
           opacity: 1;
           cursor: auto;
+          display: table-caption;
         }
       }
     }
@@ -132,10 +146,11 @@
     @include padding(10px 20px);
   }
   th, td {
-    border: none;
-    border-bottom: 1px solid $color-gray-5;
     display: table-cell;
-    width: auto;
+    border: none;
+    &.copy-muted {
+      display: table-caption;
+    }
     @include padding(20px);
   }
   td {
@@ -158,4 +173,48 @@
   .tabledata.appointments-table {
     @include normalTableStyles;
   }
+}
+
+// Draggable Table
+
+.container-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+.sku-table {
+  &__sku {
+      display: flex;
+      color: #5f7278;
+      justify-content: space-between;
+      height: 50px;
+      border-bottom: 1px solid #e4eaec;
+      align-items: center;
+      background-color: #F4F4F4;
+  }
+
+  &__move-icon {
+      display: flex;
+      justify-content: center;
+  }
+
+  &__column {
+    width: 12%;
+    max-width: 12%;
+    &.sort {
+      width: 100px;
+      max-width: 100px;
+      min-width: 100px;
+    }
+  }
+
+  .cell-wrap {
+    &.grabbable:hover {
+        cursor: move;
+        cursor: grab;
+        cursor: -moz-grab;
+        cursor: -webkit-grab;
+    }
+  }
+
 }

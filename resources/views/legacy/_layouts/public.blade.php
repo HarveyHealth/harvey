@@ -2,12 +2,14 @@
 
 @push('stylesheets')
 
-    <!-- Public.css -->
     <link rel="stylesheet" href="{{ mix('css/app_public.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/gh-lity-css@1.0.0/index.css" async>
+    <link rel="stylesheet" href="https://unpkg.com/gh-juicer-css@1.0.1/index.css" async>
 
 @endpush
 
 @section('content')
+
     <noscript>
         <div class="card noscript">
             <div class="card-section">
@@ -18,50 +20,72 @@
 
     <div id="app">
         @include('legacy._layouts.includes.top_nav')
-
         <div class="page-content">
             @yield('main_content')
         </div>
-
         @include('legacy._layouts.includes.footer')
     </div>
 
     @stack('square')
 
     {{-- To add data here, see the VueHelperViewComposer --}}
+
     <script>
         window.Laravel = {!! $vue_data !!}
     </script>
 
-    <script src="//assets.juicer.io/embed.js" type="text/javascript"></script>
-    <link href="//assets.juicer.io/embed.css" media="all" rel="stylesheet" type="text/css">
-
-    @if (Auth::guest())
-        
-        <!-- Modernizr -->
-        <script type="text/javascript" src="{{ mix('js/vendors/modernizr-custom.js') }}"></script>
-
-        <!-- Juicer -->
-        <link rel="stylesheet" href="https://assets.juicer.io/embed.css">
-        <script type="text/javascript" src="https://assets.juicer.io/embed.js"></script>
-
-        <!-- Lity -->
-        <link rel="stylesheet" href="{{ mix('css/vendors/lity.css') }}">
-        <script type="text/javascript" src="{{ mix('js/vendors/zepto.js') }}"></script>
-        <script type="text/javascript" src="{{ mix('js/vendors/lity.js') }}"></script>
-
-        <!-- Public.js -->
-        <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
-
-    @else
-
-        <!-- Stripe -->
-        <script type="text/javascript" src="https://js.stripe.com/v2"></script>
-        
-        <!-- App.js -->
-        <script type="text/javascript" src="{{ mix('js/app.js') }}"></script>
-
-    @endif
-
+    <script type="text/javascript" src="https://unpkg.com/gh-bideo@1.0.0/index.js"></script>
+    <script type="text/javascript" async>
+        if (document.body.className.match('home')) {
+            var detectMobile = window.matchMedia('(max-width: 768px)').matches;
+            var detectIE = false;
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf('MSIE ');
+            if (msie > 0) {
+                // IE 10 or older => return version number
+                // return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                detectIE = true;
+            }
+            var trident = ua.indexOf('Trident/');
+            if (trident > 0) {
+                // IE 11 => return version number
+                // var rv = ua.indexOf('rv:');
+                // return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                detectIE = true;
+            }
+            var edge = ua.indexOf('Edge/');
+            if (edge > 0) {
+               // Edge (IE 12+) => return version number
+               // return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+               detectIE = true;
+            }
+            try {
+                var videoLink = 'https://d35oe889gdmcln.cloudfront.net/assets/videos/hero-video.mp4';
+                var bv = new Bideo();
+                bv.init({
+                    videoEl: document.querySelector('#hero-video'),
+                    container: document.querySelector('body'),
+                    resize: true,
+                    autoplay: true,
+                    src: [{
+                        src: videoLink,
+                        type: 'video/mp4'
+                    }],
+                    onLoad: function() {
+                        // If not mobile and not IE, play video
+                        if ((detectMobile === false) && (detectIE === false)) {
+                            document.querySelector('#video-cover').style.display = 'none';
+                        }
+                    }
+                });
+            } catch(e){};
+        }
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/gh-zepto@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-lity-js@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
+    <script type="text/javascript" src="https://unpkg.com/gh-modernizr@1.0.0/index.js"></script>
+    <script type="text/javascript" src="{{ mix('js/app_public.js') }}"></script>
     @stack('scripts')
+
 @endsection

@@ -23,9 +23,16 @@ Route::group(['prefix' => 'alpha', 'middleware' => 'auth:api'], function () {
 Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
     Route::post('users', 'UsersController@create')->name('users.create');
     Route::post('visitors/send_email', 'VisitorsController@sendEmail')->name('visitors.send-email');
-    Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+    Route::get('visitors/verifications/zip/{zip}', 'ZipVerificationController@getInfo');
 
     Route::group(['middleware' => 'auth:api'], function () {
+<<<<<<< HEAD
+=======
+        Route::get('discountcode', 'DiscountCodesController@index')->name('discountcodes.index');
+        Route::get('tests/{test}', 'TestsController@show')->name('tests.show');
+        Route::post('tests/{test}/results', 'TestsController@results')->name('test.results');
+
+>>>>>>> release-2.5.5
         Route::get('users', 'UsersController@index')->name('users.index');
         Route::get('users/{user}', 'UsersController@show')->name('users.show');
         Route::patch('users/{user}', 'UsersController@update')->name('users.update');
@@ -64,7 +71,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
-
         Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
         Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
@@ -80,8 +86,14 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
+<<<<<<< HEAD
         Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
         Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
+=======
+        Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
+        Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+        Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
+>>>>>>> release-2.5.5
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
@@ -94,5 +106,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
+
+        Route::get('skus', 'SkusController@index')->name('skus.index');
+        Route::get('skus/lab-tests', 'SkusController@indexLabTests')->name('skus.indexLabTests');
+        Route::get('skus/{sku}', 'SkusController@show')->name('skus.show');
+        Route::post('skus', 'SkusController@store')->name('skus.store');
+        Route::put('skus/{sku}', 'SkusController@update')->name('skus.update');
+        Route::delete('skus/{sku}', 'SkusController@delete')->name('skus.delete');
+        Route::patch('skus/{sku}', 'SkusController@updateListOrder')->name('skus.updateListOrder');
     });
 });

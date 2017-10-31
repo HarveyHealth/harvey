@@ -36,7 +36,7 @@ class LabTestsController extends BaseAPIController
             $builder = LabTest::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder->with('sku'), request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
@@ -70,7 +70,7 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'string',
         ]);
 
-        return $this->baseTransformItem(LabTest::create($request->all())->fresh())->respond();
+        return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
     }
 
     public function update(Request $request, LabTest $labTest)
@@ -86,7 +86,7 @@ class LabTestsController extends BaseAPIController
 
         $labTest->update($request->all());
 
-        return $this->baseTransformItem($labTest)->respond();
+        return $this->baseTransformItem($labTest, request('include'))->respond();
     }
 
     /**
@@ -171,7 +171,7 @@ class LabTestsController extends BaseAPIController
     {
         $this->serializer = new JsonApiSerializer();
 
-        $builder = LabTestInformation::make();
+        $builder = LabTestInformation::with('sku');
 
         if ($user = currentUser()) {
             $scope = Pluralizer::plural($user->type);

@@ -67,6 +67,18 @@ $font-family: "proxima-nova";
       color: white;
     }
   }
+
+  .nav-item {
+    img {
+      max-height: 55px;
+    }
+  }
+
+  a.legal {
+    color: #FFF;
+    text-decoration: underline;
+  }
+
 }
 
 // Hide before font loads
@@ -288,69 +300,72 @@ $font-family: "proxima-nova";
   } // End not inverted
 
   .container {
+
     height: 60px;
     max-width: 1152px;
     @include margin(0 auto);
     + mobile, + tablet {
       @include padding(0 20px);
     }
-    .nav-left {
-      float: left;
-      width: 30%;
-      .logo-wrapper {
-        float: left;
-        svg {
-          width: 150px;
-          @include mobile {
-            .harvey-text {
-              display: none;
-            }
-          }
-          &.harvey-mark {
-            width: 150px;
-            @include margin(2px null null null);
-            height: 43px;
-          }
-        }
-      }
-    }
+
+    .nav-left,
     .nav-right {
-      float: right;
-      width: 70%;
-      .nav-item {
-        float: right;
-        font-size: 16px;
-        @include margin(0 null null null);
-        display: flex;
-        @include until($tablet) {
-          min-width: 315px;
-          padding-right: 10px;
+      display: flex;
+    }
+
+    .logo-wrapper {
+      @media screen and (max-width: 999px) {
+        max-width: 30px;
+      }
+      svg {
+        width: 150px;
+        height: 60px;
+        &.harvey-mark {
+          width: 150px;
+          @include margin(2px null null null);
+          height: 43px;
         }
-        a {
-          font-size: 17px;
-          @include margin(null null null 10px);
-          &.link {
-            color: $harvey-turquoise;
-            font-size: 18px;
-            @include padding(10px 10px 10px 10px);
-            @include until($tablet) {
-              font-size: 17px;
-              @include padding(10px 7px 10px 7px);
-            }
-            &:hover{
-              opacity: .7;
-            }
-          }
-          &.separator {
-            // @include margin(null null null null);
+      }
+    }
+
+    .nav-items {
+
+      display: block;
+      @include padding(.5em);
+
+      .nev-left & {
+        text-align: left;
+        float: left;
+      }
+
+      .nev-right & {
+        text-align: right;
+        float: right;
+      }
+      
+      a {
+
+        font-size: 17px;
+        display: inline-block;
+        @include padding(.35em 1em);
+        @include margin(null .2em null null);
+
+        &.link {
+          font-size: 18px;
+          color: $harvey-turquoise;
+          @include margin(0);
+          @include padding(.4em .6em);
+          &:hover{
+            opacity: .7;
           }
         }
       }
     }
+
   }
   &.is-inverted {
     .container {
-      .nav-item{
+      .nav-items{
         a.link {
           color: #fff;
           &:hover {
@@ -403,9 +418,9 @@ body {
 
 .logo-wrapper {
   .no-svg & {
-    background: url('/images/logos/mobile-logo.png') no-repeat center center;
-    @include from($mobile) {
-      background-image: url('/images/logos/main-logo.png');
+    background: url('https://d35oe889gdmcln.cloudfront.net/assets/images/logos/mobile-logo.png') no-repeat center center;
+    @media screen and (min-width: 998px) {
+      background-image: url('https://d35oe889gdmcln.cloudfront.net/assets/images/logos/main-logo.png');
     }
   }
 }
@@ -541,6 +556,7 @@ body[class*="404"]{
 
       form {
         margin-bottom: 60px;
+        padding: 16px;
       }
 
       .button {
@@ -573,9 +589,9 @@ body[class*="404"]{
       .card-footer-item {
         width: 100%;
         max-width: 510px;
-        @include padding(1.7rem 4.5rem);
+        @include padding(1rem 4.5rem);
         @include until($tablet) {
-          @include padding(1.7rem 3rem);
+          @include padding(1.5rem 3rem 0.5rem);
 
         }
       }

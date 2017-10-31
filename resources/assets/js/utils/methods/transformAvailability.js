@@ -14,7 +14,7 @@ export default function(fetchedAvailability, userType) {
   const makeTimeObj = iso => ({
     stored: moment(iso).format('YYYY-MM-DD HH:mm:ss'),
     utc: moment.utc(iso),
-    local: moment.utc(iso).local(),
+    local: moment.utc(iso).local()
   });
 
   const makeDayObj = iso => ({
@@ -25,7 +25,6 @@ export default function(fetchedAvailability, userType) {
 
   let day = '';
   let dayObj = null;
-  let timeObj = [];
   let availabilityTransformed = [];
 
   fetchedAvailability.forEach((iso, index) => {
@@ -53,7 +52,7 @@ export default function(fetchedAvailability, userType) {
       }
 
     }
-  })
+  });
 
   return availabilityTransformed;
 
