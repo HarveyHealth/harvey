@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\LabOrder;
+use App\Models\{DiscountCode, LabOrder};
 use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
-use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -137,5 +136,22 @@ class LabOrdersController extends BaseAPIController
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param LabOrder $labOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ship(LabOrder $labOrder)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
+        }
+
+        if (!$labOrder->ship()) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
     }
 }
