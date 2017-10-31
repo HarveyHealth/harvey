@@ -194,8 +194,6 @@ class User extends Authenticatable implements Mailable
         return count($this->nextUpcomingAppointment()) == 1;
     }
 
-<<<<<<< HEAD
-=======
     public function tests()
     {
         if ($this->isPatient()) {
@@ -205,7 +203,6 @@ class User extends Authenticatable implements Mailable
         }
     }
 
->>>>>>> release-2.5.5
     public function isPatient()
     {
         $builder = $this->patient();

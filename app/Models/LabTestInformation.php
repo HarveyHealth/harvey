@@ -36,13 +36,8 @@ class LabTestInformation extends Model
 
     public static function publicFromCache()
     {
-<<<<<<< HEAD
-        return Cache::remember('public_lab_tests_information', TimeInterval::days(1)->toMinutes(), function () {
-            return LabTestInformation::public()->get();
-=======
         return Cache::remember(self::PUBLIC_CACHE_KEY, TimeInterval::days(1)->toMinutes(), function () {
             return LabTestInformation::public()->orderBy('list_order', 'asc')->get();
->>>>>>> release-2.5.5
         });
     }
 }
