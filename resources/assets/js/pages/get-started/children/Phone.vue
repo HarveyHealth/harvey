@@ -193,8 +193,10 @@ export default {
             analytics.identify(userId, {
               phone: number
             }, {
-              Intercom: {
-                user_hash: Laravel.user.intercom_hash
+              integrations: {
+                Intercom : {
+                  user_hash: Laravel.user.intercom_hash
+                }
               }
             });
           }

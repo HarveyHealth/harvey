@@ -228,8 +228,10 @@ export default {
                 state: state,
                 zip: zip
               }, {
-                Intercom: {
-                  user_hash: Laravel.user.intercom_hash
+                integrations: {
+                  Intercom : {
+                    user_hash: Laravel.user.intercom_hash
+                  }
                 }
               });
             }
