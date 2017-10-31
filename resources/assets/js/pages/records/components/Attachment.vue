@@ -14,11 +14,7 @@
             <div class="card-heading-container records-spacing">
                 <div class="width-175">
                     <label class="input__label">file upload</label>
-                    <span class="custom-select bg-white">
-                        <select>
-                            <option v-for="attach in attachmentList">{{ attach.name }}</option>
-                        </select>
-                    </span>
+                    <input v-model="fileName" placeholder="Enter file name" class="input--text bg-white">
                 </div>
                 <div class="width-175">
                     <label class="input__label">upload</label>
@@ -44,23 +40,15 @@ export default {
     },
     data() {
         return {
-
+            fileName: ''
         };
     },
     computed: {
-        attachmentList() {
-            return [{name: ''}].concat(this.$parent.propData.attributes);
-        },
         attachmentUrl() {
             return this.$parent.propData.attributes.url;
         }
     },
     watch: {
-        attachmentList(val) {
-            if (!val) {
-                return [{name: ''}].concat(this.$parent.propData.attributes);
-            }
-        },
         attachmentUrl(val) {
             if (!val) {
                 return this.$parent.propData.attributes.url;
