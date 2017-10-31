@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe class="record-image" :src="$parent.propData.attributes.url" />
+            <iframe class="record-image" :src="prescriptionUrl" />
         </div>
     </div>
 </template>
@@ -50,6 +50,16 @@ export default {
     computed: {
         prescriptionList() {
             return [{name: ''}].concat([]);
+        },
+        prescriptionUrl() {
+            return this.$parent.propData.attributes.url;
+        }
+    },
+    watch : {
+        prescriptionUrl(val) {
+            if (!val) {
+                return this.$parent.propData.attributes.url;
+            }
         }
     }
 };
