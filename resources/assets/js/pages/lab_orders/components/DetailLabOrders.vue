@@ -350,6 +350,9 @@
       </div>
 
       <!-- Mark as Shipped -->
+      <div class="button-wrapper">
+        <button class="button" @click="getShippingInformation">Generate Shipping Information</button>
+      </div>
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -656,6 +659,20 @@ export default {
             this.handleFlyoutClose();
           });
       });
+    },
+    getShippingInformation() {
+        const labOrderId = this.$props.rowData.id;
+        console.log('here', labOrderId);
+
+        // talk to ship api endpoint to kick off shippo information
+        // PUT /api/v1/lab/orders/<lab_order_id>/ship
+        
+        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+
+        }).then((response) => {
+            console.log(response);
+        });
+
     },
     markedShipped() {
       this.loading = true;
