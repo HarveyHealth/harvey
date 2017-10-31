@@ -192,6 +192,10 @@ export default {
             // Segment Identify update
             analytics.identify(userId, {
               phone: number
+            }, {
+              Intercom: {
+                user_hash: Laravel.user.intercom_hash
+              }
             });
           }
         }).catch(() => {

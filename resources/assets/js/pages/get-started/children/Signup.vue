@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit" :class="animClasses" v-if="!$root.$data.signup.completedSignup">
-    
+
     <div class="signup-wrapper">
 
       <aside class="signup-quotes">
@@ -213,6 +213,10 @@ export default {
                 city: city,
                 state: state,
                 zip: zip
+              }, {
+                Intercom: {
+                  user_hash: Laravel.user.intercom_hash
+                }
               });
             }
 

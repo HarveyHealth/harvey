@@ -227,6 +227,10 @@ export default {
                 city: city,
                 state: state,
                 zip: zip
+              }, {
+                Intercom: {
+                  user_hash: Laravel.user.intercom_hash
+                }
               });
             }
 
