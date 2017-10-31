@@ -657,15 +657,6 @@ export default {
           });
       });
     },
-    startShipment() {
-        this.loading = true;
-        let promises = [];
-        console.log(this.$props.rowData.test_list);
-
-        // mark each test as shipped
-
-        // update local data without need to push master tracking code (that needs to be done on the BE)
-    },
     markedShipped() {
       this.loading = true;
       let promises = [];
