@@ -81,7 +81,6 @@
 
 <script>
   import DashboardAppointments from './components/DashboardAppointments.vue';
-  import { phone } from '../../utils/filters/textformat.js';
 
   export default {
     name: 'dashboard',
@@ -91,7 +90,7 @@
     data() {
       return {
         user: this.Config.user.info
-      }
+      };
     },
     methods: {
       viewAppointmentPage() {

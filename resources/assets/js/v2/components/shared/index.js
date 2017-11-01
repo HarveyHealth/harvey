@@ -3,5 +3,5 @@ import Modal from './Modal.vue';
 
 export default {
   MainNav,
-  Modal,
-}
+  Modal
+};
