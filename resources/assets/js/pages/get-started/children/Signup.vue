@@ -201,6 +201,7 @@ export default {
               const zip = userData.zip || '';
               const city = userData.city || '';
               const state = userData.state || '';
+              const intercomHash = userData.intercom_hash || '';
 
               // Segment tracking
               analytics.track("Account Created");
@@ -216,7 +217,7 @@ export default {
               }, {
                 integrations: {
                   Intercom : {
-                    user_hash: Laravel.user.intercom_hash
+                    user_hash: intercomHash
                   }
                 }
               });

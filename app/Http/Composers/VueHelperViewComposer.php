@@ -56,7 +56,7 @@ class VueHelperViewComposer
             $output += ['practitionerId' => $user->practitioner->id];
         }
 
-        $output += ['intercom_hash' => hash_hmac('sha256', currentUser()->id, config('services.intercom.key'))];
+        $output += ['intercom_hash' => $user->intercom_hash];
 
         return $output;
     }
