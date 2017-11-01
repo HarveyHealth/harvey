@@ -10,6 +10,6 @@ export default function(practitioners, state) {
     // If the user's state is regulated, filter dr list for drs with licenses in that state
     return userRegulatedState
       ? licenses.filter(license => license.state === state).length
-      : true
-  })
+      : true;
+  });
 }

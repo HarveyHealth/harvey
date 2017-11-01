@@ -26,7 +26,7 @@ export default {
     // is a string of all combined input values
     getValue: {
       type: Function,
-      required: true,
+      required: true
     },
     // When the component mounts, should the first input be focused?
     isAutoFocused: {
@@ -47,7 +47,7 @@ export default {
     // Takes a regular expression and uses that to validate
     // each specific input. If the test does not pass, nothing
     // is input.
-    validation: RegExp,
+    validation: RegExp
   },
   data() {
     return {
@@ -69,7 +69,7 @@ export default {
       // If validation required and fails, return early.
       if (this.validation && !this.validate(e.target.value)) {
         e.target.value = '';
-        return
+        return;
       }
 
       const value = typeof e === 'string' ? e : e.target.value;

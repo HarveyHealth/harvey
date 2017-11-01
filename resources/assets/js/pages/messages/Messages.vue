@@ -64,7 +64,6 @@
     import UserNav from '../../commons/UserNav.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import socket from './websocket';
-    import axios from 'axios';
     import _ from 'lodash';
     export default {
         name: 'messages',
@@ -90,6 +89,14 @@
             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           }
         },
+        watch: {
+            messageList(val) {
+                if (!val) {
+                    let messages = this.$root.$data.global.messages || [];
+                    return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+                }
+            }
+        },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
@@ -111,28 +118,8 @@
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           });
+          this.$root.getMessages();
           this.$root.getConfirmedUsers();
-        },
-        destroyed() {
-            let userId = this.$root.$data.global.user.id;
-            axios.get(`${this.$root.$data.apiUrl}/messages`)
-              .then(response => {
-                let data = {};
-                response.data.data.forEach(e => {
-                  data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
-                      data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
-                      [];
-                  data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
-                });
-                if (data) {
-                  Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                  this.$root.$data.global.detailMessages = data;
-                  this.$root.$data.global.messages = Object.values(data)
-                      .map(e => e[e.length - 1])
-                      .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-                  this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
-                }
-            });
         }
     };
 </script>
