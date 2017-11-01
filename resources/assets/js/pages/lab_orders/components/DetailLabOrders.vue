@@ -260,7 +260,7 @@
           </a>
         </div>
 
-        <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+        <div v-if="shippingLabelUrl && status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
             <label class="input__label">Shipping Label</label>
             <a :href="shippingLabelUrl" class="input__item link-color" target="_blank">
                 <i class="fa fa-truck" aria-hidden="true"></i> View Label
@@ -680,14 +680,14 @@ export default {
 
         // talk to ship api endpoint to kick off shippo information
         // PUT /api/v1/lab/orders/<lab_order_id>/ship
-        
+
         axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
 
         }).then((response) => {
             // update the tracking number field for the package
             const trackingNumber = response.data.data.attributes.shipment_code;
             const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
-            
+
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
