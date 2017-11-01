@@ -87,14 +87,14 @@
             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           }
         },
-        watch: {
-            messageList(val) {
-                if (!val) {
-                    let messages = this.$root.$data.global.messages || [];
-                    return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
-                }
-            }
-        },
+        // watch: {
+        //     messageList(val) {
+        //         if (!val) {
+        //             let messages = this.$root.$data.global.messages || [];
+        //             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+        //         }
+        //     }
+        // },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
