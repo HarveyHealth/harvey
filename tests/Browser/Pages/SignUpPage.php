@@ -6,6 +6,8 @@ use Laravel\Dusk\Browser;
 use Laravel\Dusk\Page as BasePage;
 use App\Models\{User, License, Practitioner};
 use Illuminate\Support\Facades\DB;
+use Tests\Browser\Pages\DiscoveryPage;
+
 
 class SignUpPage extends BasePage
 {
@@ -54,6 +56,29 @@ class SignUpPage extends BasePage
 
     ];
 
+    public $regulatedYesStates = [
+      'AK' => ['99501', '99523', '99565', '99621', '99676', '99706', '99777'], //Alaska
+      'CA' => ['90001', '90312', '90623', '90809', '91203', '91340', '91521', '90405'], //California
+      'HI' => ['96701', '96707', '96748', '96809', '96849', '96854', '96861'], //Hawaii
+      'OR' => ['97001', '97064', '97114', '97141', '97228', '97304', '97389'], //Oregon
+      'WA' => ['98001', '98024', '98056', '98115', '98178', '98248', '98355'], //Washington
+      'AZ' => ['85001', '85023', '85061', '85190', '85274', '85338', '85383'], //Arizona
+      'CO' => ['80001', '80036', '80110', '80201', '80229', '80419', '80553'], //Colorado
+      'MT' => ['59001', '59013', '59030', '59067', '59221', '59402', '59468'], //Montana
+      'UT' => ['84001', '84034', '84062', '84096', '84145', '84315', '84539'], //Utah
+      'KS' => ['66002', '66016', '66045', '66086', '66205', '66425', '66611'], //Kansas
+      'MN' => ['55001', '55040', '55085', '55120', '55304', '55343', '55386'], //Minnesota
+      'ND' => ['58001', '58046', '58109', '58237', '58272', '58338', '58416'], //North Dakota
+      'CT' => ['06001', '06023', '06067', '06131', '06249', '06360', '06437'], //Connecticut
+      'ME' => ['03901', '04004', '04039', '04084', '04222', '04285', '04401'], //Maine
+      'MD' => ['20588', '20620', '20660', '20697', '20741', '20788', '20861'], //MaryLand
+      'MA' => ['01001', '01011', '01061', '01098', '01222', '01342', '01560'], //Massachusetts
+      'NH' => ['03031', '03063', '03224', '03258', '03304', '03586', '03771'], //New Hampshire
+      'PA' => ['15001', '15034', '15071', '15076', '15147', '15258', '15359'], //Pennsylvania
+      'VT' => ['05001', '05047', '05101', '05344', '05453', '05655', '05738'], //Vermont
+      'DC' => ['20001', '20030', '20066', '20207', '20251', '20301', '20434'] //Washington DC
+    ];
+
     public $randomStates = [
       '71601', '71744', '71768',
       '58001', '58046', '58109',
@@ -71,7 +96,7 @@ class SignUpPage extends BasePage
 
     public function url()
     {
-        return '/get-started';
+        return '/conditions';
     }
 
 
@@ -131,7 +156,7 @@ class SignUpPage extends BasePage
     }
 
 
-    public function arrayPractitioners(Browser $browser)
+    public function arrayPractitioners()
     {
 
       $userUnregulatedState = factory(User::class)->create([
@@ -221,22 +246,7 @@ class SignUpPage extends BasePage
 
 
 
-    public function mandatoryFieldCheck(Browser $browser)
-    {
-      $browser->click('@first_name')
-              ->click('@last_name')
-              ->assert($this->errorMessages['first_name'])
-              ->click('@email')
-              ->assertSee($this->errorMessages['last_name'])
-              ->click('@zipcode')
-              ->assertSee($this->errorMessages['email'])
-              ->click('@password')
-              ->assertSee($this->errorMessages['zipcode'])
-              ->click('@terms&conditions')
-              ->assertSee($this->errorMessages['nopass']);
 
-
-    }
 
     public function emailNotValid(Browser $browser)
     {

@@ -11,6 +11,7 @@ class LoginPage extends BasePage
   public $signupPage = "I agree to Harvey's terms and policies.";
   public $forgotPasswordPage = "Enter your email address below and we will send you a link to reset your password.";
   public $homepage = "Choose better health.";
+  public $discovery = 'Personalized for better health.';
 
     /**
      * Get the URL for the page.
@@ -51,7 +52,7 @@ class LoginPage extends BasePage
     public function signUpButton(Browser $browser)
     {
        $browser->click('@signUpButton')
-               ->assertSee($this->signupPage);
+               ->assertSee($this->discovery);
     }
 
     public function logoHeader(Browser $browser)

@@ -11,6 +11,7 @@ use Tests\Browser\Pages\DiscoveryPage;
 
 class discvoryPageTest extends DuskTestCase
 {
+    use DatabaseMigrations;
     /**
      * A Dusk test example.
      *

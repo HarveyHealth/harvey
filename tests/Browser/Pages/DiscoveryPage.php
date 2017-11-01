@@ -43,6 +43,47 @@ class DiscoveryPage extends BasePage
     ];
 
 
+    public $unRegulatedStates = [
+          '71601', '71744', '71768', '71865', '71971', '72078', '72320', //Arkansas
+          '19701', '19726', '19904', '19964', '19971', '19975', '19980', //Delaware
+          '30002', '30014', '30090', '30113', '30141', '30182', '30253', //Georgia
+          '83201', '83232', '83278', '83348', '83454', '83631', '83707', //Idaho
+          '60001', '60015', '60037', '60056', '60094', '60145', '60442', //Illinoise
+          '46001', '46107', '46175', '46217', '46352', '46561', '46778', //Indiana
+          '50001', '50044', '50111', '50160', '50264', '50428', '50681', //Iowa
+          '40003', '40063', '40078', '40250', '40355', '40514' ,'40769', //Kentucky
+          '70001', '70058', '70118', '70195', '70447', '70544', '70726', //Louisiana
+          '48001', '48034', '48086', '48136', '48185', '48260', '48366', //Michigan
+          '38601', '38631', '38702', '38760', '38850', '38924', '39043', //Mississippi
+          '63001', '63043', '63105', '63163', '63353', '63447', '63674', //Missouri
+          '68001', '68034', '68108', '68180', '68347', '68417', '68467', //Nebraska
+          '88901', '89007', '89104', '89161', '89701', '89830', '89883', //Nevada
+          '07001', '07011', '07057', '07106', '07410', '07511', '07677', //new Jersey
+          '87001', '87044', '87109', '87199', '87507', '87554', '87940', //New Mexico
+          '27006', '27055', '27115', '27217', '27312', '27417', '27562', //North Carolina
+          '43001', '43018', '43068', '43085', '43143', '43223', '43357', '43230', //Ohio
+          '73001', '73024', '73068', '73109', '73190', '73501', '73626', //Oklahoma
+          '02801', '02873', '02909', '02911', '02912', '02918', '02920', //Rhode Island
+          '57001', '57018', '57057', '57110', '57238', '57311', '57350', //South Dakota
+          '73301', '75024', '75052', '75075', '75115', '75148', '75185', //Texas
+          '20101', '20108', '20151', '20195', '22119', '22206', '22242', //Virginia
+          '24701', '24817', '24860', '24934', '25002', '25033', '25110', //West Virginia
+          '53001', '53046', '53083', '53129', '53171', '53209', '53293', //Wisconsin
+          '82001', '82008', '82210', '82501', '82710', '83002', '83118' //Wyoming
+
+        ];
+
+        public $errorMessages = [
+          'first_name' => 'First name is required',
+          'last_name' => 'Last name is required',
+          'email' => 'Email is required' ,
+          'emailnotvalid' => 'Not a valid email address',
+          'zipcode' => 'Zipcode is required',
+          'nopass' => 'Password is required' ,
+          'passshort' => 'Password needs minimum of 6 characters'
+
+        ];
+
     /**
      * Get the URL for the page.
      *
@@ -79,7 +120,7 @@ class DiscoveryPage extends BasePage
               ->assertSee($this->noService);
     }
 
-    public function addUserRegulatedStatesSuccess(Browser $browser, $user)
+    public function addUserRegulatedStatesSuccess(Browser $browser)
             {
             $state = array_rand($this->regulatedYesStates);
             $LicenceState = factory(License::class)->create([
@@ -123,16 +164,25 @@ class DiscoveryPage extends BasePage
 
         public function addUserUnregulatedStates(Browser $browser, $user)
               {
-                $id = array_rand($this->unRegulatedStates, 1);
+                $zip = $browser->zipRand($this->unRegulatedStates);
                 $browser->toZipForm()
-                        ->type('@first_name', $user->first_name)
+                        ->type('@box1', $zip[0])
+                        ->type('@box2', $zip[1])
+                        ->type('@box3', $zip[2])
+                        ->type('@box4', $zip[3])
+                        ->type('@box5', $zip[4])
+                        ->click('@verify')
+                        ->waitForText($this->service)
+                        ->assertSee($this->service)
+                        ->type('first_name', $user->first_name)
                         ->type('last_name' , $user->last_name)
                         ->type('email' , $user->email)
                         ->type('password', bcrypt('secret'))
-                        ->checkTerms()
-                        ->clickSignUp()
+                        ->check('terms')
+                        ->press('Sign Up')
                         ->waitForText('Welcome to Harvey')
-                        ->assertSee('Welcome to Harvey');
+                        ->assertSee('Welcome to Harvey')
+                        ->click('@letsGo');
 
                       }
 
@@ -207,7 +257,16 @@ class DiscoveryPage extends BasePage
             '@box3' => '#app > div > div:nth-child(2) > div.margin-0a.max-width-lg.pad-md.color-white > div > div > div > input[type="text"]:nth-child(3)',
             '@box4' => '#app > div > div:nth-child(2) > div.margin-0a.max-width-lg.pad-md.color-white > div > div > div > input[type="text"]:nth-child(4)',
             '@box5' => '#app > div > div:nth-child(2) > div.margin-0a.max-width-lg.pad-md.color-white > div > div > div > input[type="text"]:nth-child(5)',
-            '@verify' => '#app > div > div:nth-child(2) > div.margin-0a.max-width-lg.pad-md.color-white > div > div > button'
+            '@verify' => '#app > div > div:nth-child(2) > div.margin-0a.max-width-lg.pad-md.color-white > div > div > button',
+            //signupfor fields
+            '@first_name' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(2) > input',
+            '@last_name' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(3) > input',
+            '@email' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(4) > input',
+            '@password' => '#app > div > div.height-100 > form > div > div > div > div:nth-child(5) > input',
+            '@signUp' => '#app > div > div.height-100 > form > div > div > div > div.font-centered > button:nth-child(1)',
+            '@letsGo' => '#app > div > div.anim-fade-slideup.anim-fade-slideup-in.container.pad-md.flex-wrapper.height-100.justify-center > div > div > button'
+
+
 
         ];
     }
