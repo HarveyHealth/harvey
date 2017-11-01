@@ -6,6 +6,7 @@ import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
+import VueTheMask from 'vue-the-mask';
 
 // MIXINS
 import TopNav from './utils/mixins/TopNav';
@@ -23,6 +24,7 @@ import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
+Vue.use(VueTheMask);
 
 const env = require('get-env')();
 window.Card = require('card');
