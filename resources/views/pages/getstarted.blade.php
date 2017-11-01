@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=0">
-        <title>Signup Funnel | Harvey</title>
+        <title>Get Started | Harvey</title>
         <meta property="og:type" content="website">
         <meta property="og:site_name" content="Harvey">
         <meta property="og:locale" content="en_US">
@@ -32,8 +32,7 @@
         <script>
           window.Laravel = {!! $vue_data !!}
           // Controller has determined that the user is:
-          // logged in as patient with no Appointment
-          // or logged out
+          // logged in as patient with no Appointment or logged out
           var zipValidation  = localStorage.getItem('harvey_zip_validation');
           var loggedIn = Laravel.user.signedIn;
           window.$$context = 'get-started';
