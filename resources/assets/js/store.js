@@ -24,6 +24,7 @@ export default function(laravel, State) {
           loadingAppointments: true,
           loadingCreditCards: true,
           loadingClients: true,
+          loadingConfirmedUsers: true,
           loadingPatients: true,
           loadingPractitioners: true,
           practitionerProfileLoading: true,

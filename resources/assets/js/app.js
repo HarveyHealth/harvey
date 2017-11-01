@@ -343,6 +343,7 @@ const app = new Vue({
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
             this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+            this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
