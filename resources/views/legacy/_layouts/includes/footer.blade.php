@@ -36,9 +36,9 @@
                 <a href="http://help.goharvey.com" class="nav-item">Help</a>
             </p>
             <p class="has-small-lineheight">
-                <small>&copy;{{date("Y")}} Harvey Services, Inc. All rights reserved.<br/>
-                Harvey does not provide medical advice, diagnosis or treatment.<br/>
-                Read about our <a href="http://help.goharvey.com/legal/terms" class="is-hidden-mobile legal">Terms</a> and <a href="http://help.goharvey.com/legal/privacy" class="is-hidden-mobile legal">Privacy</a>.</small>
+                <small>&copy;{{date("Y")}} Harvey Services, Inc. All Rights Reserved.<br/>
+                Harvey does not offer medical advice, diagnosis or treatment.<br/>
+                Built with <i class="fa fa-heart" aria-hidden="true"></i> in Los Angeles. Read <a href="http://help.goharvey.com/legal/terms" class="is-hidden-mobile legal">Terms</a> and <a href="http://help.goharvey.com/legal/privacy" class="is-hidden-mobile legal">Privacy</a>.</small>
             </p>
             <p class="nav-center">
                 <a href="https://www.bbb.org/losangelessiliconvalley/business-reviews/consultants-medical/harvey-services-in-los-angeles-ca-755676" class="nav-item" target="_blank">
