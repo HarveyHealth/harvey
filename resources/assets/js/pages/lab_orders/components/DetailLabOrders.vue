@@ -693,7 +693,6 @@ export default {
         }).catch((error) => {
             console.log(error);
         });
-
     },
     markedShipped() {
       this.loading = true;
@@ -825,8 +824,7 @@ export default {
     },
     validZip() {
       if (this.zip != '') {
-        return 45013;
-        // return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
+        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
       } else {
         return true;
       }
