@@ -102,6 +102,7 @@ class UnreadMessageEmailNotificationsTest extends TestCase
 
         $this->assertEquals("Last processed ID = {$last_processed_id}.", $output[1]);
         $this->assertEquals("Done. [{$should_send} emails sent.]", $output[2]);
+        Redis::del(SendUnreadMessageEmailNotificationsCommand::LAST_PROCESSED_ID_REDIS_KEY);
     }
 
     public function test_email_is_sent_if_message_is_almost_15_minutes_in_the_past()
