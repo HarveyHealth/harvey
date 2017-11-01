@@ -81,7 +81,7 @@
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
             <div class="font-centered">
-              <ButtonInput
+              <InputButton
                 :isDisabled="isProcessing"
                 :isDone="isComplete"
                 :isProcessing="isProcessing"
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-import { ButtonInput, FacebookSignin } from 'inputs';
+import { InputButton, FacebookSignin } from 'inputs';
 import { SlideIn } from 'layout';
 import { SvgIcon } from 'icons';
 import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
@@ -110,7 +110,7 @@ import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 export default {
   name: 'sign-up',
   components: {
-    ButtonInput,
+    InputButton,
     FacebookSignin,
     LoadingGraphic,
     SlideIn,

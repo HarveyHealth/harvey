@@ -90,6 +90,106 @@ const app = new Vue({
         Dashboard,
         Usernav
     },
+    data: {
+        // Adding State to the root data object makes it globally reactive.
+        // We do not attach this to window.App for HIPPA compliance. User
+        // App.setState to mutate this object.
+        State: State,
+
+        apiUrl: '/api/v1',
+        appointmentData: null,
+        colors: {
+          copy: '#4f6268'
+        },
+        clientList: [],
+        permissions: Laravel.user.user_type,
+        environment: env,
+        currentUserId: Laravel.user.id,
+        flyoutActive: false,
+        guest: false,
+        stripe: null,
+        global: {
+            appointments: [],
+            confirmedDoctors: [],
+            confirmedPatients: [],
+            currentPage: '',
+            creditCards: [],
+            detailMessages: {},
+            loadingAppointments: true,
+            loadingCreditCards: true,
+            loadingClients: true,
+            loadingPatients: true,
+            loadingPractitioners: true,
+            practitionerProfileLoading: true,
+            loadingLabOrders: true,
+            loadingMessages: true,
+            loadingLabTests: true,
+            loadingTestTypes: true,
+            loadingUser: true,
+            loadingUserEditing: true,
+            menuOpen: false,
+            messages: [],
+            patients: [],
+            practitioners: [],
+            recent_appointments: [],
+            // Updated: 08/22/2017
+            // This is a hotfix and should be included in the backend logic when determining which
+            // practitioners to send to the frontend
+            regulatedStates: [
+              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+            ],
+            signed_in: Laravel.user.signedIn,
+            test_results: [],
+            upcoming_appointments: [],
+            unreadMessages: [],
+            labOrders: [],
+            labTests: [],
+            patientLookUp: {},
+            practitionerLookUp: {},
+            user: {},
+            selfPractitionerInfo: null,
+            user_editing: {}
+        },
+        signup: {
+          availability: [],
+          availableTimes: [],
+          billingConfirmed: false,
+          cardBrand: '',
+          cardCvc: '',
+          cardExpiration: '',
+          cardName: '',
+          cardNumber: '',
+          cardLastFour: '',
+          code: '',
+          completedSignup: false,
+          codeConfirmed: false,
+          cost: '',
+          data: {
+            appointment_at: null,
+            discount_code: null,
+            reason_for_visit: 'First appointment',
+            practitioner_id: null,
+          },
+          discountCode: '',
+          googleMeetLink: '',
+          phone: '',
+          phonePending: false,
+          phoneConfirmed: false,
+          practitionerName: '',
+          practitionerState: '',
+          selectedDate: null,
+          selectedDay: null,
+          selectedPractitioner: 0,
+          selectedWeek: null,
+          selectedTime: null,
+          visistedStages: [],
+        },
+        initialAppointment: {},
+        initialAppointmentComplete: false,
+        labTests: {},
+        timezone: moment.tz.guess(),
+        timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
+    },
     data: Store,
     computed: {
       isSignupBookingAllowed() {
@@ -155,7 +255,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
+                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -291,7 +391,15 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/messages`)
                 .then(response => {
                     let data = {};
-                    response.data.data.forEach(e => {
+                    let messageData = response.data.data;
+                    if (typeof (response.data.data) === 'object') {
+                        if (response.data.data.id) {
+                            messageData = [response.data.data];
+                        } else {
+                            messageData = Object.values(response.data.data);
+                        }
+                    }
+                    messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
@@ -302,7 +410,7 @@ const app = new Vue({
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
-                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
                     this.global.loadingMessages = false;
                 });
@@ -318,13 +426,14 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
+                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e));
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+            this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];

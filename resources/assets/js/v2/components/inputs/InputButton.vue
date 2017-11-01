@@ -5,7 +5,7 @@
     @click="onClick"
     :style="'width:' + width || 'auto'"
   >
-    <Loading
+    <LoadingSpinner
       v-if="isProcessing"
       class="inline margin-right-xxs"
       :color="config[type].loadingColor"
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { Loading } from 'feedback';
+import { LoadingSpinner } from 'feedback';
 
 export default {
   props: {
@@ -34,7 +34,7 @@ export default {
     width: String
   },
   components: {
-    Loading
+    LoadingSpinner
   },
   data() {
     return {
