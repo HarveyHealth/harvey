@@ -18,7 +18,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card empty-card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages">
+            <div class="card empty-card" v-show="!messageList.length && !$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">You do not have any messages.</p>
             </div>
             <div class="card empty-card" v-show="$root.$data.global.loadingMessages">
@@ -118,6 +118,7 @@
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           });
+          console.log(`ROOT`, this.$root)
           this.$root.getMessages();
           this.$root.getConfirmedUsers();
         }

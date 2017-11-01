@@ -92,6 +92,8 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
+Vue.config.devtools = true;
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -399,8 +401,12 @@ const app = new Vue({
         };
 
         // Initial GET requests
-        if (Laravel.user.signedIn) this.setup();
+        if (Laravel.user.signedIn) {
+            this.setup();
+        }
     }
 });
+
+Vue.config.devtools = true;
 
 app.$mount('#app');
