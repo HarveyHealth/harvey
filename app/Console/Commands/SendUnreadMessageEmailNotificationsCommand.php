@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redis;
 class SendUnreadMessageEmailNotificationsCommand extends Command
 {
     const UNREAD_OLDER_THAN_MINUTES = 10;
-    const UNREAD_NEWER_THAN_MINUTES = 15;
+    const UNREAD_NEWER_THAN_MINUTES = 25;
     const LAST_PROCESSED_ID_REDIS_KEY = 'messages:send-unread-messages-notifications:last_processed_id';
 
     /**
@@ -45,11 +45,15 @@ class SendUnreadMessageEmailNotificationsCommand extends Command
         $newer_than = Carbon::now()->subMinutes(self::UNREAD_NEWER_THAN_MINUTES);
 
         if (is_numeric($lastProcessedId)) {
+            // retrieves messages after last processed ID (from Redis)
+            // with a buffer of 10 minutes to give time to logged in users to read from the web
             $this->info("Last processed ID = {$lastProcessedId}.");
             $builder = $builder->idGreaterThan($lastProcessedId)->createdBefore($older_than);
         } else {
+            // if there is not Redis info of last processed ID
+            // retrieves only recent messages
             $this->info("Last processed ID not found.");
-            $this->info('Looking for unread messages in the last ' . self::UNREAD_OLDER_THAN_MINUTES . ' minutes');
+            $this->info('Looking for unread messages from ' .$newer_than . ' to ' . $older_than . '. (Now '.Carbon::now('UTC').')');
             $builder = $builder->createdBefore($older_than);
             $builder = $builder->createdAfter($newer_than);
         }

@@ -99,5 +99,13 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
+
+        Route::get('skus', 'SkusController@index')->name('skus.index');
+        Route::get('skus/lab-tests', 'SkusController@indexLabTests')->name('skus.indexLabTests');
+        Route::get('skus/{sku}', 'SkusController@show')->name('skus.show');
+        Route::post('skus', 'SkusController@store')->name('skus.store');
+        Route::put('skus/{sku}', 'SkusController@update')->name('skus.update');
+        Route::delete('skus/{sku}', 'SkusController@delete')->name('skus.delete');
+        Route::patch('skus/{sku}', 'SkusController@updateListOrder')->name('skus.updateListOrder');
     });
 });

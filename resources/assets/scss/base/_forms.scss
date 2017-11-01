@@ -19,10 +19,14 @@
     border: none;
     border-bottom: 1px solid $color-gray-5;
     @include padding(0 0 6px 0);
-
     &:disabled {
       color: rgba(#444, 0.5);
     }
+  }
+
+  &_textarea{
+    border: 1px solid $color-gray-5;
+    @include padding(7px);
   }
 
   &_checkbox {
@@ -121,6 +125,10 @@
   display: block;
   width: 100%;
   @include margin(null null 0.5em null);
+
+  #skuForm & {
+    @include margin(null null 0 null);
+  }
 
   &.first {
     padding-top: 0;

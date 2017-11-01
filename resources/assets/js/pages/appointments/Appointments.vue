@@ -513,7 +513,7 @@ export default {
         } else {
           this.isLoadingDays = false;
         }
-      }).catch(error => {
+      }).catch(() => {
 
       });
     },
