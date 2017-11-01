@@ -122,7 +122,7 @@ export default {
       isProcessing: false,
       quotes: [
         { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-          source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
+          source: 'Jordan Yorn (California)' }
       ],
       responseErrors: [],
       subtitle: '',
@@ -204,31 +204,26 @@ export default {
             this.isComplete = true;
             this.zipInRange = true;
 
-            // Track successful signup
-            if(App.Logic.misc.shouldTrack()) {
-              // collect response information
-              const userData = response.data.data.attributes;
-              const userId = response.data.data.id || '';
-              const firstName = userData.first_name || '';
-              const lastName = userData.last_name || '';
-              const email = userData.email || '';
-              const zip = userData.zip || '';
-              const city = userData.city || '';
-              const state = userData.state || '';
+            const userData = response.data.data.attributes;
+            const userId = response.data.data.id || '';
+            const firstName = userData.first_name || '';
+            const lastName = userData.last_name || '';
+            const email = userData.email || '';
+            const zip = userData.zip || '';
+            const city = userData.city || '';
+            const state = userData.state || '';
 
-              // Segment tracking
-              analytics.track("Account Created");
+            analytics.alias(userId); // Only call this once
+            analytics.track('Account Created');
 
-              // Segment Identify
-              analytics.identify(userId, {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                city: city,
-                state: state,
-                zip: zip
-              });
-            }
+            analytics.identify(userId, {
+              firstName: firstName,
+              lastName: lastName,
+              email: email,
+              city: city,
+              state: state,
+              zip: zip
+            });
 
             // remove local storage items on sign up
             // needed if you decide to sign up multiple acounts on one browser
@@ -282,9 +277,10 @@ export default {
   mounted () {
     this.$root.toDashboard();
 
-    if(App.Logic.misc.shouldTrack()) {
-      analytics.page("Signup");
-    }
+    analytics.page('Signup');
+    analytics.track('Signup');
+    analytics.identify();
+
   }
 };
 </script>
