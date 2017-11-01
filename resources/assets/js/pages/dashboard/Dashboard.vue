@@ -142,9 +142,6 @@
     },
     mounted() {
       this.$root.$data.global.currentPage = 'dashboard';
-      if(this.$root.shouldTrack()) {
-        // Add tracking for Dashboard here
-      }
     }
   };
 </script>

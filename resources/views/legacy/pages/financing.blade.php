@@ -1,5 +1,6 @@
 @extends('legacy._layouts.public')
 @section('page_title','0% Financing')
+@section('page_name','Financing')
 @section('main_content')
 
     <section class="hero hero-background is-paddingless-bottom">

@@ -1,5 +1,6 @@
 @extends('legacy._layouts.public')
 @section('page_title','Holistic and Integrative Medicine')
+@section('page_name','Homepage')
 @section('body_class','home')
 @section('main_content')
 
