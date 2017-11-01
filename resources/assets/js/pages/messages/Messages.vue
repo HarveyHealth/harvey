@@ -18,16 +18,15 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card empty-card" v-show="!messageList.length && !$root.$data.global.loadingMessages">
+            <div class="card empty-card" v-if="!messageList.length && !$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">You do not have any messages.</p>
             </div>
-            <div class="card empty-card" v-show="$root.$data.global.loadingMessages">
+            <div class="card empty-card" v-if="$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">Your messages are loading...</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
-            <div v-if="messageList">
               <div v-for="chat in messageList" class="messages-wrapper">
                 <router-link :to="{
                     name: 'detail',
@@ -52,7 +51,6 @@
                   />
                 </router-link>
             </div>
-          </div>
       </div>
     </div>
   </div>

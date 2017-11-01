@@ -1,6 +1,6 @@
 <template>
     <div class="main-container">
-        <div v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
+        <div @click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
         <UserNav />
         <div class="main-content">
             <div class="main-header">
@@ -25,7 +25,7 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message" v-if="detailList">
+                <div class="container-message">
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
