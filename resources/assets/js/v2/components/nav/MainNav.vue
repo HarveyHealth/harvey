@@ -7,10 +7,11 @@
             <SvgIcon class="MainNav_Logo" :id="'harvey-logo'" />
           </div>
         </a>
-        <div class="nav-items">
+        <div class="nav-items thinner">
           <a href="/about" class="link">About</a>
           <a href="/lab-tests" class="link is-hidden-mobile">Labs</a>
           <a href="/#prices" class="link is-hidden-mobile is-hidden-tablet-only">Pricing</a>
+          <a href="/financing" class="link is-hidden-mobile is-hidden-tablet-only">Financing</a>
           <a href="/login" class="link">Login</a>
         </div>
       </div>
@@ -33,8 +34,8 @@ export default {
   },
   data() {
     return {
-      isOpen: false,
-    }
+      isOpen: false
+    };
   },
   computed: {
     classes() {
@@ -44,7 +45,7 @@ export default {
       return `fa ${this.isOpen ? 'fa-close' : 'fa-bars'}`;
     },
     showMenu () {
-      return this.context === 'conditions'
+      return this.context === 'conditions';
     }
   },
   methods: {
@@ -52,7 +53,7 @@ export default {
       return this.isOpen = !this.isOpen;
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -8,7 +8,8 @@ use App\Models\{
     LabTest,
     Message,
     User,
-    LabOrder
+    LabOrder,
+    LabTestInformation
 };
 use App\Observers\{
     AppointmentObserver,
@@ -16,7 +17,8 @@ use App\Observers\{
     LabTestObserver,
     MessageObserver,
     UserObserver,
-    LabOrderObserver
+    LabOrderObserver,
+    LabTestInformationObserver
 };
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
@@ -42,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
+        LabTestInformation::observe(LabTestInformationObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
     }
@@ -57,7 +60,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
         }
 
-        // bugsnag
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
     }

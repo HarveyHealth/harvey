@@ -11,6 +11,7 @@ use App\Models\{
     Patient,
     Practitioner,
     Prescription,
+    SKU,
     SoapNote,
     Test,
     User
@@ -24,6 +25,7 @@ use App\Policies\{
     PatientPolicy,
     PractitionerPolicy,
     PrescriptionPolicy,
+    SkuPolicy,
     SoapNotePolicy,
     TestPolicy,
     UserPolicy
@@ -41,16 +43,17 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Appointment::class => AppointmentPolicy::class,
-        Attachment::class => AttachmentPolicity::class,
+        Attachment::class => AttachmentPolicy::class,
         LabOrder::class => LabOrderPolicy::class,
         LabTest::class => LabTestPolicy::class,
         Message::class => MessagePolicy::class,
         Patient::class => PatientPolicy::class,
         Practitioner::class => PractitionerPolicy::class,
-        Prescription::class => PrescriptionPolicity::class,
-        SoapNote::class => SoapNotePolicity::class,
+        Prescription::class => PrescriptionPolicy::class,
+        SoapNote::class => SoapNotePolicy::class,
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
+        SKU::class => SkuPolicy::class,
     ];
 
     /**

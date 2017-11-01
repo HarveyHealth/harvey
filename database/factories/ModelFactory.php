@@ -149,6 +149,12 @@ $factory->define(SKU::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->state(SKU::class, 'lab-test', function (Faker\Generator $faker) {
+    return [
+        'item_type' => 'lab-test',
+    ];
+});
+
 $factory->define(License::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->randomElement(['ND', 'MD', 'DO']),
@@ -369,5 +375,16 @@ $factory->define(DiscountCode::class, function (Faker\Generator $faker) {
         'discount_type' => $faker->randomElement(['percent','dollars']),
         'amount' => $faker->numberBetween(10, 90),
         'expires_at' => $faker->dateTimeBetween('+5 years', '+10 years'),
+    ];
+});
+
+$factory->define(LabTestInformation::class, function (Faker\Generator $faker) {
+    return [
+        'sku_id' => factory(SKU::class),
+        'description' => $faker->sentence(100),
+        'image' => '/images/lab_tests/micronutrients.png',
+        'lab_name' => 'Unknown',
+        'sample' => $faker->randomElement(['Blood draw', 'Saliva', 'Stool', 'Urine']),
+        'quote' => $faker->sentence(10),
     ];
 });
