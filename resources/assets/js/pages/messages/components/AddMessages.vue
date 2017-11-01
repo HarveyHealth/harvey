@@ -80,16 +80,8 @@
             userList() {
               const store = this.$root.$data.global;
                 if (this.$root.$data.permissions === 'patient') {
-                    store.confirmedDoctors = store.appointments
-                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                        .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-                    store.confirmedDoctors = _.uniq(store.confirmedDoctors);
                     return [''].concat(store.confirmedDoctors);
                 } else if (this.$root.$data.permissions === 'practitioner') {
-                    store.confirmedPatients = store.appointments
-                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                        .map(e => store.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-                    store.confirmedPatients = _.uniq(store.confirmedPatients);
                     return [''].concat(store.confirmedPatients);
                 } else if (this.$root.$data.permissions === 'admin') {
                     return [''].concat(store.practitioners).concat(store.patients);
