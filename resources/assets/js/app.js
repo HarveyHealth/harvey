@@ -301,7 +301,15 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/messages`)
                 .then(response => {
                     let data = {};
-                    response.data.data.forEach(e => {
+                    let messageData = response.data.data;
+                    if (typeof (response.data.data) === 'object') {
+                        if (response.data.data.id) {
+                            messageData = [response.data.data];
+                        } else {
+                            messageData = Object.values(response.data.data);
+                        }
+                    }
+                    messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
@@ -312,7 +320,7 @@ const app = new Vue({
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
-                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
                     this.global.loadingMessages = false;
                 });
