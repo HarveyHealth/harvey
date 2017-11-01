@@ -124,10 +124,12 @@ export default {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
     // A purchase event is typically associated with a specified product or product_group.
     // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-
-    analytics.page('Success');
-    analytics.track('Success');
-    analytics.identify();
+    if(this.$root.shouldTrack()) {
+      // place view tracking here
+      // Segment tracking
+      analytics.track("Consultation Confirmed");
+      analytics.page('Success');
+    }
 
     // From https://www.addevent.com/buttons/add-to-calendar
     // Has to be added on component mount because it needs to be able to find

@@ -1,6 +1,5 @@
 @extends('legacy._layouts.public')
-@section('page_title','Reset Password')
-@section('page_name','Reset Password')
+@section('page_title','Send Reset Link')
 @section('main_content')
 
 <section class="page-content">

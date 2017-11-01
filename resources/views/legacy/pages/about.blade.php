@@ -1,6 +1,5 @@
 @extends('legacy._layouts.public')
 @section('page_title','About')
-@section('page_name','About')
 @section('main_content')
 
     <section class="hero hero-background">

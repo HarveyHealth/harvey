@@ -194,10 +194,9 @@ export default {
     if (this.practitioners.length) this.select(this.practitioners[0], 0, true);
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    analytics.page('Practitioner');
-    analytics.track('Practitioner');
-    analytics.identify();
-
+    if(this.$root.shouldTrack()) {
+      analytics.page('Practitioner');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

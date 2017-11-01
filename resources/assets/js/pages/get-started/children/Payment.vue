@@ -253,11 +253,6 @@ export default {
         nameInput: 'input[name="card_name"]'
       }
     });
-
-    analytics.page('Payment');
-    analytics.track('Payment');
-    analytics.identify();
-
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
