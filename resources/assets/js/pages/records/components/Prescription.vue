@@ -52,13 +52,13 @@ export default {
             return [{name: ''}].concat([{name: 'Fullscript'}]);
         },
         prescriptionUrl() {
-            return this.$parent.propData.attributes.url;
+            return this.$parent.propData.attributes.url || '';
         }
     },
     watch : {
         prescriptionUrl(val) {
             if (!val) {
-                return this.$parent.propData.attributes.url;
+                return this.$parent.propData.attributes.url || '';
             }
         }
     }

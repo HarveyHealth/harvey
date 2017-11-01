@@ -35,6 +35,7 @@
 
 <script>
 import {mask} from 'vue-the-mask'
+import {capitalize} from 'lodash'
 export default {
     props: {
         patient: Object
@@ -49,13 +50,13 @@ export default {
     },
     computed: {
         attachmentUrl() {
-            return this.$parent.propData.attributes.url;
+            return this.$parent.propData.attributes.url || '';
         }
     },
     watch: {
         attachmentUrl(val) {
             if (!val) {
-                return this.$parent.propData.attributes.url;
+                return this.$parent.propData.attributes.url || '';
             }
         }
     }
