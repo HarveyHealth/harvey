@@ -18,8 +18,6 @@ export default function(laravel, State) {
       stripe: null,
       global: {
           appointments: [],
-          confirmedDoctors: [],
-          confirmedPatients: [],
           currentPage: '',
           creditCards: [],
           detailMessages: {},
@@ -78,7 +76,7 @@ export default function(laravel, State) {
           appointment_at: null,
           discount_code: null,
           reason_for_visit: 'First appointment',
-          practitioner_id: null,
+          practitioner_id: null
         },
         discountCode: '',
         googleMeetLink: '',
@@ -92,12 +90,12 @@ export default function(laravel, State) {
         selectedPractitioner: 0,
         selectedWeek: null,
         selectedTime: null,
-        visistedStages: [],
+        visistedStages: []
       },
       initialAppointment: {},
       initialAppointmentComplete: false,
       labTests: {},
       timezone: moment.tz.guess(),
-      timezoneAbbr: moment.tz(moment.tz.guess()).format('z'),
-  }
+      timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
+  };
 }
