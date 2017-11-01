@@ -46,7 +46,14 @@ if (mix.inProduction()) {
 mix.webpackConfig({
     resolve: {
         alias: {
-            moment$: 'moment/moment.js'
+            moment$: 'moment/moment.js',
+            sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
+            feedback: path.resolve(__dirname, 'resources/assets/js/v2/components/feedback'),
+            icons: path.resolve(__dirname, 'resources/assets/js/v2/components/icons'),
+            inputs: path.resolve(__dirname, 'resources/assets/js/v2/components/inputs'),
+            layout: path.resolve(__dirname, 'resources/assets/js/v2/components/layout'),
+            nav: path.resolve(__dirname, 'resources/assets/js/v2/components/nav'),
+            typography: path.resolve(__dirname, 'resources/assets/js/v2/components/typography')
         },
     },
     plugins: [
