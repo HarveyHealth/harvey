@@ -14,10 +14,11 @@ class LabTestResultTransformer extends TransformerAbstract
     public function transform(LabTestResult $labTestResult)
     {
         return [
-            'id' => (string) $labTestResult->id,
-            'url' => $labTestResult->url,
-            'lab_test_id' => (string) $labTestResult->lab_test_id,
+            'id' => cast_to_string($labTestResult->id),
+            'created_at' => $labTestResult->created_at,
+            'lab_test_id' => cast_to_string($labTestResult->lab_test_id),
             'notes' => $labTestResult->notes,
+            'url' => $labTestResult->url,
         ];
     }
 }

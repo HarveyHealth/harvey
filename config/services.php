@@ -122,4 +122,8 @@ return [
         'client_secret' => env('FACEBOOK_SECRET'),
         'redirect'      => env('FACEBOOK_URL'),
     ],
+
+    'segment' => [
+        'key'           => env('SEGMENT_KEY'),
+    ]
 ];

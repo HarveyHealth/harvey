@@ -2,15 +2,15 @@
   <CardContent withBorder>
     <Heading2 doesExpand class="avatar-heading">
       <SvgIcon :id="'small-person'" class="w2 h2" />
-      <Space isRight :size="4" />
-      <Space isRight :size="1" />
+      <Spacer isRight :size="4" />
+      <Spacer isRight :size="1" />
       {{ heading }}
     </Heading2>
   </CardContent>
 </template>
 
 <script>
-import { CardContent, Space } from 'layout';
+import { CardContent, Spacer } from 'layout';
 import { Heading2 } from 'typography';
 import { SvgIcon } from 'icons';
 

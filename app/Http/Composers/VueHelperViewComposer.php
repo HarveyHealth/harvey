@@ -70,6 +70,9 @@ class VueHelperViewComposer
             'pusher' => [
                 'key' => Config::get('broadcasting.connections.pusher.key')
             ],
+            'segment' => [
+                'key' => Config::get('services.segment.key'),
+            ],
         ];
 
         return $data;

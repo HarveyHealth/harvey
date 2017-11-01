@@ -5,7 +5,7 @@ import router from './routes';
 import VeeValidate from 'vee-validate';
 
 // COMPONENETS
-import Dashboard from './pages/dashboard/Dashboard.vue';
+import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -160,7 +160,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
+                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -296,7 +296,15 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/messages`)
                 .then(response => {
                     let data = {};
-                    response.data.data.forEach(e => {
+                    let messageData = response.data.data;
+                    if (typeof (response.data.data) === 'object') {
+                        if (response.data.data.id) {
+                            messageData = [response.data.data];
+                        } else {
+                            messageData = Object.values(response.data.data);
+                        }
+                    }
+                    messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
@@ -307,7 +315,7 @@ const app = new Vue({
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
-                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
                     this.global.loadingMessages = false;
                 });
@@ -323,13 +331,14 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
+                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e));
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+            this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
