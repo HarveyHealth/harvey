@@ -208,7 +208,7 @@ class LabOrder extends Model
             ]);
 
             if ('SUCCESS' != $transaction->status) {
-                throw new Exception("Transaction failed when shipping LabOrder ID #{$this->id}");
+                throw new Exception("Transaction failed when shipping LabOrder ID #{$this->id}. " . collect($transaction->messages)->implode('text', ' - '));
             }
 
             Redis::set($this->redisKeyForUrlLabel(), $transaction->label_url);
@@ -218,7 +218,7 @@ class LabOrder extends Model
 
             $this->save();
         } catch (Exception $e) {
-            ops_warning('LabOrdersController', "Error creating shipment for LabOrder ID #{$this->id}");
+            ops_warning('LabOrder@ship', $e->getMessage());
             return false;
         }
 
