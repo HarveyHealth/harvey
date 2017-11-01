@@ -81,7 +81,7 @@
               const store = this.$root.$data.global;
                 if (this.$root.$data.permissions === 'patient') {
                     store.confirmedDoctors = store.appointments
-                        .filter(e =>  e.attributes.status === 'complete')
+                        .filter(e =>  e.attributes.status === 'complete' || e.attributes.status === 'pending')
                         .map(e => store.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
                     store.confirmedDoctors = _.uniq(store.confirmedDoctors).filter(e => _.identity(e));
                     return [''].concat(store.confirmedDoctors);
