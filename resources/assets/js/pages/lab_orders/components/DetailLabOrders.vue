@@ -1,5 +1,10 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout
+    :class="this.modalActive && 'with-active-modal'"
+    :active="$parent.detailFlyoutActive"
+    :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
+    :on-close="handleFlyoutClose"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -363,7 +368,7 @@
 
       <!-- Mark as Shipped -->
       <div class="button-wrapper">
-        <button class="button" @click="getShippingInformation">Generate Label</button>
+        <button class="button" @click="confirmShipping">Generate Label</button>
       </div>
 
       <div class="button-wrapper">
@@ -384,6 +389,17 @@
           <button @click="closeInvalidCC" class="button">Try again</button>
         </div>
       </div>
+    </Modal>
+
+    <Modal :active="shippingConfirmationModalActive" :onClose="closeShippingModal">
+        <div class="inline-centered">
+            <h1>Generate a shipping label?</h1>
+            <p>This generates shipping information for this lab order and sends information to FedEx.</p>
+            <div class="button-wrapper">
+                <button @click="getShippingInformation" class="button">Yes</button>
+                <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
+            </div>
+        </div>
     </Modal>
 
   </Flyout>
@@ -448,6 +464,7 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
+      shippingConfirmationModalActive: false,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
   },
@@ -673,7 +690,16 @@ export default {
           });
       });
     },
+    confirmShipping() {
+        this.shippingConfirmationModalActive = true;
+    },
+    closeShippingModal() {
+        this.shippingConfirmationModalActive = false;
+    },
     getShippingInformation() {
+        // close the modal
+        this.closeShippingModal();
+
         this.loading = true;
         const labOrderId = this.$props.rowData.id;
 
@@ -921,6 +947,9 @@ export default {
     },
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
+    },
+    modalActive() {
+        return this.shippingConfirmationModalActive || this.invalidModalActive;
     }
   }
 };
