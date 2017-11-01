@@ -35,7 +35,7 @@
     </head>
 
     <body class="{{ collect(\Request::segments())->implode('-') }} @yield('body_class')">
-      @yield('content')
+        @yield('content')
         <footer>
             <!-- Scripts -->
             @if (isProd())
