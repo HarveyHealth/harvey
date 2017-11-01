@@ -38,14 +38,14 @@
       @yield('content')
         <footer>
             <!-- Scripts -->
-            @if (isProd())
+            @if (isNotProd())
                 <script type="text/javascript" src="https://unpkg.com/gh-intercom@1.0.0/index.js"></script>
                 <script type="text/javascript">
                     window.onload = function() {
                         window.intercomSettings = {
-                            app_id: "tgn5rh80",
-                            user_id: {{ currentUser() ? Laravel.user.id : 'null' }},
-                            user_hash: {{ currentUser() ? Laravel.user.intercom_hash : 'null' }}
+                            app_id: 'tgn5rh80',
+                            user_id: {{ currentUser() ? 'Laravel.user.id' : 'null' }},
+                            user_hash: {{ currentUser() ? 'Laravel.user.intercom_hash' : 'null' }}
                         };
                     }
                 </script>
