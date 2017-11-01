@@ -48,6 +48,8 @@ export default {
 
     if(this.$root.shouldTrack()) {
       analytics.page('Out of Range');
+      analytics.track('Out of Range');
+      analytics.identify();
     }
   },
   beforeDestroy() {

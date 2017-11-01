@@ -122,7 +122,7 @@ export default {
       isProcessing: false,
       quotes: [
         { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-          source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
+          source: 'Jordan Yorn (California)' }
       ],
       responseErrors: [],
       subtitle: '',
@@ -282,9 +282,10 @@ export default {
   mounted () {
     this.$root.toDashboard();
 
-    if(App.Logic.misc.shouldTrack()) {
-      analytics.page("Signup");
-    }
+    analytics.page('Signup');
+    analytics.track('Signup');
+    analytics.identify();
+
   }
 };
 </script>

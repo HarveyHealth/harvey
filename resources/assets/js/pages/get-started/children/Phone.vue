@@ -220,9 +220,10 @@ export default {
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Phone');
-    }
+    analytics.page('Phone');
+    analytics.track('Phone');
+    analytics.identify();
+
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

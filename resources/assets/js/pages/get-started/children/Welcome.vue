@@ -15,6 +15,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'welcome',
   data() {
@@ -39,12 +40,13 @@ export default {
 
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Welcome');
-    }
+    analytics.page('Welcome');
+    analytics.track('Welcome');
+
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
 };
+
 </script>

@@ -189,9 +189,6 @@ export default {
             this.isComplete = true;
             this.zipInRange = true;
 
-            // Track successful signup
-            if(this.$root.shouldTrack()) {
-              // collect response information
               const userData = response.data.data.attributes;
 
               const userId = response.data.data.id || '';
@@ -202,10 +199,9 @@ export default {
               const city = userData.city || '';
               const state = userData.state || '';
 
-              // Segment tracking
-              analytics.track("Account Created");
+              analytics.alias(userId); // Only call this once
+              analytics.track('Account Created');
 
-              // Segment Identify
               analytics.identify(userId, {
                 firstName: firstName,
                 lastName: lastName,
@@ -214,7 +210,7 @@ export default {
                 state: state,
                 zip: zip
               });
-            }
+            
 
             // remove local storage items on sign up
             // needed if you decide to sign up multiple acounts on one browser
@@ -302,9 +298,10 @@ export default {
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page("Signup");
-    }
+    analytics.page('Signup');
+    analytics.track('Signup');
+    analytics.identify();
+
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);

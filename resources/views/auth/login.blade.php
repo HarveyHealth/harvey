@@ -1,5 +1,6 @@
 @extends('legacy._layouts.public')
-@section('page_title','Log In')
+@section('page_title','Login')
+@section('page_name','Login')
 @section('main_content')
 
 <section class="signup-content">
