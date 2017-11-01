@@ -6,7 +6,7 @@
             :disabled="loading"
             @click="handleFilter(name, index)">
             {{ name.name ? name.name : name }}
-            <div class="filter-bubble" v-if="name.count">{{ name.count }}</div>
+            <div class="filter-bubble" v-if="name.count && name.name !== 'Complete'">{{ name.count }}</div>
         </button>
   </div>
 </template>
