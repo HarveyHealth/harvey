@@ -11,6 +11,7 @@ use App\Models\{
     Patient,
     Practitioner,
     Prescription,
+    SKU,
     SoapNote,
     Test,
     User
@@ -24,6 +25,7 @@ use App\Policies\{
     PatientPolicy,
     PractitionerPolicy,
     PrescriptionPolicy,
+    SkuPolicy,
     SoapNotePolicy,
     TestPolicy,
     UserPolicy
@@ -51,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
         SoapNote::class => SoapNotePolicy::class,
         Test::class => TestPolicy::class,
         User::class => UserPolicy::class,
+        SKU::class => SkuPolicy::class,
     ];
 
     /**
