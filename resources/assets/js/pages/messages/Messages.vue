@@ -87,14 +87,6 @@
             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           }
         },
-        watch: {
-            messageList(val) {
-                if (!val) {
-                    let messages = this.$root.$data.global.messages || [];
-                    return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
-                }
-            }
-        },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
@@ -116,7 +108,6 @@
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           });
-          console.log(`ROOT`, this.$root);
           this.$root.getMessages();
           this.$root.getConfirmedUsers();
         }
