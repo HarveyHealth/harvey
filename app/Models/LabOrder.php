@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
-use App\Models\{DiscountCode, LabTest, SKU};
 use App\Lib\TimeInterval;
+use App\Lib\Validation\StrictValidatorException;
+use App\Models\{DiscountCode, LabTest, SKU};
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
 use Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Transaction;
@@ -183,29 +184,18 @@ class LabOrder extends Model
         ];
 
         try {
-            // create Shippo Address object
             $shippo_address = Shippo_Address::create($to);
-            $shippo_address_id = $shippo_address['object_id'];
 
-            // validate the address
-            $shippo_validation = Shippo_Address::validate($shippo_address_id);
-            $address_status = $shippo_validation['validation_results'];
-
-            if (!$address_status->is_valid) {
-                throw new Exception("The address for LabOrder ID #{$this->id} is invalid.");
+            if (!Shippo_Address::validate($shippo_address->object_id)->validation_results->is_valid) {
+                throw new StrictValidatorException('The address' . json_encode($to) . 'is invalid.');
             }
-        } catch (Exception $e) {
-            ops_warning('LabOrder@ship', $e->getMessage());
-            return false;
-        }
 
-        $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
-            return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
-        });
+            $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
+                return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
+            });
 
-        try {
             $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
-            $carrier_object_id = $carriers['results'][0]['object_id'] ?? null;
+            $carrier_object_id = $carriers->results[0]->object_id ?? null;
 
             if (empty($carrier_object_id)) {
                 throw new Exception("Can't get carrier_object_id when processing LabOrder ID #{$this->id}");
@@ -234,6 +224,8 @@ class LabOrder extends Model
             $this->shipment_code = $transaction->tracking_number;
 
             $this->save();
+        } catch (StrictValidatorException $e) {
+            throw $e;
         } catch (Exception $e) {
             ops_warning('LabOrder@ship', $e->getMessage());
             return false;
