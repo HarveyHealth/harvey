@@ -858,7 +858,7 @@ export default {
       if (isPatient && isCancel && this.cancellationReason) {
         data.cancellation_reason = this.cancellationReason;
       }
-      console.log(data)
+
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](endpoint, data).then((response) => {
