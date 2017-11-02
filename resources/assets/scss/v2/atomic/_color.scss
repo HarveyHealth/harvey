@@ -1,3 +1,7 @@
+.color-darker {
+  color: $color-fade-darker;
+}
+
 .color-white {
   &, #{$global-copy-elements} {
     color: $color-white;

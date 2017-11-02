@@ -218,6 +218,12 @@
               </textarea>
             </div>
           </div>
+          <div class="Row-md" v-show="discountCode">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Discount:</strong></div>
+            <div class="Column-md-4of5 font-thin">
+              <span class="bg-good color-darker radius" style="padding: 0 4px;">{{ discountMessage }}</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="font-centered" slot="footer" v-if="!isHandlingAction">
@@ -287,6 +293,7 @@ export default {
       cancellationReason: '',
       discountCode: '',
       discountError: '',
+      discountMessage: '',
       durationList: [
         { data: 30, value: '30 minutes' },
         { data: 60, value: '60 minutes' }
@@ -588,6 +595,9 @@ export default {
         if (response.data.errors) {
           this.discountError = 'Invalid discount code.';
         } else {
+          const type = response.data.data.attributes.discount_type;
+          const amount = response.data.data.attributes.amount;
+          this.discountMessage = type === 'dollars' ? `-$${amount}` : `-${amount}%`;
           callback(response);
         }
       }).catch(error => {
