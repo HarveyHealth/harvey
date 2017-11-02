@@ -126,6 +126,12 @@
         :text-value="appointment.purpose"
       />
 
+      <div class="input__container" v-if="visibleDiscount">
+        <label class="input__label">Discount</label>
+        <input v-model="discountCode" class="input--text" />
+        <div class="copy-error" v-show="discountError">{{ discountError }}</div>
+      </div>
+
       <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
@@ -210,13 +216,6 @@
                 maxlength="1024"
                 placeholder="Reason for cancelling appointment">
               </textarea>
-            </div>
-          </div>
-          <div class="Row-md" v-show="appointment.status === 'complete'">
-            <div class="Column-md-1of5 space-bottom-xxs"><strong>Discount:</strong></div>
-            <div class="Column-md-4of5 font-thin">
-              <input v-model="discountCode" class="input--text" />
-              <div class="copy-error" v-show="discountError">{{ discountError }}</div>
             </div>
           </div>
         </div>
@@ -427,6 +426,9 @@ export default {
       return this.flyoutMode === 'update' ||
         (this.userType === 'practitioner' && this.appointment.patientName !== '') ||
         (this.userType !== 'practitioner' && this.appointment.practitionerName !== '');
+    },
+    visibleDiscount() {
+      return this.flyoutMode === 'new' && App.Config.user.isPatient && this.appointment.date;
     },
     visibleDuration() {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
