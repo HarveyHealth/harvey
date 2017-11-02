@@ -55,7 +55,7 @@ class SkusController extends BaseAPIController
             'sample' => 'required',
             'quote' => 'required|max:200',
             'lab_name' => 'required',
-            'visibility' => 'required|integer',
+            'visibility_id' => 'required|integer',
         ]);
     
         $sku = new SKU($request->only(['name', 'price', 'cost']));
