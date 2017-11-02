@@ -18,16 +18,15 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <div class="card empty-card" v-show="messageList.length == 0 && !$root.$data.global.loadingMessages">
+            <div class="card empty-card" v-if="!messageList.length && !$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">You do not have any messages.</p>
             </div>
-            <div class="card empty-card" v-show="$root.$data.global.loadingMessages">
+            <div class="card empty-card" v-if="$root.$data.global.loadingMessages">
               <p class="copy-muted font-md font-italic">Your messages are loading...</p>
             </div>
             <div :class="{flyout: true, isactive: renderNewMessage}">
               <preview v-if="renderNewMessage" />
             </div>
-            <div v-if="messageList">
               <div v-for="chat in messageList" class="messages-wrapper">
                 <router-link :to="{
                     name: 'detail',
@@ -52,7 +51,6 @@
                   />
                 </router-link>
             </div>
-          </div>
       </div>
     </div>
   </div>
@@ -89,14 +87,14 @@
             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           }
         },
-        watch: {
-            messageList(val) {
-                if (!val) {
-                    let messages = this.$root.$data.global.messages || [];
-                    return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
-                }
-            }
-        },
+        // watch: {
+        //     messageList(val) {
+        //         if (!val) {
+        //             let messages = this.$root.$data.global.messages || [];
+        //             return messages.sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
+        //         }
+        //     }
+        // },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
@@ -118,6 +116,7 @@
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           });
+          console.log(`ROOT`, this.$root)
           this.$root.getMessages();
           this.$root.getConfirmedUsers();
         }
