@@ -45,6 +45,7 @@
         // Minimized
         width: 100%; clear: both; float: none;
         @include margin(0 0 .5em 0);
+        word-wrap: break-word;
 
         h2 {
             @include margin(null);
