@@ -5,6 +5,12 @@
 </template>
 
 <script>
+// PageHeader
+// ----------------------------------------------------------------------------
+// PageHeader is used for each back-office page header area. It standardizes
+// padding and heading text currently. Eventually it should contain props
+// for adding filters and an action button.
+
 import { Heading1 } from 'typography';
 
 export default {

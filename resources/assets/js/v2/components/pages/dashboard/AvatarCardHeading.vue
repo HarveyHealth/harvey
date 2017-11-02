@@ -15,7 +15,7 @@ import { Heading2 } from 'typography';
 import { SvgIcon } from 'icons';
 
 export default {
-  components: { CardContent, Heading2, Space, SvgIcon },
+  components: { CardContent, Heading2, Spacer, SvgIcon },
   props: {
     heading: String
   }
