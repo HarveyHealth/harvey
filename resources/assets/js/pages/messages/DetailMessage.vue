@@ -6,7 +6,7 @@
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                      <span class="text">{{ subject }}</span>                      
+                      <span class="text word-wrap">{{ subject }}</span>                      
                     </h1>
                     <h3 class="font-sm copy-muted-2">
                       <router-link to="/messages">
