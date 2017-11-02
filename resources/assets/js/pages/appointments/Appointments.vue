@@ -129,7 +129,7 @@
       <div class="input__container" v-if="visibleDiscount">
         <label class="input__label">Discount</label>
         <input v-model="discountCode" class="input--text" />
-        <div class="copy-error" v-show="discountError">{{ discountError }}</div>
+        <p class="copy-error" v-show="discountError" style="margin:4px 12px;">{{ discountError }}</p>
       </div>
 
       <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
@@ -223,7 +223,7 @@
       <div class="font-centered" slot="footer" v-if="!isHandlingAction">
         <button class="Button--cancel" @click="handleModalClose" v-show="bookingConflict">Continue</button>
         <button class="Button--cancel" @click="handleModalClose" v-show="!bookingConflict">Cancel</button>
-        <button class="Button" @click="handleConfirmationSubmission" v-show="!bookingConflict">Yes, Confirm</button>
+        <button class="Button" @click="handleUserAction" v-show="!bookingConflict">Yes, Confirm</button>
       </div>
     </Modal>
 
@@ -538,6 +538,7 @@ export default {
           this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
+          this.modalActive = true;
           break;
         case 'update':
           switch (this.appointment.status) {
@@ -554,20 +555,46 @@ export default {
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
+          this.modalActive = true;
           break;
         case 'new':
+          const setup = () => {
+            if (!this.showBillingError) {
+              this.userActionTitle = 'Confirm Appointment';
+              this.appointment.status = 'pending';
+              this.modalActive = true;
+            }
+          }
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.showBillingError = true;
-            return;
           }
-          if (this.$root.shouldTrack()) {
-            // Add "Confirm Appointment" tracking here
+          if (this.discountCode) {
+            this.handleDiscount(response => {
+              if (!response.data.errors && !this.showBillingError) {
+                setup();
+              }
+            });
+          } else {
+            setup();
           }
-          this.userActionTitle = 'Confirm Appointment';
-          this.appointment.status = 'pending';
           break;
       }
-      this.modalActive = true;
+    },
+
+    handleDiscount(callback) {
+      this.discountError = '';
+      const endpoint = `${App.Config.misc.api}discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+      axios.get(endpoint).then(response => {
+        if (response.data.errors) {
+          this.discountError = 'Invalid discount code.';
+        } else {
+          callback(response);
+        }
+      }).catch(error => {
+        if (error.response) {
+          console.warn(error.response);
+        };
+      })
     },
 
     // When getAppointments is run we save three copies of the data to match
@@ -743,27 +770,6 @@ export default {
         this.selectedRowData = null;
         this.selectedRowIndex = null;
         setTimeout(() => this.appointment = this.resetAppointment(), 300);
-      }
-    },
-
-    handleConfirmationSubmission() {
-      this.discountError = '';
-      if (this.discountCode) {
-        const endpoint = `${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
-        axios.get(endpoint).then(response => {
-          if (response.data.errors) {
-            this.discountError = 'Invalid discount code.';
-          } else {
-            this.handleUserAction(this.discountCode);
-          }
-        }).catch(error => {
-          if (error.response) {
-            console.warn(error.response);
-            // document.body.innerHTML = error.response.data;
-          };
-        })
-      } else {
-        this.handleUserAction();
       }
     },
 
