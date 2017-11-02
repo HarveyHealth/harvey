@@ -7,7 +7,7 @@ use App\Models\{DiscountCode, LabTest, SKU};
 use App\Lib\TimeInterval;
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
-use Exception, Shippo_CarrierAccount, Shippo_Transaction;
+use Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Transaction;
 
 class LabOrder extends Model
 {
@@ -181,6 +181,23 @@ class LabOrder extends Model
             'email' => $user->email,
             'test' => isNotProd(),
         ];
+
+        try {
+            // create Shippo Address object
+            $shippo_address = Shippo_Address::create($to);
+            $shippo_address_id = $shippo_address['object_id'];
+
+            // validate the address
+            $shippo_validation = Shippo_Address::validate($shippo_address_id);
+            $address_status = $shippo_validation['validation_results'];
+
+            if (!$address_status->is_valid) {
+                throw new Exception("The address for LabOrder ID #{$this->id} is invalid.");
+            }
+        } catch (Exception $e) {
+            ops_warning('LabOrder@ship', $e->getMessage());
+            return false;
+        }
 
         $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
             return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
