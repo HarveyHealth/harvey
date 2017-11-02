@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div ref="css" :class="rowId.replace('Row','Styles')"></div>
+    <div :class="rowId.replace('Row','Styles')" v-html="css"></div>
     <div :class="rowId" ref="row">
-      <slot :name="(i + 1)" v-for="(col, i) in columns" :ref="'gridCol-'+ (i + 1)"></slot>
+      <slot :name="(i + 1)" v-for="(col, i) in columns"></slot>
     </div>
   </div>
 </template>
@@ -55,8 +55,9 @@ export default {
   },
   data() {
     return {
+      css: '',
       // Namspacing the Grid instance
-      rowId: `gridRow-${this.Config.misc.gridRowId++}`
+      rowId: `gridRow-${this.Config.misc.gridRowId++}`,
     }
   },
   methods:{
@@ -86,7 +87,7 @@ export default {
     },
 
     // Loops column configuration and builds column styling
-    // Determins flex-basis based on breakpoints and/or gutters
+    // Determines flex-basis based on breakpoints and/or gutters
     column(config, i) {
       let css = this.defaultCol(i);
       for (var breakpoint in config) {
@@ -127,10 +128,10 @@ export default {
     gutterStyle(breakpoint, value) {
       const space = this.gutterValue(value);
       const halfSpace = space / 2;
-      const row = `margin-left:-${halfSpace}rem;margin-right:-${halfSpace}rem;`;
-      const col = `margin-bottom:${space}rem;margin-left:${halfSpace}rem;margin-right:${halfSpace}rem;`;
+      const row = `margin-left: -${halfSpace}rem; margin-right: -${halfSpace}rem;`;
+      const col = `margin-bottom: ${space}rem; margin-left: ${halfSpace}rem; margin-right: ${halfSpace}rem;`;
       const rowStyles = this.selectorRow(row);
-      const colStyles = `.${this.rowId} > * {${col}}`
+      const colStyles = `.${this.rowId} > * { ${col} }`
       const styles = rowStyles + colStyles;
 
       switch (breakpoint) {
@@ -158,12 +159,12 @@ export default {
 
     // Wraps given styles in a namespaced column selector
     selectorCol(index, content) {
-      return `.${this.rowId} > .gridCol-${index}{${content}}`;
+      return `.${this.rowId} > .gridCol-${index}{ ${content} }`;
     },
 
     // Wraps given styles in a namespaced row selector
     selectorRow(content) {
-      return `.${this.rowId}{${content}}`;
+      return `.${this.rowId}{ ${content} }`;
     },
 
     // Wraps styles in style blocks
@@ -185,14 +186,16 @@ export default {
     if (this.gutters) css += this.gutter(this.gutters);
 
     // Loop column config and generate column styles
-    const colCss = this.columns.map((config, i) => {
-      return this.column(config, i + 1);
-    }).join('');
+    const colCss = this.columns
+      .map((config, i) => this.column(config, i + 1))
+      .join('');
 
-    // Combine all styles and inject into parent div
-    this.$refs.css.innerHTML = this.styles(`${css}${colCss}`);
-    
-    // Loop column nodes and apply namespaced column classes
+    // Combine all styles and assign to css
+    this.css = this.styles(`${css}${colCss}`);
+
+    // <slot> elements do not retain attributes when they are replaced by what
+    // fills them in. Because of this, we have to manually apply namespaced
+    // column classes once they have been added after mount.
     const columnNodes = this.$refs.row.childNodes;
     for (var i = 0; i < columnNodes.length; i++) {
       columnNodes[i].className+= ` gridCol-${i + 1}`;
