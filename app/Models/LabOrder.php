@@ -185,8 +185,9 @@ class LabOrder extends Model
 
         try {
             $shippo_address = Shippo_Address::create($to);
+            $shippo_to_address_id = $shippo_address->object_id;
 
-            if (!Shippo_Address::validate($shippo_address->object_id)->validation_results->is_valid) {
+            if (!Shippo_Address::validate($shippo_to_address_id)->validation_results->is_valid) {
                 throw new StrictValidatorException('The address' . json_encode($to) . 'is invalid.');
             }
 
@@ -203,7 +204,7 @@ class LabOrder extends Model
 
             $transaction = Shippo_Transaction::create([
                 'shipment' => [
-                    'address_to' => $to,
+                    'address_to' => $shippo_to_address_id,
                     'address_from' => $from,
                     'parcels' => $parcel_info,
                 ],
