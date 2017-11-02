@@ -35,9 +35,9 @@
         computed: {
             messages() {
                 let prop = this.$props.message;
-                if (prop.split('').length > 50) {
-                    let message = prop.split('').splice(0, 47);
-                    message[47] === ' ' ? message.push('...') : message.push(' ...');
+                if (prop.split('').length > 45) {
+                    let message = prop.split('').splice(0, 42);
+                    message[42] === ' ' ? message.push('...') : message.push(' ...');
                     return message.join('');
                 }
                 return prop;
@@ -48,9 +48,9 @@
             },
             subjects() {
                 let prop = this.$props.header;
-                if (prop.split('').length > 50) {
-                    let header = prop.split('').splice(0, 47);
-                    header[47] === ' ' ? header.push('...') : header.push(' ...');
+                if (prop.split('').length > 45) {
+                    let header = prop.split('').splice(0, 42);
+                    header[42] === ' ' ? header.push('...') : header.push(' ...');
                     return header.join('');
                 }
                 return prop;
