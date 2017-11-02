@@ -116,7 +116,7 @@
             this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
               .sort((a, b) => new Date(b.attributes.created_at.date) - new Date(a.attributes.created_at.date));
           });
-          console.log(`ROOT`, this.$root)
+          console.log(`ROOT`, this.$root);
           this.$root.getMessages();
           this.$root.getConfirmedUsers();
         }
