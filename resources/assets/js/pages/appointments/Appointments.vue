@@ -783,7 +783,7 @@ export default {
       }
     },
 
-    handleUserAction(discount) {
+    handleUserAction() {
       // Setup
       let data = {
         appointment_at: this.appointment.date || this.appointment.currentDate,
@@ -793,8 +793,7 @@ export default {
         practitioner_id: this.appointment.practitionerId * 1
       };
 
-      //
-      if (discount) data.discount_code = discount;
+      if (this.discountCode) data.discount_code = this.discountCode;
 
       let action = this.userAction === 'new' ? 'post' : 'patch';
       let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
@@ -859,7 +858,7 @@ export default {
       if (isPatient && isCancel && this.cancellationReason) {
         data.cancellation_reason = this.cancellationReason;
       }
-
+      console.log(data)
       // Make the call
       // TO-DO: Add error notifications if api call fails
       axios[action](endpoint, data).then((response) => {
@@ -872,6 +871,10 @@ export default {
             });
           }
         }
+
+        // reset discount information
+        this.discountCode = '';
+        this.discountMessage = '';
 
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {
