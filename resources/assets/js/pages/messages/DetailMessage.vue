@@ -86,17 +86,32 @@
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
-              notificationDirection: 'top-right'
+              notificationDirection: 'top-right',
+              detailList:this.$root.$data.global.detailMessages[this.$props.thread_id]
             };
         },
         computed: {
-            detailList() {
+            stateDetail() {
+                let details = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                this.setDetails(details);
                 return this.$root.$data.global.detailMessages[this.$props.thread_id];
+            }
+        },
+        watch: {
+            stateDetail(val) {
+                if (!val) {
+                    let details = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    this.setDetails(details);
+                    return this.$root.$data.global.detailMessages[this.$props.thread_id];
+                }
             }
         },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
+          },
+          setDetails(data) {
+              this.detailList = data;
           },
           reply() {
             this.renderReply = !this.renderReply;
@@ -132,27 +147,7 @@
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
                     .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-            });
-        },
-        destroyed() {
-            axios.get(`${this.$root.$data.apiUrl}/messages`)
-                .then(response => {
-                    let data = {};
-                    let userId = this.$root.$data.global.user.id;
-                    response.data.data.forEach(e => {
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
-                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
-                            [];
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
-                    });
-                    if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                        this.$root.$data.global.detailMessages = data;
-                        this.$root.$data.global.messages = Object.values(data)
-                            .map(e => e[e.length - 1])
-                            .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-                        this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
-                    }
+                this.setDetails(this.$root.$data.global.detailMessages[subject]);
             });
         }
     };
