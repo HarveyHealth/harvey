@@ -4,9 +4,24 @@ namespace App\Observers;
 
 use App\Events\{LabOrderConfirmed, LabOrderShipped};
 use App\Models\LabOrder;
+use App\Events\LabOrderRecommended;
 
 class LabOrderObserver
 {
+
+    /**
+     * Listen to the Lab Order created event.
+     *
+     * @param  LabOrder $lab_order
+     * @return void
+     */
+    public function created(LabOrder $lab_order)
+    {
+        if ($lab_order->status_id == LabOrder::RECOMMENDED_STATUS_ID){
+            event(new LabOrderRecommended($lab_order));
+        }
+    }
+
     /**
      * Listen to the LabOrder saved event.
      *
