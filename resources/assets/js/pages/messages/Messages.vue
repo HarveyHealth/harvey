@@ -126,6 +126,7 @@
                 this.setMessages(this.$root.$data.global.messages);
             });
             this.$root.getMessages();
+            this.$root.getAppointments();
             if (this.$root.$data.global.appointments) {
                 this.$root.getConfirmedUsers();
             }

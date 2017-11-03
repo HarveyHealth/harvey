@@ -145,6 +145,7 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
+                    this.getConfirmedUsers();
                 }).catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
