@@ -244,7 +244,7 @@
             </a>
 
             <span class="custom-select">
-              <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')">
+              <select @change="updateTest($event, test)" :class="{disabled: disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')}" :disabled="disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')">
                 <option v-for="current in test.status">{{ current }}</option>
               </select>
             </span>
