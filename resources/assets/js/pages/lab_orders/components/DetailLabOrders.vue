@@ -228,12 +228,12 @@
         <!-- Lab Tests -->
 
         <div class="input__container">
-          <label class="input__label">Lab Tests</label>
+          <label class="input__label" @dblclick="easterEgg">Lab Tests</label>
           <div v-for="test in testList" class="is-padding-bottom">
 
             <!-- Recommended or Confirmed -->
 
-            <div v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
+            <div  v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
               <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
             </div>
 
@@ -244,7 +244,7 @@
             </a>
 
             <span class="custom-select">
-              <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="status === 'Recommended' || status === 'Confirmed'">
+              <select @change="updateTest($event, test)" :class="{disabled: status === 'Recommended' || status === 'Confirmed'}" :disabled="disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')">
                 <option v-for="current in test.status">{{ current }}</option>
               </select>
             </span>
@@ -432,10 +432,17 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
+      disabledEasterEgg: true,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
   },
   methods: {
+    easterEgg() {
+        // Added easter egg for Sandra on Kyle's request
+        if (this.$root.$data.permissions === 'admin') {
+            this.disabledEasterEgg = false;
+        }
+    },
     updatePatientTests(e, test) {
       this.patientTestList[test.attributes.name].checked = !test.checked;
       if (this.patientTestList[test.attributes.name].checked) {
