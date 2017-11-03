@@ -80,6 +80,7 @@ return [
                 'lab_order' => [
                     'confirmed' => 3372143,
                     'shipped' => 2741642,
+                    'recommended' => 3764861,
                 ],
                 'lab_test' => [
                     'processing' => 3148942,
