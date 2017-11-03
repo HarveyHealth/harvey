@@ -477,6 +477,7 @@ export default {
       this.address2 = '';
       this.newCity = '';
       this.newZip = '';
+      this.disabledEasterEgg = true;
       this.subtotalAmount = 0;
       this.discountAmount = 0;
       this.discountType = '';
