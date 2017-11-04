@@ -39,14 +39,12 @@ class PractitionerAvailability
     {
         $practitioner_timezone = $this->practitioner->timezone;
         $now = Carbon::now($practitioner_timezone);
+        $current_week = $now->copy()->startOfWeek();
         $weeks = [];
 
-        for ($w = 0; $w <= 3; $w++) {
-            $current_week = $now->copy()->startOfWeek()->addWeeks($w);
-
+        foreach ([1, 2, 3, 4] as $week) {
             $availability = $this->validAvailabilitySlotsForWeek($current_week);
 
-            // convert all the timeslots into day/times
             $available_slots = [];
 
             foreach ($availability as $slot) {
@@ -55,10 +53,7 @@ class PractitionerAvailability
                 $day = $time_data['day'];
                 $time = $time_data['time'];
 
-                $days_to_add = date('N', strtotime($day) - 1);
-                if ($days_to_add >= 7) {
-                    $days_to_add = 0;
-                }
+                $days_to_add = Carbon::parse($day)->format('N') - 1;
 
                 $date = $current_week->copy();
                 $date->startOfWeek();
@@ -66,8 +61,6 @@ class PractitionerAvailability
                 $date->hour = date('H', strtotime($time));
                 $date->minute = date('i', strtotime($time));
 
-                // if the date is defined outside the current week
-                // ignore it
                 if ($now->gte($date)) {
                     continue;
                 }
@@ -78,7 +71,13 @@ class PractitionerAvailability
                 $available_slots[] = $date->format('l H:i');
             }
 
-            $weeks['week ' . ($w + 1)] = $available_slots;
+            $weeks["week {$week}"] = $available_slots;
+
+            // Increase $current_week to process next week and compensate DST offset if
+            // changed in the middle of the week
+            $offset = $current_week->offset;
+            $current_week->addWeek();
+            $current_week->addSeconds($offset - $current_week->offset);
         }
 
         return $weeks;
