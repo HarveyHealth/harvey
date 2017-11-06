@@ -49,6 +49,9 @@ export default {
             message: ''
         };
     },
+    mounted() {
+        this.$root.getConfirmedUsers();
+    },
     methods: {
         updateUser(e) {
             this.selected = e.target.children[e.target.selectedIndex].dataset.id;
