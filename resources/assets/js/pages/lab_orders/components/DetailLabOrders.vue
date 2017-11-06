@@ -274,7 +274,7 @@
 
         <!-- Card -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-order-credit-card">
           <label class="input__label">Card</label>
           <div class="left-column">
             <span v-if="$parent.loading">

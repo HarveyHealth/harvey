@@ -76,9 +76,14 @@ const AppStub = function(component, componentName, setAppState) {
   data.global.labTests = mockData.global.labTests;
   data.global.patientLookUp = mockData.global.patientLookup;
   data.global.practitionerLookUp = mockData.global.practitionerLookup;
+
   data.global.loadingLabOrders = false;
   data.global.loadingLabTests = false;
   data.global.loadingTestTypes = false;
+  data.global.loadingPatients = false;
+  data.global.loadingPractitioners = false;
+  data.global.loadingUser  = false;
+  // data.global.creditCards = false;
 
   // Mutate $root data
   if (setAppState) setAppState(data);
