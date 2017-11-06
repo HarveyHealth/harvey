@@ -92,7 +92,7 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
-Vue.config.devtools = true;
+Vue.config.devtools = env !== 'production';
 
 const app = new Vue({
     router,
@@ -408,6 +408,6 @@ const app = new Vue({
     }
 });
 
-Vue.config.devtools = true;
+Vue.config.devtools = env !== 'production';
 
 app.$mount('#app');
