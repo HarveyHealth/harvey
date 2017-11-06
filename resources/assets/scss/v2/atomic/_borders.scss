@@ -1,11 +1,15 @@
 .border {
-  border: $border;;
+  border: $border;
 }
 
 .border-bottom {
-  border-bottom: $border;;
+  border-bottom: $border;
 }
 
 .border-top {
   border-top: $border;
+}
+
+.radius {
+  border-radius: 3px;
 }

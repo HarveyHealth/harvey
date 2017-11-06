@@ -92,6 +92,8 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
+Vue.config.devtools = env !== 'production';
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -100,7 +102,11 @@ const app = new Vue({
         Dashboard,
         Usernav
     },
+    // Adding State to the root data object makes it globally reactive.
+    // We do not attach this to window.App for HIPPA compliance. User
+    // App.setState to mutate this object.
     data: Store,
+    
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
@@ -301,7 +307,15 @@ const app = new Vue({
             axios.get(`${this.apiUrl}/messages`)
                 .then(response => {
                     let data = {};
-                    response.data.data.forEach(e => {
+                    let messageData = response.data.data;
+                    if (typeof (response.data.data) === 'object') {
+                        if (response.data.data.id) {
+                            messageData = [response.data.data];
+                        } else {
+                            messageData = Object.values(response.data.data);
+                        }
+                    }
+                    messageData.forEach(e => {
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
                             data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] : [];
                         data[`${makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
@@ -312,7 +326,7 @@ const app = new Vue({
                         this.global.messages = Object.values(data)
                             .map(e => e[e.length - 1])
                             .sort((a, b) => b.attributes.created_at.date - a.attributes.created_at.date);
-                        this.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
+                        this.global.unreadMessages = messageData.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == Laravel.user.id);
                     }
                     this.global.loadingMessages = false;
                 });
@@ -333,8 +347,9 @@ const app = new Vue({
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors).filter(e => _.identity(e));
+            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
             this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+            this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
@@ -353,15 +368,17 @@ const app = new Vue({
             });
         },
         setup() {
-          this.getUser();
-          this.getAppointments();
-          this.getPractitioners();
-          this.getMessages();
-          this.getLabData();
-          this.getConfirmedUsers();
-          if (Laravel.user.user_type !== 'admin') this.getCreditCards();
-          if (Laravel.user.user_type !== 'patient') this.getPatients();
-          if (Laravel.user.user_type === 'admin') this.getClientList();
+            this.getUser();
+            this.getAppointments();
+            this.getPractitioners();
+            this.getMessages();
+            this.getLabData();
+            if (Laravel.user.user_type !== 'admin') this.getCreditCards();
+            if (Laravel.user.user_type !== 'patient') this.getPatients();
+            if (Laravel.user.user_type === 'patient') {
+                this.global.loadingPatients = false;
+            }
+            if (Laravel.user.user_type === 'admin') this.getClientList();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
@@ -390,8 +407,12 @@ const app = new Vue({
         };
 
         // Initial GET requests
-        if (Laravel.user.signedIn) this.setup();
+        if (Laravel.user.signedIn) {
+            this.setup();
+        }
     }
 });
+
+Vue.config.devtools = env !== 'production';
 
 app.$mount('#app');
