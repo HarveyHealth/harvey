@@ -269,7 +269,6 @@ const app = new Vue({
         // on public pages
         const path = window.location.pathname;
 
-        if (this.shouldTrack()) {
           let currentPage = '';
 
           if(this.isHomePage) {
@@ -281,13 +280,14 @@ const app = new Vue({
           }
 
           // send the page event
-          analytics.page(currentPage);
+          if (this.shouldTrack()) {
+            analytics.page(currentPage);
 
-          // indentify and send along any url paramaters if they exist
-          const parameterObject = this.getUrlParams();
-          if(parameterObject !== null) {
-            analytics.identify(parameterObject);
-          }
+            // indentify and send along any url paramaters if they exist
+            const parameterObject = this.getUrlParams();
+            if(parameterObject !== null) {
+                analytics.identify(parameterObject);
+            }
         }
     },
     destroyed() {

@@ -99,7 +99,8 @@ class LabOrdersController extends BaseAPIController
             'discount_code' => 'string|max:24',
             'shipment_code' => 'filled|string',
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'zip' => "sometimes|digits:5|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes',
         ]);
 
         $labOrder->update($request->all());

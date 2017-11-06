@@ -94,6 +94,8 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
+Vue.config.devtools = true;
+
 const app = new Vue({
     router,
     mixins: [TopNav],
@@ -245,6 +247,7 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
+                    this.getConfirmedUsers();
                 }).catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
@@ -443,7 +446,7 @@ const app = new Vue({
         },
         getConfirmedUsers() {
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
+                .filter(e => e.attributes.status === 'complete')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
@@ -506,8 +509,12 @@ const app = new Vue({
         };
 
         // Initial GET requests
-        if (Laravel.user.signedIn) this.setup();
+        if (Laravel.user.signedIn) {
+            this.setup();
+        }
     }
 });
+
+Vue.config.devtools = true;
 
 app.$mount('#app');

@@ -32,8 +32,7 @@
         },
         computed: {
             momentDate() {
-                moment.tz.add(this.$props.timezone);
-                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${moment.tz(moment.tz.guess()).format('z')}`;
+                return `${moment(this.$props.day).format("M/D/YYYY")} ${moment(this.$props.time).format("h:mm a")} ${this.$root.$data.timezoneAbbr}`;
             }
         },
         mounted() {
