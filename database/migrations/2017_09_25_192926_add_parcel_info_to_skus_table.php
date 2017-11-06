@@ -14,10 +14,10 @@ class AddParcelInfoToSkusTable extends Migration
     public function up()
     {
         Schema::table('skus', function (Blueprint $table) {
-            $table->text('weight')->after('slug')->nullable();
-            $table->text('height')->after('slug')->nullable();
-            $table->text('width')->after('slug')->nullable();
-            $table->text('length')->after('slug')->nullable();
+            $table->decimal('weight')->after('slug')->nullable();
+            $table->decimal('height')->after('slug')->nullable();
+            $table->decimal('width')->after('slug')->nullable();
+            $table->decimal('length')->after('slug')->nullable();
             $table->string('distance_unit', 2)->after('slug')->nullable();
             $table->string('mass_unit', 2)->after('slug')->nullable();
         });
