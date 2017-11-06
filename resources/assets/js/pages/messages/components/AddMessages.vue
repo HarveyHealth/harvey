@@ -101,14 +101,14 @@ export default {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                     this.setLoading(false);
                 }
-                return [''].concat(data);
+                return data;
             } else if (this.$root.$data.permissions === 'admin') {
                 let data = [''].concat(store.practitioners).concat(store.patients);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                     this.setLoading(false);
                 }
-                return data
+                return data;
             }
         },
         toUserType() {
@@ -139,14 +139,14 @@ export default {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                         this.setLoading(false);
                     }
-                    return [''].concat(data);
+                    return data;
                 } else if (this.$root.$data.permissions === 'admin') {
                     let data = [''].concat(store.practitioners).concat(store.patients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                         this.setLoading(false);
                     }
-                    return data
+                    return data;
                 }
             }
         },
