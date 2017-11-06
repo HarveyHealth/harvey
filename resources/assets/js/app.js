@@ -102,7 +102,11 @@ const app = new Vue({
         Dashboard,
         Usernav
     },
+    // Adding State to the root data object makes it globally reactive.
+    // We do not attach this to window.App for HIPPA compliance. User
+    // App.setState to mutate this object.
     data: Store,
+    
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
