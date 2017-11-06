@@ -340,16 +340,17 @@ const app = new Vue({
             });
         },
         getConfirmedUsers() {
-            this.global.loadingConfirmedUsers = true;
-            this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
-            this.global.confirmedPatients = this.global.appointments
-                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
-            this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
-            this.global.loadingConfirmedUsers = false;
+            if (this.global.appointments.length > 0 && this.global.practitioners.length > 0 && this.global.patients.length > 0) {
+                this.global.confirmedDoctors = this.global.appointments
+                    .filter(e => e.attributes.status === 'complete')
+                    .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                this.global.confirmedPatients = this.global.appointments
+                    .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
+                    .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+                this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
+                this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+                this.global.loadingConfirmedUsers = false;
+            }
         },
         getSelfPractitionerInfo() {
             let self = Object.values(this.global.practitionerLookUp).filter(e => e.attributes.user_id == Laravel.user.id)[0];
