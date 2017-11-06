@@ -6,6 +6,10 @@ import filter_datetime from './utils/filters/datetime';
 
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
+import VueRouter from 'vue-router';
+
+Vue.use(VeeValidate);
+Vue.use(VueRouter);
 
 // MIXINS
 import TopNav from './utils/mixins/TopNav';
@@ -22,7 +26,7 @@ import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
 Vue.filter('datetime', filter_datetime);
-Vue.use(VeeValidate);
+
 
 const env = require('get-env')();
 window.Card = require('card');

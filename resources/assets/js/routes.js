@@ -1,5 +1,4 @@
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
 
 // Logic for managing root components based on the root URL
 //    /getting-started -> signup funnel
@@ -22,15 +21,15 @@ let rootRoute = {
 switch(context) {
   case 'get-started':
     rootRoute.name = 'get-started';
-    rootRoute.component = require('./pages/get-started/GetStarted');
+    rootRoute.component = require('./pages/get-started/GetStarted.vue');
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
-    rootRoute.component = require('./pages/dashboard/Dashboard');
+    rootRoute.component = require('./pages/dashboard/Dashboard.vue');
     break;
   case 'conditions':
     rootRoute.name = 'conditions';
-    rootRoute.component = require('./v2/components/pages/conditions/Conditions');
+    rootRoute.component = require('./v2/components/pages/conditions/Conditions.vue');
     break;
   // case 'intake':
   //   rootRoute.name = 'intake';
@@ -67,7 +66,7 @@ if (context === 'get-started' && loggedIn) {
 rootRoute.children.push({
   path: 'signup',
   name: 'sign-up',
-  component: require('./v2/components/pages/getstarted/children/Signup')
+  component: require('./v2/components/pages/getstarted/children/Signup.vue')
 });
 
 let routes = [

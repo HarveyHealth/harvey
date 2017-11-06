@@ -1,7 +1,11 @@
 import Vue from 'vue';
+import VueRouter from 'vue-router';
 import cheerio from 'cheerio';
 import store from '../../resources/assets/js/store';
 import laravel from './LaravelStub';
+import mockData from './mock_data';
+
+Vue.use(VueRouter);
 
 // methods
 import filterPractitioners from '../../resources/assets/js/utils/methods/filterPractitioners';
@@ -67,10 +71,26 @@ const AppStub = function(component, componentName, setAppState) {
   // this returns the same object used in the actual application.
   const data = store(laravel, State);
 
+  data.labTests = mockData.labTests;
+  data.global.labOrders.push(mockData.global.labOrders);
+  data.global.labTests = mockData.global.labTests;
+  data.global.patientLookUp = mockData.global.patientLookup;
+  data.global.practitionerLookUp = mockData.global.practitionerLookup;
+  data.global.loadingLabOrders = false;
+  data.global.loadingLabTests = false;
+  data.global.loadingTestTypes = false;
+
   // Mutate $root data
   if (setAppState) setAppState(data);
 
+  // Stub a Vue router instance
+  let router = new VueRouter({
+      routes: [],
+      linkActiveClass: 'is-active'
+  });
+
   stub.vm = new Vue({
+    router,
     data,
     components: { [`${componentName}`]: component },
     methods: {
