@@ -377,7 +377,7 @@
 <script>
 import Q from 'q';
 import Flyout from '../../../commons/Flyout.vue';
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
@@ -385,7 +385,7 @@ import _ from 'lodash';
 export default {
   name: 'DetailLabOrders',
   props: {
-    'row-data': Object, 
+    'row-data': Object,
     reset: Function
   },
   components: {

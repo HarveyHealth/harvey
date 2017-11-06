@@ -77,6 +77,7 @@ const AppStub = function(component, componentName, setAppState) {
       addTimezone() { return false; },
       filterPractitioners: filterPractitioners.bind(this),
       getAppointments() { return false; },
+      getLabData() { return false; },
       shouldTrack() { return false; }
     },
     render(create) {
