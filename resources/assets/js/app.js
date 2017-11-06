@@ -188,6 +188,7 @@ const app = new Vue({
                     this.global.patientLookUp[e.id] = e;
                 });
                 this.global.loadingPatients = false;
+                this.getConfirmedUsers();
             });
         },
         getPractitioners() {
@@ -231,6 +232,7 @@ const app = new Vue({
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
+                this.getConfirmedUsers();
             }
         },
         getLabData() {
@@ -338,6 +340,7 @@ const app = new Vue({
             });
         },
         getConfirmedUsers() {
+            this.global.loadingConfirmedUsers = true;
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
                 .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
@@ -370,10 +373,10 @@ const app = new Vue({
           this.getPractitioners();
           this.getMessages();
           this.getLabData();
-          this.getConfirmedUsers();
           if (Laravel.user.user_type !== 'admin') this.getCreditCards();
           if (Laravel.user.user_type !== 'patient') this.getPatients();
           if (Laravel.user.user_type === 'admin') this.getClientList();
+          this.getConfirmedUsers();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
