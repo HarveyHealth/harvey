@@ -4,11 +4,21 @@
             <div class="main-content">
                 <div class="main-header">
                     <div class="container container-backoffice">
-                    <h1 class="heading-1">
-                        <span class="text">Messages</span>
-                        <button v-if="!$root.$data.global.loadingMessages && !$root.$data.global.loadingAppointments" @click="close()" class="button main-action circle">
-                            <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
-                        </button>
+                        <h1 class="heading-1">
+                            <span class="text">Messages</span>
+                            <button v-if="
+                                !$root.$data.global.loadingMessages && 
+                                !$root.$data.global.loadingAppointments &&
+                                !$root.$data.global.loadingPractitioners &&
+                                !$root.$data.global.loadingPatients"
+                            @click="close()" class="button main-action circle">
+                                <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
+                            </button>
+                            <ClipLoader class="main-action" style="background-color: transparent;"
+                            v-if="$root.$data.global.loadingMessages || 
+                            $root.$data.global.loadingAppointments ||
+                            $root.$data.global.loadingPractitioners ||
+                            $root.$data.global.loadingPatients" :color="'#82BEF2'" :loading="true" />
                         </h1>
                     </div>
                 </div>
@@ -60,6 +70,7 @@
     import Preview from './components/AddMessages.vue';
     import MessagePost from './components/MessagePost.vue';
     import UserNav from '../../commons/UserNav.vue';
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import socket from './websocket';
     import _ from 'lodash';
@@ -69,7 +80,8 @@
           Preview,
           UserNav,
           MessagePost,
-          NotificationPopup
+          NotificationPopup,
+          ClipLoader
         },
         data() {
             return {
@@ -127,7 +139,9 @@
             });
             this.$root.getMessages();
             this.$root.getAppointments();
-            this.$root.getConfirmedUsers();
+            this.$root.getPractitioners();
+            this.$root.getPatients();
+            this.$root.getAppointments();
         }
     };
 </script>

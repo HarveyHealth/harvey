@@ -49,8 +49,7 @@ export default {
             close: this.$parent.close,
             selected: '',
             subject: '',
-            message: '',
-            loading: this.$root.$data.global.loadingConfirmedUsers
+            message: ''
         };
     },
     mounted() {
@@ -80,9 +79,6 @@ export default {
                 console.log(`ERROR`, error);
             });
             this.$parent.close();
-        },
-        setLoading(bool) {
-            this.loading = bool;
         }
     },
     computed: {
@@ -92,24 +88,24 @@ export default {
                 let data = [''].concat(store.confirmedDoctors);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
-                    this.setLoading(false);
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'practitioner') {
                 let data = [''].concat(store.confirmedPatients);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
-                    this.setLoading(false);
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'admin') {
                 let data = [''].concat(store.practitioners).concat(store.patients);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
-                    this.setLoading(false);
                 }
                 return data;
             }
+        },
+        loading() {
+            return this.$root.$data.global.loadingConfirmedUsers;
         },
         toUserType() {
             const store = this.$root.$data.global;
@@ -123,6 +119,11 @@ export default {
         }
     },
     watch: {
+        loading(val) {
+            if (val) {
+                return this.$root.$data.global.loadingConfirmedUsers;
+            }
+        },
         userList(val) {
             if (!val) {
                 const store = this.$root.$data.global;
@@ -130,21 +131,18 @@ export default {
                     let data = [''].concat(store.confirmedDoctors);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
-                        this.setLoading(false);
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'practitioner') {
                     let data = [''].concat(store.confirmedPatients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
-                        this.setLoading(false);
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'admin') {
                     let data = [''].concat(store.practitioners).concat(store.patients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
-                        this.setLoading(false);
                     }
                     return data;
                 }
