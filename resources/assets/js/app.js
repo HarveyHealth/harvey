@@ -145,7 +145,6 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
-                    this.getConfirmedUsers();
                 }).catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
@@ -188,7 +187,6 @@ const app = new Vue({
                     this.global.patientLookUp[e.id] = e;
                 });
                 this.global.loadingPatients = false;
-                this.getConfirmedUsers();
             });
         },
         getPractitioners() {
@@ -232,7 +230,6 @@ const app = new Vue({
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
-                this.getConfirmedUsers();
             }
         },
         getLabData() {

@@ -6,7 +6,7 @@
                     <div class="container container-backoffice">
                     <h1 class="heading-1">
                         <span class="text">Messages</span>
-                        <button v-if="!$root.$data.global.loadingMessages && !$root.$data.global.loadingAppointments && !$root.$data.global.loadingConfirmedUsers" @click="close()" class="button main-action circle">
+                        <button v-if="!$root.$data.global.loadingMessages && !$root.$data.global.loadingAppointments" @click="close()" class="button main-action circle">
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
                         </h1>
@@ -127,9 +127,7 @@
             });
             this.$root.getMessages();
             this.$root.getAppointments();
-            if (this.$root.$data.global.appointments) {
-                this.$root.getConfirmedUsers();
-            }
+            this.$root.getConfirmedUsers();
         }
     };
 </script>

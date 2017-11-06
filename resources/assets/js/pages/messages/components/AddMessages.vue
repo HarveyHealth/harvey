@@ -4,27 +4,30 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="heading-3-expand">New Message</h2>
-        <div class="no-message-banner" v-if="userList.length <= 1">
+        <div class="no-message-banner" v-if="!loading && userList.length <= 1">
             You are not currently assigned to any doctors. Please <a href="/dashboard#/appointments">book a consultation</a> before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Recipient</label>
-                <span class="custom-select">
+                <span class="custom-select" v-if="!loading && userList.length > 1">
                     <select @change="updateUser($event)">
                         <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
                     </select>
                 </span>
+                <div v-else class="font-italic font-sm copy-muted">
+                    Loading users...
+                </div>
             </div>
-            <div class="input__container" v-if="userList.length">
+            <div class="input__container">
                 <label class="input__label" for="patient_name">Subject</label>
                 <input v-model="subject" class="input--text" type="text">
             </div>
-            <div class="input__container" v-if="userList.length">
+            <div class="input__container">
                 <label class="input__label" for="patient_name">Message</label>
                 <textarea v-model="message" class="input--textarea"></textarea>
             </div>
-            <div class="button-wrapper" v-if="userList.length">
+            <div class="button-wrapper">
                 <button class="button"
                 @click="createMessage()"
                 :disabled="!subject || !selected || userList.length <= 1">Send</button>
@@ -46,7 +49,8 @@ export default {
             close: this.$parent.close,
             selected: '',
             subject: '',
-            message: ''
+            message: '',
+            loading: this.$root.$data.global.loadingConfirmedUsers
         };
     },
     mounted() {
@@ -76,17 +80,35 @@ export default {
                 console.log(`ERROR`, error);
             });
             this.$parent.close();
+        },
+        setLoading(bool) {
+            this.loading = bool;
         }
     },
     computed: {
         userList() {
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
-                return [''].concat(store.confirmedDoctors);
+                let data = [''].concat(store.confirmedDoctors);
+                if (data.length > 1) {
+                    this.$root.$data.global.loadingConfirmedUsers = false;
+                    this.setLoading(false);
+                }
+                return data;
             } else if (this.$root.$data.permissions === 'practitioner') {
-                return [''].concat(store.confirmedPatients);
+                let data = [''].concat(store.confirmedPatients);
+                if (data.length > 1) {
+                    this.$root.$data.global.loadingConfirmedUsers = false;
+                    this.setLoading(false);
+                }
+                return [''].concat(data);
             } else if (this.$root.$data.permissions === 'admin') {
-                return [''].concat(store.practitioners).concat(store.patients);
+                let data = [''].concat(store.practitioners).concat(store.patients);
+                if (data.length > 1) {
+                    this.$root.$data.global.loadingConfirmedUsers = false;
+                    this.setLoading(false);
+                }
+                return data
             }
         },
         toUserType() {
@@ -105,11 +127,26 @@ export default {
             if (!val) {
                 const store = this.$root.$data.global;
                 if (this.$root.$data.permissions === 'patient') {
-                    return [''].concat(store.confirmedDoctors);
+                    let data = [''].concat(store.confirmedDoctors);
+                    if (data.length > 1) {
+                        this.$root.$data.global.loadingConfirmedUsers = false;
+                        this.setLoading(false);
+                    }
+                    return data;
                 } else if (this.$root.$data.permissions === 'practitioner') {
-                    return [''].concat(store.confirmedPatients);
+                    let data = [''].concat(store.confirmedPatients);
+                    if (data.length > 1) {
+                        this.$root.$data.global.loadingConfirmedUsers = false;
+                        this.setLoading(false);
+                    }
+                    return [''].concat(data);
                 } else if (this.$root.$data.permissions === 'admin') {
-                    return [''].concat(store.practitioners).concat(store.patients);
+                    let data = [''].concat(store.practitioners).concat(store.patients);
+                    if (data.length > 1) {
+                        this.$root.$data.global.loadingConfirmedUsers = false;
+                        this.setLoading(false);
+                    }
+                    return data
                 }
             }
         },
