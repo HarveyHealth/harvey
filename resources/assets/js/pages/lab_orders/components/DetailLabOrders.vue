@@ -308,7 +308,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="status !== 'Confirmed'" class="button" @click="updateLabOrder">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Canceled'" class="button" @click="updateLabOrder">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </button>
