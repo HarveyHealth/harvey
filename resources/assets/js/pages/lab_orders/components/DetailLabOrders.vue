@@ -394,7 +394,7 @@
     <Modal :active="shippingConfirmationModalActive" :onClose="closeShippingModal">
         <div class="inline-centered">
             <h1>Generate a shipping label?</h1>
-            <p>This generates shipping information for this lab order and sends information to FedEx.</p>
+            <p>This action will generate a tracking number and label from FedEx.</p>
             <div class="button-wrapper">
                 <button @click="getShippingInformation" class="button">Yes</button>
                 <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
