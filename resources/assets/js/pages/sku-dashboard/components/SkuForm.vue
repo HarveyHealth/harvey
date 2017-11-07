@@ -160,7 +160,7 @@
         },
         postSkuForm() {
             const sku = this.blankSku;
-            axios.post(`${this.$root.$data.apiUrl}/skus/`, {
+            axios.post('/api/v1/skus/', {
                 name: sku.attributes.name,
                 price: sku.attributes.price,
                 cost: sku.attributes.cost,
