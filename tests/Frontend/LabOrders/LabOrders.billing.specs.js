@@ -80,11 +80,13 @@ describe('LabOrders (Billing):', () => {
       const desiredProcessingFee = `$${processingFee}.00`;
       const desiredTotal = `$${itemPrice + processingFee}.00`;
 
+      // Trigger the confirmation step
       App.find('.flyout .button-wrapper button').click();
 
       Vue.nextTick(() => {
         expect(App.find('.flyout .left-column .sub-items').innerText).to.equal(desiredItem);
         expect(App.find('.flyout .right-column .sub-items').innerText).to.equal(desiredItemPrice);
+        expect(App.find('.flyout .right-column .sub-items.processing').innerText).to.equal(desiredProcessingFee);
         expect(App.find('.flyout .right-column .sub-items.total').innerText).to.equal(desiredTotal);
         done();
       });
