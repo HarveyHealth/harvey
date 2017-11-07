@@ -12,7 +12,7 @@ use Exception, ResponseCode, Storage;
 
 class LabTestsController extends BaseAPIController
 {
-    protected $resource_name = 'lab_tests';
+    protected $resource_name = 'lab_test';
 
     /**
      * LabTestsController constructor.

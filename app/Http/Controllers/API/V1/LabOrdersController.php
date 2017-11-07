@@ -12,7 +12,7 @@ use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
-    protected $resource_name = 'lab_orders';
+    protected $resource_name = 'lab_order';
 
     /**
      * LabOrdersController constructor.

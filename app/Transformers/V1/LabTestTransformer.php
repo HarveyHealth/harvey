@@ -32,7 +32,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includePatient(LabTest $labTest)
     {
-        return $this->item($labTest->patient, new PatientTransformer())->setResourceKey('patients');
+        return $this->item($labTest->patient, new PatientTransformer())->setResourceKey('patient');
     }
 
     /**
@@ -41,7 +41,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includePractitioner(LabTest $labTest)
     {
-        return $this->item($labTest->practitioner, new PractitionerTransformer())->setResourceKey('practitioners');
+        return $this->item($labTest->practitioner, new PractitionerTransformer())->setResourceKey('practitioner');
     }
 
     /**
@@ -50,7 +50,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includeLabOrder(LabTest $labTest)
     {
-        return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_orders');
+        return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_order');
     }
 
     /**
@@ -59,7 +59,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includeSku(LabTest $labTest)
     {
-        return $this->item($labTest->sku, new SKUTransformer())->setResourceKey('SKUs');
+        return $this->item($labTest->sku, new SKUTransformer())->setResourceKey('sku');
     }
 
     /**
@@ -68,6 +68,6 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includeResults(LabTest $labTest)
     {
-        return $this->collection($labTest->results, new LabTestResultTransformer(), 'lab_tests_results');
+        return $this->collection($labTest->results, new LabTestResultTransformer(), 'lab_test_result');
     }
 }

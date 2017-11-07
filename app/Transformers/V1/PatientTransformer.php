@@ -14,6 +14,7 @@ class PatientTransformer extends TransformerAbstract
         'prescriptions',
         'soap_notes',
         'user',
+        'lab_orders'
     ];
 
     /**
@@ -48,7 +49,7 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeAppointments(Patient $patient)
     {
-        return $this->collection($patient->appointments, new AppointmentTransformer())->setResourceKey('appointments');
+        return $this->collection($patient->appointments, new AppointmentTransformer())->setResourceKey('appointment');
     }
 
     /**
@@ -57,7 +58,7 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeAttachments(Patient $patient)
     {
-        return $this->collection($patient->attachments, new AttachmentTransformer())->setResourceKey('attachments');
+        return $this->collection($patient->attachments, new AttachmentTransformer())->setResourceKey('attachment');
     }
 
     /**
@@ -79,7 +80,7 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includePrescriptions(Patient $patient)
     {
-        return $this->collection($patient->prescriptions, new PrescriptionTransformer())->setResourceKey('prescriptions');
+        return $this->collection($patient->prescriptions, new PrescriptionTransformer())->setResourceKey('prescription');
     }
 
     /**
@@ -88,6 +89,15 @@ class PatientTransformer extends TransformerAbstract
      */
     public function includeSoapNotes(Patient $patient)
     {
-        return $this->collection($patient->soapNotes, new SoapNoteTransformer())->setResourceKey('soap_notes');
+        return $this->collection($patient->soapNotes, new SoapNoteTransformer())->setResourceKey('soap_note');
+    }
+
+    /**
+     * @param Patient $patient
+     * @return mixed
+     */
+    public function includeLabOrders(Patient $patient)
+    {
+        return $this->collection($patient->labOrders, new LabOrderTransformer())->setResourceKey('lab_order');
     }
 }

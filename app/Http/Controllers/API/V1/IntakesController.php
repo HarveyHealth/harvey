@@ -9,7 +9,7 @@ use Exception, ResponseCode;
 
 class IntakesController extends BaseAPIController
 {
-    protected $resource_name = 'intakes';
+    protected $resource_name = 'intake';
 
     /**
      * AttachmentsController constructor.
