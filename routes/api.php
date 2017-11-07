@@ -51,7 +51,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('appointments', 'AppointmentsController@store')->name('appointments.store');
         Route::patch('appointments/{appointment}', 'AppointmentsController@update')->name('appointments.update');
         Route::delete('appointments/{appointment}', 'AppointmentsController@delete')->name('appointments.delete');
-
         Route::get('practitioners', 'PractitionersController@index')->name('practitioner.index');
         Route::get('practitioners/{practitioner}', 'PractitionersController@show')->name('practitioner.show');
         Route::patch('practitioners/{practitioner}', 'PractitionersController@update')->name('practitioner.update');
@@ -79,6 +78,15 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
+
         Route::put('lab/orders/{labOrder}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
+
+        Route::get('skus', 'SkusController@index')->name('skus.index');
+        Route::get('skus/lab-tests', 'SkusController@indexLabTests')->name('skus.indexLabTests');
+        Route::get('skus/{sku}', 'SkusController@show')->name('skus.show');
+        Route::post('skus', 'SkusController@store')->name('skus.store');
+        Route::put('skus/{sku}', 'SkusController@update')->name('skus.update');
+        Route::delete('skus/{sku}', 'SkusController@delete')->name('skus.delete');
+        Route::patch('skus/{sku}', 'SkusController@updateListOrder')->name('skus.updateListOrder');
     });
 });

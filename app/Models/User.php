@@ -131,6 +131,10 @@ class User extends Authenticatable implements Mailable
         });
     }
 
+    public function getIntercomHashAttribute() {
+        return hash_hmac('sha256', $this->id, config('services.intercom.key'));
+    }
+
     public function clearHasAnAppointmentCache()
     {
         return Cache::forget("has_an_appointment_user_id_{$this->id}");

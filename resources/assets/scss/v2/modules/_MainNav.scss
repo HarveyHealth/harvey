@@ -235,15 +235,14 @@
       }
 
       a {
-
         font-size: 17px;
         display: inline-block;
         @include padding(.35em 1em);
         @include margin(null .2em null null);
-
         &.link {
           font-size: 18px;
           color: $tertiary;
+          font-weight: 500;
           @include margin(0);
           @include padding(.4em .6em);
           &:hover{
@@ -251,6 +250,12 @@
           }
         }
       }
+      &.thinner {
+        a {
+          font-weight: 200;
+        }
+      }
+
     }
 
   }

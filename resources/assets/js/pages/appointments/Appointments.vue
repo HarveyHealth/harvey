@@ -126,6 +126,12 @@
         :text-value="appointment.purpose"
       />
 
+      <div class="input__container" v-if="visibleDiscount">
+        <label class="input__label">Discount</label>
+        <input v-model="discountCode" class="input--text" />
+        <p class="copy-error" v-show="discountError" style="margin:4px 12px;">{{ discountError }}</p>
+      </div>
+
       <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
@@ -198,7 +204,7 @@
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Duration:</strong></div>
             <div class="Column-md-4of5 font-thin">{{ appointment.duration.value }}</div>
           </div>
-          <div class="Row-md" v-show="appointment.status !== 'canceled'">
+          <div class="Row-md" v-show="appointment.status === 'pending'">
             <div class="Column-md-1of5 space-bottom-xxs"><strong>Purpose:</strong></div>
             <div class="Column-md-4of5 font-thin">{{ appointment.purpose }}</div>
           </div>
@@ -210,6 +216,12 @@
                 maxlength="1024"
                 placeholder="Reason for cancelling appointment">
               </textarea>
+            </div>
+          </div>
+          <div class="Row-md" v-show="discountCode">
+            <div class="Column-md-1of5 space-bottom-xxs"><strong>Discount:</strong></div>
+            <div class="Column-md-4of5 font-thin">
+              <span class="bg-good color-darker radius" style="padding: 0 4px;">{{ discountMessage }}</span>
             </div>
           </div>
         </div>
@@ -279,6 +291,9 @@ export default {
         cancelled: []
       },
       cancellationReason: '',
+      discountCode: '',
+      discountError: '',
+      discountMessage: '',
       durationList: [
         { data: 30, value: '30 minutes' },
         { data: 60, value: '60 minutes' }
@@ -419,6 +434,9 @@ export default {
         (this.userType === 'practitioner' && this.appointment.patientName !== '') ||
         (this.userType !== 'practitioner' && this.appointment.practitionerName !== '');
     },
+    visibleDiscount() {
+      return this.flyoutMode === 'new' && App.Config.user.isPatient && this.appointment.date;
+    },
     visibleDuration() {
       return this.appointment.status === 'complete' && this.appointment.currentStatus !== 'complete';
     },
@@ -522,32 +540,71 @@ export default {
 
       this.userAction = action;
       this.appointment.purpose = this.appointment.purpose || 'New appointment';
-      switch(action) {
+      switch (action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
+          this.modalActive = true;
           break;
         case 'update':
-          // If an admin/practitioner updates an appointment status to anything other than pending, they are cancelling it
-          this.userActionTitle = this.appointment.status !== 'pending' ? 'Cancel Appointment' : 'Update Appointment';
+          switch (this.appointment.status) {
+            case 'pending':
+              this.userActionTitle = 'Update Appointment';
+              break;
+            case 'complete':
+              this.userActionTitle = 'Complete Appointment';
+              break;
+            default:
+              this.userActionTitle = 'Cancel Appointment';
+              break;
+          }
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
+          this.modalActive = true;
           break;
         case 'new':
+          const setup = () => {
+            if (!this.showBillingError) {
+              this.userActionTitle = 'Confirm Appointment';
+              this.appointment.status = 'pending';
+              this.modalActive = true;
+            }
+          }
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.showBillingError = true;
-            return;
           }
-          if (this.$root.shouldTrack()) {
-            // Add "Confirm Appointment" tracking here
+          if (this.discountCode) {
+            this.handleDiscount(response => {
+              if (!response.data.errors && !this.showBillingError) {
+                setup();
+              }
+            });
+          } else {
+            setup();
           }
-          this.userActionTitle = 'Confirm Appointment';
-          this.appointment.status = 'pending';
           break;
       }
-      this.modalActive = true;
+    },
+
+    handleDiscount(callback) {
+      this.discountError = '';
+      const endpoint = `${App.Config.misc.api}discountcode?discount_code=${this.discountCode}&applies_to=consultation`;
+      axios.get(endpoint).then(response => {
+        if (response.data.errors) {
+          this.discountError = 'Invalid discount code.';
+        } else {
+          const type = response.data.data.attributes.discount_type;
+          const amount = response.data.data.attributes.amount;
+          this.discountMessage = type === 'dollars' ? `-$${amount}` : `-${amount}%`;
+          callback(response);
+        }
+      }).catch(error => {
+        if (error.response) {
+          console.warn(error.response);
+        };
+      })
     },
 
     // When getAppointments is run we save three copies of the data to match
@@ -736,6 +793,8 @@ export default {
         practitioner_id: this.appointment.practitionerId * 1
       };
 
+      if (this.discountCode) data.discount_code = this.discountCode;
+
       let action = this.userAction === 'new' ? 'post' : 'patch';
       let endpoint = this.userAction === 'new' ? '/api/v1/appointments' : `/api/v1/appointments/${this.appointment.id}`;
       const succesPopup = this.userAction !== 'cancel';
@@ -802,7 +861,7 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then(() => {
+      axios[action](endpoint, data).then((response) => {
         // track the event
         if(this.$root.shouldTrack()) {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
@@ -812,6 +871,10 @@ export default {
             });
           }
         }
+
+        // reset discount information
+        this.discountCode = '';
+        this.discountMessage = '';
 
         this.$root.getAppointments(() => {
           Vue.nextTick(() => {

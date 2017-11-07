@@ -37,16 +37,16 @@ class VueHelperViewComposer
 
     protected function userData()
     {
-        $user = Auth::user();
+        $user = currentUser();
 
         if (empty($user)) {
             return ['signedIn' => false];
         }
 
         $fractal = fractal()->item($user)
-            ->transformWith(new UserTransformer)
-            ->serializeWith(new JsonApiSerializer)
-            ->toArray();
+        ->transformWith(new UserTransformer)
+        ->serializeWith(new JsonApiSerializer)
+        ->toArray();
 
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
@@ -55,6 +55,8 @@ class VueHelperViewComposer
         if($user->isPractitioner()) {
             $output += ['practitionerId' => $user->practitioner->id];
         }
+
+        $output += ['intercom_hash' => $user->intercom_hash];
 
         return $output;
     }

@@ -220,14 +220,14 @@
 
         <div class="input__container">
           <label class="input__label">Client</label>
-          <span class="input__item">{{ patientName }}</span>
+          <span class="input__item" v-html="patientName"></span>
         </div>
 
         <!-- Doctor -->
 
         <div class="input__container">
           <label class="input__label">Doctor</label>
-          <span class="input__item">{{ doctorName }}</span>
+          <span class="input__item" v-html="doctorName"></span>
         </div>
 
         <!-- Lab Tests -->
@@ -844,14 +844,26 @@ export default {
       return this.$props.rowData ? `Lab Order #${this.$props.rowData.id}` : '';
     },
     doctorName() {
-      return this.$props.rowData ?
-        `Dr. ${this.$root.$data.global.practitionerLookUp[Number(this.$props.rowData.practitioner_id)].attributes.name}, ND` :
-        '';
+      if (this.rowData) {
+        const doctors   = this.$root.$data.global.practitionerLookUp;
+        const doctorId  = Number(this.rowData.practitioner_id);
+        const userId    = doctors[doctorId].attributes.user_id;
+        const display   = `Dr. ${doctors[doctorId].attributes.name}, ND`;
+        const link      = `<a href="#/profile/${userId}">${display}</a>`;
+
+        return App.Config.user.isAdmin ? link : display;
+      }
     },
     patientName() {
-      return this.$props.rowData ?
-        `${this.$root.$data.global.patientLookUp[Number(this.$props.rowData.patient_id)].attributes.name}` :
-        '';
+      if (this.rowData) {
+        const patients  = this.$root.$data.global.patientLookUp;
+        const patientId = Number(this.rowData.patient_id);
+        const userId    = patients[patientId].attributes.user_id;
+        const display   = patients[patientId].attributes.name;
+        const link      = `<a href="#/profile/${userId}">${display}</a>`;
+
+        return App.Config.user.isAdmin ? link : display;
+      }
     },
     paid() {
       return this.$props.rowData ? this.$props.rowData.paid : false;
