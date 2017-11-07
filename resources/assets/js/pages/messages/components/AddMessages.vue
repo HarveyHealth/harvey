@@ -148,7 +148,7 @@ export default {
                     return data;
                 } else if (this.$root.$data.permissions === 'admin') {
                     let uniquePatients = uniqBy(store.patients, 'id');
-                    let uniquePractitioners = uniqBy(store.practitioners, 'id');
+                    let uniquePractitioners = uniqBy(store.practitioners);
                     let data = [''].concat(uniquePractitioners).concat(uniquePatients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
