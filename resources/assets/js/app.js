@@ -191,7 +191,7 @@ const app = new Vue({
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e;
                 });
-                this.global.patients = _.uniq(this.global.patients);
+                this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
             });
         },
@@ -214,7 +214,7 @@ const app = new Vue({
                   response.data.data.forEach(e => {
                       this.global.practitionerLookUp[e.id] = e;
                   });
-                  this.global.practitioners = _.uniq(this.global.practitioners);
+                  this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
                   this.global.loadingPractitioners = false;
                 });
             } else {
@@ -234,7 +234,8 @@ const app = new Vue({
                     if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
                       this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
                     }
-                    this.global.practitioners = _.uniq(this.global.practitioners);
+                    this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
+                    this.global.patients = _.uniqBy(this.global.patients, 'id');
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
@@ -345,14 +346,18 @@ const app = new Vue({
             });
         },
         getConfirmedUsers() {
+            let doctors = this.global.practitioners;
+            let patients = this.global.patients;
             this.global.confirmedDoctors = this.global.appointments
                 .filter(e => e.attributes.status === 'complete')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                .map(e => doctors.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
-            this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+                .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+            this.global.practitioners = _.uniqBy(doctors, 'id');
+            this.global.patients = _.uniqBy(patients, 'id');
+            this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id');
+            this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id');
             this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {

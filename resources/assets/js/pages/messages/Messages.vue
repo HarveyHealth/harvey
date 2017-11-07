@@ -138,10 +138,6 @@
                 this.setMessages(this.$root.$data.global.messages);
             });
             this.$root.getMessages();
-            this.$root.getAppointments();
-            this.$root.getPractitioners();
-            this.$root.getPatients();
-            this.$root.getAppointments();
         }
     };
 </script>
