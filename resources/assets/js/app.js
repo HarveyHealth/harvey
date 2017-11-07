@@ -20,6 +20,7 @@ import combineAppointmentData from './utils/methods/combineAppointmentData';
 import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
+import _ from 'lodash';
 
 Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
@@ -190,6 +191,7 @@ const app = new Vue({
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e;
                 });
+                this.global.patients = _.uniq(this.global.patients);
                 this.global.loadingPatients = false;
             });
         },
@@ -212,6 +214,7 @@ const app = new Vue({
                   response.data.data.forEach(e => {
                       this.global.practitionerLookUp[e.id] = e;
                   });
+                  this.global.practitioners = _.uniq(this.global.practitioners);
                   this.global.loadingPractitioners = false;
                 });
             } else {
@@ -231,6 +234,7 @@ const app = new Vue({
                     if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
                       this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
                     }
+                    this.global.practitioners = _.uniq(this.global.practitioners);
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
