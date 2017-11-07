@@ -5,7 +5,7 @@
         </button>
         <h2 class="heading-3-expand">New Message</h2>
         <div class="no-message-banner" v-if="!loading && userList.length <= 1">
-            You are not currently assigned to any doctors. Please <a href="/dashboard#/appointments">book a consultation</a> before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
+            You are not currently assigned to any doctors. Please <router-link to="/appointments">book a consultation</router-link > before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
@@ -38,7 +38,7 @@
 
 <script>
 import axios from 'axios';
-import { uniq } from 'lodash';
+import { uniqBy } from 'lodash';
 import Flyout from '../../../commons/Flyout.vue';
 export default {
     name: 'Preview',
@@ -86,22 +86,22 @@ export default {
         userList() {
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
-                let unique = uniq(store.confirmedDoctors);
+                let unique = uniqBy(store.confirmedDoctors, 'id');
                 let data = [''].concat(unique);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'practitioner') {
-                let unique = uniq(store.confirmedPatients);
+                let unique = uniqBy(store.confirmedPatients, 'id');
                 let data = [''].concat(unique);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'admin') {
-                 let uniquePatients = uniq(store.patients);
-                 let uniquePractitioners = uniq(store.practitioners);
+                 let uniquePatients = uniqBy(store.patients, 'id');
+                 let uniquePractitioners = uniqBy(store.practitioners, 'id');
                 let data = [''].concat(uniquePractitioners).concat(uniquePatients);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
@@ -133,22 +133,22 @@ export default {
             if (!val) {
                 const store = this.$root.$data.global;
                 if (this.$root.$data.permissions === 'patient') {
-                    let unique = uniq(store.confirmedDoctors);
+                    let unique = uniqBy(store.confirmedDoctors, 'id');
                     let data = [''].concat(unique);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'practitioner') {
-                    let unique = uniq(store.confirmedPatients);
+                    let unique = uniqBy(store.confirmedPatients, 'id');
                     let data = [''].concat(unique);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'admin') {
-                    let uniquePatients = uniq(store.patients);
-                    let uniquePractitioners = uniq(store.practitioners);
+                    let uniquePatients = uniqBy(store.patients, 'id');
+                    let uniquePractitioners = uniqBy(store.practitioners, 'id');
                     let data = [''].concat(uniquePractitioners).concat(uniquePatients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
