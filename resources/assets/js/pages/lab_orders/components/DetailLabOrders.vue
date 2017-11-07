@@ -16,7 +16,7 @@
 
         <!-- Lab Tests -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-test-recommendations">
           <label class="input__label first">Lab Tests</label>
 
           <!-- Recommended -->

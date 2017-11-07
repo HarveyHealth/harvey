@@ -26,38 +26,4 @@ describe('LabOrders (General):', () => {
       });
     });
   });
-
-  context('When user is an admin', () => {
-    it('admins are able to create new lab order recommendations', done => {
-      App.vm.$data.permissions = 'admin';
-      Vue.nextTick(() => {
-        expect(App.contains('[data-test="addLabOrder"]')).to.equal(true);
-        done();
-      });
-    });
-
-    it('lab order flyout displays credit card error message when no card is on file', done => {
-      App.find('.cell-wrap').click();
-      Vue.nextTick(() => {
-        _LabOrders.$data.loading = false;
-        Vue.nextTick(() => {
-          expect(App.contains('[data-test="lab-order-credit-card"] .error-text')).to.equal(true);
-          done();
-        });
-      });
-    });
-
-    it('lab order flyout displays credit card info when card is on file', done => {
-      App.find('.cell-wrap').click();
-      Vue.nextTick(() => {
-        _LabOrders.$data.patientCard = mockData.patientCreditCard;
-        _LabOrders.$data.loading = false;
-        Vue.nextTick(() => {
-          expect(App.contains('[data-test="lab-order-credit-card"] label.input__item')).to.equal(true);
-          done();
-        });
-      });
-    });
-  });
-
 });

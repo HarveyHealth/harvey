@@ -7,25 +7,12 @@ import mockData from '../mock_data';
 window.Laravel = LaravelStub;
 window.Vue = Vue;
 
-describe('LabOrders (General):', () => {
-  const App = AppStub(LabOrders, 'LabOrders');
-  const _LabOrders = App.vm.$children[0];
+describe('LabOrders (Billing):', () => {
+  // Using 'let' so we can reset the instance for patient user
+  let App = AppStub(LabOrders, 'LabOrders');
+  let _LabOrders = App.vm.$children[0];
+  let _Details = _LabOrders.$children[1];
   _LabOrders.setupLabData();
-
-  context('When mounted', () => {
-    it('it has a mounted hook (initial test)', () => {
-      expect(typeof LabOrders.mounted).to.equal('function');
-    });
-  });
-
-  context('When global labOrder data is available', () => {
-    it('the table has at least one row', done => {
-      Vue.nextTick(() => {
-        expect(App.contains('table .cell-wrap')).to.equal(true);
-        done();
-      });
-    });
-  });
 
   context('When user is an admin', () => {
     it('admins are able to create new lab order recommendations', done => {
@@ -60,4 +47,47 @@ describe('LabOrders (General):', () => {
     });
   });
 
+  context('When user is a patient', () => {
+    App = AppStub(LabOrders, 'LabOrders');
+    _LabOrders = App.vm.$children[0];
+    _Details = _LabOrders.$children[1];
+    _LabOrders.setupLabData();
+
+    it('the flyout renders a list of recommended lab test checkbox inputs', done => {
+      App.vm.$data.permissions = 'patient';
+      App.find('.cell-wrap').click();
+      Vue.nextTick(() => {
+        expect(App.contains('[data-test="lab-test-recommendations"]')).to.equal(true);
+        done();
+      });
+    });
+
+    it('pricing info updates appropriately when a lab test is checked', done => {
+      // First test selected is $299; processing fee is hardcoded
+      const desiredSubTotal = 299 + _Details.$data.processingFee;
+      App.find('[data-test="lab-test-recommendations"] .form-radio').click();
+      Vue.nextTick(() => {
+        expect(_Details.$data.subtotalAmount).to.equal(desiredSubTotal);
+        done();
+      });
+    });
+
+    it('the confirmation flyout displays the correct pricing information', done => {
+      const itemPrice = 299;
+      const processingFee = _Details.$data.processingFee;
+      const desiredItem = 'Micronutrients';
+      const desiredItemPrice = `$${itemPrice}.00`;
+      const desiredProcessingFee = `$${processingFee}.00`;
+      const desiredTotal = `$${itemPrice + processingFee}.00`;
+
+      App.find('.flyout .button-wrapper button').click();
+
+      Vue.nextTick(() => {
+        expect(App.find('.flyout .left-column .sub-items').innerText).to.equal(desiredItem);
+        expect(App.find('.flyout .right-column .sub-items').innerText).to.equal(desiredItemPrice);
+        expect(App.find('.flyout .right-column .sub-items.total').innerText).to.equal(desiredTotal);
+        done();
+      });
+    });
+  });
 });
