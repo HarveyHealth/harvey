@@ -11,7 +11,7 @@ use ResponseCode;
 
 class MessagesController extends BaseAPIController
 {
-    protected $resource_name = 'messages';
+    protected $resource_name = 'message';
 
     /**
      * MessagesController constructor.

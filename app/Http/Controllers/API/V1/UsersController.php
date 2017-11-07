@@ -13,7 +13,7 @@ use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
-    protected $resource_name = 'users';
+    protected $resource_name = 'user';
 
     /**
      * UsersController constructor.

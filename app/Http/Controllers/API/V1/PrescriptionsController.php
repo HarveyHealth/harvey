@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class PrescriptionsController extends BaseAPIController
 {
-    protected $resource_name = 'prescriptions';
+    protected $resource_name = 'prescription';
 
     /**
      * PrescriptionsController constructor.

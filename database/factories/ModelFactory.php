@@ -288,7 +288,9 @@ $factory->define(LabTestResult::class, function (Faker\Generator $faker) {
 
 $factory->define(Attachment::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -300,7 +302,9 @@ $factory->define(Attachment::class, function (Faker\Generator $faker) {
 
 $factory->define(SoapNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -313,7 +317,9 @@ $factory->define(SoapNote::class, function (Faker\Generator $faker) {
 
 $factory->define(Prescription::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },

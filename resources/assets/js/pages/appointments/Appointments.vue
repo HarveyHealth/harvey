@@ -239,7 +239,7 @@ import Days from './components/Days.vue';
 import Duration from './components/Duration.vue';
 import FilterButtons from '../../commons/FilterButtons.vue';
 import Flyout from '../../commons/Flyout.vue';
-import Modal from '../../v2/components/shared/Modal.vue';
+import { Modal } from 'layout';
 import NotificationPopup from '../../commons/NotificationPopup.vue';
 import Overlay from '../../commons/Overlay.vue';
 import Patient from './components/Patient.vue';

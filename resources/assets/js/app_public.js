@@ -13,23 +13,18 @@ import './bootstrap';
 // it is used for log in, register form on the public pages
 import Form from './utils/objects/Form.js';
 
-// MIXINS
-// TopNav includes top navbar behaviors and is shared between public and logged in pages
-import TopNav from './utils/mixins/TopNav';
-
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
 import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
-import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
+import { FacebookSignin } from 'inputs';
 
 // for environment conditionals
 const env = require('get-env')();
 
 const app = new Vue({
-    mixins: [TopNav],
     components: {
         LoadingGraphic,
         FacebookSignin,

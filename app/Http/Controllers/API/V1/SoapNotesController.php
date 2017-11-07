@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class SoapNotesController extends BaseAPIController
 {
-    protected $resource_name = 'soap_notes';
+    protected $resource_name = 'soap_note';
 
     /**
      * SoapNotesController constructor.

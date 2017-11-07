@@ -5,6 +5,8 @@ use App\Models\{Appointment, Attachment, User, LabTest, LabOrder, Message};
 
 class DatabaseSeeder extends Seeder
 {
+    const TESTING_INTAKE_TOKEN = 'b20ea4e0ae2d7504a8b78aacf1f963b6';
+
     /**
      * Run the database seeds.
      *
