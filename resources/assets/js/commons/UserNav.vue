@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage">
+  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
     <button class="menu-button"
       @click="handleMenu(null)"
@@ -60,6 +60,14 @@
         <div class="text">Records</div>
       </router-link>  -->
 
+       <router-link
+       to="/settings" title="Settings"
+        :class="currentPageCheck('settings')"
+        @click.native="handleMenu(false, 'settings')">
+        <i class="fa fa-cog icon icon-nav-bar"></i>
+        <div class="text">Settings</div>
+      </router-link>
+
       <router-link
         v-if="user === 'admin'"
         to="/clients" title="Recent Clients"
@@ -119,7 +127,7 @@
       currentPageCheck(page, unread) {
         return {
           'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
+          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
           'unread': unread
         };
       },
@@ -129,6 +137,7 @@
       // if an item is given, the currentPage will be set to that item
       handleMenu(force, item) {
         this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+        if (item) App.setState('misc.currentPage', item);
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;

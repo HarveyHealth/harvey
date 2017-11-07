@@ -48,6 +48,7 @@ mix.webpackConfig({
         alias: {
             moment$: 'moment/moment.js',
             sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
+            components: path.resolve(__dirname, 'resources/assets/js/v2/components'),
             feedback: path.resolve(__dirname, 'resources/assets/js/v2/components/feedback'),
             icons: path.resolve(__dirname, 'resources/assets/js/v2/components/icons'),
             inputs: path.resolve(__dirname, 'resources/assets/js/v2/components/inputs'),

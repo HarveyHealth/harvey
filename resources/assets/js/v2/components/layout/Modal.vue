@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { SlideIn } from 'layout';
+import SlideIn from './SlideIn.vue';
 
 export default {
   components: {

@@ -1,18 +1,11 @@
 import './bootstrap';
 import router from './routes';
 
-// FILTERS
-import filter_datetime from './utils/filters/datetime';
-
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
 
-// MIXINS
-import TopNav from './utils/mixins/TopNav';
-
 // COMPONENETS
-import Alert from './commons/Alert.vue';
-import Dashboard from './pages/dashboard/Dashboard.vue';
+import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -21,7 +14,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 
-Vue.filter('datetime', filter_datetime);
 Vue.use(VeeValidate);
 
 const env = require('get-env')();
@@ -94,111 +86,9 @@ const Store = store(Laravel, State);
 
 const app = new Vue({
     router,
-    mixins: [TopNav],
     components: {
-        Alert,
         Dashboard,
         Usernav
-    },
-    data: {
-        // Adding State to the root data object makes it globally reactive.
-        // We do not attach this to window.App for HIPPA compliance. User
-        // App.setState to mutate this object.
-        State: State,
-
-        apiUrl: '/api/v1',
-        appointmentData: null,
-        colors: {
-          copy: '#4f6268'
-        },
-        clientList: [],
-        permissions: Laravel.user.user_type,
-        environment: env,
-        currentUserId: Laravel.user.id,
-        flyoutActive: false,
-        guest: false,
-        stripe: null,
-        global: {
-            appointments: [],
-            confirmedDoctors: [],
-            confirmedPatients: [],
-            currentPage: '',
-            creditCards: [],
-            detailMessages: {},
-            loadingAppointments: true,
-            loadingCreditCards: true,
-            loadingClients: true,
-            loadingPatients: true,
-            loadingPractitioners: true,
-            practitionerProfileLoading: true,
-            loadingLabOrders: true,
-            loadingMessages: true,
-            loadingLabTests: true,
-            loadingTestTypes: true,
-            loadingUser: true,
-            loadingUserEditing: true,
-            menuOpen: false,
-            messages: [],
-            patients: [],
-            practitioners: [],
-            recent_appointments: [],
-            // Updated: 08/22/2017
-            // This is a hotfix and should be included in the backend logic when determining which
-            // practitioners to send to the frontend
-            regulatedStates: [
-              'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
-            ],
-            signed_in: Laravel.user.signedIn,
-            test_results: [],
-            upcoming_appointments: [],
-            unreadMessages: [],
-            labOrders: [],
-            labTests: [],
-            patientLookUp: {},
-            practitionerLookUp: {},
-            user: {},
-            selfPractitionerInfo: null,
-            user_editing: {}
-        },
-        signup: {
-          availability: [],
-          availableTimes: [],
-          billingConfirmed: false,
-          cardBrand: '',
-          cardCvc: '',
-          cardExpiration: '',
-          cardName: '',
-          cardNumber: '',
-          cardLastFour: '',
-          code: '',
-          completedSignup: false,
-          codeConfirmed: false,
-          cost: '',
-          data: {
-            appointment_at: null,
-            discount_code: null,
-            reason_for_visit: 'First appointment',
-            practitioner_id: null,
-          },
-          discountCode: '',
-          googleMeetLink: '',
-          phone: '',
-          phonePending: false,
-          phoneConfirmed: false,
-          practitionerName: '',
-          practitionerState: '',
-          selectedDate: null,
-          selectedDay: null,
-          selectedPractitioner: 0,
-          selectedWeek: null,
-          selectedTime: null,
-          visistedStages: [],
-        },
-        initialAppointment: {},
-        initialAppointmentComplete: false,
-        labTests: {},
-        timezone: moment.tz.guess(),
-        timezoneAbbr: moment.tz(moment.tz.guess()).format('z')
     },
     data: Store,
     computed: {
@@ -235,6 +125,7 @@ const app = new Vue({
         },
 
         getAppointments(cb) {
+            App.setState('appointments.isLoading.upcoming', true);
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
@@ -246,7 +137,11 @@ const app = new Vue({
                 }).catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
-                .then((response) => this.global.upcoming_appointments = response.data)
+                .then((response) => {
+                  this.global.upcoming_appointments = response.data;
+                  // to update v2 Dashboard
+                  App.Http.appointments.getUpcomingResponse(response);
+                })
                 .catch(error => console.log(error.response));
 
             axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
