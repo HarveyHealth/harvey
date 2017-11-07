@@ -38,6 +38,7 @@
 
 <script>
 import axios from 'axios';
+import { uniq } from 'lodash';
 import Flyout from '../../../commons/Flyout.vue';
 export default {
     name: 'Preview',
@@ -85,19 +86,23 @@ export default {
         userList() {
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
-                let data = [''].concat(store.confirmedDoctors);
+                let unique = uniq(store.confirmedDoctors);
+                let data = [''].concat(unique);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'practitioner') {
-                let data = [''].concat(store.confirmedPatients);
+                let unique = uniq(store.confirmedPatients);
+                let data = [''].concat(unique);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                 }
                 return data;
             } else if (this.$root.$data.permissions === 'admin') {
-                let data = [''].concat(store.practitioners).concat(store.patients);
+                 let uniquePatients = uniq(store.patients);
+                 let uniquePractitioners = uniq(store.practitioners);
+                let data = [''].concat(uniquePractitioners).concat(uniquePatients);
                 if (data.length > 1) {
                     this.$root.$data.global.loadingConfirmedUsers = false;
                 }
@@ -128,19 +133,23 @@ export default {
             if (!val) {
                 const store = this.$root.$data.global;
                 if (this.$root.$data.permissions === 'patient') {
-                    let data = [''].concat(store.confirmedDoctors);
+                    let unique = uniq(store.confirmedDoctors);
+                    let data = [''].concat(unique);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'practitioner') {
-                    let data = [''].concat(store.confirmedPatients);
+                    let unique = uniq(store.confirmedPatients);
+                    let data = [''].concat(unique);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                     }
                     return data;
                 } else if (this.$root.$data.permissions === 'admin') {
-                    let data = [''].concat(store.practitioners).concat(store.patients);
+                    let uniquePatients = uniq(store.patients);
+                    let uniquePractitioners = uniq(store.practitioners);
+                    let data = [''].concat(uniquePractitioners).concat(uniquePatients);
                     if (data.length > 1) {
                         this.$root.$data.global.loadingConfirmedUsers = false;
                     }
