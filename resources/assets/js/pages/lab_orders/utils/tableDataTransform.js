@@ -52,9 +52,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     name: test.included.attributes.name,
                     original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
-                        [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                        [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Canceled'], capitalize(test.attributes.status))) :
                         obj.attributes.status === 'confirmed' ?
-                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed'], capitalize(test.attributes.status))) :
                             [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),
