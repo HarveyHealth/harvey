@@ -92,7 +92,7 @@
         },
         computed: {
             stateDetail() {
-                let details = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                let details = this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
                 this.setDetails(details);
                 return this.$root.$data.global.detailMessages[this.$props.thread_id];
             }
@@ -100,7 +100,7 @@
         watch: {
             stateDetail(val) {
                 if (!val) {
-                    let details = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    let details = this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
                     this.setDetails(details);
                     return this.$root.$data.global.detailMessages[this.$props.thread_id];
                 }
