@@ -289,6 +289,9 @@ const app = new Vue({
                 analytics.identify(parameterObject);
             }
         }
+        if (env !== 'prod' || env !== 'production') {
+          window.Root = this;
+        }
     },
     destroyed() {
         if (this.isHomePage) {

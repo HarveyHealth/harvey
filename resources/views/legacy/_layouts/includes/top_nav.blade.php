@@ -1,4 +1,4 @@
-<div class="header nav" @if (Auth::guest()) :class="{'is-inverted': navIsInverted}" @endif >
+<div class="header nav" :class="{'is-inverted': navIsInverted}">
     <div class="container">
         <div class="nav-left">
             <a href="/" class="nav-item">
