@@ -75,20 +75,35 @@ describe('LabOrders (Billing):', () => {
     it('the confirmation flyout displays the correct pricing information', done => {
       const itemPrice = 299;
       const processingFee = _Details.$data.processingFee;
+      const subtotal = itemPrice + processingFee;
+      const discounted = (subtotal / 2).toFixed(2);
+
       const desiredItem = 'Micronutrients';
       const desiredItemPrice = `$${itemPrice}.00`;
       const desiredProcessingFee = `$${processingFee}.00`;
-      const desiredTotal = `$${itemPrice + processingFee}.00`;
+      const desiredDiscount = 'Discount (50%)';
+      const desiredDiscountAmount = `- $${discounted}`;
+      const desiredSubtotal = `$${itemPrice + processingFee}.00`;
+      const desiredTotal = `$${(subtotal - discounted).toFixed(2)}`;
 
       // Trigger the confirmation step
       App.find('.flyout .button-wrapper button').click();
 
       Vue.nextTick(() => {
-        expect(App.find('.flyout .left-column .sub-items').innerText).to.equal(desiredItem);
-        expect(App.find('.flyout .right-column .sub-items').innerText).to.equal(desiredItemPrice);
-        expect(App.find('.flyout .right-column .sub-items.processing').innerText).to.equal(desiredProcessingFee);
-        expect(App.find('.flyout .right-column .sub-items.total').innerText).to.equal(desiredTotal);
-        done();
+        // Add discount
+        _Details.$data.discountCode = mockData.discountData.data.data.attributes.code;
+        _Details.processDiscount(mockData.discountData);
+
+        Vue.nextTick(() => {
+          expect(App.find('.flyout .left-column .sub-items').innerText).to.equal(desiredItem);
+          expect(App.find('.flyout .right-column .sub-items').innerText).to.equal(desiredItemPrice);
+          expect(App.find('.flyout .right-column .sub-items.processing').innerText).to.equal(desiredProcessingFee);
+          expect(App.find('.flyout .right-column .sub-items.subtotal').innerText).to.equal(desiredSubtotal);
+          expect(App.find('.flyout .left-column .sub-items.discount em').innerText).to.equal(desiredDiscount);
+          expect(App.find('.flyout .right-column .sub-items.discount em').innerText).to.equal(desiredDiscountAmount);
+          expect(App.find('.flyout .right-column .sub-items.total').innerText).to.equal(desiredTotal);
+          done();
+        });
       });
     });
   });
