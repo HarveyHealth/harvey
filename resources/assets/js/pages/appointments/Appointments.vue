@@ -808,7 +808,8 @@ export default {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
-              email: appointmentPatientEmail
+              email: appointmentPatientEmail,
+              userId: Laravel.user.id,
             });
           }
         }
