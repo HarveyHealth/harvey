@@ -571,7 +571,7 @@ export default {
               this.appointment.status = 'pending';
               this.modalActive = true;
             }
-          }
+          };
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.showBillingError = true;
           }
@@ -603,8 +603,8 @@ export default {
       }).catch(error => {
         if (error.response) {
           console.warn(error.response);
-        };
-      })
+        }
+      });
     },
 
     // When getAppointments is run we save three copies of the data to match

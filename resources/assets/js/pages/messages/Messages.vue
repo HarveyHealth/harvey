@@ -83,7 +83,7 @@
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              messageList: [],
+              messageList: []
             };
         },
         computed: {

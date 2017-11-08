@@ -98,7 +98,7 @@
                 description: null,
                 quote: null,
                 image: null,
-                visibility_id: 3,
+                visibility_id: 3
             }
         }
     };
@@ -117,7 +117,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3,
+                        visibility_id: 3
                     }
                 }
             },
@@ -125,12 +125,12 @@
             notificationSymbol: '&#10003;',
             notificationActive: false,
             notificationDirection: 'top-right',
-            notificationError: false,
-        }
+            notificationError: false
+        };
     },
     components: {
         ClipLoader,
-        NotificationPopup,
+        NotificationPopup
     },
     methods: {
         putSkuForm() {
@@ -145,7 +145,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id,
+                visibility_id: sku.attributes.lab_test_information.visibility_id
             })
             .then(response => {
                 this.submitting = false;
@@ -170,7 +170,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id,
+                visibility_id: sku.attributes.lab_test_information.visibility_id
             })
                 .then(response => {
                     this.submitting = false;
@@ -198,7 +198,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3,
+                        visibility_id: 3
                     }
                 }
             };
@@ -210,17 +210,17 @@
         },
         notificationMessage() {
             return this.sku ? "Lab test updated" : "Lab Test Updated";
-        },
+        }
     },
     props: {
         sku: {
-            type: Object,
+            type: Object
         },
         appendSkuList: {
-            type: Function,
+            type: Function
         }
     }
-}
+};
 </script>
 
 <style lang="scss">
