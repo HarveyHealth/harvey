@@ -90,7 +90,7 @@ export default {
             } else if (this.$root.$data.permissions === 'practitioner') {
                 return store.confirmedPatients;
             } else if (this.$root.$data.permissions === 'admin') {
-                return uniquePractitioners.concat(store.practitioners);
+                return (store.confirmedPatients).concat(store.confirmedDoctors);
             }
         },
         loading() {
@@ -123,7 +123,7 @@ export default {
                 } else if (permission === 'practitioner') {
                     return store.confirmedPatients;
                 } else if (permission === 'admin') {
-                    return uniquePractitioners.concat(store.practitioners);
+                    return (store.confirmedPatients).concat(store.confirmedDoctors);
                 }
             }
         },
