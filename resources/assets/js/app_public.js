@@ -248,6 +248,25 @@ const app = new Vue({
           this.appLoaded = true;
         });
 
+        // indentify and send along any url paramaters if they exist
+        const getUrlParams = () => {
+            const url = window.location.search;
+            if (!url) return null;
+
+            return (/^[?#]/.test(url) ? url.slice(1) : url)
+                .split('&')
+                .reduce((params, param) => {
+                    let [key, value] = param.split('=');
+                    params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                    return params;
+                }, {});
+        };
+
+        const parameterObject = getUrlParams();
+        if (parameterObject !== null) {
+            analytics.identify(parameterObject);
+        }
+
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
     },
     destroyed() {
