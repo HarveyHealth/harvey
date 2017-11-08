@@ -745,6 +745,7 @@ export default {
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
       const appointmentPatientEmail = this.appointment.patientEmail;
+      const trackingPatientId = data.patient_id;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -804,13 +805,15 @@ export default {
       // TO-DO: Add error notifications if api call fails
       axios[action](endpoint, data).then(() => {
         // track the event
+        console.log(`DATA`, this.$data)
+        console.log(`PATIENT`, this.$data.selectedRowData._patientId)
         if(this.$root.shouldTrack()) {
           if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
               email: appointmentPatientEmail,
               user_id: Laravel.user.id,
-            //   patient_user_id: Laravel.user.id, // update patient user id
+              patient_user_id: trackingPatientId,
             });
           }
         }
