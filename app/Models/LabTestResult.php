@@ -31,6 +31,7 @@ class LabTestResult extends Model
         return [
             'id' => $this->id,
             'lab_test' => $this->labTest->sku->name,
+            'patient' => $this->labTest->labOrder->patient->user->full_name,
             'key' => $this->key,
             'notes' => $this->notes,
        ];

@@ -12,6 +12,7 @@ class SearchResultTransformer extends TransformerAbstract
 {
     public function transform(Model $result)
     {
+
         switch(get_class($result)){
             case SoapNote::class:
                 $transformer = new SoapNoteTransformer();
@@ -30,6 +31,6 @@ class SearchResultTransformer extends TransformerAbstract
 
         }
 
-        return $transformer->transform($result);
+        return $transformer->transform($result) + ['resource_name' => $result->getTable()];
     }
 }
