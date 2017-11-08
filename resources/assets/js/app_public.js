@@ -241,49 +241,14 @@ const app = new Vue({
                 }, 500);
                 window.removeEventListener('blur', this.onIframeClick);
             }
-        },
-        getUrlParams() {
-          const url = window.location.search;
-          if (!url) return null;
-
-          return (/^[?#]/.test(url) ? url.slice(1) : url)
-            .split('&')
-            .reduce((params, param) => {
-              let [key, value] = param.split('=');
-              params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-              return params;
-            }, {});
         }
     },
     mounted() {
         this.$nextTick(() => {
           this.appLoaded = true;
         });
+
         window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
-
-        // This is a temporary solution until we refactor how analytics is loaded
-        // on public pages
-        const path = window.location.pathname;
-
-          let currentPage = '';
-
-          if(this.isHomePage) {
-            currentPage = 'Homepage';
-          } else if (path === '/about') {
-            currentPage = 'About';
-          } else if (path === '/lab-tests') {
-            currentPage = 'Lab Tests';
-          }
-
-          // send the page event
-
-          analytics.page(currentPage);
-
-          // indentify and send along any url paramaters if they exist
-          const parameterObject = this.getUrlParams();
-          if (parameterObject !== null) {
-            analytics.identify(parameterObject);
-          }
     },
     destroyed() {
         if (this.isHomePage) {

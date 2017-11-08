@@ -55,6 +55,25 @@
                 analytics.load(Laravel.services.segment.key);
                 analytics.page();
                 }}();
+
+                // indentify and send along any url paramaters if they exist
+                function getUrlParams() {
+                    const url = window.location.search;
+                    if (!url) return null;
+
+                    return (/^[?#]/.test(url) ? url.slice(1) : url)
+                        .split('&')
+                        .reduce((params, param) => {
+                        let [key, value] = param.split('=');
+                        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                        return params;
+                    }, {});
+                }
+
+                const parameterObject = getUrlParams();
+                if (parameterObject !== null) {
+                    analytics.identify(parameterObject);
+                }
             </script>
         </footer>
     </body>
