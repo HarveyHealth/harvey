@@ -87,21 +87,21 @@
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../../commons/NotificationPopup.vue';
 
-    const defaultBlankSku = {
-            attributes: {
-            name: null,
-            price: 0,
-            cost: 0,
-            lab_test_information: {
-                lab_name: null,
-                sample: null,
-                description: null,
-                quote: null,
-                image: null,
-                visibility_id: 3
-            }
-        }
-    };
+    // const defaultBlankSku = {
+    //         attributes: {
+    //         name: null,
+    //         price: 0,
+    //         cost: 0,
+    //         lab_test_information: {
+    //             lab_name: null,
+    //             sample: null,
+    //             description: null,
+    //             quote: null,
+    //             image: null,
+    //             visibility_id: 3
+    //         }
+    //     }
+    // };
 
     export default {
     data() {
@@ -147,7 +147,7 @@
                 lab_name: sku.attributes.lab_test_information.lab_name,
                 visibility_id: sku.attributes.lab_test_information.visibility_id
             })
-            .then(response => {
+            .then(() => {
                 this.submitting = false;
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);

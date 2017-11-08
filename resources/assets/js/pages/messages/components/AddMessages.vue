@@ -38,7 +38,6 @@
 
 <script>
 import axios from 'axios';
-import { uniqBy } from 'lodash';
 import Flyout from '../../../commons/Flyout.vue';
 export default {
     name: 'Preview',
