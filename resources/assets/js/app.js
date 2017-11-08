@@ -3,7 +3,10 @@ import router from './routes';
 
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
-import VueTheMask from 'vue-the-mask';
+import VueRouter from 'vue-router';
+
+Vue.use(VeeValidate);
+Vue.use(VueRouter);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
@@ -15,9 +18,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 import _ from 'lodash';
-
-Vue.use(VeeValidate);
-Vue.use(VueTheMask);
 
 const env = require('get-env')();
 window.Card = require('card');
@@ -96,10 +96,10 @@ const app = new Vue({
         Usernav
     },
     // Adding State to the root data object makes it globally reactive.
-    // We do not attach this to window.App for HIPPA compliance. User
+    // We do not attach this to window.App for HIPPA compliance. Use
     // App.setState to mutate this object.
     data: Store,
-    
+
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
@@ -143,7 +143,10 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
-                }).catch(error => console.log(error.response));
+                })
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
                 .then((response) => {
@@ -151,11 +154,15 @@ const app = new Vue({
                   // to update v2 Dashboard
                   App.Http.appointments.getUpcomingResponse(response);
                 })
-                .catch(error => console.log(error.response));
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
                 .then((response) => this.global.recent_appointments = response.data)
-                .catch(error => console.log(error.response));
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
         },
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);

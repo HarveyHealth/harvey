@@ -96,11 +96,10 @@ class LabOrdersController extends BaseAPIController
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'discount_code' => 'string|max:24',
+            'discount_code' => 'sometimes|string|max:24',
             'shipment_code' => 'filled|string',
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|digits:5|order_was_not_shipped:{$labOrder->id}",
-            'discount_code' => 'sometimes',
         ]);
 
         $labOrder->update($request->all());

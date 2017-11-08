@@ -132,7 +132,7 @@
         <p class="copy-error" v-show="discountError" style="margin:4px 12px;">{{ discountError }}</p>
       </div>
 
-      <p class="copy-error" v-show="showBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
+      <p class="copy-error" v-show="shouldShowBillingError">Please save a credit card on file on the Settings page before booking an appointment.</p>
       <div class="button-wrapper">
 
         <button
@@ -416,7 +416,7 @@ export default {
       return this.$root.$data.global.loadingAppointments;
     },
     loadedPatients() {
-      return this.$root.$data.global.isLoadingPatients;
+      return this.$root.$data.global.loadingPatients;
     },
     loadedPractitioners() {
       return this.$root.$data.global.loadingPractitioners;
@@ -547,7 +547,7 @@ export default {
           this.userActionTitle = 'Cancel Appointment';
           this.appointment.status = 'canceled';
           this.appointment.date = this.appointment.currentDate;
-          this.modalActive = true;
+          this.isModalActive = true;
           break;
         case 'update':
           switch (this.appointment.status) {
@@ -564,22 +564,23 @@ export default {
           if (this.appointment.status !== 'pending' || this.appointment.date === '') {
             this.appointment.date = this.appointment.currentDate;
           }
-          this.modalActive = true;
+          this.isModalActive = true;
           break;
         case 'new':
           const setup = () => {
-            if (!this.showBillingError) {
+            if (!this.shouldShowBillingError) {
               this.userActionTitle = 'Confirm Appointment';
               this.appointment.status = 'pending';
-              this.modalActive = true;
+              this.isModalActive = true;
             }
           }
           if (!this.billingConfirmed && this.userType === 'patient') {
-            this.showBillingError = true;
+            this.shouldShowBillingError = true;
+            return;
           }
           if (this.discountCode) {
             this.handleDiscount(response => {
-              if (!response.data.errors && !this.showBillingError) {
+              if (!response.data.errors && !this.shouldShowBillingError) {
                 setup();
               }
             });
@@ -1033,7 +1034,6 @@ export default {
     setupAppointments(list) {
       const zone = this.$root.addTimezone();
       const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
-
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');

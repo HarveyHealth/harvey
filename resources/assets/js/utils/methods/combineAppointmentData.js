@@ -18,7 +18,7 @@ export default function(appointmentData) {
 
       // first, get the patient information from the provided patient_id from appointment
     _included.map((item) => {
-          if (item.type === 'patients' && item.id === patientData.id.toString()) {
+          if (item.type === 'patient' && item.id === patientData.id.toString()) {
               patientData.user_id = item.attributes.user_id;
           }
       });

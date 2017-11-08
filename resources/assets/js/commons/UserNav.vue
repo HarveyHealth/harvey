@@ -58,14 +58,6 @@
         <div class="text">Records</div>
       </router-link> 
 
-       <router-link
-       to="/settings" title="Settings"
-        :class="currentPageCheck('settings')"
-        @click.native="handleMenu(false, 'settings')">
-        <i class="fa fa-cog icon icon-nav-bar"></i>
-        <div class="text">Settings</div>
-      </router-link>
-
       <router-link
         v-if="user === 'admin'"
         to="/clients" title="Recent Clients"
