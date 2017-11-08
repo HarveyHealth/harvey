@@ -10,7 +10,7 @@ use Storage;
 
 class PatientsController extends BaseAPIController
 {
-    protected $resource_name = 'patients';
+    protected $resource_name = 'patient';
 
     /**
      * PatientsController constructor.

@@ -13,7 +13,7 @@ use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
-    protected $resource_name = 'appointments';
+    protected $resource_name = 'appointment';
 
     /**
      * AppointmentsController constructor.
