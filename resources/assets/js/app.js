@@ -50,7 +50,6 @@ App.Logic = Logic;
 App.Router = router;
 
 // Register global filters
-Vue.filter('datetime', filter_datetime);
 Vue.filter('formatPhone', Filters.formatPhone);
 Vue.filter('fullName', App.Util.misc.fullName);
 Vue.filter('jsonParse', Filters.jsonParse);
