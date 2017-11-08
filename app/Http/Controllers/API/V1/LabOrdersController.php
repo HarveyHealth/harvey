@@ -12,7 +12,7 @@ use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
-    protected $resource_name = 'lab_orders';
+    protected $resource_name = 'lab_order';
 
     /**
      * LabOrdersController constructor.
@@ -27,7 +27,7 @@ class LabOrdersController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
             $builder = LabOrder::make();
@@ -45,7 +45,7 @@ class LabOrdersController extends BaseAPIController
      * @param LabOrder     $labOrder
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, LabOrder $labOrder)
+    public function getOne(Request $request, LabOrder $labOrder)
     {
         if (currentUser()->cant('view', $labOrder)) {
             return $this->respondNotAuthorized("You do not have access to view this LabOrder.");
@@ -92,31 +92,18 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized('You do not have access to update this LabOrder.');
         }
 
-        $input_data = $request->all();
-
         StrictValidator::checkUpdate($request->all(), [
-            'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes|string|max:24',
+            'shipment_code' => 'filled|string',
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'zip' => "sometimes|digits:5|order_was_not_shipped:{$labOrder->id}",
-            'discount_code' => 'sometimes',
         ]);
 
-        if (!empty($input_data['discount_code'])) {
-            $discount_code = DiscountCode::findByValidCodeApplicationAndUser($input_data['discount_code'], 'lab-test', currentUser());
-
-            \Log::info($discount_code);
-
-            if ($discount_code) {
-                $input_data['discount_code_id'] = $discount_code->id;
-            }
-
-            unset($input_data['discount_code']);
-        }
-
-        $labOrder->update($input_data);
+        $labOrder->update($request->all());
+        $labOrder->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
 
         return $this->baseTransformItem($labOrder, request('include'))->respond();
     }

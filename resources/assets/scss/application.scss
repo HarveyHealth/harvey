@@ -8,3 +8,7 @@
 //Custom styles
 @import "base/-index";
 @import "modules/-index";
+
+// v2 + Tachyons
+@import '../vendor/tachyons/tachyons';
+@import '../styles/atomic';

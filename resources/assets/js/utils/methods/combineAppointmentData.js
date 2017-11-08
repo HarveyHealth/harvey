@@ -18,7 +18,7 @@ export default function(appointmentData) {
 
       // first, get the patient information from the provided patient_id from appointment
     _included.map((item) => {
-          if (item.type === 'patients' && item.id === patientData.id.toString()) {
+          if (item.type === 'patient' && item.id === patientData.id.toString()) {
               patientData.user_id = item.attributes.user_id;
           }
       });
@@ -26,7 +26,7 @@ export default function(appointmentData) {
     //   now find the related user
     _included.map((item) => {
           // needed since the data types are different
-          if (item.type === 'users' && item.id === patientData.user_id.toString()) {
+          if (item.type === 'user' && item.id === patientData.user_id.toString()) {
               patientData.address_1 = item.attributes.address_1;
               patientData.address_2 = item.attributes.address_2;
               patientData.city = item.attributes.city;

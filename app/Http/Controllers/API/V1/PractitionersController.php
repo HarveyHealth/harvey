@@ -23,14 +23,14 @@ class PractitionersController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
 
         return $this->baseTransformBuilder(Practitioner::make(), $include, $this->transformer, request('per_page'))->respond();
     }
 
-    public function show(Practitioner $practitioner)
+    public function getOne(Practitioner $practitioner)
     {
         $include = currentUser()->isAdminOrPractitioner() ? request('include') : null;
 

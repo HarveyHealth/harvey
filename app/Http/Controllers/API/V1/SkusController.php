@@ -13,7 +13,7 @@ use DB;
 
 class SkusController extends BaseAPIController
 {
-    protected $resource_name = 'skus';
+    protected $resource_name = 'sku';
 
     public function __construct(SKUTransformer $transformer)
     {
