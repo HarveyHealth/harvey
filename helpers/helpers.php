@@ -126,6 +126,15 @@ function ops_success($alert, $message, $channels = 'engineering')
     ops_message('success', $alert, $message, $channels);
 }
 
+function cloudfront_link(string $path)
+{
+    if (!starts_with($path, '/')) {
+        $path = "/{$path}";
+    }
+
+    return 'https://' . config('filesystems.cloudfront.domain') . $path;
+}
+
 function log_mark()
 {
     static $log_mark = 0;
@@ -134,4 +143,14 @@ function log_mark()
     $marker = $log_letters[$log_mark];
     \Log::info($marker);
     $log_mark++;
+}
+
+function cast_to_string($value)
+{
+    return empty($value) ? null : (string) $value;
+}
+
+function maybe()
+{
+    return (bool) rand(0,1);
 }

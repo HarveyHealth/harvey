@@ -10,7 +10,7 @@ use Storage;
 
 class PatientsController extends BaseAPIController
 {
-    protected $resource_name = 'patients';
+    protected $resource_name = 'patient';
 
     /**
      * PatientsController constructor.
@@ -28,7 +28,7 @@ class PatientsController extends BaseAPIController
     public function getAll()
     {
         if (currentUser()->isAdminOrPractitioner()) {
-            return $this->baseTransformBuilder(Patient::make(), request('include'), $this->transformer, request('per_page'))->respond();
+            return $this->baseTransformBuilder(Patient::make()->with('user'), request('include'), $this->transformer, request('per_page'))->respond();
         }
 
         return $this->respondNotAuthorized('You are not authorized to access this patient.');

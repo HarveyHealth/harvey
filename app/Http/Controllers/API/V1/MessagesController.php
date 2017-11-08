@@ -11,7 +11,7 @@ use ResponseCode;
 
 class MessagesController extends BaseAPIController
 {
-    protected $resource_name = 'messages';
+    protected $resource_name = 'message';
 
     /**
      * MessagesController constructor.
@@ -26,7 +26,7 @@ class MessagesController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         $filterUnread = 'unread' === request('filter');
         $currentUserId = currentUser()->id;
@@ -38,27 +38,27 @@ class MessagesController extends BaseAPIController
             $recipientId = request('recipient_user_id');
         }
 
-        $query = Message::make();
+        $builder = Message::make();
 
         if ($term) {
-            $query = $query->whereIn('id', Message::search($term)->get()->pluck('id'));
+            $builder = $builder->whereIn('id', Message::search($term)->get()->pluck('id'));
         }
 
         if ($filterUnread) {
-            $query = $query->unread();
+            $builder = $builder->unread();
         }
 
         if (is_numeric($senderId)) {
-            $query = $query->from(User::find($senderId));
+            $builder = $builder->from(User::find($senderId));
         }
 
         if (is_numeric($recipientId)) {
-            $query = $query->to(User::find($recipientId));
+            $builder = $builder->to(User::find($recipientId));
         } else {
-            $query = $query->senderOrRecipient(currentUser());
+            $builder = $builder->senderOrRecipient(currentUser());
         }
 
-        return $this->baseTransformBuilder($query, request('include'), new MessageTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder->with('sender')->with('recipient'), request('include'), new MessageTransformer, request('per_page'))->respond();
     }
 
     /**
@@ -103,7 +103,7 @@ class MessagesController extends BaseAPIController
      * @param Message $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Message $message)
+    public function getOne(Message $message)
     {
         if (currentUser()->can('view', $message)) {
             return $this->baseTransformItem($message)->respond();

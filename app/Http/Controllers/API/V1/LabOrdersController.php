@@ -8,10 +8,11 @@ use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
-    protected $resource_name = 'lab_orders';
+    protected $resource_name = 'lab_order';
 
     /**
      * LabOrdersController constructor.
@@ -34,7 +35,9 @@ class LabOrdersController extends BaseAPIController
             $builder = LabOrder::patientOrPractitioner(currentUser());
         }
 
-        return $this->baseTransformBuilder($builder, request('include'), new LabOrderTransformer, request('per_page'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user')->with('invoice');
+
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     /**
@@ -90,17 +93,19 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
-            'shipment_code' => 'filled|string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'discount_code' => 'sometimes|string|max:24',
+            'shipment_code' => 'filled|string',
             'state' => "sometimes|order_was_not_shipped:{$labOrder->id}",
-            'zip' => "sometimes|order_was_not_shipped:{$labOrder->id}",
+            'zip' => "sometimes|digits:5|order_was_not_shipped:{$labOrder->id}",
         ]);
 
         $labOrder->update($request->all());
+        $labOrder->setDiscountCode(currentUser(), $request->input('discount_code'), 'lab-test');
 
-        return $this->baseTransformItem($labOrder)->respond();
+        return $this->baseTransformItem($labOrder, request('include'))->respond();
     }
 
     /**

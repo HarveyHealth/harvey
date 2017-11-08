@@ -1,10 +1,106 @@
-body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a single Vue template
+// Eventually combine into a single Vue template
+body.home,
+body.about,
+body.financing,
+body[class*="lab-tests"] {
 
     // General
 
     &, h1, h2, h3, h4, h5, h6, .title, .subtitle, strong, .content, .menu-list a:not(.is-active), .label {
         color: $text-secondary;
     }
+
+    strong {
+        font-weight: 600;
+    }
+
+    // Hero Images
+
+    .hero {
+        width: 100%;
+        position: relative;
+        @include padding(3.5rem null 2.5rem null);
+
+        .hero-body {
+            @include padding(6em 1em);
+            @include until($desktop) {
+                @include padding(3em 1em 1em);
+            }
+        }
+
+        .title,
+        .title.is-5 strong,
+        .subtitle {
+            color: #fff;
+        }
+
+        .title.is-1 { // Override
+            color: #fff;
+            font-size: 2.8rem;
+        }
+
+        .subtitle{
+            @include until(1192px) {
+                font-size: 17px;
+                &.is-5{
+                    font-size: 18px;
+                }
+                &.is-6{
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .hero-disclaimer {
+            @include padding(null 3em null);
+            p {
+                color: white;
+                font-size: 14px;
+                margin-top: 1em;
+                a.legal {
+                    color: white;
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        &.hero-background {
+            width: 100%;
+            background: #5F7278;
+            height: auto;
+
+            #hero-video-container {
+              overflow: hidden;
+              position: absolute;
+              height: 100%; width: 100%;
+              top: 0; left: 0; right: 0; bottom: 0;
+            }
+
+            #hero-video {
+              position: absolute;
+              top: 50%; left: 50%;
+              height: 100%; width: 100%;
+              transform: translate(-50%, -50%);
+              object-fit: cover;
+            }
+
+            #video-cover {
+              position: absolute;
+              width: 100%; height: 100%;
+              background-size: cover;
+              background-position: center;
+              // Background image defined at bottom
+            }
+
+            #overlay {
+              position: absolute;
+              top: 0; right: 0; left: 0; bottom: 0;
+              background: rgba(95,114,120,.6);
+            }
+        }
+
+    }
+
     .watch-video {
         &:focus {
             outline: 0;
@@ -37,52 +133,8 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
     }
     .columns.is-narrow {
         max-width: 1052px;
-        @include margin(null null null auto);
-        @include margin(null auto null null);
+        @include margin(null auto);
     }
-
-    // Hero Images
-
-    .hero {
-        position: relative;
-        @include padding(3.5rem null 2.5rem null);
-        .hero-background {
-            width: 100%;
-            background: lighten(#EFEFEF, 90%) url('/images/home/hero_new.jpg') no-repeat center top;
-            background-size: cover;
-            background-position: 75%;
-            &, &:after {
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-            }
-            &:after {
-                content: ' ';
-                display: block;
-                background-color: rgba(darken(#EFEFEF, 90%), $opacity-light);
-            }
-        }
-
-        .title.is-1 { // Override
-            font-size: 2.8rem;
-        }
-
-        .subtitle{
-            @include until(1192px) {
-                font-size: 17px;
-                &.is-5{
-                    font-size: 17px;
-                }
-                &.is-6{
-                    font-size: 16px;
-                }
-            }
-        }
-
-    }
-
     .has-content-vertical-aligned {
         @include from($desktop) {
             position: relative;
@@ -114,7 +166,7 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
         span {
             font-weight: 300;
         }
-        @include from($tablet) {
+        
             display: table;
             white-space: nowrap;
             overflow: hidden;
@@ -127,13 +179,13 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
                 display: table-cell;
                 content: ' ';
                 width: 50%;
-                border-top: 1px solid $border;
+                border-top: $border;
                 position: relative;
                 top: 0.7em;
             }
-        }
+        
         & + .columns {
-            @include margin(3rem null null null);
+            @include margin(3em null 0 null);
         }
     }
     .button-wrapper {
@@ -335,9 +387,10 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
         @include until($desktop) {
             .columns {
                 .column {
-                    text-align: left;
+                    text-align: center !important;
+                    @include padding(null null 0 null);
                     .column {
-                        @include padding(null null null 0);
+                        @include padding(null null 0 0);
                     }
                 }
             }
@@ -369,6 +422,18 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
         }
     }
 
+    // Financing 
+
+    #financing {
+        figure {
+            @include padding(null 6em);
+        }
+        .columns.is-narrow {
+            max-width: 930px;
+            @include margin(3em auto);
+        }
+    }
+
     // Sub-Footer
 
     #get-started {
@@ -380,6 +445,14 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
         p {
             color: $tertiary;
             font-size: 1.2rem;
+        }
+        #get-started-disclaimer {
+            margin-top: 3em;
+            p, em {
+                color: gray;
+                font-size: 15px;
+                margin-top: 1em;
+            }
         }
     }
 
@@ -463,5 +536,35 @@ body.home, body.about, body[class*="lab-tests"] { // Eventually combine into a s
                 font-size: 2rem;
             }
         }
+    }
+}
+
+// Cover images
+
+body.home {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/home/hero-cover-home.jpg') no-repeat;
+    }
+}
+
+body.about {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-about.jpg') no-repeat;
+    }
+}
+
+body.financing {
+    #video-cover {
+        background-color: #4C586F;
+        background-image: linear-gradient(-180deg, #4C586F 0%, #D6CBD3 100%);
+    }
+    #overlay {
+        display: none;
+    }
+}
+
+body[class*="lab-tests"] {
+    #video-cover {
+        background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/hero-cover-lab-tests.jpg') no-repeat;
     }
 }

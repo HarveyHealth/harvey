@@ -7,7 +7,7 @@
             <div class="card-content-wrap">
                 <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
                 <form action="#" method="POST" class="form" id="practitioner_form" v-else>
-                    <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:sandra@goharvey.com">sandra@goharvey.com</a> or post a message in the private Harvey Slack channel called <em>Practitioners</em>.</p>
+                    <p class="practitioner-intro">Your profile information below is visible to all clients on the website. Please use proper syntax, check for spelling mistakes, and use the recommended images sizes to maximize performance of your page. To make any changes to your schedule avalability, please email <a href="mailto:support@goharvey.com">support@goharvey.com</a>.</p>
                     <div class="formgroups">
                         <div class="formgroup">
                             <div class="input__container input-wrap">
@@ -59,12 +59,13 @@
                                     <ClipLoader class="bg-loader" :color="'#82BEF2'" :loading="uploading_bg_image"></ClipLoader>
                                     <div v-if="!practitioner.background_picture_url || uploading_bg_image" class="practitioner-profile-images__background"></div>
                                     <img v-if="practitioner.background_picture_url && !uploading_bg_image" class="practitioner-profile-images__background" :src="practitioner.background_picture_url" />
-                                    <img v-if="!uploading_profile_image" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <img v-if="practitioner.picture_url" class="practitioner-profile-images__profile" :src="practitioner.picture_url" />
+                                    <img v-else class="practitioner-profile-images__profile" src="https://d35oe889gdmcln.cloudfront.net/assets/images/default_user_image.png" />
                                     <ClipLoader :color="'#82BEF2'" :loading="uploading_profile_image"></ClipLoader>
                                 </div>
                             </div>
                             <div class="profile-title">
-                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, N.D.</h4><br>
+                                <h4 class="heading-3-expand">Dr. {{ practitioner.name }}, ND</h4><br>
                             </div>
                             <div class="image-upload-buttons">
                                 <ImageUpload
@@ -114,7 +115,7 @@
     import ImageUpload from '../../../commons/ImageUpload.vue';
     import LicenseTypes from '../../../../../../public/licensetypes.json';
     import states from '../../../../../../public/states.json';
-    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js'
+    import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 
     export default {
         name: 'practitioner-profile',
@@ -123,7 +124,7 @@
                 practitioner_id: Laravel.user.practitionerId || this.practitionerIdEditing,
                 practitioner: {
                     licenses: [{'number': '', 'state': '', 'title': ''}],
-                    picture_url : '/images/default_user_image.png',
+                    picture_url : 'https://d35oe889gdmcln.cloudfront.net/assets/images/default_user_image.png',
                     background_picture_url: '',
                     specialty: []
                 },
@@ -135,12 +136,12 @@
                 uploading_bg_image: false,
                 uploading_profile_image: false,
                 errorMessages: null,
-                submitting: false,
-            }
+                submitting: false
+            };
         },
         components: {
             ImageUpload,
-            ClipLoader,
+            ClipLoader
         },
         methods: {
             submit() {
@@ -177,7 +178,7 @@
                 this.practitioner.background_picture_url = response.data.attributes.background_picture_url;
                 this.uploading_bg_image = false;
                 this.flashSuccess();
-            },
+            }
         },
         computed: {
           loading() {
@@ -191,18 +192,18 @@
                     this.practitioner.licenses[0] = this.practitioner.licenses[0] || {'number': '', 'state': '', 'title': ''};
                     this.$root.$data.global.practitionerProfileLoading = false;
                 })
-                .catch(error => this.practitioner = {});
+                .catch(() => this.practitioner = {});
         },
         props: {
             flashSuccess: {
-                type: Function,
+                type: Function
             },
             practitionerIdEditing: {
                 type: String,
                 default: null
             }
         }
-    }
+    };
 </script>
 
 <style lang="scss">
@@ -302,7 +303,7 @@
         display: flex;
         justify-content: center;
         font-size: 1.5em;
-        padding-bottom: 10px;
+        padding: 1em 0;
     }
 
     .warning.prac {

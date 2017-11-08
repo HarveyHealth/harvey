@@ -1,4 +1,5 @@
 import convertStatus from './convertStatus';
+import displayStatus from './displayStatus';
 import toLocal from '../../../utils/methods/toLocal';
 import { capitalize } from '../../../utils/filters/textformat';
 
@@ -6,7 +7,7 @@ export default function(appointments, zone, userType) {
   return appointments
   .sort((a, b) => new Date(b.attributes.appointment_at.date) - new Date(a.attributes.appointment_at.date))
   .map(obj => {
-
+    
     // change client name to a profile page hyperlink if admin
     const isAdmin = userType === 'admin';
     const clientName = `${capitalize(obj.patientData.first_name)} ${capitalize(obj.patientData.last_name)}`;
@@ -35,13 +36,10 @@ export default function(appointments, zone, userType) {
       _patientId: obj.patientData.id,
       _patientFirst: obj.patientData.first_name,
       _patientLast: obj.patientData.last_name,
-      _doctorId: obj.attributes.practitioner_id,
-      _appointmentId: obj.id,
-      _date: obj.attributes.appointment_at.date,
       _duration: obj.attributes.duration_in_minutes,
-      _patientPhone: obj.patientData.phone,
+      _patientPhone: obj.patientData.phone
 
-    }
+    };
     return {
       data,
       values: [
@@ -49,9 +47,9 @@ export default function(appointments, zone, userType) {
         data.time,
         data.client,
         data.doctor,
-        data.status,
+        displayStatus(data.status, userType),
         data.purpose
       ]
-    }
-  })
+    };
+  });
 }

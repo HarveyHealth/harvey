@@ -11,13 +11,12 @@
       :selected="day"
     />
     <span v-else-if="!editable" class="input__item">{{ $$selectedDay }}</span>
-    <span v-else class="input--warning">No Available Dates</span>
+    <span v-else class="input--warning">No dates available.</span>
   </div>
 </template>
 
 <script>
 import SelectOptions from '../../../commons/SelectOptions.vue';
-import moment from 'moment';
 import toLocal from '../../../utils/methods/toLocal';
 
 export default {
@@ -58,5 +57,5 @@ export default {
       this.setTimes(e.target.value, e.target.selectedIndex);
     }
   }
-}
+};
 </script>

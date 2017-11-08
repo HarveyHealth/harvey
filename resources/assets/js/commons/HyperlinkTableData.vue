@@ -1,36 +1,36 @@
 <template>
-  <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th v-for="col in columns"
-            @click="onSort ? onSort(col) : null"
-            :width="col.width"
-        >{{ col.name }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-show="loading">
-        <td :colspan="columns.length" style="font-style: italic;">
-          {{ loadingMsg }}
-        </td>
-      </tr>
-      <tr v-show="!loading && !rowData.length">
-        <td :colspan="columns.length" style="font-style: italic;">
-          {{ emptyMsg }}
-        </td>
-      </tr>
-      <tr v-for="(row, i) in rowData"
-          @click="onRowClick(row, i)"
-          :class="$$rowClasses(row.data, i)">
-        <td v-for="(val, j) in row.values" :width="columns[j].width">
-          <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
-          <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
-           <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val | phone }}</a>
-           <a :href="'mailto:'+val" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a> 
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table :class="$$tableClasses" cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th v-for="col in columns"
+                @click="onSort ? onSort(col) : null"
+                :width="col.width"
+                >{{ col.name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-show="loading">
+                <td :colspan="columns.length" style="font-style: italic;">
+                    {{ loadingMsg }}
+                </td>
+            </tr>
+            <tr v-show="!loading && !rowData.length">
+                <td :colspan="columns.length" style="font-style: italic;">
+                    {{ emptyMsg }}
+                </td>
+            </tr>
+            <tr v-for="(row, i) in rowData"
+            @click="onRowClick(row, i)"
+            :class="$$rowClasses(row.data, i)">
+                <td v-for="(val, j) in row.values" :width="columns[j].width">
+                    <i class="fa fa-refresh fa-spin" v-if="j === 0 && updatingRow === i"></i>
+                    <div v-if="j !== row.data.email_hyperlink && j !== row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</div>
+                    <a :href="'tel:'+val" v-if="j === row.data.phone_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val | phone }}</a>
+                    <a :href="'mailto:'+val" v-if="j === row.data.email_hyperlink" class="cell-wrap" :data-column="columns[j].name">{{ val }}</a> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script>
@@ -38,14 +38,14 @@ import { phone } from '../../../utils/filters/textformat';
 
 export default {
   name: 'TableData',
-  data() {return {}},
+  data() {return {};},
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {
       return {
         tabledata: true,
-        [`${this.tableClass}`]: true,
-      }
+        [`${this.tableClass}`]: true
+      };
     }
   },
   filters: {
@@ -59,8 +59,8 @@ export default {
       return {
         'is-selected': this.selectedRow === data,
         'is-updating': this.updatingRow === index,
-        'has-updated': this.updatedRow === index,
-      }
+        'has-updated': this.updatedRow === index
+      };
     }
   },
   props: {
@@ -91,7 +91,7 @@ export default {
     },
     // Whether the table data is still loading or not
     loading: {
-      type: Boolean,
+      type: Boolean
     },
     // The message to display if the component mounts and loading is still true
     loadingMsg: {
@@ -106,7 +106,7 @@ export default {
     // What happens when a table column header is clicked.
     // Function takes the column data as an argument
     onSort: {
-      type: Function,
+      type: Function
     },
     // The set of row data rendered based on the following structure:
     // [
@@ -124,7 +124,8 @@ export default {
     },
     // Can be null to start but should be used to store the index of the row clicked
     selectedRow: {
-      required: true
+      required: false,
+      type: Object
     },
     // To add custom class to the table for additional styling
     tableClass: {
@@ -132,12 +133,14 @@ export default {
     },
     // Like selectedRow but to indicate the index of the row that was just updated
     updatedRow: {
-      required: false
+      required: false,
+      type: Number
     },
     // Like selectedRow but to indicate the index of the row currently being updated
     updatingRow: {
-      required: false
+      required: false,
+      type: Number
     }
   }
-}
+};
 </script>

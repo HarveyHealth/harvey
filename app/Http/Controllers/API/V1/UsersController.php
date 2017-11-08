@@ -13,7 +13,7 @@ use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
-    protected $resource_name = 'users';
+    protected $resource_name = 'user';
 
     /**
      * UsersController constructor.
@@ -29,7 +29,7 @@ class UsersController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isNotAdmin()) {
             return $this->respondNotAuthorized('You are not authorized to access this resource.');
@@ -62,7 +62,7 @@ class UsersController extends BaseAPIController
         return $this->baseTransformBuilder($query, request('include'), $this->transformer, request('per_page'))->respond();
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $validator = StrictValidator::make($request->all(), [
             'first_name' => 'required|max:100',
@@ -112,7 +112,14 @@ class UsersController extends BaseAPIController
             event(new UserRegistered($user));
             $user->patient()->save(new Patient());
 
-            return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
+            // Add "manually" intercom_hash key, we don't want to include this on Transformer
+            // since it can compromise Identity Verification security.
+            $response = $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
+            $data = $response->getData();
+            $data->data->attributes->intercom_hash = $user->intercom_hash;
+            $response->setData($data);
+
+            return $response;
         } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }
@@ -122,7 +129,7 @@ class UsersController extends BaseAPIController
      * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $user)
+    public function getOne(User $user)
     {
         if (currentUser()->can('view', $user)) {
             return $this->baseTransformItem($user, request('include'))->respond();

@@ -2,6 +2,7 @@
 
 use App\Lib\{TimeslotManager, ZipCodeValidator};
 use App\Models\{Appointment, Practitioner, LabOrder};
+use App\Models\DiscountCode;
 
 Validator::extend('serviceable', function ($attribute, $value, $parameters, $validator) {
     return app()->make(ZipCodeValidator::class)->setZip($value)->isServiceable();
@@ -44,7 +45,6 @@ Validator::extend('order_was_not_shipped', function ($attribute, $value, $parame
 
     return $labOrder->wasNotShipped();
 });
-
 
 Validator::extend('appointments_less_than',function($attribute, $value, $parameters, $validator){
     if (! app()->environment('testing', 'production')){

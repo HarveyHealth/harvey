@@ -9,6 +9,6 @@ export default {
     active: Boolean,
     // What happens when the overlay is clicked
     onClick: Function
-  },
-}
+  }
+};
 </script>

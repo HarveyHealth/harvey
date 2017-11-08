@@ -77,7 +77,13 @@
 		<div class="blog-post-s4-meta">
 			<span class="blog-post-s4-meta-author" data-mtst-selector=".blog-post-s4-meta-author" data-mtst-label="Blog Post S4 - Author" data-mtst-no-support="background,border,spacing"><?php the_author_posts_link(); ?></span>
 			<span class="blog-post-s4-meta-separator"></span>
-			<span class="blog-post-s4-meta-date" data-mtst-selector=".blog-post-s4-meta-date" data-mtst-label="Blog Post S4 - Date" data-mtst-no-support="background,border,spacing"><?php printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); ?></span>
+			<span class="blog-post-s4-meta-date" data-mtst-selector=".blog-post-s4-meta-date" data-mtst-label="Blog Post S4 - Date" data-mtst-no-support="background,border,spacing"><?php 
+				if ( the_essence_get_theme_mod( 'date_format', 'timeago' ) == 'timeago' ) {
+					printf( esc_html__( '%1$s ago', 'the-essence' ), human_time_diff( get_the_time('U'), current_time('timestamp') ) ); 
+				} else {
+					the_time( get_option( 'date_format' ) );
+				}
+			?></span>
 		</div><!-- .blog-post-s4-meta -->
 
 		<h4 class="blog-post-s4-title" data-mtst-selector=".blog-post-s4-title" data-mtst-label="Blog Post S4 - Title" data-mtst-no-support="background,border,spacing"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>

@@ -1,6 +1,6 @@
 .container {
   @include margin(0 auto);
-  @include padding(0 25px);
+  // @include padding(0 25px);
 
   &.small {
     max-width: 650px; // 600 plus the padding defined on .container

@@ -2,8 +2,24 @@
 
 namespace App\Providers;
 
-use App\Models\{Appointment, LabTest, Message, User, LabOrder};
-use App\Observers\{AppointmentObserver, LabTestObserver, MessageObserver, UserObserver, LabOrderObserver};
+use App\Models\{
+    Appointment,
+    Attachment,
+    LabTest,
+    Message,
+    User,
+    LabOrder,
+    LabTestInformation
+};
+use App\Observers\{
+    AppointmentObserver,
+    AttachmentObserver,
+    LabTestObserver,
+    MessageObserver,
+    UserObserver,
+    LabOrderObserver,
+    LabTestInformationObserver
+};
 use Laravel\Dusk\DuskServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Stripe\Stripe;
@@ -25,8 +41,10 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/validator.php');
 
         Appointment::observe(AppointmentObserver::class);
+        Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
+        LabTestInformation::observe(LabTestInformationObserver::class);
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
     }
@@ -42,7 +60,6 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(DuskServiceProvider::class);
         }
 
-        // bugsnag
         $this->app->alias('bugsnag.multi', \Illuminate\Contracts\Logging\Log::class);
         $this->app->alias('bugsnag.multi', \Psr\Log\LoggerInterface::class);
     }

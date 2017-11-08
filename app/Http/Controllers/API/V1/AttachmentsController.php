@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class AttachmentsController extends BaseAPIController
 {
-    protected $resource_name = 'attachments';
+    protected $resource_name = 'attachment';
 
     /**
      * AttachmentsController constructor.

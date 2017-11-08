@@ -1,0 +1,11 @@
+/// Generates space-children utility classes to manage child vertical spacing.
+/// @group spacing
+@mixin space-children {
+  @each $size, $value in $space-list {
+    .space-children-#{$size} {
+      > *:not(:last-child) {
+        margin-bottom: $value;
+      }
+    }
+  }
+}

@@ -24,9 +24,9 @@
 </template>
 
 <script>
-  import ClientsTable from './components/ClientsTable.vue'
-  import UserNav from '../../commons/UserNav.vue'
-  import tableDataTransform from './utils/tableData'
+  import ClientsTable from './components/ClientsTable.vue';
+  import UserNav from '../../commons/UserNav.vue';
+  import tableDataTransform from './utils/tableData';
   export default {
       name: 'Clients',
       components: {
@@ -36,43 +36,47 @@
       data() {
         return {
           currentData: []
-        }
+        };
       },
       methods: {
-        handleRowClick(obj, index) {
-            return null
+        handleRowClick() {
+            return null;
         },
         $$rowClasses(data, index) {
             return {
                 'is-selected': this.selectedRow === data,
                 'is-updating': this.updatingRow === index,
-                'has-updated': this.updatedRow === index,
-            }
+                'has-updated': this.updatedRow === index
+            };
         },
         setupLabData() {
-            let data = tableDataTransform(this.$root.$data.clientList)
-            this.currentData = data
+            let data = tableDataTransform(this.$root.$data.clientList);
+            this.currentData = data;
         },
         getLabTests() {
-            this.tests = this.$root.$data.labTests
+            this.tests = this.$root.$data.labTests;
         }
     },
     computed: {
         loadingClients() {
-            return this.$root.$data.global.loadingClients
+            return this.$root.$data.global.loadingClients;
         }
     },
     watch: {
-        loadingClients(val, old) {
+        loadingClients(val) {
             if (!val) {
-                this.setupLabData()
+                this.setupLabData();
             }
         }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'clients';
-        const clientList = this.$root.$data.clientList
-        if (clientList.length) this.setupLabData();
+        const clientList = this.$root.$data.clientList;
+
+        // only load if we have no local clients, but available clients in-app
+        if (this.currentData.length === 0 && clientList.length != 0) {
+            this.setupLabData();
+        }
     }
-  }
+  };
 </script>

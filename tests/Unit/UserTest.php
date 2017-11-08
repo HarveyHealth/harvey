@@ -49,6 +49,6 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
 
         $this->expectException(\Exception::class);
-        $user->userType();
+        $user->type;
     }
 }

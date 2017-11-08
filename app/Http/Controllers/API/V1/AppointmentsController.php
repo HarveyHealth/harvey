@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Carbon;
 use ResponseCode;
+use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
-    protected $resource_name = 'appointments';
+    protected $resource_name = 'appointment';
 
     /**
      * AppointmentsController constructor.
@@ -27,26 +28,28 @@ class AppointmentsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
-            $appointments = Appointment::orderBy('appointment_at', 'asc');
+            $builder = Appointment::orderBy('appointment_at', 'asc');
         } else {
-            $appointments = currentUser()->appointments();
+            $builder = currentUser()->appointments();
         }
 
         if (in_array($filter = request('filter'), ['recent', 'upcoming'])) {
-            $appointments = $appointments->$filter();
+            $builder = $builder->$filter();
         }
 
-        return $this->baseTransformBuilder($appointments, request('include'))->respond();
+        $builder = $builder->with('patient.user')->with('practitioner.user');
+
+        return $this->baseTransformBuilder($builder, request('include'))->respond();
     }
 
     /**
      * @param Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Appointment $appointment)
+    public function getOne(Appointment $appointment)
     {
         if (currentUser()->can('view', $appointment)) {
             return $this->baseTransformItem($appointment, request('include'))->respond();
@@ -63,13 +66,15 @@ class AppointmentsController extends BaseAPIController
     {
         $inputData = $request->all();
 
+
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
-        $validator = StrictValidator::check($inputData, [
+     
+        StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
             'duration_in_minutes' => 'integer',
@@ -82,6 +87,7 @@ class AppointmentsController extends BaseAPIController
         ]);
 
         $appointment = Appointment::create($inputData);
+        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }

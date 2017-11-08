@@ -3,8 +3,8 @@
 .heading-3 {
   @extend %font-smooth;
   line-height: $line-height-sm;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 .heading-1 {
@@ -35,4 +35,11 @@
   @include query(md) {
     font-size: $font-xl;
   }
+}
+
+.heading-4 {
+  @extend .font-uppercase;
+  @extend .font-xs;
+
+  color: $color-copy-muted-2;
 }

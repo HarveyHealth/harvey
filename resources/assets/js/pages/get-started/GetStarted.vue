@@ -1,29 +1,37 @@
 <template>
-  <div>
+  <div class="font-centered height-100">
+    <div class="bg-blue-fade"></div>
     <router-view />
   </div>
 </template>
 
 <script>
-
+  import { MainNav } from 'nav';
   import Signup from './children/Signup.vue';
   import Welcome from './children/Welcome.vue';
 
   export default {
     name: 'get-started',
     components: {
+      MainNav,
       Signup,
-      Welcome,
+      Welcome
     },
-    methods: {
-      setBeforeUnload() {
-        window.onbeforeunload = () => {
-          return 'All your information will be reset.';
-        }
+    beforeMount() {
+      const zipValidation = App.Logic.getstarted.getZipValidation();
+      if (!zipValidation) {
+        window.location.href = '/conditions';
+      } else {
+        App.setState('getstarted.zipValidation', zipValidation);
+        App.setState('getstarted.userPost.zip', zipValidation.zip);
       }
     },
     mounted() {
-      if (Laravel.user.signedIn) this.setBeforeUnload();
+      if (App.Config.user.isLoggedIn) {
+        window.onbeforeunload = () => {
+          return 'All your information will be reset.';
+        };
+      }
     }
-  }
+  };
 </script>

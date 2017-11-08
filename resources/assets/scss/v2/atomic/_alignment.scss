@@ -1,0 +1,6 @@
+.align-children-middle {
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

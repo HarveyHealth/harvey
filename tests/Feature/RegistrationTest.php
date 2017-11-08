@@ -27,7 +27,7 @@ class RegistrationTest extends TestCase
         factory(License::class)->create(['state' => 'CA']);
 
         // When a request is made to create a new user
-        $response = $this->post(route('users.create'), $parameters);
+        $response = $this->post(route('users.store'), $parameters);
 
         // It is successful
         $response->assertStatus(ResponseCode::HTTP_CREATED);
@@ -53,7 +53,7 @@ class RegistrationTest extends TestCase
         ];
 
         // When a request is made to create a new user
-        $response = $this->post(route('users.create'), $parameters);
+        $response = $this->post(route('users.store'), $parameters);
 
         // It returns a bad request response
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
@@ -86,7 +86,7 @@ class RegistrationTest extends TestCase
             'zip' => 10029
         ];
 
-        $response = $this->post(route('users.create'), $parameters);
+        $response = $this->post(route('users.store'), $parameters);
 
         $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
 

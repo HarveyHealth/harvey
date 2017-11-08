@@ -2,12 +2,22 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, Appointment, AppointmentReminder, Patient, Practitioner, PractitionerSchedule};
+use App\Models\{
+    Admin,
+    Appointment,
+    AppointmentReminder,
+    DiscountCode,
+    Patient,
+    Practitioner,
+    PractitionerSchedule,
+    User
+};
+use App\Lib\PractitionerAvailability;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
-use Carbon;
-use ResponseCode;
 use Tests\TestCase;
+use Carbon, Log, ResponseCode;
+
 
 class AppointmentTest extends TestCase
 {
@@ -22,8 +32,20 @@ class AppointmentTest extends TestCase
     {
         PractitionerSchedule::where('practitioner_id', $practitioner->id)->delete();
 
+        $start_block = collect(PractitionerAvailability::PREDEFINED_BLOCKS)->random();
+
+        list($start_hour, $start_minute) = explode(':', $start_block);
+
+        $start_time = "{$start_hour}:{$start_minute}:00";
+
+        $stop_hour = rand($start_hour + 2, 24);
+        $stop_minutes = (24 == $stop_hour) ? '00' : maybe() ? '00' : '30';
+        $stop_time = "{$stop_hour}:{$stop_minutes}:00";
+
         $practitionerSchedule = factory(PractitionerSchedule::class)->create([
             'practitioner_id' => $practitioner->id,
+            'stop_time' => $stop_time,
+            'start_time' => $start_time,
         ]);
 
         return Carbon::parse($practitionerSchedule->practitioner->availability->random())->format('Y-m-d H:i:s');
@@ -322,8 +344,9 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_modify_the_date_and_time_of_their_pending_appointments()
     {
-        // Given a patient with a scheduled appointment
+        $practitioner = factory(Practitioner::class)->create();
         $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
             'status' => 'pending',
         ]);
         $patient = $appointment->patient;
@@ -349,8 +372,9 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_not_modify_the_date_and_time_of_their_canceled_appointments()
     {
-        // Given a patient with a scheduled appointment
+        $practitioner = factory(Practitioner::class)->create();
         $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
             'status' => 'canceled',
         ]);
         $patient = $appointment->patient;
@@ -394,7 +418,11 @@ class AppointmentTest extends TestCase
 
     public function test_a_patient_may_not_modify_a_non_pending_appointment()
     {
-        $appointment = factory(Appointment::class)->create(['status' => 'complete']);
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment = factory(Appointment::class)->create([
+            'practitioner_id' => $practitioner->id,
+            'status' => 'complete',
+        ]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -411,8 +439,9 @@ class AppointmentTest extends TestCase
 
     public function test_it_does_not_allow_modifications_if_the_appointment_is_less_than_4_hours_away()
     {
+        $practitioner = factory(Practitioner::class)->create();
         // Given a patient with a scheduled appointment less than 4 hours away
-        $appointment = factory(Appointment::class)->states('soon')->create();
+        $appointment = factory(Appointment::class)->states('soon')->create(['practitioner_id' => $practitioner->id]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -435,8 +464,9 @@ class AppointmentTest extends TestCase
 
     public function test_it_does_not_allow_cancellation_if_the_appointment_is_less_than_4_hours_away()
     {
+        $practitioner = factory(Practitioner::class)->create();
         // Given a patient with a scheduled appointment less than 4 hours away
-        $appointment = factory(Appointment::class)->states('soon')->create();
+        $appointment = factory(Appointment::class)->states('soon')->create(['practitioner_id' => $practitioner->id]);
         $patient = $appointment->patient;
         $appointment_at = $this->createScheduleAndGetValidAppointmentAt($appointment->practitioner);
 
@@ -601,5 +631,57 @@ class AppointmentTest extends TestCase
                 ],
             ]
         ]);
+    }
+
+    public function test_it_saves_the_discount_code_id_when_creating_an_appointment_as_patient()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'consultation',
+        ]);
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id,
+            'discount_code' => 'abc123',
+        ];
+
+        Passport::actingAs(factory(Patient::class)->create()->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => "{$discount_code->id}"]);
+
+        $this->assertDatabaseHas('appointments', ['discount_code_id' => $discount_code->id]);
+    }
+
+    public function test_it_does_not_saves_the_discount_code_id_when_creating_an_appointment_as_practitioner()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'consultation',
+        ]);
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'patient_id' => factory(Patient::class)->create()->id,
+            'discount_code' => 'abc123',
+        ];
+
+        Passport::actingAs($practitioner->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => null]);
+
+        $this->assertDatabaseHas('appointments', ['discount_code_id' => null]);
     }
 }

@@ -3,7 +3,8 @@
   border-left: 1px solid $color--grey;
   bottom: 0;
   max-width: 25em;
-  overflow-y: auto;
+  overflow-x: visible;
+  overflow-y: scroll;
   @include padding(3em 1.6em 2em);
   position: fixed;
   right: -26em;
@@ -11,6 +12,12 @@
   transition: right 185ms ease-in-out;
   width: 100%;
   z-index: 9999;
+
+  // for certain situations where sub components outside the dimensions of the flyout
+  // will be hidden
+  &.with-active-modal {
+    overflow-y: visible;
+  }
 
   &__ctas {
     text-align: center;

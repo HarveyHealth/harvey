@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
-use App\Models\LabTestInformation;
+use App\Models\{
+  Condition,
+  LabTestInformation
+};
 
 /*
  * A light controller to display mostly static pages, like the homepage
@@ -40,12 +43,38 @@ class PagesController extends Controller
             return $item->slug == $labTestSlug;
         });
 
-        if (false === $index) {
+        if (!is_numeric($index)) {
             return redirect(route('lab-tests', $lab_tests->first()->sku->slug));
         }
 
-        $sku_id = $lab_tests->pluck('sku')->get($index)->id;
+        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'index'));
+    }
 
-        return view('legacy.pages.lab_tests')->with(compact('lab_tests', 'sku_id'));
+    public function getConditions()
+    {
+        $conditions = Condition::all();
+        $index = false;
+
+        return view('pages.conditions')->with(compact('conditions', 'index'));
+    }
+
+    public function getCondition(string $conditionSlug = null)
+    {
+        $conditions = Condition::all();
+
+        $index = $conditions->search(function ($item) use ($conditionSlug) {
+            return $item->slug == $conditionSlug;
+        });
+
+        if (!is_numeric($index)) {
+            return redirect()->route('conditions');
+        }
+
+        return view('pages.conditions')->with(compact('conditions', 'index'));
+    }
+
+    public function getFinancing()
+    {
+        return view('legacy.pages.financing');
     }
 }
