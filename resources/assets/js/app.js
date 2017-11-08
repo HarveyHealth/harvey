@@ -393,9 +393,6 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
-        },
-        shouldTrack() {
-          return Laravel.user.user_type === 'patient';
         }
     },
     mounted() {
