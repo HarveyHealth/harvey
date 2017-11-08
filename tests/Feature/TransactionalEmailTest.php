@@ -232,4 +232,21 @@ class TransactionalEmailTest extends TestCase
 
     }
 
+    public function test_laborder_recommended_notification()
+    {
+        // create a Lab Order
+        $lab_order = factory(LabOrder::class)->create();
+
+        // assert the notification email was sent to the patient
+        $this->assertEmailWasSentTo($lab_order->patient->user->email);
+
+        // assert the information sent was correct
+        $this->assertEmailTemplateNameWas('patient.lab_order.recommended');
+
+        $this->assertEmailTemplateDataWas([
+            'sender_name' => $lab_order->practitioner->user->full_name,
+            'labs_link' => config('app.url') . '/dashboard#/lab_orders',
+        ]);
+    }
+
 }

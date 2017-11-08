@@ -81,7 +81,7 @@
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
             <div class="font-centered">
-              <ButtonInput
+              <InputButton
                 :isDisabled="isProcessing"
                 :isDone="isComplete"
                 :isProcessing="isProcessing"
@@ -102,17 +102,19 @@
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import { InputButton, FacebookSignin } from 'inputs';
+import { SlideIn } from 'layout';
+import { SvgIcon } from 'icons';
 import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
-    ButtonInput: Inputs.ButtonInput,
-    FacebookSignin: Inputs.FacebookSignin,
+    InputButton,
+    FacebookSignin,
     LoadingGraphic,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
+    SlideIn,
+    SvgIcon
   },
   data() {
     return {
@@ -215,6 +217,7 @@ export default {
               const zip = userData.zip || '';
               const city = userData.city || '';
               const state = userData.state || '';
+              const intercomHash = userData.intercom_hash || '';
 
               // Segment tracking
               analytics.track("Account Created");
@@ -227,6 +230,12 @@ export default {
                 city: city,
                 state: state,
                 zip: zip
+              }, {
+                integrations: {
+                  Intercom : {
+                    user_hash: intercomHash
+                  }
+                }
               });
             }
 

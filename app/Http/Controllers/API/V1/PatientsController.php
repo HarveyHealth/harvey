@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Models\Patient;
-use App\Transformers\V1\PatientTransformer;
+use App\Models\{Attachment, Patient, Prescription, SoapNote};
+use App\Transformers\V1\{AttachmentTransformer, PatientTransformer, PrescriptionTransformer, SoapNoteTransformer};
 use App\Lib\Validation\StrictValidator;
 use Illuminate\Http\Request;
+use Storage;
 
 class PatientsController extends BaseAPIController
 {
-    protected $resource_name = 'patients';
+    protected $resource_name = 'patient';
 
     /**
      * PatientsController constructor.
@@ -24,9 +25,9 @@ class PatientsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
-        if (auth()->user()->isAdminOrPractitioner()) {
+        if (currentUser()->isAdminOrPractitioner()) {
             return $this->baseTransformBuilder(Patient::make()->with('user'), request('include'), $this->transformer, request('per_page'))->respond();
         }
 
@@ -37,13 +38,13 @@ class PatientsController extends BaseAPIController
      * @param Patient $patient
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Patient $patient)
+    public function getOne(Patient $patient)
     {
-        if (auth()->user()->can('view', $patient)) {
-            return $this->baseTransformItem($patient, request('include'))->respond();
+        if (currentUser()->cant('view', $patient)) {
+            return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
         }
 
-        return $this->respondNotAuthorized("You do not have access to view the patient with id {$patient->id}.");
+        return $this->baseTransformItem($patient, request('include'))->respond();
     }
 
     /**
@@ -53,18 +54,19 @@ class PatientsController extends BaseAPIController
      */
     public function update(Request $request, Patient $patient)
     {
-        if (auth()->user()->can('update', $patient)) {
-            StrictValidator::check($request->all(), [
-                'birthdate' => 'date',
-                'height_inches' => 'integer',
-                'height_feet' => 'integer',
-                'weight' => 'integer'
-            ]);
-
-            $patient->update($request->all());
-            return $this->baseTransformItem($patient)->respond();
+        if (currentUser()->cant('update', $patient)) {
+            return $this->respondNotAuthorized('You do not have access to modify this patient.');
         }
 
-        return $this->respondNotAuthorized('You do not have access to modify this patient.');
+        StrictValidator::check($request->all(), [
+            'birthdate' => 'date',
+            'height_inches' => 'integer',
+            'height_feet' => 'integer',
+            'weight' => 'integer'
+        ]);
+
+        $patient->update($request->all());
+
+        return $this->baseTransformItem($patient)->respond();
     }
 }

@@ -25,7 +25,7 @@ switch(context) {
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
-    rootRoute.component = require('./pages/dashboard/Dashboard.vue');
+    rootRoute.component = require('./v2/components/pages/dashboard/Dashboard');
     break;
   case 'conditions':
     rootRoute.name = 'conditions';
@@ -70,9 +70,7 @@ rootRoute.children.push({
 });
 
 let routes = [
-
     rootRoute,
-
     {
         path: '/appointments',
         name: 'appointments',
@@ -117,6 +115,11 @@ let routes = [
         path: '/profile/:id',
         props: true,
         component: require('./pages/profile/Profile.vue')
+    },
+    {
+        path: '/lab_tests/edit',
+        props: true,
+        component: require('./pages/sku-dashboard/SkuDashboard.vue')
     },
     {
         path: '*',

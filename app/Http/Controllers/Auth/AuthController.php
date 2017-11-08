@@ -57,7 +57,7 @@ class AuthController extends Controller
 
             if (session('no_zip')) {
                 session(['no_zip' => false]);
-                return redirect('/conditions');
+                return redirect(route('conditions'));
             }
             // Get zip, city, state
             $zip = session('zip');

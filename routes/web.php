@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Routing\Controller;
 
 /*
@@ -42,13 +43,16 @@ Route::get('privacy', 'LegalController@privacy');
 Route::get('sitemap.xml', 'SitemapController@index');
 Route::get('sitemap-{map?}.xml', 'SitemapController@index');
 
-// PUBLIC PAGES
+// PUBLIC BLADE PAGES
 Route::get('/', 'PagesController@getHomepage')->name('home');
 Route::get('about', 'PagesController@getAbout');
+Route::get('/financing', 'PagesController@getFinancing')->name('financing');
 Route::get('lab-tests/{test?}', 'PagesController@getLabTests')->name('lab-tests');
-Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
+
+// PUBLIC VIEW PAGES
 Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
-Route::get('/conditions/{condition?}', 'PagesController@getConditions');
+Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
+Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
 // INTAKE
 // Route::get('/intake', 'IntakeController@index')->name('intake');
