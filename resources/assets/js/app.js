@@ -13,6 +13,7 @@ import combineAppointmentData from './utils/methods/combineAppointmentData';
 import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
+import _ from 'lodash';
 
 Vue.use(VeeValidate);
 
@@ -84,13 +85,19 @@ Vue.prototype.setState = App.setState;
 import store from './store';
 const Store = store(Laravel, State);
 
+Vue.config.devtools = env !== 'production';
+
 const app = new Vue({
     router,
     components: {
         Dashboard,
         Usernav
     },
+    // Adding State to the root data object makes it globally reactive.
+    // We do not attach this to window.App for HIPPA compliance. Use
+    // App.setState to mutate this object.
     data: Store,
+
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
@@ -134,7 +141,10 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
-                }).catch(error => console.log(error.response));
+                })
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
                 .then((response) => {
@@ -142,11 +152,15 @@ const app = new Vue({
                   // to update v2 Dashboard
                   App.Http.appointments.getUpcomingResponse(response);
                 })
-                .catch(error => console.log(error.response));
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
                 .then((response) => this.global.recent_appointments = response.data)
-                .catch(error => console.log(error.response));
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
         },
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
@@ -179,6 +193,7 @@ const app = new Vue({
                 response.data.data.forEach(e => {
                     this.global.patientLookUp[e.id] = e;
                 });
+                this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
             });
         },
@@ -201,6 +216,7 @@ const app = new Vue({
                   response.data.data.forEach(e => {
                       this.global.practitionerLookUp[e.id] = e;
                   });
+                  this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
                   this.global.loadingPractitioners = false;
                 });
             } else {
@@ -220,6 +236,8 @@ const app = new Vue({
                     if (this.global.patients.length && Laravel.user.user_type === 'practitioner') {
                       this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
                     }
+                    this.global.practitioners = _.uniqBy(this.global.practitioners, 'id');
+                    this.global.patients = _.uniqBy(this.global.patients, 'id');
                     this.global.loadingPractitioners = false;
                     this.getSelfPractitionerInfo();
                 });
@@ -330,14 +348,18 @@ const app = new Vue({
             });
         },
         getConfirmedUsers() {
+            let doctors = this.global.practitioners;
+            let patients = this.global.patients;
             this.global.confirmedDoctors = this.global.appointments
-                .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.practitioners.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
+                .filter(e => e.attributes.status === 'complete')
+                .map(e => doctors.filter(ele => ele.id == e.attributes.practitioner_id)[0]);
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
-                .map(e => this.global.patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.confirmedDoctors = _.uniq(this.global.confirmedDoctors);
-            this.global.confirmedPatients = _.uniq(this.global.confirmedPatients);
+                .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
+            this.global.practitioners = _.uniqBy(doctors, 'id');
+            this.global.patients = _.uniqBy(patients, 'id');
+            this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id');
+            this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id');
             this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {
@@ -357,15 +379,17 @@ const app = new Vue({
             });
         },
         setup() {
-          this.getUser();
-          this.getAppointments();
-          this.getPractitioners();
-          this.getMessages();
-          this.getLabData();
-          this.getConfirmedUsers();
-          if (Laravel.user.user_type !== 'admin') this.getCreditCards();
-          if (Laravel.user.user_type !== 'patient') this.getPatients();
-          if (Laravel.user.user_type === 'admin') this.getClientList();
+            this.getUser();
+            this.getAppointments();
+            this.getPractitioners();
+            this.getMessages();
+            this.getLabData();
+            if (Laravel.user.user_type !== 'admin') this.getCreditCards();
+            if (Laravel.user.user_type !== 'patient') this.getPatients();
+            if (Laravel.user.user_type === 'patient') {
+                this.global.loadingPatients = false;
+            }
+            if (Laravel.user.user_type === 'admin') this.getClientList();
         },
         toDashboard() {
           if (this.signup.completedSignup) {
@@ -394,8 +418,12 @@ const app = new Vue({
         };
 
         // Initial GET requests
-        if (Laravel.user.signedIn) this.setup();
+        if (Laravel.user.signedIn) {
+            this.setup();
+        }
     }
 });
+
+Vue.config.devtools = env !== 'production';
 
 app.$mount('#app');

@@ -49,8 +49,6 @@ export default function(laravel, State) {
           test_results: [],
           upcoming_appointments: [],
           unreadMessages: [],
-          confirmedDoctors: [],
-          confirmedPatients: [],
           labOrders: [],
           labTests: [],
           patientLookUp: {},
