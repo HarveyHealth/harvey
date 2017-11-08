@@ -499,29 +499,28 @@ export default {
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
     },
+    processDiscount(response) {
+      if (response.data.data.attributes.valid) {
+        this.disabledDiscount = false;
+        this.discountType = response.data.data.attributes.discount_type;
+        this.discountAmount = Number(response.data.data.attributes.amount);
+        if (this.discountType === 'percent') {
+          this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
+        }
+        this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
+          this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
+        this.patchCode = response.data.data.attributes.code;
+        this.stepThree();
+      } else {
+        this.disabledDiscount = true;
+      }
+      this.stepThree();
+    },
     validDiscountCode() {
       if (this.discountCode !== '') {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
-          .then(response => {
-            if (response.data.data.attributes.valid) {
-              this.disabledDiscount = false;
-              this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = Number(response.data.data.attributes.amount);
-              if (this.discountType === 'percent') {
-                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
-              }
-              this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
-                this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
-              this.patchCode = response.data.data.attributes.code;
-              this.stepThree();
-            } else {
-              this.disabledDiscount = true;
-            }
-            this.stepThree();
-          })
-          .catch(() => {
-            this.disabledDiscount = true;
-          });
+          .then(this.processDiscount)
+          .catch(() => this.disabledDiscount = true);
       } else {
         this.stepThree();
         this.disabledDiscount = false;
@@ -603,25 +602,18 @@ export default {
         }
       });
       return Q.allSettled(promises).then(() => {
-        let data = null;
+        let data = {
+          address_1: this.address1,
+          address_2: this.address2,
+          city: this.newCity,
+          state: this.newState,
+          zip: this.newZip
+        };
+
         if (this.discountCode) {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip,
-            discount_code: this.discountCode
-          };
-        } else {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip
-          };
+          data.discount_code = this.discountCode;
         }
+
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
@@ -881,6 +873,11 @@ export default {
     },
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
+    }
+  },
+  mounted() {
+    window.meh = code => {
+      console.log(JSON.stringify(this.labPatients, null, 2))
     }
   }
 };
