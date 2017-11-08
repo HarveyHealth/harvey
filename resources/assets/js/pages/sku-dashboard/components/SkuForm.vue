@@ -33,12 +33,12 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" maxlength="800" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" maxlength="200" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
@@ -160,7 +160,7 @@
         },
         postSkuForm() {
             const sku = this.blankSku;
-            axios.post(`${this.$root.$data.apiUrl}/skus/`, {
+            axios.post(`${this.$root.$data.apiUrl}/skus`, {
                 name: sku.attributes.name,
                 price: sku.attributes.price,
                 cost: sku.attributes.cost,
