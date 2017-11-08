@@ -6,10 +6,17 @@
       <SlideIn v-else>
         <Grid :flexAt="'l'" :columns="topRowColumnConfig" :gutters="{ s:2, m:3 }">
           <Card :slot="1" :heading="'Appointments'">
-            <AppointmentCardInfo v-for="(appt, i) in upcomingAppointments"
-              :appointment="appt"
-              :hasBorder="i < upcomingAppointments.length - 1"
-              :key="appt.id" />
+            <div v-if="upcomingAppointments.length">
+              <AppointmentCardInfo
+                v-for="(appt, i) in upcomingAppointments"
+                :appointment="appt"
+                :hasBorder="i < upcomingAppointments.length - 1"
+                :key="appt.id"
+              />
+            </div>
+            <CardContent v-else>
+              <Paragraph>No upcoming appointments scheduled</Paragraph>
+            </CardContent>
           </Card>
           <Card :slot="2" :heading="'Practitioner'" v-if="shouldShowDoctorInfo">
             <AvatarCardHeading :heading="State('practitioners.userDoctor.attributes.name')" />
