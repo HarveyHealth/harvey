@@ -65,21 +65,26 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        StrictValidator::check($inputData, [
-            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
-            'cancellation_reason' => 'max:1024',
-            'duration_in_minutes' => 'integer',
-            'patient_id' => 'required_if_is_admin|required_if_is_practitioner|exists:patients,id',
-            'practitioner_id' => 'required_if_is_admin|required_if_is_patient|exists:practitioners,id',
-            'reason_for_visit' => 'required',
-            'status' => ['filled', Rule::in(Appointment::STATUSES)],
-        ]);
+
 
         if (currentUser()->isPatient()) {
             $inputData['patient_id'] = currentUser()->patient->id;
         } elseif (currentUser()->isPractitioner()) {
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
+
+     
+        StrictValidator::check($inputData, [
+            'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
+            'cancellation_reason' => 'max:1024',
+            'duration_in_minutes' => 'integer',
+            'patient_id' => 'required|exists:patients,id|appointments_less_than:2',
+            'practitioner_id' => 'required|exists:practitioners,id',
+            'reason_for_visit' => 'required',
+            'status' => ['filled', Rule::in(Appointment::STATUSES)],
+        ], [
+            'appointments_less_than' => "Sorry, you can't have more than two appointments at a time."
+        ]);
 
         $appointment = Appointment::create($inputData);
         $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
