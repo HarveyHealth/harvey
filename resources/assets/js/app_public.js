@@ -153,11 +153,10 @@ const app = new Vue({
             };
             axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
               this.emailCaptureSuccess = true;
-              if (this.shouldTrack()) {
-                analytics.identify({
-                  email: this.guestEmail
-                });
-              }
+
+              analytics.identify({
+                email: this.guestEmail
+              });
             }).catch(error => {
               if (error.response.status === 429) {
                 this.emailCaptureError = 'Oops, we\'ve already registered that email.';
@@ -243,9 +242,6 @@ const app = new Vue({
                 window.removeEventListener('blur', this.onIframeClick);
             }
         },
-        shouldTrack() {
-          return env === 'production' || env === 'prod';
-        },
         getUrlParams() {
           const url = window.location.search;
           if (!url) return null;
@@ -280,15 +276,14 @@ const app = new Vue({
           }
 
           // send the page event
-          if (this.shouldTrack()) {
-            analytics.page(currentPage);
 
-            // indentify and send along any url paramaters if they exist
-            const parameterObject = this.getUrlParams();
-            if(parameterObject !== null) {
-                analytics.identify(parameterObject);
-            }
-        }
+          analytics.page(currentPage);
+
+          // indentify and send along any url paramaters if they exist
+          const parameterObject = this.getUrlParams();
+          if (parameterObject !== null) {
+            analytics.identify(parameterObject);
+          }
     },
     destroyed() {
         if (this.isHomePage) {
