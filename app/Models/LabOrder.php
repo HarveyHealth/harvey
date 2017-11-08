@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceable};
 use App\Lib\TimeInterval;
 use App\Lib\Validation\StrictValidatorException;
 use App\Models\{DiscountCode, LabTest, SKU};
