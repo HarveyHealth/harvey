@@ -894,11 +894,6 @@ export default {
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
     }
-  },
-  mounted() {
-    window.meh = code => {
-      console.log(JSON.stringify(this.labPatients, null, 2))
-    }
   }
 };
 
