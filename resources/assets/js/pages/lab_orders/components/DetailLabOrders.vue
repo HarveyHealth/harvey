@@ -321,7 +321,7 @@
 
         <div class="button-wrapper">
           <button v-if="!disabledEasterEgg || (status !== 'Recommended' && status !== 'Confirmed')" :class="{easterEgg: !disabledEasterEgg}" class="button" @click="updateLabOrder">Update Order</button>
-          <button v-if="!disabledEasterEgg || status === 'Confirmed'" class="button" @click="nextStep">{{!disabledEasterEgg ? 'For Confirming ' : ''}}Enter Tracking
+          <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </button>
         </div>
