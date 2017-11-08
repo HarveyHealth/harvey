@@ -63,7 +63,7 @@ return [
                     'reminder' => 2550321,
                 ],
                 'attachment' => [
-                    'uploaded' => 3338765,
+                    'created' => 3338765,
                 ],
             ],
             'patient' => [
@@ -125,6 +125,11 @@ return [
             'phone' => env('SHIPPO_FROM_PHONE', '+18006909989'),
             'email' => env('SHIPPO_FROM_EMAIL', 'support@goharvey.com'),
         ],
+    ],
+
+    'typeform' => [
+        'api_key' => env('TYPEFORM_API_KEY'),
+        'uid' => env('TYPEFORM_UID'),
     ],
 
     'google_geocoder' => [

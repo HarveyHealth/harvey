@@ -26,7 +26,7 @@ switch(context) {
     break;
   case 'dashboard':
     rootRoute.name = 'dashboard';
-    rootRoute.component = require('./pages/dashboard/Dashboard');
+    rootRoute.component = require('./v2/components/pages/dashboard/Dashboard');
     break;
   case 'conditions':
     rootRoute.name = 'conditions';

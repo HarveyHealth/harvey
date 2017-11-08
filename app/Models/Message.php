@@ -5,7 +5,6 @@ namespace App\Models;
 use Carbon;
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 use Laravel\Scout\Searchable;
-use App\Models\User;
 
 class Message extends Model
 {

@@ -13,7 +13,7 @@ use App\Models\DiscountCode;
 
 class AppointmentsController extends BaseAPIController
 {
-    protected $resource_name = 'appointments';
+    protected $resource_name = 'appointment';
 
     /**
      * AppointmentsController constructor.
@@ -28,7 +28,7 @@ class AppointmentsController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         if (currentUser()->isAdmin()) {
             $builder = Appointment::orderBy('appointment_at', 'asc');
@@ -49,7 +49,7 @@ class AppointmentsController extends BaseAPIController
      * @param Appointment $appointment
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Appointment $appointment)
+    public function getOne(Appointment $appointment)
     {
         if (currentUser()->can('view', $appointment)) {
             return $this->baseTransformItem($appointment, request('include'))->respond();
@@ -65,7 +65,7 @@ class AppointmentsController extends BaseAPIController
     public function store(Request $request)
     {
         $inputData = $request->all();
-        $validator = StrictValidator::check($inputData, [
+        StrictValidator::check($inputData, [
             'appointment_at' => 'required|date_format:Y-m-d H:i:s|after:now|before:4 weeks|practitioner_is_available',
             'cancellation_reason' => 'max:1024',
             'duration_in_minutes' => 'integer',
@@ -81,17 +81,8 @@ class AppointmentsController extends BaseAPIController
             $inputData['practitioner_id'] = currentUser()->practitioner->id;
         }
 
-        if ($request->has('discount_code')) {
-                if ($inputData['discount_code'] !== null) {
-                    $discount_code = DiscountCode::findByValidCodeApplicationAndUser($inputData['discount_code'], 'consultation', currentUser());
-                if ($discount_code) {
-                    $inputData['discount_code_id'] = $discount_code->id;
-                }
-                unset($inputData['discount_code']);
-            }
-        }
-
         $appointment = Appointment::create($inputData);
+        $appointment->setDiscountCode(currentUser(), $request->input('discount_code'), 'consultation');
 
         return $this->baseTransformItem($appointment->fresh())->respond();
     }

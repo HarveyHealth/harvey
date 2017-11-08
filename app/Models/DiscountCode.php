@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class DiscountCode extends Model
 {
+    protected $dates = [
+        'created_at',
+        'expires_at',
+        'updated_at',
+    ];
+
     public static function findByValidCodeApplicationAndUser($code, $applies_to, $user)
     {
         $discount_code = DiscountCode::withCode($code)->enabled()->notExpired()->appliesTo($applies_to)->limit(1)->first();
@@ -14,9 +20,9 @@ class DiscountCode extends Model
         if (!$discount_code)
             return false;
 
-        // make sure this is a patient or admin
-        if (!$user->isPatient()) {
-            ops_warning('A non-patient is trying to use a coupon code');
+        // make sure this is a patient
+        if ($user->isNotPatient()) {
+            ops_warning('DiscountCode', "User ID #{$user->id} (non-patient) is trying to use a coupon code.");
             return false;
         }
 

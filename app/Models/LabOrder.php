@@ -6,13 +6,19 @@ use App\Http\Traits\{BelongsToPatientAndPractitioner, HasStatusColumn, Invoiceab
 use App\Lib\TimeInterval;
 use App\Lib\Validation\StrictValidatorException;
 use App\Models\{DiscountCode, LabTest, SKU};
+use App\Http\Traits\{
+    BelongsToPatientAndPractitioner,
+    HasDiscountCodeIdColumn,
+    HasStatusColumn,
+    Invoiceable
+};
 use Illuminate\Database\Eloquent\{Model, SoftDeletes};
 use Illuminate\Support\Facades\Redis;
 use Exception, Shippo_Address, Shippo_CarrierAccount, Shippo_Transaction;
 
 class LabOrder extends Model
 {
-    use SoftDeletes, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
+    use SoftDeletes, HasDiscountCodeIdColumn, HasStatusColumn, BelongsToPatientAndPractitioner, Invoiceable;
 
     const CANCELED_STATUS_ID = 1;
     const COMPLETE_STATUS_ID = 7;
@@ -31,10 +37,12 @@ class LabOrder extends Model
 
     protected $guarded = [
         'id',
-        'created_at',
         'completed_at',
+        'created_at',
         'deleted_at',
         'shippo_id',
+        'discount_code',
+        'discount_code_id',
         'status_id',
     ];
 

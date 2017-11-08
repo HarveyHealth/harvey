@@ -7,9 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class UserTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
-        'patient', 'practitioner'
-    ];
+    protected $availableIncludes = ['patient', 'practitioner'];
 
     /**
      * A Fractal transformer.
@@ -26,7 +24,7 @@ class UserTransformer extends TransformerAbstract
             'card_last4' => empty($user->card_last_four) ? null : (string) $user->card_last_four,
             'city' => $user->city,
             'created_at' => $user->created_at,
-            'doctor_name' => $user->getLastDoctorName(),
+            'doctor_name' => $user->getLastPractitioner()->full_name ?? null,
             'email' => $user->email,
             'email_verified_at' => $user->email_verified_at,
             'first_name' => $user->first_name,
@@ -34,7 +32,6 @@ class UserTransformer extends TransformerAbstract
             'has_a_card' => $user->hasACard(),
             'has_an_appointment' => $user->has_an_appointment,
             'image_url' => $user->image_url,
-            'intake_completed_at' => $user->intake_completed_at,
             'last_name' => $user->last_name,
             'phone' => $user->phone,
             'phone_verified_at' => $user->phone_verified_at,
