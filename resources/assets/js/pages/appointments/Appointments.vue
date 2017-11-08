@@ -809,7 +809,7 @@ export default {
             analytics.track('Consultation Completed', {
               date: appointmentDate,
               email: appointmentPatientEmail,
-              userId: Laravel.user.id,
+              user_id: Laravel.user.id,
             });
           }
         }
