@@ -107,7 +107,7 @@ const app = new Vue({
     // We do not attach this to window.App for HIPPA compliance. User
     // App.setState to mutate this object.
     data: Store,
-    
+
     computed: {
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
@@ -395,7 +395,7 @@ const app = new Vue({
           }
         },
         shouldTrack() {
-          return env === 'production' || env === 'prod';
+          return Laravel.user.user_type === 'patient';
         }
     },
     mounted() {

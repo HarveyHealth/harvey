@@ -863,13 +863,11 @@ export default {
       // TO-DO: Add error notifications if api call fails
       axios[action](endpoint, data).then((response) => {
         // track the event
-        if(this.$root.shouldTrack()) {
-          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
+        if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
-              date: appointmentDate,
-              email: appointmentPatientEmail
+                date: appointmentDate,
+                email: appointmentPatientEmail
             });
-          }
         }
 
         // reset discount information
