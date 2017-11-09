@@ -205,37 +205,35 @@ export default {
             this.zipInRange = true;
 
             // Track successful signup
-            if(App.Logic.misc.shouldTrack()) {
-              // collect response information
-              const userData = response.data.data.attributes;
-              const userId = response.data.data.id || '';
-              const firstName = userData.first_name || '';
-              const lastName = userData.last_name || '';
-              const email = userData.email || '';
-              const zip = userData.zip || '';
-              const city = userData.city || '';
-              const state = userData.state || '';
-              const intercomHash = userData.intercom_hash || '';
+            // collect response information
+            const userData = response.data.data.attributes;
+            const userId = response.data.data.id || '';
+            const firstName = userData.first_name || '';
+            const lastName = userData.last_name || '';
+            const email = userData.email || '';
+            const zip = userData.zip || '';
+            const city = userData.city || '';
+            const state = userData.state || '';
+            const intercomHash = userData.intercom_hash || '';
 
-              // Segment tracking
-              analytics.track("Account Created");
+            // Segment tracking
+            analytics.track("Account Created");
 
-              // Segment Identify
-              analytics.identify(userId, {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                city: city,
-                state: state,
-                zip: zip
-              }, {
-                integrations: {
-                  Intercom : {
-                    user_hash: intercomHash
-                  }
+            // Segment Identify
+            analytics.identify(userId, {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            city: city,
+            state: state,
+            zip: zip
+            }, {
+            integrations: {
+                Intercom : {
+                user_hash: intercomHash
                 }
-              });
             }
+            });
 
             // remove local storage items on sign up
             // needed if you decide to sign up multiple acounts on one browser
