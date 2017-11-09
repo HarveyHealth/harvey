@@ -864,18 +864,15 @@ export default {
       // TO-DO: Add error notifications if api call fails
       axios[action](endpoint, data).then(() => {
         // track the event
-        console.log(`DATA`, this.$data)
-        console.log(`PATIENT`, this.$data.selectedRowData._patientId)
-        if(this.$root.shouldTrack()) {
-          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
+        if ((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
-              date: appointmentDate,
-              email: appointmentPatientEmail,
-              user_id: Laravel.user.id,
-              patient_user_id: trackingPatientId,
+                date: appointmentDate,
+                email: appointmentPatientEmail,
+                user_id: Laravel.user.id,
+                patient_user_id: trackingPatientId,
             });
-          }
         }
+
 
         // reset discount information
         this.discountCode = '';

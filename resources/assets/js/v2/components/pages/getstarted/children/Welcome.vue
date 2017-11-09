@@ -1,7 +1,7 @@
 <template>
   <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
     <div class="vertical-center">
-      <div class="signup-container small naked">
+      <div class="signup-container signup-interstitial-container font-centered">
         <div class="signup-main-icon">
           <svg class="interstitial-icon icon-rocket"><use xlink:href="#rocket" /></svg>
         </div>
@@ -23,7 +23,6 @@ export default {
         'anim-fade-slideup': true,
         'anim-fade-slideup-in': false,
         'container': true,
-        'pad-md': true,
         'flex-wrapper': true,
         'height-100': true,
         'justify-center': true
@@ -39,10 +38,8 @@ export default {
 
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (App.Logic.misc.shouldTrack()) {
-        analytics.page('Welcome');
-        analytics.track('Welcome');
-        analytics.identify();
+    if(App.Logic.misc.shouldTrack()) {
+      analytics.page('Welcome');
     }
   },
   beforeDestroy() {
