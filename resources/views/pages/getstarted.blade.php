@@ -32,8 +32,7 @@
         <script>
           window.Laravel = {!! $vue_data !!}
           // Controller has determined that the user is:
-          // logged in as patient with no Appointment
-          // or logged out
+          // logged in as patient with no Appointment or logged out
           var zipValidation  = localStorage.getItem('harvey_zip_validation');
           var loggedIn = Laravel.user.signedIn;
           window.$$context = 'get-started';
