@@ -281,6 +281,11 @@ export default {
       });
     }
   },
+  beforeMount() {
+    if (App.Config.user.isLoggedIn) {
+      App.Router.push('welcome');
+    }
+  },
   mounted () {
     this.$root.toDashboard();
 
