@@ -571,7 +571,7 @@ export default {
               this.appointment.status = 'pending';
               this.modalActive = true;
             }
-          }
+          };
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.showBillingError = true;
           }
@@ -603,8 +603,8 @@ export default {
       }).catch(error => {
         if (error.response) {
           console.warn(error.response);
-        };
-      })
+        }
+      });
     },
 
     // When getAppointments is run we save three copies of the data to match
@@ -861,7 +861,7 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then((response) => {
+      axios[action](endpoint, data).then(() => {
         // track the event
         if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
