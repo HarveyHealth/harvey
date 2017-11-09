@@ -83,7 +83,7 @@
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
-        <div class="text">Logout</div>
+        <div class="text">Log out</div>
       </a>
 
     </nav>
