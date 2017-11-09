@@ -197,51 +197,46 @@ export default {
 
         // create the user
         axios.post('api/v1/users', this.State('getstarted.userPost'))
-          .then(response => {
+            .then(response => {
 
-            // log the user in
-            this.login(this.State('getstarted.userPost.email'), this.State('getstarted.userPost.password'));
-            this.isComplete = true;
-            this.zipInRange = true;
+                // log the user in
+                this.login(this.State('getstarted.userPost.email'), this.State('getstarted.userPost.password'));
+                this.isComplete = true;
+                this.zipInRange = true;
 
-            // Track successful signup
-            if(App.Logic.misc.shouldTrack()) {
-              // collect response information
-              const userData = response.data.data.attributes;
-              const userId = response.data.data.id || '';
-              const firstName = userData.first_name || '';
-              const lastName = userData.last_name || '';
-              const email = userData.email || '';
-              const zip = userData.zip || '';
-              const city = userData.city || '';
-              const state = userData.state || '';
-              const intercomHash = userData.intercom_hash || '';
+                const userData = response.data.data.attributes;
+                const userId = response.data.data.id || '';
+                const firstName = userData.first_name || '';
+                const lastName = userData.last_name || '';
+                const email = userData.email || '';
+                const zip = userData.zip || '';
+                const city = userData.city || '';
+                const state = userData.state || '';
 
-              // Segment tracking
-              analytics.track("Account Created");
+                analytics.alias(userId); // Only call this once
+                analytics.track('Account Created');
 
-              // Segment Identify
-              analytics.identify(userId, {
+                // Segment Identify
+                analytics.identify(userId, {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 city: city,
                 state: state,
                 zip: zip
-              }, {
+                }, {
                 integrations: {
-                  Intercom : {
+                    Intercom : {
                     user_hash: intercomHash
-                  }
+                    }
                 }
-              });
-            }
+                });
 
-            // remove local storage items on sign up
-            // needed if you decide to sign up multiple acounts on one browser
-            App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
+                // remove local storage items on sign up
+                // needed if you decide to sign up multiple acounts on one browser
+                App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
 
-          })
+            })
           // Error catch for user patch
           // The BE checks for invalid zipcodes based on states we know we cannot operate in
           // and also Iggbo servicing data.
