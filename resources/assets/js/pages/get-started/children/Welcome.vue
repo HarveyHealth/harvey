@@ -32,18 +32,16 @@ export default {
   },
   mounted () {
     this.$root.toDashboard();
-    this.$root.setup();
+    this.$root.getPractitioners();
 
     if (Laravel.user.phone) this.$root.$data.signup.phoneConfirmed = true;
     if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
 
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if (App.Logic.misc.shouldTrack()) {
-        analytics.page('Welcome');
-        analytics.track('Welcome');
-        analytics.identify();
-    }
+    analytics.page('Welcome');
+    analytics.track('Welcome');
+    analytics.identify();
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
