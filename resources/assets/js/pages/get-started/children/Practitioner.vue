@@ -7,7 +7,7 @@
         </div>
         <div>Loading practitioners...</div>
       </h3>
-      <div v-else-if="!$root.$data.global.loadingPractitioners && !practitioners.length" class="signup-stage-instructions color-white space-children-md">
+      <div v-else-if="hasNoPractitioners" class="signup-stage-instructions color-white space-children-md">
         <div class="signup-main-icon">
           <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
         </div>
@@ -134,11 +134,16 @@ export default {
     practitioners(list) {
       if (list.length) {
         this.select(list[0], 0, true);
+      }
+      if (this.hasNoPractitioners) {
         window.onbeforeunload = null;
       }
     }
   },
   computed: {
+    hasNoPractitioners() {
+      return !this.$root.$data.global.loadingPractitioners && !this.practitioners.length;
+    },
     hasSelection() {
       return this.selected !== null;
     },
