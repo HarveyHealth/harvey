@@ -22,11 +22,6 @@ class AttachmentsController extends BaseAPIController
         $this->transformer = $transformer;
     }
 
-    public function getAll(Request $request)
-    {
-        return $this->baseTransformBuilder(Attachment::belongingTo(currentUser()), request('include'), new AttachmentTransformer, request('per_page'))->respond();
-    }
-
     public function getOne(Request $request, Attachment $attachment)
     {
         if (currentUser()->cant('get', $attachment)) {
