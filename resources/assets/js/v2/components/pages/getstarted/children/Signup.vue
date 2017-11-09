@@ -216,13 +216,20 @@ export default {
                 analytics.alias(userId); // Only call this once
                 analytics.track('Account Created');
 
+                // Segment Identify
                 analytics.identify(userId, {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    city: city,
-                    state: state,
-                    zip: zip
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                city: city,
+                state: state,
+                zip: zip
+                }, {
+                integrations: {
+                    Intercom : {
+                    user_hash: intercomHash
+                    }
+                }
                 });
 
                 // remove local storage items on sign up
