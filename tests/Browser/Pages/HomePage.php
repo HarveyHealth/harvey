@@ -78,6 +78,13 @@ class HomePage extends Page
                 ->assertSee('SIMPLE PRICING');
     }
 
+    public function financingHeader(Browser $browser)
+    {
+        $browser->click('@financingHeader')
+                ->waitForText('0% Loan Financing')
+                ->assertSee('0% Loan Financing');
+    }
+
 
 //***************Boook Appointment buttons on the page
 
@@ -143,21 +150,15 @@ class HomePage extends Page
                   ->assertSee($this->helpPage);
     }
 
-    public function termsFooter(Browser $browser)
+    public function financingFooter(Browser $browser)
     {
           $browser->mouseover('@footerBottom')
                   ->pause(1000)
-                  ->click('@footerTerms')
-                  ->assertSee('Terms and Conditions');
+                  ->click('@footerFinancing')
+                  ->assertSee('0% Loan Financing');
     }
 
-    public function privacyFooter(Browser $browser)
-    {
-          $browser->mouseover('@footerBottom')
-                  ->pause(1000)
-                  ->click('@footerPrivacy')
-                  ->assertSee('Privacy Policy');
-    }
+
 
 
 
@@ -167,12 +168,13 @@ class HomePage extends Page
         return [
             '@element' => '#selector',
             '@getStartedHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > div > a:nth-child(2)',
-            '@loginHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(4)',
+            '@loginHeader' => '#app > div.header.nav > div > div.nav-left > div > a:nth-child(5)',
             '@harveyLogoHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > a > div > svg',
             '@labTesting' => '#tests > div > h2 > span',
             '@aboutHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(1)',
             '@labsTestHeader' => '#app > div.header.nav.is-inverted > div > div.nav-left > div > a:nth-child(2)',
             '@pricingHeader' => '#app > div.header.nav.is-inverted > div > div.nav-right > span > a:nth-child(3)',
+            '@financingHeader' => '#app > div.header.nav > div > div.nav-left > div > a:nth-child(4)',
             '@bookCover' => '#app > div.page-content > div > section.hero.hero-background > div.hero-body > div > div > div > div > a',
             '@bookAppTwo' => '#get-started > div > div > div > a',
             '@labMouseOver' => '#feature > div',
@@ -182,9 +184,8 @@ class HomePage extends Page
             '@homeFooter' => '#app > footer > div > div > p.nav-center > a:nth-child(1)',
             '@footerLabs' => '#app > footer > div > div > p.nav-center > a:nth-child(3)',
             '@footerBlog' => '#app > footer > div > div > p.nav-center > a:nth-child(4)',
-            '@footerhelp' => '#app > footer > div > div > p.nav-center > a:nth-child(5)',
-            '@footerTerms' => '#app > footer > div > div > p.nav-center > a:nth-child(6)',
-            '@footerPrivacy' => '#app > footer > div > div > p.nav-center > a:nth-child(7)'
+            '@footerhelp' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(6)',
+            '@footerFinancing' => '#app > footer > div > div > p:nth-child(3) > a:nth-child(4)'
 
           ];
     }

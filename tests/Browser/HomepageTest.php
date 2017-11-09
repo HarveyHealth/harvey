@@ -19,7 +19,7 @@ class HomepageTest extends DuskTestCase
         });
     }
 
-
+    //####### Header Tests
     public function test_about_button_in_header()
     {
           $this->browse(function ($browser) {
@@ -45,7 +45,7 @@ class HomepageTest extends DuskTestCase
               });
     }
 
-    public function test_login_button()
+    public function test_login_button_in_header()
     {
         $this->browse(function ($browser){
             $browser->visit(new HomePage)
@@ -62,6 +62,18 @@ class HomepageTest extends DuskTestCase
         });
 
     }
+
+    public function test_financing_in_header()
+    {
+
+      $this->browse(function ($browser){
+          $browser->visit(new Homepage)
+                  ->financingHeader();
+      });
+
+    }
+
+    //Cover Image tests
 
     public function test_book_appointment_in_cover()
     {
@@ -109,6 +121,17 @@ class HomepageTest extends DuskTestCase
         });
      }
 
+     public function test_if_financing_button_work_in_footer()
+     {
+        $this->browse(function ($browser) {
+             $browser->visit(new HomePage)
+                     ->script('window.scrollTo(0,document.body.scrollHeight)');
+     });
+         $this->browse(function ($browser) {
+             $browser->visit(new HomePage)
+                     ->financingFooter();
+         });
+      }
 
       public function test_if_help_button_works_in_footer()
       {
@@ -122,28 +145,8 @@ class HomepageTest extends DuskTestCase
           });
        }
 
-     public function test_if_terms_button_work_in_footer()
-     {
-        $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->script('window.scrollTo(0,document.body.scrollHeight)');
-     });
-         $this->browse(function ($browser) {
-             $browser->visit(new HomePage)
-                     ->termsFooter();
-         });
-      }
 
-      public function test_if_privacy_button_work_in_footer()
-      {
-          $this->browse(function ($browser) {
-              $browser->visit(new HomePage)
-                      ->script('window.scrollTo(0,document.body.scrollHeight)');
-      });
-          $this->browse(function ($browser) {
-              $browser->visit(new HomePage)
-                      ->privacyFooter();
-          });
-       }
+
+
 
 }
