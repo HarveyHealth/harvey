@@ -397,9 +397,6 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
-        },
-        shouldTrack() {
-          return env === 'production' || env === 'prod';
         }
     },
     mounted() {

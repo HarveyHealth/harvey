@@ -55,7 +55,6 @@
     import DetailPost from './components/DetailPost.vue';
     import UserNav from '../../commons/UserNav.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
-    import axios from 'axios';
     import socket from './websocket';
     import _ from 'lodash';
     export default {
@@ -92,17 +91,19 @@
         },
         computed: {
             stateDetail() {
-                let details = this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
                 this.setDetails(details);
-                return this.$root.$data.global.detailMessages[this.$props.thread_id];
+                return details;
             }
         },
         watch: {
             stateDetail(val) {
                 if (!val) {
-                    let details = this.$root.$data.global.detailMessages[this.$props.thread_id].sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                    let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
                     this.setDetails(details);
-                    return this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    return details;
                 }
             }
         },

@@ -48,5 +48,5 @@ export default [
     name: 'Cost',
     width: '8%',
     sort: tableSort.byString('cost')
-  },
-]
+  }
+];
