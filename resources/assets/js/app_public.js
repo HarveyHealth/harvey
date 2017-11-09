@@ -141,8 +141,8 @@ const app = new Vue({
         },
         loginLink() {
           return Laravel.user.signedIn
-            ? { href: '/logout', display: 'Logout' }
-            : { href: '/login', display: 'Login' };
+            ? { href: '/logout', display: 'Log out' }
+            : { href: '/login', display: 'Log in' };
         },
         userAvatar() {
           return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
@@ -299,9 +299,6 @@ const app = new Vue({
             if(parameterObject !== null) {
                 analytics.identify(parameterObject);
             }
-        }
-        if (env !== 'prod' || env !== 'production') {
-          window.Root = this;
         }
     },
     destroyed() {
