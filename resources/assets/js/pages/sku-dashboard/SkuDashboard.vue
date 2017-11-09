@@ -68,7 +68,7 @@ export default {
         Flyout,
         Sku,
         SkuForm,
-        draggable,
+        draggable
     },
     data() {
         const blankSku = {
@@ -82,7 +82,7 @@ export default {
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3,
+                        visibility_id: 3
                     }
                 }
             };
@@ -90,8 +90,8 @@ export default {
             loading: true,
             activeModal: false,
             skuList: [blankSku],
-            selectedSku: null,
-        }
+            selectedSku: null
+        };
     },
     methods: {
       modalClose() {
@@ -122,8 +122,8 @@ export default {
         onDragComplete() {
             this.skuList.map((sku, index) => {
                 axios.patch(`${this.$root.$data.apiUrl}/skus/${sku.id}`, {
-                    list_order: index,
-                })
+                    list_order: index
+                });
             });
         }
     },
@@ -144,5 +144,5 @@ export default {
             })
             .catch(e => console.log(e));
     }
-}
+};
 </script>

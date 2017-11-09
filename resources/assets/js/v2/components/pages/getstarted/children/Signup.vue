@@ -122,7 +122,7 @@ export default {
       isProcessing: false,
       quotes: [
         { quote: 'I can say without a shadow of a doubt, my Naturopathic Doctor gave me my life back.',
-          source: 'Jordan Yorn (California)' }
+          source: 'Elizabeth Yorn (Missouri, battling Lupus)' }
       ],
       responseErrors: [],
       subtitle: '',
@@ -216,6 +216,7 @@ export default {
             analytics.alias(userId); // Only call this once
             analytics.track('Account Created');
 
+            // Segment Identify
             analytics.identify(userId, {
               firstName: firstName,
               lastName: lastName,
@@ -223,6 +224,12 @@ export default {
               city: city,
               state: state,
               zip: zip
+            }, {
+              integrations: {
+                Intercom : {
+                  user_hash: intercomHash
+                }
+              }
             });
 
             // remove local storage items on sign up
@@ -277,10 +284,9 @@ export default {
   mounted () {
     this.$root.toDashboard();
 
-    analytics.page('Signup');
-    analytics.track('Signup');
-    analytics.identify();
-
+    if(App.Logic.misc.shouldTrack()) {
+      analytics.page("Signup");
+    }
   }
 };
 </script>

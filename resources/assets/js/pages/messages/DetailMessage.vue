@@ -1,12 +1,12 @@
 <template>
     <div class="main-container">
-        <div v-on:click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
+        <div @click="reply()" :class="{overlay: renderReply, isactive: renderReply}"></div>
         <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
-                      <span class="text">{{ subject }}</span>                      
+                      <span class="text word-wrap">{{ subject }}</span>                      
                     </h1>
                     <h3 class="font-sm copy-muted-2">
                       <router-link to="/messages">
@@ -25,7 +25,7 @@
                 :text="notificationMessage"
             />
             <div class="content-container">
-                <div class="container-message" v-if="detailList">
+                <div class="container-message">
                     <div class="detail-wrap" v-for="detail in detailList">
                       <DetailPost
                         :id="detail.id"
@@ -55,7 +55,6 @@
     import DetailPost from './components/DetailPost.vue';
     import UserNav from '../../commons/UserNav.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
-    import axios from 'axios';
     import socket from './websocket';
     import _ from 'lodash';
     export default {
@@ -86,17 +85,34 @@
               notificationSymbol: '&#10003;',
               notificationMessage: 'Message Sent!',
               notificationActive: false,
-              notificationDirection: 'top-right'
+              notificationDirection: 'top-right',
+              detailList:this.$root.$data.global.detailMessages[this.$props.thread_id]
             };
         },
         computed: {
-            detailList() {
-                return this.$root.$data.global.detailMessages[this.$props.thread_id];
+            stateDetail() {
+                let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                this.setDetails(details);
+                return details;
+            }
+        },
+        watch: {
+            stateDetail(val) {
+                if (!val) {
+                    let messages = this.$root.$data.global.detailMessages[this.$props.thread_id];
+                    let details = messages.sort((a, b) => new Date(a.attributes.created_at.date) - new Date(b.attributes.created_at.date));
+                    this.setDetails(details);
+                    return details;
+                }
             }
         },
         methods: {
           close() {
             this.renderNewMessage = !this.renderNewMessage;
+          },
+          setDetails(data) {
+              this.detailList = data;
           },
           reply() {
             this.renderReply = !this.renderReply;
@@ -132,27 +148,7 @@
                 this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
                     .map(e => e[e.length - 1])
                     .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-            });
-        },
-        destroyed() {
-            axios.get(`${this.$root.$data.apiUrl}/messages`)
-                .then(response => {
-                    let data = {};
-                    let userId = this.$root.$data.global.user.id;
-                    response.data.data.forEach(e => {
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] = data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] ?
-                            data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`] :
-                            [];
-                        data[`${this.makeThreadId(e.attributes.sender_user_id, e.attributes.recipient_user_id)}-${e.attributes.subject}`].push(e);
-                    });
-                    if (data) {
-                        Object.values(data).map(e => _.uniq(e.sort((a, b) => a.attributes.created_at - b.attributes.created_at)));
-                        this.$root.$data.global.detailMessages = data;
-                        this.$root.$data.global.messages = Object.values(data)
-                            .map(e => e[e.length - 1])
-                            .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-                        this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
-                    }
+                this.setDetails(this.$root.$data.global.detailMessages[subject]);
             });
         }
     };

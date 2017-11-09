@@ -33,12 +33,12 @@
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="description">Description</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="10" cols="40" maxlength="800" name="description" v-model="formSku.attributes.lab_test_information.description"></textarea>
             </div>
 
             <div class="input__container input-wrap">
                 <label class="input__label" for="quote">Quote</label>
-                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
+                <textarea class="form-input form-input_textarea input-styles" rows="3" cols="40" maxlength="200" name="quote" v-model="formSku.attributes.lab_test_information.quote"></textarea>
             </div>
 
             <div class="input__container input-wrap">
@@ -87,21 +87,21 @@
     import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
     import NotificationPopup from '../../../commons/NotificationPopup.vue';
 
-    const defaultBlankSku = {
-            attributes: {
-            name: null,
-            price: 0,
-            cost: 0,
-            lab_test_information: {
-                lab_name: null,
-                sample: null,
-                description: null,
-                quote: null,
-                image: null,
-                visibility_id: 3,
-            }
-        }
-    };
+    // const defaultBlankSku = {
+    //         attributes: {
+    //         name: null,
+    //         price: 0,
+    //         cost: 0,
+    //         lab_test_information: {
+    //             lab_name: null,
+    //             sample: null,
+    //             description: null,
+    //             quote: null,
+    //             image: null,
+    //             visibility_id: 3
+    //         }
+    //     }
+    // };
 
     export default {
     data() {
@@ -117,7 +117,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3,
+                        visibility_id: 3
                     }
                 }
             },
@@ -125,12 +125,12 @@
             notificationSymbol: '&#10003;',
             notificationActive: false,
             notificationDirection: 'top-right',
-            notificationError: false,
-        }
+            notificationError: false
+        };
     },
     components: {
         ClipLoader,
-        NotificationPopup,
+        NotificationPopup
     },
     methods: {
         putSkuForm() {
@@ -145,9 +145,9 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id,
+                visibility_id: sku.attributes.lab_test_information.visibility_id
             })
-            .then(response => {
+            .then(() => {
                 this.submitting = false;
                 this.notificationActive = true;
                 setTimeout(() => this.notificationActive = false, 3000);
@@ -160,7 +160,7 @@
         },
         postSkuForm() {
             const sku = this.blankSku;
-            axios.post(`${this.$root.$data.apiUrl}/skus/`, {
+            axios.post(`${this.$root.$data.apiUrl}/skus`, {
                 name: sku.attributes.name,
                 price: sku.attributes.price,
                 cost: sku.attributes.cost,
@@ -170,7 +170,7 @@
                 sample: sku.attributes.lab_test_information.sample,
                 quote: sku.attributes.lab_test_information.quote,
                 lab_name: sku.attributes.lab_test_information.lab_name,
-                visibility_id: sku.attributes.lab_test_information.visibility_id,
+                visibility_id: sku.attributes.lab_test_information.visibility_id
             })
                 .then(response => {
                     this.submitting = false;
@@ -198,7 +198,7 @@
                         description: null,
                         quote: null,
                         image: null,
-                        visibility_id: 3,
+                        visibility_id: 3
                     }
                 }
             };
@@ -210,17 +210,17 @@
         },
         notificationMessage() {
             return this.sku ? "Lab test updated" : "Lab Test Updated";
-        },
+        }
     },
     props: {
         sku: {
-            type: Object,
+            type: Object
         },
         appendSkuList: {
-            type: Function,
+            type: Function
         }
     }
-}
+};
 </script>
 
 <style lang="scss">

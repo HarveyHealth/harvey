@@ -79,6 +79,12 @@ $font-family: "proxima-nova";
     text-decoration: underline;
   }
 
+  i.fa {
+    font-size: 14px;
+    @include padding(2px);
+    color: #E3BAB3;
+  }
+
 }
 
 // Hide before font loads

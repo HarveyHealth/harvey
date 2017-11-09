@@ -192,6 +192,12 @@ export default {
             // Segment Identify update
             analytics.identify(userId, {
               phone: number
+            }, {
+              integrations: {
+                Intercom : {
+                  user_hash: Laravel.user.intercom_hash
+                }
+              }
             });
           }
         }).catch(() => {
@@ -220,10 +226,9 @@ export default {
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    analytics.page('Phone');
-    analytics.track('Phone');
-    analytics.identify();
-
+    if(this.$root.shouldTrack()) {
+      analytics.page('Phone');
+    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

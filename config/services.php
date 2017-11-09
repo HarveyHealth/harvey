@@ -80,6 +80,7 @@ return [
                 'lab_order' => [
                     'confirmed' => 3372143,
                     'shipped' => 2741642,
+                    'recommended' => 3764861,
                 ],
                 'lab_test' => [
                     'processing' => 3148942,
@@ -113,12 +114,16 @@ return [
     ],
 
     'facebook' => [
-        'client_id'     => env('FACEBOOK_ID'),
+        'client_id' => env('FACEBOOK_ID'),
         'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect'      => env('FACEBOOK_URL'),
+        'redirect' => env('FACEBOOK_URL'),
     ],
 
     'segment' => [
-        'key'           => env('SEGMENT_KEY'),
-    ]
+        'key' => env('SEGMENT_KEY'),
+    ],
+
+    'intercom' => [
+        'key' => env('INTERCOM_KEY'),
+    ],
 ];

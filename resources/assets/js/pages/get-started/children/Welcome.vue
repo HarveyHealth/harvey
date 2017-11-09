@@ -15,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'welcome',
   data() {
@@ -49,5 +48,4 @@ export default {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
 };
-
 </script>
