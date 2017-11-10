@@ -194,7 +194,7 @@ class LabOrder extends Model
         $shippo_to_address_id = $shippo_address->object_id;
 
         if (!Shippo_Address::validate($shippo_to_address_id)->validation_results->is_valid) {
-            throw new StrictValidatorException('The address' . json_encode($to) . 'is invalid.');
+            throw new StrictValidatorException('The address ' . json_encode($to) . ' is invalid.');
         }
 
         $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
