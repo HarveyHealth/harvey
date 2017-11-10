@@ -98,12 +98,14 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
         # Lab Tests
-        Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+        Route::get('lab/tests/information', 'LabTestsController@getInformation')->name('lab-tests.get-information');
         Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
         Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
+
+        # Lab Test Results
         Route::get('lab/tests/results/{labTestResult}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
         Route::post('lab/tests/{labTest}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
         Route::delete('lab/tests/results/{labTestResult}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
