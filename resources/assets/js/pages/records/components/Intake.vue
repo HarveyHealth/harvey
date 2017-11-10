@@ -3,16 +3,11 @@
         <div>
             <h2>Basic Info</h2>
             <ul>
-                <li>
-                    <span></span>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <h2>Medical History</h2>
-            <ul>
-                <li>
-                    <span></span>
+                <li v-for="intake in questionsList">
+                    <div>
+                        {{ intake.question }}
+                        <span>{{ intake.answer }}</span>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -20,22 +15,31 @@
 </template>
 
 <script>
+import _ from 'lodash';
 export default {
     props: {
         patient: Object
     },
     data() {
         return {
-            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id]
+            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id],
         };
     },
-    questionsList() {
-        return [
-            {
-                question: `What is your gender?`,
-                answer: ""
-            }
-        ];
+    computed: {
+        questionsList() {
+            let quest = {};
+            let props = this.$parent.propData;
+            props.attributes.questions.forEach(e => {
+                quest[e.id] = {};
+                quest[e.id].question = e.question;
+            });
+            props.attributes.responses.forEach(e => {
+                _.each(e.answers, (answer, id) => {
+                    quest[id].answer = answer;
+                });
+            });
+            return Object.values(quest);
+        }
     }
 };
 </script>
