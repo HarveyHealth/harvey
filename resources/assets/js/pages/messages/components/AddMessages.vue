@@ -30,7 +30,7 @@
             <div class="button-wrapper">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send</button>
+                :disabled="!subject || !selected || userList.length === 0">Send</button>
             </div>
         </div>
     </aside>
