@@ -183,6 +183,13 @@ export default {
         this.errors.add('terms', 'error', 'required');
         this.errors.first('terms:required');
       } else {
+        // This will be checked on Welcome component and if true will fire appropriate analytics
+        if (!this.State('getstarted.zipValidation.account_created')) {
+          App.Util.data.updateStorage('zip_validation', {
+            account_created: false,
+            facebook_connect: true
+          });
+        }
         window.location.href = `/auth/facebook?zip=${this.State('getstarted.userPost.zip')}`;
       }
     },
@@ -197,46 +204,7 @@ export default {
 
         // create the user
         axios.post('api/v1/users', this.State('getstarted.userPost'))
-            .then(response => {
-
-                // log the user in
-                this.login(this.State('getstarted.userPost.email'), this.State('getstarted.userPost.password'));
-                this.isComplete = true;
-                this.zipInRange = true;
-
-                const userData = response.data.data.attributes;
-                const userId = response.data.data.id || '';
-                const firstName = userData.first_name || '';
-                const lastName = userData.last_name || '';
-                const email = userData.email || '';
-                const zip = userData.zip || '';
-                const city = userData.city || '';
-                const state = userData.state || '';
-
-                analytics.alias(userId); // Only call this once
-                analytics.track('Account Created');
-
-                // Segment Identify
-                analytics.identify(userId, {
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                city: city,
-                state: state,
-                zip: zip
-                }, {
-                integrations: {
-                    Intercom : {
-                    user_hash: intercomHash
-                    }
-                }
-                });
-
-                // remove local storage items on sign up
-                // needed if you decide to sign up multiple acounts on one browser
-                App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
-
-            })
+          .then(this.login)
           // Error catch for user patch
           // The BE checks for invalid zipcodes based on states we know we cannot operate in
           // and also Iggbo servicing data.
@@ -265,15 +233,62 @@ export default {
         console.error('There are errors in the signup form fields.');
       });
     },
-    login(email, password) {
+
+    // Logs the user in, triggers analytics, refreshes the page for Laravel object
+    login(response) {
+      const userData = response.data.data.attributes;
+      const userId = response.data.data.id || '';
+      const firstName = userData.first_name || '';
+      const lastName = userData.last_name || '';
+      const email = userData.email || '';
+      const zip = userData.zip || '';
+      const city = userData.city || '';
+      const state = userData.state || '';
+      const intercomHash = userData.intercom_hash || '';
+
       axios.post('login', {
-        email: email,
-        password: password
+        email: this.State('getstarted.userPost.email'),
+        password: this.State('getstarted.userPost.password')
       })
       .then(() => {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
+
+        this.isComplete = true;
+        this.zipInRange = true;
+
+        analytics.alias(userId); // Only call this once
+        analytics.track('Account Created');
+
+        // Segment Identify
+        analytics.identify(userId, {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            city: city,
+            state: state,
+            zip: zip
+        }, {
+            integrations: {
+                Intercom : {
+                    user_hash: intercomHash
+                }
+            }
+        });
+
+        // remove local storage items on sign up
+        // needed if you decide to sign up multiple acounts on one browser
+        App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
+
+        // In case a user initially decides to sign in with Facebook but does not follow
+        // through and instead signs up via the form. We don't want the Welcome component
+        // to fire 'Account Created' again.
+        App.Util.data.updateStorage('zip_validation', {
+          account_created: true,
+          facebook_connect: false
+        });
+
         window.location.href = '/get-started';
       })
       .catch(() => {
