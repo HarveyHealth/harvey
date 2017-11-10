@@ -7,7 +7,7 @@
                 </div>
                 <div @click="item.onClick" class="timeline-info">
                     <div class="width-70 float-left">
-                        <span class="full-width float-left">{{ item.type === 'Soap Note' ? 'SOAP Note' : item.type }}</span>
+                        <span class="full-width float-left">{{ item.type }}</span>
                         <span class="full-width float-left">{{ item.date }}</span>
                         <span class="full-width float-left">{{ item.doctor }}</span>
                     </div>
