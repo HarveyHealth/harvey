@@ -2,6 +2,8 @@
 
 namespace App\Lib\Clients;
 
+use Exception;
+
 class Typeform extends BaseClient
 {
     public function __construct()
@@ -12,8 +14,8 @@ class Typeform extends BaseClient
 
     public function get(string $token, array $params = [], array $headers = [])
     {
-        if (empty(config('services.typeform.uid')) || empty(config('services.typeform.api_key')) || empty($token)) {
-            return null;
+        if (empty(config('services.typeform.uid')) || empty(config('services.typeform.api_key'))) {
+            throw new Exception('Typeform API credentials not found.');
         }
 
         $params = [
