@@ -136,9 +136,7 @@ class LabOrdersController extends BaseAPIController
             return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
         }
 
-        if (!$labOrder->ship()) {
-            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
-        }
+        $labOrder->ship();
 
         return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
     }

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Lib\TimeInterval;
-use App\Lib\Validation\StrictValidatorException;
+use App\Exceptions\{ServiceUnavailableException, StrictValidatorException};
 use App\Models\{DiscountCode, LabTest, SKU};
 use App\Http\Traits\{
     BelongsToPatientAndPractitioner,
@@ -206,7 +206,7 @@ class LabOrder extends Model
             $carrier_object_id = $carriers->results[0]->object_id ?? null;
 
             if (empty($carrier_object_id)) {
-                throw new Exception("Can't get carrier_object_id when processing LabOrder ID #{$this->id}");
+                throw new ServiceUnavailableException("Can't get carrier_object_id when processing LabOrder ID #{$this->id}");
             }
 
             $transaction = Shippo_Transaction::create([
@@ -223,7 +223,7 @@ class LabOrder extends Model
             ]);
 
             if ('SUCCESS' != $transaction->status) {
-                throw new Exception("Transaction failed when shipping LabOrder ID #{$this->id}. " . collect($transaction->messages)->implode('text', ' - '));
+                throw new ServiceUnavailableException("Transaction failed when shipping LabOrder ID #{$this->id}. " . collect($transaction->messages)->implode('text', ' - '));
             }
 
             Redis::set($this->redisKeyForUrlLabel(), $transaction->label_url);
@@ -232,11 +232,9 @@ class LabOrder extends Model
             $this->shipment_code = $transaction->tracking_number;
 
             $this->save();
-        } catch (StrictValidatorException $e) {
-            throw $e;
-        } catch (Exception $e) {
+        } catch (ServiceUnavailableException $e) {
             ops_warning('LabOrder@ship', $e->getMessage());
-            return false;
+            throw $e;
         }
 
         return $this;

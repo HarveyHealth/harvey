@@ -2,6 +2,7 @@
 
 namespace App\Lib\Validation;
 
+use App\Exceptions\StrictValidatorException;
 use Illuminate\Support\Facades\Validator;
 
 class StrictValidator extends Validator

@@ -16,21 +16,21 @@ class LabOrderTransformer extends TransformerAbstract
     public function transform(LabOrder $lab_order)
     {
         return [
-            'id' => cast_to_string($labOrder->id),
-            'address_1' => $labOrder->address_1,
-            'address_2' => $labOrder->address_2,
-            'city' => $labOrder->city,
-            'completed_at' => $labOrder->completed_at,
-            'created_at' => $labOrder->created_at,
+            'id' => cast_to_string($lab_order->id),
+            'address_1' => $lab_order->address_1,
+            'address_2' => $lab_order->address_2,
+            'city' => $lab_order->city,
+            'completed_at' => $lab_order->completed_at,
+            'created_at' => $lab_order->created_at,
             'discount_code_id' => cast_to_string($lab_order->discount_code_id),
-            'patient_id' => cast_to_string($labOrder->patient_id),
-            'practitioner_id' => cast_to_string($labOrder->practitioner_id),
-            'shipment_code' => cast_to_string($labOrder->shipment_code),
-            'shipment_label_url' => $labOrder->shipment_label_url,
-            'shippo_id' => $labOrder->shippo_id,
-            'state' => $labOrder->state,
-            'status' => $labOrder->status,
-            'zip' => cast_to_string($labOrder->zip),
+            'patient_id' => cast_to_string($lab_order->patient_id),
+            'practitioner_id' => cast_to_string($lab_order->practitioner_id),
+            'shipment_code' => cast_to_string($lab_order->shipment_code),
+            'shipment_label_url' => $lab_order->shipment_label_url,
+            'shippo_id' => $lab_order->shippo_id,
+            'state' => $lab_order->state,
+            'status' => $lab_order->status,
+            'zip' => cast_to_string($lab_order->zip),
         ];
     }
 
