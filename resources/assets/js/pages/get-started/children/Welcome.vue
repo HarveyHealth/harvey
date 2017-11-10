@@ -30,6 +30,34 @@ export default {
       }
     };
   },
+  methods: {
+    trackAccountCreation(validation) {
+      if (!validation.account_created) {
+        analytics.track('Account Created');
+        analytics.identify(App.Config.user.info.id, {
+            firstName: App.Config.user.info.first_name,
+            lastName: App.Config.user.info.last_name,
+            email: App.Config.user.info.email,
+            city: App.Config.user.info.city,
+            state: App.Config.user.info.state,
+            zip: App.Config.user.info.zip
+        }, {
+            integrations: {
+                Intercom : {
+                    user_hash: App.Config.user.info.intercom_hash
+                }
+            }
+        });
+        if (validation.facebook_connect) {
+          analytics.track('Facebook Connect Signup');
+        }
+        App.Util.data.updateStorage('zip_validation', {
+          account_created: true,
+          facebook_connect: false
+        });
+      }
+    }
+  },
   mounted () {
     this.$root.toDashboard();
     this.$root.getPractitioners();
@@ -38,6 +66,10 @@ export default {
     if (Laravel.user.has_a_card) this.$root.$data.signup.billingConfirmed = true;
 
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+
+    const zipValidation = JSON.parse(App.Util.data.fromStorage('zip_validation'));
+
+    this.trackAccountCreation(zipValidation);
 
     analytics.page('Welcome');
     analytics.track('Welcome');
