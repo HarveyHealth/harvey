@@ -242,16 +242,17 @@ export default {
             this.activeModal = false;
         },
         getTimelineData() {
-            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_tests,results`)
+            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
                 .then(response => {
+                    console.log(`RESPONSE`, response)
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e) => {
-                            e.type === 'soap_notes' ? 
+                            e.type === 'soap_note' ? 
                                 this.soap_notes[e.id] = e :
-                            e.type === 'attachments' ?
+                            e.type === 'attachment' ?
                                 this.attachments[e.id] = e :
-                            e.type === 'prescriptions' ?
+                            e.type === 'prescription' ?
                                 this.prescriptions[e.id] = e :
                             null;
                             let object = {};
@@ -290,7 +291,7 @@ export default {
                         this.setPage(5);
                         this.setProps(data);
                     },
-                    'Lab Results': (data, index) => {
+                    'Lab Result': (data, index) => {
                         this.setIndex(index);
                         this.setPage(2);
                         this.setProps(data);
@@ -300,17 +301,17 @@ export default {
                         this.setPage(6);
                         this.setProps(data);
                     },
-                    'Prescriptions': (data, index) => {
+                    'Prescription': (data, index) => {
                         this.setIndex(index);
                         this.setPage(3);
                         this.setProps(data);
                     },
-                    'Attachments': (data, index) => {
+                    'Attachment': (data, index) => {
                         this.setIndex(index);
                         this.setPage(4);
                         this.setProps(data);
                     },
-                    'Soap Notes': (data, index) => {
+                    'Soap Note': (data, index) => {
                         this.setIndex(index);
                         this.setPage(1);
                         this.setProps(data);

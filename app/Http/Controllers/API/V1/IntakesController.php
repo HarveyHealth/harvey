@@ -9,7 +9,7 @@ use Exception, ResponseCode;
 
 class IntakesController extends BaseAPIController
 {
-    protected $resource_name = 'intake';
+    protected $resource_name = 'intakes';
 
     /**
      * AttachmentsController constructor.
@@ -21,16 +21,27 @@ class IntakesController extends BaseAPIController
         $this->transformer = $transformer;
     }
 
-
     public function getAll(Request $request)
     {
         if (currentUser()->isNotAdminOrPractitioner()) {
             return $this->respondNotAuthorized('You do not have access to retrieve Intake forms.');
         }
 
-        $intakes = Patient::all()->map(function ($i) { return $i->getIntakeData(); })->filter();
+        $builder = Patient::make();
 
-        return $this->baseTransformCollection($intakes)->respond();
+        if (is_numeric(request('per_page'))) {
+            $paginator = $builder->paginate((int) request('per_page'));
+            $paginator->appends(array_diff_key(request()->all(), array_flip(['page'])));
+            $collection = $paginator->items();
+            $paginationAdapter =  new IlluminatePaginatorAdapter($paginator);
+        } else {
+            $collection = $builder->get();
+            $paginationAdapter = null;
+        }
+
+        $collection = $collection->map(function ($i) { return $i->getIntakeData(); })->filter();
+
+        return $this->baseTransformCollection($collection, request('include'), $this->transformer, $paginationAdapter)->respond();
     }
 
     public function getOne(Request $request, string $token)

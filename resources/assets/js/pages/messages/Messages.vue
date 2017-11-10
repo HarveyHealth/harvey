@@ -6,19 +6,11 @@
                     <div class="container container-backoffice">
                         <h1 class="heading-1">
                             <span class="text">Messages</span>
-                            <button v-if="
-                                !$root.$data.global.loadingMessages && 
-                                !$root.$data.global.loadingAppointments &&
-                                !$root.$data.global.loadingPractitioners &&
-                                !$root.$data.global.loadingPatients"
+                            <button v-if="loadingAddMessage()"
                             @click="close()" class="button main-action circle">
                                 <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                             </button>
-                            <ClipLoader class="main-action" style="background-color: transparent;"
-                            v-if="$root.$data.global.loadingMessages || 
-                            $root.$data.global.loadingAppointments ||
-                            $root.$data.global.loadingPractitioners ||
-                            $root.$data.global.loadingPatients" :color="'#82BEF2'" :loading="true" />
+                            <ClipLoader class="main-action" style="background-color: transparent;" v-else :color="'#82BEF2'" :loading="true" />
                         </h1>
                     </div>
                 </div>
@@ -91,7 +83,7 @@
               notificationMessage: 'Message Sent!',
               notificationActive: false,
               notificationDirection: 'top-right',
-              messageList: [],
+              messageList: []
             };
         },
         computed: {
@@ -121,6 +113,16 @@
           },
           makeThreadId(userOne, userTwo) {
             return userOne > userTwo ? `${userTwo}-${userOne}` : `${userOne}-${userTwo}`;
+          },
+          loadingAddMessage() {
+              const global = this.$root.$data.global;
+              if (Laravel.user.user_type === 'admin') {
+                  return !global.loadingAppointments && !global.loadingPractitioners && !global.loadingPatients;
+              } else if (Laravel.user.user_type === 'practitioner') {
+                  return !global.loadingAppointments && !global.loadingPatients;
+              } else if (Laravel.user.user_type === 'patient') {
+                  return !global.loadingAppointments && !global.loadingPractitioners;
+              }
           }
         },
         mounted() {

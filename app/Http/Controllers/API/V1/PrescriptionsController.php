@@ -22,11 +22,6 @@ class PrescriptionsController extends BaseAPIController
         $this->transformer = $transformer;
     }
 
-    public function getAll(Request $request)
-    {
-        return $this->baseTransformBuilder(Prescription::belongingTo(currentUser()), request('include'), new PrescriptionTransformer, request('per_page'))->respond();
-    }
-
     public function getOne(Request $request, Prescription $prescription)
     {
         if (currentUser()->cant('get', $prescription)) {

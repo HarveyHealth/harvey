@@ -29,7 +29,7 @@
         <rect id="Fade-Rectangle" x="36" y="93" width="1920" height="2418"></rect>
       </g>
     </g>
-  </sombol>
+  </symbol>
 
   <symbol id="small-person" viewBox="0 0 30 30">
     <g fill="none" fill-rule="evenodd"><circle fill="#BAA7B5" cx="15" cy="15" r="15"/>

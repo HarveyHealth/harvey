@@ -22,12 +22,6 @@ class SoapNotesController extends BaseAPIController
         $this->transformer = $transformer;
     }
 
-    public function getAll(Request $request)
-    {
-
-        return $this->baseTransformBuilder(SoapNote::belongingTo(currentUser()), request('include'), $this->transformer, request('per_page'))->respond();
-    }
-
     public function getOne(Request $request, SoapNote $soapNote)
     {
         if (currentUser()->cant('get', $soapNote)) {
