@@ -33,9 +33,17 @@ const app = new Vue({
         VerticalTabs
     },
     data: {
-        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
-        guest: true,
         appLoaded: false,
+        emailCaptureError: 'Not a valid email address',
+        emailCaptureClasses: {
+          'error-text': true,
+          'is-visible': false
+        },
+        emailCaptureSuccess: false,
+        guest: true,
+        guestEmail: '',
+        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
+        isLoginPage: false,
         isProcessing: false,
         login: {
             form: new Form({
@@ -44,6 +52,8 @@ const app = new Vue({
                 remember: false
             })
         },
+        navIsInverted: true,
+        navScrollThreshold: 56,
         register: {
             form: new Form({
                 first_name: '',
@@ -54,6 +64,7 @@ const app = new Vue({
                 terms: false
             })
         },
+        showSignupContent: true,
         symptomsChanged: false,
         symptomsSaving: false,
         symptomsStats: {
@@ -108,28 +119,33 @@ const app = new Vue({
                 value: 3
             }
         },
-        navIsInverted: true,
-        isLoginPage: false,
-        wait: 400,
-        navScrollThreshold: 56,
-        showSignupContent: true,
-        guestEmail: '',
-        emailCaptureError: 'Not a valid email address',
-        emailCaptureClasses: {
-          'error-text': true,
-          'is-visible': false
-        },
-        emailCaptureSuccess: false
+        wait: 400
     },
     computed: {
         bodyClassNames() {
           return document.getElementsByTagName('body')[0].classList;
         },
+        getStartedLink() {
+          if (Laravel.user.signedIn) {
+            return Laravel.user.has_an_appointment
+              ? { href: '/dashboard', display: `${this.userAvatar}<span>Dashboard</span>` }
+              : { href: '/get-started', display: 'Get Started' };
+          } else {
+            return this.hasZipValidation
+              ? { href: '/get-started', display: 'Get Started' }
+              : { href: '/conditions', display: 'Get Started' };
+          }
+        },
         isHomePage() {
           return window.location.pathname === '/';
         },
-        getStartedLink() {
-          return this.hasZipValidation ? '/get-started' : '/conditions';
+        loginLink() {
+          return Laravel.user.signedIn
+            ? { href: '/logout', display: 'Log out' }
+            : { href: '/login', display: 'Log in' };
+        },
+        userAvatar() {
+          return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
         }
     },
     methods: {
