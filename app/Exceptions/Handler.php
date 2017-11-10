@@ -6,7 +6,7 @@ use Crell\ApiProblem\ApiProblem;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Exception, ResponseCode, ServiceUnavailableException, StrictValidatorException;
+use Exception, ResponseCode;
 
 class Handler extends ExceptionHandler
 {

@@ -190,52 +190,50 @@ class LabOrder extends Model
             'test' => isNotProd(),
         ];
 
-        try {
-            $shippo_address = Shippo_Address::create($to);
-            $shippo_to_address_id = $shippo_address->object_id;
+        $shippo_address = Shippo_Address::create($to);
+        $shippo_to_address_id = $shippo_address->object_id;
 
-            if (!Shippo_Address::validate($shippo_to_address_id)->validation_results->is_valid) {
-                throw new StrictValidatorException('The address' . json_encode($to) . 'is invalid.');
-            }
-
-            $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
-                return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
-            });
-
-            $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
-            $carrier_object_id = $carriers->results[0]->object_id ?? null;
-
-            if (empty($carrier_object_id)) {
-                throw new ServiceUnavailableException("Can't get carrier_object_id when processing LabOrder ID #{$this->id}");
-            }
-
-            $transaction = Shippo_Transaction::create([
-                'shipment' => [
-                    'address_to' => $shippo_to_address_id,
-                    'address_from' => $from,
-                    'parcels' => $parcel_info,
-                ],
-                'carrier_account' => $carrier_object_id,
-                'servicelevel_token' => config('services.shippo.carrier_service_level'),
-                'label_file_type' => 'PDF',
-                'async' => false,
-                'test' => isNotProd(),
-            ]);
-
-            if ('SUCCESS' != $transaction->status) {
-                throw new ServiceUnavailableException("Transaction failed when shipping LabOrder ID #{$this->id}. " . collect($transaction->messages)->implode('text', ' - '));
-            }
-
-            Redis::set($this->redisKeyForUrlLabel(), $transaction->label_url);
-
-            $this->shippo_id = $transaction->object_id;
-            $this->shipment_code = $transaction->tracking_number;
-
-            $this->save();
-        } catch (ServiceUnavailableException $e) {
-            ops_warning('LabOrder@ship', $e->getMessage());
-            throw $e;
+        if (!Shippo_Address::validate($shippo_to_address_id)->validation_results->is_valid) {
+            throw new StrictValidatorException('The address' . json_encode($to) . 'is invalid.');
         }
+
+        $parcel_info = $this->labTests->pluck('sku.attributes')->map(function($i) {
+            return collect($i)->only(['length', 'width', 'height', 'distance_unit', 'weight', 'mass_unit']);
+        });
+
+        $carriers = Shippo_CarrierAccount::all(['carrier' => config('services.shippo.carrier')]);
+        $carrier_object_id = $carriers->results[0]->object_id ?? null;
+
+        if (empty($carrier_object_id)) {
+            ops_warning('LabOrder@ship', "Can't get carrier_object_id when processing LabOrder ID #{$this->id}");
+            throw new ServiceUnavailableException("Can't connnect to our transportation carrier.");
+        }
+
+        $transaction = Shippo_Transaction::create([
+            'shipment' => [
+                'address_to' => $shippo_to_address_id,
+                'address_from' => $from,
+                'parcels' => $parcel_info,
+            ],
+            'carrier_account' => $carrier_object_id,
+            'servicelevel_token' => config('services.shippo.carrier_service_level'),
+            'label_file_type' => 'PDF',
+            'async' => false,
+            'test' => isNotProd(),
+        ]);
+
+        if ('SUCCESS' != $transaction->status) {
+            $error_response = collect($transaction->messages)->implode('text', ' - ');
+            ops_warning('LabOrder@ship', "Transaction failed when shipping LabOrder ID #{$this->id}. {$error_response}");
+            throw new ServiceUnavailableException("Transaction failed when shipping LabOrder. {$error_response}");
+        }
+
+        Redis::set($this->redisKeyForUrlLabel(), $transaction->label_url);
+
+        $this->shippo_id = $transaction->object_id;
+        $this->shipment_code = $transaction->tracking_number;
+
+        $this->save();
 
         return $this;
     }
