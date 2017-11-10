@@ -265,7 +265,10 @@ export default {
                                 object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
                                 object.original_date = e.attributes.created_at.date;
                             }
-                            object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
+                            object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
+                            if (e.type === 'soap_note') {
+                                object.type = 'SOAP Note';
+                            }
                             object.id = e.id;
                             object.data = e;
                             this.timeline.push(object);
@@ -317,7 +320,7 @@ export default {
                         this.setPage(4);
                         this.setProps(data);
                     },
-                    'Soap Note': (data, index) => {
+                    'SOAP Note': (data, index) => {
                         this.setIndex(index);
                         this.setPage(1);
                         this.setProps(data);
