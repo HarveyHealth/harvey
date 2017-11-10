@@ -1,17 +1,14 @@
 <template>
   <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button"
-      @click="handleMenu(null)"
-    >
+    <button class="menu-button" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
     <nav class="admin-nav">
-      <router-link to="/" class="nav-bar-account"
-        @click.native="handleMenu(false, 'dashboard')">
+      <a class="nav-bar-account" href="/">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
-      </router-link>
+      </a>
 
       <router-link to="/" title="Dashboard"
         :class="currentPageCheck('dashboard')"
@@ -86,7 +83,7 @@
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
-        <div class="text">Logout</div>
+        <div class="text">Log out</div>
       </a>
 
     </nav>
