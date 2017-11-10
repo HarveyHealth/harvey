@@ -109,8 +109,8 @@ class UsersController extends BaseAPIController
 
             $user->password = bcrypt($request->password);
             $user->save();
-            event(new UserRegistered($user));
             $user->patient()->save(new Patient());
+            event(new UserRegistered($user));
 
             // Add "manually" intercom_hash key, we don't want to include this on Transformer
             // since it can compromise Identity Verification security.

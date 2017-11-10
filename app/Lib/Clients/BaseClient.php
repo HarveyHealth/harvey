@@ -57,6 +57,19 @@ class BaseClient
         return $response;
     }
 
+    public function put($call, $params = [], $headers = [])
+    {
+        $client = $this->client();
+
+        $data = [];
+        $data['body'] = array_merge($params, $this->params);;
+        $data['headers'] = array_merge($this->headers, $headers);
+
+        $response = $client->put($this->baseEndpoint($call), $data);
+
+        return $response;
+    }
+
     protected function baseEndpoint($call)
     {
         $endpoint = trim($this->base_endpoint, '/') . '/';

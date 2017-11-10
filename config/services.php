@@ -45,6 +45,12 @@ return [
         'api_key' => env('INTAKEQ_API_KEY')
     ],
 
+    'fullscript' => [
+        'clinic_key' => env('FULLSCRIPT_CLINIC_KEY'),
+        'api_key' => env('FULLSCRIPT_API_KEY'),
+        'api_host' => env('FULLSCRIPT_API_HOST'),
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN', 'POSTMARK_API_TEST'),
         'signature' => env('POSTMARK_SIGNATURE', 'hello@goharvey.com'),
