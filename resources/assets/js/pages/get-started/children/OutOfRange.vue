@@ -46,9 +46,10 @@ export default {
     this.$root.toDashboard();
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Out of Range');
-    }
+    analytics.page('Out of Range');
+    analytics.track('Out of Range');
+    analytics.identify();
+
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

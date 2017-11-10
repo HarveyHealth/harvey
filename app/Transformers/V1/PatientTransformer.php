@@ -7,7 +7,7 @@ use League\Fractal\TransformerAbstract;
 
 class PatientTransformer extends TransformerAbstract
 {
-    protected $availableIncludes = [
+    public $availableIncludes = [
         'appointments',
         'attachments',
         'intake',

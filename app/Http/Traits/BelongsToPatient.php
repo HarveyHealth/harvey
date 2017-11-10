@@ -14,24 +14,6 @@ trait BelongsToPatient
         return $this->belongsTo(Patient::class);
     }
 
-    public function scopeBelongingTo(Builder $builder, User $user)
-    {
-        switch ($user->type) {
-            case 'admin':
-            case 'practitioner':
-                return $builder;
-                break;
-
-            case 'patient':
-                return $builder->whereHas('patient', function ($builder) use ($user) {
-                    $builder->where('patients.user_id', $user->id);
-                })->orWhere('created_by_user_id', $user->id);
-                break;
-        }
-
-        return $builder->limit(0);
-    }
-
     public function getDoctorNameAttribute()
     {
         $builder = $this->patient->appointments()->withoutGlobalScopes()->beforeThan($this->created_at)->byAppointmentAtDesc();
