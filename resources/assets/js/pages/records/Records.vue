@@ -176,6 +176,7 @@ export default {
             soap_notes: {},
             attachments: {},
             prescriptions: {},
+            intakes: {},
             propData: {},
             notificationSymbol: '&#10003;',
             notificationMessage: '',
@@ -254,11 +255,16 @@ export default {
                                 this.attachments[e.id] = e :
                             e.type === 'prescription' ?
                                 this.prescriptions[e.id] = e :
+                             e.type === 'intake' ?
+                                this.intakes[e.id] = e :
                             null;
                             let object = {};
                             object.doctor = e.attributes.doctor_name || "No Doctor";
-                            object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
-                            object.original_date = e.attributes.created_at.date;
+                            object.original_date = null;
+                            if (e.attributes && e.attributes.created_at && e.attributes.created_at.date) {
+                                object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                                object.original_date = e.attributes.created_at.date;
+                            }
                             object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
                             object.id = e.id;
                             object.data = e;
@@ -286,7 +292,7 @@ export default {
         },
         timelineData() {
                 let onClickFunctions = {
-                    'Intake Form': (data, index) => {
+                    'Intake': (data, index) => {
                         this.setIndex(index);
                         this.setPage(5);
                         this.setProps(data);
