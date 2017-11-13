@@ -1,4 +1,4 @@
-<div class="header nav" :class="{'is-inverted': navIsInverted}">
+<!-- <div class="header nav" :class="{'is-inverted': navIsInverted}">
     <div class="container">
         <div class="nav-left">
             <a href="/" class="nav-item">
@@ -21,6 +21,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+<main-nav-2></main-nav-2>
 
 @include('legacy._layouts.includes.messages')

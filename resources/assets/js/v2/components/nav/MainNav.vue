@@ -56,7 +56,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   @media screen and (max-width: 767px) {
     .is-hidden-mobile {
       display: none !important;
