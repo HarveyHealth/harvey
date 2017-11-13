@@ -7,12 +7,13 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Clients\Fullscript;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class CreateFullscriptPatient implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $user, $fullscript;
+    protected $user;
 
     /**
      * Create a new job instance.
@@ -22,7 +23,6 @@ class CreateFullscriptPatient implements ShouldQueue
     public function __construct($user)
     {
         $this->user = $user;
-        $this->fullscript = \App::make(Fullscript::class);
     }
 
     /**
@@ -35,7 +35,7 @@ class CreateFullscriptPatient implements ShouldQueue
         //
         $patient = false;
 
-        $fullscript = $this->fullscript;
+        $fullscript = \App::make(Fullscript::class);
 
         // find patient by external ref
         $patients = $fullscript->getPatients($this->user->id);
