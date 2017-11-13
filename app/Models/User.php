@@ -122,6 +122,11 @@ class User extends Authenticatable implements Mailable
         return  empty($fullName) ? null : $fullName;
     }
 
+    public function getTruncatedNameAttribute()
+    {
+        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
+    }
+
     public function getHasAnAppointmentAttribute()
     {
         $builder = $this->appointments();
@@ -236,11 +241,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function truncatedName()
-    {
-        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function passwordSet()
