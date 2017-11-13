@@ -723,7 +723,7 @@ export default {
               }
             });
           }));
-        } else if (this.$props.rowData.completed_at === 'Recommended') {
+        } else if (this.$props.rowData.completed_at === 'Recommended' && this.$root.$data.permissions === 'patient') {
           promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
             status: 'confirmed'
           }).then(resp => {
