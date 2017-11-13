@@ -354,8 +354,8 @@ const app = new Vue({
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.practitioners = _.uniqBy(doctors, 'id');
-            this.global.patients = _.uniqBy(patients, 'id');
+            this.global.practitioners = _.uniqBy(doctors, 'id').filter(e => e !== undefined);
+            this.global.patients = _.uniqBy(patients, 'id').filter(e => e !== undefined);
             this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id').filter(e => e !== undefined);
             this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id').filter(e => e !== undefined);
             this.global.loadingConfirmedUsers = false;
