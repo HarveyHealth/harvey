@@ -13,7 +13,7 @@ use App\Lib\Clients\Fullscript;
 use Mockery;
 
 
-class ExampleTest extends TestCase
+class FullscriptJobTest extends TestCase
 {
     use DatabaseMigrations;
 

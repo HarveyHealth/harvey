@@ -8,9 +8,9 @@ class Fullscript extends BaseClient
 {
     protected $base_endpoint = '';
 
-    public function __construct()
+    public function __construct($client = null)
     {
-        parent::__construct();
+        parent::__construct($client);
         $this->headers = [
             'X-API-Key' => config('services.fullscript.api_key'),
             'X-FS-Clinic' => config('services.fullscript.clinic_key'),
@@ -39,7 +39,7 @@ class Fullscript extends BaseClient
         }
 
         //perform call to API
-        $response = $this->get('/patients', $params);
+        $response = $this->get('patients', $params);
 
 
         if ($response->getStatusCode() == 400) {
@@ -56,7 +56,7 @@ class Fullscript extends BaseClient
     */
     public function updatePatient($id, $data){
         //perform call to API
-        $response = $this->put("/patients/{$id}", $data);
+        $response = $this->put("patients/{$id}", $data);
 
         switch ($response->getStatusCode()) {
             case 400:
@@ -83,7 +83,7 @@ class Fullscript extends BaseClient
      */
     public function createPatient($data){
         //perform call to API
-        $response = $this->post("/patients", $data);
+        $response = $this->post("patients", $data);
 
 
         if ($response->getStatusCode() == 405) {
