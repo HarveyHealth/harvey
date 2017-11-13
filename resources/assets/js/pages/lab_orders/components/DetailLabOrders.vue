@@ -363,7 +363,6 @@
 
       <!-- Shipping Label -->
       <div>
-        <a v-if="this.shippingLabel" :href="this.shippingLabel" target="_blank">Shipping Label</a>
         <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
       </div>
 
