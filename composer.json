@@ -25,7 +25,7 @@
         "propaganistas/laravel-phone": "^2.8",
         "laravel/dusk": "^1.0",
         "spatie/laravel-fractal": "^4.0",
-        "laravel/passport": "^2.0",
+        "laravel/passport": "^3.0",
         "crell/api-problem": "^2.0",
         "wildbit/postmark-php": "^2.3",
         "laravel/homestead": "^5.2",

@@ -364,6 +364,7 @@
       <!-- Shipping Label -->
       <div>
         <a v-if="this.shippingLabel" :href="this.shippingLabel" target="_blank">Shipping Label</a>
+        <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
       </div>
 
       <!-- Mark as Shipped -->
@@ -431,6 +432,7 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
       shippingLabel: null,
@@ -708,6 +710,9 @@ export default {
         // close the modal
         this.closeShippingModal();
 
+        // reset any errors
+        this.shippingErrorMessage = null;
+
         this.loading = true;
         const labOrderId = this.$props.rowData.id;
 
@@ -724,8 +729,12 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
+
+            console.log('then', response);
         }).catch((error) => {
-            console.log(error);
+            // stop the loading
+            this.loading = false;
+            this.shippingErrorMessage = 'There was a problem with generating the label. Please enter a tracking number manually.';
         });
     },
     markedShipped() {
