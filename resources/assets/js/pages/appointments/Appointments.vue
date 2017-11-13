@@ -573,7 +573,7 @@ export default {
               this.appointment.status = 'pending';
               this.isModalActive = true;
             }
-          }
+          };
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.shouldShowBillingError = true;
             return;
@@ -606,8 +606,8 @@ export default {
       }).catch(error => {
         if (error.response) {
           console.warn(error.response);
-        };
-      })
+        }
+      });
     },
 
     // When getAppointments is run we save three copies of the data to match
@@ -808,6 +808,7 @@ export default {
       const appointmentStatus = this.appointment.status;
       const appointmentDate = data.appointment_at;
       const appointmentPatientEmail = this.appointment.patientEmail;
+      const trackingPatientId = data.patient_id;
 
       // api constraints
       const isPatient = this.userType === 'patient';
@@ -865,16 +866,17 @@ export default {
 
       // Make the call
       // TO-DO: Add error notifications if api call fails
-      axios[action](endpoint, data).then((response) => {
+      axios[action](endpoint, data).then(() => {
         // track the event
-        if(this.$root.shouldTrack()) {
-          if((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
+        if ((isPractitioner || isAdmin) && appointmentStatus === 'complete') {
             analytics.track('Consultation Completed', {
-              date: appointmentDate,
-              email: appointmentPatientEmail
+                date: appointmentDate,
+                email: appointmentPatientEmail,
+                user_id: Laravel.user.id,
+                patient_user_id: trackingPatientId,
             });
-          }
         }
+
 
         // reset discount information
         this.discountCode = '';
@@ -1034,7 +1036,6 @@ export default {
     setupAppointments(list) {
       const zone = this.$root.addTimezone();
       const appts = tableDataTransform(list, zone, this.userType).sort(tableSort.byDate('_date')).reverse();
-
       this.cache.upcoming = appts.filter(obj => moment(obj.data._date).diff(moment()) > 0 && obj.data.status === 'Pending');
       this.cache.past = appts.filter(obj => moment(obj.data._date).diff(moment()) < 0 && obj.data.status === 'Pending' || obj.data.status === 'Complete');
       this.cache.cancelled = appts.filter(obj => obj.data.status !== 'Pending' && obj.data.status !== 'Complete');

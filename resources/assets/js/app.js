@@ -3,6 +3,10 @@ import router from './routes';
 
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
+import VueRouter from 'vue-router';
+
+Vue.use(VeeValidate);
+Vue.use(VueRouter);
 
 // COMPONENETS
 import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
@@ -14,8 +18,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 import _ from 'lodash';
-
-Vue.use(VeeValidate);
 
 const env = require('get-env')();
 window.Card = require('card');
@@ -395,9 +397,6 @@ const app = new Vue({
           if (this.signup.completedSignup) {
             window.location.href = '/dashboard';
           }
-        },
-        shouldTrack() {
-          return env === 'production' || env === 'prod';
         }
     },
     mounted() {
