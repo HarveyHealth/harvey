@@ -6,7 +6,7 @@
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
                         <span class="text">Lab Orders</span>
-                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" v-on:click="addingFlyoutActive()" class="button main-action circle">
+                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" @click="addingFlyoutActive" class="button main-action circle">
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
                     </h1>
@@ -27,8 +27,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions != 'patient'"
-            :reset="setupLabData" :labTests="tests" />
+            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions !== 'patient'" :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -228,14 +227,14 @@
             disabledFilters() {
                 return this.$root.$data.global.loadingLabOrders || this.$root.$data.global.loadingLabTests || this.selectedRowUpdating !== null;
             },
-            filters() { 
+            filters() {
                 return [
-                    {name: `Recommended`, count: this.cache.Recommended.length}, 
-                    {name: `Confirmed`, count: this.cache.Confirmed.length}, 
-                    {name: `Shipped`, count: this.cache.Shipped.length}, 
-                    {name: `Received`, count: this.cache.Received.length}, 
-                    {name: `Mailed`, count: this.cache.Mailed.length}, 
-                    {name: `Processing`, count: this.cache.Processing.length}, 
+                    {name: `Recommended`, count: this.cache.Recommended.length},
+                    {name: `Confirmed`, count: this.cache.Confirmed.length},
+                    {name: `Shipped`, count: this.cache.Shipped.length},
+                    {name: `Received`, count: this.cache.Received.length},
+                    {name: `Mailed`, count: this.cache.Mailed.length},
+                    {name: `Processing`, count: this.cache.Processing.length},
                     {name: `Complete`, count: this.cache.Complete.length}
                 ];
             },

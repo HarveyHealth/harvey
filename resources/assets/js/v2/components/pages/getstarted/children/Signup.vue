@@ -303,10 +303,7 @@ export default {
   },
   mounted () {
     this.$root.toDashboard();
-
-    if(App.Logic.misc.shouldTrack()) {
-      analytics.page("Signup");
-    }
+    analytics.page("Signup");
   }
 };
 </script>

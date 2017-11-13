@@ -72,7 +72,7 @@ import axios from 'axios';
 import _ from 'lodash';
 export default {
   props: {
-    reset: Function, 
+    reset: Function,
     labTests: Object
   },
   name: 'AddLabOrders',
@@ -172,7 +172,9 @@ export default {
           this.prevClient = '';
           this.doctorList = [''].concat(this.$root.$data.global.practitioners);
           this.clientList = [''].concat(this.$root.$data.global.patients);
-          Object.values(this.$props.labTests).map(e => e.checked = false);
+
+          Object.keys(this.$props.labTests)
+            .map(test => this.$props.labTests[test].checked = false);
 
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
@@ -211,17 +213,17 @@ export default {
       if (this.step == 2) return "Enter Tracking #s";
     },
     testNameList() {
-      let prop = this.$props.labTests;
-      let array = Object.values(prop).sort((a,b) => a.id - b.id);
-      return array;
+        return Object.keys(this.$props.labTests)
+            .map(key => this.$props.labTests[key])
+            .sort((a, b) => a.id - b.id);
     }
   },
   watch: {
     testNameList(val) {
       if (val) {
-        let prop = this.$props.labTests;
-        let array = Object.values(prop).sort((a,b) => a.id - b.id);
-        return array;
+          return Object.keys(this.$props.labTests)
+              .map(key => this.$props.labTests[key])
+              .sort((a, b) => a.id - b.id);
       }
     }
   },
