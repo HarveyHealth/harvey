@@ -124,7 +124,7 @@
             }
         },
         mounted() {
-          // this.$eventHub.$emit('mixpanel', "View Payments Page");
+          analytics.page('Payment');
         }
     };
 </script>
