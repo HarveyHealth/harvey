@@ -9,7 +9,7 @@
         <label class="input__label" for="patient_name">Client</label>
         <span class="custom-select">
             <select @change="updateClient($event)">
-                <option v-for="client in clientList" :data-id="client.id">{{ client.name }}</option>
+                <option v-for="(client, key) in clientList" :data-id="client.id" :selected="selectedClient">{{ client.name }}</option>
             </select>
         </span>
     </div>
@@ -17,7 +17,7 @@
       <label class="input__label" for="patient_name">Doctor</label>
       <span class="custom-select">
           <select @change="updateDoctor($event)">
-              <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+              <option v-for="(doctor, key) in doctorList" :data-id="doctor.id"  :selected="selectedDoctor">{{ doctor.name }}</option>
           </select>
       </span>
     </div>
@@ -84,8 +84,8 @@ export default {
   data() {
     return {
       activeModal: false,
-      selectedDoctor: '',
-      selectedClient: '',
+      selectedDoctor: 0,
+      selectedClient: 0,
       step: 1,
       masterTracking: '',
       address1: '',
@@ -101,13 +101,15 @@ export default {
       testNamesInList: [],
       selectedClientName: '',
       selectedDoctorName: '',
-      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
-      clientList: [''].concat(this.$root.$data.global.patients)
+      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [{id: 0, name: ''}].concat(this.$root.$data.global.practitioners),
+      clientList: [{id: 0, name: ''}].concat(this.$root.$data.global.patients)
     };
   },
   methods: {
     modalClose() {
       this.$parent.addActiveModal = false;
+      this.selectedClient = 0;
+      this.selectedDoctor = 0;
     },
     openModal() {
       this.$parent.addActiveModal = true;
@@ -136,7 +138,8 @@ export default {
     handleFlyoutClose() {
         this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
         this.$parent.addActiveModal = false;
-        this.resetting = true;
+        this.selectedClient = 0;
+        this.selectedDoctor = 0;
     },
     createLabOrder() {
         this.selectedTests.map(e => {
