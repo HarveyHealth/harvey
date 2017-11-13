@@ -184,16 +184,19 @@ export default {
           Laravel.user.phone = number;
           Vue.nextTick(() => document.querySelector('.phone-confirm-input-wrapper input').focus());
 
-          // track the number patch
-          if(this.$root.shouldTrack()) {
-            // collect response information
-            const userId = response.data.data.id || '';
+          // collect response information
+          const userId = response.data.data.id || '';
 
-            // Segment Identify update
-            analytics.identify(userId, {
-              phone: number
-            });
-          }
+          // Segment Identify update
+          analytics.identify(userId, {
+            phone: number
+          }, {
+            integrations: {
+              Intercom : {
+                user_hash: Laravel.user.intercom_hash
+              }
+            }
+          });
         }).catch(() => {
           this.isUserPatchError = true;
           this.isPhoneProcessing = false;
@@ -220,9 +223,7 @@ export default {
     this.$root.$data.signup.visistedStages.push('phone');
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
-      analytics.page('Phone');
-    }
+    analytics.page('Phone');
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);

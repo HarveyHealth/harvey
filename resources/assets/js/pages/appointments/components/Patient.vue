@@ -68,11 +68,6 @@ export default {
   methods: {
     handleSelect(e) {
       this.setPatient(this.list[e.target.selectedIndex - 1].data);
-    },
-    trackPhoneCall() {
-      if(this.$root.shouldTrack()) {
-        // add "Click Phone Number" tracking here
-      }
     }
   },
   filters: {

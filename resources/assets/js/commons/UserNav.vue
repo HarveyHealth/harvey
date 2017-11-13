@@ -30,8 +30,17 @@
       <router-link to="/lab_orders" title="Lab Orders"
         :class="currentPageCheck('lab-orders')"
         @click.native="handleMenu(false, 'lab-orders')">
-        <i class="fa fa-eyedropper icon icon-nav-bar"></i>
+        <i class="fa fa-medkit icon icon-nav-bar"></i>
         <div class="text">Lab Orders</div>
+      </router-link>
+
+      <router-link
+        v-if="user === 'admin'"
+        to="/lab_tests/edit" title="Lab Tests"
+        :class="currentPageCheck('sku-dashboard')"
+        @click.native="handleMenu(false, 'sku-dashboard')">
+        <i class="fa fa-flask icon icon-nav-bar"></i>
+        <div class="text">Lab Tests</div>
       </router-link>
 
       <router-link to="/messages" title="Messages"
@@ -51,14 +60,6 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link 
-       to="/settings" title="Settings"
-        :class="currentPageCheck('settings')"
-        @click.native="handleMenu(false, 'settings')">
-        <i class="fa fa-cog icon icon-nav-bar"></i>
-        <div class="text">Settings</div>
-      </router-link> 
-
       <router-link
         v-if="user === 'admin'"
         to="/clients" title="Recent Clients"
@@ -73,6 +74,14 @@
                    @click.native="handleMenu(false, 'profile')">
         <i class="fa fa-user icon icon-nav-bar"></i>
         <div class="text">Profile</div>
+      </router-link>
+
+       <router-link
+       to="/settings" title="Settings"
+        :class="currentPageCheck('settings')"
+        @click.native="handleMenu(false, 'settings')">
+        <i class="fa fa-cog icon icon-nav-bar"></i>
+        <div class="text">Settings</div>
       </router-link>
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">

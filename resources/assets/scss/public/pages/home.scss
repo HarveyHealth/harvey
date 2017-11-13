@@ -1,6 +1,7 @@
 // Eventually combine into a single Vue template
 body.home,
 body.about,
+body.financing,
 body[class*="lab-tests"] {
 
     // General
@@ -46,6 +47,19 @@ body[class*="lab-tests"] {
                 }
                 &.is-6{
                     font-size: 16px;
+                }
+            }
+        }
+
+        .hero-disclaimer {
+            @include padding(null 3em null);
+            p {
+                color: white;
+                font-size: 14px;
+                margin-top: 1em;
+                a.legal {
+                    color: white;
+                    text-decoration: underline;
                 }
             }
         }
@@ -119,8 +133,7 @@ body[class*="lab-tests"] {
     }
     .columns.is-narrow {
         max-width: 1052px;
-        @include margin(null null null auto);
-        @include margin(null auto null null);
+        @include margin(null auto);
     }
     .has-content-vertical-aligned {
         @include from($desktop) {
@@ -409,6 +422,18 @@ body[class*="lab-tests"] {
         }
     }
 
+    // Financing 
+
+    #financing {
+        figure {
+            @include padding(null 6em);
+        }
+        .columns.is-narrow {
+            max-width: 930px;
+            @include margin(3em auto);
+        }
+    }
+
     // Sub-Footer
 
     #get-started {
@@ -420,6 +445,14 @@ body[class*="lab-tests"] {
         p {
             color: $tertiary;
             font-size: 1.2rem;
+        }
+        #get-started-disclaimer {
+            margin-top: 3em;
+            p, em {
+                color: gray;
+                font-size: 15px;
+                margin-top: 1em;
+            }
         }
     }
 
@@ -517,6 +550,16 @@ body.home {
 body.about {
     #video-cover {
         background: #5F7278 url('https://d35oe889gdmcln.cloudfront.net/assets/images/about/hero-cover-about.jpg') no-repeat;
+    }
+}
+
+body.financing {
+    #video-cover {
+        background-color: #4C586F;
+        background-image: linear-gradient(-180deg, #4C586F 0%, #D6CBD3 100%);
+    }
+    #overlay {
+        display: none;
     }
 }
 

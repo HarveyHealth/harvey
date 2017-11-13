@@ -26,6 +26,9 @@ class AddInvoiceIdToLabOdersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('lab_orders', function (Blueprint $table) {
+            $table->dropForeign(['invoice_id']);
+            $table->dropColumn('invoice_id');
+        });
     }
 }

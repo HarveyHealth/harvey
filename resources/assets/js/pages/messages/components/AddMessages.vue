@@ -4,30 +4,33 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="heading-3-expand">New Message</h2>
-        <div class="no-message-banner" v-if="userList.length <= 1">
-            You are not currently assigned to any doctors. Please <a href="/dashboard#/appointments">book a consultation</a> before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
+        <div class="no-message-banner" v-if="!loading && userList && userList.length === 0">
+            You are not currently assigned to any doctors. Please <router-link to="/appointments">book a consultation</router-link > before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Recipient</label>
-                <span class="custom-select">
+                <span class="custom-select" v-if="!loading && userList && userList.length">
                     <select @change="updateUser($event)">
-                        <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
+                        <option  v-for="user in [''].concat(userList)" :data-id="user.user_id">{{ user.name }}</option>
                     </select>
                 </span>
+                <div v-else class="font-italic font-sm copy-muted">
+                    Loading users...
+                </div>
             </div>
-            <div class="input__container" v-if="userList.length">
+            <div class="input__container">
                 <label class="input__label" for="patient_name">Subject</label>
                 <input v-model="subject" class="input--text" type="text">
             </div>
-            <div class="input__container" v-if="userList.length">
+            <div class="input__container">
                 <label class="input__label" for="patient_name">Message</label>
                 <textarea v-model="message" class="input--textarea"></textarea>
             </div>
-            <div class="button-wrapper" v-if="userList.length">
+            <div class="button-wrapper">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send</button>
+                :disabled="!subject || !selected || userList.length === 0">Send</button>
             </div>
         </div>
     </aside>
@@ -36,6 +39,7 @@
 <script>
 import axios from 'axios';
 import Flyout from '../../../commons/Flyout.vue';
+import _ from 'lodash';
 export default {
     name: 'Preview',
     components: {
@@ -48,6 +52,9 @@ export default {
             subject: '',
             message: ''
         };
+    },
+    mounted() {
+        this.$root.getConfirmedUsers();
     },
     methods: {
         updateUser(e) {
@@ -77,14 +84,18 @@ export default {
     },
     computed: {
         userList() {
+            this.$root.getConfirmedUsers();
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
-                return [''].concat(store.confirmedDoctors);
+                return store.confirmedDoctors;
             } else if (this.$root.$data.permissions === 'practitioner') {
-                return [''].concat(store.confirmedPatients);
+                return store.confirmedPatients;
             } else if (this.$root.$data.permissions === 'admin') {
-                return [''].concat(store.practitioners).concat(store.patients);
+                return (store.confirmedPatients).concat(store.confirmedDoctors);
             }
+        },
+        loading() {
+            return this.$root.$data.global.loadingConfirmedUsers;
         },
         toUserType() {
             const store = this.$root.$data.global;
@@ -98,26 +109,33 @@ export default {
         }
     },
     watch: {
+        loading(val) {
+            if (val) {
+                return this.$root.$data.global.loadingConfirmedUsers;
+            }
+        },
         userList(val) {
             if (!val) {
+                this.$root.getConfirmedUsers();
                 const store = this.$root.$data.global;
-                if (this.$root.$data.permissions === 'patient') {
-                    return [''].concat(store.confirmedDoctors);
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    return [''].concat(store.confirmedPatients);
-                } else if (this.$root.$data.permissions === 'admin') {
-                    return [''].concat(store.practitioners).concat(store.patients);
+                const permission = this.$root.$data.permissions;
+                if (permission === 'patient') {
+                    return store.confirmedDoctors;
+                } else if (permission === 'practitioner') {
+                    return store.confirmedPatients;
+                } else if (permission === 'admin') {
+                    return (store.confirmedPatients).concat(store.confirmedDoctors);
                 }
             }
         },
         toUserType(val) {
             if (!val) {
-                const store = this.$root.$data.global;
-                if (store.user.attributes.user_type === 'patient') {
+                const permission = this.$root.$data.permissions;
+                if (permission === 'patient') {
                     return "doctor";
-                } else if (store.user.attributes.user_type === 'practitioner') {
+                } else if (permission === 'practitioner') {
                     return "patient";
-                } else if (store.user.attributes.user_type === 'admin') {
+                } else if (permission === 'admin') {
                     return "all";
                 }
             }

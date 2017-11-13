@@ -82,6 +82,7 @@
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
             "php artisan view:clear",
+            "php artisan cache:clear",
             "php artisan calendar:get_credentials",
             "npm run dev"
         ]

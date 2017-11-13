@@ -27,8 +27,8 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Your health is our <strong>#1 priority</strong>.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">Harvey's doctors take a preventative and relationship-driven approach to medicine, with an emphasis on nutrition, lifestyle and environment factors, to help you find the root cause of chronic health conditions (both big and small) and reduce risk of serious disease.</p>
+            <h2 class="title is-3">Not feeling your best? We can help.</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">By taking a more personalized and whole-body approach to medicine, and emphasizing nutrition, lifestyle and environmental factors, we can help you find the root cause of your health issues and prevent risk of disease.</p>
             <div class="button-wrapper">
                 <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
             </div>
