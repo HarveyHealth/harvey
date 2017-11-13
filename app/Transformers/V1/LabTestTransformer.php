@@ -8,7 +8,7 @@ use League\Fractal\TransformerAbstract;
 class LabTestTransformer extends TransformerAbstract
 {
 
-    protected $availableIncludes = ['patient', 'practitioner', 'lab_order', 'sku'];
+    protected $availableIncludes = ['patient', 'practitioner', 'lab_order', 'sku', 'results'];
 
     /**
      * @param LabTest $labTest
@@ -17,13 +17,12 @@ class LabTestTransformer extends TransformerAbstract
     public function transform(LabTest $labTest)
     {
         return [
-            'id' => (string) $labTest->id,
-            'lab_order_id' => (string) $labTest->lab_order_id,
-            'sku_id' => (string) $labTest->sku_id,
-            'status' => $labTest->status,
-            'results_url' => $labTest->results_url,
-            'shipment_code' => (string) $labTest->shipment_code,
+            'id' => cast_to_string($labTest->id),
             'completed_at' => $labTest->completed_at,
+            'lab_order_id' => cast_to_string($labTest->lab_order_id),
+            'shipment_code' => cast_to_string($labTest->shipment_code),
+            'sku_id' => cast_to_string($labTest->sku_id),
+            'status' => $labTest->status,
         ];
     }
 
@@ -33,7 +32,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includePatient(LabTest $labTest)
     {
-        return $this->item($labTest->patient, new PatientTransformer())->setResourceKey('patients');
+        return $this->item($labTest->patient, new PatientTransformer())->setResourceKey('patient');
     }
 
     /**
@@ -42,7 +41,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includePractitioner(LabTest $labTest)
     {
-        return $this->item($labTest->practitioner, new PractitionerTransformer())->setResourceKey('practitioners');
+        return $this->item($labTest->practitioner, new PractitionerTransformer())->setResourceKey('practitioner');
     }
 
     /**
@@ -51,7 +50,7 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includeLabOrder(LabTest $labTest)
     {
-        return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_orders');
+        return $this->item($labTest->labOrder, new LabOrderTransformer())->setResourceKey('lab_order');
     }
 
     /**
@@ -60,7 +59,15 @@ class LabTestTransformer extends TransformerAbstract
      */
     public function includeSku(LabTest $labTest)
     {
-        return $this->item($labTest->sku, new SKUTransformer())->setResourceKey('SKUs');
+        return $this->item($labTest->sku, new SKUTransformer())->setResourceKey('sku');
     }
 
+    /**
+     * @param LabTest $labTest
+     * @return mixed
+     */
+    public function includeResults(LabTest $labTest)
+    {
+        return $this->collection($labTest->results, new LabTestResultTransformer(), 'lab_test_result');
+    }
 }

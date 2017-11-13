@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\{
     Appointment,
+    Attachment,
     LabTest,
     Message,
     User,
@@ -12,6 +13,7 @@ use App\Models\{
 };
 use App\Observers\{
     AppointmentObserver,
+    AttachmentObserver,
     LabTestObserver,
     MessageObserver,
     UserObserver,
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         require base_path('extensions/validator.php');
 
         Appointment::observe(AppointmentObserver::class);
+        Attachment::observe(AttachmentObserver::class);
         LabOrder::observe(LabOrderObserver::class);
         LabTest::observe(LabTestObserver::class);
         LabTestInformation::observe(LabTestInformationObserver::class);

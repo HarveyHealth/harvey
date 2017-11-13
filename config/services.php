@@ -63,7 +63,7 @@ return [
                     'reminder' => 2550321,
                 ],
                 'attachment' => [
-                    'uploaded' => 3338765,
+                    'created' => 3338765,
                 ],
             ],
             'patient' => [
@@ -107,6 +107,11 @@ return [
         'client_secret_file' => env('GCALENDAR_SECRET_FILE', storage_path('calendar_api/client_secret.json')),
         'access_token_file' => env('GCALENDAR_TOKEN_FILE', storage_path('calendar_api/access_token.json')),
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
+    ],
+
+    'typeform' => [
+        'api_key' => env('TYPEFORM_API_KEY'),
+        'uid' => env('TYPEFORM_UID'),
     ],
 
     'google_geocoder' => [

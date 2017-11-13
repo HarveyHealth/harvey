@@ -13,23 +13,18 @@ import './bootstrap';
 // it is used for log in, register form on the public pages
 import Form from './utils/objects/Form.js';
 
-// MIXINS
-// TopNav includes top navbar behaviors and is shared between public and logged in pages
-import TopNav from './utils/mixins/TopNav';
-
 // COMPONENTS
 // Below are componnents used on `resources/views/pages/homepage.blade.php`
 import LoadingGraphic from './commons/LoadingGraphic.vue';
 import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
-import FacebookSignin from './v2/components/base/inputs/FacebookSignin';
+import { FacebookSignin } from 'inputs';
 
 // for environment conditionals
 const env = require('get-env')();
 
 const app = new Vue({
-    mixins: [TopNav],
     components: {
         LoadingGraphic,
         FacebookSignin,
@@ -38,9 +33,17 @@ const app = new Vue({
         VerticalTabs
     },
     data: {
-        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
-        guest: true,
         appLoaded: false,
+        emailCaptureError: 'Not a valid email address',
+        emailCaptureClasses: {
+          'error-text': true,
+          'is-visible': false
+        },
+        emailCaptureSuccess: false,
+        guest: true,
+        guestEmail: '',
+        hasZipValidation: localStorage.getItem('harvey_zip_validation'),
+        isLoginPage: false,
         isProcessing: false,
         login: {
             form: new Form({
@@ -49,6 +52,8 @@ const app = new Vue({
                 remember: false
             })
         },
+        navIsInverted: true,
+        navScrollThreshold: 56,
         register: {
             form: new Form({
                 first_name: '',
@@ -59,6 +64,7 @@ const app = new Vue({
                 terms: false
             })
         },
+        showSignupContent: true,
         symptomsChanged: false,
         symptomsSaving: false,
         symptomsStats: {
@@ -113,28 +119,33 @@ const app = new Vue({
                 value: 3
             }
         },
-        navIsInverted: true,
-        isLoginPage: false,
-        wait: 400,
-        navScrollThreshold: 56,
-        showSignupContent: true,
-        guestEmail: '',
-        emailCaptureError: 'Not a valid email address',
-        emailCaptureClasses: {
-          'error-text': true,
-          'is-visible': false
-        },
-        emailCaptureSuccess: false
+        wait: 400
     },
     computed: {
         bodyClassNames() {
           return document.getElementsByTagName('body')[0].classList;
         },
+        getStartedLink() {
+          if (Laravel.user.signedIn) {
+            return Laravel.user.has_an_appointment
+              ? { href: '/dashboard', display: `${this.userAvatar}<span>Dashboard</span>` }
+              : { href: '/get-started', display: 'Get Started' };
+          } else {
+            return this.hasZipValidation
+              ? { href: '/get-started', display: 'Get Started' }
+              : { href: '/conditions', display: 'Get Started' };
+          }
+        },
         isHomePage() {
           return window.location.pathname === '/';
         },
-        getStartedLink() {
-          return this.hasZipValidation ? '/get-started' : '/conditions';
+        loginLink() {
+          return Laravel.user.signedIn
+            ? { href: '/logout', display: 'Log out' }
+            : { href: '/login', display: 'Log in' };
+        },
+        userAvatar() {
+          return `<img src="${Laravel.user.image_url}" class="top-nav-avatar" />`;
         }
     },
     methods: {
@@ -153,11 +164,10 @@ const app = new Vue({
             };
             axios.post('/api/v1/visitors/send_email', visitorData).then(() => {
               this.emailCaptureSuccess = true;
-              if (this.shouldTrack()) {
-                analytics.identify({
-                  email: this.guestEmail
-                });
-              }
+
+              analytics.identify({
+                email: this.guestEmail
+              });
             }).catch(error => {
               if (error.response.status === 429) {
                 this.emailCaptureError = 'Oops, we\'ve already registered that email.';
@@ -242,53 +252,33 @@ const app = new Vue({
                 }, 500);
                 window.removeEventListener('blur', this.onIframeClick);
             }
-        },
-        shouldTrack() {
-          return env === 'production' || env === 'prod';
-        },
-        getUrlParams() {
-          const url = window.location.search;
-          if (!url) return null;
-
-          return (/^[?#]/.test(url) ? url.slice(1) : url)
-            .split('&')
-            .reduce((params, param) => {
-              let [key, value] = param.split('=');
-              params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
-              return params;
-            }, {});
         }
     },
     mounted() {
         this.$nextTick(() => {
           this.appLoaded = true;
         });
-        window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
 
-        // This is a temporary solution until we refactor how analytics is loaded
-        // on public pages
-        const path = window.location.pathname;
+        // indentify and send along any url paramaters if they exist
+        const getUrlParams = () => {
+            const url = window.location.search;
+            if (!url) return null;
 
-          let currentPage = '';
+            return (/^[?#]/.test(url) ? url.slice(1) : url)
+                .split('&')
+                .reduce((params, param) => {
+                    let [key, value] = param.split('=');
+                    params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+                    return params;
+                }, {});
+        };
 
-          if(this.isHomePage) {
-            currentPage = 'Homepage';
-          } else if (path === '/about') {
-            currentPage = 'About';
-          } else if (path === '/lab-tests') {
-            currentPage = 'Lab Tests';
-          }
-
-          // send the page event
-          if (this.shouldTrack()) {
-            analytics.page(currentPage);
-
-            // indentify and send along any url paramaters if they exist
-            const parameterObject = this.getUrlParams();
-            if(parameterObject !== null) {
-                analytics.identify(parameterObject);
-            }
+        const parameterObject = getUrlParams();
+        if (parameterObject !== null) {
+            analytics.identify(parameterObject);
         }
+
+        window.addEventListener('scroll', _.throttle(this.invertNavOnScroll, this.wait), false);
     },
     destroyed() {
         if (this.isHomePage) {

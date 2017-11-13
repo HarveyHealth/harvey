@@ -37,7 +37,7 @@ class UserTest extends TestCase
         $response->assertStatus(ResponseCode::HTTP_OK);
 
         // And the user can see their own information
-        $response->assertJsonFragment(['type' => 'users', 'id' => "{$user->id}"]);
+        $response->assertJsonFragment(['type' => 'user', 'id' => "{$user->id}"]);
     }
 
     public function test_a_user_can_modify_their_account_information()
