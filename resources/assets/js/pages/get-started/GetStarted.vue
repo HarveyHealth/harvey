@@ -46,14 +46,9 @@
 
 <style lang="scss" scoped>
   .phone-container {
-    display: none;
     height: 58px;
     margin: 0 auto;
-    max-width: 960px;
-
-    @media screen and (min-width: 420px) {
-      display: block;
-    }
+    max-width: 1152px; // same as Discovery navigation
   }
 
   .button {
@@ -61,7 +56,7 @@
     color: white;
     float: right;
     font-weight: 400;
-    margin: 24px 24px 0 0;
+    margin: 24px 24px 0;
   }
 
   .height-100 {
