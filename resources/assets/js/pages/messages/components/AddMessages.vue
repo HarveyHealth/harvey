@@ -4,15 +4,15 @@
             <svg><use xlink:href="#close" /></svg>
         </button>
         <h2 class="heading-3-expand">New Message</h2>
-        <div class="no-message-banner" v-if="!loading && userList.length <= 1">
+        <div class="no-message-banner" v-if="!loading && userList && userList.length === 0">
             You are not currently assigned to any doctors. Please <router-link to="/appointments">book a consultation</router-link > before sending any messages.<br/><br/>For general questions, you can email <a href="mailto:support@goharvey.com">support@goharvey.com</a>, give us a call at <a href="tel:8006909989">800-690-9989</a>, or talk with a representative by clicking the chat button at the bottom corner of the page.
         </div>
         <div v-else>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Recipient</label>
-                <span class="custom-select" v-if="!loading && userList.length > 1">
+                <span class="custom-select" v-if="!loading && userList && userList.length">
                     <select @change="updateUser($event)">
-                        <option  v-for="user in userList" :data-id="user.user_id">{{ user.name }}</option>
+                        <option  v-for="user in [''].concat(userList)" :data-id="user.user_id">{{ user.name }}</option>
                     </select>
                 </span>
                 <div v-else class="font-italic font-sm copy-muted">
@@ -30,7 +30,7 @@
             <div class="button-wrapper">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send</button>
+                :disabled="!subject || !selected || userList.length === 0">Send</button>
             </div>
         </div>
     </aside>
@@ -38,8 +38,8 @@
 
 <script>
 import axios from 'axios';
-import { uniqBy } from 'lodash';
 import Flyout from '../../../commons/Flyout.vue';
+import _ from 'lodash';
 export default {
     name: 'Preview',
     components: {
@@ -84,29 +84,14 @@ export default {
     },
     computed: {
         userList() {
+            this.$root.getConfirmedUsers();
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
-                let unique = uniqBy(store.confirmedDoctors, 'id');
-                let data = [''].concat(unique);
-                if (data.length > 1) {
-                    this.$root.$data.global.loadingConfirmedUsers = false;
-                }
-                return data;
+                return store.confirmedDoctors;
             } else if (this.$root.$data.permissions === 'practitioner') {
-                let unique = uniqBy(store.confirmedPatients, 'id');
-                let data = [''].concat(unique);
-                if (data.length > 1) {
-                    this.$root.$data.global.loadingConfirmedUsers = false;
-                }
-                return data;
+                return store.confirmedPatients;
             } else if (this.$root.$data.permissions === 'admin') {
-                 let uniquePatients = uniqBy(store.patients, 'id');
-                 let uniquePractitioners = uniqBy(store.practitioners, 'id');
-                let data = [''].concat(uniquePractitioners).concat(uniquePatients);
-                if (data.length > 1) {
-                    this.$root.$data.global.loadingConfirmedUsers = false;
-                }
-                return data;
+                return (store.confirmedPatients).concat(store.confirmedDoctors);
             }
         },
         loading() {
@@ -131,40 +116,26 @@ export default {
         },
         userList(val) {
             if (!val) {
+                this.$root.getConfirmedUsers();
                 const store = this.$root.$data.global;
-                if (this.$root.$data.permissions === 'patient') {
-                    let unique = uniqBy(store.confirmedDoctors, 'id');
-                    let data = [''].concat(unique);
-                    if (data.length > 1) {
-                        this.$root.$data.global.loadingConfirmedUsers = false;
-                    }
-                    return data;
-                } else if (this.$root.$data.permissions === 'practitioner') {
-                    let unique = uniqBy(store.confirmedPatients, 'id');
-                    let data = [''].concat(unique);
-                    if (data.length > 1) {
-                        this.$root.$data.global.loadingConfirmedUsers = false;
-                    }
-                    return data;
-                } else if (this.$root.$data.permissions === 'admin') {
-                    let uniquePatients = uniqBy(store.patients, 'id');
-                    let uniquePractitioners = uniqBy(store.practitioners);
-                    let data = [''].concat(uniquePractitioners).concat(uniquePatients);
-                    if (data.length > 1) {
-                        this.$root.$data.global.loadingConfirmedUsers = false;
-                    }
-                    return data;
+                const permission = this.$root.$data.permissions;
+                if (permission === 'patient') {
+                    return store.confirmedDoctors;
+                } else if (permission === 'practitioner') {
+                    return store.confirmedPatients;
+                } else if (permission === 'admin') {
+                    return (store.confirmedPatients).concat(store.confirmedDoctors);
                 }
             }
         },
         toUserType(val) {
             if (!val) {
-                const store = this.$root.$data.global;
-                if (store.user.attributes.user_type === 'patient') {
+                const permission = this.$root.$data.permissions;
+                if (permission === 'patient') {
                     return "doctor";
-                } else if (store.user.attributes.user_type === 'practitioner') {
+                } else if (permission === 'practitioner') {
                     return "patient";
-                } else if (store.user.attributes.user_type === 'admin') {
+                } else if (permission === 'admin') {
                     return "all";
                 }
             }
