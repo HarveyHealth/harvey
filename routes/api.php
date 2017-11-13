@@ -68,10 +68,10 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
 
         Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
         Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
-        Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
+        Route::get('lab/tests/{lab_test}', 'LabTestsController@show')->name('lab-tests.show');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
-        Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
-        Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
+        Route::patch('lab/tests/{lab_test}', 'LabTestsController@update')->name('lab-tests.update');
+        Route::delete('lab/tests/{lab_test}', 'LabTestsController@delete')->name('lab-tests.delete');
 
         Route::get('lab/orders', 'LabOrdersController@index')->name('lab-orders.index');
         Route::get('lab/orders/{labOrder}', 'LabOrdersController@show')->name('lab-orders.show');
