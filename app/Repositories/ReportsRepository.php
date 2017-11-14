@@ -129,6 +129,7 @@ class ReportsRepository extends BaseRepository
                     "Lab Names" => "--",
                     "Lab Cost" => "--",
                     "Lab Total" => "--",
+                    "Subtotal" => 0,
                     "Discount Code" => "--",
                     "Discount Amount" => "--",
                     //"Calculated" => NULL,
@@ -181,16 +182,20 @@ class ReportsRepository extends BaseRepository
                     }
                     $current_row["Lab Cost"] += $item->cost;
 
+                    $current_row["Subtotal"] += $item->item_amount;
+
                     break;
                 case 'consultation':
                     $current_row["Product"] = "Consultation";
                     $current_row["First Consultation"] = ($item->first_consultation)?'Yes':'No';
                     $current_row["Consultation Duration"] = $item->consultation_duration;
                     $current_row["Consultation Price"] = $item->item_amount;
+                    $current_row["Subtotal"] += $item->item_amount;
                     break;
                 case 'service-fee':
                     $current_row["Processing Type"] = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
                     $current_row["Processing Fee"] = $item->item_amount;
+                    $current_row["Subtotal"] += $item->item_amount;
                     break;
             }
         }
