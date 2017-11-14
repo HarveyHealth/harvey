@@ -21,7 +21,9 @@ class RecordsSeeder extends Seeder
      */
     public function run()
     {
-        $patient = factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN]);
+        $patient = Patient::first() ?: factory(Patient::class)->create();
+        $patient->intake_token = $patient->intake_token ?: DatabaseSeeder::TESTING_INTAKE_TOKEN;
+        $patient->save();
 
         factory(Attachment::class, 3)->create(['patient_id' => $patient->id]);
         factory(Prescription::class, 3)->create(['patient_id' => $patient->id]);
