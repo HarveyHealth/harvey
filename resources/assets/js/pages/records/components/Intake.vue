@@ -1,7 +1,7 @@
 <template>
     <div id="intake">
-        <div>
-            <h2>Basic Info</h2>
+        <div class="intake-padding">
+            <h2 class="no-margin">Intake Information</h2>
             <ul>
                 <li v-for="intake in questionsList">
                     <div>
@@ -45,5 +45,10 @@ export default {
 </script>
 
 <style lang="scss">
-
+    .no-margin {
+        margin: 0 !important;
+    }
+    .intake-padding {
+        padding: 10px 20px;
+    }
 </style>
