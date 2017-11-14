@@ -248,7 +248,6 @@ export default {
         getTimelineData() {
             axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
                 .then(response => {
-                    console.log(`RESPONSE`, response)
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e) => {
@@ -264,7 +263,7 @@ export default {
                                 this.lab_test_results[e.id] = e :
                             e.type === 'lab_tests' ?
                                 this.lab_tests[e.id] = e :
-                            e.type === 'lab_orders' ?
+                            e.type === 'lab_order' ?
                                 this.lab_orders[e.id] = e :
                             null;
                             let object = {};
@@ -280,9 +279,7 @@ export default {
                             }
                             object.id = e.id;
                             object.data = e;
-                            if (e.type !== 'lab_order' || e.type !== 'lab_tests') {
-                                this.timeline.push(object);
-                            }
+                            this.timeline.push(object);
                         });
                         this.timeline = this.timeline.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Tests');
                         this.timeline = this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
@@ -339,7 +336,7 @@ export default {
                     }
                 };
                 let arrays = this.timeline;
-                arrays.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Tests').map((e, i)=> {
+                arrays.map((e, i)=> {
                     e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
                     return e;
                 });
