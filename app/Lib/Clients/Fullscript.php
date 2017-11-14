@@ -13,7 +13,8 @@ class Fullscript extends BaseClient
         parent::__construct($client);
         $this->headers = [
             'X-API-Key' => config('services.fullscript.api_key'),
-            'X-FS-Clinic' => config('services.fullscript.clinic_key'),
+            'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
+            'Content-Type' => 'application/json'
         ];
         $this->base_endpoint = config('services.fullscript.api_host');
     }
@@ -39,12 +40,26 @@ class Fullscript extends BaseClient
         }
 
         //perform call to API
-        $response = $this->get('patients', $params);
 
-
-        if ($response->getStatusCode() == 400) {
-            throw new FullscriptClientException('bad input parameter');
+        try{
+            $response = $this->get('patients', $params);
         }
+        catch(\GuzzleHttp\Exception\ClientException $e){
+            $response = $e->getResponse();
+            if ($response->getStatusCode() == 400) {
+                throw new FullscriptClientException('bad input parameter', $response->getStatusCode());
+            }
+            else{
+                $message = $e->getMessage();
+                $body = json_decode($response->getBody());
+                if (isset($body->error)){
+                    $message = $body->error;
+                }
+                // Exceeded rate limit 429
+                throw new FullscriptClientException($message, $response->getStatusCode());
+            }
+        }
+
 
         return json_decode($response->getBody());
     }
@@ -56,18 +71,32 @@ class Fullscript extends BaseClient
     */
     public function updatePatient($id, $data){
         //perform call to API
-        $response = $this->put("patients/{$id}", $data);
 
-        switch ($response->getStatusCode()) {
-            case 400:
-                throw new FullscriptClientException('Invalid UUID supplied');
-                break;
-            case 404:
-                throw new FullscriptClientException('Patient not found');
-                break;
-            case 405:
-                throw new FullscriptClientException('Validation exception');
-                break;
+        try{
+            $response = $this->put("patients/{$id}", json_encode($data,JSON_FORCE_OBJECT));
+        }
+        catch(\GuzzleHttp\Exception\ClientException $e){
+            $response = $e->getResponse();
+            switch ($response->getStatusCode()) {
+                case 400:
+                    throw new FullscriptClientException('Invalid UUID supplied', $response->getStatusCode());
+                    break;
+                case 404:
+                    throw new FullscriptClientException('Patient not found', $response->getStatusCode());
+                    break;
+                case 405:
+                    throw new FullscriptClientException('Validation exception', $response->getStatusCode());
+                    break;
+
+                default:
+                    $message = $e->getMessage();
+                    $body = json_decode($response->getBody());
+                    if (isset($body->error)){
+                        $message = $body->error;
+                    }
+                    // Exceeded rate limit 429
+                    throw new FullscriptClientException($message, $response->getStatusCode());
+            }
         }
 
         return json_decode($response->getBody());
@@ -83,11 +112,25 @@ class Fullscript extends BaseClient
      */
     public function createPatient($data){
         //perform call to API
-        $response = $this->post("patients", $data);
 
-
-        if ($response->getStatusCode() == 405) {
-            throw new FullscriptClientException('Invalid Input');
+        try{
+            $response = $this->post("patients", json_encode($data,JSON_FORCE_OBJECT));
+        }
+        catch(\GuzzleHttp\Exception\ClientException $e){
+            $response = $e->getResponse();
+            switch ($response->getStatusCode()) {
+                case 405:
+                    throw new FullscriptClientException('Invalid Input', $response->getStatusCode());
+                    break;
+                default:
+                    $message = $e->getMessage();
+                    $body = json_decode($response->getBody());
+                    if (isset($body->error)){
+                        $message = $body->error;
+                    }
+                    // Exceeded rate limit 429
+                    throw new FullscriptClientException($message, $response->getStatusCode());
+            }
         }
 
         return json_decode($response->getBody());

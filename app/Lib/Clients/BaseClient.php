@@ -44,12 +44,12 @@ class BaseClient
         return $response;
     }
 
-    public function post($call, $params = [], $headers = [])
+    public function post($call, $body = '', $headers = [])
     {
         $client = $this->client();
 
         $data = [];
-        $data['body'] = array_merge($params, $this->params);;
+        $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
 
         $response = $client->post($this->baseEndpoint($call), $data);
@@ -57,12 +57,12 @@ class BaseClient
         return $response;
     }
 
-    public function put($call, $params = [], $headers = [])
+    public function put($call, $body = '', $headers = [])
     {
         $client = $this->client();
 
         $data = [];
-        $data['body'] = array_merge($params, $this->params);;
+        $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
 
         $response = $client->put($this->baseEndpoint($call), $data);

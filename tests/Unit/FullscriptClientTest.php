@@ -43,7 +43,8 @@ class FullscriptClientTest extends TestCase
                 ],
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
-                    'X-FS-Clinic' => config('services.fullscript.clinic_key'),
+                    'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
+                    'Content-Type' => 'application/json'
                 ]
             ])
             ->andReturn(new Response(
@@ -61,7 +62,8 @@ class FullscriptClientTest extends TestCase
                 ],
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
-                    'X-FS-Clinic' => config('services.fullscript.clinic_key'),
+                    'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
+                    'Content-Type' => 'application/json'
                 ]
             ])
             ->andReturn(new Response(
@@ -88,17 +90,18 @@ class FullscriptClientTest extends TestCase
         $client->shouldReceive('post')
             ->with($endpoint.'patients', [
 
-                'body' => [
+                'body' => json_encode([
                     "first_name" => $user->first_name,
                     "last_name" => $user->last_name,
                     "email" => $user->email,
                     "date_of_birth"=> date('Y-m-d',strtotime($patient->birthdate)),
                     "external_ref" => $user->id,
-                ],
+                ],JSON_FORCE_OBJECT),
 
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
-                    'X-FS-Clinic' => config('services.fullscript.clinic_key'),
+                    'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
+                    'Content-Type' => 'application/json'
                 ]
             ])
             ->andReturn(new Response(
@@ -132,12 +135,13 @@ class FullscriptClientTest extends TestCase
 
         $client->shouldReceive('put')
             ->with($endpoint.'patients/'.'ANY_ID_VALUE', [
-                'body' => [
+                'body' => json_encode([
                     "external_ref" => $user->id,
-                ],
+                ],JSON_FORCE_OBJECT),
                 'headers' => [
                     'X-API-Key' => config('services.fullscript.api_key'),
-                    'X-FS-Clinic' => config('services.fullscript.clinic_key'),
+                    'X-FS-Clinic-Key' => config('services.fullscript.clinic_key'),
+                    'Content-Type' => 'application/json'
                 ]
             ])
             ->andReturn(new Response(
