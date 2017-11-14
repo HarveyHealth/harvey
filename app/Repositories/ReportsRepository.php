@@ -124,6 +124,7 @@ class ReportsRepository extends BaseRepository
                     "Consultation Price" => "--",
                     "Blood Draw" => "--",// (Y/N)
                     "Processing Type" => "--", //(Full/Partial)
+                    "Processing Fee" => "--", //(Full/Partial)
                     "Lab Names" => "--",
                     "Lab Cost" => "--",
                     "Lab Total" => "--",
@@ -181,6 +182,7 @@ class ReportsRepository extends BaseRepository
                     break;
                 case 'service-fee':
                     $current_row["Processing Type"] = ($item->processing_type == 'processing-fee-self')?'Partial':'Full';
+                    $current_row["Processing Fee"] = $item->item_amount;
                     break;
             }
         }
