@@ -80,8 +80,8 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Invoice</label>
           <div class="left-column">
-            <label v-if="oldCard && oldCard.attributes.brand && oldCard.attributes.last4" class="input__item">{{`${oldCard.attributes.brand} ****${oldCard.attributes.last4}`}}</label>
-            <span v-if="oldCard && oldCard.attributes.brand && oldCard.attributes.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
+            <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
             <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
@@ -186,8 +186,8 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Invoice</label>
           <div class="left-column">
-            <label v-if="oldCard && oldCard.attributes.brand && oldCard.attributes.last4" class="input__item">{{`${oldCard.attributes.brand} ****${oldCard.attributes.last4}`}}</label>
-            <span v-if="oldCard && oldCard.attributes.brand && oldCard.attributes.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
+            <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
+            <span v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item color-good">{{`Charged: $${invoicePrice || price}`}}</span>
             <span v-else class="input__item error-text">Invoice unpaid.</span>
           </div>
         </div>
@@ -292,7 +292,7 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Invoice</label>
           <div class="left-column">
-            <label v-if="oldCard && oldCard.attributes.brand && oldCard.attributes.last4" class="input__item">{{`${oldCard.attributes.brand} ****${oldCard.attributes.last4}`}}</label>
+            <label v-if="oldCard && oldCard.brand && oldCard.last4" class="input__item">{{`${oldCard.brand} ****${oldCard.last4}`}}</label>
             <span v-if="paid" class="input__item color-good">{{`Charged: $${invoicePrice}`}}</span>
             <span v-if="!paid" class="input__item error-text">Invoice unpaid.</span>
           </div>
