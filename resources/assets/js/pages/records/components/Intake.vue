@@ -5,8 +5,8 @@
             <ul>
                 <li v-for="intake in questionsList">
                     <div>
-                        {{ intake.question }}
-                        <span>{{ intake.answer }}</span>
+                        <span v-html="intake.question" />
+                        <span class="error-color">{{ intake.answer }}</span>
                     </div>
                 </li>
             </ul>
