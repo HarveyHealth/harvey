@@ -176,6 +176,9 @@ export default {
             soap_notes: {},
             attachments: {},
             prescriptions: {},
+            lab_tests: {},
+            lab_orders: {},
+            lab_test_results: {},
             intakes: {},
             propData: {},
             notificationSymbol: '&#10003;',
@@ -255,8 +258,14 @@ export default {
                                 this.attachments[e.id] = e :
                             e.type === 'prescription' ?
                                 this.prescriptions[e.id] = e :
-                             e.type === 'intake' ?
+                            e.type === 'intake' ?
                                 this.intakes[e.id] = e :
+                            e.type === 'lab_test_result' ?
+                                this.lab_test_results[e.id] = e :
+                            e.type === 'lab_tests' ?
+                                this.lab_tests[e.id] = e :
+                            e.type === 'lab_orders' ?
+                                this.lab_orders[e.id] = e :
                             null;
                             let object = {};
                             object.doctor = e.attributes.doctor_name || "No Doctor";
