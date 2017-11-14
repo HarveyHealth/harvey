@@ -598,7 +598,8 @@ export default {
             status: 'confirmed'
           })
             .then(resp => {
-              this.$root.$data.global.labTests.push(resp.data.data);
+                resp.data.data.included = this.$root.$data.labTests[resp.data.data.attributes.sku_id];
+                this.$root.$data.global.labTests.push(resp.data.data);
             }));
         }
       });
