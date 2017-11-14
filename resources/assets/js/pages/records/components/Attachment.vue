@@ -50,13 +50,15 @@ export default {
     },
     computed: {
         attachmentUrl() {
-            return this.$parent.propData.attributes.url || '';
+            const prop = this.$parent.propData;
+            return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
         }
     },
     watch: {
         attachmentUrl(val) {
             if (!val) {
-                return this.$parent.propData.attributes.url || '';
+                const prop = this.$parent.propData;
+                return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
             }
         }
     }
