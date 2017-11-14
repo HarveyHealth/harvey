@@ -339,7 +339,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCards = response.data.cards;
+                this.global.creditCards = response.data.data;
             })
             .then(() => {
                 this.global.loadingCreditCards = false;

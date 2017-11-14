@@ -321,33 +321,33 @@ class User extends Authenticatable implements Mailable
 
     public function getCards()
     {
-        if (empty($this->stripe_id)) {
+        if (empty($stripe_id = $this->stripe_id)) {
             return collect();
         }
 
-        $redis_key = "get-cards-user-id-{$this->id}";
-        $cards_json = Redis::get($redis_key);
+        $cache_key = "get-cards-user-id-{$this->id}";
 
-        if (is_null($cards_json)) {
+        $cards = Cache::remember($cache_key, TimeInterval::days(rand(15, 30))->addMinutes(rand(0, 120))->toMinutes(), function () use ($stripe_id) {
             try {
-                $cards = Customer::retrieve($this->stripe_id)->sources->all(['object' => 'card'])->data;
-                $cards_json = json_encode($cards);
-                Redis::set($redis_key, $cards_json);
-                Redis::expire($redis_key, TimeInterval::days(rand(10,30))->addSeconds(rand(0, 100))->toSeconds());
+                $cards = Customer::retrieve($stripe_id)->sources->all(['object' => 'card'])->data;
             } catch (Exception $e) {
                 Log::error("Unable to list credit cards for User #{$this->id}", ['exception_message' => $e->getMessage()]);
-                $cards_json = '[]';
-                Redis::set($redis_key, $cards_json);
-                Redis::expire($redis_key, TimeInterval::hours(2)->toSeconds());
+                return null;
             }
+
+            return collect($cards);
+        });
+
+        if (is_null($cards)) {
+            Cache::put($cache_key, $cards = [], TimeInterval::hours(1)->toMinutes());
         }
 
-        return collect(json_decode($cards_json, true));
+        return collect($cards);
     }
 
     public function clearGetCardsCache()
     {
-        return Redis::del("get-cards-user-id-{$this->id}");
+        return Cache::forget("get-cards-user-id-{$this->id}");
     }
 
     public function deleteCard(string $cardId)

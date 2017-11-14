@@ -68,7 +68,7 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -174,7 +174,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -195,7 +195,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.attributes.last4 || !latestCard.attributes.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -280,8 +280,8 @@
             <span v-if="$parent.loading">
               <em>Loading cards...</em>
             </span>
-            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
-            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
+            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.attributes.brand && $parent.patientCard.attributes.last4" class="input__item">{{`${$parent.patientCard.attributes.brand} ****${$parent.patientCard.attributes.last4}`}}</label>
+            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.attributes.brand || !$parent.patientCard.attributes.last4)" class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
           <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
