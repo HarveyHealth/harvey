@@ -280,9 +280,12 @@ export default {
                             }
                             object.id = e.id;
                             object.data = e;
-                            this.timeline.push(object);
+                            if (e.type !== 'lab_order' || e.type !== 'lab_tests') {
+                                this.timeline.push(object);
+                            }
                         });
-                        this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
+                        this.timeline = this.timeline.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Tests');
+                        this.timeline = this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
                     }
                     this.loading = false;
                 });
@@ -309,7 +312,7 @@ export default {
                         this.setPage(5);
                         this.setProps(data);
                     },
-                    'Lab Result': (data, index) => {
+                    'Lab Test Result': (data, index) => {
                         this.setIndex(index);
                         this.setPage(2);
                         this.setProps(data);
@@ -336,7 +339,7 @@ export default {
                     }
                 };
                 let arrays = this.timeline;
-                arrays.map((e, i)=> {
+                arrays.filter(e => e.type !== 'Lab Order').filter(e => e.type !== 'Lab Tests').map((e, i)=> {
                     e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
                     return e;
                 });
