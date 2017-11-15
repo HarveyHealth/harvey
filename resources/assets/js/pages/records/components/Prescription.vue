@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     props: {
         patient: Object
@@ -51,8 +52,14 @@ export default {
         };
     },
     methods: {
-        upload() {
-
+        upload(file) {
+            axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/prescriptions`, {
+                file: file.target.files[0],
+                name: this.fileName,
+            })
+            .then((response) => {
+                console.log(`RESPONSE`, response);
+            })
         }
     },
     computed: {

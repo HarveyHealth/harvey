@@ -54,9 +54,8 @@ export default {
     },
     methods: {
         upload(file) {
-            console.log(`FILE`, file);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, {
-                file: file,
+                file: file.target.files[0],
                 name: this.fileName,
             })
             .then((response) => {

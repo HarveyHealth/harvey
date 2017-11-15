@@ -14,16 +14,16 @@
                 <div class="width-175">
                     <label class="input__label">lab name</label>
                     <span class="custom-select bg-white">
-                        <select>
-                            <option v-for="lab in labNameList">{{ lab }}</option>
+                        <select @change="updateLabType($event)">
+                            <option v-for="lab in labNameList" :data-id="lab">{{ lab }}</option>
                         </select>
                     </span>
                 </div>
                 <div class="width-175">
                     <label class="input__label">lab test</label>
                     <span class="custom-select bg-white">
-                        <select>
-                            <option v-for="lab in labTestList">{{ lab.attributes.name }}</option>
+                        <select @change="updateLab($event)">
+                            <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.attributes.name }}</option>
                         </select>
                     </span>
                 </div>
@@ -48,14 +48,33 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
     props: {
         patient: Object
     },
     data() {
         return {
-
+            selectedLabName: null,
+            selectedLabType: null,
         };
+    },
+    methods: {
+        updateLabType(e) {
+            this.selectedLabName = e.target.children[e.target.selectedIndex].dataset.id;
+        },
+        updateLab(e) {
+            this.selectedLabType = e.target.children[e.target.selectedIndex].dataset.id;
+        },
+        upload(file) {
+            axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, {
+                file: file.target.files[0],
+                name: this.fileName,
+            })
+            .then((response) => {
+                console.log(`RESPONSE`, response);
+            })
+        }
     },
     computed: {
         labNameList() {
@@ -63,8 +82,8 @@ export default {
             return [''].concat(labNames);
         },
         labTestList() {
-            let labTests = Object.values(this.$root.$data.labTests);
-            return [{attributes: {name: ''}}].concat(labTests);
+            let labTests = Object.values(this.$parent.lab_tests);
+            return [{attributes: {name: ''}, id: 0}].concat(labTests);
         },
         resultUrl() {
             const prop = this.$parent.propData;
