@@ -41,6 +41,7 @@ class SearchController extends BaseAPIController
         // limit results to current user
         if (!currentUser()->isAdmin() and currentUser()->isPatient()) {
             $soap_notes->where('patient_id',currentUser()->patient->id);
+            $soap_notes = $soap_notes->filterForPatient();
             $attachments->where('patient_id',currentUser()->patient->id);
             $prescriptions->where('patient_id',currentUser()->patient->id);
             $labresults->whereIn('lab_test_id',LabTest::whereHas('labOrder',function($query){
