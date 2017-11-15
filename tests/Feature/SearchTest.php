@@ -1,5 +1,7 @@
 <?php
+
 namespace Tests\Feature;
+
 use App\Models\{SoapNote, Attachment, Prescription, LabTestResult, Patient, LabTest};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
@@ -7,10 +9,9 @@ use Tests\TestCase;
 
 use Carbon, Log, ResponseCode;
 
-class AppointmentTest extends TestCase
+class SearchTest extends TestCase
 {
     use DatabaseMigrations;
-
 
     public function test_it_finds_soap_note()
     {
@@ -53,8 +54,6 @@ class AppointmentTest extends TestCase
         }
     }
 
-
-
     public function test_it_finds_prescription()
     {
         $patient = factory(Patient::class)->create();
@@ -71,7 +70,6 @@ class AppointmentTest extends TestCase
             $this->assertEquals($item['attributes']['patient_id'], $patient->id);
         }
     }
-
 
     public function test_it_finds_labresult()
     {
@@ -94,5 +92,4 @@ class AppointmentTest extends TestCase
             $this->assertEquals($item['attributes']['lab_test_id'], $lab_test->id);
         }
     }
-
 }
