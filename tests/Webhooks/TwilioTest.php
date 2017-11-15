@@ -3,7 +3,7 @@ namespace Tests\Webhooks;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\{Appointment, AppointmentFeedback};
+use App\Models\Appointment;
 use Faker\Factory as Faker;
 use ResponseCode;
 
@@ -32,13 +32,9 @@ class TwilioTest extends TestCase{
         // make sure response code is OK
         $response->assertStatus(ResponseCode::HTTP_OK);
 
-        // get last appointment feedback
-        $feedback = AppointmentFeedback::orderBy('id','desc')->first();
-
-        $this->assertTrue( AppointmentFeedback::count() > 0 );
-
+        // reload the appointment from db
+        $feedback = $appointment->fresh();
         // assert right values
-        $this->assertEquals($feedback->appointment_id, $appointment->id);
         $this->assertEquals($feedback->doctor_rate, $body['Body']);
     }
 }
