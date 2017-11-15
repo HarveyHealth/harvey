@@ -5,8 +5,8 @@
     </div>
     <div class="margin-0a max-width-md" style="position: relative">
       <button class="Button Button--condition-nav is-left" v-show="goToConditions()">
-        <a href="/conditions" class="color-white">
-          <i class="fa fa-undo"></i> Start Over
+        <a :href="State('conditions.condition.slug')" class="color-white font-normal">
+          <i class="fa fa-chevron-left"></i> {{ State('conditions.condition.name') }}
         </a>
       </button>
       <button class="Button Button--condition-nav is-left" v-show="displayBack()" @click="goBack">

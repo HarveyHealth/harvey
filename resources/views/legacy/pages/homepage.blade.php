@@ -17,7 +17,7 @@
                         <h1 class="title is-1">Choose better health.</h1>
                         <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/get-started" class="button is-primary is-medium has-arrow">Get Started</a>
+                            <a href="#get-started" class="button is-primary is-medium has-arrow">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -27,52 +27,98 @@
 
     <section class="section">
         <div class="container has-text-centered">
-            <h2 class="title is-3">Not feeling your best? We can help.</h2>
-            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">By taking a more personalized and whole-body approach to medicine, and emphasizing nutrition, lifestyle and environmental factors, we can help you find the root cause of your health issues and prevent risk of disease.</p>
+            <h2 class="title is-3">Failed by the medical system?</h2>
+            <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile">By taking a more personalized and whole-body approach to medicine, and emphasizing nutrition, lifestyle and environmental factors, Harvey can help you find the root cause of your health issues and prevent risk of disease.</p>
             <div class="button-wrapper">
-                <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">Learn More</a>
+                <a href="/about" class="button is-secondary is-outlined is-medium has-arrow">About Harvey</a>
             </div>
         </div>
     </section>
 
-    <section class="section" id="how-it-works">
+    <section class="section how-it-works">
         <div class="container has-text-centered">
-            <h2 class="title is-4 section-header"><span>How it Works</span></h2>
+            <h2 class="title is-4 section-header"><span>What We Treat</span></h2>
             <div class="columns">
                 <div class="column">
-                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
-                        <span class="icon icon_steps_1"></span>
+                    <figure class="icon-wrapper icon-wrapper-has-background is-lime">
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
-                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
+                        <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/skin-conditions">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                        <span class="icon icon_steps_2"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/allergies.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
-                        <p>Receive a custom lab kit mailed to your home for sample collection.</p>
+                        <p class="title instructions is-5"><strong>Food Allergies</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/food-allergies">Learn More</a>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-brown">
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress.png"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/skin-anxiety">Learn More</a>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-purple">
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion.png"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>Digestion Issues</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/digestion">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/fatigue.png"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>Fatigue</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/fatigue">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                        <span class="icon icon_steps_3"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>3. Analysis</strong></p>
-                        <p>Review your test results with your doctor to gain actionable health insights.</p>
+                        <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/weight-loss-gain">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-green">
-                        <span class="icon icon_steps_4"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/womens-health.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
-                        <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
+                        <p class="title instructions is-5"><strong>Women's Health</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/womens-health">Learn More</a>
+                    </div>
+                </div>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-ford">
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general.png"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>General/Other</strong></p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <a href="/conditions/general">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -173,60 +219,45 @@
         </section>
     </section>
 
-    <section class="section" id="stories">
-        <div class="container">
-            <h2 class="title is-4 section-header"><span>Patient Stories</span></h2>
-            <div class="columns is-narrow">
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=bOofWokoX5g&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jill.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jill's Story</strong></p>
-                    <em>Avoided unnecessary surgery.</em>
+    <section class="section" id="how-it-works">
+        <div class="container has-text-centered">
+            <h2 class="title is-4 section-header"><span>How it Works</span></h2>
+            <div class="columns">
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
+                        <span class="icon icon_steps_1"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>1. Video Consultation</strong></p>
+                        <p>Review your health history during a 1-hour video consultation with a naturopathic doctor.</p>
+                    </div>
                 </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=jcEi-IniIMQ&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lisa.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lisa's Story</strong></p>
-                    <em>Found a natural remedy for chronic pain.</em>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-pink">
+                        <span class="icon icon_steps_2"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>2. Lab Testing</strong></p>
+                        <p>Receive a custom lab kit mailed to your home for sample collection.</p>
+                    </div>
                 </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=hc4SfhKhwcw&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/lauren.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Lauren's Story</strong></p>
-                    <em>Healed from a thyroid disorder.</em>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
+                        <span class="icon icon_steps_3"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>3. Analysis</strong></p>
+                        <p>Review your test results with your doctor to gain actionable health insights.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="columns is-narrow is-hidden-mobile">
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=P35czqune48&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/scott.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Scott's Story</strong></p>
-                    <em>Optimized recovery from injury.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=iaHuXlV7CtY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/jamie.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Jamie's Story</strong></p>
-                    <em>Healed from chronic fatigue syndrome and Lyme disease.</em>
-                </div>
-                <div class="column is-3-desktop is-4-tablet is-auto-desktop">
-                    <a href="//www.youtube.com/watch?v=Ydk2bfHraEY&rel=0&modestbranding=0&autohide=1&showinfo=0&VQ=HD720" class="watch-video" frameborder="0" data-lity allowfullscreen>
-                        <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/bruce.jpg" alt="">
-                    </a>
-                    <p class="video-title is-5 is-marginless-bottom"><strong class="video-title">Bruce's Story</strong></p>
-                    <em>Cured himself of diabetes.</em>
-                </div>
-            </div>
-            <div class="container has-text-centered">
-                <div class="button-wrapper">
-                    <a href="https://www.youtube.com/watch?v=nfyk7irbYsw&list=UUNW4aHA1yCPUdk7OM65oNDw" class="button is-secondary is-outlined is-medium has-arrow" target="_blank">
-                        <i class="fa fa-youtube is-padding-right" aria-hidden="true"></i> Watch Videos
-                    </a>
+                <div class="column">
+                    <figure class="icon-wrapper icon-wrapper-has-background is-green">
+                        <span class="icon icon_steps_4"></span>
+                    </figure>
+                    <div class="is-padding-top">
+                        <p class="title instructions is-5"><strong>4. Treatment Plan</strong></p>
+                        <p>Your doctor develops a personalized plan addressing your unique diagnosis.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -257,12 +288,96 @@
         </div>
     </section>
 
-    <section class="section" id="get-started">
+    <div class="anchor" id="conditions"></div>
+
+    <section class="section how-it-works" id="get-started">
         <div class="container">
-            <div class="has-text-centered">
-                <h2 class="title is-3 is-padding-bottom">Start your journey to better health.</h2>
-                <div class="button-wrapper">
-                    <a href="/conditions" class="button is-primary is-medium has-arrow">Get Started</a>
+            <div class="has-text-centered has-max-width-lg">
+                <h2 class="title is-3">Start your health journey.</h2>
+                <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Please select your most concerning health issue out of the list below, and we will share with you some articles, case studies and lab test information.</p>
+                <div class="columns is-margin-top">
+                    <div class="column">
+                        <a href="/conditions/skin-conditions#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-lime">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/food-allergies#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-pink">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/allergies.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Food Allergies</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/stress-and-anxiety#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-brown">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/digestion-issues#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-purple">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Digestion Issues</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <a href="/conditions/fatigue#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-turquoise">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/fatigue.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Fatigue</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/weight-loss-gain#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/womens-health#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-green">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/womens-health.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>Women's Health</strong></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="column">
+                        <a href="/conditions/general-health#">
+                            <figure class="icon-wrapper icon-wrapper-has-background is-ford">
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general.png"></span>
+                            </figure>
+                            <div class="is-padding-top">
+                                <p class="title instructions is-5"><strong>General/Other</strong></p>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
