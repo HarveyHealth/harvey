@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\{Model, Builder};
 use Laravel\Scout\Searchable;
 use Cache;
 
+
+
+
+
+
 class Patient extends Model
 {
     use Searchable;
-
     protected $guarded = [
         'created_at',
         'enabled',
