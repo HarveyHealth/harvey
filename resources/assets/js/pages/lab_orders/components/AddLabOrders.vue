@@ -109,7 +109,9 @@ export default {
     modalClose() {
       this.$parent.addActiveModal = false;
       this.selectedClient = '0';
-      this.selectedDoctor = '0';
+      if (this.$root.$data.permissions !== 'practitioner') {
+        this.selectedDoctor = '0';
+      }
     },
     openModal() {
       this.$parent.addActiveModal = true;
@@ -139,7 +141,9 @@ export default {
         this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
         this.$parent.addActiveModal = false;
         this.selectedClient = '0';
-        this.selectedDoctor = '0';
+        if (this.$root.$data.permissions !== 'practitioner') {
+            this.selectedDoctor = '0';
+        }
     },
     createLabOrder() {
         this.selectedTests.map(e => {
