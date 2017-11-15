@@ -1,6 +1,5 @@
 <template>
     <div :class="wrapClasses">
-        <div class="nav-spacer"></div>
         <div class="nav-overlay"></div>
         <div class="nav-container">
             <button class="nav-hamburger" @click="handleMenuClick()">
@@ -16,11 +15,13 @@
                 <a href="/financing">Financing</a>
                 <a href="/login">Log In</a>
             </div>
-            <div class="nav-phone" v-if="hasPhone">
-                <a href="tel:800-690-9989">(800) 690-9989</a>
-            </div>
-            <div class="nav-start" v-if="hasStart">
-                <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+            <div class="nav-right">
+                <div class="nav-phone" v-if="hasPhone">
+                    <a href="tel:800-690-9989">(800) 690-9989</a>
+                </div>
+                <div class="nav-start" v-if="hasStart">
+                    <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                </div>
             </div>
         </div>
     </div>
@@ -49,7 +50,7 @@ export default {
           return `fa ${this.menuIsActive ? 'fa-close' : 'fa-bars'}`;
       },
       wrapClasses() {
-          return `nav-wrap ${this.menuIsActive && 'menu-active'}`;
+          return `nav-wrap${this.menuIsActive ? ' menu-active' : ''}`;
       }
   },
   methods: {
@@ -78,21 +79,37 @@ export default {
     @import '~sass';
 
     .nav-wrap {
+        margin: 0 auto;
+        max-width: 1152px;
         position: relative;
         z-index: 1;
     }
 
     .nav-container {
-        padding: 0 12px;
         position: absolute;
-        width: 100%;
 
-        .menu-active & {
-            bottom: 0;
-            overflow: auto;
-            padding-bottom: 60px;
-            position: fixed;
-            top: 0;
+        @include query-up-to(lg) {
+            padding: 0 24px;
+            width: 100%;
+
+            .menu-active & {
+                bottom: 0;
+                overflow: auto;
+                padding-bottom: 60px;
+                position: fixed;
+                top: 0;
+            }
+        }
+        @include query(lg) {
+            left: 24px;
+            width: calc(100% - 48px);
+        }
+
+        // Hardcoded in public css
+        @media screen and (min-width: 1192px) {
+            left: 0;
+            margin: 0 6px;
+            width: 100%;
         }
     }
 
@@ -126,7 +143,7 @@ export default {
         outline: none;
         padding: 12px;
         position: fixed;
-        right: 12px;
+        right: 18px;
         transition: background 200ms ease-in-out;
         top: 12px;
         width: 42px;
@@ -156,39 +173,105 @@ export default {
         }
     }
 
-    .nav-links {
-        font-size: 1.5rem;
-        margin-top: 60px;
-        text-align: center;
+    .nav-right {
+        @include query(lg) {
+            position: absolute;
+            right: 0;
+            top: 22px;
+        }
+    }
 
-        a {
-            color: white;
+    .nav-links {
+        @include query-up-to(lg) {
+            font-size: 1.5rem;
+            margin-top: 60px;
+            text-align: center;
+        }
+        @include query(lg) {
+            top: -20px;
+            position: relative;
+        }
+        @include query(xl) {
+            left: 48px;
+        }
+    }
+
+    .nav-links a {
+        color: white;
+
+        @include query-up-to(lg) {
             display: block;
-            padding: 1.5rem;
+            padding: 1.6rem;
+        }
+        @include query(lg) {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            margin: 12px 0;
+            padding: 10px;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+        @include query(xl) {
+            font-size: 18px;
         }
     }
 
     .nav-phone a,
     .nav-start a {
-        bottom: 12px;
         border: 1px solid;
         border-radius: 4px;
         color: white;
-        padding: 12px;
-        position: fixed;
         text-align: center;
-        width: calc(50% - 18px);
+
+        @include query-up-to(lg) {
+            bottom: 12px;
+            font-size: 16px;
+            padding: 12px;
+            position: fixed;
+            width: calc(50% - 18px);
+        }
+        @include query(lg) {
+            font-size: 14px;
+            margin-left: 12px;
+            padding: 8px 10px;
+        }
+        @include query(xl) {
+            font-size: 16px;
+            padding: 10px 16px;
+        }
     }
 
     .nav-phone a {
-        background: $color-copy;
         border-color: white;
-        left: 12px;
+
+        @include query-up-to(lg) {
+            background: $color-copy;
+            left: 12px;
+        }
     }
 
     .nav-start a {
         background: $color-accent-dark;
         border-color: $color-accent-dark;
-        right: 12px;
+
+        @include query-up-to(lg) {
+            right: 12px;
+        }
+    }
+
+    @include query(lg) {
+        .nav-hamburger,
+        .nav-overlay {
+            display: none;
+        }
+
+        .nav-links,
+        .nav-phone,
+        .nav-start {
+            display: inline-block;
+        }
     }
 </style>
