@@ -35,6 +35,7 @@ const app = new Vue({
         VerticalTabs
     },
     data: {
+        appClass: '',
         appLoaded: false,
         emailCaptureError: 'Not a valid email address',
         emailCaptureClasses: {
@@ -207,6 +208,9 @@ const app = new Vue({
         // Symptoms selector
         onChanged() {
             this.symptomsChanged = true;
+        },
+        toggleMenu() {
+            this.appClass = this.appClass ? '' : 'menu-is-open';
         },
         getStarted() {
             if (this.symptomsChanged) {

@@ -1,9 +1,10 @@
 <template>
-    <div class="nav-wrap">
+    <div :class="wrapClasses">
         <div class="nav-spacer"></div>
+        <div class="nav-overlay"></div>
         <div class="nav-container">
-            <button class="nav-hamburger">
-                <i class="fa fa-bars"></i>
+            <button class="nav-hamburger" @click="handleMenuClick">
+                <i :class="hamburgerClasses"></i>
             </button>
             <a href="/" class="nav-logo" v-if="hasLogo">
                 <LogoIcon alwaysShowText />
@@ -34,7 +35,36 @@ export default {
       hasLinks: { type: Boolean, default: false },
       hasLogo: { type: Boolean, default: false },
       hasPhone: { type: Boolean, default: false },
-      hasStart: { type: Boolean, default: false }
+      hasStart: { type: Boolean, default: false },
+      onMenuClick: { type: Function, required: true }
+  },
+  data() {
+    return {
+        menuIsActive: false,
+        yScroll: null
+    }
+  },
+  computed: {
+      hamburgerClasses() {
+          return `fa ${this.menuIsActive ? 'fa-close' : 'fa-bars'}`;
+      },
+      wrapClasses() {
+          return `nav-wrap ${this.menuIsActive && 'menu-active'}`;
+      }
+  },
+  methods: {
+      handleMenuClick() {
+          if (this.menuIsActive) {
+              this.onMenuClick();
+              Vue.nextTick(() => {
+                  window.scroll(0, this.yScroll);
+              });
+          } else {
+              this.yScroll = window.scrollY;
+              setTimeout(this.onMenuClick, 200);
+          }
+          this.menuIsActive = !this.menuIsActive;
+      }
   }
 };
 </script>
@@ -53,22 +83,51 @@ export default {
         width: 100%;
     }
 
+    .nav-overlay {
+        background: rgba($color-copy, 0);
+        transition: background 200ms ease-in-out;
+
+        .menu-active & {
+            background: rgba($color-copy, 0.9);
+            bottom: 0;
+            left: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+        }
+    }
+
+    .menu-active .logo {
+        position: fixed;
+    }
+
     .nav-hamburger {
         background: rgba(255,255,255,0.5);
         border: 0;
         border-radius: 50%;
         color: $color-copy;
         cursor: pointer;
+        height: 42px;
         outline: none;
         padding: 12px;
         position: fixed;
         right: 12px;
         transition: background 200ms ease-in-out;
         top: 12px;
+        width: 42px;
         -webkit-appearance: none;
 
         &:hover {
             background: rgba(255,255,255,0.9)
+        }
+
+        .fa {
+            font-size: 1rem;
+        }
+
+        .menu-active & {
+            background: transparent;
+            color: white;
         }
     }
 

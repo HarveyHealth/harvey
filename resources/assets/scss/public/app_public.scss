@@ -242,3 +242,9 @@ body {
         outline: none;
     }
 }
+
+
+// When the mobile menu is opened we need to stop scrolling
+#app.menu-is-open {
+    height: 100vh;
+}

@@ -22,6 +22,12 @@
         </div>
     </div>
 </div> -->
-<main-nav-2 has-logo has-links has-phone has-start></main-nav-2>
+<main-nav-2
+    has-logo
+    has-links
+    has-phone
+    has-start
+    :on-menu-click="toggleMenu"
+></main-nav-2>
 
 @include('legacy._layouts.includes.messages')
