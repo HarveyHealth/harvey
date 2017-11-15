@@ -7,7 +7,7 @@
                 <i :class="hamburgerClasses"></i>
             </button>
             <a href="/" class="nav-logo" v-if="hasLogo">
-                <LogoIcon alwaysShowText />
+                <LogoIcon revealText />
             </a>
             <div class="nav-links" v-if="hasLinks">
                 <a href="/about">About</a>
@@ -81,6 +81,14 @@ export default {
         padding: 0 12px;
         position: absolute;
         width: 100%;
+
+        .menu-active & {
+            bottom: 0;
+            overflow: auto;
+            padding-bottom: 60px;
+            position: fixed;
+            top: 0;
+        }
     }
 
     .nav-overlay {
@@ -88,7 +96,9 @@ export default {
         transition: background 200ms ease-in-out;
 
         .menu-active & {
-            background: rgba($color-copy, 0.9);
+            background: rgba($color-copy, 0.97);
+            background-size: cover;
+            background-position: center;
             bottom: 0;
             left: 0;
             position: fixed;
@@ -135,5 +145,45 @@ export default {
     .nav-phone,
     .nav-start {
         display: none;
+
+        .menu-active & {
+            display: block;
+        }
+    }
+
+    .nav-links {
+        font-size: 1.5rem;
+        margin-top: 60px;
+        text-align: center;
+
+        a {
+            color: white;
+            display: block;
+            padding: 1.5rem;
+        }
+    }
+
+    .nav-phone a,
+    .nav-start a {
+        bottom: 12px;
+        border: 1px solid;
+        border-radius: 4px;
+        color: white;
+        padding: 12px;
+        position: fixed;
+        text-align: center;
+        width: calc(50% - 18px);
+    }
+
+    .nav-phone a {
+        background: $color-copy;
+        border-color: white;
+        left: 12px;
+    }
+
+    .nav-start a {
+        background: $color-accent-dark;
+        border-color: $color-accent-dark;
+        right: 12px;
     }
 </style>
