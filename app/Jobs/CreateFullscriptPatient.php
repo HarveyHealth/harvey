@@ -33,8 +33,7 @@ class CreateFullscriptPatient implements ShouldQueue
      */
     public function handle()
     {
-        //
-        $patient = false;
+        
 
         $fullscript = \App::make(Fullscript::class);
 
