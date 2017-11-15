@@ -164,11 +164,9 @@ export default {
               });
           });
 
-          this.selectedClient = '';
           this.step = 1;
           this.masterTracking = '';
           this.address1 = '';
-          this.selectedDoctor = '';
           this.address2 = '';
           this.city = '';
           this.zip = '';
