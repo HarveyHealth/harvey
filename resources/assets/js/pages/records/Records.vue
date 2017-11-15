@@ -225,6 +225,12 @@ export default {
             this.activeModal = false;
             this.search = e.target.value;
             this.loading = true;
+            this.soap_notes = {};
+            this.attachments = {};
+            this.prescriptions = {};
+            this.lab_tests = {};
+            this.lab_orders = {};
+            this.lab_test_results = {};
         },
         setPage(page) {
             this.page = page;
