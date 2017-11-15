@@ -251,6 +251,9 @@ export default {
                     this.timeline = [];
                     if (response.data.included) {
                         response.data.included.forEach((e) => {
+                            if (e.type === 'lab_tests') {
+                                e.included = this.$root.$data.labTests[e.attributes.sku_id];
+                            }
                             e.type === 'soap_note' ? 
                                 this.soap_notes[e.id] = e :
                             e.type === 'attachment' ?

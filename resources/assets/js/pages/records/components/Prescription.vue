@@ -15,8 +15,8 @@
                 <div class="width-175">
                     <label class="input__label">pharmacy</label>
                     <span class="custom-select bg-white">
-                        <select>
-                            <option v-for="script in prescriptionList">{{ script.name }}</option>
+                        <select @change="updateName($event)">
+                            <option v-for="script in prescriptionList" :data-id="script">{{ script.name }}</option>
                         </select>
                     </span>
                 </div>
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </label>
-                    <input @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                    <input :disabled="!selected" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
             </div>
         </div>
@@ -48,18 +48,21 @@ export default {
     },
     data() {
         return {
-
+            selected: null,
         };
     },
     methods: {
         upload(file) {
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/prescriptions`, {
                 file: file.target.files[0],
-                name: this.fileName,
+                name: this.selected,
             })
             .then((response) => {
                 console.log(`RESPONSE`, response);
             })
+        },
+        updateName(e) {
+            this.selected = e.target.children[e.target.selectedIndex].dataset.id;
         }
     },
     computed: {

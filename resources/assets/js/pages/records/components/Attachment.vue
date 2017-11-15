@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </label>
-                    <input @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                    <input :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
             </div>
         </div>

@@ -23,7 +23,7 @@
                     <label class="input__label">lab test</label>
                     <span class="custom-select bg-white">
                         <select @change="updateLab($event)">
-                            <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.attributes.name }}</option>
+                            <option v-for="lab in labTestList" :data-id="lab.id">{{ lab.included.attributes.name }}</option>
                         </select>
                     </span>
                 </div>
@@ -37,7 +37,7 @@
                             </div>
                         </div>
                     </label>
-                    <input @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                    <input :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@ export default {
         },
         labTestList() {
             let labTests = Object.values(this.$parent.lab_tests);
-            return [{attributes: {name: ''}, id: 0}].concat(labTests);
+            return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
         },
         resultUrl() {
             const prop = this.$parent.propData;
@@ -95,6 +95,18 @@ export default {
             if (!val) {
                 const prop = this.$parent.propData;
                 return prop && prop.attributes && prop.attributes.url ? prop.attributes.url : '';
+            }
+        },
+        labNameList(val) {
+            if (!val) {
+                let labNames = Object.keys(this.$root.$data.labTypes);
+                return [''].concat(labNames);
+            }
+        },
+        labTestList(val) {
+            if (!val) {
+                let labTests = Object.values(this.$parent.lab_tests);
+                return labTests.length ? [{included: {attributes: {name: ''}}, id: 0}].concat(labTests) : [{included: {attributes: {name: 'No Lab Tests'}}, id: 0}];
             }
         }
     }
