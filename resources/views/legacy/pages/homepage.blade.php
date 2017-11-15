@@ -41,42 +41,42 @@
             <div class="columns">
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin-conditions.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/skin-conditions">Learn More</a>
+                        <a href="/conditions/skin-conditions#">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/allergies.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/food-allergies.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Food Allergies</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/food-allergies">Learn More</a>
+                        <a href="/conditions/food-allergies#">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-brown">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress-anxiety.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/skin-anxiety">Learn More</a>
+                        <a href="/conditions/stress-anxiety#">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-purple">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestive-issues.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Digestion Issues</strong></p>
+                        <p class="title instructions is-5"><strong>Digestive Issues</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/digestion">Learn More</a>
+                        <a href="/conditions/digestive-issues#">Learn More</a>
                     </div>
                 </div>
             </div>
@@ -88,12 +88,12 @@
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Fatigue</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/fatigue">Learn More</a>
+                        <a href="/conditions/fatigue#">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss-gain.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
@@ -113,7 +113,7 @@
                 </div>
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-ford">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general-health.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>General/Other</strong></p>
@@ -299,7 +299,7 @@
                     <div class="column">
                         <a href="/conditions/skin-conditions#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/skin-conditions.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
@@ -309,7 +309,7 @@
                     <div class="column">
                         <a href="/conditions/food-allergies#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-pink">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/allergies.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/food-allergies.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Food Allergies</strong></p>
@@ -319,7 +319,7 @@
                     <div class="column">
                         <a href="/conditions/stress-and-anxiety#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-brown">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress-anxiety.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Stress/Anxiety</strong></p>
@@ -329,7 +329,7 @@
                     <div class="column">
                         <a href="/conditions/digestion-issues#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-purple">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion-issues.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Digestion Issues</strong></p>
@@ -351,7 +351,7 @@
                     <div class="column">
                         <a href="/conditions/weight-loss-gain#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-slategrey">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/weight-loss-gain.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Weight Loss/Gain</strong></p>
@@ -371,7 +371,7 @@
                     <div class="column">
                         <a href="/conditions/general-health#">
                             <figure class="icon-wrapper icon-wrapper-has-background is-ford">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/general-health.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>General/Other</strong></p>

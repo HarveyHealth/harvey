@@ -4,9 +4,11 @@
       <img :src="State('conditions.condition.image_url')" class="max-width-xs">
     </div>
     <SlideIn class="space-children-xl">
-      <a href="/#conditions" class="color-white font-thin">
-        <i class="fa fa-chevron-left"></i> New Condition
-      </a>
+      <button class="Button Button--condition-nav is-left">
+        <a href="/#conditions" class="color-white font-normal">
+          <i class="fa fa-chevron-left"></i> New Condition
+        </a>
+      </button>
       <h3 class="color-white heading-1 font-bold font-centered">{{ State('conditions.condition.name') }}</h3>
       <p class="font-centered font-lg">{{ State('conditions.condition.description') }}</p>
       <div id="wordpress-feed"></div>

@@ -87,7 +87,7 @@ class CreateConditionsTable extends Migration
             ],
             [
                 'name' => "Stress & Anxiety",
-                'slug' => "stress-and-anxiety",
+                'slug' => "stress-anxiety",
                 'image_url' => "https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/stress-anxiety.png",
                 'description' => "Naturopathic medicine strongly believes in “whole person wellness”. This includes mind, body and spirit. If our mind or spirit is not well, it affects us physically, and vice versa. Additional investigation may include nutrient status, hormone balance and diet assessments. We have effective, non-toxic therapies to help you find the balance you need to feel as healthy as you’d like to feel.",
                 'questions' => [
@@ -122,9 +122,9 @@ class CreateConditionsTable extends Migration
                 ]
             ],
             [
-                'name' => "Digestion Issues",
-                'slug' => "digestion-issues",
-                'image_url' => "https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestion-issues.png",
+                'name' => "Digestive Issues",
+                'slug' => "digestive-issues",
+                'image_url' => "https://d35oe889gdmcln.cloudfront.net/assets/images/home/conditions/digestive-issues.png",
                 'description' => "Your digestive system is one of the most important systems in your whole body. If you cannot properly digest and absorb nutrients and eliminate waste products, then it’s nearly impossible to achieve optimal health. Proper gut function is critical to addressing what can be seemingly unrelated conditions. Our approach to gut health may include assessing for food sensitivity, testing the quality of your microbiome and supporting optimal digestion with nutrition, herbs and supplementation.",
                 'questions' => [
                     [
