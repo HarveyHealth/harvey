@@ -101,6 +101,7 @@ return [
         'sid' => env('TWILIO_ACCOUNT_SID'),
         'token' => env('TWILIO_AUTH_TOKEN'),
         'sms_number' => env('TWILIO_SMS_NUMBER'),
+        'feedback_number' => env('TWILIO_FEEDBACK_NUMBER'),
     ],
 
     'google_calendar' => [
