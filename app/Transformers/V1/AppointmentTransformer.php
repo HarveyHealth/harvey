@@ -39,7 +39,7 @@ class AppointmentTransformer extends TransformerAbstract
         return $this->item(
             $patient,
             new PatientTransformer()
-        )->setResourceKey('patients');
+        )->setResourceKey('patient');
     }
 
     /**
@@ -52,7 +52,7 @@ class AppointmentTransformer extends TransformerAbstract
         return $this->item(
             $practitioner,
             new PractitionerTransformer()
-        )->setResourceKey('practitioners');
+        )->setResourceKey('practitioner');
     }
 
     /**
@@ -62,7 +62,7 @@ class AppointmentTransformer extends TransformerAbstract
     public function includeDiscountCode(Appointment $appointment)
     {
         if ($discount_code = $appointment->discountCode) {
-            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_codes');
+            return $this->item($discount_code, new DiscountCodeTransformer(), 'discount_code');
         }
     }
 

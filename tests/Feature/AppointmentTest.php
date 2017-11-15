@@ -270,6 +270,43 @@ class AppointmentTest extends TestCase
         $response->assertJsonFragment(['reason_for_visit' => 'Some reason.']);
     }
 
+    public function test_it_does_not_allows_a_patient_to_schedule_more_than_3_appointments()
+    {
+        // Given a patient
+        $patient = factory(Patient::class)->create();
+
+        // And a practitioner exists
+        $practitioner = factory(Practitioner::class)->create();
+
+        for ($i=0;$i<3;$i++){
+
+          $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+          // And valid appointment parameters
+          $parameters = [
+              'appointment_at' => $appointment_at,
+              'reason_for_visit' => 'Some reason.',
+              'practitioner_id' => $practitioner->id
+          ];
+
+          // When they schedule a new appointment
+          Passport::actingAs($patient->user);
+          $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+          if ($i<2)
+          {
+            $response->assertStatus(ResponseCode::HTTP_OK);
+          }
+          else
+          {
+            $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
+          }
+        }
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+
+
+    }
+
     public function test_it_allows_a_practitioner_to_schedule_a_new_appointment()
     {
         $practitioner = factory(Practitioner::class)->create();

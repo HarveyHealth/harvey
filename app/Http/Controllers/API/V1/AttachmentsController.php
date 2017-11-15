@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class AttachmentsController extends BaseAPIController
 {
-    protected $resource_name = 'attachments';
+    protected $resource_name = 'attachment';
 
     /**
      * AttachmentsController constructor.
@@ -20,11 +20,6 @@ class AttachmentsController extends BaseAPIController
     {
         parent::__construct();
         $this->transformer = $transformer;
-    }
-
-    public function getAll(Request $request)
-    {
-        return $this->baseTransformBuilder(Attachment::belongingTo(currentUser()), request('include'), new AttachmentTransformer, request('per_page'))->respond();
     }
 
     public function getOne(Request $request, Attachment $attachment)

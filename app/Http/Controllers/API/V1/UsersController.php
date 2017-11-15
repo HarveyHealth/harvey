@@ -13,7 +13,7 @@ use Exception, ResponseCode;
 
 class UsersController extends BaseAPIController
 {
-    protected $resource_name = 'users';
+    protected $resource_name = 'user';
 
     /**
      * UsersController constructor.
@@ -112,7 +112,14 @@ class UsersController extends BaseAPIController
             event(new UserRegistered($user));
             $user->patient()->save(new Patient());
 
-            return $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
+            // Add "manually" intercom_hash key, we don't want to include this on Transformer
+            // since it can compromise Identity Verification security.
+            $response = $this->baseTransformItem($user)->respond(ResponseCode::HTTP_CREATED);
+            $data = $response->getData();
+            $data->data->attributes->intercom_hash = $user->intercom_hash;
+            $response->setData($data);
+
+            return $response;
         } catch (Exception $exception) {
             return $this->respondBadRequest($exception->getMessage());
         }

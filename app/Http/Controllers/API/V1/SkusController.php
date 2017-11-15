@@ -13,7 +13,7 @@ use DB;
 
 class SkusController extends BaseAPIController
 {
-    protected $resource_name = 'skus';
+    protected $resource_name = 'sku';
 
     public function __construct(SKUTransformer $transformer)
     {
@@ -50,10 +50,10 @@ class SkusController extends BaseAPIController
             'name' => 'required',
             'price' => 'required',
             'cost' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:800',
             'image' => 'required',
             'sample' => 'required',
-            'quote' => 'required',
+            'quote' => 'required|max:200',
             'lab_name' => 'required',
             'visibility_id' => 'required|integer',
         ]);
@@ -83,10 +83,10 @@ class SkusController extends BaseAPIController
             'name' => 'required',
             'price' => 'required',
             'cost' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:800',
             'image' => 'required',
             'sample' => 'required',
-            'quote' => 'required',
+            'quote' => 'required|max:200',
             'lab_name' => 'required',
             'visibility_id' => 'required|integer',
         ]);

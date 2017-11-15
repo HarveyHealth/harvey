@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class SoapNotesController extends BaseAPIController
 {
-    protected $resource_name = 'soap_notes';
+    protected $resource_name = 'soap_note';
 
     /**
      * SoapNotesController constructor.
@@ -20,12 +20,6 @@ class SoapNotesController extends BaseAPIController
     {
         parent::__construct();
         $this->transformer = $transformer;
-    }
-
-    public function getAll(Request $request)
-    {
-
-        return $this->baseTransformBuilder(SoapNote::belongingTo(currentUser()), request('include'), $this->transformer, request('per_page'))->respond();
     }
 
     public function getOne(Request $request, SoapNote $soapNote)

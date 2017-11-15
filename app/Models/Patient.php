@@ -75,6 +75,11 @@ class Patient extends Model
         return $this->hasMany(Prescription::class, 'patient_id', 'id');
     }
 
+    public function labOrders()
+    {
+        return $this->hasMany(LabOrder::class);
+    }
+
     public function getIntakeData()
     {
         if (empty($token = $this->intake_token)) {

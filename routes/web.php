@@ -54,6 +54,9 @@ Route::get('/conditions', 'PagesController@getConditions')->name('conditions');
 Route::get('/conditions/{condition?}', 'PagesController@getCondition')->name('condition');
 Route::get('/get-started', 'GetStartedController@index')->name('getstarted');
 
+// INTAKE
+// Route::get('/intake', 'IntakeController@index')->name('intake');
+
 if (isLocal()) {
-    Route::get('test', 'TestController@index');
+	Route::get('test', 'TestController@index');
 }

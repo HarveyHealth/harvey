@@ -14,7 +14,7 @@
             role="form"
             method="post"
             action="/login"
-            redirect-url="/#/"
+            redirect-url="/dashboard"
             @submit.prevent.self="onSubmit"
             @keydown="login.form.errors.clear($event.target.name)"
         >
