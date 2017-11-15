@@ -37,15 +37,15 @@
 import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
 export default {
   name: 'TableData',
-  data() {return {}},
+  data() {return {};},
   components: { ClipLoader },
   computed: {
     // Includes any classes passed with tableClass
     $$tableClasses() {
       return {
         tabledata: true,
-        [`${this.tableClass}`]: true,
-      }
+        [`${this.tableClass}`]: true
+      };
     }
   },
   methods: {
@@ -56,8 +56,8 @@ export default {
       return {
         'is-selected': this.selectedRow === data,
         'is-updating': this.updatingRow === index,
-        'has-updated': this.updatedRow === index,
-      }
+        'has-updated': this.updatedRow === index
+      };
     }
   },
   props: {
@@ -88,7 +88,7 @@ export default {
     },
     // Whether the table data is still loading or not
     loading: {
-      type: Boolean,
+      type: Boolean
     },
     // The message to display if the component mounts and loading is still true
     loadingMsg: {
@@ -103,7 +103,7 @@ export default {
     // What happens when a table column header is clicked.
     // Function takes the column data as an argument
     onSort: {
-      type: Function,
+      type: Function
     },
     // The set of row data rendered based on the following structure:
     // [
@@ -121,7 +121,8 @@ export default {
     },
     // Can be null to start but should be used to store the index of the row clicked
     selectedRow: {
-      required: true
+      required: false,
+      type: Object
     },
     // To add custom class to the table for additional styling
     tableClass: {
@@ -129,12 +130,14 @@ export default {
     },
     // Like selectedRow but to indicate the index of the row that was just updated
     updatedRow: {
-      required: false
+      required: false,
+      type: Number
     },
     // Like selectedRow but to indicate the index of the row currently being updated
     updatingRow: {
-      required: false
+      required: false,
+      type: Number
     }
   }
-}
+};
 </script>

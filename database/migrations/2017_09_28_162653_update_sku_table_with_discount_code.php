@@ -32,8 +32,8 @@ class UpdateSkuTableWithDiscountCode extends Migration
      */
     public function down()
     {
-        Schema::table('skus', function (Blueprint $table) {
-            //
+        Schema::table('discount_codes', function (Blueprint $table) {
+            $table->dropColumn('applies_to');
         });
     }
 }

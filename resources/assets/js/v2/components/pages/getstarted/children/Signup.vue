@@ -81,7 +81,7 @@
               <p v-show="errors.has('terms')" class="copy-error">{{ termsError }}</p>
             </div>
             <div class="font-centered">
-              <ButtonInput
+              <InputButton
                 :isDisabled="isProcessing"
                 :isDone="isComplete"
                 :isProcessing="isProcessing"
@@ -102,17 +102,19 @@
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import { InputButton, FacebookSignin } from 'inputs';
+import { SlideIn } from 'layout';
+import { SvgIcon } from 'icons';
 import LoadingGraphic from '../../../../../commons/LoadingGraphic.vue';
 
 export default {
   name: 'sign-up',
   components: {
-    ButtonInput: Inputs.ButtonInput,
-    FacebookSignin: Inputs.FacebookSignin,
+    InputButton,
+    FacebookSignin,
     LoadingGraphic,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
+    SlideIn,
+    SvgIcon
   },
   data() {
     return {
@@ -126,8 +128,8 @@ export default {
       ],
       responseErrors: [],
       subtitle: '',
-      zipInRange: false,
-    }
+      zipInRange: false
+    };
   },
   // These are necessary because VeeValidate's custom messages are just not working
   // http://vee-validate.logaretm.com/rules.html#field-sepecific-messages
@@ -136,14 +138,14 @@ export default {
       if (this.errors.has('first_name')) {
         return this.errors.firstByRule('first_name', 'required')
           ? 'First name is required.'
-          : 'First name only takes alphabetic characters.'
+          : 'First name only takes alphabetic characters.';
       }
     },
     lastNameError() {
       if (this.errors.has('last_name')) {
         return this.errors.firstByRule('last_name', 'required')
           ? 'Last name is required.'
-          : 'Last name only takes alphabetic characters.'
+          : 'Last name only takes alphabetic characters.';
       }
     },
     emailError() {
@@ -154,7 +156,7 @@ export default {
         } else {
           return this.errors.firstByRule('email', 'required')
             ? 'Email is required.'
-            : 'That is not a valid email address.'
+            : 'That is not a valid email address.';
         }
       }
     },
@@ -162,14 +164,14 @@ export default {
       if (this.errors.has('password')) {
         return this.errors.firstByRule('password', 'required')
           ? 'Password is required.'
-          : 'Password needs minimum of 6 characters.'
+          : 'Password needs minimum of 6 characters.';
       }
     },
     termsError() {
       if (this.errors.has('terms')) {
         return this.errors.firstByRule('terms', 'required')
           ? 'Please agree to terms and privacy policy.'
-          : ''
+          : '';
       }
     },
     title() {
@@ -197,44 +199,46 @@ export default {
 
         // create the user
         axios.post('api/v1/users', this.State('getstarted.userPost'))
-          .then(response => {
+            .then(response => {
 
-            // log the user in
-            this.login(this.State('getstarted.userPost.email'), this.State('getstarted.userPost.password'));
-            this.isComplete = true;
-            this.zipInRange = true;
+                // log the user in
+                this.login(this.State('getstarted.userPost.email'), this.State('getstarted.userPost.password'));
+                this.isComplete = true;
+                this.zipInRange = true;
 
-            // Track successful signup
-            if(App.Logic.misc.shouldTrack()) {
-              // collect response information
-              const userData = response.data.data.attributes;
-              const userId = response.data.data.id || '';
-              const firstName = userData.first_name || '';
-              const lastName = userData.last_name || '';
-              const email = userData.email || '';
-              const zip = userData.zip || '';
-              const city = userData.city || '';
-              const state = userData.state || '';
+                const userData = response.data.data.attributes;
+                const userId = response.data.data.id || '';
+                const firstName = userData.first_name || '';
+                const lastName = userData.last_name || '';
+                const email = userData.email || '';
+                const zip = userData.zip || '';
+                const city = userData.city || '';
+                const state = userData.state || '';
 
-              // Segment tracking
-              analytics.track("Account Created");
+                analytics.alias(userId); // Only call this once
+                analytics.track('Account Created');
 
-              // Segment Identify
-              analytics.identify(userId, {
+                // Segment Identify
+                analytics.identify(userId, {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 city: city,
                 state: state,
-                zip: zip,
-              });
-            }
+                zip: zip
+                }, {
+                integrations: {
+                    Intercom : {
+                    user_hash: intercomHash
+                    }
+                }
+                });
 
-            // remove local storage items on sign up
-            // needed if you decide to sign up multiple acounts on one browser
-            App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
+                // remove local storage items on sign up
+                // needed if you decide to sign up multiple acounts on one browser
+                App.Util.data.killStorage(['first_name', 'last_name', 'email', 'password']);
 
-          })
+            })
           // Error catch for user patch
           // The BE checks for invalid zipcodes based on states we know we cannot operate in
           // and also Iggbo servicing data.
@@ -259,25 +263,25 @@ export default {
           });
 
       // Error catch for vee-validate of signup form fields
-      }).catch(error => {
+      }).catch(() => {
         console.error('There are errors in the signup form fields.');
       });
     },
     login(email, password) {
       axios.post('login', {
         email: email,
-        password: password,
+        password: password
       })
-      .then(resp => {
+      .then(() => {
         // TODO: check zip code to determine if out of range
         // If so, use localStorage to set a flag for out-of-range page
         localStorage.setItem('new_registration', 'true');
         window.location.href = '/get-started';
       })
-      .catch(error => {
+      .catch(() => {
         // TODO: catch error
       });
-    },
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -286,5 +290,5 @@ export default {
       analytics.page("Signup");
     }
   }
-}
+};
 </script>

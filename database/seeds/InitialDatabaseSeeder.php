@@ -3,7 +3,9 @@
 use Illuminate\Database\Seeder;
 use Laravel\Passport\Client;
 use App\Models\{
+    Admin,
     License,
+    Patient,
     Practitioner,
     PractitionerSchedule,
     PractitionerType,
@@ -14,10 +16,7 @@ class InitialDatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // In order for the production database to function properly, We need to
-        // have at least a DO and an ND with some scheduled availability.
-        // We will also need to have an Oauth Client for the Vue app to consume
-        // The API.
+        // Create Practitioners
 
         $practitioner = Practitioner::create([
             'practitioner_type' => PractitionerType::create([
@@ -25,11 +24,11 @@ class InitialDatabaseSeeder extends Seeder
                 'rate' => 150.00,
             ])->id,
             'user_id' => User::create([
+                'email' =>  'test+amandafrick@goharvey.com',
                 'first_name' => 'Amanda',
                 'last_name' => 'Frick',
-                'email' =>  'test+amandafrick@goharvey.com',
-                'phone' => '3101231234',
                 'password' => bcrypt('secret'),
+                'phone' => '3101231234',
                 'timezone' => 'America/Los_Angeles',
                 'zip' => '90401',
             ])->id,
@@ -54,11 +53,11 @@ class InitialDatabaseSeeder extends Seeder
                 'rate' => 300.00
             ])->id,
             'user_id' => User::create([
+                'email' =>  'test+rachelwest@goharvey.com',
                 'first_name' => 'Rachel',
                 'last_name' => 'West',
-                'email' =>  'test+rachelwest@goharvey.com',
-                'phone' => '3101231235',
                 'password' => bcrypt('secret'),
+                'phone' => '3101231235',
                 'timezone' => 'America/Los_Angeles',
                 'zip' => '90401',
             ])->id,
@@ -81,6 +80,35 @@ class InitialDatabaseSeeder extends Seeder
             'name' => 'Harvey-Vue',
             'secret' => 'Uew3kusLxnzNT5t4EcjxMM4Qso4XJDJbEO7tYyCu',
             'redirect' => config('app.url')
+        ]);
+
+        // Create Admin
+
+        factory(Admin::class)->create([
+            'user_id' => factory(User::class)->create([
+                'email' => 'admin@goharvey.com',
+                'first_name' => 'Admin',
+                'last_name' => 'User',
+                'password' => bcrypt('secret'),
+                'phone' => '3101231236',
+                'timezone' => 'America/Los_Angeles',
+                'zip' => '90401',
+            ])->id
+        ]);
+
+        // Create Patient
+
+        factory(Patient::class)->create([
+            'user_id' => factory(User::class)->create([
+                'email' => 'patient@goharvey.com',
+                'first_name' => 'Patient',
+                'last_name' => 'User',
+                'password' => bcrypt('secret'),
+                'phone' => '3101231237',
+                'state' => 'CA',
+                'timezone' => 'America/Los_Angeles',
+                'zip' => '90401',
+            ])->id
         ]);
     }
 }

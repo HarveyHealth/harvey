@@ -28,14 +28,14 @@ export default function(collection, instructions, ifEmpty) {
     instructions.forEach(pair => {
       const _path = pair.where.split('.');
       if (propDeep(_path, obj, ifEmpty) !== pair.is) {
-        match = false
+        match = false;
       }
-    })
+    });
     if (match) {
       output = obj;
       return true;
     }
-  })
+  });
 
   return output;
 }

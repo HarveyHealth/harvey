@@ -7,7 +7,7 @@ use App\Lib\Validation\StrictValidator;
 
 class PractitionerScheduleController extends BaseAPIController
 {
-    protected $resource_name = 'practitioner_schedules';
+    protected $resource_name = 'practitioners_schedules';
 
     /**
      * @param Practitioner $practitioner

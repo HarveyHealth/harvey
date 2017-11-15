@@ -5,14 +5,14 @@
 </template>
 
 <script>
-  import Signup from './children/Signup';
-  import Welcome from './children/Welcome';
+  import Signup from './children/Signup.vue';
+  import Welcome from './children/Welcome.vue';
 
   export default {
     name: 'get-started',
     components: {
       Signup,
-      Welcome,
+      Welcome
     },
     beforeCreate() {
       // The /get-started funnel is technically now only for users with a
@@ -34,8 +34,8 @@
       if (App.Config.user.isLoggedIn) {
         window.onbeforeunload = () => {
           return 'All your information will be reset.';
-        }
+        };
       }
     }
-  }
+  };
 </script>

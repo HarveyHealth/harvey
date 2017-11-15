@@ -36,5 +36,5 @@ export default [
     name: 'Status',
     width: '30%',
     sort: tableSort.byString('purpose')
-  },
-]
+  }
+];

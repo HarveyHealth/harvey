@@ -1,17 +1,14 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage">
+  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button"
-      @click="handleMenu(null)"
-    >
+    <button class="menu-button" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
     <nav class="admin-nav">
-      <router-link to="/" class="nav-bar-account"
-        @click.native="handleMenu(false, 'dashboard')">
+      <a class="nav-bar-account" href="/">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
-      </router-link>
+      </a>
 
       <router-link to="/" title="Dashboard"
         :class="currentPageCheck('dashboard')"
@@ -30,8 +27,17 @@
       <router-link to="/lab_orders" title="Lab Orders"
         :class="currentPageCheck('lab-orders')"
         @click.native="handleMenu(false, 'lab-orders')">
-        <i class="fa fa-eyedropper icon icon-nav-bar"></i>
+        <i class="fa fa-medkit icon icon-nav-bar"></i>
         <div class="text">Lab Orders</div>
+      </router-link>
+
+      <router-link
+        v-if="user === 'admin'"
+        to="/lab_tests/edit" title="Lab Tests"
+        :class="currentPageCheck('sku-dashboard')"
+        @click.native="handleMenu(false, 'sku-dashboard')">
+        <i class="fa fa-flask icon icon-nav-bar"></i>
+        <div class="text">Lab Tests</div>
       </router-link>
 
       <router-link to="/messages" title="Messages"
@@ -51,14 +57,6 @@
         <div class="text">Records</div>
       </router-link>  -->
 
-       <router-link 
-       to="/settings" title="Settings"
-        :class="currentPageCheck('settings')"
-        @click.native="handleMenu(false, 'settings')">
-        <i class="fa fa-cog icon icon-nav-bar"></i>
-        <div class="text">Settings</div>
-      </router-link> 
-
       <router-link
         v-if="user === 'admin'"
         to="/clients" title="Recent Clients"
@@ -75,9 +73,17 @@
         <div class="text">Profile</div>
       </router-link>
 
+       <router-link
+       to="/settings" title="Settings"
+        :class="currentPageCheck('settings')"
+        @click.native="handleMenu(false, 'settings')">
+        <i class="fa fa-cog icon icon-nav-bar"></i>
+        <div class="text">Settings</div>
+      </router-link>
+
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
-        <div class="text">Logout</div>
+        <div class="text">Log out</div>
       </a>
 
     </nav>
@@ -85,8 +91,8 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  import socket from '../pages/messages/websocket'
+  import axios from 'axios';
+  import socket from '../pages/messages/websocket';
   export default {
     computed: {
       // Toggles font-awesome class name depending on state of menu
@@ -95,14 +101,14 @@
           'fa': true,
           'fa-close': this.$root.$data.global.menuOpen,
           'fa-navicon': !this.$root.$data.global.menuOpen
-        }
+        };
       },
       // Checks to see if there are any unread messages
       unread() {
         return this.$root.$data.global.unreadMessages.length > 0;
       },
       user() {
-        return this.$root.$data.permissions
+        return this.$root.$data.permissions;
       }
     },
     methods: {
@@ -110,9 +116,9 @@
       currentPageCheck(page, unread) {
         return {
           'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
+          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
           'unread': unread
-        }
+        };
       },
       // ** Handles mobile menu state and currentPage **
       // When force = null the menu state will toggle
@@ -120,6 +126,7 @@
       // if an item is given, the currentPage will be set to that item
       handleMenu(force, item) {
         this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+        if (item) App.setState('misc.currentPage', item);
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;
@@ -132,22 +139,22 @@
       // Grabs messages to determine unread state for messages button
       axios.get(`${this.$root.$data.apiUrl}/messages`)
         .then(response => {
-          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id)
-        })
+          this.$root.$data.global.unreadMessages = response.data.data.filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == this.$root.$data.global.user.id);
+        });
     },
     mounted() {
       let channel = socket.subscribe(`private-App.User.${window.Laravel.user.id}`);
-      let userId = this.$root.$data.global.user.id
+      let userId = this.$root.$data.global.user.id;
       channel.bind('App\\Events\\MessageCreated', (data) => {
-        let subject = data.data.attributes.subject
+        let subject = data.data.attributes.subject;
           this.$root.$data.global.detailMessages[subject] = this.$root.$data.global.detailMessages[subject] ?
-                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data]
-          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at)
-          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId)
+                this.$root.$data.global.detailMessages[subject].push(data.data) : [data.data];
+          this.$root.$data.global.detailMessages[subject].sort((a, b) => a.attributes.created_at - b.attributes.created_at);
+          this.$root.$data.global.unreadMessages = _.flattenDeep(this.$root.$data.global.detailMessages).filter(e => e.attributes.read_at == null && e.attributes.recipient_user_id == userId);
           this.$root.$data.global.messages = Object.values(this.$root.$data.global.detailMessages)
             .map(e => e[e.length - 1])
             .sort((a, b) => ((a.attributes.read_at == null || b.attributes.read_at == null) && (userId == a.attributes.recipient_user_id || userId == b.attributes.recipient_user_id) ? 1 : -1));
-      })
+      });
     }
-  }
+  };
 </script>

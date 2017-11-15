@@ -19,6 +19,11 @@ class SoapNotePolicy
         return $user->isPractitioner() || $user->is($soapNote->creator) || $user->is($soapNote->patient->user);
     }
 
+    public function update(User $user, SoapNote $soapNote)
+    {
+        return $user->isPractitioner() || $user->is($soapNote->creator) || $user->is($soapNote->patient->user);
+    }
+
     public function delete(User $user, SoapNote $soapNote)
     {
         return $user->isPractitioner() || $user->is($soapNote->creator);

@@ -340,7 +340,7 @@ plugins.push(
 
     new webpackPlugins.StatsWriterPlugin({
         filename: 'mix-manifest.json',
-        transform: Mix.manifest.transform.bind(Mix.manifest),
+        transform: Mix.manifest.transform.bind(Mix.manifest)
     }),
 
     new webpack.LoaderOptionsPlugin({

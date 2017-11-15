@@ -7,7 +7,8 @@ use App\Models\{Patient, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Carbon, Log, Redis, ResponseCode;
+use Carbon, Log, ResponseCode;
+use Illuminate\Support\Facades\Redis;
 
 class PhoneNumberVerifierTest extends TestCase
 {
@@ -38,8 +39,6 @@ class PhoneNumberVerifierTest extends TestCase
 
     public function test_phone_verification_sms_is_sent_after_phone_is_changed()
     {
-        Log::spy();
-
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
 
@@ -47,9 +46,8 @@ class PhoneNumberVerifierTest extends TestCase
         $user->save();
 
         $code = Redis::get("phone_validation:{$user->id}:{$user->phone}");
-        $message = "Your Harvey phone verification code is {$code}";
 
-        Log::shouldHaveReceived('info')->with("Faking sending text message to {$user->phone} with message: {$message}")->once();
+        $this->assertTextWasSent($user->phone, "Your Harvey phone verification code is {$code}");
     }
 
     public function test_a_five_digit_validation_code_is_requested()
@@ -106,8 +104,6 @@ class PhoneNumberVerifierTest extends TestCase
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
 
-        Log::spy();
-
         Passport::actingAs($user);
         $response = $this->json('POST', "api/v1/users/{$user->id}/phone/send_verification_code");
 
@@ -115,9 +111,8 @@ class PhoneNumberVerifierTest extends TestCase
         $response->assertJsonFragment(['status' => 'Verification code sent.']);
 
         $code = Redis::get("phone_validation:{$user->id}:{$user->phone}");
-        $message = "Your Harvey phone verification code is {$code}";
 
-        Log::shouldHaveReceived('info')->with("Faking sending text message to {$user->phone} with message: {$message}")->once();
+        $this->assertTextWasSent($user->phone, "Your Harvey phone verification code is {$code}");
     }
 
     public function test_phone_verification_sms_is_not_sent_if_other_user_requested_it()

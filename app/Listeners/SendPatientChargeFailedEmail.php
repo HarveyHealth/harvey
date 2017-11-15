@@ -17,7 +17,7 @@ class SendPatientChargeFailedEmail implements ShouldQueue
                 'amount' => $event->invoice->amount,
                 'card_brand' => $event->invoice->card_brand,
                 'card_last_four' => $event->invoice->card_last_four,
-        ]);
+            ]);
 
         dispatch($transactionalEmailJob);
     }
