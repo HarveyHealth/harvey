@@ -7,9 +7,6 @@ use League\Fractal\TransformerAbstract;
 
 class SKUTransformer extends TransformerAbstract
 {
-    /**
-     * @return array
-     */
     public function transform(SKU $sku)
     {
         return [
@@ -17,7 +14,9 @@ class SKUTransformer extends TransformerAbstract
             'item_type' => $sku->item_type,
             'name' => $sku->name,
             'price' => (string) $sku->price,
-            'sample' => $sku->labTestInformation->sample,
+            'sample' => $sku->labTestInformation->sample ?? null,
+            'cost' => (string) $sku->cost,
+            'lab_test_information' => $sku->labTestInformation ?? null,
         ];
     }
 }

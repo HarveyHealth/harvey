@@ -23,11 +23,12 @@ class AuthController extends Controller
     // Redirect the user to the OAuth Provider.
     public function redirectToFacebookProvider(Request $request)
     {
-        if (!$request->zip) {
-            session(['no_zip' => true]);
-        } else {
+        if (is_numeric($request->zip)) {
             session(['zip' => $request->zip]);
+        } else {
+            session(['no_zip' => true]);
         }
+
         return Socialite::driver('facebook')->redirect();
     }
 
@@ -56,7 +57,7 @@ class AuthController extends Controller
 
             if (session('no_zip')) {
                 session(['no_zip' => false]);
-                return redirect('/conditions');
+                return redirect(route('conditions'));
             }
             // Get zip, city, state
             $zip = session('zip');

@@ -72,7 +72,7 @@ export default {
     ClipLoader,
     ConfirmInput,
     StagesNav,
-    TheMask,
+    TheMask
   },
   data() {
     return {
@@ -92,8 +92,8 @@ export default {
       phone: Laravel.user.phone || this.$root.$data.signup.phone || '',
       isPhoneConfirming: false,
       isPhoneProcessing: false,
-      isUserPatchError: false,
-    }
+      isUserPatchError: false
+    };
   },
   computed: {
     title() {
@@ -116,7 +116,7 @@ export default {
     clearCodeInputs() {
       Object.keys(this.confirmInputComponent.$refs).forEach(i => {
         this.confirmInputComponent.$refs[i].value = '';
-      })
+      });
     },
     newPhoneNumber() {
       this.isPhoneProcessing = false;
@@ -154,10 +154,10 @@ export default {
           } else {
             this.setInvalidCode();
           }
-        }).catch(error => {
+        }).catch(() => {
           this.clearCodeInputs();
           this.setInvalidCode();
-        })
+        });
       }
 
     },
@@ -187,15 +187,20 @@ export default {
           // track the number patch
           if(this.$root.shouldTrack()) {
             // collect response information
-            const userData = response.data.data.attributes;
             const userId = response.data.data.id || '';
 
             // Segment Identify update
             analytics.identify(userId, {
-              phone: number,
+              phone: number
+            }, {
+              integrations: {
+                Intercom : {
+                  user_hash: Laravel.user.intercom_hash
+                }
+              }
             });
           }
-        }).catch(error => {
+        }).catch(() => {
           this.isUserPatchError = true;
           this.isPhoneProcessing = false;
         });
@@ -214,7 +219,7 @@ export default {
     setInvalidCode() {
       this.isPhoneConfirming = false;
       this.isInvalidCode = true;
-    },
+    }
   },
   mounted () {
     this.$root.toDashboard();
@@ -228,5 +233,5 @@ export default {
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

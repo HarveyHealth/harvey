@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Http\Traits\BelongsToPatient;
 use Illuminate\Database\Eloquent\{Model, Builder};
 use Carbon;
 
 class SoapNote extends Model
 {
+    use BelongsToPatient;
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -34,11 +37,6 @@ class SoapNote extends Model
      * Relationships
      */
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
@@ -52,23 +50,4 @@ class SoapNote extends Model
     {
         return $builder->select(['id', 'patient_id', 'created_by_user_id', 'plan']);
     }
-
-    public function scopeBelongingTo(Builder $builder, User $user)
-    {
-        switch ($user->type) {
-            case 'admin':
-            case 'practitioner':
-                return $builder;
-                break;
-
-            case 'patient':
-                return $builder->whereHas('patient', function ($builder) use ($user) {
-                    $builder->where('patients.user_id', $user->id);
-                })->orWhere('created_by_user_id', $user->id)->filterForPatient();
-                break;
-        }
-
-        return $builder->limit(0);
-    }
-
 }

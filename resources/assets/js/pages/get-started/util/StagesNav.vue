@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-    }
+    };
   },
   computed: {
     currentIndex() {
@@ -27,7 +27,7 @@ export default {
         if (this.current === stg.name) {
           index = i;
         }
-      })
+      });
       return index;
     },
     stages() {
@@ -41,7 +41,7 @@ export default {
         { name: 'payment',
           path: '/payment' },
         { name: 'confirmation',
-          path: '/confirmation' },
+          path: '/confirmation' }
       ];
       stages = stages.filter(stage => {
         if (stage.name === 'phone' && Laravel.user.phone_verified_at) {
@@ -54,5 +54,5 @@ export default {
       return stages;
     }
   }
-}
+};
 </script>

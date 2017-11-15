@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Model, Builder};
-use Laravel\Scout\Searchable;
 use Carbon;
+use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Laravel\Scout\Searchable;
 
 class Message extends Model
 {
-    use Searchable;
+    use Searchable, SoftDeletes;
 
     protected $dates = [
         'created_at',
@@ -116,6 +116,11 @@ class Message extends Model
     public function scopeCreatedAfter(Builder $builder, Carbon $date)
     {
         return $builder->where('created_at', '>', $date);
+    }
+
+    public function scopeCreatedBefore(Builder $builder, Carbon $date)
+    {
+        return $builder->where('created_at', '<', $date);
     }
 
     public function scopeIdGreaterThan(Builder $builder, int $id)

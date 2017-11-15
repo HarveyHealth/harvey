@@ -9,9 +9,10 @@ export default function (laravel) {
     currentPage: null,
     defaultUserImage: '/images/default_user_image.png',
     environment: require('get-env')(),
+    gridRowId: 0,
     guest: false,
     intakeLink: `https://goharvey.intakeq.com/new/Qqy0mI/DpjPFg?harveyID=${laravel.user.id}`,
     regulatedStates,
-    socialMedia,
+    socialMedia
   }
 }

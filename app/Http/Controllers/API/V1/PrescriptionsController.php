@@ -10,7 +10,7 @@ use Exception, ResponseCode, Storage;
 
 class PrescriptionsController extends BaseAPIController
 {
-    protected $resource_name = 'prescriptions';
+    protected $resource_name = 'prescription';
 
     /**
      * PrescriptionsController constructor.
@@ -20,11 +20,6 @@ class PrescriptionsController extends BaseAPIController
     {
         parent::__construct();
         $this->transformer = $transformer;
-    }
-
-    public function getAll(Request $request)
-    {
-        return $this->baseTransformBuilder(Prescription::belongingTo(currentUser()), request('include'), new PrescriptionTransformer, request('per_page'))->respond();
     }
 
     public function getOne(Request $request, Prescription $prescription)

@@ -1,0 +1,21 @@
+# top-most EditorConfig file
+root = true
+
+# Indentation override for all JS under resources/assets/js directory
+[resources/assets/js/**/**.js]
+indent_style = space
+indent_size = 4
+
+[resources/assets/js/**/**.vue]
+indent_style = space
+indent_size = 4
+
+# Indentation for style sheets
+[*.scss]
+indent_style = space
+indent_size = 4
+
+# Indentation for all PHP files
+[*.php]
+indent_style = space
+indent_size = 4

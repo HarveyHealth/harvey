@@ -12,7 +12,15 @@ class LabTestResult extends Model
 
     protected $table = 'lab_tests_results';
 
-    protected $guarded = ['id', 'lab_test_id'];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $guarded = [
+        'id',
+        'lab_test_id',
+    ];
 
     public function labTest()
     {

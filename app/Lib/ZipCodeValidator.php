@@ -4,20 +4,30 @@ namespace App\Lib;
 
 use App\Lib\Clients\Geocoder;
 use App\Models\License;
+
+
+use Cache;
+
 use Illuminate\Support\Facades\Redis;
 
 class ZipCodeValidator
 {
     protected $city, $geocoder, $zip, $state = null;
 
-    protected $unserviceableStates = [
-        'AL', 'FL', 'NY', 'SC', 'TN'
+    protected $unserviceable_states = [
+        'AL', 'FL', 'NY', 'SC', 'TN',
     ];
     // Updated: 08/22/2017
     // This is a hotfix and should be included in the backend logic when determining which
     // practitioners to send to the frontend
-    protected $regulatedStates = [
-      'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME', 'MD', 'MA', 'NH', 'PA', 'VT', 'DC'
+    protected $regulated_states = [
+      'AK', 'CA', 'HI', 'OR', 'WA', 'AZ', 'CO', 'MT', 'UT', 'KS', 'MN', 'ND', 'CT', 'ME',
+      'MD', 'NH', 'VT', 'DC',
+    ];
+
+    protected $unregulated_states = [
+        'AR', 'DE', 'GA', 'ID', 'IL', 'IN', 'IA', 'KY', 'LA', 'MA', 'MI', 'MS', 'MO', 'NE',
+        'NV', 'NJ', 'NM', 'NC', 'OH', 'OK', 'PA', 'RI', 'SD', 'TX', 'VA', 'WV', 'WI', 'WY'
     ];
 
     public function __construct(Geocoder $geocoder)
@@ -65,11 +75,11 @@ class ZipCodeValidator
         $this->state = $result['address']['state'];
         $this->city = $result['address']['city'];
 
-        $minutes_before_retry = TimeInterval::minutes(10)->toSeconds();
+        $seconds_before_retry = TimeInterval::minutes(10)->toSeconds();
 
         if ((empty($this->state) || empty($this->city))
-        && Redis::ttl($redis_key) > $minutes_before_retry) {
-            Redis::expire($redis_key, $minutes_before_retry);
+        && Redis::ttl($redis_key) > $seconds_before_retry) {
+            Redis::expire($redis_key, $seconds_before_retry);
         }
 
         return $result;
@@ -77,7 +87,7 @@ class ZipCodeValidator
 
     public function isRegulated($state)
     {
-        return in_array($state, $this->regulatedStates);
+        return in_array($state, $this->regulated_states);
     }
 
     public function isServiceable()
@@ -87,18 +97,13 @@ class ZipCodeValidator
 
     protected function stateIsServiceable($state)
     {
-        return !$this->stateIsUnserviceable($state);
-    }
-
-    protected function stateIsUnserviceable($state)
-    {
         if (
         empty($state) ||
-        in_array($state, $this->unserviceableStates) ||
-        (in_array($state, $this->regulatedStates) && !License::all()->pluck('state')->contains($state))) {
-            return true;
+        in_array($state, $this->unserviceable_states) ||
+        (in_array($state, $this->regulated_states) && !License::where('state', $state)->first())) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 }

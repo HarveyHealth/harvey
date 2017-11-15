@@ -37,6 +37,6 @@ class PractitionerTransformer extends TransformerAbstract
      */
     public function includeUser(Practitioner $practitioner)
     {
-        return $this->item($practitioner->user, new UserTransformer())->setResourceKey('users');
+        return $this->item($practitioner->user, new UserTransformer())->setResourceKey('user');
     }
 }

@@ -26,8 +26,8 @@ export default {
         'flex-wrapper': true,
         'height-100': true,
         'justify-center': true
-      },
-    }
+      }
+    };
   },
   mounted () {
     this.$root.toDashboard();
@@ -38,12 +38,12 @@ export default {
 
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(this.$root.shouldTrack()) {
+    if(App.Logic.misc.shouldTrack()) {
       analytics.page('Welcome');
     }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
   }
-}
+};
 </script>

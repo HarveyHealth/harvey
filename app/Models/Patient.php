@@ -23,7 +23,11 @@ class Patient extends Model
         'user_id',
     ];
 
-    protected $dates = ['created_at','updated_at'];
+    protected $dates = [
+        'birthdate',
+        'created_at',
+        'updated_at'
+    ];
 
     protected static function boot()
     {
@@ -71,6 +75,11 @@ class Patient extends Model
         return $this->hasMany(Prescription::class, 'patient_id', 'id');
     }
 
+    public function labOrders()
+    {
+        return $this->hasMany(LabOrder::class);
+    }
+
     public function getIntakeData()
     {
         if (empty($token = $this->intake_token)) {
@@ -79,15 +88,21 @@ class Patient extends Model
 
         $key = "intake-token-{$token}-data";
 
-        $output = Cache::remember($key, TimeInterval::days(1)->toMinutes(), function () use ($token) {
-            $response = json_decode((new Typeform)->get($token)->getBody()->getContents());
+        $output = Cache::remember($key, TimeInterval::weeks(1)->toMinutes(), function () use ($token) {
+            $response = json_decode((new Typeform)->get($token)->getBody()->getContents(), true);
 
-            if (empty($response->responses[0]->token) || 200 != $response->http_status) {
+            if (empty($response['responses'][0]['token']) || 200 != $response['http_status']) {
                 return [];
             }
 
-            return (array) $response;
+            return array_intersect_key($response, array_flip(['questions', 'responses']));
         });
+
+        if (empty($output)) {
+            Cache::put($key, $output, TimeInterval::hours(3)->toMinutes());
+        }
+
+        $output['patient_id'] = $this->id;
 
         return $output;
     }

@@ -4,6 +4,14 @@ export default {
     canceled: [],
     recent: [],
     past: [],
-    upcoming: [],
+    upcoming: []
   },
-}
+  isLoading: {
+    all: false,
+    upcoming: false
+  },
+  wasRequested: {
+    all: false,
+    upcoming: false
+  }
+};

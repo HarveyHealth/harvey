@@ -6,6 +6,7 @@ use App\Models\{
     Admin,
     Appointment,
     AppointmentReminder,
+    DiscountCode,
     Patient,
     Practitioner,
     PractitionerSchedule,
@@ -14,9 +15,9 @@ use App\Models\{
 use App\Lib\PractitionerAvailability;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
-use Carbon;
-use ResponseCode;
 use Tests\TestCase;
+use Carbon, Log, ResponseCode;
+
 
 class AppointmentTest extends TestCase
 {
@@ -38,7 +39,7 @@ class AppointmentTest extends TestCase
         $start_time = "{$start_hour}:{$start_minute}:00";
 
         $stop_hour = rand($start_hour + 2, 24);
-        $stop_minutes = (24 == $stop_hour) ? '00' : rand(0,1) ? '00' : '30';
+        $stop_minutes = (24 == $stop_hour) ? '00' : maybe() ? '00' : '30';
         $stop_time = "{$stop_hour}:{$stop_minutes}:00";
 
         $practitionerSchedule = factory(PractitionerSchedule::class)->create([
@@ -267,6 +268,43 @@ class AppointmentTest extends TestCase
 
         // And they can see the new appointment information
         $response->assertJsonFragment(['reason_for_visit' => 'Some reason.']);
+    }
+
+    public function test_it_does_not_allows_a_patient_to_schedule_more_than_3_appointments()
+    {
+        // Given a patient
+        $patient = factory(Patient::class)->create();
+
+        // And a practitioner exists
+        $practitioner = factory(Practitioner::class)->create();
+
+        for ($i=0;$i<3;$i++){
+
+          $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+          // And valid appointment parameters
+          $parameters = [
+              'appointment_at' => $appointment_at,
+              'reason_for_visit' => 'Some reason.',
+              'practitioner_id' => $practitioner->id
+          ];
+
+          // When they schedule a new appointment
+          Passport::actingAs($patient->user);
+          $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+          if ($i<2)
+          {
+            $response->assertStatus(ResponseCode::HTTP_OK);
+          }
+          else
+          {
+            $response->assertStatus(ResponseCode::HTTP_BAD_REQUEST);
+          }
+        }
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+
+
     }
 
     public function test_it_allows_a_practitioner_to_schedule_a_new_appointment()
@@ -593,5 +631,57 @@ class AppointmentTest extends TestCase
                 ],
             ]
         ]);
+    }
+
+    public function test_it_saves_the_discount_code_id_when_creating_an_appointment_as_patient()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'consultation',
+        ]);
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'practitioner_id' => $practitioner->id,
+            'discount_code' => 'abc123',
+        ];
+
+        Passport::actingAs(factory(Patient::class)->create()->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => "{$discount_code->id}"]);
+
+        $this->assertDatabaseHas('appointments', ['discount_code_id' => $discount_code->id]);
+    }
+
+    public function test_it_does_not_saves_the_discount_code_id_when_creating_an_appointment_as_practitioner()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'consultation',
+        ]);
+        $practitioner = factory(Practitioner::class)->create();
+        $appointment_at = $this->createScheduleAndGetValidAppointmentAt($practitioner);
+
+        $parameters = [
+            'appointment_at' => $appointment_at,
+            'reason_for_visit' => 'Some reason.',
+            'patient_id' => factory(Patient::class)->create()->id,
+            'discount_code' => 'abc123',
+        ];
+
+        Passport::actingAs($practitioner->user);
+        $response = $this->json('POST', 'api/v1/appointments', $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => null]);
+
+        $this->assertDatabaseHas('appointments', ['discount_code_id' => null]);
     }
 }

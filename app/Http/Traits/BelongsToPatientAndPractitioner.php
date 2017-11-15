@@ -24,5 +24,4 @@ trait BelongsToPatientAndPractitioner
                       ->orWhere('patient_id', $user->patient->id ?? 0);
         });
     }
-
 }

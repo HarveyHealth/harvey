@@ -4,7 +4,7 @@
 	Author: MeridianThemes
 	Author URI: http://themeforest.net/user/meridianthemes
 	Description: Feminine blog theme
-	Version: 1.1.8
+	Version: 1.2.3
 	License: GNU General Public License v2 or later
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 	Text Domain: the-essence
@@ -103,7 +103,7 @@ textarea {
 	color: #424242;
 	font-size: 17px;
 	font-weight: 400;
-	font-family: "Source Sans Pro", serif;
+	font-family: proxima-nova,"sans-serif";
 	line-height: 1.36;
 }
 
@@ -2309,14 +2309,15 @@ body.home .horizontal-carousel-wrapper {
 		font-size: 12px;
 		font-weight: 900;
 		font-family: "Source Sans Pro", sans-serif;
-		line-height: 34px;
+		line-height: 1.5;
 		letter-spacing: 2px;
-		padding: 0 15px;
+		padding: 10px 15px;
 		border: 2px solid #fed4da;
 		display: inline-block;
 		cursor: pointer;
 		text-align: center;
 		text-transform: uppercase;
+		max-width: 50%;
 	}
 
 		.blog-post-single-nav-prev .fa {
@@ -2903,16 +2904,17 @@ body.single #sidebar {
 			margin-bottom: 22px;
 		}
 
-		.subscribe-widget .widget_wysija_cont {
+		.subscribe-widget .widget_wysija_cont,
+		.subscribe-widget .mailpoet_form {
 			position: relative;
 		}
 
-		.subscribe-widget .wysija-paragraph label {
-			display: none;
+		.subscribe-widget label {
+			display: none !important;
 		}
 
-		.subscribe-widget input[type="text"].wysija-input,
-		.subscribe-widget input[type="email"].wysija-input {
+		.subscribe-widget input[type="text"],
+		.subscribe-widget input[type="email"] {
 			background: #fff;
 			border: 0;
 			display: inline-block;
@@ -2927,7 +2929,7 @@ body.single #sidebar {
 			padding: 0 15px;
 		}
 
-		.subscribe-widget input[type="submit"].wysija-submit {
+		.subscribe-widget input[type="submit"] {
 			position: absolute;
 			top: 0;
 			right: 0;
@@ -2962,6 +2964,67 @@ body.single #sidebar {
 			color: #fff;
 			padding: 10px;
 			font-family: "Source Sans Pro";
+		}
+
+		.subscribe-widget .mailpoet_message {
+			margin-bottom: 15px;
+		}
+
+		.subscribe-widget .parsley-required, 
+		.subscribe-widget .parsley-custom-error-message,
+		.subscribe-widget .mailpoet_validate_success,
+		.subscribe-widget .mailpoet_validate_error {
+			color: #fff !important;
+		}
+
+/*--------------------------------------------------------------
+	## Widget - Call To Action
+--------------------------------------------------------------*/
+
+.call-to-action-widget {
+	padding: 20px;
+	text-align: center;
+	background: #a35962;
+	background-size: cover;
+}
+
+	.call-to-action-widget-inner {
+		border: 2px solid #fff;
+		padding: 30px;
+	}
+
+		.call-to-action-widget h4 {
+			font-size: 22px;
+			line-height: 27px;
+			font-family: "Rufina";
+			color: #fff;
+			font-weight: bold;
+			margin-bottom: 20px;
+		}
+
+		.call-to-action-widget h5 {
+			margin-top: 15px;
+			font-size: 13px;
+			line-height: 1.2;
+			font-weight: normal;
+			font-family: "Rufina";
+			color: #fff;
+			text-decoration: underline;
+			margin-bottom: 0;
+		}
+
+		.call-to-action-widget-button {
+			display: inline-block;
+			line-height: 45px;
+			color: #fff;
+			font-size: 13px;
+			font-family: "Source Sans Pro";
+			font-weight: 400;
+			background: #5eb9aa;
+			padding: 0 22px;
+			margin: 0;
+			border-radius: 0;
+			text-transform: none;
 		}
 
 /*--------------------------------------------------------------
@@ -3465,11 +3528,14 @@ body.panel-active #page {
 	 */
 
 	body .subscribe-widget,
-	body .subscribe-widget-inner {
+	body .subscribe-widget-inner,
+	body .call-to-action-widget,
+	body .call-to-action-widget-inner {
 		padding: 15px;
 	}
 
-	body .subscribe-widget h4 {
+	body .subscribe-widget h4,
+	body .call-to-action-widget h4 {
 		font-size: 19px;
 	}
 
@@ -3649,6 +3715,18 @@ body.panel-active #page {
 	}
 
 	/**
+	 * Mobile Share
+	 */
+
+	.blog-post-share-aside {
+		display: none;
+	}
+
+	.blog-post-share-mobile {
+		display: block;
+	}
+
+	/**
 	 * Widgets
 	 */
 
@@ -3684,9 +3762,27 @@ body.panel-active #page {
 	 			margin-bottom: 0;
 	 		}
 
+	 body .call-to-action-widget {
+	 	padding: 10px;
+	 }
+
+	 	body .call-to-action-widget-inner {
+	 		padding: 20px;
+	 	}
+
+	 		body .call-to-action-widget h4 {
+	 			font-size: 18px;
+	 			line-height: 24px;
+	 		}
+
 	 /**
 	  * Footer
 	  */
+
+	 #footer-posts .carousel-nav-prev, 
+	 #footer-posts .carousel-nav-next {
+	 	display: none;
+	 }
 
 	 body #footer-bottom {
 	 	padding: 15px 0;
@@ -4103,11 +4199,13 @@ body.panel-active #page {
 	 * Widgets
 	 */
 
-	body .subscribe-widget-inner {
+	body .subscribe-widget-inner,
+	body .call-to-action-widget-inner {
 		padding: 15px;
 	}
 
-		body .subscribe-widget h4 {
+		body .subscribe-widget h4,
+		body .call-to-action-widget h4 {
 			font-size: 18px;
 		}
 
@@ -4214,4 +4312,151 @@ body.panel-active #page {
 		width: 25%;
 	}
 
+}
+
+/*--------------------------------------------------------------
+	## Custom ( Enter CSS Here )
+--------------------------------------------------------------*/
+
+/* Header */
+
+.related-posts-wrapper,
+#navigation-search-hook {
+	display: none;
+}
+
+#logo {
+    padding: 30px 0;
+}
+
+.logo-subtitle a {
+	font-weight: normal;
+	letter-spacing: 2px;
+	font-size: 13px;
+}
+
+#top-bar-social a {
+	font-size: 25px;
+}
+
+#top-bar-navigation li a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 15px;
+}
+
+/* Carousels */
+
+.carousel {
+	margin: 20px 0;
+}
+
+.blog-post-s3-title a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 23px;
+}
+
+#navigation .menu > li > a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 18px;
+}
+
+.blog-post-s2-title h4 a {
+	font-family: proxima-nova;
+	font-size: 15px;
+}
+
+.promo-box {
+    background-size: auto 100%;
+}
+
+/* Widget */
+
+.about-author-widget-text, .blog-post-s6-title a, .cat-item a, .widget p {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 16px;
+}
+
+.blog-post-s7-title a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 21px;
+	line-height: 27px;
+}
+
+/* Content */
+
+.blog-post-single-pagination > span, .blog-post-single-pagination a, .pagination-load-more a, .pagination-type-numbered a, .pagination-type-prevnext a, .blog-post-read-more a, .section-heading, #footer-widgets .widget-title, #sidebar .widget-title, .promo-box-secondary {
+	font-family: proxima-nova;
+    letter-spacing: 1.5px;
+}
+
+.blog-post-s3-thumb {
+	border: 1px solid #f9f9f9;
+}
+
+/* Footer Widgets */
+
+#footer-widgets a,
+.blog-post-s5-title h2 a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 18px;
+}
+
+.subscribe-widget h4,
+.subscribe-widget h5 {
+	font-family: proxima-nova;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#footer-widgets .widget {
+	margin: 0 0 15px;
+}
+
+#footer-widgets .widget_media_image {
+	margin-bottom: 0;	
+}
+
+/* Footer */
+
+#footer-bottom {
+	background: rgba(203,197,193, 0.7);
+}
+
+#footer-copyright,
+#footer-navigation li a {
+	font-family: proxima-nova;
+	font-weight: normal;
+	font-size: 13px;
+	letter-spacing: 1px;
+	text-transform: none;
+	color: white;
+}
+
+#footer-navigation li a {
+	font-size: 15px;
+}
+
+/* Video Wrapper */
+
+.featured-video-plus {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.featured-video-plus iframe,
+.featured-video-plus object,
+.featured-video-plus embed,
+.featured-video-plus video {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
 }
