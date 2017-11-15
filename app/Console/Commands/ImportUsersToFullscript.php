@@ -24,15 +24,6 @@ class ImportUsersToFullscript extends Command
      */
     protected $description = 'Sincronizes clients database with fullscript';
 
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Execute the console command.
