@@ -723,7 +723,7 @@ export default {
         }).catch((error) => {
             // stop the loading
             this.loading = false;
-            this.shippingErrorMessage = 'There was a problem with generating the label. Please enter a tracking number manually.';
+            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
         });
     },
     markedShipped() {
