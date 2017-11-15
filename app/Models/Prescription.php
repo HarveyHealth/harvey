@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Http\Traits\HasKeyColumn;
+use App\Http\Traits\{BelongsToPatient, HasKeyColumn};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
+use Laravel\Scout\Searchable;
 use Carbon;
 
 class Prescription extends Model
 {
-    use HasKeyColumn, SoftDeletes;
+    use BelongsToPatient, HasKeyColumn, SoftDeletes, Searchable;
 
     protected $dates = [
         'created_at',
@@ -21,6 +22,21 @@ class Prescription extends Model
         'created_by_user_id',
         'updated_at',
     ];
+
+    /**
+     * indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'patient_name' => $this->patient->user->full_name,
+            'key' => $this->key,
+            'notes' => $this->notes,
+       ];
+    }
 
     protected static function boot()
     {
@@ -37,31 +53,8 @@ class Prescription extends Model
      * Relationships
      */
 
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by_user_id');
-    }
-
-    public function scopeBelongingTo(Builder $builder, User $user)
-    {
-        switch ($user->type) {
-            case 'admin':
-            case 'practitioner':
-                return $builder;
-                break;
-
-            case 'patient':
-                return $builder->whereHas('patient', function ($builder) use ($user) {
-                    $builder->where('patients.user_id', $user->id);
-                })->orWhere('created_by_user_id', $user->id);
-                break;
-        }
-
-        return $builder->limit(0);
     }
 }

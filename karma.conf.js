@@ -21,8 +21,8 @@ module.exports = function(config) {
         pattern: './tests/Frontend/setup.js',
         watched: false,
         served: true,
-        included: true,
-      },
+        included: true
+      }
     ],
 
 
@@ -33,7 +33,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './tests/Frontend/setup.js': ['webpack', 'sourcemap'],
+      './tests/Frontend/setup.js': ['webpack', 'sourcemap']
     },
 
     plugins: [
@@ -74,8 +74,16 @@ module.exports = function(config) {
     webpack: {
       resolve: {
         alias: {
-            moment$: 'moment/moment.js'
-        },
+            moment$: 'moment/moment.js',
+            sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
+            components: path.resolve(__dirname, 'resources/assets/js/v2/components'),
+            feedback: path.resolve(__dirname, 'resources/assets/js/v2/components/feedback'),
+            icons: path.resolve(__dirname, 'resources/assets/js/v2/components/icons'),
+            inputs: path.resolve(__dirname, 'resources/assets/js/v2/components/inputs'),
+            layout: path.resolve(__dirname, 'resources/assets/js/v2/components/layout'),
+            nav: path.resolve(__dirname, 'resources/assets/js/v2/components/nav'),
+            typography: path.resolve(__dirname, 'resources/assets/js/v2/components/typography')
+        }
       },
       module: {
         loaders: [
@@ -85,17 +93,17 @@ module.exports = function(config) {
             loader: 'babel-loader',
             include: [
               path.join(__dirname, 'tests/Frontend')
-            ],
+            ]
           },
           {
             test: /\.vue$/,
-            loader: 'vue-loader',
+            loader: 'vue-loader'
           }
         ]
       }
     },
     webpackMiddleware: {
-      noInfo: true,
+      noInfo: true
     },
 
 
@@ -106,5 +114,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};

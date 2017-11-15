@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\{LabTest, LabTestInformation};
+use App\Models\{LabTest, LabTestInformation, LabTestResult};
 use App\Transformers\V1\{LabTestTransformer, LabTestInformationTransformer, LabTestResultTransformer};
 use Illuminate\Http\Request;
-use Illuminate\Support\Pluralizer;
 use Illuminate\Validation\Rule;
 use League\Fractal\Serializer\JsonApiSerializer;
 use Exception, ResponseCode, Storage;
@@ -106,15 +105,35 @@ class LabTestsController extends BaseAPIController
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
 
-    public function getResults(Request $request, LabTest $labTest)
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getInformation()
     {
-        if (currentUser()->cant('view', $labTest)) {
-            return $this->respondNotAuthorized('You do not have access to view this LabTest results.');
+        $this->serializer = new JsonApiSerializer();
+
+        $builder = LabTestInformation::with('sku');
+
+        if ($user = currentUser()) {
+            $scope = str_plural($user->type);
+            $builder = $builder->$scope();
+        } else {
+            $builder = $builder->public();
         }
 
-        return $this->baseTransformBuilder($labTest->results(), request('include'), new LabTestResultTransformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder, request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
     }
 
+    public function getOneResult(Request $request, LabTestResult $labTestResult)
+    {
+        if (currentUser()->cant('view', $labTestResult->labTest)) {
+            return $this->respondNotAuthorized('You do not have access to view this LabTest result.');
+        }
+
+        $this->resource_name = 'lab_tests_results';
+
+        return $this->baseTransformItem($labTestResult, request('include'), new LabTestResultTransformer, request('per_page'))->respond();
+    }
 
     public function storeResult(Request $request, LabTest $labTest)
     {
@@ -145,15 +164,17 @@ class LabTestsController extends BaseAPIController
                 'notes' => request('notes'),
             ]);
 
+            $this->resource_name = 'lab_tests_results';
+
             return $this->baseTransformItem($labTest->fresh(), 'results')->respond();
         } catch (Exception $e) {
             return $this->respondUnprocessable($e->getMessage());
         }
     }
 
-    public function deleteResult(Request $request, LabTest $labTest, LabTestResult $labTestResult)
+    public function deleteResult(Request $request, LabTestResult $labTestResult)
     {
-        if (currentUser()->cant('delete', $labTest) || !$labTest->results()->find($labTestResult->id)) {
+        if (currentUser()->cant('delete', $labTestResult->labTest)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTest result");
         }
 

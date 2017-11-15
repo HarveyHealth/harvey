@@ -99,7 +99,6 @@ class User extends Authenticatable implements Mailable
         }
 
         throw new Exception("Unable to determine type of User ID #{$this->id}.");
-
     }
 
     public function getStateAttribute()
@@ -111,6 +110,12 @@ class User extends Authenticatable implements Mailable
         }
 
         return app()->make(ZipCodeValidator::class)->setZip($this->zip)->getState();
+    }
+
+
+    public function getTruncatedNameAttribute()
+    {
+        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function getFullNameAttribute()
@@ -129,12 +134,16 @@ class User extends Authenticatable implements Mailable
         });
     }
 
+    public function getIntercomHashAttribute() {
+        return hash_hmac('sha256', $this->id, config('services.intercom.key'));
+    }
+
     public function clearHasAnAppointmentCache()
     {
         return Cache::forget("has_an_appointment_user_id_{$this->id}");
     }
 
-    public function getLastDoctorName()
+    public function getLastPractitioner()
     {
         if ($this->isNotPatient()) {
             return null;
@@ -142,20 +151,20 @@ class User extends Authenticatable implements Mailable
 
         $builder = $this->appointments()->ByAppointmentAtDesc();
 
-        return Cache::remember("last_doctor_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
-            return $builder->first()->practitioner->user->full_name ?? false;
+        return Cache::remember("last_practitioner_name_user_id_{$this->id}", TimeInterval::weeks(2)->addMinutes(rand(0, 120))->toMinutes(), function () use ($builder) {
+            return $builder->first()->practitioner->user ?? false;
         });
     }
 
-    public function clearLastDoctorNameCache()
+    public function clearLastPractitionerCache()
     {
-        return Cache::forget("last_doctor_name_user_id_{$this->id}");
+        return Cache::forget("last_practitioner_name_user_id_{$this->id}");
     }
 
     public function clearAppointmentsCache()
     {
         $this->clearHasAnAppointmentCache();
-        $this->clearLastDoctorNameCache();
+        $this->clearLastPractitionerCache();
 
         return true;
     }
@@ -194,15 +203,6 @@ class User extends Authenticatable implements Mailable
         return count($this->nextUpcomingAppointment()) == 1;
     }
 
-    public function tests()
-    {
-        if ($this->isPatient()) {
-            return $this->hasManyThrough(Test::class, Patient::class);
-        } else {
-            return $this->hasManyThrough(Test::class, Practitioner::class);
-        }
-    }
-
     public function isPatient()
     {
         $builder = $this->patient();
@@ -230,11 +230,6 @@ class User extends Authenticatable implements Mailable
     public function isAdminOrPractitioner()
     {
         return $this->isAdmin() || $this->isPractitioner();
-    }
-
-    public function truncatedName()
-    {
-        return strtoupper(substr($this->first_name, 0, 1)) . '. ' . $this->last_name;
     }
 
     public function passwordSet()

@@ -1,17 +1,14 @@
 <template>
-  <div class="nav-bar" v-if="$root.$data.global.currentPage">
+  <div class="nav-bar" v-if="$root.$data.global.currentPage || State('misc.currentPage')">
 
-    <button class="menu-button"
-      @click="handleMenu(null)"
-    >
+    <button class="menu-button" @click="handleMenu(null)">
       <i :class="menuIcon"></i>
     </button>
 
     <nav class="admin-nav">
-      <router-link to="/" class="nav-bar-account"
-        @click.native="handleMenu(false, 'dashboard')">
+      <a class="nav-bar-account" href="/">
         <svg class="harvey-mark"><use xlink:href="#harvey-logo" /></svg>
-      </router-link>
+      </a>
 
       <router-link to="/" title="Dashboard"
         :class="currentPageCheck('dashboard')"
@@ -51,14 +48,12 @@
         <div class="text">Messages</div>
       </router-link>
 
-      <!-- LEAVE THESE COMMENTS HERE -->
-
-       <!-- <router-link to="/records" title="Records"
+       <router-link to="/records" title="Records"
         :class="currentPageCheck('records')"
         @click.native="handleMenu(false, 'records')">
         <i class="fa fa-files-o icon icon-nav-bar"></i>
         <div class="text">Records</div>
-      </router-link>  -->
+      </router-link> 
 
       <router-link
         v-if="user === 'admin'"
@@ -86,7 +81,7 @@
 
       <a href="/logout" class="admin-nav-link logout" title="Logout">
         <i class="fa fa-sign-out icon icon-nav-bar"></i>
-        <div class="text">Logout</div>
+        <div class="text">Log out</div>
       </a>
 
     </nav>
@@ -119,7 +114,7 @@
       currentPageCheck(page, unread) {
         return {
           'admin-nav-link': true,
-          'current': this.$root.$data.global.currentPage === page,
+          'current': this.$root.$data.global.currentPage === page || this.State('misc.currentPage') === page,
           'unread': unread
         };
       },
@@ -129,6 +124,7 @@
       // if an item is given, the currentPage will be set to that item
       handleMenu(force, item) {
         this.$root.$data.global.currentPage = item || this.$root.$data.global.currentPage;
+        if (item) App.setState('misc.currentPage', item);
         // Added delay to allow time for new component to render in the router-view
         if (force === null) {
           this.$root.$data.global.menuOpen = !this.$root.$data.global.menuOpen;

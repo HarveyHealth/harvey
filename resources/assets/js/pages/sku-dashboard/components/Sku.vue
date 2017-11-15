@@ -18,7 +18,7 @@ export default {
     data() {
         return {
 
-        }
+        };
     },
     components: {
     },
@@ -41,14 +41,14 @@ export default {
     },
     props: {
         sku: {
-            type: Object,
+            type: Object
         },
         index: {
-            type: Number,
+            type: Number
         },
         selectedSku: {
-            type: Object,
+            type: Object
         }
     }
-}
+};
 </script>

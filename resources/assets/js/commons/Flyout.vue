@@ -3,7 +3,7 @@
     <button v-if="back" class="button--close flyout-close left" @click="back">
       <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
     </button>
-    <button class="button--close flyout-close" @click="onClose" data-test="close">
+    <button v-if="onClose !== null" class="button--close flyout-close" @click="onClose" data-test="close">
       <svg><use xlink:href="#close" /></svg>
     </button>
     <h2 class="heading-3-expand" v-html="heading"></h2>
@@ -26,7 +26,16 @@
       // onClose should update the active prop
       onClose: {
         type: Function,
-        required: true
+        required: false
+      },
+      button: {
+        type: Boolean
+      },
+      header: {
+        type: Boolean
+      },
+      headerTwo: {
+        type: Boolean
       },
       back: {
         type: Function

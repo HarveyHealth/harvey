@@ -27,10 +27,7 @@
                                 <p class="copy-main font-md font-italic">
                                     <i class="fa fa-credit-card"></i>
                                     {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
-                                </p>
-                            </div>
-                            <div class="button-wrapper">
-                                <button @click="openModal(card)" class="button">Delete Card</button>
+                                <div class="button-wrapper"></div>
                             </div>
                         </div>
                     </div>
@@ -175,7 +172,8 @@ export default {
             }
         },
         updateCard() {
-            axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
+            let userId = this.user_id || window.Laravel.user.id;
+            axios.patch(`${this.$root.$data.apiUrl}/users/${userId}/cards`, {
                 card_id: this.currentCard.id,
                 address_city: this.currentCard.address_city,
                 address_state: this.currentCard.address_state,
@@ -208,7 +206,7 @@ export default {
                     this.notificationActive = true;
                     Laravel.user.has_a_card = true;
                     setTimeout(() => this.notificationActive = false, 3000);
-                    axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
+                    axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                         .then(respond => {
                             this.$root.$data.global.creditCards = respond.data.cards;
                             this.$root.$data.global.loadingCreditCards = false;
@@ -221,7 +219,8 @@ export default {
         },
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
-            axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
+            let userId = this.user_id || window.Laravel.user.id;
+            axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`).then(response => {
                 this.$root.$data.global.creditCards = response.data.cards;
                 this.$root.$data.global.loadingCreditCards = false;
             });
@@ -296,10 +295,10 @@ export default {
             if (id && 'admin' === Laravel.user.user_type) {
                 this.setUserId(id);
                 this.getUser();
+                this.getCards();
             } else {
                 this.setUserId(null);
             }
-            this.getCards();
         }
     },
     computed: {

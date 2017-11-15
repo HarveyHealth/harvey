@@ -11,7 +11,7 @@ use ResponseCode;
 
 class MessagesController extends BaseAPIController
 {
-    protected $resource_name = 'messages';
+    protected $resource_name = 'message';
 
     /**
      * MessagesController constructor.
@@ -26,7 +26,7 @@ class MessagesController extends BaseAPIController
     /**
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getAll()
     {
         $filterUnread = 'unread' === request('filter');
         $currentUserId = currentUser()->id;
@@ -103,7 +103,7 @@ class MessagesController extends BaseAPIController
      * @param Message $message
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Message $message)
+    public function getOne(Message $message)
     {
         if (currentUser()->can('view', $message)) {
             return $this->baseTransformItem($message)->respond();

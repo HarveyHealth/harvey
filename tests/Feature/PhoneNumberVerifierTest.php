@@ -39,8 +39,6 @@ class PhoneNumberVerifierTest extends TestCase
 
     public function test_phone_verification_sms_is_sent_after_phone_is_changed()
     {
-        Log::spy();
-
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
 
@@ -105,8 +103,6 @@ class PhoneNumberVerifierTest extends TestCase
     {
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
-
-        Log::spy();
 
         Passport::actingAs($user);
         $response = $this->json('POST', "api/v1/users/{$user->id}/phone/send_verification_code");

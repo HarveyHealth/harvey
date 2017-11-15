@@ -13,12 +13,15 @@ class SoapNoteTransformer extends TransformerAbstract
     public function transform(SoapNote $soapNote)
     {
         return [
-            'id' => (string) $soapNote->id,
-            'created_by_user_id' => (string) $soapNote->creator->id,
-            'subjective' => $soapNote->subjective,
-            'objective' => $soapNote->objective,
+            'id' => cast_to_string($soapNote->id),
+            'patient_id' => cast_to_string($soapNote->patient_id),
             'assessment' => $soapNote->assessment,
+            'created_at' => $soapNote->created_at,
+            'created_by_user_id' => cast_to_string($soapNote->creator->id),
+            'doctor_name' => $soapNote->doctor_name,
+            'objective' => $soapNote->objective,
             'plan' => $soapNote->plan,
+            'subjective' => $soapNote->subjective,
         ];
     }
 }

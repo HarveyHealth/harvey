@@ -6,11 +6,13 @@ use App\Lib\PractitionerAvailability;
 use App\Models\{
     Admin,
     Appointment,
+    Attachment,
     Condition,
+    DiscountCode,
     LabOrder,
     LabTest,
+    LabTestResult,
     LabTestInformation,
-    Attachment,
     LabTestResult,
     License,
     Message,
@@ -23,8 +25,7 @@ use App\Models\{
     SKU,
     SoapNote,
     Test,
-    User,
-    DiscountCode
+    User
 };
 
 /*
@@ -246,15 +247,16 @@ $factory->define(Message::class, function (Faker\Generator $faker) {
     $output['message'] = $faker->text;
     $output['subject'] = $faker->sentence;
     $output['is_admin'] = Admin::class == $senderClassName;
-    $output['read_at'] = rand(0,1) ? null : Carbon::parse('+ 10 seconds');
+    $output['read_at'] = maybe() ? null : Carbon::parse('+ 10 seconds');
 
     return $output;
 });
 
 $factory->define(LabOrder::class, function (Faker\Generator $faker) {
-    $discount_code_id = (rand(0,1))?null:function () {
+    $discount_code_id = maybe() ? null : function () {
         return factory(DiscountCode::class)->create(['applies_to' => 'all'])->id;
     };
+
     return [
         'patient_id' => factory(Patient::class),
         'practitioner_id' => factory(Practitioner::class),
@@ -270,7 +272,9 @@ $factory->define(LabOrder::class, function (Faker\Generator $faker) {
 $factory->define(LabTest::class, function (Faker\Generator $faker) {
     return [
         'lab_order_id' => factory(LabOrder::class),
-        'sku_id' => factory(SKU::class),
+        'sku_id' => function () {
+            return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
+        },
         'shipment_code' => $faker->isbn13,
     ];
 });
@@ -278,16 +282,16 @@ $factory->define(LabTest::class, function (Faker\Generator $faker) {
 $factory->define(LabTestResult::class, function (Faker\Generator $faker) {
     return [
         'lab_test_id' => factory(LabTest::class),
-        'key' => function () {
-            return 'WIP';
-        },
+        'key' => 'testing/testFile.pdf',
         'notes' => $faker->text,
     ];
 });
 
 $factory->define(Attachment::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -303,7 +307,9 @@ $factory->define(Attachment::class, function (Faker\Generator $faker) {
 
 $factory->define(SoapNote::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },
@@ -316,7 +322,9 @@ $factory->define(SoapNote::class, function (Faker\Generator $faker) {
 
 $factory->define(Prescription::class, function (Faker\Generator $faker) {
     return [
-        'patient_id' => factory(Patient::class),
+        'patient_id' => function () {
+            return factory(Patient::class)->create(['intake_token' => DatabaseSeeder::TESTING_INTAKE_TOKEN])->id;
+        },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
         },

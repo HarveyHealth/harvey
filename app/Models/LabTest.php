@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Traits\HasStatusColumn;
-use App\Models\{LabOrder, SKU};
+use App\Models\{LabOrder, LabTestResult, SKU};
 use Illuminate\Database\Eloquent\{Builder, Model, SoftDeletes};
 
 class LabTest extends Model

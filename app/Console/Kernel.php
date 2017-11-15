@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
         Commands\BillingReport::class,
+        Commands\ImportDiscountCodesCommand::class,
     ];
 
     /**

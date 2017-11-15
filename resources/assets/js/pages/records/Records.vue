@@ -1,309 +1,348 @@
 <template>
-  <div class="main-container">
-    <UserNav />
+    <div class="main-container">
+        <UserNav />
 
-      <div v-if="$root.$data.permissions !== 'patient'">
-        <div v-if="step == 1">
-          <div class="main-content">
-            <form class="form">
-              <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." type="text" class="search-bar" />
-            </form>
-            <Modal :active="activeModal" :onClose="modalClose">
-              <div class="inline-centered">
-                <h1>HIPAA Warning</h1>
-                <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
-                <button @click="nextStep" class="button">Yes, I agree</button>
-              </div>
-            </Modal>
-            <div class="container container-backoffice">
-                <div v-for="patient in results" @click="selectPatient(patient)" class="results">
-                    <div class="spacing">{{ patient.search_name }}</div>
-                    <div class="spacing">{{ patient.email }}</div>
-                    <div class="spacing">{{ patient.date_of_birth }}</div>
+        <div v-if="$root.$data.permissions !== 'patient'">
+            <div v-if="step == 1">
+                <div class="main-content">
+                    <div class="card records-loading" v-if="$root.$data.global.loadingPatients">
+                        <p><i>Your records are loading...</i></p>
+                    </div>
+                    <form v-if="!$root.$data.global.loadingPatients" class="form full-width">
+                        <i class="fa fa-search search-icon"></i>
+                        <input v-model="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
+                    </form>
+                    <div v-if="!$root.$data.global.loadingPatients && results.length === 0 && search !== ''" class="inline-centered">
+                        <img class="inline-centered full-width height500" src="images/if_ic_library_514023.svg" alt="">
+                        <h1 class="no-records-label">No records found.</h1>
+                    </div>
+                    <div v-if="!$root.$data.global.loadingPatients && search === ''" class="inline-centered">
+                        <i class="inline-centered fa fa-search search-div-icon" />
+                        <h1 class="search-records-label">Search for records.</h1>
+                    </div>
+                    <Modal :active="activeModal" :onClose="modalClose">
+                        <div class="inline-centered">
+                            <h1>Warning</h1>
+                            <p>You are about to access personal health information for client <b>{{ name }}</b>. By accessing this document you hereby agree that you have been given permission to access this private health record. Please note, all actions will be recorded in this area.</p>
+                            <button @click="modalClose" class="button grey-background">Go Back</button>
+                            <button @click="nextStep" class="button">Yes, I agree</button>
+                        </div>
+                    </Modal>
+                    <div class="container container-backoffice" v-if="search !== ''">
+                        <div v-for="patient in results" @click="selectPatient(patient)" class="results">
+                            <div class="spacing">{{ patient.search_name }}</div>
+                            <div class="spacing">{{ patient.email }}</div>
+                            <div class="spacing">{{ patient.date_of_birth }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
-        </div>
-        <div v-if="step == 2" class="main-content">
-           <div>
-            <form class="form">
-              <i class="fa fa-search search-icon"></i>
-              <input v-modal="search" placeholder="Search by name, email or date of birth..." @keydown="updateInput($event)" type="text" class="search-bar" />
-            </form>
-
-              <div style="height: 800px;">  
-                <div class="card" style="width: 76%;">
-                  <div class="card-heading-container">
-                      <div>
-                        Doctor with Patient
-                      </div>
-                  </div>
-                    <div style="height: 800px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
-                        
-                        <div style="float: left; width: 64%; position: relative; top: 25px;">
-                          <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Subject</h7>
-                          <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+            <div v-if="step == 2" class="main-content">
+                <div v-if="$root.$data.permissions !== 'patient'">
+                    <div class="form">
+                        <i class="fa fa-search search-icon"></i>
+                        <input v-model="search" placeholder="Type anything to go back to the search..." @keydown="updateInput($event)" type="text" class="search-bar" />
+                    </div>
+                    <div class="records-button-container">
+                        <span class="custom-select soat-button">
+                            <select @change="updateMenu($event)">
+                                <option v-for="menuItem in dropDownMenu">{{ menuItem }}</option>
+                            </select>
+                        </span>
+                        <button @click="newRecord" class="button records-button">New Record</button>
+                    </div>
+                    <div class="auto-height">
+                        <div v-if="page === 0">
+                            <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
                         </div>
-
-                        <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
-                          <div style="padding: 10px;">
-                            <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
-                            <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
-                              <button class="button" style="margin: 33px auto;">Intake Form</button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Objective</h7>
-                            <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
-                          </div>
-
-                          <div style="width: 97%; position: relative; top: 15px;">
-                            <h7 class="card-header" style="height: 20px; margin: 20px 15px; padding: 5px;">Assessment</h7>
-                            <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;"/>
-                          </div>
-
-                          <div style="color: #EDA1A6; padding: 5px; padding-top: 10px; width: 97%; margin: 0 20px;">
-                               - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - FIELDS BELOW THIS LINE VISIBLE TO PATIENT  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-                          </div>
-
-                            <div style="float: left; width: 64%; position: relative; top: 25px;">
-                              <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
-                              <textarea class="input--textarea" placeholder="Enter your text..." style="min-height: 100px; margin: 15px;" />
+                        <div class="card width70" v-if="page !== 0">
+                            <div class="card-heading-container height65">
+                                <h2 class="left-records-label">
+                                    {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
+                                    {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
+                                    {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
+                                    {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
+                                    {{ page === 5 ? `Intake Form` : null }}
+                                    {{ page === 6 ? `Treatment Plan` : null }}
+                                </h2>
+                                <h2 class="search-name-label">
+                                    {{ selectedPatient.search_name }}
+                                </h2>
                             </div>
 
-                            <div style="float: left; width: 35%; position: relative; top: 15px; left: 15px;">
-                              <div style="padding: 10px;">
-                                <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescription</h7>
-                                <div class="inline-centered" style="background-color: #f8f8f8; height: 100px; margin: 15px;">
-                                  <button class="button" style="margin: 33px auto;">Prescription</button>
-                                </div>
-                              </div>
-                          </div>
-                          
-                          <div class="inline-centered">
-                            <button class="button" style="margin-top: 35px;">Save Changes</button>
-                          </div>
+                            <div v-if="page === 1">
+                                <SoapNote :patient="selectedPatient" />
+                            </div>
+                            <div v-if="page === 2">
+                                <LabResults :patient="selectedPatient" />
+                            </div>
+                            <div v-if="page === 3">
+                                <Prescription :patient="selectedPatient" />
+                            </div>
+                            <div v-if="page === 4">
+                                <Attachment :patient="selectedPatient" />
+                            </div>
+                            <div v-if="page === 5">
+                                <Intake :patient="selectedPatient" />
+                            </div>
+                            <div v-if="page === 6">
+                                <Treatment :patient="selectedPatient" />
+                            </div>
 
-                      </div>
+                        </div>
+                    </div>
+                    <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
+                        <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
+                        <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
+                        <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
+                        <div class="records-divider" />
+                        <div class="input__container mid-section-flyout">
+                            <div class="half-left">
+                                <span class="full-left">ID: <b>#{{ selectedPatient.id }}</b></span>
+                                <span class="full-left">Joined: <b>{{ selectedPatient.created_at }}</b></span>
+                                <span class="full-left">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                            </div>
+                            <div class="half-left">
+                                <span class="full-left">City: <b>{{ selectedPatient.city }}</b></span>
+                                <span class="full-left">State: <b>{{ selectedPatient.state }}</b></span>
+                            </div>
+                        </div>
+                        <div class="input__container">
+                            <Timeline 
+                                :index="index" 
+                                :items="timelineData" 
+                                :emptyMessage="`No records for this patient`"
+                                :loading="loading" />
+                        </div>
+                    </Flyout>
 
+                    <NotificationPopup
+                        :active="notificationActive"
+                        :comes-from="notificationDirection"
+                        :symbol="notificationSymbol"
+                        :text="notificationMessage"
+                    />
+                    
                 </div>
-                <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <label class="input__label" for="patient_name">name</label>
-                        <div style="color: #82BEF2; position: relative; bottom: 30px; float: right; width: 125px; height: 125px;" class="input__label" for="patient_name">image</div>
-                        <div style="color: #82BEF2; width: 100%;" class="input__label" for="patient_name">email</div>
-                        <div style="color: #82BEF2;" class="input__label" for="patient_name">phone</div>
-                    </div>
-                  </div>
-                   <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">ID</span>
-                         <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">JOINED</span>
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">DOB</span>
-                        <span style="color: #82BEF2; width: 50%;" class="input__label" for="patient_name">CITY</span>
-                        <span style="color: #82BEF2; width: 100%;" class="input__label" for="patient_name">STATE</span> 
-                    </div>
-                   </div>  
-                  <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-                    <div class="input__container">
-                        <label class="input__label" for="patient_name">appointments</label>
-                        <div style="padding: 15px 0;">
-                          <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                          <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-                        </div>
-                    </div>
-                  </div>
-                  <div class="input__container">
-                      <label class="input__label" for="patient_name">lab tests</label>
-                      <div style="padding: 15px 0;">
-                        <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Micronutrients</span>
-                        <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-                      </div>
-                  </div>
-                </Flyout>
-
-              </div>
-          </div>
-
+            </div>
         </div>
-      </div>
 
-      <div v-if="$root.$data.permissions === 'patient'">
-        <div class="main-content">
-          <div class="main-header">
-            <div class="container container-backoffice">
-              <h1 class="header-xlarge">
-                <span class="text">Records</span>
-              </h1>
-            </div>
-          </div>
-
-          <div class="card" style="width: 76%;">
-              <div class="card-heading-container">
-                  <div>
-                    {{ $root.$data.global.user.attributes.doctor_name }} with {{ $root.$data.global.user.attributes.first_name }} {{ $root.$data.global.user.attributes.last_name }}
-                  </div>
-              </div>
-              <div style="height: 600px; padding: 10px; overflow-x: hidden; overflow-y: scroll;">  
-                  <div style="float: left; height: 400px; width: 60%; position: relative; top: 15px;">
-                    <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Treatment</h7>
-                    <p style="margin: 15px; padding: 5px;">
-                        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-                        <br>
-                        <br>
-                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                        <br>
-                        <br>
-                        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-                    </p>
-                  </div>
-                  <div style="float: left; height: 400px; width: 35%; position: relative; top: 15px;">
-                    <div style="padding: 10px;">
-                      <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Client Intake</h7>
-                      <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
-                        <button class="button" style="margin: 33px auto;">Intake Form</button>
-                      </div>
-                    </div>
-                    <div style="padding: 10px;">
-                      <h7 class="card-header" style="height: 20px; margin: 15px; padding: 5px;">Prescriptions</h7>
-                      <div class="inline-centered" style="background-color: #f8f8f8; height: 100px;">
-                        <button class="button" style="margin: 33px auto;">Prescriptions</button>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
-          <Flyout :active="true" :onClose="null" heading="Record History" style="width: 20%; z-index: 0;">
-            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-              <div class="input__container">
-                  <label class="input__label" for="patient_name">lab notes</label>
-                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-              </div>
-            </div>
-            <div style="border-bottom: 1px solid #F4F4F4; margin-bottom: 30px;">
-              <div class="input__container">
-                  <label class="input__label" for="patient_name">appointments</label>
-                  <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Dr. Amanda Frick</span>
-                  <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-              </div>
-            </div>
-            <div class="input__container">
-                <label class="input__label" for="patient_name">lab tests</label>
-                <span style="color: #82BEF2; float: left;" class="input__label" for="patient_name">Micronutrients</span>
-                <span style="color: #82BEF2; float: right;" class="input__label" for="patient_name">12/18/15</span>
-            </div>
-          </Flyout>
-
-        </div>
-      </div>
-
-      
-
-  </div>
+    </div>
 </template>
 
 <script>
 import UserNav from '../../commons/UserNav.vue';
 import Modal from '../../commons/Modal.vue';
 import Flyout from '../../commons/Flyout.vue';
+import Timeline from '../../commons/Timeline.vue';
+import SoapNote from './components/SoapNote.vue';
+import LabResults from './components/LabResults.vue';
+import Prescription from './components/Prescription.vue';
+import Attachment from './components/Attachment.vue';
+import Intake from './components/Intake.vue';
+import Treatment from './components/Treatment.vue';
+import NotificationPopup from '../../commons/NotificationPopup.vue';
+import axios from 'axios';
+import { capitalize } from 'lodash';
+import moment from 'moment';
 export default {
     name: 'Records',
     components: {
         UserNav,
         Modal,
-        Flyout
+        Flyout,
+        Timeline,
+        SoapNote,
+        LabResults,
+        Prescription,
+        Attachment,
+        Intake,
+        Treatment,
+        NotificationPopup
     },
     data() {
         return {
-          step: 1,
-          search: '',
-          selectedPatient: null,
-          activeModal: false,
-          name: ''
+            step: 1,
+            search: '',
+            selectedPatient: null,
+            activeModal: false,
+            name: '',
+            showing: [],
+            page: 0,
+            index: null,
+            timeline: [],
+            loading: true,
+            news: true,
+            soap_notes: {},
+            attachments: {},
+            prescriptions: {},
+            propData: {},
+            notificationSymbol: '&#10003;',
+            notificationMessage: '',
+            notificationActive: false,
+            notificationDirection: 'top-right',
+            dropDownMenu: [
+                'SOAP Note', 
+                'Prescription', 
+                'Lab Results', 
+                'Attachment', 
+            ],
+            menuIndex: 1,
         };
     },
     methods: {
-      selectPatient(patient) {
-        this.selectedPatient = patient;
-        this.name = patient.search_name;
-        this.activeModal = true;
-      },
-      nextStep() {
-        this.step = 2;
-      },
-      modalClose() {
-        this.activeModal = false;
-      }
+        updateMenu(e) {
+            switch (e.target.value) {
+                case "SOAP Note":
+                    this.menuIndex = 1;
+                    break;
+                case "Lab Results":
+                    this.menuIndex = 2;
+                    break;
+                case "Prescription":
+                    this.menuIndex = 3;
+                    break;
+                case "Attachment":
+                    this.menuIndex = 4;
+                    break;
+                default:
+                    break;
+            }
+        },
+        newRecord() {
+            this.news = true;
+            this.setIndex(null);
+            this.setPage(this.menuIndex);
+        },
+        updateInput(e) {
+            this.step = 1;
+            this.page = 0;
+            this.setIndex(null);
+            this.activeModal = false;
+            this.search = e.target.value;
+            this.loading = true;
+        },
+        setPage(page) {
+            this.page = page;
+        },
+        setIndex(idx) {
+            this.index = idx;
+        },
+        selectPatient(patient) {
+            this.selectedPatient = patient;
+            this.name = patient.search_name;
+            this.activeModal = true;
+        },
+        nextStep() {
+            this.step = 2;
+            this.search = '';
+            this.getTimelineData();
+        },
+        modalClose() {
+            this.activeModal = false;
+        },
+        getTimelineData() {
+            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
+                .then(response => {
+                    console.log(`RESPONSE`, response)
+                    this.timeline = [];
+                    if (response.data.included) {
+                        response.data.included.forEach((e) => {
+                            e.type === 'soap_note' ? 
+                                this.soap_notes[e.id] = e :
+                            e.type === 'attachment' ?
+                                this.attachments[e.id] = e :
+                            e.type === 'prescription' ?
+                                this.prescriptions[e.id] = e :
+                            null;
+                            let object = {};
+                            object.doctor = e.attributes.doctor_name || "No Doctor";
+                            object.date = moment(e.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                            object.original_date = e.attributes.created_at.date;
+                            object.type = e.type.split('_').map(e => capitalize(e)).join(' ');
+                            object.id = e.id;
+                            object.data = e;
+                            this.timeline.push(object);
+                        });
+                        this.timeline.sort((a, b) => new Date(b.original_date) - new Date(a.original_date));
+                    }
+                    this.loading = false;
+                });
+        },
+        setProps(data) {
+            this.news = false;
+            this.propData = data;
+        }
     },
     computed: {
-      results() {
-        let array = this.$root.$data.global.patients;
-        if (!array.length) return [];
-        let matcher = new RegExp(this.value, 'ig');
-        return array.filter(ele => {
-          return matcher.test(ele.search_name) ||
-                      matcher.test(ele.email) ||
-                      matcher.test(ele.date_of_birth);
-        });
-      }
-    },
-    watch: {
-      results(val, old) {
-        if (val !== old) {
-          let array = this.$root.$data.global.patients;
-          if (!array.length) return [];
-          let matcher = new RegExp(this.value, 'ig');
-          return array.filter(ele => {
+        results() {
+            let array = this.$root.$data.global.patients;
+            let matcher = new RegExp(this.search, 'ig');
+            return array.filter(ele => {
             return matcher.test(ele.search_name) ||
                         matcher.test(ele.email) ||
                         matcher.test(ele.date_of_birth);
-          });
+            });
+        },
+        timelineData() {
+                let onClickFunctions = {
+                    'Intake Form': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(5);
+                        this.setProps(data);
+                    },
+                    'Lab Result': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(2);
+                        this.setProps(data);
+                    },
+                    'Treatment Plan': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(6);
+                        this.setProps(data);
+                    },
+                    'Prescription': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(3);
+                        this.setProps(data);
+                    },
+                    'Attachment': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(4);
+                        this.setProps(data);
+                    },
+                    'Soap Note': (data, index) => {
+                        this.setIndex(index);
+                        this.setPage(1);
+                        this.setProps(data);
+                    }
+                };
+                let arrays = this.timeline;
+                arrays.map((e, i)=> {
+                    e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
+                    return e;
+                });
+                return arrays;
+            }
+        },
+        watch: {
+            results() {
+                if (this.search !== '') {
+                this.step = 1;
+                this.activeModal = false;
+                this.selectedPatient = null;
+                let array = this.$root.$data.global.patients;
+                let matcher = new RegExp(this.search, 'ig');
+                return array.filter(ele => {
+                    return matcher.test(ele.search_name) ||
+                                matcher.test(ele.email) ||
+                                matcher.test(ele.date_of_birth);
+                });
+            }
         }
-      }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
     }
 };
 </script>
-
-<style lang="scss">
-  .form {
-    background-color: white;
-  }
-  .search-icon {
-    position: absolute;
-    font-size: 20px;
-    top: 15px;
-    left: 10px;
-    color: #ccc;
-  }
-  .search-bar {
-    margin-left: 50px;
-    width: 100%;
-    border: none;
-    background: transparent;
-    height: 50px;
-    color: #777777;
-  }
-  .results {
-    width: 100%; 
-    margin: 5px;
-    float: left;
-    &:hover {
-      background-color: rgba(84, 166, 237, 0.6);
-      color: white;
-    }
-  }
-  .spacing {
-    font-size: 22px; 
-    float: left; 
-    width: 33.3%;
-    padding: 5px;
-  }
-</style>
