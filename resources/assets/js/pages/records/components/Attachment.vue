@@ -18,7 +18,7 @@
                 </div>
                 <div class="width-175">
                     <label class="input__label">upload</label>
-                    <label for="file-select-prescription">
+                    <label for="file-select-prescription" :class="{'disabled--cursor': fileName === ''}">
                         <div class="border-upload-container">
                             <div class="upload-container">
                                 <i class="fa fa-book pdf-icons"></i>
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                     </label>
-                    <input :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
+                    <input :class="{'disabled--cursor': fileName === ''}" :disabled="fileName === ''" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
             </div>
         </div>
@@ -79,3 +79,9 @@ export default {
     }
 };
 </script>
+
+<style>
+    .disabled--cursor {
+        cursor: not-allowed;
+    }
+</style>
