@@ -100,10 +100,16 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::put('messages/{message}/read', 'MessagesController@read')->name('messages.read');
         Route::delete('messages/{message}', 'MessagesController@delete')->name('messages.delete');
 
+<<<<<<< HEAD
+        Route::get('lab/tests', 'LabTestsController@index')->name('lab-tests.index');
+        Route::get('lab/tests/information', 'LabTestsController@information')->name('lab-tests.information');
+        Route::get('lab/tests/{labTest}', 'LabTestsController@show')->name('lab-tests.show');
+=======
         # Lab Tests
         Route::get('lab/tests/information', 'LabTestsController@getInformation')->name('lab-tests.get-information');
         Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
         Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
+>>>>>>> 04735fc4720c594928e148c226a516aef416ba30
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
         Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
         Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');

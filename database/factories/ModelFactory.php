@@ -13,6 +13,7 @@ use App\Models\{
     LabTest,
     LabTestResult,
     LabTestInformation,
+    LabTestResult,
     License,
     Message,
     Patient,
@@ -293,6 +294,10 @@ $factory->define(Attachment::class, function (Faker\Generator $faker) {
         },
         'created_by_user_id' => function () {
             return factory(Practitioner::class)->create()->user->id;
+        },
+        'sku_id' => function () {
+            return LabTestInformation::all()->random()->sku_id ?? factory(SKU::class)->create()->id;
+
         },
         'key' => 'testing/testFile.pdf',
         'name' => $faker->word,

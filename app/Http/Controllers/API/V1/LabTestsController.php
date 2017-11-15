@@ -184,4 +184,24 @@ class LabTestsController extends BaseAPIController
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
     }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function information()
+    {
+        $this->serializer = new JsonApiSerializer();
+
+        $builder = LabTestInformation::with('sku');
+
+        if ($user = currentUser()) {
+            $scope = Pluralizer::plural($user->type);
+            $builder = $builder->$scope();
+        } else {
+            $builder = $builder->public();
+        }
+
+        return $this->baseTransformBuilder($builder, request('include'), new LabTestInformationTransformer, request('per_page'))->respond();
+    }
+
 }

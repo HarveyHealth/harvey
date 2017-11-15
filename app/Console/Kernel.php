@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\BillingReport;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         Commands\SendAppointmentsRemindersCommand::class,
         Commands\SendUnreadMessageEmailNotificationsCommand::class,
         Commands\SetNginxConfigCommand::class,
+        Commands\BillingReport::class,
         Commands\ImportDiscountCodesCommand::class,
     ];
 
