@@ -26,18 +26,7 @@ class Fullscript extends BaseClient
     public function getPatients($external_ref = '', $email = '', $limit = null, $page = null){
         // build arguments array
         $params = [];
-        if (!empty($external_ref)){
-            $params['external_ref'] = $external_ref;
-        }
-        if (!empty($email)){
-            $params['email'] = $email;
-        }
-        if (!empty($limit)){
-            $params['limit'] = $limit;
-        }
-        if (!empty($page)){
-            $params['page'] = $page;
-        }
+        $params = array_filter(compact('external_ref', 'email', 'limit', 'page'));
 
         //perform call to API
 
