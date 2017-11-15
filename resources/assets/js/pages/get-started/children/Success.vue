@@ -4,8 +4,8 @@
       <div class="signup-container small naked">
         <div class="signup-main-icon">
           <img class="success-icon" src="https://d35oe889gdmcln.cloudfront.net/assets/images/signup/calendar.png" alt="">
-        </div>   
-        <h2 class="heading-1 color-good">{{ title }}</h2>   
+        </div>
+        <h2 class="heading-1 color-good">{{ title }}</h2>
         <h3 class="heading-3">
           Dr. {{ $root.$data.signup.practitionerName }}, ND<br>
           {{ appointmentDate | toDate }}<br/>
@@ -122,9 +122,8 @@ export default {
     }
     this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
-    // A purchase event is typically associated with a specified product or product_group.
-    // See https://developers.facebook.com/docs/ads-for-websites/pixel-troubleshooting#catalog-pair
-    if(this.$root.shouldTrack()) {
+
+    if(App.Logic.misc.shouldTrack()) {
       // place view tracking here
       // Segment tracking
       analytics.track("Consultation Confirmed");

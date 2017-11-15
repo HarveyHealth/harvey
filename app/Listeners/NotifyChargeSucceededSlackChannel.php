@@ -16,7 +16,7 @@ class NotifyChargeSucceededSlackChannel implements ShouldQueue
      */
     public function handle(ChargeSucceeded $event)
     {
-        ops_success('Charge Succeeded', "Invoice #{$event->invoice->id} for {$event->invoice->patient->user->truncatedName()}.", 'operations');
+        ops_success('Charge Succeeded', "Invoice #{$event->invoice->id} for {$event->invoice->patient->user->truncated_name}.", 'operations');
 
         return true;
     }

@@ -37,24 +37,28 @@ class VueHelperViewComposer
 
     protected function userData()
     {
-        $user = Auth::user();
+        $user = currentUser();
 
         if (empty($user)) {
             return ['signedIn' => false];
         }
 
         $fractal = fractal()->item($user)
-            ->transformWith(new UserTransformer)
-            ->serializeWith(new JsonApiSerializer)
-            ->toArray();
+        ->transformWith(new UserTransformer)
+        ->serializeWith(new JsonApiSerializer)
+        ->toArray();
 
         $output = ['signedIn' => true];
         $output += ['id' => $fractal['data']['id']];
         $output += $fractal['data']['attributes'];
-    
-        if($user->isPractitioner()) {
+
+        if ($user->isPractitioner()) {
             $output += ['practitionerId' => $user->practitioner->id];
+        } elseif ($user->isPatient()) {
+            $output += ['intake_validation_token' => $user->patient->intake_validation_token];
         }
+
+        $output += ['intercom_hash' => $user->intercom_hash];
 
         return $output;
     }
@@ -67,6 +71,9 @@ class VueHelperViewComposer
             ],
             'pusher' => [
                 'key' => Config::get('broadcasting.connections.pusher.key')
+            ],
+            'segment' => [
+                'key' => Config::get('services.segment.key'),
             ],
         ];
 

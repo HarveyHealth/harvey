@@ -3,20 +3,23 @@
     <div class="bg-blue-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
       <MainNav :context="'conditions'" />
-      <div class="margin-0a max-width-xl pad-md color-white">
-        <div class="margin-0a max-width-icon">
-          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
+      <div class="center mw8 pa3 pa4-m">
+        <div class="center mw6 tc">
+          <div class="center mw4">
+            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
+          </div>
+          <Spacer isBottom :size="3" />
+          <Heading1 isLight>Personalized for better health.</Heading1>
+          <Spacer isBottom :size="4" />
+          <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
         </div>
-        <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <p class="font-normal font-xxl">Personalized for better health.</p>
-          <p class="font-lg is-padding is-paddingless-top">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
-        </div>
-        <ConditionsAll class="space-top-lg is-padding-lg" />
+        <Spacer isBottom :size="4" />
+        <ConditionsAll />
       </div>
     </div>
     <div v-else>
       <MainNav :context="'questions'" />
-      <div class="margin-0a max-width-lg pad-md color-white">
+      <div class="center mw8 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
@@ -26,8 +29,10 @@
 </template>
 
 <script>
-import { Util } from '../../base';
-import Shared from '../../shared';
+import { Heading1, Paragraph } from 'typography';
+import { Spacer } from 'layout';
+import { SvgIcon } from 'icons';
+import { MainNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -36,11 +41,10 @@ import VerifyZip from './children/VerifyZip';
 export default {
   name: 'conditions',
   components: {
+    MainNav, Heading1, Paragraph, Spacer, SvgIcon,
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,
-    MainNav: Shared.MainNav,
-    SvgIcon: Util.SvgIcon,
     VerifyZip
   },
   data() {

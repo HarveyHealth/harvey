@@ -7,7 +7,8 @@ use App\Models\{Patient, User};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
-use Carbon, Log, Redis, ResponseCode;
+use Carbon, Log, ResponseCode;
+use Illuminate\Support\Facades\Redis;
 
 class PhoneNumberVerifierTest extends TestCase
 {
@@ -38,8 +39,6 @@ class PhoneNumberVerifierTest extends TestCase
 
     public function test_phone_verification_sms_is_sent_after_phone_is_changed()
     {
-        Log::spy();
-
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
 
@@ -105,10 +104,8 @@ class PhoneNumberVerifierTest extends TestCase
         $patient = factory(Patient::class)->create();
         $user = $patient->user;
 
-        Log::spy();
-
         Passport::actingAs($user);
-        $response = $this->json('POST', "api/v1/users/{$user->id}/phone/sendverificationcode");
+        $response = $this->json('POST', "api/v1/users/{$user->id}/phone/send_verification_code");
 
         $response->assertStatus(ResponseCode::HTTP_OK);
         $response->assertJsonFragment(['status' => 'Verification code sent.']);
@@ -127,7 +124,7 @@ class PhoneNumberVerifierTest extends TestCase
         Log::spy();
 
         Passport::actingAs($user);
-        $response = $this->json('POST', "api/v1/users/1/phone/sendverificationcode");
+        $response = $this->json('POST', "api/v1/users/1/phone/send_verification_code");
 
         $response->assertStatus(ResponseCode::HTTP_FORBIDDEN);
         $response->assertJsonFragment(['status' => 'Verification code not sent.']);

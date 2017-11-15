@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="onSubmit" :class="animClasses" v-if="!$root.$data.signup.completedSignup">
-    
+
     <div class="signup-wrapper">
 
       <aside class="signup-quotes">
@@ -201,6 +201,7 @@ export default {
               const zip = userData.zip || '';
               const city = userData.city || '';
               const state = userData.state || '';
+              const intercomHash = userData.intercom_hash || '';
 
               // Segment tracking
               analytics.track("Account Created");
@@ -213,6 +214,12 @@ export default {
                 city: city,
                 state: state,
                 zip: zip
+              }, {
+                integrations: {
+                  Intercom : {
+                    user_hash: intercomHash
+                  }
+                }
               });
             }
 

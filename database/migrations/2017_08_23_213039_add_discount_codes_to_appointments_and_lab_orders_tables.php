@@ -31,8 +31,15 @@ class AddDiscountCodesToAppointmentsAndLabOrdersTables extends Migration
      */
     public function down()
     {
+
+        Schema::table('lab_orders', function (Blueprint $table) {
+            $table->dropForeign(['discount_code_id']);
+            $table->dropColumn('discount_code_id');
+        });
+
         Schema::table('appointments', function (Blueprint $table) {
-            //
+            $table->dropForeign(['discount_code_id']);
+            $table->dropColumn('discount_code_id');
         });
     }
 }

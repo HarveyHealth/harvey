@@ -63,7 +63,7 @@ return [
                     'reminder' => 2550321,
                 ],
                 'attachment' => [
-                    'uploaded' => 3338765,
+                    'created' => 3338765,
                 ],
             ],
             'patient' => [
@@ -80,9 +80,10 @@ return [
                 'lab_order' => [
                     'confirmed' => 3372143,
                     'shipped' => 2741642,
+                    'recommended' => 3764861,
                 ],
                 'lab_test' => [
-                    'received' => 3148942,
+                    'processing' => 3148942,
                 ],
                 'welcome' => 1450461,
             ],
@@ -108,13 +109,26 @@ return [
         'calendar_id' => env('GCALENDAR_ID', 'goharvey.com_52ld7v7p6tpep95idupudk3b70@group.calendar.google.com'),
     ],
 
+    'typeform' => [
+        'api_key' => env('TYPEFORM_API_KEY'),
+        'uid' => env('TYPEFORM_UID'),
+    ],
+
     'google_geocoder' => [
         'api_key' => env('GOOGLE_GEOCODER_API_KEY'),
     ],
 
     'facebook' => [
-        'client_id'     => env('FACEBOOK_ID'),
+        'client_id' => env('FACEBOOK_ID'),
         'client_secret' => env('FACEBOOK_SECRET'),
-        'redirect'      => env('FACEBOOK_URL'),
+        'redirect' => env('FACEBOOK_URL'),
+    ],
+
+    'segment' => [
+        'key' => env('SEGMENT_KEY'),
+    ],
+
+    'intercom' => [
+        'key' => env('INTERCOM_KEY'),
     ],
 ];

@@ -49,8 +49,12 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendPatientLabOrderShippedEmail',
         ],
 
-        'App\Events\LabTestReceived' => [
-            'App\Listeners\SendPatientLabTestReceivedEmail',
+        'App\Events\LabOrderRecommended' => [
+            'App\Listeners\SendPatientLabOrderCreatedEmail',
+        ],
+
+        'App\Events\LabTestProcessing' => [
+            'App\Listeners\SendPatientLabTestProcessingEmail',
         ],
 
         'App\Events\OutOfServiceZipCodeRegistered' => [
@@ -72,6 +76,10 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\CreditCardUpdated' => [
             'App\Listeners\PayOutstandingInvoicesForPatient',
+        ],
+
+        'App\Events\AttachmentCreated' => [
+            'App\Listeners\SendPractitionerAttachmentCreatedEmail',
         ],
     ];
 

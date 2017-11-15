@@ -1,7 +1,7 @@
 // Karma configuration
 // Generated on Fri Sep 29 2017 10:58:07 GMT-0400 (EDT)
 const argv = require('yargs').argv;
-const Mix = require('laravel-mix').config;
+const path = require('path');
 
 module.exports = function(config) {
   config.set({
@@ -21,8 +21,8 @@ module.exports = function(config) {
         pattern: './tests/Frontend/setup.js',
         watched: false,
         served: true,
-        included: true,
-      },
+        included: true
+      }
     ],
 
 
@@ -30,26 +30,25 @@ module.exports = function(config) {
     exclude: [
     ],
 
-
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './tests/Frontend/setup.js': ['webpack', 'sourcemap'],
+      './tests/Frontend/setup.js': ['webpack', 'sourcemap']
     },
 
     plugins: [
+      'karma-chrome-launcher',
       'karma-mocha',
       'karma-sinon-chai',
       'karma-webpack',
-      'karma-jsdom-launcher',
       'karma-sourcemap-loader',
+      'karma-spec-reporter'
     ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
-
+    reporters: ['spec'],
 
     // web server port
     port: 9876,
@@ -70,27 +69,41 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['jsdom'],
+    browsers: ['ChromeHeadless'],
+
     webpack: {
+      resolve: {
+        alias: {
+            moment$: 'moment/moment.js',
+            sass: path.resolve(__dirname, 'resources/assets/styles/base.scss'),
+            components: path.resolve(__dirname, 'resources/assets/js/v2/components'),
+            feedback: path.resolve(__dirname, 'resources/assets/js/v2/components/feedback'),
+            icons: path.resolve(__dirname, 'resources/assets/js/v2/components/icons'),
+            inputs: path.resolve(__dirname, 'resources/assets/js/v2/components/inputs'),
+            layout: path.resolve(__dirname, 'resources/assets/js/v2/components/layout'),
+            nav: path.resolve(__dirname, 'resources/assets/js/v2/components/nav'),
+            typography: path.resolve(__dirname, 'resources/assets/js/v2/components/typography')
+        }
+      },
       module: {
         loaders: [
           {
             test: /\.js?$/,
             exclude: /(node_modules|bower_components)/,
-            loader: 'babel-loader' + Mix.babelConfig(),
+            loader: 'babel-loader',
             include: [
               path.join(__dirname, 'tests/Frontend')
-            ],
+            ]
           },
           {
             test: /\.vue$/,
-            loader: 'vue-loader',
+            loader: 'vue-loader'
           }
         ]
       }
     },
     webpackMiddleware: {
-      noInfo: true,
+      noInfo: true
     },
 
 
@@ -101,5 +114,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};
