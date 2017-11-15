@@ -32,12 +32,28 @@ class BaseClient
         return $this->client->get($this->baseEndpoint($call), $data);
     }
 
-    public function post($call, $params = [], $headers = [])
+    public function post($call, $body = '', $headers = [])
     {
-        $data['body'] = array_merge($params, $this->params);;
+        $client = $this->client();
+
+        $data = [];
+        $data['body'] = $body;
         $data['headers'] = array_merge($this->headers, $headers);
 
         return $this->client->post($this->baseEndpoint($call), $data);
+    }
+
+    public function put($call, $body = '', $headers = [])
+    {
+        $client = $this->client();
+
+        $data = [];
+        $data['body'] = $body;
+        $data['headers'] = array_merge($this->headers, $headers);
+
+        $response = $client->put($this->baseEndpoint($call), $data);
+
+        return $response;
     }
 
     protected function baseEndpoint($call)
