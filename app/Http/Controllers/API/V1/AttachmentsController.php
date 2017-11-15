@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Attachment;
+use App\Models\{Attachment, Patient};
 use App\Transformers\V1\AttachmentTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;

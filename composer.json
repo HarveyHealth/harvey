@@ -75,6 +75,7 @@
             "php artisan scout:import 'App\\Models\\LabTestResult'",
             "php artisan scout:import 'App\\Models\\Prescription'",
             "php artisan scout:import 'App\\Models\\SoapNote'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
             "npm run prod"
@@ -89,6 +90,7 @@
             "php artisan scout:import 'App\\Models\\LabTestResult'",
             "php artisan scout:import 'App\\Models\\Prescription'",
             "php artisan scout:import 'App\\Models\\SoapNote'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
             "php artisan calendar:get_credentials",
             "php artisan cache:clear",
