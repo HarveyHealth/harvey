@@ -30,10 +30,16 @@ class PatientsController extends BaseAPIController
         if (currentUser()->isNotAdminOrPractitioner()) {
             return $this->respondNotAuthorized('You are not authorized to access this patient.');
         }
+        $term = request('term');
+        $builder = Patient::make()->with('user');
 
+        if ($term) {
+            $builder = $builder->whereIn('id', Patient::search($term)->get()->pluck('id'));
+        }
         $this->transformer->availableIncludes = ['user'];
 
-        return $this->baseTransformBuilder(Patient::make()->with('user'), request('include'), $this->transformer, request('per_page'))->respond();
+        return $this->baseTransformBuilder($builder, request('include'), $this->transformer, request('per_page'))->respond();
+
     }
 
     /**

@@ -14,6 +14,7 @@ class SoapNoteTransformer extends TransformerAbstract
     {
         return [
             'id' => cast_to_string($soapNote->id),
+            'patient_id' => cast_to_string($soapNote->patient_id),
             'assessment' => $soapNote->assessment,
             'created_at' => $soapNote->created_at,
             'created_by_user_id' => cast_to_string($soapNote->creator->id),
