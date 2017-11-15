@@ -27,7 +27,7 @@ class AddRatingToAppointmentsTable extends Migration
     public function down()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            //
+            $table->dropColumn('doctor_rate');
         });
     }
 }
