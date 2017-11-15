@@ -112,7 +112,7 @@ return [
     'shippo' => [
         'key' => env('SHIPPO_API_KEY'),
         'carrier' => env('SHIPPO_CARRIER', 'fedex'),
-        'carrier_service_level' => env('SHIPPO_CARRIER_SERVICE_LEVEL', 'fedex_ground'),
+        'carrier_service_level' => env('SHIPPO_CARRIER_SERVICE_LEVEL', 'fedex_2_day'),
         'from' => [
             'name' => env('SHIPPO_FROM_NAME', 'Harvey, Inc'),
             'company' => env('SHIPPO_FROM_COMPANY', 'Harvey, Inc'),
