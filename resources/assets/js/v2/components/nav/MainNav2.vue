@@ -3,7 +3,7 @@
         <div class="nav-spacer"></div>
         <div class="nav-overlay"></div>
         <div class="nav-container">
-            <button class="nav-hamburger" @click="handleMenuClick">
+            <button class="nav-hamburger" @click="handleMenuClick()">
                 <i :class="hamburgerClasses"></i>
             </button>
             <a href="/" class="nav-logo" v-if="hasLogo">
@@ -12,7 +12,7 @@
             <div class="nav-links" v-if="hasLinks">
                 <a href="/about">About</a>
                 <a href="/lab-tests">Labs</a>
-                <a href="/#prices">Pricing</a>
+                <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
                 <a href="/financing">Financing</a>
                 <a href="/login">Log In</a>
             </div>
@@ -20,7 +20,7 @@
                 <a href="tel:800-690-9989">(800) 690-9989</a>
             </div>
             <div class="nav-start" v-if="hasStart">
-                <a href="/">Get Started</a>
+                <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
             </div>
         </div>
     </div>
@@ -53,7 +53,12 @@ export default {
       }
   },
   methods: {
-      handleMenuClick() {
+      handleMenuClick(pageId) {
+          if (pageId) {
+              const pageSection = document.getElementById(pageId);
+              if (pageSection) this.yScroll = pageSection.offsetTop;
+          }
+
           if (this.menuIsActive) {
               this.onMenuClick();
               Vue.nextTick(() => {
@@ -112,7 +117,7 @@ export default {
     }
 
     .nav-hamburger {
-        background: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.4);
         border: 0;
         border-radius: 50%;
         color: $color-copy;
@@ -128,7 +133,7 @@ export default {
         -webkit-appearance: none;
 
         &:hover {
-            background: rgba(255,255,255,0.9)
+            background: rgba(255,255,255,0.8)
         }
 
         .fa {
