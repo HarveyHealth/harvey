@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Lib\Clients\Fullscript;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\User;
 
 class CreateFullscriptPatient implements ShouldQueue
 {
@@ -20,7 +21,7 @@ class CreateFullscriptPatient implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
