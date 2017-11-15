@@ -22,12 +22,15 @@
                 </div>
                 <div class="width-175">
                     <label class="input__label">upload</label>
-                    <div class="border-upload-container">
-                        <div class="upload-container">
-                            <i class="fa fa-book pdf-icons"></i>
-                            <p class="pdf-upload-text">Prescription (PDF)</p>
+                    <label for="file-select-prescription">
+                        <div class="border-upload-container">
+                            <div class="upload-container">
+                                <i class="fa fa-book pdf-icons"></i>
+                                <p class="pdf-upload-text">Prescription (PDF)</p>
+                            </div>
                         </div>
-                    </div>
+                    </label>
+                    <input @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
             </div>
         </div>
@@ -46,6 +49,11 @@ export default {
         return {
 
         };
+    },
+    methods: {
+        upload() {
+
+        }
     },
     computed: {
         prescriptionList() {
