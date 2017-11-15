@@ -176,7 +176,7 @@ const app = new Vue({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
+                        date_of_birth: '', // moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,

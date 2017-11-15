@@ -720,8 +720,6 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-
-            console.log('then', response);
         }).catch((error) => {
             // stop the loading
             this.loading = false;
