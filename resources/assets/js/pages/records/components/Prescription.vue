@@ -35,9 +35,9 @@
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe class="record-image" :src="prescriptionUrl" />
-            <div class="inline-centered padding15">
-                <button @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
+            <iframe class="iframe-image" :src="prescriptionUrl" />
+            <div class="inline-centered">
+                <button @click="deleteModal()" class="button bg-danger margin15">Delete Note</button>
             </div>
             <Modal
                 :active="deleteModalActive"
@@ -47,9 +47,9 @@
                 <div class="card-content-wrap">
                     <div class="inline-centered">
                         <h1 class="header-xlarge">
-                            <span class="text">Delete SOAP Note</span>
+                            <span class="text">Delete Prescription</span>
                         </h1>
-                        <p>Are you sure you want to delete this attachment?</p>
+                        <p>Are you sure you want to delete this prescription?</p>
                         <div class="button-wrapper">
                             <button class="button button--cancel" @click="modalClose">Cancel</button>
                             <button class="button" @click="deleteItem">Yes, Confirm</button>

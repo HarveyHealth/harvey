@@ -42,9 +42,9 @@
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe class="record-image" :src="resultUrl" />
-            <div class="inline-centered padding15">
-                <button @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
+            <iframe class="iframe-image" :src="resultUrl" />
+            <div class="inline-centered">
+                <button @click="deleteModal()" class="button bg-danger margin15">Delete Note</button>
             </div>
             <Modal
                 :active="deleteModalActive"
@@ -54,9 +54,9 @@
                 <div class="card-content-wrap">
                     <div class="inline-centered">
                         <h1 class="header-xlarge">
-                            <span class="text">Delete SOAP Note</span>
+                            <span class="text">Delete Lab Result</span>
                         </h1>
-                        <p>Are you sure you want to delete this lab results?</p>
+                        <p>Are you sure you want to delete this lab result?</p>
                         <div class="button-wrapper">
                             <button class="button button--cancel" @click="modalClose">Cancel</button>
                             <button class="button" @click="deleteItem">Yes, Confirm</button>
@@ -93,7 +93,7 @@ export default {
             this.deleteModalActive = false;
         },
         deleteItem() {
-            axios.delete(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.id}`)
+            axios.delete(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.attributes.lab_test_id}`)
                 .then(() => {
                     this.deleteModalActive = false;
                     this.$parent.page = 0;
