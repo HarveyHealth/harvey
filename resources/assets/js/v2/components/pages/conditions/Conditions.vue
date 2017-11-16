@@ -2,7 +2,7 @@
   <div>
     <div class="bg-blue-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
-      <MainNav2 giveSpace hasLogo hasLinks hasPhone />
+      <MainNav2 giveSpace hasLogo hasLinks hasPhone isSticky />
       <div class="center mw8 pa3 pa4-m">
         <div class="center mw6 tc">
           <div class="center mw4">

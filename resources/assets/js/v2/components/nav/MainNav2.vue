@@ -105,9 +105,12 @@ export default {
         },
 
         handleNavOnScroll() {
-            if (window.pageYOffset > this.scrollDistance && !this.isNavSolid) {
+            const isScreenWide = window.innerWidth > 780;
+            const isPastScroll = window.pageYOffset > this.scrollDistance;
+
+            if (isPastScroll && isScreenWide && !this.isNavSolid) {
                 this.isNavSolid = true;
-            } else if (window.pageYOffset < this.scrollDistance && this.isNavSolid) {
+            } else if (!isPastScroll && isScreenWide && this.isNavSolid) {
                 this.isNavSolid = false;
             }
         },
@@ -315,10 +318,6 @@ export default {
         color: white;
         -webkit-font-smoothing: antialiased;
 
-        .nav-is-solid & {
-            color: $color-copy;
-        }
-
         @include query-up-to(lg) {
             display: block;
             padding: 1.6rem;
@@ -329,6 +328,10 @@ export default {
             font-weight: 500;
             margin: 12px 0;
             padding: 10px;
+
+            .nav-is-solid & {
+                color: $color-copy;
+            }
 
             &:hover {
                 opacity: 0.7;
@@ -367,14 +370,16 @@ export default {
     .nav-phone a {
         border-color: white;
 
-        .nav-is-solid & {
-            border-color: $color-copy;
-            color: $color-copy;
-        }
-
         @include query-up-to(lg) {
             background: $color-copy;
             left: 12px;
+        }
+
+        @include query(lg) {
+            .nav-is-solid & {
+                border-color: $color-copy;
+                color: $color-copy;
+            }
         }
     }
 
