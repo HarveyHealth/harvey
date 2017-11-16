@@ -37,7 +37,7 @@
         <div class="record-image" v-if="!$parent.news">
             <iframe class="iframe-image" :src="prescriptionUrl" />
             <div class="inline-centered">
-                <button @click="deleteModal()" class="button bg-danger margin15">Delete Note</button>
+                <button @click="deleteModal()" class="button bg-danger margin15">Delete Prescription</button>
             </div>
             <Modal
                 :active="deleteModalActive"
