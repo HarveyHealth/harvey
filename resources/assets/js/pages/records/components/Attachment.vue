@@ -54,10 +54,10 @@ export default {
     },
     methods: {
         upload(file) {
-            axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, {
-                file: file.target.files[0],
-                name: this.fileName,
-            })
+            let formData = new FormData();
+            formData.append('file', file.target.files[0]);
+            formData.append('name', this.fileName);
+            axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {
                 console.log(`RESPONSE`, response);
             })

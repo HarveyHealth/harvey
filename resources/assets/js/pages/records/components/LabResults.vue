@@ -67,10 +67,9 @@ export default {
             this.selectedLabType = e.target.children[e.target.selectedIndex].dataset.id;
         },
         upload(file) {
-            axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, {
-                file: file.target.files[0],
-                name: this.fileName,
-            })
+            let formData = new FormData();
+            formData.append('file', file.target.files[0]);
+            axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
             .then((response) => {
                 console.log(`RESPONSE`, response);
             })
