@@ -64,6 +64,14 @@ class SoapNote extends Model
 
     public function scopeFilterForPatient(Builder $builder)
     {
-        return $builder->select(['id', 'patient_id', 'created_by_user_id', 'plan']);
+        return $builder->select([
+            'id',
+            'created_at',
+            'created_by_user_id',
+            'deleted_at',
+            'patient_id',
+            'plan',
+            'updated_at',
+        ]);
     }
 }

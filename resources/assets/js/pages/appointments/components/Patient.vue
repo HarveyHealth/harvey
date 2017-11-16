@@ -15,7 +15,7 @@
     <div class="Flyout-SubSection" v-if="name">
       <div>
         <label class="font-xs font-uppercase font-normal copy-muted-2">Contact</label>
-        <p class="font-sm"><a :href="'tel:' + phone" v-on:click="trackPhoneCall">{{ phone | phone }}</a></p>
+        <p class="font-sm"><a :href="'tel:' + phone">{{ phone | phone }}</a></p>
       </div>
       <div v-if="address" class="margin-top">
         <label class="font-xs font-uppercase font-normal copy-muted-2">Location</label>
@@ -86,11 +86,9 @@ export default {
         this.setPatient(obj);
       },
 
-    trackPhoneCall() {
-      if(this.$root.shouldTrack()) {
-        // add "Click Phone Number" tracking here
+      handleSelect(e) {
+        this.setPatient(this.list[e.target.selectedIndex - 1].data);
       }
-    }
   },
   filters: {
     phone

@@ -30,7 +30,7 @@
             <div class="button-wrapper">
                 <button class="button"
                 @click="createMessage()"
-                :disabled="!subject || !selected || userList.length <= 1">Send</button>
+                :disabled="!subject || !selected || userList.length === 0">Send</button>
             </div>
         </div>
     </aside>
@@ -39,6 +39,7 @@
 <script>
 import axios from 'axios';
 import Flyout from '../../../commons/Flyout.vue';
+import _ from 'lodash';
 export default {
     name: 'Preview',
     components: {

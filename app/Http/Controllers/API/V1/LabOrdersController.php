@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\LabOrder;
+use App\Models\{DiscountCode, LabOrder};
 use App\Transformers\V1\LabOrderTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use ResponseCode;
-use App\Models\DiscountCode;
 
 class LabOrdersController extends BaseAPIController
 {
@@ -93,6 +92,8 @@ class LabOrdersController extends BaseAPIController
         }
 
         StrictValidator::checkUpdate($request->all(), [
+            'shipment_code' => 'filled|string',
+            'shippo_id' => 'string',
             'address_1' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'address_2' => "sometimes|order_was_not_shipped:{$labOrder->id}",
             'city' => "sometimes|order_was_not_shipped:{$labOrder->id}",
@@ -123,5 +124,20 @@ class LabOrdersController extends BaseAPIController
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param LabOrder $labOrder
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function ship(LabOrder $labOrder)
+    {
+        if (currentUser()->isNotAdmin()) {
+            return $this->respondNotAuthorized("You do not have access to ship this LabOrder");
+        }
+
+        $labOrder->ship();
+
+        return $this->baseTransformItem($labOrder->fresh(), request('include'))->respond();
     }
 }
