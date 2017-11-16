@@ -1,4 +1,5 @@
 export default {
   currentPage: null,
-  hasIntakeInfo: false
+  hasIntakeInfo: false,
+  isMobileMenuOpen: false
 };

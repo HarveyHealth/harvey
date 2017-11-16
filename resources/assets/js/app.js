@@ -101,6 +101,9 @@ const app = new Vue({
     data: Store,
 
     computed: {
+      isMobileMenuOpen() {
+          return this.State.misc.isMobileMenuOpen ? 'menu-is-open' : '';
+      },
       isSignupBookingAllowed() {
         return this.signup.billingConfirmed &&
           this.signup.phoneConfirmed &&

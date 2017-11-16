@@ -30,6 +30,7 @@
                 </div>
             </div>
         </div>
+        <div :class="spaceClasses"></div>
     </div>
 </template>
 
@@ -41,12 +42,15 @@ export default {
         LogoIcon
     },
     props: {
+        giveSpace: { type: Boolean, default: false },
         hasLinks: { type: Boolean, default: false },
         hasLogo: { type: Boolean, default: false },
         hasPhone: { type: Boolean, default: false },
         hasStart: { type: Boolean, default: false },
         isSticky: { type: Boolean, default: false },
-        onMenuClick: { type: Function, required: true }
+        // onMenuClick is necessary so public pages can toggle the menu class
+        // on #app. This functionality is inherently built into the v2 architecture
+        onMenuClick: { type: Function }
     },
     data() {
         return {
@@ -68,6 +72,9 @@ export default {
 
             return isSignedIn && (appointment || notPatient);
         },
+        spaceClasses() {
+            return { 'nav-top-space': true, 'is-active': this.giveSpace }
+        },
         wrapClasses() {
             return {
                 'nav-wrap': true,
@@ -85,13 +92,13 @@ export default {
             }
 
             if (this.isMenuActive) {
-                this.onMenuClick();
+                this.menuClick();
                 Vue.nextTick(() => {
                     window.scroll(0, this.yScroll);
                 });
             } else {
                 this.yScroll = window.scrollY;
-                setTimeout(this.onMenuClick, 200);
+                setTimeout(this.menuClick, 200);
             }
 
             this.isMenuActive = !this.isMenuActive;
@@ -104,6 +111,14 @@ export default {
                 this.isNavSolid = false;
             }
         },
+
+        menuClick() {
+            if (this.onMenuClick) {
+                this.onMenuClick();
+            } else {
+                App.Logic.misc.toggleMobileMenu(this.State('misc.isMobileMenuOpen'));
+            }
+        }
     },
     mounted() {
         if (this.isSticky) {
@@ -127,6 +142,16 @@ export default {
         max-width: 1152px;
         position: relative;
         z-index: 1;
+
+        .login &,
+        .password-reset & {
+            display: none;
+        }
+    }
+
+    // Some contexts may need top spacing to compensate for the fixed navigation bar
+    .nav-top-space.is-active {
+        height: 70px;
     }
 
     // Container wrapper is used for solid nav on scroll
@@ -134,7 +159,7 @@ export default {
         .nav-container {
             background: transparent;
             height: 70px;
-            max-width: 1152px;
+            left: 0;
             position: absolute;
             transition: background 200ms ease-in-out;
             width: 100%;
@@ -168,13 +193,16 @@ export default {
         }
         @include query(lg) {
             left: 24px;
+            max-width: 1152px;
+            position: relative;
             width: calc(100% - 48px);
         }
 
         // Hardcoded in public css
         @media screen and (min-width: 1192px) {
             left: 0;
-            margin: 0 6px;
+            margin: 0 auto;
+            padding: 0 6px;
             width: 100%;
         }
     }
@@ -285,6 +313,7 @@ export default {
 
     .nav-links a {
         color: white;
+        -webkit-font-smoothing: antialiased;
 
         .nav-is-solid & {
             color: $color-copy;
