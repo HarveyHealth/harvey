@@ -3,8 +3,8 @@ Created: 06/12/2015
 Contributors: Diana Burduja
 Tags: CSS, JS, javascript, custom CSS, custom JS, custom style, site css, add style, customize theme, custom code, external css, css3, style, styles, stylesheet, theme, editor, design, admin
 Requires at least: 3.0.1
-Tested up to: 4.8
-Stable tag: 3.9
+Tested up to: 4.9
+Stable tag: 3.10
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -108,10 +108,17 @@ PHP >= 5.3
 
 == Changelog ==
 
+= 3.10 =
+* 11/14/2017
+* Fix: change the ids of the loaded assets in admin in order to avoid conflicts
+* Fix: remove the iframe footer hook in order to avoid conflict with the `HTML Editor Syntax Highlighter` plugin
+* Fix: for revisions set the modal with `top` instead of `margin-top`
+
 = 3.9 =
 * 10/19/2017
 * Declare compatibility with WooCommerce 3.2 (https://woocommerce.wordpress.com/2017/08/28/new-version-check-in-woocommerce-3-2/)
 * Fix: avoid conflicts with other plugins that implement the CodeMirror editor
+* Update the CodeMirror library to the 5.28 version
 
 = 3.8 =
 * 09/29/2017

@@ -170,12 +170,23 @@ const app = new Vue({
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
-        getPatients() {
-            axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+        requestPatients(term='', cb=null){
+            let params = {
+                include: 'user'
+            };
+
+            if (term != ''){
+                params.term = term;
+            }
+
+            axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
+                let patients = [];
+                let patientLookUp = [];
                 const include = response.data.included;
+
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
-                      this.global.patients.push({
+                    patients.push({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
@@ -191,15 +202,30 @@ const app = new Vue({
                         zip: includeData.zip
                     });
                 });
-                this.global.patients = sortByLastName(this.global.patients);
+
+                patients = sortByLastName(patients);
+
+                // if logged in user is practitioner, filter by states where the user can practice
                 if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
-                  this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                  patients = this.filterPatients(patients, this.global.practitioners[0].info.licenses);
                 }
+
+                // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
-                    this.global.patientLookUp[e.id] = e;
+                    patientLookUp[e.id] = e;
                 });
                 this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
+
+                if (cb){
+                    cb(patients, patientLookUp);
+                }
+            });
+        },
+        getPatients() {
+            this.requestPatients('',(patients, patientLookUp)=>{
+                this.global.patients = patients;
+                this.global.patientLookUp = patientLookUp;
             });
         },
         getPractitioners() {
@@ -346,7 +372,7 @@ const app = new Vue({
         getCreditCards() {
             axios.get(`${this.apiUrl}/users/${Laravel.user.id}/cards`)
             .then(response => {
-                this.global.creditCards = response.data.cards;
+                this.global.creditCards = response.data.data;
             })
             .then(() => {
                 this.global.loadingCreditCards = false;
@@ -361,10 +387,10 @@ const app = new Vue({
             this.global.confirmedPatients = this.global.appointments
                 .filter(e => e.attributes.status === 'complete' || e.attributes.status === 'pending')
                 .map(e => patients.filter(ele => ele.id == e.attributes.patient_id)[0]);
-            this.global.practitioners = _.uniqBy(doctors, 'id');
-            this.global.patients = _.uniqBy(patients, 'id');
-            this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id');
-            this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id');
+            this.global.practitioners = _.uniqBy(doctors, 'id').filter(e => e !== undefined);
+            this.global.patients = _.uniqBy(patients, 'id').filter(e => e !== undefined);
+            this.global.confirmedDoctors = _.uniqBy(this.global.confirmedDoctors, 'id').filter(e => e !== undefined);
+            this.global.confirmedPatients = _.uniqBy(this.global.confirmedPatients, 'id').filter(e => e !== undefined);
             this.global.loadingConfirmedUsers = false;
         },
         getSelfPractitionerInfo() {

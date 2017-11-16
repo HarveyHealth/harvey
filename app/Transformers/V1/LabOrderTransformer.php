@@ -26,6 +26,8 @@ class LabOrderTransformer extends TransformerAbstract
             'patient_id' => cast_to_string($lab_order->patient_id),
             'practitioner_id' => cast_to_string($lab_order->practitioner_id),
             'shipment_code' => cast_to_string($lab_order->shipment_code),
+            'shipment_label_url' => $lab_order->shipment_label_url,
+            'shippo_id' => $lab_order->shippo_id,
             'state' => $lab_order->state,
             'status' => $lab_order->status,
             'zip' => cast_to_string($lab_order->zip),

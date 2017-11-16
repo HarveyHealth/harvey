@@ -219,7 +219,7 @@ class UsersController extends BaseAPIController
 
     public function addCard(Request $request, User $user)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdminOrPractitioner()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -238,7 +238,7 @@ class UsersController extends BaseAPIController
 
     public function deleteCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdminOrPractitioner()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -253,7 +253,7 @@ class UsersController extends BaseAPIController
 
     public function updateCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdminOrPractitioner()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -284,7 +284,7 @@ class UsersController extends BaseAPIController
 
     public function getCard(Request $request, User $user, string $cardId)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdminOrPractitioner()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
@@ -296,17 +296,23 @@ class UsersController extends BaseAPIController
             return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
-        $this->resource_name = "users/{$user->id}/card";
+        $this->resource_name = "cards";
 
         return $this->baseTransformItem($card, null, new CreditCardTransformer)->respond(ResponseCode::HTTP_CREATED);
     }
 
     public function getCards(Request $request, User $user)
     {
-        if (currentUser()->isNot($user) && currentUser()->isNotAdmin()) {
+        if (currentUser()->isNot($user) && currentUser()->isNotAdminOrPractitioner()) {
             return response()->json(['status' => false], ResponseCode::HTTP_FORBIDDEN);
         }
 
-        return response()->json(['cards' => $user->getCards()->toArray()]);
+        if (!$cards = $user->getCards()) {
+            return response()->json([], ResponseCode::HTTP_SERVICE_UNAVAILABLE);
+        }
+
+        $this->resource_name = "cards";
+
+        return $this->baseTransformCollection($cards, null, new CreditCardTransformer)->respond();
     }
 }

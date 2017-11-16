@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\{LabOrderConfirmed, LabOrderShipped};
+use App\Events\{LabOrderApproved, LabOrderConfirmed, LabOrderShipped};
 use App\Models\LabOrder;
 use App\Events\LabOrderRecommended;
 
@@ -42,7 +42,8 @@ class LabOrderObserver
                     event(new LabOrderShipped($lab_order));
                     break;
 
-                default:
+                case LabOrder::CANCELED_STATUS_ID:
+                    ops_warning('Order canceled', "Lab Order ID #{$lab_order->id} for Patient *{$lab_order->patient->user->truncated_name}* has been canceled.", 'operations');
                     break;
             }
         }

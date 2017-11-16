@@ -4,6 +4,11 @@
       <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
     <SlideIn class="center mw7 tc">
+        <button class="Button Button--condition-nav is-left">
+          <a href="/#conditions" class="color-white font-normal">
+            <i class="fa fa-chevron-left"></i> New Condition
+          </a>
+        </button>
       <Heading1 isBold isLight doesExpand>{{ State('conditions.condition.name') }}</Heading1>
       <Spacer isBottom :size="3" />
       <Paragraph isLight>{{ State('conditions.condition.description') }}</Paragraph>
@@ -27,7 +32,7 @@ export default {
   components: { InputButton, SlideIn, Spacer, SvgIcon, Paragraph, Heading1 },
   data() {
     return {
-      button: '<span style="font-size:20px; padding-right:16px;">Continue</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
+      button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
     }
   }
 };

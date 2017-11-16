@@ -123,12 +123,7 @@ export default {
     this.$root.$data.signup.completedSignup = true;
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(App.Logic.misc.shouldTrack()) {
-      // place view tracking here
-      // Segment tracking
-      analytics.track("Consultation Confirmed");
-      analytics.page('Success');
-    }
+    analytics.page('Success');
 
     // From https://www.addevent.com/buttons/add-to-calendar
     // Has to be added on component mount because it needs to be able to find

@@ -48,7 +48,7 @@ class PrescriptionsController extends BaseAPIController
             Storage::disk('s3')->putFileAs(
                 $relative_path,
                 $request->file('file'),
-                $fileName = "Prescription_{$patient->prescriptions->withoutGlobalScopes()->count()}.pdf",
+                $fileName = "Prescription_{$patient->prescriptions()->withoutGlobalScopes()->count()}.pdf",
                 [
                     'visibility' => 'private',
                     'ContentType' => $request->file('file')->getMimeType(),
@@ -67,7 +67,7 @@ class PrescriptionsController extends BaseAPIController
         return $this->baseTransformItem($prescription->fresh())->respond();
     }
 
-    public function deletePrescription(Request $request, Prescription $prescription)
+    public function delete(Request $request, Prescription $prescription)
     {
         if (currentUser()->cant('delete', $prescription)) {
             return $this->respondNotAuthorized('You do not have access to delete this Prescription.');

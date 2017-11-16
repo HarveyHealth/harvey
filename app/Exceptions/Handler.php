@@ -2,13 +2,11 @@
 
 namespace App\Exceptions;
 
-use App\Lib\Validation\StrictValidatorException;
 use Crell\ApiProblem\ApiProblem;
-use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use ResponseCode;
+use Exception, ResponseCode;
 
 class Handler extends ExceptionHandler
 {
@@ -18,9 +16,10 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        \App\Lib\Validation\StrictValidatorException::class,
-        \Illuminate\Auth\AuthenticationException::class,
+        \App\Exceptions\ServiceUnavailableException::class,
+        \App\Exceptions\StrictValidatorException::class,
         \Illuminate\Auth\Access\AuthorizationException::class,
+        \Illuminate\Auth\AuthenticationException::class,
         \Illuminate\Database\Eloquent\ModelNotFoundException::class,
         \Illuminate\Session\TokenMismatchException::class,
         \Illuminate\Validation\ValidationException::class,
@@ -56,6 +55,10 @@ class Handler extends ExceptionHandler
             $problem = new ApiProblem('Bad Request.');
             $problem->setDetail($exception->getMessage());
             return response()->apiproblem($problem->asArray(), ResponseCode::HTTP_BAD_REQUEST);
+        } elseif ($exception instanceof ServiceUnavailableException) {
+            $problem = new ApiProblem('Service Unavailable.');
+            $problem->setDetail($exception->getMessage());
+            return response()->apiproblem($problem->asArray(), ResponseCode::HTTP_SERVICE_UNAVAILABLE);
         }
 
         return parent::render($request, $exception);

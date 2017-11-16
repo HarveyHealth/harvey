@@ -78,7 +78,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
 
 $factory->define(Patient::class, function (Faker\Generator $faker) {
     return [
-        'user_id' => factory(User::class),
+        'user_id' => factory(User::class),        
         'birthdate' => $faker->dateTimeBetween($startDate = '-80 years', $endDate = '-20 years'),
         'height_feet' => $faker->numberBetween(4, 6),
         'height_inches' => $faker->numberBetween(0, 12),
@@ -371,7 +371,7 @@ $factory->define(Condition::class, function (Faker\Generator $faker) {
 
 $factory->define(DiscountCode::class, function (Faker\Generator $faker) {
      return [
-        'code' => $faker->word . $faker->numberBetween(100, 999),
+        'code' => strtoupper(substr($faker->word . $faker->word, 0, 16)) . $faker->numberBetween(100, 999),
         'enabled' => true,
         'user_id' => function () {
             return factory(User::class)->create()->id;
