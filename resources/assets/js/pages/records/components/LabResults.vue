@@ -93,7 +93,7 @@ export default {
             this.deleteModalActive = false;
         },
         deleteItem() {
-            axios.delete(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.attributes.lab_test_id}`)
+            axios.delete(`${this.$root.$data.apiUrl}/lab/tests/results/${this.$parent.propData.id}`)
                 .then(() => {
                     this.deleteModalActive = false;
                     this.$parent.page = 0;
