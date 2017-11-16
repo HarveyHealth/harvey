@@ -32,27 +32,73 @@
         </div>
         <div class="record-image" v-if="!$parent.news">
             <iframe class="record-image" :src="attachmentUrl" />
+            <div class="inline-centered padding15">
+                <button @click="deleteModal()" class="button bg-danger margin35">Delete Note</button>
+            </div>
+            <Modal
+                :active="deleteModalActive"
+                :onClose="modalClose"
+                class="modal-wrapper"
+            >
+                <div class="card-content-wrap">
+                    <div class="inline-centered">
+                        <h1 class="header-xlarge">
+                            <span class="text">Delete SOAP Note</span>
+                        </h1>
+                        <p>Are you sure you want to delete this attachment?</p>
+                        <div class="button-wrapper">
+                            <button class="button button--cancel" @click="modalClose">Cancel</button>
+                            <button class="button" @click="deleteItem">Yes, Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
     </div>
 </template>
 
 <script>
-import {mask} from 'vue-the-mask'
-import {capitalize} from 'lodash'
+import {mask} from 'vue-the-mask';
+import {capitalize} from 'lodash';
+import Modal from '../../../commons/Modal.vue';
 import axios from 'axios';
 export default {
     props: {
         patient: Object
     },
+    components: {
+        Modal
+    },
     directives: {
-        mask,
+        mask
     },
     data() {
         return {
-            fileName: ''
+            fileName: '',
+            deleteModalActive: false
         };
     },
     methods: {
+        deleteModal() {
+            this.deleteModalActive = true;
+        },
+        modalClose() {
+            this.deleteModalActive = false;
+        },
+        deleteItem() {
+            axios.delete(`${this.$root.$data.apiUrl}/attachments/${this.$parent.propData.id}`)
+                .then(() => {
+                    this.deleteModalActive = false;
+                    this.$parent.page = 0;
+                    this.$parent.index = null;
+                    this.$parent.timeline = [];
+                    this.$parent.loading = true;
+                    this.$parent.getTimelineData();
+                    this.$parent.notificationMessage = "Successfully deleted!";
+                    this.$parent.notificationActive = true;
+                    setTimeout(() => this.$parent.notificationActive = false, 3000);
+                });
+        },
         upload(file) {
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
@@ -60,7 +106,7 @@ export default {
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {
                 console.log(`RESPONSE`, response);
-            })
+            });
         }
     },
     computed: {

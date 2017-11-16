@@ -189,9 +189,9 @@ export default {
                 'SOAP Note', 
                 'Prescription', 
                 'Lab Results', 
-                'Attachment', 
+                'Attachment' 
             ],
-            menuIndex: 1,
+            menuIndex: 1
         };
     },
     methods: {

@@ -22,7 +22,7 @@ export default {
     },
     data() {
         return {
-            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id],
+            currentPatient: this.$root.$data.global.patientLookUp[this.$props.patient.id]
         };
     },
     computed: {

@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Continue</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
-    }
+    };
   }
 };
 </script>

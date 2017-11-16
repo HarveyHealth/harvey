@@ -26,7 +26,7 @@
             type: String,
             route: String,
             name: String,
-            icon: String,
+            icon: String
         },
         methods: {
             upload() {

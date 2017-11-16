@@ -873,7 +873,7 @@ export default {
                 date: appointmentDate,
                 email: appointmentPatientEmail,
                 user_id: Laravel.user.id,
-                patient_user_id: trackingPatientId,
+                patient_user_id: trackingPatientId
             });
         }
 
