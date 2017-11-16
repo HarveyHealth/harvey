@@ -2,25 +2,27 @@
     <div :class="wrapClasses">
         <div class="nav-overlay"></div>
         <div class="nav-container">
-            <button class="nav-hamburger" @click="handleMenuClick()">
-                <i :class="hamburgerClasses"></i>
-            </button>
-            <a href="/" class="nav-logo" v-if="hasLogo">
-                <LogoIcon revealText />
-            </a>
-            <div class="nav-links" v-if="hasLinks">
-                <a href="/about">About</a>
-                <a href="/lab-tests">Labs</a>
-                <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
-                <a href="/financing">Financing</a>
-                <a href="/login">Log In</a>
-            </div>
-            <div class="nav-right">
-                <div class="nav-phone" v-if="hasPhone">
-                    <a href="tel:800-690-9989">(800) 690-9989</a>
+            <div class="nav-content">
+                <button class="nav-hamburger" @click="handleMenuClick()">
+                    <i :class="hamburgerClasses"></i>
+                </button>
+                <a href="/" class="nav-logo" v-if="hasLogo">
+                    <LogoIcon revealText />
+                </a>
+                <div class="nav-links" v-if="hasLinks">
+                    <a href="/about">About</a>
+                    <a href="/lab-tests">Labs</a>
+                    <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
+                    <a href="/financing">Financing</a>
+                    <a href="/login">Log In</a>
                 </div>
-                <div class="nav-start" v-if="hasStart">
-                    <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                <div class="nav-right">
+                    <div class="nav-phone" v-if="hasPhone">
+                        <a href="tel:800-690-9989">(800) 690-9989</a>
+                    </div>
+                    <div class="nav-start" v-if="hasStart">
+                        <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,53 +33,78 @@
 import { LogoIcon } from 'icons';
 
 export default {
-  components: { LogoIcon },
-  props: {
-      hasLinks: { type: Boolean, default: false },
-      hasLogo: { type: Boolean, default: false },
-      hasPhone: { type: Boolean, default: false },
-      hasStart: { type: Boolean, default: false },
-      onMenuClick: { type: Function, required: true }
-  },
-  data() {
-    return {
-        menuIsActive: false,
-        yScroll: null
-    }
-  },
-  computed: {
-      hamburgerClasses() {
-          return `fa ${this.menuIsActive ? 'fa-close' : 'fa-bars'}`;
-      },
-      wrapClasses() {
-          return `nav-wrap${this.menuIsActive ? ' menu-active' : ''}`;
-      }
-  },
-  methods: {
-      handleMenuClick(pageId) {
-          if (pageId) {
-              const pageSection = document.getElementById(pageId);
-              if (pageSection) this.yScroll = pageSection.offsetTop;
-          }
+    components: {
+        LogoIcon
+    },
+    props: {
+        hasLinks: { type: Boolean, default: false },
+        hasLogo: { type: Boolean, default: false },
+        hasPhone: { type: Boolean, default: false },
+        hasStart: { type: Boolean, default: false },
+        isSticky: { type: Boolean, default: false },
+        onMenuClick: { type: Function, required: true }
+    },
+    data() {
+        return {
+            isMenuActive: false,
+            isNavSolid: false,
+            scrollDistance: 30,
+            throttleTime: 200,
+            yScroll: null
+        }
+    },
+    computed: {
+        hamburgerClasses() {
+            return `fa ${this.isMenuActive ? 'fa-close' : 'fa-bars'}`;
+        },
+        wrapClasses() {
+            return {
+                'nav-wrap': true,
+                'nav-is-solid': this.isNavSolid,
+                'menu-is-active': this.isMenuActive,
+            }
+        }
+    },
+    methods: {
+        handleMenuClick(pageId) {
+            if (pageId) {
+                const pageSection = document.getElementById(pageId);
+                if (pageSection) this.yScroll = pageSection.offsetTop;
+            }
 
-          if (this.menuIsActive) {
-              this.onMenuClick();
-              Vue.nextTick(() => {
-                  window.scroll(0, this.yScroll);
-              });
-          } else {
-              this.yScroll = window.scrollY;
-              setTimeout(this.onMenuClick, 200);
-          }
-          this.menuIsActive = !this.menuIsActive;
-      }
-  }
+            if (this.isMenuActive) {
+                this.onMenuClick();
+                Vue.nextTick(() => {
+                    window.scroll(0, this.yScroll);
+                });
+            } else {
+                this.yScroll = window.scrollY;
+                setTimeout(this.onMenuClick, 200);
+            }
+            this.isMenuActive = !this.isMenuActive;
+        },
+
+        handleNavOnScroll() {
+            if (window.pageYOffset > this.scrollDistance && !this.isNavSolid) {
+                this.isNavSolid = true;
+            } else if (window.pageYOffset < this.scrollDistance && this.isNavSolid) {
+                this.isNavSolid = false;
+            }
+        },
+    },
+    mounted() {
+        window.addEventListener('scroll', _.throttle(this.handleNavOnScroll, this.throttleTime), false);
+    },
+    destroyed() {
+        window.removeEventListener('scroll');
+    }
 };
 </script>
 
 <style lang="scss" scoped>
     @import '~sass';
 
+    // Main wrap
     .nav-wrap {
         margin: 0 auto;
         max-width: 1152px;
@@ -85,14 +112,30 @@ export default {
         z-index: 1;
     }
 
-    .nav-container {
+    // Container wrapper is used for solid nav on scroll
+    @include query(lg) {
+        .nav-container {
+            background: transparent;
+            height: 70px;
+            position: fixed;
+            transition: background 200ms ease-in-out;
+            width: 100%;
+
+            .nav-is-solid & {
+                background: rgba(255,255,255,0.8);
+            }
+        }
+    }
+
+    // Content wrapper controls layout of items
+    .nav-content {
         position: absolute;
 
         @include query-up-to(lg) {
             padding: 0 24px;
             width: 100%;
 
-            .menu-active & {
+            .menu-is-active & {
                 bottom: 0;
                 overflow: auto;
                 padding-bottom: 60px;
@@ -117,7 +160,7 @@ export default {
         background: rgba($color-copy, 0);
         transition: background 200ms ease-in-out;
 
-        .menu-active & {
+        .menu-is-active & {
             background: rgba($color-copy, 0.97);
             background-size: cover;
             background-position: center;
@@ -129,8 +172,10 @@ export default {
         }
     }
 
-    .menu-active .logo {
-        position: fixed;
+    @include query-up-to(lg) {
+        .menu-is-active .logo {
+            position: fixed;
+        }
     }
 
     .nav-hamburger {
@@ -157,18 +202,17 @@ export default {
             font-size: 1rem;
         }
 
-        .menu-active & {
+        .menu-is-active & {
             background: transparent;
             color: white;
         }
     }
 
-    .nav-links,
     .nav-phone,
     .nav-start {
         display: none;
 
-        .menu-active & {
+        .menu-is-active & {
             display: block;
         }
     }
@@ -182,14 +226,24 @@ export default {
     }
 
     .nav-links {
+        display: none;
+
         @include query-up-to(lg) {
             font-size: 1.5rem;
             margin-top: 60px;
             text-align: center;
+
+            .menu-is-open & {
+                display: block
+            }
         }
         @include query(lg) {
             top: -20px;
             position: relative;
+
+            .menu-is-open & {
+                display: inline-block
+            }
         }
         @include query(xl) {
             left: 48px;
