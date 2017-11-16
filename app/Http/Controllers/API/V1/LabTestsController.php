@@ -40,16 +40,16 @@ class LabTestsController extends BaseAPIController
 
     /**
      * @param Request     $request
-     * @param LabTest     $labTest
+     * @param LabTest     $lab_test
      * @return \Illuminate\Http\JsonResponse
      */
     public function getOne(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('view', $labTest)) {
+        if (currentUser()->cant('view', $lab_test)) {
             return $this->respondNotAuthorized('You do not have access to view this LabTest.');
         }
 
-        return $this->baseTransformItem($labTest, request('include'))->respond();
+        return $this->baseTransformItem($lab_test, request('include'))->respond();
     }
 
     /**
@@ -72,9 +72,9 @@ class LabTestsController extends BaseAPIController
         return $this->baseTransformItem(LabTest::create($request->all())->fresh(), request('include'))->respond();
     }
 
-    public function update(Request $request, LabTest $labTest)
+    public function update(Request $request, LabTest $lab_test)
     {
-        if (currentUser()->cant('update', $labTest)) {
+        if (currentUser()->cant('update', $lab_test)) {
             return $this->respondNotAuthorized('You do not have access to update this LabTest.');
         }
 
@@ -83,23 +83,27 @@ class LabTestsController extends BaseAPIController
             'shipment_code' => 'filled|string',
         ]);
 
-        $labTest->update($request->all());
+        $lab_test->update($request->all());
 
-        return $this->baseTransformItem($labTest, request('include'))->respond();
+        if (currentUser()->isAdminOrPractitioner()) {
+            $lab_test->labOrder->setStatus()->save();
+        }
+
+        return $this->baseTransformItem($lab_test, request('include'))->respond();
     }
 
     /**
-     * @param LabTest $labTest
+     * @param LabTest $lab_test
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Request $request, LabTest $labTest)
     {
-        if (currentUser()->cant('delete', $labTest)) {
+        if (currentUser()->cant('delete', $lab_test)) {
             return $this->respondNotAuthorized("You do not have access to delete this LabTest");
         }
 
-        if (!$labTest->delete()) {
-            return $this->baseTransformItem($labTest)->respond(ResponseCode::HTTP_CONFLICT);
+        if (!$lab_test->delete()) {
+            return $this->baseTransformItem($lab_test)->respond(ResponseCode::HTTP_CONFLICT);
         }
 
         return response()->json([], ResponseCode::HTTP_NO_CONTENT);

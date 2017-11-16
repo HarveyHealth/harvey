@@ -6,10 +6,10 @@
                     <h1 class="heading-1">
                         <span class="text">Lab Orders</span>
                         <button
-                          v-if="!loadingLabs && $root.$data.permissions !== 'patient'"
-                          v-on:click="addingFlyoutActive()"
-                          class="button main-action circle"
-                          data-test="addLabOrder"
+                            v-if="!loadingLabs && $root.$data.permissions !== 'patient'"
+                            @click="addingFlyoutActive"
+                            class="button main-action circle"
+                            data-test="addLabOrder"
                         >
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
@@ -31,8 +31,7 @@
               :symbol="notificationSymbol"
               :text="notificationMessage"
             />
-            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions != 'patient'"
-            :reset="setupLabData" :labTests="tests" />
+            <AddLabOrders v-if="!loadingLabs && $root.$data.permissions !== 'patient'" :reset="setupLabData" :labTests="tests" />
             <DetailLabOrders v-if="currentData" :row-data="selectedRowData" :reset="setupLabData" />
             <Overlay
                 :active="addFlyoutActive"
@@ -219,7 +218,7 @@
             getPatientCreditCard(userId) {
                 axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                 .then(response => {
-                    this.patientCard = response.data.cards[response.data.cards.length - 1];
+                    this.patientCard = response.data.data.pop();
                 })
                 .then(() => {
                     this.loading = false;

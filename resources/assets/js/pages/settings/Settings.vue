@@ -26,7 +26,7 @@
                             <div class="card-object">
                                 <p class="copy-main font-md font-italic">
                                     <i class="fa fa-credit-card"></i>
-                                    {{ card.brand == 'American Express' ? 'Amex' : card.brand }} **** **** **** {{ card.last4 }}
+                                    {{ card.attributes.brand == 'American Express' ? 'Amex' : card.attributes.brand }} **** **** **** {{ card.attributes.last4 }}
                                 </p>
                             </div>
                             <div class="button-wrapper">
@@ -177,17 +177,17 @@ export default {
         updateCard() {
             axios.patch(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`, {
                 card_id: this.currentCard.id,
-                address_city: this.currentCard.address_city,
-                address_state: this.currentCard.address_state,
-                address_zip: this.postalCode || this.currentCard.address_zip,
-                exp_month: this.month || this.currentCard.exp_month,
-                exp_year: this.year || this.currentCard.exp_year,
-                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.name
+                address_city: this.currentCard.attributes.address_city,
+                address_state: this.currentCard.attributes.address_state,
+                address_zip: this.postalCode || this.currentCard.attributes.address_zip,
+                exp_month: this.month || this.currentCard.attributes.exp_month,
+                exp_year: this.year || this.currentCard.attributes.exp_year,
+                name: this.firstName && this.lastName ? `${this.firstName} ${this.lastName}` : this.currentCard.attributes.name
             })
             .then(() => {
                 axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                     .then(respond => {
-                        this.$root.$data.global.creditCards = respond.data.cards;
+                        this.$root.$data.global.creditCards = respond.data.data;
                         this.notificationMessage = "Successfully updated!";
                         this.notificationActive = true;
                         setTimeout(() => this.notificationActive = false, 3000);
@@ -210,7 +210,7 @@ export default {
                     setTimeout(() => this.notificationActive = false, 3000);
                     axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`)
                         .then(respond => {
-                            this.$root.$data.global.creditCards = respond.data.cards;
+                            this.$root.$data.global.creditCards = respond.data.data;
                             this.$root.$data.global.loadingCreditCards = false;
                             this.details = false;
                             this.sent = false;
@@ -222,7 +222,7 @@ export default {
         getCards() {
             this.$root.$data.global.loadingCreditCards = true;
             axios.get(`${this.$root.$data.apiUrl}/users/${this.user_id || window.Laravel.user.id}/cards`).then(response => {
-                this.$root.$data.global.creditCards = response.data.cards;
+                this.$root.$data.global.creditCards = response.data.data;
                 this.$root.$data.global.loadingCreditCards = false;
             });
         },

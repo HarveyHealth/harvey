@@ -28,6 +28,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             test_list: [],
             date: obj.attributes.created_at.date,
             total_price: 0,
+            number_of_tests: 0,
             paid: obj.invoice && obj.invoice.attributes ? obj.invoice.attributes.status : false,
             invoice_paid: obj.invoice && obj.invoice.attributes ? Number(obj.invoice.attributes.amount).toFixed(2) : false,
             card: {
@@ -41,7 +42,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             if (test.attributes.lab_order_id == obj.id && test.attributes.status !== 'canceled') {
                 data.total_price += eval(test.included.attributes.price);
                 data.samples[test.included.attributes.sample] = data.samples[test.included.attributes.sample] ? data.samples[test.included.attributes.sample] : test.included.attributes.sample;
-                data.number_of_tests = data.number_of_tests ? data.number_of_tests + 1 : 1;
+                data.number_of_tests++;
                 data.sku_ids[test.attributes.sku_id] = test.included;
                 data.tests_status[test.attributes.lab_order_id] = test.attributes.status;
                 data.result_urls[test.attributes.lab_order_id] = test.attributes.result_url;
@@ -53,9 +54,9 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
                     name: test.included.attributes.name,
                     original_status: test.attributes.status,
                     status: obj.attributes.status === 'recommended' ?
-                        [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                        [capitalize(test.attributes.status)].concat(_.pull(['Recommended', 'Canceled'], capitalize(test.attributes.status))) :
                         obj.attributes.status === 'confirmed' ?
-                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed', 'Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))) :
+                            [capitalize(test.attributes.status)].concat(_.pull(['Confirmed'], capitalize(test.attributes.status))) :
                             [capitalize(test.attributes.status)].concat(_.pull(['Complete', 'Shipped', 'Received', 'Mailed', 'Processing', 'Canceled'], capitalize(test.attributes.status))),
                     test_id: Number(test.id),
                     current_status: capitalize(test.attributes.status),

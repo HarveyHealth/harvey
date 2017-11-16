@@ -73,7 +73,7 @@
         <div v-if="status !== 'Recommended'" class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -179,7 +179,7 @@
         <div class="input__container">
           <label class="input__label">Card</label>
           <div class="left-column">
-            <label v-if="latestCard && latestCard.brand && latestCard.last4" class="input__item">{{`${latestCard.brand} ****${latestCard.last4}`}}</label>
+            <label v-if="latestCard && latestCard.attributes.brand && latestCard.attributes.last4" class="input__item">{{`${latestCard.attributes.brand} ****${latestCard.attributes.last4}`}}</label>
             <span v-else class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
@@ -200,7 +200,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.last4 || !latestCard.brand" @click="patientLabUpdate">Confirm Payment</button>
+          <button class="button" :disabled="!address1 || !newCity || !newState || newZip.length !== 5|| !latestCard.attributes.last4 || !latestCard.attributes.brand" @click="patientLabUpdate">Confirm Payment</button>
         </div>
 
         <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
@@ -233,23 +233,23 @@
         <!-- Lab Tests -->
 
         <div class="input__container">
-          <label class="input__label" @dblclick="easterEgg">Lab Tests</label>
+          <label class="input__label">Lab Tests</label>
           <div v-for="test in testList" class="is-padding-bottom">
 
             <!-- Recommended or Confirmed -->
 
             <div  v-if="status === 'Recommended' || status === 'Confirmed'" class="sub-items">
-              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.name }}
+              <i class="fa fa-flask" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
             </div>
 
             <!-- Shipped or Greater -->
 
             <a v-if="status !== 'Recommended' && status !== 'Confirmed'" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${test.shipment_code}&cntry_code=us`" class="sub-items link-color" target="_blank">
-              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.name }}
+              <i class="fa fa-truck" aria-hidden="true"></i> {{ test.sku.attributes.lab_test_information.lab_name + ' ' || '' }}{{ test.name }}
             </a>
 
             <span class="custom-select">
-              <select @change="updateTest($event, test)" :class="{disabled: disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')}" :disabled="disabledEasterEgg && (status === 'Recommended' || status === 'Confirmed')">
+              <select @change="updateTest($event, test)" :class="{disabled: status === 'Confirmed'}" :disabled="status === 'Confirmed'">
                 <option v-for="current in test.status">{{ current }}</option>
               </select>
             </span>
@@ -292,8 +292,8 @@
             <span v-if="$parent.loading">
               <em>Loading cards...</em>
             </span>
-            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.brand && $parent.patientCard.last4" class="input__item">{{`${$parent.patientCard.brand} ****${$parent.patientCard.last4}`}}</label>
-            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.brand || !$parent.patientCard.last4)" class="input__item error-text">No card on file.</span>
+            <label v-if="!$parent.loading && $parent.patientCard && $parent.patientCard.attributes.brand && $parent.patientCard.attributes.last4" class="input__item">{{`${$parent.patientCard.attributes.brand} ****${$parent.patientCard.attributes.last4}`}}</label>
+            <span v-if="!$parent.loading && (!$parent.patientCard || !$parent.patientCard.attributes.brand || !$parent.patientCard.attributes.last4)" class="input__item error-text">No card on file.</span>
           </div>
           <!-- This should always show, don't add conditional statements -->
           <router-link class="input__item right-column link-color" :to="'/settings/' + patientUser">Edit Card</router-link>
@@ -320,7 +320,7 @@
         <!-- Call to Action -->
 
         <div class="button-wrapper">
-          <button v-if="!disabledEasterEgg || (status !== 'Recommended' && status !== 'Confirmed')" :class="{easterEgg: !disabledEasterEgg}" class="button" @click="updateLabOrder">Update Order</button>
+          <button v-if="status !== 'Confirmed' && status !== 'Canceled'" class="button" @click="updateLabOrder">Update Order</button>
           <button v-if="status === 'Confirmed'" class="button" @click="nextStep">Enter Tracking
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </button>
@@ -471,12 +471,6 @@ export default {
     };
   },
   methods: {
-    easterEgg() {
-        // Added easter egg for Sandra on Kyle's request
-        if (this.$root.$data.permissions === 'admin') {
-            this.disabledEasterEgg = false;
-        }
-    },
     updatePatientTests(e, test) {
       this.patientTestList[test.attributes.name].checked = !test.checked;
       if (this.patientTestList[test.attributes.name].checked) {
@@ -511,7 +505,6 @@ export default {
       this.address2 = '';
       this.newCity = '';
       this.newZip = '';
-      this.disabledEasterEgg = true;
       this.subtotalAmount = 0;
       this.discountAmount = 0;
       this.discountType = '';
@@ -639,7 +632,8 @@ export default {
             status: 'confirmed'
           })
             .then(resp => {
-              this.$root.$data.global.labTests.push(resp.data.data);
+                resp.data.data.included = this.$root.$data.labTests[resp.data.data.attributes.sku_id];
+                this.$root.$data.global.labTests.push(resp.data.data);
             }));
         }
       });
@@ -792,7 +786,7 @@ export default {
               }
             });
           }));
-        } else if (this.$props.rowData.completed_at === 'Recommended') {
+        } else if (this.$props.rowData.completed_at === 'Recommended' && this.$root.$data.permissions === 'patient') {
           promises.push(axios.patch(`${this.$root.$data.apiUrl}/lab/tests/${Number(e.test_id)}`, {
             status: 'confirmed'
           }).then(resp => {
@@ -973,9 +967,3 @@ export default {
 };
 
 </script>
-
-<style lang="scss" scoped>
-    .easterEgg {
-        margin-bottom: 30px;
-    }
-</style>

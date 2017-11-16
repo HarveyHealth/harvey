@@ -20,7 +20,7 @@
       <label class="input__label" for="patient_name">Doctor</label>
       <span class="custom-select">
           <select @change="updateDoctor($event)">
-              <option v-for="doctor in doctorList" :data-id="doctor.id">{{ doctor.name }}</option>
+              <option v-for="(doctor, key) in doctorList" :data-id="doctor.id" :selected="doctor.id === selectedDoctor">{{ doctor.name }}</option>
           </select>
       </span>
     </div>
@@ -91,8 +91,8 @@ export default {
   data() {
     return {
       activeModal: false,
-      selectedDoctor: '',
-      selectedClient: '',
+      selectedDoctor: '0',
+      selectedClient: '0',
       step: 1,
       masterTracking: '',
       address1: '',
@@ -108,8 +108,8 @@ export default {
       testNamesInList: [],
       selectedClientName: '',
       selectedDoctorName: '',
-      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [''].concat(this.$root.$data.global.practitioners),
-      clientList: [''].concat(this.$root.$data.global.patients)
+      doctorList: this.$root.$data.global.selfPractitionerInfo != null ? [this.$root.$data.global.selfPractitionerInfo] : [{id: '0', name: ''}].concat(this.$root.$data.global.practitioners),
+      clientList: [{id: '0', name: ''}].concat(this.$root.$data.global.patients)
     };
   },
   methods: {
@@ -135,6 +135,10 @@ export default {
       },
     modalClose() {
       this.$parent.addActiveModal = false;
+      this.selectedClient = '0';
+      if (this.$root.$data.permissions !== 'practitioner') {
+        this.selectedDoctor = '0';
+      }
     },
     openModal() {
       this.$parent.addActiveModal = true;
@@ -150,7 +154,7 @@ export default {
     formatName(str) {
       return str.split(', ').reverse().join(' ');
     },
-    
+
     updateDoctor(e) {
         this.resetting = false;
         this.selectedDoctor = e.target.children[e.target.selectedIndex].dataset.id;
@@ -159,7 +163,10 @@ export default {
     handleFlyoutClose() {
         this.$parent.addFlyoutActive = !this.$parent.addFlyoutActive;
         this.$parent.addActiveModal = false;
-        this.resetting = true;
+        this.selectedClient = '0';
+        if (this.$root.$data.permissions !== 'practitioner') {
+            this.selectedDoctor = '0';
+        }
     },
     createLabOrder() {
         this.selectedTests.map(e => {
@@ -180,11 +187,9 @@ export default {
               });
           });
 
-          this.selectedClient = '';
           this.step = 1;
           this.masterTracking = '';
           this.address1 = '';
-          this.selectedDoctor = '';
           this.address2 = '';
           this.city = '';
           this.zip = '';
@@ -195,7 +200,9 @@ export default {
           this.prevClient = '';
           this.doctorList = [''].concat(this.$root.$data.global.practitioners);
           this.clientList = [''].concat(this.$root.$data.global.patients);
-          Object.values(this.$props.labTests).map(e => e.checked = false);
+
+          Object.keys(this.$props.labTests)
+            .map(test => this.$props.labTests[test].checked = false);
 
           this.$parent.notificationMessage = "Successfully added!";
           this.$parent.notificationActive = true;
@@ -234,17 +241,17 @@ export default {
       if (this.step == 2) return "Enter Tracking #s";
     },
     testNameList() {
-      let prop = this.$props.labTests;
-      let array = Object.values(prop).sort((a,b) => a.id - b.id);
-      return array;
+        return Object.keys(this.$props.labTests)
+            .map(key => this.$props.labTests[key])
+            .sort((a, b) => a.id - b.id);
     }
   },
   watch: {
     testNameList(val) {
       if (val) {
-        let prop = this.$props.labTests;
-        let array = Object.values(prop).sort((a,b) => a.id - b.id);
-        return array;
+          return Object.keys(this.$props.labTests)
+              .map(key => this.$props.labTests[key])
+              .sort((a, b) => a.id - b.id);
       }
     }
   },

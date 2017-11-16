@@ -308,10 +308,8 @@ export default {
     this.$root.toDashboard();
 
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', true, 300);
+    analytics.page("Signup");
 
-    if(this.$root.shouldTrack()) {
-      analytics.page("Signup");
-    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.animClasses, 'anim-fade-slideup-in', false);

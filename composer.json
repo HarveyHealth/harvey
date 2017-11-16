@@ -85,6 +85,7 @@
             "php artisan scout:import 'App\\Models\\Message'",
             "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
+            "php artisan cache:clear",
             "php artisan calendar:get_credentials",
             "php artisan cache:clear",
             "npm run dev"

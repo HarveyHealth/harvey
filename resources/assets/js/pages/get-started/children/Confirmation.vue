@@ -116,6 +116,7 @@ export default {
         this.isProcessing = false;
         App.Util.data.killStorage('zip_validation');
         this.$router.push({ name: 'success', path: 'success' });
+        analytics.track("Consultation Confirmed");
       })
       .catch(() => {
         // 400 Bad request means the time was booked just before the signup user confirmed but after they
@@ -137,13 +138,11 @@ export default {
     }
   },
   mounted () {
-    this.$root.toDashboard();
-    this.$root.$data.signup.visistedStages.push('confirmation');
-    this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
+      this.$root.toDashboard();
+      this.$root.$data.signup.visistedStages.push('confirmation');
+      this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', true, 300);
 
-    if(App.Logic.misc.shouldTrack()) {
       analytics.page('Confirmation');
-    }
   },
   beforeDestroy() {
     this.$eventHub.$emit('animate', this.containerClasses, 'anim-fade-slideup-in', false);
