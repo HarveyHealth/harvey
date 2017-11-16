@@ -7,21 +7,25 @@
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
-                    <LogoIcon revealText :hasDarkIcon="isNavSolid" :hasDarkText="isNavSolid" />
+                    <LogoIcon alwaysShowText :hasDarkIcon="isNavSolid" :hasDarkText="isNavSolid" />
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
                     <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
                     <a href="/financing">Financing</a>
-                    <a href="/login">Log In</a>
+                    <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
                     <div class="nav-phone" v-if="hasPhone">
                         <a href="tel:800-690-9989">(800) 690-9989</a>
                     </div>
                     <div class="nav-start" v-if="hasStart">
-                        <a href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-if="showDashboard" href="/dashboard">
+                            <img class="top-nav-avatar" :src="Laravel.user.image_url" />
+                            <span>Dashboard</span>
+                        </a>
+                        <a v-else href="#conditions" @click="handleMenuClick('conditions')">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -56,6 +60,13 @@ export default {
     computed: {
         hamburgerClasses() {
             return `fa ${this.isMenuActive ? 'fa-close' : 'fa-bars'}`;
+        },
+        showDashboard() {
+            const isSignedIn = Laravel.user.signedIn;
+            const appointment = Laravel.user.has_an_appointment;
+            const notPatient = Laravel.user.user_type !== 'patient';
+
+            return isSignedIn && (appointment || notPatient);
         },
         wrapClasses() {
             return {
@@ -123,6 +134,7 @@ export default {
         .nav-container {
             background: transparent;
             height: 70px;
+            max-width: 1152px;
             position: absolute;
             transition: background 200ms ease-in-out;
             width: 100%;
@@ -343,6 +355,21 @@ export default {
 
         @include query-up-to(lg) {
             right: 12px;
+        }
+    }
+
+    // For logged-in users with an appointment
+    .top-nav-avatar {
+        border-radius: 50%;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+
+        + span {
+            display: inline-block;
+            margin-left: 28px;
         }
     }
 </style>

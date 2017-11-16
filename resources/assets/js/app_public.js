@@ -25,6 +25,8 @@ import { MainNav2 } from 'nav';
 // for environment conditionals
 const env = require('get-env')();
 
+Vue.prototype.Laravel = Laravel;
+
 const app = new Vue({
     components: {
         LoadingGraphic,
