@@ -14,8 +14,7 @@ class AddRatingToAppointmentsTable extends Migration
     public function up()
     {
         Schema::table('appointments', function (Blueprint $table) {
-            //
-            $table->tinyInteger('doctor_rate')->default(0)->after('cancellation_reason');
+            $table->tinyInteger('doctor_rate')->nullable()->after('cancellation_reason');
         });
     }
 
