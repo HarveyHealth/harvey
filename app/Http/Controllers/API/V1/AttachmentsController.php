@@ -49,7 +49,7 @@ class AttachmentsController extends BaseAPIController
             Storage::disk('s3')->putFileAs(
                 $relative_path,
                 $request->file('file'),
-                $fileName = "Attachment_{$patient->attachments->withoutGlobalScopes()->count()}.pdf",
+                $fileName = "Attachment_{$patient->attachments()->withoutGlobalScopes()->count()}.pdf",
                 [
                     'visibility' => 'private',
                     'ContentType' => $request->file('file')->getMimeType(),
