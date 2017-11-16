@@ -103,15 +103,15 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         # Lab Tests
         Route::get('lab/tests/information', 'LabTestsController@getInformation')->name('lab-tests.get-information');
         Route::get('lab/tests', 'LabTestsController@getAll')->name('lab-tests.get-all');
-        Route::get('lab/tests/{labTest}', 'LabTestsController@getOne')->name('lab-tests.get-one');
+        Route::get('lab/tests/{lab_test}', 'LabTestsController@getOne')->name('lab-tests.get-one');
         Route::post('lab/tests', 'LabTestsController@store')->name('lab-tests.store');
-        Route::patch('lab/tests/{labTest}', 'LabTestsController@update')->name('lab-tests.update');
-        Route::delete('lab/tests/{labTest}', 'LabTestsController@delete')->name('lab-tests.delete');
+        Route::patch('lab/tests/{lab_test}', 'LabTestsController@update')->name('lab-tests.update');
+        Route::delete('lab/tests/{lab_test}', 'LabTestsController@delete')->name('lab-tests.delete');
 
         # Lab Test Results
-        Route::get('lab/tests/results/{labTestResult}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
-        Route::post('lab/tests/{labTest}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
-        Route::delete('lab/tests/results/{labTestResult}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
+        Route::get('lab/tests/results/{lab_test_result}', 'LabTestsController@getOneResult')->name('lab-tests.get-one-result');
+        Route::post('lab/tests/{lab_test}/results', 'LabTestsController@storeResult')->name('lab-tests.store-result');
+        Route::delete('lab/tests/results/{lab_test_result}', 'LabTestsController@deleteResult')->name('lab-tests.delete-result');
 
         # Lab Orders
         Route::get('lab/orders', 'LabOrdersController@getAll')->name('lab-orders.get-all');
@@ -119,6 +119,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::post('lab/orders', 'LabOrdersController@store')->name('lab-orders.store');
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
+
+        Route::put('lab/orders/{labOrder}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
 
         # SKUs
         Route::get('skus', 'SkusController@index')->name('skus.index');

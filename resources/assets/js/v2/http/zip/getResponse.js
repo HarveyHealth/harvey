@@ -11,12 +11,10 @@ export default function(response) {
 
   } else {
     App.setState('conditions.invalidZip', true);
-    if (App.Logic.misc.shouldTrack()) {
-      analytics.track('Account Failed', {
-        city: response.data.city,
-        state: response.data.state,
-        zip: response.data.zip
-      });
-    }
+    analytics.track('Account Failed', {
+      city: response.data.city,
+      state: response.data.state,
+      zip: response.data.zip
+    });
   }
 }

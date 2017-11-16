@@ -35,7 +35,7 @@
     "moment-timezone": "^0.5.13",
     "object-diff": "0.0.4",
     "pusher-js": "^4.2.1",
-    "q": "^1.5.0",
+    "q": "^1.5.1",
     "sass-loader": "^6.0.3",
     "stripe": "^4.23.2",
     "style-loader": "^0.16.1",
