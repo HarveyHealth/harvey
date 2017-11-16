@@ -80,7 +80,8 @@ export default {
         patient: Object
     },
     components: {
-        Modal
+        Modal,
+        ClipLoader
     },
     data() {
         return {
