@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
     <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
         <div class="vertical-center">
             <div class="signup-container small naked">
@@ -17,16 +16,6 @@
                     </a>
                 </div>
             </div>
-=======
-  <div :class="containerClasses" v-if="!$root.$data.signup.completedSignup">
-    <div class="vertical-center">
-      <div class="signup-container small naked">
-        <router-link class="signup-back-button" :to="{ name: 'welcome', path: 'welcome' }">
-          <i class="fa fa-long-arrow-left"></i>
-        </router-link>
-        <div class="signup-main-icon">
-          <svg class="interstitial-icon icon-globe"><use xlink:href="#globe" /></svg>
->>>>>>> release-2.6.1
         </div>
     </div>
 </template>
