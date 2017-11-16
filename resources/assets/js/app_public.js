@@ -20,7 +20,7 @@ import Symptoms from './pages/public/Symptoms.vue';
 import VerticalTab from './commons/VerticalTab.vue';
 import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
-import { MainNav2 } from 'nav';
+import { PublicNav } from 'nav';
 
 // for environment conditionals
 const env = require('get-env')();
@@ -31,7 +31,7 @@ const app = new Vue({
     components: {
         LoadingGraphic,
         FacebookSignin,
-        MainNav2,
+        PublicNav,
         Symptoms,
         VerticalTab,
         VerticalTabs

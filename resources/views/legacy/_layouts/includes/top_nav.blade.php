@@ -1,10 +1,10 @@
-<main-nav-2
+<public-nav
     has-logo
     has-links
     has-phone
     has-start
     is-sticky
     :on-menu-click="toggleMenu"
-></main-nav-2>
+></public-nav>
 
 @include('legacy._layouts.includes.messages')

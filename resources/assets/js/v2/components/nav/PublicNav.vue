@@ -42,14 +42,28 @@ export default {
         LogoIcon
     },
     props: {
+        // Create space between the nav and the proceeding content to compensate
+        // for the fixed positioning
         giveSpace: { type: Boolean, default: false },
+
+        // render the links container
         hasLinks: { type: Boolean, default: false },
+
+        // render the logo
         hasLogo: { type: Boolean, default: false },
+
+        // render the phone button
         hasPhone: { type: Boolean, default: false },
+
+        // render the Get Started button
         hasStart: { type: Boolean, default: false },
+
+        // on scroll, stick the nav to the top of the viewport
         isSticky: { type: Boolean, default: false },
+
         // onMenuClick is necessary so public pages can toggle the menu class
         // on #app. This functionality is inherently built into the v2 architecture
+        // so it is not necessary in those contexts where App is available
         onMenuClick: { type: Function }
     },
     data() {
@@ -146,6 +160,7 @@ export default {
         position: relative;
         z-index: 1;
 
+        body[class*="404"] &,
         .login &,
         .password-reset & {
             display: none;

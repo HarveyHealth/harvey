@@ -2,7 +2,7 @@
   <div>
     <div class="bg-blue-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
-      <MainNav2 giveSpace hasLogo hasLinks hasPhone isSticky />
+      <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
       <div class="center mw8 pa3 pa4-m">
         <div class="center mw6 tc">
           <div class="center mw4">
@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else>
-      <MainNav2 giveSpace hasLogo hasLinks hasPhone />
+      <PublicNav giveSpace hasLogo hasLinks hasPhone />
       <div class="center mw8 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
@@ -32,7 +32,7 @@
 import { Heading1, Paragraph } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { MainNav2 } from 'nav';
+import { PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -41,9 +41,9 @@ import VerifyZip from './children/VerifyZip';
 export default {
   name: 'conditions',
   components: {
-    MainNav2,
     Heading1,
     Paragraph,
+    PublicNav,
     Spacer,
     SvgIcon,
     ConditionQuestions,
