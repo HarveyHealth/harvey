@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Lib\Validation\StrictValidator;
-use App\Models\Attachment;
+use App\Models\{Attachment, Patient};
 use App\Transformers\V1\AttachmentTransformer;
 use Illuminate\Http\Request;
 use Exception, ResponseCode, Storage;
@@ -49,7 +49,7 @@ class AttachmentsController extends BaseAPIController
             Storage::disk('s3')->putFileAs(
                 $relative_path,
                 $request->file('file'),
-                $fileName = "Attachment_{$patient->attachments->withoutGlobalScopes()->count()}.pdf",
+                $fileName = "Attachment_{$patient->attachments()->withoutGlobalScopes()->count()}.pdf",
                 [
                     'visibility' => 'private',
                     'ContentType' => $request->file('file')->getMimeType(),

@@ -72,6 +72,7 @@
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
             "npm run prod"
@@ -82,6 +83,7 @@
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
             "php artisan calendar:get_credentials",
             "php artisan cache:clear",

@@ -1,14 +1,16 @@
 <template>
   <div class="input__container" v-if="isVisible">
     <label class="input__label first">client</label>
-    <SelectOptions v-if="editable"
-      :attached-label="'Select Client'"
-      :is-loading="$root.$data.global.loadingPatients"
-      :loading-msg="'Loading clients...'"
-      :on-select="handleSelect"
-      :options="list"
-      :selected="name"
-    />
+
+    <autocomplete v-if="editable"
+        anchor="search_name"
+        label=false
+        url=true
+        :onShouldGetData="getData"
+        :on-select="handlePatientSelect"
+        :initValue="name"
+    >
+    </autocomplete>
     <p v-else-if="isVisible && name">{{ name }}</p>
     <div class="Flyout-SubSection" v-if="name">
       <div>
@@ -30,8 +32,10 @@
 </template>
 
 <script>
-import SelectOptions from '../../../commons/SelectOptions.vue';
+
 import { phone } from '../../../utils/filters/textformat';
+import Autocomplete from '../../../commons/Autocomplete.vue';
+require("../../../../css/vendors/vue2-autocomplete.css");
 
 export default {
   props: {
@@ -58,7 +62,7 @@ export default {
     isVisible: Boolean
   },
   components: {
-    SelectOptions
+    Autocomplete
   },
   computed: {
     shouldShowPaymentError() {
@@ -66,9 +70,22 @@ export default {
     }
   },
   methods: {
-    handleSelect(e) {
-      this.setPatient(this.list[e.target.selectedIndex - 1].data);
-    },
+      getData(value){
+          return new Promise((resolve, reject) => {
+              if (value != ""){
+                  this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                      resolve(patients);
+                  });
+              }
+              else{
+                  resolve([]);
+              }
+          });
+      },
+      handlePatientSelect(obj) {
+        this.setPatient(obj);
+      },
+
     trackPhoneCall() {
       if(this.$root.shouldTrack()) {
         // add "Click Phone Number" tracking here

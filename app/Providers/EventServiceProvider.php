@@ -39,6 +39,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\AppointmentComplete' => [
             'App\Listeners\EmailAndChargePatientForCompleteAppointment',
+            'App\Listeners\SendConsultationFeedback',
         ],
 
         'App\Events\LabOrderConfirmed' => [
