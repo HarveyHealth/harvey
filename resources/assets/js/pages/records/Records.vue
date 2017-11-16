@@ -346,6 +346,7 @@ export default {
                 };
                 let arrays = this.timeline;
                 arrays.map((e, i)=> {
+                    console.log(`E`, e);
                     e.onClick = onClickFunctions[e.type].bind(this, e.data, i);
                     return e;
                 });
