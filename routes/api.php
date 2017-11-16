@@ -117,6 +117,8 @@ Route::group(['prefix' => 'v1', 'namespace' => 'API\V1'], function () {
         Route::patch('lab/orders/{labOrder}', 'LabOrdersController@update')->name('lab-orders.update');
         Route::delete('lab/orders/{labOrder}', 'LabOrdersController@delete')->name('lab-orders.delete');
 
+        Route::put('lab/orders/{labOrder}/ship', 'LabOrdersController@ship')->name('lab-orders.ship');
+
         # SKUs
         Route::get('skus', 'SkusController@index')->name('skus.index');
         Route::get('skus/lab-tests', 'SkusController@indexLabTests')->name('skus.indexLabTests');

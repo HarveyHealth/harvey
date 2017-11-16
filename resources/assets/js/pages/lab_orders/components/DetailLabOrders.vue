@@ -1,5 +1,10 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout
+    :class="this.modalActive && 'with-active-modal'"
+    :active="$parent.detailFlyoutActive"
+    :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
+    :on-close="handleFlyoutClose"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -260,6 +265,13 @@
           </a>
         </div>
 
+        <div v-if="shippingLabelUrl && status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+            <label class="input__label">Shipping Label</label>
+            <a :href="shippingLabelUrl" class="input__item link-color" target="_blank">
+                <i class="fa fa-truck" aria-hidden="true"></i> View Label
+            </a>
+        </div>
+
         <!-- Address -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
@@ -349,7 +361,15 @@
         <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
       </div>
 
+      <!-- Shipping Label -->
+      <div>
+        <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
+      </div>
+
       <!-- Mark as Shipped -->
+      <div class="button-wrapper">
+        <button class="button" @click="confirmShipping">Generate Label</button>
+      </div>
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -369,6 +389,17 @@
           <button @click="closeInvalidCC" class="button">Try again</button>
         </div>
       </div>
+    </Modal>
+
+    <Modal :active="shippingConfirmationModalActive" :onClose="closeShippingModal">
+        <div class="inline-centered">
+            <h1>Generate a shipping label?</h1>
+            <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="button-wrapper">
+                <button @click="getShippingInformation" class="button">Yes</button>
+                <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
+            </div>
+        </div>
     </Modal>
 
   </Flyout>
@@ -400,8 +431,10 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
+      shippingLabel: null,
       firstName: '',
       lastName: '',
       month: '',
@@ -432,6 +465,7 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
+      shippingConfirmationModalActive: false,
       disabledEasterEgg: true,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
@@ -657,6 +691,41 @@ export default {
           });
       });
     },
+    confirmShipping() {
+        this.shippingConfirmationModalActive = true;
+    },
+    closeShippingModal() {
+        this.shippingConfirmationModalActive = false;
+    },
+    getShippingInformation() {
+        // close the modal
+        this.closeShippingModal();
+
+        // reset any errors
+        this.shippingErrorMessage = null;
+
+        this.loading = true;
+        const labOrderId = this.$props.rowData.id;
+
+        // talk to ship api endpoint to kick off shippo information
+        // PUT /api/v1/lab/orders/<lab_order_id>/ship
+
+        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+
+        }).then((response) => {
+            // update the tracking number field for the package
+            const trackingNumber = response.data.data.attributes.shipment_code;
+            const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
+
+            this.masterTracking = trackingNumber;
+            this.shippingLabel = shippingLabelUrl;
+            this.loading = false;
+        }).catch((error) => {
+            // stop the loading
+            this.loading = false;
+            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
+        });
+    },
     markedShipped() {
       this.loading = true;
       let promises = [];
@@ -813,6 +882,9 @@ export default {
     shipmentCode() {
       return this.$props.rowData ? this.$props.rowData.shipment_code : '';
     },
+    shippingLabelUrl() {
+      return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
+    },
     addressOne() {
       return this.$props.rowData ? this.$props.rowData.address_1 : '';
     },
@@ -893,6 +965,9 @@ export default {
     },
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
+    },
+    modalActive() {
+        return this.shippingConfirmationModalActive || this.invalidModalActive;
     }
   }
 };
