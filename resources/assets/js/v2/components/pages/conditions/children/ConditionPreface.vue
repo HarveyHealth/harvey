@@ -1,41 +1,39 @@
 <template>
-  <div class="space-children-sm">
-    <div class="block font-centered margin-0a max-width-md margin-top-md">
-      <img :src="State('conditions.condition.image_url')" class="max-width-xs">
+  <div>
+    <div class="center db tc mw6">
+      <SvgIcon :id="State('conditions.condition.image_url')" :width="'80px'" :height="'160px'" />
     </div>
-    <SlideIn class="space-children-xl">
-      <button class="Button Button--condition-nav is-left">
-        <a href="/#conditions" class="color-white font-normal">
-          <i class="fa fa-chevron-left"></i> New Condition
-        </a>
-      </button>
-      <h3 class="color-white heading-1 font-bold font-centered">{{ State('conditions.condition.name') }}</h3>
-      <p class="font-centered font-lg">{{ State('conditions.condition.description') }}</p>
-      <div id="wordpress-feed"></div>
-      <div class="font-centered">
-        <ButtonInput
-          :text="button"
-          :type="'whiteFilled'"
-          :on-click="() => setState('conditions.prefaceRead', true)"
-          :width="'200px'" />
-      </div>
+    <SlideIn class="center mw7 tc">
+        <button class="Button Button--condition-nav is-left">
+          <a href="/#conditions" class="color-white font-normal">
+            <i class="fa fa-chevron-left"></i> New Condition
+          </a>
+        </button>
+      <Heading1 isBold isLight doesExpand>{{ State('conditions.condition.name') }}</Heading1>
+      <Spacer isBottom :size="3" />
+      <Paragraph isLight>{{ State('conditions.condition.description') }}</Paragraph>
+      <Spacer isBottom :size="4" />
+      <InputButton
+        :text="button"
+        :type="'whiteFilled'"
+        :on-click="() => setState('conditions.prefaceRead', true)"
+        :width="'200px'" />
     </SlideIn>
   </div>
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import { InputButton } from 'inputs';
+import { SlideIn, Spacer } from 'layout';
+import { SvgIcon } from 'icons';
+import { Paragraph, Heading1 } from 'typography';
 
 export default {
+  components: { InputButton, SlideIn, Spacer, SvgIcon, Paragraph, Heading1 },
   data() {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
-    };
-  },
-  components: {
-    ButtonInput: Inputs.ButtonInput,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
+    }
   }
 };
 </script>

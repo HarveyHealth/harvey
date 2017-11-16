@@ -1,12 +1,16 @@
 <template>
     <div class="main-container">
-        <UserNav />
         <div class="main-content">
             <div class="main-header">
                 <div class="container container-backoffice">
                     <h1 class="heading-1">
                         <span class="text">Lab Orders</span>
-                        <button v-if="!loadingLabs && $root.$data.permissions !== 'patient'" @click="addingFlyoutActive" class="button main-action circle">
+                        <button
+                            v-if="!loadingLabs && $root.$data.permissions !== 'patient'"
+                            @click="addingFlyoutActive"
+                            class="button main-action circle"
+                            data-test="addLabOrder"
+                        >
                             <svg><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#addition"></use></svg>
                         </button>
                     </h1>
@@ -46,7 +50,6 @@
 </template>
 
 <script>
-    import UserNav from '../../commons/UserNav.vue';
     import Overlay from '../../commons/Overlay.vue';
     import NotificationPopup from '../../commons/NotificationPopup.vue';
     import FilterButtons from '../../commons/FilterButtons.vue';
@@ -58,7 +61,6 @@
     export default {
         name: 'LabOrders',
         components: {
-            UserNav,
             LabOrderTable,
             AddLabOrders,
             Overlay,

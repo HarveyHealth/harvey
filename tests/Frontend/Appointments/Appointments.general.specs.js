@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Appointments from '../../../resources/assets/js/pages/appointments/Appointments.vue';
 import AppStub from '../AppStub';
 import LaravelStub from '../LaravelStub';
-import mockData from './mockData';
+import appointments from '../mock_data/global.appointments';
 
 window.Laravel = LaravelStub;
 window.Vue = Vue;
@@ -16,8 +16,9 @@ describe('Appointments (General):', () => {
   });
 
   context('When no global appointments exist', () => {
-    const App = AppStub(Appointments, 'Appointments');
-    App.vm.$data.global.loadingAppointments = false;
+    const App = AppStub(Appointments, 'Appointments', data => {
+      data.global.loadingAppointments = false;
+    });
 
     it('it will not render appointment rows to the table', done => {
       Vue.nextTick(() => {
@@ -28,9 +29,10 @@ describe('Appointments (General):', () => {
   });
 
   context('When global appointment data is available', () => {
-    const App = AppStub(Appointments, 'Appointments');
-    App.vm.$data.global.appointments.push(mockData);
-    App.vm.$data.global.loadingAppointments = false;
+    const App = AppStub(Appointments, 'Appointments', data => {
+      data.global.appointments.push(appointments);
+      data.global.loadingAppointments = false;
+    });
 
     it('it will populate the appointments array', done => {
       Vue.nextTick(() => {

@@ -24,8 +24,8 @@
         "doctrine/dbal": "^2.5",
         "propaganistas/laravel-phone": "^2.8",
         "laravel/dusk": "^1.0",
-        "spatie/laravel-fractal": "^3.5",
-        "laravel/passport": "^2.0",
+        "spatie/laravel-fractal": "^4.0",
+        "laravel/passport": "^3.0",
         "crell/api-problem": "^2.0",
         "wildbit/postmark-php": "^2.3",
         "laravel/homestead": "^5.2",
@@ -35,6 +35,7 @@
         "twilio/sdk": "^5.11",
         "google/apiclient": "^2.2",
         "cviebrock/eloquent-sluggable": "^4.2",
+        "shippo/shippo-php": "1.*",
         "laravel/socialite": "^3.0"
     },
     "require-dev": {
@@ -71,6 +72,7 @@
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan passport:getkeys",
             "php artisan calendar:get_credentials",
             "npm run prod"
@@ -81,9 +83,11 @@
             "php artisan migrate --force",
             "php artisan scout:import 'App\\Models\\User'",
             "php artisan scout:import 'App\\Models\\Message'",
+            "php artisan scout:import 'App\\Models\\Patient'",
             "php artisan view:clear",
             "php artisan cache:clear",
             "php artisan calendar:get_credentials",
+            "php artisan cache:clear",
             "npm run dev"
         ]
     },

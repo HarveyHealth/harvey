@@ -1,18 +1,15 @@
 import './bootstrap';
 import router from './routes';
 
-// FILTERS
-import filter_datetime from './utils/filters/datetime';
-
 // DIRECTIVES
 import VeeValidate from 'vee-validate';
+import VueRouter from 'vue-router';
 
-// MIXINS
-import TopNav from './utils/mixins/TopNav';
+Vue.use(VeeValidate);
+Vue.use(VueRouter);
 
 // COMPONENETS
-import Alert from './commons/Alert.vue';
-import Dashboard from './pages/dashboard/Dashboard.vue';
+import Dashboard from './v2/components/pages/dashboard/Dashboard.vue';
 import Usernav from './commons/UserNav.vue';
 
 // METHODS
@@ -21,9 +18,6 @@ import filterPractitioners from './utils/methods/filterPractitioners';
 import moment from 'moment-timezone';
 import sortByLastName from './utils/methods/sortByLastName';
 import _ from 'lodash';
-
-Vue.filter('datetime', filter_datetime);
-Vue.use(VeeValidate);
 
 const env = require('get-env')();
 window.Card = require('card');
@@ -97,14 +91,12 @@ Vue.config.devtools = env !== 'production';
 
 const app = new Vue({
     router,
-    mixins: [TopNav],
     components: {
-        Alert,
         Dashboard,
         Usernav
     },
     // Adding State to the root data object makes it globally reactive.
-    // We do not attach this to window.App for HIPPA compliance. User
+    // We do not attach this to window.App for HIPPA compliance. Use
     // App.setState to mutate this object.
     data: Store,
 
@@ -142,6 +134,7 @@ const app = new Vue({
         },
 
         getAppointments(cb) {
+            App.setState('appointments.isLoading.upcoming', true);
             axios.get(`${this.apiUrl}/appointments?include=patient.user`)
                 .then(response => {
                     this.global.appointments = combineAppointmentData(response.data).reverse();
@@ -150,29 +143,51 @@ const app = new Vue({
                         this.global.loadingAppointments = false;
                         if (cb) cb();
                     });
-                }).catch(error => console.log(error.response));
+                })
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=upcoming&include=patient.user`)
-                .then((response) => this.global.upcoming_appointments = response.data)
-                .catch(error => console.log(error.response));
+                .then((response) => {
+                  this.global.upcoming_appointments = response.data;
+                  // to update v2 Dashboard
+                  App.Http.appointments.getUpcomingResponse(response);
+                })
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
 
             axios.get(`${this.apiUrl}/appointments?filter=recent&include=patient.user`)
                 .then((response) => this.global.recent_appointments = response.data)
-                .catch(error => console.log(error.response));
+                .catch(error => {
+                  if (error.response) console.warn(error.response);
+                });
         },
         getAvailability(id, cb) {
           axios.get(`/api/v1/practitioners/${id}?include=availability`).then(response => cb && typeof cb === 'function' ? cb(response) : false);
         },
-        getPatients() {
-            axios.get(`${this.apiUrl}/patients?include=user`).then(response => {
+        requestPatients(term='', cb=null){
+            let params = {
+                include: 'user'
+            };
+
+            if (term != ''){
+                params.term = term;
+            }
+
+            axios.get(`${this.apiUrl}/patients`,{params: params}).then(response => {
+                let patients = [];
+                let patientLookUp = [];
                 const include = response.data.included;
+
                 response.data.data.forEach((obj, i) => {
                     const includeData = include[i].attributes;
-                      this.global.patients.push({
+                    patients.push({
                         address_1: includeData.address_1,
                         address_2: includeData.address_2,
                         city: includeData.city,
-                        date_of_birth: moment(obj.attributes.birthdate).format("MM/DD/YY"),
+                        date_of_birth: moment(obj.attributes.birthdate.date).format("MM/DD/YY"),
                         email: includeData.email,
                         has_a_card: includeData.has_a_card,
                         id: obj.id,
@@ -184,15 +199,30 @@ const app = new Vue({
                         zip: includeData.zip
                     });
                 });
-                this.global.patients = sortByLastName(this.global.patients);
+
+                patients = sortByLastName(patients);
+
+                // if logged in user is practitioner, filter by states where the user can practice
                 if (this.global.practitioners.length && Laravel.user.user_type === 'practitioner') {
-                  this.global.patients = this.filterPatients(this.global.patients, this.global.practitioners[0].info.licenses);
+                  patients = this.filterPatients(patients, this.global.practitioners[0].info.licenses);
                 }
+
+                // build an array with patient data to look up by ID
                 response.data.data.forEach(e => {
-                    this.global.patientLookUp[e.id] = e;
+                    patientLookUp[e.id] = e;
                 });
                 this.global.patients = _.uniqBy(this.global.patients, 'id');
                 this.global.loadingPatients = false;
+
+                if (cb){
+                    cb(patients, patientLookUp);
+                }
+            });
+        },
+        getPatients() {
+            this.requestPatients('',(patients, patientLookUp)=>{
+                this.global.patients = patients;
+                this.global.patientLookUp = patientLookUp;
             });
         },
         getPractitioners() {

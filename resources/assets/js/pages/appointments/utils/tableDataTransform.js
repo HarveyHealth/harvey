@@ -7,7 +7,7 @@ export default function(appointments, zone, userType) {
   return appointments
   .sort((a, b) => new Date(b.attributes.appointment_at.date) - new Date(a.attributes.appointment_at.date))
   .map(obj => {
-
+    
     // change client name to a profile page hyperlink if admin
     const isAdmin = userType === 'admin';
     const clientName = `${capitalize(obj.patientData.first_name)} ${capitalize(obj.patientData.last_name)}`;
