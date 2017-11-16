@@ -6,10 +6,20 @@
                     <div :class="key === index ? 'subOn' : ''" />
                 </div>
                 <div @click="item.onClick" class="timeline-info">
-                    <div class="width-70 float-left">
+                    <div class="width-80 float-left">
                         <span class="full-width float-left">{{ item.type }}</span>
                         <span class="full-width float-left">{{ item.date }}</span>
                         <span class="full-width float-left">{{ item.doctor }}</span>
+                    </div>
+                    <div class="float-right width-20">
+                        <i :class="`font-timeline fa fa-${
+                            item.type === 'SOAP Note' ? 'pencil-square-o ' :
+                            item.type === 'Prescription' ? 'file-excel-o' :
+                            item.type === 'Attachment' ? 'paperclip' :
+                            item.type === 'Intake' ? 'clipboard' :
+                            item.type === 'Lab Test Result' ? 'flask' :
+                            'book'
+                        }`"></i>
                     </div>
                 </div>
             </div>
@@ -82,11 +92,23 @@ export default {
     .full-width {
         width: 100%;
     }
-    .width-70 {
-        width: 70%;
+    .width-80 {
+        width: 80%;
+    }
+    .width-20 {
+        width: 20%;
     }
     .float-left {
         float: left;
+    }
+    .float-right {
+        float: right;
+    }
+    .font-timeline {
+        font-size: 36px;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
     }
     .timeline-height {
         height: 80px;
