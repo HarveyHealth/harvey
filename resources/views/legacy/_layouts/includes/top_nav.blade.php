@@ -27,6 +27,7 @@
     has-links
     has-phone
     has-start
+    is-sticky
     :on-menu-click="toggleMenu"
 ></main-nav-2>
 

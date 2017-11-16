@@ -7,7 +7,7 @@
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
-                    <LogoIcon revealText />
+                    <LogoIcon revealText :hasDarkIcon="isNavSolid" :hasDarkText="isNavSolid" />
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
@@ -61,6 +61,7 @@ export default {
             return {
                 'nav-wrap': true,
                 'nav-is-solid': this.isNavSolid,
+                'nav-is-sticky': this.isSticky,
                 'menu-is-active': this.isMenuActive,
             }
         }
@@ -81,6 +82,7 @@ export default {
                 this.yScroll = window.scrollY;
                 setTimeout(this.onMenuClick, 200);
             }
+
             this.isMenuActive = !this.isMenuActive;
         },
 
@@ -93,10 +95,14 @@ export default {
         },
     },
     mounted() {
-        window.addEventListener('scroll', _.throttle(this.handleNavOnScroll, this.throttleTime), false);
+        if (this.isSticky) {
+            window.addEventListener('scroll', _.throttle(this.handleNavOnScroll, this.throttleTime), false);
+        }
     },
     destroyed() {
-        window.removeEventListener('scroll');
+        if (this.isSticky) {
+            window.removeEventListener('scroll');
+        }
     }
 };
 </script>
@@ -117,12 +123,17 @@ export default {
         .nav-container {
             background: transparent;
             height: 70px;
-            position: fixed;
+            position: absolute;
             transition: background 200ms ease-in-out;
             width: 100%;
 
+            .nav-is-sticky & {
+                position: fixed;
+            }
+
             .nav-is-solid & {
-                background: rgba(255,255,255,0.8);
+                background: rgba(255,255,255,0.9);
+                border-bottom: 1px solid $color-gray-1;
             }
         }
     }
@@ -156,6 +167,7 @@ export default {
         }
     }
 
+    // Activate for small screen navigation menu
     .nav-overlay {
         background: rgba($color-copy, 0);
         transition: background 200ms ease-in-out;
@@ -169,6 +181,10 @@ export default {
             position: fixed;
             top: 0;
             right: 0;
+        }
+
+        @include query(lg) {
+            display: none;
         }
     }
 
@@ -195,7 +211,7 @@ export default {
         -webkit-appearance: none;
 
         &:hover {
-            background: rgba(255,255,255,0.8)
+            background: rgba(255,255,255,0.8);
         }
 
         .fa {
@@ -206,6 +222,10 @@ export default {
             background: transparent;
             color: white;
         }
+
+        @include query(lg) {
+            display: none;
+        }
     }
 
     .nav-phone,
@@ -214,6 +234,10 @@ export default {
 
         .menu-is-active & {
             display: block;
+        }
+
+        @include query(lg) {
+            display: inline-block;
         }
     }
 
@@ -240,10 +264,7 @@ export default {
         @include query(lg) {
             top: -20px;
             position: relative;
-
-            .menu-is-open & {
-                display: inline-block
-            }
+            display: inline-block;
         }
         @include query(xl) {
             left: 48px;
@@ -252,6 +273,10 @@ export default {
 
     .nav-links a {
         color: white;
+
+        .nav-is-solid & {
+            color: $color-copy;
+        }
 
         @include query-up-to(lg) {
             display: block;
@@ -301,6 +326,11 @@ export default {
     .nav-phone a {
         border-color: white;
 
+        .nav-is-solid & {
+            border-color: $color-copy;
+            color: $color-copy;
+        }
+
         @include query-up-to(lg) {
             background: $color-copy;
             left: 12px;
@@ -313,19 +343,6 @@ export default {
 
         @include query-up-to(lg) {
             right: 12px;
-        }
-    }
-
-    @include query(lg) {
-        .nav-hamburger,
-        .nav-overlay {
-            display: none;
-        }
-
-        .nav-links,
-        .nav-phone,
-        .nav-start {
-            display: inline-block;
         }
     }
 </style>
