@@ -89,8 +89,10 @@ export default {
                 .then(() => {
                     this.deleteModalActive = false;
                     this.$parent.page = 0;
+                    delete this.$parent.prescriptions[this.$parent.propData.id];
                     this.$parent.timeline.splice(this.$parent.index, 1);
                     this.$parent.index = null;
+                    this.$parent.propData = null;
                     this.$parent.notificationMessage = "Successfully deleted!";
                     this.$parent.notificationActive = true;
                     setTimeout(() => this.$parent.notificationActive = false, 3000);
