@@ -60,6 +60,7 @@
 <script>
 import {mask} from 'vue-the-mask';
 import {capitalize} from 'lodash';
+import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
 import axios from 'axios';
 export default {
@@ -105,7 +106,22 @@ export default {
             formData.append('name', this.fileName);
             axios.post(`${this.$root.$data.apiUrl}/patients/${this.$props.patient.id}/attachments`, formData)
             .then((response) => {
-                console.log(`RESPONSE`, response);
+                let object = {};
+                let returns = response.data.data;
+                this.$parent.attachments[returns.id] = returns;
+                object.data = returns;
+                object.id = returns.id;
+                object.date = moment(returns.attributes.created_at.date).format('dddd, MMM Do YYYY');
+                object.original_date = returns.attributes.created_at.date;
+                object.doctor = returns.attributes.doctor_name || "No Doctor";
+                object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
+                this.$parent.timeline = [object].concat(this.$parent.timeline);
+                this.$parent.news = false;
+                this.$parent.setIndex(0);
+                this.$parent.propData = returns;
+                this.$parent.notificationMessage = "Successfully added!";
+                this.$parent.notificationActive = true;
+                setTimeout(() => this.$parent.notificationActive = false, 3000);
             });
         }
     },
