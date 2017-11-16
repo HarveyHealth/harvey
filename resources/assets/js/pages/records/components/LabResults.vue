@@ -39,6 +39,7 @@
                     </label>
                     <input :class="{'disabled--cursor': !selectedLabName || !selectedLabType}" :disabled="!selectedLabName || !selectedLabType" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
+                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
@@ -70,6 +71,7 @@
 
 <script>
 import axios from 'axios';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
@@ -84,7 +86,8 @@ export default {
         return {
             selectedLabName: null,
             selectedLabType: null,
-            deleteModalActive: false
+            deleteModalActive: false,
+            loading: false
         };
     },
     methods: {
@@ -115,6 +118,7 @@ export default {
             this.selectedLabType = e.target.children[e.target.selectedIndex].dataset.id;
         },
         upload(file) {
+            this.loading = true;
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
             axios.post(`${this.$root.$data.apiUrl}/lab/tests/${this.selectedLabType}/results`, formData)
@@ -132,6 +136,7 @@ export default {
                     return object;
                 });
                 this.$parent.timeline = results.concat(this.$parent.timeline);
+                this.loading = false;
                 this.$parent.news = false;
                 this.$parent.setIndex(0);
                 this.$parent.propData = results[0];

@@ -32,6 +32,7 @@
                     </label>
                     <input :class="{'disabled--cursor': !selected}" :disabled="!selected" @change="upload" type="file" id="file-select-prescription" accept=".pdf" hidden />
                 </div>
+                <ClipLoader :color="'#82BEF2'" :loading="loading" v-if="loading"></ClipLoader>
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
@@ -63,6 +64,7 @@
 
 <script>
 import axios from 'axios';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import {capitalize} from 'lodash';
 import moment from 'moment';
 import Modal from '../../../commons/Modal.vue';
@@ -71,12 +73,14 @@ export default {
         patient: Object
     },
     components: {
-        Modal
+        Modal,
+        ClipLoader
     },
     data() {
         return {
             selected: null,
-            deleteModalActive: false
+            deleteModalActive: false,
+            loading: false,
         };
     },
     methods: {
@@ -101,6 +105,7 @@ export default {
                 });
         },
         upload(file) {
+            this.loading = true;
             let formData = new FormData();
             formData.append('file', file.target.files[0]);
             formData.append('name', this.selected);
@@ -116,6 +121,7 @@ export default {
                 object.doctor = returns.attributes.doctor_name || "No Doctor";
                 object.type = returns.type.split('_').map(e => capitalize(e)).join(' ');
                 this.$parent.timeline = [object].concat(this.$parent.timeline);
+                this.loading = false;
                 this.$parent.news = false;
                 this.$parent.setIndex(0);
                 this.$parent.propData = returns;
