@@ -11,6 +11,24 @@
             <div class="card" style="width: 450px;">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
+                        Appointment Reminders
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                        <li class="ph3 pv3 bb b--light-silver">Mackeral Tabby</li>
+                        <li class="ph3 pv3 bb b--light-silver">Burmese</li>
+                        <li class="ph3 pv3 bb b--light-silver">Orange Tabby</li>
+                        <li class="ph3 pv3 bb b--light-silver">Maine Coon</li>
+                        <li class="ph3 pv3 bb b--light-silver">Siamese</li>
+                        <li class="ph3 pv3 bb b--light-silver">Scottish Fold</li>
+                        <li class="ph3 pv3">American Bobtail</li>
+                      </ul>
+                </div>
+            </div>
+            <div class="card" style="width: 450px;">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
                         Payment Options
                         <span v-if="user_id">for {{ user.attributes.first_name }} {{ user.attributes.last_name }} (#{{ user_id }})</span>
                     </h2>
@@ -135,7 +153,15 @@ export default {
             user_id: this.$route.params.id,
             year: '',
             stripe: this.$root.$data.stripe,
-            card: null
+            card: null,
+            settings: {
+                reminders: [
+                    "24 hour email reminder",
+                    "24 hour text reminder",
+                    "1 hour email reminder",
+                    "1 hour text reminder"
+                ]
+            }
         };
     },
     methods: {
