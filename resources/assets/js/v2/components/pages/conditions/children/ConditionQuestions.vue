@@ -1,5 +1,5 @@
 <template>
-  <div class="space-children-sm">
+  <div class="space-children-sm color-white">
     <div class="block font-centered margin-0a max-width-md margin-top-md">
       <img :src="State('conditions.condition.image_url')" class="max-width-xs">
     </div>

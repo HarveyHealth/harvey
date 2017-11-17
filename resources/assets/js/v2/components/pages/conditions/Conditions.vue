@@ -1,22 +1,12 @@
 <template>
   <div>
-    <div class="bg-blue-fade"></div>
+    <div class="bg-green-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
-      <MainNav :context="'conditions'" />
-      <div class="margin-0a max-width-xl pad-md color-white">
-        <div class="margin-0a max-width-icon">
-          <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'"/>
-        </div>
-        <div class="margin-0a max-width-lg font-centered space-children-lg">
-          <p class="font-normal font-xxl">Personalized for better health.</p>
-          <p class="font-lg is-padding is-paddingless-top">Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</p>
-        </div>
-        <ConditionsAll class="space-top-lg is-padding-lg" />
-      </div>
+      <p>Redirect this...</p>
     </div>
     <div v-else>
       <MainNav :context="'questions'" />
-      <div class="margin-0a max-width-lg pad-md color-white">
+      <div class="margin-0a max-width-xxl pad-md">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />

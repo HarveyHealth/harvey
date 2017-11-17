@@ -1,5 +1,5 @@
 <template>
-  <div class="font-centered margin-0a max-width-md space-children-lg">
+  <div class="font-centered margin-0a max-width-xxl space-children-lg">
     <SvgIcon :id="'map'" :width="'120px'" :height="'120px'" />
     <SlideIn class="space-children-lg" v-if="!State('conditions.zipValidation')">
       <p class="heading-1">What is your zip code?</p>
