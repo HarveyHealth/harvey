@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Events\{LabOrderConfirmed, LabOrderShipped};
+use App\Events\{LabOrderApproved, LabOrderConfirmed, LabOrderShipped};
 use App\Models\LabOrder;
 use App\Events\LabOrderRecommended;
 

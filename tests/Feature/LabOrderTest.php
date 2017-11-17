@@ -2,7 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\Models\{Admin, License, Patient, Practitioner, LabTest, LabOrder};
+use App\Models\{
+    Admin,
+    DiscountCode,
+    License,
+    Patient,
+    Practitioner,
+    LabTest,
+    LabOrder
+};
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Passport\Passport;
 use Tests\TestCase;
@@ -675,5 +683,53 @@ class LabOrderTest extends TestCase
         $parameters = [
             'status' => 'confirmed',
         ];
+    }
+
+    public function test_it_saves_the_discount_code_id_when_updating_a_lab_order_as_patient()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'lab-test',
+        ]);
+
+        $labOrder = factory(LabOrder::class)->create(['discount_code_id' => null]);
+
+        Passport::actingAs($labOrder->patient->user);
+
+        $parameters = [
+            'discount_code' => 'abc123',
+        ];
+
+        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => "{$discount_code->id}"]);
+
+        $this->assertDatabaseHas('lab_orders', ['discount_code_id' => $discount_code->id]);
+    }
+
+    public function test_it_does_not_saves_the_discount_code_id_when_updating_a_lab_order_as_practitioner()
+    {
+        $discount_code = factory(DiscountCode::class)->create([
+            'code' => 'abc123',
+            'applies_to' => 'lab-test',
+        ]);
+
+        $labOrder = factory(LabOrder::class)->create(['discount_code_id' => null]);
+
+        Passport::actingAs($labOrder->practitioner->user);
+
+        $parameters = [
+            'discount_code' => 'abc123',
+        ];
+
+        $response = $this->json('PATCH', "api/v1/lab/orders/{$labOrder->id}", $parameters);
+
+        $response->assertStatus(ResponseCode::HTTP_OK);
+
+        $response->assertJsonFragment(['discount_code_id' => null]);
+
+        $this->assertDatabaseHas('lab_orders', ['discount_code_id' => null]);
     }
 }

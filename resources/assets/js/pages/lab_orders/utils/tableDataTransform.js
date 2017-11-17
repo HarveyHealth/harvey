@@ -17,6 +17,7 @@ export default function (orders, tests, patientLookUp, practitionerLookup, testL
             sku_ids: {},
             result_urls: {},
             shipment_codes: {},
+            shipment_label_url: obj.attributes.shipment_label_url,
             completed_ats: {},
             order_date: moment(obj.attributes.created_at.date).format("dddd, MMMM Do"),
             address_1: obj.attributes.address_1,

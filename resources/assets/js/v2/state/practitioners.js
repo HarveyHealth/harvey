@@ -1,6 +1,9 @@
 export default {
   data: {
     all: [],
-    licensed: []
-  }
+    licensed: [],
+  },
+  isLoading: false,
+  userDoctor: null,
+  wasRequested: false
 };

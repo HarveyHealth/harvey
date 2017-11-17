@@ -1,5 +1,10 @@
 <template>
-  <Flyout :active="$parent.detailFlyoutActive" :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading" :on-close="handleFlyoutClose" :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
+  <Flyout
+    :class="this.modalActive && 'with-active-modal'"
+    :active="$parent.detailFlyoutActive"
+    :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
+    :on-close="handleFlyoutClose"
+    :back="$parent.step == 2 ? prevStep : $parent.step == 3 ? prevStep : null">
 
     <!-- PATIENTS -->
 
@@ -16,7 +21,7 @@
 
         <!-- Lab Tests -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-test-recommendations">
           <label class="input__label first">Lab Tests</label>
 
           <!-- Recommended -->
@@ -260,6 +265,13 @@
           </a>
         </div>
 
+        <div v-if="shippingLabelUrl && status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
+            <label class="input__label">Shipping Label</label>
+            <a :href="shippingLabelUrl" class="input__item link-color" target="_blank">
+                <i class="fa fa-truck" aria-hidden="true"></i> View Label
+            </a>
+        </div>
+
         <!-- Address -->
 
         <div v-if="status !== 'Recommended'" class="input__container">
@@ -274,7 +286,7 @@
 
         <!-- Card -->
 
-        <div class="input__container">
+        <div class="input__container" data-test="lab-order-credit-card">
           <label class="input__label">Card</label>
           <div class="left-column">
             <span v-if="$parent.loading">
@@ -349,7 +361,15 @@
         <router-link class="input__item right-column link-color" :to="'/profile/' + patientUser">Edit Address</router-link>
       </div>
 
+      <!-- Shipping Label -->
+      <div>
+        <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
+      </div>
+
       <!-- Mark as Shipped -->
+      <div class="button-wrapper">
+        <button class="button" @click="confirmShipping">Generate Label</button>
+      </div>
 
       <div class="button-wrapper">
         <button class="button" @click="markedShipped" :disabled="masterTracking.length == 0">Mark as Shipped</button>
@@ -371,13 +391,24 @@
       </div>
     </Modal>
 
+    <Modal :active="shippingConfirmationModalActive" :onClose="closeShippingModal">
+        <div class="inline-centered">
+            <h1>Generate a shipping label?</h1>
+            <p>This action will generate a tracking number and label from FedEx.</p>
+            <div class="button-wrapper">
+                <button @click="getShippingInformation" class="button">Yes</button>
+                <button @click="closeShippingModal" class="button button--cancel">Cancel</button>
+            </div>
+        </div>
+    </Modal>
+
   </Flyout>
 </template>
 
 <script>
 import Q from 'q';
 import Flyout from '../../../commons/Flyout.vue';
-import { ClipLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import Modal from '../../../commons/Modal.vue';
 import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
@@ -400,8 +431,10 @@ export default {
       selectedDoctor: null,
       selectedShipment: {},
       shippingCodes: {},
+      shippingErrorMessage: null,
       selectedAddressOne: null,
       selectedAddressTwo: null,
+      shippingLabel: null,
       firstName: '',
       lastName: '',
       month: '',
@@ -432,6 +465,8 @@ export default {
       postalCode: '',
       invalidCC: false,
       invalidModalActive: false,
+      shippingConfirmationModalActive: false,
+      disabledEasterEgg: true,
       monthList: ['', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
     };
   },
@@ -499,29 +534,28 @@ export default {
     updateTest(e, object) {
       this.selectedShipment[object.test_id] = e.target.value;
     },
+    processDiscount(response) {
+      if (response.data.data.attributes.valid) {
+        this.disabledDiscount = false;
+        this.discountType = response.data.data.attributes.discount_type;
+        this.discountAmount = Number(response.data.data.attributes.amount);
+        if (this.discountType === 'percent') {
+          this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
+        }
+        this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
+          this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
+        this.patchCode = response.data.data.attributes.code;
+        this.stepThree();
+      } else {
+        this.disabledDiscount = true;
+      }
+      this.stepThree();
+    },
     validDiscountCode() {
       if (this.discountCode !== '') {
         axios.get(`${this.$root.$data.apiUrl}/discountcode?discount_code=${this.discountCode}&applies_to=lab-test`)
-          .then(response => {
-            if (response.data.data.attributes.valid) {
-              this.disabledDiscount = false;
-              this.discountType = response.data.data.attributes.discount_type;
-              this.discountAmount = Number(response.data.data.attributes.amount);
-              if (this.discountType === 'percent') {
-                this.percentAmount = (this.subtotalAmount * (Number(this.discountAmount) * 0.01)).toFixed(2);
-              }
-              this.patientPrice = this.discountType === 'percent' ? `${(this.subtotalAmount * (100 - Number(this.discountAmount)) * 0.01).toFixed(2)}` :
-                this.discountType === 'dollars' ? `${eval(this.subtotalAmount - this.discountAmount).toFixed(2)}` : `${this.patientPrice.toFixed(2)}`;
-              this.patchCode = response.data.data.attributes.code;
-              this.stepThree();
-            } else {
-              this.disabledDiscount = true;
-            }
-            this.stepThree();
-          })
-          .catch(() => {
-            this.disabledDiscount = true;
-          });
+          .then(this.processDiscount)
+          .catch(() => this.disabledDiscount = true);
       } else {
         this.stepThree();
         this.disabledDiscount = false;
@@ -598,30 +632,24 @@ export default {
             status: 'confirmed'
           })
             .then(resp => {
-              this.$root.$data.global.labTests.push(resp.data.data);
+                resp.data.data.included = this.$root.$data.labTests[resp.data.data.attributes.sku_id];
+                this.$root.$data.global.labTests.push(resp.data.data);
             }));
         }
       });
       return Q.allSettled(promises).then(() => {
-        let data = null;
+        let data = {
+          address_1: this.address1,
+          address_2: this.address2,
+          city: this.newCity,
+          state: this.newState,
+          zip: this.newZip
+        };
+
         if (this.discountCode) {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip,
-            discount_code: this.discountCode
-          };
-        } else {
-          data = {
-            address_1: this.address1,
-            address_2: this.address2,
-            city: this.newCity,
-            state: this.newState,
-            zip: this.newZip
-          };
+          data.discount_code = this.discountCode;
         }
+
         axios.patch(`${this.$root.$data.apiUrl}/lab/orders/${this.$props.rowData.id}`, data)
           .then((respond) => {
             let status = _.capitalize(respond.data.data.attributes.status);
@@ -656,6 +684,41 @@ export default {
             this.handleFlyoutClose();
           });
       });
+    },
+    confirmShipping() {
+        this.shippingConfirmationModalActive = true;
+    },
+    closeShippingModal() {
+        this.shippingConfirmationModalActive = false;
+    },
+    getShippingInformation() {
+        // close the modal
+        this.closeShippingModal();
+
+        // reset any errors
+        this.shippingErrorMessage = null;
+
+        this.loading = true;
+        const labOrderId = this.$props.rowData.id;
+
+        // talk to ship api endpoint to kick off shippo information
+        // PUT /api/v1/lab/orders/<lab_order_id>/ship
+
+        axios.put(`${this.$root.$data.apiUrl}/lab/orders/${Number(labOrderId)}/ship`, {
+
+        }).then((response) => {
+            // update the tracking number field for the package
+            const trackingNumber = response.data.data.attributes.shipment_code;
+            const shippingLabelUrl = response.data.data.attributes.shipment_label_url;
+
+            this.masterTracking = trackingNumber;
+            this.shippingLabel = shippingLabelUrl;
+            this.loading = false;
+        }).catch((error) => {
+            // stop the loading
+            this.loading = false;
+            this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
+        });
     },
     markedShipped() {
       this.loading = true;
@@ -813,6 +876,9 @@ export default {
     shipmentCode() {
       return this.$props.rowData ? this.$props.rowData.shipment_code : '';
     },
+    shippingLabelUrl() {
+      return this.$props.rowData ? this.$props.rowData.shipment_label_url : '';
+    },
     addressOne() {
       return this.$props.rowData ? this.$props.rowData.address_1 : '';
     },
@@ -893,6 +959,9 @@ export default {
     },
     latestCard() {
       return this.$root.$data.global.creditCards.slice(-1).pop();
+    },
+    modalActive() {
+        return this.shippingConfirmationModalActive || this.invalidModalActive;
     }
   }
 };

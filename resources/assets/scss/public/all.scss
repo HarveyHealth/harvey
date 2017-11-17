@@ -355,11 +355,27 @@ $font-family: "proxima-nova";
         text-align: right;
         float: right;
       }
-      
+
+      // For logged-in users with an appointment
+      .top-nav-avatar {
+        border-radius: 50%;
+        height: 20px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+
+        + span {
+          display: inline-block;
+          margin-left: 28px;
+        }
+      }
+
       a {
 
         font-size: 17px;
         display: inline-block;
+        position: relative;
         @include padding(.35em 1em);
         @include margin(null .2em null null);
 

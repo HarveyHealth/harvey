@@ -17,21 +17,27 @@
 </template>
 
 <script>
-import { Util } from '../../base';
-import Shared from '../../shared';
-import ConditionQuestions from './children/ConditionQuestions.vue';
-import ConditionPreface from './children/ConditionPreface.vue';
-import ConditionsAll from './children/ConditionsAll.vue';
-import VerifyZip from './children/VerifyZip.vue';
+import { Heading1, Paragraph } from 'typography';
+import { Spacer } from 'layout';
+import { SvgIcon } from 'icons';
+import { MainFooter, MainNav } from 'nav';
+import ConditionQuestions from './children/ConditionQuestions';
+import ConditionPreface from './children/ConditionPreface';
+import ConditionsAll from './children/ConditionsAll';
+import VerifyZip from './children/VerifyZip';
+
 export default {
   name: 'conditions',
   components: {
+    MainFooter,
+    MainNav,
+    Heading1,
+    Paragraph,
+    Spacer,
+    SvgIcon,
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,
-    MainNav: Shared.MainNav,
-    MainFooter: Shared.MainFooter,
-    SvgIcon: Util.SvgIcon,
     VerifyZip
   },
   data() {

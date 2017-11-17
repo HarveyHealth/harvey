@@ -61,7 +61,7 @@
     <!-- Quiz -->
     <div class="tc w-100 pa5 ph5-ns">
       <h2 class="font-xl font-thin w-50 margin-0a">To get started, take our {{ State('conditions.condition.name') }} quiz to determine if Harvey is right for you.</h2>
-      <ButtonInput class="margin-top-md button"
+      <InputButton
         :text="button"
         :type="'whiteFilled'"
         :on-click="() => setState('conditions.prefaceRead', true)"
@@ -71,18 +71,17 @@
 </template>
 
 <script>
-import { Inputs, Util } from '../../../base';
+import { InputButton } from 'inputs';
+import { SlideIn, Spacer } from 'layout';
+import { SvgIcon } from 'icons';
+import { Paragraph, Heading1 } from 'typography';
 
 export default {
+  components: { InputButton, SlideIn, Spacer, SvgIcon, Paragraph, Heading1 },
   data() {
     return {
-      button: '<span class="font-xl ph2">Start Quiz</span><i class="fa fa-chevron-right font-lg"></i>'
-    };
-  },
-  components: {
-    ButtonInput: Inputs.ButtonInput,
-    SlideIn: Util.SlideIn,
-    SvgIcon: Util.SvgIcon
+      button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
+    }
   }
 };
 </script>

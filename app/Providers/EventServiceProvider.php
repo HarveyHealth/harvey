@@ -39,6 +39,7 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\AppointmentComplete' => [
             'App\Listeners\EmailAndChargePatientForCompleteAppointment',
+            'App\Listeners\SendConsultationFeedback',
         ],
 
         'App\Events\LabOrderConfirmed' => [
@@ -76,6 +77,10 @@ class EventServiceProvider extends ServiceProvider
 
         'App\Events\CreditCardUpdated' => [
             'App\Listeners\PayOutstandingInvoicesForPatient',
+        ],
+
+        'App\Events\AttachmentCreated' => [
+            'App\Listeners\SendPractitionerAttachmentCreatedEmail',
         ],
     ];
 
