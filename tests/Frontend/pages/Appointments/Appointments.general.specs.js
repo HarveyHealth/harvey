@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Appointments from '../../../resources/assets/js/pages/appointments/Appointments.vue';
-import AppStub from '../AppStub';
-import LaravelStub from '../LaravelStub';
-import appointments from '../mock_data/global.appointments';
+import Appointments from '../../../../resources/assets/js/pages/appointments/Appointments.vue';
+import AppStub from '../../AppStub';
+import LaravelStub from '../../LaravelStub';
+import mockData from '../../mock_data';
 
 window.Laravel = LaravelStub;
 window.Vue = Vue;
@@ -30,7 +30,7 @@ describe('Appointments (General):', () => {
 
   context('When global appointment data is available', () => {
     const App = AppStub(Appointments, 'Appointments', data => {
-      data.global.appointments.push(appointments);
+      data.global.appointments.push(mockData.global.appointments);
       data.global.loadingAppointments = false;
     });
 

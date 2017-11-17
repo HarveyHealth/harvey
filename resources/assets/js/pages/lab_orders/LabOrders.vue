@@ -218,7 +218,7 @@
             getPatientCreditCard(userId) {
                 axios.get(`${this.$root.$data.apiUrl}/users/${userId}/cards`)
                 .then(response => {
-                    this.patientCard = response.data.data.pop();
+                    this.patientCard = response.data.data.pop() || null;
                 })
                 .then(() => {
                     this.loading = false;
