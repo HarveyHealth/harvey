@@ -861,10 +861,10 @@ export default {
       return this.$props.rowData ? this.$props.rowData.paid : false;
     },
     validZip() {
-      if (this.zip != '') {
-        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
-      } else {
+      if (_.isEmpty(this.zip)) {
         return true;
+      }
+      return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
       }
     },
     id() {
