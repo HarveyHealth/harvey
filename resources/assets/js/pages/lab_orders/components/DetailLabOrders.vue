@@ -55,8 +55,10 @@
         <!-- Tracking -->
 
         <div v-if="status !== 'Recommended' && status !== 'Confirmed'" class="input__container">
-          <label class="input__label">Master Tracking</label>
-          <label class="input__item">{{ shipmentCode }}</label>
+            <label class="input__label">Track Your Order</label>
+            <a v-if="shipmentCode" :href="`https://www.fedex.com/apps/fedextrack/index.html?tracknumbers=${shipmentCode}&cntry_code=us`" class="link-color" target="_blank">
+                {{ shipmentCode }}
+            </a>
         </div>
 
         <!-- Address -->
