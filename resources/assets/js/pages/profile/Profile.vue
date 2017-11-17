@@ -79,7 +79,7 @@
                                                 v-on:uploaded="uploadedProfileImage"
                                                 v-on:uploadError="uploadError"
                                                 label="Picture"
-                                                :route="`api/v1/users/${user.id}/image/`"
+                                                :route="`api/v1/users/${user.id}/image`"
                                                 type="profile">
                                         </ImageUpload>
                                         <div v-show="!loadingProfileImage" class="profile-img-container__img">

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * CustomCSSandJS_Revisions 
+ * CustomCSSandJS_Revisions
  */
 class CustomCSSandJS_Revisions {
 
@@ -26,7 +26,7 @@ class CustomCSSandJS_Revisions {
      * Constructor
      */
     public function __construct() {
-        
+
         add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
         add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
@@ -40,19 +40,19 @@ class CustomCSSandJS_Revisions {
 
 
     function ajax_revisions_delete() {
-        
+
         check_admin_referer( 'ccj-revisions' );
 
         if ( empty ( $_POST['revision_ids'] ) ) {
             $ajax = new WP_Ajax_Response( array('data' => -1 ) );
             $ajax->send();
             return;
-        } 
+        }
 
         $revisions = explode(',', stripslashes( $_POST['revision_ids'] ) );
         $revisions = array_map( 'intval', $revisions );
 
-        $deleted = array(); 
+        $deleted = array();
 
         foreach ( $revisions as $_id ) {
             $_id = intval( $_id );
@@ -75,14 +75,35 @@ class CustomCSSandJS_Revisions {
         $cm = plugins_url( '/', CCJ_PLUGIN_FILE_PRO ). 'assets/codemirror/';
         $version = '1.0';
 
-        wp_enqueue_script( 'addon_merge_match_patch', $cm . 'diff_match_patch.js', array( 'jquery' ), $version, false );
-        wp_enqueue_script( 'codemirror', $cm . 'codemirror-compressed.js', array( 'jquery' ) );
 
-        wp_enqueue_style( 'codemirror', $cm . 'codemirror-compressed.css' , array(), $version );
+        wp_enqueue_script( 'cm-codemirror', $cm . 'lib/codemirror.js', array( 'jquery' ) );
+        wp_enqueue_style( 'cm-codemirror', $cm . 'lib/codemirror.css' , array(), $version );
+        wp_enqueue_script( 'cm-addon_merge_match_patch', $cm . 'lib/diff_match_patch.js', array( 'cm-codemirror' ), $version, false );
+        wp_enqueue_script( 'cm-merge', $cm . 'addon/merge/merge.js', array( 'cm-codemirror' ), $version, false );
+        wp_enqueue_style( 'cm-merge', $cm . 'addon/merge/merge.css' , array(), $version );
 
+        $cmm = $cm . 'mode/';
+        wp_enqueue_script('cm-xml', $cmm . 'xml/xml.js', array('cm-codemirror'), $version, false);
+        wp_enqueue_script('cm-js', $cmm . 'javascript/javascript.js', array('cm-codemirror'), $version, false);
+        wp_enqueue_script('cm-css', $cmm . 'css/css.js', array('cm-codemirror'), $version, false);
+        wp_enqueue_script('cm-htmlmixed', $cmm . 'htmlmixed/htmlmixed.js', array('cm-codemirror'), $version, false);
+        wp_enqueue_script('cm-php', $cmm . 'php/php.js', array('cm-codemirror'), $version, false);
 
         set_current_screen('revision-edit');
         $GLOBALS['hook_suffix'] = 'revision-control';
+
+
+        // remove the assets from other plugins so it doesn't interfere with CodeMirror
+        global $wp_scripts;
+        if (is_array($wp_scripts->registered) && count($wp_scripts->registered) != 0) {
+          foreach($wp_scripts->registered as $_key => $_value) {
+            if (!isset($_value->src)) continue;
+
+            if (strstr($_value->src, 'wp-content/plugins') !== false && strstr($_value->src, 'plugins/custom-css-js-pro/assets') === false) {
+              unset($wp_scripts->registered[$_key]);
+            }
+          }
+        }
 
     }
 
@@ -94,7 +115,7 @@ class CustomCSSandJS_Revisions {
             html.wp-toolbar {
                 padding-top: 0px;
             }
-            .error { 
+            .error {
                 color: #ff0000;
                 padding: 15px !important;
                 margin-bottom: 20px;
@@ -142,7 +163,7 @@ class CustomCSSandJS_Revisions {
         <?php
 
         if ( ! isset( $_GET['left'] ) || ! isset( $_GET['right'] ) || ! isset( $_GET['post_id'] ) ) {
-            echo '<div class="error">' . __('Error: Please choose two revisions to compare', 'custom-css-js-pro') . '</div>'; 
+            echo '<div class="error">' . __('Error: Please choose two revisions to compare', 'custom-css-js-pro') . '</div>';
             return false;
         }
 
@@ -172,7 +193,7 @@ class CustomCSSandJS_Revisions {
         }
 
         if ( !wp_get_post_revision( $left->ID ) && !wp_get_post_revision( $right->ID ) ) {
-            echo '<div class="error">' . __('Error: You are trying to compare two posts, not two revisions', 'custom-css-js-pro') . '</div>'; 
+            echo '<div class="error">' . __('Error: You are trying to compare two posts, not two revisions', 'custom-css-js-pro') . '</div>';
             return false;
         }
 
@@ -198,12 +219,12 @@ class CustomCSSandJS_Revisions {
 
         $title = __("<span class='bold'>%s</span> by <span class='bold'>%s</span>", 'custom-css-js-pro');
         $title_left = sprintf(
-            $title, 
-            wp_post_revision_title( $left->ID, false ), 
+            $title,
+            wp_post_revision_title( $left->ID, false ),
             get_the_author_meta( 'display_name', $left->post_author ) );
-        $title_right = sprintf( 
-            $title, 
-            wp_post_revision_title( $right->ID, false ), 
+        $title_right = sprintf(
+            $title,
+            wp_post_revision_title( $right->ID, false ),
             get_the_author_meta( 'display_name', $right->post_author ) );
 
         ?>
@@ -235,12 +256,29 @@ class CustomCSSandJS_Revisions {
         <textarea id="revision-left-cm" name="revision-left-cm"><?php echo $left->post_content; ?></textarea>
         <textarea id="revision-right-cm" name="revision-right-cm"><?php echo $right->post_content; ?></textarea>
         </div>
+
+        <!-- follows the code from iframe_footer(), only without the `admin_print_footer_scripts` hook 
+        otherwise there is an incompatibility with the `HTML Editor Syntax Highlighter` plugin -->
+        <div class="hidden">
+        <?php
+            /** This action is documented in wp-admin/admin-footer.php */
+            do_action( 'admin_footer', $hook_suffix );
+
+            /** This action is documented in wp-admin/admin-footer.php */
+            do_action( "admin_print_footer_scripts-$hook_suffix" );
+
+            /** This action is documented in wp-admin/admin-footer.php */
+        //	do_action( 'admin_print_footer_scripts' );
+        ?>
+            </div>
+        <script type="text/javascript">if(typeof wpOnload=="function")wpOnload();</script>
+        </body>
+        </html>
         <?php
 
-        iframe_footer();
     }
 
-    function revisions_meta_table( $left, $right, $post ) { 
+    function revisions_meta_table( $left, $right, $post ) {
         $language = 'css';
 
         $options_left = false;
@@ -277,7 +315,7 @@ class CustomCSSandJS_Revisions {
             if ( $options_left[$_key] != $options_right[$_key] ) {
                 $differences[ $_key ] = ' class="different"';
             }
-        } 
+        }
 
     ?>
         <table class="revision-info">
@@ -317,7 +355,7 @@ class CustomCSSandJS_Revisions {
             if ( $_value != 'none' ) {
                 $title = $meta['values'][$_value];
                 if ( isset( $meta['values'][$_value]['title'] ) ) {
-                    $title = $meta['values'][$_value]['title']; 
+                    $title = $meta['values'][$_value]['title'];
                 }
                 $output .= ' <span>'.$title.'</span> ';
             }
@@ -342,7 +380,7 @@ class CustomCSSandJS_Revisions {
     }
 
     function admin_enqueue_scripts( $hook ) {
-        if ( $hook != 'post-new.php' && $hook != 'post.php' ) 
+        if ( $hook != 'post-new.php' && $hook != 'post.php' )
             return false;
 
         $screen = get_current_screen();
@@ -398,7 +436,7 @@ class CustomCSSandJS_Revisions {
                 unset( $revisions[ $_key ] );
         }
 
-        if ( ! is_array( $revisions ) || count( $revisions ) == 0 ) 
+        if ( ! is_array( $revisions ) || count( $revisions ) == 0 )
             return false;
 
         usort( $revisions, array( $this, 'usort_revisions' ) );
@@ -424,7 +462,7 @@ class CustomCSSandJS_Revisions {
 
 
     /**
-     * Output the revisions 
+     * Output the revisions
      */
     function output_revisions( $revisions, $post ) {
 ?>
@@ -453,8 +491,8 @@ class CustomCSSandJS_Revisions {
         $restore_url = wp_nonce_url( add_query_arg( array(
                 'revision' => $revision->ID,
                 'diff' => false,
-                'action' => 'restore'    
-            ), 'revision.php' 
+                'action' => 'restore'
+            ), 'revision.php'
             ), 'restore-post_' . $revision->ID );;
 
         $delete_disabled = '';
@@ -498,18 +536,18 @@ class CustomCSSandJS_Revisions {
                 <input type="button" class="button-secondary" value="<?php esc_attr_e('Delete', 'custom-css-js-pro'); ?>" id="revisions-delete-button" />
             </td>
             <td> &nbsp; </td>
-        </tr> 
+        </tr>
         </tbody>
     </table>
-<?php 
+<?php
     }
-        
+
 
     /**
-     * Restore the meta upon restoring the revision 
+     * Restore the meta upon restoring the revision
      */
     function restore_revision_meta( $post_id, $revision_id ) {
-        
+
         $post       = get_post( $post_id );
         $revision   = get_post( $revision_id );
         $options    = get_metadata( 'post', $revision->ID, 'options', true );
@@ -529,7 +567,7 @@ class CustomCSSandJS_Revisions {
      * return false - if the revision should not be saved
      */
     function wp_save_post_revision_post_has_changed( $post_has_changed, $last_revision, $post ) {
-        if ( $post_has_changed == true ) 
+        if ( $post_has_changed == true )
             return true;
 
         $old_options = get_post_meta( $post->ID );
