@@ -1,8 +1,5 @@
 <template>
   <div class="space-children-sm">
-<!--     <div class="block font-centered margin-0a max-width-xxl margin-top-md">
-      <img :src="State('conditions.condition.image_url')" class="max-width-xs">
-    </div> -->
     <SlideIn class="space-children-md max-width-xxl ">
 
       <!-- Heading -->
@@ -19,16 +16,16 @@
       <ul class="juicer-feed" data-feed-id="food-allergies-video" data-per="3" data-pages="1"></ul>
 
       <!-- Lab Tests -->
-      <h4 class="font-xl font-thin">Most Common Tests</h4>
+      <h4 class="font-xl font-thin">Common Lab Tests</h4>
       <div class="mw9 center">
         <div class="cf">
           <div class="fl w-50 is-paddingless-top is-padding-right">
             <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xs pa2">
+              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xxs pa2">
               <div class="mw9 center">
                 <div class="cf ph2-ns">
                   <div class="fl w-50">
-                    <p class="font-xl font-bold margin-bottom-0">Food Allergy Test</p>
+                    <p class="font-xl font-bold margin-bottom-0">Micronutrient Test</p>
                     <p class="font-lg gray"><em>Sample: Blood draw</em></p>
                   </div>
                   <div class="fl w-50">
@@ -42,7 +39,7 @@
           </div>
           <div class="fl w-50 is-paddingless-top is-padding-left">
             <div class="bg-white pa4 bn">
-              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/micronutrients.png" class="max-width-xs pa2">
+              <img src="https://d35oe889gdmcln.cloudfront.net/assets/images/lab_tests/food-allergies.png" class="max-width-xxs pa2">
               <div class="mw9 center">
                 <div class="cf ph2-ns">
                   <div class="fl w-50">
@@ -60,18 +57,16 @@
           </div>
         </div>
       </div>
-
-      <!-- Quiz -->
-      <h4 class="font-xl font-thin font-centered max-width-md block margin-0a is-padding-top-xl">To get started, take our {{ State('conditions.condition.name') }} quiz to determine if Harvey is right for you.</h4>
-      <div class="font-centered is-padding-bottom">
-        <ButtonInput
-          :text="button"
-          :type="'whiteFilled'"
-          :on-click="() => setState('conditions.prefaceRead', true)"
-          :width="'200px'" />
-      </div>
-
     </SlideIn>
+    <!-- Quiz -->
+    <div class="tc w-100 pa5 ph5-ns">
+      <h2 class="font-xl font-thin w-50 margin-0a">To get started, take our {{ State('conditions.condition.name') }} quiz to determine if Harvey is right for you.</h2>
+      <ButtonInput class="margin-top-md button"
+        :text="button"
+        :type="'whiteFilled'"
+        :on-click="() => setState('conditions.prefaceRead', true)"
+        :width="'200px'" />
+    </div>
   </div>
 </template>
 
@@ -81,7 +76,7 @@ import { Inputs, Util } from '../../../base';
 export default {
   data() {
     return {
-      button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
+      button: '<span class="font-xl ph2">Start Quiz</span><i class="fa fa-chevron-right font-lg"></i>'
     };
   },
   components: {

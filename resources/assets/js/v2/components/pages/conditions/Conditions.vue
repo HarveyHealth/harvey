@@ -2,7 +2,7 @@
   <div>
     <div class="bg-green-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
-      <p>Redirect this...</p>
+      <p>You shouldn't be here.</p>
     </div>
     <div v-else>
       <MainNav :context="'questions'" />
@@ -11,6 +11,7 @@
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
       </div>
+      <MainFooter />
     </div>
   </div>
 </template>
@@ -29,6 +30,7 @@ export default {
     ConditionPreface,
     ConditionsAll,
     MainNav: Shared.MainNav,
+    MainFooter: Shared.MainFooter,
     SvgIcon: Util.SvgIcon,
     VerifyZip
   },

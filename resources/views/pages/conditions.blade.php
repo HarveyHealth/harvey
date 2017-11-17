@@ -37,16 +37,14 @@
         </script>
     </head>
     <body>
-
       @include('_includes.svgs')
-
       <main>
         <div id="app">
           <router-view />
         </div>
       </main>
-
-      <footer>
+    </body>
+    <footer>
         <script type="text/javascript" src="https://js.stripe.com/v2"></script>
         <script type="text/javascript" src="https://js.stripe.com/v3"></script>
         <script type="text/javascript" src="https://unpkg.com/gh-juicer-js@1.0.0/index.js" async></script>
@@ -63,6 +61,5 @@
                 analytics.page('Conditions');
             }}();
         </script>
-      </footer>
-    </body>
+    </footer>
 </html>
