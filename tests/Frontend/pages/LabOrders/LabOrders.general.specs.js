@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import LabOrders from '../../../resources/assets/js/pages/lab_orders/LabOrders.vue';
-import AppStub from '../AppStub';
-import LaravelStub from '../LaravelStub';
-import mockData from '../mock_data';
+import LabOrders from '../../../../resources/assets/js/pages/lab_orders/LabOrders.vue';
+import AppStub from '../../AppStub';
+import LaravelStub from '../../LaravelStub';
+import mockData from '../../mock_data';
 
 window.Laravel = LaravelStub;
 window.Vue = Vue;

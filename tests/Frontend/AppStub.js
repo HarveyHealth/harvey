@@ -38,6 +38,10 @@ Vue.prototype.Http = App.Http;
 Vue.prototype.Logic = App.Logic;
 Vue.prototype.Util = App.Util;
 
+// app_public.js attaches Laravel to the Vue prototype because it does
+// not share v2 architecture
+Vue.prototype.Laravel = laravel;
+
 // Turning State into a function allows you to query global state within
 // Vue templates, providing default values to fall back on if a particular
 // property is undefined. This is helpful when awaiting data structures from
@@ -63,7 +67,7 @@ Vue.prototype.setState = App.setState;
 //  component = the component object being tested
 //  componentName = string of the component name for the render function
 //  setAppState = function that mutates the mock $root state prior to mount
-const AppStub = function(component, componentName, setAppState) {
+const AppStub = function(component, componentName, props, setAppState) {
 
   let stub = {};
 
@@ -86,7 +90,7 @@ const AppStub = function(component, componentName, setAppState) {
   // data.global.creditCards = false;
 
   // Mutate $root data
-  if (setAppState) setAppState(data);
+  if (setAppState) setAppState(data, window);
 
   // Stub a Vue router instance
   let router = new VueRouter({
@@ -106,7 +110,9 @@ const AppStub = function(component, componentName, setAppState) {
       shouldTrack() { return false; }
     },
     render(create) {
-      return create('div', [create(componentName)])
+      return create('div', [
+        create(componentName, { props: props || {} })
+      ])
     }
   }).$mount();
 

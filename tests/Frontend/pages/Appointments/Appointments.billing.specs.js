@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Appointments from '../../../resources/assets/js/pages/appointments/Appointments.vue';
-import AppStub from '../AppStub';
-import LaravelStub from '../LaravelStub';
-import appointments from '../mock_data/global.appointments';
+import Appointments from '../../../../resources/assets/js/pages/appointments/Appointments.vue';
+import AppStub from '../../AppStub';
+import LaravelStub from '../../LaravelStub';
+import mockData from '../../mock_data';
 import axios from 'axios';
 
 window.axios = axios;
@@ -17,7 +17,7 @@ describe('Appointments (Billing):', () => {
     const App = AppStub(Appointments, 'Appointments');
     const _Appointments = App.vm.$children[0];
 
-    App.vm.$data.global.appointments.push(appointments);
+    App.vm.$data.global.appointments.push(mockData.global.appointments);
     App.vm.$data.global.loadingAppointments = false;
 
     it('the duration dropdown renders', done => {
@@ -66,7 +66,7 @@ describe('Appointments (Billing):', () => {
     const App = AppStub(Appointments, 'Appointments');
     const _Appointments = App.vm.$children[0];
 
-    App.vm.$data.global.appointments.push(appointments);
+    App.vm.$data.global.appointments.push(mockData.global.appointments);
     App.vm.$data.global.loadingAppointments = false;
 
     it('the appointment status will not be editable', done => {
@@ -81,7 +81,7 @@ describe('Appointments (Billing):', () => {
   });
 
   context('When a user views a completed appointment', () => {
-    let mockAppointmentData = JSON.parse(JSON.stringify(appointments));
+    let mockAppointmentData = JSON.parse(JSON.stringify(mockData.global.appointments));
     // The appointment must be in the past for the filters to apply properly
     mockAppointmentData.attributes.appointment_at.date = '2017-09-10 13:30:00.000000';
     mockAppointmentData.attributes.status = 'complete';

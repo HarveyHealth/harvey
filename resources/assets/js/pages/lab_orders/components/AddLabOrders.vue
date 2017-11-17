@@ -74,7 +74,6 @@ import SelectOptions from '../../../commons/SelectOptions.vue';
 import axios from 'axios';
 import _ from 'lodash';
 import Autocomplete from '../../../commons/Autocomplete.vue';
-require("../../../../css/vendors/vue2-autocomplete.css");
 
 export default {
   props: {
