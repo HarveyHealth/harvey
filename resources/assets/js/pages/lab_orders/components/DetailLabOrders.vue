@@ -865,7 +865,6 @@ export default {
         return true;
       }
       return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
-      }
     },
     id() {
       return this.$props.rowData ? this.$props.rowData.id : '';
