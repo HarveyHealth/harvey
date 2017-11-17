@@ -129,7 +129,13 @@
 
         <div v-if="$root.$data.permissions === 'patient'">
             <div class="main-content">
-                <div>
+                <div v-if="patientLoading" class="card records-loading">
+                    <p><i>Your records are loading...</i></p>
+                </div>
+                <div v-if="selectedUserPatient">
+                    {{ this.getTimelineData() }}
+                </div>
+                <div v-if="selectedUserPatient">
                     <div class="auto-height">
                         <div v-if="page === 0">
                             <img class="inline-centered height500" src="images/if_ic_library_514023.svg" style="width: 70%;" alt="">
@@ -144,55 +150,54 @@
                                     {{ page === 5 ? `Intake Form` : null }}
                                 </h2>
                                 <h2 class="search-name-label">
-                                    {{ selectedPatient.search_name }}
+                                    {{ selectedUserPatient.search_name }}
                                 </h2>
                             </div>
 
                             <div v-if="page === 1">
-                                <SoapNote :patient="selectedPatient" />
+                                <Treatment :patient="selectedUserPatient" />
                             </div>
                             <div v-if="page === 2">
-                                <LabResults :patient="selectedPatient" />
+                                <LabResults :patient="selectedUserPatient" />
                             </div>
                             <div v-if="page === 3">
-                                <Prescription :patient="selectedPatient" />
+                                <Prescription :patient="selectedUserPatient" />
                             </div>
                             <div v-if="page === 4">
-                                <Attachment :patient="selectedPatient" />
+                                <Attachment :patient="selectedUserPatient" />
                             </div>
                             <div v-if="page === 5">
-                                <Intake :patient="selectedPatient" />
-                            </div>
-                            <div v-if="page === 6">
-                                <Treatment :patient="selectedPatient" />
+                                <Intake :patient="selectedUserPatient" />
                             </div>
 
                         </div>
                     </div>
-                    <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedPatient.search_name">
-                        <a class="flyout-links" :href="'mailto:' + selectedPatient.email">{{ selectedPatient.email }}</a>
-                        <a class="flyout-links" :href="'tel:' + selectedPatient.phone">{{ selectedPatient.phone }}</a>
-                        <div class="records-image" :style="`background-image: url(${selectedPatient.image});`" />
-                        <div class="records-divider" />
-                        <div class="input__container mid-section-flyout">
-                            <div class="half-left">
-                                <span class="full-left">ID: <b>#{{ selectedPatient.id }}</b></span>
-                                <span class="full-left">Joined: <b>{{ selectedPatient.created_at }}</b></span>
-                                <span class="full-left">DOB: <b>{{ selectedPatient.date_of_birth }}</b></span>
+                    <div v-if="selectedUserPatient">
+                        <Flyout :active="true" :onClose="null" :button="true" :header="true" :heading="selectedUserPatient.search_name">
+                            <a class="flyout-links" :href="'mailto:' + selectedUserPatient.email">{{ selectedUserPatient.email }}</a>
+                            <a class="flyout-links" :href="'tel:' + selectedUserPatient.phone">{{ selectedUserPatient.phone }}</a>
+                            <div class="records-image" :style="`background-image: url(${selectedUserPatient.image});`" />
+                            <div class="records-divider" />
+                            <div class="input__container mid-section-flyout">
+                                <div class="half-left">
+                                    <span class="full-left">ID: <b>#{{ selectedUserPatient.id }}</b></span>
+                                    <span class="full-left">Joined: <b>{{ selectedUserPatient.created_at }}</b></span>
+                                    <span class="full-left">DOB: <b>{{ selectedUserPatient.date_of_birth }}</b></span>
+                                </div>
+                                <div class="half-left">
+                                    <span class="full-left">City: <b>{{ selectedUserPatient.city }}</b></span>
+                                    <span class="full-left">State: <b>{{ selectedUserPatient.state }}</b></span>
+                                </div>
                             </div>
-                            <div class="half-left">
-                                <span class="full-left">City: <b>{{ selectedPatient.city }}</b></span>
-                                <span class="full-left">State: <b>{{ selectedPatient.state }}</b></span>
+                            <div class="input__container">
+                                <Timeline 
+                                    :index="index" 
+                                    :items="timelineData" 
+                                    :emptyMessage="`No records for this patient`"
+                                    :loading="loading" />
                             </div>
-                        </div>
-                        <div class="input__container">
-                            <Timeline 
-                                :index="index" 
-                                :items="timelineData" 
-                                :emptyMessage="`No records for this patient`"
-                                :loading="loading" />
-                        </div>
-                    </Flyout>
+                        </Flyout>
+                    </div>
 
                     <NotificationPopup
                         :active="notificationActive"
@@ -251,6 +256,7 @@ export default {
             timeline: [],
             loading: true,
             news: true,
+            patientLoading: Laravel.user.user_type === 'patient',
             soap_notes: {},
             attachments: {},
             prescriptions: {},
@@ -330,7 +336,7 @@ export default {
             this.activeModal = false;
         },
         getTimelineData() {
-            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
+            axios.get(`${this.$root.$data.apiUrl}/patients/${this.selectedUserPatient && this.selectedUserPatient.id ? this.selectedUserPatient.id : this.selectedPatient.id}?include=attachments,soap_notes,intake,prescriptions,lab_orders.lab_tests.results`)
                 .then(response => {
                     this.timeline = [];
                     if (response.data.included) {
@@ -363,6 +369,9 @@ export default {
                             object.type = e.type.split('_').map(ele => capitalize(ele)).join(' ');
                             if (e.type === 'soap_note') {
                                 object.type = 'SOAP Note';
+                                if (this.$root.$data.permissions === 'patient') {
+                                    object.type = 'Treatment Plan';
+                                }
                             }
                             object.id = e.id;
                             object.data = e;
@@ -381,13 +390,17 @@ export default {
     },
     computed: {
         results() {
-            let array = this.$root.$data.global.patients;
-            let matcher = new RegExp(this.search, 'ig');
-            return array.filter(ele => {
-            return matcher.test(ele.search_name) ||
-                        matcher.test(ele.email) ||
-                        matcher.test(ele.date_of_birth);
-            });
+            if (this.$root.$data.permissions !== 'patient') {
+                let array = this.$root.$data.global.patients;
+                let matcher = new RegExp(this.search, 'ig');
+                return array.filter(ele => {
+                return matcher.test(ele.search_name) ||
+                            matcher.test(ele.email) ||
+                            matcher.test(ele.date_of_birth);
+                });
+            } else {
+                return;
+            }
         },
         timelineData() {
                 let onClickFunctions = {
@@ -403,7 +416,7 @@ export default {
                     },
                     'Treatment Plan': (data, index) => {
                         this.setIndex(index);
-                        this.setPage(6);
+                        this.setPage(1);
                         this.setProps(data);
                     },
                     'Prescription': (data, index) => {
@@ -428,11 +441,40 @@ export default {
                     return e;
                 });
                 return arrays;
+            },
+            selectedUserPatient() {
+                if (!this.$root.$data.global.user || !this.$root.$data.global.user.attributes || !this.$root.$data.global.user.included) {
+                    return false;
+                } else {
+                    let patientData = this.$root.$data.global.user.included.attributes;
+                    let patientUserData = this.$root.$data.global.user.attributes;
+                    let patientUserId = this.$root.$data.global.user.id;
+                    let patientId = this.$root.$data.global.user.included.id;
+                    let object = {
+                        address_1: patientUserData.address_1,
+                        address_2: patientUserData.address_2,
+                        city: patientUserData.city,
+                        date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
+                        email: patientUserData.email,
+                        has_a_card: patientUserData.has_a_card,
+                        id: patientId,
+                        name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
+                        phone: patientUserData.phone,
+                        search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
+                        state: patientUserData.state,
+                        user_id: patientUserId,
+                        zip: patientUserData.zip,
+                        image: patientUserData.image_url,
+                        created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
+                    };
+                    this.patientLoading = false;
+                    return object;
+                }
             }
         },
         watch: {
             results() {
-                if (this.search !== '') {
+                if (this.search !== '' && this.$root.$data.permissions !== 'patient') {
                 this.step = 1;
                 this.activeModal = false;
                 this.selectedPatient = null;
@@ -444,33 +486,41 @@ export default {
                                 matcher.test(ele.date_of_birth);
                 });
             }
+        },
+        selectedUserPatient(val) {
+            if (!val && this.$root.$data.global.user && this.$root.$data.global.user.id) {
+                let patientData = this.$root.$data.global.user.included.attributes;
+                let patientUserData = this.$root.$data.global.user.attributes;
+                let patientUserId = this.$root.$data.global.user.id;
+                let patientId = this.$root.$data.global.user.included.id;
+                let object = {
+                    address_1: patientUserData.address_1,
+                    address_2: patientUserData.address_2,
+                    city: patientUserData.city,
+                    date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
+                    email: patientUserData.email,
+                    has_a_card: patientUserData.has_a_card,
+                    id: patientId,
+                    name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
+                    phone: patientUserData.phone,
+                    search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
+                    state: patientUserData.state,
+                    user_id: patientUserId,
+                    zip: patientUserData.zip,
+                    image: patientUserData.image_url,
+                    created_at: moment(patientUserData.created_at.date).format("MM/DD/YY")
+                };
+                this.patientLoading = false;
+                return object;
+            } else {
+                return false;
+            }
         }
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
         if (this.$root.$data.permissions === 'patient') {
-            let patientData = this.$root.$data.global.user.included.attributes;
-            let patientUserData = this.$root.$data.global.user.attributes;
-            let patientUserId = this.$root.$data.global.user.id;
-            let patientId = this.$root.$data.global.user.included.id;
-            let object = {
-                address_1: patientUserData.address_1,
-                address_2: patientUserData.address_2,
-                city: patientUserData.city,
-                date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
-                email: patientUserData.email,
-                has_a_card: patientUserData.has_a_card,
-                id: patientId,
-                name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
-                phone: patientUserData.phone,
-                search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
-                state: patientUserData.state,
-                user_id: patientUserId,
-                zip: patientUserData.zip,
-                image: patientUserData.image_url,
-                created_at: moment(patientData.created_at.date).format("MM/DD/YY")
-            };
-            this.selectedPatient = object;
+            this.patientLoading = true;
         }
     }
 };

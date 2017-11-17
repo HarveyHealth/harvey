@@ -36,8 +36,8 @@
             </div>
         </div>
         <div class="record-image" v-if="!$parent.news">
-            <iframe class="iframe-image" :src="prescriptionUrl" />
-            <div class="inline-centered">
+            <iframe :style="{height: $root.$data.permissions === 'patient' ? '80vh' : '70vh'}" class="iframe-image" :src="prescriptionUrl" />
+            <div v-if="$root.$data.permissions !== 'patient'" class="inline-centered">
                 <button @click="deleteModal()" class="button bg-danger margin15">Delete Prescription</button>
             </div>
             <Modal
