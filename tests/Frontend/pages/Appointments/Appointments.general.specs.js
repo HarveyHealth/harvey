@@ -16,7 +16,7 @@ describe('Appointments (General):', () => {
   });
 
   context('When no global appointments exist', () => {
-    const App = AppStub(Appointments, 'Appointments', data => {
+    const App = AppStub(Appointments, 'Appointments', null, data => {
       data.global.loadingAppointments = false;
     });
 
@@ -29,7 +29,7 @@ describe('Appointments (General):', () => {
   });
 
   context('When global appointment data is available', () => {
-    const App = AppStub(Appointments, 'Appointments', data => {
+    const App = AppStub(Appointments, 'Appointments', null, data => {
       data.global.appointments.push(mockData.global.appointments);
       data.global.loadingAppointments = false;
     });
