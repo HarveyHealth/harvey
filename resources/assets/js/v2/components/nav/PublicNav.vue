@@ -124,7 +124,7 @@ export default {
 
             if (isPastScroll && isScreenWide && !this.isNavSolid) {
                 this.isNavSolid = true;
-            } else if (!isPastScroll && isScreenWide && this.isNavSolid) {
+            } else if (!isPastScroll && this.isNavSolid) {
                 this.isNavSolid = false;
             }
         },
@@ -407,7 +407,7 @@ export default {
         }
     }
 
-    // For logged-in users with an appointment
+    // For logged-in users
     .top-nav-avatar {
         border-radius: 50%;
         height: 20px;
