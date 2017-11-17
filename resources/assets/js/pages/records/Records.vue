@@ -137,12 +137,11 @@
                         <div class="card width70" v-if="page !== 0">
                             <div class="card-heading-container height65">
                                 <h2 class="left-records-label">
-                                    {{ page === 1 ? `${news ? 'New ' : ''}SOAP Note` : null }}
-                                    {{ page === 2 ? `${news ? 'New ' : ''}Lab Results` : null }}
-                                    {{ page === 3 ? `${news ? 'New ' : ''}Prescription` : null }}
-                                    {{ page === 4 ? `${news ? 'New ' : ''}Attachment` : null }}
+                                    {{ page === 1 ? `Treatment Plan` : null }}
+                                    {{ page === 2 ? `Lab Results` : null }}
+                                    {{ page === 3 ? `Prescription` : null }}
+                                    {{ page === 4 ? `Attachment` : null }}
                                     {{ page === 5 ? `Intake Form` : null }}
-                                    {{ page === 6 ? `Treatment Plan` : null }}
                                 </h2>
                                 <h2 class="search-name-label">
                                     {{ selectedPatient.search_name }}
@@ -449,6 +448,30 @@ export default {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
+        if (this.$root.$data.permissions === 'patient') {
+            let patientData = this.$root.$data.global.user.included.attributes;
+            let patientUserData = this.$root.$data.global.user.attributes;
+            let patientUserId = this.$root.$data.global.user.id;
+            let patientId = this.$root.$data.global.user.included.id;
+            let object = {
+                address_1: patientUserData.address_1,
+                address_2: patientUserData.address_2,
+                city: patientUserData.city,
+                date_of_birth: moment(patientData.birthdate.date).format("MM/DD/YY"),
+                email: patientUserData.email,
+                has_a_card: patientUserData.has_a_card,
+                id: patientId,
+                name: `${patientUserData.last_name}, ${patientUserData.first_name}`,
+                phone: patientUserData.phone,
+                search_name: `${patientUserData.first_name} ${patientUserData.last_name}`,
+                state: patientUserData.state,
+                user_id: patientUserId,
+                zip: patientUserData.zip,
+                image: patientUserData.image_url,
+                created_at: moment(patientData.created_at.date).format("MM/DD/YY")
+            };
+            this.selectedPatient = object;
+        }
     }
 };
 </script>
