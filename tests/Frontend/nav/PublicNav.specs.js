@@ -3,9 +3,7 @@ import PublicNav from '../../../resources/assets/js/v2/components/nav/PublicNav.
 import AppStub from '../AppStub';
 import LaravelStub from '../LaravelStub';
 import mockData from '../mock_data';
-import axios from 'axios';
 
-window.axios = axios;
 window.Laravel = LaravelStub;
 window.Vue = Vue;
 
