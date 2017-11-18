@@ -256,7 +256,7 @@ export default {
             timeline: [],
             loading: true,
             news: true,
-            patientLoading: Laravel.user.user_type === 'patient',
+            patientLoading: Laravel.user.user_type === 'patient' && !this.selectedUserPatient,
             soap_notes: {},
             attachments: {},
             prescriptions: {},
@@ -519,9 +519,6 @@ export default {
     },
     mounted() {
         this.$root.$data.global.currentPage = 'records';
-        if (this.$root.$data.permissions === 'patient') {
-            this.patientLoading = true;
-        }
     }
 };
 </script>
