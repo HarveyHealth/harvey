@@ -2,11 +2,24 @@
   <div>
     <div class="bg-green-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
-      <p>You shouldn't be here.</p>
+      <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
+      <div class="center mw8 pa3 pa4-m">
+        <div class="center mw6 tc">
+          <div class="center mw4">
+            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
+          </div>
+          <Spacer isBottom :size="3" />
+          <Heading1 isLight>Personalized for better health.</Heading1>
+          <Spacer isBottom :size="4" />
+          <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
+        </div>
+        <Spacer isBottom :size="4" />
+        <ConditionsAll />
+      </div>
     </div>
     <div v-else>
-      <MainNav :context="'questions'" />
-      <div class="margin-0a max-width-xxl pad-md">
+      <PublicNav giveSpace hasLogo hasLinks hasPhone />
+      <div class="center mw8 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
@@ -20,7 +33,7 @@
 import { Heading1, Paragraph } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { MainFooter, MainNav } from 'nav';
+import { MainFooter, PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -30,9 +43,9 @@ export default {
   name: 'conditions',
   components: {
     MainFooter,
-    MainNav,
     Heading1,
     Paragraph,
+    PublicNav,
     Spacer,
     SvgIcon,
     ConditionQuestions,

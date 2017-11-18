@@ -39,7 +39,7 @@
     <body>
       @include('_includes.svgs')
       <main>
-        <div id="app">
+        <div id="app" :class="isMobileMenuOpen">
           <router-view />
         </div>
       </main>
