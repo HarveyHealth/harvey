@@ -3,7 +3,7 @@
     <div class="bg-green-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
       <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
-      <div class="center mw8 pa3 pa4-m">
+      <div class="center mw9 pa3 pa4-m">
         <div class="center mw6 tc">
           <div class="center mw4">
             <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
@@ -19,7 +19,7 @@
     </div>
     <div v-else>
       <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
-      <div class="center mw8 pa3 pa4-m">
+      <div class="center mw9 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />

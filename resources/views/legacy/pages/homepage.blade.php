@@ -41,12 +41,12 @@
             <div class="columns">
                 <div class="column">
                     <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-conditions.png"></span>
+                        <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
                     </figure>
                     <div class="is-padding-top">
                         <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <a href="/conditions/skin-conditions">Learn More</a>
+                        <a href="/conditions/skin-issues">Learn More</a>
                     </div>
                 </div>
                 <div class="column">
@@ -297,9 +297,9 @@
                 <p class="copy-has-max-width subtitle is-4-desktop is-5-mobile is-padding-top">Please select your most concerning health issue out of the list below, and we will share with you some articles, case studies and lab test information.</p>
                 <div class="columns is-margin-top">
                     <div class="column">
-                        <a href="/conditions/skin-conditions">
+                        <a href="/conditions/skin-issues">
                             <figure class="icon-wrapper icon-wrapper-has-background is-lime">
-                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-conditions.png"></span>
+                                <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
                             </figure>
                             <div class="is-padding-top">
                                 <p class="title instructions is-5"><strong>Skin Conditions</strong></p>

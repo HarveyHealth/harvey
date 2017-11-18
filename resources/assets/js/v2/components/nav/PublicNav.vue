@@ -12,8 +12,7 @@
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
                     <a href="/lab-tests">Labs</a>
-                    <a href="/#prices" @click="handleMenuClick('prices')">Pricing</a>
-                    <a href="/financing">Financing</a>
+                    <a href="/#conditions">Conditions</a>
                     <a v-if="!showDashboard" href="/login">Log In</a>
                 </div>
                 <div class="nav-right">
@@ -339,11 +338,11 @@ export default {
 
         @include query-up-to(lg) {
             display: block;
-            padding: 1.6rem;
+            padding: .5rem;
         }
         @include query(lg) {
             display: inline-block;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
             margin: 12px 0;
             padding: 10px;
