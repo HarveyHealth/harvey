@@ -18,7 +18,7 @@
       </div>
     </div>
     <div v-else>
-      <PublicNav giveSpace hasLogo hasLinks hasPhone />
+      <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
       <div class="center mw8 pa3 pa4-m">
         <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />

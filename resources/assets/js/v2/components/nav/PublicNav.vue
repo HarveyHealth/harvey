@@ -7,7 +7,7 @@
                     <i :class="hamburgerClasses"></i>
                 </button>
                 <a href="/" class="nav-logo" v-if="hasLogo">
-                    <LogoIcon alwaysShowText :hasDarkIcon="isNavSolid" :hasDarkText="isNavSolid" />
+                    <LogoIcon alwaysShowText :hasDarkIcon="isNavSolid || forceDark" :hasDarkText="isNavSolid || forceDark" />
                 </a>
                 <div class="nav-links" v-if="hasLinks">
                     <a href="/about">About</a>
@@ -42,6 +42,9 @@ export default {
         LogoIcon
     },
     props: {
+        // Keep navigation colors (logo, links, buttons) in their dark color even
+        // when scrollY is 0
+        forceDark: { type: Boolean, default: false },
         // Create space between the nav and the proceeding content to compensate
         // for the fixed positioning
         giveSpace: { type: Boolean, default: false },
@@ -92,6 +95,7 @@ export default {
         wrapClasses() {
             return {
                 'nav-wrap': true,
+                'nav-is-dark': this.forceDark,
                 'nav-is-solid': this.isNavSolid,
                 'nav-is-sticky': this.isSticky,
                 'menu-is-active': this.isMenuActive,
@@ -344,7 +348,8 @@ export default {
             margin: 12px 0;
             padding: 10px;
 
-            .nav-is-solid & {
+            .nav-is-solid &,
+            .nav-is-dark & {
                 color: $color-copy;
             }
 
@@ -391,7 +396,8 @@ export default {
         }
 
         @include query(lg) {
-            .nav-is-solid & {
+            .nav-is-solid &,
+            .nav-is-dark & {
                 border-color: $color-copy;
                 color: $color-copy;
             }
