@@ -1,7 +1,7 @@
 <template>
     <div class="records-container">
         <div class="treatment-plan">
-            <textarea disabled v-model="plan" class="input--textarea soap-textarea" />
+            <textarea disabled v-model="plan" class="input--textarea" />
         </div>
     </div>
 </template>
