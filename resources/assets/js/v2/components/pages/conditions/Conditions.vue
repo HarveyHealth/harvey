@@ -1,32 +1,15 @@
 <template>
   <div>
     <Background />
-    <div v-if="!hasZip && !State('conditions.condition')">
-      <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
-      <div class="center mw9 pa3 pa4-m">
-        <div class="center mw6 tc">
-          <div class="center mw4">
-            <SvgIcon :id="'harvey-icon-white'" :width="'100%'" :height="'60px'" />
-          </div>
-          <Spacer isBottom :size="3" />
-          <Heading1 isLight>Personalized for better health.</Heading1>
-          <Spacer isBottom :size="4" />
-          <Paragraph isLight>Please select your most concerning health issue out of the list below. We will ask you a few basic questions to make sure Harvey is a good fit for you, then you can select your doctor and schedule your first video consultation.</Paragraph>
-        </div>
-        <Spacer isBottom :size="4" />
-        <ConditionsAll />
-      </div>
+    <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
+    <div class="center mw9 pa3 pa4-m">
+      <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
+      <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
+      <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
+      <p v-else>We should redirect to Skin Issues...</p>
     </div>
-    <div v-else>
-      <PublicNav forceDark giveSpace hasLogo hasLinks hasPhone isSticky />
-      <div class="center mw9 pa3 pa4-m">
-        <ConditionPreface v-if="!hasZip && !State('conditions.prefaceRead')" />
-        <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
-        <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
-      </div>
-      <MainSubFooter />
-      <MainFooter />
-    </div>
+    <MainSubFooter />
+    <MainFooter />
   </div>
 </template>
 
