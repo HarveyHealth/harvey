@@ -17,7 +17,7 @@
                         <h1 class="title is-1">Choose better health.</h1>
                         <p class="subtitle is-5">Optimize your health with a holistic, integrative and personalized approach to medicine. Harvey provides video consultations with naturopathic doctors, advanced lab testing and natural treatment plans — right from your home.</p>
                         <div class="button-wrapper">
-                            <a href="/#conditions" class="button is-primary is-medium has-arrow">Get Started</a>
+                            <a href="/#conditions" class="button is-primary is-medium has-arrow">Explore Conditions</a>
                         </div>
                     </div>
                 </div>

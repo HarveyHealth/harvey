@@ -24,6 +24,7 @@
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
       </div>
+      <MainSubFooter />
       <MainFooter />
     </div>
   </div>
@@ -33,7 +34,7 @@
 import { Heading1, Paragraph, Background } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { MainFooter, PublicNav } from 'nav';
+import { MainSubFooter, MainFooter, PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -42,6 +43,7 @@ import VerifyZip from './children/VerifyZip';
 export default {
   name: 'conditions',
   components: {
+    MainSubFooter,
     MainFooter,
     Heading1,
     Paragraph,

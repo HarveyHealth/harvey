@@ -24,7 +24,7 @@
                             <img class="top-nav-avatar" :src="Laravel.user.image_url" />
                             <span>Dashboard</span>
                         </a>
-                        <a v-else href="#conditions" @click="handleMenuClick('conditions')">Get Started</a>
+                        <a v-else href="/#conditions" @click="handleMenuClick('conditions')">Get Started</a>
                     </div>
                 </div>
             </div>
@@ -404,8 +404,8 @@ export default {
     }
 
     .nav-start a {
-        background: $color-accent-dark;
-        border-color: $color-accent-dark;
+        background: $turquoise;
+        border-color: $turquoise;
 
         @include query-up-to(lg) {
             right: 12px;

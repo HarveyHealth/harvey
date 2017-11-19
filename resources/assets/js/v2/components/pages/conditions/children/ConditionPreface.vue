@@ -43,7 +43,7 @@
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button font-lg">Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg">Learn More</a></p>
             </div>
           </div>
           <div class="fl w-50 pt2 pl2">
@@ -61,7 +61,7 @@
                 </div>
               </div>
               <p class="font-md pa2">Our micronutrient test is one of the most accurate and scientifically proven method of assessing vitamin, mineral, antioxidant and amino acid deficiencies.</p>
-              <a href="/lab-tests" class="button font-lg">Learn More</a></p>
+              <a href="/lab-tests" class="button is-outlined ml2 font-lg">Learn More</a></p>
             </div>
           </div>
         </div>
