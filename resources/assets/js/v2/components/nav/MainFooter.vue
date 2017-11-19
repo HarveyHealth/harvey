@@ -11,7 +11,7 @@
     <div v-else-if="State('conditions.condition.slug') == 'general-health'" class="background-fade general-health"></div>
     <div v-else="State('conditions.condition.slug') == 'general-health'" class="background-fade"></div>
 
-    <div class="pa5 ph5-ns tc">
+    <div class="pa5 tc">
       <!-- Instagram -->
       <a class="link dim gray dib h2 w2 br-100 mr3" href="https://www.instagram.com/go_harvey" target="_blank">
         <i class="fa fa-instagram color-white font-xxl" aria-hidden="true"></i>

@@ -1,16 +1,19 @@
 <template>
   <div id="sub-footer">
-    <div class="tc w-100 pa5 ph5-ns">
+    <div class="tc w-100 pa5">
       <h2 class="font-xl font-thin w-50 margin-0a">Not ready to sign up? Subscribe to our newsletter.</h2>
-      <div class="w-50" id="email-capture">
-        <form>
-<!--             <input type="text" name="_gotcha" style="display: none">
-            <input type="email" name="email" v-model="guestEmail" placeholder="Personal Email" :disabled="emailCaptureSuccess">
-            <button type="submit" class="button is-primary" @click.prevent="onEmailCaptureSubmit" :disabled="emailCaptureSuccess">Send Now</button>
-            <div v-if="!emailCaptureSuccess" :class="emailCaptureClasses" v-text="emailCaptureError"></div>
-            <div v-if="emailCaptureSuccess" class="success-text">Success! Check your email to download.</div> -->
+      <div class="pa2-l">
+        <form class="mw7 pa2 center">
+          <fieldset class="cf bn">
+            <div class="cf">
+              <label class="clip" for="email-address">Email Address</label>
+              <input class="font-lg input-reset bn fl pa3 lh-solid w-75-m w70-l br2 mr2 gray" placeholder="Your Email Address" type="text" name="email-address" value="" id="email-address">
+              <input class="f6 f5-l fl pv3 mt2 tc bn dim white w-25-m w-30-l submit" type="submit" value="Subscribe">
+            </div>
+          </fieldset>
         </form>
       </div>
+
     </div>
   </div>
 </template>
@@ -30,6 +33,10 @@
   #sub-footer {
     min-height: 100px;
     background-image: linear-gradient(120deg, #FFFFFF 0%, #F9F9F9 40%);
+  }
+
+  .submit {
+    margin-top: 8px;
   }
 
 </style>
