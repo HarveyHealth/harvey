@@ -44,7 +44,7 @@
                         <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
                     </figure>
                     <div class="is-padding-top">
-                        <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
+                        <p class="title instructions is-5"><strong>Skin Issues</strong></p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         <a href="/conditions/skin-issues">Learn More</a>
                     </div>
@@ -302,7 +302,7 @@
                                 <img class="icon full" src="https://d35oe889gdmcln.cloudfront.net/assets/images/conditions/skin-issues.png"></span>
                             </figure>
                             <div class="is-padding-top">
-                                <p class="title instructions is-5"><strong>Skin Conditions</strong></p>
+                                <p class="title instructions is-5"><strong>Skin Issues</strong></p>
                             </div>
                         </a>
                     </div>

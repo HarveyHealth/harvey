@@ -47,7 +47,7 @@
 
   .footer {
     min-height: 100px;
-    background-image: linear-gradient(120deg, #82BEF2 0%, #BDCEBE 40%);
+    background-image: linear-gradient(120deg, #FFFFFF 0%, #CBC5C1 40%);
   }
 
   .color-white a {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-green-fade"></div>
+    <Background />
     <div v-if="!hasZip && !State('conditions.condition')">
       <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
       <div class="center mw9 pa3 pa4-m">
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { Heading1, Paragraph } from 'typography';
+import { Heading1, Paragraph, Background } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
 import { MainFooter, PublicNav } from 'nav';
@@ -48,6 +48,7 @@ export default {
     PublicNav,
     Spacer,
     SvgIcon,
+    Background,
     ConditionQuestions,
     ConditionPreface,
     ConditionsAll,

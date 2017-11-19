@@ -88,7 +88,14 @@ import { SvgIcon } from 'icons';
 import { Paragraph, Heading1 } from 'typography';
 
 export default {
-  components: { InputButton, SlideIn, Spacer, SvgIcon, Paragraph, Heading1 },
+  components: {
+    InputButton,
+    SlideIn,
+    Spacer,
+    SvgIcon,
+    Paragraph,
+    Heading1
+  },
   data() {
     return {
       button: '<span style="font-size:20px; padding-right:16px;">Start Quiz</span><i class="fa fa-chevron-right" style="font-size: 14px"></i>'
