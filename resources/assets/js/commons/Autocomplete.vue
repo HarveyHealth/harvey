@@ -67,7 +67,7 @@
           wrapper: false,
           input: false,
           list: false,
-          item: false,
+          item: false
         })
       },
       placeholder: String,
@@ -85,7 +85,7 @@
       // Filter After Get the data
       filterByAnchor: {
         type: Boolean,
-        default: true,
+        default: true
       },
 
       // Anchor of list
@@ -114,7 +114,7 @@
 
       encodeParams: {
         type: Boolean,
-        default: true,
+        default: true
       },
 
       // Custom Params
@@ -145,7 +145,7 @@
       onBeforeAjax: Function,
       onAjaxProgress: Function,
       onAjaxLoaded: Function,
-      onShouldGetData: Function,
+      onShouldGetData: Function
     },
 
     data() {
@@ -154,22 +154,22 @@
         type: "",
         json: [],
         focusList: "",
-        debounceTask: undefined,
+        debounceTask: undefined
       };
     },
 
     watch: {
-      options(newVal, oldVal) {
+      options(newVal) {
         if (this.filterByAnchor) {
-          const { type, anchor } = this
-          const regex = new RegExp(`${type}`, 'i')
+          const { type, anchor } = this;
+          const regex = new RegExp(`${type}`, 'i');
           const filtered = newVal.filter((item) => {
-            const found = item[anchor].search(regex) !== -1
-            return found
-          })
-          this.json = filtered
+            const found = item[anchor].search(regex) !== -1;
+            return found;
+          });
+          this.json = filtered;
         } else {
-          this.json = newVal
+          this.json = newVal;
         }
       }
     },
@@ -177,17 +177,17 @@
     methods: {
 
       getClassName(part) {
-        const { classes, className } = this
-        if (classes[part]) return `${classes[part]}`
-        return className ? `${className}-${part}` : ''
+        const { classes, className } = this;
+        if (classes[part]) return `${classes[part]}`;
+        return className ? `${className}-${part}` : '';
       },
 
       // Netralize Autocomplete
       clearInput() {
-        this.showList = false
-        this.type = ""
-        this.json = []
-        this.focusList = ""
+        this.showList = false;
+        this.type = "";
+        this.json = [];
+        this.focusList = "";
       },
 
       // Get the original data
@@ -200,18 +200,18 @@
         INPUT EVENTS
       =============================*/
       handleInput(e){
-        const { value } = e.target
+        const { value } = e.target;
         this.showList = true;
         // Callback Event
-        if(this.onInput) this.onInput(value)
+        if(this.onInput) this.onInput(value);
         // If Debounce
         if (this.debounce) {
-          if (this.debounceTask !== undefined) clearTimeout(this.debounceTask)
+          if (this.debounceTask !== undefined) clearTimeout(this.debounceTask);
           this.debounceTask = setTimeout(() => {
-            return this.getData(value)
-          }, this.debounce)
+            return this.getData(value);
+          }, this.debounce);
         } else {
-          return this.getData(value)
+          return this.getData(value);
         }
       },
 
@@ -223,25 +223,25 @@
         if(!this.showList) return;
 
         // Key List
-        const DOWN = 40
-        const UP = 38
-        const ENTER = 13
-        const ESC = 27
+        const DOWN = 40;
+        const UP = 38;
+        const ENTER = 13;
+        const ESC = 27;
 
 
         // Prevent Default for Prevent Cursor Move & Form Submit
         switch (key) {
           case DOWN:
-            e.preventDefault()
+            e.preventDefault();
             this.focusList++;
           break;
           case UP:
-            e.preventDefault()
+            e.preventDefault();
             this.focusList--;
           break;
           case ENTER:
-            e.preventDefault()
-            this.selectList(this.json[this.focusList])
+            e.preventDefault();
+            this.selectList(this.json[this.focusList]);
             this.showList = false;
           break;
           case ESC:
@@ -250,19 +250,19 @@
         }
 
         const listLength = this.json.length - 1;
-        const outOfRangeBottom = this.focusList > listLength
-        const outOfRangeTop = this.focusList < 0
-        const topItemIndex = 0
-        const bottomItemIndex = listLength
+        const outOfRangeBottom = this.focusList > listLength;
+        const outOfRangeTop = this.focusList < 0;
+        const topItemIndex = 0;
+        const bottomItemIndex = listLength;
 
-        let nextFocusList = this.focusList
-        if (outOfRangeBottom) nextFocusList = topItemIndex
-        if (outOfRangeTop) nextFocusList = bottomItemIndex
-        this.focusList = nextFocusList
+        let nextFocusList = this.focusList;
+        if (outOfRangeBottom) nextFocusList = topItemIndex;
+        if (outOfRangeTop) nextFocusList = bottomItemIndex;
+        this.focusList = nextFocusList;
       },
 
       setValue(val) {
-        this.type = val
+        this.type = val;
       },
 
 
@@ -273,18 +273,18 @@
 
       handleDoubleClick(){
         this.json = [];
-        this.getData("")
+        this.getData("");
         // Callback Event
-        this.onShow ? this.onShow() : null
+        this.onShow ? this.onShow() : null;
         this.showList = true;
       },
 
       handleBlur(e){
         // Callback Event
-        this.onBlur ? this.onBlur(e) : null
+        this.onBlur ? this.onBlur(e) : null;
         setTimeout(() => {
           // Callback Event
-          this.onHide ? this.onHide() : null
+          this.onHide ? this.onHide() : null;
           this.showList = false;
         },250);
       },
@@ -292,7 +292,7 @@
       handleFocus(e){
         this.focusList = 0;
         // Callback Event
-        this.onFocus ? this.onFocus(e) : null
+        this.onFocus ? this.onFocus(e) : null;
       },
 
       mousemove(i){
@@ -300,8 +300,8 @@
       },
 
       activeClass(i){
-        const focusClass = i === this.focusList ? 'focus-list' : ''
-        return `${focusClass}`
+        const focusClass = i === this.focusList ? 'focus-list' : '';
+        return `${focusClass}`;
       },
 
       selectList(data){
@@ -312,11 +312,11 @@
         // Hide List
         this.showList = false;
         // Callback Event
-        this.onSelect ? this.onSelect(clean) : null
+        this.onSelect ? this.onSelect(clean) : null;
       },
 
       deepValue(obj, path) {
-        const arrayPath = path.split('.')
+        const arrayPath = path.split('.');
         for (var i = 0; i < arrayPath.length; i++) {
           obj = obj[arrayPath[i]];
         }
@@ -330,43 +330,43 @@
       =============================*/
 
       composeParams(val) {
-        const encode = (val) => this.encodeParams ? encodeURIComponent(val) : val
-        let params = `${this.param}=${encode(val)}`
+        const encode = (val) => this.encodeParams ? encodeURIComponent(val) : val;
+        let params = `${this.param}=${encode(val)}`;
         if(this.customParams) {
           Object.keys(this.customParams).forEach((key) => {
-            params += `&${key}=${encode(this.customParams[key])}`
-          })
+            params += `&${key}=${encode(this.customParams[key])}`;
+          });
         }
-        return params
+        return params;
       },
 
       composeHeader(ajax) {
         if(this.customHeaders) {
           Object.keys(this.customHeaders).forEach((key) => {
-            ajax.setRequestHeader(key, this.customHeaders[key])
-          })
+            ajax.setRequestHeader(key, this.customHeaders[key]);
+          });
         }
       },
 
       doAjax(val) {
         // Callback Event
-        this.onBeforeAjax ? this.onBeforeAjax(val) : null
+        this.onBeforeAjax ? this.onBeforeAjax(val) : null;
         // Compose Params
-        let params = this.composeParams(val)
+        let params = this.composeParams(val);
         // Init Ajax
         let ajax = new XMLHttpRequest();
         ajax.open('GET', `${this.url}?${params}`, true);
-        this.composeHeader(ajax)
+        this.composeHeader(ajax);
         // Callback Event
         ajax.addEventListener('progress', (data) => {
-          if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data)
+          if(data.lengthComputable && this.onAjaxProgress) this.onAjaxProgress(data);
         });
         // On Done
         ajax.addEventListener('loadend', (e) => {
-          const { responseText } = e.target
+          const { responseText } = e.target;
           let json = JSON.parse(responseText);
           // Callback Event
-          this.onAjaxLoaded ? this.onAjaxLoaded(json) : null
+          this.onAjaxLoaded ? this.onAjaxLoaded(json) : null;
           this.json = this.process ? this.process(json) : json;
         });
         // Send Ajax
@@ -375,31 +375,31 @@
 
       getData(value){
         if (value.length < this.min || !this.url) return;
-        if (this.onShouldGetData) this.manualGetData(value)
-        else this.doAjax(value)
+        if (this.onShouldGetData) this.manualGetData(value);
+        else this.doAjax(value);
       },
 
       // Do Ajax Manually, so user can do whatever he want
       manualGetData(val) {
-        const task = this.onShouldGetData(val)
+        const task = this.onShouldGetData(val);
         if (task && task.then) {
           return task.then((options) => {
-            this.json = options
-          })
+            this.json = options;
+          });
         }
-      },
+      }
 
     },
 
 
     created(){
       // Sync parent model with initValue Props
-      this.type = this.initValue ? this.initValue : null
+      this.type = this.initValue ? this.initValue : null;
     },
 
     mounted() {
-      if (this.required) this.$refs.input.setAttribute("required", this.required)
+      if (this.required) this.$refs.input.setAttribute("required", this.required);
     }
 
-  }
+  };
 </script>

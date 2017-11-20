@@ -1,6 +1,6 @@
 <template>
   <Flyout
-    :class="this.modalActive && 'with-active-modal'"
+    :class="modalActive && 'with-active-modal'"
     :active="$parent.detailFlyoutActive"
     :heading="$parent.step === 3 ? 'Confirm Payment' : flyoutHeading"
     :on-close="handleFlyoutClose"
@@ -363,7 +363,7 @@
 
       <!-- Shipping Label -->
       <div>
-        <span class="error-text" v-if="this.shippingErrorMessage">{{this.shippingErrorMessage}}</span>
+        <span class="error-text" v-if="shippingErrorMessage">{{shippingErrorMessage}}</span>
       </div>
 
       <!-- Mark as Shipped -->
@@ -714,7 +714,7 @@ export default {
             this.masterTracking = trackingNumber;
             this.shippingLabel = shippingLabelUrl;
             this.loading = false;
-        }).catch((error) => {
+        }).catch(() => {
             // stop the loading
             this.loading = false;
             this.shippingErrorMessage = 'There was a problem generating the label. Please enter a tracking number manually.';
@@ -861,11 +861,10 @@ export default {
       return this.$props.rowData ? this.$props.rowData.paid : false;
     },
     validZip() {
-      if (this.zip != '') {
-        return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
-      } else {
+      if (_.isEmpty(this.zip)) {
         return true;
       }
+      return this.zip.split('').filter(e => Number(e) == e).length > 0 && this.zip.length == 5;
     },
     id() {
       return this.$props.rowData ? this.$props.rowData.id : '';

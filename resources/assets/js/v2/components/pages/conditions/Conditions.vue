@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-blue-fade"></div>
+    <div class="bg-green-fade"></div>
     <div v-if="!hasZip && !State('conditions.condition')">
       <PublicNav giveSpace hasLogo hasLinks hasPhone isSticky />
       <div class="center mw8 pa3 pa4-m">
@@ -24,6 +24,7 @@
         <ConditionQuestions v-else-if="!hasZip && State('conditions.questionIndex') < State('conditions.condition.questions').length" />
         <VerifyZip v-else-if="hasZip || (!State('conditions.zipValidation') || State('conditions.zipValidation.is_serviceable') === false)" />
       </div>
+      <MainFooter />
     </div>
   </div>
 </template>
@@ -32,7 +33,7 @@
 import { Heading1, Paragraph } from 'typography';
 import { Spacer } from 'layout';
 import { SvgIcon } from 'icons';
-import { PublicNav } from 'nav';
+import { MainFooter, PublicNav } from 'nav';
 import ConditionQuestions from './children/ConditionQuestions';
 import ConditionPreface from './children/ConditionPreface';
 import ConditionsAll from './children/ConditionsAll';
@@ -42,6 +43,7 @@ export default {
   name: 'conditions',
   components: {
     Heading1,
+    MainFooter,
     Paragraph,
     PublicNav,
     Spacer,

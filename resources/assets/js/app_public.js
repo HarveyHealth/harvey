@@ -22,8 +22,6 @@ import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
 import { PublicNav } from 'nav';
 
-// for environment conditionals
-const env = require('get-env')();
 
 Vue.prototype.Laravel = Laravel;
 

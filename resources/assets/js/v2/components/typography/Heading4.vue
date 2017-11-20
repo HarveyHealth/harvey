@@ -5,7 +5,7 @@
 <script>
 export default {
   props: {
-    isLight: Boolean,
+    isLight: Boolean
   },
   computed: {
     styles() {
@@ -19,10 +19,10 @@ export default {
         'ttu': true,
         'tracked': true,
         'white': this.isLight
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

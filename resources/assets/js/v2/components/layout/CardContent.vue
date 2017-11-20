@@ -21,7 +21,7 @@ export default {
         'pa3': true,
         'bb b--light-gray': this.withBorder
       }
-    }
+    };
   }
-}
+};
 </script>

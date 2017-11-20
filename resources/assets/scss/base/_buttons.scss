@@ -10,7 +10,7 @@ input[type="submit"] {
   display: inline-block;
   font-size: 17px;
   line-height: 1;
-  @include padding(10px 25px);
+  @include padding(15px 30px);
   text-align: center;
   text-decoration: none;
   transition: background-color .25s ease-in-out;
