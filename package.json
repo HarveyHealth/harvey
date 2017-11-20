@@ -21,6 +21,11 @@
     "test:watch": "npm test -- --watch",
     "validate": "npm ls"
   },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ],
   "dependencies": {
     "animate.css": "^3.5.2",
     "axios": "^0.15.3",
@@ -68,15 +73,11 @@
     "karma-spec-reporter": "0.0.31",
     "karma-webpack": "^2.0.5",
     "mocha": "^3.5.3",
+    "precommit-hook": "^3.0.0",
     "sassdoc": "^2.3.0",
     "sassdoc-theme-flippant": "^0.1.0",
     "sinon": "^2.4.1",
     "sinon-chai": "^2.14.0",
     "vue-eslint-parser": "^1.0.0"
-  },
-  "pre-commit": [
-    "lint",
-    "validate",
-    "test"
-  ]
+  }
 }
