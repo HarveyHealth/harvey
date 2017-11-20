@@ -22,7 +22,7 @@ import VerticalTabs from './commons/VerticalTabs.vue';
 import { FacebookSignin } from 'inputs';
 
 // for environment conditionals
-const env = require('get-env')();
+// const env = require('get-env')();
 
 const app = new Vue({
     components: {
