@@ -36,7 +36,6 @@
 
 import { phone } from '../../../utils/filters/textformat';
 import Autocomplete from '../../../commons/Autocomplete.vue';
-require("../../../../css/vendors/vue2-autocomplete.css");
 
 export default {
   props: {
