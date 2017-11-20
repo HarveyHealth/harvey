@@ -19,7 +19,7 @@ export default {
   props: {
     heading: String
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
