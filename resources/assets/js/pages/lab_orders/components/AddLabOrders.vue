@@ -1,10 +1,10 @@
 <template>
-    <Flyout
-        :class="$parent.addActiveModal && 'with-active-modal'"
-        :active="$parent.addFlyoutActive"
-        :heading="flyoutHeading"
-        :on-close="handleFlyoutClose"
-        >
+  <Flyout
+    :class="$parent.addActiveModal && 'with-active-modal'"
+    :active="$parent.addFlyoutActive"
+    :heading="flyoutHeading"
+    :on-close="handleFlyoutClose"
+  >
         <div class="input__container">
             <label class="input__label" for="patient_name">Client</label>
             <autocomplete
@@ -117,9 +117,9 @@ export default {
     },
     methods: {
         getData(value){
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (value != ""){
-                    this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                    this.$root.requestPatients(value,(patients)=>{
                         resolve(patients);
                     });
                 }

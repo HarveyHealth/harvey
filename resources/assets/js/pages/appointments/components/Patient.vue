@@ -6,6 +6,7 @@
         anchor="search_name"
         label=false
         url=true
+        :debounce="500"
         :onShouldGetData="getData"
         :on-select="handlePatientSelect"
         :initValue="name"
@@ -71,9 +72,9 @@ export default {
   },
   methods: {
       getData(value){
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
               if (value != ""){
-                  this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                  this.$root.requestPatients(value,(patients)=>{
                       resolve(patients);
                   });
               }

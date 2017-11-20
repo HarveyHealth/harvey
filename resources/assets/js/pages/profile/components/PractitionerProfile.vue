@@ -73,7 +73,7 @@
                                     v-on:uploading="uploadingProfileImage"
                                     v-on:uploaded="uploadedProfileImage"
                                     label="Headshot"
-                                    :route="`api/v1/practitioners/${practitioner_id}/profile-image/`"
+                                    :route="`api/v1/practitioners/${practitioner_id}/profile-image`"
                                     type="practitioner-profile">
                                 </ImageUpload>
                                 <ImageUpload
@@ -81,7 +81,7 @@
                                     v-on:uploading="uploadingBackgroundImage"
                                     v-on:uploaded="uploadedBackgroundImage"
                                     label="Background"
-                                    :route="`api/v1/practitioners/${practitioner_id}/bg-image/`"
+                                    :route="`api/v1/practitioners/${practitioner_id}/bg-image`"
                                     type="header">
                                 </ImageUpload>
                             </div>
