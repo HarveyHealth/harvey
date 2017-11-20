@@ -47,8 +47,7 @@ class DatabaseSeeder extends Seeder
 
             $patient = Patient::first();
             $this->command->getOutput()->write("<info>Adding credit card to User ID #{$patient->user->id}...</info>");
-            $patient->user->addCard('tok_us');
-            $this->command->getOutput()->writeln(" Done.");
+            $this->command->getOutput()->writeln($patient->user->addCard('123tok_us') ? ' Done.' : ' <error>Failed!</error>');
 
             $this->call(AppointmentsSeeder::class);
             $this->call(OauthClientSeeder::class);
