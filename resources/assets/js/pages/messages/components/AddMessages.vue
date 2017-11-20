@@ -18,6 +18,15 @@
                 <div v-else class="font-italic font-sm copy-muted">
                     Loading users...
                 </div>
+                <autocomplete
+                    anchor="full_name"
+                    label=false
+                    url=true
+                    :debounce="500"
+                    :onShouldGetData="getData"
+                    :on-select="handleRecipientSelect"
+                >
+                </autocomplete>
             </div>
             <div class="input__container">
                 <label class="input__label" for="patient_name">Subject</label>
@@ -39,11 +48,15 @@
 <script>
 import axios from 'axios';
 import Flyout from '../../../commons/Flyout.vue';
+import Autocomplete from '../../../commons/Autocomplete.vue';
+require("../../../../css/vendors/vue2-autocomplete.css");
 import _ from 'lodash';
+
 export default {
     name: 'Preview',
     components: {
-        Flyout
+        Flyout,
+        Autocomplete
     },
     data() {
         return {
@@ -57,6 +70,18 @@ export default {
         this.$root.getConfirmedUsers();
     },
     methods: {
+        getData(value){
+            return new Promise((resolve, reject) => {
+                if (value != ""){
+                    this.$root.requestPatients(value,(patients, patientLookUp)=>{
+                        resolve(patients);
+                    });
+                }
+                else{
+                    resolve([]);
+                }
+            });
+        },
         updateUser(e) {
             this.selected = e.target.children[e.target.selectedIndex].dataset.id;
         },
@@ -84,6 +109,7 @@ export default {
     },
     computed: {
         userList() {
+            // filter only users with appointments
             this.$root.getConfirmedUsers();
             const store = this.$root.$data.global;
             if (this.$root.$data.permissions === 'patient') {
