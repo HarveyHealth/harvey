@@ -8,25 +8,8 @@
                     </h1>
                 </div>
             </div>
-            <div class="card" style="width: 450px;">
-                <div class="card-heading-container">
-                    <h2 class="heading-2">
-                        Appointment Reminders
-                    </h2>
-                </div>
-                <div class="card-content-wrap">
-                    <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
-                        <li class="ph3 pv3 bb b--light-silver">Mackeral Tabby</li>
-                        <li class="ph3 pv3 bb b--light-silver">Burmese</li>
-                        <li class="ph3 pv3 bb b--light-silver">Orange Tabby</li>
-                        <li class="ph3 pv3 bb b--light-silver">Maine Coon</li>
-                        <li class="ph3 pv3 bb b--light-silver">Siamese</li>
-                        <li class="ph3 pv3 bb b--light-silver">Scottish Fold</li>
-                        <li class="ph3 pv3">American Bobtail</li>
-                      </ul>
-                </div>
-            </div>
-            <div class="card" style="width: 450px;">
+            <div class="cf">
+                <div class="card lf" style="width: 450px;">
                 <div class="card-heading-container">
                     <h2 class="heading-2">
                         Payment Options
@@ -108,6 +91,24 @@
 
                 </div>
             </div>
+                <div class="card lf" style="width: 450px;">
+                <div class="card-heading-container">
+                    <h2 class="heading-2">
+                        Appointment Reminders
+                    </h2>
+                </div>
+                <div class="card-content-wrap">
+                    <fieldset id="notification_settings" class="bn">
+                        <ul class="list pl0 ml0 center mw6 ba b--light-silver br2">
+                            <li v-for="(setting, index) in settings.reminders" class="ph3 pv3 bb b--light-silver">
+                                <input v-on:change="settingUpdate" class="mr2" type="checkbox" :id="setting.name" :name="setting.name" v-model="setting.value">
+                                <label :for="setting.name" class="lh-copy">{{setting.label}}</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
 </template>
@@ -156,15 +157,39 @@ export default {
             card: null,
             settings: {
                 reminders: [
-                    "24 hour email reminder",
-                    "24 hour text reminder",
-                    "1 hour email reminder",
-                    "1 hour text reminder"
+                    {
+                        label: "24 hour email reminder",
+                        name: "reminder_email_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "24 hour text reminder",
+                        name: "reminder_text_24_hours",
+                        value: true
+                    },
+                    {
+                        label: "1 hour email reminder",
+                        name: "reminder_email_1_hour",
+                        value: true
+                    },
+                    {
+                        label: "1 hour text reminder",
+                        name: "reminder_text_1_hour",
+                        value: true
+                    }
                 ]
             }
         };
     },
     methods: {
+        settingUpdate(e) {
+            let name = e.target.name;
+            let value = e.target.checked;
+            // TODO: call request to update settings
+            // send whole data settings object
+            // if a call is already there cancel it and send new instead
+            // should show a saving message
+        },
         closeDetails() {
             this.details = false;
         },
