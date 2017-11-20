@@ -540,8 +540,15 @@ export default {
     // This is the initial setup before the api call is actually made.
     handleConfirmationModal(action) {
 
-      this.userAction = action;
-      this.appointment.purpose = this.appointment.purpose || 'New appointment';
+        this.userAction = action;
+        this.appointment.purpose = this.appointment.purpose || 'New appointment';
+        const setup = () => {
+            if (!this.shouldShowBillingError) {
+                this.userActionTitle = 'Confirm Appointment';
+                this.appointment.status = 'pending';
+                this.isModalActive = true;
+            }
+        };
       switch (action) {
         case 'cancel':
           this.userActionTitle = 'Cancel Appointment';
@@ -567,13 +574,6 @@ export default {
           this.isModalActive = true;
           break;
         case 'new':
-          const setup = () => {
-            if (!this.shouldShowBillingError) {
-              this.userActionTitle = 'Confirm Appointment';
-              this.appointment.status = 'pending';
-              this.isModalActive = true;
-            }
-          };
           if (!this.billingConfirmed && this.userType === 'patient') {
             this.shouldShowBillingError = true;
             return;

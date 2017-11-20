@@ -15,11 +15,11 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "lint": "eslint -c .eslintrc --ignore-path .eslintignore resources/assets/js --ext .vue --ext .js --fix",
-    "lint-hook": "eslint -c .eslintrc --ignore-path .eslintignore resources/assets/js --ext .vue --ext .js",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "sassdoc": "./node_modules/.bin/sassdoc ./resources/assets/scss --config ./sassdoc-config.json",
     "test": "NODE_ENV=test karma start karma.conf.js",
-    "test:watch": "npm test -- --watch"
+    "test:watch": "npm test -- --watch",
+    "validate": "npm ls"
   },
   "dependencies": {
     "animate.css": "^3.5.2",
@@ -73,5 +73,10 @@
     "sinon": "^2.4.1",
     "sinon-chai": "^2.14.0",
     "vue-eslint-parser": "^1.0.0"
-  }
+  },
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
+  ]
 }
