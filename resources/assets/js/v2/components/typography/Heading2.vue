@@ -6,7 +6,7 @@
 export default {
   props: {
     doesExpand: Boolean,
-    isLight: Boolean,
+    isLight: Boolean
   },
   computed: {
     styles() {
@@ -20,10 +20,10 @@ export default {
         'ma0': true,
         'pa0': true,
         'white': this.isLight
-      }
+      };
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
