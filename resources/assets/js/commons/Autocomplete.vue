@@ -159,7 +159,7 @@
     },
 
     watch: {
-      options(newVal, oldVal) {
+      options(newVal) {
         if (this.filterByAnchor) {
           const { type, anchor } = this;
           const regex = new RegExp(`${type}`, 'i');
