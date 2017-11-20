@@ -150,6 +150,15 @@ function cast_to_string($value)
     return empty($value) ? null : (string) $value;
 }
 
+function only_if_admin_or_practitioner($value)
+{
+    if ($currentUser = auth()->user() and $currentUser->isAdminOrPractitioner()) {
+        return $value;
+    }
+
+    return null;
+}
+
 function maybe()
 {
     return (bool) rand(0,1);
